@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 示例1：轻型爆炸射线武器 - 每发都爆炸 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_LightExplosiveBeam</defName>
+    <label>CLa-15"蓝爆"轻型</label>
+    <description>乌拉帝国的轻型爆炸射线武器，每发射线都会在目标位置产生小型爆炸。适合对付轻装甲目标。</description>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Fractal_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.35</drawSize>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <statBases>
+      <WorkToMake>15000</WorkToMake>
+      <Mass>2.8</Mass>
+      <AccuracyTouch>0.6</AccuracyTouch>
+      <AccuracyShort>0.85</AccuracyShort>
+      <AccuracyMedium>0.7</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>120</Steel>
+      <Plasteel>25</Plasteel>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <verbs>
+      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
+        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>0.3</warmupTime>
+        <range>25</range>
+        <burstShotCount>4</burstShotCount>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <beamWidth>2</beamWidth>
+        <beamDamageDef>Burn</beamDamageDef>
+        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
+        <beamMoteDef>Mote_GraserBeamBase</beamMoteDef>
+        
+        <!-- 每发都爆炸 -->
+        <enableExplosion>true</enableExplosion>
+        <explosionShotInterval>1</explosionShotInterval>
+        <explosionRadius>1.8</explosionRadius>
+        <explosionDamageDef>Flame</explosionDamageDef>
+        <explosionDamage>15</explosionDamage>
+        <explosionSound>Explosion_Small</explosionSound>
+        <chanceToStartFire>0.6</chanceToStartFire>
+      </li>
+    </verbs>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Stun_Technology</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- 示例2：重型爆炸射线武器 - 每3发爆炸一次，威力更大 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_HeavyExplosiveBeam</defName>
+    <label>CLa-16"蓝爆"重型</label>
+    <description>乌拉帝国的重型爆炸射线武器，每三发射线会触发一次大威力爆炸，并在爆炸区域留下燃料污渍。</description>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Fractal_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.75</drawSize>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <statBases>
+      <WorkToMake>35000</WorkToMake>
+      <Mass>4.2</Mass>
+      <AccuracyTouch>0.45</AccuracyTouch>
+      <AccuracyShort>0.8</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.4</AccuracyLong>
+      <RangedWeapon_Cooldown>2.1</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>200</Steel>
+      <Plasteel>60</Plasteel>
+      <ComponentSpacer>6</ComponentSpacer>
+      <Uranium>15</Uranium>
+    </costList>
+    <verbs>
+      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
+        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>0.8</warmupTime>
+        <range>35</range>
+        <burstShotCount>9</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <beamWidth>4</beamWidth>
+        <beamDamageDef>Stun</beamDamageDef>
+        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
+        <beamMoteDef>Mote_GraserBeamBase</beamMoteDef>
+        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
+        
+        <!-- 每3发爆炸一次 -->
+        <enableExplosion>true</enableExplosion>
+        <explosionShotInterval>3</explosionShotInterval>
+        <explosionRadius>3.2</explosionRadius>
+        <explosionDamageDef>Bomb</explosionDamageDef>
+        <explosionDamage>35</explosionDamage>
+        <explosionArmorPenetration>0.4</explosionArmorPenetration>
+        <explosionSound>Explosion_Bomb</explosionSound>
+        <chanceToStartFire>0.4</chanceToStartFire>
+        <postExplosionSpawnThingDef>Filth_Fuel</postExplosionSpawnThingDef>
+        <postExplosionSpawnChance>0.25</postExplosionSpawnChance>
+        <postExplosionSpawnThingCount>2</postExplosionSpawnThingCount>
+      </li>
+    </verbs>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Stun_Technology</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- 示例3：毒气爆炸射线武器 - 产生毒气效果 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_ToxicExplosiveBeam</defName>
+    <label>CLa-17"蓝毒"</label>
+    <description>乌拉帝国的毒气射线武器，每两发射线会触发毒气爆炸，在目标区域释放有毒气体。</description>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Fractal_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.55</drawSize>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <statBases>
+      <WorkToMake>28000</WorkToMake>
+      <Mass>3.6</Mass>
+      <AccuracyTouch>0.55</AccuracyTouch>
+      <AccuracyShort>0.85</AccuracyShort>
+      <AccuracyMedium>0.7</AccuracyMedium>
+      <AccuracyLong>0.5</AccuracyLong>
+      <RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>150</Steel>
+      <Plasteel>40</Plasteel>
+      <ComponentSpacer>4</ComponentSpacer>
+      <Chemfuel>25</Chemfuel>
+    </costList>
+    <verbs>
+      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
+        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>0.6</warmupTime>
+        <range>28</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+        <beamWidth>2.5</beamWidth>
+        <beamDamageDef>ToxGas</beamDamageDef>
+        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
+        <beamMoteDef>Mote_GraserBeamBase</beamMoteDef>
+        
+        <!-- 每2发爆炸一次，产生毒气 -->
+        <enableExplosion>true</enableExplosion>
+        <explosionShotInterval>2</explosionShotInterval>
+        <explosionRadius>2.8</explosionRadius>
+        <explosionDamageDef>ToxGas</explosionDamageDef>
+        <explosionDamage>20</explosionDamage>
+        <explosionSound>Explosion_Gas</explosionSound>
+        <postExplosionGasType>ToxGas</postExplosionGasType>
+        <chanceToStartFire>0.1</chanceToStartFire>
+      </li>
+    </verbs>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Stun_Technology</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+  </ThingDef>
+
+</Defs>

@@ -75,6 +75,8 @@
     <Compile Include="JobDriver_FeedWulaPatient.cs" />
     <Compile Include="WulaStatDefOf.cs" />
     <Compile Include="CompUseEffect_WulaSkillTrainer.cs" />
+    <Compile Include="Verb_ShootBeamExplosive.cs" />
+    <Compile Include="VerbPropertiesExplosiveBeam.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
