@@ -14,13 +14,15 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\1.6\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AllowedReferenceRelatedFileExtensions>.allowedextension</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -80,6 +82,16 @@
     <Compile Include="Hediff_EmergencyEnergyRestore.cs" />
     <Compile Include="CompProperties_AbilityEmergencyEnergyRestore.cs" />
     <Compile Include="CompAbilityEffect_EmergencyEnergyRestore.cs" />
+    <Compile Include="CompProperties_WulaShieldBelt.cs" />
+    <Compile Include="CompWulaShieldBelt.cs" />
+    <Compile Include="WulaShieldBeltPatches.cs" />
+    <Compile Include="EmergencyAbilityPatches.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  
+  <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
+  <Target Name="CleanDebugFiles" AfterTargets="Build">
+    <RemoveDir Directories="$(ProjectDir)obj\Debug" />
+    <RemoveDir Directories="$(ProjectDir)obj\Release" />
+  </Target>
 </Project>

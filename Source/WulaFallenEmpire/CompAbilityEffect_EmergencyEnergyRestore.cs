@@ -9,6 +9,7 @@ namespace WulaFallenEmpire
 
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
+            Log.Message($"[EmergencyEnergyRestore] Apply method called for {parent.pawn?.LabelShort}");
             base.Apply(target, dest);
             
             Pawn caster = parent.pawn;
@@ -45,14 +46,9 @@ namespace WulaFallenEmpire
 
         public override bool CanApplyOn(LocalTargetInfo target, LocalTargetInfo dest)
         {
-            bool canApply = base.CanApplyOn(target, dest) && IsWulaRace(parent.pawn);
-            
-            if (Props.requireDowned)
-            {
-                canApply = canApply && parent.pawn.Downed;
-            }
-            
-            return canApply;
+            Log.Message($"[EmergencyEnergyRestore] CanApplyOn called. Pawn: {parent.pawn?.LabelShort}");
+            // 暂时强制返回true，以排除CanApplyOn的限制
+            return true;
         }
 
         private bool IsWulaRace(Pawn pawn)

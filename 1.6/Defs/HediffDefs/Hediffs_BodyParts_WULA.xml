@@ -146,6 +146,7 @@
     <aiCanUse>true</aiCanUse>
     <ai_IsOffensive>true</ai_IsOffensive>
     <targetRequired>false</targetRequired>
+    <jobDef>CastAbilityOnThing</jobDef> <!-- 添加jobDef -->
     <statBases>
       <Ability_Duration>15</Ability_Duration>
     </statBases>
@@ -245,8 +246,6 @@
     <stages>
       <li>
         <minSeverity>0</minSeverity>
-        <capMods>
-        </capMods>
         <statOffsets>          <!-- StatOffset 是加法偏移量，正数增加，负数减少 -->
           <WulaEnergyMaxLevelOffset>0.5</WulaEnergyMaxLevelOffset>
         </statOffsets>

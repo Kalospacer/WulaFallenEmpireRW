@@ -13,6 +13,9 @@ namespace WulaFallenEmpire
             // 初始化Harmony
             var harmony = new Harmony("tourswen.wulafallenempire"); // 替换为您的唯一Mod ID
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+            
+            // 手动应用护盾腰带的近战拦截补丁
+            WulaShieldBeltPatches.ApplyMeleePatch(harmony);
 
             Log.Message("[WulaFallenEmpire] Harmony patches applied.");
         }

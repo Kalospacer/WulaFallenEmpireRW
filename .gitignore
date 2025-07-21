@@ -53,8 +53,14 @@
 *.tmp
 
 # Build outputs and debug files
-**/obj/Debug/
-**/obj/Release/
-**/bin/Debug/
-**/bin/Release/
+**/obj/
+**/bin/
 *.csproj.CoreCompileInputs.cache
+*.csproj.FileListAbsolute.txt
+*.pdb
+*.dll.config
+*.cache
+*.suo
+*.user
+_ReSharper.*
+*.dotCover

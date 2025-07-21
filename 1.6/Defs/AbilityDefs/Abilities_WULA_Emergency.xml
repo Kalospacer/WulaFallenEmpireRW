@@ -10,7 +10,6 @@
     <aiCanUse>true</aiCanUse>
     <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
     <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
-    <jobDef>CastAbilityOnThing</jobDef>
     <targetRequired>false</targetRequired>
     <canUseAoeToGetTargets>false</canUseAoeToGetTargets>
     <verbProperties>
