@@ -12,15 +12,21 @@ namespace WulaFallenEmpire
         [HarmonyPrefix]
         public static bool Prefix(Pawn p, ThingDef food, ref bool __result)
         {
-            // 检查是否是乌拉族
-            if (p.def.defName == "WulaSpecies")
+            // 检查食物是否是能量核心
+            ThingDefExtension_EnergySource ext = food.GetModExtension<ThingDefExtension_EnergySource>();
+            if (ext != null)
             {
-                // 检查食物是否是能量核心
-                ThingDefExtension_EnergySource ext = food.GetModExtension<ThingDefExtension_EnergySource>();
-                if (ext != null)
+                // 如果是能量核心
+                if (p.def.defName == "WulaSpecies")
                 {
-                    // 如果是乌拉族且是能量核心，则认为愿意吃
+                    // 如果是乌拉族，则认为愿意吃
                     __result = true;
+                    return false; // 跳过原版方法
+                }
+                else
+                {
+                    // 如果不是乌拉族，则不允许吃能量核心
+                    __result = false;
                     return false; // 跳过原版方法
                 }
             }
@@ -35,15 +41,21 @@ namespace WulaFallenEmpire
         [HarmonyPrefix]
         public static bool Prefix(Pawn p, Thing food, ref bool __result)
         {
-            // 检查是否是乌拉族
-            if (p.def.defName == "WulaSpecies")
+            // 检查食物是否是能量核心
+            ThingDefExtension_EnergySource ext = food.def.GetModExtension<ThingDefExtension_EnergySource>();
+            if (ext != null)
             {
-                // 检查食物是否是能量核心
-                ThingDefExtension_EnergySource ext = food.def.GetModExtension<ThingDefExtension_EnergySource>();
-                if (ext != null)
+                // 如果是能量核心
+                if (p.def.defName == "WulaSpecies")
                 {
-                    // 如果是乌拉族且是能量核心，则认为愿意吃
+                    // 如果是乌拉族，则认为愿意吃
                     __result = true;
+                    return false; // 跳过原版方法
+                }
+                else
+                {
+                    // 如果不是乌拉族，则不允许吃能量核心
+                    __result = false;
                     return false; // 跳过原版方法
                 }
             }
@@ -58,15 +70,21 @@ namespace WulaFallenEmpire
         [HarmonyPrefix]
         public static bool Prefix(Pawn p, ThingDef food, ref bool __result)
         {
-            // 检查是否是乌拉族
-            if (p.def.defName == "WulaSpecies")
+            // 检查食物是否是能量核心
+            ThingDefExtension_EnergySource ext = food.GetModExtension<ThingDefExtension_EnergySource>();
+            if (ext != null)
             {
-                // 检查食物是否是能量核心
-                ThingDefExtension_EnergySource ext = food.GetModExtension<ThingDefExtension_EnergySource>();
-                if (ext != null)
+                // 如果是能量核心
+                if (p.def.defName == "WulaSpecies")
                 {
-                    // 如果是乌拉族且是能量核心，则认为食物是合适的
+                    // 如果是乌拉族，则认为食物是合适的
                     __result = true;
+                    return false; // 跳过原版方法
+                }
+                else
+                {
+                    // 如果不是乌拉族，则认为食物不合适
+                    __result = false;
                     return false; // 跳过原版方法
                 }
             }

@@ -23,10 +23,6 @@
             <capacity>Consciousness</capacity>
             <setMax>1.0</setMax>
           </li>
-          <li>
-            <capacity>Moving</capacity>
-            <setMax>1.0</setMax>
-          </li>
         </capMods>
       </li>
     </stages>

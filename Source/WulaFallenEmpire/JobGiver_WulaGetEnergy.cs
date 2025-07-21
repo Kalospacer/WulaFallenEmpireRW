@@ -48,6 +48,10 @@ namespace WulaFallenEmpire
 
         protected override Job TryGiveJob(Pawn pawn)
         {
+            if (pawn.Downed)
+            {
+                return null;
+            }
             Need_WulaEnergy energyNeed = pawn.needs.TryGetNeed<Need_WulaEnergy>();
             if (energyNeed == null || energyNeed.CurLevelPercentage > minEnergyLevelPercentage)
             {

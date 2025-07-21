@@ -14,7 +14,6 @@ namespace WulaFallenEmpire
         private int lastKeepDisplayTick = -9999;
         private Vector3 impactAngleVect;
         private int lastAbsorbDamageTick = -9999;
-        private bool shieldEnabled = false;
         private Sustainer sustainer;
         // 静态构造函数加载材质
         private static readonly Material BubbleMat = MaterialPool.MatFrom("Other/ShieldBubble", ShaderDatabase.Transparent, Color.white);
@@ -23,7 +22,6 @@ namespace WulaFallenEmpire
 
         public float ShieldHitPoints => shieldHitPoints;
         public float ShieldMaxHitPoints => Props.maxShieldHitPoints;
-        public bool ShieldEnabled => shieldEnabled;
 
         private bool ShouldDisplay
         {
@@ -39,7 +37,6 @@ namespace WulaFallenEmpire
             base.PostExposeData();
             Scribe_Values.Look(ref shieldHitPoints, "shieldHitPoints", 0f);
             Scribe_Values.Look(ref ticksToReset, "ticksToReset", -1);
-            Scribe_Values.Look(ref shieldEnabled, "shieldEnabled", Props.startEnabled);
         }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
@@ -48,7 +45,6 @@ namespace WulaFallenEmpire
             if (!respawningAfterLoad)
             {
                 shieldHitPoints = Props.maxShieldHitPoints;
-                shieldEnabled = Props.startEnabled;
             }
         }
 
@@ -59,19 +55,11 @@ namespace WulaFallenEmpire
             Pawn wearer = GetWearer();
             if (wearer == null) return;
 
-            if (shieldEnabled)
+            if (sustainer == null && Props.activeSound != null)
             {
-                if (sustainer == null && Props.activeSound != null)
-                {
-                    sustainer = Props.activeSound.TrySpawnSustainer(SoundInfo.InMap(wearer, MaintenanceType.PerTick));
-                }
-                sustainer?.Maintain();
+                sustainer = Props.activeSound.TrySpawnSustainer(SoundInfo.InMap(wearer, MaintenanceType.PerTick));
             }
-            else
-            {
-                sustainer?.End();
-                sustainer = null;
-            }
+            sustainer?.Maintain();
 
             if (ticksToReset > 0)
             {
@@ -81,7 +69,7 @@ namespace WulaFallenEmpire
                     Reset();
                 }
             }
-            else if (shieldEnabled && Props.useHitPointsMode && shieldHitPoints < Props.maxShieldHitPoints)
+            else if (Props.useHitPointsMode && shieldHitPoints < Props.maxShieldHitPoints)
             {
                 shieldHitPoints += Props.rechargeRate / 60f; // 每秒恢复
                 if (shieldHitPoints > Props.maxShieldHitPoints)
@@ -94,7 +82,7 @@ namespace WulaFallenEmpire
         public override void PostDraw()
         {
             base.PostDraw();
-            if (shieldEnabled && ShouldDisplay)
+            if (ShouldDisplay)
             {
                 float num = Mathf.Lerp(1.2f, 1.55f, shieldHitPoints / Props.maxShieldHitPoints);
                 Vector3 drawPos = GetWearer().Drawer.DrawPos;
@@ -143,9 +131,6 @@ namespace WulaFallenEmpire
 
         public bool CheckIntercept(Projectile projectile, Vector3 lastExactPos, Vector3 newExactPos)
         {
-            if (!shieldEnabled)
-                return false;
-
             // 如果使用生命值模式且护盾已破坏，则不拦截
             if (Props.useHitPointsMode && shieldHitPoints <= 0f)
                 return false;
@@ -200,7 +185,7 @@ namespace WulaFallenEmpire
 
         public bool CheckMeleeIntercept(DamageInfo dinfo, Pawn attacker)
         {
-            if (!shieldEnabled || !Props.interceptMeleeAttacks || shieldHitPoints <= 0f)
+            if (!Props.interceptMeleeAttacks || shieldHitPoints <= 0f)
                 return false;
 
             Pawn wearer = GetWearer();
@@ -291,23 +276,6 @@ namespace WulaFallenEmpire
             shieldHitPoints = Props.maxShieldHitPoints;
         }
 
-        public void ToggleShield()
-        {
-            shieldEnabled = !shieldEnabled;
-            
-            Pawn wearer = GetWearer();
-            if (wearer != null)
-            {
-                string message = shieldEnabled ? $"{wearer.LabelShort}激活了护盾" : $"{wearer.LabelShort}关闭了护盾";
-                Messages.Message(message, MessageTypeDefOf.NeutralEvent, false);
-            }
-
-            if (!shieldEnabled)
-            {
-                sustainer?.End();
-                sustainer = null;
-            }
-        }
 
         private Pawn GetWearer()
         {
@@ -323,42 +291,17 @@ namespace WulaFallenEmpire
         {
             base.Initialize(props);
             shieldHitPoints = ((CompProperties_WulaShieldBelt)props).maxShieldHitPoints;
-            shieldEnabled = ((CompProperties_WulaShieldBelt)props).startEnabled;
-        }
-
-        public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
-        {
-            // 确保穿戴者存在
-            Pawn wearer = GetWearer();
-            if (wearer == null) yield break;
-            
-            // 不限制只有选中时才显示
-            yield return new Command_Toggle
-            {
-                defaultLabel = "护盾开关",
-                defaultDesc = shieldEnabled ? "关闭护盾" : "激活护盾",
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/DesirePower"),
-                isActive = () => shieldEnabled,
-                toggleAction = ToggleShield
-            };
         }
 
         public override string CompInspectStringExtra()
         {
-            if (shieldEnabled)
+            if (Props.useHitPointsMode)
             {
-                if (Props.useHitPointsMode)
-                {
-                    return $"护盾: {shieldHitPoints:F0} / {Props.maxShieldHitPoints} (生命值模式)";
-                }
-                else
-                {
-                    return "护盾: 激活 (偏转模式)";
-                }
+                return $"护盾: {shieldHitPoints:F0} / {Props.maxShieldHitPoints} (生命值模式)";
             }
             else
             {
-                return "护盾: 已关闭";
+                return "护盾: 激活 (偏转模式)";
             }
         }
     }

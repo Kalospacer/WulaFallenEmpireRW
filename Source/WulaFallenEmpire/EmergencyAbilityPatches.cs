@@ -18,15 +18,16 @@ namespace WulaFallenEmpire
         {
             if (__instance.def.defName == "WULA_EmergencyEnergyRestore")
             {
-                Log.Message($"[EmergencyAbilityPatches] CanCast_Postfix for {__instance.pawn?.LabelShort}, initial result: {__result.Accepted}, reason: {__result.Reason}");
-                if (!__result.Accepted)
+                var comp = __instance.CompOfType<CompAbilityEffect_EmergencyEnergyRestore>();
+                if (comp != null && comp.Props.requireDowned)
                 {
-                    // 检查是否是因为pawn失去知觉而无法使用能力
-                    if (__instance.pawn.Downed)
+                    if (!__instance.pawn.Downed)
                     {
-                        // 对于紧急能量恢复能力，我们允许在倒地时使用
+                        __result = new AcceptanceReport("只能在倒地时使用");
+                    }
+                    else
+                    {
                         __result = true;
-                        Log.Message($"[EmergencyAbilityPatches] CanCast_Postfix: Pawn is downed, overriding to true. New result: {__result.Accepted}");
                     }
                 }
             }
@@ -58,7 +59,6 @@ namespace WulaFallenEmpire
         {
             if (__instance.def.defName == "WULA_EmergencyEnergyRestore")
             {
-                Log.Message($"[EmergencyAbilityPatches] GizmoDisabled_Postfix for {__instance.pawn?.LabelShort}, initial result: {__result}, reason: {reason}");
                 if (__result)
                 {
                     // 检查是否是因为倒地而被禁用
@@ -68,7 +68,6 @@ namespace WulaFallenEmpire
                         // 对于紧急能量恢复能力，我们允许在倒地时使用
                         __result = false;
                         reason = null;
-                        Log.Message($"[EmergencyAbilityPatches] GizmoDisabled_Postfix: Pawn is downed, overriding to false. New result: {__result}");
                     }
                 }
             }
@@ -82,12 +81,10 @@ namespace WulaFallenEmpire
             var ability = (Ability)typeof(Command_Ability).GetField("ability", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(__instance);
             if (ability.def.defName == "WULA_EmergencyEnergyRestore")
             {
-                Log.Message($"[EmergencyAbilityPatches] Command_Ability_GizmoDisabled_Postfix for {ability.pawn?.LabelShort}, initial result: {__result}");
                 if (__result && ability.pawn.Downed)
                 {
                     // 对于紧急能量恢复能力，我们允许在倒地时使用
                     __result = false;
-                    Log.Message($"[EmergencyAbilityPatches] Command_Ability_GizmoDisabled_Postfix: Pawn is downed, overriding to false. New result: {__result}");
                 }
             }
         }
@@ -97,10 +94,8 @@ namespace WulaFallenEmpire
         [HarmonyPostfix]
         public static void ApparelPreventsShooting_Postfix(Verb __instance, ref bool __result)
         {
-            Log.Message($"[EmergencyAbilityPatches] ApparelPreventsShooting_Postfix called. Verb type: {__instance.GetType().Name}, Caster: {__instance.CasterPawn?.LabelShort}, initial result: {__result}");
             if (__instance is Verb_CastAbility castAbilityVerb && castAbilityVerb.ability?.def.defName == "WULA_EmergencyEnergyRestore")
             {
-                Log.Message($"[EmergencyAbilityPatches] ApparelPreventsShooting_Postfix for EmergencyEnergyRestore. Pawn: {__instance.CasterPawn?.LabelShort}, result: {__result}");
             }
         }
 
@@ -109,10 +104,8 @@ namespace WulaFallenEmpire
         [HarmonyPrefix]
         public static void TryStartCastOn_DiagnosticPrefix(Verb __instance, LocalTargetInfo castTarg, LocalTargetInfo destTarg, ref bool __result)
         {
-            Log.Message($"[EmergencyAbilityPatches] TryStartCastOn_DiagnosticPrefix called for Verb type: {__instance.GetType().Name}. Caster: {__instance.CasterPawn?.LabelShort}. CastTarg: {castTarg}, DestTarg: {destTarg}");
             if (__instance is Verb_CastAbility castAbilityVerb && castAbilityVerb.ability?.def.defName == "WULA_EmergencyEnergyRestore")
             {
-                Log.Message($"[EmergencyAbilityPatches] TryStartCastOn_DiagnosticPrefix: This is EmergencyEnergyRestore ability. Caster: {__instance.CasterPawn?.LabelShort}");
             }
         }
 
@@ -123,7 +116,6 @@ namespace WulaFallenEmpire
         {
             if (__instance.ability?.def.defName == "WULA_EmergencyEnergyRestore")
             {
-                Log.Message($"[EmergencyAbilityPatches] TryCastShot_DiagnosticPrefix called for EmergencyEnergyRestore. Pawn: {__instance.CasterPawn?.LabelShort}");
             }
         }
     }

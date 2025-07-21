@@ -6,7 +6,7 @@
       <subNodes>
         <!-- Add our custom JobGiver for Wula energy here -->
         <li Class="WulaFallenEmpire.JobGiver_WulaGetEnergy">
-          <minEnergyLevelPercentage>0.3</minEnergyLevelPercentage> <!-- 能量低于30%时开始寻找 -->
+          <minEnergyLevelPercentage>0.5</minEnergyLevelPercentage> <!-- 能量低于50%时开始寻找 -->
           <emergencyThreshold>0.1</emergencyThreshold> <!-- 能量低于10%时非常紧急 -->
           <normalPriority>5.0</normalPriority>
           <emergencyPriority>9.5</emergencyPriority>
