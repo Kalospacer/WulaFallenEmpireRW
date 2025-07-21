@@ -20,7 +20,7 @@
     <overkillPctToDestroyPart>0~0.7</overkillPctToDestroyPart>
     <isRanged>true</isRanged>
     <makesAnimalsFlee>true</makesAnimalsFlee>
-    <defaultDamage>10</defaultDamage>
+    <defaultDamage>50</defaultDamage>
     <defaultArmorPenetration>0.85</defaultArmorPenetration>
     <buildingDamageFactorImpassable>1</buildingDamageFactorImpassable>
     <buildingDamageFactorPassable>1</buildingDamageFactorPassable>
@@ -34,5 +34,11 @@
         <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
       </li>
     </additionalHediffs> -->
+  </DamageDef>
+
+  <DamageDef ParentName="Flame">
+    <defName>Wula_Darm_Matter_Flame</defName>
+    <label>暗物质湮灭</label>
+    <deathMessage>{0} 由于暗物质湮灭爆炸而死。</deathMessage>
   </DamageDef>
 </Defs>

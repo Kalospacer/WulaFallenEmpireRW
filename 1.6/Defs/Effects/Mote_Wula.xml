@@ -5,51 +5,25 @@
     <thingClass>MoteDualAttached</thingClass>
     <altitudeLayer>MoteOverhead</altitudeLayer>
     <mote>
-      <fadeInTime>0.1</fadeInTime>
-      <fadeOutTime>0.1</fadeOutTime>
-      <solidTime>0.1</solidTime>
+      <fadeInTime>0.2</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
       <rotateTowardsTarget>True</rotateTowardsTarget>
       <scaleToConnectTargets>True</scaleToConnectTargets>
+      <fadeOutUnmaintained>True</fadeOutUnmaintained>
     </mote>
     <drawOffscreen>true</drawOffscreen>
     <graphicData>
-      <texPath>Wula/Mote/WULA_Bullet_Dark_Matter_Beam</texPath>
+      <texPath>Things/Mote/GraserBeam</texPath>
+      <color>(188, 112, 255, 255)</color>
       <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
-      <color>(255, 255, 255, 200)</color>
-      <shaderType>MoteBeam</shaderType>
-      <drawSize>(1.5, 1)</drawSize>
-      <shaderParameters>
-        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
-        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
-        <_ScrollSpeedA>0</_ScrollSpeedA>
-        <_ScrollSpeedB>0</_ScrollSpeedB>
-        <_Intensity>2</_Intensity>
-      </shaderParameters>
-    </graphicData>
-  </ThingDef>
-  <ThingDef ParentName="MoteBase">
-    <defName>Mote_Wula_Dark_Matter_Beam_Bigger</defName>
-    <thingClass>MoteDualAttached</thingClass>
-    <altitudeLayer>MoteOverhead</altitudeLayer>
-    <mote>
-      <fadeInTime>0.1</fadeInTime>
-      <fadeOutTime>0.1</fadeOutTime>
-      <solidTime>0.1</solidTime>
-      <rotateTowardsTarget>True</rotateTowardsTarget>
-      <scaleToConnectTargets>True</scaleToConnectTargets>
-    </mote>
-    <drawOffscreen>true</drawOffscreen>
-    <graphicData>
-      <texPath>Wula/Mote/WULA_Bullet_Dark_Matter_Beam</texPath>
-      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
-      <drawSize>(2.25, 1)</drawSize>
-      <!-- <color>(255, 255, 255, 170)</color> -->
       <shaderType>MoteBeam</shaderType>
       <shaderParameters>
         <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
         <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
-        <_ScrollSpeedA>0</_ScrollSpeedA>
-        <_ScrollSpeedB>0</_ScrollSpeedB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
         <_Intensity>2</_Intensity>
       </shaderParameters>
     </graphicData>
