@@ -51,3 +51,10 @@
 *.log
 *.cache
 *.tmp
+
+# Build outputs and debug files
+**/obj/Debug/
+**/obj/Release/
+**/bin/Debug/
+**/bin/Release/
+*.csproj.CoreCompileInputs.cache

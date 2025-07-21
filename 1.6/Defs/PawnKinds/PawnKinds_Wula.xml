@@ -29,7 +29,9 @@
     <apparelTags>
       <li>Wula_Apparel_Init</li>
     </apparelTags>
-
+    <abilities>
+      <li>WULA_EmergencyEnergyRestore</li>
+    </abilities>
     <weaponMoney>0</weaponMoney>
     <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
     <apparelMoney>1000~2000</apparelMoney>
@@ -71,7 +73,9 @@
     <apparelTags>
       <li>Wula_Apparel_Init</li>
     </apparelTags>
-
+    <abilities>
+      <li>WULA_EmergencyEnergyRestore</li>
+    </abilities>
     <apparelRequired Inherit="False" />
 
     <weaponMoney>0</weaponMoney>
@@ -87,7 +91,7 @@
       </li>
     </backstoryFiltersOverride>
   </PawnKindDef>
-  
+
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_AI_Heavy_Panzer_PawnKind</defName>
     <label>SMp-38"萨克森"</label>
@@ -107,12 +111,12 @@
       </li>
     </lifeStages>
     <weaponMoney>99999~99999</weaponMoney>
-    
+
     <weaponTags>
       <li>WULA_AI_Heavy_Panzer_AT_Weapon</li>
     </weaponTags>
 
-    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>  
+    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
   </PawnKindDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_AI_Heavy_Panzer_Gunnery_PawnKind</defName>
@@ -133,14 +137,14 @@
       </li>
     </lifeStages>
     <weaponMoney>99999~99999</weaponMoney>
-    
+
     <weaponTags>
       <li>WULA_AI_Heavy_Panzer_Gunner_Weapon</li>
     </weaponTags>
 
-    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>  
+    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
   </PawnKindDef>
-    
+
   <PawnKindDef ParentName="NonCombatLightMechanoidKind">
     <defName>Mech_WULA_Cat</defName>
     <label>乌拉猫猫</label>
@@ -203,7 +207,7 @@
     <weaponTags>
       <li>Wula_Constructor_Cat_Weapon</li>
     </weaponTags>
-    <lifeStages Inherit="False"> 
+    <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>
           <texPath>Wula/Things/WULA_Constructor_Cat/WULA_Cat_Thin</texPath>
@@ -219,7 +223,7 @@
     <defName>Mech_WULA_Cat_Assault</defName>
     <label>突击乌拉猫猫</label>
     <race>Mech_WULA_Cat_Assault</race>
-    <lifeStages Inherit="False"> 
+    <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>
           <texPath>Wula/Things/WULA_Assault_Cat/WULA_Cat_Thin</texPath>
@@ -238,7 +242,7 @@
     <defName>Mech_WULA_Cat_Bomb</defName>
     <label>炸弹乌拉猫猫</label>
     <race>Mech_WULA_Cat_Bomb</race>
-    <lifeStages Inherit="False"> 
+    <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>
           <texPath>Wula/Things/WULA_bomb_Cat/WULA_Cat_Thin</texPath>
@@ -265,7 +269,7 @@
     <weaponTags>
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
-    <lifeStages Inherit="False"> 
+    <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>
           <texPath>Wula/Things/WULA_Commander_Cat/WULA_Cat_Thin</texPath>

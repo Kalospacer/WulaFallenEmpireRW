@@ -138,7 +138,7 @@
     <label>能源炉超载</label>
     <description>立刻激活能源炉的超载能力，极大增加近战的命中率和速度，并且不会被敌人的近战减速。</description>
     <iconPath>UI/Abilities/MetalbloodInjection</iconPath>
-    <cooldownTicksRange>1800</cooldownTicksRange> <!-- 30 seconds -->
+    <cooldownTicksRange>1800</cooldownTicksRange>    <!-- 30 seconds -->
     <hostile>false</hostile>
     <groupAbility>true</groupAbility>
     <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
@@ -244,10 +244,13 @@
     </addedPartProps>
     <stages>
       <li>
-        <statOffsets> <!-- StatOffset 是加法偏移量，正数增加，负数减少 -->
+        <minSeverity>0</minSeverity>
+        <capMods>
+        </capMods>
+        <statOffsets>          <!-- StatOffset 是加法偏移量，正数增加，负数减少 -->
           <WulaEnergyMaxLevelOffset>0.5</WulaEnergyMaxLevelOffset>
         </statOffsets>
-        <statFactors> <!-- StatFactor 是乘法因子，小于 1.0 减少，大于 1.0 增加 -->
+        <statFactors>          <!-- StatFactor 是乘法因子，小于 1.0 减少，大于 1.0 增加 -->
           <WulaEnergyFallRateFactor>0.9</WulaEnergyFallRateFactor>
         </statFactors>
       </li>
@@ -310,7 +313,9 @@
     <defName>WULA_Energy_Furnace_Hediff_DM_Engine</defName>
     <label>暗物质能源炉</label>
     <description>一台由暗物质作为能源驱动的合成人能源炉，拥有永不枯竭的动力，合成人安装后将不再需要充电。</description>
-    <descriptionHyperlinks><ThingDef>WULA_Energy_Furnace_DM_Engine</ThingDef></descriptionHyperlinks>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Energy_Furnace_DM_Engine</ThingDef>
+    </descriptionHyperlinks>
     <spawnThingOnRemoved>WULA_Energy_Furnace_DM_Engine</spawnThingOnRemoved>
     <addedPartProps>
       <!-- <partEfficiency>1.5</partEfficiency> -->
@@ -334,13 +339,17 @@
     <defName>WULA_Energy_Furnace_DM_Engine</defName>
     <label>暗物质能源炉</label>
     <description>一台由暗物质作为能源驱动的合成人能源炉，拥有永不枯竭的动力，合成人安装后将不再需要充电。</description>
-    <descriptionHyperlinks><RecipeDef>Install_WULA_Energy_Furnace_DM_Engine</RecipeDef></descriptionHyperlinks>
+    <descriptionHyperlinks>
+      <RecipeDef>Install_WULA_Energy_Furnace_DM_Engine</RecipeDef>
+    </descriptionHyperlinks>
     <costList>
       <Steel>100</Steel>
       <ComponentSpacer>4</ComponentSpacer>
       <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
     </costList>
-    <thingSetMakerTags><li>RewardStandardMidFreq</li></thingSetMakerTags>
+    <thingSetMakerTags>
+      <li>RewardStandardMidFreq</li>
+    </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
       <recipeUsers>
@@ -360,7 +369,8 @@
       <HediffDef>WULA_Energy_Furnace_Hediff_DM_Engine</HediffDef>
     </descriptionHyperlinks>
     <jobString>安装暗物质能源炉中</jobString>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <anesthetize>false</anesthetize>
     <ingredients Inherit="False">
       <li>
@@ -393,7 +403,9 @@
     <defName>WULA_Energy_Furnace_Hediff_DM_CPU</defName>
     <label>暗物质处理器</label>
     <description>由填充非交互性暗物质微粒的卡西米尔共振腔构成的处理器，极大增强合成人的意识。</description>
-    <descriptionHyperlinks><ThingDef>WULA_Energy_Furnace_DM_CPU</ThingDef></descriptionHyperlinks>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Energy_Furnace_DM_CPU</ThingDef>
+    </descriptionHyperlinks>
     <spawnThingOnRemoved>WULA_Energy_Furnace_DM_CPU</spawnThingOnRemoved>
     <addedPartProps>
       <!-- <partEfficiency>1.5</partEfficiency> -->
@@ -414,13 +426,17 @@
     <defName>WULA_Energy_Furnace_DM_CPU</defName>
     <label>暗物质处理器</label>
     <description>由填充非交互性暗物质微粒的卡西米尔共振腔构成的处理器，用于替换过时的生物处理器，极大增强合成人的意识。</description>
-   <descriptionHyperlinks><RecipeDef>Install_WULA_Energy_Furnace_DM_CPU</RecipeDef></descriptionHyperlinks>
+    <descriptionHyperlinks>
+      <RecipeDef>Install_WULA_Energy_Furnace_DM_CPU</RecipeDef>
+    </descriptionHyperlinks>
     <costList>
       <Steel>100</Steel>
       <ComponentSpacer>8</ComponentSpacer>
       <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
     </costList>
-    <thingSetMakerTags><li>RewardStandardMidFreq</li></thingSetMakerTags>
+    <thingSetMakerTags>
+      <li>RewardStandardMidFreq</li>
+    </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
       <recipeUsers>
@@ -440,7 +456,8 @@
       <HediffDef>WULA_Energy_Furnace_Hediff_DM_CPU</HediffDef>
     </descriptionHyperlinks>
     <jobString>安装暗物质处理器中</jobString>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <anesthetize>false</anesthetize>
     <ingredients Inherit="False">
       <li>
@@ -474,7 +491,9 @@
     <label>零素骨架</label>
     <hediffClass>Hediff_Implant</hediffClass>
     <description>利用暗物质压缩而成的内嵌式中子装甲层和结构层，植入机械乌拉的体内时将使得她们获得强大的防御力。</description>
-    <descriptionHyperlinks><ThingDef>WULA_Skeleton_Neutronium</ThingDef></descriptionHyperlinks>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Skeleton_Neutronium</ThingDef>
+    </descriptionHyperlinks>
     <spawnThingOnRemoved>WULA_Skeleton_Neutronium</spawnThingOnRemoved>
     <addedPartProps>
       <!-- <partEfficiency>1.5</partEfficiency> -->
@@ -502,12 +521,16 @@
     <defName>WULA_Skeleton_Neutronium</defName>
     <label>零素骨架</label>
     <description>利用暗物质压缩而成的内嵌式中子装甲层和结构层，植入机械乌拉的体内时将使得她们获得强大的防御力。</description>
-   <descriptionHyperlinks><RecipeDef>Install_WULA_Energy_Furnace_DM_Engine</RecipeDef></descriptionHyperlinks>
+    <descriptionHyperlinks>
+      <RecipeDef>Install_WULA_Energy_Furnace_DM_Engine</RecipeDef>
+    </descriptionHyperlinks>
     <costList>
       <Plasteel>100</Plasteel>
       <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
     </costList>
-    <thingSetMakerTags><li>RewardStandardMidFreq</li></thingSetMakerTags>
+    <thingSetMakerTags>
+      <li>RewardStandardMidFreq</li>
+    </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
       <recipeUsers>
@@ -527,7 +550,8 @@
       <HediffDef>WULA_Skeleton_Hediff_Neutronium</HediffDef>
     </descriptionHyperlinks>
     <jobString>安装零素骨架中</jobString>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <anesthetize>false</anesthetize>
     <ingredients Inherit="False">
       <li>
@@ -639,7 +663,7 @@
     <defaultLabelColor>(0.5, 0.8, 1.0)</defaultLabelColor>
     <isBad>false</isBad>
     <priceImpact>true</priceImpact>
-    <initialSeverity>1</initialSeverity> <!-- Severity is bound to level of implant -->
+    <initialSeverity>1</initialSeverity>    <!-- Severity is bound to level of implant -->
     <minSeverity>0</minSeverity>
     <maxSeverity>3</maxSeverity>
     <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
@@ -724,7 +748,7 @@
     <defaultLabelColor>(0.5, 0.8, 1.0)</defaultLabelColor>
     <isBad>false</isBad>
     <priceImpact>true</priceImpact>
-    <initialSeverity>1</initialSeverity> <!-- Severity is bound to level of implant -->
+    <initialSeverity>1</initialSeverity>    <!-- Severity is bound to level of implant -->
     <minSeverity>0</minSeverity>
     <maxSeverity>3</maxSeverity>
     <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
@@ -791,12 +815,13 @@
     </appliedOnFixedBodyParts>
     <uiIconThing>Steel</uiIconThing>
     <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <addsHediff>WULA_Body_Fixed</addsHediff>
     <recipeUsers Inherit="False">
       <li>WulaSpecies</li>
     </recipeUsers>
-    
+
     <workAmount>1500</workAmount>
     <skillRequirements>
       <Medicine>3</Medicine>
@@ -830,12 +855,13 @@
     </appliedOnFixedBodyParts>
     <uiIconThing>Steel</uiIconThing>
     <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <addsHediff>WULA_Body_Fixed</addsHediff>
     <recipeUsers Inherit="False">
       <li>WulaSpecies</li>
     </recipeUsers>
-    
+
     <workAmount>3000</workAmount>
     <skillRequirements>
       <Medicine>7</Medicine>
@@ -869,12 +895,13 @@
     </appliedOnFixedBodyParts>
     <uiIconThing>Steel</uiIconThing>
     <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <addsHediff>WULA_Body_Fixed</addsHediff>
     <recipeUsers Inherit="False">
       <li>WulaSpecies</li>
     </recipeUsers>
-    
+
     <workAmount>3000</workAmount>
     <skillRequirements>
       <Medicine>7</Medicine>
@@ -908,12 +935,13 @@
     </appliedOnFixedBodyParts>
     <uiIconThing>Steel</uiIconThing>
     <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <addsHediff>WULA_Body_Fixed</addsHediff>
     <recipeUsers Inherit="False">
       <li>WulaSpecies</li>
     </recipeUsers>
-    
+
     <workAmount>1500</workAmount>
     <skillRequirements>
       <Medicine>3</Medicine>
@@ -947,12 +975,13 @@
     </appliedOnFixedBodyParts>
     <uiIconThing>Steel</uiIconThing>
     <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <addsHediff>WULA_Body_Fixed</addsHediff>
     <recipeUsers Inherit="False">
       <li>WulaSpecies</li>
     </recipeUsers>
-    
+
     <workAmount>1500</workAmount>
     <skillRequirements>
       <Medicine>3</Medicine>
@@ -994,12 +1023,13 @@
     </appliedOnFixedBodyParts>
     <uiIconThing>Steel</uiIconThing>
     <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True"/> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True"/>
+    <!-- Always succeeds -->
     <addsHediff>WULA_Body_Fixed</addsHediff>
     <recipeUsers Inherit="False">
       <li>WulaSpecies</li>
     </recipeUsers>
-    
+
     <workAmount>7000</workAmount>
     <researchPrerequisites>
       <li>WULA_Repair_All_Technology</li>
@@ -1039,7 +1069,7 @@
     <descriptionShort>这个合成人的破损已被细致地修复。</descriptionShort>
     <isBad>false</isBad>
     <duplicationAllowed>true</duplicationAllowed>
-    <keepOnBodyPartRestoration>false</keepOnBodyPartRestoration>  <!-- true -->
+    <keepOnBodyPartRestoration>false</keepOnBodyPartRestoration>    <!-- true -->
     <comps>
       <li Class="HediffCompProperties_ChanceToRemove">
         <intervalTicks>1</intervalTicks>
@@ -1066,7 +1096,8 @@
       <li>WULA_Synth_Psi_Technology</li>
     </researchPrerequisites>
     <uiIconThing>WULA_Soul_Wedge</uiIconThing>
-    <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
     <anesthetize>false</anesthetize>
     <workSkillLearnFactor>2</workSkillLearnFactor>
     <products>
@@ -1089,7 +1120,7 @@
     <alwaysShowSeverity>true</alwaysShowSeverity>
     <isBad>true</isBad>
     <duplicationAllowed>true</duplicationAllowed>
-    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>  <!-- true -->
+    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>    <!-- true -->
     <defaultInstallPart>Brain</defaultInstallPart>
     <comps>
       <li Class="HediffCompProperties_ChanceToRemove">

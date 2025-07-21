@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <AbilityDef>
+    <defName>WULA_EmergencyEnergyRestore</defName>
+    <label>后备隐藏能源超载</label>
+    <description>激活紧急能量协议，暂时将能量需求锁定在100%，持续10秒后恢复到原来的能量水平。只能在倒地时使用。</description>
+    <iconPath>UI/Abilities/MetalbloodInjection</iconPath>
+    <cooldownTicksRange>72000</cooldownTicksRange> <!-- 20分钟冷却 -->
+    <aiCanUse>true</aiCanUse>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <jobDef>CastAbilityOnThing</jobDef>
+    <targetRequired>false</targetRequired>
+    <canUseAoeToGetTargets>false</canUseAoeToGetTargets>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>0</range>
+      <warmupTime>1</warmupTime>
+      <soundCast>Psycast_Skip_Entry</soundCast>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityEmergencyEnergyRestore">
+        <durationTicks>600</durationTicks> <!-- 10秒 -->
+        <hediffDef>WULA_EmergencyEnergyRestore_Hediff</hediffDef>
+        <requireDowned>true</requireDowned> <!-- 是否需要倒地才能使用 -->
+      </li>
+    </comps>
+  </AbilityDef>
+
+</Defs>
