@@ -71,7 +71,8 @@ namespace WulaFallenEmpire
                 doVisualEffects: true,
                 propagationSpeed: 0.6f,
                 excludeRadius: 0f,
-                doSoundEffects: false // 我们手动处理音效
+                doSoundEffects: false, // 我们手动处理音效
+                screenShakeFactor: explosiveProps.screenShakeFactor // 新增：屏幕震动因子
             );
 
             // 生成额外的视觉效果

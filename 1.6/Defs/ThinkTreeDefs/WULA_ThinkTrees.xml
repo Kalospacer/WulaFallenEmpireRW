@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+<ThinkTreeDef>
+    <defName>WULA_Humanlike</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Add our custom JobGiver for Wula energy here -->
+        <li Class="WulaFallenEmpire.JobGiver_WulaGetEnergy">
+          <minEnergyLevelPercentage>0.3</minEnergyLevelPercentage> <!-- 能量低于30%时开始寻找 -->
+          <emergencyThreshold>0.1</emergencyThreshold> <!-- 能量低于10%时非常紧急 -->
+          <normalPriority>5.0</normalPriority>
+          <emergencyPriority>9.5</emergencyPriority>
+        </li>
+        <!-- Include original Humanlike think tree -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Humanlike</treeDef>
+        </li>
+        <!-- Include original HumanlikeConstant think tree -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>HumanlikeConstant</treeDef>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+</Defs>

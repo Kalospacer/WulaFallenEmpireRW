@@ -79,13 +79,7 @@ namespace WulaFallenEmpire
         [HarmonyPostfix]
         public static void Command_Ability_GizmoDisabled_Postfix(Command_Ability __instance, ref bool __result)
         {
-            // 使用反射获取ability字段
-            var abilityField = typeof(Command_Ability).GetField("ability", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (abilityField == null) return;
-            
-            Ability ability = (Ability)abilityField.GetValue(__instance);
-            if (ability == null) return;
-            
+            var ability = (Ability)typeof(Command_Ability).GetField("ability", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(__instance);
             if (ability.def.defName == "WULA_EmergencyEnergyRestore")
             {
                 Log.Message($"[EmergencyAbilityPatches] Command_Ability_GizmoDisabled_Postfix for {ability.pawn?.LabelShort}, initial result: {__result}");

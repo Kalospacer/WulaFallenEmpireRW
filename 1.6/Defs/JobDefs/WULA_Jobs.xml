@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
     <JobDef>
-        <defName>WULA_IngestEnergy</defName>
+        <defName>WULA_IngestWulaEnergy</defName>
         <driverClass>WulaFallenEmpire.JobDriver_IngestWulaEnergy</driverClass>
         <reportString>正在摄取能量。</reportString>
         <allowOpportunisticPrefix>true</allowOpportunisticPrefix>

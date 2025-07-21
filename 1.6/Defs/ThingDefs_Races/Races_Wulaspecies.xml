@@ -414,8 +414,7 @@
     <race>
       <fleshType>WULA_Fleshtype</fleshType>
 			<!-- AI行为，勿改 -->
-			<thinkTreeMain>Humanlike</thinkTreeMain>
-			<thinkTreeConstant>HumanlikeConstant</thinkTreeConstant>
+			<thinkTreeMain>WULA_Humanlike</thinkTreeMain>
 			<!-- 智力水平 -->
 			<intelligence>Humanlike</intelligence>
 			<!-- 血液，不流血 -->

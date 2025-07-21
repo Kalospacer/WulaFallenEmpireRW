@@ -39,6 +39,7 @@ namespace WulaFallenEmpire
         public bool applyDamageToExplosionCellsNeighbors = true;
         public float chanceToStartFire = 0f;
         public bool damageFalloff = true;
+        public float screenShakeFactor = 0f; // 新增：屏幕震动因子
         
         public VerbPropertiesExplosiveBeam()
         {
