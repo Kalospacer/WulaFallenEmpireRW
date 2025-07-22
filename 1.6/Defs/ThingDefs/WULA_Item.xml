@@ -17,17 +17,24 @@
       <Nutrition>1</Nutrition> <!-- Reverted to 1 as per user request -->
     </statBases>
     <ingestible>
+      <baseIngestTicks>270</baseIngestTicks>
       <preferability>MealSimple</preferability> <!-- Reverted to MealSimple as per user request -->
       <optimalityOffsetHumanlikes>-1000</optimalityOffsetHumanlikes>
       <optimalityOffsetFeedingAnimals>-1000</optimalityOffsetFeedingAnimals>
       <ingestEffect>EatVegetarian</ingestEffect>
       <ingestSound>MechResurrectCast</ingestSound>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>WULA_ChargingHediff</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
     </ingestible>
     <allowedArchonexusCount>200</allowedArchonexusCount>
     <tradeability>None</tradeability>
     <modExtensions>
       <li Class="WulaFallenEmpire.ThingDefExtension_EnergySource">
-        <energyAmount>1.0</energyAmount> <!-- Amount of energy this item provides -->
+        <energyAmount>12.0</energyAmount> <!-- Amount of energy this item provides -->
       </li>
     </modExtensions>
   </ThingDef>

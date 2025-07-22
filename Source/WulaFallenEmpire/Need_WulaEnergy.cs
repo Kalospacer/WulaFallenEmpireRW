@@ -108,5 +108,10 @@ namespace WulaFallenEmpire
             threshPercents.Clear();
             base.DrawOnGUI(rect, maxThresholdMarkers, customMargin, drawArrows, doTooltip, rectForTooltip, drawLabel);
         }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+        }
     }
 }

@@ -79,13 +79,9 @@
     <Compile Include="CompUseEffect_WulaSkillTrainer.cs" />
     <Compile Include="Verb_ShootBeamExplosive.cs" />
     <Compile Include="VerbPropertiesExplosiveBeam.cs" />
-    <Compile Include="Hediff_EmergencyEnergyRestore.cs" />
-    <Compile Include="CompProperties_AbilityEmergencyEnergyRestore.cs" />
-    <Compile Include="CompAbilityEffect_EmergencyEnergyRestore.cs" />
-    <Compile Include="EmergencyAbilityPatches.cs" />
+    <Compile Include="HediffComp_WulaCharging.cs" />
     <Compile Include="JobGiver_WulaGetEnergy.cs" />
     <Compile Include="JobGiverDefExtension_WulaGetEnergy.cs" />
-    <Compile Include="JobDriver_CastEmergencyEnergyRestore.cs" />
     <Compile Include="JobGiver_WulaPackEnergy.cs" />
     <Compile Include="JobGiverDefExtension_WulaPackEnergy.cs" />
   </ItemGroup>
