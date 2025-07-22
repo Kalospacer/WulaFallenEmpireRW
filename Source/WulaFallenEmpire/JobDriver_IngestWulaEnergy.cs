@@ -10,21 +10,41 @@ namespace WulaFallenEmpire
     public class JobDriver_IngestWulaEnergy : JobDriver
     {
         private const TargetIndex IngestibleSourceInd = TargetIndex.A;
+        private bool eatingFromInventory; // 新增字段
+
+        private Toil chewing; // 新增咀嚼Toil字段
 
         private Thing IngestibleSource => job.GetTarget(IngestibleSourceInd).Thing;
 
+        // 新增咀嚼时间乘数属性
+        private float ChewDurationMultiplier
+        {
+            get
+            {
+                Thing ingestibleSource = IngestibleSource;
+                // 假设乌拉能量核心也有EatingSpeed属性影响咀嚼速度，或者固定为1f
+                return 1f / pawn.GetStatValue(StatDefOf.EatingSpeed);
+            }
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref eatingFromInventory, "eatingFromInventory", defaultValue: false);
+        }
+
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            // 尝试预留能量核心
             if (pawn.Faction != null)
             {
                 Thing ingestibleSource = IngestibleSource;
+                // 使用FoodUtility.GetMaxAmountToPickup
                 int maxAmountToPickup = FoodUtility.GetMaxAmountToPickup(ingestibleSource, pawn, job.count);
                 if (!pawn.Reserve(ingestibleSource, job, 10, maxAmountToPickup, null, errorOnFailed))
                 {
                     return false;
                 }
-                job.count = maxAmountToPickup; // 更新job.count以匹配实际预留数量
+                job.count = maxAmountToPickup;
             }
             return true;
         }
@@ -34,30 +54,28 @@ namespace WulaFallenEmpire
             // 失败条件：如果能量核心被摧毁、为空或被禁止
             this.FailOn(() => IngestibleSource.DestroyedOrNull() || !IngestibleSource.IngestibleNow);
 
-            // Toil 1: 前往能量核心
-            yield return Toils_Goto.GotoThing(IngestibleSourceInd, PathEndMode.ClosestTouch)
-                .FailOnDespawnedNullOrForbidden(IngestibleSourceInd);
+            // 初始化 eatingFromInventory
+            eatingFromInventory = pawn.inventory != null && pawn.inventory.Contains(IngestibleSource);
 
-            // Toil 2: 拾取能量核心并放入carryTracker
-            yield return Toils_Haul.StartCarryThing(IngestibleSourceInd);
+            // 定义咀嚼Toil
+            chewing = Toils_Ingest.ChewIngestible(pawn, ChewDurationMultiplier, IngestibleSourceInd, TargetIndex.None)
+                .FailOn((Toil x) => !IngestibleSource.Spawned && (pawn.carryTracker == null || pawn.carryTracker.CarriedThing != IngestibleSource))
+                .FailOnCannotTouch(IngestibleSourceInd, PathEndMode.Touch);
 
-            // Toil 3: “摄取”能量核心 (模拟咀嚼过程，可以是一个简单的延迟)
-            Toil chewToil = ToilMaker.MakeToil("ChewWulaEnergy");
-            chewToil.initAction = delegate
+            // 根据是否从背包摄入，选择不同的Toil序列
+            foreach (Toil item in PrepareToIngestToils(chewing))
             {
-                // 设定一个短暂的“咀嚼”时间
-                pawn.jobs.curDriver.ticksLeftThisToil = 60; // 1秒
-            };
-            chewToil.defaultCompleteMode = ToilCompleteMode.Delay;
-            yield return chewToil;
+                yield return item;
+            }
 
-            // Toil 4: 最终处理能量摄取
+            yield return chewing;
+
+            // 最终处理能量摄取
             Toil finalizeToil = ToilMaker.MakeToil("FinalizeWulaEnergyIngest");
             finalizeToil.initAction = delegate
             {
                 Pawn actor = finalizeToil.actor;
-                // 从Pawn的carryTracker中获取能量核心
-                Thing thing = actor.carryTracker.CarriedThing;
+                Thing thing = actor.carryTracker.CarriedThing; // 从carryTracker获取，因为Toils_Ingest.ChewIngestible会处理携带
 
                 if (thing == null)
                 {
@@ -65,7 +83,6 @@ namespace WulaFallenEmpire
                     return;
                 }
 
-                // 获取乌拉能量需求
                 Need_WulaEnergy energyNeed = actor.needs.TryGetNeed<Need_WulaEnergy>();
                 if (energyNeed == null)
                 {
@@ -73,7 +90,6 @@ namespace WulaFallenEmpire
                     return;
                 }
 
-                // 检查食物来源是否有自定义能量扩展
                 ThingDefExtension_EnergySource ext = thing.def.GetModExtension<ThingDefExtension_EnergySource>();
                 if (ext == null)
                 {
@@ -81,17 +97,30 @@ namespace WulaFallenEmpire
                     return;
                 }
 
-                // 补充乌拉的能量
                 energyNeed.CurLevel += ext.energyAmount;
-
-                // 消耗物品
                 thing.Destroy(DestroyMode.Vanish);
-
-                // 记录能量摄入 (可选，如果需要类似 NutritionEaten 的记录)
-                // actor.records.AddTo(RecordDefOf.NutritionEaten, ext.energyAmount);
             };
             finalizeToil.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return finalizeToil;
+        }
+
+        // 辅助方法，根据情况返回不同的Toil序列
+        private IEnumerable<Toil> PrepareToIngestToils(Toil chewToil)
+        {
+            if (eatingFromInventory)
+            {
+                yield return Toils_Misc.TakeItemFromInventoryToCarrier(pawn, IngestibleSourceInd);
+            }
+            else
+            {
+                // 类似原版JobDriver_Ingest的ToolUser逻辑
+                yield return Toils_Goto.GotoThing(IngestibleSourceInd, PathEndMode.ClosestTouch)
+                    .FailOnDespawnedNullOrForbidden(IngestibleSourceInd);
+                yield return Toils_Ingest.PickupIngestible(IngestibleSourceInd, pawn);
+            }
+            // 不处理FindAdjacentEatSurface，因为乌拉能量核心可能不需要“吃表面”
+            // 也不处理takeExtraIngestibles，因为乌拉能量核心通常是单次消耗
+            yield break; // 确保迭代器结束
         }
     }
 }

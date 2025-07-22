@@ -3,11 +3,27 @@
   "WorkspaceRootPath": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\common\\rimworld\\mods\\3516260226\\source\\wulafallenempire\\jobgiver_wulapackenergy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:jobgiver_wulapackenergy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\jobgiver_wulagetenergy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:jobgiver_wulagetenergy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\common\\rimworld\\mods\\3516260226\\source\\wulafallenempire\\compuseeffect_wulaskilltrainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:compuseeffect_wulaskilltrainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\wulafallenempiremod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:wulafallenempiremod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\building_wula_darkenergy_engine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:building_wula_darkenergy_engine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\common\\rimworld\\mods\\3516260226\\source\\wulafallenempire\\ingestpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\ingestpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:ingestpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -17,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\mechanitorpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:mechanitorpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\wulafallenempiremod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:wulafallenempiremod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +50,58 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CompUseEffect_WulaSkillTrainer.cs",
+              "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\CompUseEffect_WulaSkillTrainer.cs",
+              "RelativeDocumentMoniker": "CompUseEffect_WulaSkillTrainer.cs",
+              "ToolTip": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\CompUseEffect_WulaSkillTrainer.cs",
+              "RelativeToolTip": "CompUseEffect_WulaSkillTrainer.cs",
+              "ViewState": "AQIAAEAAAAAAAAAAAAAUwFMAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T07:52:56.407Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "JobGiver_WulaPackEnergy.cs",
+              "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\JobGiver_WulaPackEnergy.cs",
+              "RelativeDocumentMoniker": "JobGiver_WulaPackEnergy.cs",
+              "ToolTip": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\JobGiver_WulaPackEnergy.cs",
+              "RelativeToolTip": "JobGiver_WulaPackEnergy.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T07:19:52.552Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "JobGiver_WulaGetEnergy.cs",
+              "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\JobGiver_WulaGetEnergy.cs",
+              "RelativeDocumentMoniker": "JobGiver_WulaGetEnergy.cs",
+              "ToolTip": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\JobGiver_WulaGetEnergy.cs",
+              "RelativeToolTip": "JobGiver_WulaGetEnergy.cs",
+              "ViewState": "AQIAADsAAAAAAAAAAAAUwGEAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T07:19:46.094Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Building_Wula_DarkEnergy_Engine.cs",
+              "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Building_Wula_DarkEnergy_Engine.cs",
+              "RelativeDocumentMoniker": "Building_Wula_DarkEnergy_Engine.cs",
+              "ToolTip": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Building_Wula_DarkEnergy_Engine.cs",
+              "RelativeToolTip": "Building_Wula_DarkEnergy_Engine.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAIwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-14T12:24:18.86Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "IngestPatch.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\IngestPatch.cs",
               "RelativeDocumentMoniker": "IngestPatch.cs",
@@ -46,12 +109,11 @@
               "RelativeToolTip": "IngestPatch.cs",
               "ViewState": "AQIAACEAAAAAAAAAAAAowEwAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-20T17:09:27.916Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-20T17:09:27.916Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "HediffComp_RegenerateBackstory.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\HediffComp_RegenerateBackstory.cs",
               "RelativeDocumentMoniker": "HediffComp_RegenerateBackstory.cs",
@@ -63,15 +125,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "WulaFallenEmpireMod.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\WulaFallenEmpireMod.cs",
               "RelativeDocumentMoniker": "WulaFallenEmpireMod.cs",
               "ToolTip": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\WulaFallenEmpireMod.cs",
               "RelativeToolTip": "WulaFallenEmpireMod.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAA+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T10:23:17.898Z"
+              "WhenOpened": "2025-07-18T10:23:17.898Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -79,7 +142,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "MechanitorPatch.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\MechanitorPatch.cs",
               "RelativeDocumentMoniker": "MechanitorPatch.cs",
@@ -88,19 +151,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-18T10:20:31.368Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Building_Wula_DarkEnergy_Engine.cs",
-              "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Building_Wula_DarkEnergy_Engine.cs",
-              "RelativeDocumentMoniker": "Building_Wula_DarkEnergy_Engine.cs",
-              "ToolTip": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Building_Wula_DarkEnergy_Engine.cs",
-              "RelativeToolTip": "Building_Wula_DarkEnergy_Engine.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T12:24:18.86Z",
-              "EditorCaption": ""
             }
           ]
         }

@@ -58,7 +58,7 @@ namespace WulaFallenEmpire
                     // 大火的技能掉得最少，保持默认值
 
                     skillRecord.Learn(-experienceLoss, true); // 减少经验
-                    Messages.Message("WULA_SkillTrainer_OtherSkillLost".Translate(usedBy.LabelShort, skillRecord.def.label), usedBy, MessageTypeDefOf.NegativeEvent);
+                    Messages.Message("WULA_SkillTrainer_SkillLoss".Translate(usedBy.LabelShort, skillRecord.def.label), usedBy, MessageTypeDefOf.NegativeEvent);
                 }
             }
         }

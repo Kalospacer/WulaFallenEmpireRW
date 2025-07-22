@@ -30,7 +30,6 @@
       <li>Wula_Apparel_Init</li>
     </apparelTags>
     <abilities>
-      <li>WULA_EmergencyEnergyRestore</li>
     </abilities>
     <weaponMoney>0</weaponMoney>
     <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
@@ -74,7 +73,6 @@
       <li>Wula_Apparel_Init</li>
     </apparelTags>
     <abilities>
-      <li>WULA_EmergencyEnergyRestore</li>
     </abilities>
     <apparelRequired Inherit="False" />
 

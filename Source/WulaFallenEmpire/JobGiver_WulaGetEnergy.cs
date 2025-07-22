@@ -11,6 +11,8 @@ namespace WulaFallenEmpire
         public float emergencyThreshold = 0.1f;
         public float normalPriority = 5f;
         public float emergencyPriority = 9.5f;
+        public float searchRadius = 20f; // 添加 searchRadius
+        public int ingestCount = 1; // 添加 ingestCount
 
         public override ThinkNode DeepCopy(bool resolve = true)
         {
@@ -19,6 +21,8 @@ namespace WulaFallenEmpire
             obj.emergencyThreshold = emergencyThreshold;
             obj.normalPriority = normalPriority;
             obj.emergencyPriority = emergencyPriority;
+            obj.searchRadius = searchRadius;
+            obj.ingestCount = ingestCount;
             return obj;
         }
 
@@ -58,14 +62,26 @@ namespace WulaFallenEmpire
                 return null;
             }
 
-            // 寻找最佳能量核心
+            // 优先检查小人背包中的能量核心
+            foreach (Thing t in pawn.inventory.innerContainer)
+            {
+                ThingDefExtension_EnergySource energySourceExt = t.def.GetModExtension<ThingDefExtension_EnergySource>();
+                if (energySourceExt != null && t.IngestibleNow)
+                {
+                    Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("WULA_IngestWulaEnergy"), t);
+                    job.count = ingestCount;
+                    return job;
+                }
+            }
+
+            // 如果背包中没有，则寻找最佳能量核心
             Thing bestEnergySource = GenClosest.ClosestThingReachable(
                 pawn.Position,
                 pawn.Map,
                 ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), // 扫描所有可搬运的物品
                 PathEndMode.ClosestTouch,
                 TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false),
-                9999f,
+                searchRadius, // 使用类中的 searchRadius
                 (Thing t) =>
                 {
                     // 检查物品是否是能量核心
@@ -92,7 +108,7 @@ namespace WulaFallenEmpire
             {
                 // 创建摄取能量核心的Job
                 Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("WULA_IngestWulaEnergy"), bestEnergySource);
-                job.count = 1; // 每次摄取一个
+                job.count = ingestCount; // 使用类中的 ingestCount
                 return job;
             }
 
