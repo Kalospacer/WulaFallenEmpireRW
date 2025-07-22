@@ -29,7 +29,8 @@ namespace WulaFallenEmpire
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDespawnedNullOrForbidden(PatientInd);
-            this.FailOn(() => !FeedPatientUtility.ShouldBeFed(Patient));
+            // The job should fail if the patient is no longer in bed.
+            this.FailOn(() => !Patient.InBed());
 
             if (pawn.inventory != null && pawn.inventory.Contains(Food))
             {

@@ -16,7 +16,7 @@ namespace WulaFallenEmpire
 
         public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
-            return pawn.Map.mapPawns.AllPawns.Where(p => p.needs.TryGetNeed<Need_WulaEnergy>() != null && FeedPatientUtility.ShouldBeFed(p));
+            return pawn.Map.mapPawns.AllPawns.Where(p => p.needs.TryGetNeed<Need_WulaEnergy>() != null && p.InBed());
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -39,12 +39,8 @@ namespace WulaFallenEmpire
                 return false;
             }
 
-            if (!FeedPatientUtility.ShouldBeFed(patient))
-            {
-                return false;
-            }
-            
-            if (WardenFeedUtility.ShouldBeFed(patient))
+            // A Wula patient should be fed if they are in bed. If the job is not forced, they must also be unable to move.
+            if (!patient.InBed() || (!forced && patient.health.capacities.CapableOf(PawnCapacityDefOf.Moving)))
             {
                 return false;
             }

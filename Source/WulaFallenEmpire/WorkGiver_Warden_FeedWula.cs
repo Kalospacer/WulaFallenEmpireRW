@@ -26,6 +26,12 @@ namespace WulaFallenEmpire
                 return null;
             }
 
+            // The prisoner must be in bed to be fed by a warden. If the job is not forced, they must also be unable to move.
+            if (!prisoner.InBed() || (!forced && prisoner.health.capacities.CapableOf(PawnCapacityDefOf.Moving)))
+            {
+                return null;
+            }
+
             if (!TryFindBestEnergySourceFor(pawn, prisoner, out Thing energySource, out _))
             {
                 return null;

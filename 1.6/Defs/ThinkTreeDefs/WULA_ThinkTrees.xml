@@ -185,8 +185,10 @@
                   <subNodes>
                     <li Class="JobGiver_Autofeed" MayRequire="Ludeon.RimWorld.Biotech" />
                     <li Class="WulaFallenEmpire.JobGiver_WulaGetEnergy">
+                      <leaveJoinableLordIfIssuesJob>true</leaveJoinableLordIfIssuesJob>
                       <minEnergyLevelPercentage>0.3</minEnergyLevelPercentage>
                       <maxEnergyLevelPercentage>0.9</maxEnergyLevelPercentage>
+                      <emergencyPriority>9.5</emergencyPriority>
                     </li>
                     <li Class="JobGiver_GetRest"/>
                     <li Class="JobGiver_SatisfyChemicalNeed"/>
@@ -275,8 +277,6 @@
                   <subNodes>
                     <li Class="WulaFallenEmpire.JobGiver_WulaGetEnergy">
                       <leaveJoinableLordIfIssuesJob>true</leaveJoinableLordIfIssuesJob>
-                      <searchRadius>30</searchRadius> <!-- 搜索半径调整为30 -->
-                      <ingestCount>1</ingestCount> <!-- 每次摄取1个能量核心 -->
                       <minEnergyLevelPercentage>0.3</minEnergyLevelPercentage>
                       <maxEnergyLevelPercentage>0.9</maxEnergyLevelPercentage>
                       <emergencyPriority>9.5</emergencyPriority>

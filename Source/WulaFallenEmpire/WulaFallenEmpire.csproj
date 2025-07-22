@@ -81,7 +81,6 @@
     <Compile Include="VerbPropertiesExplosiveBeam.cs" />
     <Compile Include="HediffComp_WulaCharging.cs" />
     <Compile Include="JobGiver_WulaGetEnergy.cs" />
-    <Compile Include="JobGiverDefExtension_WulaGetEnergy.cs" />
     <Compile Include="JobGiver_WulaPackEnergy.cs" />
     <Compile Include="JobGiverDefExtension_WulaPackEnergy.cs" />
   </ItemGroup>

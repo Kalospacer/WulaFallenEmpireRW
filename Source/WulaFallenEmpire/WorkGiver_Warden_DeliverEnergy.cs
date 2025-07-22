@@ -19,6 +19,11 @@ namespace WulaFallenEmpire
                 return null;
             }
 
+            if (EnergyAvailableInRoomTo(prisoner))
+            {
+                return null;
+            }
+
             if (!TryFindBestEnergySourceFor(pawn, prisoner, out Thing energySource, out _))
             {
                 return null;
@@ -26,8 +31,25 @@ namespace WulaFallenEmpire
 
             Job job = JobMaker.MakeJob(JobDefOf.DeliverFood, energySource, prisoner);
             job.count = 1;
-            job.targetC = RCellFinder.SpotToChewStandingNear(prisoner, energySource);
             return job;
+        }
+
+        private bool EnergyAvailableInRoomTo(Pawn prisoner)
+        {
+            if (prisoner.GetRoom() == null)
+            {
+                return false;
+            }
+            
+            var allThings = prisoner.GetRoom().ContainedAndAdjacentThings;
+            foreach (Thing thing in allThings)
+            {
+                if (thing.def.GetModExtension<ThingDefExtension_EnergySource>() != null)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool TryFindBestEnergySourceFor(Pawn getter, Pawn eater, out Thing energySource, out ThingDef energyDef)
