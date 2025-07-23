@@ -62,6 +62,7 @@
     <Compile Include="Building_Wula_DarkEnergy_Engine.cs" />
     <Compile Include="MechanitorPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CompApparelInterceptor.cs" />
     <Compile Include="SectionLayer_WulaHull.cs" />
     <Compile Include="HediffComp_RegenerateBackstory.cs" />
     <Compile Include="WulaFallenEmpireMod.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="WulaCaravanEnergyDef.cs" />
     <Compile Include="HarmonyPatches\Caravan_NeedsTracker_TrySatisfyPawnNeeds_Patch.cs" />
     <Compile Include="HarmonyPatches\FloatMenuOptionProvider_Ingest_Patch.cs" />
+    <Compile Include="HarmonyPatches\Projectile_Launch_Patch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   
