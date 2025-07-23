@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <WulaFallenEmpire.WulaCaravanEnergyDef>
+    <defName>WulaCaravanEnergySettings</defName>
+    <label>Wula Caravan Energy Settings</label>
+    <!--乌拉远行队能量进食设置-->
+    <consumeThreshold>0.3</consumeThreshold><!--低于0.3能量吃一个核心-->
+    <energyItemDefName>WULA_Charge_Cube</energyItemDefName>
+    <hediffDefNameToAdd>WULA_ChargingHediff</hediffDefNameToAdd>
+  </WulaFallenEmpire.WulaCaravanEnergyDef>
+</Defs>

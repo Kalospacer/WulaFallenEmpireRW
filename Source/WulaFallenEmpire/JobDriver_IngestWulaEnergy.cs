@@ -67,7 +67,44 @@ namespace WulaFallenEmpire
             }
 
             yield return chew;
-            yield return Toils_Ingest.FinalizeIngest(pawn, IngestibleSourceInd);
+
+            // Custom Finalize Ingest Logic
+            Toil finalizeToil = new Toil();
+            finalizeToil.initAction = delegate
+            {
+                Pawn ingester = pawn;
+                Thing ingestible = IngestibleSource;
+                if (ingester == null || ingestible == null)
+                {
+                    return;
+                }
+
+                // If it's not an energy core, use the default vanilla method for safety, though this job should only target energy cores.
+                if (ingestible.def.defName != "WULA_Charge_Cube")
+                {
+                    ingester.needs.food.CurLevel += FoodUtility.GetNutrition(ingester, ingestible, ingestible.def);
+                }
+                else
+                {
+                    // Our custom logic for energy core
+                    // 1. Apply the charging hediff
+                    Hediff hediff = HediffMaker.MakeHediff(HediffDef.Named("WULA_ChargingHediff"), ingester);
+                    hediff.Severity = 1.0f;
+                    ingester.health.AddHediff(hediff);
+
+                    // 2. Spawn the used core
+                    Thing usedCore = ThingMaker.MakeThing(ThingDef.Named("WULA_Charge_Cube_No_Power"));
+                    GenPlace.TryPlaceThing(usedCore, ingester.Position, ingester.Map, ThingPlaceMode.Near);
+                }
+
+                // Destroy the original food item
+                if (!ingestible.Destroyed)
+                {
+                    ingestible.Destroy();
+                }
+            };
+            finalizeToil.defaultCompleteMode = ToilCompleteMode.Instant;
+            yield return finalizeToil;
         }
 
         private IEnumerable<Toil> PrepareToIngestToils(Toil chewToil)

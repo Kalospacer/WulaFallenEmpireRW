@@ -83,6 +83,9 @@
     <Compile Include="JobGiver_WulaGetEnergy.cs" />
     <Compile Include="JobGiver_WulaPackEnergy.cs" />
     <Compile Include="JobGiverDefExtension_WulaPackEnergy.cs" />
+    <Compile Include="WulaCaravanEnergyDef.cs" />
+    <Compile Include="HarmonyPatches\Caravan_NeedsTracker_TrySatisfyPawnNeeds_Patch.cs" />
+    <Compile Include="HarmonyPatches\FloatMenuOptionProvider_Ingest_Patch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   

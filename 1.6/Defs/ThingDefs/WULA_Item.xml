@@ -32,6 +32,13 @@
     </ingestible>
     <allowedArchonexusCount>200</allowedArchonexusCount>
     <tradeability>None</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>WULA_IngestWulaEnergy</useJob>
+        <useLabel>从能量核心中摄取能量</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+      </li>
+    </comps>
     <modExtensions>
       <li Class="WulaFallenEmpire.ThingDefExtension_EnergySource">
         <energyAmount>12.0</energyAmount> <!-- Amount of energy this item provides -->
