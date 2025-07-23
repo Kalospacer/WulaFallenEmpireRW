@@ -492,13 +492,13 @@
         <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
 
         <!-- 视觉与音效 -->
-        <color>(0.9, 0.8, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
         <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
         <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
 
         <!-- EMP 效果 -->
-        <isImmuneToEMP>false</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
+        <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
         <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
 
         <!-- 被动恢复 -->
@@ -564,13 +564,13 @@
         <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
 
         <!-- 视觉与音效 -->
-        <color>(0.9, 0.8, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
         <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
         <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
 
         <!-- EMP 效果 -->
-        <isImmuneToEMP>false</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
+        <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
         <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
 
         <!-- 被动恢复 -->

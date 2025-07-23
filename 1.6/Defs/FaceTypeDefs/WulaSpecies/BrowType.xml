@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<!-- 眉毛的定义 -->
+	<FacialAnimation.BrowTypeDef>
+		<defName>Wula_BrowNormal</defName>
+		<texPath>Wula/Things/WulaSpecies/Brows/Normal</texPath>
+		<raceName>WulaSpecies</raceName>
+		<shader>Map/Transparent</shader>
+      <enableUnisexTexPath>True</enableUnisexTexPath>
+	</FacialAnimation.BrowTypeDef>
+</Defs>

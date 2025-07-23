@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  
+  <FacialAnimation.FaceAnimationDef>
+    <defName>Wula_normal</defName>
+		<raceName>WulaSpecies</raceName>
+    <animationFrames>
+      <li>
+        <duration>1</duration>
+        <browShapeDef>normal</browShapeDef>
+        <lidShapeDef>normal</lidShapeDef>
+        <mouthShapeDef>normal</mouthShapeDef>
+        <headShapeDef>normal</headShapeDef>
+      </li>
+    </animationFrames>
+    <priority>0</priority>
+  </FacialAnimation.FaceAnimationDef>
+
+  <FacialAnimation.FaceAnimationDef>
+    <defName>Wula_eyeMoving</defName>
+		<raceName>WulaSpecies</raceName>
+    <animationFrames>
+      <li>
+        <duration>15</duration>
+        <eyeballOffset>(-0.005,0,0)</eyeballOffset>
+      </li>
+    </animationFrames>
+    <priority>1002</priority>
+    <roopIntervalMin>30 </roopIntervalMin>
+    <roopIntervalMax>500</roopIntervalMax>
+  </FacialAnimation.FaceAnimationDef>
+
+  <FacialAnimation.FaceAnimationDef>
+    <defName>Wula_eyeMoving2</defName>
+		<raceName>WulaSpecies</raceName>
+    <animationFrames>
+      <li>
+        <duration>15</duration>
+        <eyeballOffset>(0.005,0,0)</eyeballOffset>
+      </li>
+    </animationFrames>
+    <priority>1001</priority>
+    <roopIntervalMin>30 </roopIntervalMin>
+    <roopIntervalMax>500</roopIntervalMax>
+  </FacialAnimation.FaceAnimationDef>
+
+  <FacialAnimation.FaceAnimationDef>
+    <defName>Wula_eyeFlicker</defName>
+		<raceName>WulaSpecies</raceName>
+    <animationFrames>
+      <li>
+        <duration>3</duration>
+      </li>
+    </animationFrames>
+    <priority>1001</priority>
+    <roopIntervalMin>10 </roopIntervalMin>
+    <roopIntervalMax>30</roopIntervalMax>
+  </FacialAnimation.FaceAnimationDef>
+
+  <FacialAnimation.FaceAnimationDef>
+    <defName>Wula_blink</defName>
+		<raceName>WulaSpecies</raceName>
+    <animationFrames>
+      <li>
+        <duration>3</duration>
+        <browOffset>(0,0,-0.005)</browOffset>
+        <lidOffset>(0,0,-0.005)</lidOffset>
+        <lidShapeDef>normal</lidShapeDef>
+      </li>
+      <li>
+        <duration>12</duration>
+        <browOffset>(0,0,-0.01)</browOffset>
+        <lidShapeDef>close</lidShapeDef>
+      </li>
+      <li>
+        <duration>3</duration>
+        <browOffset>(0,0,-0.005)</browOffset>
+        <lidOffset>(0,0,-0.005)</lidOffset>
+        <lidShapeDef>normal</lidShapeDef>
+      </li>
+    </animationFrames>
+    <roopIntervalMin>30 </roopIntervalMin>
+    <roopIntervalMax>500</roopIntervalMax>
+    <priority>1000</priority>
+  </FacialAnimation.FaceAnimationDef>
+
+</Defs>

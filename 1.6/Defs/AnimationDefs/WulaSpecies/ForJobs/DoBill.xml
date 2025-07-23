@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <FacialAnimation.FaceAnimationDef>
+    <defName>Wula_DoBill</defName>
+		<raceName>WulaSpecies</raceName>
+    <animationFrames>
+      <li>
+        <duration>1</duration>
+        <lidOffset>(0,0,-0.00625)</lidOffset>
+        <eyeballOffset>(0.0,0,-0.0075)</eyeballOffset>
+        <headOffset>(0,0,-0.0007)</headOffset>
+        <browShapeDef>normal</browShapeDef>
+        <browOffset>(0,0,-0.00325)</browOffset>
+        <mouthOffset>(0,0,-0.00125)</mouthOffset>
+      </li>
+    </animationFrames>
+    <roopIntervalMin>0</roopIntervalMin>
+    <roopIntervalMax>0</roopIntervalMax>
+    <targetJobs>
+      <li>DoBill</li>
+    </targetJobs>
+    <priority>10000</priority>
+    <applyWhenStandingOnly>true</applyWhenStandingOnly>
+  </FacialAnimation.FaceAnimationDef>
+
+  <FacialAnimation.FaceAnimationDef>
+    <defName>Wula_DoBill2</defName>
+		<raceName>WulaSpecies</raceName>
+    <animationFrames>
+      <li>
+        <duration>3</duration>
+        <lidOffset>(0,0,-0.0035)</lidOffset>
+        <eyeballOffset>(0.0,0,-0.00375)</eyeballOffset>
+        <headOffset>(0,0,-0.0035)</headOffset>
+        <browShapeDef>normal</browShapeDef>
+        <browOffset>(0,0,-0.00025)</browOffset>
+        <mouthOffset>(0,0,-0.000625)</mouthOffset>
+      </li>
+      <li>
+        <duration>6</duration>
+        <lidOffset>(0,0,-0.007)</lidOffset>
+        <eyeballOffset>(0.0,0,-0.00525)</eyeballOffset>
+        <headOffset>(0,0,-0.0075)</headOffset>
+        <browShapeDef>normal</browShapeDef>
+        <browOffset>(0,0,-0.00375)</browOffset>
+        <mouthOffset>(0,0,-0.00125)</mouthOffset>
+      </li>
+      <li>
+        <duration>3</duration>
+        <lidOffset>(0,0,-0.0035)</lidOffset>
+        <eyeballOffset>(0.0,0,-0.00375)</eyeballOffset>
+        <headOffset>(0,0,-0.0035)</headOffset>
+        <browShapeDef>normal</browShapeDef>
+        <browOffset>(0,0,-0.00025)</browOffset>
+        <mouthOffset>(0,0,-0.000625)</mouthOffset>
+      </li>
+    </animationFrames>
+    <roopIntervalMin>100</roopIntervalMin>
+    <roopIntervalMax>200</roopIntervalMax>
+    <targetJobs>
+      <li>DoBill</li>
+    </targetJobs>
+    <priority>10001</priority>
+    <applyWhenStandingOnly>true</applyWhenStandingOnly>
+  </FacialAnimation.FaceAnimationDef>
+</Defs>

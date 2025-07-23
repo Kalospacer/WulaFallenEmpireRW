@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <FacialAnimation.HeadTypeDef>
+	  <defName>Wula_HeadNormal</defName>
+    <texPath>Wula/Things/WulaSpecies/Heads_Blank/Normal</texPath>
+    <raceName>WulaSpecies</raceName>
+	  <shader>Map/CutoutSkin</shader>
+    <shaderColorOverride>Map/CutoutSkinOverride</shaderColorOverride>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.HeadTypeDef>
+</Defs>

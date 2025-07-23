@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <FacialAnimation.MouthTypeDef>
+		<defName>Wula_MouthNormal</defName>
+		<texPath>Wula/Things/WulaSpecies/Mouth/Normal</texPath>
+		<raceName>WulaSpecies</raceName>
+		<shader>Map/Transparent</shader>
+      <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+</Defs>

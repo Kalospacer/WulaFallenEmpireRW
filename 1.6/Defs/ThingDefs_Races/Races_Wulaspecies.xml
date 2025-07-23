@@ -495,6 +495,33 @@
           <li>EMP</li>
         </adaptableDamageDefs>
       </li>
+			<li>
+				<compClass>FacialAnimation.DrawFaceGraphicsComp</compClass>
+			</li>
+			<li>
+				<compClass>FacialAnimation.HeadControllerComp</compClass>
+			</li>
+			<li>
+				<compClass>FacialAnimation.EyeballControllerComp</compClass>
+			</li>
+      <li>
+        <compClass>FacialAnimation.LidControllerComp</compClass>
+      </li>
+      <li>
+				<compClass>FacialAnimation.BrowControllerComp</compClass>
+			</li>
+			<li>
+				<compClass>FacialAnimation.MouthControllerComp</compClass>
+			</li>
+      <li>
+        <compClass>FacialAnimation.SkinControllerComp</compClass>
+      </li>
+      <li>
+				<compClass>FacialAnimation.FacialAnimationControllerComp</compClass>
+			</li>
+      <!--<li>
+        <compClass>FacialAnimation.EmotionControllerComp</compClass>
+      </li>-->
       <!-- <li Class="CompProperties_DrugAddict"/> -->
     </comps>
 	</AlienRace.ThingDef_AlienRace>

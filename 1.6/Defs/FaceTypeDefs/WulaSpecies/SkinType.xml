@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <FacialAnimation.SkinTypeDef>
+	  <defName>Wula_SkinNormal</defName>
+	  <texPath>Wula/Things/WulaSpecies/Skins/Normal</texPath>
+	  <shader>Map/CutoutSkin</shader>
+    <raceName>WulaSpecies</raceName>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.SkinTypeDef>
+</Defs>

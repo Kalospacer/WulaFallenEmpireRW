@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <FacialAnimation.LidTypeDef>
+	  <defName>Wula_LidNormal</defName>
+	  <texPath>Wula/Things/WulaSpecies/Lids/Normal</texPath>
+    <raceName>WulaSpecies</raceName>
+	  <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+</Defs>
