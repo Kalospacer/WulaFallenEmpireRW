@@ -9,7 +9,7 @@ namespace WulaFallenEmpire
     {
         public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (!(t is Pawn prisoner) || !ShouldTakeCareOfPrisoner(pawn, prisoner) || prisoner.def.defName != "WulaSpecies")
+            if (!(t is Pawn prisoner) || !ShouldTakeCareOfPrisoner(pawn, prisoner))
             {
                 return null;
             }
