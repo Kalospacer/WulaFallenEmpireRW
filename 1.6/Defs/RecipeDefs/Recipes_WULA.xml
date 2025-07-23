@@ -3,7 +3,7 @@
   <RecipeDef>
     <defName>Make_WULA_Charge_Cube</defName>
     <label>制造乌拉帝国能源核心</label>
-    <description>制造一块乌拉帝国能源核心，内部包括供给有机部分的营养与供给机械部分的能量，这是机械乌拉唯一可接受的外部输入性能量来源。</description>
+    <description>制造一块乌拉帝国能源核心，包括可复冲的电容器与供给机械运转的能量，这是机械乌拉唯一可接受的外部输入性能量来源，也是多种乌拉帝国产物的前体。</description>
     <jobString>正在制造乌拉帝国能源核心</jobString>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
@@ -26,6 +26,14 @@
             <li>Chemfuel</li>
           </thingDefs>
         </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
         <count>1</count>
       </li>
     </ingredients>
@@ -42,7 +50,7 @@
   <RecipeDef>
     <defName>Make_WULA_Charge_Cube_Group</defName>
     <label>制造乌拉帝国能源核心（4个）</label>
-    <description>制造4块乌拉帝国能源核心，内部包括供给有机部分的营养与供给机械部分的能量，这是机械乌拉唯一可接受的外部输入性能量来源，也是多种乌拉帝国产物的前体。</description>
+    <description>制造4块乌拉帝国能源核心，包括可复冲的电容器与供给机械运转的能量，这是机械乌拉唯一可接受的外部输入性能量来源，也是多种乌拉帝国产物的前体。</description>
     <jobString>正在制造乌拉帝国能源核心</jobString>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
@@ -65,6 +73,14 @@
             <li>Chemfuel</li>
           </thingDefs>
         </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
         <count>4</count>
       </li>
     </ingredients>
@@ -76,6 +92,148 @@
     
     <researchPrerequisites>
       <li>WULA_Base_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>Recharge_WULA_Charge_Cube</defName>
+    <label>以化合燃料充能能源核心</label>
+    <description>使用化合燃料，将被使用过的失去能量的乌拉帝国能源核心重新充能。</description>
+    <jobString>正在为乌拉帝国能源核心充能</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>2000</workAmount>
+    <!-- 允许混合成分 -->
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Charge_Cube_No_Power</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Charge_Cube>1</WULA_Charge_Cube>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_Base_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>Recharge_WULA_Charge_Cube_Energy</defName>
+    <label>充能能源核心</label>
+    <description>使用电力，将被使用过的失去能量的乌拉帝国能源核心重新充能。</description>
+    <jobString>正在为乌拉帝国能源核心充能</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>1000</workAmount>
+    <!-- 允许混合成分 -->
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Charge_Cube_No_Power</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Charge_Cube>1</WULA_Charge_Cube>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_Base_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>Recharge_WULA_Charge_Cube_Energy_Group</defName>
+    <label>充能能源核心（4个）</label>
+    <description>使用电力，将被使用过的失去能量的乌拉帝国能源核心重新充能。</description>
+    <jobString>正在为乌拉帝国能源核心充能</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>3500</workAmount>
+    <!-- 允许混合成分 -->
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Charge_Cube_No_Power</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Charge_Cube>4</WULA_Charge_Cube>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_Base_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>Make_Component_By_WULA_Cube_Productor</defName>
+    <label>制作零部件</label>
+    <description>用乌拉帝国编织体制造零部件，耗时较精密装配台更长，并且耗费的资源更多。</description>
+    <jobString>正在为乌拉帝国能源核心充能</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>8500</workAmount>
+    <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_Adv_WorkTable_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
 

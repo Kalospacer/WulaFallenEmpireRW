@@ -279,4 +279,28 @@
       </li>
     </lifeStages>
   </PawnKindDef>
+
+  <PawnKindDef ParentName="NonCombatLightMechanoidKind">
+    <defName>Mech_WULA_Cat_DM</defName>
+    <label>暗物质猫猫</label>
+    <race>Mech_WULA_Cat_DM</race>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <allowInMechClusters>False</allowInMechClusters>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/WULA_Cat/WULA_Cat_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.1</drawSize>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <techHediffsTags>
+      <li>Mech_WULA_Cat_DM_HediffTag</li>
+    </techHediffsTags>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+    <techHediffsChance>1</techHediffsChance>
+  </PawnKindDef>
 </Defs>

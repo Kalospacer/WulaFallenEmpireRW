@@ -102,6 +102,7 @@
     <!-- 可用配方 -->
     <recipes>
      <li>Make_WULA_Charge_Cube</li>
+     <li>Recharge_WULA_Charge_Cube</li>
     </recipes>
     <inspectorTabs>
       <li>ITab_Bills</li>
@@ -175,6 +176,9 @@
     <recipes>
      <li>Make_WULA_Charge_Cube</li>
      <li>Make_WULA_Charge_Cube_Group</li>
+     <li>Recharge_WULA_Charge_Cube_Energy</li>
+     <li>Recharge_WULA_Charge_Cube_Energy_Group</li>
+     <li>Make_Component_By_WULA_Cube_Productor</li>
      <li>Make_WULA_Dark_Matter_Item</li>
     </recipes>
     <inspectorTabs>
@@ -325,7 +329,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Large_Mechine_proudctor</defName>
     <label>乌拉帝国机械工厂</label>
-    <description>乌拉帝国所建造的一种机械工厂，能构建各种乌拉帝国机械体，包括机械乌拉。该设施仅限机械乌拉种族操作。</description>
+    <description>乌拉帝国所建造的一种机械工厂，能构建各种乌拉帝国机械体，包括机械乌拉。</description>
     <thingClass>Building_MechGestator</thingClass>
     <containedPawnsSelectable>true</containedPawnsSelectable>
     <tickerType>Normal</tickerType>

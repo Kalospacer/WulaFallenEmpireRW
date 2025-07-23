@@ -33,6 +33,17 @@
     <passions>
       <Intellectual>2</Intellectual>
     </passions>
+    <disallowedTraits>
+      <!-- <WULA_Trait_Knight>1</WULA_Trait_Knight> -->
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory02</defName>
@@ -66,6 +77,17 @@
     <passions>
       <Medicine>2</Medicine>
     </passions>
+    <disallowedTraits>
+      <!-- <WULA_Trait_Knight>1</WULA_Trait_Knight> -->
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory03</defName>
@@ -98,6 +120,17 @@
     <passions>
       <Construction>2</Construction>
     </passions>
+    <disallowedTraits>
+      <!-- <WULA_Trait_Knight>1</WULA_Trait_Knight> -->
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory04</defName>
@@ -130,6 +163,17 @@
       <Shooting>2</Shooting>
       <Melee>2</Melee>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <!-- <WULA_Trait_Knight>2</WULA_Trait_Knight> -->
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory05</defName>
@@ -166,6 +210,17 @@
       <Animals>1</Animals>
       <Plants>1</Plants>
     </passions>
+    <disallowedTraits>
+      <!-- <WULA_Trait_Knight>1</WULA_Trait_Knight> -->
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory10</defName>
@@ -198,6 +253,17 @@
       <Mining>2</Mining>
       <Plants>2</Plants>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory11</defName>
@@ -231,6 +297,17 @@
       <Cooking>1</Cooking>
       <Crafting>1</Crafting>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory12</defName>
@@ -271,6 +348,17 @@
       <Social>1</Social>
       <Medicine>1</Medicine>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <!-- <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer> -->
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
   <!-- 观测站 -->
@@ -306,6 +394,17 @@
       <Artistic>2</Artistic>
       <Plants>2</Plants>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <!-- <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor> -->
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory101</defName>
@@ -340,6 +439,17 @@
       <Intellectual>2</Intellectual>
       <Animals>2</Animals>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <!-- <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor> -->
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory102</defName>
@@ -372,6 +482,17 @@
       <Social>2</Social>
       <Artistic>2</Artistic>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <!-- <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat> -->
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory103</defName>
@@ -397,6 +518,17 @@
       <Shooting>2</Shooting>
       <Medicine>2</Medicine>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory104</defName>
@@ -428,6 +560,17 @@
       <Mining>1</Mining>
       <Construction>1</Construction>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
   <!-- 大教堂 -->
@@ -464,6 +607,17 @@
     <passions>
       <Plants>2</Plants>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory201</defName>
@@ -498,6 +652,17 @@
     <passions>
       <Crafting>2</Crafting>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory202</defName>
@@ -534,6 +699,17 @@
       <Melee>2</Melee>
       <Shooting>2</Shooting>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory203</defName>
@@ -569,6 +745,17 @@
     <passions>
       <Intellectual>2</Intellectual>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory204</defName>
@@ -604,6 +791,17 @@
     <passions>
       <Social>2</Social>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
   <!-- 图书馆 -->
@@ -644,6 +842,17 @@
       <Shooting>2</Shooting>
       <Construction>1</Construction>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <!-- <WULA_Trait_Researcher>0</WULA_Trait_Researcher> -->
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory301</defName>
@@ -680,6 +889,17 @@
     <passions>
       <Intellectual>2</Intellectual>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <!-- <WULA_Trait_Researcher>0</WULA_Trait_Researcher> -->
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory302</defName>
@@ -719,6 +939,17 @@
     <passions>
       <Intellectual>2</Intellectual>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <!-- <WULA_Trait_Connector>0</WULA_Trait_Connector> -->
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory303</defName>
@@ -754,6 +985,17 @@
     <passions>
       <Crafting>2</Crafting>
     </passions>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <!-- <WULA_Trait_Researcher>0</WULA_Trait_Researcher> -->
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory304</defName>
@@ -789,27 +1031,16 @@
       <Crafting>1</Crafting>
       <Construction>1</Construction>
     </passions>
-  </AlienRace.AlienBackstoryDef>
-
-  <!-- 战争机械 -->
-  <AlienRace.AlienBackstoryDef>
-    <defName>WULA_AI_War_Machine_Adult_Backstory01</defName>
-    <slot>Adulthood</slot>
-    <title>人格矩阵装载：战争机械</title>
-    <titleShort>人格-战争机械</titleShort>
-    <description>[PAWN_possessive]人格矩阵剔除了大量不需要的情感模拟，只剩冷酷的杀敌技巧。</description>
-    <requiredWorkTags>None</requiredWorkTags>
-    <spawnCategories>
-      <li>WULA_AI_War_Machine_Backstory_Categories</li>
-    </spawnCategories>
-    <bodyTypeGlobal>Thin</bodyTypeGlobal>
-    <bodyTypeFemale>Thin</bodyTypeFemale>
-    <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="0">WULA_AI_War_Machine</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <!-- <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality> -->
+    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 </Defs>

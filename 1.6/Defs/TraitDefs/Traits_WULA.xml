@@ -143,7 +143,6 @@
       </li>
     </degreeDatas>
   </TraitDef>
-  
   <TraitDef>
     <defName>WULA_Trait_Broken_Personality</defName>
     <degreeDatas>
@@ -159,18 +158,6 @@
           <li>Indoors</li>
           <li>DrugDesire</li>
           <li>RoomSize</li>
-        </disablesNeeds>
-      </li>
-    </degreeDatas>
-  </TraitDef>
-  
-  <TraitDef>
-    <defName>WULA_AI_War_Machine</defName>
-    <degreeDatas>
-      <li>
-        <label>战争机器</label>
-        <description>这是乌拉帝国创造的高智能战争机械，拥有思考的能力。</description>
-        <disablesNeeds>
         </disablesNeeds>
       </li>
     </degreeDatas>

@@ -38,6 +38,44 @@
       </li>
     </modExtensions>
   </ThingDef>
+  <ThingDef ParentName="ResourceBase">
+    <defName>WULA_Charge_Cube_No_Power</defName>
+    <label>乌拉帝国能源核心（已使用）</label>
+    <description>被使用过的乌拉帝国能源核心，需要重新充能。</description>
+    <graphicData>
+      <texPath>Wula/Item/WULA_Charge_Cube_No_Power</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>30</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.01</DeteriorationRate>
+      <MarketValue>24</MarketValue>
+      <Mass>0.3</Mass>
+      <WorkToMake>450</WorkToMake>
+      <Nutrition>1</Nutrition> <!-- Reverted to 1 as per user request -->
+    </statBases>
+    <!-- <ingestible>
+      <baseIngestTicks>270</baseIngestTicks>
+      <preferability>MealSimple</preferability>
+      <optimalityOffsetHumanlikes>-1000</optimalityOffsetHumanlikes>
+      <optimalityOffsetFeedingAnimals>-1000</optimalityOffsetFeedingAnimals>
+      <ingestEffect>EatVegetarian</ingestEffect>
+      <ingestSound>MechResurrectCast</ingestSound>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>WULA_ChargingHediff</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible> -->
+    <allowedArchonexusCount>200</allowedArchonexusCount>
+    <tradeability>None</tradeability>
+    <!-- <modExtensions>
+      <li Class="WulaFallenEmpire.ThingDefExtension_EnergySource">
+        <energyAmount>12.0</energyAmount>
+      </li>
+    </modExtensions> -->
+  </ThingDef>
 
   <ThingDef ParentName="ResourceBase">
     <defName>WULA_Soul_Wedge</defName>
