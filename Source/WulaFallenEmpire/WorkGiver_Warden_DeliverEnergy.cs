@@ -14,7 +14,8 @@ namespace WulaFallenEmpire
                 return null;
             }
 
-            if (!WardenFeedUtility.ShouldBeFed(prisoner) || prisoner.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("WULA_ChargingHediff")))
+            Need_WulaEnergy wulaEnergyNeed = prisoner.needs.TryGetNeed<Need_WulaEnergy>();
+            if (wulaEnergyNeed == null || wulaEnergyNeed.CurLevelPercentage > def.GetModExtension<WorkGiverDefExtension_FeedWula>().feedThreshold)
             {
                 return null;
             }
