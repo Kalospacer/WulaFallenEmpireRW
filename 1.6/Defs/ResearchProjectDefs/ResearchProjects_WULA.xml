@@ -264,8 +264,8 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_AI_Machine_Panzer_Technology</defName>
-    <researchViewX>4.50</researchViewX>
-    <researchViewY>5.50</researchViewY>
+    <researchViewX>5.50</researchViewX>
+    <researchViewY>4.70</researchViewY>
     <label>基础战车部署套件</label>
     <description>获取乌拉帝国机械体SMp-38"萨克森"和其变种SMp-38A"斯佩萨特"的生产权限，一种携带突击区域护盾和强大火力武备的战车型机械体。</description>
     <baseCost>2400</baseCost>
@@ -282,6 +282,18 @@
     <researchViewY>4.70</researchViewY>
     <prerequisites>
       <li>WULA_Machine_Productor_1_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Mech_WULA_Cat_DM_Technology</defName>
+    <label>暗物质猫猫套件</label>
+    <description>获取乌拉帝国机械体CAt-96"暗物质猫猫"的生产权限，一种搭载了暗物质引擎的劳工型机械体，无需充电，但是死亡时会产生湮灭爆炸。</description>
+    <baseCost>2000</baseCost>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>5.60</researchViewY>
+    <prerequisites>
+      <li>WULA_Machine_Productor_1_Technology</li>
+      <li>WULA_Dark_Matter_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <!-- 植入物 -->
