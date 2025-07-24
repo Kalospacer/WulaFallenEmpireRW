@@ -5,41 +5,55 @@ using System.Linq;
 
 namespace WulaFallenEmpire
 {
-    public class WorkGiver_Warden_FeedWula : WorkGiver_Warden
+    public class WorkGiver_Warden_FeedWula : WorkGiver_Scanner
     {
-        public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
+        public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForGroup(ThingRequestGroup.Pawn);
+
+        public override PathEndMode PathEndMode => PathEndMode.ClosestTouch;
+
+        public override Danger MaxPathDanger(Pawn pawn) => Danger.Deadly;
+
+        public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (!(t is Pawn prisoner) || !ShouldFeed(pawn, prisoner))
-            {
-                return null;
-            }
+            if (!(t is Pawn prisoner) || pawn == prisoner)
+                return false;
+
+            if (!ShouldFeed(pawn, prisoner))
+                return false;
 
             Need_WulaEnergy energyNeed = prisoner.needs.TryGetNeed<Need_WulaEnergy>();
             var extension = def.GetModExtension<WorkGiverDefExtension_FeedWula>();
             if (energyNeed == null || energyNeed.CurLevelPercentage >= extension.feedThreshold)
-            {
-                return null;
-            }
+                return false;
 
             if (prisoner.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("WULA_ChargingHediff")))
-            {
-                return null;
-            }
+                return false;
 
-            // The prisoner must be in bed to be fed by a warden. If the job is not forced, they must also be unable to move.
             if (!prisoner.InBed() || (!forced && prisoner.health.capacities.CapableOf(PawnCapacityDefOf.Moving)))
+                return false;
+
+            if (!pawn.CanReserveAndReach(prisoner, PathEndMode.Touch, Danger.Deadly, 1, -1, null, forced))
+                return false;
+
+            if (!TryFindBestEnergySourceFor(pawn, prisoner, out _, out _))
             {
-                return null;
+                JobFailReason.Is("NoWulaEnergyToFeed".Translate(prisoner.LabelShort, prisoner));
+                return false;
             }
 
-            if (!TryFindBestEnergySourceFor(pawn, prisoner, out Thing energySource, out _))
-            {
-                return null;
-            }
+            return true;
+        }
 
-            Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("WULA_FeedWulaPatient"), energySource, prisoner);
-            job.count = 1;
-            return job;
+        public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
+        {
+            Pawn prisoner = (Pawn)t;
+            if (TryFindBestEnergySourceFor(pawn, prisoner, out Thing energySource, out _))
+            {
+                Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("WULA_FeedWulaPatient"), energySource, prisoner);
+                job.count = 1;
+                return job;
+            }
+            return null;
         }
 
         private bool ShouldFeed(Pawn warden, Pawn prisoner)

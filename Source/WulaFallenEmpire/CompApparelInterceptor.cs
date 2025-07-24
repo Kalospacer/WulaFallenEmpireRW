@@ -52,7 +52,7 @@ namespace WulaFallenEmpire
     [StaticConstructorOnStartup]
     public class CompApparelInterceptor : ThingComp
     {
-        // ×´Ì¬±äÁ¿
+        // çŠ¶æ€å˜é‡
         private int lastInterceptTicks = -999999;
         private int startedChargingTick = -1;
         private bool shutDown;
@@ -62,17 +62,17 @@ namespace WulaFallenEmpire
         private int ticksToReset;
         private int activatedTick = -999999;
 
-        // ÊÓ¾õÐ§¹û±äÁ¿
+        // è§†è§‰æ•ˆæžœå˜é‡
         private float lastInterceptAngle;
         private bool drawInterceptCone;
 
-        // ¾²Ì¬×ÊÔ´
+        // é™æ€èµ„æº
         private static readonly Material ForceFieldMat = MaterialPool.MatFrom("Other/ForceField", ShaderDatabase.MoteGlow);
         private static readonly Material ForceFieldConeMat = MaterialPool.MatFrom("Other/ForceFieldCone", ShaderDatabase.MoteGlow);
         private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
         private static readonly Color InactiveColor = new Color(0.2f, 0.2f, 0.2f);
 
-        // ÊôÐÔ
+        // å±žæ€§
         public CompProperties_ApparelInterceptor Props => (CompProperties_ApparelInterceptor)props;
         private Pawn PawnOwner => (parent as Apparel)?.Wearer;
 
@@ -320,6 +320,7 @@ namespace WulaFallenEmpire
         }
     }
 
+    [StaticConstructorOnStartup]
     public class Gizmo_EnergyShieldStatus : Gizmo
     {
         public CompApparelInterceptor shield;

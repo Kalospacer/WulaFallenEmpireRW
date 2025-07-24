@@ -45,7 +45,7 @@ namespace WulaFallenEmpire
                 return false;
             }
 
-            if (!pawn.CanReserve(patient, 1, -1, null, forced))
+            if (!pawn.CanReserveAndReach(patient, PathEndMode.Touch, Danger.Deadly, 1, -1, null, forced))
             {
                 return false;
             }
