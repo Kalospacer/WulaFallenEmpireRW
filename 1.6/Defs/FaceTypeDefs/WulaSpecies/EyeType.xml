@@ -8,8 +8,8 @@
     <texPath>Wula/Things/WulaSpecies/Eyes/Normal</texPath>
 	  <altMaskPath>Wula/Things/WulaSpecies/Eyes/Common</altMaskPath>
     <shader>Map/CutoutSkinOverlay</shader>
-    <minColor>RGB(39,155,153)</minColor>
-    <maxColor>RGB(113,199,231)</maxColor>
+    <minColor>RGB(0.25,0.25,0.25)</minColor>
+    <maxColor>RGB(0.85,0.85,0.85)</maxColor>
     <enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.EyeballTypeDef>
 </Defs>

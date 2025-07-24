@@ -396,7 +396,7 @@
       <!-- 心灵敏感，很低 -->
       <PsychicSensitivity>0.25</PsychicSensitivity>
       <!-- 肉量 -->
-      <MeatAmount>0</MeatAmount>
+      <MeatAmount>10</MeatAmount>
       <!-- 皮革量 -->
       <LeatherAmount>0</LeatherAmount>
       <!-- 谈判能力 -->

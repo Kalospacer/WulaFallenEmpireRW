@@ -302,7 +302,9 @@
     <stages>
       <li>
         <minSeverity>0.01</minSeverity>
-        <hungerRateFactor>1</hungerRateFactor>
+        <statFactors>
+          <WulaEnergyFallRateFactor>3</WulaEnergyFallRateFactor>
+        </statFactors>
       </li>
     </stages>
     <defaultInstallPart>WULA_Energy_Furnace_Bodypart</defaultInstallPart>
