@@ -482,8 +482,8 @@
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
         
         <!-- 基础功能 -->
-        <radius>2.5</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>500</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <radius>1.5</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>250</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
         <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
 
         <!-- 拦截类型 -->
@@ -554,8 +554,8 @@
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
         
         <!-- 基础功能 -->
-        <radius>2.5</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>500</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <radius>1.46</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>100</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
         <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
 
         <!-- 拦截类型 -->
@@ -943,8 +943,8 @@
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
         
         <!-- 基础功能 -->
-        <radius>2.5</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>500</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <radius>1.25</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>150</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
         <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
 
         <!-- 拦截类型 -->
@@ -1094,10 +1094,9 @@
         <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
-        
         <!-- 基础功能 -->
-        <radius>2.5</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>500</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <radius>1.25</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>200</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
         <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
 
         <!-- 拦截类型 -->
@@ -1365,8 +1364,8 @@
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
         
         <!-- 基础功能 -->
-        <radius>2.5</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>500</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <radius>1.27</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>150</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
         <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
 
         <!-- 拦截类型 -->
