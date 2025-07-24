@@ -29,28 +29,6 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Repair_Arm_Technology</defName>
-    <researchViewX>1.00</researchViewX>
-    <researchViewY>4.70</researchViewY>
-    <label>高级维修套件</label>
-    <description>获取修复乌拉帝国合成人四肢和头部的必须知识。</description>
-    <baseCost>400</baseCost>
-    <prerequisites>
-      <li>WULA_Base_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Repair_All_Technology</defName>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>4.70</researchViewY>
-    <label>完全维修套件</label>
-    <description>获取修复完全修复乌拉帝国合成人的必须知识。</description>
-    <baseCost>600</baseCost>
-    <prerequisites>
-      <li>WULA_Repair_Arm_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Adv_WorkTable_Technology</defName>
     <researchViewX>3.50</researchViewX>
     <researchViewY>3.20</researchViewY>
@@ -60,17 +38,6 @@
     <prerequisites>
       <li>WULA_Base_Technology</li>
       <li>MicroelectronicsBasics</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_New_Synth_Skill_Technology</defName>
-    <label>数据下载套件</label>
-    <description>开发用于从上行链路下载各种预设技能包的套件，以增加殖民地的技能等级。</description>
-    <baseCost>400</baseCost>
-    <researchViewX>1.00</researchViewX>
-    <researchViewY>5.50</researchViewY>
-    <prerequisites>
-      <li>WULA_Base_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -245,10 +212,10 @@
     <label>机械体构建套件</label>
     <description>获取构建乌拉帝国机械体的设施，以支持后续的机械体开发。</description>
     <baseCost>800</baseCost>
-    <researchViewX>2.00</researchViewX>
+    <researchViewX>1.00</researchViewX>
     <researchViewY>5.50</researchViewY>
     <prerequisites>
-      <li>WULA_New_Synth_Skill_Technology</li>
+      <li>WULA_Base_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -297,6 +264,39 @@
     </prerequisites>
   </ResearchProjectDef>
   <!-- 植入物 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Repair_All_Technology</defName>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>3.90</researchViewY>
+    <label>维修套件</label>
+    <description>获取构建修理包并使用其修复乌拉帝国合成人的必须知识。</description>
+    <baseCost>600</baseCost>
+    <prerequisites>
+      <li>WULA_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_New_Synth_Skill_Technology</defName>
+    <label>数据下载套件</label>
+    <description>开发用于从上行链路下载各种预设技能包的套件，以增加殖民地的技能等级。</description>
+    <baseCost>400</baseCost>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>4.70</researchViewY>
+    <prerequisites>
+      <li>WULA_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_New_Synth_Skill_2_Technology</defName>
+    <label>人格微调套件</label>
+    <description>开发用于从上行链路下载新人格和兴趣调整数据包的套件，以进一步调整合成人的发展定位。</description>
+    <baseCost>400</baseCost>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>5.70</researchViewY>
+    <prerequisites>
+      <li>WULA_New_Synth_Skill_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Addons_Technology</defName>
     <researchViewX>4.50</researchViewX>

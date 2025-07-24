@@ -805,280 +805,6 @@
     </stages>
   </HediffDef>
 
-  <!-- 插件 -->
-  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
-    <defName>WULA_Fix_Hand_Base</defName>
-    <label>修复手部</label>
-    <description>将这个合成人的手部破损修复，并恢复该部位生命值。</description>
-    <jobString>正在修复手部</jobString>
-    <appliedOnFixedBodyParts>
-      <li>Hand</li>
-    </appliedOnFixedBodyParts>
-    <uiIconThing>Steel</uiIconThing>
-    <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" />
-    <!-- Always succeeds -->
-    <addsHediff>WULA_Body_Fixed</addsHediff>
-    <recipeUsers Inherit="False">
-      <li>WulaSpecies</li>
-    </recipeUsers>
-
-    <workAmount>1500</workAmount>
-    <skillRequirements>
-      <Medicine>3</Medicine>
-    </skillRequirements>
-    <workSkill>Medicine</workSkill>
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <workSpeedStat>MedicalOperationSpeed</workSpeedStat>
-    <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
-    </researchPrerequisites>
-
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-  </RecipeDef>
-  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
-    <defName>WULA_Fix_Arm_Base</defName>
-    <label>修复臂膀</label>
-    <description>将这个合成人的手部、手臂和肩部的破损修复，并恢复该部位生命值。比起修复单个部位花费，时间、资源需求和技能等级要求更高。</description>
-    <jobString>正在修复手部</jobString>
-    <appliedOnFixedBodyParts>
-      <li>Shoulder</li>
-    </appliedOnFixedBodyParts>
-    <uiIconThing>Steel</uiIconThing>
-    <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" />
-    <!-- Always succeeds -->
-    <addsHediff>WULA_Body_Fixed</addsHediff>
-    <recipeUsers Inherit="False">
-      <li>WulaSpecies</li>
-    </recipeUsers>
-
-    <workAmount>3000</workAmount>
-    <skillRequirements>
-      <Medicine>7</Medicine>
-    </skillRequirements>
-    <workSkill>Medicine</workSkill>
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <workSpeedStat>MedicalOperationSpeed</workSpeedStat>
-    <researchPrerequisites>
-      <li>WULA_Repair_Arm_Technology</li>
-    </researchPrerequisites>
-
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>20</count>
-      </li>
-    </ingredients>
-  </RecipeDef>
-  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
-    <defName>WULA_Fix_Leg_Base</defName>
-    <label>修复腿部</label>
-    <description>将这个合成人的腿部和足部破损修复，并恢复这些部位的生命值。比起修复单个部位花费，时间、资源需求和技能等级要求更高。</description>
-    <jobString>正在修复腿部</jobString>
-    <appliedOnFixedBodyParts>
-      <li>Leg</li>
-    </appliedOnFixedBodyParts>
-    <uiIconThing>Steel</uiIconThing>
-    <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" />
-    <!-- Always succeeds -->
-    <addsHediff>WULA_Body_Fixed</addsHediff>
-    <recipeUsers Inherit="False">
-      <li>WulaSpecies</li>
-    </recipeUsers>
-
-    <workAmount>3000</workAmount>
-    <skillRequirements>
-      <Medicine>7</Medicine>
-    </skillRequirements>
-    <workSkill>Medicine</workSkill>
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <workSpeedStat>MedicalOperationSpeed</workSpeedStat>
-    <researchPrerequisites>
-      <li>WULA_Repair_Arm_Technology</li>
-    </researchPrerequisites>
-
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>20</count>
-      </li>
-    </ingredients>
-  </RecipeDef>
-  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
-    <defName>WULA_Fix_Foot_Base</defName>
-    <label>修复足部</label>
-    <description>将这个合成人的足部破损修复，并恢复这些部位的生命值。</description>
-    <jobString>正在修复足部</jobString>
-    <appliedOnFixedBodyParts>
-      <li>Foot</li>
-    </appliedOnFixedBodyParts>
-    <uiIconThing>Steel</uiIconThing>
-    <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" />
-    <!-- Always succeeds -->
-    <addsHediff>WULA_Body_Fixed</addsHediff>
-    <recipeUsers Inherit="False">
-      <li>WulaSpecies</li>
-    </recipeUsers>
-
-    <workAmount>1500</workAmount>
-    <skillRequirements>
-      <Medicine>3</Medicine>
-    </skillRequirements>
-    <workSkill>Medicine</workSkill>
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <workSpeedStat>MedicalOperationSpeed</workSpeedStat>
-    <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
-    </researchPrerequisites>
-
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-  </RecipeDef>
-  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
-    <defName>WULA_Fix_Head_Base</defName>
-    <label>修复头部</label>
-    <description>将这个合成人的头部和颈部的破损修复，并恢复这些部位的生命值。</description>
-    <jobString>正在修复头部</jobString>
-    <appliedOnFixedBodyParts>
-      <li>Neck</li>
-    </appliedOnFixedBodyParts>
-    <uiIconThing>Steel</uiIconThing>
-    <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True" />
-    <!-- Always succeeds -->
-    <addsHediff>WULA_Body_Fixed</addsHediff>
-    <recipeUsers Inherit="False">
-      <li>WulaSpecies</li>
-    </recipeUsers>
-
-    <workAmount>1500</workAmount>
-    <skillRequirements>
-      <Medicine>3</Medicine>
-    </skillRequirements>
-    <workSkill>Medicine</workSkill>
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <workSpeedStat>MedicalOperationSpeed</workSpeedStat>
-    <researchPrerequisites>
-      <li>WULA_Repair_Arm_Technology</li>
-    </researchPrerequisites>
-
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>20</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-  </RecipeDef>
-  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
-    <defName>WULA_Fix_Torso_Base</defName>
-    <label>修复全身</label>
-    <description>此项修复将修复这个合成人全身损伤，并恢复所有部位生命值。比起修复单个部位花费，时间、资源需求和技能等级要求更高。</description>
-    <jobString>正在修复躯干</jobString>
-    <appliedOnFixedBodyParts>
-      <li>Torso</li>
-    </appliedOnFixedBodyParts>
-    <uiIconThing>Steel</uiIconThing>
-    <anesthetize>false</anesthetize>
-    <surgeryOutcomeEffect IsNull="True"/>
-    <!-- Always succeeds -->
-    <addsHediff>WULA_Body_Fixed</addsHediff>
-    <recipeUsers Inherit="False">
-      <li>WulaSpecies</li>
-    </recipeUsers>
-
-    <workAmount>7000</workAmount>
-    <researchPrerequisites>
-      <li>WULA_Repair_All_Technology</li>
-    </researchPrerequisites>
-    <skillRequirements>
-      <Medicine>10</Medicine>
-    </skillRequirements>
-    <workSkill>Medicine</workSkill>
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <workSpeedStat>MedicalOperationSpeed</workSpeedStat>
-
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>50</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>3</count>
-      </li>
-    </ingredients>
-  </RecipeDef>
-  <HediffDef ParentName="ImplantHediffBase">
-    <defName>WULA_Body_Fixed</defName>
-    <hediffClass>Hediff_Implant</hediffClass>
-    <label>已修复</label>
-    <description>这个合成人的破损已被细致地修复。</description>
-    <descriptionShort>这个合成人的破损已被细致地修复。</descriptionShort>
-    <isBad>false</isBad>
-    <duplicationAllowed>true</duplicationAllowed>
-    <keepOnBodyPartRestoration>false</keepOnBodyPartRestoration>    <!-- true -->
-    <comps>
-      <li Class="HediffCompProperties_ChanceToRemove">
-        <intervalTicks>1</intervalTicks>
-        <chance>1</chance>
-      </li>
-    </comps>
-  </HediffDef>
-
   <!-- 抽魂 -->
   <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
     <defName>WULA_Extract_Soul_Wedge</defName>
@@ -1184,9 +910,8 @@
     </statBases>
     <recipeMaker>
       <researchPrerequisites Inherit="False">
-        <li>WULA_New_Synth_Skill_Technology</li>
+        <li>WULA_New_Synth_Skill_2_Technology</li>
       </researchPrerequisites>
-      <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>
@@ -1227,7 +952,7 @@
       </li>
     </comps>
   </HediffDef>
-  <RecipeDef ParentName="SurgeryInstallImplantBase">
+  <!-- <RecipeDef ParentName="SurgeryInstallImplantBase">
     <defName>InstallWulaBackstoryRegenerator</defName>
     <label>install backstory regenerator</label>
     <description>Installs a backstory regenerator.</description>
@@ -1251,6 +976,90 @@
       <li>Brain</li>
     </appliedOnFixedBodyParts>
     <addsHediff>Wula_RegenerateBackstory</addsHediff>
+  </RecipeDef> -->
+
+  <!-- 修复器 -->
+  <ThingDef ParentName="MechSerumBase">
+    <defName>WULA_MechRepairKit</defName>
+    <label>机械乌拉修理套件</label>
+    <description>一种一次性使用的堕落乌拉帝国修理套件，专门用来完全修复机械乌拉。</description>
+    <graphicData>
+      <texPath>Things/Item/Special/MechSerumHealer</texPath> <!-- Using original texture for now -->
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MarketValue>1500</MarketValue> <!-- Slightly higher value -->
+    </statBases>
+    <thingCategories>
+      <li>Drugs</li>
+    </thingCategories>
+    <tradeability>Sellable</tradeability>
+    <comps>
+      <li Class="CompProperties_UseEffect">
+        <compClass>WulaFallenEmpire.CompUseEffect_FixAllHealthConditions</compClass>
+      </li>
+      <li Class="CompProperties_UseEffectPlaySound">
+        <soundOnUsed>MechSerumUsed</soundOnUsed>
+      </li>
+      <li Class="CompProperties_UseEffectDestroySelf" />
+    </comps>
+    <thingSetMakerTags>
+      <li>RewardStandardCore</li>
+    </thingSetMakerTags>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedHealthItemProsthetic</unfinishedThingDef>
+      <recipeUsers>
+        <li>WULA_Cube_Productor_BIO</li>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <useIngredientsForColor>false</useIngredientsForColor>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <displayPriority>650</displayPriority>
+    </recipeMaker>
+    <researchPrerequisites>
+      <li>WULA_Repair_All_Technology</li>
+    </researchPrerequisites>
+  </ThingDef>
+  <RecipeDef>
+    <defName>AdministerWULA_MechRepairKit</defName>
+    <label>修理机械乌拉</label>
+    <description>施用一个机械乌拉修理套件，修复乌拉族目标的所有健康状况。</description>
+    <workerClass>WulaFallenEmpire.Recipe_AdministerWulaMechRepairKit</workerClass> <!-- 更改为自定义的 RecipeWorker -->
+    <jobString>正在修理机械乌拉。</jobString>
+    <workAmount>5000</workAmount> <!-- 增加工作量以适应手术 -->
+    <workSkill>Medicine</workSkill> <!-- 需要医疗技能 -->
+    <skillRequirements>
+      <Medicine>6</Medicine> <!-- 示例：需要医疗技能等级 6 -->
+    </skillRequirements>
+    <recipeUsers>
+      <li>WulaSpecies</li> <!-- 只能在乌拉族上执行 -->
+    </recipeUsers>
+    <targetsBodyPart>false</targetsBodyPart> <!-- 仍然作用于整个小人 -->
+    <anesthetize>false</anesthetize> <!-- 不需要麻醉 -->
+    <dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+    <!-- 此处无需特定的 surgeryOutcomeEffect，因为物品的 CompUseEffect 处理实际治疗 -->
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_MechRepairKit</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WULA_MechRepairKit</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <researchPrerequisites>
+      <li>WULA_Repair_All_Technology</li>
+    </researchPrerequisites>
   </RecipeDef>
 
   <!-- 能量电池 -->
