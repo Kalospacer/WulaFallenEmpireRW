@@ -94,6 +94,24 @@ namespace WulaFallenEmpire
                 return false;
             }
 
+            // Check if there's already an energy source in the eater's room that the eater can reach and use.
+            Thing existingEnergyInRoom = GenClosest.ClosestThingReachable(
+                eater.Position, // Start search from eater's position
+                eater.Map,
+                ThingRequest.ForDef(Ext.energySourceDef),
+                PathEndMode.OnCell,
+                TraverseParms.For(eater, Danger.Deadly, TraverseMode.ByPawn, false), // Use eater's traverse parms
+                9999f,
+                (Thing x) => !x.IsForbidden(eater) && eater.CanReserve(x) && x.GetRoom() == eater.GetRoom()
+            );
+
+            if (existingEnergyInRoom != null)
+            {
+                // If there's already an energy source in the room, no need for the warden to bring another.
+                return false;
+            }
+
+            // Search for an energy source anywhere, now that we've confirmed none are in the room.
             foodSource = GenClosest.ClosestThingReachable(
                 getter.Position,
                 getter.Map,
@@ -101,7 +119,7 @@ namespace WulaFallenEmpire
                 PathEndMode.OnCell,
                 TraverseParms.For(getter),
                 9999f,
-                (Thing x) => !x.IsForbidden(getter) && getter.CanReserve(x) && x.GetRoom() != eater.GetRoom()
+                (Thing x) => !x.IsForbidden(getter) && getter.CanReserve(x)
             );
 
             if (foodSource != null)

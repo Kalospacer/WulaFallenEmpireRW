@@ -486,29 +486,29 @@
           <li>EMP</li>
         </adaptableDamageDefs>
       </li>
-			<li>
-				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.DrawFaceGraphicsComp</compClass>
+			<li MayRequire="Nals.FacialAnimation">
+				<compClass>FacialAnimation.DrawFaceGraphicsComp</compClass>
 			</li>
-			<li>
-				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.HeadControllerComp</compClass>
+			<li MayRequire="Nals.FacialAnimation">
+				<compClass>FacialAnimation.HeadControllerComp</compClass>
 			</li>
-			<li>
-				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.EyeballControllerComp</compClass>
+			<li MayRequire="Nals.FacialAnimation">
+				<compClass>FacialAnimation.EyeballControllerComp</compClass>
 			</li>
-      <li>
-        <compClass MayRequire="Nals.FacialAnimation">FacialAnimation.LidControllerComp</compClass>
+      <li MayRequire="Nals.FacialAnimation">
+        <compClass>FacialAnimation.LidControllerComp</compClass>
       </li>
-      <li>
-				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.BrowControllerComp</compClass>
+      <li MayRequire="Nals.FacialAnimation">
+				<compClass>FacialAnimation.BrowControllerComp</compClass>
 			</li>
-			<li>
-				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.MouthControllerComp</compClass>
+			<li MayRequire="Nals.FacialAnimation">
+				<compClass>FacialAnimation.MouthControllerComp</compClass>
 			</li>
-      <li>
-        <compClass MayRequire="Nals.FacialAnimation">FacialAnimation.SkinControllerComp</compClass>
+      <li MayRequire="Nals.FacialAnimation">
+        <compClass>FacialAnimation.SkinControllerComp</compClass>
       </li>
-      <li>
-				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.FacialAnimationControllerComp</compClass>
+      <li MayRequire="Nals.FacialAnimation">
+				<compClass>FacialAnimation.FacialAnimationControllerComp</compClass>
 			</li>
       <!--<li>
         <compClass>FacialAnimation.EmotionControllerComp</compClass>

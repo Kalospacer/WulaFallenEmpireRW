@@ -3,5 +3,9 @@
 
   <WULA_SkillTrainer_TargetSkillGained>{0}的{1}技能获得了经验。</WULA_SkillTrainer_TargetSkillGained>
   <WULA_SkillTrainer_SkillLoss>{0}的{1}技能经验减少了。</WULA_SkillTrainer_SkillLoss>
+  <WULA_MechSerumHealerAllFixed>{0}的健康状况已全部修复。</WULA_MechSerumHealerAllFixed>
+  <WULA_MechSerumHealerNoConditionsFixed>{0}没有可修复的健康状况。</WULA_MechSerumHealerNoConditionsFixed>
+  <WULA_MechSerumHealerNotWula>{0}不是机械乌拉，无法使用此修理套件。</WULA_MechSerumHealerNotWula>
+  <WULA_WulaMechRepairKit>机械乌拉修理套件</WULA_WulaMechRepairKit>
 
 </LanguageData>
