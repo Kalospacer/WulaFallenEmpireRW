@@ -86,6 +86,7 @@
     <Compile Include="JobDriver_FeedWulaPatient.cs" />
     <Compile Include="WulaStatDefOf.cs" />
     <Compile Include="CompUseEffect_WulaSkillTrainer.cs" />
+    <Compile Include="CompUseEffect_PassionTrainer.cs" />
     <Compile Include="CompUseEffect_FixAllHealthConditions.cs" />
     <Compile Include="Recipe_AdministerWulaMechRepairKit.cs" />
     <Compile Include="Verb_ShootBeamExplosive.cs" />

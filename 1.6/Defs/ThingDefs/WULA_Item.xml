@@ -513,4 +513,238 @@
       </li>
     </comps>
   </ThingDef>
+
+  <!-- ==================== 热情训练器 ==================== -->
+
+  <!-- Melee -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Melee</defName>
+    <label>乌拉帝国兴趣度训练包（格斗）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发格斗兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+       <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <!-- 指定要获得兴趣度的技能 -->
+        <skill>Melee</skill>
+        <!-- 指定获得的兴趣度等级。可以是 Minor (小火，官方翻译好奇) 或 Major (大火，官方翻译狂热) -->
+        <passionGained>Major</passionGained>
+        <!-- 指定随机失去兴趣度的技能数量范围。格式为 min~max -->
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Shooting -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Shooting</defName>
+    <label>乌拉帝国兴趣度训练包（射击）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发射击兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Shooting</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Construction -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Construction</defName>
+    <label>乌拉帝国兴趣度训练包（建造）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发建造兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Construction</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Mining -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Mining</defName>
+    <label>乌拉帝国兴趣度训练包（采矿）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发采矿兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Mining</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Cooking -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Cooking</defName>
+    <label>乌拉帝国兴趣度训练包（烹饪）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发烹饪兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Cooking</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Plants -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Plants</defName>
+    <label>乌拉帝国兴趣度训练包（种植）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发种植兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Plants</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Animals -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Animals</defName>
+    <label>乌拉帝国兴趣度训练包（驯兽）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发驯兽兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Animals</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Crafting -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Crafting</defName>
+    <label>乌拉帝国兴趣度训练包（手工）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发手工兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Crafting</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Artistic -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Artistic</defName>
+    <label>乌拉帝国兴趣度训练包（艺术）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发艺术兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Artistic</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Medicine -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Medicine</defName>
+    <label>乌拉帝国兴趣度训练包（医疗）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发医疗兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Medicine</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Social -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Social</defName>
+    <label>乌拉帝国兴趣度训练包（社交）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发社交兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Social</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Intellectual -->
+  <ThingDef ParentName="WULA_Syhth_Trainer">
+    <defName>WULA_Syhth_Passion_Trainer_Intellectual</defName>
+    <label>乌拉帝国兴趣度训练包（智识）</label>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseNeurotrainer</useJob>
+        <useLabel>使用数据包激发智识兴趣</useLabel>
+        <showUseGizmo>true</showUseGizmo>
+        <userMustHaveHediff>Wula_Synth</userMustHaveHediff>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_PassionTrainer">
+        <skill>Intellectual</skill>
+        <passionGained>Major</passionGained>
+        <passionsLostRange>0~1</passionsLostRange>
+      </li>
+    </comps>
+  </ThingDef>
+
 </Defs>

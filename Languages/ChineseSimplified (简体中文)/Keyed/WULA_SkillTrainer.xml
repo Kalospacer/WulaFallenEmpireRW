@@ -8,4 +8,13 @@
   <WULA_MechSerumHealerNotWula>{0}不是机械乌拉，无法使用此修理套件。</WULA_MechSerumHealerNotWula>
   <WULA_WulaMechRepairKit>机械乌拉修理套件</WULA_WulaMechRepairKit>
 
+  <!-- Passion Trainer Messages -->
+  <WULA_PassionGained>{0}对{1}技能燃起了新的热情！</WULA_PassionGained>
+  <WULA_PassionLost>作为代价，{0}失去了对{1}技能的热情。</WULA_PassionLost>
+  
+  <!-- Vanilla Overrides for Passion Trainer -->
+  <PawnHasNoSkills>{0}没有技能系统，无法使用。</PawnHasNoSkills>
+  <SkillTrainerHasNoSkill>该训练器未指定目标技能。</SkillTrainerHasNoSkill>
+  <SkillDisabled>目标技能已被禁用，无法学习。</SkillDisabled>
+
 </LanguageData>
