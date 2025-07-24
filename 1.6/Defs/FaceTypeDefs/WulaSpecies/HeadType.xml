@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.HeadTypeDef>
+  <FacialAnimation.HeadTypeDef MayRequire="Nals.FacialAnimation">
 	  <defName>Wula_HeadNormal</defName>
     <texPath>Wula/Things/WulaSpecies/Heads_Blank/Normal</texPath>
     <raceName>WulaSpecies</raceName>

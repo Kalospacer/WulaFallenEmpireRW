@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_Goto</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>

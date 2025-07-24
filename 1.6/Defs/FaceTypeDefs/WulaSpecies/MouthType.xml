@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.MouthTypeDef>
+  <FacialAnimation.MouthTypeDef MayRequire="Nals.FacialAnimation">
 		<defName>Wula_MouthNormal</defName>
 		<texPath>Wula/Things/WulaSpecies/Mouth/Normal</texPath>
 		<raceName>WulaSpecies</raceName>

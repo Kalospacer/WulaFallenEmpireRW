@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.SkinShapeDef>
+  <FacialAnimation.SkinShapeDef MayRequire="Nals.FacialAnimation">
   	<defName>normal</defName>
   </FacialAnimation.SkinShapeDef>
 </Defs>

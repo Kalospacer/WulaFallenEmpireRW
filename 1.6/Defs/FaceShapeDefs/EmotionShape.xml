@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.EmotionShapeDef>
+  <FacialAnimation.EmotionShapeDef MayRequire="Nals.FacialAnimation">
   	<defName>normal</defName>
   </FacialAnimation.EmotionShapeDef>
 
-  <FacialAnimation.EmotionShapeDef>
+  <FacialAnimation.EmotionShapeDef MayRequire="Nals.FacialAnimation">
     <defName>blush</defName>
   </FacialAnimation.EmotionShapeDef>
 </Defs>

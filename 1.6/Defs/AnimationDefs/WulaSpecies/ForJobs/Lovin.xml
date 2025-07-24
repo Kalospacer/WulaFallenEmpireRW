@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_Lovin</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>
@@ -50,7 +50,7 @@
     <priority>10400</priority>
   </FacialAnimation.FaceAnimationDef>
 
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_Lovin2</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>
