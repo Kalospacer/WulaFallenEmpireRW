@@ -1,73 +1,112 @@
 using RimWorld;
 using Verse;
 using Verse.AI;
-using System.Linq;
 
 namespace WulaFallenEmpire
 {
-    public class WorkGiver_Warden_DeliverEnergy : WorkGiver_Warden
+    public class WorkGiver_Warden_DeliverEnergy : WorkGiver_Scanner
     {
-        public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
+        private WorkGiverDefExtension_FeedWula ext;
+
+        private WorkGiverDefExtension_FeedWula Ext
         {
-            if (!(t is Pawn prisoner) || !ShouldTakeCareOfPrisoner(pawn, prisoner))
+            get
             {
-                return null;
+                if (ext == null)
+                {
+                    ext = def.GetModExtension<WorkGiverDefExtension_FeedWula>();
+                }
+                return ext;
             }
-
-            Need_WulaEnergy wulaEnergyNeed = prisoner.needs.TryGetNeed<Need_WulaEnergy>();
-            if (wulaEnergyNeed == null || wulaEnergyNeed.CurLevelPercentage > def.GetModExtension<WorkGiverDefExtension_FeedWula>().feedThreshold)
-            {
-                return null;
-            }
-
-            if (EnergyAvailableInRoomTo(prisoner))
-            {
-                return null;
-            }
-
-            if (!TryFindBestEnergySourceFor(pawn, prisoner, out Thing energySource, out _))
-            {
-                return null;
-            }
-
-            Job job = JobMaker.MakeJob(JobDefOf.DeliverFood, energySource, prisoner);
-            job.count = 1;
-            return job;
         }
 
-        private bool EnergyAvailableInRoomTo(Pawn prisoner)
+        public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForDef(ThingDef.Named("WulaSpecies"));
+
+        public override PathEndMode PathEndMode => PathEndMode.ClosestTouch;
+
+        public override Danger MaxPathDanger(Pawn pawn) => Danger.Deadly;
+
+        public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (prisoner.GetRoom() == null)
+            Pawn prisoner = t as Pawn;
+
+            if (prisoner == null || prisoner == pawn || !prisoner.IsPrisonerOfColony || !prisoner.guest.CanBeBroughtFood)
             {
                 return false;
             }
-            
-            var allThings = prisoner.GetRoom().ContainedAndAdjacentThings;
-            foreach (Thing thing in allThings)
+
+            Need_WulaEnergy energyNeed = prisoner.needs.TryGetNeed<Need_WulaEnergy>();
+            if (energyNeed == null)
             {
-                if (thing.def.GetModExtension<ThingDefExtension_EnergySource>() != null)
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
+
+            if (energyNeed.CurLevelPercentage > Ext.feedThreshold)
+            {
+                return false;
+            }
+
+            if (WardenFeedUtility.ShouldBeFed(prisoner))
+            {
+                return false;
+            }
+
+            if (!pawn.CanReserve(prisoner, 1, -1, null, forced))
+            {
+                return false;
+            }
+
+            if (Ext == null || Ext.energySourceDef == null)
+            {
+                Log.ErrorOnce("WorkGiver_Warden_DeliverEnergy is missing the DefModExtension with a valid energySourceDef.", def.GetHashCode());
+                return false;
+            }
+
+            if (!FindBestEnergySourceFor(pawn, prisoner, out _, out _))
+            {
+                JobFailReason.Is("NoFood".Translate());
+                return false;
+            }
+
+            return true;
         }
 
-        private bool TryFindBestEnergySourceFor(Pawn getter, Pawn eater, out Thing energySource, out ThingDef energyDef)
+        public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            energySource = null;
-            energyDef = null;
-
-            var allowedThings = getter.Map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver)
-                .Where(x => x.def.GetModExtension<ThingDefExtension_EnergySource>() != null);
-
-            Thing thing = GenClosest.ClosestThing_Global(eater.Position, allowedThings, 99999f, 
-                t => t.IngestibleNow && !t.IsForbidden(getter) && getter.CanReserve(t));
-
-            if (thing != null)
+            Pawn prisoner = (Pawn)t;
+            if (FindBestEnergySourceFor(pawn, prisoner, out Thing energySource, out _))
             {
-                energySource = thing;
-                energyDef = thing.def;
+                Job job = JobMaker.MakeJob(JobDefOf.DeliverFood, energySource, prisoner);
+                job.count = 1;
+                job.targetC = RCellFinder.SpotToChewStandingNear(prisoner, energySource);
+                return job;
+            }
+            return null;
+        }
+
+        private bool FindBestEnergySourceFor(Pawn getter, Pawn eater, out Thing foodSource, out ThingDef foodDef)
+        {
+            foodSource = null;
+            foodDef = null;
+
+            if (Ext == null || Ext.energySourceDef == null)
+            {
+                return false;
+            }
+
+            foodSource = GenClosest.ClosestThingReachable(
+                getter.Position,
+                getter.Map,
+                ThingRequest.ForDef(Ext.energySourceDef),
+                PathEndMode.OnCell,
+                TraverseParms.For(getter),
+                9999f,
+                (Thing x) => !x.IsForbidden(getter) && getter.CanReserve(x) && x.GetRoom() != eater.GetRoom()
+            );
+
+            if (foodSource != null)
+            {
+                foodDef = foodSource.def;
                 return true;
             }
 
