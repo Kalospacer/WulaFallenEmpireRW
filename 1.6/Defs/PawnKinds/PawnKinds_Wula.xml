@@ -19,7 +19,7 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
-    <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">200</minGenerationAge>
+    <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">18</minGenerationAge>
     <forceNormalGearQuality>true</forceNormalGearQuality>
     <combatPower>0</combatPower>
     <initialWillRange>10~20</initialWillRange>
@@ -63,7 +63,7 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
-    <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">200</minGenerationAge>
+    <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">18</minGenerationAge>
     <combatPower>0</combatPower>
     <initialWillRange>10~20</initialWillRange>
     <initialResistanceRange>10~20</initialResistanceRange>
@@ -289,8 +289,8 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Things/WULA_Cat/WULA_Cat_Thin</texPath>
-          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <texPath>Wula/Things/WULA_DM_Cat/WULA_Cat_Thin</texPath>
+          <maskPath>Wula/Things/WULA_DM_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>1.1</drawSize>

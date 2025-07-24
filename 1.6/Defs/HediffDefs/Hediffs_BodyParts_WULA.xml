@@ -206,7 +206,7 @@
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <recipeMaker Inherit="False">
-      <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite>
       <recipeUsers>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
@@ -239,13 +239,14 @@
     <defName>WULA_Energy_Furnace_Hediff_Regulator</defName>
     <label>调节组件</label>
     <description>安装于能源炉的特殊改件，提高能量上限并降低能量消耗速度。</description>
+    <maxSeverity>1</maxSeverity>
     <!-- <spawnThingOnRemoved>WULA_Energy_Furnace_Regulator</spawnThingOnRemoved> -->
     <addedPartProps>
       <partEfficiency>1.0</partEfficiency>
     </addedPartProps>
     <stages>
       <li>
-        <minSeverity>0</minSeverity>
+        <minSeverity>0.01</minSeverity>
         <statOffsets>          <!-- StatOffset 是加法偏移量，正数增加，负数减少 -->
           <WulaEnergyMaxLevelOffset>0.5</WulaEnergyMaxLevelOffset>
         </statOffsets>
@@ -983,6 +984,7 @@
     <defName>WULA_MechRepairKit</defName>
     <label>机械乌拉修理套件</label>
     <description>一种一次性使用的堕落乌拉帝国修理套件，专门用来完全修复机械乌拉。</description>
+    <descriptionHyperlinks><RecipeDef>AdministerWULA_MechRepairKit</RecipeDef></descriptionHyperlinks>
     <graphicData>
       <texPath>Things/Item/Special/MechSerumHealer</texPath> <!-- Using original texture for now -->
       <graphicClass>Graphic_Single</graphicClass>
@@ -1004,6 +1006,10 @@
       </li>
       <li Class="CompProperties_UseEffectDestroySelf" />
     </comps>
+    <costList>
+      <Steel>25</Steel>
+      <WULA_Charge_Cube>2</WULA_Charge_Cube>
+    </costList>
     <thingSetMakerTags>
       <li>RewardStandardCore</li>
     </thingSetMakerTags>
@@ -1019,16 +1025,17 @@
       <effectWorking>Smith</effectWorking>
       <soundWorking>Recipe_Machining</soundWorking>
       <displayPriority>650</displayPriority>
+      <researchPrerequisites>
+        <li>WULA_Repair_All_Technology</li>
+      </researchPrerequisites>
     </recipeMaker>
-    <researchPrerequisites>
-      <li>WULA_Repair_All_Technology</li>
-    </researchPrerequisites>
   </ThingDef>
   <RecipeDef>
     <defName>AdministerWULA_MechRepairKit</defName>
     <label>修理机械乌拉</label>
     <description>施用一个机械乌拉修理套件，修复乌拉族目标的所有健康状况。</description>
     <workerClass>WulaFallenEmpire.Recipe_AdministerWulaMechRepairKit</workerClass> <!-- 更改为自定义的 RecipeWorker -->
+    <descriptionHyperlinks><ThingDef>WULA_MechRepairKit</ThingDef></descriptionHyperlinks>
     <jobString>正在修理机械乌拉。</jobString>
     <workAmount>5000</workAmount> <!-- 增加工作量以适应手术 -->
     <workSkill>Medicine</workSkill> <!-- 需要医疗技能 -->
@@ -1057,9 +1064,6 @@
         <li>WULA_MechRepairKit</li>
       </thingDefs>
     </fixedIngredientFilter>
-    <researchPrerequisites>
-      <li>WULA_Repair_All_Technology</li>
-    </researchPrerequisites>
   </RecipeDef>
 
   <!-- 能量电池 -->

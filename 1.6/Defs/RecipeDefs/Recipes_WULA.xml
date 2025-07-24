@@ -104,7 +104,7 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>2000</workAmount>
+    <workAmount>200</workAmount>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -144,7 +144,7 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>1000</workAmount>
+    <workAmount>100</workAmount>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -176,7 +176,7 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>3500</workAmount>
+    <workAmount>350</workAmount>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">

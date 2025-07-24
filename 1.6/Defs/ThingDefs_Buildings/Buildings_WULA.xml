@@ -295,7 +295,7 @@
     <castEdgeShadows>true</castEdgeShadows>
     <fillPercent>0.5</fillPercent>
     <staticSunShadowHeight>0</staticSunShadowHeight>
-    <researchPrerequisites>
+    <researchPrerequisites Inherit="False">
       <li>WULA_Base_Technology</li>
     </researchPrerequisites>
     <stuffCategories Inherit="False" IsNull="True" />

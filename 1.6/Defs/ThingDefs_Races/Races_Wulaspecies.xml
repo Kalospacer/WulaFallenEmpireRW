@@ -265,15 +265,6 @@
           <li>WULA_Charge_Cube</li>
         </foodList>
         <onlyEatRaceRestrictedFood>true</onlyEatRaceRestrictedFood>
-        <!-- 允许的手术类型 -->
-        <recipeList>
-          <li>WULA_Fix_Hand_Base</li>
-          <li>WULA_Fix_Arm_Base</li>
-          <li>WULA_Fix_Leg_Base</li>
-          <li>WULA_Fix_Foot_Base</li>
-          <li>WULA_Fix_Head_Base</li>
-          <li>WULA_Fix_Torso_Base</li>
-        </recipeList>
         <!-- 可以穿戴的衣服 -->
         <apparelList>
           <li>WULA_Official_Uniform</li>
@@ -1082,7 +1073,7 @@
     <defName>Mech_WULA_Cat_DM</defName>
     <label>CAt-96"暗物质猫猫"</label>
     <description>乌拉帝国的一种小型机械体，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作。这种型号的乌拉猫猫内置了一台不稳定暗物质引擎，这使得其无需充电，但是在死亡时会产生巨大的爆炸。</description>
-    <uiIconPath>Wula/Things/WULA_Cat/WULA_Cat_Thin_south</uiIconPath>
+    <uiIconPath>Wula/Things/WULA_DM_Cat/WULA_Cat_Thin_south</uiIconPath>
 
     <statBases>
       <MoveSpeed>6</MoveSpeed>

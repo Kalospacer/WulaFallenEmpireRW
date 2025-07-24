@@ -257,7 +257,7 @@
     <description>获取乌拉帝国机械体CAt-96"暗物质猫猫"的生产权限，一种搭载了暗物质引擎的劳工型机械体，无需充电，但是死亡时会产生湮灭爆炸。</description>
     <baseCost>2000</baseCost>
     <researchViewX>9.00</researchViewX>
-    <researchViewY>5.60</researchViewY>
+    <researchViewY>5.50</researchViewY>
     <prerequisites>
       <li>WULA_Machine_Productor_1_Technology</li>
       <li>WULA_Dark_Matter_Technology</li>
@@ -290,9 +290,9 @@
     <defName>WULA_New_Synth_Skill_2_Technology</defName>
     <label>人格微调套件</label>
     <description>开发用于从上行链路下载新人格和兴趣调整数据包的套件，以进一步调整合成人的发展定位。</description>
-    <baseCost>400</baseCost>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>5.70</researchViewY>
+    <baseCost>600</baseCost>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>4.70</researchViewY>
     <prerequisites>
       <li>WULA_New_Synth_Skill_Technology</li>
     </prerequisites>
@@ -307,6 +307,7 @@
     <prerequisites>
       <li>WULA_Adv_WorkTable_Technology</li>
       <li>WULA_Repair_All_Technology</li>
+      <li>WULA_New_Synth_Skill_2_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">

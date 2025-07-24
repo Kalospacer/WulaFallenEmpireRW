@@ -953,7 +953,7 @@
         <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
 
         <!-- 视觉与音效 -->
-        <color>(0.9, 0.8, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
         <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
         <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
@@ -1021,7 +1021,7 @@
       <EquipDelay>15</EquipDelay>
     </statBases>
     <equippedStatOffsets>
-      <IncomingDamageFactor>-0.1</IncomingDamageFactor>
+      <IncomingDamageFactor>-0.075</IncomingDamageFactor>
       <AimingDelayFactor>-0.25</AimingDelayFactor>
       <ShootingAccuracyPawn>2</ShootingAccuracyPawn>
     </equippedStatOffsets>
@@ -1105,7 +1105,7 @@
         <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
 
         <!-- 视觉与音效 -->
-        <color>(0.9, 0.8, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
         <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
         <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
@@ -1197,7 +1197,7 @@
       <EquipDelay>15</EquipDelay>
     </statBases>
     <equippedStatOffsets>
-      <IncomingDamageFactor>-0.5</IncomingDamageFactor>
+      <IncomingDamageFactor>-0.1</IncomingDamageFactor>
     </equippedStatOffsets>
     <apparel>
       <tags>
@@ -1374,7 +1374,7 @@
         <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
 
         <!-- 视觉与音效 -->
-        <color>(0.9, 0.8, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
         <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
         <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->

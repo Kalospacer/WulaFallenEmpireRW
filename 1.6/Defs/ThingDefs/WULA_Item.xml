@@ -59,7 +59,6 @@
       <MarketValue>24</MarketValue>
       <Mass>0.3</Mass>
       <WorkToMake>450</WorkToMake>
-      <Nutrition>1</Nutrition> <!-- Reverted to 1 as per user request -->
     </statBases>
     <!-- <ingestible>
       <baseIngestTicks>270</baseIngestTicks>
@@ -544,7 +543,7 @@
       <WorkToMake>30000</WorkToMake>
     </statBases>
     <graphicData>
-      <texPath>Wula/Item/WULA_Syhth_Trainer</texPath>
+      <texPath>Wula/Item/WULA_Syhth_Passion_Trainer</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <researchPrerequisites>

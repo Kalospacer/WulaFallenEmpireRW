@@ -1777,7 +1777,7 @@
         <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
         <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
 
-        <screenShakeFactor>0.75</screenShakeFactor>
+        <screenShakeFactor>0.35</screenShakeFactor>
 
         <!-- 火焰效果 -->
         <beamChanceToStartFire>0.6</beamChanceToStartFire>
@@ -1877,7 +1877,7 @@
         <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
         <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
 
-        <screenShakeFactor>0.75</screenShakeFactor>
+        <screenShakeFactor>0.45</screenShakeFactor>
 
         <!-- 火焰效果 -->
         <beamChanceToStartFire>0.6</beamChanceToStartFire>
