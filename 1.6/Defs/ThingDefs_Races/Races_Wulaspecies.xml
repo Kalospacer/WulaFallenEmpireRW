@@ -11,15 +11,6 @@
       <generalSettings>
         <!-- 男性生成几率 -->
         <maleGenderProbability>0</maleGenderProbability>
-        <!-- 禁止生成的特质 -->
-        <disallowedTraits>
-          <li>
-            <defName Degree="-2">Beauty</defName>
-          </li>
-          <li>
-            <defName Degree="-1">Beauty</defName>
-          </li>
-        </disallowedTraits>
         <!-- 无视年龄疾病 -->
         <immuneToAge>true</immuneToAge>
 				<!-- 在口角中造成的最大伤害 -->
@@ -496,28 +487,28 @@
         </adaptableDamageDefs>
       </li>
 			<li>
-				<compClass>FacialAnimation.DrawFaceGraphicsComp</compClass>
+				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.DrawFaceGraphicsComp</compClass>
 			</li>
 			<li>
-				<compClass>FacialAnimation.HeadControllerComp</compClass>
+				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.HeadControllerComp</compClass>
 			</li>
 			<li>
-				<compClass>FacialAnimation.EyeballControllerComp</compClass>
+				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.EyeballControllerComp</compClass>
 			</li>
       <li>
-        <compClass>FacialAnimation.LidControllerComp</compClass>
+        <compClass MayRequire="Nals.FacialAnimation">FacialAnimation.LidControllerComp</compClass>
       </li>
       <li>
-				<compClass>FacialAnimation.BrowControllerComp</compClass>
+				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.BrowControllerComp</compClass>
 			</li>
 			<li>
-				<compClass>FacialAnimation.MouthControllerComp</compClass>
+				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.MouthControllerComp</compClass>
 			</li>
       <li>
-        <compClass>FacialAnimation.SkinControllerComp</compClass>
+        <compClass MayRequire="Nals.FacialAnimation">FacialAnimation.SkinControllerComp</compClass>
       </li>
       <li>
-				<compClass>FacialAnimation.FacialAnimationControllerComp</compClass>
+				<compClass MayRequire="Nals.FacialAnimation">FacialAnimation.FacialAnimationControllerComp</compClass>
 			</li>
       <!--<li>
         <compClass>FacialAnimation.EmotionControllerComp</compClass>

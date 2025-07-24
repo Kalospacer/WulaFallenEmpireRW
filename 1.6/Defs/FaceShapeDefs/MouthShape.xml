@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.MouthShapeDef>
+  <FacialAnimation.MouthShapeDef MayRequire="Nals.FacialAnimation">
   	<defName>normal</defName>
   </FacialAnimation.MouthShapeDef>
 
-  <FacialAnimation.MouthShapeDef>
+  <FacialAnimation.MouthShapeDef MayRequire="Nals.FacialAnimation">
     <defName>open</defName>
   </FacialAnimation.MouthShapeDef>
 </Defs>

@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.EyeballTypeDef>
+  <FacialAnimation.EyeballTypeDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_EyeNormal</defName>
 	  <!-- <texPath>Things/Pawn/Humanlike/Eyes/Normal</texPath> -->
     <raceName>WulaSpecies</raceName>
     <texPath>Wula/Things/WulaSpecies/Eyes/Normal</texPath>
 	  <altMaskPath>Wula/Things/WulaSpecies/Eyes/Common</altMaskPath>
     <shader>Map/CutoutSkinOverlay</shader>
-    <minColor>RGB(205,205,205)</minColor>
-    <maxColor>RGB(255,255,255)</maxColor>
-    <!-- <enableUnisexTexPath>True</enableUnisexTexPath> -->
+    <minColor>RGB(39,155,153)</minColor>
+    <maxColor>RGB(113,199,231)</maxColor>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.EyeballTypeDef>
 </Defs>

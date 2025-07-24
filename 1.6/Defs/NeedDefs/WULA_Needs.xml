@@ -18,7 +18,7 @@
       <li Class="WulaFallenEmpire.NeedDefExtension_Energy">
         <fallPerDay>1</fallPerDay>
         <maxLevel>1.0</maxLevel>
-        <deliverEnergyThreshold>0.05</deliverEnergyThreshold>
+        <!-- <deliverEnergyThreshold>0</deliverEnergyThreshold> -->
       </li>
     </modExtensions>
   </NeedDef>

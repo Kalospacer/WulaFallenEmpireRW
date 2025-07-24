@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.BrowShapeDef>
+  <FacialAnimation.BrowShapeDef MayRequire="Nals.FacialAnimation">
   	<defName>normal</defName>
   </FacialAnimation.BrowShapeDef>
 
-  <FacialAnimation.BrowShapeDef>
+  <FacialAnimation.BrowShapeDef MayRequire="Nals.FacialAnimation">
     <defName>flat</defName>
   </FacialAnimation.BrowShapeDef>
 
-  <FacialAnimation.BrowShapeDef>
+  <FacialAnimation.BrowShapeDef MayRequire="Nals.FacialAnimation">
     <defName>angled</defName>
   </FacialAnimation.BrowShapeDef>
 
-  <FacialAnimation.BrowShapeDef>
+  <FacialAnimation.BrowShapeDef MayRequire="Nals.FacialAnimation">
     <defName>s-shaped</defName>
   </FacialAnimation.BrowShapeDef>
 </Defs>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.LidTypeDef>
+  <FacialAnimation.LidTypeDef MayRequire="Nals.FacialAnimation">
 	  <defName>Wula_LidNormal</defName>
 	  <texPath>Wula/Things/WulaSpecies/Lids/Normal</texPath>
     <raceName>WulaSpecies</raceName>

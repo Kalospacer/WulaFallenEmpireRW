@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <!-- <FacialAnimation.EmotionTypeDef>
+  <!-- <FacialAnimation.EmotionTypeDef MayRequire="Nals.FacialAnimation">
 	<defName>Wula_EmotionNormal</defName>
 	<texPath>Wula/Things/WulaSpecies/Emotions/Normal</texPath>
 	<raceName>WulaSpecies</raceName>

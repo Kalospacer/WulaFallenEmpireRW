@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_WaitCombat</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>
@@ -17,7 +17,7 @@
     <priority>10200</priority>
   </FacialAnimation.FaceAnimationDef>
 
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_Wait_Combat_Rare</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>

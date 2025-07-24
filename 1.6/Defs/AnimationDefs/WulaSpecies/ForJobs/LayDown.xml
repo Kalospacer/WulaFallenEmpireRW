@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_laydown</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>
@@ -21,7 +21,7 @@
     <applyWhenStandingOnly>true</applyWhenStandingOnly>
   </FacialAnimation.FaceAnimationDef>
 
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_laydown2</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>
@@ -39,7 +39,7 @@
     <applyWhenStandingOnly>true</applyWhenStandingOnly>
   </FacialAnimation.FaceAnimationDef>
 
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_laydown3</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>

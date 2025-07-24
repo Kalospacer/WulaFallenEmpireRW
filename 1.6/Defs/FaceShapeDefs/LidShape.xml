@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.LidShapeDef>
+  <FacialAnimation.LidShapeDef MayRequire="Nals.FacialAnimation">
   	<defName>normal</defName>
   </FacialAnimation.LidShapeDef>
 
-  <FacialAnimation.LidShapeDef>
+  <FacialAnimation.LidShapeDef MayRequire="Nals.FacialAnimation">
 	  <defName>close</defName>
     <disableEyeball>true</disableEyeball>
   </FacialAnimation.LidShapeDef>

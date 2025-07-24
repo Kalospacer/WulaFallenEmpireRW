@@ -31,10 +31,8 @@
 						<li>Neck</li>
 					</groups>
 					<parts>
-						<!-- 头部 -->
 						<li>
 							<def>Head</def>
-							<customLabel>头部</customLabel>
 							<coverage>0.80</coverage>
 							<groups>
 								<li>UpperHead</li>
@@ -44,47 +42,67 @@
 							<parts>
 								<li>
 									<def>Skull</def>
-									<customLabel>颅骨</customLabel>
 									<coverage>0.18</coverage>
 									<depth>Inside</depth>
 									<groups>
 										<li>UpperHead</li>
+										<li>Eyes</li>
 										<li>FullHead</li>
 									</groups>
 									<parts>
 										<li>
 											<def>Brain</def>
-											<customLabel>生物处理器</customLabel>
 											<coverage>0.8</coverage>
 											<groups>
 												<li>UpperHead</li>
+												<li>Eyes</li>
 												<li>FullHead</li>
+											</groups>
+										</li>
+										<!-- 天线 -->
+										<li>
+											<def>WULA_Addons_Antenna_Bodypart</def>
+											<coverage>0.1</coverage>
+											<groups>
+												<li>UpperHead</li>
 											</groups>
 										</li>
 									</parts>
 								</li>
 								<li>
 									<def>Eye</def>
-									<customLabel>左视觉传感器</customLabel>
+									<customLabel>left eye</customLabel>
 									<coverage>0.07</coverage>
 									<groups>
 										<li>FullHead</li>
 										<li>Eyes</li>
 									</groups>
+									<woundAnchorTag>LeftEye</woundAnchorTag>
+									<flipGraphic>true</flipGraphic>
+									<visibleHediffRots>
+										<li>South</li>
+										<li>West</li>
+									</visibleHediffRots>
 								</li>
 								<li>
 									<def>Eye</def>
-									<customLabel>右视觉传感器</customLabel>
+									<customLabel>right eye</customLabel>
 									<coverage>0.07</coverage>
 									<groups>
 										<li>FullHead</li>
 										<li>Eyes</li>
 									</groups>
+									<woundAnchorTag>RightEye</woundAnchorTag>
+									<visibleHediffRots>
+										<li>South</li>
+										<li>East</li>
+									</visibleHediffRots>
 								</li>
 								<li>
 									<def>Ear</def>
-									<customLabel>左听觉传感器</customLabel>
+									<customLabel>left ear</customLabel>
 									<coverage>0.07</coverage>
+									<flipGraphic>true</flipGraphic>
 									<groups>
 										<li>UpperHead</li>
 										<li>FullHead</li>
@@ -92,7 +110,7 @@
 								</li>
 								<li>
 									<def>Ear</def>
-									<customLabel>右听觉传感器</customLabel>
+									<customLabel>right ear</customLabel>
 									<coverage>0.07</coverage>
 									<groups>
 										<li>UpperHead</li>
@@ -101,20 +119,29 @@
 								</li>
 								<li>
 									<def>Nose</def>
-									<customLabel>嗅觉传感器</customLabel>
 									<coverage>0.10</coverage>
 									<groups>
 										<li>FullHead</li>
-										<li>Teeth</li>
 									</groups>
 								</li>
-								<!-- 天线 -->
 								<li>
-									<def>WULA_Addons_Antenna_Bodypart</def>
-									<coverage>0.1</coverage>
+									<def>Jaw</def>
+									<coverage>0.15</coverage>
 									<groups>
-										<li>UpperHead</li>
+										<li>Teeth</li>
+										<li>FullHead</li>
+										<li>Mouth</li>
 									</groups>
+									<parts>
+										<li>
+											<def>Tongue</def>
+											<coverage>0.001</coverage>
+											<depth>Inside</depth>
+											<groups>
+												<li>FullHead</li>
+											</groups>
+										</li>
+									</parts>
 								</li>
 							</parts>
 						</li>

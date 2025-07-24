@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_AttackMelee</defName>
 		<raceName>WulaSpecies</raceName>
     <animationFrames>
@@ -19,7 +19,7 @@
     <priority>10200</priority>
   </FacialAnimation.FaceAnimationDef>
 
-  <FacialAnimation.FaceAnimationDef>
+  <FacialAnimation.FaceAnimationDef MayRequire="Nals.FacialAnimation">
     <defName>AttackMelee2</defName>
     <animationFrames>
       <li>
