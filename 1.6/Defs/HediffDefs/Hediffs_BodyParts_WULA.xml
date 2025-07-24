@@ -913,6 +913,7 @@
       <researchPrerequisites Inherit="False">
         <li>WULA_New_Synth_Skill_2_Technology</li>
       </researchPrerequisites>
+      <researchPrerequisite Inherit="False"/>
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>

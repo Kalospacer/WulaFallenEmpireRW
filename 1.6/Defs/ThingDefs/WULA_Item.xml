@@ -60,6 +60,9 @@
       <Mass>0.3</Mass>
       <WorkToMake>450</WorkToMake>
     </statBases>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
     <!-- <ingestible>
       <baseIngestTicks>270</baseIngestTicks>
       <preferability>MealSimple</preferability>

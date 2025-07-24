@@ -628,6 +628,67 @@
     <designationHotKey>Misc1</designationHotKey>
   </ThingDef>
 
+  <!-- 水培 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Nourishment_Center_Unit</defName>
+    <label>乌拉帝国生命中心单元</label>
+    <description>乌拉帝国生命中心单元</description>
+    <noRightClickDraftAttack>true</noRightClickDraftAttack>
+    <thingClass>Building_PlantGrower</thingClass>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Nourishment_Center_Unit</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(5.4, 5.4)</drawSize>
+    </graphicData>
+    <castEdgeShadows>true</castEdgeShadows>
+    <altitudeLayer>LowPlant</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>2</pathCost>
+    <constructEffect>ConstructMetal</constructEffect>
+    <fillPercent>0.30</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <statBases>
+      <WorkToBuild>3200</WorkToBuild>
+      <MaxHitPoints>3200</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <Cleanliness>4</Cleanliness>
+    </statBases>
+    <size>(5,5)</size>
+    <costList>
+      <SRA_Core>5</SRA_Core>
+    </costList>
+    <fertility>8</fertility>
+    <building>
+      <defaultPlantToGrow>Plant_Rice</defaultPlantToGrow>
+      <sowTag>Ground</sowTag>
+      <buildingTags>
+        <li>Production</li>
+      </buildingTags>
+    </building>
+    <tickerType>Rare</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>80</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Glower">
+        <overlightRadius>3</overlightRadius>
+        <glowRadius>3</glowRadius>
+        <glowColor>(255,255,255,0)</glowColor>
+        <colorPickerEnabled>true</colorPickerEnabled>
+        <darklightToggle>true</darklightToggle>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>SRA_tech_30_7411</li>
+    </researchPrerequisites>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <designationCategory>SRA_Building</designationCategory>
+  </ThingDef>
+
   <!-- 联络台 -->
   <!-- <ThingDef ParentName="BuildingBase">
     <defName>WULA_Communicator_Station</defName>
