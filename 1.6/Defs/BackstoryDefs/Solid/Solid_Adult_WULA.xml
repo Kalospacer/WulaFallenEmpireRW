@@ -1043,4 +1043,51 @@
       <!-- <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality> -->
     </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
+
+  <!-- 乌拉反常网络固定背景 -->
+  <AlienRace.AlienBackstoryDef>
+    <defName>WULA_Adult_Backstory999</defName>
+    <slot>Adulthood</slot>
+    <title>破碎人格</title>
+    <titleShort>破碎人格</titleShort>
+    <description>[PAWN_possessive]人格矩阵完全损坏，已是某个集体意识的一部分。</description>
+    <skillGains>
+      <Shooting>-5</Shooting>
+      <Melee>-5</Melee>
+      <Construction>-5</Construction>
+      <Mining>-5</Mining>
+      <Cooking>-5</Cooking>
+      <Plants>-5</Plants>
+      <Animals>-5</Animals>
+      <Crafting>-5</Crafting>
+      <Artistic>-5</Artistic>
+      <Medicine>-5</Medicine>
+      <Social>-5</Social>
+      <Intellectual>-5</Intellectual>
+    </skillGains>
+    <spawnCategories>
+      <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+    </spawnCategories>
+    <bodyTypeGlobal>Thin</bodyTypeGlobal>
+    <bodyTypeFemale>Thin</bodyTypeFemale>
+    <bodyTypeMale>Thin</bodyTypeMale>
+    <forcedTraitsChance>
+      <li>
+        <defName Degree="0">WULA_Trait_Broken_Personality</defName>
+        <chance>100</chance>
+      </li>
+    </forcedTraitsChance>
+    <workDisables>AllWork</workDisables>
+    <disallowedTraits>
+      <WULA_Trait_Knight>1</WULA_Trait_Knight>
+      <WULA_Trait_Knight>2</WULA_Trait_Knight>
+      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
+      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
+      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
+      <WULA_Trait_Nun>0</WULA_Trait_Nun>
+      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
+      <WULA_Trait_Connector>0</WULA_Trait_Connector>
+      <!-- <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality> -->
+    </disallowedTraits>
+  </AlienRace.AlienBackstoryDef>
 </Defs>

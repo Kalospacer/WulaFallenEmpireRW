@@ -57,6 +57,9 @@
         <cooldownTime>1.25</cooldownTime>
       </li>
     </tools>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Base_AR</defName>
@@ -106,6 +109,9 @@
       <Steel>60</Steel>
       <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
   </ThingDef>
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>WULA_MW_Constructor_Hammer</defName>
@@ -138,9 +144,9 @@
         <armorPenetration>0.8</armorPenetration>
       </li>
     </tools>
-    <weaponTags>
-      <li>Wula_Constructor_Cat_Weapon</li>
-    </weaponTags>
+    <recipeMaker>
+      <recipeUsers Inherit="False" />
+    </recipeMaker>
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Base_AR_Cat</defName>
@@ -198,6 +204,9 @@
         <cooldownTime>2.2</cooldownTime>
       </li>
     </tools>
+    <recipeMaker>
+      <recipeUsers Inherit="False" />
+    </recipeMaker>
   </ThingDef>
   
   <!-- 动力破墙锤 -->
@@ -212,9 +221,9 @@
       <drawSize>1.35</drawSize>
     </graphicData>
     <equippedAngleOffset>-65</equippedAngleOffset>
-    <!-- <weaponTags>
-      <li>Spear</li>
-    </weaponTags> -->
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T3</li>
+    </weaponTags>
     <techLevel>Spacer</techLevel>
     <costStuffCount>50</costStuffCount>
     <statBases>
@@ -268,6 +277,9 @@
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T2</li>
+    </weaponTags>
     <equippedAngleOffset>-65</equippedAngleOffset>
     <techLevel>Spacer</techLevel>
     <statBases>
@@ -485,6 +497,9 @@
       <displayPriority>450</displayPriority>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T2</li>
+    </weaponTags>
   </ThingDef>
   <!-- 双头刀 -->
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
@@ -543,6 +558,9 @@
       <researchPrerequisite>WULA_Synth_Weapon_2_Melee_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T2</li>
+    </weaponTags>
   </ThingDef>
 
   <!-- 法杖 -->
@@ -1357,6 +1375,9 @@
     <label>DCs-7"黑曜石"</label>
     <description>乌拉帝国配发的近距离霰弹枪，以威力巨大的梭镖破甲弹为核心，专注于在短距离上的快速反应战斗和持续性压制能力</description>
     <techLevel>Ultra</techLevel>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T2</li>
+    </weaponTags>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_StarDrift_SG</texPath>
@@ -1421,6 +1442,9 @@
     <label>FLm-43"榍石"</label>
     <description>乌拉帝国的通用机枪，负责在班组中提供如暴雨倾泻的高速连射光束流，产生的高温熔烧效果将融化一切敌人的装甲。</description>
     <techLevel>Ultra</techLevel>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T2</li>
+    </weaponTags>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Sphene_MG</texPath>
@@ -1470,6 +1494,9 @@
     <label>KRc-7"熔岩"</label>
     <description>一般由乌拉帝国跳帮组或骑士军团携带的手持火炮，能够在锁定后连续发射三发炮弹，夷平敌人的复合型工事或舰船内壁，并给敌人送来最炽热的消亡。</description>
     <techLevel>Ultra</techLevel>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_Wall_Destoryer</li>
+    </weaponTags>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Handle_Cannon</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -1564,6 +1591,9 @@
     <label>FLm-78"萤石"</label>
     <description>一般由乌拉帝国跳帮组或骑士军团携带的自动炮，在拥有长射程的同时火力也非常凶猛，会造成区域性的爆炸效果以控制集群敌军。</description>
     <techLevel>Ultra</techLevel>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T3</li>
+    </weaponTags>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_AutoCannon</texPath>
@@ -1649,6 +1679,9 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.65</drawSize>
     </graphicData>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T3</li>
+    </weaponTags>
     <uiIconScale>0.75</uiIconScale>
     <recipeMaker>
       <recipeUsers Inherit="False">
@@ -1727,6 +1760,9 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.2</drawSize>
     </graphicData>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T4</li>
+    </weaponTags>
     <uiIconScale>0.9</uiIconScale>
     <soundInteract>Interact_ChargeRifle</soundInteract>
     <recipeMaker>
@@ -1822,6 +1858,9 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.5</drawSize>
     </graphicData>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T4</li>
+    </weaponTags>
     <uiIconScale>0.8</uiIconScale>
     <soundInteract>Interact_ChargeRifle</soundInteract>
     <recipeMaker>

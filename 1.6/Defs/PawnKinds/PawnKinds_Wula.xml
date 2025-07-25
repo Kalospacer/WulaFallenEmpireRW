@@ -303,4 +303,203 @@
     <techHediffsMoney>9999~9999</techHediffsMoney>
     <techHediffsChance>1</techHediffsChance>
   </PawnKindDef>
+
+
+  <!-- 乌拉族反常网络 -->
+  <PawnKindDef Name="Wula_Broken_Personality_Pawn_Base" Abstract="True">
+    <race>WulaSpecies</race>
+    <defaultFactionDef>Wula_Broken_Personality_Faction</defaultFactionDef>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <invNutrition>0</invNutrition>
+    <itemQuality>Normal</itemQuality>
+    <backstoryCryptosleepCommonality>0.08</backstoryCryptosleepCommonality>
+    <maxGenerationAge>3500</maxGenerationAge>
+    <combatEnhancingDrugsChance>0</combatEnhancingDrugsChance>
+    <combatEnhancingDrugsCount>0</combatEnhancingDrugsCount>
+    <biocodeWeaponChance>0</biocodeWeaponChance>
+    <gearHealthRange>0.7~2.3</gearHealthRange>
+    <initialWillRange>5~10</initialWillRange>
+    <apparelTags>
+      <li>Wula_Inner</li>
+    </apparelTags>
+    <apparelMoney>400~700</apparelMoney>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <weaponMoney>500~500</weaponMoney>
+    <techHediffsChance>0</techHediffsChance>
+    <techHediffsMoney>0</techHediffsMoney>
+    <inventoryOptions>
+      <skipChance>0</skipChance>
+      <subOptionsChooseOne>
+        <li>
+          <thingDef>WULA_Charge_Cube</thingDef>
+          <countRange>5</countRange>
+        </li>
+      </subOptionsChooseOne>
+    </inventoryOptions>
+  </PawnKindDef>
+  <!-- 低级子个体 -->
+  <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
+    <defName>Wula_Broken_Personality_Pawn_1</defName>
+    <label>服务子个体</label>
+    <combatPower>160</combatPower>
+    <apparelTags>
+      <li>Wula_Clothes</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+          <li>Wula_Old_Synth_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
+    <defName>Wula_Broken_Personality_Pawn_2</defName>
+    <label>安保子个体</label>
+    <combatPower>240</combatPower>
+    <apparelMoney>99999~99999</apparelMoney>
+    <apparelTags>
+      <li>Wula_Armor_Medium</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+          <li>Wula_Old_Synth_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+  <!-- 中级子个体 -->
+  <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
+    <defName>Wula_Broken_Personality_Pawn_3</defName>
+    <label>战士子个体</label>
+    <combatPower>350</combatPower>
+    <weaponMoney>99999~99999</weaponMoney>
+    <apparelMoney>99999~99999</apparelMoney>
+    <biocodeWeaponChance>0.75</biocodeWeaponChance>
+    <apparelTags>
+      <li>Wula_Armor_Medium</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T2</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+          <li>Wula_Old_Synth_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
+    <defName>Wula_Broken_Personality_Pawn_4</defName>
+    <label>射手子个体</label>
+    <combatPower>350</combatPower>
+    <apparelMoney>99999~99999</apparelMoney>
+    <weaponMoney>99999~99999</weaponMoney>
+    <biocodeWeaponChance>0.75</biocodeWeaponChance>
+    <apparelTags>
+      <li>Wula_Armor_Medium</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T2</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+          <li>Wula_Old_Synth_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+  <!-- 特殊子个体 -->
+  <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
+    <defName>Wula_Broken_Personality_Pawn_5</defName>
+    <label>破袭子个体</label>
+    <combatPower>500</combatPower>
+    <apparelMoney>99999~99999</apparelMoney>
+    <weaponMoney>99999~99999</weaponMoney>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
+    <apparelTags>
+      <li>Wula_Armor_Super_Heavy</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_Wall_Destoryer</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <isGoodBreacher>true</isGoodBreacher>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+          <li>Wula_Old_Synth_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+  <!-- 高级子个体 -->
+  <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
+    <defName>Wula_Broken_Personality_Pawn_6</defName>
+    <label>军团子个体</label>
+    <combatPower>450</combatPower>
+    <weaponMoney>99999~99999</weaponMoney>
+    <apparelMoney>99999~99999</apparelMoney>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
+    <apparelTags>
+      <li>Wula_Armor_Heavy</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T2</li>
+      <li>Wula_Melee_Weapon_T3</li>
+      <li>Wula_Ranged_Weapon_T2</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+          <li>Wula_Old_Synth_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
+    <defName>Wula_Broken_Personality_Pawn_7</defName>
+    <label>重装子个体</label>
+    <combatPower>750</combatPower>
+    <weaponMoney>99999~99999</weaponMoney>
+    <apparelMoney>99999~99999</apparelMoney>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
+    <apparelTags>
+      <li>Wula_Armor_Super_Heavy</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T3</li>
+      <li>Wula_Ranged_Weapon_T3</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+          <li>Wula_Old_Synth_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
 </Defs>

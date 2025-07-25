@@ -115,6 +115,7 @@
       <tags>
         <li>Wula_Apparel_Init</li>
         <li>Wula_Apparel</li>
+        <li>Wula_Clothes</li>
       </tags>
       <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
       <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
@@ -150,6 +151,7 @@
     <apparel>
       <tags>
         <li>Wula_Apparel</li>
+        <li>Wula_Clothes</li>
       </tags>
       <renderSkipFlags>
         <li>None</li>
@@ -597,6 +599,7 @@
     <apparel>
       <tags>
         <li>Wula_Apparel</li>
+        <li>Wula_Inner</li>
       </tags>
       <bodyPartGroups>
 				<li>Torso</li>
@@ -739,6 +742,7 @@
     <apparel>
       <tags>
         <li>Wula_Apparel</li>
+        <li>Wula_Armor</li>
       </tags>
       <bodyPartGroups>
         <li>Torso</li>
@@ -790,6 +794,7 @@
       <countsAsClothingForNudity>false</countsAsClothingForNudity>
       <tags>
         <li>Wula_Apparel</li>
+        <li>Wula_Armor</li>
       </tags>
       <bodyPartGroups>
         <li>FullHead</li>
@@ -845,6 +850,9 @@
       <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
     <apparel>
+      <tags>
+        <li>Wula_Armor_Medium</li>
+      </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_PowerArmor</wornGraphicPath>
     </apparel>
   </ThingDef>
@@ -877,6 +885,9 @@
       <ShootingAccuracyPawn>0.5</ShootingAccuracyPawn>
     </equippedStatOffsets>
     <apparel>
+      <tags>
+        <li>Wula_Armor_Medium</li>
+      </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_Helmet</wornGraphicPath>
     </apparel>
     <costStuffCount>30</costStuffCount>
@@ -924,6 +935,7 @@
     </costList>
     <apparel>
       <tags>
+        <li>Wula_Armor_Heavy</li>
         <li>RoyalTier5</li>
         <li>Royal</li>
       </tags>
@@ -1027,6 +1039,7 @@
     </equippedStatOffsets>
     <apparel>
       <tags>
+        <li>Wula_Armor_Heavy</li>
         <li>RoyalTier5</li>
         <li>Royal</li>
       </tags>
@@ -1077,6 +1090,7 @@
     </costList>
     <apparel>
       <tags>
+        <li>Wula_Armor_Super_Heavy</li>
         <li>RoyalTier5</li>
         <li>Royal</li>
       </tags>
@@ -1201,6 +1215,7 @@
     </equippedStatOffsets>
     <apparel>
       <tags>
+        <li>Wula_Armor_Super_Heavy</li>
         <li>RoyalTier5</li>
         <li>Royal</li>
       </tags>
@@ -1286,6 +1301,9 @@
     </equippedStatOffsets>
     <costStuffCount>100</costStuffCount>
     <apparel>
+      <tags>
+        <li>Wula_Armor_Super_Heavy</li>
+      </tags>
       <bodyPartGroups>
         <li>Torso</li>
         <li>Neck</li>
@@ -1341,6 +1359,7 @@
       <tags>
         <li>RoyalTier5</li>
         <li>Royal</li>
+        <li>Wula_Armor_Heavy</li>
       </tags>
       <bodyPartGroups>
         <li>Arms</li>

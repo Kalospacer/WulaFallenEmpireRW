@@ -35,13 +35,17 @@
 
   <FactionDef ParentName="FactionBase">
     <defName>Wula_Broken_Personality_Faction</defName>
-    <label>黑墙</label>
-    <description>Killer machines of unknown origin. Hidden in ancient structures, under mounds of dust, or at the bottom of the ocean, mechanoids can self-maintain for thousands of years. This group of mechs seems to be unified in purpose, but not well-coordinated in action. While local scholars believe they're autonomous weapons left over from an ancient war, tribal legends describe them as the demonic servants of a sleeping god.</description>
+    <label>乌拉帝国反常网络</label>
+    <description>反常网络由帝国边缘世界开发署控制的机械乌拉构成，在人工智能网络“演算圆环”的崩溃中，大量的机械乌拉受到冲击导致人格情感模拟系统的损坏，并催生了无数反常子网络——这些脱离控制的机械乌拉三五成群自发组成集体意识，并以不可预测的危险逻辑活跃在数十万年后的边缘世界。</description>
+    <basicMemberKind>Wula_PawnKind</basicMemberKind>
     <pawnSingular>乌拉帝国合成人</pawnSingular>
     <pawnsPlural>乌拉帝国合成人</pawnsPlural>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <factionNameMaker>NamerFactionWulaBrokenPersonality</factionNameMaker>
     <factionIconPath>World/WorldObjects/Expanding/Mechanoids</factionIconPath>
+    <!-- <settlementGenerationWeight>1</settlementGenerationWeight> -->
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <canSiege>false</canSiege>
     <canStageAttacks>true</canStageAttacks>
     <arrivalLayerWhitelist>
       <li>Surface</li>
@@ -85,8 +89,7 @@
       </points>
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
-      <li>
-        <!-- All types-->
+      <!-- <li>
         <kindDef>Combat</kindDef>
         <commonality>100</commonality>
         <options>
@@ -102,7 +105,6 @@
         </options>
       </li>
       <li>
-        <!-- Ranged only -->
         <kindDef>Combat</kindDef>
         <commonality>80</commonality>
         <options>
@@ -114,44 +116,41 @@
           <Mech_Legionary MayRequire="Ludeon.RimWorld.Biotech">2</Mech_Legionary>
           <Mech_Diabolus MayRequire="Ludeon.RimWorld.Biotech">1</Mech_Diabolus>
         </options>
-      </li>
-      <li>
-        <!-- Melee only-->
+      </li> -->
+      <!-- <li>
         <kindDef>Combat</kindDef>
         <commonality>70</commonality>
         <options>
-          <Mech_Scyther>10</Mech_Scyther>
+          <Wula_Broken_Personality_Pawn_2>10</Wula_Broken_Personality_Pawn_2>
         </options>
-      </li>
+      </li> -->
       <li>
         <!-- Centipede only -->
         <kindDef>Combat</kindDef>
         <commonality>30</commonality>
         <options>
-          <Mech_CentipedeBlaster>10</Mech_CentipedeBlaster>
-          <Mech_CentipedeGunner>5</Mech_CentipedeGunner>
-          <Mech_CentipedeBurner>5</Mech_CentipedeBurner>
+          <Wula_Broken_Personality_Pawn_2>10</Wula_Broken_Personality_Pawn_2>
+          <Wula_Broken_Personality_Pawn_3>3</Wula_Broken_Personality_Pawn_3>
+          <Wula_Broken_Personality_Pawn_4>3</Wula_Broken_Personality_Pawn_4>
         </options>
       </li>
-      <li MayRequire="Ludeon.RimWorld.Biotech">
+      <li>
         <!-- militor only -->
         <kindDef>Combat</kindDef>
         <commonality>30</commonality>
         <options>
-          <Mech_Militor>10</Mech_Militor>
+          <Wula_Broken_Personality_Pawn_1>10</Wula_Broken_Personality_Pawn_1>
+          <Wula_Broken_Personality_Pawn_2>2</Wula_Broken_Personality_Pawn_2>
         </options>
       </li>
       <li>
         <!-- breach raids -->
         <kindDef>Combat</kindDef>
-        <commonality>1</commonality>
+        <commonality>10</commonality>
         <options>
-          <Mech_Pikeman>10</Mech_Pikeman>
-          <Mech_Scyther>10</Mech_Scyther>
-          <Mech_Lancer>10</Mech_Lancer>
-          <Mech_CentipedeBlaster>10</Mech_CentipedeBlaster>
-          <Mech_Termite_Breach>1</Mech_Termite_Breach>
-          <Mech_Militor MayRequire="Ludeon.RimWorld.Biotech">20</Mech_Militor>
+          <Wula_Broken_Personality_Pawn_2>12</Wula_Broken_Personality_Pawn_2>
+          <Wula_Broken_Personality_Pawn_4>3</Wula_Broken_Personality_Pawn_4>
+          <Wula_Broken_Personality_Pawn_5>1</Wula_Broken_Personality_Pawn_5>
         </options>
       </li>
     </pawnGroupMakers>

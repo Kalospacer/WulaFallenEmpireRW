@@ -314,6 +314,14 @@
             <li>Apparel_TribalA</li>
             <li>Apparel_Sash</li>
             <li>Apparel_Bandolier</li>
+            <li>Apparel_Broadwrap</li>
+            <li>Apparel_Headwrap</li>
+            <li>Apparel_Shadecone</li>
+            <li>Apparel_AuthorityCap</li>
+            <li>Apparel_Flophat</li>
+            <li>Apparel_Slicecap</li>
+            <li>Apparel_Tailcap</li>
+            <li>Apparel_VisageMask</li>
         </blackApparelList>
         <!-- 生育能力 -->
         <onlyReproduceWithRestrictedRaces>true</onlyReproduceWithRestrictedRaces>
@@ -460,7 +468,9 @@
     </race>
 
     <butcherProducts>
-      <Steel>30</Steel>
+      <Steel>200</Steel>
+      <WULA_Charge_Cube>5</WULA_Charge_Cube>
+      <ComponentIndustrial>4</ComponentIndustrial>
     </butcherProducts>
 
     <recipes>
