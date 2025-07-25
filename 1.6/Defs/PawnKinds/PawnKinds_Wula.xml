@@ -341,7 +341,7 @@
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_1</defName>
     <label>服务子个体</label>
-    <combatPower>160</combatPower>
+    <combatPower>350</combatPower>
     <apparelTags>
       <li>Wula_Clothes</li>
     </apparelTags>
@@ -362,7 +362,7 @@
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_2</defName>
     <label>安保子个体</label>
-    <combatPower>240</combatPower>
+    <combatPower>450</combatPower>
     <apparelMoney>99999~99999</apparelMoney>
     <apparelTags>
       <li>Wula_Armor_Medium</li>
@@ -384,7 +384,7 @@
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_3</defName>
     <label>战士子个体</label>
-    <combatPower>350</combatPower>
+    <combatPower>750</combatPower>
     <weaponMoney>99999~99999</weaponMoney>
     <apparelMoney>99999~99999</apparelMoney>
     <biocodeWeaponChance>0.75</biocodeWeaponChance>
@@ -407,7 +407,7 @@
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_4</defName>
     <label>射手子个体</label>
-    <combatPower>350</combatPower>
+    <combatPower>750</combatPower>
     <apparelMoney>99999~99999</apparelMoney>
     <weaponMoney>99999~99999</weaponMoney>
     <biocodeWeaponChance>0.75</biocodeWeaponChance>
@@ -431,7 +431,7 @@
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_5</defName>
     <label>破袭子个体</label>
-    <combatPower>500</combatPower>
+    <combatPower>1000</combatPower>
     <apparelMoney>99999~99999</apparelMoney>
     <weaponMoney>99999~99999</weaponMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
@@ -456,7 +456,7 @@
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_6</defName>
     <label>军团子个体</label>
-    <combatPower>450</combatPower>
+    <combatPower>1000</combatPower>
     <weaponMoney>99999~99999</weaponMoney>
     <apparelMoney>99999~99999</apparelMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
@@ -481,7 +481,7 @@
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_7</defName>
     <label>重装子个体</label>
-    <combatPower>750</combatPower>
+    <combatPower>1000</combatPower>
     <weaponMoney>99999~99999</weaponMoney>
     <apparelMoney>99999~99999</apparelMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
@@ -493,6 +493,7 @@
       <li>Wula_Ranged_Weapon_T3</li>
     </weaponTags>
     <initialResistanceRange>15~24</initialResistanceRange>
+    <isGoodBreacher>true</isGoodBreacher>
     <backstoryFiltersOverride>
       <li>
         <categories>

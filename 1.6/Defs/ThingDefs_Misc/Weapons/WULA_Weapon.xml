@@ -513,9 +513,9 @@
       <texPath>Wula/Weapon/WULA_MW_Glaive</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>1.2</drawSize>
+      <drawSize>1.5</drawSize>
     </graphicData>
-    <!-- <uiIconScale>0.4</uiIconScale> -->
+    <uiIconScale>0.75</uiIconScale>
     <!-- <equippedAngleOffset>-65</equippedAngleOffset> -->
     <techLevel>Spacer</techLevel>
     <!-- <equippedAngleOffset>-25</equippedAngleOffset> -->
@@ -537,8 +537,8 @@
         <capacities>
           <li>Cut</li>
         </capacities>
-        <power>32</power>
-        <cooldownTime>1.7</cooldownTime>
+        <power>18</power>
+        <cooldownTime>1.9</cooldownTime>
         <armorPenetration>0.50</armorPenetration>
       </li>
       <li>
@@ -546,9 +546,9 @@
         <capacities>
           <li>Stab</li>
         </capacities>
-        <power>40</power>
+        <power>20</power>
         <armorPenetration>0.90</armorPenetration>
-        <cooldownTime>2.1</cooldownTime>
+        <cooldownTime>2.5</cooldownTime>
       </li>
     </tools>
     <recipeMaker>
