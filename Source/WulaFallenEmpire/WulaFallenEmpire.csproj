@@ -99,6 +99,9 @@
     <Compile Include="HarmonyPatches\Caravan_NeedsTracker_TrySatisfyPawnNeeds_Patch.cs" />
     <Compile Include="HarmonyPatches\FloatMenuOptionProvider_Ingest_Patch.cs" />
     <Compile Include="HarmonyPatches\Projectile_Launch_Patch.cs" />
+    <Compile Include="MentalState_BrokenPersonality.cs" />
+    <Compile Include="MentalStateDefExtension_BrokenPersonality.cs" />
+    <Compile Include="MentalBreakWorker_BrokenPersonality.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   

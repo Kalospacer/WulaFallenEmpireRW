@@ -73,7 +73,7 @@
         <li>(4000, 500)</li>
       </points>
     </raidLootValueFromPointsCurve>
-    <humanlikeFaction>false</humanlikeFaction>
+    <humanlikeFaction>true</humanlikeFaction>
     <hidden>true</hidden>
     <autoFlee>false</autoFlee>
     <canUseAvoidGrid>false</canUseAvoidGrid>

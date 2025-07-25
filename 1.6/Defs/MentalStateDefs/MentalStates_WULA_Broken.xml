@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <MentalStateDef>
+    <defName>Wula_BrokenPersonality</defName>
+    <label>人格破碎</label>
+    <stateClass>WulaFallenEmpire.MentalState_BrokenPersonality</stateClass>
+    <category>Aggro</category>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <nameColor>(255, 0, 0)</nameColor>
+    <recoveryMtbDays>0.0001</recoveryMtbDays> <!-- 几乎立即恢复，因为逻辑在PostStart中执行 -->
+    <modExtensions>
+      <li Class="WulaFallenEmpire.MentalStateDefExtension_BrokenPersonality">
+        <traitToAdd>WULA_Trait_Broken_Personality</traitToAdd>
+        <factionToJoin>Wula_Broken_Personality_Faction</factionToJoin>
+        <skillLevelFactor>0.5</skillLevelFactor>
+      </li>
+    </modExtensions>
+    <blockInteractionInitiationExcept>
+      <li>Insult</li>
+    </blockInteractionInitiationExcept>
+    <blockInteractionRecipientExcept>
+      <li>Insult</li>
+    </blockInteractionRecipientExcept>
+    <moodRecoveryThought>Catharsis</moodRecoveryThought>
+    <beginLetter>由于重度精神崩溃，{0}的模拟人格已经破碎，{0}受到了星球上乌拉帝国反常网络的一个主脑子节点影响，已经成为了这些反常子个体乌拉的一员。</beginLetter>
+    <beginLetterDef>NegativeEvent</beginLetterDef>
+    <baseInspectLine>精神状态：人格破碎</baseInspectLine>
+  </MentalStateDef>
+
+</Defs>

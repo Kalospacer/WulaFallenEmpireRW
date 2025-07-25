@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <MentalBreakDef>
+    <defName>Wula_BrokenPersonality</defName>
+    <label>人格破碎</label>
+    <mentalState>Wula_BrokenPersonality</mentalState>
+    <intensity>Extreme</intensity>
+    <baseCommonality>1.0</baseCommonality>
+    <workerClass>WulaFallenEmpire.MentalBreakWorker_BrokenPersonality</workerClass>
+  </MentalBreakDef>
+
+</Defs>

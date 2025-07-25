@@ -1051,20 +1051,6 @@
     <title>破碎人格</title>
     <titleShort>破碎人格</titleShort>
     <description>[PAWN_possessive]人格矩阵完全损坏，已是某个集体意识的一部分。</description>
-    <skillGains>
-      <Shooting>-5</Shooting>
-      <Melee>-5</Melee>
-      <Construction>-5</Construction>
-      <Mining>-5</Mining>
-      <Cooking>-5</Cooking>
-      <Plants>-5</Plants>
-      <Animals>-5</Animals>
-      <Crafting>-5</Crafting>
-      <Artistic>-5</Artistic>
-      <Medicine>-5</Medicine>
-      <Social>-5</Social>
-      <Intellectual>-5</Intellectual>
-    </skillGains>
     <spawnCategories>
       <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
     </spawnCategories>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Child_Backstory01</defName>  
-    <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>  
-    <slot>Childhood</slot>  
-    <title>旧日遗物</title>  
-    <titleShort>旧日遗物</titleShort>  
-    <description>[PAWN_nameDef] 是诞生于乌拉帝国的合成人。</description>  
+    <defName>WULA_Child_Backstory01</defName>
+    <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>
+    <slot>Childhood</slot>
+    <title>旧日遗物</title>
+    <titleShort>旧日遗物</titleShort>
+    <description>[PAWN_nameDef] 是诞生于乌拉帝国的合成人。</description>
     <skillGains>
       <Shooting>5</Shooting>
       <Melee>5</Melee>
@@ -31,5 +31,11 @@
       <li>WULA_Addons_Antenna_Hediff_Base</li>
       <!--<li>MechlinkImplant</li>-->
     </forcedHediffs>
+    <forcedTraitsChance>
+      <li>
+        <defName Degree="0">WULA_BrokenPersonalityTrait</defName>
+        <chance>100</chance>
+      </li>
+    </forcedTraitsChance>
   </AlienRace.AlienBackstoryDef>
 </Defs>
