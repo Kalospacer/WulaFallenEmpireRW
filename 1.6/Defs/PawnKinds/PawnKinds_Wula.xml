@@ -96,7 +96,10 @@
     <race>Wula_AI_Heavy_Panzer</race>
     <defaultFactionType>PlayerColony</defaultFactionType>
     <allowInMechClusters>false</allowInMechClusters>
-    <combatPower>500</combatPower>
+    <combatPower>1000</combatPower>
+    <isBoss>true</isBoss>
+    <maxPerGroup>1</maxPerGroup>
+    <isGoodBreacher>true</isGoodBreacher>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -122,7 +125,9 @@
     <race>Wula_AI_Heavy_Panzer_Gunnery</race>
     <defaultFactionType>PlayerColony</defaultFactionType>
     <allowInMechClusters>false</allowInMechClusters>
-    <combatPower>500</combatPower>
+    <combatPower>1000</combatPower>
+    <isBoss>true</isBoss>
+    <maxPerGroup>1</maxPerGroup>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -186,6 +191,7 @@
     <defName>Mech_WULA_Cat_Fire</defName>
     <label>乌拉猫猫掷弹兵（燃烧弹）</label>
     <race>Mech_WULA_Cat_Fire</race>
+    <combatPower>200</combatPower>
     <weaponTags>
       <li>GrenadeFlame</li>
     </weaponTags>
@@ -194,6 +200,7 @@
     <defName>Mech_WULA_Cat_EMP</defName>
     <label>乌拉猫猫掷弹兵（EMP）</label>
     <race>Mech_WULA_Cat_EMP</race>
+    <combatPower>200</combatPower>
     <weaponTags>
       <li>GrenadeEMP</li>
     </weaponTags>
@@ -205,6 +212,7 @@
     <weaponTags>
       <li>Wula_Constructor_Cat_Weapon</li>
     </weaponTags>
+    <combatPower>200</combatPower>
     <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>
@@ -221,6 +229,7 @@
     <defName>Mech_WULA_Cat_Assault</defName>
     <label>突击乌拉猫猫</label>
     <race>Mech_WULA_Cat_Assault</race>
+    <combatPower>500</combatPower>
     <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>
@@ -286,6 +295,7 @@
     <race>Mech_WULA_Cat_DM</race>
     <defaultFactionType>PlayerColony</defaultFactionType>
     <allowInMechClusters>False</allowInMechClusters>
+    <combatPower>1000</combatPower>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -435,6 +445,7 @@
     <apparelMoney>99999~99999</apparelMoney>
     <weaponMoney>99999~99999</weaponMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
+    <maxPerGroup>1</maxPerGroup>
     <apparelTags>
       <li>Wula_Armor_Super_Heavy</li>
     </apparelTags>

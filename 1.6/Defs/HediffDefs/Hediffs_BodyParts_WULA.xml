@@ -631,6 +631,9 @@
     <defName>WULA_Addons_Antenna_Expansion</defName>
     <label>上行链路天线-扩容插件</label>
     <description>用于为上行链路天线进行带宽扩容的组件，支持更多的机械体带宽和机械组，以指挥更庞大的钢铁洪流。</description>
+    <descriptionHyperlinks>
+      <HediffDef>WULA_Addons_Antenna_Hediff_Expansion</HediffDef>
+    </descriptionHyperlinks>
     <costList>
       <Plasteel>10</Plasteel>
       <ComponentIndustrial>4</ComponentIndustrial>
@@ -663,6 +666,9 @@
     <description>用于为上行链路天线进行带宽扩容的组件，支持更多的机械体带宽和机械组，以指挥更庞大的钢铁洪流。</description>
     <descriptionShort>用于为上行链路天线进行带宽扩容的组件。</descriptionShort>
     <defaultLabelColor>(0.5, 0.8, 1.0)</defaultLabelColor>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Addons_Antenna_Expansion</ThingDef>
+    </descriptionHyperlinks>
     <isBad>false</isBad>
     <priceImpact>true</priceImpact>
     <initialSeverity>1</initialSeverity>    <!-- Severity is bound to level of implant -->
@@ -717,6 +723,9 @@
     <defName>WULA_Addons_Antenna_Repairer</defName>
     <label>上行链路天线-维修插件</label>
     <description>用于为上行链路天线添加额外维修能力的组件，可以向乌拉帝国的机械体发送特殊的信号，使其能够利用上行链路自行诊断和修复伤势，并提高维修速度。</description>
+    <descriptionHyperlinks>
+      <HediffDef>WULA_Addons_Antenna_Hediff_Repairer</HediffDef>
+    </descriptionHyperlinks>
     <costList>
       <Plasteel>10</Plasteel>
       <ComponentIndustrial>4</ComponentIndustrial>
@@ -748,6 +757,9 @@
     <label>维修插件</label>
     <description>用于为上行链路天线添加额外维修能力的组件，可以向乌拉帝国的机械体发送特殊的信号，使其能够利用上行链路自行诊断和修复伤势，并提高维修速度。</description>
     <defaultLabelColor>(0.5, 0.8, 1.0)</defaultLabelColor>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Addons_Antenna_Repairer</ThingDef>
+    </descriptionHyperlinks>
     <isBad>false</isBad>
     <priceImpact>true</priceImpact>
     <initialSeverity>1</initialSeverity>    <!-- Severity is bound to level of implant -->
@@ -1049,6 +1061,8 @@
     <targetsBodyPart>false</targetsBodyPart> <!-- 仍然作用于整个小人 -->
     <anesthetize>false</anesthetize> <!-- 不需要麻醉 -->
     <dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
     <!-- 此处无需特定的 surgeryOutcomeEffect，因为物品的 CompUseEffect 处理实际治疗 -->
     <ingredients>
       <li>
@@ -1067,5 +1081,92 @@
     </fixedIngredientFilter>
   </RecipeDef>
 
-  <!-- 能量电池 -->
+  <!-- 关机 -->
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>WULA_Shutdown_Synth</defName>
+    <label>紧急关机</label>
+    <description>将这只机械乌拉的所有系统关闭，以规避一段时间内的潜在风险。需要一位殖民者协助关机工作，同时若想开机也需要一位殖民者协助。</description>
+    <jobString>正在紧急关机。</jobString>
+    <workAmount>100</workAmount>
+    <workerClass>Recipe_AddHediff</workerClass>
+    <hideBodyPartNames>true</hideBodyPartNames>
+    <targetsBodyPart>false</targetsBodyPart>
+    <isViolation>true</isViolation>
+    <researchPrerequisites>
+      <li>WULA_Shutdown_Technology</li>
+    </researchPrerequisites>
+    <uiIconThing>WULA_Charge_Cube_No_Power</uiIconThing>
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
+    <anesthetize>false</anesthetize>
+    <skillRequirements Inherit="False">
+      <Medicine>0</Medicine>
+    </skillRequirements>
+    <recipeUsers Inherit="False">
+      <li>WulaSpecies</li> <!-- 只能在乌拉族上执行 -->
+    </recipeUsers>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+
+    <ingredients Inherit="False"/>
+    <addsHediff>WULA_Shutdown_Synth_Hediff</addsHediff>
+  </RecipeDef>
+  <RecipeDef ParentName="FertilitySurgery">
+    <defName>WULA_Synth_Power_On</defName>
+    <label>开机</label>
+    <description>重启该合成人，恢复其系统机能运行。</description>
+    <workerClass>Recipe_RemoveHediff</workerClass>
+    <jobString>正在重启合成人。</jobString>
+    <successfullyRemovedHediffMessage>{0} 成功重启了 {1}。</successfullyRemovedHediffMessage>
+    <uiIconThing>WULA_Charge_Cube</uiIconThing>
+    <removesHediff>WULA_Shutdown_Synth_Hediff</removesHediff>
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
+    <anesthetize>false</anesthetize>
+    <addsHediffOnFailure Inherit="False" />
+    <ingredients Inherit="False" />
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Shutdown_Technology</li>
+    </researchPrerequisites>
+    <recipeUsers Inherit="False">
+      <li>WulaSpecies</li> <!-- 只能在乌拉族上执行 -->
+    </recipeUsers>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+  </RecipeDef>
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>WULA_Shutdown_Synth_Hediff</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>关机</label>
+    <description>这只机械乌拉的所有系统都已经关闭了。</description>
+    <descriptionShort>这只机械乌拉的所有系统都已经关闭了——如果需要唤醒，则需要另一位殖民者的协助。</descriptionShort>
+    <!-- <initialSeverity>0.5</initialSeverity> -->
+    <minSeverity>0.01</minSeverity>
+    <maxSeverity>1</maxSeverity>
+    <alwaysShowSeverity>true</alwaysShowSeverity>
+    <isBad>true</isBad>
+    <duplicationAllowed>true</duplicationAllowed>
+    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>    <!-- true -->
+    <!-- <defaultInstallPart>Brain</defaultInstallPart> -->
+    <stages>
+      <li>
+        <label>停机</label>
+        <minSeverity>0</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
 </Defs>

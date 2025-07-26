@@ -65,9 +65,8 @@
     <defName>WULA_RW_Base_AR</defName>
     <label>DLa-1"页岩"</label>
     <description>乌拉帝国的旧式突击步枪，仍然使用落后的导气式结构驱动自动射击构件，通常被派发给炮灰战斗人员。</description>
-    <techLevel>Industrial</techLevel>
     <tickerType>Normal</tickerType>
-    <!-- <techLevel>Spacer</techLevel> -->
+    <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Base_AR</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -125,6 +124,7 @@
     <equippedAngleOffset>-65</equippedAngleOffset>
     <techLevel>Spacer</techLevel>
     <smeltable>false</smeltable>
+    <relicChance>0</relicChance>
     <statBases>
       <MarketValue>100</MarketValue>
       <WorkToMake>1000</WorkToMake>
@@ -147,14 +147,17 @@
     <recipeMaker>
       <recipeUsers Inherit="False" />
     </recipeMaker>
+    <weaponTags>
+      <li>Wula_Constructor_Cat_Weapon</li>
+    </weaponTags>
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Base_AR_Cat</defName>
     <label>DLa-4"云母"</label>
     <description>乌拉帝国的旧式突击步枪，比起DLa-1"页岩"来说更小一些，射程和精度有所下降，但是下挂了一把刺刀用于近身战斗，专为乌拉猫猫机械体设计。</description>
-    <techLevel>Industrial</techLevel>
+    <!-- <techLevel>Industrial</techLevel> -->
     <tickerType>Normal</tickerType>
-    <!-- <techLevel>Spacer</techLevel> -->
+    <techLevel>Spacer</techLevel>
     <weaponTags>
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
@@ -1566,6 +1569,9 @@
         <cooldownTime>2.6</cooldownTime>
       </li>
     </tools>
+    <comps>
+      <li Class="CompProperties_Biocodable"/>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Handle_Cannon</defName>
@@ -1600,6 +1606,7 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.65</drawSize>
     </graphicData>
+    <tradeability>None</tradeability>
     <uiIconScale>0.75</uiIconScale>
     <soundInteract>Interact_ChargeRifle</soundInteract>
     <recipeMaker>
@@ -1673,6 +1680,7 @@
     <label>SEl-78"角砾岩"</label>
     <description>乌拉帝国所装备的自动榴弹炮，所发射高抛的高爆榴弹或许杀伤力没有想象的这么强，但是射速极快，几乎可以依靠单兵创造一片轰炸区。</description>
     <techLevel>Ultra</techLevel>
+    <tradeability>None</tradeability>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Auto_GL</texPath>
@@ -1784,7 +1792,7 @@
       <AccuracyShort>1</AccuracyShort>
       <AccuracyMedium>1</AccuracyMedium>
       <AccuracyLong>1</AccuracyLong>
-      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
     </statBases>
     <verbs>
       <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
@@ -1845,6 +1853,7 @@
         <chanceToStartFire>0.6</chanceToStartFire>
       </li>
     </verbs>
+    <tradeability>None</tradeability>
   </ThingDef>
   <!-- 暗物质炮 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
@@ -1882,7 +1891,7 @@
       <AccuracyShort>0.6</AccuracyShort>
       <AccuracyMedium>0.6</AccuracyMedium>
       <AccuracyLong>0.6</AccuracyLong>
-      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
     </statBases>
     <verbs>
       <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
@@ -1948,6 +1957,7 @@
         <chanceToStartFire>0.6</chanceToStartFire>
       </li>
     </verbs>
+    <tradeability>None</tradeability>
   </ThingDef>
   
 

@@ -1288,15 +1288,14 @@
       <MaxHitPoints>1000</MaxHitPoints>
       <Mass>10</Mass>
       <Flammability>0</Flammability>
-      <ArmorRating_Sharp>1.8</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1.8</ArmorRating_Blunt>
-      <ArmorRating_Heat>2.0</ArmorRating_Heat>
+      <ArmorRating_Sharp>0.6</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.6</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.2</ArmorRating_Heat>
       <EquipDelay>3</EquipDelay>
       <!-- <EnergyShieldEnergyMax>4.0</EnergyShieldEnergyMax> -->
     </statBases>
     <equippedStatOffsets>
 			<MoveSpeed>-0.5</MoveSpeed>
-      <AimingDelayFactor>-0.25</AimingDelayFactor>
       <ShootingAccuracyPawn>5</ShootingAccuracyPawn>
     </equippedStatOffsets>
     <costStuffCount>100</costStuffCount>
@@ -1335,17 +1334,14 @@
       <MaxHitPoints>500</MaxHitPoints>
       <Mass>5</Mass>
       <Flammability>0</Flammability>
-      <ArmorRating_Sharp>1</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1</ArmorRating_Blunt>
-      <ArmorRating_Heat>1</ArmorRating_Heat>
+      <ArmorRating_Sharp>0.3</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.3</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.3</ArmorRating_Heat>
       <EquipDelay>2</EquipDelay>
-      <EnergyShieldEnergyMax>0.5</EnergyShieldEnergyMax>
     </statBases>
     <equippedStatOffsets>
 			<MoveSpeed>-0.2</MoveSpeed>
-			<MeleeDodgeChance>20</MeleeDodgeChance>	
-      <AimingDelayFactor>0.5</AimingDelayFactor>
-      <ShootingAccuracyPawn>-10</ShootingAccuracyPawn>
+			<MeleeDodgeChance>5</MeleeDodgeChance>	
 			<!-- <MoveSpeed>-0.5</MoveSpeed> -->
       <!-- <IncomingDamageFactor>-0.2</IncomingDamageFactor> -->
       <!-- <StaggerDurationFactor>-2</StaggerDurationFactor> -->

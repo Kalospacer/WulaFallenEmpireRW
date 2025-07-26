@@ -124,6 +124,10 @@
           <def>StartingResearch</def>
           <project>BasicGravtech</project>
         </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>BasicMechtech</project>
+        </li>
         
         <!-- Game start dialog -->
         <li Class="ScenPart_GameStartDialog">
