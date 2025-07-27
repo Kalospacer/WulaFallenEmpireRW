@@ -13,11 +13,11 @@
     <lihuiSize>(500, 800)</lihuiSize>
     <nameSize>(260, 130)</nameSize>
     <textSize>(650, 500)</textSize>
-    <optionsWidth>610</optionsWidth>
+    <optionsWidth>650</optionsWidth>
     
     <!-- Virtual Layout Offsets -->
-    <textNameOffset>20</textNameOffset>
-    <optionsTextOffset>20</optionsTextOffset>
+    <textNameOffset>0</textNameOffset>
+    <optionsTextOffset>0</optionsTextOffset>
     
   </WulaFallenEmpire.EventUIConfigDef>
 

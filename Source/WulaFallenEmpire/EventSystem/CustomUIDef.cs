@@ -10,6 +10,8 @@ namespace WulaFallenEmpire
         public new string description;
         public List<CustomUIOption> options;
         public string backgroundImagePath; // Override default background
+        public List<Effect> onOpenEffects;
+        public List<Effect> dismissEffects;
     }
 
     public class CustomUIOption

@@ -8,6 +8,21 @@
     <portraitPath>UI/HeroArt/Storytellers/Randy</portraitPath>
     <characterName>兰迪·随机</characterName>
     <description>这是一个事件链的开端。选择第一个选项将会打开第二个事件窗口。</description>
+    <onOpenEffects>
+      <li Class="WulaFallenEmpire.Effect_ShowMessage">
+        <message>事件窗口已打开！</message>
+        <messageTypeDef>NeutralEvent</messageTypeDef>
+      </li>
+    </onOpenEffects>
+    <dismissEffects>
+      <li Class="WulaFallenEmpire.Effect_ShowMessage">
+        <message>事件窗口已关闭，进度已重置。</message>
+        <messageTypeDef>NeutralEvent</messageTypeDef>
+      </li>
+      <li Class="WulaFallenEmpire.Effect_ClearVariable">
+        <name>wula_event_progress</name>
+      </li>
+    </dismissEffects>
     <options>
       <li>
         <label>继续事件</label>

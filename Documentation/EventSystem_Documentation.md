@@ -45,9 +45,13 @@
 **字段说明:**
 - `labelFont`: 事件标题 (`label`) 的字体大小。可选值: `Tiny`, `Small`, `Medium`, `Large`。
 - `drawBorders`: 是否为立绘、名称和描述区域绘制白色边框。
-- `defaultBackgroundImagePath`: 所有事件窗口默认使用的背景图路径。
+- `defaultBackgroundImagePath`: 所有事件窗口默认使用的背景图路径。**注意**: 为了完美适配默认的 1000x750 像素窗口，推荐使用宽高比为 4:3 的图片 (例如 1000x750, 800x600 等)。
 - `lihuiSize`, `nameSize`, `textSize`, `optionsWidth`: 定义了UI各部分的基础虚拟尺寸，代码会根据窗口大小按比例缩放它们。
 - `textNameOffset`, `optionsTextOffset`: 定义了各部分之间的垂直间距。
+
+**布局预览工具:**
+为了帮助您设计背景图片，我们提供了一个动态的可视化布局预览工具。您可以将 `EventUIConfig.xml` 的内容粘贴进去，它会根据您的配置实时生成布局参考图。
+- [**打开动态布局预览 (layout_preview.html)**](./layout_preview.html)
 
 ---
 
@@ -78,6 +82,8 @@
 - `characterName`: 显示在名称框中的文本。
 - `backgroundImagePath`: (可选)为此特定事件指定的背景图路径，它会覆盖 `EventUIConfigDef` 中的默认背景。
 - `description`: 显示在描述框中的主要文本。
+- `onOpenEffects`: (可选) 一个 `<li>` 列表，定义了在事件窗口**打开时**立即执行的所有 `Effect`。
+- `dismissEffects`: (可选) 一个 `<li>` 列表，定义了在事件窗口**关闭时**（通过选项或关闭按钮）执行的所有 `Effect`。
 - `options`: 一个 `<li>` 列表，定义了所有的交互选项。
 
 ---

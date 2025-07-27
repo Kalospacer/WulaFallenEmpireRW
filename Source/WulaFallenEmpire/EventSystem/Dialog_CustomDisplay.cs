@@ -47,6 +47,8 @@ namespace WulaFallenEmpire
             {
                 background = ContentFinder<Texture2D>.Get(bgPath);
             }
+            
+            HandleAction(def.onOpenEffects);
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -198,6 +200,12 @@ namespace WulaFallenEmpire
                 return option.disabledReason;
             }
             return reason;
+        }
+
+        public override void PostClose()
+        {
+            base.PostClose();
+            HandleAction(def.dismissEffects);
         }
     }
 }
