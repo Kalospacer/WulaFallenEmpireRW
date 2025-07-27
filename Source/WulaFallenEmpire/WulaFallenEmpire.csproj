@@ -102,7 +102,7 @@
     <Compile Include="MentalState_BrokenPersonality.cs" />
     <Compile Include="MentalStateDefExtension_BrokenPersonality.cs" />
     <Compile Include="MentalBreakWorker_BrokenPersonality.cs" />
-    <Compile Include="DebugActions.cs" />
+    <Compile Include="EventSystem\DebugActions.cs" />
     <Compile Include="EventSystem\Condition.cs" />
     <Compile Include="EventSystem\CustomUIDef.cs" />
     <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />

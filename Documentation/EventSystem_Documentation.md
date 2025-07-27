@@ -210,6 +210,59 @@
   </li>
   ```
 
+#### 5.9 `Effect_ModifyVariable`
+- **功能**: 对一个数值类型的变量进行数学运算（加、减、乘、除）。
+- **Class**: `WulaFallenEmpire.Effect_ModifyVariable`
+- **字段**:
+  - `name`: (必须) 要修改的变量的名称。
+  - `value`: (必须) 用于运算的数值。
+  - `operation`: (必须) 执行的运算类型。可选值: `Add`, `Subtract`, `Multiply`, `Divide`。
+- **示例**:
+  ```xml
+  <!-- 将变量 'player_score' 的值增加 10 -->
+  <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+    <name>player_score</name>
+    <value>10</value>
+    <operation>Add</operation>
+  </li>
+  ```
+
+#### 5.10 `Effect_ClearVariable`
+- **功能**: 从事件上下文中移除一个变量。
+- **Class**: `WulaFallenEmpire.Effect_ClearVariable`
+- **字段**:
+  - `name`: (必须) 要移除的变量的名称。
+- **示例**:
+  ```xml
+  <li Class="WulaFallenEmpire.Effect_ClearVariable">
+    <name>quest_completed_flag</name>
+  </li>
+  ```
+
+#### 5.11 `Effect_AddQuest`
+- **功能**: 给予玩家一个由游戏核心任务系统生成的任务。
+- **Class**: `WulaFallenEmpire.Effect_AddQuest`
+- **字段**:
+  - `quest`: (必须) 要给予的 `QuestScriptDef` 的 `defName`。
+- **示例**:
+  ```xml
+  <li Class="WulaFallenEmpire.Effect_AddQuest">
+    <quest>OpportunitySite_BanditCamp</quest>
+  </li>
+  ```
+
+#### 5.12 `Effect_FinishResearch`
+- **功能**: 立即完成一个指定的科技研究项目。
+- **Class**: `WulaFallenEmpire.Effect_FinishResearch`
+- **字段**:
+  - `research`: (必须) 要完成的 `ResearchProjectDef` 的 `defName`。
+- **示例**:
+  ```xml
+  <li Class="WulaFallenEmpire.Effect_FinishResearch">
+    <research>MicroelectronicsBasics</research>
+  </li>
+  ```
+
 ---
 
 ## 6. 核心概念：条件 (`Condition`)
@@ -219,30 +272,52 @@
 ### 已实现的 `Condition` 列表
 
 #### 6.1 `Condition_VariableEquals`
-- **功能**: 检查一个变量是否等于指定的值。
+- **功能**: 检查一个变量是否等于指定的值。支持字符串和数字的比较。
 - **Class**: `WulaFallenEmpire.Condition_VariableEquals`
 - **字段**:
   - `name`: (必须) 要检查的变量的名称。
-  - `value`: (必须) 要比较的值（作为字符串）。
-- **示例**:
+  - `value`: (可选) 要比较的固定值。
+  - `valueVariableName`: (可选) 存储比较值的变量的名称。如果同时提供了 `value` 和 `valueVariableName`，则优先使用 `valueVariableName`。
+- **示例 (与固定值比较)**:
   ```xml
   <li Class="WulaFallenEmpire.Condition_VariableEquals">
-    <name>my_quest_progress</name>
-    <value>1</value>
+    <name>quest_status</name>
+    <value>completed</value>
+  </li>
+  ```
+- **示例 (与另一个变量比较)**:
+  ```xml
+  <li Class="WulaFallenEmpire.Condition_VariableEquals">
+    <name>player_choice</name>
+    <valueVariableName>correct_answer</valueVariableName>
   </li>
   ```
 
-#### 6.2 `Condition_VariableGreaterThan`
-- **功能**: 检查一个变量是否大于指定的值。
-- **Class**: `WulaFallenEmpire.Condition_VariableGreaterThan`
-- **字段**:
+#### 6.2 数值比较条件
+以下所有条件都用于数值比较，并共享相同的字段。
+
+- **通用字段**:
   - `name`: (必须) 要检查的变量的名称。
-  - `value`: (必须) 要比较的数值。
-- **示例**:
+  - `value`: (可选) 要比较的固定数值。
+  - `valueVariableName`: (可选) 存储比较数值的变量的名称。如果同时提供了 `value` 和 `valueVariableName`，则优先使用 `valueVariableName`。
+
+- **`Condition_VariableGreaterThan`**: 检查变量是否 **大于** 比较值。
+- **`Condition_VariableLessThan`**: 检查变量是否 **小于** 比较值。
+- **`Condition_VariableGreaterThanOrEqual`**: 检查变量是否 **大于或等于** 比较值。
+- **`Condition_VariableLessThanOrEqual`**: 检查变量是否 **小于或等于** 比较值。
+
+- **示例 (大于固定值)**:
   ```xml
   <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
     <name>player_reputation</name>
     <value>50</value>
+  </li>
+  ```
+- **示例 (小于或等于另一个变量)**:
+  ```xml
+  <li Class="WulaFallenEmpire.Condition_VariableLessThanOrEqual">
+    <name>current_threat_level</name>
+    <valueVariableName>max_allowed_threat</valueVariableName>
   </li>
   ```
 

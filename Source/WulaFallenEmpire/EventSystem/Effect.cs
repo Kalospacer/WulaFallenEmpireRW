@@ -264,8 +264,109 @@ namespace WulaFallenEmpire
                     TaggedString finalText = letterText.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn);
                     PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref finalText, ref finalLabel, pawn);
                     Find.LetterStack.ReceiveLetter(finalLabel, finalText, letterDef ?? LetterDefOf.PositiveEvent, pawn);
-                }
             }
         }
     }
+
+    public enum VariableOperation
+    {
+        Add,
+        Subtract,
+        Multiply,
+        Divide
+    }
+
+    public class Effect_ModifyVariable : Effect
+    {
+        public string name;
+        public float value;
+        public VariableOperation operation;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                Log.Error("[WulaFallenEmpire] Effect_ModifyVariable has a null or empty name.");
+                return;
+            }
+
+            float currentValue = EventContext.GetVariable<float>(name, 0f);
+
+            switch (operation)
+            {
+                case VariableOperation.Add:
+                    currentValue += value;
+                    break;
+                case VariableOperation.Subtract:
+                    currentValue -= value;
+                    break;
+                case VariableOperation.Multiply:
+                    currentValue *= value;
+                    break;
+                case VariableOperation.Divide:
+                    if (value != 0)
+                    {
+                        currentValue /= value;
+                    }
+                    else
+                    {
+                        Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable tried to divide by zero for variable '{name}'.");
+                    }
+                    break;
+            }
+
+            EventContext.SetVariable(name, currentValue);
+        }
+    }
+
+    public class Effect_ClearVariable : Effect
+    {
+        public string name;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                Log.Error("[WulaFallenEmpire] Effect_ClearVariable has a null or empty name.");
+                return;
+            }
+            EventContext.ClearVariable(name);
+        }
+    }
+
+    public class Effect_AddQuest : Effect
+    {
+        public QuestScriptDef quest;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            if (quest == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_AddQuest has a null quest Def.");
+                return;
+            }
+
+            Quest newQuest = Quest.MakeRaw();
+            newQuest.root = quest;
+            newQuest.id = Find.UniqueIDsManager.GetNextQuestID();
+            Find.QuestManager.Add(newQuest);
+        }
+    }
+
+    public class Effect_FinishResearch : Effect
+    {
+        public ResearchProjectDef research;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            if (research == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_FinishResearch has a null research Def.");
+                return;
+            }
+
+            Find.ResearchManager.FinishProject(research);
+        }
+    }
+}
 }

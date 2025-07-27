@@ -48,5 +48,17 @@ namespace WulaFallenEmpire
             variables.Clear();
             Log.Message("[EventContext] All variables cleared.");
         }
+
+        public static void ClearVariable(string name)
+        {
+            if (variables.Remove(name))
+            {
+                Log.Message($"[EventContext] Cleared variable '{name}'.");
+            }
+            else
+            {
+                Log.Warning($"[EventContext] Tried to clear variable '{name}' but it was not found.");
+            }
+        }
     }
 }
