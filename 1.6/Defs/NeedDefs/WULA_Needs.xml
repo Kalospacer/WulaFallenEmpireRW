@@ -14,6 +14,7 @@
     <showForCaravanMembers>true</showForCaravanMembers>
     <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
     <showUnitTicks>true</showUnitTicks>
+    <freezeWhileSleeping>true</freezeWhileSleeping>
     <modExtensions>
       <li Class="WulaFallenEmpire.NeedDefExtension_Energy">
         <fallPerDay>1</fallPerDay>

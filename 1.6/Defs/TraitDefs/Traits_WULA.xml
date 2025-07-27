@@ -13,7 +13,7 @@
         <allowedMeditationFocusTypes><li>Dignified</li></allowedMeditationFocusTypes>
         <degree>1</degree>
         <statOffsets>
-          <MentalBreakThreshold>-0.2</MentalBreakThreshold>
+          <MentalBreakThreshold>-0.1</MentalBreakThreshold>
         </statOffsets>
         <statFactors>
           <AimingDelayFactor>0.75</AimingDelayFactor>
@@ -30,7 +30,7 @@
         <degree>2</degree>
         <allowedMeditationFocusTypes><li>Dignified</li></allowedMeditationFocusTypes>
         <statOffsets>
-          <MentalBreakThreshold>-0.5</MentalBreakThreshold>
+          <MentalBreakThreshold>-0.2</MentalBreakThreshold>
         </statOffsets>
         <statFactors>
           <AimingDelayFactor>0.5</AimingDelayFactor>

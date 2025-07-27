@@ -526,7 +526,7 @@
     <descriptionHyperlinks>
       <ThingDef>WulaSpecies</ThingDef>
     </descriptionHyperlinks>
-    <researchPrerequisite>WULA_Machine_Productor_Technology</researchPrerequisite>
+    <researchPrerequisite>WULA_Synth_Productor_Technology</researchPrerequisite>
   </RecipeDef>
 
   <RecipeDef ParentName="LightMechanoidRecipe">
