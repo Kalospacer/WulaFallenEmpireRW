@@ -1,22 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\",
+  "WorkspaceRootPath": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\mechanitorpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:mechanitorpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\wulafallenempiretest\\source\\wulafallenempire\\eventsystem\\dialog_customdisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:eventsystem\\dialog_customdisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\workshop\\content\\294100\\3516260226\\source\\wulafallenempire\\hediffcomp_regeneratebackstory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:hediffcomp_regeneratebackstory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\wulafallenempiretest\\source\\wulafallenempire\\eventsystem\\debugactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:eventsystem\\debugactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\workshop\\content\\294100\\3516260226\\source\\wulafallenempire\\wulafallenempiremod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:wulafallenempiremod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\wulafallenempiretest\\source\\wulafallenempire\\eventsystem\\customuidef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:eventsystem\\customuidef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\building_wula_darkenergy_engine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:building_wula_darkenergy_engine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\wulafallenempiretest\\source\\wulafallenempire\\eventsystem\\condition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:eventsystem\\condition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,62 +26,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HediffComp_RegenerateBackstory.cs",
-              "DocumentMoniker": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\HediffComp_RegenerateBackstory.cs",
-              "RelativeDocumentMoniker": "HediffComp_RegenerateBackstory.cs",
-              "ToolTip": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\HediffComp_RegenerateBackstory.cs",
-              "RelativeToolTip": "HediffComp_RegenerateBackstory.cs",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAIwHIAAAABAAAA",
+              "DocumentIndex": 0,
+              "Title": "Dialog_CustomDisplay.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\EventSystem\\Dialog_CustomDisplay.cs",
+              "RelativeDocumentMoniker": "EventSystem\\Dialog_CustomDisplay.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\EventSystem\\Dialog_CustomDisplay.cs",
+              "RelativeToolTip": "EventSystem\\Dialog_CustomDisplay.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T11:23:19.064Z",
+              "WhenOpened": "2025-07-27T10:59:13.84Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DebugActions.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\EventSystem\\DebugActions.cs",
+              "RelativeDocumentMoniker": "EventSystem\\DebugActions.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\EventSystem\\DebugActions.cs",
+              "RelativeToolTip": "EventSystem\\DebugActions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T10:59:11.817Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "WulaFallenEmpireMod.cs",
-              "DocumentMoniker": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\WulaFallenEmpireMod.cs",
-              "RelativeDocumentMoniker": "WulaFallenEmpireMod.cs",
-              "ToolTip": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\WulaFallenEmpireMod.cs",
-              "RelativeToolTip": "WulaFallenEmpireMod.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAADwvxQAAAAAAAAA",
+              "Title": "CustomUIDef.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\EventSystem\\CustomUIDef.cs",
+              "RelativeDocumentMoniker": "EventSystem\\CustomUIDef.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\EventSystem\\CustomUIDef.cs",
+              "RelativeToolTip": "EventSystem\\CustomUIDef.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T10:23:17.898Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MechanitorPatch.cs",
-              "DocumentMoniker": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\MechanitorPatch.cs",
-              "RelativeDocumentMoniker": "MechanitorPatch.cs",
-              "ToolTip": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\MechanitorPatch.cs",
-              "RelativeToolTip": "MechanitorPatch.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T10:20:31.368Z",
+              "WhenOpened": "2025-07-27T10:59:01.929Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Building_Wula_DarkEnergy_Engine.cs",
-              "DocumentMoniker": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\Building_Wula_DarkEnergy_Engine.cs",
-              "RelativeDocumentMoniker": "Building_Wula_DarkEnergy_Engine.cs",
-              "ToolTip": "C:\\Steam\\steamapps\\workshop\\content\\294100\\3516260226\\Source\\WulaFallenEmpire\\Building_Wula_DarkEnergy_Engine.cs",
-              "RelativeToolTip": "Building_Wula_DarkEnergy_Engine.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAADwvwAAAAAAAAAA",
+              "Title": "Condition.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\EventSystem\\Condition.cs",
+              "RelativeDocumentMoniker": "EventSystem\\Condition.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\WulaFallenEmpireTest\\Source\\WulaFallenEmpire\\EventSystem\\Condition.cs",
+              "RelativeToolTip": "EventSystem\\Condition.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T12:24:18.86Z"
+              "WhenOpened": "2025-07-27T10:50:26.799Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         }

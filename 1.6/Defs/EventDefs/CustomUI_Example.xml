@@ -4,17 +4,17 @@
   <!-- Event 1 -->
   <WulaFallenEmpire.CustomUIDef>
     <defName>Wula_ExampleUI</defName>
-    <label>INCOMING TRANSMISSON事件链示例 - 1</label>
-    <portraitPath>UI/HeroArt/Storytellers/Randy</portraitPath>
-    <characterName>兰迪·随机</characterName>
-    <description>这是一个事件链的开端。选择第一个选项将会打开第二个事件窗口。</description>
+    <label>乌拉乌拉乌</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Anisia</portraitPath>
+    <characterName>乌拉</characterName>
+    <description>结芬！结芬！结芬！结芬！结芬！结芬！结芬！结芬！结芬！结芬！结芬！结芬！结芬！结芬！</description>
     <onOpenEffects>
     </onOpenEffects>
     <dismissEffects>
     </dismissEffects>
     <options>
       <li>
-        <label>继续事件</label>
+        <label>结芬！</label>
         <effects>
           <li Class="WulaFallenEmpire.Effect_SetVariable">
             <name>wula_event_progress</name>
@@ -31,7 +31,19 @@
         </effects>
       </li>
       <li>
-        <label>离开</label>
+        <label>你是钢板</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+      <li>
+        <label>你是茄子</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+      <li>
+        <label>你是钢板茄子</label>
         <effects>
           <li Class="WulaFallenEmpire.Effect_CloseDialog" />
         </effects>

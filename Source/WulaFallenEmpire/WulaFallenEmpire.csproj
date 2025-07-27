@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\2009463077\1.5\Assemblies\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\1.5\Assemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
@@ -111,7 +111,6 @@
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
   <Target Name="CleanDebugFiles" AfterTargets="Build">
     <RemoveDir Directories="$(ProjectDir)obj\Debug" />

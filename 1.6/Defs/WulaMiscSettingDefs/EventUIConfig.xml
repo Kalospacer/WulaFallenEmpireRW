@@ -6,13 +6,13 @@
     
     <!-- General Style -->
     <labelFont>Small</labelFont>
-    <drawBorders>true</drawBorders>
+    <drawBorders>false</drawBorders>
     <defaultBackgroundImagePath></defaultBackgroundImagePath>
     
     <!-- Virtual Layout Dimensions -->
     <lihuiSize>(500, 800)</lihuiSize>
     <nameSize>(260, 130)</nameSize>
-    <textSize>(650, 500)</textSize>
+    <textSize>(650, 350)</textSize>
     <optionsWidth>650</optionsWidth>
     
     <!-- Virtual Layout Offsets -->

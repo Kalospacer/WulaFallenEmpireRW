@@ -24,7 +24,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        public override Vector2 InitialSize => new Vector2(1000f, 750f);
+        public override Vector2 InitialSize => new Vector2(750f, 500f);
 
         public Dialog_CustomDisplay(CustomUIDef def)
         {
