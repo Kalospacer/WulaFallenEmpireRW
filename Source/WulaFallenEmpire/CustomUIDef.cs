@@ -15,5 +15,7 @@ namespace WulaFallenEmpire
     {
         public string label;
         public List<Effect> effects;
+        public List<Condition> conditions;
+        public string disabledReason; // Custom text to show if conditions aren't met
     }
 }

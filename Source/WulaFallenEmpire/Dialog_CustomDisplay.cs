@@ -31,27 +31,42 @@ namespace WulaFallenEmpire
 
         public override void DoWindowContents(Rect inRect)
         {
-            // Top-left defName
+            // Top-left defName and Label
             Text.Font = GameFont.Tiny;
             GUI.color = Color.gray;
-            Widgets.Label(new Rect(0, 0, inRect.width, 30f), def.defName);
+            Widgets.Label(new Rect(5, 5, inRect.width - 10, 20f), def.defName);
             GUI.color = Color.white;
+
             Text.Font = GameFont.Small;
+            Widgets.Label(new Rect(5, 20f, inRect.width - 10, 30f), def.label);
 
-            // Scaling factor to fit the new window size while maintaining layout proportions.
-            float scale = 0.65f;
 
-            // The original CSS was based on a large canvas. We create a virtual canvas inside our window.
-            // Center the main content block.
-            float contentWidth = 1200f * scale;
-            float contentHeight = 1100f * scale;
-            Rect contentRect = new Rect((inRect.width - contentWidth) / 2, (inRect.height - contentHeight) / 2, contentWidth, contentHeight);
+            // Define virtual total size from the CSS layout
+            float virtualWidth = 500f + 650f; // lihui + text
+            float virtualHeight = 800f; // lihui height
 
-            // All original positions are now relative to this contentRect and scaled.
-            Rect mainBodySRect = new Rect(contentRect.x + 200f * scale, contentRect.y + 400f * scale, 1050f * scale, 1000f * scale);
+            // Calculate scale to fit the window, maintaining aspect ratio
+            float scaleX = inRect.width / virtualWidth;
+            float scaleY = inRect.height / virtualHeight;
+            float scale = Mathf.Min(scaleX, scaleY) * 0.95f; // Use 95% of space to leave some margin
+
+            // Calculate scaled dimensions
+            float scaledLihuiWidth = 500f * scale;
+            float scaledLihuiHeight = 800f * scale;
+            float scaledNameWidth = 260f * scale;
+            float scaledNameHeight = 130f * scale;
+            float scaledTextWidth = 650f * scale;
+            float scaledTextHeight = 250f * scale;
+            float scaledOptionsWidth = 610f * scale;
+
+            // Center the whole content block
+            float totalContentWidth = scaledLihuiWidth + scaledTextWidth;
+            float totalContentHeight = scaledLihuiHeight;
+            float startX = (inRect.width - totalContentWidth) / 2;
+            float startY = (inRect.height - totalContentHeight) / 2;
 
             // lihui (Portrait)
-            Rect lihuiRect = new Rect(mainBodySRect.x - 150f * scale, mainBodySRect.y - 200f * scale, 500f * scale, 800f * scale);
+            Rect lihuiRect = new Rect(startX, startY, scaledLihuiWidth, scaledLihuiHeight);
             if (portrait != null)
             {
                 GUI.DrawTexture(lihuiRect, portrait, ScaleMode.ScaleToFit);
@@ -62,7 +77,7 @@ namespace WulaFallenEmpire
 
 
             // name
-            Rect nameRect = new Rect(lihuiRect.xMax, mainBodySRect.y - 30f * scale, 260f * scale, 130f * scale);
+            Rect nameRect = new Rect(lihuiRect.xMax, lihuiRect.y, scaledNameWidth, scaledNameHeight);
             GUI.color = Color.white;
             Widgets.DrawBox(nameRect);
             GUI.color = Color.white; // Reset color
@@ -73,7 +88,7 @@ namespace WulaFallenEmpire
             Text.Anchor = TextAnchor.UpperLeft;
 
             // text (Description)
-            Rect textRect = new Rect(nameRect.x, nameRect.yMax + 50f * scale, 650f * scale, 250f * scale);
+            Rect textRect = new Rect(nameRect.x, nameRect.yMax + 20f * scale, scaledTextWidth, scaledTextHeight);
             GUI.color = Color.white;
             Widgets.DrawBox(textRect);
             GUI.color = Color.white; // Reset color
@@ -81,7 +96,7 @@ namespace WulaFallenEmpire
             Widgets.Label(textInnerRect, def.description);
 
             // option (Buttons)
-            Rect optionRect = new Rect(nameRect.x, textRect.yMax, 610f * scale, 300f * scale);
+            Rect optionRect = new Rect(nameRect.x, textRect.yMax + 20f * scale, scaledOptionsWidth, lihuiRect.height - nameRect.height - textRect.height - 40f * scale);
             // No need to draw a box for the options area, the buttons will be listed inside.
 
             Listing_Standard listing = new Listing_Standard();
@@ -90,9 +105,22 @@ namespace WulaFallenEmpire
             {
                 foreach (var option in def.options)
                 {
-                    if (listing.ButtonText(option.label))
+                    string reason;
+                    bool conditionsMet = AreConditionsMet(option.conditions, out reason);
+
+                    if (conditionsMet)
                     {
-                        HandleAction(option.effects);
+                        if (listing.ButtonText(option.label))
+                        {
+                            HandleAction(option.effects);
+                        }
+                    }
+                    else
+                    {
+                        // Draw a disabled button and add a tooltip
+                        Rect rect = listing.GetRect(30f);
+                        Widgets.ButtonText(rect, option.label, false, true, false);
+                        TooltipHandler.TipRegion(rect, GetDisabledReason(option, reason));
                     }
                 }
             }
@@ -110,6 +138,34 @@ namespace WulaFallenEmpire
             {
                 effect.Execute(this);
             }
+        }
+
+        private bool AreConditionsMet(List<Condition> conditions, out string reason)
+        {
+            reason = "";
+            if (conditions.NullOrEmpty())
+            {
+                return true;
+            }
+
+            foreach (var condition in conditions)
+            {
+                if (!condition.IsMet(out string singleReason))
+                {
+                    reason = singleReason;
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private string GetDisabledReason(CustomUIOption option, string reason)
+        {
+            if (!option.disabledReason.NullOrEmpty())
+            {
+                return option.disabledReason;
+            }
+            return reason;
         }
     }
 }

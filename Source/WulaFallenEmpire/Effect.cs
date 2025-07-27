@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Verse;
 using RimWorld;
 
@@ -87,4 +89,101 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            Faction.OfPlayer.TryAffectGoodwillWith(faction, goodwillChange, canSendMessage: true, canSendHostilityLetter: true, reason: HistoryEventDefOf.QuestGoodwill, lookTarget: null);
+            Faction targetFaction = Find.FactionManager.FirstFactionOfDef(faction);
+            if (targetFaction == null)
+            {
+                Log.Warning($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{faction.defName}'.");
+                return;
+            }
+
+            Faction.OfPlayer.TryAffectGoodwillWith(targetFaction, goodwillChange, canSendMessage: true, canSendHostilityLetter: true, reason: null, lookTarget: null);
+        }
+    }
+
+    public class Effect_SetVariable : Effect
+    {
+        public string name;
+        public string value;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            // Try to parse as int, then float, otherwise keep as string
+            if (int.TryParse(value, out int intValue))
+            {
+                EventContext.SetVariable(name, intValue);
+            }
+            else if (float.TryParse(value, out float floatValue))
+            {
+                EventContext.SetVariable(name, floatValue);
+            }
+            else
+            {
+                EventContext.SetVariable(name, value);
+            }
+        }
+    }
+    
+    public class Effect_ChangeFactionRelation_FromVariable : Effect
+    {
+        public FactionDef faction;
+        public string goodwillVariableName;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            if (faction == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_ChangeFactionRelation_FromVariable has a null faction Def.");
+                return;
+            }
+            
+            Faction targetFaction = Find.FactionManager.FirstFactionOfDef(faction);
+            if (targetFaction == null)
+            {
+                Log.Warning($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{faction.defName}'.");
+                return;
+            }
+
+            int goodwillChange = EventContext.GetVariable<int>(goodwillVariableName);
+            Faction.OfPlayer.TryAffectGoodwillWith(targetFaction, goodwillChange, canSendMessage: true, canSendHostilityLetter: true, reason: null, lookTarget: null);
+        }
+    }
+
+    public class Effect_SpawnPawnAndStore : Effect
+    {
+        public PawnKindDef kindDef;
+        public int count = 1;
+        public string storeAs;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            if (kindDef == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_SpawnPawnAndStore has a null kindDef.");
+                return;
+            }
+            if (storeAs.NullOrEmpty())
+            {
+                Log.Error("[WulaFallenEmpire] Effect_SpawnPawnAndStore needs a 'storeAs' variable name.");
+                return;
+            }
+
+            List<Pawn> spawnedPawns = new List<Pawn>();
+            for (int i = 0; i < count; i++)
+            {
+                Pawn newPawn = PawnGenerator.GeneratePawn(kindDef, Faction.OfPlayer);
+                IntVec3 loc = CellFinder.RandomSpawnCellForPawnNear(Find.CurrentMap.mapPawns.FreeColonists.First().Position, Find.CurrentMap, 10);
+                GenSpawn.Spawn(newPawn, loc, Find.CurrentMap);
+                spawnedPawns.Add(newPawn);
+            }
+
+            if (count == 1)
+            {
+                EventContext.SetVariable(storeAs, spawnedPawns.First());
+            }
+            else
+            {
+                EventContext.SetVariable(storeAs, spawnedPawns);
+            }
+        }
+    }
+}

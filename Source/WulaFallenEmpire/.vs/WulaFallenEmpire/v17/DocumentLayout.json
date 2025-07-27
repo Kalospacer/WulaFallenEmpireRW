@@ -7,7 +7,7 @@
       "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:debugactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\common\\rimworld\\mods\\3516260226\\source\\wulafallenempire\\mentalstate_brokenpersonality.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\mentalstate_brokenpersonality.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:mentalstate_brokenpersonality.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -91,8 +91,7 @@
               "RelativeToolTip": "MentalState_BrokenPersonality.cs",
               "ViewState": "AQIAABMAAAAAAAAAAAAAwEsAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T13:51:03.13Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-25T13:51:03.13Z"
             },
             {
               "$type": "Document",
