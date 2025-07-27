@@ -7,7 +7,7 @@ namespace WulaFallenEmpire
 {
     public static class WulaDebugActions
     {
-        [DebugAction("Wula Fallen Empire", "Open Custom UI...", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.Playing)]
+        [DebugAction("Wula Fallen Empire", "Open Custom UI...", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.Playing)]
         private static void OpenCustomUI()
         {
             List<DebugMenuOption> list = new List<DebugMenuOption>();

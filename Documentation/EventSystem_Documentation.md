@@ -403,9 +403,23 @@
             <message>你触发了特殊选项！</message>
           </li>
            <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-        </effects>
+       </effects>
       </li>
     </options>
   </WulaFallenEmpire.CustomUIDef>
 
 </Defs>
+---
+
+## 9. 调试工具
+
+为了方便测试，我们提供了一个开发者调试命令来快速打开任何一个事件窗口。
+
+**如何使用:**
+1. 在游戏中打开开发者模式。
+2. 点击屏幕上方的第四个按钮 "Open the debug actions menu"。
+3. 在搜索框中输入 "Custom UI"。
+4. 点击 "Wula Fallen Empire - Open Custom UI..." 选项。
+5. 在弹出的列表中，选择你想要测试的事件的 `defName`。
+
+这会立即打开对应的事件窗口，让你可以在不满足游戏内触发条件的情况下快速预览和测试你的事件。
