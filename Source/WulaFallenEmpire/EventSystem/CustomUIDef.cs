@@ -9,6 +9,7 @@ namespace WulaFallenEmpire
         public string characterName;
         public new string description;
         public List<CustomUIOption> options;
+        public string backgroundImagePath; // Override default background
     }
 
     public class CustomUIOption

@@ -9,6 +9,20 @@ namespace WulaFallenEmpire
     {
         private CustomUIDef def;
         private Texture2D portrait;
+        private Texture2D background;
+
+        private static EventUIConfigDef config;
+        public static EventUIConfigDef Config
+        {
+            get
+            {
+                if (config == null)
+                {
+                    config = DefDatabase<EventUIConfigDef>.GetNamed("Wula_EventUIConfig");
+                }
+                return config;
+            }
+        }
 
         public override Vector2 InitialSize => new Vector2(1000f, 750f);
 
@@ -25,62 +39,77 @@ namespace WulaFallenEmpire
             base.PreOpen();
             if (!def.portraitPath.NullOrEmpty())
             {
-                this.portrait = ContentFinder<Texture2D>.Get(def.portraitPath);
+                portrait = ContentFinder<Texture2D>.Get(def.portraitPath);
+            }
+
+            string bgPath = !def.backgroundImagePath.NullOrEmpty() ? def.backgroundImagePath : Config.defaultBackgroundImagePath;
+            if (!bgPath.NullOrEmpty())
+            {
+                background = ContentFinder<Texture2D>.Get(bgPath);
             }
         }
 
         public override void DoWindowContents(Rect inRect)
         {
-            // Top-left defName and Label
+            // 1. Draw Background
+            if (background != null)
+            {
+                GUI.DrawTexture(inRect, background, ScaleMode.ScaleToFit);
+            }
+
+            // 2. Draw Top-left defName and Label
             Text.Font = GameFont.Tiny;
             GUI.color = Color.gray;
             Widgets.Label(new Rect(5, 5, inRect.width - 10, 20f), def.defName);
             GUI.color = Color.white;
 
-            Text.Font = GameFont.Small;
+            Text.Font = Config.labelFont;
             Widgets.Label(new Rect(5, 20f, inRect.width - 10, 30f), def.label);
+            Text.Font = GameFont.Small; // Reset to default
 
+            // 3. Calculate Layout based on ConfigDef
+            float virtualWidth = Config.lihuiSize.x + Config.textSize.x;
+            float virtualHeight = Config.lihuiSize.y;
 
-            // Define virtual total size from the CSS layout
-            float virtualWidth = 500f + 650f; // lihui + text
-            float virtualHeight = 800f; // lihui height
-
-            // Calculate scale to fit the window, maintaining aspect ratio
             float scaleX = inRect.width / virtualWidth;
             float scaleY = inRect.height / virtualHeight;
-            float scale = Mathf.Min(scaleX, scaleY) * 0.95f; // Use 95% of space to leave some margin
+            float scale = Mathf.Min(scaleX, scaleY) * 0.95f;
 
-            // Calculate scaled dimensions
-            float scaledLihuiWidth = 500f * scale;
-            float scaledLihuiHeight = 800f * scale;
-            float scaledNameWidth = 260f * scale;
-            float scaledNameHeight = 130f * scale;
-            float scaledTextWidth = 650f * scale;
-            float scaledTextHeight = 250f * scale;
-            float scaledOptionsWidth = 610f * scale;
+            float scaledLihuiWidth = Config.lihuiSize.x * scale;
+            float scaledLihuiHeight = Config.lihuiSize.y * scale;
+            float scaledNameWidth = Config.nameSize.x * scale;
+            float scaledNameHeight = Config.nameSize.y * scale;
+            float scaledTextWidth = Config.textSize.x * scale;
+            float scaledTextHeight = Config.textSize.y * scale;
+            float scaledOptionsWidth = Config.optionsWidth * scale;
 
-            // Center the whole content block
             float totalContentWidth = scaledLihuiWidth + scaledTextWidth;
             float totalContentHeight = scaledLihuiHeight;
             float startX = (inRect.width - totalContentWidth) / 2;
             float startY = (inRect.height - totalContentHeight) / 2;
 
+            // 4. Draw UI Elements
             // lihui (Portrait)
             Rect lihuiRect = new Rect(startX, startY, scaledLihuiWidth, scaledLihuiHeight);
             if (portrait != null)
             {
                 GUI.DrawTexture(lihuiRect, portrait, ScaleMode.ScaleToFit);
             }
-            GUI.color = Color.white;
-            Widgets.DrawBox(lihuiRect);
-            GUI.color = Color.white; // Reset color
-
+            if (Config.drawBorders)
+            {
+                GUI.color = Color.white;
+                Widgets.DrawBox(lihuiRect);
+                GUI.color = Color.white;
+            }
 
             // name
             Rect nameRect = new Rect(lihuiRect.xMax, lihuiRect.y, scaledNameWidth, scaledNameHeight);
-            GUI.color = Color.white;
-            Widgets.DrawBox(nameRect);
-            GUI.color = Color.white; // Reset color
+            if (Config.drawBorders)
+            {
+                GUI.color = Color.white;
+                Widgets.DrawBox(nameRect);
+                GUI.color = Color.white;
+            }
             Text.Anchor = TextAnchor.MiddleCenter;
             Text.Font = GameFont.Medium;
             Widgets.Label(nameRect, def.characterName);
@@ -88,15 +117,18 @@ namespace WulaFallenEmpire
             Text.Anchor = TextAnchor.UpperLeft;
 
             // text (Description)
-            Rect textRect = new Rect(nameRect.x, nameRect.yMax + 20f * scale, scaledTextWidth, scaledTextHeight);
-            GUI.color = Color.white;
-            Widgets.DrawBox(textRect);
-            GUI.color = Color.white; // Reset color
+            Rect textRect = new Rect(nameRect.x, nameRect.yMax + Config.textNameOffset * scale, scaledTextWidth, scaledTextHeight);
+            if (Config.drawBorders)
+            {
+                GUI.color = Color.white;
+                Widgets.DrawBox(textRect);
+                GUI.color = Color.white;
+            }
             Rect textInnerRect = textRect.ContractedBy(10f * scale);
             Widgets.Label(textInnerRect, def.description);
 
             // option (Buttons)
-            Rect optionRect = new Rect(nameRect.x, textRect.yMax + 20f * scale, scaledOptionsWidth, lihuiRect.height - nameRect.height - textRect.height - 40f * scale);
+            Rect optionRect = new Rect(nameRect.x, textRect.yMax + Config.optionsTextOffset * scale, scaledOptionsWidth, lihuiRect.height - nameRect.height - textRect.height - (Config.textNameOffset + Config.optionsTextOffset) * scale);
             // No need to draw a box for the options area, the buttons will be listed inside.
 
             Listing_Standard listing = new Listing_Standard();

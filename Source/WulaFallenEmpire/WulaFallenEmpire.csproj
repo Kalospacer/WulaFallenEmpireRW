@@ -102,12 +102,13 @@
     <Compile Include="MentalState_BrokenPersonality.cs" />
     <Compile Include="MentalStateDefExtension_BrokenPersonality.cs" />
     <Compile Include="MentalBreakWorker_BrokenPersonality.cs" />
-    <Compile Include="Dialog_CustomDisplay.cs" />
-    <Compile Include="CustomUIDef.cs" />
-    <Compile Include="Effect.cs" />
     <Compile Include="DebugActions.cs" />
-    <Compile Include="EventContext.cs" />
-    <Compile Include="Condition.cs" />
+    <Compile Include="EventSystem\Condition.cs" />
+    <Compile Include="EventSystem\CustomUIDef.cs" />
+    <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
+    <Compile Include="EventSystem\Effect.cs" />
+    <Compile Include="EventSystem\EventContext.cs" />
+    <Compile Include="EventSystem\EventUIConfigDef.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   

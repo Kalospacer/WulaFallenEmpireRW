@@ -186,4 +186,86 @@ namespace WulaFallenEmpire
             }
         }
     }
+
+    public class Effect_GiveThing : Effect
+    {
+        public ThingDef thingDef;
+        public int count = 1;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            if (thingDef == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_GiveThing has a null thingDef.");
+                return;
+            }
+
+            Map currentMap = Find.CurrentMap;
+            if (currentMap == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_GiveThing cannot execute without a current map.");
+                return;
+            }
+
+            Thing thing = ThingMaker.MakeThing(thingDef);
+            thing.stackCount = count;
+
+            IntVec3 dropCenter = DropCellFinder.TradeDropSpot(currentMap);
+            DropPodUtility.DropThingsNear(dropCenter, currentMap, new List<Thing> { thing }, 110, false, false, false, false);
+
+            Messages.Message("LetterLabelCargoPodCrash".Translate(), new TargetInfo(dropCenter, currentMap), MessageTypeDefOf.PositiveEvent);
+        }
+    }
+
+    public class Effect_SpawnPawn : Effect
+    {
+        public PawnKindDef kindDef;
+        public int count = 1;
+        public bool joinPlayerFaction = true;
+        public string letterLabel;
+        public string letterText;
+        public LetterDef letterDef;
+
+        public override void Execute(Dialog_CustomDisplay dialog)
+        {
+            if (kindDef == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_SpawnPawn has a null kindDef.");
+                return;
+            }
+
+            Map map = Find.CurrentMap;
+            if (map == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_SpawnPawn cannot execute without a current map.");
+                return;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                Faction faction = joinPlayerFaction ? Faction.OfPlayer : null;
+                PawnGenerationRequest request = new PawnGenerationRequest(
+                    kindDef, faction, PawnGenerationContext.NonPlayer, -1, true, false, false, false, 
+                    true, 20f, false, true, false, true, true, false, false, false, false, 0f, 0f, null, 1f, 
+                    null, null, null, null, null, null, null, null, null, null, null, null, false
+                );
+                Pawn pawn = PawnGenerator.GeneratePawn(request);
+
+                if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c) && !c.Fogged(map), map, CellFinder.EdgeRoadChance_Neutral, out IntVec3 cell))
+                {
+                    cell = DropCellFinder.RandomDropSpot(map);
+                }
+                
+                GenSpawn.Spawn(pawn, cell, map, WipeMode.Vanish);
+
+                if (!string.IsNullOrEmpty(letterLabel) && !string.IsNullOrEmpty(letterText))
+                {
+                    TaggedString finalLabel = letterLabel.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn);
+                    TaggedString finalText = letterText.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn);
+                    PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref finalText, ref finalLabel, pawn);
+                    Find.LetterStack.ReceiveLetter(finalLabel, finalText, letterDef ?? LetterDefOf.PositiveEvent, pawn);
+                }
+            }
+        }
+    }
 }

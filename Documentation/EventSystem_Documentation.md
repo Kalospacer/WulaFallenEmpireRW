@@ -9,10 +9,49 @@
 - **`Effect`**: 定义一个选项被点击后执行的具体动作（例如，给予物品、改变关系、打开新窗口等）。
 - **`Condition`**: 定义一个选项是否可选的前提条件（例如，需要某个变量达到特定值）。
 - **`EventContext`**: 一个全局的静态变量存储系统，允许在不同事件和效果之间传递数据。
+- **`EventUIConfigDef`**: 一个全局的外观和布局配置文件，用于统一管理所有事件窗口的视觉风格。
 
 ---
 
-## 2. 如何创建事件 (`CustomUIDef`)
+## 2. 全局UI配置 (`EventUIConfigDef`)
+
+为了方便统一修改所有事件窗口的外观和布局，系统使用一个单例的 `EventUIConfigDef`。你应该在 `Defs` 文件夹下创建一个XML文件来定义它。
+
+**文件示例 (`1.6/Defs/ConfigDefs/EventUIConfig.xml`):**
+```xml
+<Defs>
+  <WulaFallenEmpire.EventUIConfigDef>
+    <defName>Wula_EventUIConfig</defName>
+    
+    <!-- 通用风格 -->
+    <labelFont>Small</labelFont>
+    <drawBorders>true</drawBorders>
+    <defaultBackgroundImagePath>UI/Backgrounds/DefaultBG</defaultBackgroundImagePath>
+    
+    <!-- 虚拟布局尺寸 -->
+    <lihuiSize>(500, 800)</lihuiSize>
+    <nameSize>(260, 130)</nameSize>
+    <textSize>(650, 500)</textSize>
+    <optionsWidth>610</optionsWidth>
+    
+    <!-- 虚拟布局间距 -->
+    <textNameOffset>20</textNameOffset>
+    <optionsTextOffset>20</optionsTextOffset>
+    
+  </WulaFallenEmpire.EventUIConfigDef>
+</Defs>
+```
+
+**字段说明:**
+- `labelFont`: 事件标题 (`label`) 的字体大小。可选值: `Tiny`, `Small`, `Medium`, `Large`。
+- `drawBorders`: 是否为立绘、名称和描述区域绘制白色边框。
+- `defaultBackgroundImagePath`: 所有事件窗口默认使用的背景图路径。
+- `lihuiSize`, `nameSize`, `textSize`, `optionsWidth`: 定义了UI各部分的基础虚拟尺寸，代码会根据窗口大小按比例缩放它们。
+- `textNameOffset`, `optionsTextOffset`: 定义了各部分之间的垂直间距。
+
+---
+
+## 3. 如何创建事件 (`CustomUIDef`)
 
 每个事件都是一个 `CustomUIDef`。你需要在一个 `Defs` XML文件中定义它。
 
@@ -34,15 +73,16 @@
 
 **字段说明:**
 - `defName`: 事件的唯一ID，用于在代码或其他事件中引用它。
-- `label`: 显示在窗口顶部的标题（当前版本未在UI中显示，但建议填写）。
+- `label`: 显示在窗口左上角的标题。
 - `portraitPath`: 立绘的纹理路径（相对于`Resources`或`Textures`目录）。
 - `characterName`: 显示在名称框中的文本。
+- `backgroundImagePath`: (可选)为此特定事件指定的背景图路径，它会覆盖 `EventUIConfigDef` 中的默认背景。
 - `description`: 显示在描述框中的主要文本。
 - `options`: 一个 `<li>` 列表，定义了所有的交互选项。
 
 ---
 
-## 3. 核心概念：选项 (`CustomUIOption`)
+## 4. 核心概念：选项 (`CustomUIOption`)
 
 每个选项都在 `<options>` 列表中的一个 `<li>` 标签内定义。
 
@@ -54,13 +94,13 @@
 
 ---
 
-## 4. 核心概念：效果 (`Effect`)
+## 5. 核心概念：效果 (`Effect`)
 
 效果定义了“做什么”。每个效果都在 `effects` 列表中的一个 `<li>` 标签内定义，并且必须有一个 `Class` 属性。
 
 ### 已实现的 `Effect` 列表
 
-#### 4.1 `Effect_OpenCustomUI`
+#### 5.1 `Effect_OpenCustomUI`
 - **功能**: 打开另一个自定义UI事件窗口。
 - **Class**: `WulaFallenEmpire.Effect_OpenCustomUI`
 - **字段**:
@@ -72,7 +112,7 @@
   </li>
   ```
 
-#### 4.2 `Effect_CloseDialog`
+#### 5.2 `Effect_CloseDialog`
 - **功能**: 关闭当前的事件窗口。
 - **Class**: `WulaFallenEmpire.Effect_CloseDialog`
 - **字段**: 无
@@ -81,7 +121,7 @@
   <li Class="WulaFallenEmpire.Effect_CloseDialog" />
   ```
 
-#### 4.3 `Effect_ShowMessage`
+#### 5.3 `Effect_ShowMessage`
 - **功能**: 在屏幕左上角显示一条游戏消息。
 - **Class**: `WulaFallenEmpire.Effect_ShowMessage`
 - **字段**:
@@ -95,7 +135,7 @@
   </li>
   ```
 
-#### 4.4 `Effect_FireIncident`
+#### 5.4 `Effect_FireIncident`
 - **功能**: 触发一个原版或Mod添加的游戏内事件。
 - **Class**: `WulaFallenEmpire.Effect_FireIncident`
 - **字段**:
@@ -107,7 +147,7 @@
   </li>
   ```
 
-#### 4.5 `Effect_ChangeFactionRelation`
+#### 5.5 `Effect_ChangeFactionRelation`
 - **功能**: 改变与指定派系的好感度。
 - **Class**: `WulaFallenEmpire.Effect_ChangeFactionRelation`
 - **字段**:
@@ -121,7 +161,7 @@
   </li>
   ```
 
-#### 4.6 `Effect_SetVariable`
+#### 5.6 `Effect_SetVariable`
 - **功能**: 在 `EventContext` 中设置或修改一个变量的值。
 - **Class**: `WulaFallenEmpire.Effect_SetVariable`
 - **字段**:
@@ -135,15 +175,50 @@
   </li>
   ```
 
+#### 5.7 `Effect_GiveThing`
+- **功能**: 给予玩家一个或多个物品。
+- **Class**: `WulaFallenEmpire.Effect_GiveThing`
+- **字段**:
+  - `thingDef`: (必须) 要给予物品的 `ThingDef` 的 `defName`。
+  - `count`: (可选) 给予的数量，默认为 1。
+- **示例**:
+  ```xml
+  <li Class="WulaFallenEmpire.Effect_GiveThing">
+    <thingDef>Silver</thingDef>
+    <count>100</count>
+  </li>
+  ```
+
+#### 5.8 `Effect_SpawnPawn`
+- **功能**: 在地图上生成一个或多个Pawn，并可选地发送一封信件通知玩家。
+- **Class**: `WulaFallenEmpire.Effect_SpawnPawn`
+- **字段**:
+  - `kindDef`: (必须) 要生成Pawn的 `PawnKindDef` 的 `defName`。
+  - `count`: (可选) 生成的数量，默认为 1。
+  - `joinPlayerFaction`: (可选) Pawn是否加入玩家派系，默认为 `true`。
+  - `letterLabel`: (可选) 通知信件的标题。
+  - `letterText`: (可选) 通知信件的内容。
+  - `letterDef`: (可选) 通知信件的类型 (例如 `PositiveEvent`, `NegativeEvent`)。默认为 `PositiveEvent`。
+- **示例**:
+  ```xml
+  <li Class="WulaFallenEmpire.Effect_SpawnPawn">
+    <kindDef>Colonist</kindDef>
+    <count>1</count>
+    <joinPlayerFaction>true</joinPlayerFaction>
+    <letterLabel>A New Colonist</letterLabel>
+    <letterText>{PAWN_nameDef} has decided to join your colony.</letterText>
+  </li>
+  ```
+
 ---
 
-## 5. 核心概念：条件 (`Condition`)
+## 6. 核心概念：条件 (`Condition`)
 
 条件定义了选项是否可选的“前提”。每个条件都在 `conditions` 列表中的一个 `<li>` 标签内定义，并且必须有一个 `Class` 属性。
 
 ### 已实现的 `Condition` 列表
 
-#### 5.1 `Condition_VariableEquals`
+#### 6.1 `Condition_VariableEquals`
 - **功能**: 检查一个变量是否等于指定的值。
 - **Class**: `WulaFallenEmpire.Condition_VariableEquals`
 - **字段**:
@@ -157,7 +232,7 @@
   </li>
   ```
 
-#### 5.2 `Condition_VariableGreaterThan`
+#### 6.2 `Condition_VariableGreaterThan`
 - **功能**: 检查一个变量是否大于指定的值。
 - **Class**: `WulaFallenEmpire.Condition_VariableGreaterThan`
 - **字段**:
@@ -173,7 +248,7 @@
 
 ---
 
-## 6. 核心概念：变量系统 (`EventContext`)
+## 7. 核心概念：变量系统 (`EventContext`)
 
 `EventContext` 是一个全局的静态字典，用于在事件链的不同部分之间传递信息。
 
@@ -185,7 +260,7 @@
 
 ---
 
-## 7. 完整示例
+## 8. 完整示例
 
 以下是一个演示了事件链、变量和条件的完整示例。
 

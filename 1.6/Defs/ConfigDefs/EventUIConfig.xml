@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WulaFallenEmpire.EventUIConfigDef>
+    <defName>Wula_EventUIConfig</defName>
+    
+    <!-- General Style -->
+    <labelFont>Small</labelFont>
+    <drawBorders>true</drawBorders>
+    <defaultBackgroundImagePath></defaultBackgroundImagePath>
+    
+    <!-- Virtual Layout Dimensions -->
+    <lihuiSize>(500, 800)</lihuiSize>
+    <nameSize>(260, 130)</nameSize>
+    <textSize>(650, 500)</textSize>
+    <optionsWidth>610</optionsWidth>
+    
+    <!-- Virtual Layout Offsets -->
+    <textNameOffset>20</textNameOffset>
+    <optionsTextOffset>20</optionsTextOffset>
+    
+  </WulaFallenEmpire.EventUIConfigDef>
+
+</Defs>
