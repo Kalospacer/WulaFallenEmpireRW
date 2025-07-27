@@ -2030,7 +2030,7 @@
       <armorPenetrationBase>1</armorPenetrationBase>
     </projectile>
   </ThingDef>
-  <ThingDef ParentName="BaseGun">
+  <ThingDef Name="WULA_WM_Panzer_Autocannon" ParentName="BaseGun">
     <defName>WULA_WM_Panzer_Autocannon</defName>
     <label>SRc-15"辉锑"</label>
     <description>由乌拉帝国的"萨克森"战车所装备的自动炮，能够组织起高射速的弹幕压制杀伤大规模目标，并且外挂了两具PRr-34"石英"火箭发射器，用于对抗集群冲击。</description>
