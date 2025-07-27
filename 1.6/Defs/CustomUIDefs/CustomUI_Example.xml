@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Event 1 -->
+  <WulaFallenEmpire.CustomUIDef>
+    <defName>Wula_ExampleUI</defName>
+    <label>事件链示例 - 1</label>
+    <portraitPath>UI/HeroArt/Storytellers/Randy</portraitPath>
+    <characterName>兰迪·随机</characterName>
+    <description>这是一个事件链的开端。选择第一个选项将会打开第二个事件窗口。</description>
+    <options>
+      <li>
+        <label>继续事件</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_ShowMessage">
+            <message>你选择继续...</message>
+            <messageTypeDef>PositiveEvent</messageTypeDef>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+            <defName>Wula_ExampleUI_Next</defName>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+      <li>
+        <label>离开</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+    </options>
+  </WulaFallenEmpire.CustomUIDef>
+
+  <!-- Event 2 -->
+  <WulaFallenEmpire.CustomUIDef>
+    <defName>Wula_ExampleUI_Next</defName>
+    <label>事件链示例 - 2</label>
+    <portraitPath>UI/HeroArt/Storytellers/Cassandra</portraitPath>
+    <characterName>卡桑德拉·经典</characterName>
+    <description>这是事件链的第二部分。你已经从第一个窗口来到了这里。</description>
+    <options>
+      <li>
+        <label>完成事件 (获得一个新成员)</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_ShowMessage">
+            <message>事件链已完成！一位流浪者加入了你的殖民地。</message>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_FireIncident">
+            <incident>WandererJoin</incident>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+      <li>
+        <label>离开</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+    </options>
+  </WulaFallenEmpire.CustomUIDef>
+
+</Defs>

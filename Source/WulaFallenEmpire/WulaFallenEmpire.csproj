@@ -102,6 +102,10 @@
     <Compile Include="MentalState_BrokenPersonality.cs" />
     <Compile Include="MentalStateDefExtension_BrokenPersonality.cs" />
     <Compile Include="MentalBreakWorker_BrokenPersonality.cs" />
+    <Compile Include="Dialog_CustomDisplay.cs" />
+    <Compile Include="CustomUIDef.cs" />
+    <Compile Include="Effect.cs" />
+    <Compile Include="DebugActions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   
