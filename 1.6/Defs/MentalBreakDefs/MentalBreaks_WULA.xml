@@ -6,6 +6,7 @@
     <label>人格破碎</label>
     <mentalState>Wula_BrokenPersonality</mentalState>
     <intensity>Extreme</intensity>
+    <requiredTrait>WULA_BrokenPersonalityTrait</requiredTrait>
     <baseCommonality>1.0</baseCommonality>
     <workerClass>WulaFallenEmpire.MentalBreakWorker_BrokenPersonality</workerClass>
   </MentalBreakDef>
