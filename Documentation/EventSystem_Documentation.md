@@ -423,3 +423,37 @@
 5. 在弹出的列表中，选择你想要测试的事件的 `defName`。
 
 这会立即打开对应的事件窗口，让你可以在不满足游戏内触发条件的情况下快速预览和测试你的事件。
+---
+
+## 10. 组件：从建筑触发事件 (`CompOpenCustomUI`)
+
+我们提供了一个通用的 `ThingComp`，可以附加到任何建筑上，通过右键菜单来打开一个指定的事件窗口。
+
+**如何使用:**
+
+1.  在你的建筑 `ThingDef` 的 `<comps>` 列表中，添加一个新的 `li`。
+2.  将 `Class` 属性设置为 `WulaFallenEmpire.CompProperties_OpenCustomUI`。
+3.  在 `li` 内部，设置以下字段：
+    -   `uiDefName`: (必须) 要打开的 `CustomUIDef` 的 `defName`。
+    -   `label`: (必须) 显示在右键菜单中的文本。
+    -   `failReason`: (可选) 当殖民者无法到达建筑时显示的提示文本。如果未提供，则默认为 "无法到达"。
+
+**示例 (`Buildings_EventSource.xml`):**
+```xml
+<ThingDef ParentName="BuildingBase">
+  <defName>Wula_EventConsole</defName>
+  <label>事件控制台</label>
+  ...
+  <comps>
+    ...
+    <!-- 添加这个组件来提供右键菜单选项 -->
+    <li Class="WulaFallenEmpire.CompProperties_OpenCustomUI">
+      <uiDefName>Wula_ExampleUI</uiDefName>
+      <label>打开事件</label>
+      <failReason>无法接触事件控制台。</failReason>
+    </li>
+  </comps>
+</ThingDef>
+```
+
+这个组件会自动处理电力检查（如果建筑有 `CompPowerTrader`）和可达性检查。

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -10,6 +11,7 @@ namespace WulaFallenEmpire
         private CustomUIDef def;
         private Texture2D portrait;
         private Texture2D background;
+        private string selectedDescription; // Store the chosen description for this window instance
 
         private static EventUIConfigDef config;
         public static EventUIConfigDef Config
@@ -24,14 +26,47 @@ namespace WulaFallenEmpire
             }
         }
 
-        public override Vector2 InitialSize => new Vector2(750f, 500f);
+        public override Vector2 InitialSize
+        {
+            get
+            {
+                if (def.windowSize != Vector2.zero)
+                {
+                    return def.windowSize;
+                }
+                return Config.defaultWindowSize; // Fallback to size from config
+            }
+        }
 
         public Dialog_CustomDisplay(CustomUIDef def)
         {
             this.def = def;
             this.forcePause = true;
             this.absorbInputAroundWindow = true;
-            this.doCloseX = true; // Add a close button to the window
+            this.doCloseX = true;
+
+            // Select the description text
+            if (!def.descriptions.NullOrEmpty())
+            {
+                if (def.descriptionMode == DescriptionSelectionMode.Random)
+                {
+                    selectedDescription = def.descriptions.RandomElement();
+                }
+                else // Sequential
+                {
+                    string indexVarName = $"_seq_desc_index_{def.defName}";
+                    int currentIndex = EventContext.GetVariable<int>(indexVarName, 0);
+
+                    selectedDescription = def.descriptions[currentIndex];
+
+                    int nextIndex = (currentIndex + 1) % def.descriptions.Count;
+                    EventContext.SetVariable(indexVarName, nextIndex);
+                }
+            }
+            else
+            {
+                selectedDescription = "Error: No descriptions found in def.";
+            }
         }
 
         public override void PreOpen()
@@ -127,12 +162,11 @@ namespace WulaFallenEmpire
                 GUI.color = Color.white;
             }
             Rect textInnerRect = textRect.ContractedBy(10f * scale);
-            Widgets.Label(textInnerRect, def.description);
+            Widgets.Label(textInnerRect, selectedDescription); // Use the selected description
 
             // option (Buttons)
             Rect optionRect = new Rect(nameRect.x, textRect.yMax + Config.optionsTextOffset * scale, scaledOptionsWidth, lihuiRect.height - nameRect.height - textRect.height - (Config.textNameOffset + Config.optionsTextOffset) * scale);
-            // No need to draw a box for the options area, the buttons will be listed inside.
-
+            
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(optionRect.ContractedBy(10f * scale));
             if (def.options != null)
@@ -151,7 +185,6 @@ namespace WulaFallenEmpire
                     }
                     else
                     {
-                        // Draw a disabled button and add a tooltip
                         Rect rect = listing.GetRect(30f);
                         Widgets.ButtonText(rect, option.label, false, true, false);
                         TooltipHandler.TipRegion(rect, GetDisabledReason(option, reason));

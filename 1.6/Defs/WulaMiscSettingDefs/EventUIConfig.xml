@@ -18,6 +18,8 @@
     <!-- Virtual Layout Offsets -->
     <textNameOffset>0</textNameOffset>
     <optionsTextOffset>0</optionsTextOffset>
+
+    <defaultWindowSize>(750, 500)</defaultWindowSize>
     
   </WulaFallenEmpire.EventUIConfigDef>
 
