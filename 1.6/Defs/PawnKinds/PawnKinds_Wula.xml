@@ -148,6 +148,64 @@
     <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
   </PawnKindDef>
 
+  <PawnKindDef ParentName="HeavyMechanoidKind">
+    <defName>Wula_AI_Engineer_Mother_PawnKind</defName>
+    <label>PMu-7"西比尔卡"</label>
+    <race>Wula_AI_Engineer_Mother</race>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <allowInMechClusters>false</allowInMechClusters>
+    <combatPower>1000</combatPower>
+    <isBoss>true</isBoss>
+    <maxPerGroup>1</maxPerGroup>
+    <isGoodBreacher>true</isGoodBreacher>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/Wula_AI_Engineer_Mother/Bodies/Naked_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>5</drawSize>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>99999~99999</weaponMoney>
+
+    <weaponTags>
+      <li>WULA_SP_Engineer_Mother_FakeWeapon</li>
+    </weaponTags>
+
+    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
+  </PawnKindDef>
+  <PawnKindDef ParentName="HeavyMechanoidKind">
+    <defName>Wula_AI_Engineer_Mother_Attack_PawnKind</defName>
+    <label>PMu-7A"斯托洛维耶"</label>
+    <race>Wula_AI_Engineer_Mother_Attack</race>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <allowInMechClusters>false</allowInMechClusters>
+    <combatPower>1000</combatPower>
+    <isBoss>true</isBoss>
+    <maxPerGroup>1</maxPerGroup>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/Wula_AI_Engineer_Mother/Bodies/Naked_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>5</drawSize>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>99999~99999</weaponMoney>
+
+    <weaponTags>
+      <li>WULA_SP_Engineer_Mother_Attack_FakeWeapon</li>
+    </weaponTags>
+
+    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
+  </PawnKindDef>
+
   <PawnKindDef ParentName="NonCombatLightMechanoidKind">
     <defName>Mech_WULA_Cat</defName>
     <label>乌拉猫猫</label>

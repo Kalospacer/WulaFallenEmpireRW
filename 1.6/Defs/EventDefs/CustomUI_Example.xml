@@ -4,17 +4,17 @@
   <!-- Event 1 -->
   <WulaFallenEmpire.CustomUIDef>
     <defName>Wula_ExampleUI</defName>
-    <label>INCOMING TRANSMISSON事件链示例 - 1</label>
-    <portraitPath>UI/HeroArt/Storytellers/Randy</portraitPath>
-    <characterName>兰迪·随机</characterName>
-    <description>这是一个事件链的开端。选择第一个选项将会打开第二个事件窗口。</description>
+    <label>摇个袭击</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Anisia</portraitPath>
+    <characterName>URa-1138「艾妮西娅」</characterName>
+    <description>给你摇个袭击看看实力？</description>
     <onOpenEffects>
     </onOpenEffects>
     <dismissEffects>
     </dismissEffects>
     <options>
       <li>
-        <label>继续事件</label>
+        <label>不要</label>
         <effects>
           <li Class="WulaFallenEmpire.Effect_SetVariable">
             <name>wula_event_progress</name>
@@ -31,7 +31,22 @@
         </effects>
       </li>
       <li>
-        <label>离开</label>
+        <label>来</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_FireIncident">
+            <incident>WandererJoin</incident>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+      <li>
+        <label>你是茄子</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+      <li>
+        <label>你是钢板茄子</label>
         <effects>
           <li Class="WulaFallenEmpire.Effect_CloseDialog" />
         </effects>
@@ -52,9 +67,6 @@
         <effects>
           <li Class="WulaFallenEmpire.Effect_ShowMessage">
             <message>事件链已完成！一位流浪者加入了你的殖民地，帝国对你的行为表示赞赏。</message>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_FireIncident">
-            <incident>WandererJoin</incident>
           </li>
           <li Class="WulaFallenEmpire.Effect_ChangeFactionRelation">
             <faction>Empire</faction>
