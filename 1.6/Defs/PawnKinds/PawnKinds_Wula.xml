@@ -161,7 +161,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Things/Wula_AI_Engineer_Mother/Bodies/Naked_Thin</texPath>
+          <texPath>Wula/Things/Wula_AI_Bomb_Mother/Bodies/Naked_Thin</texPath>
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -172,7 +172,7 @@
     <weaponMoney>99999~99999</weaponMoney>
 
     <weaponTags>
-      <li>WULA_SP_Engineer_Mother_FakeWeapon</li>
+      <li>Wula_AI_Engineer_Mother_Weapon</li>
     </weaponTags>
 
     <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
@@ -189,7 +189,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Things/Wula_AI_Engineer_Mother/Bodies/Naked_Thin</texPath>
+          <texPath>Wula/Things/Wula_AI_Bomb_Mother/Bodies/Naked_Thin</texPath>
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -200,7 +200,7 @@
     <weaponMoney>99999~99999</weaponMoney>
 
     <weaponTags>
-      <li>WULA_SP_Engineer_Mother_Attack_FakeWeapon</li>
+      <li>Wula_AI_Engineer_Mother_Attack_Weapon</li>
     </weaponTags>
 
     <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
@@ -307,6 +307,7 @@
     <defName>Mech_WULA_Cat_Bomb</defName>
     <label>炸弹乌拉猫猫</label>
     <race>Mech_WULA_Cat_Bomb</race>
+    <forceNoDeathNotification>true</forceNoDeathNotification>
     <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>
@@ -323,6 +324,7 @@
     <defName>Mech_WULA_Cat_Inf</defName>
     <label>步兵乌拉猫猫</label>
     <race>Mech_WULA_Cat_Inf</race>
+    <forceNoDeathNotification>true</forceNoDeathNotification>
     <weaponTags>
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
@@ -331,6 +333,7 @@
     <defName>Mech_WULA_Cat_Commander</defName>
     <label>指挥官乌拉猫猫</label>
     <race>Mech_WULA_Cat_Commander</race>
+    <forceNoDeathNotification>true</forceNoDeathNotification>
     <weaponTags>
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
