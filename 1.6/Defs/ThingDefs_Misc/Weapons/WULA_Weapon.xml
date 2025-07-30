@@ -2046,10 +2046,10 @@
     <statBases>
       <WorkToMake>40000</WorkToMake>
       <Mass>150</Mass>
-      <AccuracyTouch>0.8</AccuracyTouch>
-      <AccuracyShort>0.8</AccuracyShort>
-      <AccuracyMedium>0.7</AccuracyMedium>
-      <AccuracyLong>0.65</AccuracyLong>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.4</AccuracyMedium>
+      <AccuracyLong>0.35</AccuracyLong>
       <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
     </statBases>
     <weaponTags>
@@ -2068,11 +2068,11 @@
         <warmupTime>0.25</warmupTime>
         <range>36</range>
         <burstShotCount>10</burstShotCount>
-        <forcedMissRadius>0.1</forcedMissRadius>
+        <forcedMissRadius>0.35</forcedMissRadius>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
         <soundCast>Shot_TurretSniper</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>18</muzzleFlashScale>
+        <muzzleFlashScale>12</muzzleFlashScale>
         <targetParams>
           <canTargetPawns>true</canTargetPawns>
           <canTargetLocations>true</canTargetLocations>
@@ -2107,9 +2107,9 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>30</damageAmountBase>
+      <damageAmountBase>14</damageAmountBase>
       <speed>120</speed>
-      <explosionRadius>1.2</explosionRadius>
+      <explosionRadius>2.4</explosionRadius>
       <arcHeightFactor>0.4</arcHeightFactor>
       <soundExplode>Explosion_Rocket</soundExplode>
       <armorPenetrationBase>0.75</armorPenetrationBase>

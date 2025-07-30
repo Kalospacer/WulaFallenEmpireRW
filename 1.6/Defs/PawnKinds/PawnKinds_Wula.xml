@@ -2,7 +2,7 @@
 <Defs>
   <PawnKindDef>
     <defName>Wula_PawnKind</defName>
-    <label>乌拉</label>
+    <label>机械乌拉</label>
     <race>WulaSpecies</race>
     <defaultFactionType>PlayerColony</defaultFactionType>
     <lifeStages>
@@ -46,7 +46,7 @@
   </PawnKindDef>
   <PawnKindDef>
     <defName>Wula_PawnKind_Ingame</defName>
-    <label>乌拉</label>
+    <label>机械乌拉</label>
     <race>WulaSpecies</race>
     <defaultFactionType>PlayerColony</defaultFactionType>
     <lifeStages>
@@ -88,6 +88,42 @@
         </categories>
       </li>
     </backstoryFiltersOverride>
+  </PawnKindDef>
+
+  <PawnKindDef>
+    <defName>RealWula_PawnKind</defName>
+    <label>乌拉</label>
+    <race>WulaSpeciesReal</race>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.1</drawSize>
+          <shadowData>
+            <volume>(0.2, 0.3, 0.2)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">18</minGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <combatPower>0</combatPower>
+    <initialWillRange>10~20</initialWillRange>
+    <initialResistanceRange>10~20</initialResistanceRange>
+    <itemQuality>Poor</itemQuality>
+    <isFighter>false</isFighter>
+    <apparelTags>
+      <li>Wula_Apparel_Init</li>
+    </apparelTags>
+    <abilities>
+    </abilities>
+    <weaponMoney>0</weaponMoney>
+    <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
+    <apparelMoney>1000~2000</apparelMoney>
   </PawnKindDef>
 
   <PawnKindDef ParentName="HeavyMechanoidKind">

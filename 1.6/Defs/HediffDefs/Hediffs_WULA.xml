@@ -66,12 +66,6 @@
         </disablesNeeds>
       </li>
     </stages>
-    <comps>
-      <li Class="HediffCompProperties_ReactOnDamage">
-        <damageDefIncoming>EMP</damageDefIncoming>
-        <vomit>true</vomit>
-      </li>
-    </comps>
   </HediffDef>
 
   <HediffDef ParentName="ImplantHediffBase">

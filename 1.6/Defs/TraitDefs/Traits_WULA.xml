@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <TraitDef>
+    <defName>WULA_BrokenPersonalityTrait</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>机械乌拉</label>
+        <description>{PAWN_nameDef}是机械乌拉。乌拉的思维模式与常人不同，在极端压力下，其模拟人格会彻底崩溃。</description>
+        <theOnlyAllowedMentalBreaks>
+          <li>Wula_BrokenPersonality</li>
+        </theOnlyAllowedMentalBreaks>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+
+  <TraitDef>
     <defName>WULA_Trait_Knight</defName>
     <forcedPassions>
       <li>Melee</li>

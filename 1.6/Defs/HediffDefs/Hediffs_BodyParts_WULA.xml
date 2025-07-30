@@ -1004,12 +1004,12 @@
     </graphicData>
     <stackLimit>10</stackLimit>
     <statBases>
-      <MarketValue>1500</MarketValue> <!-- Slightly higher value -->
+      <MarketValue>1</MarketValue>
     </statBases>
     <thingCategories>
       <li>Drugs</li>
     </thingCategories>
-    <tradeability>Sellable</tradeability>
+    <tradeability>None</tradeability>
     <comps>
       <li Class="CompProperties_UseEffect">
         <compClass>WulaFallenEmpire.CompUseEffect_FixAllHealthConditions</compClass>
