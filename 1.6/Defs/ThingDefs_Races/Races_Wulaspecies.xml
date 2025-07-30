@@ -591,8 +591,8 @@
       <MoveSpeed>4</MoveSpeed>
       <EatingSpeed>1</EatingSpeed>
       <!-- 温度适应性 -->
-      <ComfyTemperatureMin>-10</ComfyTemperatureMin>
-      <ComfyTemperatureMax>10</ComfyTemperatureMax>
+      <ComfyTemperatureMin>-50</ComfyTemperatureMin>
+      <ComfyTemperatureMax>40</ComfyTemperatureMax>
       <!-- 心灵敏感，稍高 -->
       <PsychicSensitivity>1.25</PsychicSensitivity>
       <!-- 肉量 -->
@@ -636,7 +636,7 @@
     </race>
 
     <comps Inherit="False">
-			<!-- <li MayRequire="Nals.FacialAnimation">
+			<li MayRequire="Nals.FacialAnimation">
 				<compClass>FacialAnimation.DrawFaceGraphicsComp</compClass>
 			</li>
 			<li MayRequire="Nals.FacialAnimation">
@@ -659,7 +659,7 @@
       </li>
       <li MayRequire="Nals.FacialAnimation">
 				<compClass>FacialAnimation.FacialAnimationControllerComp</compClass>
-			</li> -->
+			</li>
       <!--<li>
         <compClass>FacialAnimation.EmotionControllerComp</compClass>
       </li>-->

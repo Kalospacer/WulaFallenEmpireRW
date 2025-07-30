@@ -124,6 +124,14 @@
     <weaponMoney>0</weaponMoney>
     <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
     <apparelMoney>1000~2000</apparelMoney>
+
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_RealWula</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
   </PawnKindDef>
 
   <PawnKindDef ParentName="HeavyMechanoidKind">

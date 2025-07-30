@@ -9,4 +9,13 @@
     <shaderColorOverride>Map/CutoutSkinOverride</shaderColorOverride>
     <enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.HeadTypeDef>
+
+  <FacialAnimation.HeadTypeDef MayRequire="Nals.FacialAnimation">
+	  <defName>WulaReal_HeadNormal</defName>
+    <texPath>Wula/Things/WulaSpeciesReal/Heads_Blank/Normal</texPath>
+    <raceName>WulaSpeciesReal</raceName>
+	  <shader>Map/CutoutSkin</shader>
+    <shaderColorOverride>Map/CutoutSkinOverride</shaderColorOverride>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.HeadTypeDef>
 </Defs>

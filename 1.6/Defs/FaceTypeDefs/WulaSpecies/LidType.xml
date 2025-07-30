@@ -8,4 +8,12 @@
 	  <shader>Map/Transparent</shader>
     <enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef MayRequire="Nals.FacialAnimation">
+	  <defName>WulaReal_LidNormal</defName>
+	  <texPath>Wula/Things/WulaSpecies/Lids/Normal</texPath>
+    <raceName>WulaSpeciesReal</raceName>
+	  <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
 </Defs>

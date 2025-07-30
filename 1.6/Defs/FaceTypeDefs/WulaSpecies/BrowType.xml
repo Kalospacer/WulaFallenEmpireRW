@@ -9,4 +9,12 @@
 		<shader>Map/Transparent</shader>
       <enableUnisexTexPath>True</enableUnisexTexPath>
 	</FacialAnimation.BrowTypeDef>
+
+	<FacialAnimation.BrowTypeDef MayRequire="Nals.FacialAnimation">
+		<defName>WulaReal_BrowNormal</defName>
+		<texPath>Wula/Things/WulaSpecies/Brows/Normal</texPath>
+		<raceName>WulaSpeciesReal</raceName>
+		<shader>Map/Transparent</shader>
+      <enableUnisexTexPath>True</enableUnisexTexPath>
+	</FacialAnimation.BrowTypeDef>
 </Defs>

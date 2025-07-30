@@ -38,4 +38,17 @@
       </li>
     </forcedTraitsChance>
   </AlienRace.AlienBackstoryDef>
+
+  <AlienRace.AlienBackstoryDef>
+    <defName>WULA_Child_Backstory999</defName>
+    <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>
+    <slot>Childhood</slot>
+    <title>未知</title>
+    <titleShort>未知</titleShort>
+    <description>[PAWN_nameDef] 是真正的乌拉星人，但是无人知晓她诞生于何时——自从乌拉帝国大内战后，这个衰退的超级帝国已经很久很久没有诞生任何新生命了。</description>
+    <spawnCategories>
+      <li>Wula_Backstory_Categories_For_RealWula</li>
+    </spawnCategories>
+    <requiredWorkTags>None</requiredWorkTags>
+  </AlienRace.AlienBackstoryDef>
 </Defs>

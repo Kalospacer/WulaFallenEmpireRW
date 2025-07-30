@@ -6,6 +6,14 @@
 		<texPath>Wula/Things/WulaSpecies/Mouth/Normal</texPath>
 		<raceName>WulaSpecies</raceName>
 		<shader>Map/Transparent</shader>
-      <enableUnisexTexPath>True</enableUnisexTexPath>
+		<enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+
+  <FacialAnimation.MouthTypeDef MayRequire="Nals.FacialAnimation">
+		<defName>WulaReal_MouthNormal</defName>
+		<texPath>Wula/Things/WulaSpecies/Mouth/Normal</texPath>
+		<raceName>WulaSpeciesReal</raceName>
+		<shader>Map/Transparent</shader>
+		<enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.MouthTypeDef>
 </Defs>

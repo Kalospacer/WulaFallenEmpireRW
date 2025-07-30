@@ -8,4 +8,12 @@
     <raceName>WulaSpecies</raceName>
     <enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.SkinTypeDef>
+
+  <FacialAnimation.SkinTypeDef MayRequire="Nals.FacialAnimation">
+	  <defName>WulaReal_SkinNormal</defName>
+	  <texPath>Wula/Things/WulaSpecies/Skins/Normal</texPath>
+	  <shader>Map/CutoutSkin</shader>
+    <raceName>WulaSpeciesReal</raceName>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.SkinTypeDef>
 </Defs>

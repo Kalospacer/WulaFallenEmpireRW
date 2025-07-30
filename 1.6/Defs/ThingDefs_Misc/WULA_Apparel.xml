@@ -26,9 +26,9 @@
     <statBases>
       <WorkToMake>15000</WorkToMake>
       <Mass>1</Mass>
-      <StuffEffectMultiplierArmor>0.2</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>0.22</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>0.10</StuffEffectMultiplierInsulation_Heat>
+      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
       <EquipDelay>1.5</EquipDelay>
     </statBases>
     <apparel>
@@ -138,6 +138,9 @@
     <statBases>
       <Mass>1</Mass>
       <WorkToMake>7000</WorkToMake>
+      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
     </statBases>
   </ThingDef>
   <ThingDef Name="WULA_ApparelCivilHatBase" ParentName="HatMakeableBase" Abstract="True">
@@ -177,6 +180,9 @@
     <statBases>
       <Mass>0.2</Mass>
       <WorkToMake>3000</WorkToMake>
+      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
     </statBases>
   </ThingDef>
   <ThingDef ParentName="WULA_ApparelCivilBase">
@@ -620,6 +626,9 @@
     <possessionCount>1</possessionCount>
     <statBases>
       <Mass>0.2</Mass>
+      <StuffEffectMultiplierArmor>0.1</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.5</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.5</StuffEffectMultiplierInsulation_Heat>
     </statBases>
   </ThingDef>
   <ThingDef ParentName="WULA_ApparelOnSkinBase">
@@ -635,10 +644,6 @@
       </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Bodystocking</wornGraphicPath>
     </apparel>
-    <equippedStatOffsets>
-			<StuffEffectMultiplierInsulation_Cold>0.20</StuffEffectMultiplierInsulation_Cold>
-			<StuffEffectMultiplierInsulation_Heat>0.10</StuffEffectMultiplierInsulation_Heat>
-    </equippedStatOffsets>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
@@ -714,6 +719,7 @@
     </recipeMaker>
     <statBases>
       <WorkToMake>7000</WorkToMake>
+      <StuffEffectMultiplierArmor>0.5</StuffEffectMultiplierArmor>
     </statBases>
   </ThingDef>
 
@@ -770,6 +776,11 @@
     <thingSetMakerTags>
       <li>RewardStandardHighFreq</li>
     </thingSetMakerTags>
+    <statBases>
+      <StuffEffectMultiplierArmor>0.6</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.25</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
   </ThingDef>
   <ThingDef Name="WULA_ApparelHelmetBase" ParentName="HatMakeableBase" Abstract="True">
     <techLevel>Spacer</techLevel>
@@ -814,6 +825,11 @@
     <thingSetMakerTags>
       <li>RewardStandardHighFreq</li>
     </thingSetMakerTags>
+    <statBases>
+      <StuffEffectMultiplierArmor>0.6</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.25</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
   </ThingDef>
   <ThingDef ParentName="WULA_ApparelArmorBase">
     <defName>WULA_Assault_Troop_PowerArmor</defName>
@@ -1269,6 +1285,11 @@
     <thingSetMakerTags>
       <li>RewardStandardHighFreq</li>
     </thingSetMakerTags>
+    <statBases>
+      <StuffEffectMultiplierArmor>0.8</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
   </ThingDef>
   <ThingDef ParentName="WULA_ApparelShieldBase">
     <defName>WULA_Shield_Base</defName>

@@ -12,7 +12,6 @@
     <maxColor>RGB(72,222,213)</maxColor>
     <enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.EyeballTypeDef>
-
   <FacialAnimation.EyeballTypeDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_EyeNormal2</defName>
 	  <!-- <texPath>Things/Pawn/Humanlike/Eyes/Normal</texPath> -->
@@ -24,7 +23,6 @@
     <maxColor>RGB(227,30,76)</maxColor>
     <enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.EyeballTypeDef>
-
   <FacialAnimation.EyeballTypeDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_EyeNormal3</defName>
 	  <!-- <texPath>Things/Pawn/Humanlike/Eyes/Normal</texPath> -->
@@ -36,11 +34,55 @@
     <maxColor>RGB(30,227,76)</maxColor>
     <enableUnisexTexPath>True</enableUnisexTexPath>
   </FacialAnimation.EyeballTypeDef>
-
   <FacialAnimation.EyeballTypeDef MayRequire="Nals.FacialAnimation">
     <defName>Wula_EyeNormal4</defName>
 	  <!-- <texPath>Things/Pawn/Humanlike/Eyes/Normal</texPath> -->
     <raceName>WulaSpecies</raceName>
+    <texPath>Wula/Things/WulaSpecies/Eyes/Normal</texPath>
+	  <altMaskPath>Wula/Things/WulaSpecies/Eyes/Common</altMaskPath>
+    <shader>Map/CutoutSkinOverlay</shader>
+    <minColor>RGB(225,232,64)</minColor>
+    <maxColor>RGB(225,232,64)</maxColor>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.EyeballTypeDef>
+  
+  <FacialAnimation.EyeballTypeDef MayRequire="Nals.FacialAnimation">
+    <defName>WulaReal_EyeNormal</defName>
+	  <!-- <texPath>Things/Pawn/Humanlike/Eyes/Normal</texPath> -->
+    <raceName>WulaSpeciesReal</raceName>
+    <texPath>Wula/Things/WulaSpecies/Eyes/Normal</texPath>
+	  <altMaskPath>Wula/Things/WulaSpecies/Eyes/Common</altMaskPath>
+    <shader>Map/CutoutSkinOverlay</shader>
+    <minColor>RGB(72,222,213)</minColor>
+    <maxColor>RGB(72,222,213)</maxColor>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.EyeballTypeDef>
+  <FacialAnimation.EyeballTypeDef MayRequire="Nals.FacialAnimation">
+    <defName>WulaReal_EyeNormal2</defName>
+	  <!-- <texPath>Things/Pawn/Humanlike/Eyes/Normal</texPath> -->
+    <raceName>WulaSpeciesReal</raceName>
+    <texPath>Wula/Things/WulaSpecies/Eyes/Normal</texPath>
+	  <altMaskPath>Wula/Things/WulaSpecies/Eyes/Common</altMaskPath>
+    <shader>Map/CutoutSkinOverlay</shader>
+    <minColor>RGB(227,30,76)</minColor>
+    <maxColor>RGB(227,30,76)</maxColor>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.EyeballTypeDef>
+  <FacialAnimation.EyeballTypeDef MayRequire="Nals.FacialAnimation">
+    <defName>WulaReal_EyeNormal3</defName>
+	  <!-- <texPath>Things/Pawn/Humanlike/Eyes/Normal</texPath> -->
+    <raceName>WulaSpeciesReal</raceName>
+    <texPath>Wula/Things/WulaSpecies/Eyes/Normal</texPath>
+	  <altMaskPath>Wula/Things/WulaSpecies/Eyes/Common</altMaskPath>
+    <shader>Map/CutoutSkinOverlay</shader>
+    <minColor>RGB(30,227,76)</minColor>
+    <maxColor>RGB(30,227,76)</maxColor>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.EyeballTypeDef>
+  <FacialAnimation.EyeballTypeDef MayRequire="Nals.FacialAnimation">
+    <defName>WulaReal_EyeNormal4</defName>
+	  <!-- <texPath>Things/Pawn/Humanlike/Eyes/Normal</texPath> -->
+    <raceName>WulaSpeciesReal</raceName>
     <texPath>Wula/Things/WulaSpecies/Eyes/Normal</texPath>
 	  <altMaskPath>Wula/Things/WulaSpecies/Eyes/Common</altMaskPath>
     <shader>Map/CutoutSkinOverlay</shader>

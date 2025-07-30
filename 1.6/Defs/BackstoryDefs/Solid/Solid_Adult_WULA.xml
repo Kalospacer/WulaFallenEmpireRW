@@ -1044,6 +1044,22 @@
     </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
+  <!-- 真乌拉族固定背景 -->
+  <AlienRace.AlienBackstoryDef>
+    <defName>WULA_Adult_Backstory998</defName>
+    <slot>Adulthood</slot>
+    <title>养尊处优</title>
+    <titleShort>养尊处优</titleShort>
+    <description>在边缘世界的人们几乎无法想象[PAWN_nameDef]在乌拉帝国的生活，就像农民想象皇帝用金锄头耕地一样让人发笑。</description>
+    <spawnCategories>
+      <li>Wula_Backstory_Categories_For_RealWula</li>
+    </spawnCategories>
+    <bodyTypeGlobal>Thin</bodyTypeGlobal>
+    <bodyTypeFemale>Thin</bodyTypeFemale>
+    <bodyTypeMale>Thin</bodyTypeMale>
+    <workDisables>AllWork</workDisables>
+  </AlienRace.AlienBackstoryDef>
+
   <!-- 乌拉反常网络固定背景 -->
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory999</defName>
