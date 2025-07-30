@@ -11,15 +11,15 @@
     
     <!-- Virtual Layout Dimensions -->
     <lihuiSize>(500, 800)</lihuiSize>
-    <nameSize>(260, 130)</nameSize>
+    <nameSize>(650, 130)</nameSize>
     <textSize>(650, 350)</textSize>
-    <optionsWidth>650</optionsWidth>
+    <optionsWidth>750</optionsWidth>
     
     <!-- Virtual Layout Offsets -->
     <textNameOffset>0</textNameOffset>
     <optionsTextOffset>0</optionsTextOffset>
 
-    <defaultWindowSize>(750, 500)</defaultWindowSize>
+    <defaultWindowSize>(750, 600)</defaultWindowSize>
     
   </WulaFallenEmpire.EventUIConfigDef>
 

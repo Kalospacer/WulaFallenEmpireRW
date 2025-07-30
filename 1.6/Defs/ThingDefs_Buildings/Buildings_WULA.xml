@@ -629,81 +629,44 @@
   </ThingDef>
 
   <!-- 联络台 -->
-  <!-- <ThingDef ParentName="BuildingBase">
+  <ThingDef ParentName="BuildingBase">
     <defName>WULA_Communicator_Station</defName>
-    <label>乌拉帝国通讯基站</label>
-    <description>乌拉帝国内部用于联系的通讯基站。</description>
+    <label>乌拉帝国通讯站</label>
+    <description>乌拉帝国内部用于联系的通讯站，可以联系到乌拉帝国的各大派系。</description>
     <thingClass>Building</thingClass>
-    <minifiedDef>MinifiedThing</minifiedDef>	
-	  <tickerType>Normal</tickerType>
-    <thingCategories>
-      <li>BuildingsProduction</li>
-    </thingCategories>
-    <costStuffCount>150</costStuffCount>
-    <costList>
-      <Plasteel>500</Plasteel>
-    </costList>
     <graphicData>
-      <texPath>Wula/Building/WULA_War_Machine_Weapon_Productor</texPath>
+      <texPath>Wula/Building/WULA_Cube_Productor_Component</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(2,2)</drawSize>
-      <damageData>
-        <cornerTL>Damage/Corner</cornerTL>
-        <cornerTR>Damage/Corner</cornerTR>
-        <cornerBL>Damage/Corner</cornerBL>
-        <cornerBR>Damage/Corner</cornerBR>
-      </damageData>
     </graphicData>
-    <size>(2,2)</size>
-    <hasInteractionCell>True</hasInteractionCell>
-    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
-    <castEdgeShadows>true</castEdgeShadows>
-    <staticSunShadowHeight>0.20</staticSunShadowHeight>
-    <altitudeLayer>BuildingOnTop</altitudeLayer>
-		<passability>PassThroughOnly</passability>
-		<fillPercent>0.15</fillPercent>
-    <pathCost>50</pathCost>
     <statBases>
-      <MaxHitPoints>1600</MaxHitPoints>
-      <WorkToBuild>5000</WorkToBuild>
-      <Flammability>1.0</Flammability>
-      <Mass>10</Mass>
-      <ResearchSpeedFactor>1.0</ResearchSpeedFactor>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Mass>70</Mass>
+      <Flammability>0.5</Flammability>
     </statBases>
-    <comps Inherit="False">
-      <li Class="CompProperties_Forbiddable"/>
-      <li Class="CompProperties_Usable">
-        <useJob>TriggerObject</useJob>
-        <useLabel>操作通讯台</useLabel>
-        <useDuration>1</useDuration>
-        <ignoreOtherReservations>true</ignoreOtherReservations>
+    <size>(2,2)</size>
+    <costList>
+      <Steel>120</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <designationCategory>Misc</designationCategory>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
       </li>
-      <li Class="CompProperties_UseEffect">
-        <compClass>WulaFallenEmpire.Communicator_EventWindow</compClass>
-      </li>
-      <li>
-        <compClass>SRA.CompCommunicator</compClass>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="WulaFallenEmpire.CompProperties_OpenCustomUI">
+        <uiDefName>Wula_UI_1</uiDefName>
+        <label>联络乌拉帝国</label>
+        <failReason>无法接触通讯站。</failReason>
       </li>
     </comps>
-    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
-    <terrainAffordanceNeeded IsNull="True" />
-    <hasInteractionCell>true</hasInteractionCell>
-    <designationCategory>Production</designationCategory>
-    <uiOrder>2610</uiOrder>
-    <surfaceType>Item</surfaceType>
-    <designationHotKey>Misc4</designationHotKey>
-    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
-    <placeWorkers>
-      <li>PlaceWorker_ShowFacilitiesConnections</li>
-      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
-      <li>PlaceWorker_DrawLinesToBookcasesInRoom</li>
-    </placeWorkers>
-    <building>
-      <isEdifice>false</isEdifice>
-      <paintable>true</paintable>
-    </building>
-    <clearBuildingArea>false</clearBuildingArea>
-  </ThingDef> -->
+  </ThingDef>
 
   <!-- 防御炮 -->
   <ThingDef ParentName="BuildingBase">
