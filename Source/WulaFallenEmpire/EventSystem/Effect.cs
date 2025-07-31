@@ -297,8 +297,8 @@ namespace WulaFallenEmpire
             {
                 Faction faction = joinPlayerFaction ? Faction.OfPlayer : null;
                 PawnGenerationRequest request = new PawnGenerationRequest(
-                    kindDef, faction, PawnGenerationContext.NonPlayer, -1, true, false, false, false, 
-                    true, 20f, false, true, false, true, true, false, false, false, false, 0f, 0f, null, 1f, 
+                    kindDef, faction, PawnGenerationContext.NonPlayer, -1, true, false, false, false,
+                    true, 20f, false, true, false, true, true, false, false, false, false, 0f, 0f, null, 1f,
                     null, null, null, null, null, null, null, null, null, null, null, null, false
                 );
                 Pawn pawn = PawnGenerator.GeneratePawn(request);
@@ -307,7 +307,7 @@ namespace WulaFallenEmpire
                 {
                     cell = DropCellFinder.RandomDropSpot(map);
                 }
-                
+
                 GenSpawn.Spawn(pawn, cell, map, WipeMode.Vanish);
 
                 if (!string.IsNullOrEmpty(letterLabel) && !string.IsNullOrEmpty(letterText))
@@ -316,6 +316,7 @@ namespace WulaFallenEmpire
                     TaggedString finalText = letterText.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn);
                     PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref finalText, ref finalLabel, pawn);
                     Find.LetterStack.ReceiveLetter(finalLabel, finalText, letterDef ?? LetterDefOf.PositiveEvent, pawn);
+                }
             }
         }
     }
@@ -425,8 +426,7 @@ namespace WulaFallenEmpire
             Find.ResearchManager.FinishProject(research);
         }
     }
-}
-public class Effect_TriggerRaid : Effect
+    public class Effect_TriggerRaid : Effect
     {
         public float points;
         public FactionDef faction;
@@ -543,4 +543,7 @@ public class Effect_TriggerRaid : Effect
             }
         }
     }
-}
+
+ }
+
+
