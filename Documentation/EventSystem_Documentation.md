@@ -262,6 +262,8 @@
 - **raidArrivalMode**: (PawnsArrivalModeDef) 袭击者到达方式的 `defName` (例如 `EdgeWalkIn`)。
 - **groupKind**: (PawnGroupKindDef) (高级模式) 定义队伍类型，例如 `Combat` 或 `Trader`。默认为 `Combat`。
 - **pawnGroupMakers**: (List<PawnGroupMaker>) (高级模式) 一个 `PawnGroupMaker` 列表，用于动态定义袭击队伍的构成。
+- **letterLabel**: (string) (可选) 自定义袭击信件的标题。如果提供，将覆盖默认的 "Raid" 标题。
+- **letterText**: (string) (可选) 自定义袭击信件的内容。如果提供，将覆盖默认的袭击描述文本。
 
 **简单模式示例:**
 ```xml
@@ -270,6 +272,8 @@
   <faction>Pirate</faction>
   <raidStrategy>ImmediateAttack</raidStrategy>
   <raidArrivalMode>EdgeWalkIn</raidArrivalMode>
+  <letterLabel>侦测到威胁！</letterLabel>
+  <letterText>我们的传感器侦测到一伙来自 {FACTION_name} 的袭击者！他们看起来充满敌意，正朝着我们的殖民地前进。</letterText>
 </li>
 ```
 

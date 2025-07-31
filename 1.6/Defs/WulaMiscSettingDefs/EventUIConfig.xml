@@ -7,7 +7,7 @@
     <!-- General Style -->
     <labelFont>Small</labelFont>
     <drawBorders>false</drawBorders>
-    <showDefName>true</showDefName>
+    <showDefName>false</showDefName>
     <showLabel>true</showLabel>
     <defaultBackgroundImagePath></defaultBackgroundImagePath>
     

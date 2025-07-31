@@ -62,7 +62,10 @@ namespace WulaFallenEmpire
             // Scribe_Values.Look(ref letterTitle, "letterTitle"); // Now uses base.title
             // Scribe_Values.Look(ref letterText, "letterText"); // Now uses base.text
             Scribe_Collections.Look(ref options, "options", LookMode.Deep);
-            Scribe_References.Look(ref quest, "quest");
+            if (Scribe.mode != LoadSaveMode.Saving || quest != null)
+            {
+                Scribe_References.Look(ref quest, "quest");
+            }
         }
     }
 }

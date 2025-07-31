@@ -20,7 +20,6 @@ namespace WulaFallenEmpire
         public DescriptionSelectionMode descriptionMode = DescriptionSelectionMode.Random;
 
         // Backwards compatibility: old single description field
-        [System.Obsolete("Use 'descriptions' list instead. This field is for backwards compatibility only.")]
         public new string description = null;
 
         public Vector2 windowSize = Vector2.zero;

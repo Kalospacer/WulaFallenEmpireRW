@@ -385,6 +385,8 @@ public class Effect_TriggerRaid : Effect
         public PawnsArrivalModeDef raidArrivalMode;
         public PawnGroupKindDef groupKind;
         public List<PawnGroupMaker> pawnGroupMakers;
+        public string letterLabel;
+        public string letterText;
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
@@ -416,6 +418,12 @@ public class Effect_TriggerRaid : Effect
                     forced = true
                 };
 
+                if (!RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Hostile))
+                {
+                    Log.Error("[WulaFallenEmpire] Effect_TriggerRaid could not find a valid spawn center.");
+                    return;
+                }
+
                 PawnGroupMakerParms groupMakerParms = new PawnGroupMakerParms
                 {
                     groupKind = this.groupKind ?? PawnGroupKindDefOf.Combat,
@@ -440,17 +448,36 @@ public class Effect_TriggerRaid : Effect
 
                 parms.raidArrivalMode.Worker.Arrive(pawns, parms);
 
-                TaggedString letterLabel = "LetterLabelRaid".Translate(factionInst.def.label).CapitalizeFirst();
-                TaggedString letterText = "LetterRaid".Translate(
-                    factionInst.Name,
-                    factionInst.def.pawnsPlural,
-                    parms.raidStrategy.arrivalTextEnemy
-                ).CapitalizeFirst();
+                parms.raidStrategy.Worker.MakeLords(parms, pawns);
+                
+                TaggedString finalLabel;
+                if (!string.IsNullOrEmpty(this.letterLabel))
+                {
+                    finalLabel = this.letterLabel;
+                }
+                else
+                {
+                    finalLabel = "LetterLabelRaid".Translate(factionInst.def.label).CapitalizeFirst();
+                }
+
+                TaggedString finalText;
+                if (!string.IsNullOrEmpty(this.letterText))
+                {
+                    finalText = this.letterText;
+                }
+                else
+                {
+                    finalText = "LetterRaid".Translate(
+                        factionInst.Name,
+                        factionInst.def.pawnsPlural,
+                        parms.raidStrategy.arrivalTextEnemy
+                    ).CapitalizeFirst();
+                }
                 
                 Pawn mostImportantPawn = pawns.FirstOrDefault();
                 TargetInfo target = mostImportantPawn != null ? new TargetInfo(mostImportantPawn) : new TargetInfo(parms.spawnCenter, map);
 
-                Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.ThreatBig, target, factionInst);
+                Find.LetterStack.ReceiveLetter(finalLabel, finalText, LetterDefOf.ThreatBig, target, factionInst);
             }
             else // Fallback to default raid incident worker
             {
