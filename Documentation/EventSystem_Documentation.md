@@ -440,6 +440,14 @@
   <value>AcceptedOffer</value>
 </li>
 ```
+### `Condition_VariableNotEqual`
+检查一个变量是否 **不等于** 一个特定值。
+```xml
+<li Class="WulaFallenEmpire.Condition_VariableNotEqual">
+  <name>QuestStage</name>
+  <value>3</value>
+</li>
+```
 
 ### `Condition_CompareVariable` (基类)
 这是一个抽象基类，不应直接使用。以下所有比较条件（大于、小于等）都继承自这个基类，并共享其参数。
@@ -496,14 +504,4 @@
   <value>2</value>
 </li>
 ```
-
-### `Condition_VariableNotEqual`
-检查一个变量是否 **不等于** 一个特定值。
-```xml
-<li Class="WulaFallenEmpire.Condition_VariableNotEqual">
-  <name>QuestStage</name>
-  <value>3</value>
-</li>
-```
-
 ---

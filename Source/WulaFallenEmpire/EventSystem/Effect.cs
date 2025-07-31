@@ -153,6 +153,12 @@ namespace WulaFallenEmpire
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
+            // Only set the variable if it doesn't already exist.
+            if (EventContext.HasVariable(name))
+            {
+                return;
+            }
+
             // Try to parse as int, then float, otherwise keep as string
             if (int.TryParse(value, out int intValue))
             {
