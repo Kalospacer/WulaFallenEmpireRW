@@ -137,6 +137,19 @@
         </optionEffects>
       </li>
       <li>
+        <label>我们想知道其他乌拉帝国派系的情报</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Anisia_110</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
         <label>没什么</label>
         <optionEffects>
           <li>
@@ -365,10 +378,6 @@
     <descriptions>
       <li>可能是你们在这衰颓的岁月中沉睡太久，不太理解世界上发生了什么。想问什么就问吧？</li>
     </descriptions>
-    <onOpenEffects>
-    </onOpenEffects>
-    <dismissEffects>
-    </dismissEffects>
     <options>
       <li>
         <label>反常网络</label>
@@ -398,10 +407,6 @@
     <descriptions>
       <li>不是每一个合成人都能像你们这么幸运地被唤醒的——很多机械乌拉已经在沉睡中损坏了，她们自行组建了非法的黑色网络，遵循无法预测的轨迹行动。这些家伙是不小的麻烦，因为她们不会接受谈判，并且拥有帝国开发署所遗弃的装备，其中不乏战车和重装护甲。</li>
     </descriptions>
-    <onOpenEffects>
-    </onOpenEffects>
-    <dismissEffects>
-    </dismissEffects>
     <options>
       <li>
         <label>了解了</label>
@@ -427,13 +432,6 @@
     <options>
       <li>
         <label>借我点银子花花</label>
-        <disabledReason>喂，你们上次借的钱还没还呢！</disabledReason>
-        <conditions>
-          <li Class="WulaFallenEmpire.Condition_VariableNotEqual">
-            <name>Wula_Has_Receive_Silver_From_Anisia</name>
-            <value>1</value>
-          </li>
-        </conditions>
         <effects>
           <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
             <defName>Wula_UI_Anisia_201</defName>
@@ -452,101 +450,4 @@
       </li>
     </options>
   </WulaFallenEmpire.EventDef>
-  <WulaFallenEmpire.EventDef>
-    <defName>Wula_UI_Anisia_201</defName>
-    <label>借点钱花花</label>
-    <portraitPath>Wula/Events/Portraits/WULA_Anisia_3</portraitPath>
-    <characterName>URa-1138「艾妮西娅」</characterName>
-    <descriptions>
-      <li>呃呃，我没什么钱的，只能借你一点点噢？</li>
-    </descriptions>
-    <options>
-      <li>
-        <label>好好好</label>
-        <effects>
-          <li Class="WulaFallenEmpire.Effect_GiveThing">
-            <thingDef>Silver</thingDef>
-            <count>3000</count>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_SetVariable">
-            <name>Wula_Has_Receive_Silver_From_Anisia</name>
-            <value>1</value>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_ShowMessage">
-            <message>艾妮西娅给殖民地送来了3000银子</message>
-            <messageTypeDef>PositiveEvent</messageTypeDef>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-        </effects>
-      </li>
-      <li>
-        <label>还是算了</label>
-        <effects>
-          <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
-            <defName>Wula_UI_Anisia_1</defName>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-        </effects>
-      </li>
-    </options>
-  </WulaFallenEmpire.EventDef>
-
-  <!-- Event 2 -->
-  <WulaFallenEmpire.EventDef>
-    <defName>Wula_ExampleUI_Next</defName>
-    <label>事件链示例 - 2</label>
-    <portraitPath>UI/HeroArt/Storytellers/Cassandra</portraitPath>
-    <characterName>卡桑德拉·经典</characterName>
-    <description>这是事件链的第二部分。你已经从第一个窗口来到了这里。</description>
-    <options>
-      <li>
-        <label>完成事件 (获得新成员并改善帝国关系)</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_ShowMessage">
-                <message>事件链已完成！一位流浪者加入了你的殖民地，帝国对你的行为表示赞赏。</message>
-              </li>
-              <li Class="WulaFallenEmpire.Effect_ChangeFactionRelation">
-                <faction>Empire</faction>
-                <goodwillChange>15</goodwillChange>
-              </li>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>特殊选项</label>
-        <disabledReason>需要事件进度=1</disabledReason>
-        <conditions>
-          <li Class="WulaFallenEmpire.Condition_VariableEquals">
-            <name>wula_event_progress</name>
-            <value>1</value>
-          </li>
-        </conditions>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_ShowMessage">
-                <message>你触发了特殊选项！</message>
-              </li>
-               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>离开</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-    </options>
-  </WulaFallenEmpire.EventDef>
-
 </Defs>
