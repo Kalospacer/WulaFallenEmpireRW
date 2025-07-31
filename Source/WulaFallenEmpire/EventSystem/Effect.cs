@@ -293,7 +293,12 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            float currentValue = EventContext.GetVariable<float>(name, 0f);
+            if (!EventContext.HasVariable(name))
+            {
+                EventContext.SetVariable(name, 0f);
+            }
+            
+            float currentValue = EventContext.GetVariable<float>(name);
 
             switch (operation)
             {

@@ -7,6 +7,8 @@
     <!-- General Style -->
     <labelFont>Small</labelFont>
     <drawBorders>false</drawBorders>
+    <showDefName>true</showDefName>
+    <showLabel>true</showLabel>
     <defaultBackgroundImagePath></defaultBackgroundImagePath>
     
     <!-- Virtual Layout Dimensions -->

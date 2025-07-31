@@ -403,4 +403,13 @@
 </li>
 ```
 
+### `Condition_VariableNotEqual`
+检查一个变量是否 **不等于** 一个特定值。
+```xml
+<li Class="WulaFallenEmpire.Condition_VariableNotEqual">
+  <name>QuestStage</name>
+  <value>3</value>
+</li>
+```
+
 ---

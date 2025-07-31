@@ -112,4 +112,10 @@ namespace WulaFallenEmpire
         protected override bool Compare(float var1, float var2) => var1 <= var2;
         protected override string GetOperatorString() => "<=";
     }
+
+    public class Condition_VariableNotEqual : Condition_CompareVariable
+    {
+        protected override bool Compare(float var1, float var2) => var1 != var2;
+        protected override string GetOperatorString() => "!=";
+    }
 }

@@ -95,14 +95,20 @@ namespace WulaFallenEmpire
             }
 
             // 2. Draw Top-left defName and Label
-            Text.Font = GameFont.Tiny;
-            GUI.color = Color.gray;
-            Widgets.Label(new Rect(5, 5, inRect.width - 10, 20f), def.defName);
-            GUI.color = Color.white;
+            if (Config.showDefName)
+            {
+                Text.Font = GameFont.Tiny;
+                GUI.color = Color.gray;
+                Widgets.Label(new Rect(5, 5, inRect.width - 10, 20f), def.defName);
+                GUI.color = Color.white;
+            }
 
-            Text.Font = Config.labelFont;
-            Widgets.Label(new Rect(5, 20f, inRect.width - 10, 30f), def.label);
-            Text.Font = GameFont.Small; // Reset to default
+            if (Config.showLabel)
+            {
+                Text.Font = Config.labelFont;
+                Widgets.Label(new Rect(5, 20f, inRect.width - 10, 30f), def.label);
+                Text.Font = GameFont.Small; // Reset to default
+            }
 
             // 3. Calculate Layout based on ConfigDef
             float virtualWidth = Config.lihuiSize.x + Config.textSize.x;

@@ -8,6 +8,8 @@ namespace WulaFallenEmpire
         // General Style
         public GameFont labelFont = GameFont.Small;
         public bool drawBorders = true;
+        public bool showDefName = true;
+        public bool showLabel = true;
         public string defaultBackgroundImagePath;
         public Vector2 defaultWindowSize = new Vector2(750f, 500f);
 

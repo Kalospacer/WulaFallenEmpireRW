@@ -43,6 +43,11 @@ namespace WulaFallenEmpire
             return defaultValue;
         }
 
+        public static bool HasVariable(string name)
+        {
+            return variables.ContainsKey(name);
+        }
+
         public static void Clear()
         {
             variables.Clear();
