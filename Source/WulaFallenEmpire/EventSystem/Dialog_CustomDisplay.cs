@@ -83,7 +83,7 @@ namespace WulaFallenEmpire
                 background = ContentFinder<Texture2D>.Get(bgPath);
             }
             
-            HandleAction(def.onOpenEffects);
+            HandleAction(def.immediateEffects);
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -186,7 +186,7 @@ namespace WulaFallenEmpire
                     {
                         if (listing.ButtonText(option.label))
                         {
-                            HandleAction(option.effects);
+                            HandleAction(option.optionEffects);
                         }
                     }
                     else
@@ -200,16 +200,26 @@ namespace WulaFallenEmpire
             listing.End();
         }
 
-        private void HandleAction(List<Effect> effects)
+        private void HandleAction(List<ConditionalEffects> conditionalEffects)
         {
-            if (effects.NullOrEmpty())
+            if (conditionalEffects.NullOrEmpty())
             {
                 return;
             }
 
-            foreach (var effect in effects)
+            foreach (var ce in conditionalEffects)
             {
-                effect.Execute(this);
+                string reason;
+                if (AreConditionsMet(ce.conditions, out reason))
+                {
+                    if (!ce.effects.NullOrEmpty())
+                    {
+                        foreach (var effect in ce.effects)
+                        {
+                            effect.Execute(this);
+                        }
+                    }
+                }
             }
         }
 

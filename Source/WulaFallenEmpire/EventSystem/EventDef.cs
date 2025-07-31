@@ -18,6 +18,7 @@ namespace WulaFallenEmpire
         // New system: list of descriptions
         public List<string> descriptions;
         public DescriptionSelectionMode descriptionMode = DescriptionSelectionMode.Random;
+        public bool hiddenWindow = false;
 
         // Backwards compatibility: old single description field
         public new string description = null;
@@ -26,9 +27,8 @@ namespace WulaFallenEmpire
 
         public List<EventOption> options;
         public string backgroundImagePath;
-        public List<Effect> onOpenEffects;
-        public List<Effect> dismissEffects;
-
+        public List<ConditionalEffects> immediateEffects;
+        public List<ConditionalEffects> dismissEffects;
         public override void PostLoad()
         {
             base.PostLoad();
@@ -44,14 +44,30 @@ namespace WulaFallenEmpire
                 description = null; // Clear the old field to prevent confusion
             }
 #pragma warning restore 0618
+            // If hiddenWindow is true, merge immediateEffects into dismissEffects at load time.
+            if (hiddenWindow && !immediateEffects.NullOrEmpty())
+            {
+                if (dismissEffects.NullOrEmpty())
+                {
+                    dismissEffects = new List<ConditionalEffects>();
+                }
+                dismissEffects.AddRange(immediateEffects);
+                immediateEffects = null; // Clear to prevent double execution
+            }
         }
     }
 
     public class EventOption
     {
         public string label;
-        public List<Effect> effects;
+        public List<ConditionalEffects> optionEffects;
         public List<Condition> conditions;
         public string disabledReason;
+    }
+
+    public class ConditionalEffects
+    {
+        public List<Condition> conditions;
+        public List<Effect> effects;
     }
 }

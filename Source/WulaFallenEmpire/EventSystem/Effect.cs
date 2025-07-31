@@ -21,12 +21,55 @@ namespace WulaFallenEmpire
             EventDef nextDef = DefDatabase<EventDef>.GetNamed(defName);
             if (nextDef != null)
             {
-                Find.WindowStack.Add(new Dialog_CustomDisplay(nextDef));
+                if (nextDef.hiddenWindow)
+                {
+                    // Since effects are merged in PostLoad, we only need to execute dismissEffects here.
+                    if (!nextDef.dismissEffects.NullOrEmpty())
+                    {
+                        foreach (var conditionalEffect in nextDef.dismissEffects)
+                        {
+                            string reason;
+                            if (AreConditionsMet(conditionalEffect.conditions, out reason))
+                            {
+                                if (!conditionalEffect.effects.NullOrEmpty())
+                                {
+                                    foreach (var effect in conditionalEffect.effects)
+                                    {
+                                        effect.Execute(null);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Find.WindowStack.Add(new Dialog_CustomDisplay(nextDef));
+                }
             }
             else
             {
                 Log.Error($"[WulaFallenEmpire] Effect_OpenCustomUI could not find EventDef named '{defName}'");
             }
+        }
+
+        private bool AreConditionsMet(List<Condition> conditions, out string reason)
+        {
+            reason = "";
+            if (conditions.NullOrEmpty())
+            {
+                return true;
+            }
+
+            foreach (var condition in conditions)
+            {
+                if (!condition.IsMet(out string singleReason))
+                {
+                    reason = singleReason;
+                    return false;
+                }
+            }
+            return true;
         }
     }
 
