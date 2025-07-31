@@ -29,11 +29,21 @@ namespace WulaFallenEmpire
                     var currentOption = optionDef;
                     Action choiceAction = delegate
                     {
-                        if (!currentOption.effects.NullOrEmpty())
+                        if (!currentOption.optionEffects.NullOrEmpty())
                         {
-                            foreach (var effect in currentOption.effects)
+                            foreach (var conditionalEffect in currentOption.optionEffects)
                             {
-                                effect.Execute(null);
+                                string reason;
+                                if (AreConditionsMet(conditionalEffect.conditions, out reason))
+                                {
+                                    if (!conditionalEffect.effects.NullOrEmpty())
+                                    {
+                                        foreach (var effect in conditionalEffect.effects)
+                                        {
+                                            effect.Execute(null);
+                                        }
+                                    }
+                                }
                             }
                         }
                         if (quest != null && !quest.hidden && !quest.Historical)
@@ -54,6 +64,25 @@ namespace WulaFallenEmpire
         }
 
         public override bool CanDismissWithRightClick => false;
+
+        private bool AreConditionsMet(List<Condition> conditions, out string reason)
+        {
+            reason = "";
+            if (conditions.NullOrEmpty())
+            {
+                return true;
+            }
+
+            foreach (var condition in conditions)
+            {
+                if (!condition.IsMet(out string singleReason))
+                {
+                    reason = singleReason;
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public override void ExposeData()
         {

@@ -28,23 +28,31 @@
           <options>
             <li>
               <label>阅览消息</label>
-              <effects>
-                <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
-                  <defName>Wula_UI_Anisia_1</defName>
+              <optionEffects>
+                <li>
+                  <effects>
+                    <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                      <defName>Wula_UI_Anisia_1</defName>
+                    </li>
+                  </effects>
                 </li>
-              </effects>
+              </optionEffects>
             </li>
             <li>
               <label>尝试抵抗（但失败了）</label>
-              <effects>
-                <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
-                  <defName>Wula_UI_Anisia_1</defName>
+              <optionEffects>
+                <li>
+                  <effects>
+                    <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                      <defName>Wula_UI_Anisia_1</defName>
+                    </li>
+                    <li Class="WulaFallenEmpire.Effect_ShowMessage">
+                      <message>你试图抵抗心灵入侵，但这股力量过于强大。无论如何，消息还是涌入了你的脑海。</message>
+                      <messageTypeDef>NegativeEvent</messageTypeDef>
+                    </li>
+                  </effects>
                 </li>
-                <li Class="WulaFallenEmpire.Effect_ShowMessage">
-                  <message>你试图抵抗心灵入侵，但这股力量过于强大。无论如何，消息还是涌入了你的脑海。</message>
-                  <messageTypeDef>NegativeEvent</messageTypeDef>
-                </li>
-              </effects>
+              </optionEffects>
             </li>
           </options>
         </li>

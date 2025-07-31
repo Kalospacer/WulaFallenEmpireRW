@@ -34,20 +34,20 @@
       <options>
         <li>
           <label>接受通讯</label>
-          <effects>
+          <optionEffects>
             <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
               <defName>Wula_ExampleEvent</defName>
             </li>
-          </effects>
+          </optionEffects>
         </li>
         <li>
           <label>忽略他们</label>
-          <effects>
+          <optionEffects>
             <li Class="WulaFallenEmpire.Effect_ShowMessage">
               <message>你决定无视这个信号。宇宙的寂静再次笼罩着你。</message>
               <messageTypeDef>NeutralEvent</messageTypeDef>
             </li>
-          </effects>
+          </optionEffects>
         </li>
       </options>
     </root>
@@ -69,6 +69,19 @@
 4.  你可以通过 `Effect_OpenCustomUI` 效果来打开这个UI（从任务事件或其他EventDef）。
 5.  你也可以通过将 `CompOpenCustomUI` 附加到一个建筑上来从游戏中直接打开它。
 
+### `EventDef` 参数
+
+- **label**: (string) 窗口的标题。
+- **characterName**: (string) 显示在肖像下方的角色名称。
+- **portraitPath**: (string) 角色肖像的纹理路径。
+- **descriptions**: (List<string>) 一个描述文本列表。可以通过 `descriptionMode` 控制是随机选择一个还是按顺序显示。
+- **options**: (List<EventOption>) 对话框中显示的选项列表。
+- **immediateEffects**: (List<ConditionalEffects>) 当对话框打开时立即执行的效果列表。
+- **dismissEffects**: (List<ConditionalEffects>) 当对话框关闭时（通过关闭按钮或`Effect_CloseDialog`）执行的效果列表。
+- **backgroundImagePath**: (string) (可选) 对话框的背景图片路径。
+- **windowSize**: (Vector2) (可选) 自定义窗口大小。
+- **hiddenWindow**: (bool) (可选) 如果为 `true`，则不会显示窗口。在这种模式下，`immediateEffects` 的内容会在加载时自动合并到 `dismissEffects` 中，然后在事件触发时作为单个效果链统一执行。这对于创建纯粹的后台“效果链”事件非常有用。默认为 `false`。
+
 ### `EventDef` 示例
 
 ```xml
@@ -82,45 +95,87 @@
     <descriptions>
       <li>“你好，来自边缘世界的陌生人。我们观察你很久了。你的挣扎……很有趣。”</li>
     </descriptions>
+    <immediateEffects>
+      <!-- 这是一个无条件的ConditionalEffects块 -->
+      <li>
+        <!-- 没有<conditions>，所以总是执行 -->
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>MetTheEnvoy</name>
+            <value>true</value>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
+    <dismissEffects>
+      <!-- 这是一个有条件的ConditionalEffects块 -->
+      <li>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>PlayerMadeChoice</name>
+            <value>false</value>
+          </li>
+        </conditions>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_ShowMessage">
+            <message>你没有做出选择就关闭了通讯。</message>
+          </li>
+        </effects>
+      </li>
+    </dismissEffects>
     <options>
       <li>
         <label>“你是谁？”</label>
-        <effects>
-          <li Class="WulaFallenEmpire.Effect_ShowMessage">
-            <message>“我们是观察者。我们是见证者。现在，我们是你的未来。”</message>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_ShowMessage">
+                <message>“我们是观察者。我们是见证者。现在，我们是你的未来。”</message>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
           </li>
-          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-        </effects>
+        </optionEffects>
       </li>
       <li>
-        <label>“给我们一些东西来证明你的诚意。” (需要 帝国关系 >= 50)</label>
+        <label>“给我们一些东西来证明你的诚意。”</label>
         <disabledReason>他们似乎对你不够信任。</disabledReason>
+        <!-- 这个conditions块现在只用于决定选项是否可点击 -->
         <conditions>
           <li Class="WulaFallenEmpire.Condition_VariableGreaterThanOrEqual">
             <name>EmpireGoodwill</name>
             <value>50</value>
           </li>
         </conditions>
-        <effects>
-          <li Class="WulaFallenEmpire.Effect_GiveThing">
-            <thingDef>Gold</thingDef>
-            <count>100</count>
+        <optionEffects>
+          <li>
+            <!-- 你甚至可以在选项的效果内部再次添加条件 -->
+            <conditions>
+                <li Class="WulaFallenEmpire.Condition_VariableEquals">
+                    <name>IsGenerous</name>
+                    <value>true</value>
+                </li>
+            </conditions>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_GiveThing">
+                <thingDef>Gold</thingDef>
+                <count>200</count> <!-- 如果IsGenerous为true，则给予更多 -->
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
           </li>
-          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-        </effects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_GiveThing">
+                <thingDef>Gold</thingDef>
+                <count>100</count>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
       </li>
     </options>
-    <onOpenEffects>
-        <li Class="WulaFallenEmpire.Effect_SetVariable">
-            <name>MetTheEnvoy</name>
-            <value>true</value>
-        </li>
-    </onOpenEffects>
-    <dismissEffects>
-        <li Class="WulaFallenEmpire.Effect_ShowMessage">
-            <message>通讯结束了。</message>
-        </li>
-    </dismissEffects>
   </WulaFallenEmpire.EventDef>
 </Defs>
 ```
@@ -131,9 +186,44 @@
 
 ---
 
-## 3. 可用的效果 (`Effect`)
+## 3. 核心结构: 条件化效果 (`ConditionalEffects`)
 
-这些是可以在 `effects` 列表中使用的类。
+所有执行效果的地方 (`immediateEffects`, `dismissEffects`, 以及每个选项的 `optionEffects`) 都是一个 `ConditionalEffects` 块的列表。
+
+这允许你将一组效果与一组条件绑定在一起。
+
+### `ConditionalEffects` 结构
+
+每个 `<li>` 代表一个 `ConditionalEffects` 块。它包含两个可选部分：
+- **`<conditions>`**: 一个条件列表。只有当这里的所有条件都满足时，对应的效果才会执行。如果省略这个部分，效果将总是执行。
+- **`<effects>`**: 一个效果列表。当条件满足时，这些效果会被执行。
+
+```xml
+<!-- 示例: 一个ConditionalEffects块 -->
+<li>
+  <conditions>
+    <li Class="WulaFallenEmpire.Condition_VariableEquals">
+      <name>PlayerChoice</name>
+      <value>AcceptedOffer</value>
+    </li>
+  </conditions>
+  <effects>
+    <li Class="WulaFallenEmpire.Effect_ShowMessage">
+      <message>你接受了提议！</message>
+    </li>
+    <li Class="WulaFallenEmpire.Effect_GiveThing">
+      <thingDef>Silver</thingDef>
+      <count>500</count>
+    </li>
+  </effects>
+</li>
+```
+
+---
+
+## 4. 可用的效果 (`Effect`)
+
+这些是可以在 `ConditionalEffects` 块的 `<effects>` 列表中使用的类。
 
 ### `Effect_OpenCustomUI`
 打开一个指定的 `EventDef`。
@@ -350,6 +440,14 @@
   <value>AcceptedOffer</value>
 </li>
 ```
+### `Condition_VariableNotEqual`
+检查一个变量是否 **不等于** 一个特定值。
+```xml
+<li Class="WulaFallenEmpire.Condition_VariableNotEqual">
+  <name>QuestStage</name>
+  <value>3</value>
+</li>
+```
 
 ### `Condition_CompareVariable` (基类)
 这是一个抽象基类，不应直接使用。以下所有比较条件（大于、小于等）都继承自这个基类，并共享其参数。
@@ -406,14 +504,4 @@
   <value>2</value>
 </li>
 ```
-
-### `Condition_VariableNotEqual`
-检查一个变量是否 **不等于** 一个特定值。
-```xml
-<li Class="WulaFallenEmpire.Condition_VariableNotEqual">
-  <name>QuestStage</name>
-  <value>3</value>
-</li>
-```
-
 ---

@@ -43,7 +43,7 @@ namespace WulaFallenEmpire
         public class Option
         {
             public string label;
-            public List<Effect> effects;
+            public List<ConditionalEffects> optionEffects;
         }
     }
 }
