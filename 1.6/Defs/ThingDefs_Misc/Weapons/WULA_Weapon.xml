@@ -1516,10 +1516,10 @@
     <statBases>
       <WorkToMake>50000</WorkToMake>
       <Mass>20</Mass>
-      <AccuracyTouch>0.6</AccuracyTouch>
-      <AccuracyShort>0.6</AccuracyShort>
-      <AccuracyMedium>0.6</AccuracyMedium>
-      <AccuracyLong>0.4</AccuracyLong>
+      <AccuracyTouch>0.03</AccuracyTouch>
+      <AccuracyShort>0.03</AccuracyShort>
+      <AccuracyMedium>0.03</AccuracyMedium>
+      <AccuracyLong>0.02</AccuracyLong>
       <RangedWeapon_Cooldown>4.0</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
@@ -1529,7 +1529,7 @@
     </costList>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Handle_Cannon</defaultProjectile>
         <warmupTime>1.5</warmupTime>
@@ -1587,9 +1587,14 @@
       <damageDef>Vaporize</damageDef>
       <speed>75</speed>
       <damageAmountBase>300</damageAmountBase>
-      <explosionRadius>3.9</explosionRadius>
+      <explosionRadius>1.1</explosionRadius>
       <screenShakeFactor>1.5</screenShakeFactor>
     </projectile>
+    <modExtensions>
+			<li Class="WulaFallenEmpire.ShotgunExtension">
+				<pelletCount>6</pelletCount>
+			</li>
+		</modExtensions>
   </ThingDef>
   <!-- 自动炮 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
@@ -1741,7 +1746,25 @@
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
     </graphicData>
-    <thingClass>Projectile_Explosive</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass>
+		<modExtensions>
+			<li Class="WulaFallenEmpire.CruiseMissileProperties">
+				<!-- 主爆炸参数 -->
+				<customDamageDef>Bomb</customDamageDef>
+				<customDamageAmount>25</customDamageAmount>
+				<customExplosionRadius>3.5</customExplosionRadius>
+				<customSoundExplode>MortarBomb_Explode</customSoundExplode>
+
+				<!-- 子爆炸系统 -->
+				<useSubExplosions>true</useSubExplosions>
+				<subExplosionCount>4</subExplosionCount>
+				<subExplosionRadius>1.5</subExplosionRadius>
+				<subExplosionDamage>10</subExplosionDamage>
+				<subExplosionSpread>6</subExplosionSpread>
+				<subDamageDef>Bomb</subDamageDef>
+				<subSoundExplode>MortarBomb_Explode</subSoundExplode>
+			</li>
+		</modExtensions>
     <projectile>
       <damageDef>Bomb</damageDef>
       <damageAmountBase>25</damageAmountBase>

@@ -112,6 +112,8 @@
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />
     <Compile Include="EventSystem\QuestNode_Root_EventLetter.cs" />
     <Compile Include="EventSystem\Letter_EventChoice.cs" />
+    <Compile Include="Verb\ProperShotgun.cs" />
+    <Compile Include="Verb\Trackingbullet.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
