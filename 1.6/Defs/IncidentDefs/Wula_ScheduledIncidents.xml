@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <IncidentDef>
+    <defName>Wula_Incident_ExampleEvent</defName>
+    <label>来自虚空的信息</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    
+    <!-- This uses the vanilla quest giver worker -->
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    
+    <!-- This points to our custom QuestScriptDef -->
+    <questScriptDef>Wula_Quest_ExampleEvent</questScriptDef>
+    
+    <!--
+    <baseChance>1.0</baseChance>
+    <earliestDay>0.001</earliestDay>
+    <minRefireDays>99999</minRefireDays>
+    -->
+  </IncidentDef>
+
+</Defs>

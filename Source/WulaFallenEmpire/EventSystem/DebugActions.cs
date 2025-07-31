@@ -11,10 +11,10 @@ namespace WulaFallenEmpire
         private static void OpenCustomUI()
         {
             List<DebugMenuOption> list = new List<DebugMenuOption>();
-            foreach (CustomUIDef localDef in DefDatabase<CustomUIDef>.AllDefs)
+            foreach (EventDef localDef in DefDatabase<EventDef>.AllDefs)
             {
                 // Capture the local variable for the lambda
-                CustomUIDef currentDef = localDef; 
+                EventDef currentDef = localDef;
                 list.Add(new DebugMenuOption(currentDef.defName, DebugMenuOptionMode.Action, delegate
                 {
                     Find.WindowStack.Add(new Dialog_CustomDisplay(currentDef));

@@ -10,7 +10,7 @@ namespace WulaFallenEmpire
         Sequential
     }
 
-    public class CustomUIDef : Def
+    public class EventDef : Def
     {
         public string portraitPath;
         public string characterName;
@@ -25,7 +25,7 @@ namespace WulaFallenEmpire
 
         public Vector2 windowSize = Vector2.zero;
 
-        public List<CustomUIOption> options;
+        public List<EventOption> options;
         public string backgroundImagePath;
         public List<Effect> onOpenEffects;
         public List<Effect> dismissEffects;
@@ -48,7 +48,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class CustomUIOption
+    public class EventOption
     {
         public string label;
         public List<Effect> effects;

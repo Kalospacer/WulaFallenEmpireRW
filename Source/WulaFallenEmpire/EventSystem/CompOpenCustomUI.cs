@@ -43,14 +43,14 @@ namespace WulaFallenEmpire
             
             FloatMenuOption option = new FloatMenuOption(label, delegate()
             {
-                CustomUIDef uiDef = DefDatabase<CustomUIDef>.GetNamed(Props.uiDefName, false);
+                EventDef uiDef = DefDatabase<EventDef>.GetNamed(Props.uiDefName, false);
                 if (uiDef != null)
                 {
                     Find.WindowStack.Add(new Dialog_CustomDisplay(uiDef));
                 }
                 else
                 {
-                    Log.Error($"[CompOpenCustomUI] Could not find CustomUIDef named '{Props.uiDefName}'.");
+                    Log.Error($"[CompOpenCustomUI] Could not find EventDef named '{Props.uiDefName}'.");
                 }
             });
 

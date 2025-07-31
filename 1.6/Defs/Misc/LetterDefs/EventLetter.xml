@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <LetterDef>
+    <defName>Wula_EventChoiceLetter</defName>
+    <letterClass>WulaFallenEmpire.Letter_EventChoice</letterClass>
+    <arriveSound>LetterArrive_Good</arriveSound>
+    <color>(120, 150, 255)</color>
+  </LetterDef>
+</Defs>

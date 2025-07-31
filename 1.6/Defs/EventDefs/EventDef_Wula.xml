@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <!-- 总控 -->
-  <WulaFallenEmpire.CustomUIDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Main_1</defName>
     <label>联络面板</label>
     <portraitPath>Wula/Events/Portraits/Wula_insignal</portraitPath>
@@ -51,9 +51,9 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
 
-  <WulaFallenEmpire.CustomUIDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Anisia_1</defName>
     <label>来自守密者的问候</label>
     <portraitPath>Wula/Events/Portraits/WULA_Anisia_1</portraitPath>
@@ -97,8 +97,8 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
-  <WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Anisia_10</defName>
     <label>询问守密者</label>
     <portraitPath>Wula/Events/Portraits/WULA_Anisia_6</portraitPath>
@@ -141,8 +141,8 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
-  <WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Anisia_100</defName>
     <label>守密者的自我介绍</label>
     <portraitPath>Wula/Events/Portraits/WULA_Anisia_3</portraitPath>
@@ -165,8 +165,8 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
-  <WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Anisia_101</defName>
     <label>守密者的建议</label>
     <portraitPath>Wula/Events/Portraits/WULA_Anisia_3</portraitPath>
@@ -216,8 +216,8 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
-  <WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Anisia_102</defName>
     <label>守密者的建议</label>
     <portraitPath>Wula/Events/Portraits/WULA_Anisia_2</portraitPath>
@@ -252,8 +252,8 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
-  <WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Anisia_103</defName>
     <label>守密者的建议</label>
     <portraitPath>Wula/Events/Portraits/WULA_Anisia_1</portraitPath>
@@ -288,8 +288,8 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
-  <WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Anisia_104</defName>
     <label>守密者的建议</label>
     <portraitPath>Wula/Events/Portraits/WULA_Anisia_6</portraitPath>
@@ -323,10 +323,10 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
 
   <!-- Event 2 -->
-  <WulaFallenEmpire.CustomUIDef>
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_ExampleUI_Next</defName>
     <label>事件链示例 - 2</label>
     <portraitPath>UI/HeroArt/Storytellers/Cassandra</portraitPath>
@@ -369,6 +369,6 @@
         </effects>
       </li>
     </options>
-  </WulaFallenEmpire.CustomUIDef>
+  </WulaFallenEmpire.EventDef>
 
 </Defs>

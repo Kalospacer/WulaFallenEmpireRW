@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Test_Raid_Event</defName>
+    <label>测试袭击事件</label>
+    <Description>这是一个测试，用于触发一个带有自定义 pawn 组的袭击。</Description>
+    <dismissEffects>
+      <li Class="WulaFallenEmpire.Effect_TriggerRaid">
+            <points>10000</points>
+            <faction>Wula_Broken_Personality_Faction</faction>
+            <raidStrategy>ImmediateAttack</raidStrategy>
+            <raidArrivalMode>EdgeWalkIn</raidArrivalMode>
+            <groupKind>Combat</groupKind>
+            <pawnGroupMakers>
+              <li>
+                <kindDef>Combat</kindDef>
+                <commonality>100</commonality>
+                <options>
+                  <Mech_WULA_Cat_Constructor>20</Mech_WULA_Cat_Constructor>
+                  <Mech_WULA_Cat_Assault>20</Mech_WULA_Cat_Assault>
+                  <Wula_Broken_Personality_Pawn_7>2</Wula_Broken_Personality_Pawn_7>
+                  <Wula_Broken_Personality_Pawn_5>1</Wula_Broken_Personality_Pawn_5>
+                </options>
+              </li>
+            </pawnGroupMakers>
+          </li>
+    </dismissEffects>
+    <options>
+      <li>
+        <label>触发袭击</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+      <li>
+        <label>关闭</label>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+
+</Defs>

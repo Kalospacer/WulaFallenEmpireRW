@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
 using RimWorld;
 
@@ -7,32 +8,34 @@ namespace WulaFallenEmpire
 {
     public abstract class Effect
     {
-        public abstract void Execute(Dialog_CustomDisplay dialog);
+        // Allow the dialog to be null for contexts where there isn't one (like quests)
+        public abstract void Execute(Dialog_CustomDisplay dialog = null);
     }
 
     public class Effect_OpenCustomUI : Effect
     {
         public string defName;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
-            CustomUIDef nextDef = DefDatabase<CustomUIDef>.GetNamed(defName);
+            EventDef nextDef = DefDatabase<EventDef>.GetNamed(defName);
             if (nextDef != null)
             {
                 Find.WindowStack.Add(new Dialog_CustomDisplay(nextDef));
             }
             else
             {
-                Log.Error($"[WulaFallenEmpire] Effect_OpenCustomUI could not find CustomUIDef named '{defName}'");
+                Log.Error($"[WulaFallenEmpire] Effect_OpenCustomUI could not find EventDef named '{defName}'");
             }
         }
     }
 
     public class Effect_CloseDialog : Effect
     {
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
-            dialog.Close();
+            // Only close the dialog if it exists
+            dialog?.Close();
         }
     }
 
@@ -41,7 +44,7 @@ namespace WulaFallenEmpire
         public string message;
         public MessageTypeDef messageTypeDef;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (messageTypeDef == null)
             {
@@ -55,7 +58,7 @@ namespace WulaFallenEmpire
     {
         public IncidentDef incident;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (incident == null)
             {
@@ -81,7 +84,7 @@ namespace WulaFallenEmpire
         public FactionDef faction;
         public int goodwillChange;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (faction == null)
             {
@@ -105,7 +108,7 @@ namespace WulaFallenEmpire
         public string name;
         public string value;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             // Try to parse as int, then float, otherwise keep as string
             if (int.TryParse(value, out int intValue))
@@ -128,7 +131,7 @@ namespace WulaFallenEmpire
         public FactionDef faction;
         public string goodwillVariableName;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (faction == null)
             {
@@ -154,7 +157,7 @@ namespace WulaFallenEmpire
         public int count = 1;
         public string storeAs;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (kindDef == null)
             {
@@ -192,7 +195,7 @@ namespace WulaFallenEmpire
         public ThingDef thingDef;
         public int count = 1;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (thingDef == null)
             {
@@ -226,7 +229,7 @@ namespace WulaFallenEmpire
         public string letterText;
         public LetterDef letterDef;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (kindDef == null)
             {
@@ -282,7 +285,7 @@ namespace WulaFallenEmpire
         public float value;
         public VariableOperation operation;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -323,7 +326,7 @@ namespace WulaFallenEmpire
     {
         public string name;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -338,7 +341,7 @@ namespace WulaFallenEmpire
     {
         public QuestScriptDef quest;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (quest == null)
             {
@@ -357,7 +360,7 @@ namespace WulaFallenEmpire
     {
         public ResearchProjectDef research;
 
-        public override void Execute(Dialog_CustomDisplay dialog)
+        public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (research == null)
             {
@@ -369,4 +372,94 @@ namespace WulaFallenEmpire
         }
     }
 }
+public class Effect_TriggerRaid : Effect
+    {
+        public float points;
+        public FactionDef faction;
+        public RaidStrategyDef raidStrategy;
+        public PawnsArrivalModeDef raidArrivalMode;
+        public PawnGroupKindDef groupKind;
+        public List<PawnGroupMaker> pawnGroupMakers;
+
+        public override void Execute(Dialog_CustomDisplay dialog = null)
+        {
+            Map map = Find.CurrentMap;
+            if (map == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_TriggerRaid cannot execute without a current map.");
+                return;
+            }
+
+            Faction factionInst = Find.FactionManager.FirstFactionOfDef(this.faction);
+            if (factionInst == null)
+            {
+                Log.Error($"[WulaFallenEmpire] Effect_TriggerRaid could not find an active faction for FactionDef '{this.faction?.defName}'.");
+                return;
+            }
+
+            // If custom pawn groups are defined, use them.
+            if (!pawnGroupMakers.NullOrEmpty())
+            {
+                IncidentParms parms = new IncidentParms
+                {
+                    target = map,
+                    points = this.points,
+                    faction = factionInst,
+                    raidStrategy = this.raidStrategy,
+                    raidArrivalMode = this.raidArrivalMode,
+                    pawnGroupMakerSeed = Rand.Int,
+                    forced = true
+                };
+
+                PawnGroupMakerParms groupMakerParms = new PawnGroupMakerParms
+                {
+                    groupKind = this.groupKind ?? PawnGroupKindDefOf.Combat,
+                    tile = map.Tile,
+                    points = this.points,
+                    faction = factionInst,
+                    seed = parms.pawnGroupMakerSeed
+                };
+
+                if (!pawnGroupMakers.TryRandomElement(out var chosenGroupMaker))
+                {
+                    Log.Error($"[WulaFallenEmpire] Effect_TriggerRaid could not find a suitable PawnGroupMaker for {points} points with groupKind {groupMakerParms.groupKind.defName} from the provided list.");
+                    return;
+                }
+
+                List<Pawn> pawns = chosenGroupMaker.GeneratePawns(groupMakerParms).ToList();
+                if (!pawns.Any())
+                {
+                    Log.Error("[WulaFallenEmpire] Effect_TriggerRaid generated no pawns with the custom pawnGroupMakers.");
+                    return;
+                }
+
+                parms.raidArrivalMode.Worker.Arrive(pawns, parms);
+
+                TaggedString letterLabel = "LetterLabelRaid".Translate(factionInst.def.label).CapitalizeFirst();
+                TaggedString letterText = "LetterRaid".Translate(
+                    factionInst.Name,
+                    factionInst.def.pawnsPlural,
+                    parms.raidStrategy.arrivalTextEnemy
+                ).CapitalizeFirst();
+                
+                Pawn mostImportantPawn = pawns.FirstOrDefault();
+                TargetInfo target = mostImportantPawn != null ? new TargetInfo(mostImportantPawn) : new TargetInfo(parms.spawnCenter, map);
+
+                Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.ThreatBig, target, factionInst);
+            }
+            else // Fallback to default raid incident worker
+            {
+                IncidentParms parms = new IncidentParms
+                {
+                    target = map,
+                    points = this.points,
+                    faction = factionInst,
+                    raidStrategy = this.raidStrategy,
+                    raidArrivalMode = this.raidArrivalMode,
+                    forced = true
+                };
+                IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+            }
+        }
+    }
 }

@@ -8,7 +8,7 @@ namespace WulaFallenEmpire
 {
     public class Dialog_CustomDisplay : Window
     {
-        private CustomUIDef def;
+        private EventDef def;
         private Texture2D portrait;
         private Texture2D background;
         private string selectedDescription; // Store the chosen description for this window instance
@@ -38,7 +38,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        public Dialog_CustomDisplay(CustomUIDef def)
+        public Dialog_CustomDisplay(EventDef def)
         {
             this.def = def;
             this.forcePause = true;
@@ -226,7 +226,7 @@ namespace WulaFallenEmpire
             return true;
         }
 
-        private string GetDisabledReason(CustomUIOption option, string reason)
+        private string GetDisabledReason(EventOption option, string reason)
         {
             if (!option.disabledReason.NullOrEmpty())
             {

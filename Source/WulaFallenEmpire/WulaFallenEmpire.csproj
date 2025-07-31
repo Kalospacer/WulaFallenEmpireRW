@@ -104,12 +104,14 @@
     <Compile Include="MentalBreakWorker_BrokenPersonality.cs" />
     <Compile Include="EventSystem\DebugActions.cs" />
     <Compile Include="EventSystem\Condition.cs" />
-    <Compile Include="EventSystem\CustomUIDef.cs" />
+    <Compile Include="EventSystem\EventDef.cs" />
     <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
     <Compile Include="EventSystem\Effect.cs" />
     <Compile Include="EventSystem\EventContext.cs" />
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />
+    <Compile Include="EventSystem\QuestNode_Root_EventLetter.cs" />
+    <Compile Include="EventSystem\Letter_EventChoice.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
