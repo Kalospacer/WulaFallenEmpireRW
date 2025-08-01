@@ -1746,6 +1746,86 @@
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
     </graphicData>
+    <!-- <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass> -->
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>25</damageAmountBase>
+      <speed>35</speed>
+      <explosionRadius>3.5</explosionRadius>
+      <armorPenetrationBase>0.1</armorPenetrationBase>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+  <!-- 导弹发射器 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Test_Missile</defName>
+    <label>测试导弹武器</label>
+    <description></description>
+    <techLevel>Ultra</techLevel>
+    <tradeability>None</tradeability>
+    <!-- <techLevel>Spacer</techLevel> -->
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Auto_GL</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.65</drawSize>
+    </graphicData>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T3</li>
+    </weaponTags>
+    <uiIconScale>0.75</uiIconScale>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <costList Inherit="False">
+      <Steel>380</Steel>
+      <Plasteel>60</Plasteel>
+      <ComponentSpacer>8</ComponentSpacer>
+    </costList>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>20</Mass>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.4</AccuracyMedium>
+      <AccuracyLong>0.3</AccuracyLong>
+      <RangedWeapon_Cooldown>6</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Test_Missile</defaultProjectile>
+        <warmupTime>0.2</warmupTime>
+        <burstShotCount>32</burstShotCount>
+        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>4</minRange>
+        <range>48</range>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Test_Missile</defName>
+    <label>角砾岩榴弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass>
 		<modExtensions>
 			<li Class="WulaFallenEmpire.CruiseMissileProperties">
