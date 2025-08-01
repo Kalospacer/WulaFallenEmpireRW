@@ -54,6 +54,23 @@
         <aimingChargeMote>Mote_HellsphereCannon_Charge</aimingChargeMote>
       </li>
     </verbs>
+    <comps>
+      <!-- 心灵敏感度伤害缩放组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_PsychicScaling">
+        <!--
+          伤害增幅系数:
+          当持有者心灵敏感度 > 1 时, 每高出1点, 伤害增加 1%。
+          例如: 200% (2.0) 敏感度 -> 伤害增加 (2.0 - 1.0) * 1 = 100%。
+        -->
+        <damageMultiplierPerSensitivityPoint>1</damageMultiplierPerSensitivityPoint>
+        <!--
+          伤害减免系数:
+          当持有者心灵敏感度 < 1 时, 每低1点, 伤害降低 100%。
+          例如: 50% (0.5) 敏感度 -> 伤害降低 (1.0 - 0.5) * 1.0 = 50%。
+        -->
+        <damageReductionMultiplierPerSensitivityPoint>1</damageReductionMultiplierPerSensitivityPoint>
+      </li>
+    </comps>
     <tradeability>None</tradeability>
   </ThingDef>
   <ThingDef ParentName="MoteBase">
