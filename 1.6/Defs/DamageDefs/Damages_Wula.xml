@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <DamageDef>
+  <DamageDef Name="Wula_Darm_Matter_Beam_DMG">
     <defName>Wula_Darm_Matter_Beam</defName>
     <ignoreShields>true</ignoreShields>
     <igniteChanceByTargetFlammability>
@@ -40,5 +40,17 @@
     <defName>Wula_Darm_Matter_Flame</defName>
     <label>暗物质湮灭</label>
     <deathMessage>{0} 由于暗物质湮灭爆炸而死。</deathMessage>
+  </DamageDef>
+
+  <DamageDef ParentName="Wula_Darm_Matter_Beam_DMG">
+    <defName>Wula_Darm_Matter_Beam_Explode</defName>
+    <additionalHediffs>
+      <li>
+        <hediff>WULA_Darkmatter_Explosion</hediff>
+        <severityPerDamageDealt>0.01</severityPerDamageDealt>
+        <inverseStatScaling>true</inverseStatScaling>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+      </li>
+    </additionalHediffs>
   </DamageDef>
 </Defs>

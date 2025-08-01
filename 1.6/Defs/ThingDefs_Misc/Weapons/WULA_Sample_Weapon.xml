@@ -42,10 +42,10 @@
             <li Class="WulaFallenEmpire.VerbProperties_Arc">
                 <verbClass>WulaFallenEmpire.Verb_ShootArc</verbClass>
                 <hasStandardCommand>true</hasStandardCommand>
-                <damageDef>Wula_Darm_Matter_Beam</damageDef>
+                <damageDef>Wula_Darm_Matter_Beam_Explode</damageDef>
                 <damageAmount>20</damageAmount>
                 <EMPDamageAmount>20</EMPDamageAmount>
-                <warmupTime>0.5</warmupTime>
+                <warmupTime>1</warmupTime>
                 <range>34.9</range>
                 <affectedAngle>25</affectedAngle>
                 <armorPenetration>1.0</armorPenetration>

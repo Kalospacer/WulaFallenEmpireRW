@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <HediffDef>
+        <defName>WULA_Darkmatter_Explosion</defName>
+        <label>暗流爆发</label>
+        <description>你身上沾染了不明暗物质！马上就要爆炸了！只能祝你好运咯~</description>
+        <defaultLabelColor>(1, 1, 0.8)</defaultLabelColor>
+        <hediffClass>HediffWithComps</hediffClass>
+        <comps>
+            <li Class="HediffCompProperties_SeverityPerDay">
+                <severityPerDay>-4</severityPerDay>
+            </li>
+            <li Class="WulaFallenEmpire.HediffCompProperties_TimedExplosion">
+                <damageDef>Wula_Darm_Matter_Flame</damageDef>
+                <soundDef>Explosion_Bomb</soundDef>
+                <explosionRadius>1.5</explosionRadius>
+                <showRemainingTime>true</showRemainingTime>
+                <damageAmount>15</damageAmount>
+                <armorPenetration>0.10</armorPenetration>
+                <disappearsAfterTicks>10</disappearsAfterTicks>
+            </li>
+            <li Class="HediffCompProperties_DisappearsOnDeath"/>
+        </comps>
+        <stages>
+            <li>
+                <label>minor</label>
+                <becomeVisible>true</becomeVisible>
+            </li>
+        </stages>
+    </HediffDef>
+</Defs>
