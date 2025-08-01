@@ -73,6 +73,7 @@
     <Compile Include="CompApparelInterceptor.cs" />
     <Compile Include="SectionLayer_WulaHull.cs" />
     <Compile Include="HediffComp_RegenerateBackstory.cs" />
+    <Compile Include="Verb\ShootArc.cs" />
     <Compile Include="WulaFallenEmpireMod.cs" />
     <Compile Include="Need_WulaEnergy.cs" />
     <Compile Include="NeedDefExtension_Energy.cs" />

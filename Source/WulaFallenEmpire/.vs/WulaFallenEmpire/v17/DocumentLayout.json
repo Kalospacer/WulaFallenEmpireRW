@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\common\\rimworld\\mods\\3516260226\\source\\wulafallenempire\\verb\\trackingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:verb\\trackingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\common\\rimworld\\mods\\3516260226\\source\\wulafallenempire\\verb\\shootarc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:verb\\shootarc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\verb\\propershotgun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:verb\\propershotgun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|c:\\steam\\steamapps\\common\\rimworld\\mods\\3516260226\\source\\wulafallenempire\\verb\\trackingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5AE8C3B-0221-4C16-A128-9A62D521A8FF}|WulaFallenEmpire.csproj|solutionrelative:verb\\trackingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Verb\\VerbPropertiesExplosiveBeam.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -59,6 +63,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ShootArc.cs",
+              "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Verb\\ShootArc.cs",
+              "RelativeDocumentMoniker": "Verb\\ShootArc.cs",
+              "ToolTip": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Verb\\ShootArc.cs",
+              "RelativeToolTip": "Verb\\ShootArc.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T04:09:11.909Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Trackingbullet.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Verb\\Trackingbullet.cs",
               "RelativeDocumentMoniker": "Verb\\Trackingbullet.cs",
@@ -77,13 +94,14 @@
               "RelativeDocumentMoniker": "Verb\\ProperShotgun.cs",
               "ToolTip": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Verb\\ProperShotgun.cs",
               "RelativeToolTip": "Verb\\ProperShotgun.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAIwAgAAAAaAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-31T17:19:04.819Z"
+              "WhenOpened": "2025-07-31T17:19:04.819Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "VerbPropertiesExplosiveBeam.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Verb\\VerbPropertiesExplosiveBeam.cs",
               "RelativeDocumentMoniker": "Verb\\VerbPropertiesExplosiveBeam.cs",
@@ -95,7 +113,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Verb_ShootBeamExplosive.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\Verb\\Verb_ShootBeamExplosive.cs",
               "RelativeDocumentMoniker": "Verb\\Verb_ShootBeamExplosive.cs",
@@ -107,7 +125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Effect.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\EventSystem\\Effect.cs",
               "RelativeDocumentMoniker": "EventSystem\\Effect.cs",
@@ -119,7 +137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "CompOpenCustomUI.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\EventSystem\\CompOpenCustomUI.cs",
               "RelativeDocumentMoniker": "EventSystem\\CompOpenCustomUI.cs",
@@ -131,7 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Dialog_CustomDisplay.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\EventSystem\\Dialog_CustomDisplay.cs",
               "RelativeDocumentMoniker": "EventSystem\\Dialog_CustomDisplay.cs",
@@ -143,7 +161,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "DebugActions.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\EventSystem\\DebugActions.cs",
               "RelativeDocumentMoniker": "EventSystem\\DebugActions.cs",
@@ -155,7 +173,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "CustomUIDef.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\EventSystem\\CustomUIDef.cs",
               "RelativeDocumentMoniker": "EventSystem\\CustomUIDef.cs",
@@ -167,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Condition.cs",
               "DocumentMoniker": "C:\\Steam\\steamapps\\common\\RimWorld\\Mods\\3516260226\\Source\\WulaFallenEmpire\\EventSystem\\Condition.cs",
               "RelativeDocumentMoniker": "EventSystem\\Condition.cs",
