@@ -64,14 +64,14 @@
     <makesAnimalsFlee>false</makesAnimalsFlee>
     <defaultDamage>20</defaultDamage>
     <defaultArmorPenetration>3000</defaultArmorPenetration>
-    <buildingDamageFactorImpassable>0.01</buildingDamageFactorImpassable>
-    <buildingDamageFactorPassable>0.01</buildingDamageFactorPassable>
+    <buildingDamageFactorImpassable>1</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>1</buildingDamageFactorPassable>
     <!-- <soundExplosion>Explosion_Vaporize</soundExplosion> -->
     <additionalHediffs>
       <li>
-        <hediff>ToxicBuildup</hediff>
+        <hediff>Wula_Psi_Damage_Hediff</hediff>
         <severityPerDamageDealt>0.015</severityPerDamageDealt>
-        <victimSeverityScaling>ToxicResistance</victimSeverityScaling>
+        <!-- <victimSeverityScaling>PsychicSensitivity</victimSeverityScaling> -->
         <inverseStatScaling>true</inverseStatScaling>
         <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
       </li>
