@@ -341,7 +341,7 @@
     <portraitPath>Wula/Events/Portraits/WULA_Anisia_6</portraitPath>
     <characterName>URa-1138「艾妮西娅」</characterName>
     <descriptions>
-      <li>已经凌驾于这片土地之上了，正在寻求终局的意义吗？\n\n你们可以着手开始突破暗物质的难关了——暗物质是乌拉帝国现役舰船和武备的能源来源，掌握这种年轻文明望尘莫及的技术将使得你们的实力更上一层楼。暗物质约束装置的设计图需要从乌拉帝国的遗孤们手中获取——当然，我手上也有，只要你们能支付相应的代价。</li>
+      <!-- <li>已经凌驾于这片土地之上了，正在寻求终局的意义吗？\n\n你们可以着手开始突破暗物质的难关了——暗物质是乌拉帝国现役舰船和武备的能源来源，掌握这种年轻文明望尘莫及的技术将使得你们的实力更上一层楼。暗物质约束装置的设计图需要从乌拉帝国的遗孤们手中获取——当然，我手上也有，只要你们能支付相应的代价。</li> -->
       <li>已经凌驾于这片土地之上了，正在寻求终局的意义吗？\n\n有尝试过制造乌拉帝国的大型机械体吗？它们是强大的战场支柱，每一台都拥有改变战局的力量。不过，机械乌拉的初始带宽无法控制大型机械体，你们需要准备一些扩充带宽的改件和装备，或者干脆植入机控中枢以利用边缘世界的本土科技。</li>
       <li>已经凌驾于这片土地之上了，正在寻求终局的意义吗？\n\n小心友军火力！乌拉帝国的高级装备基本上都是能将敌人炸的血肉横飞的区域性伤害武器，它们的破坏力毋庸置疑，但是同时也会导致战利品丢失和频繁的误伤——或许该考虑给殖民者配一套装甲了。</li>
     </descriptions>
@@ -447,10 +447,13 @@
     </descriptions>
     <immediateEffects>
       <li>
-        <!-- 没有<conditions>，所以总是执行 -->
         <effects>
           <li Class="WulaFallenEmpire.Effect_SetVariable">
             <name>Wula_Has_Receive_Silver_From_Anisia</name>
+            <value>0</value>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>Wula_Has_Receive_MechWula_From_Anisia</name>
             <value>0</value>
           </li>
         </effects>
@@ -471,6 +474,26 @@
             <effects>
               <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
                 <defName>Wula_UI_Anisia_201</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们需要一只新的机械乌拉</label>
+        <disabledReason>你们不会自己去造吗？</disabledReason>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>Wula_Has_Receive_MechWula_From_Anisia</name>
+            <value>0</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Anisia_202</defName>
               </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
@@ -518,6 +541,52 @@
               <li Class="WulaFallenEmpire.Effect_ShowMessage">
                 <message>艾妮西娅给殖民地送来了3000银子</message>
                 <messageTypeDef>PositiveEvent</messageTypeDef>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>还是算了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Anisia_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Anisia_202</defName>
+    <label>想要个新成员！</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Anisia_3</portraitPath>
+    <characterName>URa-1138「艾妮西娅」</characterName>
+    <descriptions>
+      <li>那这样吧，我可以引导附近的一只无归属机械乌拉来到你们殖民地，她不是反常子个体，你们正常接纳她就行了。\n\n记得别和她说是我干的。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>好好好</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_SpawnPawn">
+                <kindDef>WulaSpecies</kindDef>
+                <count>1</count>
+                <joinPlayerFaction>true</joinPlayerFaction>
+                <letterLabel>机械乌拉游荡到殖民地附近</letterLabel>
+                <letterText>一个乌拉帝国合成人被艾妮西娅所引导，游荡到殖民地附近并加入了殖民地。</letterText>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>Wula_Has_Receive_MechWula_From_Anisia</name>
+                <value>1</value>
+                <operation>Add</operation>
               </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
