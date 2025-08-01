@@ -21,6 +21,9 @@ namespace WulaFallenEmpire
 
     public class PsychicRitual_TechOffering : PsychicRitualDef_InvocationCircle
     {
+        // 仪式持续时间（小时）
+        public new FloatRange hoursUntilOutcome;
+
         // 从XML加载的额外祭品列表
         public List<OfferingItem> extraOfferings = new List<OfferingItem>();
 

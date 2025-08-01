@@ -47,8 +47,6 @@
     <drawPlaceWorkersWhileSelected>True</drawPlaceWorkersWhileSelected>
     <comps>
       <li Class="CompProperties_PsychicRitualSpot">
-        <ritualDef>WULA_FallenEmpire_TechOffering</ritualDef>
-        <maxDistance>10</maxDistance>
       </li>
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>

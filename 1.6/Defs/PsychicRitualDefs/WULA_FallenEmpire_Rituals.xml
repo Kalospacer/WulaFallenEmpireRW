@@ -5,23 +5,33 @@
     <defName>WULA_Ritual_TechOffering</defName>
     <label>帝国技术献祭</label>
     <description>乌拉帝国用于交换失落技术的灵能仪式。通过献上高价值的科技产品，帝国可以从时空的裂隙中获得罕见的武器或工具。</description>
-    <durationTicks>1800</durationTicks>
-    <cooldownDays>15</cooldownDays>
+    <hoursUntilOutcome>0.5</hoursUntilOutcome>
+    <cooldownHours>360</cooldownHours>
     <researchPrerequisite>BasicPsychicRituals</researchPrerequisite>
     <iconPath>UI/PsychicRituals/PsychicRitual_Default</iconPath>
 
+    <!-- ==================== 核心祭品定义 ==================== -->
+    <!-- requiredOffering: 定义了启动仪式所必须的基础祭品。 -->
+    <!-- 如果没有这个祭品，仪式本身无法开始。 -->
     <requiredOffering>
       <filter>
         <thingDefs>
+          <!-- <li>TechprofSubpersonaCore</li>: 指定必须献祭一个“科技教授次人格核心”。 -->
           <li>TechprofSubpersonaCore</li>
         </thingDefs>
       </filter>
+      <!-- <count>1</count>: 必须献祭的数量。 -->
       <count>1</count>
     </requiredOffering>
     
+    <!-- ==================== 额外祭品定义 ==================== -->
+    <!-- extraOfferings: 定义了可以增加仪式“能量”的额外祭品。 -->
+    <!-- 能量值会影响最终奖励的品质。每种物品的power值代表单个物品能增加多少能量。 -->
     <extraOfferings>
       <li>
+        <!-- <thingDef>Gold</thingDef>: 祭品类型为黄金。 -->
         <thingDef>Gold</thingDef>
+        <!-- <power>0.005</power>: 每个黄金增加0.005能量。 -->
         <power>0.005</power>
       </li>
       <li>
@@ -42,6 +52,9 @@
       </li>
     </extraOfferings>
 
+    <!-- ==================== 奖励池定义 ==================== -->
+    <!-- rewardWeaponPool: 定义了仪式成功后可能获得的奖励物品列表。 -->
+    <!-- 系统会从这个列表中随机选择一个作为奖励。 -->
     <rewardWeaponPool>
       <li>WULA_MW_Breaker_Bar</li>
       <li>WULA_MW_Charge_Mace</li>
@@ -58,9 +71,14 @@
       <li>WULA_RW_DM_Cannon</li>
     </rewardWeaponPool>
 
+    <!-- ==================== 品质阈值定义 ==================== -->
+    <!-- qualityThresholds: 定义了不同的能量值（power）所对应的奖励品质。 -->
+    <!-- 系统会从高到低检查，使用第一个满足条件的阈值。 -->
     <qualityThresholds>
       <li>
+        <!-- <threshold>1.0</threshold>: 能量值达到或超过1.0。 -->
         <threshold>1.0</threshold>
+        <!-- <quality>Legendary</quality>: 奖励品质为“传奇”。 -->
         <quality>Legendary</quality>
       </li>
       <li>
