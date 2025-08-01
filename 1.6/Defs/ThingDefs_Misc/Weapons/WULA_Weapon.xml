@@ -1543,7 +1543,7 @@
         <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
         <ai_TargetHasRangedAttackScoreOffset>50</ai_TargetHasRangedAttackScoreOffset>
         <minRange>6</minRange>
-        <forcedMissRadius>8</forcedMissRadius>
+        <forcedMissRadius>4.9</forcedMissRadius>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
           <canTargetPawns>false</canTargetPawns>
@@ -1593,7 +1593,7 @@
     </projectile>
     <modExtensions>
 			<li Class="WulaFallenEmpire.ShotgunExtension">
-				<pelletCount>4</pelletCount>
+				<pelletCount>3</pelletCount>
 			</li>
 		</modExtensions>
   </ThingDef>
