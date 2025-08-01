@@ -21,9 +21,6 @@ namespace WulaFallenEmpire
 
     public class PsychicRitual_TechOffering : PsychicRitualDef_InvocationCircle
     {
-        // 仪式持续时间（小时）
-        public new FloatRange hoursUntilOutcome;
-
         // 从XML加载的额外祭品列表
         public List<OfferingItem> extraOfferings = new List<OfferingItem>();
 
@@ -42,48 +39,73 @@ namespace WulaFallenEmpire
             IntVec3 center = assignments.Target.Cell;
             Map map = assignments.Target.Map;
             float offeringRadius = 8f;
+            var thingsInRadius = GenRadial.RadialDistinctThingsAround(center, map, offeringRadius, useCenter: true).ToList();
 
-            float extraPowerFromOfferings = 0f;
-            if (!extraOfferings.NullOrEmpty())
+            // 创建一个可变的必需品计数器
+            var requiredCounts = new Dictionary<ThingDef, int>();
+            if (this.requiredOffering != null)
             {
-                var offeringThings = new Dictionary<ThingDef, float>();
-                foreach(var offering in extraOfferings)
+                foreach (ThingDef thingDef in this.requiredOffering.filter.AllowedThingDefs)
                 {
-                    offeringThings[offering.thingDef] = offering.power;
-                }
-
-                foreach (Thing thing in GenRadial.RadialDistinctThingsAround(center, map, offeringRadius, useCenter: true))
-                {
-                    if (offeringThings.TryGetValue(thing.def, out float value))
-                    {
-                        extraPowerFromOfferings += value * thing.stackCount;
-                    }
+                    requiredCounts[thingDef] = (int)this.requiredOffering.GetBaseCount();
                 }
             }
 
-            if (extraPowerFromOfferings > 0)
+            float extraPowerFromOfferings = 0f;
+            int offeringItemsCount = 0;
+
+            if (!extraOfferings.NullOrEmpty())
             {
+                var extraOfferingInfo = extraOfferings.ToDictionary(o => o.thingDef, o => o.power);
+
+                // 遍历仪式范围内的所有物品
+                foreach (Thing thing in thingsInRadius)
+                {
+                    // 检查这个物品是否可以作为额外祭品
+                    if (extraOfferingInfo.TryGetValue(thing.def, out float powerPerItem))
+                    {
+                        int countInStack = thing.stackCount;
+
+                        // 检查这个物品是否是必需品，并扣除相应数量
+                        if (requiredCounts.TryGetValue(thing.def, out int requiredCount) && requiredCount > 0)
+                        {
+                            int numToFulfillRequirement = System.Math.Min(countInStack, requiredCount);
+                            requiredCounts[thing.def] -= numToFulfillRequirement;
+                            countInStack -= numToFulfillRequirement;
+                        }
+
+                        // 任何剩余的物品都算作额外祭品
+                        if (countInStack > 0)
+                        {
+                            extraPowerFromOfferings += powerPerItem * countInStack;
+                            offeringItemsCount += countInStack;
+                        }
+                    }
+                }
+
+                // 添加UI显示元素
                 powerFactorsOut?.Add(new QualityFactor
                 {
                     label = "WULA_ExtraOfferings".Translate(),
-                    positive = true,
+                    positive = offeringItemsCount > 0,
                     quality = extraPowerFromOfferings,
-                    toolTip = "WULA_ExtraOfferings_Tooltip".Translate()
+                    toolTip = "WULA_ExtraOfferings_Tooltip".Translate(),
+                    count = offeringItemsCount > 0 ? "✓" : "✗" // 使用对勾/叉号来清晰显示状态
                 });
-                power += extraPowerFromOfferings;
             }
-            
+
+            power += extraPowerFromOfferings;
             power = UnityEngine.Mathf.Clamp01(power);
         }
 
         // 重写创建仪式步骤的方法
         public override List<PsychicRitualToil> CreateToils(PsychicRitual psychicRitual, PsychicRitualGraph parent)
         {
-            // 获取基类的仪式步骤
+            // 获取基类的仪式步骤，这其中已经包含了等待 hoursUntilOutcome 的逻辑
             List<PsychicRitualToil> toils = base.CreateToils(psychicRitual, parent);
             
-            // 在最后添加我们自定义的奖励步骤
-            toils.Add(new PsychicRitualToil_TechOfferingOutcome(psychicRitual, this));
+            // 在所有基类步骤之后，添加我们自定义的奖励步骤
+            toils.Add(new PsychicRitualToil_TechOfferingOutcome(this));
 
             return toils;
         }
@@ -92,25 +114,30 @@ namespace WulaFallenEmpire
     // 自定义的仪式步骤，用于处理奖励
     public class PsychicRitualToil_TechOfferingOutcome : PsychicRitualToil
     {
-        private PsychicRitual psychicRitual;
-        private PsychicRitualDef def;
+        private PsychicRitual_TechOffering ritualDef;
 
-        public PsychicRitualToil_TechOfferingOutcome(PsychicRitual psychicRitual, PsychicRitualDef def)
+        // 需要一个无参构造函数用于序列化
+        public PsychicRitualToil_TechOfferingOutcome() { }
+
+        public PsychicRitualToil_TechOfferingOutcome(PsychicRitual_TechOffering def)
         {
-            this.psychicRitual = psychicRitual;
-            this.def = def;
+            this.ritualDef = def;
+        }
+        
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Defs.Look(ref ritualDef, "ritualDef");
         }
 
-        public override bool Tick(PsychicRitual psychicRitual, PsychicRitualGraph parent)
+        public override void Start(PsychicRitual psychicRitual, PsychicRitualGraph graph)
         {
-            float power = psychicRitual.power;
+            float power = psychicRitual.PowerPercent;
 
             // 消耗祭品
             IntVec3 center = psychicRitual.assignments.Target.Cell;
             Map map = psychicRitual.assignments.Target.Map;
             float offeringRadius = 8f;
-
-            PsychicRitual_TechOffering ritualDef = (PsychicRitual_TechOffering)def;
 
             if (!ritualDef.extraOfferings.NullOrEmpty())
             {
@@ -132,32 +159,31 @@ namespace WulaFallenEmpire
             // 从奖励池中随机选择一个武器
             if (ritualDef.rewardWeaponPool.NullOrEmpty())
             {
-                Log.Error($"[WulaFallenEmpire] Reward weapon pool is empty for {def.defName}");
-                return true;
+                Log.Error($"[WulaFallenEmpire] Reward weapon pool is empty for {ritualDef.defName}");
+                return;
             }
             ThingDef weaponDef = ritualDef.rewardWeaponPool.RandomElement();
             if (weaponDef == null)
             {
-                Log.Error($"[WulaFallenEmpire] Could not find weapon Def: {weaponDef.defName}");
-                return true;
+                Log.Error($"[WulaFallenEmpire] Could not find weapon Def in reward pool for {ritualDef.defName}");
+                return;
             }
 
             // 根据能量值决定物品品质
             QualityCategory quality = QualityCategory.Awful; // 默认最低品质
             if (!ritualDef.qualityThresholds.NullOrEmpty())
             {
-                // 对阈值列表按阈值从高到低排序
                 var sortedThresholds = ritualDef.qualityThresholds.OrderByDescending(t => t.threshold).ToList();
                 foreach (var threshold in sortedThresholds)
                 {
                     if (power >= threshold.threshold)
                     {
                         quality = threshold.quality;
-                        break; // 找到第一个满足的阈值就跳出
+                        break;
                     }
                 }
             }
-            else // 如果XML中没有定义，则使用硬编码的默认值
+            else
             {
                 if (power >= 1.0f) { quality = QualityCategory.Legendary; }
                 else if (power >= 0.8f) { quality = QualityCategory.Masterwork; }
@@ -168,8 +194,7 @@ namespace WulaFallenEmpire
 
             // 创建物品并设置品质
             Thing reward = ThingMaker.MakeThing(weaponDef);
-            CompQuality compQuality = reward.TryGetComp<CompQuality>();
-            if (compQuality != null)
+            if (reward.TryGetComp<CompQuality>() is CompQuality compQuality)
             {
                 compQuality.SetQuality(quality, ArtGenerationContext.Colony);
             }
@@ -184,8 +209,6 @@ namespace WulaFallenEmpire
                 LetterDefOf.PositiveEvent,
                 new LookTargets(psychicRitual.assignments.Target.Cell, map)
             );
-            
-            return true;
         }
     }
 }

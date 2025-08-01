@@ -5,8 +5,8 @@
     <defName>WULA_Ritual_TechOffering</defName>
     <label>帝国技术献祭</label>
     <description>乌拉帝国用于交换失落技术的灵能仪式。通过献上高价值的科技产品，帝国可以从时空的裂隙中获得罕见的武器或工具。</description>
-    <hoursUntilOutcome>0.5</hoursUntilOutcome>
-    <cooldownHours>360</cooldownHours>
+    <hoursUntilOutcome>2</hoursUntilOutcome>
+    <cooldownHours>10</cooldownHours>
     <researchPrerequisite>BasicPsychicRituals</researchPrerequisite>
     <iconPath>UI/PsychicRituals/PsychicRitual_Default</iconPath>
 
@@ -100,5 +100,27 @@
     </qualityThresholds>
     
   </WulaFallenEmpire.PsychicRitual_TechOffering>
+
+  <WulaFallenEmpire.PsychicRitualDef_AddHediff>
+    <defName>WULA_ImbuePsychicShock</defName>
+    <label>imbue psychic shock</label>
+    <description>Imbues the target with a psychic shock.</description>
+    <hediff>PsychicShock</hediff>
+    <outcomeDescription>The target will gain psychic shock.</outcomeDescription>
+    <hoursUntilOutcome>2</hoursUntilOutcome>
+    <targetRole>DeathRefusalTarget</targetRole> <!-- We can reuse this role -->
+    <researchPrerequisite>BasicPsychicRituals</researchPrerequisite>
+    <requiredOffering>
+      <filter>
+        <thingDefs>
+          <li>Bioferrite</li>
+        </thingDefs>
+      </filter>
+      <count>10</count>
+    </requiredOffering>
+    <cooldownHours>10</cooldownHours>
+    <chanterRole>ChanterAdvanced</chanterRole>
+    <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
+  </WulaFallenEmpire.PsychicRitualDef_AddHediff>
 
 </Defs>
