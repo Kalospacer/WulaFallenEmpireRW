@@ -2,9 +2,9 @@
 
 <Defs>
   <HediffDef>
-    <defName>ToxicBuildup</defName>
-    <label>toxic buildup</label>
-    <description></description>
+    <defName>Wula_Psi_Damage_Hediff</defName>
+    <label>灵能混乱</label>
+    <description>由乌拉帝国灵能术式打击造成的短暂混乱，可能会导致四肢失调等状态，进而失去战斗力。</description>
     <hediffClass>HediffWithComps</hediffClass>
     <defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
     <lethalSeverity>1</lethalSeverity>
@@ -13,12 +13,12 @@
     <scenarioCanAdd>true</scenarioCanAdd>
     <taleOnVisible>ToxicityRevealed</taleOnVisible>
     <comps>
-      <li Class="HediffCompProperties_Immunizable">
-        <compClass>HediffComp_ImmunizableToxic</compClass>
-        <severityPerDayNotImmune>-0.08</severityPerDayNotImmune>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>12000</disappearsAfterTicks> <!-- 1 days -->
+        <showRemainingTime>true</showRemainingTime>
       </li>
       <li Class="HediffCompProperties_SurgeryInspectable">
-        <surgicalDetectionDesc>{PAWN_nameDef} is showing early signs of toxic buildup. Keep {PAWN_objective} away from sources of toxins.</surgicalDetectionDesc>
+        <surgicalDetectionDesc>{PAWN_nameDef} 正在因为乌拉帝国的灵能术式打击而陷入混乱状态——它不会造成永久伤害，但是需要时间缓解。</surgicalDetectionDesc>
       </li>
     </comps>
     <stages>
@@ -56,20 +56,6 @@
             <offset>-0.15</offset>
           </li>
         </capMods>
-        <hediffGivers>
-          <li Class="HediffGiver_Random">
-            <hediff>Dementia</hediff>
-            <mtbDays>146</mtbDays>
-            <partsToAffect>
-              <li>Brain</li>
-            </partsToAffect>
-          </li>
-          <li Class="HediffGiver_Random">
-            <hediff>Carcinoma</hediff>
-            <mtbDays>438</mtbDays>
-            <canAffectAnyLivePart>true</canAffectAnyLivePart>
-          </li>
-        </hediffGivers>
       </li>
       <li>
         <label>serious</label>
@@ -81,20 +67,6 @@
             <offset>-0.25</offset>
           </li>
         </capMods>
-        <hediffGivers>
-          <li Class="HediffGiver_Random">
-            <hediff>Dementia</hediff>
-            <mtbDays>37</mtbDays>
-            <partsToAffect>
-              <li>Brain</li>
-            </partsToAffect>
-          </li>
-          <li Class="HediffGiver_Random">
-            <hediff>Carcinoma</hediff>
-            <mtbDays>111</mtbDays>
-            <canAffectAnyLivePart>true</canAffectAnyLivePart>
-          </li>
-        </hediffGivers>
       </li>
       <li>
         <label>extreme</label>
@@ -110,20 +82,6 @@
             <offset>-0.25</offset>
           </li>
         </capMods>
-        <hediffGivers>
-          <li Class="HediffGiver_Random">
-            <hediff>Dementia</hediff>
-            <mtbDays>13</mtbDays>
-            <partsToAffect>
-              <li>Brain</li>
-            </partsToAffect>
-          </li>
-          <li Class="HediffGiver_Random">
-            <hediff>Carcinoma</hediff>
-            <mtbDays>39</mtbDays>
-            <canAffectAnyLivePart>true</canAffectAnyLivePart>
-          </li>
-        </hediffGivers>
       </li>
     </stages>
   </HediffDef>
