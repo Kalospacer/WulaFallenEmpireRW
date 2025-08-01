@@ -1495,7 +1495,7 @@
   <ThingDef ParentName="BaseGun">
     <defName>WULA_RW_Handle_Cannon</defName>
     <label>KRc-7"熔岩"</label>
-    <description>一般由乌拉帝国跳帮组或骑士军团携带的手持火炮，能够在锁定后连续发射三发炮弹，夷平敌人的复合型工事或舰船内壁，并给敌人送来最炽热的消亡。</description>
+    <description>一般由乌拉帝国跳帮组或骑士军团携带的手持火炮，能够在锁定后连续发射三轮炮弹，夷平敌人的复合型工事或舰船内壁，并给敌人送来最炽热的消亡。</description>
     <techLevel>Ultra</techLevel>
     <weaponTags>
       <li>Wula_Ranged_Weapon_Wall_Destoryer</li>
@@ -1587,7 +1587,7 @@
     <projectile Class="WulaFallenEmpire.ProjectileProperties_ConfigurableHellsphereCannon">
       <damageDef>Vaporize</damageDef>
       <speed>75</speed>
-      <damageAmountBase>75</damageAmountBase>
+      <damageAmountBase>45</damageAmountBase>
       <explosionRadius>1.5</explosionRadius>
       <screenShakeFactor>0.75</screenShakeFactor>
     </projectile>
@@ -1762,7 +1762,7 @@
       <soundAmbient>MortarRound_Ambient</soundAmbient>
     </projectile>
   </ThingDef>
-  <!-- 导弹发射器 -->
+  <!-- 测试导弹发射器 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Test_Missile</defName>
     <label>测试导弹武器</label>
@@ -1859,107 +1859,6 @@
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
     </projectile>
-  </ThingDef>
-  <!-- 测试高级火炮 -->
-  <ThingDef ParentName="BaseGun">
-    <defName>WULA_RW_Test_Cannon</defName>
-    <label>测试高级火炮</label>
-    <description>测试高级火炮</description>
-    <techLevel>Ultra</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Handle_Cannon</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.35</drawSize>
-    </graphicData>
-    <tradeability>None</tradeability>
-    <recipeMaker>
-      <recipeUsers Inherit="False"/>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <statBases>
-      <WorkToMake>50000</WorkToMake>
-      <Mass>20</Mass>
-      <AccuracyTouch>0.03</AccuracyTouch>
-      <AccuracyShort>0.03</AccuracyShort>
-      <AccuracyMedium>0.03</AccuracyMedium>
-      <AccuracyLong>0.02</AccuracyLong>
-      <RangedWeapon_Cooldown>4.0</RangedWeapon_Cooldown>
-    </statBases>
-    <costList Inherit="False">
-      <Steel>500</Steel>
-      <Plasteel>300</Plasteel>
-      <ComponentSpacer>12</ComponentSpacer>
-    </costList>
-    <verbs>
-      <li>
-        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Test_Cannon</defaultProjectile>
-        <warmupTime>1.5</warmupTime>
-        <range>22</range>
-        <soundCast>Shot_HellsphereCannonGun</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-        <ai_AvoidFriendlyFireRadius>6</ai_AvoidFriendlyFireRadius>
-        <ai_RangedAlawaysShootGroundBelowTarget>true</ai_RangedAlawaysShootGroundBelowTarget>
-        <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
-        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
-        <ai_TargetHasRangedAttackScoreOffset>50</ai_TargetHasRangedAttackScoreOffset>
-        <minRange>6</minRange>
-        <forcedMissRadius>4</forcedMissRadius>
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-          <canTargetPawns>false</canTargetPawns>
-        </targetParams>
-        <aimingLineMote>Mote_HellsphereCannon_Aim</aimingLineMote>
-        <aimingChargeMote>Mote_HellsphereCannon_Charge</aimingChargeMote>
-        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
-        <aimingLineMoteFixedLength>3.9</aimingLineMoteFixedLength>
-        <aimingTargetMote>Mote_HellsphereCannon_Target</aimingTargetMote>
-        <burstShotCount>3</burstShotCount>
-        <beamTargetsGround>true</beamTargetsGround>
-        <soundAiming>HellsphereCannon_Aiming</soundAiming>
-        <canGoWild>false</canGoWild>
-      </li>
-    </verbs>
-    <tools>
-      <li>
-        <label>barrel</label>
-        <capacities>
-          <li>Blunt</li>
-          <li>Poke</li>
-        </capacities>
-        <power>9</power>
-        <cooldownTime>2.6</cooldownTime>
-      </li>
-    </tools>
-    <comps>
-      <li Class="CompProperties_Biocodable"/>
-    </comps>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Test_Cannon</defName>
-    <label>熔岩炮弹</label>
-    <!-- <thingClass>Projectile_HellsphereCannon</thingClass> -->
-    <thingClass>Projectile_Explosive</thingClass>
-    <graphicData>
-      <texPath>Things/Projectile/HellsphereCannon</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>MoteGlow</shaderType>
-      <drawSize>(1.5, 3)</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>Vaporize</damageDef>
-      <speed>75</speed>
-      <damageAmountBase>300</damageAmountBase>
-      <explosionRadius>1.1</explosionRadius>
-      <screenShakeFactor>0.75</screenShakeFactor>
-    </projectile>
-    <modExtensions>
-			<li Class="WulaFallenEmpire.ShotgunExtension">
-				<pelletCount>6</pelletCount>
-			</li>
-		</modExtensions>
   </ThingDef>
 
   <!-- 暗物质步枪 -->

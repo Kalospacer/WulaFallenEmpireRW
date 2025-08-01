@@ -43,14 +43,46 @@
   </DamageDef>
 
   <DamageDef ParentName="Wula_Darm_Matter_Beam_DMG">
-    <defName>Wula_Darm_Matter_Beam_Explode</defName>
+    <defName>Wula_Psi_Damage</defName>
+    <ignoreShields>true</ignoreShields>
+    <igniteChanceByTargetFlammability>
+      <points>
+        <li>(0, 0)</li>
+        <li>(1, 0.5)</li>
+      </points>
+    </igniteChanceByTargetFlammability>
+    <label>灵能灼烧</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <deathMessage>{0} 被灵能灼烧而死。</deathMessage>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Bullet</impactSoundType>
+    <hediff>Burn</hediff>
+    <armorCategory>Heat</armorCategory>
+    <overkillPctToDestroyPart>0~0.7</overkillPctToDestroyPart>
+    <isRanged>true</isRanged>
+    <makesAnimalsFlee>false</makesAnimalsFlee>
+    <defaultDamage>20</defaultDamage>
+    <defaultArmorPenetration>3000</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>0.01</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>0.01</buildingDamageFactorPassable>
+    <!-- <soundExplosion>Explosion_Vaporize</soundExplosion> -->
     <additionalHediffs>
+      <li>
+        <hediff>ToxicBuildup</hediff>
+        <severityPerDamageDealt>0.015</severityPerDamageDealt>
+        <victimSeverityScaling>ToxicResistance</victimSeverityScaling>
+        <inverseStatScaling>true</inverseStatScaling>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+      </li>
+    </additionalHediffs>
+    <!-- <additionalHediffs>
       <li>
         <hediff>WULA_Darkmatter_Explosion</hediff>
         <severityPerDamageDealt>0.01</severityPerDamageDealt>
         <inverseStatScaling>true</inverseStatScaling>
         <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
       </li>
-    </additionalHediffs>
+    </additionalHediffs> -->
   </DamageDef>
 </Defs>
