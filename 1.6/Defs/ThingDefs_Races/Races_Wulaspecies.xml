@@ -968,6 +968,10 @@
       <!-- <baseHealthScale>4</baseHealthScale> -->
        <canFlyInVacuum>true</canFlyInVacuum>
     </race>
+    <comps>
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+    </comps>
     <!-- <comps Inherit="False">
       <li Class="CompProperties_CanBeDormant" />
       <li Class="CompProperties_WakeUpDormant">
@@ -1016,6 +1020,15 @@
       <!-- <baseHealthScale>4</baseHealthScale> -->
       <canFlyInVacuum>true</canFlyInVacuum>
     </race>
+    <comps>
+      <!--
+        全局指挥组件 (Global Mech Command Component)
+        此组件通过Harmony补丁 MechanitorUtility_InMechanitorCommandRange_Patch.cs 来实现功能。
+        当一个Pawn的ThingDef拥有此组件时，补丁会拦截原版的指挥范围检查，并始终返回“在范围内”。
+        这使得拥有此组件的机械体可以被机械师在地图的任何位置进行指挥，无视距离限制。
+      -->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+    </comps>
     <!-- <comps Inherit="False">
       <li Class="CompProperties_CanBeDormant" />
       <li Class="CompProperties_WakeUpDormant">
