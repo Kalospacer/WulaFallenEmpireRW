@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WulaFallenEmpire.PsychicRitual_TechOffering>
+    <defName>WULA_Ritual_TechOffering</defName>
+    <label>帝国技术献祭</label>
+    <description>乌拉帝国用于交换失落技术的灵能仪式。通过献上高价值的科技产品，帝国可以从时空的裂隙中获得罕见的武器或工具。</description>
+    <durationTicks>1800</durationTicks>
+    <cooldownDays>15</cooldownDays>
+    <researchPrerequisite>BasicPsychicRituals</researchPrerequisite>
+    <iconPath>UI/PsychicRituals/PsychicRitual_Default</iconPath>
+
+    <requiredOffering>
+      <filter>
+        <thingDefs>
+          <li>TechprofSubpersonaCore</li>
+        </thingDefs>
+      </filter>
+      <count>1</count>
+    </requiredOffering>
+    
+    <extraOfferings>
+      <li>
+        <thingDef>Gold</thingDef>
+        <power>0.005</power>
+      </li>
+      <li>
+        <thingDef>Plasteel</thingDef>
+        <power>0.01</power>
+      </li>
+      <li>
+        <thingDef>Uranium</thingDef>
+        <power>0.015</power>
+      </li>
+      <li>
+        <thingDef>ComponentSpacer</thingDef>
+        <power>0.05</power>
+      </li>
+      <li>
+        <thingDef>TechprofSubpersonaCore</thingDef>
+        <power>0.2</power>
+      </li>
+    </extraOfferings>
+
+    <rewardWeaponPool>
+      <li>WULA_MW_Breaker_Bar</li>
+      <li>WULA_MW_Charge_Mace</li>
+      <li>WULA_MW_Lance</li>
+      <li>WULA_MW_ChainSword</li>
+      <li>WULA_MW_Glaive</li>
+      <li>WULA_RW_Fractal_AR</li>
+      <li>WULA_RW_StarDrift_SG</li>
+      <li>WULA_RW_Sphene_MG</li>
+      <li>WULA_RW_Handle_Cannon</li>
+      <li>WULA_RW_AutoCannon</li>
+      <li>WULA_RW_Auto_GL</li>
+      <li>WULA_RW_DM_AR</li>
+      <li>WULA_RW_DM_Cannon</li>
+    </rewardWeaponPool>
+
+    <qualityThresholds>
+      <li>
+        <threshold>1.0</threshold>
+        <quality>Legendary</quality>
+      </li>
+      <li>
+        <threshold>0.8</threshold>
+        <quality>Masterwork</quality>
+      </li>
+      <li>
+        <threshold>0.5</threshold>
+        <quality>Excellent</quality>
+      </li>
+      <li>
+        <threshold>0.2</threshold>
+        <quality>Normal</quality>
+      </li>
+      <li>
+        <threshold>0.0</threshold>
+        <quality>Poor</quality>
+      </li>
+    </qualityThresholds>
+    
+  </WulaFallenEmpire.PsychicRitual_TechOffering>
+
+</Defs>

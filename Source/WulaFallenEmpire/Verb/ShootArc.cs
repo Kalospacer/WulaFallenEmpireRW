@@ -94,227 +94,123 @@ namespace WulaFallenEmpire
         protected void MakeExplosion()
         {
             Pawn casterPawn = this.CasterPawn;
-            bool spawned = casterPawn.Spawned;
-            bool flag11 = spawned;
-            if (flag11)
+            if (!casterPawn.Spawned || this.Props == null)
             {
-                Thing targetThing = this.currentTarget.Thing;
-                bool flag = targetThing != null && this.IsTargetImmobile(this.currentTarget) && casterPawn.skills != null;
-                bool flag12 = flag;
-                if (flag12)
+                return;
+            }
+
+            // 技能学习逻辑 (只在目标是站立Pawn时)
+            if (this.currentTarget.Thing is Pawn targetPawn && !targetPawn.Downed && targetPawn.GetPosture() == PawnPosture.Standing && casterPawn.skills != null)
+            {
+                casterPawn.skills.Learn(SkillDefOf.Shooting, 250f * verbProps.AdjustedFullCycleTime(this, casterPawn), false, false);
+            }
+
+            float weaponDamageMultiplier = base.EquipmentSource.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier, true, -1);
+            int damageMultiplier = this.GetDamageAmount(weaponDamageMultiplier, null);
+            float armorPenetrationMultiplier = this.GetArmorPenetration(weaponDamageMultiplier, null);
+
+            // 总是先收集范围内的Pawn，为后续决策做准备
+            List<IntVec3> cells = Verb_ShootArc.circularSectorCellsStartedCaster(casterPawn.Position, casterPawn.Map, this.currentTarget.Cell, this.Props.range, this.Props.affectedAngle, false).ToList<IntVec3>();
+            HashSet<IntVec3> hashSet = this.HashSetConverter(cells);
+            this.pawnConduct.Add(casterPawn);
+
+            foreach (IntVec3 cell in hashSet)
+            {
+                List<Thing> list = casterPawn.Map.thingGrid.ThingsListAt(cell);
+                for (int num = list.Count - 1; num >= 0; num--)
                 {
-                    casterPawn.skills.Learn(SkillDefOf.Shooting, 250f * this.verbProps.AdjustedFullCycleTime(this, casterPawn), false, false);
-                }
-                bool flag2 = this.Props != null;
-                bool flag13 = flag2;
-                if (flag13)
-                {
-                    List<IntVec3> cells = Verb_ShootArc.circularSectorCellsStartedCaster(casterPawn.Position, casterPawn.Map, this.currentTarget.Cell, this.Props.range, this.Props.affectedAngle, false).ToList<IntVec3>();
-                    HashSet<IntVec3> hashSet = this.HashSetConverter(cells);
-                    this.pawnConduct.Add(casterPawn);
-                    float weaponDamageMultiplier = base.EquipmentSource.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier, true, -1);
-                    int damageMultiplier = this.GetDamageAmount(weaponDamageMultiplier, null);
-                    float armorPenetrationMultiplier = this.GetArmorPenetration(weaponDamageMultiplier, null);
-                    foreach (IntVec3 cell in hashSet)
+                    if (list[num] is Pawn p)
                     {
-                        List<Thing> list = casterPawn.Map.thingGrid.ThingsListAt(cell);
-                        for (int num = list.Count - 1; num >= 0; num--)
+                        bool isFriendly = p.Faction != null && casterPawn.Faction != null && !p.Faction.HostileTo(casterPawn.Faction);
+                        if (!this.Props.conductFriendly && isFriendly)
                         {
-                            if (list[num] is Pawn p)
-                            {
-                                // 新增友方过滤逻辑
-                                bool isFriendly = p.Faction != null
-                                    && casterPawn.Faction != null
-                                    && !p.Faction.HostileTo(casterPawn.Faction);
-
-                                if (!Props.conductFriendly && isFriendly)
-                                {
-                                    continue; // 跳过友方目标
-                                }
-
-                                // 原有姿势检查
-                                bool isInvalidPosture = p.GetPosture() != PawnPosture.Standing
-                                    && this.currentTarget.Thing != p;
-
-                                if (!isInvalidPosture)
-                                {
-                                    this.pawnConduct.Add(p);
-                                }
-                            }
+                            continue;
+                        }
+                        bool isInvalidPosture = p.GetPosture() != PawnPosture.Standing && this.currentTarget.Thing != p;
+                        if (!isInvalidPosture)
+                        {
+                            this.pawnConduct.Add(p);
                         }
                     }
-                    bool isConductible = this.Props.isConductible;
-                    bool flag17 = isConductible;
-                    if (flag17)
-                    {
-                        for (int i = 0; i < this.Props.conductNum; i++)
-                        {
-                            bool flag6 = i > this.pawnConduct.Count - 2;
-                            bool flag18 = flag6;
-                            if (flag18)
-                            {
-                                break;
-                            }
-                            bool flag7 = this.Props.EMPDamageAmount > 0f;
-                            bool flag19 = flag7;
-                            if (flag19)
-                            {
-                                this.TargetTakeDamage(casterPawn, this.pawnConduct[i + 1], DamageDefOf.EMP, this.Props.EMPDamageAmount, -1f);
-                            }
-                            this.TargetTakeDamage(casterPawn, this.pawnConduct[i + 1], this.Props.damageDef, (float)damageMultiplier, armorPenetrationMultiplier);
-                            bool flag8 = this.verbProps.beamMoteDef != null;
-                            bool flag20 = flag8;
-                            if (flag20)
-                            {
-                                MoteMaker.MakeInteractionOverlay(this.verbProps.beamMoteDef, new TargetInfo(this.pawnConduct[i].Position, this.caster.Map, false), new TargetInfo(this.pawnConduct[i + 1].Position, this.caster.Map, false));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        IntVec3 position = this.caster.Position;
-                        float num2 = Mathf.Atan2(-(float)(this.currentTarget.Cell.z - position.z), (float)(this.currentTarget.Cell.x - position.x)) * 57.29578f;
-                        bool flag9 = num2 - this.Props.affectedAngle < -180f || num2 + this.Props.affectedAngle > 180f;
-                        bool flag21 = flag9;
-                        if (flag21)
-                        {
-                            FloatRange? affectedAngle = new FloatRange?(new FloatRange(Verb_ShootArc.AngleWrapped(num2 - this.Props.affectedAngle), 180f));
-                            // 修正后的爆炸调用（参数通过命名对齐）
-                            GenExplosion.DoExplosion(
-                                center: casterPawn.Position,
-                                map: this.caster.MapHeld,
-                                radius: this.verbProps.range,
-                                damType: this.Props.damageDef,
-                                instigator: null,
-                                damAmount: damageMultiplier,
-                                armorPenetration: armorPenetrationMultiplier,
-                                explosionSound: null,
-                                weapon: this.CasterPawn.equipment.Primary.def,
-                                projectile: null,
-                                intendedTarget: null,
-                                postExplosionSpawnThingDef: ThingDefOf.Filth_FlammableBile,
-                                postExplosionSpawnChance: 0f,
-                                postExplosionSpawnThingCount: 1,
-                                postExplosionGasType: null,
-                                postExplosionGasRadiusOverride: null,
-                                postExplosionGasAmount: 0,
-                                applyDamageToExplosionCellsNeighbors: false,
-                                preExplosionSpawnThingDef: null,
-                                preExplosionSpawnChance: 0f,
-                                preExplosionSpawnThingCount: 1,
-                                chanceToStartFire: 0f,
-                                damageFalloff: false,
-                                direction: null,
-                                ignoredThings: null,
-                                affectedAngle: affectedAngle,
-                                doVisualEffects: true,
-                                propagationSpeed: 0.6f,
-                                excludeRadius: 0f,
-                                doSoundEffects: false,
-                                postExplosionSpawnThingDefWater: null,
-                                screenShakeFactor: 1f,
-                                flammabilityChanceCurve: null,
-                                overrideCells: null,
-                                postExplosionSpawnSingleThingDef: null,
-                                preExplosionSpawnSingleThingDef: null
-                            );
-
-                            affectedAngle = new FloatRange?(new FloatRange(-180f, Verb_ShootArc.AngleWrapped(num2 + this.Props.affectedAngle)));
-                            // 第二次爆炸调用（参数结构相同）
-                            GenExplosion.DoExplosion(
-                                center: casterPawn.Position,
-                                map: this.caster.MapHeld,
-                                radius: this.verbProps.range,
-                                damType: this.Props.damageDef,
-                                instigator: null,
-                                damAmount: damageMultiplier,
-                                armorPenetration: armorPenetrationMultiplier,
-                                explosionSound: null,
-                                weapon: this.CasterPawn.equipment.Primary.def,
-                                projectile: null,
-                                intendedTarget: null,
-                                postExplosionSpawnThingDef: ThingDefOf.Filth_FlammableBile,
-                                postExplosionSpawnChance: 0f,
-                                postExplosionSpawnThingCount: 1,
-                                postExplosionGasType: null,
-                                postExplosionGasRadiusOverride: null,
-                                postExplosionGasAmount: 0,
-                                applyDamageToExplosionCellsNeighbors: false,
-                                preExplosionSpawnThingDef: null,
-                                preExplosionSpawnChance: 0f,
-                                preExplosionSpawnThingCount: 1,
-                                chanceToStartFire: 0f,
-                                damageFalloff: false,
-                                direction: null,
-                                ignoredThings: null,
-                                affectedAngle: affectedAngle,
-                                doVisualEffects: true,
-                                propagationSpeed: 0.6f,
-                                excludeRadius: 0f,
-                                doSoundEffects: false,
-                                postExplosionSpawnThingDefWater: null,
-                                screenShakeFactor: 1f,
-                                flammabilityChanceCurve: null,
-                                overrideCells: null,
-                                postExplosionSpawnSingleThingDef: null,
-                                preExplosionSpawnSingleThingDef: null
-                            );
-                        }
-                        else
-                        {
-                            FloatRange? affectedAngle2 = new FloatRange?(new FloatRange(num2 - this.Props.affectedAngle, num2 + this.Props.affectedAngle));
-                            GenExplosion.DoExplosion(
-                                center: casterPawn.Position,
-                                map: this.caster.MapHeld,
-                                radius: this.verbProps.range,
-                                damType: this.Props.damageDef,
-                                instigator: null,
-                                damAmount: damageMultiplier,
-                                armorPenetration: armorPenetrationMultiplier,
-                                explosionSound: null,
-                                weapon: this.CasterPawn.equipment.Primary.def,
-                                projectile: null,
-                                intendedTarget: null,
-                                postExplosionSpawnThingDef: ThingDefOf.Filth_FlammableBile,
-                                postExplosionSpawnChance: 0f,
-                                postExplosionSpawnThingCount: 1,
-                                postExplosionGasType: null,
-                                postExplosionGasRadiusOverride: null,
-                                postExplosionGasAmount: 0,
-                                applyDamageToExplosionCellsNeighbors: false,
-                                preExplosionSpawnThingDef: null,
-                                preExplosionSpawnChance: 0f,
-                                preExplosionSpawnThingCount: 1,
-                                chanceToStartFire: 0f,
-                                damageFalloff: false,
-                                direction: null,
-                                ignoredThings: null,
-                                affectedAngle: affectedAngle2,
-                                doVisualEffects: true,
-                                propagationSpeed: 0.6f,
-                                excludeRadius: 0f,
-                                doSoundEffects: false,
-                                postExplosionSpawnThingDefWater: null,
-                                screenShakeFactor: 1f,
-                                flammabilityChanceCurve: null,
-                                overrideCells: null,
-                                postExplosionSpawnSingleThingDef: null,
-                                preExplosionSpawnSingleThingDef: null
-                            );
-                        }
-                        for (int j = 1; j < this.pawnConduct.Count<Pawn>(); j++)
-                        {
-                            bool flag10 = this.Props.EMPDamageAmount > 0f;
-                            bool flag22 = flag10;
-                            if (flag22)
-                            {
-                                this.TargetTakeDamage(casterPawn, this.pawnConduct[j], DamageDefOf.EMP, this.Props.EMPDamageAmount, -1f);
-                            }
-                        }
-                    }
-                    this.pawnConduct.Clear();
                 }
             }
+
+            // 决策：如果设为导电模式且有至少一个传导目标，则进行链式攻击
+            if (this.Props.isConductible && this.pawnConduct.Count > 1)
+            {
+                for (int i = 0; i < this.Props.conductNum && i < this.pawnConduct.Count - 1; i++)
+                {
+                    if (this.Props.EMPDamageAmount > 0f)
+                    {
+                        this.TargetTakeDamage(casterPawn, this.pawnConduct[i + 1], DamageDefOf.EMP, this.Props.EMPDamageAmount, -1f);
+                    }
+                    this.TargetTakeDamage(casterPawn, this.pawnConduct[i + 1], this.Props.damageDef, (float)damageMultiplier, armorPenetrationMultiplier);
+                    if (this.verbProps.beamMoteDef != null)
+                    {
+                        MoteMaker.MakeInteractionOverlay(this.verbProps.beamMoteDef, new TargetInfo(this.pawnConduct[i].Position, this.caster.Map, false), new TargetInfo(this.pawnConduct[i + 1].Position, this.caster.Map, false));
+                    }
+                }
+            }
+            // 否则（非导电模式，或没有传导目标），执行一次普通的单体攻击
+            else
+            {
+                Thing primaryTarget = this.currentTarget.Thing;
+                if (primaryTarget != null)
+                {
+                    float angle = (primaryTarget.Position - this.caster.Position).AngleFlat;
+                    DamageInfo dinfo = new DamageInfo(this.Props.damageDef, (float)damageMultiplier, armorPenetrationMultiplier, angle, this.caster, null, base.EquipmentSource.def, DamageInfo.SourceCategory.ThingOrUnknown, this.currentTarget.Thing);
+                    primaryTarget.TakeDamage(dinfo);
+                }
+
+                // 无论是否命中，都显示视觉效果
+                if (this.verbProps.beamMoteDef != null)
+                {
+                    MoteMaker.MakeInteractionOverlay(this.verbProps.beamMoteDef, new TargetInfo(this.caster.Position, this.caster.Map, false), new TargetInfo(this.currentTarget.Cell, this.caster.Map, false));
+                }
+            }
+            this.pawnConduct.Clear();
+        }
+
+        private void DoExplosion(Pawn casterPawn, int damAmount, float armorPenetration, FloatRange? affectedAngle)
+        {
+            GenExplosion.DoExplosion(
+                center: casterPawn.Position,
+                map: this.caster.MapHeld,
+                radius: this.verbProps.range,
+                damType: this.Props.damageDef,
+                instigator: casterPawn, // Corrected
+                damAmount: damAmount,
+                armorPenetration: armorPenetration,
+                explosionSound: null,
+                weapon: this.CasterPawn.equipment?.Primary?.def, // Safety check
+                projectile: null,
+                intendedTarget: this.currentTarget.Thing, // Corrected
+                postExplosionSpawnThingDef: null, // Simplified
+                postExplosionSpawnChance: 0f,
+                postExplosionSpawnThingCount: 1,
+                postExplosionGasType: null,
+                postExplosionGasRadiusOverride: null,
+                postExplosionGasAmount: 0,
+                applyDamageToExplosionCellsNeighbors: false,
+                preExplosionSpawnThingDef: null,
+                preExplosionSpawnChance: 0f,
+                preExplosionSpawnThingCount: 1,
+                chanceToStartFire: 0f,
+                damageFalloff: false,
+                direction: null,
+                ignoredThings: null,
+                affectedAngle: affectedAngle,
+                doVisualEffects: true,
+                propagationSpeed: 0.6f,
+                excludeRadius: 0f,
+                doSoundEffects: false,
+                postExplosionSpawnThingDefWater: null,
+                screenShakeFactor: 1f,
+                flammabilityChanceCurve: null,
+                overrideCells: null,
+                postExplosionSpawnSingleThingDef: null,
+                preExplosionSpawnSingleThingDef: null
+            );
         }
 
 

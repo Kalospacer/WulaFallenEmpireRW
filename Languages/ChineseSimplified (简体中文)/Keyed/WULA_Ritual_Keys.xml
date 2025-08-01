@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <WULA_RitualReward_Label>献祭的回报</WULA_RitualReward_Label>
+  <WULA_RitualReward_Description>你们的献祭得到了回应。虚空吐出了一件物品作为奖赏：{0} (品质: {1})。</WULA_RitualReward_Description>
+  
+  <WULA_ExtraOfferings>额外祭品</WULA_ExtraOfferings>
+  <WULA_ExtraOfferings_Tooltip>在仪式中心附近放置的贵重物品提升了仪式的品质。这些物品将在仪式完成时被消耗。</WULA_ExtraOfferings_Tooltip>
+
+</LanguageData>
