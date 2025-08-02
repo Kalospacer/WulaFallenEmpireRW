@@ -121,6 +121,8 @@
     <Compile Include="PsychicRitual_TechOffering.cs" />
     <Compile Include="CompPsychicScaling.cs" />
     <Compile Include="HarmonyPatches\HealthTracker_PreApplyDamage_Patch.cs" />
+    <Compile Include="PsychicRitualDef_AddHediff.cs" />
+    <Compile Include="PsychicRitualToil_AddHediff.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
