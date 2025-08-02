@@ -99,7 +99,6 @@
       <texPath>Wula/Apparel/WULA_Priest_Hat</texPath>
     </graphicData>
     <statBases>
-      <EnergyShieldEnergyMax>0.25</EnergyShieldEnergyMax>
       <Mass>0.1</Mass>
     </statBases>
     <equippedStatOffsets>

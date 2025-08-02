@@ -42,7 +42,7 @@
         <damageAmount>30</damageAmount>
         <EMPDamageAmount>0</EMPDamageAmount>
         <warmupTime>4</warmupTime>
-        <range>48</range>
+        <range>65</range>
         <affectedAngle>25</affectedAngle>
         <armorPenetration>1000</armorPenetration>
         <soundCast>AgonyPulse_Cast</soundCast>
@@ -94,6 +94,118 @@
       <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
       <shaderType>MoteBeam</shaderType>
       <drawSize>(3,1)</drawSize>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>2</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_SP_Cotton_Counter</defName>
+    <label>圣印记：飘絮反制术式</label>
+    <description>这是乌拉星人在舰船上用于反制敌方飞行器和导弹的特殊术式，核心在于高爆发性高追踪性的输出，通过快速吟唱汇聚的灵能能量使对方迅速失能。</description>
+    <techLevel>Ultra</techLevel>
+    <!-- <techLevel>Spacer</techLevel> -->
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_SP_Spell_Medium</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.75</drawSize>
+    </graphicData>
+    <uiIconPath>Wula/Weapon/WULA_SP_Cotton_Counter</uiIconPath>
+    <weaponTags>
+      <li>Wula_Spell_Weapon_T1</li>
+    </weaponTags>
+    <useHitPoints>False</useHitPoints>
+    <uiIconScale>1</uiIconScale>
+    <soundInteract>Heatspikes_Shot</soundInteract>
+    <recipeMaker>
+      <recipeUsers Inherit="False"/>
+    </recipeMaker>
+    <costList Inherit="False">
+      <WULA_Soul_Wedge>3000</WULA_Soul_Wedge>
+      <WULA_Dark_Matter_Item>5</WULA_Dark_Matter_Item>
+    </costList>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>0</Mass>
+      <AccuracyTouch>2</AccuracyTouch>
+      <AccuracyShort>2</AccuracyShort>
+      <AccuracyMedium>2</AccuracyMedium>
+      <AccuracyLong>2</AccuracyLong>
+      <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_SP_Cotton_Counter</defaultProjectile>
+        <warmupTime>0.2</warmupTime>
+        <range>52</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Heatspikes_Shot</soundCast>
+        <soundCastTail>Heatspikes_Tail</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <comps>
+      <!-- 心灵敏感度伤害缩放组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_PsychicScaling">
+        <!--
+          伤害增幅系数:
+          当持有者心灵敏感度 > 1 时, 每高出1点, 伤害增加 1%。
+          例如: 200% (2.0) 敏感度 -> 伤害增加 (2.0 - 1.0) * 1 = 100%。
+        -->
+        <damageMultiplierPerSensitivityPoint>1</damageMultiplierPerSensitivityPoint>
+        <!--
+          伤害减免系数:
+          当持有者心灵敏感度 < 1 时, 每低1点, 伤害降低 100%。
+          例如: 50% (0.5) 敏感度 -> 伤害降低 (1.0 - 0.5) * 1.0 = 50%。
+        -->
+        <damageReductionMultiplierPerSensitivityPoint>1</damageReductionMultiplierPerSensitivityPoint>
+      </li>
+    </comps>
+    <tradeability>None</tradeability>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_SP_Cotton_Counter</defName>
+    <label>飘絮反制术式</label>
+    <thingClass>Beam</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Wula_Psi_Damage</damageDef>
+      <damageAmountBase>15</damageAmountBase>
+      <beamMoteDef>WULA_SP_Cotton_Counter_ArcBeam</beamMoteDef>
+      <beamStartOffset>0.5</beamStartOffset>
+      <armorPenetrationBase>3000</armorPenetrationBase>
+    </projectile>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>WULA_SP_Cotton_Counter_ArcBeam</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <fadeOutTime>1</fadeOutTime>
+      <solidTime>0.4</solidTime>
+      <needsMaintenance>False</needsMaintenance>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+      <fadeOutUnmaintained>False</fadeOutUnmaintained>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Wula/Mote/WULA_Bullet_Dark_Matter_Beam</texPath>
+      <color>(255, 255, 255, 255)</color>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <drawSize>(2,1)</drawSize>
       <shaderParameters>
         <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
         <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
