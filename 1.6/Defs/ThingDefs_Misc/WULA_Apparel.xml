@@ -55,6 +55,53 @@
       </options>
     </colorGenerator>
   </ThingDef>
+  <ThingDef Name="WULA_ApparelHatRoyalBase" ParentName="HatMakeableBase" Abstract="True">
+    <thingCategories>
+      <li>ApparelMisc</li>
+    </thingCategories>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <apparel>
+      <tags>
+        <li>Royal</li>
+        <li>Wula_Apparel</li>
+      </tags>
+      <renderSkipFlags>
+        <li>None</li>
+      </renderSkipFlags>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+      <useWornGraphicMask>true</useWornGraphicMask>
+    </apparel>
+    <colorGenerator Class="ColorGenerator_Options">
+      <options>
+        <li>
+          <weight>10</weight>
+          <only>(1,1,1,1)</only>
+        </li>
+      </options>
+    </colorGenerator>
+    <possessionCount>1</possessionCount>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+      <useIngredientsForColor>false</useIngredientsForColor>
+      <researchPrerequisite>WULA_Synth_Clothes_3_Technology</researchPrerequisite>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <displayPriority>225</displayPriority>
+    </recipeMaker>
+    <statBases>
+      <Mass>0.2</Mass>
+      <WorkToMake>3000</WorkToMake>
+      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
+  </ThingDef>
   <ThingDef ParentName="WULA_ApparelRoyalBase">
 		<defName>WULA_Official_Uniform</defName>
 		<label>乌拉帝国双幡礼服</label>
@@ -88,6 +135,7 @@
       <Insulation_Cold>3</Insulation_Cold>
       <Insulation_Heat>1.5</Insulation_Heat>
       <EquipDelay>5</EquipDelay>
+      <StuffEffectMultiplierArmor>0.25</StuffEffectMultiplierArmor>
     </statBases>
     <equippedStatOffsets>
       <SlaveSuppressionOffset MayRequire="Ludeon.RimWorld.Ideology">-0.1</SlaveSuppressionOffset>

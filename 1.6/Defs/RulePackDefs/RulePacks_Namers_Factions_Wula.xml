@@ -60,4 +60,49 @@
       </rulesStrings>
     </rulePack>
   </RulePackDef>
+  <RulePackDef>
+    <defName>NamerFaction_Wula_FE_Spiritualist</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->[FactionName]</li>
+
+        <li>FactionName->乌拉帝国 大教堂</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+  <RulePackDef>
+    <defName>NamerSettlement_Wula_FE_Spiritualist</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->[msyl1][msyl2] [FactionName]</li>
+
+        <li>FactionName->教会</li>
+        <li>msyl1->圣</li>
+        <li>msyl1->暗</li>
+        <li>msyl1->虚</li>
+        <li>msyl1->理</li>
+        <li>msyl1->烬</li>
+        <li>msyl1->熵</li>
+        <li>msyl1->锋</li>
+        <li>msyl1->恒</li>
+        <li>msyl1->源</li>
+        <li>msyl1->静</li>
+        <li>msyl1->律</li>
+        <li>msyl1->蚀</li>
+        <li>msyl2->炎</li>
+        <li>msyl2->渊</li>
+        <li>msyl2->星</li>
+        <li>msyl2->尘</li>
+        <li>msyl2->影</li>
+        <li>msyl2->岩</li>
+        <li>msyl2->棱</li>
+        <li>msyl2->流</li>
+        <li>msyl2->雾</li>
+        <li>msyl2->湖</li>
+        <li>msyl2->石</li>
+        <li>msyl2->海</li>
+        <li>msyl2->月</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
 </Defs>

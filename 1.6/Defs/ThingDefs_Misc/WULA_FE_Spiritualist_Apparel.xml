@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="WULA_ApparelRoyalBase">
+		<defName>WULA_Priest_Uniform</defName>
+		<label>乌拉帝国神官服</label>
+		<description>乌拉帝国神官所着的衣服，给予了这些神官所应有的优雅——无论是在战场上还是在生活中。它通过埋藏的一系列的灵能触媒强化穿戴者的灵能能力，支起庞大的灵能盾，压制精神崩溃，并给予她们预知敌方近身攻击的技能。要说有什么美中不足的地方，恐怕只有它“是一件衣服”这个问题了。</description>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Priest_Uniform</texPath>
+    </graphicData>
+    <apparel>
+      <tags>
+        <li>RoyalTier6</li>
+      </tags>
+      <bodyPartGroups>
+				<li>Torso</li>
+				<li>Shoulders</li>
+				<li>Arms</li>
+				<li>Legs</li>
+      </bodyPartGroups>
+      <layers>
+        <!-- <li>OnSkin</li> -->
+        <li>Middle</li>
+      </layers>
+      <wornGraphicPath>Wula/Apparel/WULA_Priest_Uniform</wornGraphicPath>
+    </apparel>
+    <costList Inherit="False">
+      <WULA_Soul_Wedge>3000</WULA_Soul_Wedge>
+      <WULA_Dark_Matter_Item>5</WULA_Dark_Matter_Item>
+    </costList>
+    <costStuffCount>300</costStuffCount>
+    <statBases>
+      <WorkToMake>50000</WorkToMake>
+      <MaxHitPoints>3000</MaxHitPoints>
+      <ArmorRating_Sharp>0.2</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.1</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.1</ArmorRating_Heat>
+      <EnergyShieldEnergyMax>1.5</EnergyShieldEnergyMax>
+      <StuffEffectMultiplierArmor>0.5</StuffEffectMultiplierArmor>
+    </statBases>
+    <equippedStatOffsets>
+      <PsychicSensitivity>1</PsychicSensitivity>
+			<MeleeDodgeChance>50</MeleeDodgeChance>	
+      <MentalBreakThreshold>-0.25</MentalBreakThreshold>
+    </equippedStatOffsets>
+    <costStuffCount>200</costStuffCount>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <recipeMaker>
+      <!-- <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite> -->
+      <skillRequirements>
+        <Crafting>15</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
+        
+        <!-- 基础功能 -->
+        <radius>6</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>5000</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
+
+        <!-- 拦截类型 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
+        <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
+        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
+
+        <!-- 视觉与音效 -->
+        <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
+        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
+
+        <!-- EMP 效果 -->
+        <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
+        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
+
+        <!-- 被动恢复 -->
+        <rechargeHitPointsIntervalTicks>5</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
+
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelHatRoyalBase">
+    <defName>WULA_Priest_Hat</defName>
+    <label>乌拉帝国神官帽子</label>
+    <description>乌拉帝国神官的配套帽子，能像服装那样支起一个灵能护盾，它的体积比神官制服的护盾稍小，以形成第二道防线。</description>
+    <tickerType>Normal</tickerType>
+    <recipeMaker>
+      <!-- <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite> -->
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <displayPriority>105</displayPriority>
+    </recipeMaker>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Priest_Hat</texPath>
+    </graphicData>
+    <statBases>
+      <EnergyShieldEnergyMax>0.25</EnergyShieldEnergyMax>
+      <Mass>0.1</Mass>
+    </statBases>
+    <equippedStatOffsets>
+    </equippedStatOffsets>
+    <costStuffCount>150</costStuffCount>
+    <costList Inherit="False">
+      <WULA_Soul_Wedge>3000</WULA_Soul_Wedge>
+      <WULA_Dark_Matter_Item>5</WULA_Dark_Matter_Item>
+    </costList>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <apparel>
+      <tags>
+        <li>RoyalTier6</li>
+      </tags>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <bodyPartGroups>
+        <li>FullHead</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <parentTagDef>ApparelHead</parentTagDef>
+      <wornGraphicPath>Wula/Apparel/WULA_Priest_Hat</wornGraphicPath>
+    </apparel>
+    <thingSetMakerTags>
+      <li>RewardStandardHighFreq</li>
+    </thingSetMakerTags>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
+        
+        <!-- 基础功能 -->
+        <radius>3</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>2500</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
+
+        <!-- 拦截类型 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
+        <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
+
+        <!-- 视觉与音效 -->
+        <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
+        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
+
+        <!-- EMP 效果 -->
+        <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
+        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
+
+        <!-- 被动恢复 -->
+        <rechargeHitPointsIntervalTicks>5</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
+
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

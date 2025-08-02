@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_OfferingPedestal</defName>
     <label>帝国献祭基座</label>
