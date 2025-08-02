@@ -536,7 +536,7 @@
   </ThingDef>
 
   <!-- 飞船暗物质引擎 -->
-  <ThingDef ParentName="FuelTankBase">
+  <ThingDef ParentName="FuelTankBase" MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>Wula_DarkEnergy_FuelTank</defName>
     <label>乌拉帝国暗物质引擎</label>
     <description>乌拉帝国用于进行湮灭反应释放巨量能源并将其转化为逆重飞船飞行所需燃料的设备——它可以储存无限的能源，并且在真空环境下还能释放大量的电力。\n\n如果是想进入地表，请提前规划电源储存，非真空环境下内部的湮灭反应保险将启动以防止意外发生，这意味着在地表上该设施只生产燃料！</description>
@@ -635,33 +635,36 @@
     <description>乌拉帝国内部用于联系的通讯站，可以联系到乌拉帝国的各大派系。</description>
     <thingClass>Building</thingClass>
     <graphicData>
-      <texPath>Wula/Building/WULA_Cube_Productor_Component</texPath>
+      <texPath>Wula/Building/WULA_Communicator_Station</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(2,2)</drawSize>
+      <drawSize>(1,1)</drawSize>
     </graphicData>
     <statBases>
       <MaxHitPoints>250</MaxHitPoints>
       <WorkToBuild>2000</WorkToBuild>
       <Mass>70</Mass>
-      <Flammability>0.5</Flammability>
+      <Flammability>0</Flammability>
     </statBases>
-    <size>(2,2)</size>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
     <costList>
-      <Steel>120</Steel>
-      <ComponentIndustrial>8</ComponentIndustrial>
+      <Steel>50</Steel>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
     <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>WULA_Base_Technology</li>
+    </researchPrerequisites>
     <comps>
-      <li Class="CompProperties_Power">
+      <!-- <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
         <basePowerConsumption>100</basePowerConsumption>
-      </li>
+      </li> -->
       <li Class="CompProperties_Flickable"/>
       <li Class="WulaFallenEmpire.CompProperties_OpenCustomUI">
-        <uiDefName>Wula_UI_1</uiDefName>
+        <uiDefName>Wula_UI_Main_1</uiDefName>
         <label>联络乌拉帝国</label>
         <failReason>无法接触通讯站。</failReason>
       </li>

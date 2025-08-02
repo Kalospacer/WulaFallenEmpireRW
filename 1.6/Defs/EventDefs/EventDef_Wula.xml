@@ -577,7 +577,7 @@
           <li>
             <effects>
               <li Class="WulaFallenEmpire.Effect_SpawnPawn">
-                <kindDef>WulaSpecies</kindDef>
+                <kindDef>Wula_PawnKind</kindDef>
                 <count>1</count>
                 <joinPlayerFaction>true</joinPlayerFaction>
                 <letterLabel>机械乌拉游荡到殖民地附近</letterLabel>

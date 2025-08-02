@@ -1,0 +1,151 @@
+
+
+  <FactionDef ParentName="FactionBase">
+    <defName>Wula_FE_Spiritualist_Faction</defName>
+    <label>乌拉帝国 大教堂</label>
+    <description>堕落乌拉帝国派系之一，属于保皇派，拥有独属的特殊科技。\n\n蒙受神祗庇佑的乌拉帝国神职人员已经履行职责千万年之久，但是帝国内战的到来让无信者抛弃了她们的神祗。尽管教会的盛景不再，但是狂热者内心的火焰并未就此熄灭，她们终将兑现对叛教者和无信者的审判，只需假以时日。</description>
+    <basicMemberKind>RealWula_PawnKind</basicMemberKind>
+    <pawnSingular>乌拉星人</pawnSingular>
+    <pawnsPlural>乌拉星人</pawnsPlural>
+    <settlementGenerationWeight>1</settlementGenerationWeight>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <canSiege>false</canSiege>
+    <canStageAttacks>true</canStageAttacks>
+    <leaderTitle>星域主教</leaderTitle>
+    <leaderForceGenerateNewPawn>true</leaderForceGenerateNewPawn>
+    <factionIconPath>Wula/World/WorldObjects/Expanding/Wula_FE_Faction</factionIconPath>
+    <colorSpectrum>
+      <li>(0.6, 0.5, 0.9)</li>
+    </colorSpectrum>
+    <factionNameMaker>NamerFactionEmpire</factionNameMaker>
+    <settlementNameMaker>NamerSettlementEmpire</settlementNameMaker>
+    <allowedCultures><li>Sophian</li></allowedCultures>
+    <arrivalLayerWhitelist>
+      <li>Surface</li>
+      <!-- <li MayRequire="Ludeon.RimWorld.Odyssey">Orbit</li> -->
+    </arrivalLayerWhitelist>
+    <!-- 文化相关 -->
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Collectivist</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Loyalist</li>
+    </requiredMemes>
+    <allowedMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Collectivist</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Loyalist</li>
+      <!-- <li MayRequire="Ludeon.RimWorld.Ideology">HumanPrimacy</li> -->
+      <!-- <li MayRequire="Ludeon.RimWorld.Ideology">MaleSupremacy</li> -->
+      <li MayRequire="Ludeon.RimWorld.Ideology">FemaleSupremacy</li>
+    </allowedMemes>
+    <disallowedPrecepts>
+      <li>Slavery_Classic</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Slavery_Disapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Slavery_Horrible</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Slavery_Abhorrent</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">IdeoDiversity_Abhorrent</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">IdeoDiversity_Horrible</li>
+    </disallowedPrecepts>
+    <structureMemeWeights>
+      <Structure_Archist MayRequire="Ludeon.RimWorld.Ideology">1</Structure_Archist>
+    </structureMemeWeights>
+    <permanentEnemyToEveryoneExcept>
+      <li>WULA_Awakened_Synth</li>
+    </permanentEnemyToEveryoneExcept>
+    <techLevel>Ultra</techLevel>
+    <apparelStuffFilter>
+      <stuffCategoriesToAllow>
+        <li>Metallic</li>
+        <li>Fabric</li>
+      </stuffCategoriesToAllow>
+      <disallowedThingDefs>
+        <li>DevilstrandCloth</li>
+      </disallowedThingDefs>
+    </apparelStuffFilter>
+    <allowedArrivalTemperatureRange>-40~45</allowedArrivalTemperatureRange>
+    <settlementTexturePath>Wula/World/WorldObjects/Expanding/Wula_FE_Faction</settlementTexturePath>
+    <colorSpectrum>
+      <li>(0.85, 0.85, 0.75)</li>
+    </colorSpectrum>
+    <!-- <fixedLeaderKinds>
+      <li>Empire_Royal_Stellarch</li>
+    </fixedLeaderKinds> -->
+    <baseTraderKinds>
+      <li>Base_Empire_Standard</li>
+    </baseTraderKinds>
+    <!-- <caravanTraderKinds>
+      <li>Empire_Caravan_TraderGeneral</li>
+    </caravanTraderKinds> -->
+    <raidCommonalityFromPointsCurve>
+      <points>
+        <li>(0, 1)</li> <!--Constant 1 at all points levels-->
+      </points>
+    </raidCommonalityFromPointsCurve>
+    <raidLootMaker>EmpireRaidLootMaker</raidLootMaker>
+    <maxPawnCostPerTotalPointsCurve>
+      <points>
+        <li>(500, 100)</li> <!-- Can always use relatively strong pawns, because empire doesn't really have weak ones -->
+        <li>(1000, 150)</li>
+        <li>(2000, 250)</li>
+        <li>(2001, 10000)</li>
+      </points>
+    </maxPawnCostPerTotalPointsCurve>
+    <pawnGroupMakers>
+      <!-- Traders -->
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <Empire_Common_Trader>1</Empire_Common_Trader>
+        </traders>
+        <carriers>
+          <Muffalo>6</Muffalo>
+          <Dromedary>5</Dromedary>
+          <Alpaca>2</Alpaca>
+          <Elephant>1</Elephant>
+        </carriers>
+        <guards>
+          <Villager>3</Villager>
+          <Empire_Fighter_Trooper>10</Empire_Fighter_Trooper>
+          <Empire_Fighter_Cataphract>1.5</Empire_Fighter_Cataphract>
+          <Empire_Fighter_Janissary>7</Empire_Fighter_Janissary>
+          <Empire_Fighter_Champion>10</Empire_Fighter_Champion>
+        </guards>
+      </li>
+      <li>
+        <!-- Normal fights -->
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <Empire_Fighter_Trooper>5</Empire_Fighter_Trooper>
+          <Empire_Fighter_Janissary>3.5</Empire_Fighter_Janissary>
+          <Empire_Fighter_Cataphract>2</Empire_Fighter_Cataphract>
+          <Empire_Fighter_Champion>4</Empire_Fighter_Champion>
+        </options>
+      </li>
+      <li>
+        <!-- breach fights -->
+        <kindDef>Combat</kindDef>
+        <commonality>10</commonality>
+        <options>
+          <Empire_Fighter_Grenadier>2</Empire_Fighter_Grenadier>
+          <Empire_Fighter_Trooper>5</Empire_Fighter_Trooper>
+          <Empire_Fighter_Janissary>3.5</Empire_Fighter_Janissary>
+          <Empire_Fighter_Cataphract>2</Empire_Fighter_Cataphract>
+          <Empire_Fighter_Champion>4</Empire_Fighter_Champion>
+        </options>
+      </li>
+      <li>
+        <!-- Base defense, mainly ranged with melee mix-ins -->
+        <kindDef>Settlement</kindDef>
+        <options>
+          <Empire_Fighter_Trooper>5</Empire_Fighter_Trooper>
+          <Empire_Fighter_Janissary>3.5</Empire_Fighter_Janissary>
+          <Empire_Fighter_Cataphract>2</Empire_Fighter_Cataphract>
+          <Empire_Fighter_Champion>4</Empire_Fighter_Champion>
+        </options>
+      </li>
+    </pawnGroupMakers>
+    <maxConfigurableAtWorldCreation>1</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>70</configurationListOrderPriority>
+    <disallowedRaidAgeRestrictions>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Children</li>
+    </disallowedRaidAgeRestrictions>
+  </FactionDef>
