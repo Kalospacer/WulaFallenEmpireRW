@@ -116,9 +116,9 @@
       <li>
         <label>修女</label>
         <description>乌拉帝国的修女是乌拉帝国大教堂的主体，她们抛弃了养尊处优的堕落生活，以身体力行的布道远征贯彻虔诚的信仰。</description>
-        <statFactors>
-          <PsychicSensitivity>8</PsychicSensitivity>
-        </statFactors>
+        <statOffsets>
+          <PsychicSensitivity>1.75</PsychicSensitivity>
+        </statOffsets>
       </li>
     </degreeDatas>
   </TraitDef>

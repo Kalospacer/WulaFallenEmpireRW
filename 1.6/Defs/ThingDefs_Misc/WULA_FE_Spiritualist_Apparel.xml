@@ -86,7 +86,7 @@
   <ThingDef ParentName="WULA_ApparelHatRoyalBase">
     <defName>WULA_Priest_Hat</defName>
     <label>乌拉帝国神官帽子</label>
-    <description>乌拉帝国神官的配套帽子，能像服装那样支起一个灵能护盾，它的体积比神官制服的护盾稍小，以形成第二道防线。</description>
+    <description>乌拉帝国神官的配套帽子，能像服装那样强化使用者的心灵敏感度并支起一个灵能护盾，它的体积比神官制服的护盾稍小，以形成第二道防线。</description>
     <tickerType>Normal</tickerType>
     <recipeMaker>
       <!-- <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite> -->
@@ -102,6 +102,7 @@
       <Mass>0.1</Mass>
     </statBases>
     <equippedStatOffsets>
+      <PsychicSensitivity>0.75</PsychicSensitivity>
     </equippedStatOffsets>
     <costStuffCount>150</costStuffCount>
     <costList Inherit="False">
@@ -141,6 +142,139 @@
         <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
         <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
         <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
+
+        <!-- 视觉与音效 -->
+        <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
+        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
+
+        <!-- EMP 效果 -->
+        <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
+        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
+
+        <!-- 被动恢复 -->
+        <rechargeHitPointsIntervalTicks>5</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
+
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef ParentName="WULA_ApparelArmorBase">
+    <defName>WULA_Skitarii_Uniform</defName>
+    <label>乌拉帝国护教军装甲</label>
+    <description>乌拉帝国护教军所穿戴的轻型装甲，并在外表覆以教袍掩盖装甲部分。它能支起一个较小的灵能盾，并通过埋藏的一系列的灵能触媒强化穿戴者的灵能能力。</description>
+    <recipeMaker>
+      <!-- <researchPrerequisite>WULA_Synth_Armor_Technology</researchPrerequisite> -->
+      <skillRequirements>
+        <Crafting>7</Crafting>
+      </skillRequirements>
+      <useIngredientsForColor>false</useIngredientsForColor>
+    </recipeMaker>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Skitarii_Uniform</texPath>
+    </graphicData>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Mass>8</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.75</ArmorRating_Heat>
+      <EquipDelay>5</EquipDelay>
+      <!-- <EnergyShieldEnergyMax>1.5</EnergyShieldEnergyMax> -->
+    </statBases>
+    <equippedStatOffsets>
+      <PsychicSensitivity>0.5</PsychicSensitivity>
+    </equippedStatOffsets>
+    <costStuffCount>200</costStuffCount>
+    <costList Inherit="False">
+      <ComponentSpacer>8</ComponentSpacer>
+    </costList>
+    <apparel>
+      <tags>
+        <li>Wula_Armor_Medium</li>
+      </tags>
+      <wornGraphicPath>Wula/Apparel/WULA_Skitarii_Uniform</wornGraphicPath>
+    </apparel>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
+        
+        <!-- 基础功能 -->
+        <radius>3</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>1000</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
+
+        <!-- 拦截类型 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
+        <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
+        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
+
+        <!-- 视觉与音效 -->
+        <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
+        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
+
+        <!-- EMP 效果 -->
+        <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
+        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
+
+        <!-- 被动恢复 -->
+        <rechargeHitPointsIntervalTicks>5</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
+
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelHelmetBase">
+    <defName>WULA_Skitarii_veil</defName>
+    <label>乌拉帝国护教军荆棘冠冕</label>
+    <description>与乌拉帝国护教军装甲配套的头饰，能够支起一个较小的灵能盾，并强化使用者的心灵敏感度。</description>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>7</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>WULA_Synth_Armor_Technology</researchPrerequisite>
+    </recipeMaker>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Skitarii_veil</texPath>
+    </graphicData>
+    <statBases>
+      <WorkToMake>30000</WorkToMake>
+      <MaxHitPoints>2000</MaxHitPoints>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>0.3</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.3</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.3</ArmorRating_Heat>
+      <EquipDelay>1</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <PsychicSensitivity>0.2</PsychicSensitivity>
+    </equippedStatOffsets>
+    <apparel>
+      <tags>
+        <li>Wula_Armor_Medium</li>
+      </tags>
+      <wornGraphicPath>Wula/Apparel/WULA_Skitarii_veil</wornGraphicPath>
+    </apparel>
+    <costStuffCount>30</costStuffCount>
+    <costList Inherit="False">
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
+        
+        <!-- 基础功能 -->
+        <radius>2</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>300</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
+
+        <!-- 拦截类型 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
+        <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
+        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
 
         <!-- 视觉与音效 -->
         <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
