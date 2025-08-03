@@ -1607,7 +1607,7 @@
         <!-- 基础射线参数 -->
         <hasStandardCommand>true</hasStandardCommand>
         <warmupTime>0.3</warmupTime>
-        <range>35.9</range>
+        <range>30</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
         <beamDamageDef>Wula_Darm_Matter_Beam</beamDamageDef>
@@ -1706,7 +1706,7 @@
         <!-- 基础射线参数 -->
         <hasStandardCommand>true</hasStandardCommand>
         <warmupTime>0.3</warmupTime>
-        <range>25</range>
+        <range>24</range>
         <burstShotCount>12</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
         <beamDamageDef>Wula_Darm_Matter_Beam</beamDamageDef>

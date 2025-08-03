@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
   <WeaponTraitDef>
     <defName>WULA_DamagePsychicScaling</defName>
     <label>灵能增幅</label>
@@ -12,5 +11,15 @@
     <statFactors>
     </statFactors>
   </WeaponTraitDef>
-
+  <WeaponTraitDef>
+    <defName>WULA_ExtraPsychicSkill</defName>
+    <label>额外灵能能力</label>
+    <description>这把武器携带了一个额外的灵能能力。</description>
+    <commonality>1</commonality>
+    <weaponCategory>WULA_Psychic</weaponCategory>
+    <statOffsets>
+    </statOffsets>
+    <statFactors>
+    </statFactors>
+  </WeaponTraitDef>
 </Defs>
