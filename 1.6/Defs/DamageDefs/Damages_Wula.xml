@@ -115,6 +115,7 @@
     <externalViolence>true</externalViolence>
     <deathMessage>{0} 被奶死了。</deathMessage>
     <harmsHealth>true</harmsHealth>
+    <hediff>Burn</hediff>
     <makesBlood>false</makesBlood>
     <consideredHelpful>true</consideredHelpful>
     <defaultDamage>1</defaultDamage>

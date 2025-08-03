@@ -71,6 +71,7 @@
     <Compile Include="CompApparelInterceptor.cs" />
     <Compile Include="CompCustomUniqueWeapon.cs" />
     <Compile Include="CompProperties_CustomUniqueWeapon.cs" />
+    <Compile Include="CompWulaRitualSpot.cs" />
     <Compile Include="CompPsychicScaling.cs" />
     <Compile Include="CompUseEffect_FixAllHealthConditions.cs" />
     <Compile Include="CompUseEffect_PassionTrainer.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="PsychicRitual_TechOffering.cs" />
     <Compile Include="PsychicRitualDef_AddHediff.cs" />
     <Compile Include="PsychicRitualToil_AddHediff.cs" />
+    <Compile Include="RitualTagExtension.cs" />
     <Compile Include="Recipe_AdministerWulaMechRepairKit.cs" />
     <Compile Include="SectionLayer_WulaHull.cs" />
     <Compile Include="ThingDefExtension_EnergySource.cs" />

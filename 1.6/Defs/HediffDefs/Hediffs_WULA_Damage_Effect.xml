@@ -122,42 +122,44 @@
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
     <defaultLabelColor>(1, 1, 0.8)</defaultLabelColor>
+    <minSeverity>0</minSeverity>
+    <maxSeverity>5</maxSeverity>
     <hediffClass>HediffWithComps</hediffClass>
     <stages>
       <li>
         <minSeverity>0</minSeverity>
         <label>术式强度：极弱</label>
-        <regeneration>100</regeneration>
+        <regeneration>200</regeneration>
       </li>
       <li>
         <minSeverity>0.5</minSeverity>
         <label>术式强度：弱</label>
-        <regeneration>200</regeneration>
+        <regeneration>400</regeneration>
       </li>
       <li>
         <minSeverity>1.0</minSeverity>
         <label>术式强度：较弱</label>
-        <regeneration>300</regeneration>
+        <regeneration>600</regeneration>
       </li>
       <li>
         <minSeverity>1.5</minSeverity>
         <label>术式强度：较强</label>
-        <regeneration>400</regeneration>
+        <regeneration>800</regeneration>
       </li>
       <li>
         <minSeverity>2.0</minSeverity>
         <label>术式强度：强</label>
-        <regeneration>500</regeneration>
+        <regeneration>1000</regeneration>
       </li>
       <li>
-        <minSeverity>2.5</minSeverity>
+        <minSeverity>3.0</minSeverity>
         <label>术式强度：极强</label>
-        <regeneration>600</regeneration>
+        <regeneration>1500</regeneration>
       </li>
     </stages>
     <comps>
       <li Class="HediffCompProperties_SeverityPerDay">
-        <severityPerDay>-5</severityPerDay>
+        <severityPerDay>-10</severityPerDay>
       </li>
       <li Class="HediffCompProperties_DisappearsOnDeath"/>
     </comps>
