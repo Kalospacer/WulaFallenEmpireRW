@@ -2,14 +2,14 @@
 <Defs>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_SP_Spear_Impale</defName>
-    <label>圣印记：圣枪穿刺术式</label>
-    <description>这是乌拉星人所创造的最强大的进攻术式，来源于乌拉星人的泰坦和旗舰。\n\n这种术式发射的纯净灵能能量能绕过几乎所有防御，在敌人的集群中连续弹跳，瞬间烧穿无信之徒的可悲躯体。\n\n然而，这种术式的能量和战舰唱诗班的相去甚远，因此它发射的能量无法攻击建筑。</description>
+    <label>圣枪穿刺术式</label>
+    <description>这是乌拉星人所创造的最强大的进攻术式，来源于乌拉星人的泰坦和旗舰。这种术式发射的纯净灵能能量能绕过几乎所有防御，在敌人的集群中连续弹跳，瞬间烧穿无信之徒的可悲躯体。\n\n然而，这种术式的能量和战舰唱诗班的相去甚远，因此它发射的能量无法攻击建筑。\n\n为了弥补缺陷，法杖还附带了一个需要魂楔充能的进攻型法术，可以从很远的地方发射灵能射弹轰炸目标区域。</description>
     <techLevel>Ultra</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
-      <texPath>Wula/Weapon/WULA_SP_Spell_Medium</texPath>
+      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Explosive</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>0.75</drawSize>
+      <drawSize>1.3</drawSize>
     </graphicData>
     <uiIconPath>Wula/Weapon/WULA_SP_Spear_Impale</uiIconPath>
     <weaponTags>
@@ -71,8 +71,75 @@
         -->
         <damageReductionMultiplierPerSensitivityPoint>1</damageReductionMultiplierPerSensitivityPoint>
       </li>
+      <li Class="CompProperties_EquippableAbilityReloadable">
+        <abilityDef>WULA_MW_Scepter_Of_Explosive_Ability</abilityDef>
+        <maxCharges>10</maxCharges>
+        <soundReload>AnomalyAbilityWarmup</soundReload>
+        <chargeNoun>魂锲</chargeNoun>
+        <ammoDef>WULA_Soul_Wedge</ammoDef>
+        <ammoCountPerCharge>2</ammoCountPerCharge>
+        <baseReloadTicks>60</baseReloadTicks>
+      </li>
     </comps>
     <tradeability>None</tradeability>
+  </ThingDef>
+  <AbilityDef>
+    <defName>WULA_MW_Scepter_Of_Explosive_Ability</defName>
+    <label>乌拉帝国法术：裂矢</label>
+    <description>发射魂烬裂矢，将目标区域烧成灰烬——这种以纯粹灵能作为驱动的射弹将无视所有的非护盾阻碍，发射时也不需要目标视线。</description>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Explosive_Ability</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>False</showPsycastEffects>
+    <hotKey>Misc11</hotKey>
+    <!-- <cooldownTicksRange>120~240</cooldownTicksRange> -->
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>150</range>
+      <warmupTime>3</warmupTime>
+      <muzzleFlashScale>9</muzzleFlashScale>
+      <beamTargetsGround>true</beamTargetsGround>
+      <soundAiming>FleshmelterBolt_Charging</soundAiming>
+      <ai_IsWeapon>true</ai_IsWeapon>
+      <soundCast>PsychicShockLanceCast</soundCast>
+      <requireLineOfSight>false</requireLineOfSight>
+      
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetPawns>true</canTargetPawns>
+        <canTargetBuildings>true</canTargetBuildings>
+        <canTargetPlants>true</canTargetPlants>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>Bullet_WULA_MW_Scepter_Of_Explosive</projectileDef>
+        <psychic>True</psychic>
+        <screenShakeIntensity>0.5</screenShakeIntensity>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_MW_Scepter_Of_Explosive</defName>
+    <label>魂烬裂矢</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/FleshmelterBolt</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Mote</shaderType>
+      <drawSize>(1.5, 3)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Wula_Psi_Bomb</damageDef>
+      <damageAmountBase>50</damageAmountBase>
+      <speed>65</speed>
+      <soundAmbient>FleshmelterBolt_Launch</soundAmbient>
+      <explosionRadius>3.49</explosionRadius>
+      <screenShakeFactor>0.75</screenShakeFactor>
+      <explosionChanceToStartFire>0.75</explosionChanceToStartFire>
+      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <!-- <flyOverhead>true</flyOverhead> -->
+    </projectile>
   </ThingDef>
   <ThingDef ParentName="MoteBase">
     <defName>WULA_SP_Spear_Impale_ArcBeam</defName>
@@ -106,16 +173,19 @@
 
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_SP_Cotton_Counter</defName>
-    <label>圣印记：飘絮反制术式</label>
-    <description>这是乌拉星人在舰船上用于反制敌方飞行器和导弹的特殊术式，核心在于高爆发性高追踪性的输出，通过快速吟唱汇聚的灵能能量使对方迅速失能。</description>
+    <label>飘絮反制术式</label>
+    <description>这是乌拉星人在舰船上用于反制敌方飞行器和导弹的特殊术式，核心在于高爆发性高追踪性的输出，通过快速吟唱汇聚的灵能能量使对方迅速失能。\n\n法杖同时携带了一个需要魂楔充能的辅助型技能，允许将自身遮蔽起来以进入隐身状态。</description>
     <techLevel>Ultra</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
-      <texPath>Wula/Weapon/WULA_SP_Spell_Medium</texPath>
+      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_CLoak</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>0.75</drawSize>
+      <drawSize>1.3</drawSize>
     </graphicData>
     <uiIconPath>Wula/Weapon/WULA_SP_Cotton_Counter</uiIconPath>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Soul_Wedge</ThingDef>
+    </descriptionHyperlinks>
     <weaponTags>
       <li>Wula_Spell_Weapon_T1</li>
     </weaponTags>
@@ -167,9 +237,53 @@
         -->
         <damageReductionMultiplierPerSensitivityPoint>1</damageReductionMultiplierPerSensitivityPoint>
       </li>
+      <li Class="CompProperties_EquippableAbilityReloadable">
+        <abilityDef>WULA_MW_Scepter_Of_CLoak_Ability</abilityDef>
+        <maxCharges>5</maxCharges>
+        <soundReload>AnomalyAbilityWarmup</soundReload>
+        <chargeNoun>魂锲</chargeNoun>
+        <ammoDef>WULA_Soul_Wedge</ammoDef>
+        <ammoCountPerCharge>2</ammoCountPerCharge>
+        <baseReloadTicks>60</baseReloadTicks>
+      </li>
     </comps>
     <tradeability>None</tradeability>
   </ThingDef>
+  <AbilityDef>
+    <defName>WULA_MW_Scepter_Of_CLoak_Ability</defName>
+    <label>乌拉帝国法术：隐身</label>
+    <description>使用灵能让一个目标短时间内被附近的其他生物忽略，从而获得隐身效果。\n\n装填需消耗魂楔。</description>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_CLoak_Ability</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <statBases>
+      <Ability_EntropyGain>0</Ability_EntropyGain>
+      <Ability_PsyfocusCost>-1</Ability_PsyfocusCost>
+      <Ability_Duration>15</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastPsycast</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <warmupTime>0.1</warmupTime>
+      <violent>false</violent>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+      <soundCast>DeadlifeRelease</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicInvisibility</hediffDef>
+        <psychic>True</psychic>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+    </comps>
+  </AbilityDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_SP_Cotton_Counter</defName>
     <label>飘絮反制术式</label>
@@ -215,4 +329,166 @@
       </shaderParameters>
     </graphicData>
   </ThingDef>
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_SP_Live_Shelter</defName>
+    <label>圣灵庇佑术式</label>
+    <description>这是乌拉星人用于救治伤者的法术，可以使得瞄准的目标超速愈合。\n\n法杖同时携带了一个需要魂楔充能的生产型技能，可以为大范围内的所有殖民者和机械体提供持续数天的额外移动速度和工作速度。</description>
+    <techLevel>Ultra</techLevel>
+    <!-- <techLevel>Spacer</techLevel> -->
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Feather</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.3</drawSize>
+    </graphicData>
+    <uiIconPath>Wula/Weapon/WULA_SP_Cotton_Counter</uiIconPath>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Soul_Wedge</ThingDef>
+    </descriptionHyperlinks>
+    <weaponTags>
+      <li>Wula_Spell_Weapon_T1</li>
+    </weaponTags>
+    <useHitPoints>False</useHitPoints>
+    <uiIconScale>1</uiIconScale>
+    <soundInteract>Heatspikes_Shot</soundInteract>
+    <recipeMaker>
+      <recipeUsers Inherit="False"/>
+    </recipeMaker>
+    <costList Inherit="False">
+      <WULA_Soul_Wedge>3000</WULA_Soul_Wedge>
+      <WULA_Dark_Matter_Item>5</WULA_Dark_Matter_Item>
+    </costList>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>0</Mass>
+      <AccuracyTouch>2</AccuracyTouch>
+      <AccuracyShort>2</AccuracyShort>
+      <AccuracyMedium>2</AccuracyMedium>
+      <AccuracyLong>2</AccuracyLong>
+      <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_SP_Live_Shelter</defaultProjectile>
+        <warmupTime>5</warmupTime>
+        <range>14</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Heatspikes_Shot</soundCast>
+        <soundCastTail>Heatspikes_Tail</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <!-- <targetable>false</targetable> -->
+        <targetParams>
+          <canTargetSelf>true</canTargetSelf>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+      <!-- 心灵敏感度伤害缩放组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_PsychicScaling">
+        <!--
+          伤害增幅系数:
+          当持有者心灵敏感度 > 1 时, 每高出1点, 伤害增加 1%。
+          例如: 200% (2.0) 敏感度 -> 伤害增加 (2.0 - 1.0) * 1 = 100%。
+        -->
+        <damageMultiplierPerSensitivityPoint>1</damageMultiplierPerSensitivityPoint>
+        <!--
+          伤害减免系数:
+          当持有者心灵敏感度 < 1 时, 每低1点, 伤害降低 100%。
+          例如: 50% (0.5) 敏感度 -> 伤害降低 (1.0 - 0.5) * 1.0 = 50%。
+        -->
+        <damageReductionMultiplierPerSensitivityPoint>1</damageReductionMultiplierPerSensitivityPoint>
+      </li>
+      <li Class="CompProperties_EquippableAbilityReloadable">
+        <abilityDef>WULA_MW_Scepter_Of_Feather_Ability</abilityDef>
+        <maxCharges>1</maxCharges>
+        <soundReload>AnomalyAbilityWarmup</soundReload>
+        <chargeNoun>魂锲</chargeNoun>
+        <ammoDef>WULA_Soul_Wedge</ammoDef>
+        <ammoCountPerCharge>20</ammoCountPerCharge>
+        <baseReloadTicks>60</baseReloadTicks>
+      </li>
+    </comps>
+    <tradeability>None</tradeability>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_SP_Live_Shelter</defName>
+    <label>魂烬裂矢</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/FleshmelterBolt</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Mote</shaderType>
+      <drawSize>(1.5, 3)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>WULA_SP_Live_Shelter_Heal</damageDef>
+      <damageAmountBase>1</damageAmountBase>
+      <speed>1000</speed>
+      <!-- <soundAmbient>FleshmelterBolt_Launch</soundAmbient> -->
+      <explosionRadius>2</explosionRadius>
+      <explosionChanceToStartFire>0</explosionChanceToStartFire>
+      <armorPenetrationBase>3000</armorPenetrationBase>
+      <!-- <flyOverhead>true</flyOverhead> -->
+    </projectile>
+  </ThingDef>
+  <AbilityDef ParentName="PsycastBase">
+    <defName>WULA_MW_Scepter_Of_Feather_Ability</defName>
+    <label>羽之杖：激励</label>
+    <description>以自身为中心，为大范围内的所有殖民者和机械体提供持续数天的额外移动速度和工作速度。</description>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Feather_Ability</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <level>-1</level>
+    <statBases>
+      <Ability_EntropyGain>0</Ability_EntropyGain>
+      <Ability_PsyfocusCost>-1</Ability_PsyfocusCost>
+      <Ability_Duration>4000</Ability_Duration>
+      <Ability_EffectRadius>500</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>5</warmupTime>
+      <range>60</range>
+      <drawAimPie>true</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+      <soundCast>VoidTerrorCast</soundCast>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>WULA_MW_Scepter_Of_Feather_Hediff</hediffDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>True</psychic>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <HediffDef>
+    <defName>WULA_MW_Scepter_Of_Feather_Hediff</defName>
+    <label>羽之杖：激励</label>
+    <description>这个殖民者受到了乌拉帝国灵能法术的激励，行动和生产变得更加有效率了。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <stages>
+      <li>
+        <statFactors>
+          <MoveSpeed>1.5</MoveSpeed>
+          <WorkSpeedGlobal>1.3</WorkSpeedGlobal>
+        </statFactors>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>240000~240000</disappearsAfterTicks> <!-- 1~2 days -->
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+  </HediffDef>
 </Defs>
