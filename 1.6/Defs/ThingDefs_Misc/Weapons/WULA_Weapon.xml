@@ -1106,12 +1106,12 @@
     </costList>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>WULA_Bullet_StarDrift_Shotgun_Spear</defaultProjectile>
         <warmupTime>0.2</warmupTime>
         <range>15</range>
-        <burstShotCount>6</burstShotCount>
+        <burstShotCount>1</burstShotCount>
         <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
         <soundCast>ChargeLance_Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
@@ -1133,6 +1133,11 @@
       <armorPenetrationBase>0.65</armorPenetrationBase>
       <speed>55</speed>
     </projectile>
+    <modExtensions>
+			<li Class="WulaFallenEmpire.ShotgunExtension">
+				<pelletCount>6</pelletCount>
+			</li>
+		</modExtensions>
   </ThingDef>
 
   <!-- 机枪 -->
