@@ -85,4 +85,42 @@
       </li>
     </additionalHediffs> -->
   </DamageDef>
+
+  <DamageDef ParentName="Bomb">
+    <defName>Wula_Psi_Bomb</defName>
+    <label>灵能爆燃</label>
+    <deathMessage>{0} 被灵能灼烧而死。</deathMessage>
+    <defaultDamage>50</defaultDamage>
+    <defaultStoppingPower>2.0</defaultStoppingPower>
+    <defaultArmorPenetration>3000</defaultArmorPenetration>
+    <hediff>Burn</hediff>
+    <armorCategory>Heat</armorCategory>
+    <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
+    <additionalHediffs>
+      <li>
+        <hediff>Wula_Psi_Damage_Hediff</hediff>
+        <severityPerDamageDealt>0.015</severityPerDamageDealt>
+        <!-- <victimSeverityScaling>PsychicSensitivity</victimSeverityScaling> -->
+        <inverseStatScaling>true</inverseStatScaling>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+      </li>
+    </additionalHediffs>
+  </DamageDef>
+
+  <DamageDef ParentName="Bomb">
+    <defName>WULA_SP_Live_Shelter_Heal</defName>
+    <label>疗愈</label>
+    <deathMessage>{0} 过奶死了。</deathMessage>
+    <defaultDamage>0</defaultDamage>
+    <defaultStoppingPower>0</defaultStoppingPower>
+    <defaultArmorPenetration>3000</defaultArmorPenetration>
+    <hediff>Burn</hediff>
+    <armorCategory>Heat</armorCategory>
+    <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
+    <additionalHediffsThisPart>
+      <li>Regeneration</li>
+    </additionalHediffsThisPart>
+  </DamageDef>
 </Defs>
