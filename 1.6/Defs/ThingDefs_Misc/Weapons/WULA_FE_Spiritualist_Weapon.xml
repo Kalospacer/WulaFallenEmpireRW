@@ -395,7 +395,7 @@
         <verbClass>WulaFallenEmpire.Verb_ShootArc</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <damageDef>WULA_SP_Live_Shelter_Heal</damageDef>
-        <damageAmount>0</damageAmount>
+        <damageAmount>1.0</damageAmount>
         <EMPDamageAmount>0</EMPDamageAmount>
         <warmupTime>4</warmupTime>
         <range>20</range>
@@ -406,6 +406,7 @@
         <muzzleFlashScale>9</muzzleFlashScale>
         <isConductible>True</isConductible>
         <conductFriendly>True</conductFriendly>
+        <conductHostile>false</conductHostile>
         <conductNum>3</conductNum>
         <beamMoteDef>WULA_SP_Spear_Impale_ArcBeam</beamMoteDef>
         <aimingChargeMote>Mote_HellsphereCannon_Charge</aimingChargeMote>

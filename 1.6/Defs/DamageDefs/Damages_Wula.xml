@@ -108,19 +108,25 @@
     </additionalHediffs>
   </DamageDef>
 
-  <DamageDef ParentName="Bomb">
+  <DamageDef>
     <defName>WULA_SP_Live_Shelter_Heal</defName>
     <label>疗愈</label>
-    <deathMessage>{0} 过奶死了。</deathMessage>
-    <defaultDamage>0</defaultDamage>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <deathMessage>{0} 被奶死了。</deathMessage>
+    <harmsHealth>true</harmsHealth>
+    <makesBlood>false</makesBlood>
+    <consideredHelpful>true</consideredHelpful>
+    <defaultDamage>1</defaultDamage>
     <defaultStoppingPower>0</defaultStoppingPower>
-    <defaultArmorPenetration>3000</defaultArmorPenetration>
-    <hediff>Burn</hediff>
-    <armorCategory>Heat</armorCategory>
-    <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
-    <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
-    <additionalHediffsThisPart>
-      <li>Regeneration</li>
-    </additionalHediffsThisPart>
+    <defaultArmorPenetration>9999</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>0</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
+    <additionalHediffs>
+      <li>
+        <hediff>WULA_Psi_Regeneration</hediff>
+        <severityPerDamageDealt>0.5</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
   </DamageDef>
 </Defs>

@@ -114,4 +114,52 @@
       </li>
     </stages>
   </HediffDef>
+
+  <HediffDef>
+    <defName>WULA_Psi_Regeneration</defName>
+    <label>灵能再生</label>
+    <description>在强大的灵能术式影响下，这个生物正在以一种快到不可思议的速度再生。他们几乎能在短时间内治愈任何伤口。</description>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <defaultLabelColor>(1, 1, 0.8)</defaultLabelColor>
+    <hediffClass>HediffWithComps</hediffClass>
+    <stages>
+      <li>
+        <minSeverity>0</minSeverity>
+        <label>术式强度：极弱</label>
+        <regeneration>100</regeneration>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <label>术式强度：弱</label>
+        <regeneration>200</regeneration>
+      </li>
+      <li>
+        <minSeverity>1.0</minSeverity>
+        <label>术式强度：较弱</label>
+        <regeneration>300</regeneration>
+      </li>
+      <li>
+        <minSeverity>1.5</minSeverity>
+        <label>术式强度：较强</label>
+        <regeneration>400</regeneration>
+      </li>
+      <li>
+        <minSeverity>2.0</minSeverity>
+        <label>术式强度：强</label>
+        <regeneration>500</regeneration>
+      </li>
+      <li>
+        <minSeverity>2.5</minSeverity>
+        <label>术式强度：极强</label>
+        <regeneration>600</regeneration>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-5</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+    </comps>
+  </HediffDef>
 </Defs>

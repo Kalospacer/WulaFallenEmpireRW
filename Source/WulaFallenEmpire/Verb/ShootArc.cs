@@ -26,6 +26,8 @@ namespace WulaFallenEmpire
         public int conductNum;
 
         public bool conductFriendly = false;
+
+        public bool conductHostile = true;
     }
 
     public class Verb_ShootArc : Verb
@@ -42,7 +44,16 @@ namespace WulaFallenEmpire
         {
             get
             {
-                return (this.Props.damageAmount > 0) ? this.Props.damageAmount : this.verbProps.beamDamageDef.defaultDamage;
+                if (this.Props.damageAmount > 0)
+                {
+                    return this.Props.damageAmount;
+                }
+                if (this.verbProps.beamDamageDef != null)
+                {
+                    return this.verbProps.beamDamageDef.defaultDamage;
+                }
+                Log.ErrorOnce(string.Format("Verb_ShootArc on {0} has no damageAmount and no beamDamageDef.", (this.caster != null) ? this.caster.def.defName : "null"), this.GetHashCode());
+                return 0;
             }
         }
 
@@ -50,7 +61,15 @@ namespace WulaFallenEmpire
         {
             get
             {
-                return (this.Props.armorPenetration > 0f) ? this.Props.armorPenetration : this.verbProps.beamDamageDef.defaultArmorPenetration;
+                if (this.Props.armorPenetration > 0f)
+                {
+                    return this.Props.armorPenetration;
+                }
+                if (this.verbProps.beamDamageDef != null)
+                {
+                    return this.verbProps.beamDamageDef.defaultArmorPenetration;
+                }
+                return 0f;
             }
         }
 
@@ -122,7 +141,7 @@ namespace WulaFallenEmpire
                     if (list[num] is Pawn p)
                     {
                         bool isFriendly = p.Faction != null && casterPawn.Faction != null && !p.Faction.HostileTo(casterPawn.Faction);
-                        if (!this.Props.conductFriendly && isFriendly)
+                        if ((!this.Props.conductFriendly && isFriendly) || (!this.Props.conductHostile && p.HostileTo(casterPawn)))
                         {
                             continue;
                         }
