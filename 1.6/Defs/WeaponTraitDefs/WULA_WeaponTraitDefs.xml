@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WeaponTraitDef>
+    <defName>WULA_DamagePsychicScaling</defName>
+    <label>灵能增幅</label>
+    <description>这把武器的伤害会随着使用者的心灵敏感度而变化。</description>
+    <commonality>1</commonality>
+    <weaponCategory>WULA_Psychic</weaponCategory>
+    <statOffsets>
+    </statOffsets>
+    <statFactors>
+    </statFactors>
+  </WeaponTraitDef>
+
+</Defs>

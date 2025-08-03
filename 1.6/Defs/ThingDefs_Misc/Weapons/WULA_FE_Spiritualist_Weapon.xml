@@ -80,6 +80,15 @@
         <ammoCountPerCharge>2</ammoCountPerCharge>
         <baseReloadTicks>60</baseReloadTicks>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+				<forcedTraits>
+					<li>WULA_DamagePsychicScaling</li>
+				</forcedTraits>
+				<numTraitsRange>
+					<min>1</min>
+					<max>1</max>
+				</numTraitsRange>
+			</li>
     </comps>
     <tradeability>None</tradeability>
   </ThingDef>
@@ -246,6 +255,15 @@
         <ammoCountPerCharge>2</ammoCountPerCharge>
         <baseReloadTicks>60</baseReloadTicks>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+				<forcedTraits>
+					<li>WULA_DamagePsychicScaling</li>
+				</forcedTraits>
+				<numTraitsRange>
+					<min>1</min>
+					<max>1</max>
+				</numTraitsRange>
+			</li>
     </comps>
     <tradeability>None</tradeability>
   </ThingDef>
@@ -409,6 +427,15 @@
         <ammoCountPerCharge>20</ammoCountPerCharge>
         <baseReloadTicks>60</baseReloadTicks>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+				<forcedTraits>
+					<li>WULA_DamagePsychicScaling</li>
+				</forcedTraits>
+				<numTraitsRange>
+					<min>1</min>
+					<max>1</max>
+				</numTraitsRange>
+			</li>
     </comps>
     <tradeability>None</tradeability>
   </ThingDef>

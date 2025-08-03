@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="Building_Wula_DarkEnergy_Engine.cs" />
     <Compile Include="CompApparelInterceptor.cs" />
+    <Compile Include="CompCustomUniqueWeapon.cs" />
+    <Compile Include="CompProperties_CustomUniqueWeapon.cs" />
     <Compile Include="CompPsychicScaling.cs" />
     <Compile Include="CompUseEffect_FixAllHealthConditions.cs" />
     <Compile Include="CompUseEffect_PassionTrainer.cs" />
