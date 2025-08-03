@@ -341,6 +341,7 @@
     <defName>WULA_Energy_Furnace_DM_Engine</defName>
     <label>暗物质能源炉</label>
     <description>一台由暗物质作为能源驱动的合成人能源炉，拥有永不枯竭的动力，合成人安装后将不再需要充电。</description>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <RecipeDef>Install_WULA_Energy_Furnace_DM_Engine</RecipeDef>
     </descriptionHyperlinks>
@@ -428,6 +429,7 @@
     <defName>WULA_Energy_Furnace_DM_CPU</defName>
     <label>暗物质处理器</label>
     <description>由填充非交互性暗物质微粒的卡西米尔共振腔构成的处理器，用于替换过时的生物处理器，极大增强合成人的意识。</description>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <RecipeDef>Install_WULA_Energy_Furnace_DM_CPU</RecipeDef>
     </descriptionHyperlinks>
@@ -523,6 +525,7 @@
     <defName>WULA_Skeleton_Neutronium</defName>
     <label>零素骨架</label>
     <description>利用暗物质压缩而成的内嵌式中子装甲层和结构层，植入机械乌拉的体内时将使得她们获得强大的防御力。</description>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <RecipeDef>Install_WULA_Energy_Furnace_DM_Engine</RecipeDef>
     </descriptionHyperlinks>
