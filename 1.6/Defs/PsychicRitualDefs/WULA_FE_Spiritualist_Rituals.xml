@@ -2,11 +2,6 @@
 <Defs>
   <WulaFallenEmpire.PsychicRitual_TechOffering>
     <defName>WULA_FE_Rituals_Create_Spear_Impale</defName>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.RitualTagExtension">
-        <ritualTag>WulaRitual</ritualTag>
-      </li>
-    </modExtensions>
     <label>镌刻：圣枪穿刺术式</label>
     <description>使用镌刻法术创造一把携带了圣枪穿刺术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
@@ -84,11 +79,6 @@
   </WulaFallenEmpire.PsychicRitual_TechOffering>
   <WulaFallenEmpire.PsychicRitual_TechOffering>
     <defName>WULA_FE_Rituals_Create_Cotton_Counter</defName>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.RitualTagExtension">
-        <ritualTag>WulaRitual</ritualTag>
-      </li>
-    </modExtensions>
     <label>镌刻：飘絮反制术式</label>
     <description>使用镌刻法术创造一把携带了飘絮反制术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
@@ -167,11 +157,6 @@
 
   <WulaFallenEmpire.PsychicRitualDef_AddHediff>
     <defName>WULA_ImbuePsychicShock</defName>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.RitualTagExtension">
-        <ritualTag>WulaRitual</ritualTag>
-      </li>
-    </modExtensions>
     <label>imbue psychic shock</label>
     <description>Imbues the target with a psychic shock.</description>
     <hediff>PsychicShock</hediff>

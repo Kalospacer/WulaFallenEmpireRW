@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -91,6 +92,7 @@
     <Compile Include="HarmonyPatches\FloatMenuOptionProvider_Ingest_Patch.cs" />
     <Compile Include="HarmonyPatches\MechanitorUtility_InMechanitorCommandRange_Patch.cs" />
     <Compile Include="HarmonyPatches\Projectile_Launch_Patch.cs" />
+    <Compile Include="HarmonyPatches\Patch_JobGiver_GatherOfferingsForPsychicRitual.cs" />
     <Compile Include="HediffComp_RegenerateBackstory.cs" />
     <Compile Include="HediffComp_WulaCharging.cs" />
     <Compile Include="IngestPatch.cs" />
@@ -110,6 +112,9 @@
     <Compile Include="PsychicRitualDef_AddHediff.cs" />
     <Compile Include="PsychicRitualToil_AddHediff.cs" />
     <Compile Include="RitualTagExtension.cs" />
+    <Compile Include="PsychicRitualDef_Wula.cs" />
+    <Compile Include="PsychicRitualDef_WulaBase.cs" />
+    <Compile Include="PsychicRitualToil_GatherForInvocation_Wula.cs" />
     <Compile Include="Recipe_AdministerWulaMechRepairKit.cs" />
     <Compile Include="SectionLayer_WulaHull.cs" />
     <Compile Include="ThingDefExtension_EnergySource.cs" />

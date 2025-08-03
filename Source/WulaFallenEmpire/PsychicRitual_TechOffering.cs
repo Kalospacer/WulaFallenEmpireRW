@@ -19,7 +19,7 @@ namespace WulaFallenEmpire
         public QualityCategory quality;
     }
 
-    public class PsychicRitual_TechOffering : PsychicRitualDef_InvocationCircle
+    public class PsychicRitual_TechOffering : PsychicRitualDef_Wula
     {
         // 从XML加载的额外祭品列表
         public List<OfferingItem> extraOfferings = new List<OfferingItem>();

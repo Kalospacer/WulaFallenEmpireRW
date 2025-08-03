@@ -46,7 +46,6 @@
     <drawPlaceWorkersWhileSelected>True</drawPlaceWorkersWhileSelected>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_WulaRitualSpot">
-        <ritualTag>WulaRitual</ritualTag>
       </li>
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>

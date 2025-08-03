@@ -5,7 +5,7 @@ using RimWorld;
 
 namespace WulaFallenEmpire
 {
-    public class PsychicRitualDef_AddHediff : PsychicRitualDef_InvocationCircle
+    public class PsychicRitualDef_AddHediff : PsychicRitualDef_Wula
     {
         public HediffDef hediff;
 
