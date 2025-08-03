@@ -45,28 +45,32 @@ KNOWLEDGE_BASE_PATHS = [
    r"C:\Steam\steamapps\common\RimWorld\Data"
 ]
 
-# 3. --- 缓存管理 ---
-def load_cache():
-   """加载缓存文件"""
-   if os.path.exists(CACHE_FILE_PATH):
-       try:
-           with open(CACHE_FILE_PATH, 'r', encoding='utf-8') as f:
-               return json.load(f)
-       except (json.JSONDecodeError, IOError) as e:
-           logging.error(f"读取缓存文件失败: {e}")
-           return {}
-   return {}
+# 3. --- 缓存管理 (分文件存储) ---
+def load_cache_for_keyword(keyword: str):
+    """为指定关键词加载缓存文件。"""
+    # 清理关键词，使其适合作为文件名
+    safe_filename = "".join(c for c in keyword if c.isalnum() or c in ('_', '-')).rstrip()
+    cache_file = os.path.join(CACHE_DIR, f"{safe_filename}.txt")
+    
+    if os.path.exists(cache_file):
+        try:
+            with open(cache_file, 'r', encoding='utf-8') as f:
+                return f.read()
+        except IOError as e:
+            logging.error(f"读取缓存文件 {cache_file} 失败: {e}")
+            return None
+    return None
 
-def save_cache(cache_data):
-   """保存缓存到文件"""
-   try:
-       with open(CACHE_FILE_PATH, 'w', encoding='utf-8') as f:
-           json.dump(cache_data, f, ensure_ascii=False, indent=4)
-   except IOError as e:
-       logging.error(f"写入缓存文件失败: {e}")
-
-# 加载初始缓存
-knowledge_cache = load_cache()
+def save_cache_for_keyword(keyword: str, data: str):
+    """为指定关键词保存缓存到单独的文件。"""
+    safe_filename = "".join(c for c in keyword if c.isalnum() or c in ('_', '-')).rstrip()
+    cache_file = os.path.join(CACHE_DIR, f"{safe_filename}.txt")
+    
+    try:
+        with open(cache_file, 'w', encoding='utf-8') as f:
+            f.write(data)
+    except IOError as e:
+        logging.error(f"写入缓存文件 {cache_file} 失败: {e}")
 
 # 4. --- 向量化与相似度计算 ---
 @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
@@ -292,9 +296,9 @@ def get_context(question: str) -> str:
 
    logging.info(f"提取到关键词: {keyword}")
 
-   # 1. 检查缓存
-   if keyword in knowledge_cache:
-       cached_result = knowledge_cache[keyword]
+   # 1. 检查缓存 (新逻辑)
+   cached_result = load_cache_for_keyword(keyword)
+   if cached_result:
        logging.info(f"缓存命中: 关键词 '{keyword}'")
        return cached_result
 
@@ -369,8 +373,7 @@ def get_context(question: str) -> str:
        
        # 5. 更新缓存并返回结果
        logging.info(f"向量搜索完成。找到了 {len(best_matches)} 个匹配项并成功提取了代码。")
-       knowledge_cache[keyword] = final_output
-       save_cache(knowledge_cache)
+       save_cache_for_keyword(keyword, final_output)
        
        return final_output
 
