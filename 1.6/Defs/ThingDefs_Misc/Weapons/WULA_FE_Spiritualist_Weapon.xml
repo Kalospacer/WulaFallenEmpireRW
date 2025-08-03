@@ -45,7 +45,7 @@
         <damageAmount>30</damageAmount>
         <EMPDamageAmount>0</EMPDamageAmount>
         <warmupTime>4</warmupTime>
-        <range>65</range>
+        <range>56</range>
         <affectedAngle>25</affectedAngle>
         <armorPenetration>1000</armorPenetration>
         <soundCast>AgonyPulse_Cast</soundCast>
