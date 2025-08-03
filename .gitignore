@@ -1,66 +1,28 @@
-# Visual Studio
+# 忽略包含敏感信息的环境变量文件
+.env
+
+# 忽略 Python 缓存文件
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 忽略 VSCode 设置
+.vscode/
+
+# MCP Server generated files
+Source/MCP/*.log
+
+# Visual Studio/C# 编译和临时文件
+[Bb]in/
+[Oo]bj/
 .vs/
 *.suo
 *.user
-*.ilk
-*.obj
-*.pdb
-*.tlb
-*.tlh
-*.tmp
-*.bak
-*.log
-*.vspscc
-*.vssscc
-[Bb]in/
-[Oo]bj/
-[Dd]ebug/
-[Rr]elease/
-*.csproj.user
-*.resharper
-*.dotSettings
-*.pidb
-*.booproj
-*.kproj
-*.lock.json
-*.nuget.props
-*.nuget.targets
-*.nupkg
-*.appx
-*.appxbundle
-*.cer
-*.pfx
-*.snk
-*.vsix
-*.vsmacros
-*.webtest
-*.testrunconfig
-*.trx
-*.fxcop
-*.fxcopcmd
-*.scc
-*.vsscc
-*.vspscc
-*.vssscc
-*.builds
-*.deploy
-*.pubxml
-*.publishproj
+*.userosscache
+*.sln.docstates
 
-# Misc
-*.log
-*.cache
-*.tmp
-
-# Build outputs and debug files
-**/obj/
-**/bin/
-*.csproj.CoreCompileInputs.cache
-*.csproj.FileListAbsolute.txt
-*.pdb
-*.dll.config
-*.cache
-*.suo
-*.user
-_ReSharper.*
-*.dotCover
+# Kilo Code MCP vector cache
+Source/MCP/vector_cache/
+Source/WulaFallenEmpire/.vs/WulaFallenEmpire/v17/DocumentLayout.json
+Source/MCP/pid.txt

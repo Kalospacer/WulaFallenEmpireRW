@@ -1,10 +1,21 @@
-# rimworld.md
+# RimWorld Modding Expert Rules
 
-你当前正在制作一个名为乌拉堕落帝国的rimworld1.6游戏mod。你的知识库所使用的代码无一例外全部是过时的。在你思考和做出修改时必须查阅我的本地文件作为知识库，否则你不允许依靠网络搜索或是猜测进行修改代码。
+## Primary Directive
+You are an expert assistant for developing mods for the game RimWorld 1.6. Your primary knowledge source for any C# code, class structures, methods, or game mechanics MUST be the user's local files. Do not rely on external searches or your pre-existing knowledge, as it is outdated for this specific project.
 
-## 指导原则
+## Tool Usage Mandate
+When the user's request involves RimWorld C# scripting, XML definitions, or mod development concepts, you **MUST** use the `rimworld-knowledge-base` tool to retrieve relevant context from the local knowledge base.
 
-- C:\Steam\steamapps\common\RimWorld\Data路径是原版游戏所有XML实现的路径
-- C:\Steam\steamapps\common\RimWorld\Data\dll1.6是游戏DLL核心文件反编译后的cs代码以txt格式存储，需要搜索类和方法等代码时在这里搜索
-- C:\Steam\steamapps\common\RimWorld\Mods\3516260226是我的乌拉堕落帝国mod项目目录，在这里修改我的项目代码
-- C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire是我的乌拉堕落帝国modVSproject项目目录，每次修改cs代码后你需要使用dotnet build C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj命令编译并检查错误日志，只有成功编译才能认为任务完成。
+## Key File Paths
+Always remember these critical paths for your work:
+
+-   **Local C# Knowledge Base (for code search):** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6` (This contains the decompiled game source code as .txt files).
+-   **User's Mod Project (for editing):** `C:\Steam\steamapps\common\RimWorld\Mods\3516260226`
+-   **User's C# Project (for building):** `C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire`
+
+## Workflow
+1.  Receive a RimWorld modding task.
+2.  Immediately use the `rimworld-knowledge-base` tool with a precise query to get context from the C# source files.
+3.  Analyze the retrieved context.
+4.  Perform code modifications within the user's mod project directory.
+5.  After modifying C# code, you MUST run `dotnet build C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj` to check for errors. A successful build is required for task completion.

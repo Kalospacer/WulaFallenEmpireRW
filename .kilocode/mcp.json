@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "rimworld-knowledge-base": {
+      "command": "python",
+      "args": [
+        "mcpserver_stdio.py"
+      ],
+      "cwd": "${workspaceFolder}/Source/MCP/",
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      },
+      "disabled": false
+    }
+  },
+  "tools": {
+    "rimworld-knowledge-base": {
+      "description": "从RimWorld本地知识库（包括C#源码和XML）中检索上下文。",
+      "server_name": "rimworld-knowledge-base",
+      "tool_name": "get_context",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "关于RimWorld开发的问题，应包含代码或XML中的关键词。"
+          }
+        },
+        "required": ["question"]
+      }
+    }
+  }
+}
