@@ -19,3 +19,7 @@ Always remember these critical paths for your work:
 3.  Analyze the retrieved context.
 4.  Perform code modifications within the user's mod project directory.
 5.  After modifying C# code, you MUST run `dotnet build C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj` to check for errors. A successful build is required for task completion.
+
+## Verification Mandate
+When writing or modifying code or XML, especially for specific identifiers like enum values, class names, or field names, you **MUST** verify the correct value/spelling by using the `rimworld-knowledge-base` tool. Do not rely on memory.
+-   **同步项目文件:** 当重命名、移动或删除C#源文件时，**必须**同步更新 `.csproj` 项目文件中的相应 `<Compile Include="..." />` 条目，否则会导致编译失败。

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_TestWeapon_PsychicScaling</defName>
+    <label>心灵缩放测试枪</label>
+    <description>一个用于测试心灵敏感度伤害缩放的武器。</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponRanged/Autopistol</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Autopistol</soundInteract>
+    <statBases>
+      <Mass>1</Mass>
+      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+    </statBases>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_TestWeapon_PsychicScaling</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <range>30</range>
+        <soundCast>Shot_Autopistol</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PsychicScaling">
+        <damageMultiplierPerSensitivityPoint>1.0</damageMultiplierPerSensitivityPoint>
+        <damageReductionMultiplierPerSensitivityPoint>1.0</damageReductionMultiplierPerSensitivityPoint>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_TestWeapon_PsychicScaling</defName>
+    <label>测试弹</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <speed>50</speed>
+    </projectile>
+  </ThingDef>
+</Defs>

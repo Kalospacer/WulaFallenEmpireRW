@@ -9,7 +9,10 @@
       "env": {
         "PYTHONUNBUFFERED": "1"
       },
-      "disabled": false
+      "disabled": false,
+      "alwaysAllow": [
+        "get_context"
+      ]
     }
   },
   "tools": {
@@ -25,7 +28,9 @@
             "description": "关于RimWorld开发的问题，应包含代码或XML中的关键词。"
           }
         },
-        "required": ["question"]
+        "required": [
+          "question"
+        ]
       }
     }
   }

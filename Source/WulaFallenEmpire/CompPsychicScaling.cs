@@ -9,7 +9,7 @@ namespace WulaFallenEmpire
     public class CompProperties_PsychicScaling : CompProperties
     {
         // 每点心灵敏感度（超出100%的部分）提供的伤害【增伤】乘数。
-        public float damageMultiplierPerSensitivityPoint = 0.25f;
+        public float damageMultiplierPerSensitivityPoint = 1f;
 
         // 每点心灵敏感度（低于100%的部分）提供的伤害【减伤】乘数。
         // 例如，系数为1时，50%敏感度将造成 1 - (1 - 0.5) * 1 = 0.5倍伤害。

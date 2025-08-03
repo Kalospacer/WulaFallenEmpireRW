@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 增加心灵敏感度的 Hediff -->
+  <HediffDef>
+    <defName>WULA_Hediff_PsychicSensitivityPlus</defName>
+    <label>心灵敏感度增益 (测试)</label>
+    <description>用于测试的心灵敏感度增益效果。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.8, 0.35, 0.35)</defaultLabelColor>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <statOffsets>
+          <PsychicSensitivity>1</PsychicSensitivity>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- 减少心灵敏感度的 Hediff -->
+  <HediffDef>
+    <defName>WULA_Hediff_PsychicSensitivityMinus</defName>
+    <label>心灵敏感度减益 (测试)</label>
+    <description>用于测试的心灵敏感度减益效果。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.6, 0.6, 0.6)</defaultLabelColor>
+    <isBad>true</isBad>
+    <stages>
+      <li>
+        <statOffsets>
+          <PsychicSensitivity>-1</PsychicSensitivity>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
