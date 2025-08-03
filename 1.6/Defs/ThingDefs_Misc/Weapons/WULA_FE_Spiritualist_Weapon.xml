@@ -395,7 +395,7 @@
         <verbClass>WulaFallenEmpire.Verb_ShootArc</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <damageDef>WULA_SP_Live_Shelter_Heal</damageDef>
-        <damageAmount>1.0</damageAmount>
+        <damageAmount>1</damageAmount>
         <EMPDamageAmount>0</EMPDamageAmount>
         <warmupTime>4</warmupTime>
         <range>20</range>
@@ -434,27 +434,6 @@
 			</li>
     </comps>
     <tradeability>None</tradeability>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_SP_Live_Shelter</defName>
-    <label></label>
-    <thingClass>Projectile_Explosive</thingClass>
-    <graphicData>
-      <texPath>Things/Projectile/FleshmelterBolt</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>Mote</shaderType>
-      <drawSize>(1.5, 3)</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>WULA_SP_Live_Shelter_Heal</damageDef>
-      <damageAmountBase>1</damageAmountBase>
-      <speed>1000</speed>
-      <!-- <soundAmbient>FleshmelterBolt_Launch</soundAmbient> -->
-      <explosionRadius>2</explosionRadius>
-      <explosionChanceToStartFire>0</explosionChanceToStartFire>
-      <armorPenetrationBase>3000</armorPenetrationBase>
-      <!-- <flyOverhead>true</flyOverhead> -->
-    </projectile>
   </ThingDef>
   <AbilityDef ParentName="PsycastBase">
     <defName>WULA_MW_Scepter_Of_Feather_Ability</defName>
@@ -514,4 +493,98 @@
       </li>
     </comps>
   </HediffDef>
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Photon_Missile</defName>
+    <label>星光追猎术式</label>
+    <description>乌拉星人在舰船上用于代替导弹的一种特殊术式，当其被吟唱时，大量的灵能星光将倾巢而出追击轰炸敌军。万幸，依托于灵能泰坦这个庞大载体，该法术的威力并未遭到太多削弱。</description>
+    <techLevel>Ultra</techLevel>
+    <tradeability>None</tradeability>
+    <!-- <techLevel>Spacer</techLevel> -->
+    <uiIconPath>Wula/Weapon/WULA_SP_Spear_Impale</uiIconPath>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <weaponTags>
+      <li>WULA_RW_Photon_Missile_Weapon</li>
+    </weaponTags>
+    <uiIconScale>0.75</uiIconScale>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <costList Inherit="False">
+      <Steel>380</Steel>
+      <Plasteel>60</Plasteel>
+      <ComponentSpacer>8</ComponentSpacer>
+    </costList>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>0</Mass>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.4</AccuracyMedium>
+      <AccuracyLong>0.3</AccuracyLong>
+      <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Photon_Missile</defaultProjectile>
+        <warmupTime>4.5</warmupTime>
+        <burstShotCount>16</burstShotCount>
+        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>4</minRange>
+        <range>48</range>
+        <soundCast>AgonyPulse_Cast</soundCast>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Photon_Missile</defName>
+    <label>灵能星光</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Photon_Missile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass>
+		<modExtensions>
+			<li Class="WulaFallenEmpire.CruiseMissileProperties">
+				<!-- 主爆炸参数 -->
+				<customDamageDef>Bomb</customDamageDef>
+				<customDamageAmount>8</customDamageAmount>
+				<customExplosionRadius>2</customExplosionRadius>
+				<customSoundExplode>MortarBomb_Explode</customSoundExplode>
+
+				<!-- 子爆炸系统 -->
+				<useSubExplosions>true</useSubExplosions>
+				<subExplosionCount>2</subExplosionCount>
+				<subExplosionRadius>1.5</subExplosionRadius>
+				<subExplosionDamage>5</subExplosionDamage>
+				<subExplosionSpread>6</subExplosionSpread>
+				<subDamageDef>Wula_Psi_Bomb</subDamageDef>
+				<subSoundExplode>MortarBomb_Explode</subSoundExplode>
+			</li>
+		</modExtensions>
+    <projectile>
+      <damageDef>Wula_Psi_Bomb</damageDef>
+      <damageAmountBase>8</damageAmountBase>
+      <speed>22</speed>
+      <explosionRadius>2</explosionRadius>
+      <armorPenetrationBase>0.1</armorPenetrationBase>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
 </Defs>
