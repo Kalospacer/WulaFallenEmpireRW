@@ -159,7 +159,9 @@
     </stages>
     <comps>
       <li Class="HediffCompProperties_SeverityPerDay">
-        <severityPerDay>-10</severityPerDay>
+        <severityPerDay>-50</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+        <showHoursToRecover>true</showHoursToRecover>
       </li>
       <li Class="HediffCompProperties_DisappearsOnDeath"/>
     </comps>

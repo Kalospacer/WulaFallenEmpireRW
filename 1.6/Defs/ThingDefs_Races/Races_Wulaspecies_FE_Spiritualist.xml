@@ -3,13 +3,13 @@
   <ThingDef ParentName="HeavyMechanoid">
 		<defName>Wula_Psi_Titan</defName>
 		<label>PAt-52"灵能泰坦"</label>
-		<description>由乌拉帝国大教堂所开发的重型灵能机械体</description>
+		<description>由乌拉帝国大教堂所开发的重型灵能机械体，以短距离折跃优雅地穿梭于炮火间，并用灵能盾抵挡敌方射弹侵袭。该机体不仅镌刻了破坏力强大的星光追猎术式用以发起远距离跟踪打击，还拥有一系列改变战局的灵能能力。\n\n但是在近身搏斗中，灵能泰坦是一个可笑的对手，并且它的秘文纹路很容易遭到外力破坏，不要让它陷入胶着的贴身状态！</description>
     <uiIconPath>Wula/Things/Wula_Psi_Titan/Wula_Psi_Titan_Icon</uiIconPath>
     <statBases>
       <!-- 心灵敏感，稍高 -->
       <PsychicSensitivity>3</PsychicSensitivity>
       <BandwidthCost>8</BandwidthCost>
-      <MoveSpeed>6</MoveSpeed>
+      <MoveSpeed>2</MoveSpeed>
       <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
       <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
       <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
@@ -22,8 +22,8 @@
       <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">5</WastepacksPerRecharge>
 
       <!-- 飞行参数 -->
-      <MaxFlightTime>9999</MaxFlightTime>
-      <FlightCooldown>0</FlightCooldown>
+      <!-- <MaxFlightTime>9999</MaxFlightTime>
+      <FlightCooldown>0</FlightCooldown> -->
     </statBases>
     <race>
       <body>WULA_AI_Heavy_Panzer_Body</body>
@@ -40,8 +40,8 @@
       <bulletStaggerEffecterDef>TunnelerSlowedDown</bulletStaggerEffecterDef>
 
       <!-- 飞行参数 -->
-      <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
-      <flightSpeedFactor>3</flightSpeedFactor>
+      <!-- <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
+      <flightSpeedFactor>3</flightSpeedFactor> -->
       <!-- <canFlyIntoMap>true</canFlyIntoMap> -->
     </race>
     <tools Inherit="False">
@@ -58,13 +58,15 @@
       </li>
     </tools>
     <comps>
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
       <li Class="CompProperties_ProjectileInterceptor">
         <radius>7</radius>
         <interceptGroundProjectiles>true</interceptGroundProjectiles>
         <color>(0.5, 0.3, 0.9)</color>
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
         <activeSound>BulletShield_Ambience</activeSound>
-        <hitPoints>10000</hitPoints>
+        <hitPoints>3000</hitPoints>
         <hitPointsRestoreInstantlyAfterCharge>true</hitPointsRestoreInstantlyAfterCharge>
         <chargeDurationTicks>1800</chargeDurationTicks>
         <rechargeHitPointsIntervalTicks>120</rechargeHitPointsIntervalTicks>
@@ -72,6 +74,38 @@
         <drawWithNoSelection>True</drawWithNoSelection>
         <disarmedByEmpForTicks>1500</disarmedByEmpForTicks>
         <gizmoTipKey>ProjectileInterceptorTip</gizmoTipKey>
+      </li>
+      <li Class="AutoBlink.CompProperties_AutoBlink" MayRequire="rabiosus.autoblink">
+        <!-- <gizmoIconPath></gizmoIconPath> -->
+        <blinkIntervalTicks>480</blinkIntervalTicks>
+        <delayAfterEligibleTicks>10</delayAfterEligibleTicks>
+        <cellsBeforeTarget>3</cellsBeforeTarget>
+        <maxDistanceToBlink>40</maxDistanceToBlink>
+        <minDistanceToBlink>4</minDistanceToBlink>
+        <postBlinkStanceTicks>0</postBlinkStanceTicks>
+        <excludedJobDefs>
+          <li>GotoWander</li>
+          <li>Carried</li>
+        </excludedJobDefs>
+
+        <preBlinkSoundDefs>
+          <li>AutoBlink_Skip_Small</li>
+        </preBlinkSoundDefs>
+        <postBlinkSoundDefs>
+          <li>AutoBlink_Skip_Exit_Small</li>
+        </postBlinkSoundDefs>
+
+        <preBlinkEffecterDefs>
+          <li>Skip_Entry</li>
+        </preBlinkEffecterDefs>
+
+        <postBlinkEffecterDefs>
+          <li>Skip_ExitNoDelay</li>
+        </postBlinkEffecterDefs>
+
+        <preBlinkMoteDefs/>
+        <postBlinkMoteDefs/>
+
       </li>
     </comps>
   </ThingDef>

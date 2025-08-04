@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
   <WeaponCategoryDef>
     <defName>WULA_Psychic</defName>
     <label>灵能</label>
     <description>与心灵能量相互作用的武器。</description>
   </WeaponCategoryDef>
-
+  <WeaponCategoryDef>
+    <defName>WULA_Missile</defName>
+    <label>导弹</label>
+    <description>一种发射拥有跟踪能力的抛射体武器，弹速通常较慢。</description>
+  </WeaponCategoryDef>
 </Defs>
