@@ -4,7 +4,7 @@
     <defName>WULA_SP_Spear_Impale</defName>
     <label>圣枪穿刺术式</label>
     <description>这是乌拉星人所创造的最强大的进攻术式，来源于乌拉星人的泰坦和旗舰。这种术式发射的纯净灵能能量能绕过几乎所有防御，在敌人的集群中连续弹跳，瞬间烧穿无信之徒的可悲躯体。\n\n然而，这种术式的能量和战舰唱诗班的相去甚远，因此它发射的能量无法攻击建筑。\n\n为了弥补缺陷，法杖还附带了一个需要魂楔充能的进攻型法术，可以从很远的地方发射灵能射弹轰炸目标区域。</description>
-    <techLevel>Ultra</techLevel>
+    <techLevel>Archotech</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Explosive</texPath>
@@ -188,7 +188,7 @@
     <defName>WULA_SP_Cotton_Counter</defName>
     <label>飘絮反制术式</label>
     <description>这是乌拉星人在舰船上用于反制敌方飞行器和导弹的特殊术式，核心在于高爆发性高追踪性的输出，通过快速吟唱汇聚的灵能能量使对方迅速失能。\n\n法杖同时携带了一个需要魂楔充能的辅助型技能，允许将自身遮蔽起来以进入隐身状态。</description>
-    <techLevel>Ultra</techLevel>
+    <techLevel>Archotech</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Scepter_Of_CLoak</texPath>
@@ -320,7 +320,7 @@
       <damageAmountBase>15</damageAmountBase>
       <beamMoteDef>WULA_SP_Cotton_Counter_ArcBeam</beamMoteDef>
       <beamStartOffset>0.5</beamStartOffset>
-      <armorPenetrationBase>3000</armorPenetrationBase>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
     </projectile>
   </ThingDef>
   <ThingDef ParentName="MoteBase">
@@ -357,7 +357,7 @@
     <defName>WULA_SP_Live_Shelter</defName>
     <label>生灵庇佑术式</label>
     <description>这是乌拉星人用于救治伤者的法术，可以使用灵能诱发伤口以非常规的方式快速愈合，并且效果会在友方个体间弹跳。\n\n法杖同时携带了一个需要魂楔充能的生产型技能，可以为大范围内的所有殖民者和机械体提供持续数天的额外移动速度和工作速度。</description>
-    <techLevel>Ultra</techLevel>
+    <techLevel>Archotech</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Explosive</texPath>
@@ -400,7 +400,7 @@
         <warmupTime>4</warmupTime>
         <range>20</range>
         <affectedAngle>25</affectedAngle>
-        <armorPenetration>3000</armorPenetration>
+        <armorPenetration>1.5</armorPenetration>
         <soundCast>AgonyPulse_Cast</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
@@ -497,11 +497,11 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Photon_Missile</defName>
     <label>星光追猎术式</label>
-    <description>乌拉星人在舰船上用于代替导弹的一种特殊术式，当其被吟唱时，大量的灵能星光将倾巢而出追击轰炸敌军。万幸，依托于灵能泰坦这个庞大载体，该法术的威力并未遭到太多削弱。</description>
-    <techLevel>Ultra</techLevel>
+    <description>乌拉星人在舰船上用于代替导弹的一种特殊术式，现在则被镌刻在灵能泰坦上。当其被吟唱时，大量的灵能星光将倾巢而出追击轰炸敌军。\n\n当攻击某个单体的时候，灵能星光将会追踪敌军并准确击中目标；当攻击地面时，灵能星光会分散以形成一片轰炸区。依托于纯净灵能能能量，灵能星光可以穿越任何地形阻碍和护盾进行轰炸。</description>
+    <techLevel>Archotech</techLevel>
     <tradeability>None</tradeability>
     <!-- <techLevel>Spacer</techLevel> -->
-    <uiIconPath>Wula/Weapon/WULA_SP_Spear_Impale</uiIconPath>
+    <uiIconPath>Wula/Weapon/WULA_RW_Photon_Missile</uiIconPath>
     <graphicData>
       <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -509,7 +509,6 @@
     <weaponTags>
       <li>WULA_RW_Photon_Missile_Weapon</li>
     </weaponTags>
-    <uiIconScale>0.75</uiIconScale>
     <recipeMaker>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
@@ -533,8 +532,8 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Photon_Missile</defaultProjectile>
         <warmupTime>4.5</warmupTime>
-        <burstShotCount>16</burstShotCount>
-        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <burstShotCount>48</burstShotCount>
+        <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
         <isMortar>true</isMortar>
         <requireLineOfSight>false</requireLineOfSight>
         <minRange>4</minRange>
@@ -546,6 +545,19 @@
         </targetParams>
       </li>
     </verbs>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+				<forcedTraits>
+					<li>WULA_DamagePsychicScaling</li>
+					<li>WULA_PsychicIgnoreBlock</li>
+					<li>WULA_MissileLauncher</li>
+				</forcedTraits>
+				<numTraitsRange>
+					<min>3</min>
+					<max>3</max>
+				</numTraitsRange>
+			</li>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Photon_Missile</defName>
@@ -558,16 +570,14 @@
     <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass>
 		<modExtensions>
 			<li Class="WulaFallenEmpire.CruiseMissileProperties">
-				<!-- 主爆炸参数 -->
 				<customDamageDef>Bomb</customDamageDef>
 				<customDamageAmount>8</customDamageAmount>
-				<customExplosionRadius>2</customExplosionRadius>
+				<customExplosionRadius>1</customExplosionRadius>
 				<customSoundExplode>MortarBomb_Explode</customSoundExplode>
 
-				<!-- 子爆炸系统 -->
 				<useSubExplosions>true</useSubExplosions>
-				<subExplosionCount>2</subExplosionCount>
-				<subExplosionRadius>1.5</subExplosionRadius>
+				<subExplosionCount>0</subExplosionCount>
+				<subExplosionRadius>1</subExplosionRadius>
 				<subExplosionDamage>5</subExplosionDamage>
 				<subExplosionSpread>6</subExplosionSpread>
 				<subDamageDef>Wula_Psi_Bomb</subDamageDef>
@@ -576,10 +586,10 @@
 		</modExtensions>
     <projectile>
       <damageDef>Wula_Psi_Bomb</damageDef>
-      <damageAmountBase>8</damageAmountBase>
+      <damageAmountBase>1</damageAmountBase>
       <speed>22</speed>
-      <explosionRadius>2</explosionRadius>
-      <armorPenetrationBase>0.1</armorPenetrationBase>
+      <explosionRadius>1.25</explosionRadius>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
       <flyOverhead>true</flyOverhead>
       <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
       <soundExplode>MortarBomb_Explode</soundExplode>

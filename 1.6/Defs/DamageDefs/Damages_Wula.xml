@@ -63,7 +63,7 @@
     <isRanged>true</isRanged>
     <makesAnimalsFlee>false</makesAnimalsFlee>
     <defaultDamage>20</defaultDamage>
-    <defaultArmorPenetration>3000</defaultArmorPenetration>
+    <defaultArmorPenetration>1.5</defaultArmorPenetration>
     <buildingDamageFactorImpassable>1</buildingDamageFactorImpassable>
     <buildingDamageFactorPassable>1</buildingDamageFactorPassable>
     <!-- <soundExplosion>Explosion_Vaporize</soundExplosion> -->
@@ -92,7 +92,7 @@
     <deathMessage>{0} 被灵能灼烧而死。</deathMessage>
     <defaultDamage>50</defaultDamage>
     <defaultStoppingPower>2.0</defaultStoppingPower>
-    <defaultArmorPenetration>3000</defaultArmorPenetration>
+    <defaultArmorPenetration>1.5</defaultArmorPenetration>
     <hediff>Burn</hediff>
     <armorCategory>Heat</armorCategory>
     <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>

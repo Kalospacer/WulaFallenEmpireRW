@@ -716,6 +716,8 @@
       </li>
     </tools>
     <comps>
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
       <li Class="CompProperties_ProjectileInterceptor">
         <radius>3</radius>
         <interceptGroundProjectiles>true</interceptGroundProjectiles>
@@ -786,6 +788,10 @@
         <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
       </li>
     </tools>
+    <comps>
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+    </comps>
   </ThingDef>
   <AbilityDef>
     <defName>Wula_AI_Engineer_Mother_Ability</defName>
@@ -1280,6 +1286,8 @@
        <canFlyInVacuum>true</canFlyInVacuum>
     </race>
     <comps>
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
       <li Class="CompProperties_HunterDrone">
         <explosionRadius>30</explosionRadius>
         <explosionDamageType>BombSuper</explosionDamageType>
