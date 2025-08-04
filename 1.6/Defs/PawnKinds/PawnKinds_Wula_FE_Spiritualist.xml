@@ -38,7 +38,78 @@
 
     <abilities>
       <li>FleshmelterBolt</li>
-      <li>AgonyPulse</li>
+      <li>Wula_Psi_Explosive_Shock</li>
     </abilities>
   </PawnKindDef>
+  <AbilityDef>
+    <defName>Wula_Psi_Explosive_Shock</defName>
+    <label>乌拉帝国术式：灵能尖啸</label>
+    <description>以灵能能量发出非人尖啸，使得周围的人员感觉到撕心裂肺的痛苦。这不会造成永久的伤害，但是很可能放倒那些无法承受此番痛苦的生灵。</description>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Flash_Ability</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>True</showPsycastEffects>
+    <cooldownTicksRange>36000</cooldownTicksRange> <!-- 15 seconds -->
+    <statBases>
+      <Ability_EffectRadius>5</Ability_EffectRadius>
+    </statBases>
+    <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <defaultProjectile>Bullet_FleshmelterBolt</defaultProjectile>
+      <range>5</range>
+      <warmupTime>0.5</warmupTime>
+      <soundCast>Pawn_Revenant_Death</soundCast>
+      <ai_IsWeapon>true</ai_IsWeapon>
+      <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityGiveHediffPsychic">
+        <compClass>CompAbilityEffect_GiveHediffPsychic</compClass>
+        <durationSecondsOverride>2000~4000</durationSecondsOverride> <!-- 2 to 4 days -->
+        <replaceExisting>true</replaceExisting>
+        <hediffDef>Wula_Psi_Explosive_Shock_Hediff</hediffDef>
+        <onlyBrain>true</onlyBrain>
+        <ignoreSelf>true</ignoreSelf>
+        <severity>0</severity>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+      <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>AgonyPulseExplosion</effecterDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <HediffDef>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defName>Wula_Psi_Explosive_Shock_Hediff</defName>
+    <label>灵能尖啸</label>
+    <description>震耳欲聋、撕心裂肺的灵能尖啸所带来的极度痛苦，不会造成永久的伤害，但是需要时间缓解</description>
+    <initialSeverity>0.001</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_SeverityPerSecond">
+        <severityPerSecondRange>0.01</severityPerSecondRange> <!-- 10 to 15 seconds -->
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <minSeverity>0</minSeverity>
+        <painOffset>1</painOffset>
+        <label>撕裂</label>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <painOffset>0.25</painOffset>
+        <label>恢复</label>
+      </li>
+    </stages>
+  </HediffDef>
 </Defs>

@@ -97,6 +97,7 @@
     <armorCategory>Heat</armorCategory>
     <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
     <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
+    <soundExplosion>Pawn_Revenant_StartledScream</soundExplosion>
     <additionalHediffs>
       <li>
         <hediff>Wula_Psi_Damage_Hediff</hediff>
@@ -111,7 +112,8 @@
   <DamageDef>
     <defName>WULA_SP_Live_Shelter_Heal</defName>
     <label>灵能疗愈</label>
-    <workerClass>DamageWorker_Nerve</workerClass>
+    <workerClass>DamageWorker_Stab</workerClass>
+    <stabChanceOfForcedInternal>0</stabChanceOfForcedInternal>
     <externalViolence>false</externalViolence>
     <deathMessage>{0} 被本该治愈伤口的武器杀死了。</deathMessage>
     <harmsHealth>false</harmsHealth>

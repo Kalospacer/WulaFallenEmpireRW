@@ -374,14 +374,14 @@
     <techLevel>Archotech</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
     <graphicData>
-      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Explosive</texPath>
+      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Feather</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.3</drawSize>
     </graphicData>
     <descriptionHyperlinks>
       <ThingDef>WULA_Soul_Wedge</ThingDef>
     </descriptionHyperlinks>
-    <uiIconPath>Wula/Weapon/WULA_SP_Spear_Impale</uiIconPath>
+    <uiIconPath>Wula/Weapon/WULA_SP_Live_Shelter</uiIconPath>
     <weaponTags>
       <li>Wula_Spell_Weapon_T1</li>
     </weaponTags>
@@ -422,7 +422,7 @@
         <conductFriendly>True</conductFriendly>
         <conductHostile>false</conductHostile>
         <conductNum>3</conductNum>
-        <beamMoteDef>WULA_SP_Spear_Impale_ArcBeam</beamMoteDef>
+        <beamMoteDef>WULA_SP_Live_Shelter_ArcBeam</beamMoteDef>
         <aimingChargeMote>Mote_HellsphereCannon_Charge</aimingChargeMote>
       </li>
     </verbs>
@@ -583,6 +583,14 @@
         <range>48</range>
         <soundCast>AgonyPulse_Cast</soundCast>
         <muzzleFlashScale>12</muzzleFlashScale>
+      
+        <aimingLineMote>Mote_FleshmelterBolt_Aim</aimingLineMote>
+        <aimingChargeMote>Mote_FleshmelterBolt_Charge</aimingChargeMote> 
+        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+        <aimingLineMoteFixedLength>15.9</aimingLineMoteFixedLength>
+        <aimingTargetMote>Mote_FleshmelterBolt_Target</aimingTargetMote> 
+        <!-- <soundAiming>FleshmelterBolt_Charging</soundAiming> -->
+
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
@@ -616,7 +624,7 @@
 				<customDamageDef>Bomb</customDamageDef>
 				<customDamageAmount>8</customDamageAmount>
 				<customExplosionRadius>1</customExplosionRadius>
-				<customSoundExplode>MortarBomb_Explode</customSoundExplode>
+				<customSoundExplode>Pawn_Revenant_StartledScream</customSoundExplode>
 
 				<useSubExplosions>true</useSubExplosions>
 				<subExplosionCount>0</subExplosionCount>
@@ -627,7 +635,7 @@
 				<subSoundExplode>MortarBomb_Explode</subSoundExplode>
 			</li>
 		</modExtensions>
-    <projectile>
+    <projectile>FleshmelterBolt_Launch
       <damageDef>Wula_Psi_Bomb</damageDef>
       <damageAmountBase>1</damageAmountBase>
       <speed>22</speed>
@@ -635,7 +643,7 @@
       <armorPenetrationBase>1.5</armorPenetrationBase>
       <flyOverhead>true</flyOverhead>
       <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
-      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundExplode>Pawn_Revenant_StartledScream</soundExplode>
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
     </projectile>
