@@ -34,10 +34,10 @@
       <li>WULA_RW_Photon_Missile_Weapon</li>
     </weaponTags>
 
-    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
+    <controlGroupPortraitZoom>0.4</controlGroupPortraitZoom>
 
     <abilities>
-      <li>FleshmelterBolt</li>
+      <li>Wula_Psi_Control</li>
       <li>Wula_Psi_Explosive_Shock</li>
     </abilities>
   </PawnKindDef>
@@ -49,6 +49,8 @@
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>True</showPsycastEffects>
     <cooldownTicksRange>36000</cooldownTicksRange> <!-- 15 seconds -->
+    <charges>3</charges>
+    <cooldownPerCharge>true</cooldownPerCharge>
     <statBases>
       <Ability_EffectRadius>5</Ability_EffectRadius>
     </statBases>
@@ -57,6 +59,7 @@
       <verbClass>Verb_CastAbility</verbClass>
       <defaultProjectile>Bullet_FleshmelterBolt</defaultProjectile>
       <range>5</range>
+      <drawAimPie>true</drawAimPie>
       <warmupTime>0.5</warmupTime>
       <soundCast>Pawn_Revenant_Death</soundCast>
       <ai_IsWeapon>true</ai_IsWeapon>
@@ -102,14 +105,60 @@
     <stages>
       <li>
         <minSeverity>0</minSeverity>
-        <painOffset>1</painOffset>
+        <painOffset>2</painOffset>
         <label>撕裂</label>
       </li>
       <li>
         <minSeverity>0.5</minSeverity>
-        <painOffset>0.25</painOffset>
+        <painOffset>0.5</painOffset>
         <label>恢复</label>
       </li>
     </stages>
   </HediffDef>
+  <AbilityDef>
+    <defName>Wula_Psi_Control</defName>
+    <label>乌拉帝国术式：恩赐荣光</label>
+    <description>使用灵能能量强行支配范围内所有目标的心智，让其调转枪口攻击敌人。</description>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Lost_Ability</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>False</showPsycastEffects>
+    <cooldownTicksRange>36000</cooldownTicksRange> <!-- 15 seconds -->
+    <statBases>
+      <Ability_EffectRadius>3</Ability_EffectRadius>
+      <Ability_Duration>300</Ability_Duration>
+    </statBases>
+    <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <defaultProjectile>Bullet_FleshmelterBolt</defaultProjectile>
+      <range>15</range>
+      <drawAimPie>true</drawAimPie>
+      <warmupTime>0</warmupTime>
+      <soundCast>AgonyPulse_Cast</soundCast>
+      <ai_IsWeapon>false</ai_IsWeapon>
+      <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
+      
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetSelf>true</canTargetSelf>
+        <canTargetPawns>true</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityGiveMentalState">
+        <compClass>CompAbilityEffect_GiveMentalState</compClass>
+        <stateDef>BerserkWarcall</stateDef>
+        <goodwillImpact>-20</goodwillImpact>
+        <casterEffect>AnimalWarcall_Cast</casterEffect>
+        <targetEffect>AnimalWarcall_CastOnTarget</targetEffect>
+        <excludeNPCFactions>false</excludeNPCFactions>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+      <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>AgonyPulseExplosion</effecterDef>
+      </li>
+    </comps>
+  </AbilityDef>
 </Defs>

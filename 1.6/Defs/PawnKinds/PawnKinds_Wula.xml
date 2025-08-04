@@ -161,7 +161,7 @@
       <li>WULA_AI_Heavy_Panzer_AT_Weapon</li>
     </weaponTags>
 
-    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
+    <controlGroupPortraitZoom>0.45</controlGroupPortraitZoom>
   </PawnKindDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_AI_Heavy_Panzer_Gunnery_PawnKind</defName>
@@ -189,7 +189,7 @@
       <li>WULA_AI_Heavy_Panzer_Gunner_Weapon</li>
     </weaponTags>
 
-    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
+    <controlGroupPortraitZoom>0.45</controlGroupPortraitZoom>
   </PawnKindDef>
 
   <PawnKindDef ParentName="HeavyMechanoidKind">
@@ -219,7 +219,7 @@
       <li>Wula_AI_Engineer_Mother_Weapon</li>
     </weaponTags>
 
-    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
+    <controlGroupPortraitZoom>0.3</controlGroupPortraitZoom>
   </PawnKindDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_AI_Engineer_Mother_Attack_PawnKind</defName>
@@ -247,7 +247,7 @@
       <li>Wula_AI_Engineer_Mother_Attack_Weapon</li>
     </weaponTags>
 
-    <controlGroupPortraitZoom>1</controlGroupPortraitZoom>
+    <controlGroupPortraitZoom>0.3</controlGroupPortraitZoom>
   </PawnKindDef>
 
   <PawnKindDef ParentName="NonCombatLightMechanoidKind">

@@ -3,7 +3,7 @@
   <ThingDef ParentName="HeavyMechanoid">
 		<defName>Wula_Psi_Titan</defName>
 		<label>PAt-52"灵能泰坦"</label>
-		<description>由乌拉帝国大教堂所开发的重型灵能机械体，以短距离折跃优雅地穿梭于炮火间，并用灵能盾抵挡敌方射弹侵袭。该机体不仅镌刻了破坏力强大的星光追猎术式用以发起远距离跟踪打击，还拥有一系列改变战局的灵能能力。\n\n但是在近身搏斗中，灵能泰坦是一个可笑的对手，并且它的秘文纹路很容易遭到外力破坏，不要让它陷入胶着的贴身状态！</description>
+		<description>由乌拉帝国大教堂所开发的重型灵能机械体，以短距离折跃优雅地穿梭于炮火间，并用灵能盾抵挡敌方射弹侵袭。该机体不仅镌刻了破坏力强大的星光追猎术式用以发起远距离跟踪打击，还拥有一系列改变战局的灵能能力。\n\n但是在近身搏斗中，灵能泰坦是一个可笑的对手，并且它的秘文纹路很容易遭到外力破坏，它的本体无法吸收太多伤害！</description>
     <uiIconPath>Wula/Things/Wula_Psi_Titan/Wula_Psi_Titan_Icon</uiIconPath>
     <statBases>
       <!-- 心灵敏感，稍高 -->
@@ -66,7 +66,7 @@
         <color>(0.5, 0.3, 0.9)</color>
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
         <activeSound>BulletShield_Ambience</activeSound>
-        <hitPoints>3000</hitPoints>
+        <hitPoints>5000</hitPoints>
         <hitPointsRestoreInstantlyAfterCharge>true</hitPointsRestoreInstantlyAfterCharge>
         <chargeDurationTicks>1800</chargeDurationTicks>
         <rechargeHitPointsIntervalTicks>120</rechargeHitPointsIntervalTicks>

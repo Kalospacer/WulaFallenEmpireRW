@@ -635,7 +635,7 @@
 				<subSoundExplode>MortarBomb_Explode</subSoundExplode>
 			</li>
 		</modExtensions>
-    <projectile>FleshmelterBolt_Launch
+    <projectile>
       <damageDef>Wula_Psi_Bomb</damageDef>
       <damageAmountBase>1</damageAmountBase>
       <speed>22</speed>
