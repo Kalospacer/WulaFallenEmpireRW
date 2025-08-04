@@ -101,6 +101,7 @@
     <Compile Include="JobGiver_WulaGetEnergy.cs" />
     <Compile Include="JobGiver_WulaPackEnergy.cs" />
     <Compile Include="JobGiverDefExtension_WulaPackEnergy.cs" />
+    <Compile Include="LightningBombardment.cs" />
     <Compile Include="MechanitorPatch.cs" />
     <Compile Include="MentalBreakWorker_BrokenPersonality.cs" />
     <Compile Include="MentalState_BrokenPersonality.cs" />
