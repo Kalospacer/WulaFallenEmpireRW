@@ -637,6 +637,7 @@
     <graphicData>
       <texPath>Wula/Building/WULA_Communicator_Station</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
       <drawSize>(1,1)</drawSize>
     </graphicData>
     <statBases>
