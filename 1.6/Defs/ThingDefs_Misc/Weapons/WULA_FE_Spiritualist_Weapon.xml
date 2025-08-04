@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef ParentName="BaseHumanMakeableGun">
+  <ThingDef Name="WULA_SP_Spear_Impale" ParentName="BaseHumanMakeableGun">
     <defName>WULA_SP_Spear_Impale</defName>
     <label>圣枪穿刺术式</label>
     <description>这是乌拉星人所创造的最强大的进攻术式，来源于乌拉星人的泰坦和旗舰。这种术式发射的纯净灵能能量能绕过几乎所有防御，在敌人的集群中连续弹跳，瞬间烧穿无信之徒的可悲躯体。\n\n然而，这种术式的能量和战舰唱诗班的相去甚远，因此它发射的能量无法攻击建筑。\n\n为了弥补缺陷，法杖还附带了一个需要魂楔充能的进攻型法术，可以从很远的地方发射灵能射弹轰炸目标区域。</description>
@@ -16,7 +16,7 @@
     </descriptionHyperlinks>
     <uiIconPath>Wula/Weapon/WULA_SP_Spear_Impale</uiIconPath>
     <weaponTags>
-      <li>Wula_Spell_Weapon_T1</li>
+      <li>Wula_Spell_Weapon_T3</li>
     </weaponTags>
     <useHitPoints>False</useHitPoints>
     <uiIconScale>1</uiIconScale>
@@ -183,8 +183,15 @@
       </shaderParameters>
     </graphicData>
   </ThingDef>
+  <ThingDef ParentName="WULA_SP_Spear_Impale">
+    <defName>WULA_SP_Spear_Impale_For_Enermy</defName>
+    <destroyOnDrop>true</destroyOnDrop>
+    <weaponTags>
+      <li>WULA_SP_Spear_Impale_For_Enermy</li>
+    </weaponTags>
+  </ThingDef>
 
-  <ThingDef ParentName="BaseHumanMakeableGun">
+  <ThingDef Name="WULA_SP_Cotton_Counter" ParentName="BaseHumanMakeableGun">
     <defName>WULA_SP_Cotton_Counter</defName>
     <label>飘絮反制术式</label>
     <description>这是乌拉星人在舰船上用于反制敌方飞行器和导弹的特殊术式，核心在于高爆发性高追踪性的输出，通过快速吟唱汇聚的灵能能量使对方迅速失能。\n\n法杖同时携带了一个需要魂楔充能的辅助型技能，允许将自身遮蔽起来以进入隐身状态。</description>
@@ -352,6 +359,13 @@
       </shaderParameters>
     </graphicData>
   </ThingDef>
+  <ThingDef ParentName="WULA_SP_Cotton_Counter">
+    <defName>WULA_SP_Cotton_Counter_For_Enermy</defName>
+    <destroyOnDrop>true</destroyOnDrop>
+    <weaponTags>
+      <li>WULA_SP_Cotton_Counter_For_Enermy</li>
+    </weaponTags>
+  </ThingDef>
 
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_SP_Live_Shelter</defName>
@@ -434,6 +448,35 @@
 			</li>
     </comps>
     <tradeability>None</tradeability>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>WULA_SP_Live_Shelter_ArcBeam</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <fadeOutTime>1</fadeOutTime>
+      <solidTime>0.4</solidTime>
+      <needsMaintenance>False</needsMaintenance>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+      <fadeOutUnmaintained>False</fadeOutUnmaintained>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Wula/Mote/WULA_Bullet_Dark_Matter_Beam</texPath>
+      <color>(38, 204, 66, 255)</color>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <drawSize>(1.5,1)</drawSize>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>2</_Intensity>
+      </shaderParameters>
+    </graphicData>
   </ThingDef>
   <AbilityDef ParentName="PsycastBase">
     <defName>WULA_MW_Scepter_Of_Feather_Ability</defName>

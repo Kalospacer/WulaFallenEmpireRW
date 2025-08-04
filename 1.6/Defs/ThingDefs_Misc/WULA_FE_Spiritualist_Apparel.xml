@@ -43,6 +43,7 @@
 			<MeleeDodgeChance>50</MeleeDodgeChance>	
       <MentalBreakThreshold>-0.25</MentalBreakThreshold>
     </equippedStatOffsets>
+    <tradeability>None</tradeability>
     <costStuffCount>200</costStuffCount>
     <stuffCategories>
       <li>Fabric</li>
@@ -75,7 +76,7 @@
 
         <!-- EMP 效果 -->
         <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
+        <disarmedByEmpForTicks>0</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
 
         <!-- 被动恢复 -->
         <rechargeHitPointsIntervalTicks>5</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
@@ -104,6 +105,7 @@
     <equippedStatOffsets>
       <PsychicSensitivity>0.75</PsychicSensitivity>
     </equippedStatOffsets>
+    <tradeability>None</tradeability>
     <costStuffCount>150</costStuffCount>
     <costList Inherit="False">
       <WULA_Soul_Wedge>3000</WULA_Soul_Wedge>
@@ -151,7 +153,7 @@
 
         <!-- EMP 效果 -->
         <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
+        <disarmedByEmpForTicks>0</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
 
         <!-- 被动恢复 -->
         <rechargeHitPointsIntervalTicks>5</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
@@ -188,6 +190,7 @@
     <equippedStatOffsets>
       <PsychicSensitivity>0.5</PsychicSensitivity>
     </equippedStatOffsets>
+    <tradeability>None</tradeability>
     <costStuffCount>200</costStuffCount>
     <costList Inherit="False">
       <ComponentSpacer>8</ComponentSpacer>
@@ -219,7 +222,7 @@
 
         <!-- EMP 效果 -->
         <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
+        <disarmedByEmpForTicks>0</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
 
         <!-- 被动恢复 -->
         <rechargeHitPointsIntervalTicks>5</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
@@ -259,6 +262,7 @@
       </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Skitarii_veil</wornGraphicPath>
     </apparel>
+    <tradeability>None</tradeability>
     <costStuffCount>30</costStuffCount>
     <costList Inherit="False">
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -284,7 +288,7 @@
 
         <!-- EMP 效果 -->
         <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
+        <disarmedByEmpForTicks>0</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
 
         <!-- 被动恢复 -->
         <rechargeHitPointsIntervalTicks>5</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->

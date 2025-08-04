@@ -110,17 +110,17 @@
 
   <DamageDef>
     <defName>WULA_SP_Live_Shelter_Heal</defName>
-    <label>疗愈</label>
-    <workerClass>DamageWorker_AddInjury</workerClass>
-    <externalViolence>true</externalViolence>
-    <deathMessage>{0} 被奶死了。</deathMessage>
-    <harmsHealth>true</harmsHealth>
+    <label>灵能疗愈</label>
+    <workerClass>DamageWorker_Nerve</workerClass>
+    <externalViolence>false</externalViolence>
+    <deathMessage>{0} 被本该治愈伤口的武器杀死了。</deathMessage>
+    <harmsHealth>false</harmsHealth>
     <hediff>Burn</hediff>
     <makesBlood>false</makesBlood>
     <consideredHelpful>true</consideredHelpful>
     <defaultDamage>1</defaultDamage>
     <defaultStoppingPower>0</defaultStoppingPower>
-    <defaultArmorPenetration>9999</defaultArmorPenetration>
+    <defaultArmorPenetration>5</defaultArmorPenetration>
     <buildingDamageFactorImpassable>0</buildingDamageFactorImpassable>
     <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
     <additionalHediffs>

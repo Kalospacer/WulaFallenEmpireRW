@@ -66,7 +66,7 @@
         <color>(0.5, 0.3, 0.9)</color>
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
         <activeSound>BulletShield_Ambience</activeSound>
-        <hitPoints>10000</hitPoints>
+        <hitPoints>3000</hitPoints>
         <hitPointsRestoreInstantlyAfterCharge>true</hitPointsRestoreInstantlyAfterCharge>
         <chargeDurationTicks>1800</chargeDurationTicks>
         <rechargeHitPointsIntervalTicks>120</rechargeHitPointsIntervalTicks>
@@ -77,10 +77,10 @@
       </li>
       <li Class="AutoBlink.CompProperties_AutoBlink" MayRequire="rabiosus.autoblink">
         <!-- <gizmoIconPath></gizmoIconPath> -->
-        <blinkIntervalTicks>240</blinkIntervalTicks>
-        <delayAfterEligibleTicks>4</delayAfterEligibleTicks>
-        <cellsBeforeTarget>1</cellsBeforeTarget>
-        <maxDistanceToBlink>30</maxDistanceToBlink>
+        <blinkIntervalTicks>480</blinkIntervalTicks>
+        <delayAfterEligibleTicks>10</delayAfterEligibleTicks>
+        <cellsBeforeTarget>3</cellsBeforeTarget>
+        <maxDistanceToBlink>40</maxDistanceToBlink>
         <minDistanceToBlink>4</minDistanceToBlink>
         <postBlinkStanceTicks>0</postBlinkStanceTicks>
         <excludedJobDefs>
