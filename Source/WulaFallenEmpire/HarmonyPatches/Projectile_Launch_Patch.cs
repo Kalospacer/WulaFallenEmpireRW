@@ -26,10 +26,12 @@ namespace WulaFallenEmpire.HarmonyPatches
                         {
                             if (interceptor.TryIntercept(__instance, lastExactPos, newExactPos))
                             {
+                                // Directly destroy the projectile instead of calling Impact via reflection.
+                                // This is cleaner and avoids the NRE that happens when the game engine
+                                // continues to process a projectile that was destroyed mid-tick.
+                                __instance.Destroy(DestroyMode.Vanish);
 
-                                ImpactMethod.Invoke(__instance, new object[] { null, true });
-
-                                return false;
+                                return false; // Prevent original method from running.
                             }
                         }
                     }
