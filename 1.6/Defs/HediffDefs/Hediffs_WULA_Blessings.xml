@@ -12,11 +12,11 @@
       <li>
         <statOffsets>
           <MoveSpeed>1.0</MoveSpeed>
-          <GlobalWorkSpeed>0.25</GlobalWorkSpeed>
+          <WorkSpeedGlobal>0.25</WorkSpeedGlobal>
         </statOffsets>
         <statFactors>
-            <AimingTime>0.8</AimingTime>
-            <MeleeWeapon_CooldownMultiplier>0.8</MeleeWeapon_CooldownMultiplier>
+          <AimingDelayFactor>0.8</AimingDelayFactor>
+          <MeleeWeapon_CooldownMultiplier>0.8</MeleeWeapon_CooldownMultiplier>
         </statFactors>
       </li>
     </stages>

@@ -52,6 +52,7 @@
       </points>
     </igniteChanceByTargetFlammability>
     <label>灵能灼烧</label>
+    <ignoreShields>true</ignoreShields>
     <workerClass>DamageWorker_AddInjury</workerClass>
     <externalViolence>true</externalViolence>
     <deathMessage>{0} 被灵能灼烧而死。</deathMessage>
@@ -89,6 +90,7 @@
   <DamageDef ParentName="Bomb">
     <defName>Wula_Psi_Bomb</defName>
     <label>灵能爆燃</label>
+    <ignoreShields>true</ignoreShields>
     <deathMessage>{0} 被灵能灼烧而死。</deathMessage>
     <defaultDamage>50</defaultDamage>
     <defaultStoppingPower>2.0</defaultStoppingPower>
@@ -112,6 +114,7 @@
   <DamageDef>
     <defName>WULA_SP_Live_Shelter_Heal</defName>
     <label>灵能疗愈</label>
+    <ignoreShields>true</ignoreShields>
     <workerClass>DamageWorker_Stab</workerClass>
     <stabChanceOfForcedInternal>0</stabChanceOfForcedInternal>
     <externalViolence>false</externalViolence>

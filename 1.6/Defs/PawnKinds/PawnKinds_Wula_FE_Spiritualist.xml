@@ -55,8 +55,8 @@
     <displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
     <disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
     <targetRequired>False</targetRequired>
-    <aiCanUse>false</aiCanUse>
-    <!-- <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets> -->
+    <aiCanUse>true</aiCanUse>
+    <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
     <statBases>
       <Ability_EffectRadius>12</Ability_EffectRadius>
     </statBases>
@@ -124,18 +124,18 @@
   <AbilityDef>
     <defName>Wula_Psi_Control</defName>
     <label>乌拉帝国术式：恩赐荣光</label>
-    <description>使用灵能能量强行支配范围内所有目标的心智，让其调转枪口攻击敌人。</description>
+    <description>使用灵能能量强行支配范围内所有目标的心智，让其调转枪口攻击敌人。它会对自己和其他机械体造成瞬间的失控，无法真正地影响机械体。</description>
     <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Lost_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
-    <showPsycastEffects>False</showPsycastEffects>
+    <showPsycastEffects>True</showPsycastEffects>
     <cooldownTicksRange>36000</cooldownTicksRange> <!-- 15 seconds -->
     <charges>2</charges>
     <cooldownPerCharge>true</cooldownPerCharge>
+    <targetRequired>False</targetRequired>
     <displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
     <disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
-    <targetRequired>False</targetRequired>
-    <aiCanUse>true</aiCanUse>
-    <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
+    <aiCanUse>false</aiCanUse>
+    <!-- <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets> -->
     <statBases>
       <Ability_EffectRadius>15</Ability_EffectRadius>
       <Ability_Duration>900</Ability_Duration>
@@ -144,12 +144,11 @@
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <defaultProjectile>Bullet_FleshmelterBolt</defaultProjectile>
-      <range>21</range>
-      <minRange>4</minRange>
+      <range>15</range>
       <drawAimPie>true</drawAimPie>
-      <warmupTime>0</warmupTime>
+      <warmupTime>0.5</warmupTime>
       <soundCast>AgonyPulse_Cast</soundCast>
-      <ai_IsWeapon>ture</ai_IsWeapon>
+      <ai_IsWeapon>true</ai_IsWeapon>
       <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
       
       <targetParams>
@@ -160,10 +159,14 @@
       <li Class="CompProperties_AbilityGiveMentalState">
         <compClass>CompAbilityEffect_GiveMentalState</compClass>
         <stateDef>BerserkWarcall</stateDef>
-        <goodwillImpact>-20</goodwillImpact>
+        <stateDefForMechs>Wula_Fake_MechanoidBerserk</stateDefForMechs>
+        <psychic>True</psychic>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <goodwillImpact>-75</goodwillImpact>
         <casterEffect>AnimalWarcall_Cast</casterEffect>
         <targetEffect>AnimalWarcall_CastOnTarget</targetEffect>
         <excludeNPCFactions>false</excludeNPCFactions>
+        <applyToSelf>false</applyToSelf>
       </li>
       <li Class="CompProperties_AbilityFleckOnTarget">
         <fleckDef>PsycastPsychicEffect</fleckDef>

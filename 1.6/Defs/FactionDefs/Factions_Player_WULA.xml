@@ -161,6 +161,10 @@
     <configurationListOrderPriority>900</configurationListOrderPriority>
     <dropPodActive>ActiveDropPodMechanoid</dropPodActive>
     <dropPodIncoming>DropPodIncomingMechanoidRapid</dropPodIncoming>
+    <backstoryCategories>
+      <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+      <li>Wula_Old_Synth_Backstory_Categories</li>
+    </backstoryCategories>
   </FactionDef>
 
   <!-- 大教堂 -->

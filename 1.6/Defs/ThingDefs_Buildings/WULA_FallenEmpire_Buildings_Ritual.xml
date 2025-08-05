@@ -25,9 +25,9 @@
     </graphicData>
     <size>(3, 3)</size>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <researchPrerequisites>
+    <!-- <researchPrerequisites>
       <li>PsychicRituals</li>
-    </researchPrerequisites>
+    </researchPrerequisites> -->
     <inspectorTabs>
       <li>ITab_Entity</li>
     </inspectorTabs>

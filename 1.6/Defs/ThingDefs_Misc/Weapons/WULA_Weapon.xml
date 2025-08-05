@@ -1131,7 +1131,6 @@
         <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
         <ai_TargetHasRangedAttackScoreOffset>50</ai_TargetHasRangedAttackScoreOffset>
         <minRange>6</minRange>
-        <forcedMissRadius>4.9</forcedMissRadius>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
           <canTargetPawns>false</canTargetPawns>
