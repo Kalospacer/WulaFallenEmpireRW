@@ -14,11 +14,10 @@
       <MarketValue>24</MarketValue>
       <Mass>0.3</Mass>
       <WorkToMake>450</WorkToMake>
-      <Nutrition>1</Nutrition> <!-- Reverted to 1 as per user request -->
     </statBases>
     <ingestible>
       <baseIngestTicks>270</baseIngestTicks>
-      <preferability>MealSimple</preferability> <!-- Reverted to MealSimple as per user request -->
+      <preferability>NeverForNutrition</preferability>
       <optimalityOffsetHumanlikes>-1000</optimalityOffsetHumanlikes>
       <optimalityOffsetFeedingAnimals>-1000</optimalityOffsetFeedingAnimals>
       <ingestEffect>EatVegetarian</ingestEffect>
