@@ -11,22 +11,23 @@
         </conditions>
         <effects>
           <li Class="WulaFallenEmpire.Effect_TriggerRaid">
-            <letterLabel>侦测到失控乌拉！</letterLabel>
-            <letterText>我们的传感器侦测到一伙来自 {FACTION_name} 的袭击者！他们看起来充满敌意，正朝着我们的殖民地前进。</letterText>
+            <letterLabel>来自乌拉帝国 大教堂的进攻</letterLabel>
+            <letterText>我们的传感器侦测到一伙来自乌拉帝国 大教堂的袭击者！他们看起来充满敌意，正朝着我们的殖民地前进。</letterText>
             <points>10000</points>
-            <faction>Wula_Broken_Personality_Faction</faction>
+            <faction>Wula_FE_Spiritualist_Faction</faction>
             <raidStrategy>ImmediateAttack</raidStrategy>
-            <raidArrivalMode>EdgeWalkIn</raidArrivalMode>
+            <raidArrivalMode>EdgeDrop</raidArrivalMode>
             <groupKind>Combat</groupKind>
             <pawnGroupMakers>
               <li>
                 <kindDef>Combat</kindDef>
                 <commonality>100</commonality>
                 <options>
-                  <Mech_WULA_Cat_Constructor>20</Mech_WULA_Cat_Constructor>
-                  <Mech_WULA_Cat_Assault>20</Mech_WULA_Cat_Assault>
-                  <Wula_Broken_Personality_Pawn_7>2</Wula_Broken_Personality_Pawn_7>
-                  <Wula_Broken_Personality_Pawn_5>1</Wula_Broken_Personality_Pawn_5>
+                  <Wula_FE_Spiritualist_Pawn_1>10</Wula_FE_Spiritualist_Pawn_1>
+                  <Wula_FE_Spiritualist_Pawn_2>3</Wula_FE_Spiritualist_Pawn_2>
+                  <Wula_FE_Spiritualist_Pawn_3>3</Wula_FE_Spiritualist_Pawn_3>
+                  <Wula_FE_Spiritualist_Pawn_4>1</Wula_FE_Spiritualist_Pawn_4>
+                  <Wula_Psi_Titan_PawnKind>1000</Wula_Psi_Titan_PawnKind>
                 </options>
               </li>
             </pawnGroupMakers>

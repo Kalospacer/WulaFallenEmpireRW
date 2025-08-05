@@ -326,7 +326,7 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
   </ThingDef>
-  <!-- 长枪 -->
+  <!-- 铳枪 -->
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>WULA_MW_Lance</defName>
     <label>CMl-28"铳枪"</label>
@@ -510,6 +510,7 @@
     <label>CMl-99"剑冢"</label>
     <description>乌拉帝国修女惯用的大型双头刀，装备了悬浮轴承、能量刃、惯性控制场和精密的传感器系统，让使用者能像舞蹈般挥舞两端的致命锋刃。</description>
     <weaponTags>
+      <li>Wula_Melee_Weapon_FE_Spiritualist</li>
       <li>Spear</li>
     </weaponTags>
     <graphicData>
@@ -996,8 +997,8 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>WULA_Bullet_StarDrift_Shotgun_Spear</defaultProjectile>
         <warmupTime>0.2</warmupTime>
-        <range>15</range>
-        <burstShotCount>1</burstShotCount>
+        <range>18</range>
+        <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
         <soundCast>ChargeLance_Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
@@ -1021,7 +1022,7 @@
     </projectile>
     <modExtensions>
 			<li Class="WulaFallenEmpire.ShotgunExtension">
-				<pelletCount>6</pelletCount>
+				<pelletCount>3</pelletCount>
 			</li>
 		</modExtensions>
   </ThingDef>
@@ -1068,7 +1069,7 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_ChargeRifle</defaultProjectile>
         <warmupTime>0.5</warmupTime>
-        <range>36.9</range>
+        <range>33.9</range>
         <burstShotCount>32</burstShotCount>
         <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
         <soundCast>Shot_ChargeRifle</soundCast>
@@ -1107,7 +1108,7 @@
       <AccuracyShort>0.03</AccuracyShort>
       <AccuracyMedium>0.03</AccuracyMedium>
       <AccuracyLong>0.02</AccuracyLong>
-      <RangedWeapon_Cooldown>4.0</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
       <Steel>500</Steel>
@@ -1119,8 +1120,8 @@
         <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Handle_Cannon</defaultProjectile>
-        <warmupTime>1.5</warmupTime>
-        <range>22</range>
+        <warmupTime>3</warmupTime>
+        <range>20</range>
         <soundCast>Shot_HellsphereCannonGun</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
@@ -1174,8 +1175,8 @@
     <projectile Class="WulaFallenEmpire.ProjectileProperties_ConfigurableHellsphereCannon">
       <damageDef>Vaporize</damageDef>
       <speed>75</speed>
-      <damageAmountBase>45</damageAmountBase>
-      <explosionRadius>1.5</explosionRadius>
+      <damageAmountBase>30</damageAmountBase>
+      <explosionRadius>2</explosionRadius>
       <screenShakeFactor>0.75</screenShakeFactor>
     </projectile>
     <modExtensions>
@@ -1311,8 +1312,8 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Auto_GL</defaultProjectile>
         <warmupTime>0.2</warmupTime>
-        <forcedMissRadius>1</forcedMissRadius>
-        <forcedMissRadiusClassicMortars>1</forcedMissRadiusClassicMortars>
+        <forcedMissRadius>4</forcedMissRadius>
+        <forcedMissRadiusClassicMortars>4</forcedMissRadiusClassicMortars>
         <isMortar>true</isMortar>
         <requireLineOfSight>false</requireLineOfSight>
         <minRange>4</minRange>
@@ -1336,104 +1337,6 @@
     </graphicData>
     <!-- <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass> -->
     <thingClass>Projectile_Explosive</thingClass>
-    <projectile>
-      <damageDef>Bomb</damageDef>
-      <damageAmountBase>25</damageAmountBase>
-      <speed>35</speed>
-      <explosionRadius>3.5</explosionRadius>
-      <armorPenetrationBase>0.1</armorPenetrationBase>
-      <flyOverhead>true</flyOverhead>
-      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
-      <soundExplode>MortarBomb_Explode</soundExplode>
-      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
-      <soundAmbient>MortarRound_Ambient</soundAmbient>
-    </projectile>
-  </ThingDef>
-  <!-- 测试导弹发射器 -->
-  <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_Test_Missile</defName>
-    <label>测试导弹武器</label>
-    <description></description>
-    <techLevel>Ultra</techLevel>
-    <tradeability>None</tradeability>
-    <!-- <techLevel>Spacer</techLevel> -->
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Auto_GL</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.65</drawSize>
-    </graphicData>
-    <weaponTags>
-      <li>Wula_Ranged_Weapon_T3</li>
-    </weaponTags>
-    <uiIconScale>0.75</uiIconScale>
-    <recipeMaker>
-      <!-- <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers> -->
-      <!-- <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite> -->
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <costList Inherit="False">
-      <Steel>380</Steel>
-      <Plasteel>60</Plasteel>
-      <ComponentSpacer>8</ComponentSpacer>
-    </costList>
-    <statBases>
-      <WorkToMake>40000</WorkToMake>
-      <Mass>20</Mass>
-      <AccuracyTouch>0.5</AccuracyTouch>
-      <AccuracyShort>0.5</AccuracyShort>
-      <AccuracyMedium>0.4</AccuracyMedium>
-      <AccuracyLong>0.3</AccuracyLong>
-      <RangedWeapon_Cooldown>6</RangedWeapon_Cooldown>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Test_Missile</defaultProjectile>
-        <warmupTime>0.2</warmupTime>
-        <burstShotCount>32</burstShotCount>
-        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
-        <isMortar>true</isMortar>
-        <requireLineOfSight>false</requireLineOfSight>
-        <minRange>4</minRange>
-        <range>48</range>
-        <soundCast>Mortar_LaunchA</soundCast>
-        <muzzleFlashScale>12</muzzleFlashScale>
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-        </targetParams>
-      </li>
-    </verbs>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Test_Missile</defName>
-    <label>测试导弹</label>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-    </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass>
-		<modExtensions>
-			<li Class="WulaFallenEmpire.CruiseMissileProperties">
-				<!-- 主爆炸参数 -->
-				<customDamageDef>Bomb</customDamageDef>
-				<customDamageAmount>25</customDamageAmount>
-				<customExplosionRadius>3.5</customExplosionRadius>
-				<customSoundExplode>MortarBomb_Explode</customSoundExplode>
-
-				<!-- 子爆炸系统 -->
-				<useSubExplosions>true</useSubExplosions>
-				<subExplosionCount>4</subExplosionCount>
-				<subExplosionRadius>1.5</subExplosionRadius>
-				<subExplosionDamage>10</subExplosionDamage>
-				<subExplosionSpread>6</subExplosionSpread>
-				<subDamageDef>Bomb</subDamageDef>
-				<subSoundExplode>MortarBomb_Explode</subSoundExplode>
-			</li>
-		</modExtensions>
     <projectile>
       <damageDef>Bomb</damageDef>
       <damageAmountBase>25</damageAmountBase>
@@ -1484,7 +1387,7 @@
       <AccuracyShort>1</AccuracyShort>
       <AccuracyMedium>1</AccuracyMedium>
       <AccuracyLong>1</AccuracyLong>
-      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.25</RangedWeapon_Cooldown>
     </statBases>
     <verbs>
       <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
@@ -1492,7 +1395,7 @@
 
         <!-- 基础射线参数 -->
         <hasStandardCommand>true</hasStandardCommand>
-        <warmupTime>0.3</warmupTime>
+        <warmupTime>1</warmupTime>
         <range>30</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
@@ -1583,7 +1486,7 @@
       <AccuracyShort>0.6</AccuracyShort>
       <AccuracyMedium>0.6</AccuracyMedium>
       <AccuracyLong>0.6</AccuracyLong>
-      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
     </statBases>
     <verbs>
       <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
@@ -1591,8 +1494,8 @@
 
         <!-- 基础射线参数 -->
         <hasStandardCommand>true</hasStandardCommand>
-        <warmupTime>0.3</warmupTime>
-        <range>24</range>
+        <warmupTime>1</warmupTime>
+        <range>22</range>
         <burstShotCount>12</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
         <beamDamageDef>Wula_Darm_Matter_Beam</beamDamageDef>
@@ -1742,7 +1645,7 @@
       <AccuracyShort>0.5</AccuracyShort>
       <AccuracyMedium>0.4</AccuracyMedium>
       <AccuracyLong>0.35</AccuracyLong>
-      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
     </statBases>
     <weaponTags>
       <li>WULA_AI_Heavy_Panzer_Gunner_Weapon</li>

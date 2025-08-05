@@ -39,6 +39,7 @@
     <abilities>
       <li>Wula_Psi_Control</li>
       <li>Wula_Psi_Explosive_Shock</li>
+      <li>Wula_Psi_LightningBombardment</li>
     </abilities>
   </PawnKindDef>
   <AbilityDef>
@@ -48,23 +49,28 @@
     <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Flash_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>True</showPsycastEffects>
-    <cooldownTicksRange>36000</cooldownTicksRange> <!-- 15 seconds -->
+    <cooldownTicksRange>24000</cooldownTicksRange> <!-- 15 seconds -->
     <charges>3</charges>
     <cooldownPerCharge>true</cooldownPerCharge>
+    <displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+    <targetRequired>False</targetRequired>
+    <aiCanUse>false</aiCanUse>
+    <!-- <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets> -->
     <statBases>
-      <Ability_EffectRadius>5</Ability_EffectRadius>
+      <Ability_EffectRadius>12</Ability_EffectRadius>
     </statBases>
     <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <defaultProjectile>Bullet_FleshmelterBolt</defaultProjectile>
-      <range>5</range>
+      <range>12</range>
       <drawAimPie>true</drawAimPie>
-      <warmupTime>0.5</warmupTime>
+      <warmupTime>1</warmupTime>
       <soundCast>Pawn_Revenant_Death</soundCast>
       <ai_IsWeapon>true</ai_IsWeapon>
       <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
-      <targetable>false</targetable>
+      <!-- <targetable>false</targetable> -->
       <targetParams>
         <canTargetSelf>true</canTargetSelf>
       </targetParams>
@@ -123,25 +129,31 @@
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <cooldownTicksRange>36000</cooldownTicksRange> <!-- 15 seconds -->
+    <charges>2</charges>
+    <cooldownPerCharge>true</cooldownPerCharge>
+    <displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+    <targetRequired>False</targetRequired>
+    <aiCanUse>true</aiCanUse>
+    <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
     <statBases>
-      <Ability_EffectRadius>3</Ability_EffectRadius>
-      <Ability_Duration>300</Ability_Duration>
+      <Ability_EffectRadius>15</Ability_EffectRadius>
+      <Ability_Duration>900</Ability_Duration>
     </statBases>
     <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <defaultProjectile>Bullet_FleshmelterBolt</defaultProjectile>
-      <range>15</range>
+      <range>21</range>
+      <minRange>4</minRange>
       <drawAimPie>true</drawAimPie>
       <warmupTime>0</warmupTime>
       <soundCast>AgonyPulse_Cast</soundCast>
-      <ai_IsWeapon>false</ai_IsWeapon>
+      <ai_IsWeapon>ture</ai_IsWeapon>
       <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
       
       <targetParams>
-        <canTargetLocations>true</canTargetLocations>
         <canTargetSelf>true</canTargetSelf>
-        <canTargetPawns>true</canTargetPawns>
       </targetParams>
     </verbProperties>
     <comps>
@@ -161,4 +173,148 @@
       </li>
     </comps>
   </AbilityDef>
+  <AbilityDef>
+    <defName>Wula_Psi_LightningBombardment</defName>
+    <label>乌拉帝国术式：化三风暴</label>
+    <description>以庞大的灵能能量形成一场非自然风暴，持续轰击目标区域，风暴的轰击会产生范围性灵能爆燃，对建筑物有额外的伤害。</description>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Explosive_Ability</iconPath>
+    <cooldownTicksRange>900</cooldownTicksRange>
+    <sendMessageOnCooldownComplete>true</sendMessageOnCooldownComplete>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <charges>3</charges>
+    <cooldownPerCharge>true</cooldownPerCharge>
+    <aiCanUse>true</aiCanUse>
+    <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <label>释放化三风暴</label>
+      <drawAimPie>true</drawAimPie>
+      <warmupTime>0.25</warmupTime>
+      <range>35.9</range>
+      <minRange>4</minRange>
+      <targetParams>
+        <canTargetPawns>True</canTargetPawns>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityDRM_LightningBombardment">
+        <impactAreaRadius>9</impactAreaRadius>
+        <explosionRadiusRange>3~4</explosionRadiusRange>
+        <bombIntervalTicks>25</bombIntervalTicks>
+        <explosionCount>20</explosionCount>
+
+        <damageDef>Wula_Psi_Bomb</damageDef>
+        <damageAmount>30</damageAmount>
+        <armorPenetration>3</armorPenetration>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <!-- 乌拉大教堂 -->
+  <PawnKindDef Name="Wula_FE_Spiritualist_Pawn_Base" Abstract="True">
+    <race>WulaSpeciesReal</race>
+    <defaultFactionDef>Wula_FE_Spiritualist_Faction</defaultFactionDef>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <invNutrition>1</invNutrition>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <techHediffsMoney>1250~1800</techHediffsMoney>
+    <gearHealthRange>1~1</gearHealthRange>
+    <itemQuality>Good</itemQuality>
+    <backstoryCryptosleepCommonality>0.08</backstoryCryptosleepCommonality>
+    <maxGenerationAge>50</maxGenerationAge>
+    <combatEnhancingDrugsChance>0</combatEnhancingDrugsChance>
+    <combatEnhancingDrugsCount>0</combatEnhancingDrugsCount>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
+    <gearHealthRange>1~2.3</gearHealthRange>
+    <initialWillRange>5~10</initialWillRange>
+    <apparelTags>
+      <li>Wula_Inner</li>
+    </apparelTags>
+    <apparelMoney>9999~9999</apparelMoney>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <weaponMoney>9999~9999</weaponMoney>
+    <techHediffsChance>1</techHediffsChance>
+    <inventoryOptions>
+      <skipChance>0</skipChance>
+      <subOptionsChooseOne>
+        <li>
+          <thingDef>MedicineUltratech</thingDef>
+          <countRange>3</countRange>
+        </li>
+        <li>
+          <thingDef>WULA_Soul_Wedge</thingDef>
+          <countRange>100</countRange>
+        </li>
+      </subOptionsChooseOne>
+    </inventoryOptions>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_FE_Spiritualist_Pawn_Base">
+    <defName>Wula_FE_Spiritualist_Pawn_1</defName>
+    <label>帝国修女</label>
+    <combatPower>350</combatPower>
+    <apparelTags>
+      <li>Wula_FE_Spiritualist_T1</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_FE_Spiritualist</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_FE_Spiritualist_Pawn_Base">
+    <defName>Wula_FE_Spiritualist_Pawn_2</defName>
+    <label>帝国护教军</label>
+    <combatPower>600</combatPower>
+    <apparelTags>
+      <li>Wula_FE_Spiritualist_T2</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T4</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_FE_Spiritualist_Pawn_Base">
+    <defName>Wula_FE_Spiritualist_Pawn_3</defName>
+    <label>帝国术士</label>
+    <combatPower>600</combatPower>
+    <apparelTags>
+      <li>Wula_FE_Spiritualist_T2</li>
+    </apparelTags>
+    <weaponTags>
+      <li>WULA_SP_Cotton_Counter_For_Enermy</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_FE_Spiritualist_Pawn_Base">
+    <defName>Wula_FE_Spiritualist_Pawn_4</defName>
+    <label>帝国神官</label>
+    <combatPower>1000</combatPower>
+    <apparelTags>
+      <li>Wula_FE_Spiritualist_T3</li>
+    </apparelTags>
+    <weaponTags>
+      <li>WULA_SP_Spear_Impale_For_Enermy</li>
+      <li>WULA_SP_Cotton_Counter_For_Enermy</li>
+    </weaponTags>
+    <initialResistanceRange>15~24</initialResistanceRange>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_FE_Spiritualist_Pawn_Base">
+    <defName>Wula_FE_Spiritualist_Leader</defName>
+    <label>星域主教</label>
+    <combatPower>1000</combatPower>
+    <apparelTags>
+      <li>Wula_FE_Spiritualist_T3</li>
+    </apparelTags>
+    <weaponTags>
+      <li>WULA_SP_Spear_Impale_For_Enermy</li>
+    </weaponTags>
+    <initialResistanceRange>99~99</initialResistanceRange>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+  </PawnKindDef>
 </Defs>

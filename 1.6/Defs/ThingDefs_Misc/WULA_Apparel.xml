@@ -492,6 +492,9 @@
       <texPath>Wula/Apparel/WULA_Nun_Uniform</texPath>
     </graphicData>
     <apparel>
+      <tags>
+        <li>Wula_FE_Spiritualist_T1</li>
+      </tags>
       <bodyPartGroups>
 				<li>Torso</li>
 				<li>Shoulders</li>
@@ -516,7 +519,7 @@
       <EnergyShieldEnergyMax>1.5</EnergyShieldEnergyMax>
     </statBases>
     <equippedStatOffsets>
-			<MeleeDodgeChance>5</MeleeDodgeChance>	
+			<MeleeDodgeChance>0.2</MeleeDodgeChance>	
       <MentalBreakThreshold>-0.1</MentalBreakThreshold>
     </equippedStatOffsets>
     <costStuffCount>200</costStuffCount>
@@ -593,6 +596,9 @@
       <li>Leathery</li>
     </stuffCategories>
     <apparel>
+      <tags>
+        <li>Wula_FE_Spiritualist_T1</li>
+      </tags>
       <countsAsClothingForNudity>false</countsAsClothingForNudity>
       <bodyPartGroups>
         <li>FullHead</li>
@@ -1410,7 +1416,7 @@
     </statBases>
     <equippedStatOffsets>
 			<MoveSpeed>-0.2</MoveSpeed>
-			<MeleeDodgeChance>5</MeleeDodgeChance>	
+			<MeleeDodgeChance>0.2</MeleeDodgeChance>	
 			<!-- <MoveSpeed>-0.5</MoveSpeed> -->
       <!-- <IncomingDamageFactor>-0.2</IncomingDamageFactor> -->
       <!-- <StaggerDurationFactor>-2</StaggerDurationFactor> -->

@@ -188,6 +188,9 @@
       <li>Surface</li>
       <!-- <li MayRequire="Ludeon.RimWorld.Odyssey">Orbit</li> -->
     </arrivalLayerWhitelist>
+    <backstoryCategories>
+      <li>Wula_Backstory_Categories_For_RealWula</li>
+    </backstoryCategories>
     <!-- 文化相关 -->
     <requiredMemes>
       <li MayRequire="Ludeon.RimWorld.Ideology">Supremacist</li>
@@ -225,15 +228,15 @@
     <colorSpectrum>
       <li>(0.85, 0.85, 0.75)</li>
     </colorSpectrum>
-    <!-- <fixedLeaderKinds>
+    <fixedLeaderKinds>
       <li>Wula_FE_Spiritualist_Leader</li>
-    </fixedLeaderKinds> -->
-    <!-- <baseTraderKinds>
+    </fixedLeaderKinds>
+    <baseTraderKinds>
       <li>Base_Empire_Standard</li>
-    </baseTraderKinds> -->
-    <!-- <caravanTraderKinds>
+    </baseTraderKinds>
+    <caravanTraderKinds>
       <li>Empire_Caravan_TraderGeneral</li>
-    </caravanTraderKinds> -->
+    </caravanTraderKinds>
     <raidCommonalityFromPointsCurve>
       <points>
         <li>(0, 1)</li> <!--Constant 1 at all points levels-->
@@ -253,10 +256,62 @@
         <!-- Base defense, mainly ranged with melee mix-ins -->
         <kindDef>Settlement</kindDef>
         <options>
-          <Empire_Fighter_Trooper>5</Empire_Fighter_Trooper>
-          <Empire_Fighter_Janissary>3.5</Empire_Fighter_Janissary>
-          <Empire_Fighter_Cataphract>2</Empire_Fighter_Cataphract>
-          <Empire_Fighter_Champion>4</Empire_Fighter_Champion>
+          <Wula_FE_Spiritualist_Pawn_1>10</Wula_FE_Spiritualist_Pawn_1>
+          <Wula_FE_Spiritualist_Pawn_2>3</Wula_FE_Spiritualist_Pawn_2>
+          <Wula_FE_Spiritualist_Pawn_3>3</Wula_FE_Spiritualist_Pawn_3>
+          <Wula_FE_Spiritualist_Pawn_4>1</Wula_FE_Spiritualist_Pawn_4>
+        </options>
+      </li>
+      <li>
+        <!-- Peaceful -->
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <Wula_FE_Spiritualist_Pawn_1>10</Wula_FE_Spiritualist_Pawn_1>
+          <Wula_FE_Spiritualist_Pawn_2>3</Wula_FE_Spiritualist_Pawn_2>
+          <Wula_FE_Spiritualist_Pawn_3>3</Wula_FE_Spiritualist_Pawn_3>
+          <Wula_FE_Spiritualist_Pawn_4>1</Wula_FE_Spiritualist_Pawn_4>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <Wula_FE_Spiritualist_Pawn_4>1</Wula_FE_Spiritualist_Pawn_4>
+        </traders>
+        <carriers>
+          <Mech_WULA_Cat>2</Mech_WULA_Cat>
+        </carriers>
+        <guards>
+          <Wula_FE_Spiritualist_Pawn_1>2</Wula_FE_Spiritualist_Pawn_1>
+          <Wula_FE_Spiritualist_Pawn_2>1</Wula_FE_Spiritualist_Pawn_2>
+          <Wula_FE_Spiritualist_Pawn_3>1</Wula_FE_Spiritualist_Pawn_3>
+        </guards>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Miners</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <Mech_WULA_Cat_Constructor>1</Mech_WULA_Cat_Constructor>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Hunters</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <Mech_WULA_Cat_Assault>1</Mech_WULA_Cat_Assault>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Loggers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <Mech_WULA_Cat>1</Mech_WULA_Cat>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Farmers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <Mech_WULA_Cat>1</Mech_WULA_Cat>
         </options>
       </li>
     </pawnGroupMakers>

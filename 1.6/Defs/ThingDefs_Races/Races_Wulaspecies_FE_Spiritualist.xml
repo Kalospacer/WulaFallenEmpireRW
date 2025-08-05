@@ -61,7 +61,7 @@
       <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
       <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
       <li Class="CompProperties_ProjectileInterceptor">
-        <radius>7</radius>
+        <radius>4</radius>
         <interceptGroundProjectiles>true</interceptGroundProjectiles>
         <color>(0.5, 0.3, 0.9)</color>
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
@@ -83,6 +83,7 @@
         <maxDistanceToBlink>40</maxDistanceToBlink>
         <minDistanceToBlink>4</minDistanceToBlink>
         <postBlinkStanceTicks>0</postBlinkStanceTicks>
+        <playerFactionOnly>false</playerFactionOnly>
         <excludedJobDefs>
           <li>GotoWander</li>
           <li>Carried</li>

@@ -11,6 +11,7 @@
     <apparel>
       <tags>
         <li>RoyalTier6</li>
+        <li>Wula_FE_Spiritualist_T3</li>
       </tags>
       <bodyPartGroups>
 				<li>Torso</li>
@@ -40,7 +41,7 @@
     </statBases>
     <equippedStatOffsets>
       <PsychicSensitivity>1</PsychicSensitivity>
-			<MeleeDodgeChance>50</MeleeDodgeChance>	
+			<MeleeDodgeChance>0.5</MeleeDodgeChance>	
       <MentalBreakThreshold>-0.25</MentalBreakThreshold>
     </equippedStatOffsets>
     <tradeability>None</tradeability>
@@ -118,6 +119,7 @@
     <apparel>
       <tags>
         <li>RoyalTier6</li>
+        <li>Wula_FE_Spiritualist_T3</li>
       </tags>
       <countsAsClothingForNudity>false</countsAsClothingForNudity>
       <bodyPartGroups>
@@ -197,7 +199,7 @@
     </costList>
     <apparel>
       <tags>
-        <li>Wula_Armor_Medium</li>
+        <li>Wula_FE_Spiritualist_T2</li>
       </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Skitarii_Uniform</wornGraphicPath>
     </apparel>
@@ -258,7 +260,7 @@
     </equippedStatOffsets>
     <apparel>
       <tags>
-        <li>Wula_Armor_Medium</li>
+        <li>Wula_FE_Spiritualist_T2</li>
       </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Skitarii_veil</wornGraphicPath>
     </apparel>

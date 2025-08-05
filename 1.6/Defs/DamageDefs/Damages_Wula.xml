@@ -95,8 +95,8 @@
     <defaultArmorPenetration>1.5</defaultArmorPenetration>
     <hediff>Burn</hediff>
     <armorCategory>Heat</armorCategory>
-    <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
-    <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
+    <buildingDamageFactorImpassable>2</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>2</buildingDamageFactorPassable>
     <soundExplosion>Pawn_Revenant_StartledScream</soundExplosion>
     <additionalHediffs>
       <li>

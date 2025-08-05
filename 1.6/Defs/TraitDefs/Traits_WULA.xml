@@ -101,8 +101,11 @@
         <label>外交官</label>
         <description>乌拉帝国的外交官被称为传谕使，她们彬彬有礼的礼节中也无法掩盖属于堕落帝国的傲慢与目中无人。</description>
         <statFactors>
-          <SocialImpact>1</SocialImpact>
+          <SocialImpact>2</SocialImpact>
         </statFactors>
+        <statOffsets>
+          <PawnBeauty>2</PawnBeauty>
+        </statOffsets>
       </li>
     </degreeDatas>
   </TraitDef>
