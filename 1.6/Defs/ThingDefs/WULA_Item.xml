@@ -39,7 +39,7 @@
       <defaultNumToIngestAtOnce>1</defaultNumToIngestAtOnce>
       <optimalityOffsetHumanlikes>16</optimalityOffsetHumanlikes>
       <baseIngestTicks>270</baseIngestTicks>
-      <preferability>MealSimple</preferability> <!-- Reverted to MealSimple as per user request -->
+      <preferability>NeverForNutrition</preferability>
       <optimalityOffsetHumanlikes>-1000</optimalityOffsetHumanlikes>
       <optimalityOffsetFeedingAnimals>-1000</optimalityOffsetFeedingAnimals>
       <ingestEffect>EatVegetarian</ingestEffect>
