@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ResearchProjectDef Abstract="True" Name="WULAtechBase">
+    <techLevel>Archotech</techLevel>
+    <tab>WULA_FE_Spiritualist_ResearchTab</tab>
+    <heldByFactionCategoryTags>
+      <li>Wula_FE_Spiritualist_Faction</li>
+    </heldByFactionCategoryTags>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_FE_Spiritualist_Base_Technology</defName>
+    <label>帝国仪式</label>
+    <description>若要开启乌拉帝国灵能科技树的大门，掌握基础的仪式技能是必要的。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>0.00</researchViewX>
+    <researchViewY>3.20</researchViewY>
+    <prerequisites>
+      <li>WULA_Dark_Matter_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+</Defs>

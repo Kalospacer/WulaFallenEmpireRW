@@ -60,6 +60,9 @@
     <weaponTags>
       <li>Wula_Weapon_Init</li>
     </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Base_AR</defName>
@@ -111,6 +114,9 @@
     <weaponTags>
       <li>Wula_Weapon_Init</li>
     </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>WULA_MW_Constructor_Hammer</defName>
@@ -269,6 +275,9 @@
       <displayPriority>450</displayPriority>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <!-- 动力钉头锤 -->
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
@@ -325,6 +334,9 @@
       <displayPriority>450</displayPriority>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <!-- 铳枪 -->
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
@@ -412,6 +424,9 @@
         <muzzleFlashScale>6</muzzleFlashScale>
       </li>
     </verbs>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_MW_Lance</defName>
@@ -503,6 +518,9 @@
     <weaponTags>
       <li>Wula_Melee_Weapon_T2</li>
     </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <!-- 双头刀 -->
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
@@ -565,295 +583,10 @@
     <weaponTags>
       <li>Wula_Melee_Weapon_T2</li>
     </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
-
-  <!-- 法杖 -->
-  <ThingDef ParentName="BaseMeleeWeapon_Blunt">
-    <defName>WULA_MW_Scepter_Of_Heaven</defName>
-    <label>APs-82"天之杖"</label>
-    <description>乌拉帝国修女所持武器，可以使用魂锲作为充能媒介施展灵能法术，将任意人员折跃到地图上的任意地点。</description>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Heaven</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.3</drawSize>
-    </graphicData>
-    <relicChance>0</relicChance>
-    <uiIconScale>1.1</uiIconScale>
-    <descriptionHyperlinks>
-      <ThingDef>WULA_Soul_Wedge</ThingDef>
-    </descriptionHyperlinks>
-    <techLevel>Ultra</techLevel>
-    <statBases>
-      <WorkToMake>10000</WorkToMake>
-      <Mass>2</Mass>
-    </statBases>
-    <costList>
-      <WULA_Soul_Wedge>20</WULA_Soul_Wedge>
-      <Steel>50</Steel>
-    </costList>
-    <equippedAngleOffset>-65</equippedAngleOffset>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Psi_2_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <tools>
-      <li>
-        <label>棍柄</label>
-        <capacities>
-          <li>Poke</li>
-        </capacities>
-        <power>9</power>
-        <cooldownTime>1</cooldownTime>
-        <chanceFactor>0.5</chanceFactor>
-      </li>
-    </tools>
-
-    <comps Inherit="False">
-      <li Class="CompProperties_Forbiddable"/>
-      <li Class="CompProperties_EquippableAbilityReloadable">
-        <abilityDef>WULA_Scepter_Of_Heaven_Ability</abilityDef>
-        <maxCharges>3</maxCharges>
-        <soundReload>AnomalyAbilityWarmup</soundReload>
-        <chargeNoun>魂锲</chargeNoun>
-        <ammoDef>WULA_Soul_Wedge</ammoDef>
-        <ammoCountPerCharge>5</ammoCountPerCharge>
-        <baseReloadTicks>60</baseReloadTicks>
-      </li>
-    </comps>
-  </ThingDef>
-  <AbilityDef>
-    <defName>WULA_Scepter_Of_Heaven_Ability</defName>
-    <label>天之杖：折跃</label> <!-- non-player facing -->
-    <iconPath>Wula/UI/Abilities/WULA_Scepter_Of_Heaven_Ability</iconPath>
-    <category>Skip</category>
-    <description>选择任意目标，然后选择地图内的一个位置将其传送过去，至多只能传送10体型大小的目标。</description> <!-- non-player facing -->
-    <showPsycastEffects>false</showPsycastEffects>
-    <!-- <cooldownTicksRange>180~480</cooldownTicksRange> -->
-    <aiCanUse>true</aiCanUse>
-    <showOnCharacterCard>false</showOnCharacterCard>
-    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
-    <statBases>
-      <Ability_EntropyGain>0</Ability_EntropyGain>
-      <Ability_PsyfocusCost>-1</Ability_PsyfocusCost>
-    </statBases>
-    <verbProperties>
-      <verbClass>Verb_EntitySkip</verbClass>
-      <drawAimPie>false</drawAimPie>
-      <warmupTime>0</warmupTime>
-      <range>30</range>
-      <ai_IsWeapon>false</ai_IsWeapon>
-      <targetParams>
-        <canTargetSelf>True</canTargetSelf>
-      </targetParams>
-    </verbProperties>
-    <comps>
-      <li Class="CompProperties_AbilityTeleport">
-        <compClass>CompAbilityEffect_Teleport</compClass>
-        <destination>Selected</destination>
-        <requiresLineOfSight>false</requiresLineOfSight>
-        <psychic>True</psychic>
-        <range>80</range>
-        <clamorType>Ability</clamorType>
-        <clamorRadius>10</clamorRadius>
-        <destClamorType>Ability</destClamorType>
-        <destClamorRadius>10</destClamorRadius>
-        <maxBodySize>10</maxBodySize>
-      </li>
-    </comps>
-  </AbilityDef>
-  <ThingDef ParentName="BaseMeleeWeapon_Blunt">
-    <defName>WULA_MW_Scepter_Of_Perception</defName>
-    <label>APs-97"智之杖"</label>
-    <description>乌拉帝国修女所持武器，可以使用魂锲作为充能媒介施展灵能法术，为其他殖民者提供随机灵感。</description>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Perception</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.3</drawSize>
-    </graphicData>
-    <uiIconScale>1.1</uiIconScale>
-    <relicChance>0</relicChance>
-    <descriptionHyperlinks>
-      <ThingDef>WULA_Soul_Wedge</ThingDef>
-    </descriptionHyperlinks>
-    <techLevel>Ultra</techLevel>
-    <statBases>
-      <WorkToMake>10000</WorkToMake>
-      <Mass>2</Mass>
-    </statBases>
-    <costList>
-      <WULA_Soul_Wedge>20</WULA_Soul_Wedge>
-      <Steel>50</Steel>
-    </costList>
-    <equippedAngleOffset>-65</equippedAngleOffset>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Psi_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <tools>
-      <li>
-        <label>棍柄</label>
-        <capacities>
-          <li>Poke</li>
-        </capacities>
-        <power>9</power>
-        <cooldownTime>1</cooldownTime>
-        <chanceFactor>0.5</chanceFactor>
-      </li>
-    </tools>
-
-    <comps Inherit="False">
-      <li Class="CompProperties_Forbiddable"/>
-      <li Class="CompProperties_EquippableAbilityReloadable">
-        <abilityDef>WULA_MW_Scepter_Of_Perception_Ability</abilityDef>
-        <maxCharges>2</maxCharges>
-        <soundReload>AnomalyAbilityWarmup</soundReload>
-        <chargeNoun>魂锲</chargeNoun>
-        <ammoDef>WULA_Soul_Wedge</ammoDef>
-        <ammoCountPerCharge>30</ammoCountPerCharge>
-        <baseReloadTicks>60</baseReloadTicks>
-      </li>
-    </comps>
-  </ThingDef>
-  <AbilityDef ParentName="PsycastBase">
-    <defName>WULA_MW_Scepter_Of_Perception_Ability</defName>
-    <label>智之杖：拔擢</label>
-    <description>以魂楔为媒介传递灵能，加速目标思维。目标将获得一个适合的随机灵感。</description>
-    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Perception_Ability</iconPath>
-    <showPsycastEffects>false</showPsycastEffects>
-    <level>-1</level>
-    <!-- <cooldownTicksRange>180~480</cooldownTicksRange> -->
-    <aiCanUse>true</aiCanUse>
-    <showOnCharacterCard>false</showOnCharacterCard>
-    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
-    <verbProperties>
-      <warmupTime>2</warmupTime>
-      <targetParams>
-        <onlyTargetColonists>True</onlyTargetColonists>
-      </targetParams>
-    </verbProperties>
-    <statBases>
-      <Ability_EntropyGain>0</Ability_EntropyGain>
-      <Ability_PsyfocusCost>-1</Ability_PsyfocusCost>
-    </statBases>
-    <comps>
-      <li Class="CompProperties_AbilityGiveInspiration">
-        <canTargetBaby>False</canTargetBaby>
-        <psychic>True</psychic>
-      </li> 
-      <li Class="CompProperties_AbilitySocialInteraction">
-        <interactionDef>WordOfInspiration</interactionDef>
-      </li>
-    </comps>
-  </AbilityDef>
-  <ThingDef ParentName="BaseMeleeWeapon_Blunt">
-    <defName>WULA_MW_Scepter_Of_Lost</defName>
-    <label>APs-00"惘之杖"</label>
-    <description>乌拉帝国修女所持武器，可以使用魂锲作为充能媒介施展灵能法术，使小范围内的敌人陷入心灵冲击状态，从而失去战斗力。由于释放距离相当近，这种法杖被特地设计为短矛的样式，以在不使用法术的情况下对抗眼前的敌人。</description>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Lost</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.3</drawSize>
-    </graphicData>
-    <uiIconScale>1.1</uiIconScale>
-    <relicChance>0</relicChance>
-    <weaponTags>
-      <li>Spear</li>
-    </weaponTags>
-    <descriptionHyperlinks>
-      <ThingDef>WULA_Soul_Wedge</ThingDef>
-    </descriptionHyperlinks>
-    <techLevel>Ultra</techLevel>
-    <statBases>
-      <WorkToMake>10000</WorkToMake>
-      <Mass>2</Mass>
-    </statBases>
-    <costList>
-      <WULA_Soul_Wedge>20</WULA_Soul_Wedge>
-      <Steel>50</Steel>
-    </costList>
-    <equippedAngleOffset>-65</equippedAngleOffset>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Psi_2_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <tools>
-      <li>
-        <label>挥砍</label>
-        <capacities>
-          <li>Cut</li>
-        </capacities>
-        <power>18</power>
-        <cooldownTime>2</cooldownTime>
-      </li>
-      <li>
-        <label>直刺</label>
-        <capacities>
-          <li>Poke</li>
-        </capacities>
-        <power>25</power>
-        <cooldownTime>2.25</cooldownTime>
-      </li>
-    </tools>
-
-    <comps Inherit="False">
-      <li Class="CompProperties_Forbiddable"/>
-      <li Class="CompProperties_EquippableAbilityReloadable">
-        <abilityDef>WULA_MW_Scepter_Of_Lost_Ability</abilityDef>
-        <maxCharges>1</maxCharges>
-        <soundReload>AnomalyAbilityWarmup</soundReload>
-        <chargeNoun>魂锲</chargeNoun>
-        <ammoDef>WULA_Soul_Wedge</ammoDef>
-        <ammoCountPerCharge>5</ammoCountPerCharge>
-        <baseReloadTicks>60</baseReloadTicks>
-      </li>
-    </comps>
-  </ThingDef>
-  <AbilityDef ParentName="PsycastBase">
-    <defName>WULA_MW_Scepter_Of_Lost_Ability</defName>
-    <label>惘之杖：失能</label>
-    <description>使一小片范围内的生物直接陷入心灵冲击状态，从而失去战斗力。</description>
-    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Lost_Ability</iconPath>
-    <writeCombatLog>True</writeCombatLog>
-    <level>-1</level>
-    <statBases>
-      <Ability_EntropyGain>0</Ability_EntropyGain>
-      <Ability_PsyfocusCost>-1</Ability_PsyfocusCost>
-      <Ability_Duration>1500</Ability_Duration>
-      <Ability_EffectRadius>1.1</Ability_EffectRadius>
-    </statBases>
-    <verbProperties>
-      <warmupTime>5</warmupTime>
-      <range>14</range>
-      
-      <targetParams>
-        <canTargetLocations>true</canTargetLocations>
-        <canTargetSelf>false</canTargetSelf>
-        <canTargetPawns>true</canTargetPawns>
-      </targetParams>
-    </verbProperties>
-    <comps>
-      <li Class = "CompProperties_AbilityGiveHediff">
-        <compClass>CompAbilityEffect_GiveHediff</compClass>
-        <hediffDef>PsychicShock</hediffDef>
-        <durationMultiplier>PsychicSensitivity</durationMultiplier>
-        <psychic>True</psychic>
-        <goodwillImpact>-15</goodwillImpact>
-        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
-      </li>
-      <li Class="CompProperties_AbilityFleckOnTarget">
-        <fleckDef>PsycastPsychicEffect</fleckDef>
-      </li>
-    </comps>
-  </AbilityDef>
 
   <!-- 乌拉帝国镇爆枪 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
@@ -953,6 +686,9 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
 
   <!-- 乌拉帝国霰弹枪 -->
@@ -1005,6 +741,9 @@
         <muzzleFlashScale>7</muzzleFlashScale>
       </li>
     </verbs>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>WULA_Bullet_StarDrift_Shotgun_Spear</defName>
@@ -1077,6 +816,9 @@
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
     </verbs>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
 
   <!-- 手持火炮 -->
@@ -1160,6 +902,9 @@
     <comps>
       <li Class="CompProperties_Biocodable"/>
     </comps>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Handle_Cannon</defName>
@@ -1243,6 +988,9 @@
         </targetParams>
       </li>
     </verbs>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_AutoCannon</defName>
@@ -1325,6 +1073,9 @@
         </targetParams>
       </li>
     </verbs>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Auto_GL</defName>
@@ -1448,6 +1199,9 @@
       </li>
     </verbs>
     <tradeability>None</tradeability>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <!-- 暗物质炮 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
@@ -1552,6 +1306,9 @@
       </li>
     </verbs>
     <tradeability>None</tradeability>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   
 

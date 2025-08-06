@@ -6,6 +6,7 @@
     <description>这是乌拉星人所创造的最强大的进攻术式，来源于乌拉星人的泰坦和旗舰。这种术式发射的纯净灵能能量能绕过几乎所有防御，在敌人的集群中连续弹跳，瞬间烧穿无信之徒的可悲躯体。\n\n为法杖同时携带了一个需要魂楔充能的进攻型技，可以从很远的地方发射灵能射弹轰炸目标区域。</description>
     <techLevel>Archotech</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
+    <relicChance>0</relicChance>
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Explosive</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -97,6 +98,9 @@
 			</li>
     </comps>
     <tradeability>None</tradeability>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <AbilityDef>
     <defName>WULA_MW_Scepter_Of_Explosive_Ability</defName>
@@ -199,6 +203,7 @@
     <description>这是乌拉星人在舰船上用于反制敌方飞行器和导弹的特殊术式，核心在于高爆发性高追踪性的输出，通过快速吟唱汇聚的灵能能量使对方迅速失能。\n\n法杖同时携带了一个需要魂楔充能的辅助型技能，允许将自身遮蔽起来以进入隐身状态。</description>
     <techLevel>Archotech</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
+    <relicChance>0</relicChance>
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Scepter_Of_CLoak</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -282,6 +287,9 @@
 			</li>
     </comps>
     <tradeability>None</tradeability>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <AbilityDef>
     <defName>WULA_MW_Scepter_Of_CLoak_Ability</defName>
@@ -377,6 +385,7 @@
     <description>这是乌拉星人用于救治伤者的法术，可以使用灵能诱发伤口以非常规的方式快速愈合，并且效果会在友方个体间弹跳。\n\n法杖同时携带了一个需要魂楔充能的生产型技能，可以为大范围内的所有殖民者和机械体提供持续数天的额外移动速度和工作速度。</description>
     <techLevel>Archotech</techLevel>
     <!-- <techLevel>Spacer</techLevel> -->
+    <relicChance>0</relicChance>
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Feather</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -454,6 +463,9 @@
 			</li>
     </comps>
     <tradeability>None</tradeability>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="MoteBase">
     <defName>WULA_SP_Live_Shelter_ArcBeam</defName>
@@ -542,6 +554,160 @@
       </li>
     </comps>
   </HediffDef>
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_SP_Mist_Incinerator</defName>
+    <label>灰烬焚烧术式</label>
+    <description>乌拉星人所使用的压制性术式，能够在短时间的吟唱后喷出大量由灵能能量构成的火焰，这种击穿灵魂的火焰可以无视敌人的护甲，点燃敌人的躯体。\n\n法杖同时携带了一个需要魂楔充能的控制型技能，使小范围内的敌人陷入心灵冲击状态，从而失去战斗力。</description>
+    <relicChance>0</relicChance>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_Heaven</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.3</drawSize>
+    </graphicData>
+    <uiIconPath>Wula/Weapon/WULA_SP_Mist_Incinerator</uiIconPath>
+    <techLevel>Archotech</techLevel>
+    <soundInteract>Metal_Drop</soundInteract>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Soul_Wedge</ThingDef>
+    </descriptionHyperlinks>
+    <weaponTags>
+      <li>Wula_Spell_Weapon_T1</li>
+    </weaponTags>
+    <useHitPoints>False</useHitPoints>
+    <statBases>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Flammability>0</Flammability>
+      <WorkToMake>30000</WorkToMake>
+      <Mass>0</Mass>
+      <!-- <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>1</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong> -->
+      <RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <WULA_Soul_Wedge>2000</WULA_Soul_Wedge>
+      <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
+    </costList>
+    <recipeMaker>
+      <recipeUsers Inherit="False"/>
+    </recipeMaker>
+    <verbs>
+      <li>
+        <verbClass>Verb_ArcSprayIncinerator</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>0.5</warmupTime>
+        <range>22.9</range>
+        <minRange>5.9</minRange>
+        <beamFullWidthRange>11</beamFullWidthRange>
+        <burstShotCount>20</burstShotCount>
+        <showBurstShotStats>false</showBurstShotStats>
+        <requireLineOfSight>true</requireLineOfSight>
+        <beamWidth>6</beamWidth>
+        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <beamDamageDef>Wula_Psi_Damage</beamDamageDef>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <soundCastBeam>Flamethrower_Firing</soundCastBeam>
+        <beamGroundFleckDef>Fleck_IncineratorBeamBurn</beamGroundFleckDef>
+        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
+        <beamMaxDeviation>0.5</beamMaxDeviation>
+        <beamCurvature>0</beamCurvature>
+        <beamEndEffecterDef>IncineratorBeam_End</beamEndEffecterDef> 
+        <beamChanceToStartFire>0.85</beamChanceToStartFire>
+        <beamFireSizeRange>0.55~0.85</beamFireSizeRange>
+        <beamStartOffset>.5</beamStartOffset>
+        <beamHitsNeighborCells>true</beamHitsNeighborCells>
+        <beamCantHitWithinMinRange>true</beamCantHitWithinMinRange>
+        <beamHitsNeighborCellsRequiresLOS>true</beamHitsNeighborCellsRequiresLOS>
+        <beamSetsGroundOnFire>true</beamSetsGroundOnFire>
+        <ai_BeamIsIncendiary>true</ai_BeamIsIncendiary>
+        <beamLineFleckDef>Fleck_IncineratorBeamSmoke</beamLineFleckDef>
+        <highlightColor>(58, 225, 225)</highlightColor>
+        <secondaryHighlightColor>(102, 200, 200)</secondaryHighlightColor>
+        <beamLineFleckChanceCurve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.65, 0.02)</li>
+            <li>(1, .5)</li>
+          </points>
+        </beamLineFleckChanceCurve>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <flammabilityAttachFireChanceCurve>
+          <points>
+            <li>(0.6, 0)</li>
+            <li>(0.7, 0.2)</li>
+            <li>(1.2, 0.8)</li>
+          </points>
+        </flammabilityAttachFireChanceCurve>
+        <rangedFireRulepack>Combat_RangedFlamethrower</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_EquippableAbilityReloadable">
+        <abilityDef>WULA_MW_Scepter_Of_Lost_Ability</abilityDef>
+        <maxCharges>1</maxCharges>
+        <soundReload>AnomalyAbilityWarmup</soundReload>
+        <chargeNoun>魂锲</chargeNoun>
+        <ammoDef>WULA_Soul_Wedge</ammoDef>
+        <ammoCountPerCharge>10</ammoCountPerCharge>
+        <baseReloadTicks>60</baseReloadTicks>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+				<forcedTraits>
+					<li>WULA_DamagePsychicScaling</li>
+					<li>WULA_ExtraPsychicSkill</li>
+				</forcedTraits>
+				<numTraitsRange>
+					<min>2</min>
+					<max>2</max>
+				</numTraitsRange>
+			</li>
+    </comps>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+  </ThingDef>
+  <AbilityDef ParentName="PsycastBase">
+    <defName>WULA_MW_Scepter_Of_Lost_Ability</defName>
+    <label>惘之杖：失能</label>
+    <description>使一小片范围内的生物直接陷入心灵冲击状态，从而失去战斗力。</description>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Lost_Ability</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <level>-1</level>
+    <statBases>
+      <Ability_EntropyGain>0</Ability_EntropyGain>
+      <Ability_PsyfocusCost>-1</Ability_PsyfocusCost>
+      <Ability_Duration>1500</Ability_Duration>
+      <Ability_EffectRadius>1.1</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>5</warmupTime>
+      <range>14</range>
+      
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetPawns>true</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicShock</hediffDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>True</psychic>
+        <goodwillImpact>-15</goodwillImpact>
+        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+    </comps>
+  </AbilityDef>
 
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Photon_Missile</defName>
