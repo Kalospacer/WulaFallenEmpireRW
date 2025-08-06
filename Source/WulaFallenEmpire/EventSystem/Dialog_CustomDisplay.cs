@@ -84,6 +84,9 @@ namespace WulaFallenEmpire
             }
             
             HandleAction(def.immediateEffects);
+            
+            // Format the description AFTER immediate effects have run
+            selectedDescription = FormatDescription(selectedDescription);
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -256,5 +259,14 @@ namespace WulaFallenEmpire
             base.PostClose();
             HandleAction(def.dismissEffects);
         }
+       private string FormatDescription(string description)
+       {
+           var variables = EventContext.GetAllVariables();
+           foreach (var variable in variables)
+           {
+               description = description.Replace("{" + variable.Key + "}", variable.Value.ToString());
+           }
+           return description;
+       }
     }
 }

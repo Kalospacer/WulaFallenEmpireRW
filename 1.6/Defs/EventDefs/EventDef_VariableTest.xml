@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Test_VariableEvent</defName>
+    <label>变量测试事件</label>
+    <characterName>测试员</characterName>
+    <portraitPath>Textures/Wula/Events/Portraits/Wula_Leader</portraitPath>
+    
+    <immediateEffects>
+      <li>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>testNumber</name>
+            <value>100</value>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
+
+    <descriptions>
+      <li>变量 testNumber 的当前值为 {testNumber}。点击下面的按钮来改变它。</li>
+    </descriptions>
+
+    <options>
+      <li>
+        <label>将 testNumber 增加50并重新打开</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>testNumber</name>
+                <operation>Add</operation>
+                <value>50</value>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Test_VariableEvent</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>关闭</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+
+</Defs>

@@ -48,6 +48,11 @@ namespace WulaFallenEmpire
             return variables.ContainsKey(name);
         }
 
+        public static Dictionary<string, object> GetAllVariables()
+        {
+            return new Dictionary<string, object>(variables);
+        }
+
         public static void Clear()
         {
             variables.Clear();
