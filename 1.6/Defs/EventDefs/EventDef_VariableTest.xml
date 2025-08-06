@@ -36,6 +36,7 @@
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
               <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
                 <defName>Wula_Test_VariableEvent</defName>
+                <delayTicks>180</delayTicks> <!-- 3 seconds -->
               </li>
             </effects>
           </li>

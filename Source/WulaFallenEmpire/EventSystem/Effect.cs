@@ -15,8 +15,29 @@ namespace WulaFallenEmpire
     public class Effect_OpenCustomUI : Effect
     {
         public string defName;
+        public int delayTicks = 0;
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
+        {
+            if (delayTicks > 0)
+            {
+                var actionManager = Find.World.GetComponent<DelayedActionManager>();
+                if (actionManager != null)
+                {
+                    actionManager.AddAction(() => OpenUI(), delayTicks);
+                }
+                else
+                {
+                    Log.Error("[WulaFallenEmpire] DelayedActionManager not found. Cannot schedule delayed UI opening.");
+                }
+            }
+            else
+            {
+                OpenUI();
+            }
+        }
+
+        private void OpenUI()
         {
             EventDef nextDef = DefDatabase<EventDef>.GetNamed(defName);
             if (nextDef != null)
