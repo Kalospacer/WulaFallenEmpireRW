@@ -51,7 +51,7 @@
       <li>Leathery</li>
     </stuffCategories>
     <recipeMaker>
-      <!-- <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite> -->
+      <researchPrerequisite>WULA_FE_Spiritualist_Cloth2_Technology</researchPrerequisite>
       <skillRequirements>
         <Crafting>15</Crafting>
       </skillRequirements>
@@ -91,7 +91,7 @@
     <description>乌拉帝国神官的配套帽子，能像服装那样强化使用者的心灵敏感度并支起一个灵能护盾，它的体积比神官制服的护盾稍小，以形成第二道防线。</description>
     <tickerType>Normal</tickerType>
     <recipeMaker>
-      <!-- <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite> -->
+      <researchPrerequisite>WULA_FE_Spiritualist_Cloth2_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
@@ -169,7 +169,7 @@
     <label>乌拉帝国护教军装甲</label>
     <description>乌拉帝国护教军所穿戴的轻型装甲，并在外表覆以教袍掩盖装甲部分。它能支起一个较小的灵能盾，并通过埋藏的一系列的灵能触媒强化穿戴者的灵能能力。</description>
     <recipeMaker>
-      <!-- <researchPrerequisite>WULA_Synth_Armor_Technology</researchPrerequisite> -->
+      <researchPrerequisite>WULA_FE_Spiritualist_Cloth_Technology</researchPrerequisite>
       <skillRequirements>
         <Crafting>7</Crafting>
       </skillRequirements>
@@ -240,7 +240,7 @@
       <skillRequirements>
         <Crafting>7</Crafting>
       </skillRequirements>
-      <researchPrerequisite>WULA_Synth_Armor_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_FE_Spiritualist_Cloth_Technology</researchPrerequisite>
     </recipeMaker>
     <graphicData>
       <texPath>Wula/Apparel/WULA_Skitarii_veil</texPath>

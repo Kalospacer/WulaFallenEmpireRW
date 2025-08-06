@@ -6,7 +6,7 @@
     <description>使用镌刻法术创造一把携带了圣枪穿刺术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_Spear_Impale_Technology</researchPrerequisite>
     <iconPath>Wula/Weapon/WULA_SP_Spear_Impale</iconPath>
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Spear_Impale</ThingDef>
@@ -83,7 +83,7 @@
     <description>使用镌刻法术创造一把携带了飘絮反制术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_Cotton_Counter_Technology</researchPrerequisite>
     <iconPath>Wula/Weapon/WULA_SP_Cotton_Counter</iconPath>
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Cotton_Counter</ThingDef>
@@ -160,7 +160,7 @@
     <description>使用镌刻法术创造一把携带了生灵庇佑术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_Live_Shelter_Technology</researchPrerequisite>
     <iconPath>Wula/Weapon/WULA_SP_Live_Shelter</iconPath>
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Live_Shelter</ThingDef>
@@ -235,7 +235,7 @@
     <description>使用镌刻法术创造一把携带了灰烬焚烧术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_Mist_Incinerator_Technology</researchPrerequisite>
     <iconPath>Wula/Weapon/WULA_SP_Mist_Incinerator</iconPath>
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Live_Shelter</ThingDef>
@@ -315,7 +315,7 @@
     <cooldownHours>120</cooldownHours>
     <invokerRole>Invoker</invokerRole>
     <targetRole>DeathRefusalTarget</targetRole>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_SwiftHunterBlessing_Technology</researchPrerequisite>
     <requiredOffering>
       <filter>
         <thingDefs>
@@ -337,7 +337,7 @@
     <cooldownHours>120</cooldownHours>
     <invokerRole>Invoker</invokerRole>
     <targetRole>DeathRefusalTarget</targetRole>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_AbyssFearBlessing_Technology</researchPrerequisite>
     <requiredOffering>
       <filter>
         <thingDefs>
@@ -359,7 +359,7 @@
     <cooldownHours>120</cooldownHours>
     <invokerRole>Invoker</invokerRole>
     <targetRole>DeathRefusalTarget</targetRole>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_InstantJumpdriveBlessing_Technology</researchPrerequisite>
     <requiredOffering>
       <filter>
         <thingDefs>
@@ -381,7 +381,7 @@
     <cooldownHours>120</cooldownHours>
     <invokerRole>Invoker</invokerRole>
     <targetRole>DeathRefusalTarget</targetRole>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_MindSpringBlessing_Technology</researchPrerequisite>
     <requiredOffering>
       <filter>
         <thingDefs>

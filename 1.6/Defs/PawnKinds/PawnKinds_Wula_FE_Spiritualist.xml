@@ -213,6 +213,52 @@
       </li>
     </comps>
   </AbilityDef>
+  <RecipeDef ParentName="HeavyMechanoidRecipe">
+    <defName>WULA_Build_Psi_Titan</defName>
+    <label>建造PAt-52"灵能泰坦"</label>
+    <description>建造一台PAt-52"灵能泰坦"重型灵能机械体。</description>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Soul_Wedge</li>
+          </thingDefs>
+        </filter>
+        <count>5000</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </filter>
+        <count>1000</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentSpacer</li>
+          </thingDefs>
+        </filter>
+        <count>25</count>
+      </li>
+    </ingredients>
+    <products>
+      <Wula_Psi_Titan>1</Wula_Psi_Titan>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_Psi_Titan</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_FE_Spiritualist_Psi_Titan_Technology</researchPrerequisite>
+  </RecipeDef>
 
   <!-- 乌拉大教堂 -->
   <PawnKindDef Name="Wula_FE_Spiritualist_Pawn_Base" Abstract="True">

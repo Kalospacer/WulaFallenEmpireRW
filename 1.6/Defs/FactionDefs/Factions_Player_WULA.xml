@@ -177,6 +177,7 @@
     <pawnsPlural>乌拉星人</pawnsPlural>
     <settlementGenerationWeight>1</settlementGenerationWeight>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <categoryTag>Wula_FE_Spiritualist_Faction</categoryTag>
     <canSiege>false</canSiege>
     <canStageAttacks>true</canStageAttacks>
     <leaderTitle>星域主教</leaderTitle>

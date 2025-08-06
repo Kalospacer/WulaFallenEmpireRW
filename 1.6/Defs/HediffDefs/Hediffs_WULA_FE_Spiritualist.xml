@@ -183,4 +183,114 @@
       </li>
     </comps>
   </AbilityDef>
+
+  <ThingDef ParentName="BodyPartProstheticMakeableBase">
+    <defName>WULA_CPU_Psienhance</defName>
+    <label>生物处理器-灵能组件</label>
+    <description>安装于生物处理器的特殊改件，能够强化机械乌拉与虚境的亲和，增强心灵敏感度。</description>
+    <graphicData>
+      <texPath>Things/Item/Health/HealthItem</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <recipeMaker Inherit="False">
+      <!-- <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite> -->
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <WULA_Soul_Wedge>200</WULA_Soul_Wedge>
+      <ComponentSpacer>6</ComponentSpacer>
+      <WULA_Charge_Cube>5</WULA_Charge_Cube>
+    </costList>
+    <tradeability>None</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <compClass>CompUsableImplant</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>安装生物处理器灵能组件</useLabel>
+        <!-- <userMustHaveHediff>WULA_Addons_Antenna_Hediff_Base</userMustHaveHediff> -->
+      </li>
+      <li Class="CompProperties_UseEffectDestroySelf" />
+      <li Class="CompProperties_UseEffectInstallImplant">
+        <hediffDef>WULA_CPU_Hediff_Psienhance</hediffDef>
+        <bodyPart>Brain</bodyPart>
+        <canUpgrade>false</canUpgrade>
+        <maxSeverity>1</maxSeverity>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef ParentName="Wula_ImplantHediffBase_T2">
+    <defName>WULA_CPU_Hediff_Psienhance</defName>
+    <label>灵能组件</label>
+    <description>安装于生物处理器的特殊改件，强化机械乌拉心灵敏感度。</description>
+    <maxSeverity>1</maxSeverity>
+    <!-- <spawnThingOnRemoved>WULA_Energy_Furnace_Regulator</spawnThingOnRemoved> -->
+    <addedPartProps>
+      <partEfficiency>1.0</partEfficiency>
+    </addedPartProps>
+    <stages>
+      <li>
+        <minSeverity>0.01</minSeverity>
+        <statOffsets>
+          <PsychicSensitivity>0.5</PsychicSensitivity>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  <ThingDef ParentName="BodyPartProstheticMakeableBase">
+    <defName>WULA_CPU_Prophet</defName>
+    <label>生物处理器-预知组件</label>
+    <description>安装于生物处理器的特殊改件，能够让机械乌拉瞬时地预知敌人的动作，以获得射击精度和近战命中率加成。</description>
+    <graphicData>
+      <texPath>Things/Item/Health/HealthItem</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <recipeMaker Inherit="False">
+      <!-- <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite> -->
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <WULA_Soul_Wedge>200</WULA_Soul_Wedge>
+      <ComponentSpacer>6</ComponentSpacer>
+      <WULA_Charge_Cube>5</WULA_Charge_Cube>
+    </costList>
+    <tradeability>None</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <compClass>CompUsableImplant</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>安装生物处理器预知组件</useLabel>
+        <!-- <userMustHaveHediff>WULA_Addons_Antenna_Hediff_Base</userMustHaveHediff> -->
+      </li>
+      <li Class="CompProperties_UseEffectDestroySelf" />
+      <li Class="CompProperties_UseEffectInstallImplant">
+        <hediffDef>WULA_CPU_Hediff_Prophet</hediffDef>
+        <bodyPart>Brain</bodyPart>
+        <canUpgrade>false</canUpgrade>
+        <maxSeverity>1</maxSeverity>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef ParentName="Wula_ImplantHediffBase_T2">
+    <defName>WULA_CPU_Hediff_Prophet</defName>
+    <label>预知组件</label>
+    <description>安装于生物处理器的特殊改件，提高射击精度和近战命中率。</description>
+    <maxSeverity>1</maxSeverity>
+    <!-- <spawnThingOnRemoved>WULA_Energy_Furnace_Regulator</spawnThingOnRemoved> -->
+    <addedPartProps>
+      <partEfficiency>1.0</partEfficiency>
+    </addedPartProps>
+    <stages>
+      <li>
+        <minSeverity>0.01</minSeverity>
+        <statOffsets>
+          <ShootingAccuracyPawn>5</ShootingAccuracyPawn>
+          <MeleeHitChance>0.5</MeleeHitChance>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
 </Defs>
