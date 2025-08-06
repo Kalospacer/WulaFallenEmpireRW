@@ -161,6 +161,10 @@
     <configurationListOrderPriority>900</configurationListOrderPriority>
     <dropPodActive>ActiveDropPodMechanoid</dropPodActive>
     <dropPodIncoming>DropPodIncomingMechanoidRapid</dropPodIncoming>
+    <backstoryCategories>
+      <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+      <li>Wula_Old_Synth_Backstory_Categories</li>
+    </backstoryCategories>
   </FactionDef>
 
   <!-- 大教堂 -->
@@ -173,6 +177,7 @@
     <pawnsPlural>乌拉星人</pawnsPlural>
     <settlementGenerationWeight>1</settlementGenerationWeight>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <categoryTag>Wula_FE_Spiritualist_Faction</categoryTag>
     <canSiege>false</canSiege>
     <canStageAttacks>true</canStageAttacks>
     <leaderTitle>星域主教</leaderTitle>

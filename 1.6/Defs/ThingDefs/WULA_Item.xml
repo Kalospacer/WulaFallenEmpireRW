@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef ParentName="MealBase">
+  <ThingDef>
     <defName>WULA_Charge_Cube</defName>
     <label>乌拉帝国能源核心</label>
     <description>被高度压缩的能源核心，是机械乌拉的能源系统唯一可接受的外部输入性能量来源。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <drawerType>MapMeshOnly</drawerType>
+    <useHitPoints>true</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <selectable>true</selectable>
     <graphicData>
       <texPath>Wula/Item/WULA_Charge_Cube</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <stackLimit>30</stackLimit>
     <statBases>
+      <Nutrition>1</Nutrition>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Beauty>0</Beauty>
       <DeteriorationRate>0.01</DeteriorationRate>
       <MarketValue>24</MarketValue>
       <Mass>0.3</Mass>
       <WorkToMake>450</WorkToMake>
     </statBases>
+    <altitudeLayer>Item</altitudeLayer>
+    <tickerType>Rare</tickerType>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <thingCategories>
+      <li>FoodMeals</li>
+    </thingCategories>
+    <alwaysHaulable>true</alwaysHaulable>
+    <pathCost>14</pathCost>
     <ingestible>
+      <foodType>Liquor</foodType>
+      <maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+      <defaultNumToIngestAtOnce>1</defaultNumToIngestAtOnce>
+      <optimalityOffsetHumanlikes>16</optimalityOffsetHumanlikes>
       <baseIngestTicks>270</baseIngestTicks>
       <preferability>NeverForNutrition</preferability>
       <optimalityOffsetHumanlikes>-1000</optimalityOffsetHumanlikes>
@@ -31,7 +53,11 @@
     </ingestible>
     <allowedArchonexusCount>200</allowedArchonexusCount>
     <tradeability>None</tradeability>
+    <resourceReadoutPriority>Last</resourceReadoutPriority>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <uiIconForStackCount>1</uiIconForStackCount>
     <comps>
+      <li Class="CompProperties_Forbiddable" />
       <li Class="CompProperties_Usable">
         <useJob>WULA_IngestWulaEnergy</useJob>
         <useLabel>从能量核心中摄取能量</useLabel>

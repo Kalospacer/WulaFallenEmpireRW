@@ -690,6 +690,7 @@
       <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">5</WastepacksPerRecharge>
     </statBases>
     <race>
+      <fleshType>Mechanoid</fleshType>
       <body>WULA_AI_Heavy_Panzer_Body</body>
       <baseBodySize>10.0</baseBodySize>
 			<baseHealthScale>5</baseHealthScale>
@@ -763,6 +764,7 @@
       <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">5</WastepacksPerRecharge>
     </statBases>
     <race>
+      <fleshType>Mechanoid</fleshType>
       <body>Wula_AI_Engineer_Mother_Body</body>
       <baseBodySize>10.0</baseBodySize>
 			<baseHealthScale>4</baseHealthScale>

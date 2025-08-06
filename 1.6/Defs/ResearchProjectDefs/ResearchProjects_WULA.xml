@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <ResearchProjectDef Abstract="True" Name="WULAtechBase">
-    <techLevel>Spacer</techLevel>
+    <techLevel>Ultra</techLevel>
     <tab>WULA_ResearchTab</tab>
     <heldByFactionCategoryTags Inherit="False" />
   </ResearchProjectDef>
@@ -194,21 +194,10 @@
     <researchViewX>4.50</researchViewX>
     <researchViewY>2.50</researchViewY>
     <label>灵能基础套件</label>
-    <description>开发能够供乌拉帝国合成人使用的基础灵能法杖，同时解锁从俘虏身上获取魂锲的能力。</description>
+    <description>开发能够供从俘虏身上获取魂锲的能力。</description>
     <baseCost>1200</baseCost>
     <prerequisites>
       <li>WULA_Adv_WorkTable_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Psi_2_Technology</defName>
-    <researchViewX>5.50</researchViewX>
-    <researchViewY>2.50</researchViewY>
-    <label>灵能高级套件</label>
-    <description>开发能够供乌拉帝国合成人使用的高级灵能法杖。</description>
-    <baseCost>2400</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Psi_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <!-- 机械 -->

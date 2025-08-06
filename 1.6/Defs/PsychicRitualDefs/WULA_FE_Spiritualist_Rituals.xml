@@ -6,7 +6,7 @@
     <description>使用镌刻法术创造一把携带了圣枪穿刺术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_Spear_Impale_Technology</researchPrerequisite>
     <iconPath>Wula/Weapon/WULA_SP_Spear_Impale</iconPath>
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Spear_Impale</ThingDef>
@@ -83,7 +83,7 @@
     <description>使用镌刻法术创造一把携带了飘絮反制术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_Cotton_Counter_Technology</researchPrerequisite>
     <iconPath>Wula/Weapon/WULA_SP_Cotton_Counter</iconPath>
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Cotton_Counter</ThingDef>
@@ -160,7 +160,7 @@
     <description>使用镌刻法术创造一把携带了生灵庇佑术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
-    <!-- <researchPrerequisite>BasicPsychicRituals</researchPrerequisite> -->
+    <researchPrerequisite>WULA_FE_Spiritualist_Live_Shelter_Technology</researchPrerequisite>
     <iconPath>Wula/Weapon/WULA_SP_Live_Shelter</iconPath>
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Live_Shelter</ThingDef>
@@ -229,26 +229,167 @@
       </li>
     </qualityThresholds>
   </WulaFallenEmpire.PsychicRitual_TechOffering>
-
-  <WulaFallenEmpire.PsychicRitualDef_AddHediff>
-    <defName>WULA_ImbuePsychicShock</defName>
-    <label>imbue psychic shock</label>
-    <description>Imbues the target with a psychic shock.</description>
-    <hediff>PsychicShock</hediff>
-    <outcomeDescription>The target will gain psychic shock.</outcomeDescription>
+  <WulaFallenEmpire.PsychicRitual_TechOffering>
+    <defName>WULA_FE_Rituals_Create_Mist_Incinerator</defName>
+    <label>镌刻：灰烬焚烧术式</label>
+    <description>使用镌刻法术创造一把携带了灰烬焚烧术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
+    <cooldownHours>120</cooldownHours>
+    <researchPrerequisite>WULA_FE_Spiritualist_Mist_Incinerator_Technology</researchPrerequisite>
+    <iconPath>Wula/Weapon/WULA_SP_Mist_Incinerator</iconPath>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_SP_Live_Shelter</ThingDef>
+      <ThingDef>WULA_Soul_Wedge</ThingDef>
+    </descriptionHyperlinks>
+
     <invokerRole>Invoker</invokerRole>
-    <targetRole>DeathRefusalTarget</targetRole> <!-- We can reuse this role -->
-    <researchPrerequisite>BasicPsychicRituals</researchPrerequisite>
+    <chanterRole>Chanter</chanterRole>
+
+    <!-- ==================== 核心祭品定义 ==================== -->
+    <!-- requiredOffering: 定义了启动仪式所必须的基础祭品。 -->
+    <!-- 如果没有这个祭品，仪式本身无法开始。 -->
     <requiredOffering>
       <filter>
         <thingDefs>
-          <li>Bioferrite</li>
+          <li>WULA_Dark_Matter_Item</li>
         </thingDefs>
       </filter>
-      <count>10</count>
+      <count>2</count>
+      <!-- <count>3000</count> -->
     </requiredOffering>
-    <cooldownHours>10</cooldownHours>
+    
+    <!-- ==================== 额外祭品定义 ==================== -->
+    <!-- extraOfferings: 定义了可以增加仪式“能量”的额外祭品。 -->
+    <!-- 能量值会影响最终奖励的品质。每种物品的power值代表单个物品能增加多少能量。 -->
+    <extraOfferings>
+      <li>
+        <thingDef>WULA_Soul_Wedge</thingDef>
+        <!-- 2000魂楔满质量 -->
+        <power>0.0005</power>
+      </li>
+    </extraOfferings>
+
+    <!-- ==================== 奖励池定义 ==================== -->
+    <!-- rewardWeaponPool: 定义了仪式成功后可能获得的奖励物品列表。 -->
+    <!-- 系统会从这个列表中随机选择一个作为奖励。 -->
+    <rewardWeaponPool>
+      <li>WULA_SP_Mist_Incinerator</li>
+    </rewardWeaponPool>
+
+    <!-- ==================== 品质阈值定义 ==================== -->
+    <!-- qualityThresholds: 定义了不同的能量值（power）所对应的奖励品质。 -->
+    <!-- 系统会从高到低检查，使用第一个满足条件的阈值。 -->
+    <qualityThresholds>
+      <li>
+        <!-- <threshold>1.0</threshold>: 能量值达到或超过1.0。 -->
+        <threshold>1.0</threshold>
+        <!-- <quality>Legendary</quality>: 奖励品质为“传奇”。 -->
+        <quality>Legendary</quality>
+      </li>
+      <li>
+        <threshold>0.95</threshold>
+        <quality>Masterwork</quality>
+      </li>
+      <li>
+        <threshold>0.6</threshold>
+        <quality>Excellent</quality>
+      </li>
+      <li>
+        <threshold>0.4</threshold>
+        <quality>Normal</quality>
+      </li>
+      <li>
+        <threshold>0.0</threshold>
+        <quality>Poor</quality>
+      </li>
+    </qualityThresholds>
+  </WulaFallenEmpire.PsychicRitual_TechOffering>
+
+  <WulaFallenEmpire.PsychicRitualDef_AddHediff>
+    <defName>WULA_SwiftHunterBlessing_Buff</defName>
+    <label>祝福：迅捷猎手加护</label>
+    <description>以乌拉帝国的仪式强化被召选者，使其获得额外的移动速度和瞄准速度，一次只能获得一种来自乌拉帝国仪式的加护。</description>
+    <hediff>WULA_SwiftHunterBlessing</hediff>
+    <outcomeDescription>使被召选者获得额外的移动速度和瞄准速度。</outcomeDescription>
+    <hoursUntilOutcome>2</hoursUntilOutcome>
+    <cooldownHours>120</cooldownHours>
+    <invokerRole>Invoker</invokerRole>
+    <targetRole>DeathRefusalTarget</targetRole>
+    <researchPrerequisite>WULA_FE_Spiritualist_SwiftHunterBlessing_Technology</researchPrerequisite>
+    <requiredOffering>
+      <filter>
+        <thingDefs>
+          <li>WULA_Soul_Wedge</li>
+        </thingDefs>
+      </filter>
+      <count>500</count>
+    </requiredOffering>
+    <chanterRole>ChanterAdvanced</chanterRole>
+    <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
+  </WulaFallenEmpire.PsychicRitualDef_AddHediff>
+  <WulaFallenEmpire.PsychicRitualDef_AddHediff>
+    <defName>WULA_AbyssFearBlessing_Buff</defName>
+    <label>祝福：深渊恐惧加护</label>
+    <description>以乌拉帝国的仪式强化被召选者，使其获得额外的伤害减免和近战攻击速度，一次只能获得一种来自乌拉帝国仪式的加护。</description>
+    <hediff>WULA_AbyssFearBlessing</hediff>
+    <outcomeDescription>使被召选者获得额外的伤害减免和近战攻击速度。</outcomeDescription>
+    <hoursUntilOutcome>2</hoursUntilOutcome>
+    <cooldownHours>120</cooldownHours>
+    <invokerRole>Invoker</invokerRole>
+    <targetRole>DeathRefusalTarget</targetRole>
+    <researchPrerequisite>WULA_FE_Spiritualist_AbyssFearBlessing_Technology</researchPrerequisite>
+    <requiredOffering>
+      <filter>
+        <thingDefs>
+          <li>WULA_Soul_Wedge</li>
+        </thingDefs>
+      </filter>
+      <count>500</count>
+    </requiredOffering>
+    <chanterRole>ChanterAdvanced</chanterRole>
+    <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
+  </WulaFallenEmpire.PsychicRitualDef_AddHediff>
+  <WulaFallenEmpire.PsychicRitualDef_AddHediff>
+    <defName>WULA_InstantJumpdriveBlessing_Buff</defName>
+    <label>祝福：转瞬移型加护</label>
+    <description>以乌拉帝国的仪式强化被召选者，使其获得短距离的自体传送能力，一次只能获得一种来自乌拉帝国仪式的加护。</description>
+    <hediff>WULA_AbyssFearBlessing</hediff>
+    <outcomeDescription>使被召选者获得短距离的自体传送能力。</outcomeDescription>
+    <hoursUntilOutcome>2</hoursUntilOutcome>
+    <cooldownHours>120</cooldownHours>
+    <invokerRole>Invoker</invokerRole>
+    <targetRole>DeathRefusalTarget</targetRole>
+    <researchPrerequisite>WULA_FE_Spiritualist_InstantJumpdriveBlessing_Technology</researchPrerequisite>
+    <requiredOffering>
+      <filter>
+        <thingDefs>
+          <li>WULA_Soul_Wedge</li>
+        </thingDefs>
+      </filter>
+      <count>500</count>
+    </requiredOffering>
+    <chanterRole>ChanterAdvanced</chanterRole>
+    <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
+  </WulaFallenEmpire.PsychicRitualDef_AddHediff>
+  <WulaFallenEmpire.PsychicRitualDef_AddHediff>
+    <defName>WULA_MindSpringBlessing_Buff</defName>
+    <label>祝福：思绪泉涌加护</label>
+    <description>以乌拉帝国的仪式强化被召选者，使其获得自行激发灵感的能力，一次只能获得一种来自乌拉帝国仪式的加护。</description>
+    <hediff>WULA_MindSpringBlessing</hediff>
+    <outcomeDescription>使被召选者获得自行激发灵感的能力。</outcomeDescription>
+    <hoursUntilOutcome>2</hoursUntilOutcome>
+    <cooldownHours>120</cooldownHours>
+    <invokerRole>Invoker</invokerRole>
+    <targetRole>DeathRefusalTarget</targetRole>
+    <researchPrerequisite>WULA_FE_Spiritualist_MindSpringBlessing_Technology</researchPrerequisite>
+    <requiredOffering>
+      <filter>
+        <thingDefs>
+          <li>WULA_Soul_Wedge</li>
+        </thingDefs>
+      </filter>
+      <count>500</count>
+    </requiredOffering>
     <chanterRole>ChanterAdvanced</chanterRole>
     <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
   </WulaFallenEmpire.PsychicRitualDef_AddHediff>

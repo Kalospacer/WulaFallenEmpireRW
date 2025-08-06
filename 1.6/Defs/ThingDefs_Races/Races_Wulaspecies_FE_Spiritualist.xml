@@ -26,6 +26,7 @@
       <FlightCooldown>0</FlightCooldown> -->
     </statBases>
     <race>
+      <fleshType>Mechanoid</fleshType>
       <body>WULA_AI_Heavy_Panzer_Body</body>
       <baseBodySize>15.0</baseBodySize>
 			<baseHealthScale>3.5</baseHealthScale>

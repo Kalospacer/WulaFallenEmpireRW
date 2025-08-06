@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
   <QuestScriptDef>
     <defName>Wula_Quest_ExampleEvent</defName>
     <label>乌拉的呼唤</label>
@@ -59,5 +58,4 @@
       </nodes>
     </root>
   </QuestScriptDef>
-
 </Defs>

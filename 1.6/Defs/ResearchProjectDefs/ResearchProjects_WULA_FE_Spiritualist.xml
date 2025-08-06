@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ResearchProjectDef Abstract="True" Name="WULA_FE_Spiritualist_techBase">
+    <techLevel>Archotech</techLevel>
+    <tab>WULA_FE_Spiritualist_ResearchTab</tab>
+    <heldByFactionCategoryTags>
+      <li>Wula_FE_Spiritualist_Faction</li>
+    </heldByFactionCategoryTags>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Base_Technology</defName>
+    <label>帝国仪式</label>
+    <description>若要开启乌拉帝国灵能科技树的大门，掌握基础的仪式技能是必要的。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>0.00</researchViewX>
+    <researchViewY>3.20</researchViewY>
+    <prerequisites>
+      <li>WULA_Dark_Matter_Technology</li>
+      <li>WULA_Synth_Psi_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <!-- 衣服 -->
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Cloth_Technology</defName>
+    <label>护教军制服</label>
+    <description>乌拉帝国的国教人员使用的一种轻型装甲，相较于制式帝国突击队装甲拥有更强大的区域灵能盾，可以抵御射弹和EMP武器的袭击。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>2.00</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Cloth2_Technology</defName>
+    <label>神官制服</label>
+    <description>乌拉帝国的高阶国教人员所着的华丽衣装，拥有令人瞠目结舌的庞大、坚实的灵能护盾，几乎不可能被外界射弹火力打穿；除此之外还能增强穿戴者的心灵敏感度，提高闪避能力，并降低崩溃风险。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>2.50</researchViewX>
+    <researchViewY>2.00</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Cloth_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <!-- 加护 -->
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_SwiftHunterBlessing_Technology</defName>
+    <label>迅捷猎手加护</label>
+    <description>以乌拉帝国的仪式强化被召选者，使其获得额外的移动速度和瞄准速度。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>1.30</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_AbyssFearBlessing_Technology</defName>
+    <label>深渊恐惧加护</label>
+    <description>以乌拉帝国的仪式强化被召选者，使其获得额外的伤害减免和近战攻击速度。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>0.60</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_InstantJumpdriveBlessing_Technology</defName>
+    <label>转瞬移型加护</label>
+    <description>以乌拉帝国的仪式强化被召选者，使其获得短距离的自体传送能力。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>2.50</researchViewX>
+    <researchViewY>1.30</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_MindSpringBlessing_Technology</defName>
+    <label>思绪泉涌加护</label>
+    <description>以乌拉帝国的仪式强化被召选者，使其获得自行激发灵感的能力。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>2.50</researchViewX>
+    <researchViewY>0.60</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <!-- 术式 -->
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Spear_Impale_Technology</defName>
+    <label>圣枪穿刺术式</label>
+    <description>这是乌拉星人所创造的最强大的进攻术式，来源于乌拉星人的泰坦和旗舰。这种术式发射的纯净灵能能量能绕过几乎所有防御，在敌人的集群中连续弹跳，瞬间烧穿无信之徒的可悲躯体。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>2.50</researchViewX>
+    <researchViewY>5.40</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Cotton_Counter_Technology</li>
+      <li>WULA_FE_Spiritualist_Live_Shelter_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Cotton_Counter_Technology</defName>
+    <label>飘絮反制术式</label>
+    <description>这是乌拉星人在舰船上用于反制敌方飞行器和导弹的特殊术式，核心在于高爆发性高追踪性的输出，通过快速吟唱汇聚的灵能能量使对方迅速失能。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>4.80</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Live_Shelter_Technology</defName>
+    <label>生灵庇佑术式</label>
+    <description>这是乌拉星人用于救治伤者的法术，可以使用灵能诱发伤口以非常规的方式快速愈合，并且效果会在友方个体间弹跳。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>5.40</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Mist_Incinerator_Technology</defName>
+    <label>灰烬焚烧术式</label>
+    <description>乌拉星人所使用的压制性术式，能够在短时间的吟唱后喷出大量由灵能能量构成的火焰，这种击穿灵魂的火焰可以无视敌人的护甲，点燃敌人的躯体。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>4.20</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <!-- 机械体 -->
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Psi_Titan_Technology</defName>
+    <label>灵能泰坦</label>
+    <description>灵能泰坦是效力于乌拉帝国国教的重型灵能机械体，能够在战场上进行跃迁，拥有强大的实力、坚固的灵能盾和繁多的灵能技能，但是机体本身较为脆弱。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>2.70</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+      <li>WULA_Machine_Productor_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+</Defs>

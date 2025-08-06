@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <ResearchTabDef>
+    <defName>WULA_FE_Spiritualist_ResearchTab</defName>
+    <label>乌拉帝国灵能科技</label>
+    <generalTitle>乌拉帝国失落科技项目</generalTitle>
+    <generalDescription>由乌拉帝国在黄金时期开发的一系列驱使灵能进行生产和战斗的技术，自从帝国失落后，只有少数信奉乌拉帝国国教的神职人员还懂得如何使用它们。</generalDescription>
+  </ResearchTabDef>
+</Defs>

@@ -451,6 +451,14 @@
         </li>
       </subOptionsChooseOne>
     </inventoryOptions>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
+          <li>Wula_Old_Synth_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
   </PawnKindDef>
   <!-- 低级子个体 -->
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
@@ -465,14 +473,6 @@
     </weaponTags>
     <initialResistanceRange>15~24</initialResistanceRange>
     <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
   </PawnKindDef>
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_2</defName>
@@ -486,14 +486,6 @@
       <li>Wula_Weapon_Init</li>
     </weaponTags>
     <initialResistanceRange>15~24</initialResistanceRange>
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
   </PawnKindDef>
   <!-- 中级子个体 -->
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
@@ -510,14 +502,6 @@
       <li>Wula_Melee_Weapon_T2</li>
     </weaponTags>
     <initialResistanceRange>15~24</initialResistanceRange>
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
   </PawnKindDef>
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_4</defName>
@@ -533,14 +517,6 @@
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <initialResistanceRange>15~24</initialResistanceRange>
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
   </PawnKindDef>
   <!-- 特殊子个体 -->
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
@@ -559,14 +535,6 @@
     </weaponTags>
     <initialResistanceRange>15~24</initialResistanceRange>
     <isGoodBreacher>true</isGoodBreacher>
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
   </PawnKindDef>
   <!-- 高级子个体 -->
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
@@ -585,14 +553,6 @@
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <initialResistanceRange>15~24</initialResistanceRange>
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
   </PawnKindDef>
   <PawnKindDef ParentName="Wula_Broken_Personality_Pawn_Base">
     <defName>Wula_Broken_Personality_Pawn_7</defName>
@@ -610,13 +570,5 @@
     </weaponTags>
     <initialResistanceRange>15~24</initialResistanceRange>
     <isGoodBreacher>true</isGoodBreacher>
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
   </PawnKindDef>
 </Defs>

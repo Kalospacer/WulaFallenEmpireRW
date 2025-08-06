@@ -403,13 +403,13 @@
 
   <!-- 处理器 -->
   <HediffDef ParentName="AddedBodyPartBase">
-    <defName>WULA_Energy_Furnace_Hediff_DM_CPU</defName>
+    <defName>WULA_DM_CPU_Hediff</defName>
     <label>暗物质处理器</label>
     <description>由填充非交互性暗物质微粒的卡西米尔共振腔构成的处理器，极大增强合成人的意识。</description>
     <descriptionHyperlinks>
-      <ThingDef>WULA_Energy_Furnace_DM_CPU</ThingDef>
+      <ThingDef>WULA_DM_CPU</ThingDef>
     </descriptionHyperlinks>
-    <spawnThingOnRemoved>WULA_Energy_Furnace_DM_CPU</spawnThingOnRemoved>
+    <spawnThingOnRemoved>WULA_DM_CPU</spawnThingOnRemoved>
     <addedPartProps>
       <!-- <partEfficiency>1.5</partEfficiency> -->
       <betterThanNatural>true</betterThanNatural>
@@ -426,12 +426,12 @@
     </stages>
   </HediffDef>
   <ThingDef ParentName="BodyPartBionicBase">
-    <defName>WULA_Energy_Furnace_DM_CPU</defName>
+    <defName>WULA_DM_CPU</defName>
     <label>暗物质处理器</label>
     <description>由填充非交互性暗物质微粒的卡西米尔共振腔构成的处理器，用于替换过时的生物处理器，极大增强合成人的意识。</description>
     <tradeability>None</tradeability>
     <descriptionHyperlinks>
-      <RecipeDef>Install_WULA_Energy_Furnace_DM_CPU</RecipeDef>
+      <RecipeDef>Install_WULA_DM_CPU</RecipeDef>
     </descriptionHyperlinks>
     <costList>
       <Steel>100</Steel>
@@ -452,11 +452,11 @@
     </statBases>
   </ThingDef>
   <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
-    <defName>Install_WULA_Energy_Furnace_DM_CPU</defName>
+    <defName>Install_WULA_DM_CPU</defName>
     <label>安装暗物质处理器</label>
     <description>为合成人安装暗物质处理器。</description>
     <descriptionHyperlinks>
-      <ThingDef>WULA_Energy_Furnace_DM_CPU</ThingDef>
+      <ThingDef>WULA_DM_CPU</ThingDef>
       <HediffDef>WULA_Energy_Furnace_Hediff_DM_CPU</HediffDef>
     </descriptionHyperlinks>
     <jobString>安装暗物质处理器中</jobString>
@@ -467,7 +467,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>WULA_Energy_Furnace_DM_CPU</li>
+            <li>WULA_DM_CPU</li>
           </thingDefs>
         </filter>
         <count>1</count>
@@ -475,7 +475,7 @@
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
-        <li>WULA_Energy_Furnace_DM_CPU</li>
+        <li>WULA_DM_CPU</li>
       </thingDefs>
     </fixedIngredientFilter>
     <appliedOnFixedBodyParts>
