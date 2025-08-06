@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef>
+    <defName>WULA_SoulCondensation</defName>
+    <label>灵魂凝聚</label>
+    <description>此人的灵魂似乎在缓慢地凝聚，随着时间的推移，会周期性地产生魂楔。年龄越大，凝聚速度越快。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(178, 153, 255)</defaultLabelColor>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="WulaFallenEmpire.MoharHediffs.HediffCompProperties_Spawner">
+        <!--
+          ==================================================
+          基础设置 (Basic Settings)
+          ==================================================
+        -->
+
+        <!-- [DEBUG] 如果为true，则为此组件启用详细的调试日志记录。 -->
+        <debug>true</debug>
+
+        <!-- 要生成的物品的ThingDef。这里我们生成魂楔。 -->
+        <thingToSpawn>WULA_Soul_Wedge</thingToSpawn>
+        
+        <!-- 每次生成的基础物品数量。 -->
+        <spawnCount>5</spawnCount>
+
+        <!-- 
+          ==================================================
+          生成周期 (Spawning Interval)
+          ==================================================
+        -->
+
+        <!-- 下一次生成事件发生前的最少天数。 -->
+        <minDaysB4Next>5</minDaysB4Next>
+        
+        <!-- 下一次生成事件发生前的最大天数。 -->
+        <maxDaysB4Next>10</maxDaysB4Next>
+
+        <!-- 
+          ==================================================
+          与年龄相关的调整 (Age-Related Adjustments)
+          ==================================================
+        -->
+
+        <!-- 如果为true，生成数量将根据宿主的年龄进行调整。 -->
+        <ageWeightedQuantity>true</ageWeightedQuantity>
+        
+        <!-- 如果为true且ageWeightedQuantity为true，则随着宿主年龄增长，生成数量变多。 -->
+        <olderBiggerQuantity>true</olderBiggerQuantity>
+        
+        <!-- 如果为true且ageWeightedQuantity为true，则随年龄增长的数量缩放将是指数性的而非线性的。 -->
+        <exponentialQuantity>true</exponentialQuantity>
+        
+        <!-- 指数级数量缩放的最大乘数，以防止出现荒谬的数字。 -->
+        <exponentialRatioLimit>20</exponentialRatioLimit>
+
+        <!-- 
+          ==================================================
+          生成条件 (Spawning Conditions)
+          ==================================================
+        -->
+
+        <!-- 如果为true，当宿主Pawn饥饿时，生成将暂停。 -->
+        <hungerRelative>true</hungerRelative>
+        
+        <!-- 如果为true，当宿主Pawn受伤时，生成将暂停。 -->
+        <healthRelative>true</healthRelative>
+        
+      </li>
+    </comps>
+  </HediffDef>
+
+</Defs>

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WulaFallenEmpire</RootNamespace>
     <AssemblyName>WulaFallenEmpire</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <LangVersion>8.0</LangVersion>
@@ -112,6 +112,9 @@
     <Compile Include="PsychicRitual_TechOffering.cs" />
     <Compile Include="PsychicRitualDef_AddHediff.cs" />
     <Compile Include="PsychicRitualToil_AddHediff.cs" />
+<Compile Include="MoharHediffs\HediffCompProperties_Spawner.cs" />
+    <Compile Include="MoharHediffs\HediffComp_Spawner.cs" />
+    <Compile Include="MoharHediffs\Tools.cs" />
     <Compile Include="RitualTagExtension.cs" />
     <Compile Include="PsychicRitualDef_Wula.cs" />
     <Compile Include="PsychicRitualDef_WulaBase.cs" />
