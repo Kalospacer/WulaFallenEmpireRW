@@ -193,7 +193,7 @@
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <recipeMaker Inherit="False">
-      <!-- <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite> -->
+      <researchPrerequisite>WULA_FE_Spiritualist_CPU_Psienhance_Technology</researchPrerequisite>
       <recipeUsers>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
@@ -247,7 +247,7 @@
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <recipeMaker Inherit="False">
-      <!-- <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite> -->
+      <researchPrerequisite>WULA_FE_Spiritualist_CPU_Prophet_Technology</researchPrerequisite>
       <recipeUsers>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
@@ -293,8 +293,6 @@
       </li>
     </stages>
   </HediffDef>
-
-  
   <HediffDef ParentName="AddedBodyPartBase">
     <defName>WULA_Brain_Hediff_Soul_Wedge_Extract</defName>
     <label>魂楔提取</label>
@@ -303,11 +301,21 @@
       <ThingDef>WULA_Soul_Wedge</ThingDef>
       <ThingDef>WULA_Brain_Soul_Wedge_Extract</ThingDef>
     </descriptionHyperlinks>
+    <hediffClass>HediffWithComps</hediffClass>
     <spawnThingOnRemoved>WULA_Brain_Hediff_Soul_Wedge_Extract</spawnThingOnRemoved>
     <addedPartProps>
-      <partEfficiency>0.01</partEfficiency>
       <betterThanNatural>true</betterThanNatural>
     </addedPartProps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
     <comps>
       <li Class="WulaFallenEmpire.MoharHediffs.HediffCompProperties_Spawner">
         <!--
@@ -371,7 +379,7 @@
       <li>RewardStandardMidFreq</li>
     </thingSetMakerTags>
     <recipeMaker>
-      <researchPrerequisite>WULA_FE_Spiritualist_Base_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_FE_Spiritualist_Soul_Wedge_Extract_Technology</researchPrerequisite>
       <recipeUsers>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
