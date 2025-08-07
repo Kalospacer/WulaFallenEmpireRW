@@ -28,6 +28,7 @@
     <costList Inherit="False">
       <WULA_Soul_Wedge>3000</WULA_Soul_Wedge>
       <WULA_Dark_Matter_Item>5</WULA_Dark_Matter_Item>
+      <Wula_Zro>21</Wula_Zro>
     </costList>
     <costStuffCount>300</costStuffCount>
     <statBases>
@@ -111,6 +112,7 @@
     <costList Inherit="False">
       <WULA_Soul_Wedge>3000</WULA_Soul_Wedge>
       <WULA_Dark_Matter_Item>5</WULA_Dark_Matter_Item>
+      <Wula_Zro>6</Wula_Zro>
     </costList>
     <stuffCategories>
       <li>Fabric</li>
@@ -196,6 +198,7 @@
     <costStuffCount>200</costStuffCount>
     <costList Inherit="False">
       <ComponentSpacer>8</ComponentSpacer>
+      <Wula_Zro>36</Wula_Zro>
     </costList>
     <apparel>
       <tags>
@@ -267,7 +270,8 @@
     <tradeability>None</tradeability>
     <costStuffCount>30</costStuffCount>
     <costList Inherit="False">
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+      <Wula_Zro>12</Wula_Zro>
     </costList>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">

@@ -200,8 +200,8 @@
     </recipeMaker>
     <costList>
       <WULA_Soul_Wedge>200</WULA_Soul_Wedge>
+      <Wula_Zro>12</Wula_Zro>
       <ComponentSpacer>6</ComponentSpacer>
-      <WULA_Charge_Cube>5</WULA_Charge_Cube>
     </costList>
     <tradeability>None</tradeability>
     <comps>
@@ -254,8 +254,8 @@
     </recipeMaker>
     <costList>
       <WULA_Soul_Wedge>200</WULA_Soul_Wedge>
+      <Wula_Zro>12</Wula_Zro>
       <ComponentSpacer>6</ComponentSpacer>
-      <WULA_Charge_Cube>5</WULA_Charge_Cube>
     </costList>
     <tradeability>None</tradeability>
     <comps>
@@ -293,4 +293,122 @@
       </li>
     </stages>
   </HediffDef>
+
+  
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>WULA_Brain_Hediff_Soul_Wedge_Extract</defName>
+    <label>魂楔提取</label>
+    <description>用于抽取灵魂的特殊机械，会深深地植入大脑，使殖民者再也无法醒来。但是随着时间的推移，殖民者会周期性地产生魂楔——年龄越大，凝聚速度越快。</description>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Soul_Wedge</ThingDef>
+      <ThingDef>WULA_Brain_Soul_Wedge_Extract</ThingDef>
+    </descriptionHyperlinks>
+    <spawnThingOnRemoved>WULA_Brain_Hediff_Soul_Wedge_Extract</spawnThingOnRemoved>
+    <addedPartProps>
+      <partEfficiency>0.01</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <comps>
+      <li Class="WulaFallenEmpire.MoharHediffs.HediffCompProperties_Spawner">
+        <!--
+          ==================================================
+          基础设置 (Basic Settings)
+          ==================================================
+        -->
+        <!-- [DEBUG] 如果为true，则为此组件启用详细的调试日志记录。 -->
+        <debug>true</debug>
+        <!-- 要生成的物品的ThingDef。 -->
+        <thingToSpawn>WULA_Soul_Wedge</thingToSpawn>
+        <!-- 每次生成的基础物品数量。 -->
+        <spawnCount>5</spawnCount>
+        <!-- 
+          ==================================================
+          生成周期 (Spawning Interval)
+          ==================================================
+        -->
+        <!-- 下一次生成事件发生前的最少天数。 -->
+        <minDaysB4Next>5</minDaysB4Next>
+        <!-- 下一次生成事件发生前的最大天数。 -->
+        <maxDaysB4Next>10</maxDaysB4Next>
+        <!-- 
+          ==================================================
+          与年龄相关的调整 (Age-Related Adjustments)
+          ==================================================
+        -->
+        <!-- 如果为true，生成数量将根据宿主的年龄进行调整。 -->
+        <ageWeightedQuantity>true</ageWeightedQuantity>
+        <!-- 如果为true且ageWeightedQuantity为true，则随着宿主年龄增长，生成数量变多。 -->
+        <olderBiggerQuantity>true</olderBiggerQuantity>
+        <!-- 如果为true且ageWeightedQuantity为true，则随年龄增长的数量缩放将是指数性的而非线性的。 -->
+        <exponentialQuantity>true</exponentialQuantity>
+        <!-- 指数级数量缩放的最大乘数，以防止出现荒谬的数字。 -->
+        <exponentialRatioLimit>20</exponentialRatioLimit>
+        <!-- 
+          ==================================================
+          生成条件 (Spawning Conditions)
+          ==================================================
+        -->
+        <!-- 如果为true，当宿主Pawn饥饿时，生成将暂停。 -->
+        <hungerRelative>true</hungerRelative>
+        <!-- 如果为true，当宿主Pawn受伤时，生成将暂停。 -->
+        <healthRelative>true</healthRelative>
+      </li>
+    </comps>
+  </HediffDef>
+  <ThingDef ParentName="BodyPartBionicBase">
+    <defName>WULA_Brain_Soul_Wedge_Extract</defName>
+    <label>魂楔提取器</label>
+    <description>一个替代大脑进行工作的特殊插件，会深深地植入大脑，使殖民者再也无法醒来。但是随着时间的推移，殖民者会周期性地产生魂楔——年龄越大，凝聚速度越快。</description>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <RecipeDef>Install_WULA_Brain_Soul_Wedge_Extract</RecipeDef>
+    </descriptionHyperlinks>
+    <costList>
+      <WULA_Soul_Wedge>200</WULA_Soul_Wedge>
+      <Wula_Zro>12</Wula_Zro>
+    </costList>
+    <thingSetMakerTags>
+      <li>RewardStandardMidFreq</li>
+    </thingSetMakerTags>
+    <recipeMaker>
+      <researchPrerequisite>WULA_FE_Spiritualist_Base_Technology</researchPrerequisite>
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+    </recipeMaker>
+    <statBases>
+      <Mass>0.3</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>Install_WULA_Brain_Soul_Wedge_Extract</defName>
+    <label>安装魂楔提取器</label>
+    <description>为他人安装魂楔提取器。</description>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Brain_Soul_Wedge_Extract</ThingDef>
+      <HediffDef>WULA_Brain_Hediff_Soul_Wedge_Extract</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>安装魂楔提取器中</jobString>
+    <!-- <surgeryOutcomeEffect IsNull="True" /> -->
+    <!-- <anesthetize>false</anesthetize> -->
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Brain_Soul_Wedge_Extract</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WULA_Brain_Soul_Wedge_Extract</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Brain</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>WULA_Brain_Hediff_Soul_Wedge_Extract</addsHediff>
+  </RecipeDef>
 </Defs>

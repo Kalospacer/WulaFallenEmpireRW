@@ -224,7 +224,15 @@
             <li>WULA_Soul_Wedge</li>
           </thingDefs>
         </filter>
-        <count>5000</count>
+        <count>4000</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Wula_Zro</li>
+          </thingDefs>
+        </filter>
+        <count>300</count>
       </li>
       <li>
         <filter>

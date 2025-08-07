@@ -10,8 +10,8 @@
 
   <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
     <defName>WULA_FE_Spiritualist_Base_Technology</defName>
-    <label>帝国仪式</label>
-    <description>若要开启乌拉帝国灵能科技树的大门，掌握基础的仪式技能是必要的。</description>
+    <label>泽洛提炼</label>
+    <description>若要开启乌拉帝国灵能科技树的大门，掌握基础的泽洛提炼技术是必要的。</description>
     <baseCost>4000</baseCost>
     <researchViewX>0.00</researchViewX>
     <researchViewY>3.20</researchViewY>

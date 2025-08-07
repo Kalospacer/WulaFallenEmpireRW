@@ -3,7 +3,7 @@
   <WulaFallenEmpire.PsychicRitual_TechOffering>
     <defName>WULA_FE_Rituals_Create_Spear_Impale</defName>
     <label>镌刻：圣枪穿刺术式</label>
-    <description>使用镌刻法术创造一把携带了圣枪穿刺术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
+    <description>使用镌刻法术创造一把携带了圣枪穿刺术式的法杖，需求魂楔或泽洛作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
     <researchPrerequisite>WULA_FE_Spiritualist_Spear_Impale_Technology</researchPrerequisite>
@@ -11,6 +11,7 @@
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Spear_Impale</ThingDef>
       <ThingDef>WULA_Soul_Wedge</ThingDef>
+      <ThingDef>Wula_Zro</ThingDef>
     </descriptionHyperlinks>
 
     <invokerRole>Invoker</invokerRole>
@@ -39,6 +40,13 @@
         <!-- <power>0.005</power>: 每个黄金增加0.005能量。 -->
         <!-- 2000魂楔满质量 -->
         <power>0.0005</power>
+      </li>
+      <li>
+        <!-- <thingDef>Gold</thingDef>: 祭品类型为黄金。 -->
+        <thingDef>Wula_Zro</thingDef>
+        <!-- <power>0.005</power>: 每个黄金增加0.005能量。 -->
+        <!-- 666魂楔满质量 -->
+        <power>0.0015</power>
       </li>
     </extraOfferings>
 
@@ -80,7 +88,7 @@
   <WulaFallenEmpire.PsychicRitual_TechOffering>
     <defName>WULA_FE_Rituals_Create_Cotton_Counter</defName>
     <label>镌刻：飘絮反制术式</label>
-    <description>使用镌刻法术创造一把携带了飘絮反制术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
+    <description>使用镌刻法术创造一把携带了飘絮反制术式的法杖，需求魂楔或泽洛作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
     <researchPrerequisite>WULA_FE_Spiritualist_Cotton_Counter_Technology</researchPrerequisite>
@@ -88,6 +96,7 @@
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Cotton_Counter</ThingDef>
       <ThingDef>WULA_Soul_Wedge</ThingDef>
+      <ThingDef>Wula_Zro</ThingDef>
     </descriptionHyperlinks>
 
     <invokerRole>Invoker</invokerRole>
@@ -116,6 +125,13 @@
         <!-- <power>0.005</power>: 每个黄金增加0.005能量。 -->
         <!-- 2000魂楔满质量 -->
         <power>0.0005</power>
+      </li>
+      <li>
+        <!-- <thingDef>Gold</thingDef>: 祭品类型为黄金。 -->
+        <thingDef>Wula_Zro</thingDef>
+        <!-- <power>0.005</power>: 每个黄金增加0.005能量。 -->
+        <!-- 666魂楔满质量 -->
+        <power>0.0015</power>
       </li>
     </extraOfferings>
 
@@ -157,7 +173,7 @@
   <WulaFallenEmpire.PsychicRitual_TechOffering>
     <defName>WULA_FE_Rituals_Create_Live_Shelter</defName>
     <label>镌刻：生灵庇佑术式</label>
-    <description>使用镌刻法术创造一把携带了生灵庇佑术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
+    <description>使用镌刻法术创造一把携带了生灵庇佑术式的法杖，需求魂楔或泽洛作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
     <researchPrerequisite>WULA_FE_Spiritualist_Live_Shelter_Technology</researchPrerequisite>
@@ -165,6 +181,7 @@
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Live_Shelter</ThingDef>
       <ThingDef>WULA_Soul_Wedge</ThingDef>
+      <ThingDef>Wula_Zro</ThingDef>
     </descriptionHyperlinks>
 
     <invokerRole>Invoker</invokerRole>
@@ -191,6 +208,13 @@
         <thingDef>WULA_Soul_Wedge</thingDef>
         <!-- 2000魂楔满质量 -->
         <power>0.0005</power>
+      </li>
+      <li>
+        <!-- <thingDef>Gold</thingDef>: 祭品类型为黄金。 -->
+        <thingDef>Wula_Zro</thingDef>
+        <!-- <power>0.005</power>: 每个黄金增加0.005能量。 -->
+        <!-- 666魂楔满质量 -->
+        <power>0.0015</power>
       </li>
     </extraOfferings>
 
@@ -232,7 +256,7 @@
   <WulaFallenEmpire.PsychicRitual_TechOffering>
     <defName>WULA_FE_Rituals_Create_Mist_Incinerator</defName>
     <label>镌刻：灰烬焚烧术式</label>
-    <description>使用镌刻法术创造一把携带了灰烬焚烧术式的法杖，需求魂楔作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
+    <description>使用镌刻法术创造一把携带了灰烬焚烧术式的法杖，需求魂楔或泽洛作为额外祭品以提升仪式质量，仪式的质量将影响镌刻完成时法杖的质量。</description>
     <hoursUntilOutcome>2</hoursUntilOutcome>
     <cooldownHours>120</cooldownHours>
     <researchPrerequisite>WULA_FE_Spiritualist_Mist_Incinerator_Technology</researchPrerequisite>
@@ -240,6 +264,7 @@
     <descriptionHyperlinks>
       <ThingDef>WULA_SP_Live_Shelter</ThingDef>
       <ThingDef>WULA_Soul_Wedge</ThingDef>
+      <ThingDef>Wula_Zro</ThingDef>
     </descriptionHyperlinks>
 
     <invokerRole>Invoker</invokerRole>
@@ -266,6 +291,13 @@
         <thingDef>WULA_Soul_Wedge</thingDef>
         <!-- 2000魂楔满质量 -->
         <power>0.0005</power>
+      </li>
+      <li>
+        <!-- <thingDef>Gold</thingDef>: 祭品类型为黄金。 -->
+        <thingDef>Wula_Zro</thingDef>
+        <!-- <power>0.005</power>: 每个黄金增加0.005能量。 -->
+        <!-- 666魂楔满质量 -->
+        <power>0.0015</power>
       </li>
     </extraOfferings>
 

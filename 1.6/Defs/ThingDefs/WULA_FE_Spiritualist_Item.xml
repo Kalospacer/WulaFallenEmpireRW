@@ -3,7 +3,7 @@
   <ThingDef ParentName="MakeableDrugBase">
     <defName>Wula_Zro</defName>
     <label>泽洛</label>
-    <description>一种在异星粒子中存在的极其稀有的气溶胶，随着陨石撞击被一起发现，似乎是某个远古先驱者种族死亡时躯体的残留物。除了提供致幻效果外，若拥有灵能天赋的人将其摄入体内，泽珞也会极大的提高灵能力量，并可能导致成瘾。\n\n乌拉帝国拥有根据成分仿造泽洛的技术，换句话来说，在边缘世界流通的泽洛都不算正牌货。</description>
+    <description>一种在异星粒子中存在的极其稀有的气溶胶，随着陨石撞击被一起发现，似乎是某个远古先驱者种族死亡时躯体的残留物。除了提供致幻效果和补充精神力外，若拥有灵能天赋的人将其摄入体内，泽珞也会极大的提高灵能力量，并可能导致成瘾。\n\n乌拉帝国拥有根据成分仿造泽洛的技术，换句话来说，在边缘世界流通的泽洛都不算正牌货。</description>
     <descriptionHyperlinks>
       <HediffDef>Wula_ZroHigh</HediffDef>
       <HediffDef>PsychiteTolerance</HediffDef>
@@ -13,7 +13,7 @@
     <graphicData>
       <texPath>Wula/Item/Wula_Zro</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1</drawSize>
+      <drawSize>0.75</drawSize>
     </graphicData>
     <rotatable>false</rotatable>
     <statBases>
@@ -51,6 +51,9 @@
           <severity>0.03</severity>
           <divideByBodySize>true</divideByBodySize>
           <multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+          <offset>0.2</offset>
         </li>
       </outcomeDoers>
     </ingestible>
@@ -122,6 +125,9 @@
     <effectWorking>Cremate</effectWorking>
     <soundWorking>Recipe_Cremate</soundWorking>
     <autoStripCorpses>true</autoStripCorpses>
+    <researchPrerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </researchPrerequisites>
     <ingredients>
       <li>
         <filter>
@@ -134,22 +140,9 @@
     </ingredients>
     <fixedIngredientFilter>
       <categories>
-        <li>Corpses</li>
+        <li>CorpsesHumanlike</li>
       </categories>
-      <disallowedCategories>
-        <li>CorpsesMechanoid</li>
-      </disallowedCategories>
     </fixedIngredientFilter>
-    <defaultIngredientFilter>
-      <thingDefs>
-        <li>Corpse_Human</li>
-      </thingDefs>
-      <specialFiltersToAllow>
-        <li>AllowCorpsesColonist</li>
-        <li MayRequire="Ludeon.RimWorld.Ideology">AllowCorpsesSlave</li>
-        <li>AllowCorpsesStranger</li>
-      </specialFiltersToAllow>
-    </defaultIngredientFilter>
     <products>
       <Wula_Zro>3</Wula_Zro>
     </products>
