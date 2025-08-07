@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_FE_Spiritualist_1</defName>
+    <label>这部分内容还没做好啦</label>
+    <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_2</portraitPath>
+    <characterName>接线的帝国修女</characterName>
+    <descriptions>
+      <li>杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>打扰了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+</Defs>
