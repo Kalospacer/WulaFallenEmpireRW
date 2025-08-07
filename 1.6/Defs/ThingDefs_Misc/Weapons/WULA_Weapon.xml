@@ -84,7 +84,7 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
-      <WorkToMake>700</WorkToMake>
+      <WorkToMake>1300</WorkToMake>
       <!-- <MarketValue>370</MarketValue> -->
       <Mass>3.5</Mass>
       <AccuracyTouch>0.75</AccuracyTouch>
@@ -117,6 +117,80 @@
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
+  </ThingDef>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Fractal_RF</defName>
+    <label>SLr-14"蓝锥"</label>
+    <description>乌拉帝国的旧式猎枪，使用简易的磁轨结构发射钢针，射速较慢，但是可以在较远距离上击穿动物和入侵殖民地的匪徒的躯体。</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.55</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <recipeMaker>
+      <!-- <WorkToMake>60000</WorkToMake> -->
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_BIO</li>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>1300</WorkToMake>
+      <Mass>3.5</Mass>
+      <AccuracyTouch>0.3</AccuracyTouch>
+      <AccuracyShort>0.8</AccuracyShort>
+      <AccuracyMedium>0.9</AccuracyMedium>
+      <AccuracyLong>0.8</AccuracyLong>
+      <RangedWeapon_Cooldown>0.8</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>120</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Fractal_RF</defaultProjectile>
+        <warmupTime>2</warmupTime>
+        <range>38</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_ChargeBlaster</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
+    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Fractal_RF</defName>
+    <label>蓝锥钢针弹</label>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>25</damageAmountBase>
+      <speed>130</speed>
+      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <stoppingPower>5</stoppingPower>
+    </projectile>
   </ThingDef>
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>WULA_MW_Constructor_Hammer</defName>
@@ -583,109 +657,6 @@
     <weaponTags>
       <li>Wula_Melee_Weapon_T2</li>
     </weaponTags>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-  </ThingDef>
-
-  <!-- 乌拉帝国镇爆枪 -->
-  <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_Fractal_AR</defName>
-    <label>CLa-14"蓝锥"</label>
-    <description>乌拉帝国镇暴部队使用的震爆武器之一，在发射前会照射目标并用微型处理器分析目标特征，随后经过编译的复合能量脉冲将以集束形式射出，瘫痪目标并点燃暴动者的身体，同时还不造成直击伤害。</description>
-    <techLevel>Ultra</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Fractal_AR</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.55</drawSize>
-    </graphicData>
-    <soundInteract>Interact_ChargeRifle</soundInteract>
-    <weaponClasses>
-      <li>LongShots</li>
-      <li>RangedHeavy</li>
-    </weaponClasses>
-    <recipeMaker>
-      <!-- <WorkToMake>60000</WorkToMake> -->
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Stun_Technology</researchPrerequisite>
-      <skillRequirements>
-        <Crafting>5</Crafting>
-      </skillRequirements>
-      <displayPriority>440</displayPriority>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
-    <statBases>
-      <WorkToMake>25000</WorkToMake>
-      <Mass>3.5</Mass>
-      <AccuracyTouch>0.5</AccuracyTouch>
-      <AccuracyShort>0.9</AccuracyShort>
-      <AccuracyMedium>0.75</AccuracyMedium>
-      <AccuracyLong>0.5</AccuracyLong>
-      <RangedWeapon_Cooldown>1.65</RangedWeapon_Cooldown>
-    </statBases>
-    <costList Inherit="False">
-      <Steel>175</Steel>
-      <Plasteel>45</Plasteel>
-      <ComponentSpacer>4</ComponentSpacer>
-    </costList>
-    <verbs>
-      <li>
-        <verbClass>Verb_ShootBeam</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <warmupTime>0.5</warmupTime>
-        <range>30</range>
-        <minRange>0</minRange>
-        <beamFullWidthRange>1</beamFullWidthRange>
-        <burstShotCount>6</burstShotCount>
-        <showBurstShotStats>false</showBurstShotStats>
-        <beamWidth>3</beamWidth>
-        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <beamDamageDef>Stun</beamDamageDef>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
-        <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
-        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-        <beamMaxDeviation>0.1</beamMaxDeviation>
-        <beamCurvature>0</beamCurvature>
-        <beamMoteDef>Mote_GraserBeamBase</beamMoteDef>
-        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
-        <beamChanceToStartFire>0</beamChanceToStartFire>
-        <beamChanceToAttachFire>1</beamChanceToAttachFire>
-        <beamFireSizeRange>1</beamFireSizeRange>
-        <beamLineFleckDef>Fleck_BeamSpark</beamLineFleckDef>
-        <beamStartOffset>0.5</beamStartOffset>
-        <beamLineFleckChanceCurve>
-          <points>
-            <li>(0, 0)</li><!--原版 (0, 0)-->
-            <li>(0.2, 0.1)</li><!--原版 (0.65, 0.4)-->
-            <li>(0.4, 0.2)</li><!--原版 (1, 0.75)-->
-          </points>
-        </beamLineFleckChanceCurve>
-      </li>
-    </verbs>
-    <tools>
-      <li>
-        <label>grip</label>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>9</power>
-        <cooldownTime>2</cooldownTime>
-      </li>
-      <li>
-        <label>barrel</label>
-        <capacities>
-          <li>Blunt</li>
-          <li>Poke</li>
-        </capacities>
-        <power>9</power>
-        <cooldownTime>2</cooldownTime>
-      </li>
-    </tools>
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>

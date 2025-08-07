@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>Wula_Zro</defName>
+    <label>泽洛</label>
+    <description>一种在异星粒子中存在的极其稀有的气溶胶，随着陨石撞击被一起发现，似乎是某个远古先驱者种族死亡时躯体的残留物。除了提供致幻效果外，若拥有灵能天赋的人将其摄入体内，泽珞也会极大的提高灵能力量，并可能导致成瘾。\n\n乌拉帝国拥有根据成分仿造泽洛的技术，换句话来说，在边缘世界流通的泽洛都不算正牌货。</description>
+    <descriptionHyperlinks>
+      <HediffDef>Wula_ZroHigh</HediffDef>
+      <HediffDef>PsychiteTolerance</HediffDef>
+      <HediffDef>PsychiteAddiction</HediffDef>
+      <HediffDef>ChemicalDamageSevere</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Wula/Item/Wula_Zro</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>350</WorkToMake>
+      <MarketValue>30</MarketValue>
+      <Mass>0.05</Mass>
+    </statBases>
+    <techLevel>Archotech</techLevel>
+    <!-- <minRewardCount>10</minRewardCount> -->
+    <ingestible>
+      <foodType>Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.80</joy>
+      <drugCategory>Social</drugCategory>
+      <baseIngestTicks>150</baseIngestTicks>
+      <ingestSound>Ingest_Snort</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.21,0,0.05)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>吸 {0}</ingestCommandString>
+      <ingestReportString>正在吸 {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Wula_ZroHigh</hediffDef>
+          <severity>1</severity>
+          <toleranceChemical>Psychite</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PsychiteTolerance</hediffDef>
+          <toleranceChemical>Psychite</toleranceChemical>
+          <severity>0.03</severity>
+          <divideByBodySize>true</divideByBodySize>
+          <multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <!-- <researchPrerequisite>PsychiteRefining</researchPrerequisite> -->
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>1700</displayPriority>
+    </recipeMaker>
+    <!-- <costList>
+      <PsychoidLeaves>8</PsychoidLeaves>
+    </costList> -->
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Psychite</chemical>
+        <addictiveness>0.02</addictiveness>
+        <minToleranceToAddict>0.10</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>110</listOrder>
+      </li>
+    </comps>
+    <allowedArchonexusCount>200</allowedArchonexusCount>
+  </ThingDef>
+  <HediffDef>
+    <defName>Wula_ZroHigh</defName>
+    <label>泽洛亢奋</label>
+    <labelNoun>泽洛亢奋</labelNoun>
+    <description>吸食泽洛后，吸食者会感觉自己像打开了一扇天窗一般，心灵都变得透彻了。</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <statOffsets>
+            <PsychicSensitivity>2.5</PsychicSensitivity>
+          </statOffsets>
+        </li>
+      </stages>
+  </HediffDef>
+  <ThoughtDef>
+    <defName>Wula_ZroHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>Wula_ZroHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>泽洛亢奋</label>
+        <description>我···我看到了！我全都看到了！</description>
+        <baseMoodEffect>30</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <RecipeDef>
+    <defName>Wula_Make_Zro</defName>
+    <label>烧制泽洛</label>
+    <description>使用尸体烧制泽洛。</description>
+    <jobString>烧制中。</jobString>
+    <workAmount>300</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <effectWorking>Cremate</effectWorking>
+    <soundWorking>Recipe_Cremate</soundWorking>
+    <autoStripCorpses>true</autoStripCorpses>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Corpses</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Corpses</li>
+      </categories>
+      <disallowedCategories>
+        <li>CorpsesMechanoid</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <thingDefs>
+        <li>Corpse_Human</li>
+      </thingDefs>
+      <specialFiltersToAllow>
+        <li>AllowCorpsesColonist</li>
+        <li MayRequire="Ludeon.RimWorld.Ideology">AllowCorpsesSlave</li>
+        <li>AllowCorpsesStranger</li>
+      </specialFiltersToAllow>
+    </defaultIngredientFilter>
+    <products>
+      <Wula_Zro>3</Wula_Zro>
+    </products>
+  </RecipeDef>
+</Defs>
