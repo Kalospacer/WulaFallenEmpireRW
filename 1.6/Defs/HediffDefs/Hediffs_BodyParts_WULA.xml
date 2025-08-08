@@ -1002,8 +1002,9 @@
     <description>一种一次性使用的堕落乌拉帝国修理套件，专门用来完全修复机械乌拉。</description>
     <descriptionHyperlinks><RecipeDef>AdministerWULA_MechRepairKit</RecipeDef></descriptionHyperlinks>
     <graphicData>
-      <texPath>Things/Item/Special/MechSerumHealer</texPath> <!-- Using original texture for now -->
+      <texPath>Wula/Item/WULA_MechRepairKit</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.7</drawSize>
     </graphicData>
     <stackLimit>10</stackLimit>
     <statBases>
