@@ -2,15 +2,25 @@
 <Defs>
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_FE_Spiritualist_1</defName>
-    <label>这部分内容还没做好啦</label>
+    <label>乌拉帝国 大教堂</label>
     <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_2</portraitPath>
-    <characterName>接线的帝国修女</characterName>
+    <characterName>帝国修女</characterName>
     <descriptions>
-      <li>杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你杀了你</li>
+      <li>·····明明只是一群臭鱼烂虾居然敢对帝国教会刀剑相向真该把你们这群无信者折磨宰杀剥皮缝制沙发肉丢给沼泽猎犬头颅挂在枯树上诅咒你们的灵魂迷失在至高天中烂在无人知晓的角落变成虚境生物的脚底烂泥</li>
     </descriptions>
     <options>
       <li>
-        <label>打扰了</label>
+        <label>我们想要和教会和解</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>你这是吸泽洛把脑子吸坏了吗</label>
         <optionEffects>
           <li>
             <effects>
