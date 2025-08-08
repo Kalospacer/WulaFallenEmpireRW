@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-    <JobDef>
-        <defName>WULA_IngestWulaEnergy</defName>
-        <driverClass>WulaFallenEmpire.JobDriver_IngestWulaEnergy</driverClass>
-        <reportString>正在摄取能量。</reportString>
-        <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
-    </JobDef>
 
-    <JobDef>
-        <defName>WULA_FeedWulaPatient</defName>
-        <driverClass>WulaFallenEmpire.JobDriver_FeedWulaPatient</driverClass>
-        <reportString>正在喂食能量核心。</reportString>
-        <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
-    </JobDef>
+  <JobDef>
+    <defName>WULA_HaulToMaintenancePod</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_HaulToMaintenancePod</driverClass>
+    <reportString>hauling TargetA to TargetB.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
 </Defs>
