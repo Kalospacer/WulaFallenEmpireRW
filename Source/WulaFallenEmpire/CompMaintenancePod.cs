@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace WulaFallenEmpire
 {
@@ -31,14 +32,12 @@ namespace WulaFallenEmpire
     }
 
     [StaticConstructorOnStartup]
-    public class CompMaintenancePod : ThingComp, IThingHolder, IStoreSettingsParent
+    public class CompMaintenancePod : ThingComp, IThingHolder
     {
         // ===================== Fields =====================
         private ThingOwner innerContainer;
         private CompPowerTrader powerComp;
-        private StorageSettings allowedComponentSettings;
-
-        public float storedComponents = 0f;
+        private CompRefuelable refuelableComp;
         private int ticksRemaining;
         private MaintenancePodState state = MaintenancePodState.Idle;
 
@@ -64,36 +63,20 @@ namespace WulaFallenEmpire
             innerContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
         }
 
-        public override void Initialize(CompProperties props)
-        {
-            base.Initialize(props);
-            // Setup allowed thing filter for components
-            allowedComponentSettings = new StorageSettings(this);
-            if (parent.def.building.defaultStorageSettings != null)
-            {
-                allowedComponentSettings.CopyFrom(parent.def.building.defaultStorageSettings);
-            }
-            else if (Props.componentDef != null)
-            {
-                allowedComponentSettings.filter = new ThingFilter();
-                allowedComponentSettings.filter.SetAllow(Props.componentDef, true);
-            }
-        }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
             powerComp = parent.TryGetComp<CompPowerTrader>();
+            refuelableComp = parent.TryGetComp<CompRefuelable>();
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref state, "state", MaintenancePodState.Idle);
-            Scribe_Values.Look(ref storedComponents, "storedComponents", 0f);
             Scribe_Values.Look(ref ticksRemaining, "ticksRemaining", 0);
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
-            Scribe_Deep.Look(ref allowedComponentSettings, "allowedComponentSettings", this);
         }
 
         // ===================== IThingHolder Implementation =====================
@@ -106,13 +89,6 @@ namespace WulaFallenEmpire
         {
             return innerContainer;
         }
-
-        // ===================== IStoreSettingsParent Implementation =====================
-        public StorageSettings GetStoreSettings() => allowedComponentSettings;
-        public StorageSettings GetParentStoreSettings() => parent.def.building.fixedStorageSettings;
-        public void Notify_SettingsChanged() { }
-        public bool StorageTabVisible => true;
-
 
         // ===================== Core Logic =====================
         public override void CompTick()
@@ -143,13 +119,13 @@ namespace WulaFallenEmpire
         public void StartCycle(Pawn pawn)
         {
             float required = RequiredComponents(pawn);
-            if (storedComponents < required)
+            if (refuelableComp == null || refuelableComp.Fuel < required)
             {
                 Log.Error($"[WulaFallenEmpire] Tried to start maintenance cycle for {pawn.LabelShort} without enough components. This should have been checked earlier.");
                 return;
             }
 
-            storedComponents -= required;
+            refuelableComp.ConsumeFuel(required);
             state = MaintenancePodState.Running;
             ticksRemaining = Props.durationTicks;
 
@@ -174,7 +150,7 @@ namespace WulaFallenEmpire
                 Hediff hediff = occupant.health.hediffSet.GetFirstHediffOfDef(Props.hediffToRemove);
                 if (hediff != null)
                 {
-                    occupant.health.RemoveHediff(hediff);
+                    hediff.Severity = 0.01f;
                     Messages.Message("WULA_MaintenanceComplete".Translate(occupant.Named("PAWN")), occupant, MessageTypeDefOf.PositiveEvent);
                 }
             }
@@ -190,19 +166,13 @@ namespace WulaFallenEmpire
                 GenPlace.TryPlaceThing(occupant, parent.InteractionCell, parent.Map, ThingPlaceMode.Near);
                 if (Props.exitSound != null)
                 {
-                    Props.exitSound.PlayOneShot(new TargetInfo(parent.Position, parent.Map));
+                    SoundStarter.PlayOneShot(Props.exitSound, new TargetInfo(parent.Position, parent.Map));
                 }
             }
             innerContainer.Clear();
             state = MaintenancePodState.Idle;
         }
         
-        public void AddComponents(Thing components)
-        {
-            int count = components.stackCount;
-            storedComponents += count;
-            components.Destroy();
-        }
 
         // ===================== UI & Gizmos =====================
         public override string CompInspectStringExtra()
@@ -216,7 +186,10 @@ namespace WulaFallenEmpire
                 sb.AppendLine("TimeLeft".Translate() + ": " + ticksRemaining.ToStringTicksToPeriod());
             }
             
-            sb.AppendLine("WULA_MaintenancePod_StoredComponents".Translate() + ": " + storedComponents.ToString("F0"));
+            if (refuelableComp != null)
+            {
+                sb.AppendLine("WULA_MaintenancePod_StoredComponents".Translate() + ": " + refuelableComp.Fuel.ToString("F0") + " / " + refuelableComp.Props.fuelCapacity.ToString("F0"));
+            }
 
             if (!PowerOn)
             {
@@ -244,12 +217,12 @@ namespace WulaFallenEmpire
                             if (p.health.hediffSet.HasHediff(Props.hediffToRemove))
                             {
                                 float required = RequiredComponents(p);
-                                if (storedComponents >= required)
+                                if (refuelableComp != null && refuelableComp.Fuel >= required)
                                 {
                                     options.Add(new FloatMenuOption(p.LabelShort, () =>
                                     {
-                                        // TODO: Create and assign job
-                                        Messages.Message("This needs a JobDriver.", MessageTypeDefOf.RejectInput);
+                                        Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_EnterMaintenancePod, parent);
+                                        p.jobs.TryTakeOrderedJob(job, JobTag.Misc);
                                     }));
                                 }
                                 else

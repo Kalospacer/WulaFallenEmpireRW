@@ -72,6 +72,7 @@
     <Compile Include="CompApparelInterceptor.cs" />
     <Compile Include="CompCustomUniqueWeapon.cs" />
     <Compile Include="CompProperties_CustomUniqueWeapon.cs" />
+    <Compile Include="CompMaintenancePod.cs" />
     <Compile Include="CompWulaRitualSpot.cs" />
     <Compile Include="CompPsychicScaling.cs" />
     <Compile Include="CompUseEffect_FixAllHealthConditions.cs" />
@@ -98,9 +99,11 @@
     <Compile Include="HediffComp_WulaCharging.cs" />
     <Compile Include="IngestPatch.cs" />
     <Compile Include="JobDriver_FeedWulaPatient.cs" />
+    <Compile Include="JobDriver_EnterMaintenancePod.cs" />
     <Compile Include="JobDriver_IngestWulaEnergy.cs" />
     <Compile Include="JobGiver_WulaGetEnergy.cs" />
     <Compile Include="JobGiver_WulaPackEnergy.cs" />
+    <Compile Include="Job_Maintenance.cs" />
     <Compile Include="JobGiverDefExtension_WulaPackEnergy.cs" />
     <Compile Include="LightningBombardment.cs" />
     <Compile Include="MechanitorPatch.cs" />
@@ -140,7 +143,7 @@
     <Compile Include="WulaStatDefOf.cs" />
     <Compile Include="Building_MaintenancePod.cs" />
     <Compile Include="HediffComp_MaintenanceNeed.cs" />
-    <Compile Include="Job_Maintenance.cs" />
+<Compile Include="JobDefOf_WULA.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

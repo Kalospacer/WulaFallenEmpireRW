@@ -4,10 +4,6 @@ using Verse.AI;
 
 namespace WulaFallenEmpire
 {
-    public class JobDriver_EnterMaintenancePod : JobDriver_EnterBiosculpterPod
-    {
-    }
-
     public class WorkGiver_DoMaintenance : WorkGiver_Scanner
     {
         public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForDef(ThingDef.Named("WULA_MaintenancePod"));

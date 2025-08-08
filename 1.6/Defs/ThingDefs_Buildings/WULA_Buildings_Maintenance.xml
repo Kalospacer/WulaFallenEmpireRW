@@ -42,13 +42,6 @@
     <building>
       <destroySound>BuildingDestroyed_Metal_Big</destroySound>
       <uninstallWork>1800</uninstallWork>
-      <defaultStorageSettings>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-      </defaultStorageSettings>
     </building>
     <designationCategory>Misc</designationCategory>
     <minifiedDef>MinifiedThing</minifiedDef>
@@ -79,9 +72,6 @@
     <placeWorkers>
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
     </placeWorkers>
-    <inspectorTabs>
-      <li>ITab_Storage</li>
-    </inspectorTabs>
   </ThingDef>
 
 </Defs>
