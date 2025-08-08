@@ -10,16 +10,6 @@
     </descriptions>
     <options>
       <li>
-        <label>我们想要和教会和解</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
         <label>你这是吸泽洛把脑子吸坏了吗</label>
         <optionEffects>
           <li>
