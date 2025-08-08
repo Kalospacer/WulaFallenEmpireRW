@@ -24,7 +24,7 @@ namespace WulaFallenEmpire
                 var actionManager = Find.World.GetComponent<DelayedActionManager>();
                 if (actionManager != null)
                 {
-                    actionManager.AddAction(() => OpenUI(), delayTicks);
+                    actionManager.AddAction(defName, delayTicks);
                 }
                 else
                 {

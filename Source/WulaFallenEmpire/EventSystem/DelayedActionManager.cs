@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
@@ -7,10 +8,26 @@ namespace WulaFallenEmpire
 {
     public class DelayedActionManager : WorldComponent
     {
-        private class DelayedAction
+        // Nested class must be public to be accessible for serialization
+        public class DelayedAction : IExposable
         {
             public int TicksRemaining;
-            public Action Action;
+            public string eventDefName;
+
+            // Parameterless constructor for Scribe
+            public DelayedAction() { }
+
+            public DelayedAction(string eventDefName, int ticks)
+            {
+                this.eventDefName = eventDefName;
+                this.TicksRemaining = ticks;
+            }
+
+            public void ExposeData()
+            {
+                Scribe_Values.Look(ref TicksRemaining, "ticksRemaining", 0);
+                Scribe_Values.Look(ref eventDefName, "eventDefName");
+            }
         }
 
         private List<DelayedAction> actions = new List<DelayedAction>();
@@ -19,13 +36,13 @@ namespace WulaFallenEmpire
         {
         }
 
-        public void AddAction(Action action, int delayTicks)
+        public void AddAction(string eventDefName, int delayTicks)
         {
-            if (action == null || delayTicks <= 0)
+            if (string.IsNullOrEmpty(eventDefName) || delayTicks <= 0)
             {
                 return;
             }
-            actions.Add(new DelayedAction { TicksRemaining = delayTicks, Action = action });
+            actions.Add(new DelayedAction(eventDefName, delayTicks));
         }
 
         public override void WorldComponentTick()
@@ -39,23 +56,40 @@ namespace WulaFallenEmpire
                 {
                     try
                     {
-                        delayedAction.Action();
+                        ExecuteAction(delayedAction.eventDefName);
                     }
                     catch (Exception ex)
                     {
-                        Log.Error($"[WulaFallenEmpire] Error executing delayed action: {ex}");
+                        Log.Error($"[WulaFallenEmpire] Error executing delayed action for event '{delayedAction.eventDefName}': {ex}");
                     }
                     actions.RemoveAt(i);
                 }
             }
         }
-        
+
+        private void ExecuteAction(string defName)
+        {
+            EventDef nextDef = DefDatabase<EventDef>.GetNamed(defName, false);
+            if (nextDef != null)
+            {
+                // This logic is simplified from Effect_OpenCustomUI.OpenUI
+                // It assumes delayed actions always open a new dialog.
+                Find.WindowStack.Add(new Dialog_CustomDisplay(nextDef));
+            }
+            else
+            {
+                Log.Error($"[WulaFallenEmpire] DelayedActionManager could not find EventDef named '{defName}'");
+            }
+        }
+
         public override void ExposeData()
         {
-            // This simple manager does not save scheduled actions across game loads.
-            // If you need actions to persist, you would need a more complex system
-            // to serialize the action's target and parameters.
             base.ExposeData();
+            Scribe_Collections.Look(ref actions, "delayedActions", LookMode.Deep);
+            if (actions == null)
+            {
+                actions = new List<DelayedAction>();
+            }
         }
     }
 }
