@@ -151,4 +151,28 @@ namespace WulaFallenEmpire
             return met;
         }
     }
+public class Condition_FactionExists : Condition
+    {
+        public FactionDef factionDef;
+
+        public override bool IsMet(out string reason)
+        {
+            if (factionDef == null)
+            {
+                reason = "FactionDef not specified in Condition_FactionExists.";
+                return false;
+            }
+
+            bool exists = Find.FactionManager.FirstFactionOfDef(factionDef) != null;
+            if (!exists)
+            {
+                reason = $"Faction '{factionDef.label}' does not exist in the world.";
+            }
+            else
+            {
+                reason = "";
+            }
+            return exists;
+        }
+    }
 }

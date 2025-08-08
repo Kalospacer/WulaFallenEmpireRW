@@ -113,7 +113,7 @@
     <Compile Include="PsychicRitual_TechOffering.cs" />
     <Compile Include="PsychicRitualDef_AddHediff.cs" />
     <Compile Include="PsychicRitualToil_AddHediff.cs" />
-<Compile Include="MoharHediffs\HediffCompProperties_Spawner.cs" />
+    <Compile Include="MoharHediffs\HediffCompProperties_Spawner.cs" />
     <Compile Include="MoharHediffs\HediffComp_Spawner.cs" />
     <Compile Include="MoharHediffs\Tools.cs" />
     <Compile Include="RitualTagExtension.cs" />
@@ -138,6 +138,9 @@
     <Compile Include="WulaCaravanEnergyDef.cs" />
     <Compile Include="WulaFallenEmpireMod.cs" />
     <Compile Include="WulaStatDefOf.cs" />
+    <Compile Include="Building_MaintenancePod.cs" />
+    <Compile Include="HediffComp_MaintenanceNeed.cs" />
+    <Compile Include="Job_Maintenance.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

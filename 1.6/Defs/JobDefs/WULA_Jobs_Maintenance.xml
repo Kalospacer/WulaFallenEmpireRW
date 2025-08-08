@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <JobDef>
+    <defName>WULA_LoadComponentsToMaintenancePod</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_LoadComponents</driverClass>
+    <reportString>正在为维护舱装填零部件。</reportString>
+    <haulMode>ToCellNonStorage</haulMode>
+  </JobDef>
+
+  <JobDef>
+    <defName>WULA_EnterMaintenancePod</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_EnterMaintenancePod</driverClass>
+    <reportString>正在进入维护舱。</reportString>
+  </JobDef>
+
+</Defs>

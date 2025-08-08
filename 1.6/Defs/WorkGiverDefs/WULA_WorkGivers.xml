@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WorkGiverDef>
+    <defName>WULA_LoadComponentsToMaintenancePod</defName>
+    <label>装填维护舱</label>
+    <giverClass>WulaFallenEmpire.WorkGiver_LoadComponents</giverClass>
+    <workType>Hauling</workType>
+    <verb>装填</verb>
+    <gerund>装填于</gerund>
+    <priorityInType>110</priorityInType> <!-- High priority for hauling -->
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>WULA_EnterMaintenancePod</defName>
+    <label>进行机体维护</label>
+    <giverClass>WulaFallenEmpire.WorkGiver_EnterMaintenancePod</giverClass>
+    <workType>Patient</workType>
+    <verb>进行维护</verb>
+    <gerund>进行维护于</gerund>
+    <priorityInType>100</priorityInType> <!-- High priority for self-care -->
+  </WorkGiverDef>
+
+</Defs>
