@@ -22,10 +22,13 @@
         </optionEffects>
       </li>
       <li>
-        <label>乌拉帝国 大教堂（尚在制作）</label>
+        <label>乌拉帝国 大教堂</label>
         <optionEffects>
           <li>
             <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_1</defName>
+              </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
           </li>

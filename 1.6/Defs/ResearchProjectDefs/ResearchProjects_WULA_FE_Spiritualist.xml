@@ -141,10 +141,44 @@
     <description>灵能泰坦是效力于乌拉帝国国教的重型灵能机械体，能够在战场上进行跃迁，拥有强大的实力、坚固的灵能盾和繁多的灵能技能，但是机体本身较为脆弱。</description>
     <baseCost>4000</baseCost>
     <researchViewX>1.50</researchViewX>
-    <researchViewY>2.70</researchViewY>
+    <researchViewY>0.00</researchViewY>
     <prerequisites>
       <li>WULA_FE_Spiritualist_Base_Technology</li>
       <li>WULA_Machine_Productor_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <!-- 组件 -->
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_CPU_Psienhance_Technology</defName>
+    <label>灵能组件</label>
+    <description>开发能够安装于机械乌拉的生物处理器的特殊改件，强化其与虚境的亲和，增强心灵敏感度。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>3.40</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_CPU_Prophet_Technology</defName>
+    <label>预知组件</label>
+    <description>开发能够安装于机械乌拉的生物处理器的特殊改件，能够让其瞬时地预知敌人的动作，以获得射击精度和近战命中率加成。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>1.50</researchViewX>
+    <researchViewY>2.70</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+    <defName>WULA_FE_Spiritualist_Soul_Wedge_Extract_Technology</defName>
+    <label>魂楔提取器</label>
+    <description>开发一种特殊插件，会深深地植入俘虏和奴隶的大脑，使其再也无法醒来，并周期性地产生魂楔——年龄越大，凝聚速度越快。</description>
+    <baseCost>4000</baseCost>
+    <researchViewX>2.50</researchViewX>
+    <researchViewY>2.70</researchViewY>
+    <prerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
 </Defs>
