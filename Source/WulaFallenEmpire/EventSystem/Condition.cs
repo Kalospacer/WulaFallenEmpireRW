@@ -151,7 +151,8 @@ namespace WulaFallenEmpire
             return met;
         }
     }
-public class Condition_FactionExists : Condition
+    
+    public class Condition_FactionExists : Condition
     {
         public FactionDef factionDef;
 

@@ -56,16 +56,26 @@
         <basePowerConsumption>50</basePowerConsumption> <!-- This is now idle power -->
       </li>
       <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>50.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelLabel>零部件</fuelLabel>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_MaintenancePod">
         <durationTicks>60000</durationTicks> <!-- 1 day -->
         <powerConsumptionRunning>250</powerConsumptionRunning>
         <powerConsumptionIdle>5</powerConsumptionIdle>
         <hediffToRemove>WULA_Maintenance_Neglect</hediffToRemove>
-        <componentDef>ComponentIndustrial</componentDef>
         <componentCostPerSeverity>5</componentCostPerSeverity> <!-- 5 components per 100% severity -->
         <baseComponentCost>0</baseComponentCost>
         <minSeverityToMaintain>0.75</minSeverityToMaintain>
-        <capacity>5</capacity>
         <hediffSeverityAfterCycle>0.01</hediffSeverityAfterCycle>
         <enterSound>BiosculpterPod_Enter</enterSound>
         <exitSound>BiosculpterPod_Exit</exitSound>

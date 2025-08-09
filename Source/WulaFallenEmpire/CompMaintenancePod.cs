@@ -20,11 +20,9 @@ namespace WulaFallenEmpire
         public float powerConsumptionRunning = 250f;
         public float powerConsumptionIdle = 50f;
         public HediffDef hediffToRemove;
-        public ThingDef componentDef;
         public float componentCostPerSeverity = 1f; // How many components per 1.0 severity
         public int baseComponentCost = 0; // A flat cost in addition to severity cost
         public float minSeverityToMaintain = 0.75f; // The hediff severity required to trigger maintenance
-        public int capacity = 50;
         public float hediffSeverityAfterCycle = 0.01f;
 
         public CompProperties_MaintenancePod()
@@ -34,13 +32,12 @@ namespace WulaFallenEmpire
     }
 
     [StaticConstructorOnStartup]
-    public class CompMaintenancePod : ThingComp, IThingHolder, IStoreSettingsParent
+    public class CompMaintenancePod : ThingComp, IThingHolder
     {
         // ===================== Fields =====================
         private ThingOwner innerContainer;
         private CompPowerTrader powerComp;
-        private StorageSettings allowedComponentSettings;
-        public float storedComponents = 0f;
+        private CompRefuelable refuelableComp;
         private int ticksRemaining;
         private MaintenancePodState state = MaintenancePodState.Idle;
 
@@ -60,8 +57,6 @@ namespace WulaFallenEmpire
             return Props.baseComponentCost + (int)(hediff.Severity * Props.componentCostPerSeverity);
         }
 
-        public bool CanAcceptComponents(int count) => storedComponents + count <= Props.capacity;
-
         // ===================== Setup =====================
         public CompMaintenancePod()
         {
@@ -72,28 +67,21 @@ namespace WulaFallenEmpire
         public override void Initialize(CompProperties props)
         {
             base.Initialize(props);
-            allowedComponentSettings = new StorageSettings(this);
-            if (Props.componentDef != null)
-            {
-                allowedComponentSettings.filter = new ThingFilter();
-                allowedComponentSettings.filter.SetAllow(Props.componentDef, true);
-            }
         }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
             powerComp = parent.TryGetComp<CompPowerTrader>();
+            refuelableComp = parent.TryGetComp<CompRefuelable>();
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref state, "state", MaintenancePodState.Idle);
-            Scribe_Values.Look(ref storedComponents, "storedComponents", 0f);
             Scribe_Values.Look(ref ticksRemaining, "ticksRemaining", 0);
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
-            Scribe_Deep.Look(ref allowedComponentSettings, "allowedComponentSettings", this);
         }
 
         // ===================== IThingHolder Implementation =====================
@@ -106,12 +94,6 @@ namespace WulaFallenEmpire
         {
             return innerContainer;
         }
-
-        // ===================== IStoreSettingsParent Implementation =====================
-        public StorageSettings GetStoreSettings() => allowedComponentSettings;
-        public StorageSettings GetParentStoreSettings() => null; // No parent settings
-        public void Notify_SettingsChanged() { }
-        public bool StorageTabVisible => false; // We show it in the inspect string
 
         // ===================== Core Logic =====================
         public override void CompTick()
@@ -142,13 +124,13 @@ namespace WulaFallenEmpire
         public void StartCycle(Pawn pawn)
         {
             float required = RequiredComponents(pawn);
-            if (storedComponents < required)
+            if (refuelableComp.Fuel < required)
             {
                 Log.Error($"[WulaFallenEmpire] Tried to start maintenance cycle for {pawn.LabelShort} without enough components. This should have been checked earlier.");
                 return;
             }
 
-            storedComponents -= required;
+            refuelableComp.ConsumeFuel(required);
             state = MaintenancePodState.Running;
             ticksRemaining = Props.durationTicks;
 
@@ -197,13 +179,6 @@ namespace WulaFallenEmpire
         }
         
 
-        public void AddComponents(Thing components)
-        {
-            int count = components.stackCount;
-            storedComponents += count;
-            components.Destroy();
-        }
-        
         // ===================== UI & Gizmos =====================
         public override string CompInspectStringExtra()
         {
@@ -215,8 +190,6 @@ namespace WulaFallenEmpire
                 sb.AppendLine("Contains".Translate() + ": " + Occupant.NameShortColored.Resolve());
                 sb.AppendLine("TimeLeft".Translate() + ": " + ticksRemaining.ToStringTicksToPeriod());
             }
-            
-            sb.AppendLine("WULA_MaintenancePod_StoredComponents".Translate() + ": " + storedComponents.ToString("F0") + " / " + Props.capacity.ToString("F0"));
 
             if (!PowerOn)
             {
@@ -244,10 +217,10 @@ namespace WulaFallenEmpire
                             if (Props.hediffToRemove != null && p.health.hediffSet.HasHediff(Props.hediffToRemove))
                             {
                                 float required = RequiredComponents(p);
-                                if (storedComponents >= required)
-                                {
-                                    options.Add(new FloatMenuOption(p.LabelShort, () =>
-                                    {
+                                if (refuelableComp.Fuel >= required)
+                                 {
+                                     options.Add(new FloatMenuOption(p.LabelShort, () =>
+                                     {
                                         Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_EnterMaintenancePod, parent);
                                         p.jobs.TryTakeOrderedJob(job, JobTag.Misc);
                                     }));

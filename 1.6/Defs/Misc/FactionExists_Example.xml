@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 
+  这是一个如何使用 Condition_FactionExists 的示例。
+  它定义了一个自定义事件，该事件只有在满足特定条件时才会触发。
+  -->
+  <WulaFallenEmpire.EventDef>
+    <defName>MyCustomEvent_RequiresMechanoids</defName>
+    <label>需要机械族的事件</label>
+    <description>一个只有在机械族存在时才会发生的特殊事件。</description>
+    
+    <!-- 在这里放置其他的事件相关属性, 例如事件的触发概率、效果等 -->
+
+    <conditions>
+      <!-- 
+      这是条件列表。游戏会检查所有这些条件是否都满足。
+      'Class' 属性指定了要使用的 C# 条件类。
+      -->
+      <li Class="WulaFallenEmpire.Condition_FactionExists">
+        <!-- 
+        这会设置 Condition_FactionExists 类中的 'factionDef' 字段。
+        游戏会检查 defName 为 "Mechanoid" 的派系当前是否存在于世界地图上。
+        -->
+        <factionDef>Mechanoid</factionDef>
+      </li>
+      
+      <!-- 您可以在这里添加更多的条件, 例如:
+      <li Class="AnotherCondition">
+        <someValue>123</someValue>
+      </li>
+      -->
+
+    </conditions>
+
+    <!-- 
+    如果所有条件都满足，事件的效果将在这里定义。
+    <effects>
+      ...
+    </effects>
+    -->
+
+  </WulaFallenEmpire.EventDef>
+
+</Defs>
