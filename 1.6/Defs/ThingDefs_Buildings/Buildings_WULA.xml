@@ -36,7 +36,7 @@
     <size>(2,2)</size>
     <hasInteractionCell>True</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
-    <designationCategory>Production</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <uiOrder>2120</uiOrder>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
@@ -89,7 +89,7 @@
       <WorkTableWorkSpeedFactor>0.5</WorkTableWorkSpeedFactor>
     </statBases>
     <size>(1,1)</size>
-    <designationCategory>Production</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <uiOrder>2120</uiOrder>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
@@ -166,7 +166,7 @@
       <Flammability>1.0</Flammability>
     </statBases>
     <size>(1,1)</size>
-    <designationCategory>Production</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <uiOrder>2120</uiOrder>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
@@ -241,7 +241,7 @@
     <researchPrerequisites>
       <li>WULA_Dark_Matter_Technology</li>
     </researchPrerequisites>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <minifiedDef>MinifiedThing</minifiedDef>
     <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
     <thingCategories>
@@ -297,6 +297,7 @@
     <castEdgeShadows>true</castEdgeShadows>
     <fillPercent>0.5</fillPercent>
     <staticSunShadowHeight>0</staticSunShadowHeight>
+    <designationCategory>WULA_Buildings</designationCategory>
     <researchPrerequisites Inherit="False">
       <li>WULA_Base_Technology</li>
     </researchPrerequisites>
@@ -346,7 +347,7 @@
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>
-    <designationCategory>Biotech</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <uiOrder>2400</uiOrder>
     <defaultPlacingRot>South</defaultPlacingRot>
     <placeWorkers>
@@ -567,7 +568,7 @@
       <ComponentSpacer>8</ComponentSpacer>
       <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
     </costList>
-    <designationCategory>Odyssey</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <costList>
       <Steel>100</Steel>
       <ComponentSpacer>2</ComponentSpacer>
@@ -657,7 +658,7 @@
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <researchPrerequisites>
       <li>WULA_Base_Technology</li>
     </researchPrerequisites>
@@ -743,7 +744,7 @@
     <fillPercent>0.5</fillPercent>
     <hasTooltip>true</hasTooltip>
     <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
-    <designationCategory>Security</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <building>
       <combatPower>640</combatPower>
       <!--<buildingTags>

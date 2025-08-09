@@ -12,7 +12,7 @@
       <shaderType>CutoutComplex</shaderType>
       <color>(0.5, 0.5, 0.5)</color>
     </graphicData>
-    <designationCategory>Structure</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <researchPrerequisites>
       <li>WULA_Structure_Technology</li>
     </researchPrerequisites>
@@ -98,7 +98,7 @@
     <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
     <stuffCategories Inherit="False"></stuffCategories>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Structure</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <holdsRoof>true</holdsRoof>
     <staticSunShadowHeight>1.0</staticSunShadowHeight>
     <blockLight>true</blockLight>
