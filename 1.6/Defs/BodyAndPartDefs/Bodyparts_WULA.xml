@@ -558,90 +558,7 @@
     <destroyableByDamage>false</destroyableByDamage>
   </BodyPartDef>
 
-  <BodyDef>
-    <defName>WULA_AI_Heavy_Panzer_Body</defName>
-    <label>智能战车</label>
-    <corePart>
-      <def>Torso</def>
-      <height>Middle</height>
-      <depth>Outside</depth>
-      <groups>
-        <li>Torso</li>
-      </groups>
-      <parts>
-        <!-- 脖子和头部 -->
-        <li>
-          <def>WULA_Outer_Armor_Bodypart</def>
-          <coverage>0.99</coverage>
-          <height>Top</height>
-          <groups>
-            <li>Torso</li>
-          </groups>
-          <parts>
-            <li>
-              <def>WULA_Panzer_Core_Bodypart</def>
-              <coverage>0.025</coverage>
-              <depth>Inside</depth>
-              <groups>
-                <li>Torso</li>
-              </groups>
-            </li>
-            <li>
-              <def>WULA_AI_Core_Bodypart</def>
-              <coverage>0.025</coverage>
-              <depth>Inside</depth>
-              <groups>
-                <li>Torso</li>
-              </groups>
-            </li>
-            <li>
-              <def>SightSensor</def>
-              <coverage>0.13</coverage>
-              <groups>
-                <li>Torso</li>
-              </groups>
-            </li>
-            <li>
-              <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第一反推喷气孔</customLabel>
-              <coverage>0.025</coverage>
-              <depth>Inside</depth>
-              <groups>
-                <li>Torso</li>
-              </groups>
-            </li>
-            <li>
-              <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第二反推喷气孔</customLabel>
-              <coverage>0.025</coverage>
-              <depth>Inside</depth>
-              <groups>
-                <li>Torso</li>
-              </groups>
-            </li>
-            <li>
-              <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第三反推喷气孔</customLabel>
-              <coverage>0.025</coverage>
-              <depth>Inside</depth>
-              <groups>
-                <li>Torso</li>
-              </groups>
-            </li>
-            <li>
-              <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第四反推喷气孔</customLabel>
-              <coverage>0.025</coverage>
-              <depth>Inside</depth>
-              <groups>
-                <li>Torso</li>
-              </groups>
-            </li>
-          </parts>
-        </li>
-      </parts>
-    </corePart>
-  </BodyDef>
+
   <BodyDef>
     <defName>Wula_AI_Engineer_Mother_Body</defName>
     <label>开拓单元</label>
@@ -881,4 +798,5 @@
       </parts>
     </corePart>
   </BodyDef>
+
 </Defs>

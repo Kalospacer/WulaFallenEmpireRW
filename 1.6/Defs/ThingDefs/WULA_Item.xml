@@ -59,7 +59,7 @@
     <comps>
       <li Class="CompProperties_Forbiddable" />
       <li Class="CompProperties_Usable">
-        <useJob>WULA_IngestWulaEnergy</useJob>
+        <useJob>Ingest</useJob>
         <useLabel>从能量核心中摄取能量</useLabel>
         <showUseGizmo>true</showUseGizmo>
       </li>

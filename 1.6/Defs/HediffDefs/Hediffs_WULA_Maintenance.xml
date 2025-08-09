@@ -6,7 +6,11 @@
     <description>如果缺乏定期维护，身体机能将会出现衰退迹象。需要进入维护舱进行修复。</description>
     <hediffClass>HediffWithComps</hediffClass>
     <defaultLabelColor>(0.8, 0.35, 0.35)</defaultLabelColor>
-    <isBad>true</isBad>
+    <isBad>false</isBad>
+    <initialSeverity>0</initialSeverity>
+    <minSeverity>0</minSeverity>
+    <maxSeverity>2</maxSeverity>
+    <!--<lethalSeverity>2</lethalSeverity>-->
     <comps>
       <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceNeed">
         <thresholdDays>60</thresholdDays>
@@ -41,7 +45,7 @@
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
-            <offset>-0.10</offset>
+            <offset>-0.20</offset>
           </li>
         </capMods>
       </li>
@@ -51,7 +55,17 @@
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
-            <offset>-0.25</offset>
+            <setMax>0.5</setMax>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>崩坏</label>
+        <minSeverity>2.0</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
           </li>
         </capMods>
       </li>

@@ -54,7 +54,7 @@ namespace WulaFallenEmpire
                 return null;
             }
 
-            Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_HaulToMaintenancePod, component, t);
+            Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_LoadComponentsToMaintenancePod, component, t);
             job.count = Math.Min(component.stackCount, (int)(comp.Props.capacity - comp.storedComponents));
             return job;
         }

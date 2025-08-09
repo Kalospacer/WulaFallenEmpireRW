@@ -241,7 +241,7 @@ namespace WulaFallenEmpire
                         List<FloatMenuOption> options = new List<FloatMenuOption>();
                         foreach (Pawn p in parent.Map.mapPawns.FreeColonists)
                         {
-                            if (p.health.hediffSet.HasHediff(Props.hediffToRemove))
+                            if (Props.hediffToRemove != null && p.health.hediffSet.HasHediff(Props.hediffToRemove))
                             {
                                 float required = RequiredComponents(p);
                                 if (storedComponents >= required)

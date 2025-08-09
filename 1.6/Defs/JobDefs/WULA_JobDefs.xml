@@ -2,7 +2,7 @@
 <Defs>
 
   <JobDef>
-    <defName>WULA_HaulToMaintenancePod</defName>
+    <defName>WULA_LoadComponentsToMaintenancePod</defName>
     <driverClass>WulaFallenEmpire.JobDriver_HaulToMaintenancePod</driverClass>
     <reportString>正在为维护舱补充修复组件。</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
