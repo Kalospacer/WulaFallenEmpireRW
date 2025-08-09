@@ -31,7 +31,7 @@
     <inspectorTabs>
       <li>ITab_Entity</li>
     </inspectorTabs>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <altitudeLayer>FloorEmplacement</altitudeLayer>
     <selectable>true</selectable>
     <rotatable>false</rotatable>

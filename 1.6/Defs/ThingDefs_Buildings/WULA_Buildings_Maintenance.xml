@@ -44,7 +44,7 @@
       <destroySound>BuildingDestroyed_Metal_Big</destroySound>
       <uninstallWork>1800</uninstallWork>
     </building>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories>
       <li>BuildingsMisc</li>
