@@ -8,7 +8,14 @@
     <dismissEffects>
       <li>
         <conditions>
-        </conditions>
+      <li Class="WulaFallenEmpire.Condition_FactionExists">
+        <!-- 
+        这会设置 Condition_FactionExists 类中的 'factionDef' 字段。
+        游戏会检查 defName 为 "Mechanoid" 的派系当前是否存在于世界地图上。
+        -->
+        <factionDef>Mechanoid</factionDef>
+      </li>
+    </conditions>
         <effects>
           <li Class="WulaFallenEmpire.Effect_TriggerRaid">
             <letterLabel>来自乌拉帝国 大教堂的进攻</letterLabel>

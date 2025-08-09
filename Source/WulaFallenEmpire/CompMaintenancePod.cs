@@ -147,8 +147,7 @@ namespace WulaFallenEmpire
             ticksRemaining = RequiredDuration(pawn);
 
             // Move pawn inside
-            pawn.DeSpawn();
-            innerContainer.TryAdd(pawn, true);
+            innerContainer.TryAddOrTransfer(pawn);
         }
 
         private void CycleFinished()
@@ -199,7 +198,10 @@ namespace WulaFallenEmpire
 
             if (state == MaintenancePodState.Running)
             {
-                sb.AppendLine("Contains".Translate() + ": " + Occupant.NameShortColored.Resolve());
+                if (Occupant != null)
+                {
+                    sb.AppendLine("Contains".Translate() + ": " + Occupant.NameShortColored.Resolve());
+                }
                 sb.AppendLine("TimeLeft".Translate() + ": " + ticksRemaining.ToStringTicksToPeriod());
             }
 
@@ -264,7 +266,7 @@ namespace WulaFallenEmpire
         private List<FloatMenuOption> GetPawnOptions()
         {
             List<FloatMenuOption> options = new List<FloatMenuOption>();
-            foreach (Pawn p in parent.Map.mapPawns.FreeColonists.Where(pawn => pawn.def == ThingDefOf_WULA.Wula))
+            foreach (Pawn p in parent.Map.mapPawns.FreeColonists.Where(pawn => pawn.def.defName == "WulaSpecies" || pawn.def.defName == "WulaSpeciesReal"))
             {
                 if (p.health.hediffSet.HasHediff(Props.hediffToRemove))
                 {
@@ -274,8 +276,38 @@ namespace WulaFallenEmpire
                     }
                     else if (p.Downed)
                     {
-                         // This is handled by the WorkGiver, but we can add a note here if we want.
-                         // options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ")", null));
+                       float required = RequiredComponents(p);
+                       if (refuelableComp.Fuel < required)
+                       {
+                           options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ", " + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
+                       }
+                       else
+                       {
+                           Action action = delegate
+                           {
+                               var potentialRescuers = parent.Map.mapPawns.FreeColonistsSpawned.Where(colonist =>
+                                   !colonist.Downed && colonist.CanReserveAndReach(p, PathEndMode.OnCell, Danger.Deadly) && colonist.CanReserveAndReach(parent, PathEndMode.InteractionCell, Danger.Deadly));
+
+                               if (!potentialRescuers.Any())
+                               {
+                                   Messages.Message("WULA_MaintenancePod_NoRescuer".Translate(p.Named("PAWN")), MessageTypeDefOf.RejectInput);
+                                   return;
+                               }
+
+                               var rescuerOptions = new List<FloatMenuOption>();
+                               foreach (var rescuer in potentialRescuers)
+                               {
+                                   rescuerOptions.Add(new FloatMenuOption(rescuer.LabelCap, delegate
+                                   {
+                                       var haulJob = JobMaker.MakeJob(JobDefOf_WULA.WULA_HaulToMaintenancePod, p, parent);
+                                       haulJob.count = 1;
+                                       rescuer.jobs.TryTakeOrderedJob(haulJob, JobTag.Misc);
+                                   }));
+                               }
+                               Find.WindowStack.Add(new FloatMenu(rescuerOptions));
+                           };
+                           options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ")", action));
+                       }
                     }
                     else
                     {

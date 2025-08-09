@@ -136,7 +136,6 @@
     <Compile Include="Verb\Verb_ShootBeamExplosive.cs" />
     <Compile Include="Verb\VerbPropertiesExplosiveBeam.cs" />
     <Compile Include="WorkGiver_FeedWulaPatient.cs" />
-    <Compile Include="WorkGiver_HaulToMaintenancePod.cs" />
     <Compile Include="WorkGiver_Warden_DeliverEnergy.cs" />
     <Compile Include="WorkGiver_Warden_FeedWula.cs" />
     <Compile Include="WorkGiverDefExtension_FeedWula.cs" />

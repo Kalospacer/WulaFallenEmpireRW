@@ -1,5 +1,5 @@
-using RimWorld;
 using System.Collections.Generic;
+using RimWorld;
 using Verse;
 using Verse.AI;
 
@@ -7,46 +7,50 @@ namespace WulaFallenEmpire
 {
     public class JobDriver_HaulToMaintenancePod : JobDriver
     {
-        private const TargetIndex PatientIndex = TargetIndex.A;
+        private const TargetIndex TakeeIndex = TargetIndex.A;
         private const TargetIndex PodIndex = TargetIndex.B;
 
-        protected Pawn Patient => (Pawn)job.GetTarget(PatientIndex).Thing;
-        protected Building_Bed Pod => (Building_Bed)job.GetTarget(PodIndex).Thing;
+        protected Pawn Takee => (Pawn)job.GetTarget(TakeeIndex).Thing;
+        protected Building Pod => (Building)job.GetTarget(PodIndex).Thing;
+        protected CompMaintenancePod PodComp => Pod.TryGetComp<CompMaintenancePod>();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(Patient, job, 1, -1, null, errorOnFailed) &&
-                   pawn.Reserve(Pod, job, 1, -1, null, errorOnFailed);
+            return pawn.Reserve(Takee, job, 1, -1, null, errorOnFailed) 
+                && pawn.Reserve(Pod, job, 1, -1, null, errorOnFailed);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.FailOnDespawnedNullOrForbidden(PodIndex);
-            this.FailOnDespawnedNullOrForbidden(PatientIndex);
-            this.FailOnAggroMentalState(PatientIndex);
-            this.FailOn(() => !Patient.Downed);
+            // Standard failure conditions
+            this.FailOnDestroyedOrNull(TakeeIndex);
+            this.FailOnDestroyedOrNull(PodIndex);
+            this.FailOnAggroMentalStateAndHostile(TakeeIndex);
+            this.FailOn(() => PodComp == null); // Fail if the pod doesn't have our component
+            this.FailOn(() => !pawn.CanReach(Pod, PathEndMode.InteractionCell, Danger.Deadly));
+            this.FailOn(() => !Takee.Downed); // Can only haul downed pawns
 
-            var podComp = Pod.TryGetComp<CompMaintenancePod>();
-            this.FailOn(() => podComp == null || podComp.State != MaintenancePodState.Idle || !podComp.PowerOn);
+            // Go to the pawn to be rescued
+            yield return Toils_Goto.GotoThing(TakeeIndex, PathEndMode.ClosestTouch)
+                .FailOnDespawnedNullOrForbidden(TakeeIndex)
+                .FailOnDespawnedNullOrForbidden(PodIndex)
+                .FailOnSomeonePhysicallyInteracting(TakeeIndex);
 
-            // Go to the patient
-            yield return Toils_Goto.GotoThing(PatientIndex, PathEndMode.OnCell);
+            // Start carrying the pawn
+            yield return Toils_Haul.StartCarryThing(TakeeIndex, false, true, false);
 
-            // Pick up the patient
-            yield return Toils_Haul.StartCarryThing(PatientIndex);
-
-            // Carry the patient to the pod
+            // Go to the maintenance pod
             yield return Toils_Goto.GotoThing(PodIndex, PathEndMode.InteractionCell);
 
-            // Place the patient in the pod
-            yield return new Toil
+            // Place the pawn inside the pod
+            Toil placeInPod = ToilMaker.MakeToil("PlaceInPod");
+            placeInPod.initAction = delegate
             {
-                initAction = () =>
-                {
-                    podComp.StartCycle(Patient);
-                },
-                defaultCompleteMode = ToilCompleteMode.Instant
+                // The Comp will handle despawning the pawn and starting the cycle
+                PodComp.StartCycle(Takee);
             };
+            placeInPod.defaultCompleteMode = ToilCompleteMode.Instant;
+            yield return placeInPod;
         }
     }
 }

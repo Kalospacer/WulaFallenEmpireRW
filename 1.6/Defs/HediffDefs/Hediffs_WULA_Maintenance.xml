@@ -9,7 +9,7 @@
     <isBad>false</isBad>
     <initialSeverity>0</initialSeverity>
     <minSeverity>0</minSeverity>
-    <maxSeverity>2</maxSeverity>
+    <maxSeverity>1</maxSeverity>
     <!--<lethalSeverity>2</lethalSeverity>-->
     <comps>
       <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceNeed">
@@ -56,16 +56,6 @@
           <li>
             <capacity>Consciousness</capacity>
             <setMax>0.5</setMax>
-          </li>
-        </capMods>
-      </li>
-      <li>
-        <label>崩坏</label>
-        <minSeverity>2.0</minSeverity>
-        <capMods>
-          <li>
-            <capacity>Consciousness</capacity>
-            <setMax>0.1</setMax>
           </li>
         </capMods>
       </li>
