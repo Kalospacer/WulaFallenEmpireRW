@@ -8,6 +8,7 @@ namespace WulaFallenEmpire
     {
         public static JobDef WULA_LoadComponentsToMaintenancePod;
         public static JobDef WULA_EnterMaintenancePod;
+        public static JobDef WULA_HaulToMaintenancePod;
 
         static JobDefOf_WULA()
         {
