@@ -12,7 +12,7 @@ namespace WulaFallenEmpire
         private const TargetIndex PodInd = TargetIndex.B;
 
         protected Thing Component => job.GetTarget(ComponentInd).Thing;
-        protected Building_Storage Pod => (Building_Storage)job.GetTarget(PodInd).Thing;
+        protected Building Pod => (Building)job.GetTarget(PodInd).Thing;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- Maintenance Pod -->
+  <WULA_MaintenancePod_Status>状态</WULA_MaintenancePod_Status>
+  <WULA_MaintenancePod_State_Idle>空闲</WULA_MaintenancePod_State_Idle>
+  <WULA_MaintenancePod_State_Running>运行中</WULA_MaintenancePod_State_Running>
+  <WULA_MaintenancePod_StoredComponents>储存的零部件</WULA_MaintenancePod_StoredComponents>
+  <WULA_MaintenancePod_Enter>进入维护</WULA_MaintenancePod_Enter>
+  <WULA_MaintenancePod_EnterDesc>命令一个需要维护的殖民者进入维护舱。</WULA_MaintenancePod_EnterDesc>
+  <WULA_MaintenancePod_NotEnoughComponents>需要 {0} 零部件</WULA_MaintenancePod_NotEnoughComponents>
+  <WULA_MaintenancePod_NoOneNeeds>没有殖民者需要维护。</WULA_MaintenancePod_NoOneNeeds>
+  <WULA_MaintenancePod_CancelDesc>中止维护并弹出殖民者。</WULA_MaintenancePod_CancelDesc>
+  <WULA_MaintenanceComplete>{PAWN_nameDef} 的维护已完成。</WULA_MaintenanceComplete>
+  <WULA_MaintenanceCanceled>维护已取消。</WULA_MaintenanceCanceled>
+  <WULA_NoComponentsToHaul>没有可用的零部件来搬运。</WULA_NoComponentsToHaul>
+
+</LanguageData>

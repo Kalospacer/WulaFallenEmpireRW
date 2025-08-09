@@ -59,12 +59,14 @@
       <li Class="WulaFallenEmpire.CompProperties_MaintenancePod">
         <durationTicks>60000</durationTicks> <!-- 1 day -->
         <powerConsumptionRunning>250</powerConsumptionRunning>
-        <powerConsumptionIdle>50</powerConsumptionIdle>
+        <powerConsumptionIdle>5</powerConsumptionIdle>
         <hediffToRemove>WULA_Maintenance_Neglect</hediffToRemove>
         <componentDef>ComponentIndustrial</componentDef>
         <componentCostPerSeverity>5</componentCostPerSeverity> <!-- 5 components per 100% severity -->
         <baseComponentCost>0</baseComponentCost>
         <minSeverityToMaintain>0.75</minSeverityToMaintain>
+        <capacity>5</capacity>
+        <hediffSeverityAfterCycle>0.01</hediffSeverityAfterCycle>
         <enterSound>BiosculpterPod_Enter</enterSound>
         <exitSound>BiosculpterPod_Exit</exitSound>
         <operatingEffecter>BiosculpterPod_Operating</operatingEffecter>

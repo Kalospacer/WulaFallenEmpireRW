@@ -24,6 +24,8 @@ namespace WulaFallenEmpire
         public float componentCostPerSeverity = 1f; // How many components per 1.0 severity
         public int baseComponentCost = 0; // A flat cost in addition to severity cost
         public float minSeverityToMaintain = 0.75f; // The hediff severity required to trigger maintenance
+        public int capacity = 50;
+        public float hediffSeverityAfterCycle = 0.01f;
 
         public CompProperties_MaintenancePod()
         {
@@ -39,7 +41,6 @@ namespace WulaFallenEmpire
         private CompPowerTrader powerComp;
         private StorageSettings allowedComponentSettings;
         public float storedComponents = 0f;
-        public int capacity = 50; // Let's define a capacity
         private int ticksRemaining;
         private MaintenancePodState state = MaintenancePodState.Idle;
 
@@ -59,7 +60,7 @@ namespace WulaFallenEmpire
             return Props.baseComponentCost + (int)(hediff.Severity * Props.componentCostPerSeverity);
         }
 
-        public bool CanAcceptComponents(int count) => storedComponents + count <= capacity;
+        public bool CanAcceptComponents(int count) => storedComponents + count <= Props.capacity;
 
         // ===================== Setup =====================
         public CompMaintenancePod()
@@ -172,7 +173,7 @@ namespace WulaFallenEmpire
                 Hediff hediff = occupant.health.hediffSet.GetFirstHediffOfDef(Props.hediffToRemove);
                 if (hediff != null)
                 {
-                    hediff.Severity = 0.01f;
+                    hediff.Severity = Props.hediffSeverityAfterCycle;
                     Messages.Message("WULA_MaintenanceComplete".Translate(occupant.Named("PAWN")), occupant, MessageTypeDefOf.PositiveEvent);
                 }
             }
@@ -215,7 +216,7 @@ namespace WulaFallenEmpire
                 sb.AppendLine("TimeLeft".Translate() + ": " + ticksRemaining.ToStringTicksToPeriod());
             }
             
-            sb.AppendLine("WULA_MaintenancePod_StoredComponents".Translate() + ": " + storedComponents.ToString("F0") + " / " + capacity.ToString("F0"));
+            sb.AppendLine("WULA_MaintenancePod_StoredComponents".Translate() + ": " + storedComponents.ToString("F0") + " / " + Props.capacity.ToString("F0"));
 
             if (!PowerOn)
             {

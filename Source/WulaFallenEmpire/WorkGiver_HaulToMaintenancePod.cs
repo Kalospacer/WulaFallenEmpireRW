@@ -29,7 +29,7 @@ namespace WulaFallenEmpire
             }
 
             // Check if it needs more components
-            if (comp.storedComponents >= comp.capacity)
+            if (comp.storedComponents >= comp.Props.capacity)
             {
                 return false;
             }
@@ -55,7 +55,7 @@ namespace WulaFallenEmpire
             }
 
             Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_HaulToMaintenancePod, component, t);
-            job.count = Math.Min(component.stackCount, (int)(comp.capacity - comp.storedComponents));
+            job.count = Math.Min(component.stackCount, (int)(comp.Props.capacity - comp.storedComponents));
             return job;
         }
 

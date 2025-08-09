@@ -28,6 +28,7 @@
     <requiredWorkTags>None</requiredWorkTags>
     <forcedHediffs>
       <li>Wula_Synth</li>
+      <li>WULA_Maintenance_Neglect</li>
       <li>WULA_Addons_Antenna_Hediff_Base</li>
       <!--<li>MechlinkImplant</li>-->
     </forcedHediffs>
