@@ -9,14 +9,11 @@
     <graphicData>
       <texPath>Wula/Building/WULA_Synth_Maintainer_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shadowData>
-        <volume>(2.9,0.6,1.9)</volume>
-      </shadowData>
-      <drawSize>(3, 2)</drawSize>
+      <drawSize>(3, 3)</drawSize>
     </graphicData>
     <drawerType>RealtimeOnly</drawerType>
     <drawGUIOverlay>true</drawGUIOverlay>
-    <defaultPlacingRot>South</defaultPlacingRot>
+    <!-- <defaultPlacingRot>South</defaultPlacingRot> -->
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <pathCost>42</pathCost>
@@ -31,8 +28,8 @@
       <Flammability>0.5</Flammability>
       <Beauty>-5</Beauty>
     </statBases>
-    <size>(3,2)</size>
-    <interactionCellOffset>(0,0,2)</interactionCellOffset>
+    <size>(3,3)</size>
+    <interactionCellOffset>(0,0,0)</interactionCellOffset>
     <hasInteractionCell>true</hasInteractionCell>
     <costList>
       <Steel>150</Steel>
@@ -57,7 +54,7 @@
       </li>
       <li Class="CompProperties_Flickable"/>
       <li Class="CompProperties_Refuelable">
-        <fuelCapacity>50.0</fuelCapacity>
+        <fuelCapacity>20.0</fuelCapacity>
         <fuelFilter>
           <thingDefs>
             <li>ComponentIndustrial</li>
@@ -69,14 +66,14 @@
         <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MaintenancePod">
-        <baseDurationTicks>30000</baseDurationTicks> <!-- 0.5 days base time -->
-        <ticksPerSeverity>30000</ticksPerSeverity> <!-- 0.5 days per 1.0 severity -->
-        <powerConsumptionRunning>250</powerConsumptionRunning>
-        <powerConsumptionIdle>5</powerConsumptionIdle>
+        <baseDurationTicks>180000</baseDurationTicks> <!-- Merged from user feedback -->
+        <ticksPerSeverity>30000</ticksPerSeverity> <!-- Kept from previous change -->
+        <powerConsumptionRunning>500</powerConsumptionRunning>
+        <powerConsumptionIdle>25</powerConsumptionIdle>
         <hediffToRemove>WULA_Maintenance_Neglect</hediffToRemove>
         <componentCostPerSeverity>5</componentCostPerSeverity> <!-- 5 components per 100% severity -->
-        <baseComponentCost>0</baseComponentCost>
-        <minSeverityToMaintain>0.75</minSeverityToMaintain>
+        <baseComponentCost>1</baseComponentCost>
+        <!-- <minSeverityToMaintain>0.75</minSeverityToMaintain> -->
         <hediffSeverityAfterCycle>0.01</hediffSeverityAfterCycle>
         <enterSound>BiosculpterPod_Enter</enterSound>
         <exitSound>BiosculpterPod_Exit</exitSound>
