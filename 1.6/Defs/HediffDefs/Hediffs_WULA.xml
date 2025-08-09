@@ -22,12 +22,6 @@
         <painFactor>0</painFactor>
         <!-- 抗毒抗火抗寒热 -->
         <statOffsets>
-          <!-- 有自带护甲，对热量伤害有高抵抗 -->
-          <ArmorRating_Sharp>0.2</ArmorRating_Sharp>
-          <ArmorRating_Blunt>0.1</ArmorRating_Blunt>
-          <ArmorRating_Heat>0.5</ArmorRating_Heat>
-          <!-- 近战闪避 -->
-          <!-- <MeleeDodgeChance>1.25</MeleeDodgeChance> -->
           <ComfyTemperatureMin>-100</ComfyTemperatureMin>
           <ComfyTemperatureMax>120</ComfyTemperatureMax>
           <ToxicResistance>1</ToxicResistance>
