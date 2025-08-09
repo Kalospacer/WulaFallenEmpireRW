@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -8,50 +7,46 @@ namespace WulaFallenEmpire
 {
     public class JobDriver_HaulToMaintenancePod : JobDriver
     {
-        private const TargetIndex ComponentInd = TargetIndex.A;
-        private const TargetIndex PodInd = TargetIndex.B;
+        private const TargetIndex PatientIndex = TargetIndex.A;
+        private const TargetIndex PodIndex = TargetIndex.B;
 
-        protected Thing Component => job.GetTarget(ComponentInd).Thing;
-        protected Building Pod => (Building)job.GetTarget(PodInd).Thing;
+        protected Pawn Patient => (Pawn)job.GetTarget(PatientIndex).Thing;
+        protected Building_Bed Pod => (Building_Bed)job.GetTarget(PodIndex).Thing;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(Component, job, 1, -1, null, errorOnFailed) && pawn.Reserve(Pod, job, 1, -1, null, errorOnFailed);
+            return pawn.Reserve(Patient, job, 1, -1, null, errorOnFailed) &&
+                   pawn.Reserve(Pod, job, 1, -1, null, errorOnFailed);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.FailOnDespawnedNullOrForbidden(PodInd);
-            this.FailOnBurningImmobile(PodInd);
+            this.FailOnDespawnedNullOrForbidden(PodIndex);
+            this.FailOnDespawnedNullOrForbidden(PatientIndex);
+            this.FailOnAggroMentalState(PatientIndex);
+            this.FailOn(() => !Patient.Downed);
 
-            yield return Toils_Goto.GotoThing(ComponentInd, PathEndMode.ClosestTouch)
-                .FailOnSomeonePhysicallyInteracting(ComponentInd);
+            var podComp = Pod.TryGetComp<CompMaintenancePod>();
+            this.FailOn(() => podComp == null || podComp.State != MaintenancePodState.Idle || !podComp.PowerOn);
 
-            yield return Toils_Haul.StartCarryThing(ComponentInd, false, true, false)
-                .FailOnDestroyedNullOrForbidden(ComponentInd);
+            // Go to the patient
+            yield return Toils_Goto.GotoThing(PatientIndex, PathEndMode.OnCell);
 
-            yield return Toils_Goto.GotoThing(PodInd, PathEndMode.Touch);
+            // Pick up the patient
+            yield return Toils_Haul.StartCarryThing(PatientIndex);
 
-            Toil findPlaceAndDrop = new Toil();
-            findPlaceAndDrop.initAction = delegate
+            // Carry the patient to the pod
+            yield return Toils_Goto.GotoThing(PodIndex, PathEndMode.InteractionCell);
+
+            // Place the patient in the pod
+            yield return new Toil
             {
-                Pawn actor = findPlaceAndDrop.actor;
-                Job curJob = actor.jobs.curJob;
-                Thing carriedThing = curJob.GetTarget(ComponentInd).Thing;
-                
-                CompMaintenancePod podComp = curJob.GetTarget(PodInd).Thing.TryGetComp<CompMaintenancePod>();
-
-                if (podComp != null)
+                initAction = () =>
                 {
-                    podComp.AddComponents(carriedThing);
-                }
-                else
-                {
-                    // Fallback if something goes wrong, just drop it near the pod
-                    actor.carryTracker.TryDropCarriedThing(Pod.Position, ThingPlaceMode.Near, out Thing _);
-                }
+                    podComp.StartCycle(Patient);
+                },
+                defaultCompleteMode = ToilCompleteMode.Instant
             };
-            yield return findPlaceAndDrop;
         }
     }
 }

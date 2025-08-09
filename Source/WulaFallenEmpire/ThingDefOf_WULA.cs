@@ -7,6 +7,7 @@ namespace WulaFallenEmpire
     public static class ThingDefOf_WULA
     {
         public static ThingDef WULA_MaintenancePod;
+        public static ThingDef Wula;
 
         static ThingDefOf_WULA()
         {

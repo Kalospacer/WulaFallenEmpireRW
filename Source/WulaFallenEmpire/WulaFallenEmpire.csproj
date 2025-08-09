@@ -100,6 +100,7 @@
     <Compile Include="IngestPatch.cs" />
     <Compile Include="JobDriver_FeedWulaPatient.cs" />
     <Compile Include="JobDriver_EnterMaintenancePod.cs" />
+    <Compile Include="JobDriver_HaulToMaintenancePod.cs" />
     <Compile Include="JobDriver_IngestWulaEnergy.cs" />
     <Compile Include="JobGiver_WulaGetEnergy.cs" />
     <Compile Include="JobGiver_WulaPackEnergy.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Verb\Verb_ShootBeamExplosive.cs" />
     <Compile Include="Verb\VerbPropertiesExplosiveBeam.cs" />
     <Compile Include="WorkGiver_FeedWulaPatient.cs" />
+    <Compile Include="WorkGiver_HaulToMaintenancePod.cs" />
     <Compile Include="WorkGiver_Warden_DeliverEnergy.cs" />
     <Compile Include="WorkGiver_Warden_FeedWula.cs" />
     <Compile Include="WorkGiverDefExtension_FeedWula.cs" />

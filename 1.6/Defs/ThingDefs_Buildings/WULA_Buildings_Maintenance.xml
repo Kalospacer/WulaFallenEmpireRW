@@ -69,7 +69,8 @@
         <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MaintenancePod">
-        <durationTicks>60000</durationTicks> <!-- 1 day -->
+        <baseDurationTicks>30000</baseDurationTicks> <!-- 0.5 days base time -->
+        <ticksPerSeverity>30000</ticksPerSeverity> <!-- 0.5 days per 1.0 severity -->
         <powerConsumptionRunning>250</powerConsumptionRunning>
         <powerConsumptionIdle>5</powerConsumptionIdle>
         <hediffToRemove>WULA_Maintenance_Neglect</hediffToRemove>

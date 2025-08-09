@@ -16,7 +16,8 @@ namespace WulaFallenEmpire
         public SoundDef enterSound;
         public SoundDef exitSound;
         public EffecterDef operatingEffecter;
-        public int durationTicks = 60000; // Default to 1 day
+        public int baseDurationTicks = 60000;
+        public float ticksPerSeverity = 0f;
         public float powerConsumptionRunning = 250f;
         public float powerConsumptionIdle = 50f;
         public HediffDef hediffToRemove;
@@ -55,6 +56,14 @@ namespace WulaFallenEmpire
             Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffToRemove);
             if (hediff == null) return Props.baseComponentCost;
             return Props.baseComponentCost + (int)(hediff.Severity * Props.componentCostPerSeverity);
+        }
+
+        public int RequiredDuration(Pawn pawn)
+        {
+            if (pawn == null || Props.hediffToRemove == null) return Props.baseDurationTicks;
+            Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffToRemove);
+            if (hediff == null) return Props.baseDurationTicks;
+            return Props.baseDurationTicks + (int)(hediff.Severity * Props.ticksPerSeverity);
         }
 
         // ===================== Setup =====================
@@ -130,9 +139,12 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            refuelableComp.ConsumeFuel(required);
+            if (required > 0)
+            {
+                refuelableComp.ConsumeFuel(required);
+            }
             state = MaintenancePodState.Running;
-            ticksRemaining = Props.durationTicks;
+            ticksRemaining = RequiredDuration(pawn);
 
             // Move pawn inside
             pawn.DeSpawn();
@@ -201,7 +213,13 @@ namespace WulaFallenEmpire
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            // Gizmo to order a pawn to enter
+            // Base gizmos
+            foreach (var gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+
+            // Gizmo to order a pawn to enter (Right-click menu style)
             if (state == MaintenancePodState.Idle && PowerOn)
             {
                 var enterCommand = new Command_Action
@@ -211,26 +229,7 @@ namespace WulaFallenEmpire
                     icon = EnterIcon,
                     action = () =>
                     {
-                        List<FloatMenuOption> options = new List<FloatMenuOption>();
-                        foreach (Pawn p in parent.Map.mapPawns.FreeColonists)
-                        {
-                            if (Props.hediffToRemove != null && p.health.hediffSet.HasHediff(Props.hediffToRemove))
-                            {
-                                float required = RequiredComponents(p);
-                                if (refuelableComp.Fuel >= required)
-                                 {
-                                     options.Add(new FloatMenuOption(p.LabelShort, () =>
-                                     {
-                                        Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_EnterMaintenancePod, parent);
-                                        p.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-                                    }));
-                                }
-                                else
-                                {
-                                    options.Add(new FloatMenuOption(p.LabelShort + " (" + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
-                                }
-                            }
-                        }
+                        List<FloatMenuOption> options = GetPawnOptions();
                         if (options.Any())
                         {
                             Find.WindowStack.Add(new FloatMenu(options));
@@ -260,6 +259,43 @@ namespace WulaFallenEmpire
                 };
                 yield return cancelCommand;
             }
+        }
+
+        private List<FloatMenuOption> GetPawnOptions()
+        {
+            List<FloatMenuOption> options = new List<FloatMenuOption>();
+            foreach (Pawn p in parent.Map.mapPawns.FreeColonists.Where(pawn => pawn.def == ThingDefOf_WULA.Wula))
+            {
+                if (p.health.hediffSet.HasHediff(Props.hediffToRemove))
+                {
+                    if (!p.CanReach(parent, PathEndMode.InteractionCell, Danger.Deadly))
+                    {
+                        options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "CannotReach".Translate() + ")", null));
+                    }
+                    else if (p.Downed)
+                    {
+                         // This is handled by the WorkGiver, but we can add a note here if we want.
+                         // options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ")", null));
+                    }
+                    else
+                    {
+                        float required = RequiredComponents(p);
+                        if (refuelableComp.Fuel >= required)
+                        {
+                            options.Add(new FloatMenuOption(p.LabelShortCap, () =>
+                            {
+                                Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_EnterMaintenancePod, parent);
+                                p.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+                            }));
+                        }
+                        else
+                        {
+                            options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
+                        }
+                    }
+                }
+            }
+            return options;
         }
     }
 
