@@ -15,4 +15,18 @@
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>WULA_IngestWulaEnergy</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_IngestWulaEnergy</driverClass>
+    <reportString>正在摄取能量。</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>WULA_FeedWulaPatient</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_FeedWulaPatient</driverClass>
+    <reportString>正在喂食能量核心。</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
 </Defs>
