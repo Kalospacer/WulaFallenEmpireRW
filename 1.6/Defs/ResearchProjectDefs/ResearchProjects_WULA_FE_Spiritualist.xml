@@ -3,9 +3,9 @@
   <ResearchProjectDef Abstract="True" Name="WULA_FE_Spiritualist_techBase">
     <techLevel>Archotech</techLevel>
     <tab>WULA_FE_Spiritualist_ResearchTab</tab>
-    <heldByFactionCategoryTags>
+    <!-- <heldByFactionCategoryTags>
       <li>Wula_FE_Spiritualist_Faction</li>
-    </heldByFactionCategoryTags>
+    </heldByFactionCategoryTags> -->
   </ResearchProjectDef>
 
   <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
@@ -19,6 +19,9 @@
       <li>WULA_Dark_Matter_Technology</li>
       <li>WULA_Synth_Psi_Technology</li>
     </prerequisites>
+    <!-- <techprintCount>1</techprintCount>
+    <techprintCommonality>3</techprintCommonality>
+    <techprintMarketValue>3000</techprintMarketValue> -->
   </ResearchProjectDef>
   <!-- 衣服 -->
   <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">

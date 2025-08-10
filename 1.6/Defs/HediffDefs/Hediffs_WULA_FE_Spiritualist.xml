@@ -302,7 +302,7 @@
       <ThingDef>WULA_Brain_Soul_Wedge_Extract</ThingDef>
     </descriptionHyperlinks>
     <hediffClass>HediffWithComps</hediffClass>
-    <spawnThingOnRemoved>WULA_Brain_Hediff_Soul_Wedge_Extract</spawnThingOnRemoved>
+    <spawnThingOnRemoved>WULA_Brain_Soul_Wedge_Extract</spawnThingOnRemoved>
     <addedPartProps>
       <betterThanNatural>true</betterThanNatural>
     </addedPartProps>

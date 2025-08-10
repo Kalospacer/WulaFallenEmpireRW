@@ -183,6 +183,7 @@
     <hitPoints>100</hitPoints>
     <skinCovered>false</skinCovered>
     <solid>true</solid>
+    <bleedRate>0</bleedRate>
     <tags>
       <li>ConsciousnessSource</li>
     </tags>
@@ -193,6 +194,7 @@
     <hitPoints>120</hitPoints>
     <skinCovered>false</skinCovered>
     <solid>true</solid>
+    <bleedRate>0</bleedRate>
     <tags>
       <li>ConsciousnessSource</li>
     </tags>

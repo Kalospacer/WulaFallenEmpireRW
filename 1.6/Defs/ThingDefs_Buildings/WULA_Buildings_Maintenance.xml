@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_MaintenancePod</defName>
     <label>维护舱</label>
@@ -34,7 +33,7 @@
     <costList>
       <Steel>150</Steel>
       <ComponentIndustrial>10</ComponentIndustrial>
-      <ComponentSpacer>2</ComponentSpacer>
+      <!-- <ComponentSpacer>2</ComponentSpacer> -->
     </costList>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <building>
@@ -84,5 +83,4 @@
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
     </placeWorkers>
   </ThingDef>
-
 </Defs>

@@ -237,11 +237,8 @@
       <li>Wula_FE_Spiritualist_Leader</li>
     </fixedLeaderKinds>
     <baseTraderKinds>
-      <li>Base_Empire_Standard</li>
+      <li>Wula_FE_Spiritualist_Faction_TraderKind</li>
     </baseTraderKinds>
-    <caravanTraderKinds>
-      <li>Empire_Caravan_TraderGeneral</li>
-    </caravanTraderKinds>
     <raidCommonalityFromPointsCurve>
       <points>
         <li>(0, 1)</li> <!--Constant 1 at all points levels-->
@@ -276,20 +273,6 @@
           <Wula_FE_Spiritualist_Pawn_3>3</Wula_FE_Spiritualist_Pawn_3>
           <Wula_FE_Spiritualist_Pawn_4>1</Wula_FE_Spiritualist_Pawn_4>
         </options>
-      </li>
-      <li>
-        <kindDef>Trader</kindDef>
-        <traders>
-          <Wula_FE_Spiritualist_Pawn_4>1</Wula_FE_Spiritualist_Pawn_4>
-        </traders>
-        <carriers>
-          <Mech_WULA_Cat>2</Mech_WULA_Cat>
-        </carriers>
-        <guards>
-          <Wula_FE_Spiritualist_Pawn_1>2</Wula_FE_Spiritualist_Pawn_1>
-          <Wula_FE_Spiritualist_Pawn_2>1</Wula_FE_Spiritualist_Pawn_2>
-          <Wula_FE_Spiritualist_Pawn_3>1</Wula_FE_Spiritualist_Pawn_3>
-        </guards>
       </li>
       <li MayRequire="Ludeon.RimWorld.Ideology">
         <kindDef>Miners</kindDef>

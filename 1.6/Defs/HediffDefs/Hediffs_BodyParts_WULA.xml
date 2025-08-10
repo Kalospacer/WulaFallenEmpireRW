@@ -457,7 +457,7 @@
     <description>为合成人安装暗物质处理器。</description>
     <descriptionHyperlinks>
       <ThingDef>WULA_DM_CPU</ThingDef>
-      <HediffDef>WULA_Energy_Furnace_Hediff_DM_CPU</HediffDef>
+      <HediffDef>WULA_DM_CPU_Hediff</HediffDef>
     </descriptionHyperlinks>
     <jobString>安装暗物质处理器中</jobString>
     <surgeryOutcomeEffect IsNull="True" />
@@ -481,7 +481,7 @@
     <appliedOnFixedBodyParts>
       <li>Brain</li>
     </appliedOnFixedBodyParts>
-    <addsHediff>WULA_Energy_Furnace_Hediff_DM_CPU</addsHediff>
+    <addsHediff>WULA_DM_CPU_Hediff</addsHediff>
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
     <recipeUsers Inherit="False">

@@ -57,11 +57,11 @@
         </li>
       </outcomeDoers>
     </ingestible>
-    <recipeMaker>
-      <!-- <researchPrerequisite>PsychiteRefining</researchPrerequisite> -->
+    <recipeMaker Inherit="False"/>
+      <!-- <researchPrerequisite>PsychiteRefining</researchPrerequisite>
       <soundWorking>Recipe_Drug</soundWorking>
       <displayPriority>1700</displayPriority>
-    </recipeMaker>
+    </recipeMaker> -->
     <!-- <costList>
       <PsychoidLeaves>8</PsychoidLeaves>
     </costList> -->
