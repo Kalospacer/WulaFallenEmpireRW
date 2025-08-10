@@ -347,7 +347,7 @@
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
   </PawnKindDef>
-  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
+  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind" MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>Mech_WULA_Cat_Bomb</defName>
     <label>炸弹乌拉猫猫</label>
     <race>Mech_WULA_Cat_Bomb</race>
@@ -364,7 +364,7 @@
       </li>
     </lifeStages>
   </PawnKindDef>
-  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
+  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind" MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>Mech_WULA_Cat_Inf</defName>
     <label>步兵乌拉猫猫</label>
     <race>Mech_WULA_Cat_Inf</race>
@@ -373,7 +373,7 @@
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
   </PawnKindDef>
-  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
+  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind" MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>Mech_WULA_Cat_Commander</defName>
     <label>指挥官乌拉猫猫</label>
     <race>Mech_WULA_Cat_Commander</race>

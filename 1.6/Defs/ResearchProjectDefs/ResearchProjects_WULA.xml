@@ -235,7 +235,7 @@
       <li>WULA_Synth_Productor_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
+  <ResearchProjectDef ParentName="WULAtechBase"  MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>Wula_AI_Engineer_Mother_Technology</defName>
     <label>开拓单元套件</label>
     <description>获取乌拉帝国机械体PMu-7"西比尔卡"和其变种PMu-7A"斯托洛维耶"的生产权限，一种可以在战场上生产源源不断的临时单位并部署低角护盾掩护友军的辅助型机械体。</description>

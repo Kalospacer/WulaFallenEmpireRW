@@ -802,4 +802,92 @@
       </li>
     </verbs>
   </ThingDef>
+
+  <!-- 维护舱 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_MaintenancePod</defName>
+    <label>维护舱</label>
+    <description>一个为乌拉族设计的全自动维护舱。乌拉族需要定期进入其中进行身体机能的维护和校准，否则他们的身体会逐渐衰弱。维护过程需要消耗零部件。</description>
+    <containedPawnsSelectable>true</containedPawnsSelectable>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Synth_Maintainer_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <!-- <defaultPlacingRot>South</defaultPlacingRot> -->
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <blockWind>true</blockWind>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>20000</WorkToBuild>
+      <Mass>50</Mass>
+      <Flammability>0.5</Flammability>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <size>(3,3)</size>
+    <interactionCellOffset>(0,0,0)</interactionCellOffset>
+    <hasInteractionCell>true</hasInteractionCell>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Base_Technology</li>
+    </researchPrerequisites>
+    <costList>
+      <Steel>150</Steel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+      <!-- <ComponentSpacer>2</ComponentSpacer> -->
+    </costList>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <uninstallWork>1800</uninstallWork>
+    </building>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>50</basePowerConsumption> <!-- This is now idle power -->
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>20.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelLabel>零部件</fuelLabel>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MaintenancePod">
+        <baseDurationTicks>180000</baseDurationTicks> <!-- Merged from user feedback -->
+        <ticksPerSeverity>30000</ticksPerSeverity> <!-- Kept from previous change -->
+        <powerConsumptionRunning>500</powerConsumptionRunning>
+        <powerConsumptionIdle>25</powerConsumptionIdle>
+        <hediffToRemove>WULA_Maintenance_Neglect</hediffToRemove>
+        <componentCostPerSeverity>5</componentCostPerSeverity> <!-- 5 components per 100% severity -->
+        <baseComponentCost>1</baseComponentCost>
+        <!-- <minSeverityToMaintain>0.75</minSeverityToMaintain> -->
+        <hediffSeverityAfterCycle>0.01</hediffSeverityAfterCycle>
+        <enterSound>BiosculpterPod_Enter</enterSound>
+        <exitSound>BiosculpterPod_Exit</exitSound>
+        <operatingEffecter>BiosculpterPod_Operating</operatingEffecter>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+  </ThingDef>
 </Defs>

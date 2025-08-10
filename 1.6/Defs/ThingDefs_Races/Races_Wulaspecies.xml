@@ -1094,7 +1094,7 @@
       <MoveSpeed>4</MoveSpeed>
     </statBases>
   </ThingDef>
-  <ThingDef ParentName="BaseDrone">
+  <ThingDef ParentName="BaseDrone"  MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>Mech_WULA_Cat_Bomb</defName>
     <label>CAt-89"敢死猫猫"</label>
     <description>乌拉帝国的一种小型机械体，浑身缠满炸药，以自杀式袭击攻击敌方。</description>
@@ -1144,7 +1144,7 @@
       </li>
     </tools>
   </ThingDef>
-  <ThingDef ParentName="BaseDrone">
+  <ThingDef ParentName="BaseDrone"  MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>Mech_WULA_Cat_Commander</defName>
     <label>CAt-44"指挥官猫猫"</label>
     <description>乌拉帝国的一种小型机械体，比起同类来说拥有很高的防御，在配备了远程武器的同时还配备了一个护盾发生器，这种盾会同时阻拦向外发射的射弹和向盾内发射的射弹。</description>
@@ -1205,7 +1205,7 @@
       </li>
     </tools>
   </ThingDef>
-  <ThingDef ParentName="BaseDrone">
+  <ThingDef ParentName="BaseDrone"  MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>Mech_WULA_Cat_Inf</defName>
     <label>CAt-90"步兵猫猫"</label>
     <description>乌拉帝国的一种小型机械体，装备了一把DLa-4"云母"突击步枪附下挂刺刀，以在战场上拖住敌军。</description>

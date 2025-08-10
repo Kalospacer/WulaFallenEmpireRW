@@ -717,6 +717,7 @@
     <tradeability>None</tradeability>
     <!-- <techLevel>Spacer</techLevel> -->
     <uiIconPath>Wula/Weapon/WULA_RW_Photon_Missile</uiIconPath>
+    <relicChance>0</relicChance>
     <graphicData>
       <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
