@@ -249,6 +249,64 @@
       </li>
     </comps>
   </ThingDef>
+  <ThingDef ParentName="ResourceBase">
+    <defName>WULA_Neutronium</defName>
+    <label>零素</label>
+    <description>零素也称中子元素，是中子星的主要构成成分，相比常规合金更适合作为装甲和近战武器的铸造材料，乌拉帝国通过以暗物质驱动的科技进行材料压缩，可以人为地制造这种强大材料。</description>
+    <graphicData>
+      <texPath>Wula/Item/WULA_Neutronium</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <genericMarketSellable>false</genericMarketSellable>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Metal_Drop</soundDrop>
+    <useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MarketValue>1</MarketValue>
+      <Mass>1</Mass>
+      <StuffPower_Armor_Sharp>3</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>3</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>1</StuffPower_Armor_Heat>
+      <StuffPower_Insulation_Cold>0</StuffPower_Insulation_Cold>
+      <StuffPower_Insulation_Heat>0</StuffPower_Insulation_Heat>
+      <SharpDamageMultiplier>2</SharpDamageMultiplier>
+      <BluntDamageMultiplier>3</BluntDamageMultiplier>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <burnableByRecipe>false</burnableByRecipe>
+    <smeltable>true</smeltable>
+    <stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <appearance>Metal</appearance>
+      <commonality>0</commonality>
+      <allowedInStuffGeneration>false</allowedInStuffGeneration>
+      <constructEffect>ConstructMetal</constructEffect>
+      <color>(63, 74, 70)</color>
+      <soundImpactBullet>BulletImpact_Metal</soundImpactBullet>
+      <soundMeleeHitSharp>MeleeHit_Metal_Sharp</soundMeleeHitSharp>
+      <soundMeleeHitBlunt>MeleeHit_Metal_Blunt</soundMeleeHitBlunt>
+      <soundImpactMelee>Pawn_Melee_Punch_HitBuilding_Metal</soundImpactMelee>
+      <statOffsets>
+        <Beauty>0</Beauty>
+      </statOffsets>
+      <statFactors>
+        <MaxHitPoints>5</MaxHitPoints>
+        <Flammability>0</Flammability>
+        <WorkToMake>10</WorkToMake>
+        <WorkToBuild>10</WorkToBuild>
+        <DoorOpenSpeed>10</DoorOpenSpeed>
+        <MeleeWeapon_CooldownMultiplier>1.1</MeleeWeapon_CooldownMultiplier>
+      </statFactors>
+    </stuffProps>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <allowedArchonexusCount>200</allowedArchonexusCount>
+    <possessionCount>50</possessionCount>
+  </ThingDef>
 
   <ThingDef Abstract="True" Name="WULA_Syhth_Trainer">
     <!-- <defName>WULA_Syhth_Trainer</defName>

@@ -531,13 +531,17 @@
     </descriptionHyperlinks>
     <costList>
       <Plasteel>100</Plasteel>
-      <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
+      <WULA_Neutronium>20</WULA_Neutronium>
     </costList>
     <thingSetMakerTags>
       <li>RewardStandardMidFreq</li>
     </thingSetMakerTags>
     <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
+      <researchPrerequisite  Inherit="False"/>
+      <researchPrerequisites>
+        <li>WULA_Synth_Addons_2_Technology</li>
+        <li>WULA_Neutronium_Technology</li>
+      </researchPrerequisites>
       <recipeUsers>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>

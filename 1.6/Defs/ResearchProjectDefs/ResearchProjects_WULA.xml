@@ -52,6 +52,17 @@
       <li>AdvancedFabrication</li>
     </prerequisites>
   </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Neutronium_Technology</defName>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>3.20</researchViewY>
+    <label>零素压缩套件</label>
+    <description>允许以暗物质进行零素压缩，以获得这种强大的材料。</description>
+    <baseCost>4000</baseCost>
+    <prerequisites>
+      <li>WULA_Dark_Matter_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
   <!-- 衣服 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Clothes_Technology</defName>

@@ -104,7 +104,7 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>200</workAmount>
+    <workAmount>500</workAmount>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -144,7 +144,7 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>100</workAmount>
+    <workAmount>300</workAmount>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -176,7 +176,7 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>350</workAmount>
+    <workAmount>1000</workAmount>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -277,6 +277,41 @@
     
     <researchPrerequisites>
       <li>WULA_Dark_Matter_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>Make_WULA_Neutronium</defName>
+    <label>以乌拉帝国暗物质压缩零素</label>
+    <description>以1份乌拉帝国暗物质制造10份零素，一种强大的材料，可以打造出最坚硬的护甲或者最强大的近战武器。</description>
+    <jobString>正在压缩零素</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>15000</workAmount>
+    <!-- 允许混合成分 -->
+    <allowMixingIngredients>false</allowMixingIngredients>
+    <skillRequirements>
+      <Crafting>15</Crafting>
+    </skillRequirements>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Dark_Matter_Item</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Neutronium>10</WULA_Neutronium>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_Neutronium_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
 
