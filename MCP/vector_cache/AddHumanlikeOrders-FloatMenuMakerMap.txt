@@ -1,0 +1,519 @@
+根据向量相似度分析，与 'AddHumanlikeOrders, FloatMenuMakerMap' 最相关的代码定义如下：
+
+---
+**文件路径 (精确匹配):** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\FloatMenuMakerMap.txt`
+
+```csharp
+public static class FloatMenuMakerMap
+{
+	private static List<FloatMenuOptionProvider> providers;
+
+	public static FloatMenuOptionProvider currentProvider;
+
+	public static Pawn makingFor;
+
+	public static void Init()
+	{
+		providers = new List<FloatMenuOptionProvider>();
+		foreach (Type item in typeof(FloatMenuOptionProvider).AllSubclassesNonAbstract())
+		{
+			providers.Add((FloatMenuOptionProvider)Activator.CreateInstance(item));
+		}
+	}
+
+	public static List<FloatMenuOption> GetOptions(List<Pawn> selectedPawns, Vector3 clickPos, out FloatMenuContext context)
+	{
+		List<FloatMenuOption> list = new List<FloatMenuOption>();
+		context = null;
+		if (!clickPos.InBounds(Find.CurrentMap))
+		{
+			return list;
+		}
+		context = new FloatMenuContext(selectedPawns, clickPos, Find.CurrentMap);
+		if (!context.allSelectedPawns.Any())
+		{
+			return list;
+		}
+		if (!context.ClickedCell.IsValid || !context.ClickedCell.InBounds(Find.CurrentMap))
+		{
+			return list;
+		}
+		if (!context.IsMultiselect)
+		{
+			AcceptanceReport acceptanceReport = ShouldGenerateFloatMenuForPawn(context.FirstSelectedPawn);
+			if (!acceptanceReport.Accepted)
+			{
+				if (!acceptanceReport.Reason.NullOrEmpty())
+				{
+					Messages.Message(acceptanceReport.Reason, context.FirstSelectedPawn, MessageTypeDefOf.RejectInput, historical: false);
+				}
+				return list;
+			}
+		}
+		else
+		{
+			context.allSelectedPawns.RemoveAll((Pawn selectedPawn) => !ShouldGenerateFloatMenuForPawn(selectedPawn));
+			if (!context.allSelectedPawns.Any())
+			{
+				return list;
+			}
+		}
+		if (!context.IsMultiselect)
+		{
+			makingFor = context.FirstSelectedPawn;
+		}
+		GetProviderOptions(context, list);
+		makingFor = null;
+		return list;
+	}
+
+	private static void GetProviderOptions(FloatMenuContext context, List<FloatMenuOption> options)
+	{
+		foreach (FloatMenuOptionProvider provider in providers)
+		{
+			try
+			{
+				currentProvider = provider;
+				if (!context.ValidSelectedPawns.Any() || !provider.Applies(context))
+				{
+					continue;
+				}
+				options.AddRange(provider.GetOptions(context));
+				foreach (Thing clickedThing in context.ClickedThings)
+				{
+					if (!provider.TargetThingValid(clickedThing, context))
+					{
+						continue;
+					}
+					Thing thing = clickedThing;
+					if (thing.TryGetComp(out CompSelectProxy comp) && comp.thingToSelect != null)
+					{
+						thing = comp.thingToSelect;
+					}
+					foreach (FloatMenuOption item in provider.GetOptionsFor(thing, context))
+					{
+						FloatMenuOption floatMenuOption = item;
+						if (floatMenuOption.iconThing == null)
+						{
+							floatMenuOption.iconThing = thing;
+						}
+						item.targetsDespawned = !thing.Spawned;
+						options.Add(item);
+					}
+				}
+				foreach (Pawn clickedPawn in context.ClickedPawns)
+				{
+					if (!provider.TargetPawnValid(clickedPawn, context))
+					{
+						continue;
+					}
+					foreach (FloatMenuOption item2 in provider.GetOptionsFor(clickedPawn, context))
+					{
+						FloatMenuOption floatMenuOption = item2;
+						if (floatMenuOption.iconThing == null)
+						{
+							floatMenuOption.iconThing = clickedPawn;
+						}
+						item2.targetsDespawned = !clickedPawn.Spawned;
+						options.Add(item2);
+					}
+				}
+			}
+			catch (Exception arg)
+			{
+				Log.Error($"Error in FloatMenuWorker {provider.GetType().Name}: {arg}");
+			}
+		}
+		currentProvider = null;
+	}
+
+	public static AcceptanceReport ShouldGenerateFloatMenuForPawn(Pawn pawn)
+	{
+		if (pawn.Map != Find.CurrentMap)
+		{
+			return false;
+		}
+		if (pawn.Downed)
+		{
+			return "IsIncapped".Translate(pawn.LabelCap, pawn);
+		}
+		if (ModsConfig.BiotechActive && pawn.Deathresting)
+		{
+			return "IsDeathresting".Translate(pawn.Named("PAWN"));
+		}
+		Lord lord = pawn.GetLord();
+		if (lord != null)
+		{
+			AcceptanceReport result = lord.AllowsFloatMenu(pawn);
+			if (!result.Accepted)
+			{
+				return result;
+			}
+		}
+		return true;
+	}
+
+	public static FloatMenuOption GetAutoTakeOption(List<FloatMenuOption> options)
+	{
+		bool flag = true;
+		FloatMenuOption floatMenuOption = null;
+		foreach (FloatMenuOption option in options)
+		{
+			if (option.Disabled || !option.autoTakeable)
+			{
+				flag = false;
+				break;
+			}
+			if (floatMenuOption == null || option.autoTakeablePriority > floatMenuOption.autoTakeablePriority)
+			{
+				floatMenuOption = option;
+			}
+		}
+		if (!flag || floatMenuOption == null)
+		{
+			return null;
+		}
+		return floatMenuOption;
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\FloatMenuContext.txt`
+**相似度:** 0.5788
+
+```csharp
+public class FloatMenuContext
+{
+	public List<Pawn> allSelectedPawns;
+
+	public Vector3 clickPosition;
+
+	public Map map;
+
+	private IntVec3 cachedClickedCell;
+
+	private List<Thing> cachedClickedThings;
+
+	private List<Pawn> cachedClickedPawns;
+
+	private Room cachedClickedRoom;
+
+	private Zone cachedClickedZone;
+
+	public IntVec3 ClickedCell => cachedClickedCell;
+
+	public Room ClickedRoom => cachedClickedRoom;
+
+	public Zone ClickedZone => cachedClickedZone;
+
+	public List<Thing> ClickedThings => cachedClickedThings;
+
+	public List<Pawn> ClickedPawns => cachedClickedPawns;
+
+	public bool IsMultiselect => allSelectedPawns.Count > 1;
+
+	public Pawn FirstSelectedPawn
+	{
+		get
+		{
+			foreach (Pawn allSelectedPawn in allSelectedPawns)
+			{
+				if (FloatMenuMakerMap.currentProvider == null || FloatMenuMakerMap.currentProvider.SelectedPawnValid(allSelectedPawn, this))
+				{
+					return allSelectedPawn;
+				}
+			}
+			return null;
+		}
+	}
+
+	public IEnumerable<Pawn> ValidSelectedPawns
+	{
+		get
+		{
+			foreach (Pawn allSelectedPawn in allSelectedPawns)
+			{
+				if (FloatMenuMakerMap.currentProvider == null || FloatMenuMakerMap.currentProvider.SelectedPawnValid(allSelectedPawn, this))
+				{
+					yield return allSelectedPawn;
+				}
+			}
+		}
+	}
+
+	public FloatMenuContext(List<Pawn> selectedPawns, Vector3 clickPosition, Map map)
+	{
+		allSelectedPawns = selectedPawns;
+		this.clickPosition = clickPosition;
+		this.map = map;
+		cachedClickedCell = IntVec3.FromVector3(clickPosition);
+		cachedClickedRoom = cachedClickedCell.GetRoom(map);
+		cachedClickedZone = cachedClickedCell.GetZone(map);
+		cachedClickedThings = GenUI.ThingsUnderMouse(clickPosition, 0.8f, TargetingParameters.ForThing());
+		cachedClickedPawns = GenUI.ThingsUnderMouse(clickPosition, 0.8f, TargetingParameters.ForPawns()).OfType<Pawn>().ToList();
+		selectedPawns.RemoveAll((Pawn pawn) => !pawn.CanTakeOrder);
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\FloatMenuMap.txt`
+**相似度:** 0.5739
+
+```csharp
+public class FloatMenuMap : FloatMenu
+{
+	private Vector3 clickPos;
+
+	private static Dictionary<Vector3, List<FloatMenuOption>> cachedChoices = new Dictionary<Vector3, List<FloatMenuOption>>();
+
+	private List<FloatMenuOption> lastOptionsForRevalidation;
+
+	private int nextOptionToRevalidate;
+
+	public const int RevalidateEveryFrame = 4;
+
+	public FloatMenuMap(List<FloatMenuOption> options, string title, Vector3 clickPos)
+		: base(options, title)
+	{
+		this.clickPos = clickPos;
+	}
+
+	public override void DoWindowContents(Rect inRect)
+	{
+		if (!Find.Selector.AnyPawnSelected)
+		{
+			Find.WindowStack.TryRemove(this);
+			return;
+		}
+		bool flag = options.Count >= 3;
+		if (Time.frameCount % 4 == 0 || lastOptionsForRevalidation == null)
+		{
+			lastOptionsForRevalidation = FloatMenuMakerMap.GetOptions(Find.Selector.SelectedPawns, clickPos, out var _);
+			cachedChoices.Clear();
+			cachedChoices.Add(clickPos, lastOptionsForRevalidation);
+			if (!flag)
+			{
+				for (int i = 0; i < options.Count; i++)
+				{
+					RevalidateOption(options[i]);
+				}
+			}
+		}
+		else if (flag)
+		{
+			if (nextOptionToRevalidate >= options.Count)
+			{
+				nextOptionToRevalidate = 0;
+			}
+			int num = Mathf.CeilToInt((float)options.Count / 3f);
+			int num2 = nextOptionToRevalidate;
+			int num3 = 0;
+			while (num2 < options.Count && num3 < num)
+			{
+				RevalidateOption(options[num2]);
+				nextOptionToRevalidate++;
+				num2++;
+				num3++;
+			}
+		}
+		base.DoWindowContents(inRect);
+		void RevalidateOption(FloatMenuOption option)
+		{
+			if (!option.Disabled && !StillValid(option, lastOptionsForRevalidation))
+			{
+				option.Disabled = true;
+			}
+		}
+	}
+
+	private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
+	{
+		if (opt.revalidateClickTarget == null)
+		{
+			for (int i = 0; i < curOpts.Count; i++)
+			{
+				if (OptionsMatch(opt, curOpts[i]))
+				{
+					return true;
+				}
+			}
+		}
+		else
+		{
+			if (!opt.targetsDespawned && !opt.revalidateClickTarget.Spawned)
+			{
+				return false;
+			}
+			Vector3 key = opt.revalidateClickTarget.PositionHeld.ToVector3Shifted();
+			if (!cachedChoices.TryGetValue(key, out var value))
+			{
+				FloatMenuContext context;
+				List<FloatMenuOption> list = FloatMenuMakerMap.GetOptions(Find.Selector.SelectedPawns, key, out context);
+				cachedChoices.Add(key, list);
+				value = list;
+			}
+			for (int j = 0; j < value.Count; j++)
+			{
+				if (OptionsMatch(opt, value[j]))
+				{
+					return !value[j].Disabled;
+				}
+			}
+		}
+		return false;
+	}
+
+	public override void PreOptionChosen(FloatMenuOption opt)
+	{
+		base.PreOptionChosen(opt);
+		if (!opt.Disabled && !StillValid(opt, FloatMenuMakerMap.GetOptions(Find.Selector.SelectedPawns, clickPos, out var _)))
+		{
+			opt.Disabled = true;
+		}
+	}
+
+	private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
+	{
+		if (a.Label == b.Label)
+		{
+			return true;
+		}
+		return false;
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\FloatMenuOptionProvider.txt`
+**相似度:** 0.5483
+
+```csharp
+public abstract class FloatMenuOptionProvider
+{
+	protected abstract bool Drafted { get; }
+
+	protected abstract bool Undrafted { get; }
+
+	protected abstract bool Multiselect { get; }
+
+	protected virtual bool RequiresManipulation => false;
+
+	protected virtual bool MechanoidCanDo => false;
+
+	protected virtual bool CanSelfTarget => false;
+
+	public virtual bool CanTargetDespawned => false;
+
+	protected virtual bool IgnoreFogged => true;
+
+	public virtual bool SelectedPawnValid(Pawn pawn, FloatMenuContext context)
+	{
+		if (pawn.IsMutant && pawn.mutant.Def.whitelistedFloatMenuProviders != null && !pawn.mutant.Def.whitelistedFloatMenuProviders.Contains(FloatMenuMakerMap.currentProvider.GetType()))
+		{
+			return false;
+		}
+		if (!Drafted && pawn.Drafted)
+		{
+			return false;
+		}
+		if (!Undrafted && !pawn.Drafted)
+		{
+			return false;
+		}
+		if (!MechanoidCanDo && pawn.RaceProps.IsMechanoid)
+		{
+			return false;
+		}
+		if (RequiresManipulation && !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public virtual bool TargetThingValid(Thing thing, FloatMenuContext context)
+	{
+		if (!CanTargetDespawned && !thing.Spawned)
+		{
+			return false;
+		}
+		if (thing is Pawn pawn && !TargetPawnValid(pawn, context))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public virtual bool TargetPawnValid(Pawn pawn, FloatMenuContext context)
+	{
+		if (!CanSelfTarget && pawn == context.FirstSelectedPawn)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public virtual bool Applies(FloatMenuContext context)
+	{
+		if (!Multiselect && context.IsMultiselect)
+		{
+			return false;
+		}
+		if (IgnoreFogged && context.ClickedCell.Fogged(context.map))
+		{
+			return false;
+		}
+		if (!AppliesInt(context))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	protected virtual bool AppliesInt(FloatMenuContext context)
+	{
+		return true;
+	}
+
+	public virtual IEnumerable<FloatMenuOption> GetOptions(FloatMenuContext context)
+	{
+		FloatMenuOption singleOption = GetSingleOption(context);
+		if (singleOption != null)
+		{
+			yield return singleOption;
+		}
+	}
+
+	public virtual IEnumerable<FloatMenuOption> GetOptionsFor(Thing clickedThing, FloatMenuContext context)
+	{
+		FloatMenuOption singleOptionFor = GetSingleOptionFor(clickedThing, context);
+		if (singleOptionFor != null)
+		{
+			yield return singleOptionFor;
+		}
+	}
+
+	public virtual IEnumerable<FloatMenuOption> GetOptionsFor(Pawn clickedPawn, FloatMenuContext context)
+	{
+		FloatMenuOption singleOptionFor = GetSingleOptionFor(clickedPawn, context);
+		if (singleOptionFor != null)
+		{
+			yield return singleOptionFor;
+		}
+	}
+
+	protected virtual FloatMenuOption GetSingleOption(FloatMenuContext context)
+	{
+		return null;
+	}
+
+	protected virtual FloatMenuOption GetSingleOptionFor(Thing clickedThing, FloatMenuContext context)
+	{
+		return null;
+	}
+
+	protected virtual FloatMenuOption GetSingleOptionFor(Pawn clickedPawn, FloatMenuContext context)
+	{
+		return null;
+	}
+}
+```

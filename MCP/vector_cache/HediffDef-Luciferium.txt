@@ -1,0 +1,118 @@
+根据向量相似度分析，与 'HediffDef, Luciferium' 最相关的代码定义如下：
+
+---
+**文件路径 (精确匹配):** `C:\Steam\steamapps\common\RimWorld\Data\Core\Defs\Drugs\Luciferium.xml`
+
+```xml
+    <defName>Luciferium</defName>
+    <label>luciferium</label>
+    <description>A concoction of mechanites that dramatically improve the body's functioning in all respects. Over time, it can even heal old scarred-over wounds or brain damage, though it cannot regenerate lost limbs. Unfortunately, without the moderating effects of regular doses every five or six days, the mechanites lose cohesion, causing continuous berserk rages and, eventually, death.\n\nAfter the first dose, there is no way to get the mechanites out, ever.\n\nOn the urbworlds, they call Luciferium the 'Devil's Bargain'. Many have been forced to kill friends when no more of the seductive red pills could be found.</description>
+    <descriptionHyperlinks>
+      <HediffDef>LuciferiumHigh</HediffDef>
+      <HediffDef>LuciferiumAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/Luciferium</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MarketValue>70</MarketValue>
+      <Mass>0.01</Mass>
+    </statBases>
+    <techLevel>Ultra</techLevel>
+    <minRewardCount>10</minRewardCount>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>LuciferiumHigh</hediffDef>
+          <severity>1.00</severity>
+          <doToGeneratedPawnIfAddicted>true</doToGeneratedPawnIfAddicted>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Luciferium</chemical>
+        <addictiveness>1.00</addictiveness>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>1010</listOrder>
+      </li>
+    </comps>
+    <tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags>
+    <thingSetMakerTags><li>RewardStandardCore</li></thingSetMakerTags>
+    <allowedArchonexusCount>50</allowedArchonexusCount>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>LuciferiumHigh</defName>
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\Anomaly\Defs\Misc\Mutants.xml`
+**相似度:** 0.5154
+
+```xml
+  <MutantDef Abstract="True" Name="BaseMutantEntity">
+    <workDisables>
+      <li>AllWork</li>
+      <li>Shooting</li>
+    </workDisables>
+    <consideredSubhuman>true</consideredSubhuman>
+    <canCarryPawns>false</canCarryPawns>
+    <canTend>false</canTend>
+    <whitelistedFloatMenuProviders />
+    <preventsMentalBreaks>true</preventsMentalBreaks>
+    <disablesIdeo>true</disablesIdeo>
+    <disableOwnership>true</disableOwnership>
+    <disablePolicies>true</disablePolicies>
+    <disableTitles>true</disableTitles>
+    <disableNeeds>true</disableNeeds>
+    <disableEatingAtTable>true</disableEatingAtTable>
+    <incapableOfSocialInteractions>true</incapableOfSocialInteractions>
+    <canBeCapturedToHoldingPlatform>true</canBeCapturedToHoldingPlatform>
+    <producesBioferrite>true</producesBioferrite>
+    <overrideLabel>true</overrideLabel>
+    <overrideInspectString>true</overrideInspectString>
+    <canBleed>false</canBleed>
+    <terminatePregnancy>true</terminatePregnancy>
+    <isImmuneToInfections>true</isImmuneToInfections>
+    <removeChronicIllnesses>true</removeChronicIllnesses>
+    <removeAddictions>true</removeAddictions>
+    <disableAging>true</disableAging>
+    <clearsEgo>true</clearsEgo>
+    <partsCleanAndDroppable>false</partsCleanAndDroppable>
+    <breathesAir>false</breathesAir>
+    <removesHediffs>
+      <li>CryptosleepSickness</li>
+      <li>LuciferiumHigh</li>
+      <li>LuciferiumAddiction</li>
+      <li>Scaria</li>
+      <li>CorpseTorment</li>
+      <li>CubeInterest</li>
+      <li>CubeWithdrawal</li>
+      <li>CubeComa</li>
+      <li>CubeRage</li>
+      <li>HeartAttack</li>
+      <li>Scaria</li>
+      <li MayRequire="Ludeon.RimWorld.Royalty">PsychicAmplifier</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MechlinkImplant</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">PregnantHuman</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">PregnancyLabor</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HemogenAmplified</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">DeathrestExhaustion</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">InterruptedDeathrest</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HemogenCraving</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Deathrest</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">RegenerationComa</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">PostpartumExhaustion</li>
+      <li>Inhumanized</li>
+    </removesHediffs>
+    <disablesGenes>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Hemogenic</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Deathrest</li>
+    </disablesGenes>
+  </MutantDef>
+```

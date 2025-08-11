@@ -1,0 +1,881 @@
+根据向量相似度分析，与 'CompProperties_Refuelable' 最相关的代码定义如下：
+
+---
+**文件路径 (精确匹配):** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\CompProperties_Refuelable.txt`
+
+```csharp
+public class CompProperties_Refuelable : CompProperties
+{
+	public float fuelConsumptionRate = 1f;
+
+	public float fuelCapacity = 2f;
+
+	public float initialFuelPercent;
+
+	public float autoRefuelPercent = 0.3f;
+
+	public float fuelConsumptionPerTickInRain;
+
+	public ThingFilter fuelFilter;
+
+	public bool destroyOnNoFuel;
+
+	public bool consumeFuelOnlyWhenUsed;
+
+	public bool consumeFuelOnlyWhenPowered;
+
+	public bool showFuelGizmo;
+
+	public bool initialAllowAutoRefuel = true;
+
+	public bool showAllowAutoRefuelToggle;
+
+	public bool allowRefuelIfNotEmpty = true;
+
+	public bool fuelIsMortarBarrel;
+
+	public bool targetFuelLevelConfigurable;
+
+	public float initialConfigurableTargetFuelLevel;
+
+	public bool drawOutOfFuelOverlay = true;
+
+	public float minimumFueledThreshold;
+
+	public bool drawFuelGaugeInMap;
+
+	public bool atomicFueling;
+
+	private float fuelMultiplier = 1f;
+
+	public bool factorByDifficulty;
+
+	[MustTranslate]
+	public string fuelLabel;
+
+	[MustTranslate]
+	public string fuelGizmoLabel;
+
+	[MustTranslate]
+	public string outOfFuelMessage;
+
+	[NoTranslate]
+	public string fuelIconPath;
+
+	public bool externalTicking;
+
+	public bool hideGizmosIfNotPlayerFaction;
+
+	public bool functionsInVacuum = true;
+
+	private Texture2D fuelIcon;
+
+	public string FuelLabel
+	{
+		get
+		{
+			if (fuelLabel.NullOrEmpty())
+			{
+				return "Fuel".TranslateSimple();
+			}
+			return fuelLabel;
+		}
+	}
+
+	public string FuelGizmoLabel
+	{
+		get
+		{
+			if (fuelGizmoLabel.NullOrEmpty())
+			{
+				return "Fuel".TranslateSimple();
+			}
+			return fuelGizmoLabel;
+		}
+	}
+
+	public Texture2D FuelIcon
+	{
+		get
+		{
+			if (fuelIcon == null)
+			{
+				if (!fuelIconPath.NullOrEmpty())
+				{
+					fuelIcon = ContentFinder<Texture2D>.Get(fuelIconPath);
+				}
+				else
+				{
+					ThingDef thingDef = ((fuelFilter.AnyAllowedDef == null) ? ThingDefOf.Chemfuel : fuelFilter.AnyAllowedDef);
+					fuelIcon = thingDef.uiIcon;
+				}
+			}
+			return fuelIcon;
+		}
+	}
+
+	public float FuelMultiplierCurrentDifficulty
+	{
+		get
+		{
+			if (factorByDifficulty && Find.Storyteller?.difficulty != null)
+			{
+				return fuelMultiplier / Find.Storyteller.difficulty.maintenanceCostFactor;
+			}
+			return fuelMultiplier;
+		}
+	}
+
+	public CompProperties_Refuelable()
+	{
+		compClass = typeof(CompRefuelable);
+	}
+
+	public override void ResolveReferences(ThingDef parentDef)
+	{
+		base.ResolveReferences(parentDef);
+		fuelFilter.ResolveReferences();
+	}
+
+	public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
+	{
+		foreach (string item in base.ConfigErrors(parentDef))
+		{
+			yield return item;
+		}
+		if (destroyOnNoFuel && initialFuelPercent <= 0f)
+		{
+			yield return "Refuelable component has destroyOnNoFuel, but initialFuelPercent <= 0";
+		}
+		if ((!consumeFuelOnlyWhenUsed || fuelConsumptionPerTickInRain > 0f) && parentDef.tickerType != TickerType.Normal)
+		{
+			yield return $"Refuelable component set to consume fuel per tick, but parent tickertype is {parentDef.tickerType} instead of {TickerType.Normal}";
+		}
+	}
+
+	public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+	{
+		foreach (StatDrawEntry item in base.SpecialDisplayStats(req))
+		{
+			yield return item;
+		}
+		if (((ThingDef)req.Def).building.IsTurret)
+		{
+			yield return new StatDrawEntry(StatCategoryDefOf.Building, "ShotsBeforeRearm".Translate(), ((int)fuelCapacity).ToString(), "ShotsBeforeRearmExplanation".Translate(), 3171);
+		}
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\CompRefuelable.txt`
+**相似度:** 0.7548
+
+```csharp
+public class CompRefuelable : ThingComp_VacuumAware, IThingGlower
+{
+	private float fuel;
+
+	private float configuredTargetFuelLevel = -1f;
+
+	public bool allowAutoRefuel = true;
+
+	private CompFlickable flickComp;
+
+	private CompExplosive explosiveComp;
+
+	public const string RefueledSignal = "Refueled";
+
+	public const string RanOutOfFuelSignal = "RanOutOfFuel";
+
+	private static readonly Texture2D SetTargetFuelLevelCommand = ContentFinder<Texture2D>.Get("UI/Commands/SetTargetFuelLevel");
+
+	private static readonly Vector2 FuelBarSize = new Vector2(1f, 0.2f);
+
+	private static readonly Material FuelBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.6f, 0.56f, 0.13f));
+
+	private static readonly Material FuelBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f));
+
+	protected override bool FunctionsInVacuum => Props.functionsInVacuum;
+
+	public float TargetFuelLevel
+	{
+		get
+		{
+			if (configuredTargetFuelLevel >= 0f)
+			{
+				return configuredTargetFuelLevel;
+			}
+			if (Props.targetFuelLevelConfigurable)
+			{
+				return Props.initialConfigurableTargetFuelLevel;
+			}
+			return Props.fuelCapacity;
+		}
+		set
+		{
+			configuredTargetFuelLevel = Mathf.Clamp(value, 0f, Props.fuelCapacity);
+		}
+	}
+
+	public CompProperties_Refuelable Props => (CompProperties_Refuelable)props;
+
+	public float Fuel => fuel;
+
+	public float FuelPercentOfTarget => fuel / TargetFuelLevel;
+
+	public float FuelPercentOfMax => fuel / Props.fuelCapacity;
+
+	public bool IsFull => TargetFuelLevel - fuel < 1f;
+
+	public bool HasFuel
+	{
+		get
+		{
+			if (fuel > 0f && fuel >= Props.minimumFueledThreshold)
+			{
+				if (!FunctionsInVacuum)
+				{
+					return !base.InVacuum;
+				}
+				return true;
+			}
+			return false;
+		}
+	}
+
+	private float ConsumptionRatePerTick => Props.fuelConsumptionRate / 60000f;
+
+	public bool ShouldAutoRefuelNow
+	{
+		get
+		{
+			if (FuelPercentOfTarget <= Props.autoRefuelPercent && !IsFull && TargetFuelLevel > 0f)
+			{
+				return ShouldAutoRefuelNowIgnoringFuelPct;
+			}
+			return false;
+		}
+	}
+
+	public bool ShouldAutoRefuelNowIgnoringFuelPct
+	{
+		get
+		{
+			if (!parent.IsBurning() && (flickComp == null || flickComp.SwitchIsOn) && parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Flick) == null)
+			{
+				return parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Deconstruct) == null;
+			}
+			return false;
+		}
+	}
+
+	public bool ShouldBeLitNow()
+	{
+		return HasFuel;
+	}
+
+	public override void Initialize(CompProperties props)
+	{
+		base.Initialize(props);
+		allowAutoRefuel = Props.initialAllowAutoRefuel;
+		fuel = Props.fuelCapacity * Props.initialFuelPercent;
+	}
+
+	public override void PostSpawnSetup(bool respawningAfterLoad)
+	{
+		flickComp = parent.GetComp<CompFlickable>();
+		explosiveComp = parent.GetComp<CompExplosive>();
+	}
+
+	public override void PostExposeData()
+	{
+		base.PostExposeData();
+		Scribe_Values.Look(ref fuel, "fuel", 0f);
+		Scribe_Values.Look(ref configuredTargetFuelLevel, "configuredTargetFuelLevel", -1f);
+		Scribe_Values.Look(ref allowAutoRefuel, "allowAutoRefuel", defaultValue: false);
+		if (Scribe.mode == LoadSaveMode.PostLoadInit && !Props.showAllowAutoRefuelToggle)
+		{
+			allowAutoRefuel = Props.initialAllowAutoRefuel;
+		}
+	}
+
+	public override void PostDraw()
+	{
+		base.PostDraw();
+		if (!allowAutoRefuel)
+		{
+			parent.Map.overlayDrawer.DrawOverlay(parent, OverlayTypes.ForbiddenRefuel);
+		}
+		else if (!HasFuel && Props.drawOutOfFuelOverlay)
+		{
+			parent.Map.overlayDrawer.DrawOverlay(parent, OverlayTypes.OutOfFuel);
+		}
+		if (Props.drawFuelGaugeInMap)
+		{
+			GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
+			r.center = parent.DrawPos + Vector3.up * 0.1f;
+			r.size = FuelBarSize;
+			r.fillPercent = FuelPercentOfMax;
+			r.filledMat = FuelBarFilledMat;
+			r.unfilledMat = FuelBarUnfilledMat;
+			r.margin = 0.15f;
+			Rot4 rotation = parent.Rotation;
+			rotation.Rotate(RotationDirection.Clockwise);
+			r.rotation = rotation;
+			GenDraw.DrawFillableBar(r);
+		}
+	}
+
+	public override void PostDestroy(DestroyMode mode, Map previousMap)
+	{
+		base.PostDestroy(mode, previousMap);
+		if ((!Props.fuelIsMortarBarrel || !Find.Storyteller.difficulty.classicMortars) && mode != 0 && previousMap != null && Props.fuelFilter.AllowedDefCount == 1 && Props.initialFuelPercent == 0f)
+		{
+			ThingDef thingDef = Props.fuelFilter.AllowedThingDefs.First();
+			int num = Mathf.FloorToInt(1f * fuel);
+			while (num > 0)
+			{
+				Thing thing = ThingMaker.MakeThing(thingDef);
+				thing.stackCount = Mathf.Min(num, thingDef.stackLimit);
+				num -= thing.stackCount;
+				GenPlace.TryPlaceThing(thing, parent.Position, previousMap, ThingPlaceMode.Near);
+			}
+		}
+	}
+
+	public override string CompInspectStringExtra()
+	{
+		if (Props.fuelIsMortarBarrel && Find.Storyteller.difficulty.classicMortars)
+		{
+			return string.Empty;
+		}
+		string text = base.CompInspectStringExtra();
+		text = ((text != null) ? (text + "\n") : string.Empty);
+		text = text + Props.FuelLabel + ": " + fuel.ToStringDecimalIfSmall() + " / " + Props.fuelCapacity.ToStringDecimalIfSmall();
+		if (!Props.consumeFuelOnlyWhenUsed && HasFuel)
+		{
+			int numTicks = (int)(fuel / Props.fuelConsumptionRate * 60000f);
+			text = text + " (" + numTicks.ToStringTicksToPeriod() + ")";
+		}
+		if (!HasFuel && !Props.outOfFuelMessage.NullOrEmpty())
+		{
+			string arg = ((parent.def.building != null && parent.def.building.IsTurret) ? ("CannotShoot".Translate() + ": " + Props.outOfFuelMessage).Resolve() : Props.outOfFuelMessage);
+			text += $"\n{arg} ({GetFuelCountToFullyRefuel()}x {Props.fuelFilter.AnyAllowedDef.label})";
+		}
+		if (Props.targetFuelLevelConfigurable)
+		{
+			text += "\n" + "ConfiguredTargetFuelLevel".Translate(TargetFuelLevel.ToStringDecimalIfSmall());
+		}
+		return text;
+	}
+
+	public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
+	{
+		if (parent.def.building != null && parent.def.building.IsTurret)
+		{
+			TaggedString taggedString = "RearmCostExplanation".Translate();
+			if (Props.factorByDifficulty)
+			{
+				taggedString += " (" + "RearmCostExplanationDifficulty".Translate() + ")";
+			}
+			taggedString += ".";
+			yield return new StatDrawEntry(StatCategoryDefOf.Building, "RearmCost".Translate(), GenLabel.ThingLabel(Props.fuelFilter.AnyAllowedDef, null, GetFuelCountToFullyRefuel()).CapitalizeFirst(), taggedString, 3171);
+		}
+	}
+
+	public override void CompTick()
+	{
+		base.CompTick();
+		CompPowerTrader comp = parent.GetComp<CompPowerTrader>();
+		if (!Props.consumeFuelOnlyWhenUsed && (flickComp == null || flickComp.SwitchIsOn) && (!Props.consumeFuelOnlyWhenPowered || (comp != null && comp.PowerOn)) && !Props.externalTicking)
+		{
+			ConsumeFuel(ConsumptionRatePerTick);
+		}
+		if (Props.fuelConsumptionPerTickInRain > 0f && parent.Spawned && parent.Map.weatherManager.RainRate > 0.4f && !parent.Map.roofGrid.Roofed(parent.Position) && !Props.externalTicking)
+		{
+			ConsumeFuel(Props.fuelConsumptionPerTickInRain);
+		}
+	}
+
+	public void ConsumeFuel(float amount)
+	{
+		if ((!Props.fuelIsMortarBarrel || !Find.Storyteller.difficulty.classicMortars) && !(fuel <= 0f))
+		{
+			fuel -= amount;
+			if (fuel <= 0f)
+			{
+				fuel = 0f;
+				Notify_RanOutOfFuel();
+			}
+		}
+	}
+
+	private void Notify_RanOutOfFuel()
+	{
+		if (Props.destroyOnNoFuel)
+		{
+			parent.Destroy();
+		}
+		parent.BroadcastCompSignal("RanOutOfFuel");
+	}
+
+	public void Refuel(List<Thing> fuelThings)
+	{
+		if (Props.atomicFueling && fuelThings.Sum((Thing t) => t.stackCount) < GetFuelCountToFullyRefuel())
+		{
+			Log.ErrorOnce("Error refueling; not enough fuel available for proper atomic refuel", 19586442);
+			return;
+		}
+		int num = GetFuelCountToFullyRefuel();
+		while (num > 0 && fuelThings.Count > 0)
+		{
+			Thing thing = fuelThings.Pop();
+			int num2 = Mathf.Min(num, thing.stackCount);
+			Refuel(num2);
+			thing.SplitOff(num2).Destroy();
+			num -= num2;
+		}
+	}
+
+	public void Refuel(float amount)
+	{
+		fuel += amount * Props.FuelMultiplierCurrentDifficulty;
+		if (fuel > Props.fuelCapacity)
+		{
+			fuel = Props.fuelCapacity;
+		}
+		parent.BroadcastCompSignal("Refueled");
+	}
+
+	public AcceptanceReport CanEjectFuel()
+	{
+		CompExplosive compExplosive = explosiveComp;
+		if (compExplosive != null && compExplosive.wickStarted)
+		{
+			return "AboutToExplode".Translate();
+		}
+		if (Fuel == 0f)
+		{
+			return "RefuelableNoFuelToEject".Translate();
+		}
+		return true;
+	}
+
+	public void EjectFuel()
+	{
+		ThingDef thingDef = Props.fuelFilter.AllowedThingDefs.First();
+		int num = Mathf.FloorToInt(fuel);
+		while (num > 0)
+		{
+			Thing thing = ThingMaker.MakeThing(thingDef);
+			thing.stackCount = Mathf.Min(num, thingDef.stackLimit);
+			num -= thing.stackCount;
+			GenPlace.TryPlaceThing(thing, parent.Position, parent.Map, ThingPlaceMode.Near);
+			thing.SetForbidden(value: true);
+		}
+		fuel = 0f;
+		Notify_RanOutOfFuel();
+	}
+
+	public void Notify_UsedThisTick()
+	{
+		ConsumeFuel(ConsumptionRatePerTick);
+	}
+
+	public int GetFuelCountToFullyRefuel()
+	{
+		if (Props.atomicFueling)
+		{
+			return Mathf.CeilToInt(Props.fuelCapacity / Props.FuelMultiplierCurrentDifficulty);
+		}
+		return Mathf.Max(Mathf.CeilToInt((TargetFuelLevel - fuel) / Props.FuelMultiplierCurrentDifficulty), 1);
+	}
+
+	public override IEnumerable<Gizmo> CompGetGizmosExtra()
+	{
+		if (Props.fuelIsMortarBarrel && Find.Storyteller.difficulty.classicMortars)
+		{
+			yield break;
+		}
+		if (!Props.hideGizmosIfNotPlayerFaction || parent.Faction == Faction.OfPlayer)
+		{
+			if (Find.Selector.SelectedObjects.Count == 1)
+			{
+				yield return new Gizmo_SetFuelLevel(this);
+			}
+			else
+			{
+				if (Props.targetFuelLevelConfigurable)
+				{
+					Command_SetTargetFuelLevel command_SetTargetFuelLevel = new Command_SetTargetFuelLevel();
+					command_SetTargetFuelLevel.refuelable = this;
+					command_SetTargetFuelLevel.defaultLabel = "CommandSetTargetFuelLevel".Translate();
+					command_SetTargetFuelLevel.defaultDesc = "CommandSetTargetFuelLevelDesc".Translate();
+					command_SetTargetFuelLevel.icon = SetTargetFuelLevelCommand;
+					yield return command_SetTargetFuelLevel;
+				}
+				if (Props.showAllowAutoRefuelToggle)
+				{
+					string str = (allowAutoRefuel ? "On".Translate() : "Off".Translate());
+					Command_Toggle command_Toggle = new Command_Toggle();
+					command_Toggle.isActive = () => allowAutoRefuel;
+					command_Toggle.toggleAction = delegate
+					{
+						allowAutoRefuel = !allowAutoRefuel;
+					};
+					command_Toggle.defaultLabel = "CommandToggleAllowAutoRefuel".Translate();
+					command_Toggle.defaultDesc = "CommandToggleAllowAutoRefuelDescMult".Translate(str.UncapitalizeFirst().Named("ONOFF"));
+					command_Toggle.icon = (allowAutoRefuel ? TexCommand.ForbidOn : TexCommand.ForbidOff);
+					command_Toggle.Order = 20f;
+					command_Toggle.hotKey = KeyBindingDefOf.Command_ItemForbid;
+					yield return command_Toggle;
+				}
+			}
+		}
+		if (DebugSettings.ShowDevGizmos)
+		{
+			Command_Action command_Action = new Command_Action();
+			command_Action.defaultLabel = "DEV: Set fuel to 0";
+			command_Action.action = delegate
+			{
+				fuel = 0f;
+				parent.BroadcastCompSignal("Refueled");
+			};
+			yield return command_Action;
+			Command_Action command_Action2 = new Command_Action();
+			command_Action2.defaultLabel = "DEV: Set fuel to 0.1";
+			command_Action2.action = delegate
+			{
+				fuel = 0.1f;
+				parent.BroadcastCompSignal("Refueled");
+			};
+			yield return command_Action2;
+			Command_Action command_Action3 = new Command_Action();
+			command_Action3.defaultLabel = "DEV: Fuel -20%";
+			command_Action3.action = delegate
+			{
+				ConsumeFuel(Props.fuelCapacity * 0.2f);
+			};
+			yield return command_Action3;
+			Command_Action command_Action4 = new Command_Action();
+			command_Action4.defaultLabel = "DEV: Set fuel to max";
+			command_Action4.action = delegate
+			{
+				fuel = Props.fuelCapacity;
+				parent.BroadcastCompSignal("Refueled");
+			};
+			yield return command_Action4;
+		}
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\Odyssey\Defs\ThingDefs_Buildings\Buildings_Gravship.xml`
+**相似度:** 0.5864
+
+```xml
+    <defName>ChemfuelTank</defName>
+    <label>small chemfuel tank</label>
+    <description>A chemfuel storage tank that supplies fuel for thrusters on a gravship.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/ChemfuelTank/ChemfuelTank</texPath>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Mass>30</Mass>
+      <Flammability>1</Flammability>
+      <Beauty>-10</Beauty>
+      <WorkToBuild>2000</WorkToBuild>
+    </statBases>
+    <size>(2, 2)</size>
+    <costList>
+      <Steel>120</Steel>
+    </costList>
+    <researchPrerequisites>
+      <li>BasicGravtech</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>250</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>250</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelLabel>Chemfuel</fuelLabel>
+        <fuelGizmoLabel>Chemfuel</fuelGizmoLabel>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <canEjectFuel>true</canEjectFuel>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="FuelTankBase">
+    <defName>LargeChemfuelTank</defName>
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\Core\Defs\ThingDefs_Buildings\Buildings_Power.xml`
+**相似度:** 0.5793
+
+```xml
+    <defName>WoodFiredGenerator</defName>
+    <label>wood-fired generator</label>
+    <description>Produces power by consuming wood. Must be periodically loaded with wood fuel by hand.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Power/WoodFiredGenerator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <shadowData>
+        <volume>(1.93,1,1.69)</volume>
+        <offset>(-0.03,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.9</fillPercent>
+    <pathCost>50</pathCost>
+    <rotatable>false</rotatable>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Beauty>-20</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>false</canOverlapZones>
+    <size>(2,2)</size>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-1000</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+        <soundAmbientProducingPower>WoodFiredGenerator_Ambience</soundAmbientProducingPower>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>22.0</fuelConsumptionRate>
+        <fuelCapacity>75.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <canEjectFuel>true</canEjectFuel>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(217,112,33,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>6</heatPerSecond>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Stunnable">
+        <useLargeEMPEffecter>true</useLargeEMPEffecter>
+        <affectedDamageDefs>
+          <li>EMP</li>
+        </affectedDamageDefs>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <designationCategory>Power</designationCategory>
+    <uiOrder>2100</uiOrder>
+    <designationHotKey>Misc3</designationHotKey>
+    <constructEffect>ConstructMetal</constructEffect>
+    <researchPrerequisites>
+      <li>Electricity</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>ChemfuelPoweredGenerator</defName>
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\Biotech\Defs\ThingDefs_Buildings\Buildings_Deathrest.xml`
+**相似度:** 0.5764
+
+```xml
+  <ThingDef ParentName="DeathrestBuildingBase" Name="DeathrestBuildingHemogenFueled" Abstract="True">
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
+        <idlePowerDraw>0</idlePowerDraw>
+        <alwaysDisplayAsUsingPower>true</alwaysDisplayAsUsingPower>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate> <!-- Empty in one year -->
+        <fuelCapacity>5</fuelCapacity>
+        <fuelLabel>Hemogen</fuelLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>HemogenPack</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <externalTicking>true</externalTicking>
+        <autoRefuelPercent>0.05</autoRefuelPercent>
+        <canEjectFuel>true</canEjectFuel>
+      </li>
+    </comps>
+  </ThingDef>
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\Core\Defs\ThingDefs_Buildings\Buildings_Temperature.xml`
+**相似度:** 0.5668
+
+```xml
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_Heater</li>
+      <li>PlaceWorker_GlowRadius</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>10.0</fuelConsumptionRate>
+        <fuelCapacity>20.0</fuelCapacity>
+        <fuelConsumptionPerTickInRain>0.0006</fuelConsumptionPerTickInRain>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <functionsInVacuum>false</functionsInVacuum>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(252,187,113,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>21</heatPerSecond>
+        <heatPushMaxTemperature>28</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>1</fireSize>
+      </li>
+      <li>
+        <compClass>CompGatherSpot</compClass>
+      </li>
+      <li Class="CompProperties_MeditationFocus">
+        <statDef>MeditationFocusStrength</statDef>
+        <focusTypes><li>Flame</li></focusTypes>
+        <offsets>
+          <li Class="FocusStrengthOffset_Lit">
+            <offset>0.12</offset>
+          </li>
+          <li Class="FocusStrengthOffset_BuildingDefsLit">
+            <defs>
+              <li>Campfire</li>
+              <li>TorchLamp</li>
+              <li MayRequire="Ludeon.RimWorld.Royalty">Brazier</li>
+              <li MayRequire="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Ideology">DarklightBrazier</li>
+              <li MayRequire="Ludeon.RimWorld.Ideology">Darktorch</li>
+              <li MayRequire="Ludeon.RimWorld.Ideology">DarktorchFungus</li>
+            </defs>
+            <offsetPerBuilding>0.02</offsetPerBuilding>
+            <radius>9.9</radius>
+            <maxBuildings>8</maxBuildings>
+            <explanationKey>MeditationFocusPerFlame</explanationKey>
+            <explanationKeyAbstract>MeditationFocusPerFlameAbstract</explanationKeyAbstract>
+          </li>
+        </offsets>
+      </li>
+    </comps>
+    <designationCategory>Temperature</designationCategory>
+    <designationHotKey>Misc1</designationHotKey>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <recipes>
+      <li>CookMealSimple</li>
+      <li>CookMealSimpleBulk</li>
+      <li>Make_Pemmican</li>
+      <li>Make_PemmicanBulk</li>
+      <li>BurnApparel</li>
+      <li>BurnWeapon</li>
+      <li>BurnDrugs</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Make_BabyFood</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Make_BabyFoodBulk</li>
+    </recipes>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <building>
+      <isMealSource>true</isMealSource>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+      <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+      <destroySound>BuildingDestroyed_Wood_Small</destroySound>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>PassiveCooler</defName>
+    <label>passive cooler</label>
+    <description>A traditional unpowered cooler that works by water evaporation. Must be regularly replenished with wood. Not efficient enough to refrigerate food.</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Things/Building/Misc/PassiveCooler</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <addTopAltitudeBias>true</addTopAltitudeBias>
+      <shadowData>
+        <volume>(0.9,0.3,0.9)</volume>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0,0.6,0.1)</rect>
+      </damageData>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <constructEffect>ConstructDirt</constructEffect>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>0.40</fillPercent>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToBuild>200</WorkToBuild>
+      <Flammability>1</Flammability>
+    </statBases>
+    <selectable>true</selectable>
+    <costList>
+      <WoodLog>50</WoodLog>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+```

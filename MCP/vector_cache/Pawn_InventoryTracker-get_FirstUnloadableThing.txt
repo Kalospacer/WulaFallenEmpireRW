@@ -1,0 +1,4149 @@
+根据向量相似度分析，与 'get_FirstUnloadableThing, Pawn_InventoryTracker' 最相关的代码定义如下：
+
+---
+**文件路径 (精确匹配):** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\Pawn_InventoryTracker.txt`
+
+```csharp
+public class Pawn_InventoryTracker : IThingHolder, IExposable
+{
+	public Pawn pawn;
+
+	public ThingOwner<Thing> innerContainer;
+
+	private bool unloadEverything;
+
+	private List<Thing> itemsNotForSale = new List<Thing>();
+
+	private List<Thing> unpackedCaravanItems = new List<Thing>();
+
+	public static readonly Texture2D DrugTex = ContentFinder<Texture2D>.Get("UI/Commands/TakeDrug");
+
+	private static List<ThingDefCount> tmpItemsToKeep = new List<ThingDefCount>();
+
+	private static readonly List<Thing> tmpThingList = new List<Thing>();
+
+	private List<Thing> usableDrugsTmp = new List<Thing>();
+
+	public bool UnloadEverything
+	{
+		get
+		{
+			if (unloadEverything)
+			{
+				return HasAnyUnloadableThing;
+			}
+			return false;
+		}
+		set
+		{
+			if (value && HasAnyUnloadableThing)
+			{
+				unloadEverything = true;
+			}
+			else
+			{
+				unloadEverything = false;
+			}
+		}
+	}
+
+	public bool HasAnyUnpackedCaravanItems => unpackedCaravanItems.Count > 0;
+
+	private bool HasAnyUnloadableThing => FirstUnloadableThing != default(ThingCount);
+
+	public ThingCount FirstUnloadableThing
+	{
+		get
+		{
+			if (innerContainer.Count == 0)
+			{
+				return default(ThingCount);
+			}
+			if (pawn.drugs?.CurrentPolicy != null)
+			{
+				DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
+				tmpItemsToKeep.Clear();
+				for (int i = 0; i < currentPolicy.Count; i++)
+				{
+					if (currentPolicy[i].takeToInventory > 0)
+					{
+						tmpItemsToKeep.Add(new ThingDefCount(currentPolicy[i].drug, currentPolicy[i].takeToInventory));
+					}
+				}
+			}
+			Pawn_InventoryStockTracker inventoryStock = pawn.inventoryStock;
+			if (inventoryStock != null && inventoryStock.stockEntries?.Count > 0)
+			{
+				foreach (InventoryStockEntry value in pawn.inventoryStock.stockEntries.Values)
+				{
+					tmpItemsToKeep.Add(new ThingDefCount(value.thingDef, value.count));
+				}
+			}
+			foreach (Thing item in innerContainer)
+			{
+				int num = -1;
+				for (int j = 0; j < tmpItemsToKeep.Count; j++)
+				{
+					if (item.def == tmpItemsToKeep[j].ThingDef)
+					{
+						num = j;
+						break;
+					}
+				}
+				if (pawn.IsColonist && item.def.IsNutritionGivingIngestible && !item.def.IsDrug && JobGiver_PackFood.IsGoodPackableFoodFor(item, pawn, checkMass: false))
+				{
+					float inventoryPackableFoodNutrition = JobGiver_PackFood.GetInventoryPackableFoodNutrition(pawn);
+					float maxLevel = pawn.needs.food.MaxLevel;
+					if (inventoryPackableFoodNutrition - item.GetStatValue(StatDefOf.Nutrition) * (float)item.stackCount <= maxLevel)
+					{
+						int k;
+						for (k = 0; inventoryPackableFoodNutrition - item.GetStatValue(StatDefOf.Nutrition) * (float)k > maxLevel; k++)
+						{
+						}
+						if (item.stackCount - k > 0)
+						{
+							tmpItemsToKeep.Add(new ThingDefCount(item.def, item.stackCount - k));
+							num = tmpItemsToKeep.Count - 1;
+						}
+					}
+				}
+				if (num < 0)
+				{
+					return new ThingCount(item, item.stackCount);
+				}
+				if (item.stackCount > tmpItemsToKeep[num].Count)
+				{
+					return new ThingCount(item, item.stackCount - tmpItemsToKeep[num].Count);
+				}
+				tmpItemsToKeep[num] = new ThingDefCount(tmpItemsToKeep[num].ThingDef, tmpItemsToKeep[num].Count - item.stackCount);
+			}
+			return default(ThingCount);
+		}
+	}
+
+	public IThingHolder ParentHolder => pawn;
+
+	public Pawn_InventoryTracker(Pawn pawn)
+	{
+		this.pawn = pawn;
+		innerContainer = new ThingOwner<Thing>(this, oneStackOnly: false);
+	}
+
+	public void ExposeData()
+	{
+		Scribe_Collections.Look(ref itemsNotForSale, "itemsNotForSale", LookMode.Reference);
+		Scribe_Collections.Look(ref unpackedCaravanItems, "unpackedCaravanItems", LookMode.Reference);
+		Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
+		Scribe_Values.Look(ref unloadEverything, "unloadEverything", defaultValue: false);
+	}
+
+	public void InventoryTrackerTick()
+	{
+		if (unloadEverything && !HasAnyUnloadableThing)
+		{
+			unloadEverything = false;
+		}
+	}
+
+	public void DropAllNearPawn(IntVec3 pos, bool forbid = false, bool unforbid = false)
+	{
+		DropAllNearPawnHelper(pos, forbid, unforbid);
+	}
+
+	private void DropAllNearPawnHelper(IntVec3 pos, bool forbid = false, bool unforbid = false, bool caravanHaulOnly = false)
+	{
+		if (pawn.MapHeld == null)
+		{
+			Log.Error("Tried to drop all inventory near pawn but the pawn is unspawned. pawn=" + pawn);
+			return;
+		}
+		tmpThingList.Clear();
+		if (caravanHaulOnly)
+		{
+			tmpThingList.AddRange(unpackedCaravanItems);
+		}
+		else
+		{
+			tmpThingList.AddRange(innerContainer);
+		}
+		int i;
+		for (i = 0; i < tmpThingList.Count; i++)
+		{
+			if (caravanHaulOnly && !innerContainer.Contains(tmpThingList[i]))
+			{
+				unpackedCaravanItems.Remove(tmpThingList[i]);
+				Log.Warning("Could not drop unpacked caravan item " + tmpThingList[i].Label + ", inventory no longer contains it");
+				continue;
+			}
+			innerContainer.TryDrop(tmpThingList[i], pos, pawn.MapHeld, ThingPlaceMode.Near, out var _, delegate(Thing t, int unused)
+			{
+				if (forbid)
+				{
+					t.SetForbiddenIfOutsideHomeArea();
+				}
+				if (unforbid)
+				{
+					t.SetForbidden(value: false, warnOnFail: false);
+				}
+				if (t.def.IsPleasureDrug)
+				{
+					LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugBurning, OpportunityType.Important);
+				}
+				LordJob_FormAndSendCaravan lordJob_FormAndSendCaravan = CaravanFormingUtility.GetFormAndSendCaravanLord(pawn)?.LordJob as LordJob_FormAndSendCaravan;
+				if (caravanHaulOnly && lordJob_FormAndSendCaravan != null && lordJob_FormAndSendCaravan.GatheringItemsNow)
+				{
+					CaravanFormingUtility.TryAddItemBackToTransferables(t, lordJob_FormAndSendCaravan.transferables, tmpThingList[i].stackCount);
+				}
+				unpackedCaravanItems.Remove(tmpThingList[i]);
+			});
+		}
+	}
+
+	public void DropCount(ThingDef def, int count, bool forbid = false, bool unforbid = false)
+	{
+		if (pawn.MapHeld == null)
+		{
+			Log.Error("Tried to drop a thing near pawn but the pawn is unspawned. pawn=" + pawn);
+			return;
+		}
+		tmpThingList.Clear();
+		tmpThingList.AddRange(innerContainer);
+		int num = 0;
+		for (int i = 0; i < tmpThingList.Count; i++)
+		{
+			Thing thing = tmpThingList[i];
+			if (thing.def != def)
+			{
+				continue;
+			}
+			int num2 = Math.Min(thing.stackCount, count);
+			innerContainer.TryDrop(tmpThingList[i], pawn.Position, pawn.MapHeld, ThingPlaceMode.Near, num2, out var _, delegate(Thing t, int unused)
+			{
+				if (forbid)
+				{
+					t.SetForbiddenIfOutsideHomeArea();
+				}
+				if (unforbid)
+				{
+					t.SetForbidden(value: false, warnOnFail: false);
+				}
+				if (t.def.IsPleasureDrug)
+				{
+					LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugBurning, OpportunityType.Important);
+				}
+			});
+			num += num2;
+			if (num >= count)
+			{
+				break;
+			}
+		}
+	}
+
+	public void RemoveCount(ThingDef def, int count, bool destroy = true)
+	{
+		tmpThingList.Clear();
+		tmpThingList.AddRange(innerContainer);
+		foreach (Thing tmpThing in tmpThingList)
+		{
+			if (tmpThing.def != def)
+			{
+				continue;
+			}
+			if (tmpThing.stackCount > count)
+			{
+				tmpThing.stackCount -= count;
+				break;
+			}
+			innerContainer.Remove(tmpThing);
+			if (destroy)
+			{
+				tmpThing.Destroy();
+			}
+			break;
+		}
+	}
+
+	public void DestroyAll(DestroyMode mode = DestroyMode.Vanish)
+	{
+		innerContainer.ClearAndDestroyContents(mode);
+	}
+
+	public bool Contains(Thing item)
+	{
+		return innerContainer.Contains(item);
+	}
+
+	public int Count(ThingDef def)
+	{
+		int num = 0;
+		foreach (Thing item in innerContainer)
+		{
+			if (item.def == def)
+			{
+				num += item.stackCount;
+			}
+		}
+		return num;
+	}
+
+	public int Count(Func<Thing, bool> validator)
+	{
+		int num = 0;
+		foreach (Thing item in innerContainer)
+		{
+			if (validator(item))
+			{
+				num += item.stackCount;
+			}
+		}
+		return num;
+	}
+
+	public void AddHauledCaravanItem(Thing item)
+	{
+		if (pawn.carryTracker.innerContainer.TryTransferToContainer(item, innerContainer, item.stackCount, out var resultingTransferredItem, canMergeWithExistingStacks: false) > 0)
+		{
+			unpackedCaravanItems.Add(resultingTransferredItem);
+		}
+		CompForbiddable compForbiddable = resultingTransferredItem?.TryGetComp<CompForbiddable>();
+		if (compForbiddable != null)
+		{
+			compForbiddable.Forbidden = false;
+		}
+	}
+
+	public void TryAddAndUnforbid(Thing item)
+	{
+		CompForbiddable compForbiddable = item.TryGetComp<CompForbiddable>();
+		if (innerContainer.TryAdd(item) && compForbiddable != null)
+		{
+			compForbiddable.Forbidden = false;
+		}
+	}
+
+	public void TransferCaravanItemsToCarrier(Pawn_InventoryTracker carrierInventory)
+	{
+		List<Thing> list = new List<Thing>();
+		list.AddRange(pawn.inventory.unpackedCaravanItems);
+		foreach (Thing item in list)
+		{
+			if (MassUtility.IsOverEncumbered(carrierInventory.pawn))
+			{
+				break;
+			}
+			if (innerContainer.Contains(item))
+			{
+				pawn.inventory.innerContainer.TryTransferToContainer(item, carrierInventory.innerContainer, item.stackCount);
+			}
+			unpackedCaravanItems.Remove(item);
+		}
+	}
+
+	public void DropAllPackingCaravanThings()
+	{
+		if (pawn.Spawned)
+		{
+			DropAllNearPawnHelper(pawn.Position, forbid: false, unforbid: false, caravanHaulOnly: true);
+			ClearHaulingCaravanCache();
+		}
+	}
+
+	public void ClearHaulingCaravanCache()
+	{
+		unpackedCaravanItems.Clear();
+	}
+
+	public bool NotForSale(Thing item)
+	{
+		return itemsNotForSale.Contains(item);
+	}
+
+	public void TryAddItemNotForSale(Thing item)
+	{
+		if (innerContainer.TryAdd(item, canMergeWithExistingStacks: false))
+		{
+			itemsNotForSale.Add(item);
+		}
+	}
+
+	public void Notify_ItemRemoved(Thing item)
+	{
+		itemsNotForSale.Remove(item);
+		unpackedCaravanItems.Remove(item);
+		if (unloadEverything && !HasAnyUnloadableThing)
+		{
+			unloadEverything = false;
+		}
+	}
+
+	public ThingOwner GetDirectlyHeldThings()
+	{
+		return innerContainer;
+	}
+
+	public void GetChildHolders(List<IThingHolder> outChildren)
+	{
+		ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, GetDirectlyHeldThings());
+	}
+
+	public IEnumerable<Thing> GetDrugs()
+	{
+		foreach (Thing item in innerContainer)
+		{
+			if (item.TryGetComp<CompDrug>() != null)
+			{
+				yield return item;
+			}
+		}
+	}
+
+	public IEnumerable<Thing> GetCombatEnhancingDrugs()
+	{
+		foreach (Thing item in innerContainer)
+		{
+			CompDrug compDrug = item.TryGetComp<CompDrug>();
+			if (compDrug != null && compDrug.Props.isCombatEnhancingDrug)
+			{
+				yield return item;
+			}
+		}
+	}
+
+	public Thing FindCombatEnhancingDrug()
+	{
+		return GetCombatEnhancingDrugs().FirstOrDefault();
+	}
+
+	public IEnumerable<Gizmo> GetGizmos()
+	{
+		if (!pawn.IsColonistPlayerControlled || !pawn.Drafted || Find.Selector.SingleSelectedThing != pawn)
+		{
+			yield break;
+		}
+		usableDrugsTmp.Clear();
+		foreach (Thing drug2 in GetDrugs())
+		{
+			if (FoodUtility.WillIngestFromInventoryNow(pawn, drug2))
+			{
+				usableDrugsTmp.Add(drug2);
+			}
+		}
+		if (usableDrugsTmp.Count == 0)
+		{
+			yield break;
+		}
+		if (usableDrugsTmp.Count == 1)
+		{
+			Thing drug = usableDrugsTmp[0];
+			string defaultLabel = (drug.def.ingestible.ingestCommandString.NullOrEmpty() ? "ConsumeThing".Translate(drug.LabelNoCount, drug) : drug.def.ingestible.ingestCommandString.Formatted(drug.LabelShort));
+			Command_Action command_Action = new Command_Action();
+			command_Action.defaultLabel = defaultLabel;
+			command_Action.defaultDesc = drug.LabelCapNoCount + ": " + drug.def.description.CapitalizeFirst();
+			command_Action.icon = drug.def.uiIcon;
+			command_Action.iconAngle = drug.def.uiIconAngle;
+			command_Action.iconOffset = drug.def.uiIconOffset;
+			command_Action.action = delegate
+			{
+				FoodUtility.IngestFromInventoryNow(pawn, drug);
+			};
+			yield return command_Action;
+			yield break;
+		}
+		Command_Action command_Action2 = new Command_Action();
+		command_Action2.defaultLabel = "TakeDrug".Translate();
+		command_Action2.defaultDesc = "TakeDrugDesc".Translate();
+		command_Action2.icon = DrugTex;
+		command_Action2.action = delegate
+		{
+			List<FloatMenuOption> list = new List<FloatMenuOption>();
+			foreach (Thing drug in usableDrugsTmp)
+			{
+				string label = (drug.def.ingestible.ingestCommandString.NullOrEmpty() ? "ConsumeThing".Translate(drug.LabelNoCount, drug) : drug.def.ingestible.ingestCommandString.Formatted(drug.LabelShort));
+				list.Add(new FloatMenuOption(label, delegate
+				{
+					FoodUtility.IngestFromInventoryNow(pawn, drug);
+				}));
+			}
+			Find.WindowStack.Add(new FloatMenu(list));
+		};
+		yield return command_Action2;
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\ThingOwnerUtility.txt`
+**相似度:** 0.6304
+
+```csharp
+public static class ThingOwnerUtility
+{
+	private static readonly Stack<IThingHolder> tmpStack = new Stack<IThingHolder>();
+
+	private static readonly List<IThingHolder> tmpHolders = new List<IThingHolder>();
+
+	private static readonly List<Thing> tmpThings = new List<Thing>();
+
+	private static readonly List<IThingHolder> tmpMapChildHolders = new List<IThingHolder>();
+
+	public static bool ThisOrAnyCompIsThingHolder(this ThingDef thingDef)
+	{
+		if (typeof(IThingHolder).IsAssignableFrom(thingDef.thingClass))
+		{
+			return true;
+		}
+		for (int i = 0; i < thingDef.comps.Count; i++)
+		{
+			if (typeof(IThingHolder).IsAssignableFrom(thingDef.comps[i].compClass))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static ThingOwner TryGetInnerInteractableThingOwner(this Thing thing)
+	{
+		IThingHolder thingHolder = thing as IThingHolder;
+		ThingWithComps thingWithComps = thing as ThingWithComps;
+		if (thingHolder != null)
+		{
+			ThingOwner directlyHeldThings = thingHolder.GetDirectlyHeldThings();
+			if (directlyHeldThings != null)
+			{
+				return directlyHeldThings;
+			}
+		}
+		if (thingWithComps != null)
+		{
+			List<ThingComp> allComps = thingWithComps.AllComps;
+			for (int i = 0; i < allComps.Count; i++)
+			{
+				if (allComps[i] is IThingHolder thingHolder2)
+				{
+					ThingOwner directlyHeldThings2 = thingHolder2.GetDirectlyHeldThings();
+					if (directlyHeldThings2 != null)
+					{
+						return directlyHeldThings2;
+					}
+				}
+			}
+		}
+		tmpHolders.Clear();
+		if (thingHolder != null)
+		{
+			thingHolder.GetChildHolders(tmpHolders);
+			if (tmpHolders.Any())
+			{
+				ThingOwner directlyHeldThings3 = tmpHolders[0].GetDirectlyHeldThings();
+				if (directlyHeldThings3 != null)
+				{
+					tmpHolders.Clear();
+					return directlyHeldThings3;
+				}
+			}
+		}
+		if (thingWithComps != null)
+		{
+			List<ThingComp> allComps2 = thingWithComps.AllComps;
+			for (int j = 0; j < allComps2.Count; j++)
+			{
+				if (!(allComps2[j] is IThingHolder thingHolder3))
+				{
+					continue;
+				}
+				thingHolder3.GetChildHolders(tmpHolders);
+				if (tmpHolders.Any())
+				{
+					ThingOwner directlyHeldThings4 = tmpHolders[0].GetDirectlyHeldThings();
+					if (directlyHeldThings4 != null)
+					{
+						tmpHolders.Clear();
+						return directlyHeldThings4;
+					}
+				}
+			}
+		}
+		tmpHolders.Clear();
+		return null;
+	}
+
+	public static bool SpawnedOrAnyParentSpawned(IThingHolder holder)
+	{
+		return SpawnedParentOrMe(holder) != null;
+	}
+
+	public static Thing SpawnedParentOrMe(IThingHolder holder)
+	{
+		while (holder != null)
+		{
+			if (holder is Thing { Spawned: not false } thing)
+			{
+				return thing;
+			}
+			if (holder is ThingComp thingComp && thingComp.parent.Spawned)
+			{
+				return thingComp.parent;
+			}
+			holder = holder.ParentHolder;
+		}
+		return null;
+	}
+
+	public static IntVec3 GetRootPosition(IThingHolder holder)
+	{
+		IntVec3 result = IntVec3.Invalid;
+		while (holder != null)
+		{
+			if (holder is Thing { Position: { IsValid: not false } } thing)
+			{
+				result = thing.Position;
+			}
+			else if (holder is ThingComp thingComp && thingComp.parent.Position.IsValid)
+			{
+				result = thingComp.parent.Position;
+			}
+			holder = holder.ParentHolder;
+		}
+		return result;
+	}
+
+	public static Map GetRootMap(IThingHolder holder)
+	{
+		while (holder != null)
+		{
+			if (holder is Map result)
+			{
+				return result;
+			}
+			holder = holder.ParentHolder;
+		}
+		return null;
+	}
+
+	public static PlanetTile GetRootTile(IThingHolder holder)
+	{
+		while (holder != null)
+		{
+			if (holder is WorldObject { Tile: { Valid: not false } } worldObject)
+			{
+				return worldObject.Tile;
+			}
+			holder = holder.ParentHolder;
+		}
+		return PlanetTile.Invalid;
+	}
+
+	public static bool ContentsSuspended(IThingHolder holder)
+	{
+		while (holder != null)
+		{
+			if (holder is Building_CryptosleepCasket || holder is ISuspendableThingHolder { IsContentsSuspended: not false })
+			{
+				return true;
+			}
+			holder = holder.ParentHolder;
+		}
+		return false;
+	}
+
+	public static bool ContentsInCryptosleep(IThingHolder holder)
+	{
+		while (holder != null)
+		{
+			if (holder is Building_CryptosleepCasket)
+			{
+				return true;
+			}
+			holder = holder.ParentHolder;
+		}
+		return false;
+	}
+
+	public static bool IsEnclosingContainer(this IThingHolder holder)
+	{
+		if (holder != null && !(holder is Pawn_CarryTracker) && !(holder is Corpse) && !(holder is Map) && !(holder is Caravan) && !(holder is Settlement_TraderTracker))
+		{
+			return !(holder is TradeShip);
+		}
+		return false;
+	}
+
+	public static bool ShouldAutoRemoveDestroyedThings(IThingHolder holder)
+	{
+		if (!(holder is Corpse))
+		{
+			return !(holder is Caravan);
+		}
+		return false;
+	}
+
+	public static bool ShouldAutoExtinguishInnerThings(IThingHolder holder)
+	{
+		return !(holder is Map);
+	}
+
+	public static bool ShouldRemoveDesignationsOnAddedThings(IThingHolder holder)
+	{
+		return holder.IsEnclosingContainer();
+	}
+
+	public static void AppendThingHoldersFromThings(List<IThingHolder> outThingsHolders, IList<Thing> container)
+	{
+		if (container == null)
+		{
+			return;
+		}
+		int i = 0;
+		for (int count = container.Count; i < count; i++)
+		{
+			if (container[i] is IThingHolder item)
+			{
+				outThingsHolders.Add(item);
+			}
+			if (!(container[i] is ThingWithComps { AllComps: var allComps }))
+			{
+				continue;
+			}
+			for (int j = 0; j < allComps.Count; j++)
+			{
+				if (allComps[j] is IThingHolder item2)
+				{
+					outThingsHolders.Add(item2);
+				}
+			}
+		}
+	}
+
+	public static bool AnyParentIs<T>(Thing thing) where T : class, IThingHolder
+	{
+		return GetAnyParent<T>(thing) != null;
+	}
+
+	public static T GetAnyParent<T>(Thing thing) where T : class, IThingHolder
+	{
+		if (thing is T result)
+		{
+			return result;
+		}
+		for (IThingHolder parentHolder = thing.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
+		{
+			if (parentHolder is T result2)
+			{
+				return result2;
+			}
+		}
+		return null;
+	}
+
+	public static Thing GetFirstParentThing(Thing thing)
+	{
+		for (IThingHolder parentHolder = thing.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
+		{
+			if (parentHolder is Thing result)
+			{
+				return result;
+			}
+			if (parentHolder is ThingComp thingComp)
+			{
+				return thingComp.parent;
+			}
+		}
+		return null;
+	}
+
+	public static Thing GetFirstSpawnedParentThing(Thing thing)
+	{
+		if (thing.Spawned)
+		{
+			return thing;
+		}
+		for (IThingHolder parentHolder = thing.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
+		{
+			if (parentHolder is Thing { Spawned: not false } thing2)
+			{
+				return thing2;
+			}
+			if (parentHolder is ThingComp thingComp && thingComp.parent.Spawned)
+			{
+				return thingComp.parent;
+			}
+		}
+		return null;
+	}
+
+	public static void GetAllThingsRecursively(IThingHolder holder, List<Thing> outThings, bool allowUnreal = true, Predicate<IThingHolder> passCheck = null)
+	{
+		outThings.Clear();
+		if (passCheck != null && !passCheck(holder))
+		{
+			return;
+		}
+		tmpStack.Clear();
+		tmpStack.Push(holder);
+		while (tmpStack.Count != 0)
+		{
+			IThingHolder thingHolder = tmpStack.Pop();
+			if (allowUnreal || AreImmediateContentsReal(thingHolder))
+			{
+				ThingOwner directlyHeldThings = thingHolder.GetDirectlyHeldThings();
+				if (directlyHeldThings != null)
+				{
+					outThings.AddRange(directlyHeldThings);
+				}
+			}
+			tmpHolders.Clear();
+			thingHolder.GetChildHolders(tmpHolders);
+			for (int i = 0; i < tmpHolders.Count; i++)
+			{
+				if (passCheck == null || passCheck(tmpHolders[i]))
+				{
+					tmpStack.Push(tmpHolders[i]);
+				}
+			}
+		}
+		tmpStack.Clear();
+		tmpHolders.Clear();
+	}
+
+	public static void GetAllThingsRecursively<T>(Map map, ThingRequest request, List<T> outThings, bool allowUnreal = true, Predicate<IThingHolder> passCheck = null, bool alsoGetSpawnedThings = true) where T : Thing
+	{
+		outThings.Clear();
+		if (alsoGetSpawnedThings)
+		{
+			List<Thing> list = map.listerThings.ThingsMatching(request);
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i] is T item)
+				{
+					outThings.Add(item);
+				}
+			}
+		}
+		tmpMapChildHolders.Clear();
+		map.GetChildHolders(tmpMapChildHolders);
+		for (int j = 0; j < tmpMapChildHolders.Count; j++)
+		{
+			tmpThings.Clear();
+			GetAllThingsRecursively(tmpMapChildHolders[j], tmpThings, allowUnreal, passCheck);
+			for (int k = 0; k < tmpThings.Count; k++)
+			{
+				if (tmpThings[k] is T val && request.Accepts(val))
+				{
+					outThings.Add(val);
+				}
+			}
+		}
+		tmpThings.Clear();
+		tmpMapChildHolders.Clear();
+	}
+
+	public static List<Thing> GetAllThingsRecursively(IThingHolder holder, bool allowUnreal = true)
+	{
+		List<Thing> list = new List<Thing>();
+		GetAllThingsRecursively(holder, list, allowUnreal);
+		return list;
+	}
+
+	public static bool AreImmediateContentsReal(IThingHolder holder)
+	{
+		if (!(holder is Corpse))
+		{
+			return !(holder is MinifiedThing);
+		}
+		return false;
+	}
+
+	public static bool TryGetFixedTemperature(IThingHolder holder, Thing forThing, out float temperature)
+	{
+		if (holder is Pawn_InventoryTracker && forThing.TryGetComp<CompHatcher>() != null)
+		{
+			temperature = 14f;
+			return true;
+		}
+		if (holder is CompLaunchable || holder is ActiveTransporterInfo || holder is TravellingTransporters)
+		{
+			temperature = 14f;
+			return true;
+		}
+		if (holder is Settlement_TraderTracker || holder is TradeShip)
+		{
+			temperature = 14f;
+			return true;
+		}
+		if (holder is CompTransporter)
+		{
+			temperature = 14f;
+			return true;
+		}
+		temperature = 21f;
+		return false;
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld.Planet\CaravanInventoryUtility.txt`
+**相似度:** 0.6279
+
+```csharp
+public static class CaravanInventoryUtility
+{
+	private static List<Thing> inventoryItems = new List<Thing>();
+
+	private static List<Thing> inventoryToMove = new List<Thing>();
+
+	private static List<Apparel> tmpApparel = new List<Apparel>();
+
+	private static List<ThingWithComps> tmpEquipment = new List<ThingWithComps>();
+
+	public static List<Thing> AllInventoryItems(Caravan caravan)
+	{
+		inventoryItems.Clear();
+		List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
+		for (int i = 0; i < pawnsListForReading.Count; i++)
+		{
+			Pawn pawn = pawnsListForReading[i];
+			for (int num = pawn.inventory.innerContainer.Count - 1; num >= 0; num--)
+			{
+				Thing item = pawn.inventory.innerContainer[num];
+				inventoryItems.Add(item);
+			}
+		}
+		return inventoryItems;
+	}
+
+	public static Building_PassengerShuttle FindShuttle(Caravan caravan)
+	{
+		List<Thing> list = AllInventoryItems(caravan);
+		for (int i = 0; i < list.Count; i++)
+		{
+			if (list[i] is Building_PassengerShuttle result)
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static void CaravanInventoryUtilityStaticUpdate()
+	{
+		inventoryItems.Clear();
+	}
+
+	public static Pawn GetOwnerOf(Caravan caravan, Thing item)
+	{
+		IThingHolder parentHolder = item.ParentHolder;
+		if (parentHolder is Pawn_InventoryTracker)
+		{
+			Pawn pawn = (Pawn)parentHolder.ParentHolder;
+			if (caravan.ContainsPawn(pawn))
+			{
+				return pawn;
+			}
+		}
+		return null;
+	}
+
+	public static bool TryGetBestFood(Caravan caravan, Pawn forPawn, out Thing food, out Pawn owner)
+	{
+		List<Thing> list = AllInventoryItems(caravan);
+		Thing thing = null;
+		float num = 0f;
+		for (int i = 0; i < list.Count; i++)
+		{
+			Thing thing2 = list[i];
+			if (CaravanPawnsNeedsUtility.CanEatForNutritionNow(thing2, forPawn))
+			{
+				float foodScore = CaravanPawnsNeedsUtility.GetFoodScore(thing2, forPawn);
+				if (thing == null || foodScore > num)
+				{
+					thing = thing2;
+					num = foodScore;
+				}
+			}
+		}
+		if (thing != null)
+		{
+			food = thing;
+			owner = GetOwnerOf(caravan, thing);
+			return true;
+		}
+		food = null;
+		owner = null;
+		return false;
+	}
+
+	public static bool TryGetDrugToSatisfyChemicalNeed(Caravan caravan, Pawn forPawn, Hediff hediff, out Thing drug, out Pawn owner)
+	{
+		if (hediff == null)
+		{
+			drug = null;
+			owner = null;
+			return false;
+		}
+		List<Thing> list = AllInventoryItems(caravan);
+		Thing thing = null;
+		for (int i = 0; i < list.Count; i++)
+		{
+			Thing thing2 = list[i];
+			if (!thing2.IngestibleNow || !thing2.def.IsDrug)
+			{
+				continue;
+			}
+			CompDrug compDrug = thing2.TryGetComp<CompDrug>();
+			if (compDrug != null && compDrug.Props.chemical != null && (!(hediff is Hediff_ChemicalDependency hediff_ChemicalDependency) || compDrug.Props.chemical == hediff_ChemicalDependency.chemical) && (!(hediff is Hediff_Addiction hediff_Addiction) || compDrug.Props.chemical.addictionHediff == hediff_Addiction.def))
+			{
+				DrugPolicy drugPolicy = forPawn.drugs?.CurrentPolicy;
+				if (drugPolicy == null || drugPolicy[thing2.def].allowedForAddiction || forPawn.story == null || forPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) > 0)
+				{
+					thing = thing2;
+					break;
+				}
+			}
+		}
+		if (thing != null)
+		{
+			drug = thing;
+			owner = GetOwnerOf(caravan, thing);
+			return true;
+		}
+		drug = null;
+		owner = null;
+		return false;
+	}
+
+	public static bool TryGetBestMedicine(Caravan caravan, Pawn patient, out Medicine medicine, out Pawn owner)
+	{
+		if (patient.playerSettings == null || (int)patient.playerSettings.medCare <= 1)
+		{
+			medicine = null;
+			owner = null;
+			return false;
+		}
+		List<Thing> list = AllInventoryItems(caravan);
+		Medicine medicine2 = null;
+		float num = 0f;
+		for (int i = 0; i < list.Count; i++)
+		{
+			Thing thing = list[i];
+			if (thing.def.IsMedicine && patient.playerSettings.medCare.AllowsMedicine(thing.def))
+			{
+				float statValue = thing.GetStatValue(StatDefOf.MedicalPotency);
+				if (statValue > num || medicine2 == null)
+				{
+					num = statValue;
+					medicine2 = (Medicine)thing;
+				}
+			}
+		}
+		if (medicine2 != null)
+		{
+			medicine = medicine2;
+			owner = GetOwnerOf(caravan, medicine2);
+			return true;
+		}
+		medicine = null;
+		owner = null;
+		return false;
+	}
+
+	public static bool TryGetThingOfDef(Caravan caravan, ThingDef thingDef, out Thing thing, out Pawn owner)
+	{
+		List<Thing> list = AllInventoryItems(caravan);
+		for (int i = 0; i < list.Count; i++)
+		{
+			Thing thing2 = list[i];
+			if (thing2.def == thingDef)
+			{
+				thing = thing2;
+				owner = GetOwnerOf(caravan, thing2);
+				return true;
+			}
+		}
+		thing = null;
+		owner = null;
+		return false;
+	}
+
+	public static void MoveAllInventoryToSomeoneElse(Pawn from, List<Pawn> candidates, List<Pawn> ignoreCandidates = null)
+	{
+		inventoryToMove.Clear();
+		inventoryToMove.AddRange(from.inventory.innerContainer);
+		for (int i = 0; i < inventoryToMove.Count; i++)
+		{
+			MoveInventoryToSomeoneElse(from, inventoryToMove[i], candidates, ignoreCandidates, inventoryToMove[i].stackCount);
+		}
+		inventoryToMove.Clear();
+	}
+
+	public static void MoveInventoryToSomeoneElse(Pawn itemOwner, Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, int numToMove)
+	{
+		if (numToMove < 0 || numToMove > item.stackCount)
+		{
+			Log.Warning("Tried to move item " + item?.ToString() + " with numToMove=" + numToMove + " (item stack count = " + item.stackCount + ")");
+		}
+		else
+		{
+			Pawn pawn = FindPawnToMoveInventoryTo(item, candidates, ignoreCandidates, itemOwner);
+			if (pawn != null)
+			{
+				itemOwner.inventory.innerContainer.TryTransferToContainer(item, pawn.inventory.innerContainer, numToMove);
+			}
+		}
+	}
+
+	public static Pawn FindPawnToMoveInventoryTo(Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, Pawn currentItemOwner = null)
+	{
+		if (item is Pawn)
+		{
+			Log.Error("Called FindPawnToMoveInventoryTo but the item is a pawn.");
+			return null;
+		}
+		if (candidates.Where((Pawn x) => CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner && !MassUtility.IsOverEncumbered(x)).TryRandomElement(out var result))
+		{
+			return result;
+		}
+		if (candidates.Where((Pawn x) => CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner).TryRandomElement(out result))
+		{
+			return result;
+		}
+		if (candidates.Where((Pawn x) => (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner).TryRandomElement(out result))
+		{
+			return result;
+		}
+		return null;
+	}
+
+	public static void MoveAllApparelToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates, bool moveLocked = true)
+	{
+		if (moveFrom.apparel == null)
+		{
+			return;
+		}
+		tmpApparel.Clear();
+		if (moveLocked)
+		{
+			tmpApparel.AddRange(moveFrom.apparel.WornApparel);
+		}
+		else
+		{
+			for (int i = 0; i < moveFrom.apparel.WornApparel.Count; i++)
+			{
+				Apparel apparel = moveFrom.apparel.WornApparel[i];
+				if (!moveFrom.apparel.IsLocked(apparel))
+				{
+					tmpApparel.Add(apparel);
+				}
+			}
+		}
+		for (int j = 0; j < tmpApparel.Count; j++)
+		{
+			moveFrom.apparel.Remove(tmpApparel[j]);
+			FindPawnToMoveInventoryTo(tmpApparel[j], candidates, null, moveFrom)?.inventory.innerContainer.TryAdd(tmpApparel[j]);
+		}
+		tmpApparel.Clear();
+	}
+
+	public static void MoveAllEquipmentToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
+	{
+		if (moveFrom.equipment != null)
+		{
+			tmpEquipment.Clear();
+			tmpEquipment.AddRange(moveFrom.equipment.AllEquipmentListForReading);
+			for (int i = 0; i < tmpEquipment.Count; i++)
+			{
+				moveFrom.equipment.Remove(tmpEquipment[i]);
+				FindPawnToMoveInventoryTo(tmpEquipment[i], candidates, null, moveFrom)?.inventory.innerContainer.TryAdd(tmpEquipment[i]);
+			}
+			tmpEquipment.Clear();
+		}
+	}
+
+	private static bool CanMoveInventoryTo(Pawn pawn)
+	{
+		return MassUtility.CanEverCarryAnything(pawn);
+	}
+
+	public static List<Thing> TakeThings(Caravan caravan, Func<Thing, int> takeQuantity)
+	{
+		List<Thing> list = new List<Thing>();
+		foreach (Thing item in AllInventoryItems(caravan).ToList())
+		{
+			int num = takeQuantity(item);
+			if (num > 0)
+			{
+				list.Add(item.holdingOwner.Take(item, num));
+			}
+		}
+		return list;
+	}
+
+	public static void GiveThing(Caravan caravan, Thing thing)
+	{
+		if (AllInventoryItems(caravan).Contains(thing))
+		{
+			Log.Error("Tried to give the same item twice (" + thing?.ToString() + ") to a caravan (" + caravan?.ToString() + ").");
+			return;
+		}
+		Pawn pawn = FindPawnToMoveInventoryTo(thing, caravan.PawnsListForReading, null);
+		if (pawn == null)
+		{
+			Log.Error($"Failed to give item {thing} to caravan {caravan}; item was lost");
+			thing.Destroy();
+		}
+		else if (!pawn.inventory.innerContainer.TryAdd(thing))
+		{
+			Log.Error($"Failed to give item {thing} to caravan {caravan}; item was lost");
+			thing.Destroy();
+		}
+	}
+
+	public static bool HasThings(Caravan caravan, ThingDef thingDef, int count, Func<Thing, bool> validator = null)
+	{
+		int num = 0;
+		List<Thing> list = AllInventoryItems(caravan);
+		for (int i = 0; i < list.Count; i++)
+		{
+			Thing thing = list[i];
+			if (thing.def == thingDef && (validator == null || validator(thing)))
+			{
+				num += thing.stackCount;
+			}
+		}
+		return num >= count;
+	}
+
+	public static IEnumerable<Thing> GetAllDissolvingThings(Caravan caravan)
+	{
+		ThingRequest group = ThingRequest.ForGroup(ThingRequestGroup.Dissolving);
+		List<Thing> items = AllInventoryItems(caravan);
+		for (int i = 0; i < items.Count; i++)
+		{
+			if (group.Accepts(items[i]))
+			{
+				yield return items[i];
+			}
+		}
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\ThingOwner.txt`
+**相似度:** 0.6188
+
+```csharp
+public abstract class ThingOwner : IExposable, IList<Thing>, ICollection<Thing>, IEnumerable<Thing>, IEnumerable
+{
+	protected IThingHolder owner;
+
+	protected int maxStacks = 999999;
+
+	public LookMode contentsLookMode = LookMode.Deep;
+
+	public bool removeContentsIfDestroyed = true;
+
+	private const int InfMaxStacks = 999999;
+
+	public IThingHolder Owner => owner;
+
+	public abstract int Count { get; }
+
+	public Thing this[int index] => GetAt(index);
+
+	public bool Any => Count > 0;
+
+	public int TotalStackCount
+	{
+		get
+		{
+			int num = 0;
+			int count = Count;
+			for (int i = 0; i < count; i++)
+			{
+				num += GetAt(i).stackCount;
+			}
+			return num;
+		}
+	}
+
+	public string ContentsString
+	{
+		get
+		{
+			if (Any)
+			{
+				return GenThing.ThingsToCommaList(this);
+			}
+			return "NothingLower".Translate();
+		}
+	}
+
+	Thing IList<Thing>.this[int index]
+	{
+		get
+		{
+			return GetAt(index);
+		}
+		set
+		{
+			throw new InvalidOperationException("ThingOwner doesn't allow setting individual elements.");
+		}
+	}
+
+	bool ICollection<Thing>.IsReadOnly => true;
+
+	public event Action OnContentsChanged;
+
+	public ThingOwner()
+	{
+	}
+
+	public ThingOwner(IThingHolder owner)
+	{
+		this.owner = owner;
+	}
+
+	public ThingOwner(IThingHolder owner, LookMode contentsLookMode = LookMode.Deep, bool removeContentsIfDestroyed = true)
+	{
+		this.owner = owner;
+		this.contentsLookMode = contentsLookMode;
+		this.removeContentsIfDestroyed = removeContentsIfDestroyed;
+	}
+
+	public ThingOwner(IThingHolder owner, bool oneStackOnly, LookMode contentsLookMode = LookMode.Deep, bool removeContentsIfDestroyed = true)
+		: this(owner)
+	{
+		maxStacks = (oneStackOnly ? 1 : 999999);
+		this.contentsLookMode = contentsLookMode;
+		this.removeContentsIfDestroyed = removeContentsIfDestroyed;
+	}
+
+	public virtual void ExposeData()
+	{
+		Scribe_Values.Look(ref maxStacks, "maxStacks", 999999);
+		Scribe_Values.Look(ref contentsLookMode, "contentsLookMode", LookMode.Deep);
+		Scribe_Values.Look(ref removeContentsIfDestroyed, "removeContentsIfDestroyed", defaultValue: true);
+	}
+
+	public void DoTick()
+	{
+		for (int num = Count - 1; num >= 0; num--)
+		{
+			Thing at = GetAt(num);
+			int offset = ((owner is Thing t) ? t.HashOffset() : 0);
+			at.DoTick();
+			if (at.def.tickerType == TickerType.Rare && GenTicks.IsTickInterval(offset, 250))
+			{
+				at.TickRare();
+			}
+			else if (at.def.tickerType == TickerType.Long && GenTicks.IsTickInterval(offset, 2000))
+			{
+				at.TickLong();
+			}
+			if (at.Destroyed && removeContentsIfDestroyed)
+			{
+				Remove(at);
+			}
+		}
+	}
+
+	public void Clear()
+	{
+		for (int num = Count - 1; num >= 0; num--)
+		{
+			Remove(GetAt(num));
+		}
+	}
+
+	public void ClearAndDestroyContents(DestroyMode mode = DestroyMode.Vanish)
+	{
+		while (Any)
+		{
+			for (int num = Count - 1; num >= 0; num--)
+			{
+				Thing at = GetAt(num);
+				at.Destroy(mode);
+				Remove(at);
+			}
+		}
+	}
+
+	public void ClearAndDestroyContentsOrPassToWorld(DestroyMode mode = DestroyMode.Vanish)
+	{
+		while (Any)
+		{
+			for (int num = Count - 1; num >= 0; num--)
+			{
+				Thing at = GetAt(num);
+				at.DestroyOrPassToWorld(mode);
+				Remove(at);
+			}
+		}
+	}
+
+	public bool CanAcceptAnyOf(Thing item, bool canMergeWithExistingStacks = true)
+	{
+		return GetCountCanAccept(item, canMergeWithExistingStacks) > 0;
+	}
+
+	public virtual int GetCountCanAccept(Thing item, bool canMergeWithExistingStacks = true)
+	{
+		if (item == null || item.stackCount <= 0)
+		{
+			return 0;
+		}
+		if (maxStacks == 999999)
+		{
+			return item.stackCount;
+		}
+		int num = 0;
+		if (Count < maxStacks)
+		{
+			num += (maxStacks - Count) * item.def.stackLimit;
+		}
+		if (num >= item.stackCount)
+		{
+			return Mathf.Min(num, item.stackCount);
+		}
+		if (canMergeWithExistingStacks)
+		{
+			int i = 0;
+			for (int count = Count; i < count; i++)
+			{
+				Thing at = GetAt(i);
+				if (at.stackCount < at.def.stackLimit && at.CanStackWith(item))
+				{
+					num += at.def.stackLimit - at.stackCount;
+					if (num >= item.stackCount)
+					{
+						return Mathf.Min(num, item.stackCount);
+					}
+				}
+			}
+		}
+		return Mathf.Min(num, item.stackCount);
+	}
+
+	public abstract int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true);
+
+	public abstract bool TryAdd(Thing item, bool canMergeWithExistingStacks = true);
+
+	public abstract int IndexOf(Thing item);
+
+	public abstract bool Remove(Thing item);
+
+	protected abstract Thing GetAt(int index);
+
+	public bool Contains(Thing item)
+	{
+		if (item == null)
+		{
+			return false;
+		}
+		return item.holdingOwner == this;
+	}
+
+	public void RemoveAt(int index)
+	{
+		if (index < 0 || index >= Count)
+		{
+			throw new ArgumentOutOfRangeException("index");
+		}
+		Remove(GetAt(index));
+	}
+
+	public int TryAddOrTransfer(Thing item, int count, bool canMergeWithExistingStacks = true)
+	{
+		if (item == null)
+		{
+			Log.Warning("Tried to add or transfer null item to ThingOwner.");
+			return 0;
+		}
+		if (item.holdingOwner != null)
+		{
+			return item.holdingOwner.TryTransferToContainer(item, this, count, canMergeWithExistingStacks);
+		}
+		return TryAdd(item, count, canMergeWithExistingStacks);
+	}
+
+	public bool TryAddOrTransfer(Thing item, bool canMergeWithExistingStacks = true)
+	{
+		if (item == null)
+		{
+			Log.Warning("Tried to add or transfer null item to ThingOwner.");
+			return false;
+		}
+		if (item.holdingOwner != null)
+		{
+			return item.holdingOwner.TryTransferToContainer(item, this, canMergeWithExistingStacks);
+		}
+		return TryAdd(item, canMergeWithExistingStacks);
+	}
+
+	public void TryAddRangeOrTransfer(IEnumerable<Thing> things, bool canMergeWithExistingStacks = true, bool destroyLeftover = false)
+	{
+		if (things == this)
+		{
+			return;
+		}
+		if (things is ThingOwner thingOwner)
+		{
+			thingOwner.TryTransferAllToContainer(this, canMergeWithExistingStacks);
+			if (destroyLeftover)
+			{
+				thingOwner.ClearAndDestroyContents();
+			}
+			return;
+		}
+		if (things is IList<Thing> list)
+		{
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (!TryAddOrTransfer(list[i], canMergeWithExistingStacks) && destroyLeftover)
+				{
+					list[i].Destroy();
+				}
+			}
+			return;
+		}
+		foreach (Thing thing in things)
+		{
+			if (!TryAddOrTransfer(thing, canMergeWithExistingStacks) && destroyLeftover)
+			{
+				thing.Destroy();
+			}
+		}
+	}
+
+	public int RemoveAll(Predicate<Thing> predicate)
+	{
+		int num = 0;
+		for (int num2 = Count - 1; num2 >= 0; num2--)
+		{
+			if (predicate(GetAt(num2)))
+			{
+				Remove(GetAt(num2));
+				num++;
+			}
+		}
+		return num;
+	}
+
+	public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, bool canMergeWithExistingStacks = true)
+	{
+		return TryTransferToContainer(item, otherContainer, item.stackCount, canMergeWithExistingStacks) == item.stackCount;
+	}
+
+	public int TryTransferToContainer(Thing item, ThingOwner otherContainer, int count, bool canMergeWithExistingStacks = true)
+	{
+		Thing resultingTransferredItem;
+		return TryTransferToContainer(item, otherContainer, count, out resultingTransferredItem, canMergeWithExistingStacks);
+	}
+
+	public int TryTransferToContainer(Thing item, ThingOwner otherContainer, int count, out Thing resultingTransferredItem, bool canMergeWithExistingStacks = true)
+	{
+		if (!Contains(item))
+		{
+			Log.Error("Can't transfer item " + item?.ToString() + " because it's not here. owner=" + owner.ToStringSafe());
+			resultingTransferredItem = null;
+			return 0;
+		}
+		if (otherContainer == this && count > 0)
+		{
+			resultingTransferredItem = item;
+			return item.stackCount;
+		}
+		if (!otherContainer.CanAcceptAnyOf(item, canMergeWithExistingStacks))
+		{
+			resultingTransferredItem = null;
+			return 0;
+		}
+		if (count <= 0)
+		{
+			resultingTransferredItem = null;
+			return 0;
+		}
+		if (owner is Map || otherContainer.owner is Map)
+		{
+			Log.Warning("Can't transfer items to or from Maps directly. They must be spawned or despawned manually. Use TryAdd(item.SplitOff(count))");
+			resultingTransferredItem = null;
+			return 0;
+		}
+		int num = Mathf.Min(item.stackCount, count);
+		Thing thing = item.SplitOff(num);
+		if (Contains(thing))
+		{
+			Remove(thing);
+		}
+		if (otherContainer.TryAdd(thing, canMergeWithExistingStacks))
+		{
+			resultingTransferredItem = thing;
+			item.MapHeld?.resourceCounter?.CheckUpdateResource(thing);
+			return thing.stackCount;
+		}
+		resultingTransferredItem = null;
+		if (!otherContainer.Contains(thing) && thing.stackCount > 0 && !thing.Destroyed)
+		{
+			int result = num - thing.stackCount;
+			if (item != thing)
+			{
+				item.TryAbsorbStack(thing, respectStackLimit: false);
+			}
+			else
+			{
+				TryAdd(thing, canMergeWithExistingStacks: false);
+			}
+			Map mapHeld = item.MapHeld;
+			if (mapHeld != null)
+			{
+				ResourceCounter resourceCounter = mapHeld.resourceCounter;
+				if (resourceCounter != null)
+				{
+					resourceCounter.CheckUpdateResource(thing);
+					return result;
+				}
+				return result;
+			}
+			return result;
+		}
+		return thing.stackCount;
+	}
+
+	public void TryTransferAllToContainer(ThingOwner other, bool canMergeWithExistingStacks = true)
+	{
+		for (int num = Count - 1; num >= 0; num--)
+		{
+			TryTransferToContainer(GetAt(num), other, canMergeWithExistingStacks);
+		}
+	}
+
+	public Thing Take(Thing thing, int count)
+	{
+		if (!Contains(thing))
+		{
+			Log.Error("Tried to take " + thing.ToStringSafe() + " but it's not here.");
+			return null;
+		}
+		if (count > thing.stackCount)
+		{
+			Log.Error("Tried to get " + count + " of " + thing.ToStringSafe() + " while only having " + thing.stackCount);
+			count = thing.stackCount;
+		}
+		if (count == thing.stackCount)
+		{
+			Remove(thing);
+			return thing;
+		}
+		Thing thing2 = thing.SplitOff(count);
+		thing2.holdingOwner = null;
+		return thing2;
+	}
+
+	public Thing Take(Thing thing)
+	{
+		return Take(thing, thing.stackCount);
+	}
+
+	public bool TryDrop(Thing thing, ThingPlaceMode mode, int count, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
+	{
+		Map rootMap = ThingOwnerUtility.GetRootMap(owner);
+		IntVec3 rootPosition = ThingOwnerUtility.GetRootPosition(owner);
+		if (rootMap == null || !rootPosition.IsValid)
+		{
+			Log.Error("Cannot drop " + thing?.ToString() + " without a dropLoc and with an owner whose map is null.");
+			lastResultingThing = null;
+			return false;
+		}
+		return TryDrop(thing, rootPosition, rootMap, mode, count, out lastResultingThing, placedAction, nearPlaceValidator);
+	}
+
+	public bool TryDrop(Thing thing, IntVec3 dropLoc, Map map, ThingPlaceMode mode, int count, out Thing resultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
+	{
+		if (!Contains(thing))
+		{
+			Log.Error("Tried to drop " + thing.ToStringSafe() + " but it's not here.");
+			resultingThing = null;
+			return false;
+		}
+		if (thing.stackCount < count)
+		{
+			Log.Error("Tried to drop " + count + " of " + thing?.ToString() + " while only having " + thing.stackCount);
+			count = thing.stackCount;
+		}
+		if (count == thing.stackCount)
+		{
+			if (GenDrop.TryDropSpawn(thing, dropLoc, map, mode, out resultingThing, placedAction, nearPlaceValidator))
+			{
+				Remove(thing);
+				return true;
+			}
+			return false;
+		}
+		Thing thing2 = thing.SplitOff(count);
+		if (GenDrop.TryDropSpawn(thing2, dropLoc, map, mode, out resultingThing, placedAction, nearPlaceValidator))
+		{
+			return true;
+		}
+		thing.TryAbsorbStack(thing2, respectStackLimit: false);
+		return false;
+	}
+
+	public bool TryDrop(Thing thing, ThingPlaceMode mode, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
+	{
+		Map rootMap = ThingOwnerUtility.GetRootMap(owner);
+		IntVec3 rootPosition = ThingOwnerUtility.GetRootPosition(owner);
+		if (rootMap == null || !rootPosition.IsValid)
+		{
+			Log.Error("Cannot drop " + thing?.ToString() + " without a dropLoc and with an owner whose map is null.");
+			lastResultingThing = null;
+			return false;
+		}
+		return TryDrop(thing, rootPosition, rootMap, mode, out lastResultingThing, placedAction, nearPlaceValidator);
+	}
+
+	public bool TryDrop(Thing thing, IntVec3 dropLoc, Map map, ThingPlaceMode mode, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null, bool playDropSound = true)
+	{
+		if (!Contains(thing))
+		{
+			Log.Error(owner.ToStringSafe() + " container tried to drop  " + thing.ToStringSafe() + " which it didn't contain.");
+			lastResultingThing = null;
+			return false;
+		}
+		if (GenDrop.TryDropSpawn(thing, dropLoc, map, mode, out lastResultingThing, placedAction, nearPlaceValidator, playDropSound))
+		{
+			Remove(thing);
+			return true;
+		}
+		return false;
+	}
+
+	public bool TryDropAll(IntVec3 dropLoc, Map map, ThingPlaceMode mode, Action<Thing, int> placeAction = null, Predicate<IntVec3> nearPlaceValidator = null, bool playDropSound = true)
+	{
+		bool result = true;
+		for (int num = Count - 1; num >= 0; num--)
+		{
+			if (!TryDrop(GetAt(num), dropLoc, map, mode, out var _, placeAction, nearPlaceValidator, playDropSound))
+			{
+				result = false;
+			}
+		}
+		return result;
+	}
+
+	public bool Contains(ThingDef def)
+	{
+		return Contains(def, 1);
+	}
+
+	public bool Contains(ThingDef def, int minCount)
+	{
+		if (minCount <= 0)
+		{
+			return true;
+		}
+		int num = 0;
+		int count = Count;
+		for (int i = 0; i < count; i++)
+		{
+			if (GetAt(i).def == def)
+			{
+				num += GetAt(i).stackCount;
+			}
+			if (num >= minCount)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public int TotalStackCountOfDef(ThingDef def)
+	{
+		int num = 0;
+		int count = Count;
+		for (int i = 0; i < count; i++)
+		{
+			if (GetAt(i).def == def)
+			{
+				num += GetAt(i).stackCount;
+			}
+		}
+		return num;
+	}
+
+	public void Notify_ContainedItemDestroyed(Thing t)
+	{
+		if (ThingOwnerUtility.ShouldAutoRemoveDestroyedThings(owner))
+		{
+			Remove(t);
+		}
+	}
+
+	protected virtual void NotifyAdded(Thing item)
+	{
+		if (ThingOwnerUtility.ShouldAutoExtinguishInnerThings(owner) && item.HasAttachment(ThingDefOf.Fire))
+		{
+			item.GetAttachment(ThingDefOf.Fire).Destroy();
+		}
+		if (ThingOwnerUtility.ShouldRemoveDesignationsOnAddedThings(owner))
+		{
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
+			{
+				maps[i].designationManager.RemoveAllDesignationsOn(item);
+			}
+		}
+		if ((owner is Thing thing && thing.Faction.IsPlayerSafe()) || (owner is WorldObject worldObject && worldObject.Faction.IsPlayerSafe()) || (owner is Pawn_InventoryTracker pawn_InventoryTracker && pawn_InventoryTracker.pawn.Faction.IsPlayerSafe()))
+		{
+			item.EverSeenByPlayer = true;
+		}
+		if (owner is CompTransporter compTransporter)
+		{
+			compTransporter.Notify_ThingAdded(item);
+		}
+		if (owner is Caravan caravan)
+		{
+			caravan.Notify_PawnAdded((Pawn)item);
+		}
+		if (owner is Pawn_ApparelTracker pawn_ApparelTracker)
+		{
+			pawn_ApparelTracker.Notify_ApparelAdded((Apparel)item);
+			if (pawn_ApparelTracker.pawn.Faction.IsPlayerSafe())
+			{
+				item.EverSeenByPlayer = true;
+			}
+		}
+		if (owner is Pawn_EquipmentTracker pawn_EquipmentTracker)
+		{
+			pawn_EquipmentTracker.Notify_EquipmentAdded((ThingWithComps)item);
+			if (pawn_EquipmentTracker.pawn.Faction.IsPlayerSafe())
+			{
+				item.EverSeenByPlayer = true;
+			}
+		}
+		NotifyColonistBarIfColonistCorpse(item);
+		this.OnContentsChanged?.Invoke();
+	}
+
+	protected void NotifyAddedAndMergedWith(Thing item, int mergedCount)
+	{
+		if (owner is CompTransporter compTransporter)
+		{
+			compTransporter.Notify_ThingAddedAndMergedWith(item, mergedCount);
+		}
+	}
+
+	protected virtual void NotifyRemoved(Thing item)
+	{
+		if (owner is Pawn_InventoryTracker pawn_InventoryTracker)
+		{
+			pawn_InventoryTracker.Notify_ItemRemoved(item);
+		}
+		if (owner is Pawn_ApparelTracker pawn_ApparelTracker)
+		{
+			pawn_ApparelTracker.Notify_ApparelRemoved((Apparel)item);
+		}
+		if (owner is Pawn_EquipmentTracker pawn_EquipmentTracker)
+		{
+			pawn_EquipmentTracker.Notify_EquipmentRemoved((ThingWithComps)item);
+		}
+		if (owner is Caravan caravan)
+		{
+			caravan.Notify_PawnRemoved((Pawn)item);
+		}
+		NotifyColonistBarIfColonistCorpse(item);
+		this.OnContentsChanged?.Invoke();
+	}
+
+	private void NotifyColonistBarIfColonistCorpse(Thing thing)
+	{
+		if (thing is Corpse { Bugged: false } corpse && corpse.InnerPawn.Faction != null && corpse.InnerPawn.Faction.IsPlayer && Current.ProgramState == ProgramState.Playing)
+		{
+			Find.ColonistBar.MarkColonistsDirty();
+		}
+	}
+
+	void IList<Thing>.Insert(int index, Thing item)
+	{
+		throw new InvalidOperationException("ThingOwner doesn't allow inserting individual elements at any position.");
+	}
+
+	void ICollection<Thing>.Add(Thing item)
+	{
+		TryAdd(item);
+	}
+
+	void ICollection<Thing>.CopyTo(Thing[] array, int arrayIndex)
+	{
+		for (int i = 0; i < Count; i++)
+		{
+			array[i + arrayIndex] = GetAt(i);
+		}
+	}
+
+	IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+	{
+		for (int i = 0; i < Count; i++)
+		{
+			yield return GetAt(i);
+		}
+	}
+
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		for (int i = 0; i < Count; i++)
+		{
+			yield return GetAt(i);
+		}
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse.AI\Toils_Haul.txt`
+**相似度:** 0.6124
+
+```csharp
+public class Toils_Haul
+{
+	public static bool ErrorCheckForCarry(Pawn pawn, Thing haulThing, bool canTakeFromInventory = false)
+	{
+		if (!haulThing.SpawnedOrAnyParentSpawned || (!canTakeFromInventory && !haulThing.Spawned))
+		{
+			Log.Message(pawn?.ToString() + " tried to start carry " + haulThing?.ToString() + " which isn't spawned.");
+			pawn.jobs.EndCurrentJob(JobCondition.Incompletable);
+			return true;
+		}
+		if (haulThing.stackCount == 0)
+		{
+			Log.Message(pawn?.ToString() + " tried to start carry " + haulThing?.ToString() + " which had stackcount 0.");
+			pawn.jobs.EndCurrentJob(JobCondition.Incompletable);
+			return true;
+		}
+		if (pawn.jobs.curJob.count <= 0)
+		{
+			Log.Error("Invalid count: " + pawn.jobs.curJob.count + ", setting to 1. Job was " + pawn.jobs.curJob);
+			pawn.jobs.curJob.count = 1;
+		}
+		return false;
+	}
+
+	public static Toil StartCarryThing(TargetIndex haulableInd, bool putRemainderInQueue = false, bool subtractNumTakenFromJobCount = false, bool failIfStackCountLessThanJobCount = false, bool reserve = true, bool canTakeFromInventory = false)
+	{
+		Toil toil = ToilMaker.MakeToil("StartCarryThing");
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			Job curJob = actor.jobs.curJob;
+			Thing thing = curJob.GetTarget(haulableInd).Thing;
+			if (!ErrorCheckForCarry(actor, thing, canTakeFromInventory))
+			{
+				if (curJob.count == 0)
+				{
+					throw new Exception($"StartCarryThing job had count = {curJob.count}. Job: {curJob}");
+				}
+				int num = actor.carryTracker.AvailableStackSpace(thing.def);
+				if (num <= 0)
+				{
+					int num2 = actor.carryTracker.MaxStackSpaceEver(thing.def);
+					int num3 = 0;
+					if (actor.carryTracker.CarriedThing != null)
+					{
+						num3 = actor.carryTracker.CarriedThing.stackCount;
+					}
+					throw new Exception($"StartCarryThing got availableStackSpace {num} (haulTarg {thing}, Job: {curJob}, maximum: {num2}, carrying: {num3})");
+				}
+				if (failIfStackCountLessThanJobCount && thing.stackCount < curJob.count)
+				{
+					actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
+				}
+				else
+				{
+					int num4 = Mathf.Min(curJob.count, num, thing.stackCount);
+					if (num4 <= 0)
+					{
+						int num5 = actor.carryTracker.MaxStackSpaceEver(thing.def);
+						int num6 = 0;
+						if (actor.carryTracker.CarriedThing != null)
+						{
+							num6 = actor.carryTracker.CarriedThing.stackCount;
+						}
+						throw new Exception($"StartCarryThing zero or negative desiredNumToTake ({num4}), curJob.count: {curJob.count}, availableStackSpace: {num} (maximum: {num5}, carrying: {num6}), haulTarg.stackCount: {thing.stackCount}");
+					}
+					int stackCount = thing.stackCount;
+					int num7 = actor.carryTracker.TryStartCarry(thing, num4, reserve);
+					if (num7 == 0)
+					{
+						actor.jobs.EndCurrentJob(JobCondition.Incompletable);
+					}
+					if (num7 < stackCount)
+					{
+						int num8 = curJob.count - num7;
+						if (putRemainderInQueue && num8 > 0)
+						{
+							curJob.GetTargetQueue(haulableInd).Insert(0, thing);
+							Job job = curJob;
+							if (job.countQueue == null)
+							{
+								job.countQueue = new List<int>();
+							}
+							curJob.countQueue.Insert(0, num8);
+						}
+						else if (actor.Map.reservationManager.ReservedBy(thing, actor, curJob))
+						{
+							actor.Map.reservationManager.Release(thing, actor, curJob);
+						}
+					}
+					if (subtractNumTakenFromJobCount)
+					{
+						curJob.count -= num7;
+					}
+					curJob.SetTarget(haulableInd, actor.carryTracker.CarriedThing);
+					actor.records.Increment(RecordDefOf.ThingsHauled);
+				}
+			}
+		};
+		return toil;
+	}
+
+	public static Toil StoreThingJob(TargetIndex thingIndex)
+	{
+		Toil toil = ToilMaker.MakeToil("StoreThingJob");
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			Job curJob = actor.CurJob;
+			Thing thing = curJob.GetTarget(thingIndex).Thing;
+			Job job = HaulAIUtility.HaulToStorageJob(actor, thing, curJob.playerForced);
+			if (job != null)
+			{
+				actor.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+		};
+		return toil;
+	}
+
+	public static Toil DropCarriedThing()
+	{
+		Toil toil = ToilMaker.MakeToil("DropCarriedThing");
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			Thing resultingThing;
+			if (actor.carryTracker.CarriedThing == null)
+			{
+				Log.Error(actor?.ToString() + " tried to drop carried thing but is not carrying anything.");
+			}
+			else if (!actor.carryTracker.TryDropCarriedThing(actor.Position, ThingPlaceMode.Direct, out resultingThing))
+			{
+				actor.jobs.EndCurrentJob(JobCondition.Incompletable);
+			}
+		};
+		return toil;
+	}
+
+	public static Toil JumpIfAlsoCollectingNextTargetInQueue(Toil gotoGetTargetToil, TargetIndex ind)
+	{
+		Toil toil = ToilMaker.MakeToil("JumpIfAlsoCollectingNextTargetInQueue");
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			Job curJob = actor.jobs.curJob;
+			List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
+			if (!targetQueue.NullOrEmpty() && curJob.count > 0)
+			{
+				if (actor.carryTracker.CarriedThing == null)
+				{
+					Log.Error("JumpToAlsoCollectTargetInQueue run on " + actor?.ToString() + " who is not carrying something.");
+				}
+				else if (actor.carryTracker.AvailableStackSpace(actor.carryTracker.CarriedThing.def) > 0)
+				{
+					for (int i = 0; i < targetQueue.Count; i++)
+					{
+						if (!GenAI.CanUseItemForWork(actor, targetQueue[i].Thing))
+						{
+							actor.jobs.EndCurrentJob(JobCondition.Incompletable);
+							break;
+						}
+						if (targetQueue[i].Thing.def == actor.carryTracker.CarriedThing.def)
+						{
+							curJob.SetTarget(ind, targetQueue[i].Thing);
+							targetQueue.RemoveAt(i);
+							actor.jobs.curDriver.JumpToToil(gotoGetTargetToil);
+							break;
+						}
+					}
+				}
+			}
+		};
+		return toil;
+	}
+
+	public static Toil CheckForGetOpportunityDuplicate(Toil getHaulTargetToil, TargetIndex haulableInd, TargetIndex storeCellInd, bool takeFromValidStorage = false, Predicate<Thing> extraValidator = null)
+	{
+		Toil toil = ToilMaker.MakeToil("CheckForGetOpportunityDuplicate");
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			Job curJob = actor.jobs.curJob;
+			if (actor.carryTracker.CarriedThing.def.stackLimit != 1 && !actor.carryTracker.Full && curJob.count > 0)
+			{
+				Thing thing = GenClosest.ClosestThingReachable(actor.Position, actor.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways), PathEndMode.ClosestTouch, TraverseParms.For(actor), 8f, DupeValidator);
+				if (thing != null)
+				{
+					curJob.SetTarget(haulableInd, thing);
+					actor.jobs.curDriver.JumpToToil(getHaulTargetToil);
+				}
+			}
+			bool DupeValidator(Thing t)
+			{
+				if (!t.Spawned)
+				{
+					return false;
+				}
+				if (t.def != actor.carryTracker.CarriedThing.def)
+				{
+					return false;
+				}
+				if (!t.CanStackWith(actor.carryTracker.CarriedThing))
+				{
+					return false;
+				}
+				if (t.IsForbidden(actor))
+				{
+					return false;
+				}
+				if (!t.IsSociallyProper(actor, forPrisoner: false, animalsCare: true))
+				{
+					return false;
+				}
+				if (takeFromValidStorage && storeCellInd != 0 && curJob.GetTarget(storeCellInd).Cell.TryGetSlotGroup(actor.Map, out var group) && t.TryGetValidStoragePriority(out var priority) && (int)priority >= (int)group.Settings.Priority)
+				{
+					return false;
+				}
+				if (storeCellInd != 0 && !curJob.GetTarget(storeCellInd).Cell.IsValidStorageFor(actor.Map, t))
+				{
+					return false;
+				}
+				if (!actor.CanReserve(t))
+				{
+					return false;
+				}
+				if (extraValidator != null && !extraValidator(t))
+				{
+					return false;
+				}
+				return true;
+			}
+		};
+		return toil;
+	}
+
+	public static Toil CarryHauledThingToCell(TargetIndex squareIndex, PathEndMode pathEndMode = PathEndMode.ClosestTouch)
+	{
+		Toil toil = ToilMaker.MakeToil("CarryHauledThingToCell");
+		toil.initAction = delegate
+		{
+			IntVec3 cell3 = toil.actor.jobs.curJob.GetTarget(squareIndex).Cell;
+			toil.actor.pather.StartPath(cell3, pathEndMode);
+		};
+		toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
+		toil.AddEndCondition(delegate
+		{
+			Pawn actor2 = toil.actor;
+			IntVec3 cell2 = actor2.jobs.curJob.GetTarget(squareIndex).Cell;
+			CompPushable compPushable2 = actor2.carryTracker.CarriedThing.TryGetComp<CompPushable>();
+			if (compPushable2 != null)
+			{
+				Vector3 v = actor2.Position.ToVector3() + compPushable2.drawPos;
+				if (new IntVec3(v) == cell2)
+				{
+					return JobCondition.Succeeded;
+				}
+			}
+			return JobCondition.Ongoing;
+		});
+		toil.AddFailCondition(delegate
+		{
+			Pawn actor = toil.actor;
+			IntVec3 cell = actor.jobs.curJob.GetTarget(squareIndex).Cell;
+			if (actor.carryTracker.CarriedThing == null)
+			{
+				return true;
+			}
+			if (actor.jobs.curJob.haulMode == HaulMode.ToCellStorage && !cell.IsValidStorageFor(actor.Map, actor.carryTracker.CarriedThing))
+			{
+				return true;
+			}
+			CompPushable compPushable = actor.carryTracker.CarriedThing.TryGetComp<CompPushable>();
+			return (compPushable != null && !compPushable.canBePushed) ? true : false;
+		});
+		return toil;
+	}
+
+	public static Toil PlaceCarriedThingInCellFacing(TargetIndex facingTargetInd)
+	{
+		Toil toil = ToilMaker.MakeToil("PlaceCarriedThingInCellFacing");
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			if (actor.carryTracker.CarriedThing == null)
+			{
+				Log.Error(actor?.ToString() + " tried to place hauled thing in facing cell but is not hauling anything.");
+			}
+			else
+			{
+				LocalTargetInfo target = actor.CurJob.GetTarget(facingTargetInd);
+				IntVec3 intVec = ((!target.HasThing) ? target.Cell : target.Thing.OccupiedRect().ClosestCellTo(actor.Position));
+				IntVec3 dropLoc = actor.Position + Pawn_RotationTracker.RotFromAngleBiased((actor.Position - intVec).AngleFlat).FacingCell;
+				if (!actor.carryTracker.TryDropCarriedThing(dropLoc, ThingPlaceMode.Direct, out var _))
+				{
+					actor.jobs.EndCurrentJob(JobCondition.Incompletable);
+				}
+			}
+		};
+		return toil;
+	}
+
+	public static Toil PlaceHauledThingInCell(TargetIndex cellInd, Toil nextToilOnPlaceFailOrIncomplete, bool storageMode, bool tryStoreInSameStorageIfSpotCantHoldWholeStack = false)
+	{
+		Toil toil = ToilMaker.MakeToil("PlaceHauledThingInCell");
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			Job curJob = actor.jobs.curJob;
+			IntVec3 cell = curJob.GetTarget(cellInd).Cell;
+			if (actor.carryTracker.CarriedThing == null)
+			{
+				Log.Error(actor?.ToString() + " tried to place hauled thing in cell but is not hauling anything.");
+			}
+			else
+			{
+				SlotGroup slotGroup = actor.Map.haulDestinationManager.SlotGroupAt(cell);
+				if (slotGroup != null && slotGroup.Settings.AllowedToAccept(actor.carryTracker.CarriedThing))
+				{
+					actor.Map.designationManager.TryRemoveDesignationOn(actor.carryTracker.CarriedThing, DesignationDefOf.Haul);
+				}
+				Action<Thing, int> placedAction = null;
+				if (curJob.def == JobDefOf.DoBill || curJob.def == JobDefOf.RecolorApparel || curJob.def == JobDefOf.RefuelAtomic || curJob.def == JobDefOf.RearmTurretAtomic)
+				{
+					placedAction = delegate(Thing th, int added)
+					{
+						HaulAIUtility.UpdateJobWithPlacedThings(curJob, th, added);
+					};
+				}
+				if (!actor.carryTracker.TryDropCarriedThing(cell, ThingPlaceMode.Direct, out var _, placedAction))
+				{
+					if (storageMode)
+					{
+						IntVec3 storeCell;
+						if (nextToilOnPlaceFailOrIncomplete != null && ((tryStoreInSameStorageIfSpotCantHoldWholeStack && StoreUtility.TryFindBestBetterStoreCellForIn(actor.carryTracker.CarriedThing, actor, actor.Map, StoragePriority.Unstored, actor.Faction, curJob.bill.GetSlotGroup(), out var foundCell)) || StoreUtility.TryFindBestBetterStoreCellFor(actor.carryTracker.CarriedThing, actor, actor.Map, StoragePriority.Unstored, actor.Faction, out foundCell)))
+						{
+							if (actor.CanReserve(foundCell))
+							{
+								actor.Reserve(foundCell, actor.CurJob);
+							}
+							actor.CurJob.SetTarget(cellInd, foundCell);
+							actor.jobs.curDriver.JumpToToil(nextToilOnPlaceFailOrIncomplete);
+						}
+						else if (HaulAIUtility.CanHaulAside(actor, actor.carryTracker.CarriedThing, out storeCell))
+						{
+							curJob.SetTarget(cellInd, storeCell);
+							curJob.count = int.MaxValue;
+							curJob.haulOpportunisticDuplicates = false;
+							curJob.haulMode = HaulMode.ToCellNonStorage;
+							if (nextToilOnPlaceFailOrIncomplete != null)
+							{
+								actor.jobs.curDriver.JumpToToil(nextToilOnPlaceFailOrIncomplete);
+							}
+						}
+						else
+						{
+							Log.Warning($"Incomplete haul for {actor}: Could not find anywhere to put {actor.carryTracker.CarriedThing} near {actor.Position}. Destroying. This should be very uncommon!");
+							actor.carryTracker.CarriedThing.Destroy();
+						}
+					}
+					else if (nextToilOnPlaceFailOrIncomplete != null)
+					{
+						actor.jobs.curDriver.JumpToToil(nextToilOnPlaceFailOrIncomplete);
+					}
+				}
+			}
+		};
+		return toil;
+	}
+
+	public static Toil CarryHauledThingToContainer()
+	{
+		Toil gotoDest = ToilMaker.MakeToil("CarryHauledThingToContainer");
+		gotoDest.initAction = delegate
+		{
+			gotoDest.actor.pather.StartPath(gotoDest.actor.jobs.curJob.targetB.Thing, PathEndMode.Touch);
+		};
+		gotoDest.AddFailCondition(delegate
+		{
+			Thing thing = gotoDest.actor.jobs.curJob.targetB.Thing;
+			if (thing.Destroyed || (!gotoDest.actor.jobs.curJob.ignoreForbidden && thing.IsForbidden(gotoDest.actor)))
+			{
+				return true;
+			}
+			ThingOwner thingOwner = thing.TryGetInnerInteractableThingOwner();
+			return (thingOwner != null && !thingOwner.CanAcceptAnyOf(gotoDest.actor.carryTracker.CarriedThing)) ? true : false;
+		});
+		gotoDest.defaultCompleteMode = ToilCompleteMode.PatherArrival;
+		return gotoDest;
+	}
+
+	public static Toil DepositHauledThingInContainer(TargetIndex containerInd, TargetIndex reserveForContainerInd, Action onDeposited = null)
+	{
+		Toil toil = ToilMaker.MakeToil("DepositHauledThingInContainer");
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			Job curJob = actor.jobs.curJob;
+			if (actor.carryTracker.CarriedThing == null)
+			{
+				Log.Error(actor?.ToString() + " tried to place hauled thing in container but is not hauling anything.");
+			}
+			else
+			{
+				Thing thing = curJob.GetTarget(containerInd).Thing;
+				ThingOwner thingOwner = thing.TryGetInnerInteractableThingOwner();
+				if (thingOwner != null)
+				{
+					int num = actor.carryTracker.CarriedThing.stackCount;
+					if (thing is IHaulEnroute haulEnroute)
+					{
+						ThingDef def = actor.carryTracker.CarriedThing.def;
+						num = Mathf.Min(haulEnroute.GetSpaceRemainingWithEnroute(def, actor), num);
+						if (reserveForContainerInd != 0)
+						{
+							Thing thing2 = curJob.GetTarget(reserveForContainerInd).Thing;
+							if (!thing2.DestroyedOrNull() && thing2 != haulEnroute && thing2 is IHaulEnroute enroute)
+							{
+								int spaceRemainingWithEnroute = enroute.GetSpaceRemainingWithEnroute(def, actor);
+								num = Mathf.Min(num, actor.carryTracker.CarriedThing.stackCount - spaceRemainingWithEnroute);
+							}
+						}
+					}
+					Thing carriedThing = actor.carryTracker.CarriedThing;
+					int num2 = actor.carryTracker.innerContainer.TryTransferToContainer(carriedThing, thingOwner, num);
+					if (num2 != 0)
+					{
+						if (thing is IHaulEnroute container)
+						{
+							thing.Map.enrouteManager.ReleaseFor(container, actor);
+						}
+						if (thing is INotifyHauledTo notifyHauledTo)
+						{
+							notifyHauledTo.Notify_HauledTo(actor, carriedThing, num2);
+						}
+						if (thing is ThingWithComps thingWithComps)
+						{
+							foreach (ThingComp allComp in thingWithComps.AllComps)
+							{
+								if (allComp is INotifyHauledTo notifyHauledTo2)
+								{
+									notifyHauledTo2.Notify_HauledTo(actor, carriedThing, num2);
+								}
+							}
+						}
+						if (curJob.def == JobDefOf.DoBill)
+						{
+							HaulAIUtility.UpdateJobWithPlacedThings(curJob, carriedThing, num2);
+						}
+						onDeposited?.Invoke();
+					}
+				}
+				else if (curJob.GetTarget(containerInd).Thing.def.Minifiable)
+				{
+					actor.carryTracker.innerContainer.ClearAndDestroyContents();
+				}
+				else
+				{
+					Log.Error("Could not deposit hauled thing in container: " + curJob.GetTarget(containerInd).Thing);
+				}
+			}
+		};
+		return toil;
+	}
+
+	public static Toil JumpToCarryToNextContainerIfPossible(Toil carryToContainerToil, TargetIndex primaryTargetInd)
+	{
+		Toil toil = ToilMaker.MakeToil("JumpToCarryToNextContainerIfPossible");
+		toil.debugName = "Jump carry if possible";
+		toil.initAction = delegate
+		{
+			Pawn actor = toil.actor;
+			Job curJob = actor.jobs.curJob;
+			if (actor.carryTracker.CarriedThing != null && curJob.targetQueueB != null && curJob.targetQueueB.Count > 0)
+			{
+				if (TryGetNextDestinationFromQueue(primaryTargetInd, TargetIndex.B, actor.carryTracker.CarriedThing.def, curJob, actor, out var nextTarget))
+				{
+					curJob.targetQueueB.RemoveAll((LocalTargetInfo target) => target.Thing == nextTarget);
+					curJob.targetB = nextTarget;
+					curJob.targetC = nextTarget;
+					actor.jobs.curDriver.JumpToToil(carryToContainerToil);
+				}
+			}
+		};
+		return toil;
+	}
+
+	public static bool TryGetNextDestinationFromQueue(TargetIndex primaryIndex, TargetIndex destIndex, ThingDef stuff, Job job, Pawn actor, out Thing target)
+	{
+		Thing primaryTarget = job.GetTarget(primaryIndex).Thing;
+		target = null;
+		if (actor.carryTracker?.CarriedThing == null)
+		{
+			return false;
+		}
+		bool hasSpareItems = actor.carryTracker.CarriedThing.stackCount > 0;
+		if (primaryTarget != null && primaryTarget.Spawned && primaryTarget is IHaulEnroute enroute)
+		{
+			int spaceRemainingWithEnroute = enroute.GetSpaceRemainingWithEnroute(stuff, actor);
+			hasSpareItems = actor.carryTracker.CarriedThing.stackCount > spaceRemainingWithEnroute;
+		}
+		target = GenClosest.ClosestThing_Global_Reachable(actor.Position, actor.Map, from x in job.GetTargetQueue(destIndex)
+			select x.Thing, PathEndMode.Touch, TraverseParms.For(actor), 99999f, Validator);
+		return target != null;
+		bool Validator(Thing th)
+		{
+			if (!(th is IHaulEnroute enroute2))
+			{
+				return false;
+			}
+			if (enroute2.GetSpaceRemainingWithEnroute(stuff, actor) <= 0)
+			{
+				return false;
+			}
+			if (th != primaryTarget && !hasSpareItems)
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+
+	public static Toil TakeToInventory(TargetIndex ind, int count)
+	{
+		return TakeToInventory(ind, count, null, null);
+	}
+
+	private static Toil TakeToInventory(TargetIndex ind, int? count, Func<int> countGetter, Func<Thing, int> countGetterPassingThing)
+	{
+		Toil takeThing = ToilMaker.MakeToil("TakeToInventory");
+		takeThing.initAction = delegate
+		{
+			Pawn actor = takeThing.actor;
+			Thing thing = actor.CurJob.GetTarget(ind).Thing;
+			if (!ErrorCheckForCarry(actor, thing))
+			{
+				int num = Mathf.Min(count ?? countGetterPassingThing?.Invoke(thing) ?? countGetter(), thing.stackCount);
+				if (actor.CurJob.checkEncumbrance)
+				{
+					num = Math.Min(num, MassUtility.CountToPickUpUntilOverEncumbered(actor, thing));
+				}
+				if (num <= 0)
+				{
+					actor.jobs.curDriver.ReadyForNextToil();
+				}
+				else
+				{
+					actor.inventory.GetDirectlyHeldThings().TryAdd(thing.SplitOff(num));
+					if (thing.def.ingestible != null && (int)thing.def.ingestible.preferability <= 5)
+					{
+						actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
+					}
+					thing.def.soundPickup.PlayOneShot(new TargetInfo(actor.Position, actor.Map));
+				}
+			}
+		};
+		return takeThing;
+	}
+
+	public static Toil TakeToInventory(TargetIndex ind, Func<int> countGetter)
+	{
+		return TakeToInventory(ind, null, countGetter, null);
+	}
+
+	public static Toil TakeToInventory(TargetIndex ind, Func<Thing, int> countGetter)
+	{
+		return TakeToInventory(ind, null, null, countGetter);
+	}
+
+	public static Toil TakeFromOtherInventory(Thing item, ThingOwner taker, ThingOwner holder, int count = -1, TargetIndex indexToSet = TargetIndex.None)
+	{
+		Toil toil = ToilMaker.MakeToil("TakeFromOtherInventory");
+		toil.initAction = delegate
+		{
+			if (!holder.Contains(item))
+			{
+				toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable);
+			}
+			else
+			{
+				count = ((count < 0) ? toil.actor.jobs.curJob.count : count);
+				holder.TryTransferToContainer(item, taker, Mathf.Min(item.stackCount, count), out var resultingTransferredItem);
+				if (resultingTransferredItem == null)
+				{
+					Log.Warning($"Taker {toil.actor.Label} unable to take count {count} of thing {item.Label} from holder's inventory");
+					toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable);
+				}
+				else if (indexToSet != 0)
+				{
+					toil.actor.jobs.curJob.SetTarget(indexToSet, resultingTransferredItem);
+				}
+			}
+		};
+		return toil;
+	}
+
+	public static Toil CheckItemCarriedByOtherPawn(Thing item, TargetIndex targetPawnIfCarried = TargetIndex.None, Toil jumpIfCarriedByOther = null)
+	{
+		Toil toil = ToilMaker.MakeToil("CheckItemCarriedByOtherPawn");
+		toil.initAction = delegate
+		{
+			Pawn pawn = (item?.ParentHolder as Pawn_InventoryTracker)?.pawn;
+			if (pawn != null && pawn != toil.actor)
+			{
+				if (targetPawnIfCarried != 0)
+				{
+					toil.actor.jobs.curJob.SetTarget(targetPawnIfCarried, pawn);
+				}
+				if (jumpIfCarriedByOther != null)
+				{
+					toil.actor.jobs.curDriver.JumpToToil(jumpIfCarriedByOther);
+				}
+			}
+		};
+		toil.defaultCompleteMode = ToilCompleteMode.Instant;
+		toil.atomicWithPrevious = true;
+		return toil;
+	}
+}
+```
+---
+**文件路径:** `C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\PawnUtility.txt`
+**相似度:** 0.5783
+
+```csharp
+public static class PawnUtility
+{
+	private static List<Pawn> tmpPawns = new List<Pawn>();
+
+	private static List<string> tmpPawnKindsStr = new List<string>();
+
+	private static HashSet<PawnKindDef> tmpAddedPawnKinds = new HashSet<PawnKindDef>();
+
+	private static List<PawnKindDef> tmpPawnKinds = new List<PawnKindDef>();
+
+	private static List<Thing> tmpThings = new List<Thing>();
+
+	public static Faction GetFactionLeaderFaction(Pawn pawn)
+	{
+		List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
+		for (int i = 0; i < allFactionsListForReading.Count; i++)
+		{
+			if (allFactionsListForReading[i].leader == pawn)
+			{
+				return allFactionsListForReading[i];
+			}
+		}
+		return null;
+	}
+
+	public static bool IsFactionLeader(Pawn pawn)
+	{
+		return GetFactionLeaderFaction(pawn) != null;
+	}
+
+	public static bool IsInteractionBlocked(this Pawn pawn, InteractionDef interaction, bool isInitiator, bool isRandom)
+	{
+		MentalStateDef mentalStateDef = pawn.MentalStateDef;
+		if (mentalStateDef != null)
+		{
+			if (isRandom)
+			{
+				return mentalStateDef.blockRandomInteraction;
+			}
+			if (interaction == null)
+			{
+				return false;
+			}
+			List<InteractionDef> list = (isInitiator ? mentalStateDef.blockInteractionInitiationExcept : mentalStateDef.blockInteractionRecipientExcept);
+			if (list != null)
+			{
+				return !list.Contains(interaction);
+			}
+			return false;
+		}
+		List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+		for (int i = 0; i < hediffs.Count; i++)
+		{
+			if (hediffs[i].def.blocksSocialInteraction)
+			{
+				return true;
+			}
+		}
+		Lord lord = pawn.GetLord();
+		if (lord != null && lord.BlocksSocialInteraction(pawn))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static bool IsKidnappedPawn(Pawn pawn)
+	{
+		List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
+		for (int i = 0; i < allFactionsListForReading.Count; i++)
+		{
+			if (allFactionsListForReading[i].kidnapped.KidnappedPawnsListForReading.Contains(pawn))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static bool IsTravelingInTransportPodWorldObject(Pawn pawn)
+	{
+		if (!pawn.IsWorldPawn() || !ThingOwnerUtility.AnyParentIs<ActiveTransporterInfo>(pawn))
+		{
+			return ThingOwnerUtility.AnyParentIs<TravellingTransporters>(pawn);
+		}
+		return true;
+	}
+
+	public static bool ForSaleBySettlement(Pawn pawn)
+	{
+		return pawn.ParentHolder is Settlement_TraderTracker;
+	}
+
+	public static bool IsCarrying(this Pawn pawn)
+	{
+		if (!pawn.Destroyed && pawn.carryTracker != null)
+		{
+			return pawn.carryTracker.CarriedThing != null;
+		}
+		return false;
+	}
+
+	public static bool IsCarryingPawn(this Pawn pawn, Pawn carryPawn = null)
+	{
+		if (pawn.carryTracker != null && pawn.carryTracker.CarriedThing is Pawn)
+		{
+			if (carryPawn != null)
+			{
+				return pawn.carryTracker.CarriedThing == carryPawn;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public static bool IsCarryingThing(this Pawn pawn, Thing carriedThing)
+	{
+		if (pawn.carryTracker != null && pawn.carryTracker.CarriedThing != null)
+		{
+			return pawn.carryTracker.CarriedThing == carriedThing;
+		}
+		return false;
+	}
+
+	public static void TryDestroyStartingColonistFamily(Pawn pawn)
+	{
+		if (!pawn.relations.RelatedPawns.Any((Pawn x) => Find.GameInitData.startingAndOptionalPawns.Contains(x)))
+		{
+			DestroyStartingColonistFamily(pawn);
+		}
+	}
+
+	public static void DestroyStartingColonistFamily(Pawn pawn)
+	{
+		foreach (Pawn item in pawn.relations.RelatedPawns.ToList())
+		{
+			if (!Find.GameInitData.startingAndOptionalPawns.Contains(item))
+			{
+				WorldPawnSituation situation = Find.WorldPawns.GetSituation(item);
+				if (situation == WorldPawnSituation.Free || situation == WorldPawnSituation.Dead)
+				{
+					Find.WorldPawns.RemovePawn(item);
+					Find.WorldPawns.PassToWorld(item, PawnDiscardDecideMode.Discard);
+				}
+			}
+		}
+	}
+
+	public static bool EnemiesAreNearby(Pawn pawn, int regionsToScan = 9, bool passDoors = false, float maxDistance = -1f, int maxCount = 1, bool invisible = false)
+	{
+		TraverseParms tp = (passDoors ? TraverseParms.For(TraverseMode.PassDoors) : TraverseParms.For(pawn));
+		int count = 0;
+		RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, (Region from, Region to) => to.Allows(tp, isDestination: false), delegate(Region r)
+		{
+			List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+			for (int i = 0; i < list.Count; i++)
+			{
+				Thing thing = list[i];
+				if ((maxDistance <= 0f || thing.Position.InHorDistOf(pawn.Position, maxDistance)) && thing.HostileTo(pawn) && (invisible || !(thing is Pawn pawn2) || !pawn2.IsPsychologicallyInvisible()))
+				{
+					count++;
+				}
+			}
+			return count >= maxCount;
+		}, regionsToScan);
+		return count >= maxCount;
+	}
+
+	public static bool WillSoonHaveBasicNeed(Pawn p, float thresholdOffset = 0.05f)
+	{
+		if (p.needs == null)
+		{
+			return false;
+		}
+		if (p.needs.rest != null && p.needs.rest.CurLevel < 0.28f + thresholdOffset)
+		{
+			return true;
+		}
+		if (p.needs.food != null && p.needs.food.CurLevelPercentage < p.needs.food.PercentageThreshHungry + thresholdOffset)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static bool CanCasuallyInteractNow(this Pawn p, bool twoWayInteraction = false, bool canInteractWhileSleeping = false, bool canInteractWhileRoaming = false, bool canInteractWhileDrafted = false)
+	{
+		if (p.Drafted && !canInteractWhileDrafted)
+		{
+			return false;
+		}
+		if (p.IsPsychologicallyInvisible())
+		{
+			return false;
+		}
+		if (ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(p))
+		{
+			return false;
+		}
+		if (p.InAggroMentalState)
+		{
+			return false;
+		}
+		if (p.InMentalState && p.MentalStateDef == MentalStateDefOf.Roaming && !canInteractWhileRoaming)
+		{
+			return false;
+		}
+		if (!p.Awake() && !canInteractWhileSleeping)
+		{
+			return false;
+		}
+		if (p.IsFormingCaravan())
+		{
+			return false;
+		}
+		Job curJob = p.CurJob;
+		if (curJob != null && twoWayInteraction && (!curJob.def.casualInterruptible || !curJob.playerForced))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public static IEnumerable<Pawn> SpawnedMasteredPawns(Pawn master)
+	{
+		if (Current.ProgramState != ProgramState.Playing || master.Faction == null || !master.RaceProps.Humanlike || !master.Spawned)
+		{
+			yield break;
+		}
+		List<Pawn> pawns = master.Map.mapPawns.SpawnedPawnsInFaction(master.Faction);
+		for (int i = 0; i < pawns.Count; i++)
+		{
+			if (pawns[i].playerSettings != null && pawns[i].playerSettings.Master == master)
+			{
+				yield return pawns[i];
+			}
+		}
+	}
+
+	public static bool InValidState(Pawn p)
+	{
+		if (p.health == null)
+		{
+			return false;
+		}
+		if (!p.Dead && (p.stances == null || p.mindState == null || p.needs == null || p.ageTracker == null))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public static PawnPosture GetPosture(this Pawn p)
+	{
+		PawnPosture pawnPosture = (p.Dead ? PawnPosture.LayingOnGroundNormal : ((!ModsConfig.BiotechActive || !p.IsCharging()) ? ((!(p.ParentHolder is IThingHolderWithDrawnPawn thingHolderWithDrawnPawn)) ? (p.Downed ? ((p.jobs == null || !p.jobs.posture.Laying()) ? PawnPosture.LayingOnGroundNormal : p.jobs.posture) : ((p.jobs != null) ? p.jobs.posture : PawnPosture.Standing)) : thingHolderWithDrawnPawn.HeldPawnPosture) : PawnPosture.Standing));
+		Pawn_MindState mindState = p.mindState;
+		if (mindState != null && mindState.duty?.def?.forceFaceUpPosture == true && pawnPosture != 0)
+		{
+			pawnPosture |= PawnPosture.FaceUpMask;
+		}
+		return pawnPosture;
+	}
+
+	public static void ForceWait(Pawn pawn, int ticks, Thing faceTarget = null, bool maintainPosture = false, bool maintainSleep = false)
+	{
+		if (ticks <= 0)
+		{
+			Log.ErrorOnce("Forcing a wait for zero ticks", 47045639);
+		}
+		JobDef def = (maintainPosture ? JobDefOf.Wait_MaintainPosture : JobDefOf.Wait);
+		if (pawn.IsDeactivated())
+		{
+			def = JobDefOf.Deactivated;
+		}
+		if (pawn.IsSelfShutdown())
+		{
+			def = JobDefOf.SelfShutdown;
+		}
+		else if (pawn.InBed())
+		{
+			def = (pawn.Awake() ? JobDefOf.LayDownAwake : JobDefOf.LayDown);
+		}
+		else if (!pawn.health.capacities.CanBeAwake)
+		{
+			def = JobDefOf.Wait_Downed;
+		}
+		else if (maintainSleep && !pawn.Awake())
+		{
+			def = JobDefOf.Wait_Asleep;
+		}
+		Job job = JobMaker.MakeJob(def, faceTarget);
+		if (maintainSleep && !pawn.Awake())
+		{
+			job.forceSleep = true;
+			job.targetA = pawn.Position;
+		}
+		if (pawn.InBed())
+		{
+			job.targetA = pawn.CurrentBed();
+		}
+		job.expiryInterval = ticks;
+		pawn.jobs.StartJob(job, JobCondition.InterruptForced, null, resumeCurJobAfterwards: true);
+	}
+
+	public static void GainComfortFromCellIfPossible(this Pawn p, int delta, bool chairsOnly = false)
+	{
+		if (p.Spawned && p.IsHashIntervalTick(15, delta))
+		{
+			Building edifice = p.Position.GetEdifice(p.Map);
+			if (edifice != null && (!chairsOnly || (edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable)))
+			{
+				GainComfortFromThingIfPossible(p, edifice, delta);
+			}
+		}
+	}
+
+	public static void GainComfortFromThingIfPossible(Pawn p, Thing from, int delta)
+	{
+		if (p.IsHashIntervalTick(15, delta))
+		{
+			float statValue = from.GetStatValue(StatDefOf.Comfort, applyPostProcess: true, 100);
+			if (statValue >= 0f && p.needs != null && p.needs.comfort != null)
+			{
+				p.needs.comfort.ComfortUsed(statValue);
+			}
+		}
+	}
+
+	public static float BodyResourceGrowthSpeed(Pawn pawn)
+	{
+		return pawn.needs?.food?.CurCategory.HungerMultiplier() ?? 1f;
+	}
+
+	public static bool FertileMateTarget(Pawn male, Pawn female)
+	{
+		if (female.gender != Gender.Female || female.Sterile())
+		{
+			return false;
+		}
+		CompEggLayer compEggLayer = female.TryGetComp<CompEggLayer>();
+		if (compEggLayer != null)
+		{
+			return !compEggLayer.FullyFertilized;
+		}
+		return true;
+	}
+
+	public static void Mated(Pawn male, Pawn female)
+	{
+		if (!female.Sterile() && !male.Sterile())
+		{
+			CompEggLayer compEggLayer = female.TryGetComp<CompEggLayer>();
+			if (compEggLayer != null)
+			{
+				compEggLayer.Fertilize(male);
+			}
+			else if (Rand.Value < 0.5f)
+			{
+				Hediff_Pregnant hediff_Pregnant = (Hediff_Pregnant)HediffMaker.MakeHediff(HediffDefOf.Pregnant, female);
+				hediff_Pregnant.SetParents(null, male, null);
+				female.health.AddHediff(hediff_Pregnant);
+			}
+		}
+	}
+
+	public static bool PlayerForcedJobNowOrSoon(Pawn pawn)
+	{
+		if (pawn.jobs == null)
+		{
+			return false;
+		}
+		Job curJob = pawn.CurJob;
+		if (curJob != null)
+		{
+			return curJob.playerForced;
+		}
+		if (pawn.jobs.jobQueue.Count > 0)
+		{
+			return pawn.jobs.jobQueue.Peek().job.playerForced;
+		}
+		return false;
+	}
+
+	public static bool TrySpawnHatchedOrBornPawn(Pawn pawn, Thing motherOrEgg, IntVec3? positionOverride = null)
+	{
+		if (motherOrEgg.SpawnedOrAnyParentSpawned)
+		{
+			return GenSpawn.Spawn(pawn, positionOverride ?? motherOrEgg.PositionHeld, motherOrEgg.MapHeld) != null;
+		}
+		if (motherOrEgg is Pawn pawn2)
+		{
+			if (pawn2.IsCaravanMember())
+			{
+				pawn2.GetCaravan().AddPawn(pawn, addCarriedPawnToWorldPawnsIfAny: true);
+				Find.WorldPawns.PassToWorld(pawn);
+				return true;
+			}
+			if (pawn2.IsWorldPawn())
+			{
+				Find.WorldPawns.PassToWorld(pawn);
+				return true;
+			}
+		}
+		else if (motherOrEgg.ParentHolder != null && motherOrEgg.ParentHolder is Pawn_InventoryTracker pawn_InventoryTracker)
+		{
+			if (pawn_InventoryTracker.pawn.IsCaravanMember())
+			{
+				pawn_InventoryTracker.pawn.GetCaravan().AddPawn(pawn, addCarriedPawnToWorldPawnsIfAny: true);
+				Find.WorldPawns.PassToWorld(pawn);
+				return true;
+			}
+			if (pawn_InventoryTracker.pawn.IsWorldPawn())
+			{
+				Find.WorldPawns.PassToWorld(pawn);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static bool TryGetAvoidGrid(this Pawn p, out AvoidGrid grid, bool onlyIfLordAllows = true)
+	{
+		grid = null;
+		if (!p.Spawned)
+		{
+			return false;
+		}
+		if (p.Faction == null)
+		{
+			return false;
+		}
+		if (!p.Faction.def.canUseAvoidGrid)
+		{
+			return false;
+		}
+		if (p.Faction == Faction.OfPlayer || !p.Faction.HostileTo(Faction.OfPlayer))
+		{
+			return false;
+		}
+		if (p.kindDef.canUseAvoidGrid)
+		{
+			grid = p.Map.avoidGrid;
+			return true;
+		}
+		if (onlyIfLordAllows)
+		{
+			Lord lord = p.GetLord();
+			LordToil lordToil = lord?.CurLordToil;
+			if (lordToil != null && lordToil.useAvoidGrid)
+			{
+				grid = lord.Map.avoidGrid;
+				return true;
+			}
+			return false;
+		}
+		grid = p.Map.avoidGrid;
+		return true;
+	}
+
+	public static bool ShouldCollideWithPawns(Pawn p)
+	{
+		if (p == null || p.Downed || p.Dead)
+		{
+			return false;
+		}
+		if (p.IsShambler)
+		{
+			return true;
+		}
+		if (!p.mindState.anyCloseHostilesRecently)
+		{
+			return false;
+		}
+		if (p.IsPsychologicallyInvisible())
+		{
+			return false;
+		}
+		if (!p.kindDef.collidesWithPawns)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public static bool AnyPawnBlockingPathAt(IntVec3 c, Pawn forPawn, bool actAsIfHadCollideWithPawnsJob = false, bool collideOnlyWithStandingPawns = false, bool forPathFinder = false, bool useId = false)
+	{
+		return PawnBlockingPathAt(c, forPawn, actAsIfHadCollideWithPawnsJob, collideOnlyWithStandingPawns, forPathFinder, useId) != null;
+	}
+
+	public static Pawn PawnBlockingPathAt(IntVec3 c, Pawn forPawn, bool actAsIfHadCollideWithPawnsJob = false, bool collideOnlyWithStandingPawns = false, bool forPathFinder = false, bool useId = false)
+	{
+		List<Thing> thingList = c.GetThingList(forPawn.Map);
+		if (thingList.Count == 0)
+		{
+			return null;
+		}
+		bool collideWithNonHostile = false;
+		if (actAsIfHadCollideWithPawnsJob)
+		{
+			collideWithNonHostile = true;
+		}
+		else
+		{
+			Job curJob = forPawn.CurJob;
+			if (curJob != null && (curJob.collideWithPawns || curJob.def.collideWithPawns || forPawn.jobs.curDriver.collideWithPawns))
+			{
+				collideWithNonHostile = true;
+			}
+		}
+		for (int i = 0; i < thingList.Count; i++)
+		{
+			Pawn pawn = thingList[i] as Pawn;
+			if (PawnBlockedBy(forPawn, pawn, collideOnlyWithStandingPawns, collideWithNonHostile, forPathFinder, useId))
+			{
+				return pawn;
+			}
+		}
+		return null;
+	}
+
+	public static bool PawnBlockedBy(Pawn forPawn, Pawn other, bool collideOnlyWithStandingPawns = false, bool collideWithNonHostile = false, bool forPathFinder = false, bool useId = false)
+	{
+		if (!ShouldCollideWithPawns(other))
+		{
+			return false;
+		}
+		if (useId && forPawn.thingIDNumber < other.thingIDNumber && !other.stances.FullBodyBusyRecently)
+		{
+			return false;
+		}
+		if (other == forPawn)
+		{
+			return false;
+		}
+		if (collideOnlyWithStandingPawns)
+		{
+			if (other.pather.MovingNow)
+			{
+				return false;
+			}
+			if (other.pather.Moving && other.pather.MovedRecently(60))
+			{
+				return false;
+			}
+		}
+		if (PawnsCanShareCellBecauseOfBodySize(other, forPawn))
+		{
+			return false;
+		}
+		if (other.IsPsychologicallyInvisible())
+		{
+			return false;
+		}
+		if (!other.kindDef.collidesWithPawns)
+		{
+			return false;
+		}
+		if (other.HostileTo(forPawn))
+		{
+			return true;
+		}
+		if (forPawn.IsShambler && !MutantUtility.ShamblerShouldCollideWith(forPawn, other))
+		{
+			return false;
+		}
+		if (collideWithNonHostile)
+		{
+			if (!forPathFinder && forPawn.Drafted && other.RaceProps.Animal)
+			{
+				return false;
+			}
+			Job curJob = other.CurJob;
+			if (curJob != null && (curJob.collideWithPawns || curJob.def.collideWithPawns || other.jobs.curDriver.collideWithPawns))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static bool PawnsCanShareCellBecauseOfBodySize(Pawn p1, Pawn p2)
+	{
+		float bodySize = p1.BodySize;
+		float bodySize2 = p2.BodySize;
+		if (bodySize >= 1.5f || bodySize2 >= 1.5f)
+		{
+			return false;
+		}
+		float num = bodySize / bodySize2;
+		if (num < 1f)
+		{
+			num = 1f / num;
+		}
+		return num > 3.57f;
+	}
+
+	public static bool KnownDangerAt(IntVec3 c, Map map, Pawn forPawn)
+	{
+		return c.GetEdifice(map)?.IsDangerousFor(forPawn) ?? false;
+	}
+
+	[Obsolete("Lord and job report display validation is now checked separately.")]
+	public static bool ShouldDisplayActionInInspectString(Pawn p)
+	{
+		if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
+		{
+			return false;
+		}
+		if (p.InMentalState)
+		{
+			return false;
+		}
+		if (p.IsMutant && p.mutant.Def.overrideInspectString)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public static bool ShouldDisplayLordReport(Pawn pawn)
+	{
+		if (ShouldShowCultistLordReport(pawn))
+		{
+			return true;
+		}
+		return ShouldShowActionReportToPlayer(pawn);
+	}
+
+	public static bool ShouldDisplayJobReport(Pawn pawn)
+	{
+		if (pawn.IsMutant && pawn.mutant.Def.overrideInspectString)
+		{
+			return false;
+		}
+		if (pawn.CurJobDef != null && pawn.CurJobDef.alwaysShowReport)
+		{
+			return true;
+		}
+		if (ModsConfig.AnomalyActive && pawn.Faction == Faction.OfHoraxCult && pawn.CurJobDef == JobDefOf.HateChanting)
+		{
+			return true;
+		}
+		if (ShouldShowCultistLordReport(pawn))
+		{
+			return true;
+		}
+		return ShouldShowActionReportToPlayer(pawn);
+	}
+
+	private static bool ShouldShowActionReportToPlayer(Pawn p)
+	{
+		if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
+		{
+			return false;
+		}
+		if (p.InMentalState)
+		{
+			return false;
+		}
+		if (p.IsMutant && p.mutant.Def.overrideInspectString)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public static bool ShouldDisplayFactionInInspectString(Pawn p)
+	{
+		if (p.IsMutant && p.mutant.Def.overrideInspectString)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private static bool ShouldShowCultistLordReport(Pawn pawn)
+	{
+		if (ModsConfig.AnomalyActive && pawn.Faction == Faction.OfHoraxCult && pawn.mindState.duty?.def == DutyDefOf.Invoke)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static bool ShouldSendNotificationAbout(Pawn p)
+	{
+		if (Current.ProgramState != ProgramState.Playing)
+		{
+			return false;
+		}
+		if (p == null)
+		{
+			return false;
+		}
+		if (PawnGenerator.IsBeingGenerated(p))
+		{
+			return false;
+		}
+		if (p.IsWorldPawn() && (!p.IsCaravanMember() || !p.GetCaravan().IsPlayerControlled) && !IsTravelingInTransportPodWorldObject(p) && !p.IsBorrowedByAnyFaction() && p.Corpse.DestroyedOrNull())
+		{
+			return false;
+		}
+		if (p.IsSubhuman)
+		{
+			return false;
+		}
+		if (ModsConfig.AnomalyActive && p.Corpse is UnnaturalCorpse)
+		{
+			return false;
+		}
+		if (p.Faction != Faction.OfPlayer)
+		{
+			if (p.HostFaction != Faction.OfPlayer)
+			{
+				return false;
+			}
+			if (p.RaceProps.Humanlike && p.guest.Released && !p.Downed && !p.InBed())
+			{
+				return false;
+			}
+			if (p.CurJob != null && p.CurJob.exitMapOnArrival && !PrisonBreakUtility.IsPrisonBreaking(p))
+			{
+				return false;
+			}
+			if (IsExitingMap(p))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static bool ShouldGetThoughtAbout(Pawn pawn, Pawn subject)
+	{
+		if (pawn.IsSubhuman || subject.IsSubhuman)
+		{
+			return false;
+		}
+		if (pawn.Faction != subject.Faction)
+		{
+			if (!subject.IsWorldPawn())
+			{
+				return !pawn.IsWorldPawn();
+			}
+			return false;
+		}
+		return true;
+	}
+
+	public static bool IsTeetotaler(this Pawn pawn)
+	{
+		if (!new HistoryEvent(HistoryEventDefOf.IngestedDrug, pawn.Named(HistoryEventArgsNames.Doer)).DoerWillingToDo())
+		{
+			return true;
+		}
+		if (!new HistoryEvent(HistoryEventDefOf.IngestedRecreationalDrug, pawn.Named(HistoryEventArgsNames.Doer)).DoerWillingToDo())
+		{
+			return true;
+		}
+		if (pawn.story != null)
+		{
+			return pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) < 0;
+		}
+		return false;
+	}
+
+	public static bool CanTakeDrug(this Pawn pawn, ThingDef drug)
+	{
+		CompProperties_Drug compProperties = drug.GetCompProperties<CompProperties_Drug>();
+		if (compProperties == null)
+		{
+			return true;
+		}
+		if (CanTakeDrugForDependency(pawn, drug))
+		{
+			return true;
+		}
+		if (!compProperties.teetotalerCanConsume && pawn.IsTeetotaler())
+		{
+			return false;
+		}
+		if (ModsConfig.IdeologyActive)
+		{
+			if (!IdeoUtility.DoerWillingToDo(HistoryEventDefOf.IngestedDrug, pawn))
+			{
+				return false;
+			}
+			if (drug.IsNonMedicalDrug && !IdeoUtility.DoerWillingToDo(HistoryEventDefOf.IngestedRecreationalDrug, pawn))
+			{
+				return false;
+			}
+			if (drug.ingestible != null && drug.ingestible.drugCategory == DrugCategory.Hard && !IdeoUtility.DoerWillingToDo(HistoryEventDefOf.IngestedHardDrug, pawn))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static bool CanTakeDrugForDependency(Pawn pawn, ThingDef drug)
+	{
+		if (!ModsConfig.BiotechActive || pawn.genes == null)
+		{
+			return false;
+		}
+		CompProperties_Drug compProperties = drug.GetCompProperties<CompProperties_Drug>();
+		if (compProperties == null)
+		{
+			return true;
+		}
+		foreach (Gene item in pawn.genes.GenesListForReading)
+		{
+			if (item is Gene_ChemicalDependency gene_ChemicalDependency && item.Active && gene_ChemicalDependency.def.chemical == compProperties.chemical)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static bool TryGetChemicalDependencyGene(Pawn pawn, out Gene_ChemicalDependency gene)
+	{
+		gene = null;
+		if (!ModsConfig.BiotechActive || pawn.genes == null)
+		{
+			return false;
+		}
+		foreach (Gene item in pawn.genes.GenesListForReading)
+		{
+			if (item is Gene_ChemicalDependency gene_ChemicalDependency)
+			{
+				gene = gene_ChemicalDependency;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static bool PawnWouldBeUnhappyTakingDrug(this Pawn pawn, ThingDef drug)
+	{
+		if (pawn.IsTeetotaler())
+		{
+			return drug.GetCompProperties<CompProperties_Drug>() != null;
+		}
+		return false;
+	}
+
+	public static bool IsProsthophobe(this Pawn pawn)
+	{
+		if (pawn.story != null)
+		{
+			return pawn.story.traits.HasTrait(TraitDefOf.BodyPurist);
+		}
+		return false;
+	}
+
+	public static bool IsPrisonerInPrisonCell(this Pawn pawn)
+	{
+		if (pawn.IsPrisoner && pawn.Spawned)
+		{
+			return pawn.Position.IsInPrisonCell(pawn.Map);
+		}
+		return false;
+	}
+
+	public static bool IsBeingArrested(Pawn pawn)
+	{
+		if (pawn.Map == null)
+		{
+			return false;
+		}
+		foreach (Pawn item in pawn.Map.mapPawns.AllPawnsSpawned)
+		{
+			if (item != pawn && item.CurJobDef == JobDefOf.Arrest && item.CurJob.AnyTargetIs(pawn))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static string PawnKindsToCommaList(IEnumerable<Pawn> pawns, bool useAnd = false)
+	{
+		tmpPawns.Clear();
+		tmpPawns.AddRange(pawns);
+		if (tmpPawns.Count >= 2)
+		{
+			tmpPawns.SortBy((Pawn x) => !x.RaceProps.Humanlike, (Pawn x) => x.GetKindLabelPlural());
+		}
+		tmpAddedPawnKinds.Clear();
+		tmpPawnKindsStr.Clear();
+		for (int i = 0; i < tmpPawns.Count; i++)
+		{
+			if (tmpAddedPawnKinds.Contains(tmpPawns[i].kindDef))
+			{
+				continue;
+			}
+			tmpAddedPawnKinds.Add(tmpPawns[i].kindDef);
+			int num = 0;
+			for (int j = 0; j < tmpPawns.Count; j++)
+			{
+				if (tmpPawns[j].kindDef == tmpPawns[i].kindDef)
+				{
+					num++;
+				}
+			}
+			if (num == 1)
+			{
+				tmpPawnKindsStr.Add("1 " + tmpPawns[i].KindLabel);
+			}
+			else
+			{
+				tmpPawnKindsStr.Add(num + " " + tmpPawns[i].GetKindLabelPlural(num));
+			}
+		}
+		tmpPawns.Clear();
+		return tmpPawnKindsStr.ToCommaList(useAnd);
+	}
+
+	public static List<string> PawnKindsToList(IEnumerable<PawnKindDef> pawnKinds)
+	{
+		tmpPawnKinds.Clear();
+		tmpPawnKinds.AddRange(pawnKinds);
+		if (tmpPawnKinds.Count >= 2)
+		{
+			tmpPawnKinds.SortBy((PawnKindDef x) => !x.RaceProps.Humanlike, (PawnKindDef x) => GenLabel.BestKindLabel(x, Gender.None, plural: true));
+		}
+		tmpAddedPawnKinds.Clear();
+		tmpPawnKindsStr.Clear();
+		for (int i = 0; i < tmpPawnKinds.Count; i++)
+		{
+			if (tmpAddedPawnKinds.Contains(tmpPawnKinds[i]))
+			{
+				continue;
+			}
+			tmpAddedPawnKinds.Add(tmpPawnKinds[i]);
+			int num = 0;
+			for (int j = 0; j < tmpPawnKinds.Count; j++)
+			{
+				if (tmpPawnKinds[j] == tmpPawnKinds[i])
+				{
+					num++;
+				}
+			}
+			if (num == 1)
+			{
+				tmpPawnKindsStr.Add("1 " + GenLabel.BestKindLabel(tmpPawnKinds[i], Gender.None));
+			}
+			else
+			{
+				tmpPawnKindsStr.Add(num + " " + GenLabel.BestKindLabel(tmpPawnKinds[i], Gender.None, plural: true, num));
+			}
+		}
+		return tmpPawnKindsStr;
+	}
+
+	public static string PawnKindsToLineList(IEnumerable<PawnKindDef> pawnKinds, string prefix)
+	{
+		PawnKindsToList(pawnKinds);
+		return tmpPawnKindsStr.ToLineList(prefix);
+	}
+
+	public static string PawnKindsToLineList(IEnumerable<PawnKindDef> pawnKinds, string prefix, Color color)
+	{
+		PawnKindsToList(pawnKinds);
+		for (int i = 0; i < tmpPawnKindsStr.Count; i++)
+		{
+			tmpPawnKindsStr[i] = tmpPawnKindsStr[i].Colorize(color);
+		}
+		return tmpPawnKindsStr.ToLineList(prefix);
+	}
+
+	public static string PawnKindsToCommaList(IEnumerable<PawnKindDef> pawnKinds, bool useAnd = false)
+	{
+		PawnKindsToList(pawnKinds);
+		return tmpPawnKindsStr.ToCommaList(useAnd);
+	}
+
+	public static LocomotionUrgency ResolveLocomotion(Pawn pawn, LocomotionUrgency secondPriority)
+	{
+		if (!pawn.Dead && pawn.mindState.duty != null && pawn.mindState.duty.locomotion != 0)
+		{
+			return pawn.mindState.duty.locomotion;
+		}
+		return secondPriority;
+	}
+
+	public static LocomotionUrgency ResolveLocomotion(Pawn pawn, LocomotionUrgency secondPriority, LocomotionUrgency thirdPriority)
+	{
+		LocomotionUrgency locomotionUrgency = ResolveLocomotion(pawn, secondPriority);
+		if (locomotionUrgency != 0)
+		{
+			return locomotionUrgency;
+		}
+		return thirdPriority;
+	}
+
+	public static Danger ResolveMaxDanger(Pawn pawn, Danger secondPriority)
+	{
+		if (!pawn.Dead && pawn.mindState.duty != null && pawn.mindState.duty.maxDanger != 0)
+		{
+			return pawn.mindState.duty.maxDanger;
+		}
+		return secondPriority;
+	}
+
+	public static Danger ResolveMaxDanger(Pawn pawn, Danger secondPriority, Danger thirdPriority)
+	{
+		Danger danger = ResolveMaxDanger(pawn, secondPriority);
+		if (danger != 0)
+		{
+			return danger;
+		}
+		return thirdPriority;
+	}
+
+	public static bool IsPermanentCombatant(this Pawn pawn)
+	{
+		if (pawn?.mindState == null)
+		{
+			return true;
+		}
+		if (pawn.IsAnimal && pawn.Faction != null)
+		{
+			return false;
+		}
+		if (pawn.DevelopmentalStage.Juvenile())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public static bool IsCombatant(this Pawn pawn)
+	{
+		if (pawn.IsPermanentCombatant())
+		{
+			return true;
+		}
+		return pawn.mindState.CombatantRecently;
+	}
+
+	public static bool IsFighting(this Pawn pawn)
+	{
+		if (pawn.CurJob != null)
+		{
+			if (pawn.CurJob.def != JobDefOf.AttackMelee && pawn.CurJob.def != JobDefOf.AttackStatic && pawn.CurJob.def != JobDefOf.Wait_Combat && pawn.CurJob.def != JobDefOf.PredatorHunt)
+			{
+				return pawn.CurJob.def == JobDefOf.ManTurret;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public static bool IsAttacking(this Pawn pawn)
+	{
+		if (pawn.CurJobDef == JobDefOf.AttackMelee || pawn.CurJobDef == JobDefOf.AttackStatic)
+		{
+			return true;
+		}
+		if (pawn.CurJobDef == JobDefOf.Wait_Combat && pawn.stances.curStance is Stance_Busy stance_Busy && stance_Busy.focusTarg.IsValid)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static Hediff_Psylink GetMainPsylinkSource(this Pawn pawn)
+	{
+		return (Hediff_Psylink)pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.PsychicAmplifier);
+	}
+
+	public static int GetPsylinkLevel(this Pawn pawn)
+	{
+		int num = 0;
+		foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+		{
+			if (hediff is Hediff_Psylink hediff_Psylink)
+			{
+				num += hediff_Psylink.level;
+			}
+		}
+		return num;
+	}
+
+	public static int GetMaxPsylinkLevel(this Pawn pawn)
+	{
+		return (int)HediffDefOf.PsychicAmplifier.maxSeverity;
+	}
+
+	public static RoyalTitle GetMaxPsylinkLevelTitle(this Pawn pawn)
+	{
+		if (pawn.royalty == null)
+		{
+			return null;
+		}
+		int num = 0;
+		RoyalTitle result = null;
+		foreach (RoyalTitle item in pawn.royalty.AllTitlesInEffectForReading)
+		{
+			if (num < item.def.maxPsylinkLevel)
+			{
+				num = item.def.maxPsylinkLevel;
+				result = item;
+			}
+		}
+		return result;
+	}
+
+	public static int GetMaxPsylinkLevelByTitle(this Pawn pawn)
+	{
+		return pawn.GetMaxPsylinkLevelTitle()?.def.maxPsylinkLevel ?? 0;
+	}
+
+	public static void ChangePsylinkLevel(this Pawn pawn, int levelOffset, bool sendLetter = true)
+	{
+		Hediff_Psylink mainPsylinkSource = pawn.GetMainPsylinkSource();
+		if (mainPsylinkSource == null)
+		{
+			mainPsylinkSource = (Hediff_Psylink)HediffMaker.MakeHediff(HediffDefOf.PsychicAmplifier, pawn);
+			try
+			{
+				mainPsylinkSource.suppressPostAddLetter = !sendLetter;
+				pawn.health.AddHediff(mainPsylinkSource, pawn.health.hediffSet.GetBrain());
+				return;
+			}
+			finally
+			{
+				mainPsylinkSource.suppressPostAddLetter = false;
+			}
+		}
+		mainPsylinkSource.ChangeLevel(levelOffset, sendLetter);
+	}
+
+	public static void GiveAllStartingPlayerPawnsThought(ThoughtDef thought)
+	{
+		foreach (Pawn startingAndOptionalPawn in Find.GameInitData.startingAndOptionalPawns)
+		{
+			if (startingAndOptionalPawn.needs.mood == null)
+			{
+				continue;
+			}
+			if (thought.IsSocial)
+			{
+				foreach (Pawn startingAndOptionalPawn2 in Find.GameInitData.startingAndOptionalPawns)
+				{
+					if (startingAndOptionalPawn2 != startingAndOptionalPawn)
+					{
+						startingAndOptionalPawn.needs.mood.thoughts.memories.TryGainMemory(thought, startingAndOptionalPawn2);
+					}
+				}
+			}
+			else
+			{
+				startingAndOptionalPawn.needs.mood.thoughts.memories.TryGainMemory(thought);
+			}
+		}
+	}
+
+	public static IntVec3 DutyLocation(this Pawn pawn)
+	{
+		Pawn_RopeTracker roping = pawn.roping;
+		if (roping != null && roping.IsRopedToSpot)
+		{
+			return pawn.roping.RopedToSpot;
+		}
+		if (pawn.mindState.duty != null && pawn.mindState.duty.focus.IsValid)
+		{
+			return pawn.mindState.duty.focus.Cell;
+		}
+		return pawn.Position;
+	}
+
+	public static bool EverBeenColonistOrTameAnimal(Pawn pawn)
+	{
+		return pawn.records.GetAsInt(RecordDefOf.TimeAsColonistOrColonyAnimal) > 0;
+	}
+
+	public static bool EverBeenPrisoner(Pawn pawn)
+	{
+		return pawn.records.GetAsInt(RecordDefOf.TimeAsPrisoner) > 0;
+	}
+
+	public static bool EverBeenQuestLodger(Pawn pawn)
+	{
+		return pawn.records.GetAsInt(RecordDefOf.TimeAsQuestLodger) > 0;
+	}
+
+	public static void RecoverFromUnwalkablePositionOrKill(IntVec3 c, Map map)
+	{
+		if (!c.InBounds(map) || c.Walkable(map))
+		{
+			return;
+		}
+		tmpThings.Clear();
+		tmpThings.AddRange(c.GetThingList(map));
+		for (int i = 0; i < tmpThings.Count; i++)
+		{
+			if (!(tmpThings[i] is Pawn pawn))
+			{
+				continue;
+			}
+			if (CellFinder.TryFindBestPawnStandCell(pawn, out var cell))
+			{
+				pawn.Position = cell;
+				pawn.Notify_Teleported(endCurrentJob: true, resetTweenedPos: false);
+				continue;
+			}
+			DamageInfo damageInfo = new DamageInfo(DamageDefOf.Crush, 99999f, 999f, -1f, null, pawn.health.hediffSet.GetBrain(), null, DamageInfo.SourceCategory.Collapse);
+			damageInfo.SetIgnoreInstantKillProtection(ignore: true);
+			pawn.TakeDamage(damageInfo);
+			if (!pawn.Dead)
+			{
+				pawn.Kill(damageInfo);
+			}
+		}
+	}
+
+	public static float GetManhunterOnDamageChance(Pawn pawn, Thing instigator = null, float distance = -1f)
+	{
+		float num = GetManhunterOnDamageChance(pawn.def);
+		if (pawn.health.hediffSet.HasHediff(HediffDefOf.Scaria))
+		{
+			num += 0.5f;
+		}
+		if (instigator != null)
+		{
+			num *= GenMath.LerpDoubleClamped(1f, 30f, 3f, 1f, distance);
+			num *= 1f - instigator.GetStatValue(StatDefOf.HuntingStealth);
+			if (instigator is Pawn instigator2)
+			{
+				num *= GetManhunterChanceFactorForInstigator(instigator2);
+			}
+		}
+		return Mathf.Clamp01(num);
+	}
+
+	public static float GetManhunterOnDamageChance(ThingDef def)
+	{
+		return def.race.manhunterOnDamageChance * Find.Storyteller.difficulty.manhunterChanceOnDamageFactor;
+	}
+
+	public static string GetManhunterOnDamageChanceExplanation(ThingDef def, Pawn pawn)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.AppendLine("HarmedRevengeChanceExplanation".Translate());
+		stringBuilder.AppendLine();
+		stringBuilder.AppendLine(def.LabelCap + ": " + def.race.manhunterOnDamageChance.ToStringPercent());
+		stringBuilder.AppendLine("StatsReport_DifficultyMultiplier".Translate(Find.Storyteller.difficultyDef.label) + ": " + Find.Storyteller.difficulty.manhunterChanceOnDamageFactor.ToStringPercent());
+		if (pawn != null && pawn.health.hediffSet.HasHediff(HediffDefOf.Scaria))
+		{
+			stringBuilder.AppendLine(HediffDefOf.Scaria.LabelCap + ": " + 0.5f.ToStringPercentSigned());
+		}
+		stringBuilder.AppendLine();
+		float f = ((pawn == null) ? GetManhunterOnDamageChance(def) : GetManhunterOnDamageChance(pawn));
+		stringBuilder.AppendLine("StatsReport_FinalValue".Translate() + ": " + f.ToStringPercent());
+		return stringBuilder.ToString();
+	}
+
+	public static float GetManhunterChanceFactorForInstigator(Pawn instigator)
+	{
+		if (ModsConfig.AnomalyActive && instigator?.Faction == Faction.OfEntities)
+		{
+			return 0f;
+		}
+		float num = 1f;
+		if (ModsConfig.IdeologyActive && instigator?.Ideo != null)
+		{
+			RoleEffect roleEffect = instigator.Ideo.GetRole(instigator)?.def.roleEffects?.FirstOrDefault((RoleEffect eff) => eff is RoleEffect_HuntingRevengeChanceFactor);
+			if (roleEffect != null)
+			{
+				num *= ((RoleEffect_HuntingRevengeChanceFactor)roleEffect).factor;
+			}
+		}
+		return num;
+	}
+
+	public static float GetManhunterOnTameFailChance(Pawn pawn)
+	{
+		return Mathf.Clamp01(GetManhunterOnTameFailChance(pawn.def));
+	}
+
+	public static float GetManhunterOnTameFailChance(ThingDef def)
+	{
+		return def.race.manhunterOnTameFailChance;
+	}
+
+	public static string GetManhunterOnTameFailChanceExplanation(ThingDef def, Pawn pawn)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.AppendLine("Stat_Race_Animal_TameFailedRevengeChance_Desc".Translate());
+		stringBuilder.AppendLine();
+		stringBuilder.AppendLine(def.LabelCap + ": " + def.race.manhunterOnTameFailChance.ToStringPercent());
+		stringBuilder.AppendLine();
+		float f = ((pawn == null) ? GetManhunterOnTameFailChance(def) : GetManhunterOnTameFailChance(pawn));
+		stringBuilder.AppendLine("StatsReport_FinalValue".Translate() + ": " + f.ToStringPercent());
+		return stringBuilder.ToString();
+	}
+
+	public static MentalStateDef ManhunterStateFor(Pawn pawn)
+	{
+		if (pawn.health.hediffSet.HasHediff(HediffDefOf.Scaria))
+		{
+			return MentalStateDefOf.ManhunterPermanent;
+		}
+		return MentalStateDefOf.Manhunter;
+	}
+
+	public static bool PlayerHasReproductivePair(PawnKindDef pawnKindDef)
+	{
+		if (!pawnKindDef.RaceProps.Animal)
+		{
+			return false;
+		}
+		List<Pawn> allMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction = PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction;
+		bool flag = false;
+		bool flag2 = false;
+		for (int i = 0; i < allMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction.Count; i++)
+		{
+			Pawn pawn = allMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction[i];
+			if (pawn.kindDef == pawnKindDef && pawn.ageTracker.CurLifeStage.reproductive)
+			{
+				if (pawn.gender == Gender.Male)
+				{
+					flag = true;
+				}
+				else if (pawn.gender == Gender.Female)
+				{
+					flag2 = true;
+				}
+				if (flag && flag2)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static float PlayerAnimalBodySizePerCapita()
+	{
+		float num = 0f;
+		int num2 = 0;
+		List<Pawn> allMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction = PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction;
+		for (int i = 0; i < allMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction.Count; i++)
+		{
+			Pawn pawn = allMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction[i];
+			if (pawn.IsFreeColonist && !pawn.IsQuestLodger())
+			{
+				num2++;
+			}
+			if (pawn.IsAnimal)
+			{
+				num += pawn.BodySize;
+			}
+		}
+		if (num2 <= 0)
+		{
+			return 0f;
+		}
+		return num / (float)num2;
+	}
+
+	private static List<Pawn> PawnsOfFactionOnMapOrInCaravan(Pawn pawn)
+	{
+		if (pawn.Spawned)
+		{
+			return pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
+		}
+		return pawn.GetCaravan()?.PawnsListForReading;
+	}
+
+	public static float PlayerVeneratedAnimalBodySizePerCapitaOnMapOrCaravan(Pawn pawn)
+	{
+		if (pawn.Ideo == null || pawn.Faction == null)
+		{
+			return 0f;
+		}
+		float num = 0f;
+		int num2 = 0;
+		List<Pawn> list = PawnsOfFactionOnMapOrInCaravan(pawn);
+		for (int i = 0; i < list.Count; i++)
+		{
+			if (list[i].Faction == pawn.Faction && !pawn.IsQuestLodger())
+			{
+				if (list[i].IsAnimal && pawn.Ideo.IsVeneratedAnimal(list[i]))
+				{
+					num += list[i].BodySize;
+				}
+				else if (list[i].RaceProps.Humanlike)
+				{
+					num2++;
+				}
+			}
+		}
+		return Mathf.Round(((num2 > 0) ? (num / (float)num2) : 0f) * 100f) / 100f;
+	}
+
+	public static Pawn FirstVeneratedAnimalOnMapOrCaravan(Pawn pawn)
+	{
+		if (pawn.Ideo == null || pawn.Faction == null)
+		{
+			return null;
+		}
+		List<Pawn> list = PawnsOfFactionOnMapOrInCaravan(pawn);
+		for (int i = 0; i < list.Count; i++)
+		{
+			if (pawn.Faction == list[i].Faction && pawn.Ideo.IsVeneratedAnimal(list[i]))
+			{
+				return list[i];
+			}
+		}
+		return null;
+	}
+
+	public static bool HasClothingNotRequiredByKind(Pawn p)
+	{
+		if (p.apparel == null)
+		{
+			return false;
+		}
+		List<Apparel> wornApparel = p.apparel.WornApparel;
+		if (wornApparel.Count > 0 && p.kindDef.apparelRequired.NullOrEmpty())
+		{
+			return true;
+		}
+		for (int i = 0; i < wornApparel.Count; i++)
+		{
+			Apparel apparel = wornApparel[i];
+			if (apparel.def.apparel.countsAsClothingForNudity && !p.kindDef.apparelRequired.Contains(apparel.def))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static IEnumerable<PawnKindDef> GetCombatPawnKindsForPoints(Func<PawnKindDef, bool> selector, float points, Func<PawnKindDef, float> selectionWeight = null)
+	{
+		IEnumerable<PawnKindDef> allKinds = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(selector);
+		if (selectionWeight == null)
+		{
+			selectionWeight = (PawnKindDef _) => 1f;
+		}
+		PawnKindDef result;
+		while (points > 0f && allKinds.Where((PawnKindDef def) => def.combatPower > 0f && def.combatPower <= points && def.appearsRandomlyInCombatGroups).TryRandomElementByWeight(selectionWeight, out result))
+		{
+			points -= result.combatPower;
+			yield return result;
+		}
+	}
+
+	public static int GetMaxAllowedToPickUp(Pawn pawn, ThingDef thingDef)
+	{
+		int maxAllowedToPickUp = GetMaxAllowedToPickUp(thingDef, pawn.Map);
+		if (maxAllowedToPickUp <= 0)
+		{
+			return 0;
+		}
+		int num = pawn.inventory.Count((Thing t) => t.def.orderedTakeGroup == thingDef.orderedTakeGroup);
+		return Math.Max(maxAllowedToPickUp - num, 0);
+	}
+
+	public static int GetMaxAllowedToPickUp(ThingDef thingDef, Map map = null)
+	{
+		if (map != null && !map.IsPlayerHome)
+		{
+			return int.MaxValue;
+		}
+		if (thingDef.orderedTakeGroup == null)
+		{
+			return 0;
+		}
+		return thingDef.orderedTakeGroup.max;
+	}
+
+	public static bool CanPickUp(Pawn pawn, ThingDef thingDef)
+	{
+		if (!pawn.Map.IsPlayerHome)
+		{
+			return true;
+		}
+		if (pawn.inventory != null && thingDef.orderedTakeGroup != null)
+		{
+			return thingDef.orderedTakeGroup.max > 0;
+		}
+		return false;
+	}
+
+	public static bool ShouldBeSlaughtered(this Pawn pawn)
+	{
+		if (!pawn.Spawned || !pawn.IsAnimal)
+		{
+			return false;
+		}
+		if (pawn.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) != null || pawn.Map.autoSlaughterManager.AnimalsToSlaughter.Contains(pawn))
+		{
+			return pawn.Map.designationManager.DesignationOn(pawn, DesignationDefOf.ReleaseAnimalToWild) == null;
+		}
+		return false;
+	}
+
+	public static bool CanBeBuried(this Thing t)
+	{
+		if (t is Corpse { MapHeld: not null } corpse)
+		{
+			return corpse.MapHeld.designationManager.DesignationOn(corpse, DesignationDefOf.ExtractSkull) == null;
+		}
+		return true;
+	}
+
+	public static bool PawnHadFuneral(Pawn pawn)
+	{
+		Precept_Ritual precept_Ritual = (Precept_Ritual)(pawn.ideo?.Ideo?.GetPrecept(PreceptDefOf.Funeral));
+		if (precept_Ritual != null && !precept_Ritual.completedObligations.NullOrEmpty())
+		{
+			return precept_Ritual.completedObligations.Any((RitualObligation o) => o.FirstValidTarget.Thing == pawn);
+		}
+		return false;
+	}
+
+	public static bool IsBiologicallyOrArtificiallyBlind(Pawn pawn)
+	{
+		if (!IsBiologicallyBlind(pawn))
+		{
+			return IsArtificiallyBlind(pawn);
+		}
+		return true;
+	}
+
+	public static bool IsBiologicallyBlind(Pawn pawn)
+	{
+		return !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight);
+	}
+
+	public static bool IsArtificiallyBlind(Pawn p)
+	{
+		if (IsBiologicallyBlind(p))
+		{
+			return false;
+		}
+		if (p.apparel != null)
+		{
+			foreach (Apparel item in p.apparel.WornApparel)
+			{
+				if (item.def.apparel.blocksVision)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static bool IsWorkTypeDisabledByAge(this Pawn pawn, WorkTypeDef workType, out int minAgeRequired)
+	{
+		for (int i = 0; i < pawn.RaceProps.lifeStageWorkSettings.Count; i++)
+		{
+			LifeStageWorkSettings lifeStageWorkSettings = pawn.RaceProps.lifeStageWorkSettings[i];
+			if (lifeStageWorkSettings.workType == workType && lifeStageWorkSettings.IsDisabled(pawn))
+			{
+				minAgeRequired = lifeStageWorkSettings.minAge;
+				return true;
+			}
+		}
+		minAgeRequired = 0;
+		return false;
+	}
+
+	public static bool DutyActiveWhenDown(this Pawn pawn, bool onlyInBed = false)
+	{
+		if (onlyInBed && !pawn.InBed())
+		{
+			return false;
+		}
+		return (pawn.GetLord()?.LordJob?.DutyActiveWhenDown(pawn)).GetValueOrDefault();
+	}
+
+	public static bool IsExitingMap(Pawn pawn)
+	{
+		Lord lord = pawn.GetLord();
+		if (lord == null)
+		{
+			return false;
+		}
+		if (!(lord.LordJob is LordJob_ExitMapBest) && !(lord.LordJob is LordJob_ExitMapNear) && !(lord.LordJob is LordJob_ExitOnShuttle))
+		{
+			return lord.LordJob is LordJob_TravelAndExit;
+		}
+		return true;
+	}
+
+	public static void ForceEjectFromContainer(Pawn pawn)
+	{
+		Thing resultingThing;
+		if (pawn.ParentHolder is Pawn_CarryTracker pawn_CarryTracker)
+		{
+			pawn_CarryTracker.TryDropCarriedThing(pawn_CarryTracker.pawn.Position, ThingPlaceMode.Near, out resultingThing);
+			pawn_CarryTracker.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
+		}
+		if (pawn.ParentHolder is Building_Enterable building_Enterable)
+		{
+			building_Enterable.innerContainer.TryDrop(pawn, building_Enterable.InteractionCell, building_Enterable.Map, ThingPlaceMode.Near, out resultingThing);
+		}
+		if (pawn.ParentHolder is Building_Casket building_Casket)
+		{
+			building_Casket.EjectContents();
+		}
+		if (pawn.ParentHolder is Building_HoldingPlatform building_HoldingPlatform)
+		{
+			building_HoldingPlatform.EjectContents();
+		}
+		if (pawn.ParentHolder is CompBiosculpterPod compBiosculpterPod)
+		{
+			compBiosculpterPod.EjectContents(interrupted: true, playSounds: true);
+		}
+	}
+}
+```
