@@ -29,6 +29,8 @@ namespace WulaFallenEmpire
         public string backgroundImagePath;
         public List<ConditionalEffects> immediateEffects;
         public List<ConditionalEffects> dismissEffects;
+        public List<ConditionalDescription> conditionalDescriptions;
+
         public override void PostLoad()
         {
             base.PostLoad();
@@ -70,5 +72,11 @@ namespace WulaFallenEmpire
     {
         public List<Condition> conditions;
         public List<Effect> effects;
+    }
+
+    public class ConditionalDescription
+    {
+        public List<Condition> conditions;
+        public string text;
     }
 }

@@ -85,7 +85,20 @@ namespace WulaFallenEmpire
             
             HandleAction(def.immediateEffects);
             
-            // Format the description AFTER immediate effects have run
+            // Append conditional descriptions
+            if (!def.conditionalDescriptions.NullOrEmpty())
+            {
+                foreach (var condDesc in def.conditionalDescriptions)
+                {
+                    string reason;
+                    if (AreConditionsMet(condDesc.conditions, out reason))
+                    {
+                        selectedDescription += "\n\n" + condDesc.text;
+                    }
+                }
+            }
+
+            // Format the description AFTER immediate effects have run and conditional text is appended
             selectedDescription = FormatDescription(selectedDescription);
         }
 

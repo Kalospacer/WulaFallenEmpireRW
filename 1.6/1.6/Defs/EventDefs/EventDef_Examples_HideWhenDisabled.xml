@@ -8,6 +8,19 @@
     <descriptions>
       <li>这是一个用于演示新功能的测试事件。它包含多个选项，展示了不同的条件和可见性行为。当前机械族好感度: {MechanoidGoodwill}</li>
     </descriptions>
+
+    <conditionalDescriptions>
+      <li>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>TestVar</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <text>变量 TestVar 的值现在是 1，所以你看到了这段额外的描述。</text>
+      </li>
+    </conditionalDescriptions>
+
     <options>
       <!-- 选项 1: 设置 TestVar=1 并重新打开事件 -->
       <li>
