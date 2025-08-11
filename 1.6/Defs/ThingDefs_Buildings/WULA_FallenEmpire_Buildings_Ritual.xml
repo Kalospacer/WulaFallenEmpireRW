@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef ParentName="BuildingBase">
+  <!-- <ThingDef ParentName="BuildingBase">
     <defName>WULA_OfferingPedestal</defName>
     <label>帝国献祭基座</label>
     <description>一个用于进行灵能献祭的华丽基座。它可以作为灵能的冥想焦点，并能通过附近的灵能设施获得强化。它是启动帝国科技献祭仪式的关键建筑。</description>
@@ -82,5 +82,5 @@
         </offsets>
       </li>
     </comps>
-  </ThingDef>
+  </ThingDef> -->
 </Defs>

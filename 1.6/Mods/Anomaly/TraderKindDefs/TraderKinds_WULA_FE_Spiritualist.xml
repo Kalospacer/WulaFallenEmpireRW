@@ -308,7 +308,6 @@
 
     </stockGenerators>
   </TraderKindDef>
-
   <TraderKindDef>
     <defName>Wula_FE_Spiritualist_Faction_Caravan</defName>
     <label>修会贸易商</label>
