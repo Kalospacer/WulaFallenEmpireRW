@@ -565,6 +565,37 @@ namespace WulaFallenEmpire
         }
     }
 
+    public class Effect_CheckFactionGoodwill : Effect
+    {
+        public FactionDef factionDef;
+        public string variableName;
+
+        public override void Execute(Dialog_CustomDisplay dialog = null)
+        {
+            if (factionDef == null)
+            {
+                Log.Error("Effect_CheckFactionGoodwill requires a factionDef.");
+                return;
+            }
+            if (string.IsNullOrEmpty(variableName))
+            {
+                Log.Error("Effect_CheckFactionGoodwill requires a variableName.");
+                return;
+            }
+
+            Faction faction = Find.FactionManager.FirstFactionOfDef(factionDef);
+            if (faction == null)
+            {
+                // Faction doesn't exist, store a default value (e.g., 0 or a specific marker)
+                EventContext.SetVariable(variableName, 0);
+                Log.Warning($"Faction with def {factionDef.defName} not found. Setting '{variableName}' to 0.");
+                return;
+            }
+
+            int goodwill = faction.GoodwillWith(Faction.OfPlayer);
+            EventContext.SetVariable(variableName, goodwill);
+        }
+    }
  }
 
 

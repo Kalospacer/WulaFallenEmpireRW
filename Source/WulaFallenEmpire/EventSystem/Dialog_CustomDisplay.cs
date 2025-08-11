@@ -194,6 +194,10 @@ namespace WulaFallenEmpire
                     }
                     else
                     {
+                        if (option.hideWhenDisabled)
+                        {
+                            continue; // Skip rendering this option entirely
+                        }
                         Rect rect = listing.GetRect(30f);
                         Widgets.ButtonText(rect, option.label, false, true, false);
                         TooltipHandler.TipRegion(rect, GetDisabledReason(option, reason));

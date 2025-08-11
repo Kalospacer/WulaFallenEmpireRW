@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_TestEvent_HideWhenDisabled</defName>
+    <label>测试事件：隐藏禁用选项</label>
+    <characterName>测试者</characterName>
+    <descriptions>
+      <li>这是一个用于演示新功能的测试事件。它包含多个选项，展示了不同的条件和可见性行为。当前机械族好感度: {MechanoidGoodwill}</li>
+    </descriptions>
+    <options>
+      <!-- 选项 1: 设置 TestVar=1 并重新打开事件 -->
+      <li>
+        <label>选项一 (设置 TestVar = 1)</label>
+        <optionEffects>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_SetVariable">
+                <name>TestVar</name>
+                <value>1</value>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_OpenDialog">
+                <def>Wula_TestEvent_HideWhenDisabled</def>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+
+      <!-- 选项 2: 条件不满足时，显示为灰色禁用按钮 -->
+      <li>
+        <label>选项二 (需要 TestVar = 1, 禁用但可见)</label>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>TestVar</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+
+      <!-- 选项 3: 条件不满足时，完全隐藏 -->
+      <li>
+        <label>选项三 (需要 TestVar = 1, 禁用时隐藏)</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>TestVar</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      
+      <!-- 选项 4: 移除 TestVar 并重新打开事件 -->
+      <li>
+        <label>选项四 (移除 TestVar)</label>
+        <optionEffects>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_RemoveVariable">
+                <name>TestVar</name>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_OpenDialog">
+                <def>Wula_TestEvent_HideWhenDisabled</def>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+
+      <!-- 选项 5: 检查机械族好感度 -->
+      <li>
+        <label>选项五 (检查机械族好感度)</label>
+        <optionEffects>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
+                <factionDef>Mechanoid</factionDef>
+                <variableName>MechanoidGoodwill</variableName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_OpenDialog">
+                <def>Wula_TestEvent_HideWhenDisabled</def>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+
+    </options>
+  </WulaFallenEmpire.EventDef>
+
+</Defs>

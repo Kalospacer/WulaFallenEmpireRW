@@ -63,6 +63,7 @@ namespace WulaFallenEmpire
         public List<ConditionalEffects> optionEffects;
         public List<Condition> conditions;
         public string disabledReason;
+        public bool hideWhenDisabled = false;
     }
 
     public class ConditionalEffects
