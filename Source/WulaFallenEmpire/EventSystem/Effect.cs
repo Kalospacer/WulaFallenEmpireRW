@@ -175,23 +175,21 @@ namespace WulaFallenEmpire
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             // Only set the variable if it doesn't already exist.
-            if (EventContext.HasVariable(name))
+            if (!EventContext.HasVariable(name))
             {
-                return;
-            }
-
-            // Try to parse as int, then float, otherwise keep as string
-            if (int.TryParse(value, out int intValue))
-            {
-                EventContext.SetVariable(name, intValue);
-            }
-            else if (float.TryParse(value, out float floatValue))
-            {
-                EventContext.SetVariable(name, floatValue);
-            }
-            else
-            {
-                EventContext.SetVariable(name, value);
+                // Try to parse as int, then float, otherwise keep as string
+                if (int.TryParse(value, out int intValue))
+                {
+                    EventContext.SetVariable(name, intValue);
+                }
+                else if (float.TryParse(value, out float floatValue))
+                {
+                    EventContext.SetVariable(name, floatValue);
+                }
+                else
+                {
+                    EventContext.SetVariable(name, value);
+                }
             }
         }
     }
@@ -347,7 +345,8 @@ namespace WulaFallenEmpire
         Add,
         Subtract,
         Multiply,
-        Divide
+        Divide,
+        Set
     }
 
     public class Effect_ModifyVariable : Effect
@@ -392,9 +391,12 @@ namespace WulaFallenEmpire
                         Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable tried to divide by zero for variable '{name}'.");
                     }
                     break;
-            }
+               case VariableOperation.Set:
+                   currentValue = value;
+                   break;
+           }
 
-            EventContext.SetVariable(name, currentValue);
+           EventContext.SetVariable(name, currentValue);
         }
     }
 

@@ -71,16 +71,52 @@
 
 ### `EventDef` 参数
 
+- **defName**: (string) Def的唯一标识符。
 - **label**: (string) 窗口的标题。
-- **characterName**: (string) 显示在肖像下方的角色名称。
-- **portraitPath**: (string) 角色肖像的纹理路径。
-- **descriptions**: (List<string>) 一个描述文本列表。可以通过 `descriptionMode` 控制是随机选择一个还是按顺序显示。
-- **options**: (List<EventOption>) 对话框中显示的选项列表。
-- **immediateEffects**: (List<ConditionalEffects>) 当对话框打开时立即执行的效果列表。
-- **dismissEffects**: (List<ConditionalEffects>) 当对话框关闭时（通过关闭按钮或`Effect_CloseDialog`）执行的效果列表。
+- **characterName**: (string) (可选) 显示在肖像下方的角色名称。
+- **portraitPath**: (string) (可选) 角色肖像的纹理路径。
 - **backgroundImagePath**: (string) (可选) 对话框的背景图片路径。
-- **windowSize**: (Vector2) (可选) 自定义窗口大小。
+- **descriptions**: (List<string>) 一个描述文本列表。
+- **descriptionMode**: (enum) (可选) 决定如何从 `descriptions` 列表中选择文本。可以是 `Random` (默认) 或 `Sequential`。
+- **conditionalDescriptions**: (List<ConditionalDescription>) (可选) 一个条件描述列表，允许你根据特定条件在主描述后附加额外的文本块。
+- **options**: (List<EventOption>) 对话框中显示的选项列表。
+- **immediateEffects**: (List<ConditionalEffects>) (可选) 当对话框打开时立即执行的效果列表。
+- **dismissEffects**: (List<ConditionalEffects>) (可选) 当对话框关闭时（通过关闭按钮或`Effect_CloseDialog`）执行的效果列表。
+- **windowSize**: (Vector2) (可选) 自定义窗口大小。默认为 `(0, 0)`，表示使用默认大小。
 - **hiddenWindow**: (bool) (可选) 如果为 `true`，则不会显示窗口。在这种模式下，`immediateEffects` 的内容会在加载时自动合并到 `dismissEffects` 中，然后在事件触发时作为单个效果链统一执行。这对于创建纯粹的后台“效果链”事件非常有用。默认为 `false`。
+
+### `EventOption` 参数
+
+每个选项 (`<li>` in `<options>`) 包含以下字段：
+
+- **label**: (string) 选项按钮上显示的文本。
+- **optionEffects**: (List<ConditionalEffects>) 点击该选项时执行的效果列表。
+- **conditions**: (List<Condition>) (可选) 决定该选项是否可用的条件列表。如果条件不满足，选项会变灰。
+- **disabledReason**: (string) (可选) 当选项因不满足 `conditions` 而变灰时，鼠标悬停时显示的提示信息。
+- **hideWhenDisabled**: (bool) (可选) 如果为 `true`，当 `conditions` 不满足时，该选项将完全隐藏而不是变灰。默认为 `false`。
+
+### `ConditionalDescription` 参数
+
+每个条件描述 (`<li>` in `<conditionalDescriptions>`) 包含以下字段：
+
+- **conditions**: (List<Condition>) 决定此额外描述是否显示的条件列表。
+- **text**: (string) 当条件满足时，要附加到主描述文本末尾的字符串。
+
+### 关于富文本 (Rich Text) 的使用
+
+在所有面向玩家的文本字段中（如 `label`, `descriptions`, `characterName`, `disabledReason` 等），你都可以使用Unity的富文本标签，例如 `<color=red>`, `<b>`, `<i>`。
+
+**重要提示**: 由于 `<` 和 `>` 是XML的特殊字符，你必须将所有包含富文本标签的字符串包裹在 `<![CDATA[...]]>` 块中，以避免XML解析错误。
+
+**正确示例:**
+```xml
+<label><![CDATA[这是一个<color=cyan>彩色</color>的<b>标签</b>]]></label>
+```
+
+**错误示例 (会导致XML解析失败):**
+```xml
+<label>这是一个<color=cyan>彩色</color>的<b>标签</b></label>
+```
 
 ### `EventDef` 示例
 
@@ -391,26 +427,37 @@
 ```
 
 ### `Effect_SetVariable`
-设置一个 `EventContext` 变量的值。
+**仅在变量尚不存在时**，设置一个 `EventContext` 变量的值。这使得它非常适合用于安全地初始化变量，而不用担心覆盖现有值。
 - **name**: (string) 变量名。
-- **value**: (string) 变量的值。系统会自动尝试将其解析为 `int` 或 `float`，如果失败则作为 `string` 存储。
+- **value**: (string) 变量的初始值。系统会自动尝试将其解析为 `int` 或 `float`，如果失败则作为 `string` 存储。
 ```xml
 <li Class="WulaFallenEmpire.Effect_SetVariable">
-  <name>PlayerChoice</name>
-  <value>AcceptedOffer</value>
+  <name>MetTheEnvoy</name>
+  <value>true</value>
 </li>
 ```
 
 ### `Effect_ModifyVariable`
-对一个数字变量进行加、减、乘、除操作。
+对一个数字变量进行数学运算或直接赋值。如果变量不存在，会先将其初始化为0，然后再执行操作。
 - **name**: (string) 变量名。
 - **value**: (float) 用于操作的数值。
-- **operation**: (VariableOperation) 操作类型，可以是 `Add`, `Subtract`, `Multiply`, `Divide`。
+- **operation**: (VariableOperation) 操作类型，可以是 `Add`, `Subtract`, `Multiply`, `Divide`, `Set`。
+  - `Set`: 直接将变量的值设置为 `value`，会覆盖任何现有值。
+
+**加法示例:**
 ```xml
 <li Class="WulaFallenEmpire.Effect_ModifyVariable">
   <name>ResourceCount</name>
   <value>-10</value>
-  <operation>Add</operation> <!-- This will subtract 10 -->
+  <operation>Add</operation> <!-- 这会从ResourceCount中减去10 -->
+</li>
+```
+**直接设置值示例:**
+```xml
+<li Class="WulaFallenEmpire.Effect_ModifyVariable">
+  <name>ResourceCount</name>
+  <value>100</value>
+  <operation>Set</operation> <!-- 这会将ResourceCount的值直接设为100 -->
 </li>
 ```
 
@@ -423,6 +470,16 @@
 </li>
 ```
 
+### `Effect_CheckFactionGoodwill`
+检查玩家与某个派系的好感度，并将其存储在一个变量中。
+- **factionDef**: (FactionDef) 要检查的派系的 `defName`。
+- **variableName**: (string) 用于存储好感度数值的变量名。
+```xml
+<li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
+  <factionDef>Mechanoid</factionDef>
+  <variableName>MechanoidGoodwill</variableName>
+</li>
+```
 ---
 
 ## 4. 可用的条件 (`Condition`)
@@ -505,3 +562,13 @@
 </li>
 ```
 ---
+
+---
+### `Condition_FactionExists`
+检查一个派系当前是否存在于游戏中。
+- **factionDef**: (FactionDef) 要检查的派系的 `defName`。
+```xml
+<li Class="WulaFallenEmpire.Condition_FactionExists">
+  <factionDef>Pirate</factionDef>
+</li>
+```
