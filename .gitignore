@@ -26,3 +26,10 @@ Source/MCP/*.log
 Source/MCP/vector_cache/
 Source/WulaFallenEmpire/.vs/WulaFallenEmpire/v17/DocumentLayout.json
 Source/MCP/pid.txt
+
+# Kilo Code logs
+.kilocode/logs/
+
+# MCP Knowledge Base Cache and Logs
+*.log
+MCP/vector_cache/*.txt

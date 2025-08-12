@@ -685,3 +685,240 @@ requests.exceptions.SSLError: HTTPSConnectionPool(host='dashscope.aliyuncs.com',
 2025-08-09 23:32:58,909 - INFO - 找到 3 个候选文件，开始向量化处理...
 2025-08-09 23:32:58,910 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\JobDriver_CarryToBiosculpterPod.txt
 2025-08-09 23:32:59,792 - INFO - 向量搜索完成。找到了 1 个匹配项并成功提取了代码。
+2025-08-12 13:10:04,500 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 13:10:04,512 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 13:10:57,291 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 13:10:57,299 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 13:10:57,307 - INFO - Processing request of type ListToolsRequest
+2025-08-12 13:10:57,309 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 13:10:57,310 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 13:11:07,758 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 13:11:07,766 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 13:11:07,775 - INFO - Processing request of type ListToolsRequest
+2025-08-12 13:11:07,776 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 13:11:07,777 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 13:11:25,395 - INFO - Processing request of type CallToolRequest
+2025-08-12 13:11:25,395 - INFO - 收到问题: Verb_MeleeAttack 的 ApplyMeleeDamageToTarget 方法是如何实现的？
+2025-08-12 13:11:25,396 - INFO - 找到的潜在关键词: ['Verb_MeleeAttack', 'ApplyMeleeDamageToTarget']
+2025-08-12 13:11:25,396 - INFO - 提取到关键词: ['Verb_MeleeAttack', 'ApplyMeleeDamageToTarget']
+2025-08-12 13:11:25,396 - INFO - 缓存未命中，开始实时搜索: ApplyMeleeDamageToTarget-Verb_MeleeAttack
+2025-08-12 13:11:36,892 - INFO - 找到 3 个候选文件，开始向量化处理...
+2025-08-12 13:11:36,892 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\Verb_MeleeAttack.txt
+2025-08-12 13:11:37,737 - INFO - 向量搜索完成。找到了 2 个匹配项并成功提取了代码。
+2025-08-12 13:46:05,186 - INFO - Processing request of type CallToolRequest
+2025-08-12 13:46:05,186 - INFO - 收到问题: C# code examples for drawing a cone area of effect with GenDraw.DrawFieldEdges
+2025-08-12 13:46:05,186 - INFO - 找到的潜在关键词: ['DrawFieldEdges', 'GenDraw']
+2025-08-12 13:46:05,186 - INFO - 提取到关键词: ['DrawFieldEdges', 'GenDraw']
+2025-08-12 13:46:05,186 - INFO - 缓存未命中，开始实时搜索: DrawFieldEdges-GenDraw
+2025-08-12 13:46:06,641 - INFO - 找到 47 个候选文件，开始向量化处理...
+2025-08-12 13:46:06,641 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\GenDraw.txt
+2025-08-12 13:46:06,641 - WARNING - 候选文件过多 (46)，仅处理前 25 个。
+2025-08-12 13:46:15,700 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。
+2025-08-12 13:56:22,716 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 13:56:22,725 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 13:56:22,733 - INFO - Processing request of type ListToolsRequest
+2025-08-12 13:56:22,736 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 13:56:22,736 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 13:56:25,445 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 13:56:25,453 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 13:56:25,461 - INFO - Processing request of type ListToolsRequest
+2025-08-12 13:56:25,463 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 13:56:25,463 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 13:59:25,436 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 13:59:25,445 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 13:59:26,695 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 13:59:26,704 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 13:59:26,711 - INFO - Processing request of type ListToolsRequest
+2025-08-12 13:59:26,712 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 13:59:26,713 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:02:26,973 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:02:26,983 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:02:28,315 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:02:28,325 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:02:28,334 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:02:28,336 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:02:28,336 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:05:12,751 - INFO - Processing request of type CallToolRequest
+2025-08-12 14:05:12,751 - INFO - 收到问题: FleckDef for explosion or blast
+2025-08-12 14:05:12,751 - INFO - 找到的潜在关键词: ['FleckDef']
+2025-08-12 14:05:12,751 - INFO - 提取到关键词: ['FleckDef']
+2025-08-12 14:05:12,751 - INFO - 缓存未命中，开始实时搜索: FleckDef
+2025-08-12 14:05:14,428 - INFO - 找到 120 个候选文件，开始向量化处理...
+2025-08-12 14:05:14,429 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\FleckDef.txt
+2025-08-12 14:05:14,429 - WARNING - 候选文件过多 (119)，仅处理前 25 个。
+2025-08-12 14:05:27,384 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。
+2025-08-12 14:05:28,722 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:05:28,731 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:05:29,890 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:05:29,900 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:05:29,907 - WARNING - Failed to validate request: Received request before initialization was complete
+2025-08-12 14:05:30,568 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:05:30,576 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:05:30,585 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:05:30,586 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:05:30,587 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:07:15,411 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:07:15,421 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:07:16,552 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:07:16,561 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:07:16,570 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:07:16,571 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:07:16,571 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:08:29,958 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:08:29,967 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:08:31,507 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:08:31,516 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:08:31,524 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:08:31,526 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:08:31,526 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:08:51,260 - INFO - Processing request of type CallToolRequest
+2025-08-12 14:08:51,261 - INFO - 收到问题: MoteMaker a C#
+2025-08-12 14:08:51,261 - INFO - 找到的潜在关键词: ['MoteMaker']
+2025-08-12 14:08:51,261 - INFO - 提取到关键词: ['MoteMaker']
+2025-08-12 14:08:51,261 - INFO - 缓存未命中，开始实时搜索: MoteMaker
+2025-08-12 14:08:52,783 - INFO - 找到 93 个候选文件，开始向量化处理...
+2025-08-12 14:08:52,784 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\MoteMaker.txt
+2025-08-12 14:08:52,784 - WARNING - 候选文件过多 (92)，仅处理前 25 个。
+2025-08-12 14:09:02,079 - INFO - 向量搜索完成。找到了 4 个匹配项并成功提取了代码。
+2025-08-12 14:10:58,139 - INFO - Processing request of type CallToolRequest
+2025-08-12 14:10:58,140 - INFO - 收到问题: GenExplosion.DoExplosion
+2025-08-12 14:10:58,140 - INFO - 找到的潜在关键词: ['GenExplosion', 'DoExplosion']
+2025-08-12 14:10:58,140 - INFO - 提取到关键词: ['GenExplosion', 'DoExplosion']
+2025-08-12 14:10:58,140 - INFO - 缓存未命中，开始实时搜索: DoExplosion-GenExplosion
+2025-08-12 14:10:59,681 - INFO - 找到 31 个候选文件，开始向量化处理...
+2025-08-12 14:10:59,681 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\GenExplosion.txt
+2025-08-12 14:10:59,682 - WARNING - 候选文件过多 (30)，仅处理前 25 个。
+2025-08-12 14:11:08,969 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。
+2025-08-12 14:11:31,655 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:11:31,664 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:11:32,875 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:11:32,883 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:11:32,892 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:11:32,893 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:11:32,893 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:15:34,332 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:15:34,341 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:15:35,824 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:15:35,833 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:15:35,842 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:15:35,844 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:15:35,845 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:18:15,009 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:18:15,018 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:18:16,372 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:18:16,380 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:18:16,387 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:18:16,389 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:18:16,390 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:18:36,256 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:18:36,265 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:18:37,487 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:18:37,494 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:18:37,502 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:18:37,503 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:18:37,504 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:21:38,017 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:21:38,026 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:21:39,239 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:21:39,247 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:21:39,254 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:21:39,256 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:21:39,257 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:24:39,348 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:24:39,357 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:24:40,544 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:24:40,552 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:24:40,559 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:24:40,561 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:24:40,562 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:27:59,228 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:27:59,237 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:28:00,785 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:28:00,795 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:28:00,803 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:28:00,804 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:28:00,806 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:30:14,451 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:30:14,460 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:30:15,814 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:30:15,823 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:30:15,830 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:30:15,832 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:30:15,833 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:31:10,525 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:31:10,534 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:31:11,907 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:31:11,916 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:31:11,924 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:31:11,925 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:31:11,926 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:34:41,249 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:34:41,258 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:34:42,477 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:34:42,486 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:34:42,494 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:34:42,496 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:34:42,496 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:35:15,037 - INFO - Processing request of type CallToolRequest
+2025-08-12 14:35:15,037 - INFO - 收到问题: DamageDef named Bomb
+2025-08-12 14:35:15,038 - INFO - 找到的潜在关键词: ['Bomb', 'DamageDef']
+2025-08-12 14:35:15,038 - INFO - 提取到关键词: ['Bomb', 'DamageDef']
+2025-08-12 14:35:15,038 - INFO - 缓存未命中，开始实时搜索: Bomb-DamageDef
+2025-08-12 14:35:16,686 - INFO - 找到 226 个候选文件，开始向量化处理...
+2025-08-12 14:35:16,687 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\DamageDef.txt
+2025-08-12 14:35:16,687 - WARNING - 候选文件过多 (225)，仅处理前 25 个。
+2025-08-12 14:35:29,897 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。
+2025-08-12 14:36:18,709 - INFO - Processing request of type CallToolRequest
+2025-08-12 14:36:18,709 - INFO - 收到问题: XML definition for DamageDef named Bomb
+2025-08-12 14:36:18,709 - INFO - 找到的潜在关键词: ['Bomb', 'DamageDef']
+2025-08-12 14:36:18,709 - INFO - 提取到关键词: ['Bomb', 'DamageDef']
+2025-08-12 14:36:18,721 - INFO - 缓存命中: 关键词 'Bomb-DamageDef'
+2025-08-12 14:36:55,690 - INFO - Processing request of type CallToolRequest
+2025-08-12 14:36:55,690 - INFO - 收到问题: XML for DamageDef with defName Bomb
+2025-08-12 14:36:55,690 - INFO - 找到的潜在关键词: ['defName', 'Bomb', 'DamageDef']
+2025-08-12 14:36:55,690 - INFO - 提取到关键词: ['defName', 'Bomb', 'DamageDef']
+2025-08-12 14:36:55,690 - INFO - 缓存未命中，开始实时搜索: Bomb-DamageDef-defName
+2025-08-12 14:36:57,167 - INFO - 找到 226 个候选文件，开始向量化处理...
+2025-08-12 14:36:57,168 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\DamageDef.txt
+2025-08-12 14:36:57,168 - WARNING - 候选文件过多 (225)，仅处理前 25 个。
+2025-08-12 14:37:12,844 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。
+2025-08-12 14:37:42,959 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:37:42,968 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:37:44,363 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:37:44,373 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:37:44,382 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:37:44,386 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:37:44,387 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:38:42,888 - INFO - Processing request of type CallToolRequest
+2025-08-12 14:38:42,889 - INFO - 收到问题: GenExplosion.DoExplosion method source code
+2025-08-12 14:38:42,889 - INFO - 找到的潜在关键词: ['DoExplosion', 'GenExplosion']
+2025-08-12 14:38:42,889 - INFO - 提取到关键词: ['DoExplosion', 'GenExplosion']
+2025-08-12 14:38:42,890 - INFO - 缓存命中: 关键词 'DoExplosion-GenExplosion'
+2025-08-12 14:40:44,341 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:40:44,352 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:40:45,718 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:40:45,726 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:40:45,733 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:40:45,734 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:40:45,735 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:45:40,616 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:45:40,625 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:45:41,722 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:45:41,731 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:45:43,262 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:45:43,270 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:45:43,277 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:45:43,279 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:45:43,279 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:48:43,297 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:48:43,306 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:48:44,628 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:48:44,636 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:48:44,643 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:48:44,644 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:48:44,645 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:49:39,596 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:49:39,605 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:49:39,613 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:49:39,614 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:49:39,615 - INFO - Processing request of type ListResourceTemplatesRequest

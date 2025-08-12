@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompCleave.cs" />
     <Compile Include="Building_Wula_DarkEnergy_Engine.cs" />
     <Compile Include="CompApparelInterceptor.cs" />
     <Compile Include="CompCustomUniqueWeapon.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Verb\Trackingbullet.cs" />
     <Compile Include="Verb\Verb_ShootBeamExplosive.cs" />
     <Compile Include="Verb\VerbPropertiesExplosiveBeam.cs" />
+<Compile Include="Verb\Verb_MeleeAttack_Cleave.cs" />
     <Compile Include="WorkGiver_FeedWulaPatient.cs" />
     <Compile Include="WorkGiver_Warden_DeliverEnergy.cs" />
     <Compile Include="WorkGiver_Warden_FeedWula.cs" />

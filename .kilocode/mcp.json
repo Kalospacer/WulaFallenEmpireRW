@@ -5,14 +5,13 @@
       "args": [
         "mcpserver_stdio.py"
       ],
-      "cwd": "${workspaceFolder}/Source/MCP/",
+      "cwd": "${workspaceFolder}/MCP/",
       "env": {
-        "PYTHONUNBUFFERED": "1"
+        "PYTHONUNBUFFERED": "1",
+        "PYTHONPATH": "${workspaceFolder}/MCP/python-sdk/src"
       },
       "disabled": false,
-      "alwaysAllow": [
-        "get_context"
-      ]
+      "alwaysAllow": []
     }
   },
   "tools": {

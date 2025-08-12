@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>WULA_MeleeWeapon_Cleaver</defName>
+    <label>CMl-91"裂空"</label>
+    <description>一把沉重但制作精良的双手战刃，挥舞时能对前方扇形区域内的多个敌人造成伤害。</description>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_MW_Glaive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>1.5</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <costList>
+      <Plasteel>120</Plasteel>
+      <ComponentSpacer>4</ComponentSpacer>
+    </costList>
+    <statBases>
+      <WorkToMake>45000</WorkToMake>
+      <Mass>2.5</Mass>
+    </statBases>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <tools>
+      <li>
+        <label>刃</label>
+        <capacities>
+          <li>WULA_CleaveAttack</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>柄</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_Cleave">
+        <cleaveAngle>70</cleaveAngle>
+        <cleaveRange>5.9</cleaveRange>
+        <cleaveDamageFactor>0.7</cleaveDamageFactor>
+        <damageDowned>false</damageDowned>
+        <explosionDamageDef>Bomb</explosionDamageDef>
+      </li>
+    </comps>
+    <recipeMaker>
+      <researchPrerequisite>WULA_FallenEmpire_Weapons</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>10</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>FabricationBench</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ToolCapacityDef>
+    <defName>WULA_CleaveAttack</defName>
+    <label>cleave</label>
+  </ToolCapacityDef>
+
+  <ManeuverDef>
+    <defName>WULA_CleaveManeuver</defName>
+    <requiredCapacity>WULA_CleaveAttack</requiredCapacity>
+    <verb>
+      <verbClass>WulaFallenEmpire.Verb_MeleeAttack_Cleave</verbClass>
+      <meleeDamageDef>Cut</meleeDamageDef>
+    </verb>
+    <logEntryDef>MeleeAttack</logEntryDef>
+    <combatLogRulesHit>Maneuver_Slash_MeleeHit</combatLogRulesHit>
+    <combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
+    <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
+    <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+
+</Defs>
