@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+  <!-- <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>WULA_MeleeWeapon_Cleaver</defName>
     <label>CMl-91"裂空"</label>
     <description>一把沉重但制作精良的双手战刃，挥舞时能对前方扇形区域内的多个敌人造成伤害。</description>
@@ -76,6 +76,6 @@
     <combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
     <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
     <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
-  </ManeuverDef>
+  </ManeuverDef> -->
 
 </Defs>

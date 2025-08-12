@@ -75,7 +75,7 @@
     <label>乌拉帝国能源核心（已使用）</label>
     <description>被使用过的乌拉帝国能源核心，需要重新充能。</description>
     <graphicData>
-      <texPath>Wula/Item/WULA_Charge_Cube_No_Power</texPath>
+      <texPath>Wula/Item/WULA_Charge_Cube_Without_Power</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <stackLimit>30</stackLimit>
