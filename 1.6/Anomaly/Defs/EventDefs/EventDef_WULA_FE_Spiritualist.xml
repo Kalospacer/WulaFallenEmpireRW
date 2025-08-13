@@ -4,9 +4,10 @@
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_FE_Spiritualist_1</defName>
     <label>乌拉帝国 大教堂</label>
-    <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_2</portraitPath>
+    <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_1</portraitPath>
     <characterName>帝国修女</characterName>
     <descriptions>
+      <li>这里是乌拉帝国教会</li>
       <li>·····明明只是一群臭鱼烂虾居然敢对帝国教会刀剑相向真该把你们这群无信者折磨宰杀剥皮缝制沙发肉丢给沼泽猎犬头颅挂在枯树上诅咒你们的灵魂迷失在至高天中烂在无人知晓的角落变成虚境生物的脚底烂泥</li>
     </descriptions>
     <options>

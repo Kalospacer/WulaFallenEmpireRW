@@ -454,7 +454,7 @@
     <label>CMl-28"铳枪"</label>
     <description>乌拉帝国骑士所喜爱的枪炮合一的重型近战武器，采用高强度纳米碳纤维复合材料内芯，外层覆盖着带有散热格栅和能量导流槽的记忆合金装甲板，既可以在近战中刺穿对手，也可以从远距离上发射高精度射弹打击敌军。</description>
     <weaponTags>
-      <li>Spear</li>
+      <!-- <li>Spear</li> -->
     </weaponTags>
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Lance</texPath>
@@ -639,7 +639,7 @@
     <description>乌拉帝国修女惯用的大型双头刀，装备了悬浮轴承、能量刃、惯性控制场和精密的传感器系统，让使用者能像舞蹈般挥舞两端的致命锋刃。</description>
     <weaponTags>
       <li>Wula_Melee_Weapon_FE_Spiritualist</li>
-      <li>Spear</li>
+      <!-- <li>Spear</li> -->
     </weaponTags>
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Glaive</texPath>
