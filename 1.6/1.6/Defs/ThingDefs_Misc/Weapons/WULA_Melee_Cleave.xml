@@ -58,12 +58,10 @@
       </recipeUsers>
     </recipeMaker>
   </ThingDef>
-
   <ToolCapacityDef>
     <defName>WULA_CleaveAttack</defName>
     <label>cleave</label>
   </ToolCapacityDef>
-
   <ManeuverDef>
     <defName>WULA_CleaveManeuver</defName>
     <requiredCapacity>WULA_CleaveAttack</requiredCapacity>

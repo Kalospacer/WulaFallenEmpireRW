@@ -297,7 +297,7 @@
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>WULA_MW_Breaker_Bar</defName>
     <label>PMb-97"破墙槌"</label>
-    <description>一种沉重的破墙设备，通常由装备外骨骼的乌拉帝国士兵携带，可以通过加压挥出势大力沉的一击，洞穿对手或墙体。</description>
+    <description>一种沉重的破墙设备，通常由装备外骨骼的乌拉帝国士兵携带，可以通过加压挥出势大力沉的一击，连续击倒多名敌人。</description>
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Breaker_Bar</texPath>
       <shaderType>CutoutComplex</shaderType>
@@ -324,19 +324,19 @@
     </costList>
     <tools>
       <li>
-        <label>加压槌头</label>
+        <label>横扫</label>
         <capacities>
-          <li>Demolish</li>
+          <li>WULA_MW_Breaker_Bar_Demolish</li>
         </capacities>
         <power>150</power>
         <cooldownTime>5</cooldownTime>
         <armorPenetration>1</armorPenetration>
-        <extraMeleeDamages>
+        <!-- <extraMeleeDamages>
           <li>
             <def>Stun</def>
             <amount>34</amount>
           </li>
-        </extraMeleeDamages>
+        </extraMeleeDamages> -->
       </li>
     </tools>
     <recipeMaker>
@@ -353,7 +353,42 @@
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_Cleave">
+        <cleaveAngle>90</cleaveAngle>
+        <cleaveRange>2.5</cleaveRange>
+        <cleaveDamageFactor>0.5</cleaveDamageFactor>
+        <damageDowned>false</damageDowned>
+        <explosionDamageDef>Blunt</explosionDamageDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+				<forcedTraits>
+					<li>WULA_Melee_Cleave</li>
+				</forcedTraits>
+				<numTraitsRange>
+					<min>1</min>
+					<max>1</max>
+				</numTraitsRange>
+			</li>
+    </comps>
   </ThingDef>
+  <ToolCapacityDef>
+    <defName>WULA_MW_Breaker_Bar_Demolish</defName>
+    <label>加压锤击</label>
+  </ToolCapacityDef>
+  <ManeuverDef>
+    <defName>WULA_MW_Breaker_Bar_Maneuver</defName>
+    <requiredCapacity>WULA_MW_Breaker_Bar_Demolish</requiredCapacity>
+    <verb>
+      <verbClass>WulaFallenEmpire.Verb_MeleeAttack_Cleave</verbClass>
+      <meleeDamageDef>Demolish</meleeDamageDef>
+    </verb>
+    <logEntryDef>MeleeAttack</logEntryDef>
+    <combatLogRulesHit>Maneuver_Slash_MeleeHit</combatLogRulesHit>
+    <combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
+    <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
+    <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
   <!-- 动力钉头锤 -->
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>WULA_MW_Charge_Mace</defName>

@@ -10,4 +10,9 @@
     <label>导弹</label>
     <description>一种发射拥有跟踪能力的抛射体武器，弹速通常较慢。</description>
   </WeaponCategoryDef>
+  <WeaponCategoryDef>
+    <defName>WULA_SP_Melee_Weaopn</defName>
+    <label>特殊近战武器</label>
+    <description>拥有特殊效果的近战武器</description>
+  </WeaponCategoryDef>
 </Defs>
