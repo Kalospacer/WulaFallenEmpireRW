@@ -86,7 +86,7 @@
         <ammoCountPerCharge>2</ammoCountPerCharge>
         <baseReloadTicks>60</baseReloadTicks>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon" MayRequire="Ludeon.RimWorld.Odyssey">
 				<forcedTraits>
 					<li>WULA_DamagePsychicScaling</li>
 					<li>WULA_ExtraPsychicSkill</li>
@@ -275,7 +275,7 @@
         <ammoCountPerCharge>2</ammoCountPerCharge>
         <baseReloadTicks>60</baseReloadTicks>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon" MayRequire="Ludeon.RimWorld.Odyssey">
 				<forcedTraits>
 					<li>WULA_DamagePsychicScaling</li>
 					<li>WULA_ExtraPsychicSkill</li>
@@ -451,7 +451,7 @@
         <ammoCountPerCharge>2</ammoCountPerCharge>
         <baseReloadTicks>60</baseReloadTicks>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon" MayRequire="Ludeon.RimWorld.Odyssey">
 				<forcedTraits>
 					<li>WULA_DamagePsychicScaling</li>
 					<li>WULA_ExtraPsychicSkill</li>
@@ -656,7 +656,7 @@
         <ammoCountPerCharge>10</ammoCountPerCharge>
         <baseReloadTicks>60</baseReloadTicks>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon" MayRequire="Ludeon.RimWorld.Odyssey">
 				<forcedTraits>
 					<li>WULA_DamagePsychicScaling</li>
 					<li>WULA_ExtraPsychicSkill</li>
@@ -773,7 +773,7 @@
       </li>
     </verbs>
     <comps>
-      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon" MayRequire="Ludeon.RimWorld.Odyssey">
 				<forcedTraits>
 					<li>WULA_DamagePsychicScaling</li>
 					<li>WULA_PsychicIgnoreBlock</li>

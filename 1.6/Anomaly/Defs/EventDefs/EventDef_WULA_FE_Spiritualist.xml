@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <!-- 普通好感初始事件 -->
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_FE_Spiritualist_1</defName>
     <label>乌拉帝国 大教堂</label>

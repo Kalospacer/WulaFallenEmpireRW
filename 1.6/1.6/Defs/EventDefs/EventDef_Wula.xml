@@ -7,6 +7,37 @@
     <portraitPath>Wula/Events/Portraits/Wula_insignal</portraitPath>
     <characterName></characterName>
     <description>基站运转正常，通讯程序已启动。\n\n需要联络乌拉帝国的哪个派系？</description>
+    <immediateEffects>
+      <li>
+        <effects>
+          <!-- 检测dlc开启情况，以决定启动哪些系统 -->
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_UI_Check_Odyssey_Is_Active</name>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_UI_Check_Anomaly_Is_Active</name>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>Wula_UI_Check_Odyssey_Is_Active</name>
+            <value>0</value>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>Wula_UI_Check_Anomaly_Is_Active</name>
+            <value>0</value>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_ModifyVariable" MayRequire="Ludeon.RimWorld.Odyssey">
+            <name>Wula_UI_Check_Odyssey_Is_Active</name>
+            <value>1</value>
+            <operation>Add</operation>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_ModifyVariable" MayRequire="Ludeon.RimWorld.Anomaly">
+            <name>Wula_UI_Check_Anomaly_Is_Active</name>
+            <value>1</value>
+            <operation>Add</operation>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
     <options>
       <li>
         <label>守密者，URa-1138「艾妮西娅」</label>
@@ -21,24 +52,20 @@
           </li>
         </optionEffects>
       </li>
-      <li>
-        <label>乌拉帝国 大教堂（尚在制作）</label>
+      <li>  
+        <label>乌拉帝国 大教堂</label>
+        <disabledReason><![CDATA[这个堕落乌拉派系不存在——它可能已经被摧毁或者未生成。\n生成该派系需要<color=#B174C9><b>异象</b></color>DLC支持]]></disabledReason>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_FactionExists">
+            <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
+          </li>
+        </conditions>
         <optionEffects>
-          <li>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
             <effects>
               <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
                 <defName>Wula_UI_FE_Spiritualist_1</defName>
               </li>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>乌拉帝国 图书馆（尚在制作）</label>
-        <optionEffects>
-          <li>
-            <effects>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
           </li>

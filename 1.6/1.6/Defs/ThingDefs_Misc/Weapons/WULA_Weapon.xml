@@ -361,7 +361,7 @@
         <damageDowned>false</damageDowned>
         <explosionDamageDef>Blunt</explosionDamageDef>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon">
+      <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon" MayRequire="Ludeon.RimWorld.Odyssey">
 				<forcedTraits>
 					<li>WULA_Melee_Cleave</li>
 				</forcedTraits>
