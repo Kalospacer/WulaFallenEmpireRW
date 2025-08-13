@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- 飞船暗物质引擎 -->
+  <ThingDef ParentName="FuelTankBase" MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>Wula_DarkEnergy_FuelTank</defName>
+    <label>乌拉帝国暗物质引擎</label>
+    <description>乌拉帝国用于进行湮灭反应释放巨量能源并将其转化为逆重飞船飞行所需燃料的设备——它可以储存无限的能源，并且在真空环境下还能释放大量的电力。\n\n如果是想进入地表，请提前规划电源储存，非真空环境下内部的湮灭反应保险将启动以防止意外发生，这意味着在地表上该设施只生产燃料！</description>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Wula/Building/Wula_DarkEnergy_FuelTank</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3.2)</drawSize>
+      <drawOffset>(0,0,0.2)</drawOffset>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Mass>70</Mass>
+      <Flammability>1</Flammability>
+      <Beauty>-10</Beauty>
+      <WorkToBuild>3000</WorkToBuild>
+    </statBases>
+    <size>(3, 3)</size>
+    <costList>
+      <Steel>400</Steel>
+      <ComponentSpacer>8</ComponentSpacer>
+      <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
+    </costList>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentSpacer>2</ComponentSpacer>
+      <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>12</glowRadius>
+        <glowColor>(177, 0, 31, 0)</glowColor>
+        <colorPickerEnabled>true</colorPickerEnabled>
+        <darklightToggle>true</darklightToggle>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>-36000</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+        <soundAmbientProducingPower>ChemfuelFiredGenerator_Ambience</soundAmbientProducingPower>
+      </li>
+      <li Class="CompProperties_LowPowerUnlessVacuum">
+        <lowPowerConsumptionFactor>0</lowPowerConsumptionFactor>
+        <checkRoomVacuum>false</checkRoomVacuum>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>-30</fuelConsumptionRate>
+        <fuelCapacity>1000</fuelCapacity>
+        <targetFuelLevelConfigurable>false</targetFuelLevelConfigurable>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelLabel>暗物质燃料</fuelLabel>
+        <fuelGizmoLabel>暗物质燃料</fuelGizmoLabel>
+        <consumeFuelOnlyWhenUsed>false</consumeFuelOnlyWhenUsed>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <showAllowAutoRefuelToggle>false</showAllowAutoRefuelToggle>
+        <canEjectFuel>false</canEjectFuel>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+        <initialFuelPercent>0.000001</initialFuelPercent>
+      </li>
+    </comps>
+    <uiOrder>2155</uiOrder>
+    <researchPrerequisites>
+      <li>WULA_Dark_Matter_Technology</li>
+    </researchPrerequisites>
+  </ThingDef>
+</Defs>

@@ -1,6 +1,230 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-	<AlienRace.ThingDef_AlienRace Name="Race_Wula_Machine" ParentName="Human">
+  <ThingDef Name="Wula_Human_Protect_Superclass" ParentName="BasePawn">
+    <defName>Human</defName>
+    <label>human</label>
+    <description>A baseline human, mostly unmodified by gene engineering and mostly unchanged by evolutionary pressures on non-Earth planets.</description>
+    <statBases>
+      <MarketValue>1750</MarketValue>
+      <MoveSpeed>4.6</MoveSpeed>
+      <ComfyTemperatureMin>16</ComfyTemperatureMin>
+      <ComfyTemperatureMax>26</ComfyTemperatureMax>
+      <LeatherAmount>75</LeatherAmount>
+      <RoyalFavorValue>3</RoyalFavorValue>
+      <Wildness>0.75</Wildness> <!-- Hidden except for wild people -->
+    </statBases>
+    <tools>
+      <li>
+        <label>left fist</label>
+        <labelNoLocation>fist</labelNoLocation>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>right fist</label>
+        <labelNoLocation>fist</labelNoLocation>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>teeth</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+        <chanceFactor>0.07</chanceFactor>
+        <soundMeleeHit>Pawn_Melee_HumanBite_Hit</soundMeleeHit>
+        <soundMeleeMiss>Pawn_Melee_HumanBite_Miss</soundMeleeMiss>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <thinkTreeMain>Humanlike</thinkTreeMain>
+      <thinkTreeConstant>HumanlikeConstant</thinkTreeConstant>
+      <intelligence>Humanlike</intelligence>
+      <makesFootprints>true</makesFootprints>
+      <lifeExpectancy>80</lifeExpectancy>
+      <bloodDef>Filth_Blood</bloodDef>
+      <bloodSmearDef>Filth_BloodSmear</bloodSmearDef>
+      <leatherDef>Leather_Human</leatherDef>
+      <nameCategory>HumanStandard</nameCategory>
+      <body>Human</body>
+      <renderTree>Humanlike</renderTree>
+      <baseBodySize>1</baseBodySize>
+      <baseHealthScale>1</baseHealthScale>
+      <foodType>OmnivoreHuman</foodType>
+      <gestationPeriodDays>18</gestationPeriodDays>
+      <meatMarketValue>0.8</meatMarketValue>
+      <manhunterOnDamageChance>0.50</manhunterOnDamageChance>
+      <manhunterOnTameFailChance>0.10</manhunterOnTameFailChance>
+      <soundCallIntervalRange>2000~5000</soundCallIntervalRange>
+      <canBecomeShambler>true</canBecomeShambler>
+      <knowledgeCategory MayRequire="Ludeon.RimWorld.Anomaly">Basic</knowledgeCategory>
+      <anomalyKnowledge>1</anomalyKnowledge>
+      <hasUnnaturalCorpse>true</hasUnnaturalCorpse>
+      <litterSizeCurve>
+        <points>
+          <li>(0.5, 0)</li>
+          <li>(1, 1)</li>
+          <li>(1.01, 0.02)</li>
+          <li>(3.5, 0)</li>
+        </points>
+      </litterSizeCurve>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeBaby</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>HumanlikeChild</def>
+          <minAge>3</minAge>
+        </li>
+        <li MayRequire="Ludeon.RimWorld.Biotech">
+          <def>HumanlikePreTeenager</def>
+          <minAge>9</minAge>
+        </li>
+        <li>
+          <def>HumanlikeTeenager</def>
+          <minAge>13</minAge>
+        </li>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>18</minAge>
+        </li>
+      </lifeStageAges>
+      <lifeStageWorkSettings MayRequire="Ludeon.RimWorld.Biotech">
+        <Firefighter>7</Firefighter>
+        <Patient>0</Patient>
+        <Doctor>10</Doctor>
+        <PatientBedRest>0</PatientBedRest>
+        <Childcare MayRequire="Ludeon.RimWorld.Biotech">0</Childcare>
+        <BasicWorker>3</BasicWorker>
+        <Warden>10</Warden>
+        <Handling>7</Handling>
+        <Cooking>7</Cooking>
+        <Hunting>7</Hunting>
+        <Construction>10</Construction>
+        <Growing>7</Growing>
+        <Mining>7</Mining>
+        <PlantCutting>7</PlantCutting>
+        <Smithing>13</Smithing>
+        <Tailoring>7</Tailoring>
+        <Art>10</Art>
+        <Crafting>7</Crafting>
+        <Hauling>3</Hauling>
+        <Cleaning>3</Cleaning>
+        <Research>13</Research>
+        <DarkStudy MayRequire="Ludeon.RimWorld.Anomaly">13</DarkStudy>
+      </lifeStageWorkSettings>
+      <soundMeleeDodge>Pawn_MeleeDodge</soundMeleeDodge>
+      <specialShadowData>
+        <volume>(0.3, 0.8, 0.4)</volume>
+        <offset>(0,0,-0.3)</offset>
+      </specialShadowData>
+      <ageGenerationCurve>
+        <points>
+          <li MayRequire="Ludeon.RimWorld.Biotech">(0,0)</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">(0.001,43)</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">(8,86)</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">(12.5,118)</li>  <!-- Exclude 12.5-13 years to avoid spawning pawns who are very close to becoming adults -->  
+          <li MayRequire="Ludeon.RimWorld.Biotech">(12.51,0)</li>  
+          <li MayRequire="Ludeon.RimWorld.Biotech">(13,0)</li>      
+          <li MayRequire="Ludeon.RimWorld.Biotech">(13.001,122)</li><!-- End exclude -->
+          <li MayRequire="Ludeon.RimWorld.Biotech">(13.999,130)</li>
+          <li>(14,0)</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">(14.001,130)</li>
+          <li>(16,100)</li>
+          <li>(50,100)</li>
+          <li>(60,30)</li>
+          <li>(70,18)</li>
+          <li>(80,10)</li>
+          <li>(90,3)</li>
+          <li>(100,0)</li>
+        </points>
+      </ageGenerationCurve>
+      <hediffGiverSets>
+        <li>OrganicStandard</li>
+        <li>Human</li>
+      </hediffGiverSets>
+    </race>
+    <recipes>
+      <li>ExciseCarcinoma</li>
+      <li>AdministerMechSerumHealer</li>
+      <li>RemoveBodyPart</li>
+      <li>Euthanize</li>
+      <li>Anesthetize</li>
+      <li>CureScaria</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Vasectomy</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">ReverseVasectomy</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">TubalLigation</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">ExtractOvum</li>
+      <li MayRequire="Ludeon.RimWorld.Royalty">CureBloodRot</li>
+      <li MayRequire="Ludeon.RimWorld.Royalty">CureAbasia</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">ExtractHemogenPack</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">BloodTransfusion</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">ImplantXenogerm</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">ImplantIUD</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">RemoveIUD</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">TerminatePregnancy</li>
+      <li MayRequire="Ludeon.RimWorld.Anomaly">SurgicalInspection</li>
+      <li MayRequire="Ludeon.RimWorld.Anomaly">BlissLobotomy</li>
+      <li MayRequire="Ludeon.RimWorld.Anomaly">GhoulInfusion</li>
+      <li MayRequire="Ludeon.RimWorld.Odyssey">RemovePorcupineQuill</li>
+    </recipes>
+    <ingredient>
+      <mergeCompatibilityTags>
+        <li>HumanMeat</li>
+      </mergeCompatibilityTags>
+    </ingredient>
+    <comps>
+      <li MayRequire="Ludeon.RimWorld.Anomaly" Class="CompProperties_HoldingPlatformTarget">
+        <baseEscapeIntervalMtbDays>120</baseEscapeIntervalMtbDays>
+        <getsColdContainmentBonus>true</getsColdContainmentBonus>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Anomaly" Class="CompProperties_Studiable">
+        <frequencyTicks>120000</frequencyTicks>
+        <minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+        <requiresImprisonment>true</requiresImprisonment>
+      </li>
+    </comps>
+  </ThingDef>
+	<AlienRace.ThingDef_AlienRace Name="Race_Wula_Machine" ParentName="Wula_Human_Protect_Superclass">
 		<defName>WulaSpecies</defName>
 		<label>机械乌拉</label>
 		<description>乌拉星人是一个曾统治银河系的堕落帝国的主要种族，机械乌拉则是仿照她们样貌制作的合成人——随着帝国的衰颓，大量乌拉合成人流散各地。她们拥有近乎无限的寿命，并且拥有一部分机械体的特性。</description>
@@ -742,203 +966,6 @@
 		<label>SMp-38A"斯佩萨特"</label>
 		<description>乌拉帝国所使用的中型突击战车，以逆重的方式悬浮于战场上，搭载了联装机炮和用于杀伤软目标的"石英"火箭弹，并且拥有足以保护一支突击小队的护盾。</description>
   </ThingDef>
-
-  <ThingDef Name="Wula_AI_Engineer_Mother" ParentName="HeavyMechanoid">
-		<defName>Wula_AI_Engineer_Mother</defName>
-		<label>PMu-7"西比尔卡"</label>
-		<description>乌拉帝国的机械开拓单元，通常被投放到荒无人烟的星球上进行初步开发。这种型号的开拓单元可以生产以自杀式袭击攻击敌人的乌拉猫猫，以及配备护盾的指挥官乌拉猫猫。</description>
-    <uiIconPath>Wula/Things/Wula_AI_Bomb_Mother/Wula_AI_Bomb_Mother_Icon</uiIconPath>
-    <statBases>
-      <BandwidthCost>4</BandwidthCost>
-      <MoveSpeed>4</MoveSpeed>
-      <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
-      <!-- 有自带护甲，对热量伤害有高抵抗 -->
-      <ArmorRating_Sharp>0.75</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.75</ArmorRating_Blunt>
-      <ArmorRating_Heat>2.00</ArmorRating_Heat>
-      <CarryingCapacity>1200</CarryingCapacity>
-      <ShootingAccuracyPawn>100</ShootingAccuracyPawn>
-      <IncomingDamageFactor>0.75</IncomingDamageFactor>
-
-      <MechEnergyLossPerHP MayRequire="Ludeon.RimWorld.Biotech">0.1</MechEnergyLossPerHP>
-      <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">5</WastepacksPerRecharge>
-    </statBases>
-    <race>
-      <fleshType>Mechanoid</fleshType>
-      <body>Wula_AI_Engineer_Mother_Body</body>
-      <baseBodySize>10.0</baseBodySize>
-			<baseHealthScale>4</baseHealthScale>
-      <lifeStageAges>
-        <li>
-          <def>MechanoidFullyFormed</def>
-          <soundWounded>Pawn_Mech_Tunneler_Wounded</soundWounded>
-          <soundDeath>Pawn_Mech_Tunneler_Death</soundDeath>
-          <soundCall>Pawn_Mech_Tunneler_Call</soundCall>
-        </li>
-      </lifeStageAges>
-      <bulletStaggerEffecterDef>TunnelerSlowedDown</bulletStaggerEffecterDef>
-    </race>
-    <tools Inherit="False">
-      <li>
-        <label>机械足踢击</label>
-        <labelNoLocation>踢击</labelNoLocation>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>5</power>
-        <cooldownTime>3</cooldownTime>
-        <linkedBodyPartsGroup>Legs</linkedBodyPartsGroup>
-        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
-      </li>
-    </tools>
-    <comps>
-      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
-      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
-    </comps>
-  </ThingDef>
-  <AbilityDef>
-    <defName>Wula_AI_Engineer_Mother_Ability</defName>
-    <label>部署CAt-44"指挥官猫猫"</label>
-    <description>向所在单元格部署一只CAt-44"指挥官猫猫"，这种机械体比起同类来说拥有很高的防御，在配备了远程武器的同时还配备了一个不会过载的护盾发生器，可以掩护敢死猫猫的前进。</description>
-    <iconPath>Wula/Things/WULA_Commander_Cat/WULA_Cat_Thin_south</iconPath>
-    <writeCombatLog>True</writeCombatLog>
-    <showPsycastEffects>False</showPsycastEffects>
-    <cooldownTicksRange>8000</cooldownTicksRange>
-    <verbProperties>
-      <verbClass>Verb_CastAbility</verbClass>
-      <range>14.9</range>
-      <warmupTime>0.25</warmupTime>
-      <soundCast>AcidSpray_Resolve</soundCast>
-      <targetable>false</targetable>
-      <targetParams>
-        <canTargetSelf>true</canTargetSelf>
-      </targetParams>
-    </verbProperties>
-    <comps>
-      <li Class="CompProperties_AbilityLaunchProjectile">
-        <projectileDef>Bullet_Wula_AI_Engineer_Mother_Ability</projectileDef>
-      </li>
-    </comps>
-  </AbilityDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_Wula_AI_Engineer_Mother_Ability</defName>
-    <label>CAt-44"指挥官猫猫"</label>
-    <thingClass>Projectile_SpawnsPawnZeroAge</thingClass>
-    <graphicData>
-      <texPath>Things/Building/Security/BroadshieldProjector</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <projectile>
-      <speed>41</speed>
-      <spawnsPawnKind>Mech_WULA_Cat_Commander</spawnsPawnKind>
-      <tryAdjacentFreeSpaces>true</tryAdjacentFreeSpaces>
-    </projectile>
-  </ThingDef>
-  <ThingDef ParentName="Wula_AI_Engineer_Mother">
-		<defName>Wula_AI_Engineer_Mother_Attack</defName>
-		<label>PMu-7A"斯托洛维耶"</label>
-		<description>乌拉帝国的机械开拓单元，通常被投放到荒无人烟的星球上进行初步开发。这种型号的开拓单元可以生产装备轻型武器的乌拉猫猫，并且可以在战场上投放低角护盾。</description>
-    <uiIconPath>Wula/Things/Wula_AI_Bomb_Mother/Wula_AI_Bomb_Mother_Icon</uiIconPath>
-  </ThingDef>
-  <AbilityDef>
-    <defName>Wula_AI_Engineer_Mother_Attack_Ability</defName>
-    <label>部署低角护盾</label>
-    <description>向所在单元格部署一个低角护盾，该护盾不会由于攻击而过载，但是会在几十秒后烧毁。</description>
-    <iconPath>Things/Building/Security/BroadshieldProjector</iconPath>
-    <writeCombatLog>True</writeCombatLog>
-    <showPsycastEffects>False</showPsycastEffects>
-    <cooldownTicksRange>36000</cooldownTicksRange>
-    <verbProperties>
-      <verbClass>Verb_CastAbility</verbClass>
-      <range>14.9</range>
-      <warmupTime>0.25</warmupTime>
-      <soundCast>AcidSpray_Resolve</soundCast>
-      <targetable>false</targetable>
-      <targetParams>
-        <canTargetSelf>true</canTargetSelf>
-      </targetParams>
-    </verbProperties>
-    <comps>
-      <li Class="CompProperties_AbilityLaunchProjectile">
-        <projectileDef>Bullet_Wula_AI_Engineer_Mother_Attack_Ability</projectileDef>
-      </li>
-    </comps>
-  </AbilityDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_Wula_AI_Engineer_Mother_Attack_Ability</defName>
-    <label>低角护盾</label>
-    <thingClass>Projectile_SpawnsThing</thingClass>
-    <graphicData>
-      <texPath>Things/Building/Security/BroadshieldProjector</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <projectile>
-      <explosionRadius>19.9</explosionRadius> <!-- Must be kept in sync with range of Gun_TacticalTurret -->
-      <speed>41</speed>
-      <spawnsThingDef>Wula_shieldProjector</spawnsThingDef>
-      <tryAdjacentFreeSpaces>true</tryAdjacentFreeSpaces>
-    </projectile>
-  </ThingDef>
-  <ThingDef ParentName="BuildingBase">
-    <defName>Wula_shieldProjector</defName>
-    <label>乌拉帝国低角护盾</label>
-    <description>一个比常规低角护盾保护范围更大的护盾，由乌拉帝国的PMu-7系列机械体部署。它可以无限地吸收来袭火力，但是会在一段时间后烧毁。</description>
-    <altitudeLayer>BuildingOnTop</altitudeLayer>
-    <drawerType>MapMeshAndRealTime</drawerType>
-    <pathCost>0</pathCost>
-    <passability>Standable</passability>
-    <fillPercent>0.35</fillPercent>
-    <graphicData>
-      <texPath>Things/Building/Security/BroadshieldProjector</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>0.9</drawSize>
-      <shadowData>
-        <volume>(0.3, 0.2, 0.3)</volume>
-        <offset>(0,0,-0.1)</offset>
-      </shadowData>
-      <damageData>
-        <rect>(0.2,0.2,0.6,0.6)</rect>
-      </damageData>
-    </graphicData>
-    <statBases>
-      <MaxHitPoints>250</MaxHitPoints>
-      <Flammability>0.5</Flammability>
-    </statBases>
-    <tickerType>Normal</tickerType>
-    <killedLeavings/>
-    <rotatable>false</rotatable>
-    <selectable>true</selectable>
-    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
-    <repairEffect>ConstructMetal</repairEffect>
-    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
-    <building>
-      <claimable>false</claimable>
-      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
-      <ai_chillDestination>false</ai_chillDestination>
-      <isEdifice>false</isEdifice>
-      <destroyEffecter>Broadshield_Burnout</destroyEffecter>
-    </building>
-    <comps>
-      <li Class="CompProperties_ProjectileInterceptor">
-        <radius>6.9</radius>
-        <interceptGroundProjectiles>true</interceptGroundProjectiles>
-        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles>
-        <interceptOutgoingProjectiles>false</interceptOutgoingProjectiles>
-        <color>(0.9, 0.2, 0.2)</color>
-        <idlePulseSpeed>3</idlePulseSpeed>
-        <minIdleAlpha>0.2</minIdleAlpha>
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks>
-        <drawWithNoSelection>True</drawWithNoSelection>
-        <activeSound>Broadshield_Ambience</activeSound>
-      </li>
-      <li Class="CompProperties_DestroyAfterDelay">
-        <delayTicks>1800</delayTicks>
-        <destroyMode>KillFinalize</destroyMode>
-        <countdownLabel>烧毁于</countdownLabel>
-      </li>
-    </comps>
-  </ThingDef>
     
   <ThingDef ParentName="LightMechanoid">
     <defName>Mech_WULA_Cat</defName>
@@ -1093,161 +1120,6 @@
       <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
       <MoveSpeed>4</MoveSpeed>
     </statBases>
-  </ThingDef>
-  <ThingDef ParentName="BaseDrone"  MayRequire="Ludeon.RimWorld.Odyssey">
-    <defName>Mech_WULA_Cat_Bomb</defName>
-    <label>CAt-89"敢死猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，浑身缠满炸药，以自杀式袭击攻击敌方。</description>
-    <uiIconPath>Wula/Things/WULA_bomb_Cat/WULA_Cat_Thin_south</uiIconPath>
-    <race>
-      <thinkTreeConstant>HunterDroneConstant</thinkTreeConstant>
-      <baseHealthScale>0.35</baseHealthScale>
-      <baseBodySize>0.7</baseBodySize>
-      <hasCorpse>true</hasCorpse>
-      <body>Mech_Light</body>
-      <lifeStageAges>
-        <li>
-          <def>MechanoidFullyFormed</def>
-          <minAge>0</minAge>
-          <soundWounded>Pawn_Hunter_Wounded</soundWounded>
-          <soundDeath>Pawn_Hunter_Death</soundDeath>
-          <soundCall>Pawn_Hunter_Call</soundCall>
-        </li>
-      </lifeStageAges>
-    </race>
-    <statBases>
-      <MoveSpeed>4</MoveSpeed>
-    </statBases>
-    <comps>
-      <li Class="CompProperties_MechPowerCell">
-        <totalPowerTicks>1100</totalPowerTicks> <!-- 5 hours -->
-        <labelOverride>电池电量</labelOverride>
-        <tooltipOverride>这是被临时生产的乌拉猫猫，它们很快就会因为能源耗尽而倒地。</tooltipOverride>
-        <showGizmoOnNonPlayerControlled>true</showGizmoOnNonPlayerControlled>
-      </li>
-      <li Class="CompProperties_HunterDrone">
-        <explosionRadius>1.5</explosionRadius>
-        <explosionDamageType>Bomb</explosionDamageType>
-        <explosionDamageAmount>40</explosionDamageAmount>
-      </li>
-    </comps>
-    <tools Inherit="False">
-      <li>
-        <label>head</label>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>6</power>
-        <cooldownTime>2.6</cooldownTime>
-        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
-        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
-      </li>
-    </tools>
-  </ThingDef>
-  <ThingDef ParentName="BaseDrone"  MayRequire="Ludeon.RimWorld.Odyssey">
-    <defName>Mech_WULA_Cat_Commander</defName>
-    <label>CAt-44"指挥官猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，比起同类来说拥有很高的防御，在配备了远程武器的同时还配备了一个护盾发生器，这种盾会同时阻拦向外发射的射弹和向盾内发射的射弹。</description>
-    <uiIconPath>Wula/Things/WULA_Commander_Cat/WULA_Cat_Thin_south</uiIconPath>
-    <race>
-			<baseHealthScale>3</baseHealthScale>
-      <thinkTreeConstant>SentryDroneConstant</thinkTreeConstant>
-      <baseBodySize>0.7</baseBodySize>
-      <hasCorpse>true</hasCorpse>
-      <body>Mech_Light</body>
-      <lifeStageAges>
-        <li>
-          <def>MechanoidFullyFormed</def>
-          <minAge>0</minAge>
-          <soundWounded>Pawn_Hunter_Wounded</soundWounded>
-          <soundDeath>Pawn_Hunter_Death</soundDeath>
-          <soundCall>Pawn_Hunter_Call</soundCall>
-        </li>
-      </lifeStageAges>
-    </race>
-    <statBases>
-      <MoveSpeed>4</MoveSpeed>
-      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
-      <ArmorRating_Heat>1.00</ArmorRating_Heat>
-      <IncomingDamageFactor>0.75</IncomingDamageFactor>
-    </statBases>
-    <comps>
-      <li Class="CompProperties_MechPowerCell">
-        <totalPowerTicks>2200</totalPowerTicks> <!-- 1 hours -->
-        <labelOverride>电池电量</labelOverride>
-        <tooltipOverride>这是被临时生产的乌拉猫猫，它们很快就会因为能源耗尽而倒地。</tooltipOverride>
-        <showGizmoOnNonPlayerControlled>true</showGizmoOnNonPlayerControlled>
-      </li>
-      <li Class="CompProperties_ProjectileInterceptor">
-        <radius>7.5</radius>
-        <interceptGroundProjectiles>true</interceptGroundProjectiles>
-        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles>
-        <interceptOutgoingProjectiles>true</interceptOutgoingProjectiles>
-        <color>(0.9, 0.2, 0.2)</color>
-        <idlePulseSpeed>3</idlePulseSpeed>
-        <minIdleAlpha>0.2</minIdleAlpha>
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks>
-        <drawWithNoSelection>True</drawWithNoSelection>
-        <activeSound>Broadshield_Ambience</activeSound>
-      </li>
-    </comps>
-    <tools Inherit="False">
-      <li>
-        <label>head</label>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>6</power>
-        <cooldownTime>2.6</cooldownTime>
-        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
-        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
-      </li>
-    </tools>
-  </ThingDef>
-  <ThingDef ParentName="BaseDrone"  MayRequire="Ludeon.RimWorld.Odyssey">
-    <defName>Mech_WULA_Cat_Inf</defName>
-    <label>CAt-90"步兵猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，装备了一把DLa-4"云母"突击步枪附下挂刺刀，以在战场上拖住敌军。</description>
-    <uiIconPath>Wula/Things/WULA_Attack_Cat/WULA_Cat_Thin_south</uiIconPath>
-    <race>
-      <thinkTreeConstant>SentryDroneConstant</thinkTreeConstant>
-      <baseBodySize>0.7</baseBodySize>
-      <hasCorpse>true</hasCorpse>
-      <body>Mech_Light</body>
-      <lifeStageAges>
-        <li>
-          <def>MechanoidFullyFormed</def>
-          <minAge>0</minAge>
-          <soundWounded>Pawn_Hunter_Wounded</soundWounded>
-          <soundDeath>Pawn_Hunter_Death</soundDeath>
-          <soundCall>Pawn_Hunter_Call</soundCall>
-        </li>
-      </lifeStageAges>
-    </race>
-    <statBases>
-      <MoveSpeed>4</MoveSpeed>
-    </statBases>
-    <comps>
-      <li Class="CompProperties_MechPowerCell">
-        <totalPowerTicks>4400</totalPowerTicks> <!-- 2 hours -->
-        <labelOverride>电池电量</labelOverride>
-        <tooltipOverride>这是被临时生产的乌拉猫猫，它们很快就会因为能源耗尽而倒地。</tooltipOverride>
-        <showGizmoOnNonPlayerControlled>true</showGizmoOnNonPlayerControlled>
-      </li>
-    </comps>
-    <tools Inherit="False">
-      <li>
-        <label>head</label>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>6</power>
-        <cooldownTime>2.6</cooldownTime>
-        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
-        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
-      </li>
-    </tools>
   </ThingDef>
   <ThingDef ParentName="LightMechanoid">
     <defName>Mech_WULA_Cat_DM</defName>
