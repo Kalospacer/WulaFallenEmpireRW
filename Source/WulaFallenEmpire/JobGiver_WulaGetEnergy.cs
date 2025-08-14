@@ -45,35 +45,29 @@ namespace WulaFallenEmpire
 
         protected override Job TryGiveJob(Pawn pawn)
         {
-            Log.Message($"[JobGiver_WulaGetEnergy] TryGiveJob called for {pawn.Name.ToStringShort}.");
             var energyNeed = pawn.needs.TryGetNeed<Need_WulaEnergy>();
             if (energyNeed == null)
             {
-                Log.Message($"[JobGiver_WulaGetEnergy] TryGiveJob for {pawn.Name.ToStringShort}: EnergyNeed is null. Returning null.");
                 return null;
             }
             
             if (energyNeed.CurLevelPercentage >= maxEnergyLevelPercentage)
             {
-                Log.Message($"[JobGiver_WulaGetEnergy] TryGiveJob for {pawn.Name.ToStringShort}: CurLevelPercentage ({energyNeed.CurLevelPercentage:F3}) >= maxEnergyLevelPercentage ({maxEnergyLevelPercentage:F3}). Returning null.");
                 return null;
             }
 
             if (!TryFindBestEnergySourceFor(pawn, out var energySource))
             {
-                Log.Message($"[JobGiver_WulaGetEnergy] TryGiveJob for {pawn.Name.ToStringShort}: No best energy source found. Returning null.");
                 return null;
             }
 
             if (energySource is Building_Bed)
             {
-                Log.Message($"[JobGiver_WulaGetEnergy] TryGiveJob for {pawn.Name.ToStringShort}: Assigning LayDown job to {energySource.Label}.");
                 return JobMaker.MakeJob(JobDefOf.LayDown, energySource);
             }
 
             var job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("WULA_IngestWulaEnergy"), energySource);
             job.count = 1;
-            Log.Message($"[JobGiver_WulaGetEnergy] TryGiveJob for {pawn.Name.ToStringShort}: Assigning WULA_IngestWulaEnergy job to {energySource.Label}.");
             return job;
         }
 
