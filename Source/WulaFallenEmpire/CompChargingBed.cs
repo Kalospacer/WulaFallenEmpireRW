@@ -25,38 +25,68 @@ namespace WulaFallenEmpire
         {
             base.CompTick();
             var bed = (Building_Bed)parent;
-            var occupants = new HashSet<Pawn>(bed.CurOccupants);
+            var powerComp = parent.GetComp<CompPowerTrader>();
 
+            // 如果床没电，停止所有充电
+            if (powerComp is { PowerOn: false })
+            {
+                StopAllCharging();
+                return;
+            }
+
+            var currentOccupants = new HashSet<Pawn>(bed.CurOccupants);
+
+            // 移除已经不在床上的 pawn 的充电效果
             for (int i = chargingPawns.Count - 1; i >= 0; i--)
             {
                 var pawn = chargingPawns[i];
-                if (!occupants.Contains(pawn))
+                if (!currentOccupants.Contains(pawn))
                 {
-                    var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
-                    if (hediff != null)
-                    {
-                        pawn.health.RemoveHediff(hediff);
-                    }
+                    StopCharging(pawn);
                     chargingPawns.RemoveAt(i);
                 }
             }
 
-            if (bed.AnyOccupants)
+            // 为床上的新 pawn 开始充电
+            foreach (var pawn in currentOccupants)
             {
-                foreach (var pawn in bed.CurOccupants)
+                if (ShouldCharge(pawn) && !chargingPawns.Contains(pawn))
                 {
-                    if (pawn.def.defName == Props.raceDefName)
-                    {
-                        if (!pawn.health.hediffSet.HasHediff(Props.hediffDef))
-                        {
-                            pawn.health.AddHediff(Props.hediffDef);
-                            if (!chargingPawns.Contains(pawn))
-                            {
-                                chargingPawns.Add(pawn);
-                            }
-                        }
-                    }
+                    StartCharging(pawn);
                 }
+            }
+        }
+
+        private bool ShouldCharge(Pawn pawn)
+        {
+            return pawn.def.defName == Props.raceDefName;
+        }
+
+        private void StartCharging(Pawn pawn)
+        {
+            if (pawn.health.hediffSet.HasHediff(Props.hediffDef)) return;
+            pawn.health.AddHediff(Props.hediffDef);
+            if (!chargingPawns.Contains(pawn))
+            {
+                chargingPawns.Add(pawn);
+            }
+        }
+
+        private void StopCharging(Pawn pawn)
+        {
+            var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
+            if (hediff != null)
+            {
+                pawn.health.RemoveHediff(hediff);
+            }
+        }
+
+        private void StopAllCharging()
+        {
+            for (int i = chargingPawns.Count - 1; i >= 0; i--)
+            {
+                StopCharging(chargingPawns[i]);
+                chargingPawns.RemoveAt(i);
             }
         }
 
