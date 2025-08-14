@@ -165,6 +165,8 @@ namespace WulaFallenEmpire
                 return;
             }
 
+            // 1. Fix the maintenance hediff
+            bool maintenanceDone = false;
             if (Props.hediffToRemove != null)
             {
                 Hediff hediff = occupant.health.hediffSet.GetFirstHediffOfDef(Props.hediffToRemove);
@@ -172,8 +174,34 @@ namespace WulaFallenEmpire
                 {
                     hediff.Severity = Props.hediffSeverityAfterCycle;
                     Messages.Message("WULA_MaintenanceComplete".Translate(occupant.Named("PAWN")), occupant, MessageTypeDefOf.PositiveEvent);
+                    maintenanceDone = true;
                 }
             }
+
+            // 2. Heal all other injuries
+            int injuriesHealed = 0;
+            while (HealthUtility.TryGetWorstHealthCondition(occupant, out var hediffToFix, out var _))
+            {
+                // Ensure we don't try to "heal" the maintenance hediff itself
+                if (hediffToFix.def == Props.hediffToRemove)
+                {
+                    break;
+                }
+
+                HealthUtility.FixWorstHealthCondition(occupant);
+                injuriesHealed++;
+            }
+
+            if (injuriesHealed > 0)
+            {
+                Messages.Message("WULA_MaintenanceHealedAllWounds".Translate(occupant.Named("PAWN")), occupant, MessageTypeDefOf.PositiveEvent);
+            }
+            else if (!maintenanceDone)
+            {
+                // If nothing was done at all, give a neutral message
+                Messages.Message("WULA_MaintenanceNoEffect".Translate(occupant.Named("PAWN")), occupant, MessageTypeDefOf.NeutralEvent);
+            }
+
             EjectPawn();
         }
 
@@ -261,6 +289,21 @@ namespace WulaFallenEmpire
                     }
                 };
                 yield return cancelCommand;
+            }
+
+            // DEV GIZMO
+            if (DebugSettings.godMode && state == MaintenancePodState.Running)
+            {
+                var finishCommand = new Command_Action
+                {
+                    defaultLabel = "DEV: Finish Cycle",
+                    action = () =>
+                    {
+                        Log.Warning("[WulaPodDebug] DEV: Force finishing cycle.");
+                        CycleFinished();
+                    }
+                };
+                yield return finishCommand;
             }
         }
 

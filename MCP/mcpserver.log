@@ -1042,3 +1042,31 @@ requests.exceptions.SSLError: HTTPSConnectionPool(host='dashscope.aliyuncs.com',
 2025-08-14 09:32:45,198 - INFO - Processing request of type ListToolsRequest
 2025-08-14 09:32:45,199 - INFO - Processing request of type ListResourcesRequest
 2025-08-14 09:32:45,201 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:32:51,544 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:32:51,553 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:32:51,560 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:32:51,561 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:32:51,561 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:38:03,879 - INFO - Processing request of type CallToolRequest
+2025-08-14 09:38:03,879 - INFO - 收到问题: JobDriver for entering cryptosleep casket
+2025-08-14 09:38:03,880 - INFO - 找到的潜在关键词: ['JobDriver']
+2025-08-14 09:38:03,880 - INFO - 提取到关键词: ['JobDriver']
+2025-08-14 09:38:03,880 - INFO - 缓存未命中，开始实时搜索: JobDriver
+2025-08-14 09:38:05,311 - INFO - 找到 380 个候选文件，开始向量化处理...
+2025-08-14 09:38:05,312 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse.AI\JobDriver.txt
+2025-08-14 09:38:05,312 - WARNING - 候选文件过多 (379)，仅处理前 25 个。
+2025-08-14 09:38:12,339 - INFO - 向量搜索完成。找到了 1 个匹配项并成功提取了代码。
+2025-08-14 09:43:38,598 - INFO - Processing request of type CallToolRequest
+2025-08-14 09:43:38,598 - INFO - 收到问题: JobDriver_EnterCryptosleepCasket
+2025-08-14 09:43:38,598 - INFO - 找到的潜在关键词: ['JobDriver_EnterCryptosleepCasket']
+2025-08-14 09:43:38,598 - INFO - 提取到关键词: ['JobDriver_EnterCryptosleepCasket']
+2025-08-14 09:43:38,608 - INFO - 缓存命中: 关键词 'JobDriver_EnterCryptosleepCasket'
+2025-08-14 10:16:31,150 - INFO - Processing request of type CallToolRequest
+2025-08-14 10:16:31,152 - INFO - 收到问题: class DebugSettings
+2025-08-14 10:16:31,152 - INFO - 找到的潜在关键词: ['DebugSettings']
+2025-08-14 10:16:31,152 - INFO - 提取到关键词: ['DebugSettings']
+2025-08-14 10:16:31,152 - INFO - 缓存未命中，开始实时搜索: DebugSettings
+2025-08-14 10:16:32,933 - INFO - 找到 207 个候选文件，开始向量化处理...
+2025-08-14 10:16:32,934 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\DebugSettings.txt
+2025-08-14 10:16:32,934 - WARNING - 候选文件过多 (206)，仅处理前 25 个。
+2025-08-14 10:16:40,201 - INFO - 向量搜索完成。找到了 2 个匹配项并成功提取了代码。

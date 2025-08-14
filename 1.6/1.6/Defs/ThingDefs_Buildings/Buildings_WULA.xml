@@ -793,8 +793,8 @@
         <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MaintenancePod">
-        <baseDurationTicks>180000</baseDurationTicks> <!-- Merged from user feedback -->
-        <ticksPerSeverity>30000</ticksPerSeverity> <!-- Kept from previous change -->
+        <baseDurationTicks>30000</baseDurationTicks> <!-- Merged from user feedback -->
+        <ticksPerSeverity>150000</ticksPerSeverity> <!-- Kept from previous change -->
         <powerConsumptionRunning>500</powerConsumptionRunning>
         <powerConsumptionIdle>25</powerConsumptionIdle>
         <hediffToRemove>WULA_Maintenance_Neglect</hediffToRemove>

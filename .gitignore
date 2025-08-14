@@ -33,3 +33,4 @@ Source/MCP/pid.txt
 # MCP Knowledge Base Cache and Logs
 *.log
 MCP/vector_cache/*.txt
+MCP/mcpserver.log
