@@ -1070,3 +1070,20 @@ requests.exceptions.SSLError: HTTPSConnectionPool(host='dashscope.aliyuncs.com',
 2025-08-14 10:16:32,934 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\DebugSettings.txt
 2025-08-14 10:16:32,934 - WARNING - 候选文件过多 (206)，仅处理前 25 个。
 2025-08-14 10:16:40,201 - INFO - 向量搜索完成。找到了 2 个匹配项并成功提取了代码。
+2025-08-14 10:32:12,811 - INFO - Processing request of type CallToolRequest
+2025-08-14 10:32:12,812 - INFO - 收到问题: class Hediff_High
+2025-08-14 10:32:12,812 - INFO - 找到的潜在关键词: ['Hediff_High']
+2025-08-14 10:32:12,812 - INFO - 提取到关键词: ['Hediff_High']
+2025-08-14 10:32:12,812 - INFO - 缓存未命中，开始实时搜索: Hediff_High
+2025-08-14 10:32:14,336 - INFO - 找到 13 个候选文件，开始向量化处理...
+2025-08-14 10:32:14,336 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\RimWorld\Hediff_High.txt
+2025-08-14 10:32:18,943 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。
+2025-08-14 10:32:46,080 - INFO - Processing request of type CallToolRequest
+2025-08-14 10:32:46,080 - INFO - 收到问题: class HediffWithComps
+2025-08-14 10:32:46,080 - INFO - 找到的潜在关键词: ['HediffWithComps']
+2025-08-14 10:32:46,080 - INFO - 提取到关键词: ['HediffWithComps']
+2025-08-14 10:32:46,080 - INFO - 缓存未命中，开始实时搜索: HediffWithComps
+2025-08-14 10:32:47,587 - INFO - 找到 52 个候选文件，开始向量化处理...
+2025-08-14 10:32:47,587 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\HediffWithComps.txt
+2025-08-14 10:32:47,588 - WARNING - 候选文件过多 (51)，仅处理前 25 个。
+2025-08-14 10:32:54,580 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。

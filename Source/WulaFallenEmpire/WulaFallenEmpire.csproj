@@ -136,7 +136,7 @@
     <Compile Include="Verb\Trackingbullet.cs" />
     <Compile Include="Verb\Verb_ShootBeamExplosive.cs" />
     <Compile Include="Verb\VerbPropertiesExplosiveBeam.cs" />
-<Compile Include="Verb\Verb_MeleeAttack_Cleave.cs" />
+    <Compile Include="Verb\Verb_MeleeAttack_Cleave.cs" />
     <Compile Include="WorkGiver_FeedWulaPatient.cs" />
     <Compile Include="WorkGiver_Warden_DeliverEnergy.cs" />
     <Compile Include="WorkGiver_Warden_FeedWula.cs" />
@@ -146,7 +146,8 @@
     <Compile Include="WulaStatDefOf.cs" />
     <Compile Include="Building_MaintenancePod.cs" />
     <Compile Include="HediffComp_MaintenanceNeed.cs" />
-<Compile Include="JobDefOf_WULA.cs" />
+    <Compile Include="HediffComp_DamageResponse.cs" />
+    <Compile Include="JobDefOf_WULA.cs" />
     <Compile Include="ThingDefOf_WULA.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,18 +4,23 @@
     <defName>WULA_Maintenance_Neglect</defName>
     <label>维护</label>
     <description>如果缺乏定期维护，身体机能将会出现衰退迹象。需要进入维护舱进行修复。</description>
-    <hediffClass>HediffWithComps</hediffClass>
+    <hediffClass>Hediff_High</hediffClass>
     <defaultLabelColor>(0.8, 0.35, 0.35)</defaultLabelColor>
     <isBad>false</isBad>
     <initialSeverity>0</initialSeverity>
     <minSeverity>0</minSeverity>
-    <maxSeverity>1</maxSeverity>
+    <maxSeverity>2.0</maxSeverity>
     <!--<lethalSeverity>2</lethalSeverity>-->
     <comps>
       <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceNeed">
-        <thresholdDays>60</thresholdDays>
-        <severityPerDayBeforeThreshold>0.004</severityPerDayBeforeThreshold>
-        <severityPerDayAfterThreshold>0.02</severityPerDayAfterThreshold>
+        <thresholdDays>80</thresholdDays>
+        <!-- 80天内严重性达到1.0 (1.0 / 80 = 0.0125) -->
+        <severityPerDayBeforeThreshold>0.0125</severityPerDayBeforeThreshold>
+        <!-- 达到阈值后，在30天内从1.0增长到2.0 (1.0 / 30 ≈ 0.03333) -->
+        <severityPerDayAfterThreshold>0.03333</severityPerDayAfterThreshold>
+      </li>
+      <li Class="WulaFallenEmpire.HediffCompProperties_DamageResponse">
+        <severityIncreasePerDamage>0.01</severityIncreasePerDamage>
       </li>
     </comps>
     <stages>
@@ -52,6 +57,16 @@
       <li>
         <label>损坏</label>
         <minSeverity>1.0</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.5</setMax>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>崩坏</label>
+        <minSeverity>2.0</minSeverity>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
