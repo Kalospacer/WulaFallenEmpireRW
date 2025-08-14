@@ -5,40 +5,52 @@ using Verse.AI;
 
 namespace WulaFallenEmpire
 {
-    public class JobDriver_WulaLayDownToCharge : JobDriver_LayDown
+    public class JobDriver_WulaLayDownToCharge : JobDriver
     {
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
+        {
+            return pawn.Reserve(job.targetA, job, 1, -1, null, errorOnFailed);
+        }
+
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.AddFinishAction(jobCondition =>
             {
-                Log.Message($"[JobDriver_WulaLayDownToCharge] Job finishing for {pawn.Name.ToStringShort} with condition {jobCondition}. Removing hediff.");
-                var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("WULA_ChargingHediff"));
+                var bed = (Building_Bed)job.targetA.Thing;
+                var comp = bed.GetComp<CompChargingBed>();
+                if (comp == null) return;
+                var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(comp.Props.hediffDef);
                 if (hediff != null)
                 {
                     pawn.health.RemoveHediff(hediff);
-                    Log.Message($"[JobDriver_WulaLayDownToCharge] Hediff removed from {pawn.Name.ToStringShort}.");
-                }
-                else
-                {
-                    Log.Message($"[JobDriver_WulaLayDownToCharge] No hediff found on {pawn.Name.ToStringShort} to remove.");
                 }
             });
 
-            foreach (Toil toil in base.MakeNewToils())
-            {
-                yield return toil;
-            }
+            yield return Toils_Bed.GotoBed(TargetIndex.A);
 
-            var bed = (Building_Bed)job.targetA.Thing;
-            var powerComp = bed.GetComp<CompPowerTrader>();
-
-            var checkToil = new Toil
+            Toil layDownAndCharge = Toils_LayDown.LayDown(TargetIndex.A, true, false, false, false);
+            layDownAndCharge.AddPreInitAction(delegate
             {
-                tickAction = delegate
+                if (!pawn.health.hediffSet.HasHediff(HediffDef.Named("WULA_ChargingHediff")))
                 {
+                    var bed = (Building_Bed)job.targetA.Thing;
+                    var comp = bed.GetComp<CompChargingBed>();
+                    if (comp != null && !pawn.health.hediffSet.HasHediff(comp.Props.hediffDef))
+                    {
+                        pawn.health.AddHediff(comp.Props.hediffDef);
+                    }
+                }
+            });
+            
+            layDownAndCharge.tickAction = delegate
+            {
+                if (pawn.IsHashIntervalTick(60))
+                {
+                    var bed = (Building_Bed)job.targetA.Thing;
+                    var powerComp = bed.GetComp<CompPowerTrader>();
+
                     if (powerComp != null && !powerComp.PowerOn)
                     {
-                        Log.Message($"[JobDriver_WulaLayDownToCharge] Power lost for {pawn.Name.ToStringShort}. Ending job.");
                         EndJobWith(JobCondition.Incompletable);
                         return;
                     }
@@ -46,13 +58,12 @@ namespace WulaFallenEmpire
                     Need_WulaEnergy energyNeed = pawn.needs.TryGetNeed<Need_WulaEnergy>();
                     if (energyNeed != null && energyNeed.CurLevelPercentage >= 0.99f)
                     {
-                        Log.Message($"[JobDriver_WulaLayDownToCharge] {pawn.Name.ToStringShort} is fully charged. Ending job.");
                         EndJobWith(JobCondition.Succeeded);
                     }
-                },
-                defaultCompleteMode = ToilCompleteMode.Never
+                }
             };
-            yield return checkToil;
+            
+            yield return layDownAndCharge;
         }
     }
 }

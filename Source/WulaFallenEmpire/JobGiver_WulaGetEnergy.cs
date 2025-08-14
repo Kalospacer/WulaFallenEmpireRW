@@ -103,7 +103,7 @@ namespace WulaFallenEmpire
             Building_Bed bed = (Building_Bed)GenClosest.ClosestThingReachable(
                 pawn.Position,
                 pawn.Map,
-                ThingRequest.ForDef(ThingDefOf_WULA.WULA_Charging_Station_Synth),
+                ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial),
                 PathEndMode.InteractionCell,
                 TraverseParms.For(pawn),
                 9999f,
@@ -111,6 +111,9 @@ namespace WulaFallenEmpire
                 {
                     Building_Bed bed_internal = b as Building_Bed;
                     if (bed_internal == null) return false;
+
+                    var chargingComp = bed_internal.GetComp<CompChargingBed>();
+                    if (chargingComp == null) return false;
 
                     var powerComp = bed_internal.GetComp<CompPowerTrader>();
                     return !bed_internal.IsForbidden(pawn) &&
