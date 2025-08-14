@@ -24,14 +24,34 @@ namespace WulaFallenEmpire
         public override void CompTick()
         {
             base.CompTick();
+            Log.Message("[CompChargingBed] CompTick running.");
+
             var bed = (Building_Bed)parent;
-            var occupants = new HashSet<Pawn>(bed.CurOccupants);
+            if (!bed.AnyOccupants)
+            {
+                for (int i = chargingPawns.Count - 1; i >= 0; i--)
+                {
+                    var p = chargingPawns[i];
+                    var h = p.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
+                    if (h != null)
+                    {
+                        Log.Message($"[CompChargingBed] Bed empty. Removing hediff from {p.LabelShort}.");
+                        p.health.RemoveHediff(h);
+                    }
+                }
+                chargingPawns.Clear();
+                return;
+            }
+
+            var currentOccupants = new HashSet<Pawn>(bed.CurOccupants);
+            Log.Message($"[CompChargingBed] Found {currentOccupants.Count} occupants.");
 
             for (int i = chargingPawns.Count - 1; i >= 0; i--)
             {
                 var pawn = chargingPawns[i];
-                if (!occupants.Contains(pawn))
+                if (!currentOccupants.Contains(pawn))
                 {
+                    Log.Message($"[CompChargingBed] Pawn {pawn.LabelShort} left the bed. Removing hediff.");
                     var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
                     if (hediff != null)
                     {
@@ -41,20 +61,22 @@ namespace WulaFallenEmpire
                 }
             }
 
-            if (bed.AnyOccupants)
+            foreach (var pawn in currentOccupants)
             {
-                foreach (var pawn in bed.CurOccupants)
+                Log.Message($"[CompChargingBed] Checking occupant: {pawn.LabelShort}.");
+                bool hasNeed = pawn.needs.TryGetNeed<Need_WulaEnergy>() != null;
+                Log.Message($"[CompChargingBed] Does {pawn.LabelShort} have Need_WulaEnergy? {hasNeed}");
+
+                if (hasNeed)
                 {
-                    if (pawn.def.defName == Props.raceDefName)
+                    if (!pawn.health.hediffSet.HasHediff(Props.hediffDef))
                     {
-                        if (!pawn.health.hediffSet.HasHediff(Props.hediffDef))
-                        {
-                            pawn.health.AddHediff(Props.hediffDef);
-                            if (!chargingPawns.Contains(pawn))
-                            {
-                                chargingPawns.Add(pawn);
-                            }
-                        }
+                        Log.Message($"[CompChargingBed] Adding charging hediff to {pawn.LabelShort}.");
+                        pawn.health.AddHediff(Props.hediffDef);
+                    }
+                    if (!chargingPawns.Contains(pawn))
+                    {
+                        chargingPawns.Add(pawn);
                     }
                 }
             }

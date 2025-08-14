@@ -14,33 +14,9 @@ namespace WulaFallenEmpire
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.AddFinishAction(jobCondition =>
-            {
-                var bed = (Building_Bed)job.targetA.Thing;
-                var comp = bed.GetComp<CompChargingBed>();
-                if (comp == null) return;
-                var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(comp.Props.hediffDef);
-                if (hediff != null)
-                {
-                    pawn.health.RemoveHediff(hediff);
-                }
-            });
-
             yield return Toils_Bed.GotoBed(TargetIndex.A);
 
             Toil layDownAndCharge = Toils_LayDown.LayDown(TargetIndex.A, true, false, false, false);
-            layDownAndCharge.AddPreInitAction(delegate
-            {
-                if (!pawn.health.hediffSet.HasHediff(HediffDef.Named("WULA_ChargingHediff")))
-                {
-                    var bed = (Building_Bed)job.targetA.Thing;
-                    var comp = bed.GetComp<CompChargingBed>();
-                    if (comp != null && !pawn.health.hediffSet.HasHediff(comp.Props.hediffDef))
-                    {
-                        pawn.health.AddHediff(comp.Props.hediffDef);
-                    }
-                }
-            });
             
             layDownAndCharge.tickAction = delegate
             {
