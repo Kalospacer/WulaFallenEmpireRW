@@ -6,7 +6,12 @@ import json
 import re
 
 # 1. --- 导入库 ---
-# mcp 库已通过 'pip install -e' 安装，无需修改 sys.path
+# 动态将 mcp sdk 添加到 python 路径
+MCP_DIR = os.path.dirname(os.path.abspath(__file__))
+SDK_PATH = os.path.join(MCP_DIR, 'python-sdk', 'src')
+if SDK_PATH not in sys.path:
+    sys.path.insert(0, SDK_PATH)
+
 from mcp.server.fastmcp import FastMCP
 # 新增：阿里云模型服务和向量计算库
 import dashscope
@@ -436,6 +441,7 @@ def get_context(question: str) -> str:
 # 6. --- 启动服务器 ---
 # FastMCP 实例可以直接运行
 if __name__ == "__main__":
+   logging.info(f"Python Executable: {sys.executable}")
    logging.info("RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...")
    # 使用 'stdio' 传输协议
    mcp.run(transport="stdio")

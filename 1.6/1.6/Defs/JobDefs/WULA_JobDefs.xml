@@ -22,12 +22,18 @@
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
 
-
   <JobDef>
     <defName>WULA_HaulToMaintenancePod</defName>
     <driverClass>WulaFallenEmpire.JobDriver_HaulToMaintenancePod</driverClass>
     <reportString>正在将TargetA抬到TargetB。</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
+  <JobDef>
+    <defName>WULA_LayDownToCharge</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_WulaLayDownToCharge</driverClass>
+    <reportString>正在充电。</reportString>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
 

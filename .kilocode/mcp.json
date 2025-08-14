@@ -6,10 +6,6 @@
         "mcpserver_stdio.py"
       ],
       "cwd": "${workspaceFolder}/MCP/",
-      "env": {
-        "PYTHONUNBUFFERED": "1",
-        "PYTHONPATH": "${workspaceFolder}/MCP/python-sdk/src"
-      },
       "disabled": false,
       "alwaysAllow": []
     }

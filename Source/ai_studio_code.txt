@@ -1,0 +1,20 @@
+# ----------------------------------------------------------------
+# 功能: 为 Gemini CLI 设置必要的环境变量
+# 文件名: setup-gemini-env.ps1
+# ----------------------------------------------------------------
+
+# 1. 设置代理服务器
+# 同时为 http 和 https 设置代理是一个好习惯
+Write-Host "正在设置代理..."
+$env:http_proxy = "http://127.0.0.1:52053"
+$env:https_proxy = "http://127.0.0.1:52053"
+
+# 2. 设置 Google Cloud 项目 ID
+Write-Host "正在设置 Google Cloud 项目 ID..."
+$env:GOOGLE_CLOUD_PROJECT = "849717647345"
+
+# 3. 提示用户操作完成
+Write-Host ""
+Write-Host "环境变量设置完成！" -ForegroundColor Green
+Write-Host "您现在可以在此 PowerShell 窗口中直接运行 'gemini' 命令了。"
+Write-Host "例如: gemini prompt '天空为什么是蓝色的？'"

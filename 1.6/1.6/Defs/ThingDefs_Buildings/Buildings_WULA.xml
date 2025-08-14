@@ -268,6 +268,7 @@
   <!-- 床 -->
   <ThingDef ParentName="BasicBedBase">
     <defName>WULA_Charging_Station_Synth</defName>
+    <thingClass>Building_Bed</thingClass>
     <label>合成人修复站</label>
     <description>一台供乌拉帝国合成人进行机体修复的检修站。</description>
     <graphicData>
@@ -313,7 +314,7 @@
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>30</basePowerConsumption>
+        <basePowerConsumption>200</basePowerConsumption>
       </li>
       <li Class="CompProperties_Glower">
         <glowRadius>12</glowRadius>
@@ -324,6 +325,10 @@
         <glowColor>(177, 0, 31, 0)</glowColor>
         <colorPickerEnabled>true</colorPickerEnabled>
         <darklightToggle>true</darklightToggle>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_ChargingBed">
+        <hediffDef>WULA_ChargingHediff</hediffDef>
+        <raceDefName>WulaSpecies</raceDefName>
       </li>
     </comps>
   </ThingDef>
