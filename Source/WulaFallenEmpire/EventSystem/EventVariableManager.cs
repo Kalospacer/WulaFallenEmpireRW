@@ -13,6 +13,12 @@ namespace WulaFallenEmpire
         private Dictionary<string, Pawn> pawnVars = new Dictionary<string, Pawn>();
         private Dictionary<string, List<Pawn>> pawnListVars = new Dictionary<string, List<Pawn>>();
 
+        // 用于Scribe的辅助列表
+        private List<string> pawnVarKeys;
+        private List<Pawn> pawnVarValues;
+        private List<string> pawnListVarKeys;
+        private List<List<Pawn>> pawnListVarValues;
+
         // Required for WorldComponent
         public EventVariableManager(World world) : base(world)
         {
@@ -24,8 +30,8 @@ namespace WulaFallenEmpire
             Scribe_Collections.Look(ref intVars, "intVars", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref floatVars, "floatVars", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref stringVars, "stringVars", LookMode.Value, LookMode.Value);
-            Scribe_Collections.Look(ref pawnVars, "pawnVars", LookMode.Value, LookMode.Reference);
-            Scribe_Collections.Look(ref pawnListVars, "pawnListVars", LookMode.Value, LookMode.Reference);
+            Scribe_Collections.Look(ref pawnVars, "pawnVars", LookMode.Value, LookMode.Reference, ref pawnVarKeys, ref pawnVarValues);
+            Scribe_Collections.Look(ref pawnListVars, "pawnListVars", LookMode.Value, LookMode.Reference, ref pawnListVarKeys, ref pawnListVarValues);
 
             // Ensure dictionaries are not null after loading
             if (Scribe.mode == LoadSaveMode.PostLoadInit)

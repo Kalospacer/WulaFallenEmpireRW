@@ -97,6 +97,7 @@
     <Compile Include="HarmonyPatches\MechanitorUtility_InMechanitorCommandRange_Patch.cs" />
     <Compile Include="HarmonyPatches\Projectile_Launch_Patch.cs" />
     <Compile Include="HarmonyPatches\Patch_JobGiver_GatherOfferingsForPsychicRitual.cs" />
+    <Compile Include="HarmonyPatches\NoBloodForWulaPatch.cs" />
     <Compile Include="HediffComp_RegenerateBackstory.cs" />
     <Compile Include="HediffComp_WulaCharging.cs" />
     <Compile Include="IngestPatch.cs" />
