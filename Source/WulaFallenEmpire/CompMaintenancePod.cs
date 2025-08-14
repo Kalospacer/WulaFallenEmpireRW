@@ -87,6 +87,27 @@ namespace WulaFallenEmpire
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
         }
 
+        public override void PostDestroy(DestroyMode mode, Map previousMap)
+        {
+            base.PostDestroy(mode, previousMap);
+            // If the pod is deconstructed or destroyed, eject the occupant to prevent deletion.
+            if (mode == DestroyMode.Deconstruct || mode == DestroyMode.KillFinalize)
+            {
+                Log.Warning($"[WulaPodDebug] Pod destroyed (mode: {mode}). Ejecting pawn.");
+                EjectPawn();
+            }
+        }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            base.PostDeSpawn(map, mode);
+            // This handles cases like uninstalling where the pod is removed from the map
+            // without being "destroyed". We still need to eject the occupant.
+            Log.Warning($"[WulaPodDebug] Pod despawned. Ejecting pawn.");
+            EjectPawn();
+        }
+
+
         // ===================== IThingHolder Implementation =====================
         public void GetChildHolders(List<IThingHolder> outChildren)
         {
@@ -205,16 +226,38 @@ namespace WulaFallenEmpire
             EjectPawn();
         }
 
-        public void EjectPawn()
+        public void EjectPawn(bool interrupted = false)
         {
             Pawn occupant = Occupant;
             Log.Warning($"[WulaPodDebug] EjectPawn. Occupant: {(occupant == null ? "NULL" : occupant.LabelShortCap)}");
             if (occupant != null)
             {
-                GenPlace.TryPlaceThing(occupant, parent.InteractionCell, parent.Map, ThingPlaceMode.Near);
-                if (Props.exitSound != null)
+                Map mapToUse = parent.Map ?? Find.CurrentMap;
+                if (mapToUse == null)
                 {
-                    SoundStarter.PlayOneShot(Props.exitSound, new TargetInfo(parent.Position, parent.Map));
+                    // Try to find the map from nearby things
+                    mapToUse = GenClosest.ClosestThing_Global(occupant.Position, Gen.YieldSingle(parent), 99999f, (thing) => thing.Map != null)?.Map;
+                }
+        
+                if (mapToUse != null)
+                {
+                    innerContainer.TryDropAll(parent.InteractionCell, mapToUse, ThingPlaceMode.Near);
+                    if (Props.exitSound != null)
+                    {
+                        SoundStarter.PlayOneShot(Props.exitSound, new TargetInfo(parent.Position, mapToUse));
+                    }
+                }
+                else
+                {
+                    Log.Warning($"[WulaPodDebug] EjectPawn aborted: No valid map found.");
+                    return;
+                }
+        
+                // Additional logic to handle occupant if needed
+                if (interrupted)
+                {
+                    occupant.needs?.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SoakingWet);
+                    occupant.health?.AddHediff(HediffDefOf.BiosculptingSickness);
                 }
             }
             innerContainer.Clear();

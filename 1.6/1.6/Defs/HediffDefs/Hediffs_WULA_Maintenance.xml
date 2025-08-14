@@ -20,7 +20,7 @@
         <severityPerDayAfterThreshold>0.03333</severityPerDayAfterThreshold>
       </li>
       <li Class="WulaFallenEmpire.HediffCompProperties_DamageResponse">
-        <severityIncreasePerDamage>0.01</severityIncreasePerDamage>
+        <severityIncreasePerDamage>0.005</severityIncreasePerDamage>
       </li>
     </comps>
     <stages>
