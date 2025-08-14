@@ -753,7 +753,7 @@
       <Beauty>-5</Beauty>
     </statBases>
     <size>(3,3)</size>
-    <interactionCellOffset>(0,0,0)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <hasInteractionCell>true</hasInteractionCell>
     <researchPrerequisites Inherit="False">
       <li>WULA_Base_Technology</li>

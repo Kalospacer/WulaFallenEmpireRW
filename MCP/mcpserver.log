@@ -922,3 +922,123 @@ requests.exceptions.SSLError: HTTPSConnectionPool(host='dashscope.aliyuncs.com',
 2025-08-12 14:49:39,613 - INFO - Processing request of type ListToolsRequest
 2025-08-12 14:49:39,614 - INFO - Processing request of type ListResourcesRequest
 2025-08-12 14:49:39,615 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-12 14:50:17,319 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:50:17,327 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:50:18,513 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-12 14:50:18,521 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-12 14:50:18,528 - INFO - Processing request of type ListToolsRequest
+2025-08-12 14:50:18,529 - INFO - Processing request of type ListResourcesRequest
+2025-08-12 14:50:18,529 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 08:53:23,840 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 08:53:23,858 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 08:53:23,876 - INFO - Processing request of type ListToolsRequest
+2025-08-14 08:53:23,878 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 08:53:23,879 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 08:54:26,023 - INFO - Processing request of type CallToolRequest
+2025-08-14 08:54:26,023 - INFO - 收到问题: RimWorld Pawn transfer to container or map, TryAdd, Spawn, Despawn
+2025-08-14 08:54:26,024 - INFO - 找到的潜在关键词: ['Despawn', 'Pawn', 'RimWorld', 'TryAdd', 'Spawn']
+2025-08-14 08:54:26,024 - INFO - 提取到关键词: ['Despawn', 'Pawn', 'RimWorld', 'TryAdd', 'Spawn']
+2025-08-14 08:54:26,024 - INFO - 缓存未命中，开始实时搜索: Despawn-Pawn-RimWorld-Spawn-TryAdd
+2025-08-14 08:54:31,161 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 08:54:31,174 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 08:54:31,184 - WARNING - Failed to validate request: Received request before initialization was complete
+2025-08-14 08:54:31,586 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 08:54:31,595 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 08:54:31,604 - INFO - Processing request of type ListToolsRequest
+2025-08-14 08:54:31,605 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 08:54:31,606 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 08:54:31,615 - INFO - Processing request of type ListToolsRequest
+2025-08-14 08:54:34,783 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 08:54:34,796 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 08:54:34,806 - INFO - Processing request of type ListToolsRequest
+2025-08-14 08:54:34,809 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 08:54:34,810 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 08:54:43,348 - INFO - Processing request of type CallToolRequest
+2025-08-14 08:54:43,348 - INFO - 收到问题: RimWorld Pawn transfer to container or map, TryAdd, Spawn, Despawn
+2025-08-14 08:54:43,349 - INFO - 找到的潜在关键词: ['TryAdd', 'Pawn', 'Despawn', 'RimWorld', 'Spawn']
+2025-08-14 08:54:43,349 - INFO - 提取到关键词: ['TryAdd', 'Pawn', 'Despawn', 'RimWorld', 'Spawn']
+2025-08-14 08:54:43,349 - INFO - 缓存未命中，开始实时搜索: Despawn-Pawn-RimWorld-Spawn-TryAdd
+2025-08-14 08:54:45,870 - INFO - 找到 8026 个候选文件，开始向量化处理...
+2025-08-14 08:54:45,870 - INFO - 找到 8026 个候选文件，开始向量化处理...
+2025-08-14 08:54:45,880 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\Pawn.txt
+2025-08-14 08:54:45,891 - INFO - 文件名精确匹配: C:\Steam\steamapps\common\RimWorld\Data\dll1.6\Verse\Pawn.txt
+2025-08-14 08:54:45,898 - WARNING - 候选文件过多 (8025)，仅处理前 25 个。
+2025-08-14 08:54:45,900 - WARNING - 候选文件过多 (8025)，仅处理前 25 个。
+2025-08-14 08:54:50,649 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。
+2025-08-14 08:54:51,739 - INFO - 向量搜索完成。找到了 5 个匹配项并成功提取了代码。
+2025-08-14 08:54:51,743 - INFO - Processing request of type ListToolsRequest
+2025-08-14 08:56:29,210 - INFO - Processing request of type CallToolRequest
+2025-08-14 08:56:29,210 - INFO - 收到问题: 塑形仓 或 整形舱 的实现方法
+2025-08-14 08:56:29,210 - WARNING - 在 '塑形仓 或 整形舱 的实现方法' 中未找到合适的关键词。
+2025-08-14 08:56:29,210 - WARNING - 无法从问题中提取关键词。
+2025-08-14 08:56:35,044 - INFO - Processing request of type CallToolRequest
+2025-08-14 08:56:35,044 - INFO - 收到问题: 身体改造 基因 医疗舱 生物技术
+2025-08-14 08:56:35,044 - WARNING - 在 '身体改造 基因 医疗舱 生物技术' 中未找到合适的关键词。
+2025-08-14 08:56:35,044 - WARNING - 无法从问题中提取关键词。
+2025-08-14 09:13:39,283 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:13:39,291 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:13:39,299 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:13:39,301 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:13:39,301 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:14:30,821 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:14:30,830 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:14:30,838 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:14:30,839 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:14:30,840 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:14:37,726 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:14:37,735 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:14:37,744 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:14:37,746 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:14:37,747 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:17:32,227 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:17:32,235 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:17:33,447 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:17:33,455 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:17:33,466 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:17:33,468 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:17:33,468 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:20:01,335 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:20:01,344 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:20:02,521 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:20:02,529 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:20:02,536 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:20:02,537 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:20:02,538 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:20:34,066 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:20:34,075 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:20:35,690 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:20:35,698 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:20:35,706 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:20:35,707 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:20:35,708 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:23:35,896 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:23:35,904 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:23:37,132 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:23:37,140 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:23:37,147 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:23:37,148 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:23:37,149 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:28:01,382 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:28:01,390 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:28:01,399 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:28:01,400 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:28:01,400 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:29:40,543 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:29:40,551 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:29:41,785 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:29:41,793 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:29:41,800 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:29:41,802 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:29:41,803 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:31:18,486 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:31:18,494 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:31:18,502 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:31:18,503 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:31:18,504 - INFO - Processing request of type ListResourceTemplatesRequest
+2025-08-14 09:32:43,894 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:32:43,904 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:32:45,182 - INFO - 成功加载 DASHSCOPE_API_KEY。
+2025-08-14 09:32:45,190 - INFO - RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...
+2025-08-14 09:32:45,198 - INFO - Processing request of type ListToolsRequest
+2025-08-14 09:32:45,199 - INFO - Processing request of type ListResourcesRequest
+2025-08-14 09:32:45,201 - INFO - Processing request of type ListResourceTemplatesRequest

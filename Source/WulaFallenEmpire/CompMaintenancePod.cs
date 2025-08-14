@@ -10,7 +10,6 @@ using Verse.Sound;
 
 namespace WulaFallenEmpire
 {
-    // Properties for our custom maintenance pod
     public class CompProperties_MaintenancePod : CompProperties
     {
         public SoundDef enterSound;
@@ -21,9 +20,9 @@ namespace WulaFallenEmpire
         public float powerConsumptionRunning = 250f;
         public float powerConsumptionIdle = 50f;
         public HediffDef hediffToRemove;
-        public float componentCostPerSeverity = 1f; // How many components per 1.0 severity
-        public int baseComponentCost = 0; // A flat cost in addition to severity cost
-        public float minSeverityToMaintain = 0.75f; // The hediff severity required to trigger maintenance
+        public float componentCostPerSeverity = 1f;
+        public int baseComponentCost = 0;
+        public float minSeverityToMaintain = 0.75f;
         public float hediffSeverityAfterCycle = 0.01f;
 
         public CompProperties_MaintenancePod()
@@ -43,13 +42,14 @@ namespace WulaFallenEmpire
         private MaintenancePodState state = MaintenancePodState.Idle;
 
         private static readonly Texture2D CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
-        private static readonly Texture2D EnterIcon = ContentFinder<Texture2D>.Get("UI/Commands/PodEject"); // Re-using an icon
+        private static readonly Texture2D EnterIcon = ContentFinder<Texture2D>.Get("UI/Commands/PodEject");
 
         // ===================== Properties =====================
         public CompProperties_MaintenancePod Props => (CompProperties_MaintenancePod)props;
         public MaintenancePodState State => state;
         public Pawn Occupant => innerContainer.FirstOrDefault() as Pawn;
         public bool PowerOn => powerComp != null && powerComp.PowerOn;
+
         public float RequiredComponents(Pawn pawn)
         {
             if (pawn == null || Props.hediffToRemove == null) return Props.baseComponentCost;
@@ -70,12 +70,6 @@ namespace WulaFallenEmpire
         public CompMaintenancePod()
         {
             innerContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
-        }
-
-
-        public override void Initialize(CompProperties props)
-        {
-            base.Initialize(props);
         }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
@@ -108,7 +102,6 @@ namespace WulaFallenEmpire
         public override void CompTick()
         {
             base.CompTick();
-
             if (!parent.Spawned) return;
 
             if (state == MaintenancePodState.Running)
@@ -122,20 +115,20 @@ namespace WulaFallenEmpire
                     }
                 }
             }
-            
-            // Update power consumption based on state
+
             if (powerComp != null)
             {
-                powerComp.PowerOutput = - (state == MaintenancePodState.Running ? Props.powerConsumptionRunning : Props.powerConsumptionIdle);
+                powerComp.PowerOutput = -(state == MaintenancePodState.Running ? Props.powerConsumptionRunning : Props.powerConsumptionIdle);
             }
         }
 
         public void StartCycle(Pawn pawn)
         {
+            Log.Warning($"[WulaPodDebug] StartCycle called for pawn: {pawn.LabelShortCap}");
             float required = RequiredComponents(pawn);
             if (refuelableComp.Fuel < required)
             {
-                Log.Error($"[WulaFallenEmpire] Tried to start maintenance cycle for {pawn.LabelShort} without enough components. This should have been checked earlier.");
+                Log.Error($"[WulaPodDebug] ERROR: Tried to start cycle for {pawn.LabelShort} without enough components.");
                 return;
             }
 
@@ -143,24 +136,35 @@ namespace WulaFallenEmpire
             {
                 refuelableComp.ConsumeFuel(required);
             }
+
+            Log.Warning($"[WulaPodDebug] Pawn state before action: holdingOwner is {(pawn.holdingOwner == null ? "NULL" : "NOT NULL")}, Spawned is {pawn.Spawned}");
+
+            // THE ACTUAL FIX: A pawn, whether held or not, must be despawned before being put in a container.
+            if (pawn.Spawned)
+            {
+                Log.Warning($"[WulaPodDebug] Pawn is spawned. Despawning...");
+                pawn.DeSpawn(DestroyMode.Vanish);
+            }
+            Log.Warning($"[WulaPodDebug] Attempting to add/transfer pawn to container.");
+            innerContainer.TryAddOrTransfer(pawn);
+
+
             state = MaintenancePodState.Running;
             ticksRemaining = RequiredDuration(pawn);
-
-            // Move pawn inside
-            innerContainer.TryAddOrTransfer(pawn);
+            Log.Warning($"[WulaPodDebug] Cycle started. Ticks remaining: {ticksRemaining}");
         }
 
         private void CycleFinished()
         {
             Pawn occupant = Occupant;
+            Log.Warning($"[WulaPodDebug] CycleFinished. Occupant: {(occupant == null ? "NULL" : occupant.LabelShortCap)}");
             if (occupant == null)
             {
-                Log.Error("[WulaFallenEmpire] Maintenance cycle finished, but no one was inside.");
+                Log.Error("[WulaPodDebug] ERROR: Maintenance cycle finished, but no one was inside.");
                 state = MaintenancePodState.Idle;
                 return;
             }
 
-            // Apply effects
             if (Props.hediffToRemove != null)
             {
                 Hediff hediff = occupant.health.hediffSet.GetFirstHediffOfDef(Props.hediffToRemove);
@@ -170,13 +174,13 @@ namespace WulaFallenEmpire
                     Messages.Message("WULA_MaintenanceComplete".Translate(occupant.Named("PAWN")), occupant, MessageTypeDefOf.PositiveEvent);
                 }
             }
-            
             EjectPawn();
         }
 
         public void EjectPawn()
         {
             Pawn occupant = Occupant;
+            Log.Warning($"[WulaPodDebug] EjectPawn. Occupant: {(occupant == null ? "NULL" : occupant.LabelShortCap)}");
             if (occupant != null)
             {
                 GenPlace.TryPlaceThing(occupant, parent.InteractionCell, parent.Map, ThingPlaceMode.Near);
@@ -187,8 +191,8 @@ namespace WulaFallenEmpire
             }
             innerContainer.Clear();
             state = MaintenancePodState.Idle;
+            Log.Warning($"[WulaPodDebug] EjectPawn finished. State set to Idle.");
         }
-        
 
         // ===================== UI & Gizmos =====================
         public override string CompInspectStringExtra()
@@ -215,13 +219,11 @@ namespace WulaFallenEmpire
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            // Base gizmos
             foreach (var gizmo in base.CompGetGizmosExtra())
             {
                 yield return gizmo;
             }
 
-            // Gizmo to order a pawn to enter (Right-click menu style)
             if (state == MaintenancePodState.Idle && PowerOn)
             {
                 var enterCommand = new Command_Action
@@ -245,7 +247,6 @@ namespace WulaFallenEmpire
                 yield return enterCommand;
             }
 
-            // Gizmo to cancel and eject
             if (state == MaintenancePodState.Running)
             {
                 var cancelCommand = new Command_Action
@@ -276,38 +277,38 @@ namespace WulaFallenEmpire
                     }
                     else if (p.Downed)
                     {
-                       float required = RequiredComponents(p);
-                       if (refuelableComp.Fuel < required)
-                       {
-                           options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ", " + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
-                       }
-                       else
-                       {
-                           Action action = delegate
-                           {
-                               var potentialRescuers = parent.Map.mapPawns.FreeColonistsSpawned.Where(colonist =>
-                                   !colonist.Downed && colonist.CanReserveAndReach(p, PathEndMode.OnCell, Danger.Deadly) && colonist.CanReserveAndReach(parent, PathEndMode.InteractionCell, Danger.Deadly));
+                        float required = RequiredComponents(p);
+                        if (refuelableComp.Fuel < required)
+                        {
+                            options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ", " + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
+                        }
+                        else
+                        {
+                            Action action = delegate
+                            {
+                                var potentialRescuers = parent.Map.mapPawns.FreeColonistsSpawned.Where(colonist =>
+                                    !colonist.Downed && colonist.CanReserveAndReach(p, PathEndMode.OnCell, Danger.Deadly) && colonist.CanReserveAndReach(parent, PathEndMode.InteractionCell, Danger.Deadly));
 
-                               if (!potentialRescuers.Any())
-                               {
-                                   Messages.Message("WULA_MaintenancePod_NoRescuer".Translate(p.Named("PAWN")), MessageTypeDefOf.RejectInput);
-                                   return;
-                               }
+                                if (!potentialRescuers.Any())
+                                {
+                                    Messages.Message("WULA_MaintenancePod_NoRescuer".Translate(p.Named("PAWN")), MessageTypeDefOf.RejectInput);
+                                    return;
+                                }
 
-                               var rescuerOptions = new List<FloatMenuOption>();
-                               foreach (var rescuer in potentialRescuers)
-                               {
-                                   rescuerOptions.Add(new FloatMenuOption(rescuer.LabelCap, delegate
-                                   {
-                                       var haulJob = JobMaker.MakeJob(JobDefOf_WULA.WULA_HaulToMaintenancePod, p, parent);
-                                       haulJob.count = 1;
-                                       rescuer.jobs.TryTakeOrderedJob(haulJob, JobTag.Misc);
-                                   }));
-                               }
-                               Find.WindowStack.Add(new FloatMenu(rescuerOptions));
-                           };
-                           options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ")", action));
-                       }
+                                var rescuerOptions = new List<FloatMenuOption>();
+                                foreach (var rescuer in potentialRescuers)
+                                {
+                                    rescuerOptions.Add(new FloatMenuOption(rescuer.LabelCap, delegate
+                                    {
+                                        var haulJob = JobMaker.MakeJob(JobDefOf_WULA.WULA_HaulToMaintenancePod, p, parent);
+                                        haulJob.count = 1;
+                                        rescuer.jobs.TryTakeOrderedJob(haulJob, JobTag.Misc);
+                                    }));
+                                }
+                                Find.WindowStack.Add(new FloatMenu(rescuerOptions));
+                            };
+                            options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ")", action));
+                        }
                     }
                     else
                     {
@@ -333,7 +334,7 @@ namespace WulaFallenEmpire
 
     public enum MaintenancePodState
     {
-        Idle,       // Waiting for a pawn or components
-        Running,    // Occupied and performing maintenance
+        Idle,
+        Running,
     }
 }
