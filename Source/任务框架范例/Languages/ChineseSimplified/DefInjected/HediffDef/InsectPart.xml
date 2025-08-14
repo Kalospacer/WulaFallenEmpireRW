@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+
+    <AE_BodyPart_Exoskeleton.label>虫族外骨骼</AE_BodyPart_Exoskeleton.label>
+    <AE_BodyPart_Exoskeleton.labelNoun>虫族外骨骼</AE_BodyPart_Exoskeleton.labelNoun>
+    <AE_BodyPart_Exoskeleton.description>这家伙的身体被部分虫化了，一具虫族的外骨骼生长在这家伙的躯干上。</AE_BodyPart_Exoskeleton.description>
+
+    <AE_BodyPart_CompoundEye.label>复眼</AE_BodyPart_CompoundEye.label>
+    <AE_BodyPart_CompoundEye.labelNoun>复眼</AE_BodyPart_CompoundEye.labelNoun>
+    <AE_BodyPart_CompoundEye.description>这家伙的身体被部分虫化了，现在Ta的“眼睛”会更加敏锐。</AE_BodyPart_CompoundEye.description>
+
+</LanguageData>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestEditor_Library.DialogManagerDef>
+    <defName>AE_DialogManager_Survivor</defName>
+    <trees>
+      <li>
+        <tree>AE_Dialog_Survivor</tree>
+        <conditions />
+      </li>
+    </trees>
+  </QuestEditor_Library.DialogManagerDef>
+</Defs>
