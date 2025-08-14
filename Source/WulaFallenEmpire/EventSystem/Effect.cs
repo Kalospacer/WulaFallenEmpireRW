@@ -8,7 +8,6 @@ namespace WulaFallenEmpire
 {
     public abstract class Effect
     {
-        // Allow the dialog to be null for contexts where there isn't one (like quests)
         public abstract void Execute(Dialog_CustomDisplay dialog = null);
     }
 
@@ -44,7 +43,6 @@ namespace WulaFallenEmpire
             {
                 if (nextDef.hiddenWindow)
                 {
-                    // Since effects are merged in PostLoad, we only need to execute dismissEffects here.
                     if (!nextDef.dismissEffects.NullOrEmpty())
                     {
                         foreach (var conditionalEffect in nextDef.dismissEffects)
@@ -98,7 +96,6 @@ namespace WulaFallenEmpire
     {
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
-            // Only close the dialog if it exists
             dialog?.Close();
         }
     }
@@ -174,21 +171,20 @@ namespace WulaFallenEmpire
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
-            // Only set the variable if it doesn't already exist.
-            if (!EventContext.HasVariable(name))
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            if (!eventVarManager.HasVariable(name))
             {
-                // Try to parse as int, then float, otherwise keep as string
                 if (int.TryParse(value, out int intValue))
                 {
-                    EventContext.SetVariable(name, intValue);
+                    eventVarManager.SetVariable(name, intValue);
                 }
                 else if (float.TryParse(value, out float floatValue))
                 {
-                    EventContext.SetVariable(name, floatValue);
+                    eventVarManager.SetVariable(name, floatValue);
                 }
                 else
                 {
-                    EventContext.SetVariable(name, value);
+                    eventVarManager.SetVariable(name, value);
                 }
             }
         }
@@ -214,7 +210,7 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            int goodwillChange = EventContext.GetVariable<int>(goodwillVariableName);
+            int goodwillChange = Find.World.GetComponent<EventVariableManager>().GetVariable<int>(goodwillVariableName);
             Faction.OfPlayer.TryAffectGoodwillWith(targetFaction, goodwillChange, canSendMessage: true, canSendHostilityLetter: true, reason: null, lookTarget: null);
         }
     }
@@ -238,6 +234,7 @@ namespace WulaFallenEmpire
                 return;
             }
 
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             List<Pawn> spawnedPawns = new List<Pawn>();
             for (int i = 0; i < count; i++)
             {
@@ -249,11 +246,11 @@ namespace WulaFallenEmpire
 
             if (count == 1)
             {
-                EventContext.SetVariable(storeAs, spawnedPawns.First());
+                eventVarManager.SetVariable(storeAs, spawnedPawns.First());
             }
             else
             {
-                EventContext.SetVariable(storeAs, spawnedPawns);
+                eventVarManager.SetVariable(storeAs, spawnedPawns);
             }
         }
     }
@@ -362,13 +359,15 @@ namespace WulaFallenEmpire
                 Log.Error("[WulaFallenEmpire] Effect_ModifyVariable has a null or empty name.");
                 return;
             }
+            
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
 
-            if (!EventContext.HasVariable(name))
+            if (!eventVarManager.HasVariable(name))
             {
-                EventContext.SetVariable(name, 0f);
+                eventVarManager.SetVariable(name, 0f);
             }
             
-            float currentValue = EventContext.GetVariable<float>(name);
+            float currentValue = eventVarManager.GetVariable<float>(name);
 
             switch (operation)
             {
@@ -396,7 +395,7 @@ namespace WulaFallenEmpire
                    break;
            }
 
-           EventContext.SetVariable(name, currentValue);
+           eventVarManager.SetVariable(name, currentValue);
         }
     }
 
@@ -411,7 +410,7 @@ namespace WulaFallenEmpire
                 Log.Error("[WulaFallenEmpire] Effect_ClearVariable has a null or empty name.");
                 return;
             }
-            EventContext.ClearVariable(name);
+            Find.World.GetComponent<EventVariableManager>().ClearVariable(name);
         }
     }
 
@@ -476,7 +475,6 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // If custom pawn groups are defined, use them.
             if (!pawnGroupMakers.NullOrEmpty())
             {
                 IncidentParms parms = new IncidentParms
@@ -502,102 +500,65 @@ namespace WulaFallenEmpire
                     tile = map.Tile,
                     points = this.points,
                     faction = factionInst,
+                    raidStrategy = this.raidStrategy,
                     seed = parms.pawnGroupMakerSeed
                 };
-
-                if (!pawnGroupMakers.TryRandomElement(out var chosenGroupMaker))
-                {
-                    Log.Error($"[WulaFallenEmpire] Effect_TriggerRaid could not find a suitable PawnGroupMaker for {points} points with groupKind {groupMakerParms.groupKind.defName} from the provided list.");
-                    return;
-                }
-
-                List<Pawn> pawns = chosenGroupMaker.GeneratePawns(groupMakerParms).ToList();
-                if (!pawns.Any())
-                {
-                    Log.Error("[WulaFallenEmpire] Effect_TriggerRaid generated no pawns with the custom pawnGroupMakers.");
-                    return;
-                }
-
-                parms.raidArrivalMode.Worker.Arrive(pawns, parms);
-
-                parms.raidStrategy.Worker.MakeLords(parms, pawns);
                 
-                TaggedString finalLabel;
-                if (!string.IsNullOrEmpty(this.letterLabel))
+                List<Pawn> pawns = PawnGroupMakerUtility.GeneratePawns(groupMakerParms).ToList();
+                if (pawns.Any())
                 {
-                    finalLabel = this.letterLabel;
+                    raidArrivalMode.Worker.Arrive(pawns, parms);
+                    if (!string.IsNullOrEmpty(letterLabel) && !string.IsNullOrEmpty(letterText))
+                    {
+                        Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.ThreatBig, pawns[0]);
+                    }
                 }
-                else
-                {
-                    finalLabel = "LetterLabelRaid".Translate(factionInst.def.label).CapitalizeFirst();
-                }
-
-                TaggedString finalText;
-                if (!string.IsNullOrEmpty(this.letterText))
-                {
-                    finalText = this.letterText;
-                }
-                else
-                {
-                    finalText = "LetterRaid".Translate(
-                        factionInst.Name,
-                        factionInst.def.pawnsPlural,
-                        parms.raidStrategy.arrivalTextEnemy
-                    ).CapitalizeFirst();
-                }
-                
-                Pawn mostImportantPawn = pawns.FirstOrDefault();
-                TargetInfo target = mostImportantPawn != null ? new TargetInfo(mostImportantPawn) : new TargetInfo(parms.spawnCenter, map);
-
-                Find.LetterStack.ReceiveLetter(finalLabel, finalText, LetterDefOf.ThreatBig, target, factionInst);
-            }
-            else // Fallback to default raid incident worker
-            {
-                IncidentParms parms = new IncidentParms
-                {
-                    target = map,
-                    points = this.points,
-                    faction = factionInst,
-                    raidStrategy = this.raidStrategy,
-                    raidArrivalMode = this.raidArrivalMode,
-                    forced = true
-                };
-                IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
             }
         }
     }
-
+    
     public class Effect_CheckFactionGoodwill : Effect
     {
         public FactionDef factionDef;
         public string variableName;
+        public List<Effect> successEffects;
+        public List<Effect> failureEffects;
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (factionDef == null)
             {
-                Log.Error("Effect_CheckFactionGoodwill requires a factionDef.");
-                return;
-            }
-            if (string.IsNullOrEmpty(variableName))
-            {
-                Log.Error("Effect_CheckFactionGoodwill requires a variableName.");
+                Log.Error("[WulaFallenEmpire] Effect_CheckFactionGoodwill has a null faction Def.");
                 return;
             }
 
-            Faction faction = Find.FactionManager.FirstFactionOfDef(factionDef);
-            if (faction == null)
+            Faction targetFaction = Find.FactionManager.FirstFactionOfDef(factionDef);
+            if (targetFaction == null)
             {
-                // Faction doesn't exist, store a default value (e.g., 0 or a specific marker)
-                EventContext.SetVariable(variableName, 0);
-                Log.Warning($"Faction with def {factionDef.defName} not found. Setting '{variableName}' to 0.");
+                Log.Warning($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{factionDef.defName}'.");
+                ExecuteEffects(failureEffects, dialog);
                 return;
             }
 
-            int goodwill = faction.GoodwillWith(Faction.OfPlayer);
-            EventContext.SetVariable(variableName, goodwill);
+            int requiredGoodwill = Find.World.GetComponent<EventVariableManager>().GetVariable<int>(variableName);
+            int currentGoodwill = Faction.OfPlayer.GoodwillWith(targetFaction);
+            if (currentGoodwill >= requiredGoodwill)
+            {
+                ExecuteEffects(successEffects, dialog);
+            }
+            else
+            {
+                ExecuteEffects(failureEffects, dialog);
+            }
+        }
+
+        private void ExecuteEffects(List<Effect> effects, Dialog_CustomDisplay dialog)
+        {
+            if (effects.NullOrEmpty()) return;
+            foreach (var effect in effects)
+            {
+                effect.Execute(dialog);
+            }
         }
     }
- }
-
-
+}

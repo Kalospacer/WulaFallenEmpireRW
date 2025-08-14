@@ -24,6 +24,8 @@ namespace WulaFallenEmpire
         public override void CompTick()
         {
             base.CompTick();
+            Log.Message("[CompChargingBed] CompTick running.");
+
             var bed = (Building_Bed)parent;
             var powerComp = parent.GetComp<CompPowerTrader>();
 

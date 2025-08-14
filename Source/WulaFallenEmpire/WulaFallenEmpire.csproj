@@ -86,7 +86,7 @@
     <Compile Include="EventSystem\DelayedActionManager.cs" />
     <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
     <Compile Include="EventSystem\Effect.cs" />
-    <Compile Include="EventSystem\EventContext.cs" />
+    <Compile Include="EventSystem\EventVariableManager.cs" />
     <Compile Include="EventSystem\EventDef.cs" />
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\Letter_EventChoice.cs" />
