@@ -104,7 +104,6 @@
     <Compile Include="JobDriver_EnterMaintenancePod.cs" />
     <Compile Include="JobDriver_HaulToMaintenancePod.cs" />
     <Compile Include="JobDriver_IngestWulaEnergy.cs" />
-    <Compile Include="JobDriver_WulaLayDownToCharge.cs" />
     <Compile Include="JobGiver_WulaGetEnergy.cs" />
     <Compile Include="JobGiver_WulaPackEnergy.cs" />
     <Compile Include="Job_Maintenance.cs" />
@@ -151,6 +150,7 @@
     <Compile Include="HediffComp_DamageResponse.cs" />
     <Compile Include="JobDefOf_WULA.cs" />
     <Compile Include="ThingDefOf_WULA.cs" />
+    <Compile Include="StartupLogger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

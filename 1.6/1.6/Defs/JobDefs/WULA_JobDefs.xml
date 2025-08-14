@@ -30,11 +30,4 @@
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
 
-  <JobDef>
-    <defName>WULA_LayDownToCharge</defName>
-    <driverClass>WulaFallenEmpire.JobDriver_WulaLayDownToCharge</driverClass>
-    <reportString>正在充电</reportString>
-    <casualInterruptible>false</casualInterruptible>
-  </JobDef>
-
 </Defs>
