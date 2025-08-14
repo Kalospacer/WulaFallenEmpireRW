@@ -35,6 +35,15 @@
             <value>1</value>
             <operation>Add</operation>
           </li>
+
+          <!-- 检测好感度 -->
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_FE_Spiritualist_Goodwill</name>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
+            <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
+            <variableName>Wula_FE_Spiritualist_Goodwill</variableName>
+          </li>
         </effects>
       </li>
     </immediateEffects>
@@ -52,12 +61,44 @@
           </li>
         </optionEffects>
       </li>
-      <li>  
+      <!-- 教堂 -->
+      <!-- <li>
         <label>乌拉帝国 大教堂</label>
-        <disabledReason><![CDATA[这个堕落乌拉派系不存在——它可能已经被摧毁或者未生成。\n生成该派系需要<color=#B174C9><b>异象</b></color>DLC支持]]></disabledReason>
+        <hideWhenDisabled>true</hideWhenDisabled>
         <conditions>
           <li Class="WulaFallenEmpire.Condition_FactionExists">
             <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
+          </li>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThanOrEqual">
+            <name>Wula_FE_Spiritualist_Goodwill</name>
+            <value>75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_2</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>乌拉帝国 大教堂</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_FactionExists">
+            <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
+          </li>
+          <li Class="WulaFallenEmpire.Condition_VariableLessThanOrEqual">
+            <name>Wula_FE_Spiritualist_Goodwill</name>
+            <value>75</value>
+          </li>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThanOrEqual">
+            <name>Wula_FE_Spiritualist_Goodwill</name>
+            <value>-75</value>
           </li>
         </conditions>
         <optionEffects>
@@ -71,6 +112,30 @@
           </li>
         </optionEffects>
       </li>
+      <li>
+        <label>乌拉帝国 大教堂</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_FactionExists">
+            <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
+          </li>
+          <li Class="WulaFallenEmpire.Condition_VariableLessThanOrEqual">
+            <name>Wula_FE_Spiritualist_Goodwill</name>
+            <value>-75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_3</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li> -->
+
       <li>
         <label>退出</label>
         <optionEffects>
