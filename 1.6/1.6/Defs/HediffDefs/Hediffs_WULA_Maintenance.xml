@@ -13,9 +13,9 @@
     <!--<lethalSeverity>2</lethalSeverity>-->
     <comps>
       <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceNeed">
-        <thresholdDays>80</thresholdDays>
-        <!-- 80天内严重性达到1.0 (1.0 / 80 = 0.0125) -->
-        <severityPerDayBeforeThreshold>0.0125</severityPerDayBeforeThreshold>
+        <thresholdDays>60</thresholdDays>
+        <!-- 60天内严重性达到1.0 (1.0 / 60 = 0.0166) -->
+        <severityPerDayBeforeThreshold>0.0166</severityPerDayBeforeThreshold>
         <!-- 达到阈值后，在30天内从1.0增长到2.0 (1.0 / 30 ≈ 0.03333) -->
         <severityPerDayAfterThreshold>0.03333</severityPerDayAfterThreshold>
       </li>

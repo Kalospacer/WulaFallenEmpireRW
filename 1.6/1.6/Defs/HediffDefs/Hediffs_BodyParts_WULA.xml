@@ -1003,7 +1003,7 @@
   <ThingDef ParentName="MechSerumBase">
     <defName>WULA_MechRepairKit</defName>
     <label>机械乌拉修理套件</label>
-    <description>一种一次性使用的堕落乌拉帝国修理套件，专门用来紧急修复机械乌拉，这种不依赖专用维护舱的临时修复无法完全修复机械乌拉。</description>
+    <description>一种一次性使用的堕落乌拉帝国修理套件，专门用来紧急修复机械乌拉的伤口。</description>
     <descriptionHyperlinks><RecipeDef>AdministerWULA_MechRepairKit</RecipeDef></descriptionHyperlinks>
     <graphicData>
       <texPath>Wula/Item/WULA_MechRepairKit</texPath>
