@@ -34,3 +34,4 @@ Source/MCP/pid.txt
 *.log
 MCP/vector_cache/*.txt
 MCP/mcpserver.log
+Source/ai_studio_code.txt
