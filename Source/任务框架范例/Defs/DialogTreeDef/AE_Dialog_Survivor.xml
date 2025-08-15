@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestEditor_Library.DialogTreeDef>
+    <defName>AE_Dialog_Survivor</defName>
+    <title>AE_Survivor_Title</title>
+    <requireNonHostile>true</requireNonHostile>
+    <dialogReportKey>DefaultDialogKey</dialogReportKey>
+    <curIndex>2</curIndex>
+    <idleNodes />
+    <nodeMoulds>
+      <li>
+        <key>0</key>
+        <value>
+          <text>AE_Survivor_Text_First</text>
+          <index>0</index>
+          <subNodeIndexs>
+            <li>1</li>
+          </subNodeIndexs>
+          <options>
+            <li>
+              <text>AE_Survivor_Option_Quest</text>
+              <hideWhenDisabled>false</hideWhenDisabled>
+              <results>
+                <li>
+                  <resultName>Normal</resultName>
+                  <actions />
+                  <nextIndex>1</nextIndex>
+                </li>
+              </results>
+            </li>
+          </options>
+        </value>
+      </li>
+      <li>
+        <key>1</key>
+        <value>
+          <text>AE_Survivor_Text_Survival</text>
+          <index>1</index>
+          <parentIndex>0</parentIndex>
+          <subNodeIndexs />
+          <options>
+            <li>
+              <text>AE_Survivor_Welcome</text>
+              <hideWhenDisabled>false</hideWhenDisabled>
+              <results>
+                <li>
+                  <resultName>Undefined</resultName>
+                  <actions>
+                    <li Class="QuestEditor_Library.CQFAction_RemoveDialogManager">
+                      <targetsText>
+                        <li>Interviewee</li>
+                      </targetsText>
+                    </li>
+                    <li Class="QuestEditor_Library.CQFAction_Faction">
+                      <targetsText>
+                        <li>Interviewee</li>
+                      </targetsText>
+                      <faction>PlayerColony</faction>
+                    </li>
+                  </actions>
+                </li>
+              </results>
+            </li>
+            <li>
+              <text>AE_Survivor_WelcomeAE_Survivor_Attack</text>
+              <hideWhenDisabled>false</hideWhenDisabled>
+              <results>
+                <li>
+                  <resultName>Undefined</resultName>
+                  <actions>
+                    <li Class="QuestEditor_Library.CQFAction_RemoveDialogManager">
+                      <targetsText>
+                        <li>Interviewee</li>
+                      </targetsText>
+                    </li>
+                    <li Class="QuestEditor_Library.CQFAction_Faction">
+                      <targetsText>
+                        <li>Interviewee</li>
+                      </targetsText>
+                      <faction>Insect</faction>
+                    </li>
+                  </actions>
+                </li>
+              </results>
+            </li>
+          </options>
+        </value>
+      </li>
+    </nodeMoulds>
+  </QuestEditor_Library.DialogTreeDef>
+</Defs>

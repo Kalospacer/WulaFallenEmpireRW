@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<!--   <ThoughtDef>
+    <defName>AE_Thought_CompoundEye</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>AE_BodyPart_CompoundEye</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>pregnancy mood collapse</label>
+        <description>This pregnancy is so hard. My body always feels awful. So exhausting!</description>
+        <baseMoodEffect>-14</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef> -->
+
+
+
+
+</Defs>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <QuestScriptDef>
+    <defName>Wula_FE_Spiritualist_Quest_1</defName>
+    <label>乌拉的呼唤</label>
+    <description>一个强大的心灵实体将它的意志强加于你的意识之中。</description>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_ResolveQuestName">
+          <rules>
+            <rulesStrings>
+              <li>questName->乌拉的呼唤</li>
+            </rulesStrings>
+          </rules>
+        </li>
+        <li Class="QuestNode_ResolveQuestDescription">
+          <rules>
+            <rulesStrings>
+              <li>questDescription->一个强大的心灵实体将它的意志强加于你的意识之中。</li>
+            </rulesStrings>
+          </rules>
+        </li>
+        <li Class="WulaFallenEmpire.QuestNode_Root_EventLetter">
+          <letterLabel>乌拉需要你的注意</letterLabel>
+          <letterTitle>乌拉需要你的注意</letterTitle>
+          <letterText>一个强大的心灵实体将它的意志强加于你的意识之中。它自称为“乌拉”，并要求你阅览它的消息。这股力量是压倒性的，不容拒绝。</letterText>
+          <options>
+            <li>
+              <label>阅览消息</label>
+              <optionEffects>
+                <li>
+                  <effects>
+                    <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                      <defName>Wula_UI_Anisia_1</defName>
+                    </li>
+                  </effects>
+                </li>
+              </optionEffects>
+            </li>
+            <li>
+              <label>尝试抵抗（但失败了）</label>
+              <optionEffects>
+                <li>
+                  <effects>
+                    <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                      <defName>Wula_UI_Anisia_1</defName>
+                    </li>
+                    <li Class="WulaFallenEmpire.Effect_ShowMessage">
+                      <message>你试图抵抗心灵入侵，但这股力量过于强大。无论如何，消息还是涌入了你的脑海。</message>
+                      <messageTypeDef>NegativeEvent</messageTypeDef>
+                    </li>
+                  </effects>
+                </li>
+              </optionEffects>
+            </li>
+          </options>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>
