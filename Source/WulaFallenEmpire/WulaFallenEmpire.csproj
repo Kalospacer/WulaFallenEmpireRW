@@ -86,7 +86,7 @@
     <Compile Include="EventSystem\DelayedActionManager.cs" />
     <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
     <Compile Include="EventSystem\Effect.cs" />
-    <Compile Include="EventSystem\EventContext.cs" />
+    <Compile Include="EventSystem\EventVariableManager.cs" />
     <Compile Include="EventSystem\EventDef.cs" />
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\Letter_EventChoice.cs" />
@@ -97,6 +97,7 @@
     <Compile Include="HarmonyPatches\MechanitorUtility_InMechanitorCommandRange_Patch.cs" />
     <Compile Include="HarmonyPatches\Projectile_Launch_Patch.cs" />
     <Compile Include="HarmonyPatches\Patch_JobGiver_GatherOfferingsForPsychicRitual.cs" />
+    <Compile Include="HarmonyPatches\NoBloodForWulaPatch.cs" />
     <Compile Include="HediffComp_RegenerateBackstory.cs" />
     <Compile Include="HediffComp_WulaCharging.cs" />
     <Compile Include="IngestPatch.cs" />
@@ -104,7 +105,6 @@
     <Compile Include="JobDriver_EnterMaintenancePod.cs" />
     <Compile Include="JobDriver_HaulToMaintenancePod.cs" />
     <Compile Include="JobDriver_IngestWulaEnergy.cs" />
-    <Compile Include="JobDriver_WulaLayDownToCharge.cs" />
     <Compile Include="JobGiver_WulaGetEnergy.cs" />
     <Compile Include="JobGiver_WulaPackEnergy.cs" />
     <Compile Include="Job_Maintenance.cs" />
@@ -151,6 +151,7 @@
     <Compile Include="HediffComp_DamageResponse.cs" />
     <Compile Include="JobDefOf_WULA.cs" />
     <Compile Include="ThingDefOf_WULA.cs" />
+    <Compile Include="StartupLogger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

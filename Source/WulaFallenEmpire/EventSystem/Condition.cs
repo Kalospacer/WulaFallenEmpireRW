@@ -16,17 +16,18 @@ namespace WulaFallenEmpire
 
         public override bool IsMet(out string reason)
         {
-            if (!EventContext.HasVariable(name))
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            if (!eventVarManager.HasVariable(name))
             {
-                EventContext.SetVariable(name, "0");
+                eventVarManager.SetVariable(name, "0");
             }
             
-            object variable = EventContext.GetVariable<object>(name);
+            object variable = eventVarManager.GetVariable<object>(name);
 
             string compareValue = value;
             if (!string.IsNullOrEmpty(valueVariableName))
             {
-                compareValue = EventContext.GetVariable<object>(valueVariableName)?.ToString();
+                compareValue = eventVarManager.GetVariable<object>(valueVariableName)?.ToString();
                 if (compareValue == null)
                 {
                     reason = $"Comparison variable '{valueVariableName}' not set.";
@@ -58,17 +59,18 @@ namespace WulaFallenEmpire
 
         public override bool IsMet(out string reason)
         {
-            if (!EventContext.HasVariable(name))
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            if (!eventVarManager.HasVariable(name))
             {
-                EventContext.SetVariable(name, 0f);
+                eventVarManager.SetVariable(name, 0f);
             }
             
-            float variable = EventContext.GetVariable<float>(name);
+            float variable = eventVarManager.GetVariable<float>(name);
 
             float compareValue = value;
             if (!string.IsNullOrEmpty(valueVariableName))
             {
-                compareValue = EventContext.GetVariable<float>(valueVariableName, float.NaN);
+                compareValue = eventVarManager.GetVariable<float>(valueVariableName, float.NaN);
                 if (float.IsNaN(compareValue))
                 {
                     reason = $"Comparison variable '{valueVariableName}' not set or not a number.";
@@ -121,17 +123,18 @@ namespace WulaFallenEmpire
 
         public override bool IsMet(out string reason)
         {
-            if (!EventContext.HasVariable(name))
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            if (!eventVarManager.HasVariable(name))
             {
-                EventContext.SetVariable(name, "0");
+                eventVarManager.SetVariable(name, "0");
             }
 
-            object variable = EventContext.GetVariable<object>(name);
+            object variable = eventVarManager.GetVariable<object>(name);
 
             string compareValue = value;
             if (!string.IsNullOrEmpty(valueVariableName))
             {
-                compareValue = EventContext.GetVariable<object>(valueVariableName)?.ToString();
+                compareValue = eventVarManager.GetVariable<object>(valueVariableName)?.ToString();
                 if (compareValue == null)
                 {
                     reason = $"Comparison variable '{valueVariableName}' not set.";

@@ -24,61 +24,71 @@ namespace WulaFallenEmpire
         public override void CompTick()
         {
             base.CompTick();
-            Log.Message("[CompChargingBed] CompTick running.");
 
             var bed = (Building_Bed)parent;
-            if (!bed.AnyOccupants)
+            var powerComp = parent.GetComp<CompPowerTrader>();
+
+            // 如果床没电，停止所有充电
+            if (powerComp is { PowerOn: false })
             {
-                for (int i = chargingPawns.Count - 1; i >= 0; i--)
-                {
-                    var p = chargingPawns[i];
-                    var h = p.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
-                    if (h != null)
-                    {
-                        Log.Message($"[CompChargingBed] Bed empty. Removing hediff from {p.LabelShort}.");
-                        p.health.RemoveHediff(h);
-                    }
-                }
-                chargingPawns.Clear();
+                StopAllCharging();
                 return;
             }
 
             var currentOccupants = new HashSet<Pawn>(bed.CurOccupants);
-            Log.Message($"[CompChargingBed] Found {currentOccupants.Count} occupants.");
 
+            // 移除已经不在床上的 pawn 的充电效果
             for (int i = chargingPawns.Count - 1; i >= 0; i--)
             {
                 var pawn = chargingPawns[i];
                 if (!currentOccupants.Contains(pawn))
                 {
-                    Log.Message($"[CompChargingBed] Pawn {pawn.LabelShort} left the bed. Removing hediff.");
-                    var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
-                    if (hediff != null)
-                    {
-                        pawn.health.RemoveHediff(hediff);
-                    }
+                    StopCharging(pawn);
                     chargingPawns.RemoveAt(i);
                 }
             }
 
+            // 为床上的新 pawn 开始充电
             foreach (var pawn in currentOccupants)
             {
-                Log.Message($"[CompChargingBed] Checking occupant: {pawn.LabelShort}.");
-                bool hasNeed = pawn.needs.TryGetNeed<Need_WulaEnergy>() != null;
-                Log.Message($"[CompChargingBed] Does {pawn.LabelShort} have Need_WulaEnergy? {hasNeed}");
-
-                if (hasNeed)
+                if (ShouldCharge(pawn) && !chargingPawns.Contains(pawn))
                 {
-                    if (!pawn.health.hediffSet.HasHediff(Props.hediffDef))
-                    {
-                        Log.Message($"[CompChargingBed] Adding charging hediff to {pawn.LabelShort}.");
-                        pawn.health.AddHediff(Props.hediffDef);
-                    }
-                    if (!chargingPawns.Contains(pawn))
-                    {
-                        chargingPawns.Add(pawn);
-                    }
+                    StartCharging(pawn);
                 }
+            }
+        }
+
+        private bool ShouldCharge(Pawn pawn)
+        {
+            return pawn.def.defName == Props.raceDefName;
+        }
+
+        private void StartCharging(Pawn pawn)
+        {
+            if (pawn.health.hediffSet.HasHediff(Props.hediffDef)) return;
+            pawn.health.AddHediff(Props.hediffDef);
+            if (!chargingPawns.Contains(pawn))
+            {
+                chargingPawns.Add(pawn);
+            }
+        }
+
+
+        private void StopCharging(Pawn pawn)
+        {
+            var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffDef);
+            if (hediff != null)
+            {
+                pawn.health.RemoveHediff(hediff);
+            }
+        }
+
+        private void StopAllCharging()
+        {
+            for (int i = chargingPawns.Count - 1; i >= 0; i--)
+            {
+                StopCharging(chargingPawns[i]);
+                chargingPawns.RemoveAt(i);
             }
         }
 

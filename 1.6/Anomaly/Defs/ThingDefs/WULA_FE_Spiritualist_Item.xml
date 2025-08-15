@@ -57,7 +57,7 @@
         </li>
       </outcomeDoers>
     </ingestible>
-    <recipeMaker Inherit="False"/>
+    <recipeMaker Inherit="False" IsNull="True"/>
       <!-- <researchPrerequisite>PsychiteRefining</researchPrerequisite>
       <soundWorking>Recipe_Drug</soundWorking>
       <displayPriority>1700</displayPriority>

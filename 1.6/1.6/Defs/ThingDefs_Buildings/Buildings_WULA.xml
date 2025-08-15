@@ -269,6 +269,7 @@
   <ThingDef ParentName="BasicBedBase">
     <defName>WULA_Charging_Station_Synth</defName>
     <thingClass>Building_Bed</thingClass>
+    <tickerType>Normal</tickerType>
     <label>合成人修复站</label>
     <description>一台供乌拉帝国合成人进行机体修复的检修站。</description>
     <tickerType>Normal</tickerType>

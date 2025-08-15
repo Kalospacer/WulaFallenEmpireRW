@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Verse;
 
@@ -11,7 +12,7 @@ namespace WulaFallenEmpire
         private EventDef def;
         private Texture2D portrait;
         private Texture2D background;
-        private string selectedDescription; // Store the chosen description for this window instance
+        private string selectedDescription;
 
         private static EventUIConfigDef config;
         public static EventUIConfigDef Config
@@ -34,7 +35,7 @@ namespace WulaFallenEmpire
                 {
                     return def.windowSize;
                 }
-                return Config.defaultWindowSize; // Fallback to size from config
+                return Config.defaultWindowSize;
             }
         }
 
@@ -45,22 +46,22 @@ namespace WulaFallenEmpire
             this.absorbInputAroundWindow = true;
             this.doCloseX = true;
 
-            // Select the description text
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             if (!def.descriptions.NullOrEmpty())
             {
                 if (def.descriptionMode == DescriptionSelectionMode.Random)
                 {
                     selectedDescription = def.descriptions.RandomElement();
                 }
-                else // Sequential
+                else 
                 {
                     string indexVarName = $"_seq_desc_index_{def.defName}";
-                    int currentIndex = EventContext.GetVariable<int>(indexVarName, 0);
+                    int currentIndex = eventVarManager.GetVariable<int>(indexVarName, 0);
 
                     selectedDescription = def.descriptions[currentIndex];
 
                     int nextIndex = (currentIndex + 1) % def.descriptions.Count;
-                    EventContext.SetVariable(indexVarName, nextIndex);
+                    eventVarManager.SetVariable(indexVarName, nextIndex);
                 }
             }
             else
@@ -85,7 +86,6 @@ namespace WulaFallenEmpire
             
             HandleAction(def.immediateEffects);
             
-            // Append conditional descriptions
             if (!def.conditionalDescriptions.NullOrEmpty())
             {
                 foreach (var condDesc in def.conditionalDescriptions)
@@ -97,20 +97,17 @@ namespace WulaFallenEmpire
                     }
                 }
             }
-
-            // Format the description AFTER immediate effects have run and conditional text is appended
+            
             selectedDescription = FormatDescription(selectedDescription);
         }
 
         public override void DoWindowContents(Rect inRect)
         {
-            // 1. Draw Background
             if (background != null)
             {
                 GUI.DrawTexture(inRect, background, ScaleMode.ScaleToFit);
             }
 
-            // 2. Draw Top-left defName and Label
             if (Config.showDefName)
             {
                 Text.Font = GameFont.Tiny;
@@ -123,10 +120,9 @@ namespace WulaFallenEmpire
             {
                 Text.Font = Config.labelFont;
                 Widgets.Label(new Rect(5, 20f, inRect.width - 10, 30f), def.label);
-                Text.Font = GameFont.Small; // Reset to default
+                Text.Font = GameFont.Small;
             }
 
-            // 3. Calculate Layout based on ConfigDef
             float virtualWidth = Config.lihuiSize.x + Config.textSize.x;
             float virtualHeight = Config.lihuiSize.y;
 
@@ -147,8 +143,6 @@ namespace WulaFallenEmpire
             float startX = (inRect.width - totalContentWidth) / 2;
             float startY = (inRect.height - totalContentHeight) / 2;
 
-            // 4. Draw UI Elements
-            // lihui (Portrait)
             Rect lihuiRect = new Rect(startX, startY, scaledLihuiWidth, scaledLihuiHeight);
             if (portrait != null)
             {
@@ -156,18 +150,13 @@ namespace WulaFallenEmpire
             }
             if (Config.drawBorders)
             {
-                GUI.color = Color.white;
                 Widgets.DrawBox(lihuiRect);
-                GUI.color = Color.white;
             }
 
-            // name
             Rect nameRect = new Rect(lihuiRect.xMax, lihuiRect.y, scaledNameWidth, scaledNameHeight);
             if (Config.drawBorders)
             {
-                GUI.color = Color.white;
                 Widgets.DrawBox(nameRect);
-                GUI.color = Color.white;
             }
             Text.Anchor = TextAnchor.MiddleCenter;
             Text.Font = GameFont.Medium;
@@ -175,18 +164,14 @@ namespace WulaFallenEmpire
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.UpperLeft;
 
-            // text (Description)
             Rect textRect = new Rect(nameRect.x, nameRect.yMax + Config.textNameOffset * scale, scaledTextWidth, scaledTextHeight);
             if (Config.drawBorders)
             {
-                GUI.color = Color.white;
                 Widgets.DrawBox(textRect);
-                GUI.color = Color.white;
             }
             Rect textInnerRect = textRect.ContractedBy(10f * scale);
-            Widgets.Label(textInnerRect, selectedDescription); // Use the selected description
+            Widgets.Label(textInnerRect, selectedDescription);
 
-            // option (Buttons)
             Rect optionRect = new Rect(nameRect.x, textRect.yMax + Config.optionsTextOffset * scale, scaledOptionsWidth, lihuiRect.height - nameRect.height - textRect.height - (Config.textNameOffset + Config.optionsTextOffset) * scale);
             
             Listing_Standard listing = new Listing_Standard();
@@ -209,7 +194,7 @@ namespace WulaFallenEmpire
                     {
                         if (option.hideWhenDisabled)
                         {
-                            continue; // Skip rendering this option entirely
+                            continue;
                         }
                         Rect rect = listing.GetRect(30f);
                         Widgets.ButtonText(rect, option.label, false, true, false);
@@ -229,8 +214,7 @@ namespace WulaFallenEmpire
 
             foreach (var ce in conditionalEffects)
             {
-                string reason;
-                if (AreConditionsMet(ce.conditions, out reason))
+                if (AreConditionsMet(ce.conditions, out _))
                 {
                     if (!ce.effects.NullOrEmpty())
                     {
@@ -276,14 +260,21 @@ namespace WulaFallenEmpire
             base.PostClose();
             HandleAction(def.dismissEffects);
         }
-       private string FormatDescription(string description)
-       {
-           var variables = EventContext.GetAllVariables();
-           foreach (var variable in variables)
-           {
-               description = description.Replace("{" + variable.Key + "}", variable.Value.ToString());
-           }
-           return description;
-       }
+        
+        private string FormatDescription(string description)
+        {
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            // Use regex to find all placeholders like {variableName}
+            return Regex.Replace(description, @"\{(.+?)\}", match =>
+            {
+                string varName = match.Groups[1].Value;
+                if (eventVarManager.HasVariable(varName))
+                {
+                    // Important: GetVariable<object> to get any type
+                    return eventVarManager.GetVariable<object>(varName)?.ToString() ?? "";
+                }
+                return match.Value; // Keep placeholder if variable not found
+            });
+        }
     }
 }

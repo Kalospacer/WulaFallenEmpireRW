@@ -34,6 +34,17 @@
     </statFactors>
   </WeaponTraitDef>
   <WeaponTraitDef>
+    <defName>WULA_MissileLauncher</defName>
+    <label>乌拉帝国导弹</label>
+    <description>这把武器的抛射体会跟踪敌人，如果没有明确的敌人作为目标，则会在落地前散开以形成轰炸区。</description>
+    <commonality>1</commonality>
+    <weaponCategory>WULA_Missile</weaponCategory>
+    <statOffsets>
+    </statOffsets>
+    <statFactors>
+    </statFactors>
+  </WeaponTraitDef>
+  <WeaponTraitDef>
     <defName>WULA_Melee_Cleave</defName>
     <label>溅射伤害</label>
     <description>这把武器的近战攻击不仅会伤害受击者，还会伤害受击者后方扇形范围内的其他个体。</description>

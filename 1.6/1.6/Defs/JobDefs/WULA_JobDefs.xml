@@ -4,36 +4,29 @@
   <JobDef>
     <defName>WULA_EnterMaintenancePod</defName>
     <driverClass>WulaFallenEmpire.JobDriver_EnterMaintenancePod</driverClass>
-    <reportString>正在进入维护舱。</reportString>
+    <reportString>正在进入维护舱</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
 
   <JobDef>
     <defName>WULA_IngestWulaEnergy</defName>
     <driverClass>WulaFallenEmpire.JobDriver_IngestWulaEnergy</driverClass>
-    <reportString>正在摄取能量。</reportString>
+    <reportString>正在摄取能量</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
 
   <JobDef>
     <defName>WULA_FeedWulaPatient</defName>
     <driverClass>WulaFallenEmpire.JobDriver_FeedWulaPatient</driverClass>
-    <reportString>正在喂食能量核心。</reportString>
+    <reportString>正在喂食能量核心</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
 
   <JobDef>
     <defName>WULA_HaulToMaintenancePod</defName>
     <driverClass>WulaFallenEmpire.JobDriver_HaulToMaintenancePod</driverClass>
-    <reportString>正在将TargetA抬到TargetB。</reportString>
+    <reportString>正在将TargetA抬到TargetB</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
-    <casualInterruptible>false</casualInterruptible>
-  </JobDef>
-
-  <JobDef>
-    <defName>WULA_LayDownToCharge</defName>
-    <driverClass>WulaFallenEmpire.JobDriver_WulaLayDownToCharge</driverClass>
-    <reportString>正在充电。</reportString>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
 
