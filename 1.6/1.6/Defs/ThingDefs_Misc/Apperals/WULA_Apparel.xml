@@ -552,8 +552,8 @@
 
         <!-- 视觉与音效 -->
         <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
-        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
-        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <soundInterceptEffecter>Interceptor_BlockedProjectile</soundInterceptEffecter> <!-- 成功拦截时的音效 -->
+        <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
 
         <!-- EMP 效果 -->
@@ -627,8 +627,8 @@
 
         <!-- 视觉与音效 -->
         <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
-        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
-        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <soundInterceptEffecter>Interceptor_BlockedProjectile</soundInterceptEffecter> <!-- 成功拦截时的音效 -->
+        <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
 
         <!-- EMP 效果 -->
@@ -1036,8 +1036,8 @@
 
         <!-- 视觉与音效 -->
         <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
-        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
-        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <soundInterceptEffecter>Interceptor_BlockedProjectile</soundInterceptEffecter> <!-- 成功拦截时的音效 -->
+        <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
 
         <!-- EMP 效果 -->
@@ -1190,8 +1190,8 @@
 
         <!-- 视觉与音效 -->
         <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
-        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
-        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <soundInterceptEffecter>Interceptor_BlockedProjectile</soundInterceptEffecter> <!-- 成功拦截时的音效 -->
+        <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
 
         <!-- EMP 效果 -->
@@ -1465,8 +1465,8 @@
 
         <!-- 视觉与音效 -->
         <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
-        <soundIntercept>Interceptor_BlockedProjectile</soundIntercept> <!-- 成功拦截时的音效 -->
-        <soundBreak>Shield_Break</soundBreak>                     <!-- 护盾破裂时的音效 -->
+        <soundInterceptEffecter>Interceptor_BlockedProjectile</soundInterceptEffecter> <!-- 成功拦截时的音效 -->
+        <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
 
         <!-- EMP 效果 -->

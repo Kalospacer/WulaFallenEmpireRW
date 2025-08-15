@@ -20,8 +20,8 @@ namespace WulaFallenEmpire
         public bool interceptNonHostileProjectiles = false;
         public bool interceptAirProjectiles = true;
 
-        public SoundDef soundIntercept;
-        public SoundDef soundBreak;
+        public EffecterDef soundInterceptEffecter;
+        public EffecterDef soundBreakEffecter;
         public EffecterDef reactivateEffect;
 
         public Color color = new Color(0.5f, 0.5f, 0.9f);
@@ -174,8 +174,7 @@ namespace WulaFallenEmpire
             lastInterceptAngle = projectile.ExactPosition.AngleToFlat(PawnOwner.TrueCenter());
             lastInterceptTicks = Find.TickManager.TicksGame;
             drawInterceptCone = true;
-            if (Props.soundIntercept != null) Props.soundIntercept.PlayOneShot(new TargetInfo(PawnOwner.Position, PawnOwner.Map));
-            EffecterDefOf.Interceptor_BlockedProjectile.Spawn(PawnOwner.Position, PawnOwner.Map);
+            if (Props.soundInterceptEffecter != null) Props.soundInterceptEffecter.Spawn(PawnOwner.Position, PawnOwner.Map).Cleanup();
 
             if (projectile.DamageDef == DamageDefOf.EMP && !Props.isImmuneToEMP)
             {
@@ -232,8 +231,7 @@ namespace WulaFallenEmpire
         {
             if (PawnOwner.Spawned)
             {
-                if (Props.soundBreak != null) Props.soundBreak.PlayOneShot(new TargetInfo(PawnOwner.Position, PawnOwner.Map));
-                EffecterDefOf.Shield_Break.SpawnAttached(PawnOwner, PawnOwner.MapHeld, Props.radius);
+                if (Props.soundBreakEffecter != null) Props.soundBreakEffecter.SpawnAttached(PawnOwner, PawnOwner.MapHeld, Props.radius).Cleanup();
             }
             currentHitPoints = 0;
             ticksToReset = Props.rechargeDelay;
