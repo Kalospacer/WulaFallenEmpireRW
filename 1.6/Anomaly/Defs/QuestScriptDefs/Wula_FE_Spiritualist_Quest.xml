@@ -4,8 +4,30 @@
     <defName>Wula_FE_Spiritualist_Quest_1</defName>
     <label>乌拉的呼唤</label>
     <description>一个强大的心灵实体将它的意志强加于你的意识之中。</description>
+    <autoAccept>true</autoAccept>
+    <!-- <isRootSpecial>true</isRootSpecial>
+    <rootSelectionWeight>0</rootSelectionWeight> -->
     <root Class="QuestNode_Sequence">
       <nodes>
+        <li Class="QuestEditor_Library.QuestNode_RandomCustomMap">
+          <datas>
+            <li>
+              <key>AE_CustomMap_FE_Spiritualist_Heretic_Camp</key>
+              <value>1</value>
+            </li>
+          </datas>
+          <buffer>5</buffer>
+          <bufferMin>10</bufferMin>
+          <siteIconPath>Things/Building/Natural/Hive/HiveC</siteIconPath>
+          <expandingIconPath>Things/Building/Natural/Hive/HiveC</expandingIconPath>
+          <storeAs>Hive</storeAs>
+          <faction>AncientsHostile</faction>
+          <distance>
+            <min>5</min>
+            <max>10</max>
+          </distance>
+          <blacklist />
+        </li>
         <li Class="QuestNode_ResolveQuestName">
           <rules>
             <rulesStrings>

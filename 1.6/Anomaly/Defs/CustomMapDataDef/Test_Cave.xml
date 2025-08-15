@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestEditor_Library.CustomMapDataDef>
+    <defName>Test_Cave</defName>
+    <label>Test Cave</label>
+    <size>(15, 1, 15)</size>
+    <isPart>true</isPart>
+    <commonality>0.8</commonality>
+    <customThings>
+      <li Class="QuestEditor_Library.CustomThingData_CustomMapExit">
+        <def>QE_CustomMapExit</def>
+        <position>(6,0,8)</position>
+        <exitName>CaveExit</exitName>
+      </li>
+    </customThings>
+    <roofRects>
+      <li>
+        <key>RoofRockThick</key>
+        <value>
+          <li>(0,0,14,14)</li>
+        </value>
+      </li>
+    </roofRects>
+    <terrainsRect>
+      <li>
+        <key>Sandstone_RoughHewn</key>
+        <value>
+          <li>(0,0,14,14)</li>
+        </value>
+      </li>
+    </terrainsRect>
+    <thingDatas>
+      <li>
+        <def>Sandstone</def>
+        <hitPoint>400</hitPoint>
+        <allRect>
+          <li>(0,0,14,0)</li>
+          <li>(0,1,0,14)</li>
+          <li>(1,14,14,14)</li>
+          <li>(14,1,14,13)</li>
+        </allRect>
+      </li>
+    </thingDatas>
+  </QuestEditor_Library.CustomMapDataDef>
+</Defs>

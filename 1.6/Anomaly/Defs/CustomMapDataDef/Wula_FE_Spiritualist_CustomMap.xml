@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <QuestEditor_Library.CustomMapDataDef>
-    <defName>Wula_CustomMap_SmallInsectCave</defName>
-    <label>Small insect hive</label>
+    <defName>AE_CustomMap_FE_Spiritualist_Heretic_Camp</defName>
+    <label>渎神者营地</label>
     <size>(13, 1, 13)</size>
     <isPart>true</isPart>
     <commonality>0.8</commonality>
