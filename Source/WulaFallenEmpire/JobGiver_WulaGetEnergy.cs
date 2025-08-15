@@ -20,6 +20,12 @@ namespace WulaFallenEmpire
                 return 0f;
             }
 
+            // 如果Pawn已经有充电Hediff，则不需要充电
+            if (pawn.health.hediffSet.HasHediff(HediffDef.Named("WULA_ChargingHediff")))
+            {
+                return 0f;
+            }
+
             // 如果能量已充满，则不需要充电
             if (energyNeed.CurLevel >= energyNeed.MaxLevel)
             {
