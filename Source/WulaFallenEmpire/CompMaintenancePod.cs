@@ -199,18 +199,39 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 2. Heal all other injuries
+            // 2. Heal all other injuries and missing parts
             int injuriesHealed = 0;
+            // Loop until no more health conditions can be fixed
             while (HealthUtility.TryGetWorstHealthCondition(occupant, out var hediffToFix, out var _))
             {
-                // Ensure we don't try to "heal" the maintenance hediff itself
-                if (hediffToFix.def == Props.hediffToRemove)
+                // Ensure we don't try to "heal" the maintenance hediff itself, as it's handled separately.
+                if (hediffToFix != null && hediffToFix.def == Props.hediffToRemove)
                 {
                     break;
                 }
 
+                // Store the state before attempting to fix
+                int initialHediffCount = occupant.health.hediffSet.hediffs.Count;
+                var hediffsBefore = new HashSet<Hediff>(occupant.health.hediffSet.hediffs);
+
+                // Attempt to fix the worst condition
                 HealthUtility.FixWorstHealthCondition(occupant);
-                injuriesHealed++;
+
+                // Check if a change actually occurred
+                bool conditionFixed = initialHediffCount > occupant.health.hediffSet.hediffs.Count ||
+                                      !hediffsBefore.SetEquals(occupant.health.hediffSet.hediffs);
+                
+                if (conditionFixed)
+                {
+                    injuriesHealed++;
+                }
+                else
+                {
+                    // If FixWorstHealthCondition did nothing, it means it can't handle
+                    // the current worst condition. We must break to avoid an infinite loop.
+                    Log.Warning($"[WulaPodDebug] Halting healing loop. FixWorstHealthCondition did not resolve: {hediffToFix?.LabelCap ?? "a missing part"}.");
+                    break;
+                }
             }
 
             if (injuriesHealed > 0)
