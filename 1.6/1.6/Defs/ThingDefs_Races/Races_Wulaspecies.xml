@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef Name="Wula_Human_Protect_Superclass" ParentName="BasePawn" Abstract="True">
+  <ThingDef Abstract="True" Name="Wula_Human_Protect_Superclass" ParentName="BasePawn">
     <statBases>
       <MarketValue>1750</MarketValue>
       <MoveSpeed>4.6</MoveSpeed>

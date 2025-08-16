@@ -53,12 +53,12 @@
         <checkRoomVacuum>false</checkRoomVacuum>
       </li>
       <li Class="CompProperties_Refuelable">
-        <fuelConsumptionRate>-30</fuelConsumptionRate>
+        <fuelConsumptionRate>-20</fuelConsumptionRate>
         <fuelCapacity>1000</fuelCapacity>
         <targetFuelLevelConfigurable>false</targetFuelLevelConfigurable>
         <fuelFilter>
           <thingDefs>
-            <li>Chemfuel</li>
+            <li>AncientExostriderLeg</li>
           </thingDefs>
         </fuelFilter>
         <fuelLabel>暗物质燃料</fuelLabel>
