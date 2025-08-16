@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef Name="Wula_Human_Protect_Superclass" ParentName="BasePawn">
-    <defName>Human</defName>
-    <label>human</label>
-    <description>A baseline human, mostly unmodified by gene engineering and mostly unchanged by evolutionary pressures on non-Earth planets.</description>
+  <ThingDef Name="Wula_Human_Protect_Superclass" ParentName="BasePawn" Abstract="True">
     <statBases>
       <MarketValue>1750</MarketValue>
       <MoveSpeed>4.6</MoveSpeed>
