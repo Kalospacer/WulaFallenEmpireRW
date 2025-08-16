@@ -107,7 +107,7 @@
     <description>开发能够被乌拉帝国合成人穿着的装甲，这类装备可以为乌拉帝国合成人提供保护。</description>
     <baseCost>2400</baseCost>
     <prerequisites>
-      <li>ReconArmor</li>
+      <li>FlakArmor</li>
       <li>WULA_Synth_Clothes_2_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
