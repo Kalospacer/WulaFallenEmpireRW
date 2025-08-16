@@ -353,63 +353,73 @@ namespace WulaFallenEmpire
         private List<FloatMenuOption> GetPawnOptions()
         {
             List<FloatMenuOption> options = new List<FloatMenuOption>();
-            foreach (Pawn p in parent.Map.mapPawns.FreeColonists.Where(pawn => pawn.def.defName == "WulaSpecies" || pawn.def.defName == "WulaSpeciesReal"))
+            // Now iterates over all pawns on the map, not just colonists.
+            foreach (Pawn p in parent.Map.mapPawns.AllPawns.Where(pawn => pawn.def.defName == "WulaSpecies" || pawn.def.defName == "WulaSpeciesReal"))
             {
                 if (p.health.hediffSet.HasHediff(Props.hediffToRemove))
                 {
-                    if (!p.CanReach(parent, PathEndMode.InteractionCell, Danger.Deadly))
-                    {
-                        options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "CannotReach".Translate() + ")", null));
-                    }
-                    else if (p.Downed)
+                    // If the pawn is downed or not a free colonist, they need to be brought to the pod.
+                    if (p.Downed || !p.IsFreeColonist)
                     {
                         float required = RequiredComponents(p);
                         if (refuelableComp.Fuel < required)
                         {
-                            options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ", " + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
+                            options.Add(new FloatMenuOption(p.LabelShortCap + " (" + p.KindLabel + ", " + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
                         }
                         else
                         {
-                            Action action = delegate
+                            // Find colonists who can haul the pawn.
+                            var potentialHaulers = parent.Map.mapPawns.FreeColonistsSpawned.Where(colonist =>
+                                !colonist.Downed && colonist.CanReserveAndReach(p, PathEndMode.OnCell, Danger.Deadly) && colonist.CanReserveAndReach(parent, PathEndMode.InteractionCell, Danger.Deadly));
+
+                            if (!potentialHaulers.Any())
                             {
-                                var potentialRescuers = parent.Map.mapPawns.FreeColonistsSpawned.Where(colonist =>
-                                    !colonist.Downed && colonist.CanReserveAndReach(p, PathEndMode.OnCell, Danger.Deadly) && colonist.CanReserveAndReach(parent, PathEndMode.InteractionCell, Danger.Deadly));
-
-                                if (!potentialRescuers.Any())
+                                // If no one can haul, then it's unreachable.
+                                options.Add(new FloatMenuOption(p.LabelShortCap + " (" + p.KindLabel + ", " + "CannotReach".Translate() + ")", null));
+                            }
+                            else
+                            {
+                                Action action = delegate
                                 {
-                                    Messages.Message("WULA_MaintenancePod_NoRescuer".Translate(p.Named("PAWN")), MessageTypeDefOf.RejectInput);
-                                    return;
-                                }
-
-                                var rescuerOptions = new List<FloatMenuOption>();
-                                foreach (var rescuer in potentialRescuers)
-                                {
-                                    rescuerOptions.Add(new FloatMenuOption(rescuer.LabelCap, delegate
+                                    // Create a menu to select which colonist should do the hauling.
+                                    var haulerOptions = new List<FloatMenuOption>();
+                                    foreach (var hauler in potentialHaulers)
                                     {
-                                        var haulJob = JobMaker.MakeJob(JobDefOf_WULA.WULA_HaulToMaintenancePod, p, parent);
-                                        haulJob.count = 1;
-                                        rescuer.jobs.TryTakeOrderedJob(haulJob, JobTag.Misc);
-                                    }));
-                                }
-                                Find.WindowStack.Add(new FloatMenu(rescuerOptions));
-                            };
-                            options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "Incapacitated".Translate() + ")", action));
+                                        haulerOptions.Add(new FloatMenuOption(hauler.LabelCap, delegate
+                                        {
+                                            var haulJob = JobMaker.MakeJob(JobDefOf_WULA.WULA_HaulToMaintenancePod, p, parent);
+                                            haulJob.count = 1;
+                                            hauler.jobs.TryTakeOrderedJob(haulJob, JobTag.Misc);
+                                        }));
+                                    }
+                                    Find.WindowStack.Add(new FloatMenu(haulerOptions));
+                                };
+                                options.Add(new FloatMenuOption(p.LabelShortCap + " (" + p.KindLabel + ")", action));
+                            }
                         }
                     }
+                    // If the pawn is a free colonist and can walk, they can go on their own.
                     else
                     {
-                        float required = RequiredComponents(p);
-                        if (refuelableComp.Fuel >= required)
+                        if (!p.CanReach(parent, PathEndMode.InteractionCell, Danger.Deadly))
                         {
-                            options.Add(new FloatMenuOption(p.LabelShortCap, () =>
-                            {
-                                Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_EnterMaintenancePod, parent);
-                                p.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-                            }));
+                            options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "CannotReach".Translate() + ")", null));
                         }
                         else
                         {
-                            options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
+                            float required = RequiredComponents(p);
+                            if (refuelableComp.Fuel >= required)
+                            {
+                                options.Add(new FloatMenuOption(p.LabelShortCap, () =>
+                                {
+                                    Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_EnterMaintenancePod, parent);
+                                    p.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+                                }));
+                            }
+                            else
+                            {
+                                options.Add(new FloatMenuOption(p.LabelShortCap + " (" + "WULA_MaintenancePod_NotEnoughComponents".Translate(required.ToString("F0")) + ")", null));
+                            }
                         }
                     }
                 }
