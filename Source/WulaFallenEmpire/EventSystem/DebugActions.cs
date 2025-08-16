@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using LudeonTK;
 using Verse;
 using RimWorld;
-using LudeonTK;
 
 namespace WulaFallenEmpire
 {
@@ -13,7 +13,6 @@ namespace WulaFallenEmpire
             List<DebugMenuOption> list = new List<DebugMenuOption>();
             foreach (EventDef localDef in DefDatabase<EventDef>.AllDefs)
             {
-                // Capture the local variable for the lambda
                 EventDef currentDef = localDef;
                 list.Add(new DebugMenuOption(currentDef.defName, DebugMenuOptionMode.Action, delegate
                 {
@@ -21,6 +20,15 @@ namespace WulaFallenEmpire
                 }));
             }
             Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+        }
+    }
+
+    public static class WulaDebugActionsVariables
+    {
+        [DebugAction("Wula Fallen Empire", "Manage Event Variables", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        private static void ManageEventVariables()
+        {
+            Find.WindowStack.Add(new Dialog_ManageEventVariables());
         }
     }
 }

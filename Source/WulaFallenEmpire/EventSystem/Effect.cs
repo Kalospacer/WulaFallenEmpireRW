@@ -163,25 +163,34 @@ namespace WulaFallenEmpire
     {
         public string name;
         public string value;
+        public string type; // Int, Float, String, Bool
+        public bool forceSet = false;
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
-            if (!eventVarManager.HasVariable(name))
+            if (!forceSet && eventVarManager.HasVariable(name))
             {
-                if (int.TryParse(value, out int intValue))
+                return;
+            }
+
+            object realValue = value;
+            if (!string.IsNullOrEmpty(type))
+            {
+                if (type.Equals("int", System.StringComparison.OrdinalIgnoreCase) && int.TryParse(value, out int intVal))
                 {
-                    eventVarManager.SetVariable(name, intValue);
+                    realValue = intVal;
                 }
-                else if (float.TryParse(value, out float floatValue))
+                else if (type.Equals("float", System.StringComparison.OrdinalIgnoreCase) && float.TryParse(value, out float floatVal))
                 {
-                    eventVarManager.SetVariable(name, floatValue);
+                    realValue = floatVal;
                 }
-                else
+                else if (type.Equals("bool", System.StringComparison.OrdinalIgnoreCase) && bool.TryParse(value, out bool boolVal))
                 {
-                    eventVarManager.SetVariable(name, value);
+                    realValue = boolVal;
                 }
             }
+            eventVarManager.SetVariable(name, realValue);
         }
     }
     
@@ -337,14 +346,14 @@ namespace WulaFallenEmpire
         Add,
         Subtract,
         Multiply,
-        Divide,
-        Set
+        Divide
     }
 
     public class Effect_ModifyVariable : Effect
     {
         public string name;
-        public float value;
+        public string value;
+        public string valueVariableName;
         public VariableOperation operation;
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
@@ -354,43 +363,70 @@ namespace WulaFallenEmpire
                 Log.Error("[WulaFallenEmpire] Effect_ModifyVariable has a null or empty name.");
                 return;
             }
-            
+
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
 
-            if (!eventVarManager.HasVariable(name))
+            // Determine the value to modify by
+            string valueStr = value;
+            if (!string.IsNullOrEmpty(valueVariableName))
             {
-                eventVarManager.SetVariable(name, 0f);
+                valueStr = eventVarManager.GetVariable<object>(valueVariableName)?.ToString();
+                if (valueStr == null)
+                {
+                    Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable: valueVariableName '{valueVariableName}' not found.");
+                    return;
+                }
             }
-            
-            float currentValue = eventVarManager.GetVariable<float>(name);
 
-            switch (operation)
+            // Get the target variable, or initialize it
+            object variable = eventVarManager.GetVariable<object>(name);
+            if (variable == null)
             {
-                case VariableOperation.Add:
-                    currentValue += value;
-                    break;
-                case VariableOperation.Subtract:
-                    currentValue -= value;
-                    break;
-                case VariableOperation.Multiply:
-                    currentValue *= value;
-                    break;
-                case VariableOperation.Divide:
-                    if (value != 0)
-                    {
-                        currentValue /= value;
-                    }
-                    else
-                    {
-                        Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable tried to divide by zero for variable '{name}'.");
-                    }
-                    break;
-               case VariableOperation.Set:
-                   currentValue = value;
-                   break;
-           }
+                Log.Message($"[EventSystem] Effect_ModifyVariable: Variable '{name}' not found, initializing to 0.");
+                variable = 0;
+            }
 
-           eventVarManager.SetVariable(name, currentValue);
+            object originalValue = variable;
+            object newValue = null;
+
+            // Perform operation based on type
+            try
+            {
+                if (variable is int || (variable is float && !valueStr.Contains("."))) // Allow int ops
+                {
+                    int currentVal = System.Convert.ToInt32(variable);
+                    int modVal = int.Parse(valueStr);
+                    newValue = (int)Modify((float)currentVal, (float)modVal, operation);
+                }
+                else // Default to float operation
+                {
+                    float currentVal = System.Convert.ToSingle(variable);
+                    float modVal = float.Parse(valueStr);
+                    newValue = Modify(currentVal, modVal, operation);
+                }
+
+                Log.Message($"[EventSystem] Modifying variable '{name}'. Operation: {operation}. Value: {valueStr}. From: {originalValue} To: {newValue}");
+                eventVarManager.SetVariable(name, newValue);
+            }
+            catch (System.Exception e)
+            {
+                Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable: Could not parse or operate on value '{valueStr}' for variable '{name}'. Error: {e.Message}");
+            }
+        }
+
+        private float Modify(float current, float modifier, VariableOperation op)
+        {
+            switch (op)
+            {
+                case VariableOperation.Add: return current + modifier;
+                case VariableOperation.Subtract: return current - modifier;
+                case VariableOperation.Multiply: return current * modifier;
+                case VariableOperation.Divide:
+                    if (modifier != 0) return current / modifier;
+                    Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable tried to divide by zero.");
+                    return current;
+                default: return current;
+            }
         }
     }
 
@@ -553,6 +589,35 @@ namespace WulaFallenEmpire
             foreach (var effect in effects)
             {
                 effect.Execute(dialog);
+            }
+        }
+    }
+public class Effect_StoreFactionGoodwill : Effect
+    {
+        public FactionDef factionDef;
+        public string variableName;
+
+        public override void Execute(Dialog_CustomDisplay dialog = null)
+        {
+            if (factionDef == null || string.IsNullOrEmpty(variableName))
+            {
+                Log.Error("[WulaFallenEmpire] Effect_StoreFactionGoodwill is not configured correctly.");
+                return;
+            }
+
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            Faction faction = Find.FactionManager.FirstFactionOfDef(factionDef);
+            
+            if (faction != null)
+            {
+                int goodwill = faction.GoodwillWith(Faction.OfPlayer);
+                Log.Message($"[EventSystem] Storing goodwill for faction '{faction.Name}' ({goodwill}) into variable '{variableName}'.");
+                eventVarManager.SetVariable(variableName, goodwill);
+            }
+            else
+            {
+                Log.Warning($"[EventSystem] Effect_StoreFactionGoodwill: Faction '{factionDef.defName}' not found. Storing 0 in variable '{variableName}'.");
+                eventVarManager.SetVariable(variableName, 0);
             }
         }
     }

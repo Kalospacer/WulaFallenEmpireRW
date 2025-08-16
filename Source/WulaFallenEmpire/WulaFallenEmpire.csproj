@@ -83,6 +83,7 @@
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />
     <Compile Include="EventSystem\Condition.cs" />
     <Compile Include="EventSystem\DebugActions.cs" />
+    <Compile Include="EventSystem\Dialog_ManageEventVariables.cs" />
     <Compile Include="EventSystem\DelayedActionManager.cs" />
     <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
     <Compile Include="EventSystem\Effect.cs" />

@@ -47,7 +47,10 @@ namespace WulaFallenEmpire
         public void SetVariable(string name, object value)
         {
             if (string.IsNullOrEmpty(name)) return;
-            
+
+            // Log the variable change
+            Log.Message($"[EventSystem] Setting variable '{name}' to value '{value}' of type {value?.GetType().Name ?? "null"}.");
+
             // Clear any existing variable with the same name to prevent type confusion
             ClearVariable(name);
 
@@ -83,48 +86,45 @@ namespace WulaFallenEmpire
             if (string.IsNullOrEmpty(name)) return defaultValue;
 
             object value = null;
-            bool found = false;
-
-            if (typeof(T) == typeof(List<Pawn>) && pawnListVars.TryGetValue(name, out var pawnListVal))
+            if (pawnListVars.TryGetValue(name, out var pawnListVal))
             {
                 value = pawnListVal;
-                found = true;
             }
-            else if (typeof(T) == typeof(Pawn) && pawnVars.TryGetValue(name, out var pawnVal))
+            else if (pawnVars.TryGetValue(name, out var pawnVal))
             {
                 value = pawnVal;
-                found = true;
             }
-            else if (typeof(T) == typeof(float) && floatVars.TryGetValue(name, out var floatVal))
+            else if (floatVars.TryGetValue(name, out var floatVal))
             {
                 value = floatVal;
-                found = true;
             }
-            else if (typeof(T) == typeof(int) && intVars.TryGetValue(name, out var intVal))
+            else if (intVars.TryGetValue(name, out var intVal))
             {
                 value = intVal;
-                found = true;
             }
             else if (stringVars.TryGetValue(name, out var stringVal))
             {
                 value = stringVal;
-                found = true;
             }
 
-            if (found)
+            if (value != null)
             {
                 if (value is T typedValue)
                 {
                     return typedValue;
                 }
-
                 try
                 {
+                    // Handle cases where T is object but the stored value is, e.g., an int
+                    if (typeof(T) == typeof(object))
+                    {
+                        return (T)value;
+                    }
                     return (T)System.Convert.ChangeType(value, typeof(T));
                 }
-                catch (System.Exception)
+                catch (System.Exception e)
                 {
-                     Log.Warning($"[WulaFallenEmpire] EventVariableManager: Variable '{name}' of type {value.GetType()} could not be converted to {typeof(T)}.");
+                    Log.Warning($"[WulaFallenEmpire] EventVariableManager: Variable '{name}' of type {value.GetType()} could not be converted to {typeof(T)}. Error: {e.Message}");
                     return defaultValue;
                 }
             }
@@ -143,6 +143,10 @@ namespace WulaFallenEmpire
 
         public void ClearVariable(string name)
         {
+            if (HasVariable(name))
+            {
+                Log.Message($"[EventSystem] Clearing variable '{name}'.");
+            }
             intVars.Remove(name);
             floatVars.Remove(name);
             stringVars.Remove(name);
@@ -157,6 +161,17 @@ namespace WulaFallenEmpire
             stringVars.Clear();
             pawnVars.Clear();
             pawnListVars.Clear();
+        }
+
+        public Dictionary<string, object> GetAllVariables()
+        {
+            var allVars = new Dictionary<string, object>();
+            foreach (var kvp in intVars) allVars[kvp.Key] = kvp.Value;
+            foreach (var kvp in floatVars) allVars[kvp.Key] = kvp.Value;
+            foreach (var kvp in stringVars) allVars[kvp.Key] = kvp.Value;
+            foreach (var kvp in pawnVars) allVars[kvp.Key] = kvp.Value;
+            foreach (var kvp in pawnListVars) allVars[kvp.Key] = kvp.Value;
+            return allVars;
         }
     }
 }

@@ -19,26 +19,53 @@ namespace WulaFallenEmpire
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             if (!eventVarManager.HasVariable(name))
             {
-                eventVarManager.SetVariable(name, "0");
+                reason = $"Variable '{name}' not found.";
+                return false;
             }
-            
-            object variable = eventVarManager.GetVariable<object>(name);
 
-            string compareValue = value;
+            object variable = eventVarManager.GetVariable<object>(name);
+            string compareValueStr = value;
+
             if (!string.IsNullOrEmpty(valueVariableName))
             {
-                compareValue = eventVarManager.GetVariable<object>(valueVariableName)?.ToString();
-                if (compareValue == null)
+                compareValueStr = eventVarManager.GetVariable<object>(valueVariableName)?.ToString();
+                if (compareValueStr == null)
                 {
                     reason = $"Comparison variable '{valueVariableName}' not set.";
                     return false;
                 }
             }
 
-            bool met = variable.ToString() == compareValue;
+            bool met = false;
+            try
+            {
+                if (variable is int)
+                {
+                    met = (int)variable == int.Parse(compareValueStr);
+                }
+                else if (variable is float)
+                {
+                    met = (float)variable == float.Parse(compareValueStr);
+                }
+                else if (variable is bool)
+                {
+                    met = (bool)variable == bool.Parse(compareValueStr);
+                }
+                else
+                {
+                    met = variable?.ToString() == compareValueStr;
+                }
+            }
+            catch (System.Exception e)
+            {
+                Log.Warning($"[EventSystem] Condition_VariableEquals: Could not compare '{variable}' and '{compareValueStr}'. Error: {e.Message}");
+                reason = "Type mismatch or parsing error during comparison.";
+                return false;
+            }
+
             if (!met)
             {
-                reason = $"Requires {name} = {compareValue} (Current: {variable})";
+                reason = $"Requires {name} = {compareValueStr} (Current: {variable})";
             }
             else
             {
@@ -62,6 +89,7 @@ namespace WulaFallenEmpire
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             if (!eventVarManager.HasVariable(name))
             {
+                Log.Message($"[EventSystem] {GetType().Name}: Variable '{name}' not found, defaulting to 0f.");
                 eventVarManager.SetVariable(name, 0f);
             }
             
@@ -74,11 +102,13 @@ namespace WulaFallenEmpire
                 if (float.IsNaN(compareValue))
                 {
                     reason = $"Comparison variable '{valueVariableName}' not set or not a number.";
+                    Log.Warning($"[EventSystem] {GetType().Name} check for '{name}' failed: {reason}");
                     return false;
                 }
             }
 
             bool met = Compare(variable, compareValue);
+            Log.Message($"[EventSystem] {GetType().Name} check: Name='{name}', CurrentValue='{variable}', CompareValue='{compareValue}', Met={met}");
             if (!met)
             {
                 reason = $"Requires {name} {GetOperatorString()} {compareValue} (Current: {variable})";
@@ -126,26 +156,54 @@ namespace WulaFallenEmpire
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             if (!eventVarManager.HasVariable(name))
             {
-                eventVarManager.SetVariable(name, "0");
+                reason = $"Variable '{name}' not found.";
+                return false;
             }
 
             object variable = eventVarManager.GetVariable<object>(name);
+            string compareValueStr = value;
 
-            string compareValue = value;
             if (!string.IsNullOrEmpty(valueVariableName))
             {
-                compareValue = eventVarManager.GetVariable<object>(valueVariableName)?.ToString();
-                if (compareValue == null)
+                compareValueStr = eventVarManager.GetVariable<object>(valueVariableName)?.ToString();
+                if (compareValueStr == null)
                 {
                     reason = $"Comparison variable '{valueVariableName}' not set.";
                     return false;
                 }
             }
 
-            bool met = variable.ToString() != compareValue;
+            bool met = false;
+            try
+            {
+                if (variable is int)
+                {
+                    met = (int)variable != int.Parse(compareValueStr);
+                }
+                else if (variable is float)
+                {
+                    met = (float)variable != float.Parse(compareValueStr);
+                }
+                else if (variable is bool)
+                {
+                    met = (bool)variable != bool.Parse(compareValueStr);
+                }
+                else
+                {
+                    met = variable?.ToString() != compareValueStr;
+                }
+            }
+            catch (System.Exception e)
+            {
+                Log.Warning($"[EventSystem] Condition_VariableNotEqual: Could not compare '{variable}' and '{compareValueStr}'. Error: {e.Message}");
+                reason = "Type mismatch or parsing error during comparison.";
+                return false;
+            }
+            
+            Log.Message($"[EventSystem] Condition_VariableNotEqual check: Name='{name}', Type='{variable?.GetType().Name ?? "null"}', CurrentValue='{variable}', CompareValue='{compareValueStr}', Met={met}");
             if (!met)
             {
-                reason = $"Requires {name} != {compareValue} (Current: {variable})";
+                reason = $"Requires {name} != {compareValueStr} (Current: {variable})";
             }
             else
             {
