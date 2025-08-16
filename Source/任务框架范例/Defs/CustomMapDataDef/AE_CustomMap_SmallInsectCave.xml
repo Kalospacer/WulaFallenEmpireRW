@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <QuestEditor_Library.CustomMapDataDef>
-    <defName>AE_CustomMap_SmallInsectCave</defName>
+    <defName>Wula_CustomMap_SmallInsectCave</defName>
     <label>Small insect hive</label>
     <size>(13, 1, 13)</size>
     <isPart>true</isPart>

@@ -47,10 +47,9 @@
         <optionEffects>
           <li>
             <effects>
-              <li Class="WulaFallenEmpire.Effect_AddQuest">
-                <quest>Wula_FE_Spiritualist_Quest_1</quest>
-              </li>
-
+              <!-- <li Class="WulaFallenEmpire.Effect_AddQuest">
+                <quest>Wula_FE_Quest_Attack_Mercenary</quest>
+              </li> -->
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
           </li>
