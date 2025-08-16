@@ -36,13 +36,7 @@ namespace WulaFallenEmpire
                                 string reason;
                                 if (AreConditionsMet(conditionalEffect.conditions, out reason))
                                 {
-                                    if (!conditionalEffect.effects.NullOrEmpty())
-                                    {
-                                        foreach (var effect in conditionalEffect.effects)
-                                        {
-                                            effect.Execute(null);
-                                        }
-                                    }
+                                    conditionalEffect.Execute(null);
                                 }
                             }
                         }

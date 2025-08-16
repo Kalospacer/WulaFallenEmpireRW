@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -68,10 +69,73 @@ namespace WulaFallenEmpire
         public bool hideWhenDisabled = false;
     }
 
+    public class LoopEffects
+    {
+        public int count = 1;
+        public string countVariableName;
+        public List<Effect> effects;
+    }
+
     public class ConditionalEffects
     {
         public List<Condition> conditions;
         public List<Effect> effects;
+        public List<Effect> randomlistEffects;
+        public List<LoopEffects> loopEffects;
+
+        public void Execute(Dialog_CustomDisplay dialog)
+        {
+            // Execute all standard effects
+            if (!effects.NullOrEmpty())
+            {
+                foreach (var effect in effects)
+                {
+                    effect.Execute(dialog);
+                }
+            }
+
+            // Execute one random effect from the random list
+            if (!randomlistEffects.NullOrEmpty())
+            {
+                float totalWeight = randomlistEffects.Sum(e => e.weight);
+                float randomPoint = Rand.Value * totalWeight;
+
+                foreach (var effect in randomlistEffects)
+                {
+                    if (randomPoint < effect.weight)
+                    {
+                        effect.Execute(dialog);
+                        break;
+                    }
+                    randomPoint -= effect.weight;
+                }
+            }
+
+            // Execute looped effects
+            if (!loopEffects.NullOrEmpty())
+            {
+                var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+                foreach (var loop in loopEffects)
+                {
+                    int loopCount = loop.count;
+                    if (!loop.countVariableName.NullOrEmpty() && eventVarManager.HasVariable(loop.countVariableName))
+                    {
+                        loopCount = eventVarManager.GetVariable<int>(loop.countVariableName);
+                    }
+
+                    for (int i = 0; i < loopCount; i++)
+                    {
+                        if (!loop.effects.NullOrEmpty())
+                        {
+                            foreach (var effect in loop.effects)
+                            {
+                                effect.Execute(dialog);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public class ConditionalDescription

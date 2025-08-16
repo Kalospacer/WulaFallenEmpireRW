@@ -216,13 +216,7 @@ namespace WulaFallenEmpire
             {
                 if (AreConditionsMet(ce.conditions, out _))
                 {
-                    if (!ce.effects.NullOrEmpty())
-                    {
-                        foreach (var effect in ce.effects)
-                        {
-                            effect.Execute(this);
-                        }
-                    }
+                    ce.Execute(this);
                 }
             }
         }

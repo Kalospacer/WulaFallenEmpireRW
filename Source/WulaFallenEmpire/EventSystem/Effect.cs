@@ -8,6 +8,7 @@ namespace WulaFallenEmpire
 {
     public abstract class Effect
     {
+        public float weight = 1.0f;
         public abstract void Execute(Dialog_CustomDisplay dialog = null);
     }
 
@@ -50,13 +51,7 @@ namespace WulaFallenEmpire
                             string reason;
                             if (AreConditionsMet(conditionalEffect.conditions, out reason))
                             {
-                                if (!conditionalEffect.effects.NullOrEmpty())
-                                {
-                                    foreach (var effect in conditionalEffect.effects)
-                                    {
-                                        effect.Execute(null);
-                                    }
-                                }
+                                conditionalEffect.Execute(null);
                             }
                         }
                     }
