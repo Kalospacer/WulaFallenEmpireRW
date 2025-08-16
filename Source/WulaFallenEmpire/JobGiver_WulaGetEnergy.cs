@@ -80,6 +80,14 @@ namespace WulaFallenEmpire
                 return true;
             }
 
+            // No bed found, now consider consumables.
+            // Check for the hediff BEFORE searching for consumables.
+            if (pawn.health.hediffSet.HasHediff(HediffDef.Named("WULA_ChargingHediff")))
+            {
+                energySource = null;
+                return false;
+            }
+            
             // 优先从背包中寻找
             Thing thing = pawn.inventory.innerContainer.FirstOrFallback(t => t.def.GetModExtension<ThingDefExtension_EnergySource>() != null && t.IngestibleNow);
             if (thing != null)
@@ -120,9 +128,15 @@ namespace WulaFallenEmpire
                     
                     var powerComp = bed_internal.GetComp<CompPowerTrader>();
 
-                    // 使用 pawn.CanReserve 是最可靠的方法，它包含了对 ملكية، حظر، منطقة، الخ 的所有检查。
+                    // A pawn can use a bed if:
+                    // 1. It has power.
+                    // 2. Its prisoner status matches the pawn's.
+                    // 3. It's not a medical bed.
+                    // 4. The pawn can reserve it (checks for ownership, forbidden, etc.)
                     return powerComp != null &&
                            powerComp.PowerOn &&
+                           bed_internal.ForPrisoners == pawn.IsPrisoner &&
+                           !bed_internal.Medical &&
                            pawn.CanReserve(bed_internal);
                 }
             );
