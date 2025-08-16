@@ -270,8 +270,7 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Warning($"[WulaPodDebug] EjectPawn aborted: No valid map found.");
-                    return;
+                    Log.Error($"[WulaPodDebug] EjectPawn FAILED: No valid map found to eject {occupant.LabelShortCap}. The pawn will be lost.");
                 }
         
                 // Additional logic to handle occupant if needed
