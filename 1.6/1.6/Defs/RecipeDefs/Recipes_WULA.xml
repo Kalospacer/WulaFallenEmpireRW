@@ -119,6 +119,14 @@
       <li>
         <filter>
           <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
             <li>WULA_Charge_Cube_No_Power</li>
           </thingDefs>
         </filter>
@@ -151,6 +159,14 @@
       <li>
         <filter>
           <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
             <li>WULA_Charge_Cube_No_Power</li>
           </thingDefs>
         </filter>
@@ -180,6 +196,14 @@
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
       <li>
         <filter>
           <thingDefs>

@@ -113,7 +113,7 @@
   <HediffDef>
     <defName>WULA_Shutdown</defName>
     <label>停机</label>
-    <description>机械乌拉的机体能量已完全耗尽，所有非核心功能已下线，需要立刻补充能量。\n\n如果需要重启机械乌拉，你需要建造一个抢修点或者合成人修复站，可以从事医生职位的殖民者将会把失能的机械乌拉带到修复站，并使用乌拉帝国能源核心重启机械乌拉。</description>
+    <description>机械乌拉的机体能量已完全耗尽，所有非核心功能已下线，需要立刻补充能量。\n\n如果需要重启机械乌拉，你需要建造一个抢修点或者合成人充电站，可以从事医生职位的殖民者将会把失能的机械乌拉带到修复站，并使用乌拉帝国能源核心重启机械乌拉。</description>
     <hediffClass>HediffWithComps</hediffClass>
     <isBad>true</isBad>
     <stages>
