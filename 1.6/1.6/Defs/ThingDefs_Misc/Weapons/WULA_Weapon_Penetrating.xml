@@ -11,6 +11,7 @@
       <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
+    <generateCommonality>0</generateCommonality>
     <soundInteract>Interact_Rifle</soundInteract>
     <weaponClasses>
       <li>LongShots</li>
@@ -37,6 +38,7 @@
       <Steel>120</Steel>
       <ComponentIndustrial>6</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
@@ -55,7 +57,6 @@
     </weaponTags>
     <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
   </ThingDef>
-
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Penetrating_Rifle</defName>
     <label>穿透钢针弹</label>

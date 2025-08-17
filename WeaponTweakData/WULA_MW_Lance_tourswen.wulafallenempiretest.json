@@ -1,0 +1,13 @@
+{
+  "TextureModID": "tourswen.wulafallenempiretest",
+  "ItemDefName": "WULA_MW_Lance",
+  "ItemType": "ThingDef",
+  "ItemTypeNamespace": "Verse",
+  "OffX": 0.5086207,
+  "OffY": -0.03284052,
+  "ScaleX": 2.0,
+  "ScaleY": 2.0,
+  "BladeStart": 1.29597735,
+  "BladeEnd": -0.428160578,
+  "MeleeWeaponType": 4
+}

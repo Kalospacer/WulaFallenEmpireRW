@@ -1,0 +1,12 @@
+{
+  "TextureModID": "tourswen.wulafallenempiretest",
+  "ItemDefName": "WULA_MW_Mace",
+  "ItemType": "ThingDef",
+  "ItemTypeNamespace": "Verse",
+  "ScaleX": 0.8,
+  "ScaleY": 0.8,
+  "HandsMode": 1,
+  "BladeStart": 0.31609267,
+  "BladeEnd": -0.318965524,
+  "MeleeWeaponType": 8
+}

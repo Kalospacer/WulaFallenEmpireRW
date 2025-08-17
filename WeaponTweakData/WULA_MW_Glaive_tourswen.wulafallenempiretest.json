@@ -1,0 +1,12 @@
+{
+  "TextureModID": "tourswen.wulafallenempiretest",
+  "ItemDefName": "WULA_MW_Glaive",
+  "ItemType": "ThingDef",
+  "ItemTypeNamespace": "Verse",
+  "OffX": 0.03160937,
+  "ScaleX": 2.0,
+  "ScaleY": 2.0,
+  "BladeStart": -0.928160548,
+  "BladeEnd": 0.8591956,
+  "MeleeWeaponType": 6
+}

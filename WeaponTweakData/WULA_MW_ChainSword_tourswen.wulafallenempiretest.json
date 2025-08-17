@@ -1,0 +1,12 @@
+{
+  "TextureModID": "tourswen.wulafallenempiretest",
+  "ItemDefName": "WULA_MW_ChainSword",
+  "ItemType": "ThingDef",
+  "ItemTypeNamespace": "Verse",
+  "OffX": 0.2557473,
+  "OffY": 0.198275864,
+  "HandsMode": 1,
+  "BladeStart": 0.543103456,
+  "BladeEnd": -0.112068966,
+  "MeleeWeaponType": 16
+}

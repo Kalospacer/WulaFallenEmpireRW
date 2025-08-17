@@ -1,0 +1,11 @@
+{
+  "TextureModID": "tourswen.wulafallenempiretest",
+  "ItemDefName": "WULA_MW_Constructor_Hammer",
+  "ItemType": "ThingDef",
+  "ItemTypeNamespace": "Verse",
+  "OffX": -0.07471229,
+  "HandsMode": 1,
+  "BladeStart": -0.3275862,
+  "BladeEnd": 0.264368,
+  "MeleeWeaponType": 8
+}
