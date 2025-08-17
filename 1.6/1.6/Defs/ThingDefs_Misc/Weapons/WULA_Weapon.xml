@@ -1219,7 +1219,7 @@
       <AccuracyLong>0.6</AccuracyLong>
       <RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
     </statBases>
-    <verbs>
+    <verbs>x  
       <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
         <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
 
