@@ -153,6 +153,7 @@
     <Compile Include="JobDefOf_WULA.cs" />
     <Compile Include="ThingDefOf_WULA.cs" />
     <Compile Include="StartupLogger.cs" />
+<Compile Include="WeaponSwitch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
