@@ -97,7 +97,7 @@
         <severityPerDay>-4</severityPerDay>
       </li>
       <li Class="WulaFallenEmpire.HediffCompProperties_TimedExplosion">
-        <damageDef>Wula_Darm_Matter_Flame</damageDef>
+        <damageDef>Wula_Dark_Matter_Flame</damageDef>
         <soundDef>Explosion_Bomb</soundDef>
         <explosionRadius>1.5</explosionRadius>
         <showRemainingTime>true</showRemainingTime>
