@@ -209,11 +209,6 @@
           <thingDef>GravEngine</thingDef>
           <count>1</count>
         </li>
-        <li Class="ScenPart_StartingThing_Defined">
-          <def>ScatterThingsNearPlayerStart</def>
-          <thingDef>Wula_DarkEnergy_FuelTank</thingDef>
-          <count>1</count>
-        </li>
 
         <!-- 附近的物品 -->
         <li Class="ScenPart_ScatterThingsNearPlayerStart">

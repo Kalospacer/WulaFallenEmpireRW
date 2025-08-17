@@ -448,118 +448,6 @@
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
   </ThingDef>
-  <!-- 铳枪 -->
-  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
-    <defName>WULA_MW_Lance</defName>
-    <label>CMl-28"铳枪"</label>
-    <description>乌拉帝国骑士所喜爱的枪炮合一的重型近战武器，采用高强度纳米碳纤维复合材料内芯，外层覆盖着带有散热格栅和能量导流槽的记忆合金装甲板，既可以在近战中刺穿对手，也可以从远距离上发射高精度射弹打击敌军。</description>
-    <weaponTags>
-      <!-- <li>Spear</li> -->
-    </weaponTags>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_MW_Lance</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutComplex</shaderType>
-      <drawSize>2</drawSize>
-    </graphicData>
-    <techLevel>Spacer</techLevel>
-    <costStuffCount>120</costStuffCount>
-    <stuffCategories>
-      <li>Metallic</li>
-    </stuffCategories>
-    <costList Inherit="False">
-      <Plasteel>10</Plasteel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-    </costList>
-    <statBases>
-      <WorkToMake>20000</WorkToMake>
-      <Mass>10</Mass>
-      <AccuracyTouch>0.5</AccuracyTouch>
-      <AccuracyShort>0.5</AccuracyShort>
-      <AccuracyMedium>0.4</AccuracyMedium>
-      <AccuracyLong>0.3</AccuracyLong>
-      <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
-    </statBases>
-    <tools>
-      <li>
-        <label>横扫</label>
-        <capacities>
-          <li>Blunt</li>
-          <li>Poke</li>
-        </capacities>
-        <power>42</power>
-        <cooldownTime>1.6</cooldownTime>
-        <surpriseAttack>
-          <extraMeleeDamages>
-            <li>
-              <def>Stun</def>
-              <amount>14</amount>
-            </li>
-          </extraMeleeDamages>
-        </surpriseAttack>
-      </li>
-      <li>
-        <label>穿刺</label>
-        <capacities>
-          <li>Stab</li>
-        </capacities>
-        <power>65</power>
-        <armorPenetration>0.80</armorPenetration>
-        <cooldownTime>2.6</cooldownTime>
-      </li>
-    </tools>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Melee_Technology</researchPrerequisite>
-      <skillRequirements>
-        <Crafting>7</Crafting>
-      </skillRequirements>
-      <displayPriority>450</displayPriority>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_MW_Lance</defaultProjectile>
-        <warmupTime>2.5</warmupTime>
-        <minRange>3</minRange>
-        <forcedMissRadius>0.1</forcedMissRadius>
-        <range>38</range>
-        <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_TurretSniper</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>6</muzzleFlashScale>
-      </li>
-    </verbs>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_MW_Lance</defName>
-    <label>铳枪穿甲弹</label>
-    <thingClass>Projectile_Explosive</thingClass>
-    <tickerType>Normal</tickerType>
-    <neverMultiSelect>True</neverMultiSelect>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-      <drawSize>3.4</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>120</damageAmountBase>
-      <speed>180</speed>
-      <explosionRadius>1.6</explosionRadius>
-      <arcHeightFactor>0.4</arcHeightFactor>
-      <soundExplode>Explosion_Rocket</soundExplode>
-      <armorPenetrationBase>0.7</armorPenetrationBase>
-    </projectile>
-  </ThingDef>
   <!-- 链锯剑 -->
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>WULA_MW_ChainSword</defName>
@@ -1316,6 +1204,118 @@
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
+  </ThingDef>
+  <!-- 铳枪 -->
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>WULA_MW_Lance</defName>
+    <label>CMl-28"铳枪"</label>
+    <description>乌拉帝国骑士所喜爱的枪炮合一的重型近战武器，采用高强度纳米碳纤维复合材料内芯，外层覆盖着带有散热格栅和能量导流槽的记忆合金装甲板，既可以在近战中刺穿对手，也可以从远距离上发射高精度射弹打击敌军。</description>
+    <weaponTags>
+      <!-- <li>Spear</li> -->
+    </weaponTags>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_MW_Lance</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>2</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <costStuffCount>120</costStuffCount>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costList Inherit="False">
+      <Plasteel>150</Plasteel>
+      <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
+    </costList>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+      <Mass>10</Mass>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.4</AccuracyMedium>
+      <AccuracyLong>0.3</AccuracyLong>
+      <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
+    </statBases>
+    <tools>
+      <li>
+        <label>横扫</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>42</power>
+        <cooldownTime>1.6</cooldownTime>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>穿刺</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>65</power>
+        <armorPenetration>0.80</armorPenetration>
+        <cooldownTime>2.6</cooldownTime>
+      </li>
+    </tools>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_4_DM_Base_Technology</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>7</Crafting>
+      </skillRequirements>
+      <displayPriority>450</displayPriority>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_MW_Lance</defaultProjectile>
+        <warmupTime>2</warmupTime>
+        <minRange>6</minRange>
+        <forcedMissRadius>0.1</forcedMissRadius>
+        <range>38</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_TurretSniper</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>6</muzzleFlashScale>
+      </li>
+    </verbs>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_MW_Lance</defName>
+    <label>铳枪穿甲弹</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>3.4</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>120</damageAmountBase>
+      <speed>180</speed>
+      <explosionRadius>1.6</explosionRadius>
+      <arcHeightFactor>0.4</arcHeightFactor>
+      <soundExplode>Explosion_Rocket</soundExplode>
+      <armorPenetrationBase>0.7</armorPenetrationBase>
+    </projectile>
   </ThingDef>
   
 
