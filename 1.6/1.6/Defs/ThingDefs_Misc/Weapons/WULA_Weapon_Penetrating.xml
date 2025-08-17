@@ -4,7 +4,7 @@
   <!-- Penetrating Rifle (No Explosion) -->
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Penetrating_Rifle</defName>
-    <label>SLr-15 "长钉" (穿透型)</label>
+    <label>SLr-15 "长钉"</label>
     <description>一把经过实验性改造的“蓝锥”步枪，能够发射一种特殊的钢针，利用过载的能量使其在击中第一个目标后仍能继续飞行，对路径上的多个敌人造成伤害。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
@@ -27,10 +27,10 @@
     <statBases>
       <WorkToMake>1300</WorkToMake>
       <Mass>3.5</Mass>
-      <AccuracyTouch>0.3</AccuracyTouch>
-      <AccuracyShort>0.8</AccuracyShort>
-      <AccuracyMedium>0.9</AccuracyMedium>
-      <AccuracyLong>0.8</AccuracyLong>
+      <AccuracyTouch>1.0</AccuracyTouch>
+      <AccuracyShort>1.0</AccuracyShort>
+      <AccuracyMedium>1.0</AccuracyMedium>
+      <AccuracyLong>1.0</AccuracyLong>
       <RangedWeapon_Cooldown>0.8</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
@@ -59,7 +59,13 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Penetrating_Rifle</defName>
     <label>穿透钢针弹</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass> <!-- 使用我们的自定义穿透弹丸类 -->
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits> <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff> <!-- 无伤害衰减 -->
+      </li>
+    </modExtensions>
     <tickerType>Normal</tickerType>
     <neverMultiSelect>True</neverMultiSelect>
     <graphicData>

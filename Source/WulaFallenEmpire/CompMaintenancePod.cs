@@ -98,16 +98,6 @@ namespace WulaFallenEmpire
             }
         }
 
-        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
-        {
-            base.PostDeSpawn(map, mode);
-            // This handles cases like uninstalling where the pod is removed from the map
-            // without being "destroyed". We still need to eject the occupant.
-            Log.Warning($"[WulaPodDebug] Pod despawned. Ejecting pawn.");
-            EjectPawn();
-        }
-
-
         // ===================== IThingHolder Implementation =====================
         public void GetChildHolders(List<IThingHolder> outChildren)
         {
