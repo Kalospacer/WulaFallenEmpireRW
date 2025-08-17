@@ -292,6 +292,89 @@
       <recipeUsers Inherit="False" />
     </recipeMaker>
   </ThingDef>
+
+  <!-- 双用枪 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Plasm_AR</defName>
+    <label>PMa-72"磷叶"</label>
+    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，也可以在近距离搏斗上当成等离子喷枪来使用。</description>
+    <tickerType>Normal</tickerType>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Plasm_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_BIO</li>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Plasm_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>7500</WorkToMake>
+      <!-- <MarketValue>370</MarketValue> -->
+      <Mass>3.5</Mass>
+      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyShort>0.85</AccuracyShort>
+      <AccuracyMedium>0.75</AccuracyMedium>
+      <AccuracyLong>0.5</AccuracyLong>
+      <RangedWeapon_Cooldown>1.46</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Plasm_AR</defaultProjectile>
+        <warmupTime>1.25</warmupTime>
+        <range>28</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>7</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>等离子切割</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>2</cooldownTime>
+        <armorPenetration>0.5</armorPenetration>
+        <soundMeleeHit>ChargeLance_Fire</soundMeleeHit>
+      </li>
+    </tools>
+    <costList Inherit="False">
+      <Steel>180</Steel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Plasm_AR</defName>
+    <label>磷叶等离子体射弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasm</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>12</damageAmountBase>
+      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <speed>55</speed>
+    </projectile>
+  </ThingDef>
   
   <!-- 动力破墙锤 -->
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
@@ -472,15 +555,15 @@
       <WorkToMake>20000</WorkToMake>
       <Mass>2.5</Mass>
     </statBases>
-    <tools>
+    <tools Inherit="False">
       <li>
         <label>链锯</label>
         <capacities>
           <li>Cut</li>
         </capacities>
         <armorPenetration>0.5</armorPenetration>
-        <power>18</power> <!-- 2.5x natural fist -->
-        <cooldownTime>1.4</cooldownTime>
+        <power>25</power> <!-- 2.5x natural fist -->
+        <cooldownTime>1.2</cooldownTime>
         <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
         <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss>
       </li>
@@ -490,8 +573,8 @@
           <li>Blunt</li>
           <li>Poke</li>
         </capacities>
-        <power>14</power>
-        <cooldownTime>1.75</cooldownTime>
+        <power>18</power>
+        <cooldownTime>1.5</cooldownTime>
         <surpriseAttack>
           <extraMeleeDamages>
             <li>
@@ -551,13 +634,13 @@
       <WorkToMake>30000</WorkToMake>
       <Mass>100</Mass>
     </statBases>
-    <tools>
+    <tools Inherit="False">
       <li>
         <label>横扫</label>
         <capacities>
           <li>Cut</li>
         </capacities>
-        <power>18</power>
+        <power>35</power>
         <cooldownTime>1.9</cooldownTime>
         <armorPenetration>0.50</armorPenetration>
       </li>
@@ -566,9 +649,9 @@
         <capacities>
           <li>Stab</li>
         </capacities>
-        <power>20</power>
+        <power>40</power>
         <armorPenetration>0.90</armorPenetration>
-        <cooldownTime>2.5</cooldownTime>
+        <cooldownTime>2.2</cooldownTime>
       </li>
     </tools>
     <recipeMaker>
@@ -631,7 +714,7 @@
         <range>18</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
-        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCast>Shot_BoltActionRifle</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>7</muzzleFlashScale>
       </li>
@@ -649,7 +732,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>15</damageAmountBase>
+      <damageAmountBase>25</damageAmountBase>
       <stoppingPower>2.5</stoppingPower>
       <armorPenetrationBase>0.65</armorPenetrationBase>
       <speed>55</speed>
@@ -1044,7 +1127,7 @@
         <range>30</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
-        <beamDamageDef>Wula_Darm_Matter_Beam</beamDamageDef>
+        <beamDamageDef>Wula_Dark_Matter_Beam</beamDamageDef>
 
         <!-- 消除射线偏移的参数 -->
         <beamFullWidthRange>1000</beamFullWidthRange>
@@ -1087,7 +1170,7 @@
         <enableExplosion>true</enableExplosion>
         <explosionShotInterval>1</explosionShotInterval>
         <explosionRadius>1.8</explosionRadius>
-        <explosionDamageDef>Wula_Darm_Matter_Flame</explosionDamageDef>
+        <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
         <explosionDamage>15</explosionDamage>
         <explosionSound>Explosion_Bomb</explosionSound>
         <chanceToStartFire>0.6</chanceToStartFire>
@@ -1136,7 +1219,7 @@
       <AccuracyLong>0.6</AccuracyLong>
       <RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
     </statBases>
-    <verbs>
+    <verbs>x  
       <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
         <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
 
@@ -1146,7 +1229,7 @@
         <range>22</range>
         <burstShotCount>12</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <beamDamageDef>Wula_Darm_Matter_Beam</beamDamageDef>
+        <beamDamageDef>Wula_Dark_Matter_Beam</beamDamageDef>
 
         <!-- 消除射线偏移的参数 -->
         <!-- <beamFullWidthRange>1000</beamFullWidthRange>
@@ -1194,7 +1277,7 @@
         <enableExplosion>true</enableExplosion>
         <explosionShotInterval>2</explosionShotInterval>
         <explosionRadius>3</explosionRadius>
-        <explosionDamageDef>Wula_Darm_Matter_Flame</explosionDamageDef>
+        <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
         <explosionDamage>25</explosionDamage>
         <explosionSound>Explosion_Bomb</explosionSound>
         <chanceToStartFire>0.6</chanceToStartFire>

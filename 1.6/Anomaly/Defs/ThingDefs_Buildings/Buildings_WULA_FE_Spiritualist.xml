@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- 服务器 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_OfferingPedestal</defName>
+    <label>帝国献祭基座</label>
+    <description>一个用于进行灵能献祭的基座。它可以作为灵能的冥想焦点，并能通过附近的灵能设施获得强化。它是启动乌拉帝国灵能仪式的关键建筑。</description>
+    <tickerType>Normal</tickerType>
+    <passability>Standable</passability>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+    <building>
+      <sowTag>SupportPlantsOnly</sowTag>
+      <canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+      <ai_chillDestination>false</ai_chillDestination>
+      <wakeDormantPawnsOnConstruction>false</wakeDormantPawnsOnConstruction>
+      <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+      <buildingTags>
+        <li>Anomaly</li>
+      </buildingTags>
+    </building>
+    <uiOrder>200</uiOrder>
+    <graphicData>
+      <texPath>Wula/Building/WULA_OfferingPedestal</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+    <size>(3, 3)</size>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>WULA_FE_Spiritualist_Base_Technology</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Entity</li>
+    </inspectorTabs>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <selectable>true</selectable>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToBuild>0</WorkToBuild>
+      <MeditationFocusStrength>0.08</MeditationFocusStrength>
+    </statBases>
+    <useHitPoints>false</useHitPoints>
+    <placeWorkers>
+      <li>PlaceWorker_NeverAdjacentUnstandableRadial</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>True</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_WulaRitualSpot">
+      </li>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>ShardBeacon</li>
+          <li>VoidSculpture</li>
+        </linkableFacilities>
+      </li>
+      <li Class="CompProperties_MeditationFocus">
+        <statDef>MeditationFocusStrength</statDef>
+        <focusTypes>
+          <li>Void</li>
+        </focusTypes>
+        <offsets>
+          <li Class="FocusStrengthOffset_BuildingDefs">
+            <defs>
+              <li>ShardBeacon</li>
+            </defs>
+            <offsetPerBuilding>0.02</offsetPerBuilding>
+            <radius>9.9</radius>
+            <maxBuildings>4</maxBuildings>
+            <explanationKey>MeditationFocusPerBuilding</explanationKey>
+            <explanationKeyAbstract>MeditationFocusPerBuildingAbstract</explanationKeyAbstract>
+          </li>
+          <li Class="FocusStrengthOffset_BuildingDefs">
+            <defs>
+              <li>VoidSculpture</li>
+            </defs>
+            <offsetPerBuilding>0.02</offsetPerBuilding>
+            <radius>9.9</radius>
+            <maxBuildings>6</maxBuildings>
+            <explanationKey>MeditationFocusPerBuilding</explanationKey>
+            <explanationKeyAbstract>MeditationFocusPerBuildingAbstract</explanationKeyAbstract>
+          </li>
+        </offsets>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

@@ -13,6 +13,15 @@
       <parts>
         <!-- 能源炉，代替了胃、心脏、肺、肾、肝 -->
         <li>
+          <def>WULA_Skeleton_Bodypart</def>
+          <coverage>0</coverage>
+          <depth>Inside</depth>
+          <groups>
+            <li>Torso</li>
+          </groups>
+        </li>
+        <!-- 能源炉，代替了胃、心脏、肺、肾、肝 -->
+        <li>
           <def>WULA_Energy_Furnace_Bodypart</def>
           <customLabel>能源炉</customLabel>
           <coverage>0.025</coverage>
@@ -556,6 +565,19 @@
     <!-- <solid>true</solid> -->
     <bleedRate>0</bleedRate>
     <destroyableByDamage>false</destroyableByDamage>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_Skeleton_Bodypart</defName>
+    <label>合金骨架</label>
+    <hitPoints>30</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <solid>true</solid>
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+    <tags>
+      <li>ManipulationLimbSegment</li>
+    </tags>
   </BodyPartDef>
 
 

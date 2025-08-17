@@ -1350,7 +1350,7 @@
     <label>乌拉帝国盾牌</label>
     <description>一面供乌拉帝国突击队使用的盾牌，在武装序列中属于重型盾牌，可以为远程武器提供架枪支柱以稳定瞄准。</description>
     <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_Shield_Technology</researchPrerequisite>
       <skillRequirements>
         <Crafting>7</Crafting>
       </skillRequirements>
@@ -1396,7 +1396,7 @@
       <li>ApparelNoble</li>
     </thingCategories>
     <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_Shield_Technology</researchPrerequisite>
       <skillRequirements>
         <Crafting>7</Crafting>
       </skillRequirements>

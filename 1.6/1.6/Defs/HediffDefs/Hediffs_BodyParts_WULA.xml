@@ -578,7 +578,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <appliedOnFixedBodyParts>
-      <li>Torso</li>
+      <li>WULA_Skeleton_Bodypart</li>
     </appliedOnFixedBodyParts>
     <recipeUsers Inherit="False">
       <li>WulaSpecies</li>

@@ -23,7 +23,7 @@
     <description>获取构建乌拉帝国堡垒结构的知识，包括坚固耐用的墙和通过速度较高的自动门。</description>
     <baseCost>600</baseCost>
     <researchViewX>1.00</researchViewX>
-    <researchViewY>0.20</researchViewY>
+    <researchViewY>4.70</researchViewY>
     <prerequisites>
       <li>WULA_Base_Technology</li>
     </prerequisites>
@@ -66,7 +66,7 @@
   <!-- 衣服 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Clothes_Technology</defName>
-    <researchViewX>2.00</researchViewX>
+    <researchViewX>1.00</researchViewX>
     <researchViewY>1.80</researchViewY>
     <label>基础衣物套件</label>
     <description>开发能够被乌拉帝国合成人穿着的基础衣物。</description>
@@ -126,7 +126,7 @@
   <!-- 武器 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_Technology</defName>
-    <researchViewX>2.00</researchViewX>
+    <researchViewX>1.00</researchViewX>
     <researchViewY>0.20</researchViewY>
     <label>基础武装套件</label>
     <description>开发能够武装乌拉帝国合成人的老式气动武器，以抵御针对殖民地的外部袭击。</description>
@@ -134,6 +134,29 @@
     <prerequisites>
       <li>Machining</li>
       <li>WULA_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_2_Plasm_Technology</defName>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>0.20</researchViewY>
+    <label>等离子武装套件</label>
+    <description>开发能够供乌拉帝国合成人的使用的等离子武器，以便进一步对抗强大的外部威胁。</description>
+    <baseCost>600</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_Shield_Technology</defName>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>1.20</researchViewY>
+    <label>护盾武装套件</label>
+    <description>开发能够保护乌拉帝国合成人的手持护盾，以抵抗来自敌方的猛烈攻击。</description>
+    <baseCost>800</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_Technology</li>
+      <li>WULA_Synth_Clothes_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -146,7 +169,7 @@
     <prerequisites>
       <li>Fabrication</li>
       <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_Technology</li>
+      <li>WULA_Synth_Weapon_2_Plasm_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -172,7 +195,7 @@
     <prerequisites>
       <li>ChargedShot</li>
       <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_Technology</li>
+      <li>WULA_Synth_Weapon_2_Plasm_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
