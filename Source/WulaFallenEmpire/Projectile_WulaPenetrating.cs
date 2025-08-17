@@ -11,7 +11,9 @@ namespace WulaFallenEmpire
         // Set to a positive number for limited hits, or -1 for infinite penetration.
         public int maxHits = 3; 
         // The percentage of damage lost per hit. 0.25 means 25% damage loss per hit.
-        public float damageFalloff = 0.25f; 
+        public float damageFalloff = 0.25f;
+        // If true, this projectile will never cause friendly fire, regardless of game settings.
+        public bool preventFriendlyFire = false;
     }
 
     public class Projectile_WulaLineAttack : Projectile
@@ -40,6 +42,8 @@ namespace WulaFallenEmpire
             this.lastTickPosition = origin;
             this.alreadyDamaged.Clear();
             this.hitCounter = 0;
+            // Friendly fire is prevented if EITHER the game setting is true OR the XML extension is true.
+            this.preventFriendlyFire = preventFriendlyFire || (Props?.preventFriendlyFire ?? false);
         }
 
         protected override void Tick()
@@ -92,11 +96,32 @@ namespace WulaFallenEmpire
 
                 foreach (Thing thing in thingsInCell)
                 {
-                    if (thing is Pawn pawn && pawn != this.launcher && !alreadyDamaged.Contains(pawn) && GenHostility.HostileTo(pawn, this.launcher.Faction))
-                    {
-                        ApplyPathDamage(pawn);
-                        if (!infinitePenetration && hitCounter >= maxHits) break;
-                    }
+                   if (thing is Pawn pawn && pawn != this.launcher && !alreadyDamaged.Contains(pawn))
+                   {
+                       bool shouldDamage = false;
+
+                       // Case 1: Always damage the intended target if it's a pawn. This allows hunting.
+                       if (this.intendedTarget.Thing == pawn)
+                       {
+                           shouldDamage = true;
+                       }
+                       // Case 2: Always damage hostile pawns in the path.
+                       else if (pawn.HostileTo(this.launcher))
+                       {
+                           shouldDamage = true;
+                       }
+                       // Case 3: Damage non-hostiles (friendlies, neutrals) if the shot itself isn't marked to prevent friendly fire.
+                       else if (!this.preventFriendlyFire)
+                       {
+                           shouldDamage = true;
+                       }
+
+                       if (shouldDamage)
+                       {
+                           ApplyPathDamage(pawn);
+                           if (!infinitePenetration && hitCounter >= maxHits) break;
+                       }
+                   }
                 }
             }
         }

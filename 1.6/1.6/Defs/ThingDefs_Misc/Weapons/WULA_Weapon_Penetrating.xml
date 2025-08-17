@@ -65,6 +65,7 @@
       <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
         <maxHits>-1</maxHits> <!-- 无限穿透 -->
         <damageFalloff>0</damageFalloff> <!-- 无伤害衰减 -->
+        <preventFriendlyFire>false</preventFriendlyFire> <!-- 是否阻止友方火力 -->
       </li>
     </modExtensions>
     <tickerType>Normal</tickerType>
