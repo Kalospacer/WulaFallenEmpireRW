@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <!-- 铳枪 -->
+    <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+        <defName>WULA_MW_Lance</defName>
+        <label>CMl-28"铳枪"</label>
+        <description>乌拉帝国骑士所喜爱的枪炮合一的重型近战武器，采用高强度纳米碳纤维复合材料内芯，外层覆盖着带有散热格栅和能量导流槽的记忆合金装甲板，既可以在近战中刺穿对手，也可以从远距离上发射高精度射弹打击敌军。</description>
+        <weaponTags>
+            <!-- <li>Spear</li> -->
+        </weaponTags>
+        <graphicData>
+            <texPath>Wula/Weapon/WULA_MW_Lance</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <shaderType>CutoutComplex</shaderType>
+            <drawSize>2</drawSize>
+        </graphicData>
+        <techLevel>Spacer</techLevel>
+        <costStuffCount>120</costStuffCount>
+        <stuffCategories>
+            <li>Metallic</li>
+        </stuffCategories>
+        <costList Inherit="False">
+            <Plasteel>150</Plasteel>
+            <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
+        </costList>
+        <statBases>
+            <WorkToMake>20000</WorkToMake>
+            <Mass>10</Mass>
+            <AccuracyTouch>0.5</AccuracyTouch>
+            <AccuracyShort>0.5</AccuracyShort>
+            <AccuracyMedium>0.4</AccuracyMedium>
+            <AccuracyLong>0.3</AccuracyLong>
+            <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
+        </statBases>
+        <tools>
+            <li>
+                <label>横扫</label>
+                <capacities>
+                    <li>Blunt</li>
+                    <li>Poke</li>
+                </capacities>
+                <power>42</power>
+                <cooldownTime>1.6</cooldownTime>
+                <surpriseAttack>
+                    <extraMeleeDamages>
+                        <li>
+                            <def>Stun</def>
+                            <amount>14</amount>
+                        </li>
+                    </extraMeleeDamages>
+                </surpriseAttack>
+            </li>
+            <li>
+                <label>穿刺</label>
+                <capacities>
+                    <li>Stab</li>
+                </capacities>
+                <power>65</power>
+                <armorPenetration>0.80</armorPenetration>
+                <cooldownTime>2.6</cooldownTime>
+            </li>
+        </tools>
+        <recipeMaker>
+            <recipeUsers Inherit="False">
+                <li>WULA_Cube_Productor_Energy</li>
+            </recipeUsers>
+            <researchPrerequisite>WULA_Synth_Weapon_4_DM_Base_Technology</researchPrerequisite>
+            <skillRequirements>
+                <Crafting>7</Crafting>
+            </skillRequirements>
+            <displayPriority>450</displayPriority>
+            <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+        </recipeMaker>
+        <verbs>
+            <!--<li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>true</hasStandardCommand>
+                <defaultProjectile>Bullet_WULA_MW_Lance</defaultProjectile>
+                <warmupTime>2</warmupTime>
+                <minRange>6</minRange>
+                <forcedMissRadius>0.1</forcedMissRadius>
+                <range>38</range>
+                <burstShotCount>1</burstShotCount>
+                <soundCast>Shot_TurretSniper</soundCast>
+                <soundCastTail>GunTail_Heavy</soundCastTail>
+                <muzzleFlashScale>6</muzzleFlashScale>
+            </li>-->
+        </verbs>
+        <thingSetMakerTags>
+            <li>RewardStandardQualitySuper</li>
+        </thingSetMakerTags>
+        <comps>
+            <li Class="WulaFallenEmpire.CompProperties_Switch">
+                <changeTo>WULA_MW_Lance_Ranged</changeTo>
+                <abilityDef>WULA_WeaponSwitchAbility</abilityDef>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+        <defName>WULA_MW_Lance_Ranged</defName>
+        <label>CMl-28"铳枪"(远程)</label>
+        <description>乌拉帝国骑士所喜爱的枪炮合一的重型近战武器，采用高强度纳米碳纤维复合材料内芯，外层覆盖着带有散热格栅和能量导流槽的记忆合金装甲板，既可以在近战中刺穿对手，也可以从远距离上发射高精度射弹打击敌军。</description>
+        <weaponTags>
+            <!-- <li>Spear</li> -->
+        </weaponTags>
+        <graphicData>
+            <texPath>Wula/Weapon/WULA_MW_Lance</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <shaderType>CutoutComplex</shaderType>
+            <drawSize>2</drawSize>
+        </graphicData>
+        <techLevel>Spacer</techLevel>
+        <costStuffCount>120</costStuffCount>
+        <stuffCategories>
+            <li>Metallic</li>
+        </stuffCategories>
+        <costList Inherit="False">
+            <Plasteel>150</Plasteel>
+            <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
+        </costList>
+        <statBases>
+            <WorkToMake>20000</WorkToMake>
+            <Mass>10</Mass>
+            <AccuracyTouch>0.5</AccuracyTouch>
+            <AccuracyShort>0.5</AccuracyShort>
+            <AccuracyMedium>0.4</AccuracyMedium>
+            <AccuracyLong>0.3</AccuracyLong>
+            <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
+        </statBases>
+        <tools>
+            <li>
+                <label>横扫</label>
+                <capacities>
+                    <li>Blunt</li>
+                    <li>Poke</li>
+                </capacities>
+                <power>42</power>
+                <cooldownTime>1.6</cooldownTime>
+                <surpriseAttack>
+                    <extraMeleeDamages>
+                        <li>
+                            <def>Stun</def>
+                            <amount>14</amount>
+                        </li>
+                    </extraMeleeDamages>
+                </surpriseAttack>
+            </li>
+            <li>
+                <label>穿刺</label>
+                <capacities>
+                    <li>Stab</li>
+                </capacities>
+                <power>65</power>
+                <armorPenetration>0.80</armorPenetration>
+                <cooldownTime>2.6</cooldownTime>
+            </li>
+        </tools>
+        <!--加上这个就行-->
+		<tickerType>Normal</tickerType>
+		<!--避免被生成-->
+		<generateCommonality>0</generateCommonality>
+		<!--不可制作-->
+		<recipeMaker Inherit="False"/>
+        <verbs>
+            <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>true</hasStandardCommand>
+                <defaultProjectile>Bullet_WULA_MW_Lance</defaultProjectile>
+                <warmupTime>2</warmupTime>
+                <minRange>6</minRange>
+                <forcedMissRadius>0.1</forcedMissRadius>
+                <range>38</range>
+                <burstShotCount>1</burstShotCount>
+                <soundCast>Shot_TurretSniper</soundCast>
+                <soundCastTail>GunTail_Heavy</soundCastTail>
+                <muzzleFlashScale>6</muzzleFlashScale>
+            </li>
+        </verbs>
+        <thingSetMakerTags>
+            <li>RewardStandardQualitySuper</li>
+        </thingSetMakerTags>
+        <comps>
+            <li Class="WulaFallenEmpire.CompProperties_Switch">
+                <changeTo>WULA_MW_Lance</changeTo>
+                <abilityDef>WULA_WeaponSwitchAbility</abilityDef>
+            </li>
+        </comps>
+    </ThingDef>
+
+	<AbilityDef>
+		<defName>WULA_WeaponSwitchAbility</defName>
+		<label>变换形态</label>
+		<description>变换武器形态</description>
+		<cooldownTicksRange>601</cooldownTicksRange>
+		<iconPath><!-- 图标路径--></iconPath>
+		<hostile>false</hostile>
+		<showOnCharacterCard>false</showOnCharacterCard>
+		<aiCanUse>true</aiCanUse>
+		<targetRequired>false</targetRequired>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<statBases>
+			<!-- 如果不需要限时，可以把这玩意删了-->
+			<!--<Ability_Duration>10</Ability_Duration>-->
+		</statBases>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupTime>0.1</warmupTime>
+			<drawAimPie>false</drawAimPie>
+			<requireLineOfSight>false</requireLineOfSight>
+			<targetable>false</targetable>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="CompProperties_AbilityEffect">
+				<compClass>WulaFallenEmpire.CompAbilityEffect_Switch</compClass>
+			</li>
+			<!-- 如果不需要限时，可以把这玩意删了-->
+			<!--<li Class="CompProperties_AbilityGiveHediff">
+				<compClass>CompAbilityEffect_GiveHediff</compClass>
+				<hediffDef>WULA_HediffSwitchDuration</hediffDef>
+				<onlyApplyToSelf>True</onlyApplyToSelf>
+			</li>-->
+		</comps>
+	</AbilityDef>
+
+    <!--<HediffDef>
+		<defName>WULA_HediffSwitchDuration</defName>
+		<label>变换形态</label>
+		<description>变换形态的持续时间显示。</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<showRemainingTime>true</showRemainingTime>
+			</li>
+			<li Class="WulaFallenEmpire.HediffCompPropertiesSwitch">
+				<abilityDef>WeaponSwitchCancel</abilityDef>
+			</li>
+		</comps>
+	</HediffDef>-->
+
+    <AbilityDef>
+		<defName>WULA_WeaponSwitchCancel</defName>
+		<label>解除变换</label>
+		<description>解除武器变换</description>
+		<!-- 让它显示在武器变换后面。-->
+        <displayOrder>1</displayOrder>
+		<cooldownTicksRange>0</cooldownTicksRange>
+		<iconPath><!-- 图标路径--></iconPath>
+		<hostile>false</hostile>
+		<showOnCharacterCard>false</showOnCharacterCard>
+		<aiCanUse>false</aiCanUse>
+		<targetRequired>false</targetRequired>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupTime>0.1</warmupTime>
+			<drawAimPie>false</drawAimPie>
+			<requireLineOfSight>false</requireLineOfSight>
+			<targetable>false</targetable>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<!--<li Class="CompProperties_AbilityEffect">
+				<compClass>WulaFallenEmpire.CompAbilityEffect_RemoveHediff</compClass>
+			</li>-->
+		</comps>
+	</AbilityDef>
+
+
+    <ThingDef ParentName="BaseBullet">
+        <defName>Bullet_WULA_MW_Lance</defName>
+        <label>铳枪穿甲弹</label>
+        <thingClass>Projectile_Explosive</thingClass>
+        <tickerType>Normal</tickerType>
+        <neverMultiSelect>True</neverMultiSelect>
+        <graphicData>
+            <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <shaderType>TransparentPostLight</shaderType>
+            <drawSize>3.4</drawSize>
+        </graphicData>
+        <projectile>
+            <damageDef>Bullet</damageDef>
+            <damageAmountBase>120</damageAmountBase>
+            <speed>180</speed>
+            <explosionRadius>1.6</explosionRadius>
+            <arcHeightFactor>0.4</arcHeightFactor>
+            <soundExplode>Explosion_Rocket</soundExplode>
+            <armorPenetrationBase>0.7</armorPenetrationBase>
+        </projectile>
+    </ThingDef>
+
+</Defs>
