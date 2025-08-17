@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Penetrating Rifle (No Explosion) -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Penetrating_Rifle</defName>
+    <label>SLr-15 "长钉" (穿透型)</label>
+    <description>一把经过实验性改造的“蓝锥”步枪，能够发射一种特殊的钢针，利用过载的能量使其在击中第一个目标后仍能继续飞行，对路径上的多个敌人造成伤害。</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_BIO</li>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>1300</WorkToMake>
+      <Mass>3.5</Mass>
+      <AccuracyTouch>0.3</AccuracyTouch>
+      <AccuracyShort>0.8</AccuracyShort>
+      <AccuracyMedium>0.9</AccuracyMedium>
+      <AccuracyLong>0.8</AccuracyLong>
+      <RangedWeapon_Cooldown>0.8</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>120</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Penetrating_Rifle</defaultProjectile>
+        <warmupTime>2</warmupTime>
+        <range>38</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
+    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Penetrating_Rifle</defName>
+    <label>穿透钢针弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass> <!-- 使用我们的自定义穿透弹丸类 -->
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>25</damageAmountBase>
+      <speed>130</speed>
+      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <stoppingPower>5</stoppingPower>
+    </projectile>
+  </ThingDef>
+
+</Defs>

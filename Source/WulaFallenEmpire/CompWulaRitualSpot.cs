@@ -35,28 +35,31 @@ namespace WulaFallenEmpire
             // Find all rituals that are of our custom base class type.
             foreach (PsychicRitualDef_Wula ritualDef in DefDatabase<PsychicRitualDef_Wula>.AllDefs)
             {
-                Command_Action command_Action = new Command_Action();
-                command_Action.defaultLabel = ritualDef.LabelCap.Resolve();
-                command_Action.defaultDesc = ritualDef.description;
-                command_Action.icon = ritualDef.uiIcon;
-                command_Action.action = delegate
+                if (ritualDef.Visible)
                 {
-                    // Mimic vanilla initialization
-                    TargetInfo target = new TargetInfo(this.parent);
-                    PsychicRitualRoleAssignments assignments = ritualDef.BuildRoleAssignments(target);
-                    PsychicRitualCandidatePool candidatePool = ritualDef.FindCandidatePool();
-                    ritualDef.InitializeCast(this.parent.Map);
-                    Find.WindowStack.Add(new Dialog_BeginPsychicRitual(ritualDef, candidatePool, assignments, this.parent.Map));
-                };
+                    Command_Action command_Action = new Command_Action();
+                    command_Action.defaultLabel = ritualDef.LabelCap.Resolve();
+                    command_Action.defaultDesc = ritualDef.description;
+                    command_Action.icon = ritualDef.uiIcon;
+                    command_Action.action = delegate
+                    {
+                        // Mimic vanilla initialization
+                        TargetInfo target = new TargetInfo(this.parent);
+                        PsychicRitualRoleAssignments assignments = ritualDef.BuildRoleAssignments(target);
+                        PsychicRitualCandidatePool candidatePool = ritualDef.FindCandidatePool();
+                        ritualDef.InitializeCast(this.parent.Map);
+                        Find.WindowStack.Add(new Dialog_BeginPsychicRitual(ritualDef, candidatePool, assignments, this.parent.Map));
+                    };
 
-                // Corrected check for cooldown and other requirements
-                AcceptanceReport acceptanceReport = Find.PsychicRitualManager.CanInvoke(ritualDef, this.parent.Map);
-                if (!acceptanceReport.Accepted)
-                {
-                    command_Action.Disable(acceptanceReport.Reason.CapitalizeFirst());
+                    // Corrected check for cooldown and other requirements
+                    AcceptanceReport acceptanceReport = Find.PsychicRitualManager.CanInvoke(ritualDef, this.parent.Map);
+                    if (!acceptanceReport.Accepted)
+                    {
+                        command_Action.Disable(acceptanceReport.Reason.CapitalizeFirst());
+                    }
+
+                    yield return command_Action;
                 }
-                
-                yield return command_Action;
             }
         }
     }

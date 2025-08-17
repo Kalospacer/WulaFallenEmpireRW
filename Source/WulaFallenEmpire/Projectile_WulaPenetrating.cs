@@ -8,63 +8,88 @@ namespace WulaFallenEmpire
     public class Projectile_WulaLineAttack : Projectile
     {
         private List<Thing> alreadyDamaged = new List<Thing>();
+        private Vector3 lastTickPosition;
 
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Collections.Look(ref alreadyDamaged, "alreadyDamaged", LookMode.Reference);
+            Scribe_Values.Look(ref lastTickPosition, "lastTickPosition");
+            if (alreadyDamaged == null)
+            {
+                alreadyDamaged = new List<Thing>();
+            }
+        }
+
+        public override void Launch(Thing launcher, Vector3 origin, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget, ProjectileHitFlags hitFlags, bool preventFriendlyFire = false, Thing equipment = null, ThingDef targetCoverDef = null)
+        {
+            base.Launch(launcher, origin, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
+            this.lastTickPosition = origin;
+            this.alreadyDamaged.Clear();
         }
 
         protected override void Tick()
         {
-            base.Tick();
+            Vector3 startPos = this.lastTickPosition;
+            
+            base.Tick(); // 这会更新弹丸的位置，并可能调用Impact()
+
             if (this.Destroyed)
             {
                 return;
             }
-
-            Map map = this.Map;
-            IntVec3 currentPosition = this.Position;
             
-            // 使用HashSet进行更高效的查找
-            var thingsInCell = new HashSet<Thing>(map.thingGrid.ThingsListAt(currentPosition));
+            Vector3 endPos = this.ExactPosition;
 
-            foreach (Thing thing in thingsInCell)
-            {
-                if (thing is Pawn pawn && pawn != this.launcher && !alreadyDamaged.Contains(thing) && GenHostility.HostileTo(thing, this.launcher.Faction))
-                {
-                    DamageInfo dinfo = new DamageInfo(
-                        this.def.projectile.damageDef, 
-                        (float)this.DamageAmount, 
-                        this.ArmorPenetration, 
-                        this.ExactRotation.eulerAngles.y, 
-                        this.launcher, 
-                        null, 
-                        this.equipmentDef, 
-                        DamageInfo.SourceCategory.ThingOrUnknown, 
-                        this.intendedTarget.Thing);
-                    
-                    pawn.TakeDamage(dinfo);
-                    alreadyDamaged.Add(pawn);
-                }
-            }
+            // 调用路径伤害检测
+            DamageMissedPawns(startPos, endPos);
+
+            // 为下一帧更新位置
+            this.lastTickPosition = endPos;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            // 如果最终命中的目标还没有在飞行路径上被伤害过，
-            // 就在这里将它标记为已伤害，以避免在基类Impact中再次造成伤害。
+            // 在最终碰撞前，最后一次检查从上一帧到当前碰撞点的路径
+            DamageMissedPawns(this.lastTickPosition, this.ExactPosition);
+            
+            // 如果最终目标还没被路径伤害击中，在这里造成一次伤害
             if (hitThing != null && !alreadyDamaged.Contains(hitThing))
             {
-                // 注意：这里我们不直接造成伤害，因为基类的Impact会处理。
-                // 我们只是标记它，以防万一。
-                // 但实际上，由于基类Impact会造成伤害，这条线可能不是必须的，
-                // 除非我们想完全控制伤害的施加时机。为了安全起见，我们保留它。
+                 DamageInfo dinfo = new DamageInfo(this.def.projectile.damageDef, (float)this.DamageAmount, this.ArmorPenetration, this.ExactRotation.eulerAngles.y, this.launcher, null, this.equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown, this.intendedTarget.Thing);
+                 hitThing.TakeDamage(dinfo);
             }
 
-            // 调用基类的Impact方法来处理最终的命中效果，
-            // 比如爆炸、声音、或对最终目标的直接伤害。
+            // 调用基类方法来处理XML中定义的爆炸等最终效果
             base.Impact(hitThing, blockedByShield);
+        }
+
+        private void DamageMissedPawns(Vector3 startPos, Vector3 endPos)
+        {
+            if (startPos == endPos) return;
+
+            Map map = this.Map;
+            float distance = Vector3.Distance(startPos, endPos);
+            Vector3 direction = (endPos - startPos).normalized;
+
+            for (float i = 0; i < distance; i += 0.5f)
+            {
+                Vector3 checkPos = startPos + direction * i;
+                IntVec3 checkCell = new IntVec3(checkPos);
+
+                if (!checkCell.InBounds(map)) continue;
+                
+                var thingsInCell = new HashSet<Thing>(map.thingGrid.ThingsListAt(checkCell));
+                foreach (Thing thing in thingsInCell)
+                {
+                    if (thing is Pawn pawn && pawn != this.launcher && !alreadyDamaged.Contains(pawn) && GenHostility.HostileTo(pawn, this.launcher.Faction))
+                    {
+                        var dinfo = new DamageInfo(this.def.projectile.damageDef, (float)this.DamageAmount, this.ArmorPenetration, this.ExactRotation.eulerAngles.y, this.launcher, null, this.equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown, this.intendedTarget.Thing);
+                        pawn.TakeDamage(dinfo);
+                        alreadyDamaged.Add(pawn);
+                    }
+                }
+            }
         }
     }
 }
