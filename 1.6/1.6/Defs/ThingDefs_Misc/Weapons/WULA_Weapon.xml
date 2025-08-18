@@ -611,78 +611,7 @@
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
   </ThingDef>
-  <!-- 链锯剑 -->
-  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
-    <defName>WULA_MW_ChainSword</defName>
-    <label>CMs-1"链锯剑"</label>
-    <description>这种嗡嗡作响的乌拉帝国链锯类武器有多条环绕剑脊高速旋转的多层复合锯齿链条，之间嵌有能量传导节点或微型冷却剂喷口，是力量与纯粹疯狂的象征。</description>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_MW_ChainSword</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutComplex</shaderType>
-    </graphicData>
-    <!-- <equippedAngleOffset>-65</equippedAngleOffset> -->
-    <techLevel>Spacer</techLevel>
-    <costStuffCount>60</costStuffCount>
-    <stuffCategories>
-      <li>Metallic</li>
-    </stuffCategories>
-    <costList Inherit="False">
-      <Plasteel>5</Plasteel>
-      <ComponentIndustrial>3</ComponentIndustrial>
-    </costList>
-    <statBases>
-      <WorkToMake>20000</WorkToMake>
-      <Mass>2.5</Mass>
-    </statBases>
-    <tools Inherit="False">
-      <li>
-        <label>链锯</label>
-        <capacities>
-          <li>Cut</li>
-        </capacities>
-        <armorPenetration>0.5</armorPenetration>
-        <power>25</power> <!-- 2.5x natural fist -->
-        <cooldownTime>1.2</cooldownTime>
-        <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
-        <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss>
-      </li>
-      <li>
-        <label>柄击</label>
-        <capacities>
-          <li>Blunt</li>
-          <li>Poke</li>
-        </capacities>
-        <power>18</power>
-        <cooldownTime>1.5</cooldownTime>
-        <surpriseAttack>
-          <extraMeleeDamages>
-            <li>
-              <def>Stun</def>
-              <amount>5</amount>
-            </li>
-          </extraMeleeDamages>
-        </surpriseAttack>
-      </li>
-    </tools>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Melee_Technology</researchPrerequisite>
-      <skillRequirements>
-        <Crafting>7</Crafting>
-      </skillRequirements>
-      <displayPriority>450</displayPriority>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <weaponTags>
-      <li>Wula_Melee_Weapon_T2</li>
-    </weaponTags>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-  </ThingDef>
+
   <!-- 双头刀 -->
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>WULA_MW_Glaive</defName>
@@ -712,7 +641,7 @@
     </costList>
     <statBases>
       <WorkToMake>30000</WorkToMake>
-      <Mass>100</Mass>
+      <Mass>5</Mass>
     </statBases>
     <tools Inherit="False">
       <li>
