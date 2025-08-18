@@ -335,6 +335,19 @@
       </li>
     </comps>
   </ThingDef>
+  <!-- 乌拉族睡眠点 -->
+  <ThingDef ParentName="SleepingSpotBase">
+    <defName>Wula_SleepingSpot</defName>
+    <label>乌拉帝国抢修点</label>
+    <description>指定一块地方，供机械乌拉躺下以进行抢修。</description>
+    <graphicData>
+      <texPath>Things/Building/Furniture/Bed/SleepSpot</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,4)</drawSize>
+    </graphicData>
+    <size>(1,2)</size>
+    <designationHotKey>Misc1</designationHotKey>
+  </ThingDef>
   
   <!-- 机械工厂 -->
   <ThingDef ParentName="BuildingBase">
@@ -480,17 +493,15 @@
   <ThingDef ParentName="BaseMechCharger">
     <defName>WULA_War_Machine_Recharger</defName>
     <label>乌拉帝国充电站</label>
-    <description>一个允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。</description>
+    <description>一个允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。由于其根基埋于地下，因此不会阻碍其他殖民者和机械体在其上面的移动。</description>
     <graphicData>
-      <texPath>Things/Building/Production/StandardRecharger</texPath>
+      <texPath>Wula/Building/WULA_War_Machine_Recharger</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3,3)</drawSize>
-      <shadowData>
-        <volume>(2.9, 0.5, 1.9)</volume>
-      </shadowData>
     </graphicData>
-    <interactionCellOffset>(0,0,2)</interactionCellOffset>
-    <passability>PassThroughOnly</passability>
+    <interactionCellOffset>(0,0,0)</interactionCellOffset>
+    <passability>Standable</passability>
+    <designationCategory>WULA_Buildings</designationCategory>
     <statBases>
       <MaxHitPoints>250</MaxHitPoints>
       <WorkToBuild>8000</WorkToBuild>
@@ -545,20 +556,6 @@
         <basePowerConsumption>400</basePowerConsumption>
       </li>
     </comps>
-  </ThingDef>
-
-  <!-- 乌拉族睡眠点 -->
-  <ThingDef ParentName="SleepingSpotBase">
-    <defName>Wula_SleepingSpot</defName>
-    <label>乌拉帝国抢修点</label>
-    <description>指定一块地方，供机械乌拉躺下以进行抢修。</description>
-    <graphicData>
-      <texPath>Things/Building/Furniture/Bed/SleepSpot</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3,4)</drawSize>
-    </graphicData>
-    <size>(1,2)</size>
-    <designationHotKey>Misc1</designationHotKey>
   </ThingDef>
 
   <!-- 联络台 -->

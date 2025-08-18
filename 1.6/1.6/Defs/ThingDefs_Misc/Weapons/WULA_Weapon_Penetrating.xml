@@ -115,6 +115,7 @@
       <Steel>120</Steel>
       <ComponentIndustrial>6</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
     <verbs>
       <li>
         <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
@@ -173,6 +174,7 @@
       <Steel>120</Steel>
       <ComponentIndustrial>6</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
@@ -205,8 +207,6 @@
     <!-- <tickerType>Normal</tickerType> -->
     <!--避免被生成-->
     <generateCommonality>0</generateCommonality>
-    <!--不可制作-->
-    <recipeMaker Inherit="False" />
   </ThingDef>
   <!--三叉模式-->
   <ThingDef ParentName="BaseBullet">

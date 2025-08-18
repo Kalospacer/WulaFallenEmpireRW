@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <SoundDef>
+    <defName>Interact_WULA_MW_ChainSword</defName>  
+    <context>MapOnly</context>   
+    <maxSimultaneous>1</maxSimultaneous>  
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/Interact_WULA_MW_ChainSword</clipPath>
+          </li>
+        </grains>      
+        <volumeRange>45.91304~45.91304</volumeRange>      
+        <pitchRange>0.9576087~1.084783</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>WULA_MW_ChainSword_Hit</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/WULA_MW_ChainSword_Hit</clipPath>
+          </li>
+        </grains>
+        <volumeRange>65</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+</Defs>
