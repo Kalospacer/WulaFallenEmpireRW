@@ -28,10 +28,10 @@
     <statBases>
       <WorkToMake>1300</WorkToMake>
       <Mass>3.5</Mass>
-      <AccuracyTouch>1.0</AccuracyTouch>
-      <AccuracyShort>1.0</AccuracyShort>
-      <AccuracyMedium>1.0</AccuracyMedium>
-      <AccuracyLong>1.0</AccuracyLong>
+      <AccuracyTouch>0.3</AccuracyTouch>
+      <AccuracyShort>0.8</AccuracyShort>
+      <AccuracyMedium>0.9</AccuracyMedium>
+      <AccuracyLong>0.8</AccuracyLong>
       <RangedWeapon_Cooldown>0.8</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
@@ -55,7 +55,9 @@
     <weaponTags>
       <li>Wula_Weapon_Init</li>
     </weaponTags>
-    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Penetrating_Rifle</defName>
@@ -63,9 +65,9 @@
     <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
-        <maxHits>-1</maxHits> <!-- 无限穿透 -->
-        <damageFalloff>0</damageFalloff> <!-- 无伤害衰减 -->
-        <preventFriendlyFire>false</preventFriendlyFire> <!-- 是否阻止友方火力 -->
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>false</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
       </li>
     </modExtensions>
     <tickerType>Normal</tickerType>
@@ -84,5 +86,243 @@
       <stoppingPower>5</stoppingPower>
     </projectile>
   </ThingDef>
+
+  <!-- Penetrating Beam Rifle -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Penetrating_Beam_Rifle</defName>
+    <label>SLb-15 "三叉戟"</label>
+    <description>一把经过实验性改造的“蓝锥”步枪，能够发射一道可以穿透多个目标的能量光束。</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <statBases>
+      <WorkToMake>1300</WorkToMake>
+      <Mass>3.5</Mass>
+      <AccuracyTouch>0.65</AccuracyTouch>
+      <AccuracyShort>0.72</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.6</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>120</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Penetrating_Beam</defaultProjectile>
+        <warmupTime>2.0</warmupTime>
+        <range>28</range>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <soundCast>Shot_BeamRepeater</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
+        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_Switch">
+        <changeTo>WULA_RW_Penetrating_Beam_Rifle_Ranged</changeTo>
+        <abilityDef>WULA_RW_Penetrating_Beam_RifleSwitchAbility</abilityDef>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Penetrating Beam Rifle -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Penetrating_Beam_Rifle_Ranged</defName>
+    <label>SLb-15 "三叉戟"(远射)</label>
+    <description>一把经过实验性改造的“蓝锥”步枪，能够发射一道可以穿透多个目标的能量光束。</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <statBases>
+      <WorkToMake>1300</WorkToMake>
+      <Mass>3.5</Mass>
+      <AccuracyTouch>0.65</AccuracyTouch>
+      <AccuracyShort>0.8</AccuracyShort>
+      <AccuracyMedium>0.9</AccuracyMedium>
+      <AccuracyLong>0.8</AccuracyLong>
+      <RangedWeapon_Cooldown>2.0</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>120</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Penetrating_Beam_Ranged</defaultProjectile>
+        <warmupTime>3.0</warmupTime>
+        <range>38</range>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <soundCast>Shot_BeamRepeater</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
+        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+    </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_Switch">
+        <changeTo>WULA_RW_Penetrating_Beam_Rifle</changeTo>
+        <abilityDef>WULA_RW_Penetrating_Beam_RifleSwitchAbility</abilityDef>
+      </li>
+    </comps>
+    <!--加上这个就行-->
+    <!-- <tickerType>Normal</tickerType> -->
+    <!--避免被生成-->
+    <generateCommonality>0</generateCommonality>
+    <!--不可制作-->
+    <recipeMaker Inherit="False" />
+  </ThingDef>
+  <!--三叉模式-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Penetrating_Beam</defName>
+    <label>穿透光束</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
+        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
+        <preventFriendlyFire>false</preventFriendlyFire>
+        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
+        <beamStartOffset>0.5</beamStartOffset>
+      </li>
+      <li Class="WulaFallenEmpire.ShotgunExtension">
+        <pelletCount>3</pelletCount>
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>BeamBypassShields</damageDef>
+      <damageAmountBase>5</damageAmountBase>
+      <armorPenetrationBase>0.8</armorPenetrationBase>
+      <stoppingPower>1</stoppingPower>
+    </projectile>
+  </ThingDef>
+  <!--集束模式-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Penetrating_Beam_Ranged</defName>
+    <label>穿透光束</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
+        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
+        <preventFriendlyFire>false</preventFriendlyFire>
+        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
+        <beamStartOffset>0.5</beamStartOffset>
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>BeamBypassShields</damageDef>
+      <damageAmountBase>15</damageAmountBase>
+      <armorPenetrationBase>0.8</armorPenetrationBase>
+      <stoppingPower>1</stoppingPower>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_WULA_RW_Penetrating_Beam</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.1</fadeInTime>
+      <fadeOutTime>0.1</fadeOutTime>
+      <solidTime>0.1</solidTime>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ScrollSpeedA>0</_ScrollSpeedA>
+        <_ScrollSpeedB>0</_ScrollSpeedB>
+        <_Intensity>2</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+
+
+  <AbilityDef>
+    <defName>WULA_RW_Penetrating_Beam_RifleSwitchAbility</defName>
+    <label>武装解放 / 武装闭锁</label>
+    <description>控制分光棱镜档位，以决定SLb-15 "三叉戟"是否切换到光束散射模式。</description>
+    <cooldownTicksRange>601</cooldownTicksRange>
+    <iconPath>Wula/UI/Abilities/WULA_WeaponSwitchAbility</iconPath>
+    <hostile>false</hostile>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <aiCanUse>false</aiCanUse>
+    <targetRequired>false</targetRequired>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <statBases>
+      <!-- 如果不需要限时，可以把这玩意删了-->
+      <!--<Ability_Duration>10</Ability_Duration>-->
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>0</warmupTime>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityEffect">
+        <compClass>WulaFallenEmpire.CompAbilityEffect_Switch</compClass>
+      </li>
+      <!-- 如果不需要限时，可以把这玩意删了-->
+      <!--<li Class="CompProperties_AbilityGiveHediff">
+				<compClass>CompAbilityEffect_GiveHediff</compClass>
+				<hediffDef>WULA_HediffSwitchDuration</hediffDef>
+				<onlyApplyToSelf>True</onlyApplyToSelf>
+			</li>-->
+    </comps>
+  </AbilityDef>
 
 </Defs>
