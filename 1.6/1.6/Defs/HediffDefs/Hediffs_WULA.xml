@@ -63,10 +63,9 @@
     <comps>
       <li Class="WulaFallenEmpire.HediffCompProperties_WulaCharging">
         <!-- 充能效果的总持续时间（以 tick 为单位，60 ticks = 1 秒） -->
-        <!-- 充能效果的总持续时间（以 tick 为单位，60 ticks = 1 秒） -->
         <durationTicks>20,000</durationTicks>
         <!-- 备用能量恢复值：如果能量核心没有定义具体的能量值，则每 tick 恢复这么多能量 -->
-        <energyPerTick>0.00011667</energyPerTick>
+        <energyPerTick>0.0002</energyPerTick>
       </li>
     </comps>
     <stages>
