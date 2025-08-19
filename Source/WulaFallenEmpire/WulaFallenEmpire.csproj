@@ -70,6 +70,9 @@
   <ItemGroup>
     <Compile Include="CompChargingBed.cs" />
     <Compile Include="CompCleave.cs" />
+    <Compile Include="CompAutoMechCarrier.cs" />
+    <Compile Include="CompProperties_AutoMechCarrier.cs" />
+    <Compile Include="PawnProductionEntry.cs" />
     <Compile Include="Building_Wula_DarkEnergy_Engine.cs" />
     <Compile Include="CompApparelInterceptor.cs" />
     <Compile Include="CompCustomUniqueWeapon.cs" />
@@ -154,7 +157,6 @@
     <Compile Include="HediffComp_DamageResponse.cs" />
     <Compile Include="JobDefOf_WULA.cs" />
     <Compile Include="ThingDefOf_WULA.cs" />
-    <Compile Include="StartupLogger.cs" />
     <Compile Include="WeaponSwitch.cs" />
     <Compile Include="Verb\CompMultiStrike.cs" />
     <Compile Include="Verb\Verb_MeleeAttack_MultiStrike.cs" />

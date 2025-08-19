@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- CompAutoMechCarrier -->
+  <MechCarrierDesc_Free>命令该单位生成 {0} 个 {1}。此操作不消耗任何资源。</MechCarrierDesc_Free>
+  <WULA_AutoSpawn_Label>自动生产</WULA_AutoSpawn_Label>
+  <WULA_AutoSpawn_Desc>切换是否自动生产单位。开启后，当资源和冷却允许时，会自动生产单位以维持队列上限。</WULA_AutoSpawn_Desc>
+  <WULA_AutoSpawn_On_Reason>自动生产已开启。再次点击以关闭。</WULA_AutoSpawn_On_Reason>
+
+</LanguageData>
