@@ -70,24 +70,32 @@
     <comps>
       <!-- 这里是我们修改的核心部分 -->
       <li Class="WulaFallenEmpire.CompProperties_AutoMechCarrier">
-        <startsAsAutoSpawn>true</startsAsAutoSpawn>
-        <freeProduction>true</freeProduction>
-        <cooldownTicks>900</cooldownTicks> <!-- 15 seconds -->
+        <freeProduction>true</freeProduction> <!-- 改为消耗资源以测试独立成本 -->
+        <disableHediff>WULA_MechCarrierSwitchHediff</disableHediff>
+        <fixedIngredient>Steel</fixedIngredient>
+        <maxIngredientCount>500</maxIngredientCount> <!-- 定义最大资源容量 -->
+        <startingIngredientCount>500</startingIngredientCount> <!-- 定义初始资源数量 -->
+        <costPerPawn>999</costPerPawn> <!-- 设置一个很高的全局默认成本，以确保独立成本生效 -->
+        <cooldownTicks>9999</cooldownTicks> <!-- 设置一个很高的全局默认冷却，以确保独立冷却生效 -->
         <productionQueue>
           <li>
             <pawnKind>Mech_WarUrchin</pawnKind>
             <count>2</count>
+            <cooldownTicks>600</cooldownTicks> <!-- 独立冷却: 10秒 -->
+            <cost>10</cost> <!-- 独立成本: 10 钢铁 -->
           </li>
           <li>
             <pawnKind>Mech_Lancer</pawnKind>
             <count>1</count>
+            <cooldownTicks>1200</cooldownTicks> <!-- 独立冷却: 20秒 -->
+            <cost>25</cost> <!-- 独立成本: 25 钢铁 -->
           </li>
         </productionQueue>
         <spawnEffecter>WarqueenWarUrchinsSpawned</spawnEffecter>
         <spawnedMechEffecter>WarUrchinSpawned</spawnedMechEffecter>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Penetrating_BeamTurret</turretDef>
+        <turretDef>Gun_ChargeBlasterTurret</turretDef>
         <angleOffset>-90</angleOffset>
         <autoAttack>false</autoAttack>
         <renderNodeProperties>
@@ -112,40 +120,6 @@
     </killedLeavingsPlayerHostile>
   </ThingDef>
 
-  <ThingDef ParentName="BaseWeaponTurret">
-    <defName>WULA_Penetrating_BeamTurret</defName>
-    <label>charge blaster turret</label>
-    <description>A small charge blaster designed for use on a defense turret.</description>
-    <tradeability>None</tradeability>
-    <destroyOnDrop>true</destroyOnDrop>
-    <graphicData>
-      <texPath>Things/Item/Equipment/WeaponRanged/ChargeBlasterTurret</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <statBases>
-      <Mass>2.6</Mass>
-      <AccuracyTouch>0.60</AccuracyTouch>
-      <AccuracyShort>0.80</AccuracyShort>
-      <AccuracyMedium>0.90</AccuracyMedium>
-      <AccuracyLong>0.85</AccuracyLong>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <defaultProjectile>Bullet_WULA_RW_Penetrating_Beam_Ranged</defaultProjectile>
-        <range>44.9</range>
-        <ticksBetweenBurstShots>30</ticksBetweenBurstShots>
-        <soundCast>Shot_ChargeBlaster</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-        <defaultCooldownTime>2.5</defaultCooldownTime>
-        <linkedBodyPartsGroup>BulbTurret</linkedBodyPartsGroup>
-        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
-        <ticksBetweenBurstShots>50</ticksBetweenBurstShots>
-      </li>
-    </verbs>
-  </ThingDef>
-
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>WULA_Mech_Warqueen</defName> <!-- 修改了defName以避免冲突 -->
     <label>war queen (WULA)</label>
@@ -155,6 +129,10 @@
     <maxPerGroup>3</maxPerGroup>
     <isBoss>true</isBoss>
     <allowInMechClusters>false</allowInMechClusters>
+    <abilities>
+      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
+      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
+    </abilities>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -183,5 +161,64 @@
     </lifeStages>    
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
   </PawnKindDef>
+
+  <!-- 新的技能定义 -->
+  <AbilityDef>
+    <defName>WULA_RemoveSwitchHediff</defName>
+    <label>重启生产</label>
+    <description>重启自动生产机械体。</description>
+    <iconPath>Wula/UI/Abilities/WULA_WeaponSwitchAbility</iconPath>
+    <cooldownTicksRange>601</cooldownTicksRange>
+    <hostile>false</hostile>
+    <showOnCharacterCard>true</showOnCharacterCard>
+    <aiCanUse>false</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>0</warmupTime>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <!-- 这是正确的用法 -->
+      <li Class="RimWorld.CompProperties_AbilityRemoveHediff">
+        <compClass>WulaFallenEmpire.CompAbilityEffect_RemoveSwitchHediff</compClass>
+        <hediffDef>WULA_MechCarrierSwitchHediff</hediffDef>
+        <applyToSelf>true</applyToSelf>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <!-- 新增的“施加Hediff”技能定义 -->
+  <AbilityDef>
+    <defName>WULA_GiveSwitchHediff</defName>
+    <label>停止生产</label>
+    <description>停止自动生产机械体。</description>
+    <iconPath>Wula/UI/Abilities/WULA_WeaponSwitchAbility</iconPath>
+    <cooldownTicksRange>601</cooldownTicksRange>
+    <hostile>false</hostile>
+    <showOnCharacterCard>true</showOnCharacterCard>
+    <aiCanUse>false</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>0</warmupTime>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="RimWorld.CompProperties_AbilityGiveHediff">
+        <compClass>WulaFallenEmpire.CompAbilityEffect_GiveSwitchHediff</compClass>
+        <hediffDef>WULA_MechCarrierSwitchHediff</hediffDef>
+        <applyToSelf>true</applyToSelf>
+      </li>
+    </comps>
+  </AbilityDef>
 
 </Defs>

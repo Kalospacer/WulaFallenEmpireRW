@@ -10,8 +10,6 @@ namespace WulaFallenEmpire
 {
     public class CompAutoMechCarrier : CompMechCarrier
     {
-        private bool isAutoSpawning;
-
         #region Reflected Fields
         private static FieldInfo spawnedPawnsField;
         private static FieldInfo cooldownTicksRemainingField;
@@ -64,28 +62,17 @@ namespace WulaFallenEmpire
             return SpawnedPawns.Count(p => p.kindDef == kind);
         }
 
-        public override void PostSpawnSetup(bool respawningAfterLoad)
-        {
-            base.PostSpawnSetup(respawningAfterLoad);
-            if (!respawningAfterLoad)
-            {
-                isAutoSpawning = AutoProps.startsAsAutoSpawn;
-            }
-        }
-
-        public override void PostExposeData()
-        {
-            base.PostExposeData();
-            Scribe_Values.Look(ref isAutoSpawning, "isAutoSpawning", AutoProps.startsAsAutoSpawn);
-        }
-
         private AcceptanceReport CanSpawnNow(PawnKindDef kind)
         {
             if (parent is Pawn pawn && (pawn.IsSelfShutdown() || !pawn.Awake() || pawn.Downed || pawn.Dead || !pawn.Spawned))
                 return false;
             if (CooldownTicksRemaining > 0)
                 return "CooldownTime".Translate() + " " + CooldownTicksRemaining.ToStringSecondsFromTicks();
-            if (!AutoProps.freeProduction && InnerContainer.TotalStackCountOfDef(Props.fixedIngredient) < Props.costPerPawn)
+            
+            PawnProductionEntry entry = AutoProps.productionQueue.First(e => e.pawnKind == kind);
+            int cost = entry.cost ?? Props.costPerPawn;
+
+            if (!AutoProps.freeProduction && InnerContainer.TotalStackCountOfDef(Props.fixedIngredient) < cost)
                 return "MechCarrierNotEnoughResources".Translate();
             return true;
         }
@@ -102,7 +89,9 @@ namespace WulaFallenEmpire
 
             if (!AutoProps.freeProduction)
             {
-                int costLeft = Props.costPerPawn;
+                PawnProductionEntry entry = AutoProps.productionQueue.First(e => e.pawnKind == kind);
+                int costLeft = entry.cost ?? Props.costPerPawn;
+                
                 List<Thing> things = new List<Thing>(InnerContainer);
                 for (int j = 0; j < things.Count; j++)
                 {
@@ -112,8 +101,10 @@ namespace WulaFallenEmpire
                     if (costLeft <= 0) break;
                 }
             }
+            
+            PawnProductionEntry spawnEntry = AutoProps.productionQueue.First(e => e.pawnKind == kind);
+            CooldownTicksRemaining = spawnEntry.cooldownTicks ?? Props.cooldownTicks;
 
-            CooldownTicksRemaining = Props.cooldownTicks;
             if (Props.spawnedMechEffecter != null)
                 EffecterTrigger(Props.spawnedMechEffecter, Props.attachSpawnedMechEffecter, pawn);
             if (Props.spawnEffecter != null)
@@ -130,10 +121,35 @@ namespace WulaFallenEmpire
         public override void CompTick()
         {
             base.CompTick();
-            if (isAutoSpawning && parent.IsHashIntervalTick(60)) // 每秒检查一次
+
+            if (parent.IsHashIntervalTick(60)) // 每秒检查一次
             {
+                // 检查是否有抑制生产的Hediff
+                if (AutoProps.disableHediff != null && (parent as Pawn)?.health.hediffSet.HasHediff(AutoProps.disableHediff) == true)
+                {
+                    return; // 有Hediff，停止生产
+                }
+                
+                // 1. 先检查是否满员
+                bool isFull = true;
+                foreach (var entry in AutoProps.productionQueue)
+                {
+                    if (LiveSpawnedPawnsCount(entry.pawnKind) < entry.count)
+                    {
+                        isFull = false;
+                        break;
+                    }
+                }
+                
+                if (isFull)
+                {
+                    return; // 如果已满员，则不进行任何操作，包括冷却计时
+                }
+
+                // 2. 如果未满员，才检查冷却时间
                 if (CooldownTicksRemaining > 0) return;
 
+                // 3. 寻找空位并生产
                 foreach (var entry in AutoProps.productionQueue)
                 {
                     if (LiveSpawnedPawnsCount(entry.pawnKind) < entry.count)
@@ -141,7 +157,7 @@ namespace WulaFallenEmpire
                         if (CanSpawnNow(entry.pawnKind).Accepted)
                         {
                             TrySpawnPawn(entry.pawnKind);
-                            break; // 每次只生产一个，然后等待下一次冷却
+                            break; // 每次只生产一个
                         }
                     }
                 }
@@ -150,40 +166,8 @@ namespace WulaFallenEmpire
         
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            // 拦截并改造基类的Gizmo
-            foreach (var gizmo in base.CompGetGizmosExtra())
-            {
-                // 通过图标来稳定地识别目标按钮
-                if (gizmo is Command_ActionWithCooldown command && command.icon == ContentFinder<Texture2D>.Get("UI/Gizmos/ReleaseWarUrchins"))
-                {
-                    // 我们只改造这个按钮，其他按钮原样返回
-                    var modifiedCommand = new Command_ActionWithCooldown
-                    {
-                        // 保留冷却进度条的逻辑
-                        cooldownPercentGetter = command.cooldownPercentGetter,
-                        // 保留原版图标
-                        icon = command.icon,
-                        // 修改功能为切换自动生产
-                        action = () => { isAutoSpawning = !isAutoSpawning; },
-                        // 修改标签和描述
-                        defaultLabel = "WULA_AutoSpawn_Label".Translate(),
-                        defaultDesc = "WULA_AutoSpawn_Desc".Translate()
-                    };
-
-                    // 如果自动生产开启，则禁用按钮并显示红叉
-                    if (isAutoSpawning)
-                    {
-                        modifiedCommand.Disable("WULA_AutoSpawn_On_Reason".Translate());
-                    }
-                    
-                    yield return modifiedCommand;
-                }
-                else
-                {
-                    // 其他按钮（如开发者按钮）原样返回
-                    yield return gizmo;
-                }
-            }
+            // 移除所有Gizmo逻辑
+            return Enumerable.Empty<Gizmo>();
         }
 
         public override string CompInspectStringExtra()

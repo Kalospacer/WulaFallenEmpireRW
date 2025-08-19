@@ -6,11 +6,11 @@ namespace WulaFallenEmpire
 {
     public class CompProperties_AutoMechCarrier : CompProperties_MechCarrier
     {
-        // XML中定义，初始是否为自动生产模式
-        public bool startsAsAutoSpawn = false;
-
         // XML中定义，生产是否消耗资源
         public bool freeProduction = false;
+
+        // 如果单位拥有这个Hediff，则停止生产
+        public HediffDef disableHediff;
 
         // 定义生产队列
         public List<PawnProductionEntry> productionQueue = new List<PawnProductionEntry>();
