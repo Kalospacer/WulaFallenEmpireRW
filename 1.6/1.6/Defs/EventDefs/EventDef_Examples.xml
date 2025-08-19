@@ -69,6 +69,7 @@
   <!-- 隐藏事件：触发一次袭击 -->
   <WulaFallenEmpire.EventDef>
     <defName>Wula_HiddenEvent_TriggerRaid</defName>
+    <hiddenWindow>true</hiddenWindow>
     <dismissEffects>
       <li>
         <effects>

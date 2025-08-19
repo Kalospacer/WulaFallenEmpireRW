@@ -16,7 +16,37 @@ namespace WulaFallenEmpire
                 EventDef currentDef = localDef;
                 list.Add(new DebugMenuOption(currentDef.defName, DebugMenuOptionMode.Action, delegate
                 {
-                    Find.WindowStack.Add(new Dialog_CustomDisplay(currentDef));
+                    if (currentDef.hiddenWindow)
+                    {
+                        if (!currentDef.dismissEffects.NullOrEmpty())
+                        {
+                            foreach (var conditionalEffect in currentDef.dismissEffects)
+                            {
+                                string reason;
+                                bool conditionsMet = true;
+                                if (!conditionalEffect.conditions.NullOrEmpty())
+                                {
+                                    foreach (var condition in conditionalEffect.conditions)
+                                    {
+                                        if (!condition.IsMet(out reason))
+                                        {
+                                            conditionsMet = false;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (conditionsMet)
+                                {
+                                    conditionalEffect.Execute(null);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Find.WindowStack.Add(new Dialog_CustomDisplay(currentDef));
+                    }
                 }));
             }
             Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
