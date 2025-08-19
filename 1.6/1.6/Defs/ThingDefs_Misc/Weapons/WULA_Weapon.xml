@@ -836,7 +836,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>25</damageAmountBase>
+      <damageAmountBase>8</damageAmountBase>
       <stoppingPower>2.5</stoppingPower>
       <armorPenetrationBase>0.65</armorPenetrationBase>
       <speed>55</speed>
@@ -888,7 +888,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_ChargeRifle</defaultProjectile>
+        <defaultProjectile>Bullet_WULA_RW_MG_Beam</defaultProjectile>
         <warmupTime>0.5</warmupTime>
         <range>33.9</range>
         <burstShotCount>32</burstShotCount>
@@ -901,6 +901,24 @@
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_MG_Beam</defName>
+    <label>光束</label>
+    <thingClass>Beam</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>BeamBypassShields</damageDef>
+      <damageAmountBase>5</damageAmountBase>
+      <beamStartOffset>0.5</beamStartOffset>
+      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <stoppingPower>1</stoppingPower>
+      <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
+    </projectile>
   </ThingDef>
 
   <!-- 手持火炮 -->
@@ -941,7 +959,7 @@
     </costList>
     <verbs>
       <li>
-        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
+        <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Handle_Cannon</defaultProjectile>
         <warmupTime>3</warmupTime>
@@ -1005,11 +1023,6 @@
       <explosionRadius>2</explosionRadius>
       <screenShakeFactor>0.75</screenShakeFactor>
     </projectile>
-    <modExtensions>
-			<li Class="WulaFallenEmpire.ShotgunExtension">
-				<pelletCount>3</pelletCount>
-			</li>
-		</modExtensions>
   </ThingDef>
   <!-- 自动炮 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
