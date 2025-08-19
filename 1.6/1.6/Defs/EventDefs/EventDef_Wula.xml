@@ -42,7 +42,7 @@
           <li Class="WulaFallenEmpire.Effect_ClearVariable">
             <name>Wula_FE_Spiritualist_Goodwill</name>
           </li>
-          <li Class="WulaFallenEmpire.Effect_StoreFactionGoodwill">
+          <li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
             <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
             <variableName>Wula_FE_Spiritualist_Goodwill</variableName>
           </li>

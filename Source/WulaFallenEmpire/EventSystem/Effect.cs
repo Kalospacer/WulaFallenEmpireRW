@@ -506,43 +506,53 @@ namespace WulaFallenEmpire
                 return;
             }
 
+            IncidentParms parms = new IncidentParms
+            {
+                target = map,
+                points = this.points,
+                faction = factionInst,
+                raidStrategy = this.raidStrategy,
+                raidArrivalMode = this.raidArrivalMode,
+                pawnGroupMakerSeed = Rand.Int,
+                forced = true
+            };
+
+            if (!RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Hostile))
+            {
+                Log.Error("[WulaFallenEmpire] Effect_TriggerRaid could not find a valid spawn center.");
+                return;
+            }
+
+            PawnGroupMakerParms groupMakerParms = new PawnGroupMakerParms
+            {
+                groupKind = this.groupKind ?? PawnGroupKindDefOf.Combat,
+                tile = map.Tile,
+                points = this.points,
+                faction = factionInst,
+                raidStrategy = this.raidStrategy,
+                seed = parms.pawnGroupMakerSeed
+            };
+            
+            List<Pawn> pawns;
             if (!pawnGroupMakers.NullOrEmpty())
             {
-                IncidentParms parms = new IncidentParms
-                {
-                    target = map,
-                    points = this.points,
-                    faction = factionInst,
-                    raidStrategy = this.raidStrategy,
-                    raidArrivalMode = this.raidArrivalMode,
-                    pawnGroupMakerSeed = Rand.Int,
-                    forced = true
-                };
+                var groupMaker = pawnGroupMakers.RandomElementByWeight(x => x.commonality);
+                pawns = groupMaker.GeneratePawns(groupMakerParms).ToList();
+            }
+            else
+            {
+                pawns = PawnGroupMakerUtility.GeneratePawns(groupMakerParms).ToList();
+            }
 
-                if (!RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Hostile))
-                {
-                    Log.Error("[WulaFallenEmpire] Effect_TriggerRaid could not find a valid spawn center.");
-                    return;
-                }
-
-                PawnGroupMakerParms groupMakerParms = new PawnGroupMakerParms
-                {
-                    groupKind = this.groupKind ?? PawnGroupKindDefOf.Combat,
-                    tile = map.Tile,
-                    points = this.points,
-                    faction = factionInst,
-                    raidStrategy = this.raidStrategy,
-                    seed = parms.pawnGroupMakerSeed
-                };
+            if (pawns.Any())
+            {
+                raidArrivalMode.Worker.Arrive(pawns, parms);
+                // Assign Lord and LordJob to make the pawns actually perform the raid.
+                raidStrategy.Worker.MakeLords(parms, pawns);
                 
-                List<Pawn> pawns = PawnGroupMakerUtility.GeneratePawns(groupMakerParms).ToList();
-                if (pawns.Any())
+                if (!string.IsNullOrEmpty(letterLabel) && !string.IsNullOrEmpty(letterText))
                 {
-                    raidArrivalMode.Worker.Arrive(pawns, parms);
-                    if (!string.IsNullOrEmpty(letterLabel) && !string.IsNullOrEmpty(letterText))
-                    {
-                        Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.ThreatBig, pawns[0]);
-                    }
+                    Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.ThreatBig, pawns[0]);
                 }
             }
         }
@@ -552,56 +562,12 @@ namespace WulaFallenEmpire
     {
         public FactionDef factionDef;
         public string variableName;
-        public List<Effect> successEffects;
-        public List<Effect> failureEffects;
-
-        public override void Execute(Dialog_CustomDisplay dialog = null)
-        {
-            if (factionDef == null)
-            {
-                Log.Error("[WulaFallenEmpire] Effect_CheckFactionGoodwill has a null faction Def.");
-                return;
-            }
-
-            Faction targetFaction = Find.FactionManager.FirstFactionOfDef(factionDef);
-            if (targetFaction == null)
-            {
-                Log.Warning($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{factionDef.defName}'.");
-                ExecuteEffects(failureEffects, dialog);
-                return;
-            }
-
-            int requiredGoodwill = Find.World.GetComponent<EventVariableManager>().GetVariable<int>(variableName);
-            int currentGoodwill = Faction.OfPlayer.GoodwillWith(targetFaction);
-            if (currentGoodwill >= requiredGoodwill)
-            {
-                ExecuteEffects(successEffects, dialog);
-            }
-            else
-            {
-                ExecuteEffects(failureEffects, dialog);
-            }
-        }
-
-        private void ExecuteEffects(List<Effect> effects, Dialog_CustomDisplay dialog)
-        {
-            if (effects.NullOrEmpty()) return;
-            foreach (var effect in effects)
-            {
-                effect.Execute(dialog);
-            }
-        }
-    }
-public class Effect_StoreFactionGoodwill : Effect
-    {
-        public FactionDef factionDef;
-        public string variableName;
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (factionDef == null || string.IsNullOrEmpty(variableName))
             {
-                Log.Error("[WulaFallenEmpire] Effect_StoreFactionGoodwill is not configured correctly.");
+                Log.Error("[WulaFallenEmpire] Effect_CheckFactionGoodwill is not configured correctly.");
                 return;
             }
 
@@ -616,9 +582,73 @@ public class Effect_StoreFactionGoodwill : Effect
             }
             else
             {
-                Log.Warning($"[EventSystem] Effect_StoreFactionGoodwill: Faction '{factionDef.defName}' not found. Storing 0 in variable '{variableName}'.");
+                Log.Warning($"[EventSystem] Effect_CheckFactionGoodwill: Faction '{factionDef.defName}' not found. Storing 0 in variable '{variableName}'.");
                 eventVarManager.SetVariable(variableName, 0);
             }
+        }
+    }
+
+    public class Effect_StoreRealPlayTime : Effect
+    {
+        public string variableName;
+
+        public override void Execute(Dialog_CustomDisplay dialog = null)
+        {
+            if (string.IsNullOrEmpty(variableName))
+            {
+                Log.Error("[WulaFallenEmpire] Effect_StoreRealPlayTime is not configured correctly (missing variableName).");
+                return;
+            }
+
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            float realPlayTime = Find.GameInfo.RealPlayTimeInteracting;
+            Log.Message($"[EventSystem] Storing real play time ({realPlayTime}s) into variable '{variableName}'.");
+            eventVarManager.SetVariable(variableName, realPlayTime);
+        }
+    }
+
+    public class Effect_StoreDaysPassed : Effect
+    {
+        public string variableName;
+
+        public override void Execute(Dialog_CustomDisplay dialog = null)
+        {
+            if (string.IsNullOrEmpty(variableName))
+            {
+                Log.Error("[WulaFallenEmpire] Effect_StoreDaysPassed is not configured correctly (missing variableName).");
+                return;
+            }
+
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            int daysPassed = GenDate.DaysPassed;
+            Log.Message($"[EventSystem] Storing days passed ({daysPassed}) into variable '{variableName}'.");
+            eventVarManager.SetVariable(variableName, daysPassed);
+        }
+    }
+
+    public class Effect_StoreColonyWealth : Effect
+    {
+        public string variableName;
+
+        public override void Execute(Dialog_CustomDisplay dialog = null)
+        {
+            if (string.IsNullOrEmpty(variableName))
+            {
+                Log.Error("[WulaFallenEmpire] Effect_StoreColonyWealth is not configured correctly (missing variableName).");
+                return;
+            }
+
+            Map currentMap = Find.CurrentMap;
+            if (currentMap == null)
+            {
+                Log.Error("[WulaFallenEmpire] Effect_StoreColonyWealth cannot execute without a current map.");
+                return;
+            }
+
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+            float wealth = currentMap.wealthWatcher.WealthTotal;
+            Log.Message($"[EventSystem] Storing colony wealth ({wealth}) into variable '{variableName}'.");
+            eventVarManager.SetVariable(variableName, wealth);
         }
     }
 }
