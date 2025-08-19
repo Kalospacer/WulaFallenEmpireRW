@@ -552,56 +552,12 @@ namespace WulaFallenEmpire
     {
         public FactionDef factionDef;
         public string variableName;
-        public List<Effect> successEffects;
-        public List<Effect> failureEffects;
-
-        public override void Execute(Dialog_CustomDisplay dialog = null)
-        {
-            if (factionDef == null)
-            {
-                Log.Error("[WulaFallenEmpire] Effect_CheckFactionGoodwill has a null faction Def.");
-                return;
-            }
-
-            Faction targetFaction = Find.FactionManager.FirstFactionOfDef(factionDef);
-            if (targetFaction == null)
-            {
-                Log.Warning($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{factionDef.defName}'.");
-                ExecuteEffects(failureEffects, dialog);
-                return;
-            }
-
-            int requiredGoodwill = Find.World.GetComponent<EventVariableManager>().GetVariable<int>(variableName);
-            int currentGoodwill = Faction.OfPlayer.GoodwillWith(targetFaction);
-            if (currentGoodwill >= requiredGoodwill)
-            {
-                ExecuteEffects(successEffects, dialog);
-            }
-            else
-            {
-                ExecuteEffects(failureEffects, dialog);
-            }
-        }
-
-        private void ExecuteEffects(List<Effect> effects, Dialog_CustomDisplay dialog)
-        {
-            if (effects.NullOrEmpty()) return;
-            foreach (var effect in effects)
-            {
-                effect.Execute(dialog);
-            }
-        }
-    }
-public class Effect_StoreFactionGoodwill : Effect
-    {
-        public FactionDef factionDef;
-        public string variableName;
 
         public override void Execute(Dialog_CustomDisplay dialog = null)
         {
             if (factionDef == null || string.IsNullOrEmpty(variableName))
             {
-                Log.Error("[WulaFallenEmpire] Effect_StoreFactionGoodwill is not configured correctly.");
+                Log.Error("[WulaFallenEmpire] Effect_CheckFactionGoodwill is not configured correctly.");
                 return;
             }
 
@@ -616,7 +572,7 @@ public class Effect_StoreFactionGoodwill : Effect
             }
             else
             {
-                Log.Warning($"[EventSystem] Effect_StoreFactionGoodwill: Faction '{factionDef.defName}' not found. Storing 0 in variable '{variableName}'.");
+                Log.Warning($"[EventSystem] Effect_CheckFactionGoodwill: Faction '{factionDef.defName}' not found. Storing 0 in variable '{variableName}'.");
                 eventVarManager.SetVariable(variableName, 0);
             }
         }
