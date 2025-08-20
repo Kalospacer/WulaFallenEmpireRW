@@ -416,6 +416,12 @@
       <armorPenetrationBase>0.75</armorPenetrationBase>
       <speed>55</speed>
     </projectile>
+    <thingClass>WulaFallenEmpire.BulletWithTrail</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+      </li>
+    </modExtensions>
   </ThingDef>
   <AbilityDef>
     <defName>WULA_RW_Plasm_AR_WeaponSwitchAbility</defName>

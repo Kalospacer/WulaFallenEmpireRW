@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>Weapon_ExampleHomingGun</defName>
-    <label>Homing Rifle</label>
-    <description>A rifle designed to fire homing projectiles. It can track targets and adjust its trajectory in real-time.</description>
+    <defName>WULA_RW_Plasm_Homing_AR</defName>
+    <label>PMr-88"三叶"</label>
+    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，这种改型可以发射制导等离子体。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Plasm_AR</texPath>
@@ -42,7 +42,7 @@
       <li>
         <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_ExampleHoming</defaultProjectile>
+        <defaultProjectile>Bullet_WULA_RW_Plasm_Homing_AR</defaultProjectile>
         <warmupTime>2.0</warmupTime>
         <range>28</range>
         <burstShotCount>3</burstShotCount>
@@ -64,20 +64,19 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_ExampleHoming</defName>
-    <label>homing bullet</label>
+    <defName>Bullet_WULA_RW_Plasm_Homing_AR</defName>
+    <label>磷叶等离子体射弹</label>
     <graphicData>
-      <texPath>Things/Projectile/Charge_Small</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasm</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
     <projectile>
-      <speed>60</speed>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>15</damageAmountBase>
-      <armorPenetrationBase>0.5</armorPenetrationBase>
-      <stoppingPower>1.5</stoppingPower>
+      <damageAmountBase>16</damageAmountBase>
+      <armorPenetrationBase>0.75</armorPenetrationBase>
+      <speed>55</speed>
     </projectile>
+    <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
         <homingSpeed>0.1</homingSpeed>
@@ -89,8 +88,103 @@
         <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
       </li>
       <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>3</pelletCount>
+        <pelletCount>2</pelletCount>
       </li>
     </modExtensions>
+  </ThingDef>
+
+   <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_Weapon_Plasm_HomingExplosive</defName>
+    <label>PMr-92"夹竹桃"</label>
+    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体追踪爆弹的谐振器，可以射出高精度的等离子体追踪爆弹，擅长区域压制和造成重创。</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Plasm_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <generateCommonality>0.8</generateCommonality>
+    <soundInteract>Interact_ChargeRifle</soundInteract> <!-- Placeholder, needs a proper sound -->
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_BIO</li>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>2000</WorkToMake>
+      <Mass>5.0</Mass>
+      <AccuracyTouch>0.4</AccuracyTouch>
+      <AccuracyShort>0.6</AccuracyShort>
+      <AccuracyMedium>0.7</AccuracyMedium>
+      <AccuracyLong>0.65</AccuracyLong>
+      <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>150</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+      <Plasteel>30</Plasteel>
+      <Uranium>10</Uranium>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_Weapon_Plasm_HomingExplosive</defaultProjectile>
+        <warmupTime>1.25</warmupTime>
+        <range>28</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>7</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+      <li>HomingExplosiveWeapon</li>
+    </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_Weapon_Plasm_HomingExplosive</defName>
+    <label>夹竹桃等离子体爆弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasm</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
+    <projectile>
+      <speed>60</speed>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <armorPenetrationBase>0.7</armorPenetrationBase>
+      <stoppingPower>2.0</stoppingPower>
+    </projectile>
+  <modExtensions>
+    <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
+      <explosionRadius>1.1</explosionRadius>
+      <damageDef>Bomb</damageDef>
+    </li>
+    <li Class="WulaFallenEmpire.TrackingBulletDef">
+      <homingSpeed>0.1</homingSpeed>
+      <initRotateAngle>15</initRotateAngle>
+      <destroyTicksAfterLosingTrack>
+        <min>60</min>
+        <max>120</max>
+      </destroyTicksAfterLosingTrack>
+      <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+      <impactThreshold>1</impactThreshold>
+    </li>
+  </modExtensions>
   </ThingDef>
 </Defs>
