@@ -1692,7 +1692,7 @@
   <ThingDef ParentName="BaseGun">
     <defName>WULA_WM_Panzer_Turret</defName>
     <label>ATt-6"金红石"</label>
-    <description>由乌拉帝国的"萨克森"战车所装备的战车炮塔，可以从极远距离上精准地点杀高价值目标，并穿透路径上的所有敌人。</description>
+    <description>由乌拉帝国的"萨克森"战车所装备的战车炮塔，可以从极远距离上精准地点杀高价值目标。</description>
     <techLevel>Ultra</techLevel>
     <relicChance>0</relicChance>
     <graphicData>
@@ -1737,14 +1737,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_WM_Panzer_Turret</defName>
     <label>金红石穿甲弹</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
-        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
-        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
-        <preventFriendlyFire>false</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
-      </li>
-    </modExtensions>
+    <thingClass>Projectile_Explosive</thingClass>
     <tickerType>Normal</tickerType>
     <neverMultiSelect>True</neverMultiSelect>
     <graphicData>
@@ -1757,9 +1750,11 @@
       <damageDef>Bullet</damageDef>
       <damageAmountBase>385</damageAmountBase>
       <speed>220</speed>
-      <armorPenetrationBase>1.5</armorPenetrationBase>
       <stoppingPower>5</stoppingPower>
       <soundExplode>Explosion_Rocket</soundExplode>
+      <explosionRadius>3.5</explosionRadius>
+      <arcHeightFactor>0.4</arcHeightFactor>
+      <armorPenetrationBase>1</armorPenetrationBase>
     </projectile>
   </ThingDef>
   <ThingDef Name="WULA_WM_Panzer_Autocannon" ParentName="BaseGun">
