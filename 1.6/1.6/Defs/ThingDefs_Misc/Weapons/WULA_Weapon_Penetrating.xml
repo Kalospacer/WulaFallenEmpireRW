@@ -262,31 +262,6 @@
     </projectile>
   </ThingDef>
 
-  <ThingDef ParentName="MoteBase">
-    <defName>Mote_WULA_RW_Penetrating_Beam</defName>
-    <thingClass>MoteDualAttached</thingClass>
-    <altitudeLayer>MoteOverhead</altitudeLayer>
-    <mote>
-      <fadeInTime>0.1</fadeInTime>
-      <fadeOutTime>0.1</fadeOutTime>
-      <solidTime>0.1</solidTime>
-      <rotateTowardsTarget>True</rotateTowardsTarget>
-      <scaleToConnectTargets>True</scaleToConnectTargets>
-    </mote>
-    <drawOffscreen>true</drawOffscreen>
-    <graphicData>
-      <texPath>Things/Projectile/ChargeLanceShot</texPath>
-      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
-      <shaderType>MoteBeam</shaderType>
-      <shaderParameters>
-        <_ScrollSpeedA>0</_ScrollSpeedA>
-        <_ScrollSpeedB>0</_ScrollSpeedB>
-        <_Intensity>2</_Intensity>
-      </shaderParameters>
-    </graphicData>
-  </ThingDef>
-
-
   <AbilityDef>
     <defName>WULA_RW_Penetrating_Beam_RifleSwitchAbility</defName>
     <label>武装解放 / 武装闭锁</label>
@@ -324,5 +299,4 @@
 			</li>-->
     </comps>
   </AbilityDef>
-
 </Defs>

@@ -124,6 +124,7 @@
     <soundDrop>Metal_Drop</soundDrop>
     <useHitPoints>false</useHitPoints>
     <healthAffectsPrice>false</healthAffectsPrice>
+    <stackLimit>500</stackLimit>
     <statBases>
       <MarketValue>0.75</MarketValue>
       <Mass>0.01</Mass>

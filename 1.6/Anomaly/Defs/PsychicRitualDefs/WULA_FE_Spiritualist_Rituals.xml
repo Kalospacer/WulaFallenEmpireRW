@@ -351,10 +351,10 @@
     <requiredOffering>
       <filter>
         <thingDefs>
-          <li>WULA_Soul_Wedge</li>
+          <li>Wula_Zro</li>
         </thingDefs>
       </filter>
-      <count>500</count>
+      <count>300</count>
     </requiredOffering>
     <chanterRole>ChanterAdvanced</chanterRole>
     <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
@@ -373,10 +373,10 @@
     <requiredOffering>
       <filter>
         <thingDefs>
-          <li>WULA_Soul_Wedge</li>
+          <li>Wula_Zro</li>
         </thingDefs>
       </filter>
-      <count>500</count>
+      <count>300</count>
     </requiredOffering>
     <chanterRole>ChanterAdvanced</chanterRole>
     <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
@@ -395,10 +395,10 @@
     <requiredOffering>
       <filter>
         <thingDefs>
-          <li>WULA_Soul_Wedge</li>
+          <li>Wula_Zro</li>
         </thingDefs>
       </filter>
-      <count>500</count>
+      <count>300</count>
     </requiredOffering>
     <chanterRole>ChanterAdvanced</chanterRole>
     <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
@@ -417,10 +417,10 @@
     <requiredOffering>
       <filter>
         <thingDefs>
-          <li>WULA_Soul_Wedge</li>
+          <li>Wula_Zro</li>
         </thingDefs>
       </filter>
-      <count>500</count>
+      <count>300</count>
     </requiredOffering>
     <chanterRole>ChanterAdvanced</chanterRole>
     <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>

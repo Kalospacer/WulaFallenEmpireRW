@@ -15,6 +15,7 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>0.75</drawSize>
     </graphicData>
+    <stackLimit>300</stackLimit>
     <rotatable>false</rotatable>
     <statBases>
       <WorkToMake>350</WorkToMake>

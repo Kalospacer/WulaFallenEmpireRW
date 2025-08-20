@@ -892,7 +892,7 @@
   <ThingDef Name="Wula_AI_Heavy_Panzer" ParentName="HeavyMechanoid">
 		<defName>Wula_AI_Heavy_Panzer</defName>
 		<label>SMp-38"萨克森"</label>
-		<description>乌拉帝国所使用的中型突击战车，以逆重的方式悬浮于战场上，搭载了一门在远距离上可以发挥高威力的穿甲主炮，并且拥有足以保护一支突击小队的护盾。</description>
+		<description>乌拉帝国所使用的中型突击战车，以逆重的方式悬浮于战场上，搭载了一门在远距离上可以穿透路径上的敌人的穿甲主炮，并且拥有足以保护一支突击小队的护盾。</description>
     <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Heavy_Panzer_Icon</uiIconPath>
     <statBases>
       <BandwidthCost>3</BandwidthCost>

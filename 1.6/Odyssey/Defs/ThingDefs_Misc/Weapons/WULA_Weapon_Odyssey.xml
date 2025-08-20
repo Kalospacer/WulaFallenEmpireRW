@@ -14,7 +14,7 @@
       <drawSize>2</drawSize>
     </graphicData>
     <tradeability>None</tradeability>
-    <uiIconScale>1.4</uiIconScale>
+    <uiIconScale>1.2</uiIconScale>
     <statBases>
       <WorkToMake>20000</WorkToMake>
       <Mass>150</Mass>
@@ -82,7 +82,7 @@
       <drawSize>2</drawSize>
     </graphicData>
     <tradeability>None</tradeability>
-    <uiIconScale>1.4</uiIconScale>
+    <uiIconScale>1.2</uiIconScale>
     <statBases>
       <WorkToMake>20000</WorkToMake>
       <Mass>150</Mass>

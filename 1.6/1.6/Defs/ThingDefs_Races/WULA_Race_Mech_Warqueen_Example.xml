@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
-  <!-- 这是一个使用我们新系统的战争女皇示例 -->
-  <!-- 它被设置为自动生产，且生产不消耗资源 -->
-  
   <ThingDef ParentName="SuperHeavyMechanoid">
-    <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
-    <label>SNm-6"头狼"</label>
+    <defName>WULA_Superme_Commander</defName> <!-- 修改了defName以避免冲突 -->
+    <label>HNm-99"至高"</label>
     <description>乌拉帝国中型机械体</description>
     <statBases>
-      <MoveSpeed>4.6</MoveSpeed>
+      <MoveSpeed>3</MoveSpeed>
       <MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
     </statBases>
     <race>
@@ -42,6 +38,99 @@
     <comps>
       <!-- 这里是我们修改的核心部分 -->
       <li Class="WulaFallenEmpire.CompProperties_AutoMechCarrier">
+        <freeProduction>false</freeProduction> <!-- 改为消耗资源以测试独立成本 -->
+        <disableHediff>WULA_MechCarrierSwitchHediff</disableHediff>
+        <fixedIngredient>Steel</fixedIngredient>
+        <maxIngredientCount>500</maxIngredientCount> <!-- 定义最大资源容量 -->
+        <startingIngredientCount>500</startingIngredientCount> <!-- 定义初始资源数量 -->
+        <costPerPawn>999</costPerPawn> <!-- 设置一个很高的全局默认成本，以确保独立成本生效 -->
+        <cooldownTicks>9999</cooldownTicks> <!-- 设置一个很高的全局默认冷却，以确保独立冷却生效 -->
+        <productionQueue>
+          <li>
+            <pawnKind>WULA_Alpha_Wolf</pawnKind>
+            <count>2</count>
+            <cooldownTicks>600</cooldownTicks> <!-- 独立冷却: 10秒 -->
+            <cost>10</cost> <!-- 独立成本: 10 钢铁 -->
+          </li>
+          <!-- <li>
+            <pawnKind>Mech_Lancer</pawnKind>
+            <count>1</count>
+            <cooldownTicks>1200</cooldownTicks>
+            <cost>25</cost>
+          </li> -->
+        </productionQueue>
+        <spawnEffecter>WarqueenWarUrchinsSpawned</spawnEffecter>
+        <spawnedMechEffecter>WarUrchinSpawned</spawnedMechEffecter>
+      </li>
+    </comps>
+  </ThingDef>
+  <PawnKindDef ParentName="HeavyMechanoidKind">
+    <defName>WULA_Superme_Commander</defName> <!-- 修改了defName以避免冲突 -->
+    <label>HNm-99"至高"</label>
+    <race>WULA_Superme_Commander</race>
+    <combatPower>600</combatPower>
+    <allowInMechClusters>false</allowInMechClusters>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <abilities>
+      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
+      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
+    </abilities>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/Warqueen</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/MechWarqueen</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3</drawSize>
+          <shadowData>
+            <volume>(0.7, 0.8, 0.7)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+  </PawnKindDef>
+
+  <ThingDef ParentName="HeavyMechanoid">
+    <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
+    <label>SNm-6"头狼"</label>
+    <description>乌拉帝国中型机械体</description>
+    <statBases>
+      <BandwidthCost>0</BandwidthCost>
+      <MoveSpeed>4.6</MoveSpeed>
+      <MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
+    </statBases>
+    <race>
+      <body>Mech_Warqueen</body>
+      <baseBodySize>5</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
+          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <baseHealthScale>5.2</baseHealthScale>
+    </race>
+    <tools>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>4</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <comps Inherit="False">
+      <!-- 这里是我们修改的核心部分 -->
+      <li Class="WulaFallenEmpire.CompProperties_AutoMechCarrier">
         <freeProduction>true</freeProduction> <!-- 改为消耗资源以测试独立成本 -->
         <disableHediff>WULA_MechCarrierSwitchHediff</disableHediff>
         <fixedIngredient>Steel</fixedIngredient>
@@ -52,26 +141,31 @@
         <productionQueue>
           <li>
             <pawnKind>Mech_WarUrchin</pawnKind>
-            <count>2</count>
+            <count>5</count>
             <cooldownTicks>600</cooldownTicks> <!-- 独立冷却: 10秒 -->
             <cost>10</cost> <!-- 独立成本: 10 钢铁 -->
           </li>
-          <li>
+          <!-- <li>
             <pawnKind>Mech_Lancer</pawnKind>
             <count>1</count>
-            <cooldownTicks>1200</cooldownTicks> <!-- 独立冷却: 20秒 -->
-            <cost>25</cost> <!-- 独立成本: 25 钢铁 -->
-          </li>
+            <cooldownTicks>1200</cooldownTicks>
+            <cost>25</cost>
+          </li> -->
         </productionQueue>
         <spawnEffecter>WarqueenWarUrchinsSpawned</spawnEffecter>
         <spawnedMechEffecter>WarUrchinSpawned</spawnedMechEffecter>
       </li>
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpOnDamage>true</wakeUpOnDamage>
+        <wakeUpCheckRadius>30</wakeUpCheckRadius>
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+      <!-- <li Class="CompProperties_MechPowerCell">
+        <totalPowerTicks>15000</totalPowerTicks>
+      </li> -->
     </comps>
-    <killedLeavingsPlayerHostile>
-      <PowerfocusChip>1</PowerfocusChip>
-    </killedLeavingsPlayerHostile>
   </ThingDef>
-
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
     <label>SNm-6"头狼"</label>
@@ -126,7 +220,6 @@
       </li>
     </comps>
   </AbilityDef>
-
   <!-- 新增的“施加Hediff”技能定义 -->
   <AbilityDef>
     <defName>WULA_GiveSwitchHediff</defName>
@@ -155,5 +248,4 @@
       </li>
     </comps>
   </AbilityDef>
-
 </Defs>
