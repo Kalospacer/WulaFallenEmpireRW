@@ -15,6 +15,9 @@ namespace WulaFallenEmpire
         protected Vector3 exactPositionInt;
         public Vector3 curSpeed;
         public bool homing = true;
+        private int destroyTicksAfterLosingTrack = -1; // 失去追踪后多少tick自毁，-1表示不自毁
+        private int Fleck_MakeFleckTick; // 拖尾特效的计时器
+        private Vector3 lastTickPosition; // 记录上一帧的位置，用于计算移动方向
 
         private static class NonPublicFields
         {
@@ -58,6 +61,7 @@ namespace WulaFallenEmpire
             curSpeed = rotatedDirection * def.projectile.SpeedTilesPerTick;
             
             ReflectInit();
+            lastTickPosition = origin; // 初始化 lastTickPosition
         }
 
         protected void ReflectInit()
@@ -80,59 +84,32 @@ namespace WulaFallenEmpire
 
             if (homing)
             {
-                // 计算需要转向的方向
-                Vector3 desiredDirection = vectorToTarget.normalized;
-                Vector3 currentDirection = curSpeed.normalized;
-                
-                // 计算方向差异
-                Vector3 directionDifference = desiredDirection - currentDirection;
-                
-                // 如果方向差异过大，可能失去追踪，或者直接转向
-                if (directionDifference.sqrMagnitude > 0.001f) // 避免浮点数精度问题
+                // 如果目标消失或距离太远，停止追踪
+                if (!intendedTarget.IsValid || !intendedTarget.Thing.Spawned || (intendedTarget.Cell.ToVector3() - ExactPosition).magnitude > def.projectile.speed * 2f) // 假设2倍速度为最大追踪距离
                 {
-                    // 调整当前速度，使其更接近目标方向
-                    curSpeed += directionDifference * TrackingDef.homingSpeed * curSpeed.magnitude;
-                    curSpeed = curSpeed.normalized * def.projectile.SpeedTilesPerTick; // 保持速度恒定
+                    homing = false;
+                    destroyTicksAfterLosingTrack = TrackingDef.destroyTicksAfterLosingTrack.RandomInRange; // 失去追踪后根据XML配置的范围自毁
+                }
+                else
+                {
+                    // 计算需要转向的方向
+                    Vector3 desiredDirection = vectorToTarget.normalized;
+                    Vector3 currentDirection = curSpeed.normalized;
+                    
+                    // 计算方向差异
+                    Vector3 directionDifference = desiredDirection - currentDirection;
+                    
+                    // 如果方向差异过大，可能失去追踪，或者直接转向
+                    if (directionDifference.sqrMagnitude > 0.001f) // 避免浮点数精度问题
+                    {
+                        // 调整当前速度，使其更接近目标方向
+                        curSpeed += directionDifference * TrackingDef.homingSpeed * curSpeed.magnitude;
+                        curSpeed = curSpeed.normalized * def.projectile.SpeedTilesPerTick; // 保持速度恒定
+                    }
                 }
             }
             
             exactPositionInt = ExactPosition + curSpeed; // 更新位置
-        }
-
-        protected override void Tick()
-        {
-            base.Tick(); // 调用父类Bullet的Tick，处理一些基本逻辑，如lifetime, ticksToImpact
-
-            MovementTick(); // 调用追踪移动逻辑
-
-            // 检查是否撞到东西或超出地图
-            Vector3 exactPosition = ExactPosition; // 之前的ExactPosition
-            ticksToImpact--; // 减少impact计时器
-
-            if (!ExactPosition.InBounds(base.Map)) // 超出地图边界
-            {
-                base.Position = exactPosition.ToIntVec3(); // 设回旧位置，然后销毁
-                Destroy();
-                return;
-            }
-
-            // 检查是否有东西在路径上拦截
-            Vector3 exactPositionAfterMove = ExactPosition; // 移动后的ExactPosition
-            object[] parameters = new object[2] { exactPosition, exactPositionAfterMove };
-            if (!(bool)NonPublicFields.ProjectileCheckForFreeInterceptBetween.Invoke(this, parameters))
-            {
-                base.Position = ExactPosition.ToIntVec3(); // 更新位置到当前精确位置
-                if (ticksToImpact <= 0) // 达到impact时间
-                {
-                    ImpactSomething(); // 触发Impact
-                }
-            }
-        }
-
-        protected override void Impact(Thing hitThing, bool blockedByShield = false)
-        {
-            // 默认Impact逻辑，可以根据需要扩展
-            base.Impact(hitThing, blockedByShield);
         }
 
         public override void ExposeData()
@@ -141,6 +118,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref exactPositionInt, "exactPosition");
             Scribe_Values.Look(ref curSpeed, "curSpeed");
             Scribe_Values.Look(ref homing, "homing", defaultValue: true);
+            Scribe_Values.Look(ref destroyTicksAfterLosingTrack, "destroyTicksAfterLosingTrack", -1);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 ReflectInit();
@@ -154,6 +132,85 @@ namespace WulaFallenEmpire
                     }
                 }
             }
+        }
+
+        protected override void Tick()
+        {
+            base.Tick(); // 调用父类Bullet的Tick，处理 ticksToImpact 减少和最终命中
+
+            if (destroyTicksAfterLosingTrack > 0)
+            {
+                destroyTicksAfterLosingTrack--;
+                if (destroyTicksAfterLosingTrack <= 0)
+                {
+                    Destroy(); // 如果自毁计时器归零，直接销毁
+                    return;
+                }
+            }
+
+            // 处理拖尾特效
+            if (TrackingDef != null && TrackingDef.tailFleckDef != null)
+            {
+                Fleck_MakeFleckTick++;
+                // 只有当达到延迟时间后才开始生成Fleck
+                if (Fleck_MakeFleckTick >= TrackingDef.fleckDelayTicks)
+                {
+                    if (Fleck_MakeFleckTick >= (TrackingDef.fleckDelayTicks + TrackingDef.fleckMakeFleckTickMax))
+                    {
+                        Fleck_MakeFleckTick = TrackingDef.fleckDelayTicks; // 重置计时器，从延迟时间开始循环
+                    }
+
+                    Map map = base.Map;
+                    int randomInRange = TrackingDef.fleckMakeFleckNum.RandomInRange;
+                    Vector3 currentPosition = ExactPosition;
+                    Vector3 previousPosition = lastTickPosition;
+
+                    for (int i = 0; i < randomInRange; i++)
+                    {
+                        float num = (currentPosition - previousPosition).AngleFlat();
+                        float velocityAngle = TrackingDef.fleckAngle.RandomInRange + num;
+                        float randomInRange2 = TrackingDef.fleckScale.RandomInRange;
+                        float randomInRange3 = TrackingDef.fleckSpeed.RandomInRange;
+                        
+                        FleckCreationData dataStatic = FleckMaker.GetDataStatic(currentPosition, map, TrackingDef.tailFleckDef, randomInRange2);
+                        dataStatic.rotation = (currentPosition - previousPosition).AngleFlat();
+                        dataStatic.rotationRate = TrackingDef.fleckRotation.RandomInRange;
+                        dataStatic.velocityAngle = velocityAngle;
+                        dataStatic.velocitySpeed = randomInRange3;
+                        map.flecks.CreateFleck(dataStatic);
+                    }
+                }
+            }
+            lastTickPosition = ExactPosition; // 更新上一帧位置
+
+            // 保存移动前的精确位置
+            Vector3 exactPositionBeforeMove = exactPositionInt;
+
+            MovementTick(); // 调用追踪移动逻辑，更新 exactPositionInt (即新的 ExactPosition)
+
+            // 检查是否超出地图边界
+            if (!ExactPosition.InBounds(base.Map))
+            {
+                // 如果超出地图，直接销毁，不触发 ImpactSomething()
+                Destroy();
+                return;
+            }
+
+            // 检查是否有东西在路径上拦截
+            // ProjectileCheckForFreeInterceptBetween 会在内部处理命中，并调用 ImpactSomething()
+            // 所以这里不需要额外的 ImpactSomething() 调用
+            object[] parameters = new object[2] { exactPositionBeforeMove, exactPositionInt }; // 传入移动前和移动后的位置
+            
+            // 调用 ProjectileCheckForFreeInterceptBetween
+            // 如果它返回 true，说明有拦截，并且拦截逻辑已在内部处理。
+            // 如果返回 false，说明没有拦截，子弹继续飞行。
+            NonPublicFields.ProjectileCheckForFreeInterceptBetween.Invoke(this, parameters);
+        }
+
+        protected override void Impact(Thing hitThing, bool blockedByShield = false)
+        {
+            // 默认Impact逻辑，可以根据需要扩展
+            base.Impact(hitThing, blockedByShield);
         }
     }
 }

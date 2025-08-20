@@ -69,7 +69,7 @@
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
     <projectile>
-      <speed>30</speed>
+      <speed>60</speed>
       <damageDef>Bullet</damageDef>
       <damageAmountBase>15</damageAmountBase>
       <armorPenetrationBase>0.5</armorPenetrationBase>
@@ -78,7 +78,12 @@
     <modExtensions>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
         <homingSpeed>0.5</homingSpeed>
-        <initRotateAngle>10</initRotateAngle>
+        <initRotateAngle>30</initRotateAngle>
+        <destroyTicksAfterLosingTrack>
+          <min>60</min>
+          <max>120</max>
+        </destroyTicksAfterLosingTrack>
+        <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
       </li>
     </modExtensions>
   </ThingDef>

@@ -15,6 +15,7 @@ namespace WulaFallenEmpire
         // If true, this projectile will never cause friendly fire, regardless of game settings.
         public bool preventFriendlyFire = false;
         public FleckDef tailFleckDef; // 用于配置拖尾特效的 FleckDef
+        public int fleckDelayTicks = 10; // 拖尾特效延迟生成时间（tick）
     }
 
     public class Projectile_WulaLineAttack : Bullet
@@ -62,26 +63,31 @@ namespace WulaFallenEmpire
             if (this.Destroyed) return;
 
             this.Fleck_MakeFleckTick++;
-            bool flag = this.Fleck_MakeFleckTick >= this.Fleck_MakeFleckTickMax;
-            if (flag)
+            // 只有当达到延迟时间后才开始生成Fleck
+            if (this.Fleck_MakeFleckTick >= Props.fleckDelayTicks)
             {
-                this.Fleck_MakeFleckTick = 0;
+                if (this.Fleck_MakeFleckTick >= (Props.fleckDelayTicks + this.Fleck_MakeFleckTickMax))
+                {
+                    this.Fleck_MakeFleckTick = Props.fleckDelayTicks; // 重置计时器，从延迟时间开始循环
+                }
+
                 Map map = base.Map;
                 int randomInRange = this.Fleck_MakeFleckNum.RandomInRange;
-                Vector3 vector = this.ExactPosition; // Current position of the bullet
-                Vector3 vector2 = this.lastTickPosition; // Previous position of the bullet
+                Vector3 currentPosition = this.ExactPosition; // Current position of the bullet
+                Vector3 previousPosition = this.lastTickPosition; // Previous position of the bullet
 
                 for (int i = 0; i < randomInRange; i++)
                 {
-                    float num = (vector - vector2).AngleFlat(); // Angle based on movement direction
-                    float velocityAngle = this.Fleck_Angle.RandomInRange + num;
+                    float currentBulletAngle = ExactRotation.eulerAngles.y; // 使用子弹当前的水平旋转角度
+                    float fleckRotationAngle = currentBulletAngle; // Fleck 的旋转角度与子弹方向一致
+                    float velocityAngle = this.Fleck_Angle.RandomInRange + currentBulletAngle; // Fleck 的速度角度基于子弹方向加上随机偏移
                     float randomInRange2 = this.Fleck_Scale.RandomInRange;
                     float randomInRange3 = this.Fleck_Speed.RandomInRange;
  
                     if (Props?.tailFleckDef != null)
                     {
-                        FleckCreationData dataStatic = FleckMaker.GetDataStatic(vector, map, Props.tailFleckDef, randomInRange2);
-                        dataStatic.rotation = (vector - vector2).AngleFlat();
+                        FleckCreationData dataStatic = FleckMaker.GetDataStatic(currentPosition, map, Props.tailFleckDef, randomInRange2);
+                        dataStatic.rotation = fleckRotationAngle;
                         dataStatic.rotationRate = this.Fleck_Rotation.RandomInRange;
                         dataStatic.velocityAngle = velocityAngle;
                         dataStatic.velocitySpeed = randomInRange3;

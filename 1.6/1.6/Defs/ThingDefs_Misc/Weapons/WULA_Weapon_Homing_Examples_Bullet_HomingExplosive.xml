@@ -89,7 +89,17 @@
     <li Class="WulaFallenEmpire.TrackingBulletDef">
       <homingSpeed>0.5</homingSpeed>
       <initRotateAngle>5</initRotateAngle>
-      <!-- 爆炸相关配置，可以直接在projectile节点下定义，Projectile_TrackingBullet 不直接处理爆炸逻辑 -->
+      <destroyTicksAfterLosingTrack>
+        <min>60</min>
+        <max>120</max>
+      </destroyTicksAfterLosingTrack>
+      <tailFleckDef>Mote_BlastFlame</tailFleckDef>
+      <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
+      <fleckMakeFleckNum>1</fleckMakeFleckNum>
+      <fleckAngle>30</fleckAngle>
+      <fleckScale>0.8~1.2</fleckScale>
+      <fleckSpeed>0.2~0.5</fleckSpeed>
+      <fleckRotation>0~360</fleckRotation>
     </li>
   </modExtensions>
   </ThingDef>
