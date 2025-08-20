@@ -124,14 +124,10 @@
     <Compile Include="NeedDefExtension_Energy.cs" />
     <Compile Include="Projectile_WulaPenetrating.cs" />
     <Compile Include="Projectile_WulaBeam.cs" />
-    <Compile Include="Projectile_Homing.cs" />
-    <Compile Include="Projectile_Homing_Explosive.cs" />
     <Compile Include="Projectile_TrackingBullet.cs" />
     <Compile Include="TrackingBulletDef.cs" />
     <Compile Include="ExplosiveTrackingBulletDef.cs" />
     <Compile Include="Projectile_ExplosiveTrackingBullet.cs" />
-    <Compile Include="ModExtension_Cone.cs" />
-    <Compile Include="HomingProjectileDef.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsychicRitual_TechOffering.cs" />
     <Compile Include="PsychicRitualDef_AddHediff.cs" />
@@ -170,11 +166,13 @@
     <Compile Include="WeaponSwitch.cs" />
     <Compile Include="Verb\CompMultiStrike.cs" />
     <Compile Include="Verb\Verb_MeleeAttack_MultiStrike.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
-  <Target Name="CleanDebugFiles" AfterTargets="Build">
-    <RemoveDir Directories="$(ProjectDir)obj\Debug" />
-    <RemoveDir Directories="$(ProjectDir)obj\Release" />
-  </Target>
+   <Compile Include="Projectile_ExplosiveWithTrail.cs" />
+   <Compile Include="BulletWithTrail.cs" />
+ </ItemGroup>
+ <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+ <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
+ <Target Name="CleanDebugFiles" AfterTargets="Build">
+   <RemoveDir Directories="$(ProjectDir)obj\Debug" />
+   <RemoveDir Directories="$(ProjectDir)obj\Release" />
+ </Target>
 </Project>

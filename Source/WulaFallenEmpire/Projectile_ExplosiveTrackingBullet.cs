@@ -60,6 +60,9 @@ namespace WulaFallenEmpire
                 this.landed = true;
                 this.ticksToDetonation = ExplosiveDef.explosionDelay; // Use ExplosiveDef for explosionDelay
                 GenExplosion.NotifyNearbyPawnsOfDangerousExplosive(this, ExplosiveDef.damageDef ?? DamageDefOf.Bomb, this.launcher.Faction, this.launcher); // Use ExplosiveDef for damageDef
+                // 停止追踪并清空速度，确保子弹停止移动
+                this.homing = false;
+                this.curSpeed = Vector3.zero;
             }
         }
 
@@ -140,7 +143,7 @@ namespace WulaFallenEmpire
             bool doExplosionVFX = ExplosiveDef.doExplosionVFX; // Use ExplosiveDef for doExplosionVFX
 
             GenExplosion.DoExplosion(
-                center: position, // 爆炸中心
+                center: ExactPosition.ToIntVec3(), // 爆炸中心
                 map: map, // 地图
                 radius: explosionRadius, // 爆炸半径
                 damType: damageDef, // 伤害类型
