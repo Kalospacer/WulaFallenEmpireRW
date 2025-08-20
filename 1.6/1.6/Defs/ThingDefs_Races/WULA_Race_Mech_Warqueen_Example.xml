@@ -114,6 +114,7 @@
         </li>
       </lifeStageAges>
       <baseHealthScale>5.2</baseHealthScale>
+      <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant>
     </race>
     <tools>
       <li>
