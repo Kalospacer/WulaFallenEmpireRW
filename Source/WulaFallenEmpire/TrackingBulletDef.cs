@@ -6,6 +6,7 @@ namespace WulaFallenEmpire
     {
         public float homingSpeed = 0.1f; // 追踪速度，值越大追踪越灵敏
         public float initRotateAngle = 0f; // 初始旋转角度
+        public float impactThreshold = 0.5f; // 强制命中阈值，子弹与目标距离小于此值时强制命中
         
         public FleckDef tailFleckDef; // 拖尾特效的FleckDef
         public int fleckMakeFleckTickMax = 1; // 拖尾特效的生成间隔（tick）

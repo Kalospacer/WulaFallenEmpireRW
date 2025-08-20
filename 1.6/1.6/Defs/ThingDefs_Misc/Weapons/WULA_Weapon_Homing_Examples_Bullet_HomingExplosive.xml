@@ -65,41 +65,31 @@
     <defName>Bullet_ExampleHomingExplosive</defName>
     <label>homing explosive bullet</label>
     <graphicData>
-      <texPath>Things/Projectile/Bullet_Big</texPath> <!-- Placeholder, needs a proper texture path -->
+      <texPath>Things/Projectile/Charge_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
     <projectile>
-      <speed>25</speed>
+      <speed>60</speed>
       <damageDef>Bomb</damageDef>
       <damageAmountBase>30</damageAmountBase>
       <armorPenetrationBase>0.7</armorPenetrationBase>
       <stoppingPower>2.0</stoppingPower>
-      <explosionRadius>3.0</explosionRadius>
-      <explosionDelay>60</explosionDelay>
-      <screenShakeFactor>1.0</screenShakeFactor>
-      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
-      <preExplosionSpawnChance>1.0</preExplosionSpawnChance>
-      <preExplosionSpawnThingCount>5</preExplosionSpawnThingCount>
-      <explosionChanceToStartFire>0.5</explosionChanceToStartFire>
-      <explosionDamageFalloff>true</explosionDamageFalloff>
-      <doExplosionVFX>true</doExplosionVFX>
     </projectile>
   <modExtensions>
+    <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
+      <explosionRadius>3.0</explosionRadius>
+      <damageDef>Bomb</damageDef>
+    </li>
     <li Class="WulaFallenEmpire.TrackingBulletDef">
-      <homingSpeed>0.5</homingSpeed>
-      <initRotateAngle>5</initRotateAngle>
+      <homingSpeed>0.1</homingSpeed>
+      <initRotateAngle>15</initRotateAngle>
       <destroyTicksAfterLosingTrack>
         <min>60</min>
         <max>120</max>
       </destroyTicksAfterLosingTrack>
-      <tailFleckDef>Mote_BlastFlame</tailFleckDef>
-      <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
-      <fleckMakeFleckNum>1</fleckMakeFleckNum>
-      <fleckAngle>30</fleckAngle>
-      <fleckScale>0.8~1.2</fleckScale>
-      <fleckSpeed>0.2~0.5</fleckSpeed>
-      <fleckRotation>0~360</fleckRotation>
+      <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+      <impactThreshold>1</impactThreshold>
     </li>
   </modExtensions>
   </ThingDef>

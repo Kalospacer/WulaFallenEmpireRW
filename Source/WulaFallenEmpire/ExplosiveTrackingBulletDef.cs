@@ -14,6 +14,11 @@ namespace WulaFallenEmpire
         public float postExplosionSpawnChance = 0f;
         public int postExplosionSpawnThingCount = 1;
         public GasType? gasType; // 修改为可空类型
+        public ThingDef postExplosionSpawnThingDefWater; // 新增
+        public ThingDef preExplosionSpawnThingDef; // 新增
+        public float preExplosionSpawnChance = 0f; // 新增
+        public int preExplosionSpawnThingCount = 0; // 新增
+        public float screenShakeFactor = 1f; // 新增
         public bool applyDamageToExplosionCellsNeighbors = false;
         public bool doExplosionDamageAfterThingDestroyed = false;
         public float preExplosionSpawnMinMeleeThreat = -1f;

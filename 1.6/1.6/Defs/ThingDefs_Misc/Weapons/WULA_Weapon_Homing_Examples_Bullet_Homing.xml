@@ -40,15 +40,18 @@
     </costList>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_ExampleHoming</defaultProjectile>
-        <warmupTime>1.0</warmupTime>
-        <range>35</range>
-        <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_ChargeRifle</soundCast>        <!-- Placeholder, needs a proper sound -->
+        <warmupTime>2.0</warmupTime>
+        <range>28</range>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <soundCast>Shot_BeamRepeater</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
+        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
+        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
       </li>
     </verbs>
     <weaponTags>
@@ -64,7 +67,7 @@
     <defName>Bullet_ExampleHoming</defName>
     <label>homing bullet</label>
     <graphicData>
-      <texPath>Things/Projectile/Bullet_Big</texPath>      <!-- Placeholder, needs a proper texture path -->
+      <texPath>Things/Projectile/Charge_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
@@ -77,13 +80,16 @@
     </projectile>
     <modExtensions>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <homingSpeed>0.5</homingSpeed>
+        <homingSpeed>0.1</homingSpeed>
         <initRotateAngle>30</initRotateAngle>
         <destroyTicksAfterLosingTrack>
           <min>60</min>
           <max>120</max>
         </destroyTicksAfterLosingTrack>
         <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+      </li>
+      <li Class="WulaFallenEmpire.ShotgunExtension">
+        <pelletCount>3</pelletCount>
       </li>
     </modExtensions>
   </ThingDef>

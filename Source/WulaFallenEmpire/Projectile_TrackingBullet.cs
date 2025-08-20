@@ -196,6 +196,17 @@ namespace WulaFallenEmpire
                 return;
             }
 
+            // 在调用 ProjectileCheckForFreeInterceptBetween 之前，添加近距离命中检测
+            if (intendedTarget != null && intendedTarget.Thing != null && intendedTarget.Thing.Spawned)
+            {
+                float distanceToTarget = (ExactPosition - intendedTarget.Thing.DrawPos).magnitude;
+                if (distanceToTarget <= TrackingDef.impactThreshold)
+                {
+                    Impact(intendedTarget.Thing); // 强制命中目标
+                    return; // 命中后立即返回，不再执行后续逻辑
+                }
+            }
+
             // 检查是否有东西在路径上拦截
             // ProjectileCheckForFreeInterceptBetween 会在内部处理命中，并调用 ImpactSomething()
             // 所以这里不需要额外的 ImpactSomething() 调用
