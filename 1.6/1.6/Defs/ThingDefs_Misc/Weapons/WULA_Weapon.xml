@@ -409,6 +409,9 @@
     <graphicData>
       <texPath>Wula/Projectile/WULA_Bullet_Plasm</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <color>(61,199,157,202)</color>
+      <drawSize>(0.75,1)</drawSize>
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>

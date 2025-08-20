@@ -48,7 +48,7 @@
         <productionQueue>
           <li>
             <pawnKind>WULA_Alpha_Wolf</pawnKind>
-            <count>2</count>
+            <count>3</count>
             <cooldownTicks>600</cooldownTicks> <!-- 独立冷却: 10秒 -->
             <cost>10</cost> <!-- 独立成本: 10 钢铁 -->
           </li>
@@ -189,6 +189,12 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
+    <weaponMoney>99999~99999</weaponMoney>
+
+    <weaponTags>
+      <li>WULA_WM_Alpha_Wolf_Plasm_Gun</li>
+    </weaponTags>
+
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
   </PawnKindDef>
 

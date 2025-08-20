@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Plasm_HomingExplosive</defName>
+    <label>PMe-92"磷灰"</label>
+    <description>搭载于SNm-6"头狼"机甲的高能等离子武器，会发射一连串密集且携带跟踪性能的等离子射弹，引起熔融爆炸并毁灭敌军。</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_WM_Alpha_Wolf_Plasm_Gun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <generateCommonality>0.8</generateCommonality>
+    <soundInteract>Interact_ChargeRifle</soundInteract> <!-- Placeholder, needs a proper sound -->
+    <recipeMaker Inherit="False"/>
+    <statBases>
+      <WorkToMake>2000</WorkToMake>
+      <Mass>5.0</Mass>
+      <AccuracyTouch>0.4</AccuracyTouch>
+      <AccuracyShort>0.6</AccuracyShort>
+      <AccuracyMedium>0.7</AccuracyMedium>
+      <AccuracyLong>0.65</AccuracyLong>
+      <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>150</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+      <Plasteel>30</Plasteel>
+      <Uranium>10</Uranium>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Plasm_HomingExplosive</defaultProjectile>
+        <warmupTime>1.25</warmupTime>
+        <range>48</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>7</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>WULA_WM_Alpha_Wolf_Plasm_Gun</li>
+    </weaponTags>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Plasm_HomingExplosive</defName>
+    <label>磷灰等离子体爆弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasm</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <color>(61,199,157,202)</color>
+      <drawSize>(1.5,2)</drawSize>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
+    <projectile>
+      <speed>30</speed>
+      <damageDef>Damage_WULA_Plasm_Explosive</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <armorPenetrationBase>0.7</armorPenetrationBase>
+      <stoppingPower>2.0</stoppingPower>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
+        <explosionRadius>2.5</explosionRadius>
+        <damageDef>Damage_WULA_Plasm_Explosive</damageDef>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <homingSpeed>0.25</homingSpeed>
+        <initRotateAngle>90</initRotateAngle>
+        <destroyTicksAfterLosingTrack>
+          <min>60</min>
+          <max>120</max>
+        </destroyTicksAfterLosingTrack>
+        <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+        <impactThreshold>1</impactThreshold>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <DamageDef>
+    <defName>Damage_WULA_Plasm_Explosive</defName>
+    <label>熔融爆炸</label>
+    <!-- <externalViolenceForMechanoids>true</externalViolenceForMechanoids> -->
+    <deathMessage>{0} 被等离子体引发的熔融爆炸炸死了。</deathMessage>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <!-- <isExplosive>true</isExplosive> -->
+    <hediff>Shredded</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <armorCategory>Sharp</armorCategory>
+    <!-- <harmsHealth>false</harmsHealth> -->
+    <impactSoundType>Electric</impactSoundType>
+    <defaultDamage>50</defaultDamage>
+    <minDamageToFragment>5</minDamageToFragment>
+    <defaultStoppingPower>3</defaultStoppingPower>
+    <defaultArmorPenetration>0.75</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>6</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>3</buildingDamageFactorPassable>
+    <plantDamageFactor>8</plantDamageFactor>
+    <explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
+    <!-- <explosionSnowMeltAmount>0</explosionSnowMeltAmount> -->
+    <explosionCellFleck>Blast_WULA_Plasm_Explosive</explosionCellFleck>
+    <explosionColorCenter>(0.2, 0.8, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.1, 0.9, 0.5)</explosionColorEdge>
+    <explosionInteriorFleck>ElectricalSpark_WULA_Plasm_Explosive</explosionInteriorFleck>
+    <soundExplosion>Explosion_EMP</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+</Defs>
