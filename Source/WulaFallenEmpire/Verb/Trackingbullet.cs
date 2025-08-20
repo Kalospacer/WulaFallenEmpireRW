@@ -1,6 +1,8 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using Verse.Sound;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using Verse;
 
@@ -20,58 +22,150 @@ namespace WulaFallenEmpire
         public float subExplosionSpread = 6f;
         public DamageDef subDamageDef;
         public SoundDef subSoundExplode;
-
+        public FleckDef tailFleckDef; // 用于配置拖尾特效的 FleckDef
+        public float homingSpeed = 0.1f;
+        public float initRotateAngle = 30f;
+        public IntRange destroyTicksAfterLosingTrack = new IntRange(60, 120);
+        public float speedChangePerTick;
+        public FloatRange? speedRangeOverride;
+        public float proximityFuseRange = 0f;
     }
 
     public class Projectile_CruiseMissile : Projectile_Explosive
     {
         private CruiseMissileProperties settings;
-        private bool flag2;
-        private Vector3 Randdd;
-        private Vector3 position2;
-        public Vector3 ExPos;
+        protected Vector3 exactPositionInt;
+        public Vector3 curSpeed;
+        public bool homing = true;
+        private Sustainer ambientSustainer;
+        private List<ThingComp> comps;
+        private int ticksToDestroy = -1;
+
+        // Launch 方法的参数作为字段
+
+        // 拖尾特效相关字段
+        private int Fleck_MakeFleckTick;
+        public int Fleck_MakeFleckTickMax = 1;
+        public IntRange Fleck_MakeFleckNum = new IntRange(1, 1);
+        public FloatRange Fleck_Angle = new FloatRange(-180f, 180f);
+        public FloatRange Fleck_Scale = new FloatRange(1f, 1f);
+        public FloatRange Fleck_Speed = new FloatRange(0f, 0f);
+        public FloatRange Fleck_Rotation = new FloatRange(-180f, 180f); 
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
             settings = def.GetModExtension<CruiseMissileProperties>() ?? new CruiseMissileProperties();
+            this.ReflectInit();
         }
 
-        private void RandFactor()
+        public override void Launch(Thing launcherParam, Vector3 originParam, LocalTargetInfo usedTargetParam, LocalTargetInfo intendedTargetParam, ProjectileHitFlags hitFlagsParam, bool preventFriendlyFireParam = false, Thing equipmentParam = null, ThingDef targetCoverDefParam = null)
         {
-            // 减少垂直方向随机性，调整水平随机范围
-            Randdd = new Vector3(
-                Rand.Range(-3f, 3f),  // 减小水平随机范围
-                Rand.Range(8f, 12f), // 降低基础高度
-                Rand.Range(-3f, 3f)
-            );
-            flag2 = true;
+            this.launcher = launcherParam;
+            this.origin = originParam;
+            this.usedTarget = usedTargetParam;
+            this.intendedTarget = intendedTargetParam;
+            this.HitFlags = hitFlagsParam;
+            this.preventFriendlyFire = preventFriendlyFireParam;
+            this.equipment = equipmentParam;
+            this.targetCoverDef = targetCoverDefParam;
+
+            this.exactPositionInt = origin.Yto0() + Vector3.up * this.def.Altitude;
+            Vector3 normalized = (this.destination - origin).Yto0().normalized;
+            float degrees = Rand.Range(-this.settings.initRotateAngle, this.settings.initRotateAngle);
+            Vector2 vector = new Vector2(normalized.x, normalized.z);
+            vector = vector.RotatedBy(degrees);
+            Vector3 a = new Vector3(vector.x, 0f, vector.y);
+            bool flag6 = this.settings.speedRangeOverride == null;
+            if (flag6)
+            {
+                this.curSpeed = a * this.def.projectile.SpeedTilesPerTick;
+            }
+            else
+            {
+                this.curSpeed = a * this.settings.speedRangeOverride.Value.RandomInRange;
+            }
+            this.ticksToImpact = int.MaxValue;
+            this.lifetime = int.MaxValue;
         }
 
-        public Vector3 BPos(float t)
+        protected void ReflectInit()
         {
-            if (!flag2) RandFactor();
+            if (NonPublicFields.Projectile_AmbientSustainer == null)
+            {
+                NonPublicFields.Projectile_AmbientSustainer = typeof(Projectile).GetField("ambientSustainer", BindingFlags.Instance | BindingFlags.NonPublic);
+            }
+            if (NonPublicFields.ThingWithComps_comps == null)
+            {
+                NonPublicFields.ThingWithComps_comps = typeof(ThingWithComps).GetField("comps", BindingFlags.Instance | BindingFlags.NonPublic);
+            }
+            if (NonPublicFields.ProjectileCheckForFreeInterceptBetween == null)
+            {
+                NonPublicFields.ProjectileCheckForFreeInterceptBetween = typeof(Projectile).GetMethod("CheckForFreeInterceptBetween", BindingFlags.Instance | BindingFlags.NonPublic);
+            }
 
-            // 计算水平距离
-            float horizontalDistance = Vector3.Distance(new Vector3(origin.x, 0, origin.z),
-                new Vector3(destination.x, 0, destination.z));
-
-            // 动态调整控制点高度
-            float arcHeight = Mathf.Clamp(horizontalDistance * 0.2f, 8f, 15f);
-
-            Vector3 a = origin + Vector3.forward * horizontalDistance * 0.2f + new Vector3(0f, arcHeight, 0f);
-            Vector3 a2 = destination - Vector3.forward * horizontalDistance * 0.2f + new Vector3(0f, arcHeight, 0f);
-
-            return BezierCurve(origin, a, a2, destination, t);
+            bool flag = !this.def.projectile.soundAmbient.NullOrUndefined();
+            if (flag)
+            {
+                this.ambientSustainer = (Sustainer)NonPublicFields.Projectile_AmbientSustainer.GetValue(this);
+            }
+            this.comps = (List<ThingComp>)NonPublicFields.ThingWithComps_comps.GetValue(this);
         }
 
-        private Vector3 BezierCurve(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+        public float GetHitChance(Thing thing)
         {
-            float u = 1 - t;
-            return u * u * u * p0
-                + 3 * u * u * t * p1
-                + 3 * u * t * t * p2
-                + t * t * t * p3;
+            float num = this.settings.homingSpeed; 
+            bool flag = thing == null;
+            float result;
+            if (flag)
+            {
+                result = num;
+            }
+            else
+            {
+                Pawn pawn = thing as Pawn;
+                bool flag2 = pawn != null;
+                if (flag2)
+                {
+                    num *= Mathf.Clamp(pawn.BodySize, 0.5f, 1.5f);
+                    bool flag3 = pawn.GetPosture() > PawnPosture.Standing;
+                    if (flag3)
+                    {
+                        num *= 0.5f;
+                    }
+                    float num2 = 1f;
+                    switch (this.equipmentQuality)
+                    {
+                        case QualityCategory.Awful:
+                            num2 = 0.5f;
+                            goto IL_DD;
+                        case QualityCategory.Poor:
+                            num2 = 0.75f;
+                            goto IL_DD;
+                        case QualityCategory.Normal:
+                            num2 = 1f;
+                            goto IL_DD;
+                        case QualityCategory.Excellent:
+                            num2 = 1.1f;
+                            goto IL_DD;
+                        case QualityCategory.Masterwork:
+                            num2 = 1.2f;
+                            goto IL_DD;
+                        case QualityCategory.Legendary:
+                            num2 = 1.3f;
+                            goto IL_DD;
+                    }
+                    Log.Message("Unknown QualityCategory, returning default qualityFactor = 1");
+                    IL_DD:
+                    num *= num2;
+                }
+                else
+                {
+                    num *= 1.5f * thing.def.fillPercent;
+                }
+                result = Mathf.Clamp(num, 0f, 1f);
+            }
+            return result;
         }
 
         private IEnumerable<IntVec3> GetValidCells(Map map)
@@ -136,43 +230,149 @@ namespace WulaFallenEmpire
             );
         }
 
-        protected override void DrawAt(Vector3 position, bool flip = false)
+        public override Quaternion ExactRotation
         {
-            position2 = BPos(DistanceCoveredFraction - 0.01f);
-            ExPos = position = BPos(DistanceCoveredFraction);
-            base.DrawAt(position, flip);
+            get
+            {
+                return Quaternion.LookRotation(this.curSpeed);
+            }
+        }
+        public override Vector3 ExactPosition
+        {
+            get
+            {
+                return this.exactPositionInt;
+            }
         }
 
         protected override void Tick()
         {
-            if (intendedTarget.Thing is Pawn pawn && pawn.Spawned && !pawn.Destroyed)
+            this.ThingWithCompsTick();
+            this.lifetime--;
+            if (this.settings.tailFleckDef != null)
             {
-                if ((pawn.Dead || pawn.Downed) && DistanceCoveredFraction < 0.6f)
+                this.Fleck_MakeFleckTick++;
+                if (this.Fleck_MakeFleckTick >= this.Fleck_MakeFleckTickMax)
                 {
-                    FindNextTarget(pawn.DrawPos);
+                    this.Fleck_MakeFleckTick = 0;
+                    for (int i = 0; i < this.Fleck_MakeFleckNum.RandomInRange; i++)
+                    {
+                        FleckMaker.Static(this.ExactPosition + Gen.RandomHorizontalVector(this.Fleck_Scale.RandomInRange / 2f), base.Map, this.settings.tailFleckDef, this.Fleck_Scale.RandomInRange);
+                    }
                 }
-                destination = pawn.DrawPos;
             }
-            base.Tick();
+
+            bool landed = this.landed;
+            if (!landed)
+            {
+                Vector3 exactPosition = this.ExactPosition;
+                this.ticksToImpact--;
+                this.MovementTick();
+                bool flag = !this.ExactPosition.InBounds(base.Map);
+                if (flag)
+                {
+                    base.Position = exactPosition.ToIntVec3();
+                    this.Destroy(DestroyMode.Vanish);
+                }
+                else
+                {
+                    Vector3 exactPosition2 = this.ExactPosition;
+                    object[] parameters = new object[]
+                    {
+                        exactPosition,
+                        exactPosition2
+                    };
+                    bool flag2 = (bool)NonPublicFields.ProjectileCheckForFreeInterceptBetween.Invoke(this, parameters);
+                    if (!flag2)
+                    {
+                        base.Position = this.ExactPosition.ToIntVec3();
+                        bool flag3 = this.ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && this.def.projectile.soundImpactAnticipate != null;
+                        if (flag3)
+                        {
+                            this.def.projectile.soundImpactAnticipate.PlayOneShot(this);
+                        }
+                        bool flag4 = this.ticksToImpact <= 0;
+                        if (flag4)
+                        {
+                            this.Impact(null);
+                        }
+                        else
+                        {
+                            bool flag5 = this.ambientSustainer != null;
+                            if (flag5)
+                            {
+                                this.ambientSustainer.Maintain();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        private void FindNextTarget(Vector3 center)
+        private void MovementTick()
         {
-            var map = base.Map;
-            if (map == null) return;
-
-            foreach (IntVec3 cell in GenRadial.RadialCellsAround(IntVec3.FromVector3(center), 7f, true))
+            if (this.homing)
             {
-                if (!cell.InBounds(map)) continue;
-
-                Pawn target = cell.GetFirstPawn(map);
-                if (target != null && target.Faction.HostileTo(launcher?.Faction))
+                if (this.intendedTarget != null && this.intendedTarget.Thing != null)
                 {
-                    intendedTarget = target;
+                    Vector3 vector = (this.intendedTarget.Thing.DrawPos - this.exactPositionInt).normalized;
+                    this.curSpeed = Vector3.RotateTowards(this.curSpeed, vector * this.curSpeed.magnitude, this.settings.homingSpeed, 0f);
+                }
+                else if (this.ticksToDestroy == -1)
+                {
+                    this.ticksToDestroy = this.settings.destroyTicksAfterLosingTrack.RandomInRange;
+                }
+            }
+            if (this.ticksToDestroy > 0)
+            {
+                this.ticksToDestroy--;
+                if (this.ticksToDestroy == 0)
+                {
+                    this.Destroy(DestroyMode.Vanish);
                     return;
                 }
             }
-            intendedTarget = CellRect.CenteredOn(IntVec3.FromVector3(center), 7).RandomCell;
+            if (this.settings.speedChangePerTick != 0f)
+            {
+                this.curSpeed = this.curSpeed.normalized * (this.curSpeed.magnitude + this.settings.speedChangePerTick);
+            }
+            if (this.settings.proximityFuseRange > 0f)
+            {
+                if (this.intendedTarget != null && this.intendedTarget.Thing != null && (this.intendedTarget.Thing.DrawPos - this.exactPositionInt).magnitude < this.settings.proximityFuseRange)
+                {
+                    this.Impact(null);
+                    return;
+                }
+            }
+
+            this.exactPositionInt += this.curSpeed;
         }
+
+        protected void ThingWithCompsTick()
+        {
+            if (this.comps != null)
+            {
+                for (int i = 0; i < this.comps.Count; i++)
+                {
+                    this.comps[i].CompTick();
+                }
+            }
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look<Vector3>(ref this.exactPositionInt, "exactPosition", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref this.curSpeed, "curSpeed", default(Vector3), false);
+            Scribe_Values.Look<bool>(ref this.homing, "homing", true, false);
+            Scribe_Values.Look<int>(ref this.ticksToDestroy, "ticksToDestroy", -1, false);
+        }
+    }
+
+    public static class NonPublicFields
+    {
+        public static FieldInfo Projectile_AmbientSustainer;
+        public static FieldInfo ThingWithComps_comps;
+        public static MethodInfo ProjectileCheckForFreeInterceptBetween;
     }
 }

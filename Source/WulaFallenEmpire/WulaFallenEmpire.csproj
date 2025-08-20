@@ -124,6 +124,10 @@
     <Compile Include="NeedDefExtension_Energy.cs" />
     <Compile Include="Projectile_WulaPenetrating.cs" />
     <Compile Include="Projectile_WulaBeam.cs" />
+    <Compile Include="Projectile_Homing.cs" />
+    <Compile Include="Projectile_Homing_Explosive.cs" />
+    <Compile Include="ModExtension_Cone.cs" />
+    <Compile Include="HomingProjectileDef.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsychicRitual_TechOffering.cs" />
     <Compile Include="PsychicRitualDef_AddHediff.cs" />

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Weapon_ExampleHomingGun</defName>
+    <label>Homing Rifle</label>
+    <description>A rifle designed to fire homing projectiles. It can track targets and adjust its trajectory in real-time.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Things/Item/Weapon/Rifle</texPath> <!-- Placeholder, needs a proper texture path -->
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <generateCommonality>1</generateCommonality>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_BIO</li>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>1500</WorkToMake>
+      <Mass>3.0</Mass>
+      <AccuracyTouch>0.6</AccuracyTouch>
+      <AccuracyShort>0.75</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.8</AccuracyLong>
+      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>100</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <Plasteel>20</Plasteel>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_ExampleHoming</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <range>35</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_ChargeRifle</soundCast> <!-- Placeholder, needs a proper sound -->
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+      <li>HomingWeapon</li>
+    </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_ExampleHoming</defName>
+    <label>homing bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Big</texPath> <!-- Placeholder, needs a proper texture path -->
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_Homing</thingClass>
+    <projectile>
+      <speed>30</speed>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>15</damageAmountBase>
+      <stoppingPower>1.5</stoppingPower>
+      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <soundExplode>Explosion_Blasting</soundExplode>
+      <soundImpactAnticipate>Impact_Metal</soundImpactAnticipate>
+      <flyOverhead>false</flyOverhead>
+      <shadowSize>0.5</shadowSize>
+      <explosionRadius>0.5</explosionRadius>
+      <postExplosionSpawnThingDef>Filth_Rubble</postExplosionSpawnThingDef>
+      <postExplosionSpawnChance>0.5</postExplosionSpawnChance>
+      <postExplosionSpawnThingCount>1</postExplosionSpawnThingCount>
+      <explosionDelay>0</explosionDelay>
+      <screenShakeFactor>0.5</screenShakeFactor>
+      <applyDamageToExplosionCellsNeighbors>false</applyDamageToExplosionCellsNeighbors>
+      <preExplosionSpawnChance>0.5</preExplosionSpawnChance>
+      <preExplosionSpawnThingCount>1</preExplosionSpawnThingCount>
+      <explosionChanceToStartFire>0.1</explosionChanceToStartFire>
+      <explosionDamageFalloff>true</explosionDamageFalloff>
+      <doExplosionVFX>true</doExplosionVFX>
+      <modExtensions>
+        <li Class="WulaFallenEmpire.HomingProjectileDef">
+          <initRotateAngle>10</initRotateAngle>
+          <homingSpeed>0.05</homingSpeed>
+          <destroyTicksAfterLosingTrack>60</destroyTicksAfterLosingTrack>
+          <proximityFuseRange>1.5</proximityFuseRange>
+          <hitChance>0.8</hitChance>
+          <extraProjectile>Bullet_ExampleHoming</extraProjectile>
+          <SpeedChangeTilesPerTickOverride>0.05</SpeedChangeTilesPerTickOverride>
+          <SpeedRangeTilesPerTickOverride>
+            <min>20</min>
+            <max>40</max>
+          </SpeedRangeTilesPerTickOverride>
+          <tailFleckDef>WULA_GunTail_Smoke</tailFleckDef>
+        </li>
+      </modExtensions>
+    </projectile>
+  </ThingDef>
+</Defs>

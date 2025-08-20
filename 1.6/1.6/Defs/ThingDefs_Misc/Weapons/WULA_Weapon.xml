@@ -1725,7 +1725,6 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_WM_Panzer_Turret</defaultProjectile>
         <warmupTime>0</warmupTime>
-        <forcedMissRadius>0.1</forcedMissRadius>
         <minRange>5.9</minRange>
         <range>75</range>
         <burstShotCount>1</burstShotCount>

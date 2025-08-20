@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FleckDef ParentName="FleckBase">
+    <defName>WULA_GunTail_Blue</defName>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <fadeOutTime>0.5</fadeOutTime>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(0.45,2)</drawSize>
+    </graphicData>
+  </FleckDef>
+
+  <FleckDef ParentName="FleckBase">
+    <defName>WULA_GunTail_Smoke</defName>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <fadeOutTime>0.23</fadeOutTime>
+    <graphicData>
+      <texPath>Things/Others/Smoke_Dark</texPath>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(0.06,0.25)</drawSize>
+    </graphicData>
+  </FleckDef>
+</Defs>

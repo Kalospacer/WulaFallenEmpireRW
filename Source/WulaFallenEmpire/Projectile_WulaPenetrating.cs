@@ -14,6 +14,7 @@ namespace WulaFallenEmpire
         public float damageFalloff = 0.25f;
         // If true, this projectile will never cause friendly fire, regardless of game settings.
         public bool preventFriendlyFire = false;
+        public FleckDef tailFleckDef; // 用于配置拖尾特效的 FleckDef
     }
 
     public class Projectile_WulaLineAttack : Projectile
@@ -21,6 +22,13 @@ namespace WulaFallenEmpire
         private int hitCounter = 0;
         private List<Thing> alreadyDamaged = new List<Thing>();
         private Vector3 lastTickPosition;
+        private int Fleck_MakeFleckTick; // 拖尾特效的计时器
+        public int Fleck_MakeFleckTickMax = 1; // 拖尾特效的生成频率
+        public IntRange Fleck_MakeFleckNum = new IntRange(1, 1); // 每次生成的粒子数量
+        public FloatRange Fleck_Angle = new FloatRange(-180f, 180f); // 粒子角度
+        public FloatRange Fleck_Scale = new FloatRange(1f, 1f); // 粒子大小
+        public FloatRange Fleck_Speed = new FloatRange(0f, 0f); // 粒子速度
+        public FloatRange Fleck_Rotation = new FloatRange(-180f, 180f); // 粒子旋转
 
         private Wula_PathPierce_Extension Props => def.GetModExtension<Wula_PathPierce_Extension>();
 
@@ -49,7 +57,38 @@ namespace WulaFallenEmpire
         protected override void Tick()
         {
             Vector3 startPos = this.lastTickPosition;
-            base.Tick(); 
+            base.Tick();
+            
+            if (this.Destroyed) return;
+
+            this.Fleck_MakeFleckTick++;
+            bool flag = this.Fleck_MakeFleckTick >= this.Fleck_MakeFleckTickMax;
+            if (flag)
+            {
+                this.Fleck_MakeFleckTick = 0;
+                Map map = base.Map;
+                int randomInRange = this.Fleck_MakeFleckNum.RandomInRange;
+                Vector3 vector = this.ExactPosition; // Current position of the bullet
+                Vector3 vector2 = this.lastTickPosition; // Previous position of the bullet
+
+                for (int i = 0; i < randomInRange; i++)
+                {
+                    float num = (vector - vector2).AngleFlat(); // Angle based on movement direction
+                    float velocityAngle = this.Fleck_Angle.RandomInRange + num;
+                    float randomInRange2 = this.Fleck_Scale.RandomInRange;
+                    float randomInRange3 = this.Fleck_Speed.RandomInRange;
+ 
+                    if (Props?.tailFleckDef != null)
+                    {
+                        FleckCreationData dataStatic = FleckMaker.GetDataStatic(vector, map, Props.tailFleckDef, randomInRange2);
+                        dataStatic.rotation = (vector - vector2).AngleFlat();
+                        dataStatic.rotationRate = this.Fleck_Rotation.RandomInRange;
+                        dataStatic.velocityAngle = velocityAngle;
+                        dataStatic.velocitySpeed = randomInRange3;
+                        map.flecks.CreateFleck(dataStatic);
+                    }
+                }
+            }
 
             if (this.Destroyed) return;
 
