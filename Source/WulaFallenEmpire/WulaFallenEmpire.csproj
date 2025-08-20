@@ -126,6 +126,8 @@
     <Compile Include="Projectile_WulaBeam.cs" />
     <Compile Include="Projectile_Homing.cs" />
     <Compile Include="Projectile_Homing_Explosive.cs" />
+    <Compile Include="Projectile_TrackingBullet.cs" />
+    <Compile Include="TrackingBulletDef.cs" />
     <Compile Include="ModExtension_Cone.cs" />
     <Compile Include="HomingProjectileDef.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

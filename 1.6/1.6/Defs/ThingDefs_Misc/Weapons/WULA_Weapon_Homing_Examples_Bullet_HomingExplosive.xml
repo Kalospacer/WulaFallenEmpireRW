@@ -68,18 +68,15 @@
       <texPath>Things/Projectile/Bullet_Big</texPath> <!-- Placeholder, needs a proper texture path -->
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_Homing_Explosive</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
     <projectile>
       <speed>25</speed>
       <damageDef>Bomb</damageDef>
       <damageAmountBase>30</damageAmountBase>
-      <stoppingPower>2.0</stoppingPower>
       <armorPenetrationBase>0.7</armorPenetrationBase>
-      <soundExplode>Explosion_Bomb</soundExplode>
-      <soundImpactAnticipate>Impact_Metal</soundImpactAnticipate>
-      <flyOverhead>true</flyOverhead>
-      <shadowSize>0.8</shadowSize>
+      <stoppingPower>2.0</stoppingPower>
       <explosionRadius>3.0</explosionRadius>
+      <explosionDelay>60</explosionDelay>
       <screenShakeFactor>1.0</screenShakeFactor>
       <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
       <preExplosionSpawnChance>1.0</preExplosionSpawnChance>
@@ -89,19 +86,10 @@
       <doExplosionVFX>true</doExplosionVFX>
     </projectile>
   <modExtensions>
-    <li Class="WulaFallenEmpire.HomingProjectileDef">
+    <li Class="WulaFallenEmpire.TrackingBulletDef">
+      <homingSpeed>0.5</homingSpeed>
       <initRotateAngle>5</initRotateAngle>
-      <homingSpeed>0.03</homingSpeed>
-      <destroyTicksAfterLosingTrack>90</destroyTicksAfterLosingTrack>
-      <proximityFuseRange>2.0</proximityFuseRange>
-      <hitChance>0.7</hitChance>
-      <extraProjectile>Bullet_ExampleHomingExplosive</extraProjectile>
-      <SpeedChangeTilesPerTickOverride>0.03</SpeedChangeTilesPerTickOverride>
-      <SpeedRangeTilesPerTickOverride>
-        <min>20</min>
-        <max>30</max>
-      </SpeedRangeTilesPerTickOverride>
-      <tailFleckDef>WULA_GunTail_Smoke</tailFleckDef>
+      <!-- 爆炸相关配置，可以直接在projectile节点下定义，Projectile_TrackingBullet 不直接处理爆炸逻辑 -->
     </li>
   </modExtensions>
   </ThingDef>

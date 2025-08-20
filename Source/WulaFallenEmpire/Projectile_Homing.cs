@@ -91,8 +91,6 @@ namespace WulaFallenEmpire
             {
                 curSpeed = vector * HomingDef.SpeedRangeTilesPerTickOverride.RandomInRange;
             }
-            ticksToImpact = int.MaxValue;
-            lifetime = int.MaxValue;
             ReflectInit();
         }
 
@@ -208,6 +206,12 @@ namespace WulaFallenEmpire
         {
             ThingWithCompsTick();
             lifetime--;
+
+            if (lifetime <= 0)
+            {
+                Destroy();
+                return;
+            }
             
             // 处理拖尾特效
             if (HomingDef != null && HomingDef.tailFleckDef != null)
@@ -239,10 +243,7 @@ namespace WulaFallenEmpire
             }
             lastTickPosition = ExactPosition; // 更新上一帧位置
 
-            if (landed)
-            {
-                return;
-            }
+            // 移除 if (landed) return; 以确保子弹落地后也能正常销毁
             Vector3 exactPosition = ExactPosition;
             ticksToImpact--;
             MovementTick();

@@ -67,41 +67,18 @@
       <texPath>Things/Projectile/Bullet_Big</texPath>      <!-- Placeholder, needs a proper texture path -->
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_Homing</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
     <projectile>
       <speed>30</speed>
       <damageDef>Bullet</damageDef>
       <damageAmountBase>15</damageAmountBase>
-      <stoppingPower>1.5</stoppingPower>
       <armorPenetrationBase>0.5</armorPenetrationBase>
-      <soundExplode>Explosion_Blasting</soundExplode>
-      <soundImpactAnticipate>Impact_Metal</soundImpactAnticipate>
-      <flyOverhead>false</flyOverhead>
-      <shadowSize>0.5</shadowSize>
-      <explosionRadius>0.5</explosionRadius>
-      <explosionDelay>0</explosionDelay>
-      <screenShakeFactor>0.5</screenShakeFactor>
-      <applyDamageToExplosionCellsNeighbors>false</applyDamageToExplosionCellsNeighbors>
-      <preExplosionSpawnChance>0.5</preExplosionSpawnChance>
-      <preExplosionSpawnThingCount>1</preExplosionSpawnThingCount>
-      <explosionChanceToStartFire>0.1</explosionChanceToStartFire>
-      <explosionDamageFalloff>true</explosionDamageFalloff>
-      <doExplosionVFX>true</doExplosionVFX>
+      <stoppingPower>1.5</stoppingPower>
     </projectile>
     <modExtensions>
-      <li Class="WulaFallenEmpire.HomingProjectileDef">
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <homingSpeed>0.5</homingSpeed>
         <initRotateAngle>10</initRotateAngle>
-        <homingSpeed>0.05</homingSpeed>
-        <destroyTicksAfterLosingTrack>60</destroyTicksAfterLosingTrack>
-        <proximityFuseRange>1.5</proximityFuseRange>
-        <hitChance>0.8</hitChance>
-        <extraProjectile>Bullet_ExampleHoming</extraProjectile>
-        <SpeedChangeTilesPerTickOverride>0.05</SpeedChangeTilesPerTickOverride>
-        <SpeedRangeTilesPerTickOverride>
-          <min>20</min>
-          <max>40</max>
-        </SpeedRangeTilesPerTickOverride>
-        <tailFleckDef>WULA_GunTail_Smoke</tailFleckDef>
       </li>
     </modExtensions>
   </ThingDef>
