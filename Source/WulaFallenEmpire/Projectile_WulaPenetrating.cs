@@ -17,7 +17,7 @@ namespace WulaFallenEmpire
         public FleckDef tailFleckDef; // 用于配置拖尾特效的 FleckDef
     }
 
-    public class Projectile_WulaLineAttack : Projectile
+    public class Projectile_WulaLineAttack : Bullet
     {
         private int hitCounter = 0;
         private List<Thing> alreadyDamaged = new List<Thing>();

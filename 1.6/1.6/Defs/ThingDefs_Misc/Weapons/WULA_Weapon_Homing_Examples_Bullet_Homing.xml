@@ -6,8 +6,9 @@
     <description>A rifle designed to fire homing projectiles. It can track targets and adjust its trajectory in real-time.</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Things/Item/Weapon/Rifle</texPath> <!-- Placeholder, needs a proper texture path -->
+      <texPath>Wula/Weapon/WULA_RW_Plasm_AR</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.4</drawSize>
     </graphicData>
     <generateCommonality>1</generateCommonality>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -45,7 +46,7 @@
         <warmupTime>1.0</warmupTime>
         <range>35</range>
         <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_ChargeRifle</soundCast> <!-- Placeholder, needs a proper sound -->
+        <soundCast>Shot_ChargeRifle</soundCast>        <!-- Placeholder, needs a proper sound -->
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -63,7 +64,7 @@
     <defName>Bullet_ExampleHoming</defName>
     <label>homing bullet</label>
     <graphicData>
-      <texPath>Things/Projectile/Bullet_Big</texPath> <!-- Placeholder, needs a proper texture path -->
+      <texPath>Things/Projectile/Bullet_Big</texPath>      <!-- Placeholder, needs a proper texture path -->
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_Homing</thingClass>
@@ -78,9 +79,6 @@
       <flyOverhead>false</flyOverhead>
       <shadowSize>0.5</shadowSize>
       <explosionRadius>0.5</explosionRadius>
-      <postExplosionSpawnThingDef>Filth_Rubble</postExplosionSpawnThingDef>
-      <postExplosionSpawnChance>0.5</postExplosionSpawnChance>
-      <postExplosionSpawnThingCount>1</postExplosionSpawnThingCount>
       <explosionDelay>0</explosionDelay>
       <screenShakeFactor>0.5</screenShakeFactor>
       <applyDamageToExplosionCellsNeighbors>false</applyDamageToExplosionCellsNeighbors>
@@ -89,22 +87,22 @@
       <explosionChanceToStartFire>0.1</explosionChanceToStartFire>
       <explosionDamageFalloff>true</explosionDamageFalloff>
       <doExplosionVFX>true</doExplosionVFX>
-      <modExtensions>
-        <li Class="WulaFallenEmpire.HomingProjectileDef">
-          <initRotateAngle>10</initRotateAngle>
-          <homingSpeed>0.05</homingSpeed>
-          <destroyTicksAfterLosingTrack>60</destroyTicksAfterLosingTrack>
-          <proximityFuseRange>1.5</proximityFuseRange>
-          <hitChance>0.8</hitChance>
-          <extraProjectile>Bullet_ExampleHoming</extraProjectile>
-          <SpeedChangeTilesPerTickOverride>0.05</SpeedChangeTilesPerTickOverride>
-          <SpeedRangeTilesPerTickOverride>
-            <min>20</min>
-            <max>40</max>
-          </SpeedRangeTilesPerTickOverride>
-          <tailFleckDef>WULA_GunTail_Smoke</tailFleckDef>
-        </li>
-      </modExtensions>
     </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.HomingProjectileDef">
+        <initRotateAngle>10</initRotateAngle>
+        <homingSpeed>0.05</homingSpeed>
+        <destroyTicksAfterLosingTrack>60</destroyTicksAfterLosingTrack>
+        <proximityFuseRange>1.5</proximityFuseRange>
+        <hitChance>0.8</hitChance>
+        <extraProjectile>Bullet_ExampleHoming</extraProjectile>
+        <SpeedChangeTilesPerTickOverride>0.05</SpeedChangeTilesPerTickOverride>
+        <SpeedRangeTilesPerTickOverride>
+          <min>20</min>
+          <max>40</max>
+        </SpeedRangeTilesPerTickOverride>
+        <tailFleckDef>WULA_GunTail_Smoke</tailFleckDef>
+      </li>
+    </modExtensions>
   </ThingDef>
 </Defs>

@@ -302,7 +302,7 @@
   </WulaFallenEmpire.EventDef>
 
   <WulaFallenEmpire.EventDef>
-    <defName>Wula_UI_FE_Spiritualist_10</defName>
+    <defName>Wula_UI_FE_Spiritualist_11</defName>
     <label>乌拉帝国 大教堂</label>
     <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_1</portraitPath>
     <characterName>帝国修女</characterName>

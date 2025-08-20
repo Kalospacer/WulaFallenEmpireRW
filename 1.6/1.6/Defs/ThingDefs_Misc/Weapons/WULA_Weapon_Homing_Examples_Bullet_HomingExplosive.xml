@@ -6,8 +6,9 @@
     <description>A powerful launcher that fires homing projectiles with explosive payloads. Ideal for area denial and heavy damage.</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Things/Item/Weapon/Launcher</texPath> <!-- Placeholder, needs a proper texture path -->
+      <texPath>Wula/Weapon/WULA_RW_Plasm_AR</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.4</drawSize>
     </graphicData>
     <generateCommonality>0.8</generateCommonality>
     <soundInteract>Interact_ChargeRifle</soundInteract> <!-- Placeholder, needs a proper sound -->
@@ -79,10 +80,6 @@
       <flyOverhead>true</flyOverhead>
       <shadowSize>0.8</shadowSize>
       <explosionRadius>3.0</explosionRadius>
-      <postExplosionSpawnThingDef>Filth_Rubble</postExplosionSpawnThingDef>
-      <postExplosionSpawnChance>1.0</postExplosionSpawnChance>
-      <postExplosionSpawnThingCount>3</postExplosionSpawnThingCount>
-      <explosionDelay>60</explosionDelay>
       <screenShakeFactor>1.0</screenShakeFactor>
       <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
       <preExplosionSpawnChance>1.0</preExplosionSpawnChance>
@@ -90,34 +87,22 @@
       <explosionChanceToStartFire>0.5</explosionChanceToStartFire>
       <explosionDamageFalloff>true</explosionDamageFalloff>
       <doExplosionVFX>true</doExplosionVFX>
-      <modExtensions>
-        <li Class="WulaFallenEmpire.HomingProjectileDef">
-          <initRotateAngle>5</initRotateAngle>
-          <homingSpeed>0.03</homingSpeed>
-          <destroyTicksAfterLosingTrack>90</destroyTicksAfterLosingTrack>
-          <proximityFuseRange>2.0</proximityFuseRange>
-          <hitChance>0.7</hitChance>
-          <extraProjectile>Bullet_ExampleHomingExplosive</extraProjectile>
-          <SpeedChangeTilesPerTickOverride>0.03</SpeedChangeTilesPerTickOverride>
-          <SpeedRangeTilesPerTickOverride>
-            <min>20</min>
-            <max>30</max>
-          </SpeedRangeTilesPerTickOverride>
-          <tailFleckDef>WULA_GunTail_Smoke</tailFleckDef>
-        </li>
-        <li Class="WulaFallenEmpire.ModExtension_Cone">
-          <coneAngle>30</coneAngle>
-          <coneRange>5</coneRange>
-          <repeatExplosionCount>3</repeatExplosionCount>
-          <fragment>Bullet_ShotgunPellet</fragment> <!-- Example fragment -->
-          <fragmentCount>5</fragmentCount>
-          <fragmentRange>
-            <min>1</min>
-            <max>3</max>
-          </fragmentRange>
-          <showConeEffect>true</showConeEffect>
-        </li>
-      </modExtensions>
     </projectile>
+  <modExtensions>
+    <li Class="WulaFallenEmpire.HomingProjectileDef">
+      <initRotateAngle>5</initRotateAngle>
+      <homingSpeed>0.03</homingSpeed>
+      <destroyTicksAfterLosingTrack>90</destroyTicksAfterLosingTrack>
+      <proximityFuseRange>2.0</proximityFuseRange>
+      <hitChance>0.7</hitChance>
+      <extraProjectile>Bullet_ExampleHomingExplosive</extraProjectile>
+      <SpeedChangeTilesPerTickOverride>0.03</SpeedChangeTilesPerTickOverride>
+      <SpeedRangeTilesPerTickOverride>
+        <min>20</min>
+        <max>30</max>
+      </SpeedRangeTilesPerTickOverride>
+      <tailFleckDef>WULA_GunTail_Smoke</tailFleckDef>
+    </li>
+  </modExtensions>
   </ThingDef>
 </Defs>

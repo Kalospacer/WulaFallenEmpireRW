@@ -84,19 +84,32 @@ namespace WulaFallenEmpire
             {
                 if (!infinitePenetration && hitCounter >= maxHits) break;
 
-                if (thing is Pawn pawn && pawn != launcher && !alreadyDamaged.Contains(pawn))
+                // 统一处理 Pawn 和 Building 的伤害逻辑
+                // 确保 Thing 未被伤害过且不是发射者
+                if (thing != launcher && !alreadyDamaged.Contains(thing))
                 {
                     bool shouldDamage = false;
-                    if (intendedTarget.Thing == pawn) shouldDamage = true;
-                    else if (pawn.HostileTo(launcher)) shouldDamage = true;
-                    else if (!shouldPreventFriendlyFire) shouldDamage = true;
+                    Pawn pawn = thing as Pawn;
+                    Building building = thing as Building;
+
+                    if (pawn != null) // 如果是 Pawn
+                    {
+                        if (intendedTarget.Thing == pawn) shouldDamage = true;
+                        else if (pawn.HostileTo(launcher)) shouldDamage = true;
+                        else if (!shouldPreventFriendlyFire) shouldDamage = true;
+                    }
+                    else if (building != null) // 如果是 Building
+                    {
+                        shouldDamage = true; // 默认对 Building 造成伤害
+                    }
 
                     if (shouldDamage)
                     {
-                        ApplyPathDamage(pawn, props);
+                        ApplyPathDamage(thing, props); // 传递 Thing
                     }
                 }
-                else if (thing.def.Fillage == FillCategory.Full && thing.def.blockLight)
+                // 只有当遇到完全阻挡的 Thing 且不是 Pawn 或 Building 时才停止穿透
+                else if (thing.def.Fillage == FillCategory.Full && thing.def.blockLight && !(thing is Pawn) && !(thing is Building))
                 {
                     break;
                 }
@@ -105,9 +118,15 @@ namespace WulaFallenEmpire
             this.Destroy(DestroyMode.Vanish);
         }
 
-        private void ApplyPathDamage(Pawn pawn, Wula_BeamPierce_Extension props)
+        private void ApplyPathDamage(Thing targetThing, Wula_BeamPierce_Extension props) // 接受 Thing 参数
         {
-            float damageMultiplier = Mathf.Pow(1f - props.damageFalloff, hitCounter);
+            float damageMultiplier = 1f;
+            if (targetThing is Pawn) // 只有 Pawn 才计算穿透衰减
+            {
+                damageMultiplier = Mathf.Pow(1f - props.damageFalloff, hitCounter);
+            }
+            // Building 不受穿透衰减影响，或者 Building 的穿透衰减始终为 1 (不衰减)
+
             int damageAmount = (int)(this.DamageAmount * damageMultiplier);
 
             if (damageAmount <= 0) return;
@@ -123,9 +142,13 @@ namespace WulaFallenEmpire
                 DamageInfo.SourceCategory.ThingOrUnknown,
                 this.intendedTarget.Thing);
             
-            pawn.TakeDamage(dinfo);
-            alreadyDamaged.Add(pawn);
-            hitCounter++;
+            targetThing.TakeDamage(dinfo); // 对 targetThing 造成伤害
+            alreadyDamaged.Add(targetThing);
+
+            if (targetThing is Pawn) // 只有 Pawn 才增加 hitCounter
+            {
+                hitCounter++;
+            }
         }
         
         protected override void Tick() { }
