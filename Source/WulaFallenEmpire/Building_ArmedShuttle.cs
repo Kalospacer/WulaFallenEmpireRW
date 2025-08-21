@@ -370,6 +370,7 @@ namespace WulaFallenEmpire
                 yield return command_Toggle;
             }
             foreach (Gizmo gizmo in ShuttleComp.CompGetGizmosExtra()) yield return gizmo;
+            Log.Message($"[WULA] Stage 2: Launch Sequence - Providing launch gizmos for {this.Label}.");
             foreach (Gizmo gizmo in LaunchableComp.CompGetGizmosExtra()) yield return gizmo;
             foreach (Gizmo gizmo in TransporterComp.CompGetGizmosExtra()) yield return gizmo;
             float fuelInShuttle = FuelInShuttle();
