@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <HediffDef>
+        <defName>WULA_WeaponStealEffect</defName>
+        <label>磁力吸附</label>
+        <description>被磁力光束命中，磁力光束将会夺走当前所装备的武器.</description>
+        <hediffClass>HediffWithComps</hediffClass>
+        <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+        <maxSeverity>1.0</maxSeverity>
+        <initialSeverity>0.0</initialSeverity>
+        <isBad>true</isBad>
+        <comps>
+            <li Class="HediffCompProperties_Disappears">
+                <disappearsAfterTicks>30000</disappearsAfterTicks>                <!-- 2 RimWorld days -->
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <label>微弱</label>
+                <minSeverity>0</minSeverity>
+            </li>
+            <li>
+                <label>较弱</label>
+                <minSeverity>0.3</minSeverity>
+                <capMods>
+                </capMods>
+            </li>
+            <li>
+                <label>较强</label>
+                <minSeverity>0.6</minSeverity>
+                <capMods>
+                </capMods>
+            </li>
+            <li>
+                <label>极强</label>
+                <minSeverity>0.9</minSeverity>
+                <capMods>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+</Defs>

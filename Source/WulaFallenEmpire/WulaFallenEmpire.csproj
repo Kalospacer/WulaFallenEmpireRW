@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -170,6 +170,12 @@
     <Compile Include="WULA_Shuttle\ArmedShuttleIncoming.cs" />
     <Compile Include="WULA_Shuttle\Building_ArmedShuttle.cs" />
     <Compile Include="HarmonyPatches\Patch_DropCellFinder_SkyfallerCanLandAt.cs" />
+    <Compile Include="MechWeapon\FloatMenuProvider_Mech.cs" />
+    <Compile Include="MechWeapon\Patch_MissingWeapon.cs" />
+    <Compile Include="MechWeapon\Patch_WeaponDrop.cs" />
+    <Compile Include="MechWeapon\CompMechWeapon.cs" />
+    <Compile Include="Verb\VerbProperties_WeaponStealBeam.cs" />
+    <Compile Include="Verb\Verb_ShootWeaponStealBeam.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
