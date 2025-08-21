@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0"
-  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -69,19 +68,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompChargingBed.cs" />
-    <Compile Include="CompCleave.cs" />
-    <Compile Include="CompAutoMechCarrier.cs" />
-    <Compile Include="CompProperties_AutoMechCarrier.cs" />
-    <Compile Include="PawnProductionEntry.cs" />
-    <Compile Include="CompAbilityEffect_GiveSwitchHediff.cs" />
-    <Compile Include="CompAbilityEffect_RemoveSwitchHediff.cs" />
-    <Compile Include="Building_Wula_DarkEnergy_Engine.cs" />
+    <Compile Include="WULA_Energy\CompChargingBed.cs" />
+    <Compile Include="Verb\CompCleave.cs" />
+    <Compile Include="WULA_AutoMechCarrier\CompAutoMechCarrier.cs" />
+    <Compile Include="WULA_AutoMechCarrier\CompProperties_AutoMechCarrier.cs" />
+    <Compile Include="WULA_AutoMechCarrier\PawnProductionEntry.cs" />
+    <Compile Include="Cinder_WeaponSwitch\CompAbilityEffect_GiveSwitchHediff.cs" />
+    <Compile Include="Cinder_WeaponSwitch\CompAbilityEffect_RemoveSwitchHediff.cs" />
     <Compile Include="CompApparelInterceptor.cs" />
-    <Compile Include="CompCustomUniqueWeapon.cs" />
-    <Compile Include="CompProperties_CustomUniqueWeapon.cs" />
-    <Compile Include="CompMaintenancePod.cs" />
-    <Compile Include="CompWulaRitualSpot.cs" />
+    <Compile Include="WULA_CustomUniqueWeapon\CompCustomUniqueWeapon.cs" />
+    <Compile Include="WULA_CustomUniqueWeapon\CompProperties_CustomUniqueWeapon.cs" />
+    <Compile Include="WULA_Maintenance\CompMaintenancePod.cs" />
+    <Compile Include="WULA_PsychicRitual\CompWulaRitualSpot.cs" />
     <Compile Include="CompPsychicScaling.cs" />
     <Compile Include="CompUseEffect_FixAllHealthConditions.cs" />
     <Compile Include="CompUseEffect_PassionTrainer.cs" />
@@ -107,78 +105,77 @@
     <Compile Include="HarmonyPatches\NoBloodForWulaPatch.cs" />
     <Compile Include="HarmonyPatches\Patch_CaravanInventoryUtility_FindShuttle.cs" />
     <Compile Include="HediffComp_RegenerateBackstory.cs" />
-    <Compile Include="HediffComp_WulaCharging.cs" />
-    <Compile Include="IngestPatch.cs" />
-    <Compile Include="JobDriver_FeedWulaPatient.cs" />
-    <Compile Include="JobDriver_EnterMaintenancePod.cs" />
-    <Compile Include="JobDriver_HaulToMaintenancePod.cs" />
-    <Compile Include="JobDriver_IngestWulaEnergy.cs" />
-    <Compile Include="JobGiver_WulaGetEnergy.cs" />
-    <Compile Include="JobGiver_WulaPackEnergy.cs" />
-    <Compile Include="Job_Maintenance.cs" />
-    <Compile Include="JobGiverDefExtension_WulaPackEnergy.cs" />
-    <Compile Include="LightningBombardment.cs" />
-    <Compile Include="MechanitorPatch.cs" />
-    <Compile Include="MentalBreakWorker_BrokenPersonality.cs" />
-    <Compile Include="MentalState_BrokenPersonality.cs" />
-    <Compile Include="MentalStateDefExtension_BrokenPersonality.cs" />
-    <Compile Include="Need_WulaEnergy.cs" />
-    <Compile Include="NeedDefExtension_Energy.cs" />
-    <Compile Include="Projectile_WulaPenetrating.cs" />
-    <Compile Include="Projectile_WulaBeam.cs" />
-    <Compile Include="Projectile_TrackingBullet.cs" />
-    <Compile Include="TrackingBulletDef.cs" />
-    <Compile Include="ExplosiveTrackingBulletDef.cs" />
-    <Compile Include="Projectile_ExplosiveTrackingBullet.cs" />
+    <Compile Include="WULA_Energy\HediffComp_WulaCharging.cs" />
+    <Compile Include="HarmonyPatches\IngestPatch.cs" />
+    <Compile Include="WULA_Energy\JobDriver_FeedWulaPatient.cs" />
+    <Compile Include="WULA_Maintenance\JobDriver_EnterMaintenancePod.cs" />
+    <Compile Include="WULA_Maintenance\JobDriver_HaulToMaintenancePod.cs" />
+    <Compile Include="WULA_Energy\JobDriver_IngestWulaEnergy.cs" />
+    <Compile Include="WULA_Energy\JobGiver_WulaGetEnergy.cs" />
+    <Compile Include="WULA_Energy\JobGiver_WulaPackEnergy.cs" />
+    <Compile Include="WULA_Maintenance\Job_Maintenance.cs" />
+    <Compile Include="WULA_Energy\JobGiverDefExtension_WulaPackEnergy.cs" />
+    <Compile Include="Ability\LightningBombardment.cs" />
+    <Compile Include="HarmonyPatches\MechanitorPatch.cs" />
+    <Compile Include="WULA_BrokenPersonality\MentalBreakWorker_BrokenPersonality.cs" />
+    <Compile Include="WULA_BrokenPersonality\MentalState_BrokenPersonality.cs" />
+    <Compile Include="WULA_BrokenPersonality\MentalStateDefExtension_BrokenPersonality.cs" />
+    <Compile Include="WULA_Energy\Need_WulaEnergy.cs" />
+    <Compile Include="WULA_Energy\NeedDefExtension_Energy.cs" />
+    <Compile Include="Projectiles\Projectile_WulaPenetrating.cs" />
+    <Compile Include="Projectiles\Projectile_WulaBeam.cs" />
+    <Compile Include="Projectiles\Projectile_TrackingBullet.cs" />
+    <Compile Include="Projectiles\TrackingBulletDef.cs" />
+    <Compile Include="Projectiles\ExplosiveTrackingBulletDef.cs" />
+    <Compile Include="Projectiles\Projectile_ExplosiveTrackingBullet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PsychicRitual_TechOffering.cs" />
-    <Compile Include="PsychicRitualDef_AddHediff.cs" />
-    <Compile Include="PsychicRitualToil_AddHediff.cs" />
+    <Compile Include="WULA_PsychicRitual\PsychicRitual_TechOffering.cs" />
+    <Compile Include="WULA_PsychicRitual\PsychicRitualDef_AddHediff.cs" />
+    <Compile Include="WULA_PsychicRitual\PsychicRitualToil_AddHediff.cs" />
     <Compile Include="MoharHediffs\HediffCompProperties_Spawner.cs" />
     <Compile Include="MoharHediffs\HediffComp_Spawner.cs" />
     <Compile Include="MoharHediffs\Tools.cs" />
-    <Compile Include="RitualTagExtension.cs" />
-    <Compile Include="PsychicRitualDef_Wula.cs" />
-    <Compile Include="PsychicRitualDef_WulaBase.cs" />
-    <Compile Include="PsychicRitualToil_GatherForInvocation_Wula.cs" />
+    <Compile Include="WULA_PsychicRitual\RitualTagExtension.cs" />
+    <Compile Include="WULA_PsychicRitual\PsychicRitualDef_Wula.cs" />
+    <Compile Include="WULA_PsychicRitual\PsychicRitualDef_WulaBase.cs" />
+    <Compile Include="WULA_PsychicRitual\PsychicRitualToil_GatherForInvocation_Wula.cs" />
     <Compile Include="Recipe_AdministerWulaMechRepairKit.cs" />
     <Compile Include="SectionLayer_WulaHull.cs" />
-    <Compile Include="ThingDefExtension_EnergySource.cs" />
-    <Compile Include="TimedExplosion.cs" />
-    <Compile Include="Verb\ExplosionParameters.cs" />
-    <Compile Include="Verb\Projectile_ConfigurableHellsphereCannon.cs" />
-    <Compile Include="Verb\ProperShotgun.cs" />
-    <Compile Include="Verb\ShootArc.cs" />
-    <Compile Include="Verb\Trackingbullet.cs" />
+    <Compile Include="WULA_Energy\ThingDefExtension_EnergySource.cs" />
+    <Compile Include="HediffComp_TimedExplosion.cs" />
+    <Compile Include="Projectiles\Projectile_ConfigurableHellsphereCannon.cs" />
+    <Compile Include="Verb\Verb_ShootShotgun.cs" />
+    <Compile Include="Verb\Verb_ShootArc.cs" />
+    <Compile Include="Projectiles\Projectile_CruiseMissile.cs" />
     <Compile Include="Verb\Verb_ShootBeamExplosive.cs" />
     <Compile Include="Verb\VerbPropertiesExplosiveBeam.cs" />
     <Compile Include="Verb\Verb_MeleeAttack_Cleave.cs" />
-    <Compile Include="WorkGiver_FeedWulaPatient.cs" />
-    <Compile Include="WorkGiver_Warden_DeliverEnergy.cs" />
-    <Compile Include="WorkGiver_Warden_FeedWula.cs" />
-    <Compile Include="WorkGiverDefExtension_FeedWula.cs" />
-    <Compile Include="WulaCaravanEnergyDef.cs" />
+    <Compile Include="WULA_Energy\WorkGiver_FeedWulaPatient.cs" />
+    <Compile Include="WULA_Energy\WorkGiver_Warden_DeliverEnergy.cs" />
+    <Compile Include="WULA_Energy\WorkGiver_Warden_FeedWula.cs" />
+    <Compile Include="WULA_Energy\WorkGiverDefExtension_FeedWula.cs" />
+    <Compile Include="WULA_Energy\WulaCaravanEnergyDef.cs" />
     <Compile Include="WulaFallenEmpireMod.cs" />
-    <Compile Include="WulaStatDefOf.cs" />
-    <Compile Include="Building_MaintenancePod.cs" />
-    <Compile Include="HediffComp_MaintenanceNeed.cs" />
+    <Compile Include="WULA_Energy\WulaStatDefOf.cs" />
+    <Compile Include="WULA_Maintenance\Building_MaintenancePod.cs" />
+    <Compile Include="WULA_Maintenance\HediffComp_MaintenanceNeed.cs" />
     <Compile Include="HediffComp_DamageResponse.cs" />
-    <Compile Include="JobDefOf_WULA.cs" />
+    <Compile Include="WULA_Maintenance\JobDefOf_WULA.cs" />
     <Compile Include="ThingDefOf_WULA.cs" />
-    <Compile Include="WeaponSwitch.cs" />
+    <Compile Include="Cinder_WeaponSwitch\WeaponSwitch.cs" />
     <Compile Include="Verb\CompMultiStrike.cs" />
     <Compile Include="Verb\Verb_MeleeAttack_MultiStrike.cs" />
-    <Compile Include="Projectile_ExplosiveWithTrail.cs" />
-    <Compile Include="BulletWithTrail.cs" />
-    <Compile Include="ArmedShuttleIncoming.cs" />
-    <Compile Include="Building_ArmedShuttle.cs" />
+    <Compile Include="Projectiles\Projectile_ExplosiveWithTrail.cs" />
+    <Compile Include="Projectiles\BulletWithTrail.cs" />
+    <Compile Include="WULA_Shuttle\ArmedShuttleIncoming.cs" />
+    <Compile Include="WULA_Shuttle\Building_ArmedShuttle.cs" />
     <Compile Include="HarmonyPatches\Patch_DropCellFinder_SkyfallerCanLandAt.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
   <Target Name="CleanDebugFiles" AfterTargets="Build">
     <RemoveDir Directories="$(ProjectDir)obj\Debug" />
     <RemoveDir Directories="$(ProjectDir)obj\Release" />
-  </Target
-  >
+  </Target>
 </Project>
