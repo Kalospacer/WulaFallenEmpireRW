@@ -3,7 +3,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_WM_Alpha_Wolf_Plasma_Gun</defName>
     <label>PMe-92"磷灰"</label>
-    <description>搭载于SNm-6"头狼"机甲的高能等离子武器，射程较短，但是所使用的等离子射弹能够在出膛后散射，引起大范围的熔融爆炸并毁灭成群敌军。</description>
+    <description>搭载于SNm-6"狼王"机甲的高能等离子武器，射程较短，但是所使用的等离子射弹能够在出膛后散射，引起大范围的熔融爆炸并毁灭成群敌军。</description>
     <techLevel>Archotech</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_WM_Alpha_Wolf_Plasma_Gun</texPath>
@@ -11,7 +11,7 @@
       <drawSize>1.4</drawSize>
     </graphicData>
     <soundInteract>Interact_ChargeRifle</soundInteract> <!-- Placeholder, needs a proper sound -->
-    <recipeMaker Inherit="False"/>
+    <recipeMaker Inherit="False" />
     <statBases>
       <WorkToMake>2000</WorkToMake>
       <Mass>5.0</Mass>
@@ -87,16 +87,17 @@
         <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
         <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
       </li>
-			<li Class="WulaFallenEmpire.ShotgunExtension">
-				<pelletCount>3</pelletCount>
-			</li>
+      <li Class="WulaFallenEmpire.ShotgunExtension">
+        <pelletCount>3</pelletCount>
+      </li>
     </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Unlimit_Penetrating_Beam_Cannon</defName>
     <label>XXx-00 "贯杀炮"</label>
-    <description>乌拉帝国军械部在黄金时期所设计的暗物质武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的机械体所配备，所发射的切割束几乎可以贯穿战场，并抹除落点上所有的敌人。</description>
+    <description>
+      乌拉帝国军械部在黄金时期所设计的暗物质武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的机械体所配备，所发射的切割束几乎可以贯穿战场，并抹除落点上所有的敌人。</description>
     <techLevel>Archotech</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
@@ -252,6 +253,87 @@
         <explosionDamage>15</explosionDamage>
         <explosionSound>Explosion_Bomb</explosionSound>
         <chanceToStartFire>0.6</chanceToStartFire>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>WULA_MechFlyerTurretGun</defName>
+    <label>磁力光束</label>
+    <description>乌拉小镰的内置炮塔。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>2.6</Mass>
+      <AccuracyTouch>0.60</AccuracyTouch>
+      <AccuracyShort>0.80</AccuracyShort>
+      <AccuracyMedium>0.90</AccuracyMedium>
+      <AccuracyLong>0.85</AccuracyLong>
+    </statBases>
+    <verbs>
+      <li Class="WulaFallenEmpire.VerbProperties_WeaponStealBeam">
+        <verbClass>WulaFallenEmpire.Verb_ShootWeaponStealBeam</verbClass>
+        <hediffToApply>WULA_WeaponStealEffect</hediffToApply>
+        <hediffSeverityPerHit>0.1</hediffSeverityPerHit>
+        <hediffMaxSeverity>1.0</hediffMaxSeverity>
+        <removeHediffOnSteal>true</removeHediffOnSteal>
+        <!-- 基础射线参数 -->
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>0</warmupTime>
+        <range>2</range>
+        <burstShotCount>5</burstShotCount>
+        <ticksBetweenBurstShots>50</ticksBetweenBurstShots>
+        <beamDamageDef>Wula_Dark_Matter_Beam</beamDamageDef>
+        <beamTotalDamage>3</beamTotalDamage>
+
+        <!-- 消除射线偏移的参数 -->
+        <beamFullWidthRange>1000</beamFullWidthRange>
+        <beamWidth>-1</beamWidth>
+        <beamMaxDeviation>0</beamMaxDeviation>
+        <beamCurvature>0</beamCurvature>
+        <beamStartOffset>0</beamStartOffset>
+
+        <!-- 视觉和音效 -->
+        <muzzleFlashScale>0</muzzleFlashScale>
+        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
+        <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
+        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
+        <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
+        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
+
+        <screenShakeFactor>0.35</screenShakeFactor>
+
+        <!-- 火焰效果 -->
+        <beamChanceToStartFire>0.6</beamChanceToStartFire>
+        <beamChanceToAttachFire>0.6</beamChanceToAttachFire>
+        <beamFireSizeRange>0.25</beamFireSizeRange>
+
+        <!-- 其他射线属性 -->
+        <beamHitsNeighborCells>true</beamHitsNeighborCells>
+        <beamLineFleckChanceCurve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.65, 0.4)</li>
+            <li>(1, 0.75)</li>
+          </points>
+        </beamLineFleckChanceCurve>
+
+        <!-- 攻击目标设置 -->
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+
+        <!-- 每发都爆炸 -->
+        <enableExplosion>false</enableExplosion>
+        <!--<explosionShotInterval>1</explosionShotInterval>
+        <explosionRadius>1.8</explosionRadius>
+        <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
+        <explosionDamage>15</explosionDamage>
+        <explosionSound>Explosion_Bomb</explosionSound>
+        <chanceToStartFire>0.6</chanceToStartFire>-->
       </li>
     </verbs>
   </ThingDef>

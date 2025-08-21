@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-<ThingDef ParentName="BuildingBase">
+  <ThingDef ParentName="BuildingBase">
     <defName>WULA_ArmedShuttle</defName>
     <label>armed shuttle</label>
     <description>A chemfuel-powered shuttle designed for long-distance travel, equipped with a turret for defense. It is capable of reaching orbital locations.</description>
@@ -265,5 +265,4 @@
     <worldObject>PassengerShuttle</worldObject>
     <playerShuttle>true</playerShuttle>
   </TransportShipDef>
-
 </Defs>

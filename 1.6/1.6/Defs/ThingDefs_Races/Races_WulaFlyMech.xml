@@ -1,223 +1,129 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-    <!-- Lancer - fast mid-range shooter -->
+  <!-- Lancer - fast mid-range shooter -->
+  <ThingDef ParentName="BaseMechanoidWalker">
+    <defName>WULA_Mech_Flyer</defName>
+    <label>乌拉小镰</label>
+    <description>乌拉帝国小型机械体</description>
+    <tools>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>Lancer</body>
+      <baseHealthScale>0.72</baseHealthScale>
+      <detritusLeavings>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>11</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>12</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+      </detritusLeavings>
+      <flightStartChanceOnJobStart>0.5</flightStartChanceOnJobStart>
+      <lifeStageAges Inherit="False">
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant>
+      <deathAction Class="DeathActionProperties_Vanish">
+        <workerClass>DeathActionWorker_Vanish</workerClass>
+        <filth>Filth_MachineBits</filth>
+        <filthCountRange>1~2</filthCountRange>
+      </deathAction>
+    </race>
+    <statBases>
+      <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">0</BandwidthCost>
+      <MaxFlightTime>30</MaxFlightTime>
+      <FlightCooldown>10</FlightCooldown>
+    </statBases>
+    <comps Inherit="False">
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+      <!--加上这个组件的机械体可以更换武器-->
+      <li Class="WulaFallenEmpire.CompProperties_MechWeapon" />
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpOnDamage>true</wakeUpOnDamage>
+        <wakeUpCheckRadius>30</wakeUpCheckRadius>
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
 
-    <ThingDef Name="LancerMechanoidWalker" ParentName="BaseMechanoidWalker">
-        <defName>WULA_Mech_Flyer</defName>
-        <label>乌拉小镰</label>
-        <description>乌拉帝国小型机械体</description>
-        <tools>
-            <li>
-                <label>left fist</label>
-                <labelNoLocation>fist</labelNoLocation>
-                <capacities>
-                    <li>Blunt</li>
-                </capacities>
-                <power>12.0</power>
-                <cooldownTime>2</cooldownTime>
-                <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
-                <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
-            </li>
-            <li>
-                <label>right fist</label>
-                <labelNoLocation>fist</labelNoLocation>
-                <capacities>
-                    <li>Blunt</li>
-                </capacities>
-                <power>12.0</power>
-                <cooldownTime>2</cooldownTime>
-                <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
-                <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
-            </li>
-            <li>
-                <label>head</label>
-                <capacities>
-                    <li>Blunt</li>
-                </capacities>
-                <power>8.5</power>
-                <cooldownTime>2</cooldownTime>
-                <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
-                <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
-                <chanceFactor>0.2</chanceFactor>
-            </li>
-        </tools>
-        <race>
-            <body>Lancer</body>
-            <baseHealthScale>0.72</baseHealthScale>
-            <detritusLeavings>
-                <li>
-                    <def>ChunkMechanoidSlag</def>
-                    <texOverrideIndex>11</texOverrideIndex>
-                    <spawnChance>0.1</spawnChance>
-                </li>
-                <li>
-                    <def>ChunkMechanoidSlag</def>
-                    <texOverrideIndex>12</texOverrideIndex>
-                    <spawnChance>0.1</spawnChance>
-                </li>
-            </detritusLeavings>
-            <flightStartChanceOnJobStart>0.5</flightStartChanceOnJobStart>
-        </race>
-        <statBases>
-            <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">0</BandwidthCost>
-            <MaxFlightTime>30</MaxFlightTime>
-            <FlightCooldown>10</FlightCooldown>
-        </statBases>
-        <comps>
-            <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
-            <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
-            <!--加上这个组件的机械体可以更换武器-->
-            <li Class="WulaFallenEmpire.CompProperties_MechWeapon" />
-
-            <li Class="CompProperties_TurretGun">
-                <turretDef>WULA_MechFlyerTurretGun</turretDef>
-                <angleOffset>-90</angleOffset>
-                <autoAttack>false</autoAttack>
-                <renderNodeProperties>
-                    <li>
-                        <nodeClass>PawnRenderNode_TurretGun</nodeClass>
-                        <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
-                        <parentTagDef>Body</parentTagDef>
-                        <overrideMeshSize>(1, 1)</overrideMeshSize>
-                        <baseLayer>20</baseLayer>
-                        <pawnType>Any</pawnType>
-                        <drawData>
-                            <dataWest>
-                                <rotationOffset>180</rotationOffset>
-                                <offset>(0, 0, 0)</offset>
-                            </dataWest>
-                        </drawData>
-                    </li>
-                </renderNodeProperties>
-            </li>
-        </comps>
-    </ThingDef>
-
-    <PawnKindDef ParentName="BaseMechanoidKind">
-        <defName>WULA_Mech_Flyer</defName>
-        <label>乌拉小镰</label>
-        <race>WULA_Mech_Flyer</race>
-        <combatPower>190</combatPower>
-        <flyingAnimationFramePathPrefix>Things/Pawn/Animal/Goose/Goose_Flying_</flyingAnimationFramePathPrefix>
-        <flyingAnimationFrameCount>8</flyingAnimationFrameCount>
-        <flyingAnimationTicksPerFrame>2</flyingAnimationTicksPerFrame>
-        <flyingAnimationDrawSize>1.35</flyingAnimationDrawSize>
-        <flyingAnimationInheritColors>false</flyingAnimationInheritColors>
-        <lifeStages>
-            <li MayRequire="Ludeon.RimWorld.Biotech">
-                <bodyGraphicData>
-                    <texPath>Things/Pawn/Mechanoid/LancerClean</texPath>
-                    <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Lancer</maskPath>
-                    <shaderType>CutoutWithOverlay</shaderType>
-                    <graphicClass>Graphic_Multi</graphicClass>
-                    <drawSize>1.5</drawSize>
-                    <shadowData>
-                        <volume>(0.4, 0.8, 0.4)</volume>
-                    </shadowData>
-                </bodyGraphicData>
-            </li>
-            <li>
-                <bodyGraphicData>
-                    <texPath>Things/Pawn/Mechanoid/Lancer</texPath>
-                    <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Lancer</maskPath>
-                    <shaderType>CutoutWithOverlay</shaderType>
-                    <graphicClass>Graphic_Multi</graphicClass>
-                    <drawSize>1.5</drawSize>
-                    <shadowData>
-                        <volume>(0.4, 0.8, 0.4)</volume>
-                    </shadowData>
-                </bodyGraphicData>
-            </li>
-        </lifeStages>
-        <weaponMoney>9999~9999</weaponMoney>
-        <weaponTags>
-        </weaponTags>
-        <techHediffsChance>1</techHediffsChance>
-        <techHediffsMoney>9999~9999</techHediffsMoney>
-    </PawnKindDef>
-
-    <ThingDef ParentName="BaseWeaponTurret">
-        <defName>WULA_MechFlyerTurretGun</defName>
-        <label>磁力光束</label>
-        <description>乌拉小镰的内置炮塔。</description>
-        <tradeability>None</tradeability>
-        <destroyOnDrop>true</destroyOnDrop>
-        <graphicData>
-            <texPath>Things/Building/TacticalTurret/TacticalTurret_Top</texPath>
-            <graphicClass>Graphic_Single</graphicClass>
-        </graphicData>
-        <statBases>
-            <Mass>2.6</Mass>
-            <AccuracyTouch>0.60</AccuracyTouch>
-            <AccuracyShort>0.80</AccuracyShort>
-            <AccuracyMedium>0.90</AccuracyMedium>
-            <AccuracyLong>0.85</AccuracyLong>
-        </statBases>
-        <verbs>
-            <li Class="WulaFallenEmpire.VerbProperties_WeaponStealBeam">
-                <verbClass>WulaFallenEmpire.Verb_ShootWeaponStealBeam</verbClass>
-                <hediffToApply>WULA_WeaponStealEffect</hediffToApply>
-                <hediffSeverityPerHit>0.1</hediffSeverityPerHit>
-                <hediffMaxSeverity>1.0</hediffMaxSeverity>
-                <removeHediffOnSteal>true</removeHediffOnSteal>
-                <!-- 基础射线参数 -->
-                <hasStandardCommand>true</hasStandardCommand>
-                <warmupTime>0</warmupTime>
-                <range>15</range>
-                <burstShotCount>5</burstShotCount>
-                <ticksBetweenBurstShots>50</ticksBetweenBurstShots>
-                <beamDamageDef>Wula_Dark_Matter_Beam</beamDamageDef>
-                <beamTotalDamage>3</beamTotalDamage>
-
-                <!-- 消除射线偏移的参数 -->
-                <beamFullWidthRange>1000</beamFullWidthRange>
-                <beamWidth>-1</beamWidth>
-                <beamMaxDeviation>0</beamMaxDeviation>
-                <beamCurvature>0</beamCurvature>
-                <beamStartOffset>0</beamStartOffset>
-
-                <!-- 视觉和音效 -->
-                <muzzleFlashScale>0</muzzleFlashScale>
-                <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
-                <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
-                <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-                <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
-                <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
-
-                <screenShakeFactor>0.35</screenShakeFactor>
-
-                <!-- 火焰效果 -->
-                <beamChanceToStartFire>0.6</beamChanceToStartFire>
-                <beamChanceToAttachFire>0.6</beamChanceToAttachFire>
-                <beamFireSizeRange>0.25</beamFireSizeRange>
-
-                <!-- 其他射线属性 -->
-                <beamHitsNeighborCells>true</beamHitsNeighborCells>
-                <beamLineFleckChanceCurve>
-                    <points>
-                        <li>(0, 0)</li>
-                        <li>(0.65, 0.4)</li>
-                        <li>(1, 0.75)</li>
-                    </points>
-                </beamLineFleckChanceCurve>
-
-                <!-- 攻击目标设置 -->
-                <targetParams>
-                    <canTargetLocations>true</canTargetLocations>
-                </targetParams>
-
-                <!-- 每发都爆炸 -->
-                <enableExplosion>false</enableExplosion>
-                <!--<explosionShotInterval>1</explosionShotInterval>
-                <explosionRadius>1.8</explosionRadius>
-                <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
-                <explosionDamage>15</explosionDamage>
-                <explosionSound>Explosion_Bomb</explosionSound>
-                <chanceToStartFire>0.6</chanceToStartFire>-->
-            </li>
-        </verbs>
-
-    </ThingDef>
+      <li Class="CompProperties_TurretGun">
+        <turretDef>WULA_MechFlyerTurretGun</turretDef>
+        <angleOffset>-90</angleOffset>
+        <autoAttack>false</autoAttack>
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataWest>
+                  <rotationOffset>180</rotationOffset>
+                  <offset>(0, 0, 0)</offset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="CompProperties_MechPowerCell">
+        <totalPowerTicks>10000</totalPowerTicks>
+      </li>
+    </comps>
+  </ThingDef>
+  <PawnKindDef ParentName="BaseMechanoidKind">
+    <defName>WULA_Mech_Flyer</defName>
+    <label>乌拉小镰</label>
+    <race>WULA_Mech_Flyer</race>
+    <combatPower>190</combatPower>
+    <flyingAnimationFramePathPrefix>Wula/Things/WULA_Mech_Flyer/WULA_Mech_Flyer_Flying_</flyingAnimationFramePathPrefix>
+    <flyingAnimationFrameCount>2</flyingAnimationFrameCount>
+    <flyingAnimationTicksPerFrame>2</flyingAnimationTicksPerFrame>
+    <!-- <flyingAnimationDrawSize>1.35</flyingAnimationDrawSize> -->
+    <flyingAnimationInheritColors>false</flyingAnimationInheritColors>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
+    <forceNoDeathNotification>true</forceNoDeathNotification>
+    <lifeStages>
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <bodyGraphicData>
+          <texPath>Wula/Things/WULA_Mech_Flyer/WULA_Mech_Flyer</texPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.5</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+    </weaponTags>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+  </PawnKindDef>
 
 </Defs>

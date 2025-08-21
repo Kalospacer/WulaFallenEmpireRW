@@ -94,7 +94,7 @@
 
   <ThingDef ParentName="HeavyMechanoid">
     <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
-    <label>SNm-6"头狼"</label>
+    <label>SNm-6"狼王"</label>
     <description>乌拉帝国中型机械体</description>
     <statBases>
       <BandwidthCost>0</BandwidthCost>
@@ -141,7 +141,7 @@
         <cooldownTicks>9999</cooldownTicks> <!-- 设置一个很高的全局默认冷却，以确保独立冷却生效 -->
         <productionQueue>
           <li>
-            <pawnKind>Mech_WarUrchin</pawnKind>
+            <pawnKind>WULA_Mech_Flyer</pawnKind>
             <count>5</count>
             <cooldownTicks>600</cooldownTicks> <!-- 独立冷却: 10秒 -->
             <cost>10</cost> <!-- 独立成本: 10 钢铁 -->
@@ -188,7 +188,7 @@
   </ThingDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
-    <label>SNm-6"头狼"</label>
+    <label>SNm-6"狼王"</label>
     <race>WULA_Alpha_Wolf</race>
     <combatPower>600</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
