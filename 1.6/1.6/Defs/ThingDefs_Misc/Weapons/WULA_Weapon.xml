@@ -793,7 +793,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_StarDrift_SG</defName>
     <label>DCs-7"黑曜石"</label>
-    <description>乌拉帝国配发的近距离霰弹枪，以威力巨大的梭镖破甲弹为核心，专注于在短距离上的快速反应战斗和持续性压制能力</description>
+    <description>乌拉帝国配发的近距离霰弹枪，以威力巨大、可以穿透路径上所有敌人的散射破甲光束为核心，专注于在短距离上的快速反应战斗和持续性压制能力</description>
     <techLevel>Ultra</techLevel>
     <weaponTags>
       <li>Wula_Ranged_Weapon_T2</li>
@@ -845,23 +845,31 @@
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>WULA_Bullet_StarDrift_Shotgun_Spear</defName>
-    <label>梭镖</label>
+    <label>黑曜石光束</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
+        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
+        <preventFriendlyFire>false</preventFriendlyFire>
+        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
+        <beamStartOffset>0.5</beamStartOffset>
+      </li>
+      <li Class="WulaFallenEmpire.ShotgunExtension">
+        <pelletCount>3</pelletCount>
+      </li>
+    </modExtensions>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_StarDrift_Shotgun_Spear</texPath>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <projectile>
-      <damageDef>Bullet</damageDef>
+      <damageDef>BeamBypassShields</damageDef>
       <damageAmountBase>8</damageAmountBase>
+      <armorPenetrationBase>0.8</armorPenetrationBase>
+      <stoppingPower>1</stoppingPower>
       <stoppingPower>2.5</stoppingPower>
-      <armorPenetrationBase>0.65</armorPenetrationBase>
-      <speed>55</speed>
     </projectile>
-    <modExtensions>
-			<li Class="WulaFallenEmpire.ShotgunExtension">
-				<pelletCount>3</pelletCount>
-			</li>
-		</modExtensions>
   </ThingDef>
 
   <!-- 机枪 -->

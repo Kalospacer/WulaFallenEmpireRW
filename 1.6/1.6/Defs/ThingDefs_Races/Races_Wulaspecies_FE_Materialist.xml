@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <ThingDef ParentName="SuperHeavyMechanoid">
-    <defName>WULA_Superme_Commander</defName> <!-- 修改了defName以避免冲突 -->
+    <defName>WULA_Superme_Commander</defName>
     <label>HNm-99"至高"</label>
-    <description>乌拉帝国中型机械体</description>
+    <description>乌拉帝国图书馆所制造的超重型指挥官机械体，除了装备一门射程无限的贯杀炮外，还拥有在战场上作为工厂生产次级机械体部队的能力，这些生产出来的分队长机械体还能继续生产更小型的机械体，从而以单机之力创造一支机械部队。</description>
     <statBases>
       <MoveSpeed>3</MoveSpeed>
       <MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
@@ -98,7 +98,7 @@
     <description>乌拉帝国中型机械体</description>
     <statBases>
       <BandwidthCost>0</BandwidthCost>
-      <MoveSpeed>4.6</MoveSpeed>
+      <MoveSpeed>4.2</MoveSpeed>
       <MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
     </statBases>
     <race>
@@ -113,7 +113,7 @@
           <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
         </li>
       </lifeStageAges>
-      <baseHealthScale>5.2</baseHealthScale>
+      <baseHealthScale>3.5</baseHealthScale>
       <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant>
     </race>
     <tools>
@@ -193,6 +193,8 @@
     <combatPower>600</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
     <defaultFactionType>PlayerColony</defaultFactionType>
+    <overrideDeathOnDownedChance>1</overrideDeathOnDownedChance>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
     <abilities>
       <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
       <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
