@@ -30,11 +30,6 @@
       <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
     </costList>
     <designationCategory>WULA_Buildings</designationCategory>
-    <costList>
-      <Steel>100</Steel>
-      <ComponentSpacer>2</ComponentSpacer>
-      <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
-    </costList>
     <comps>
       <li Class="CompProperties_Glower">
         <glowRadius>12</glowRadius>
