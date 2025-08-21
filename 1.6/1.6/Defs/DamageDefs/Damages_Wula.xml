@@ -35,6 +35,13 @@
       </li>
     </additionalHediffs> -->
   </DamageDef>
+  <DamageDef ParentName="Wula_Dark_Matter_Beam_DMG">
+    <defName>Wula_Dark_Matter_Beam_Huge</defName>
+    <defaultDamage>500</defaultDamage>
+    <defaultArmorPenetration>5</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>5</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>5</buildingDamageFactorPassable>
+  </DamageDef>
 
   <DamageDef ParentName="Flame">
     <defName>Wula_Dark_Matter_Flame</defName>
