@@ -175,7 +175,7 @@
     </mote>
     <drawOffscreen>true</drawOffscreen>
     <graphicData>
-      <texPath>Wula/Mote/WULA_Bullet_Dark_Matter_Beam</texPath>
+      <texPath>Wula/Mote/WULA_Lighting_Beam</texPath>
       <color>(200, 40, 40, 255)</color>
       <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
       <shaderType>MoteGlow</shaderType>
@@ -357,7 +357,7 @@
     </mote>
     <drawOffscreen>true</drawOffscreen>
     <graphicData>
-      <texPath>Wula/Mote/WULA_Bullet_Dark_Matter_Beam</texPath>
+      <texPath>Wula/Mote/WULA_Lighting_Beam</texPath>
       <color>(255, 255, 255, 255)</color>
       <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
       <shaderType>MoteGlow</shaderType>
@@ -482,7 +482,7 @@
     </mote>
     <drawOffscreen>true</drawOffscreen>
     <graphicData>
-      <texPath>Wula/Mote/WULA_Bullet_Dark_Matter_Beam</texPath>
+      <texPath>Wula/Mote/WULA_Lighting_Beam</texPath>
       <color>(38, 204, 66, 255)</color>
       <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
       <shaderType>MoteGlow</shaderType>

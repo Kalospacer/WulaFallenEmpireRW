@@ -1,6 +1,6 @@
 {
   "TextureModID": "tourswen.wulafallenempiretest",
-  "ItemDefName": "WULA_RW_Plasm_AR_Melee",
+  "ItemDefName": "WULA_RW_Plasma_AR_Melee",
   "ItemType": "ThingDef",
   "ItemTypeNamespace": "Verse",
   "OffX": 0.21839115,

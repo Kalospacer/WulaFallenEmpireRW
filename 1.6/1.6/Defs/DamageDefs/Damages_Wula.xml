@@ -135,4 +135,65 @@
       </li>
     </additionalHediffs>
   </DamageDef>
+  
+  <DamageDef>
+    <defName>Damage_WULA_Plasma</defName>
+    <label>等离子熔融</label>
+    <!-- <externalViolenceForMechanoids>true</externalViolenceForMechanoids> -->
+    <deathMessage>{0} 被等离子体引发的熔融爆炸炸死了。</deathMessage>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <!-- <isExplosive>true</isExplosive> -->
+    <hediff>Shredded</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <armorCategory>Heat</armorCategory>
+    <!-- <harmsHealth>false</harmsHealth> -->
+    <impactSoundType>Electric</impactSoundType>
+    <defaultDamage>50</defaultDamage>
+    <minDamageToFragment>5</minDamageToFragment>
+    <defaultStoppingPower>3</defaultStoppingPower>
+    <defaultArmorPenetration>0.75</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>6</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>3</buildingDamageFactorPassable>
+    <plantDamageFactor>8</plantDamageFactor>
+    <explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
+    <!-- <explosionSnowMeltAmount>0</explosionSnowMeltAmount> -->
+    <explosionCellFleck>Blast_WULA_Plasma_Explosive</explosionCellFleck>
+    <explosionColorCenter>(0.2, 0.8, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.1, 0.9, 0.5)</explosionColorEdge>
+    <explosionInteriorFleck>ElectricalSpark_WULA_Plasma_Explosive</explosionInteriorFleck>
+    <soundExplosion>Explosion_EMP</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+  <DamageDef>
+    <defName>Damage_WULA_Plasma_Explosive</defName>
+    <label>熔融爆炸</label>
+    <!-- <externalViolenceForMechanoids>true</externalViolenceForMechanoids> -->
+    <deathMessage>{0} 被等离子体引发的熔融爆炸炸死了。</deathMessage>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <!-- <isExplosive>true</isExplosive> -->
+    <hediff>Shredded</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <armorCategory>Heat</armorCategory>
+    <!-- <harmsHealth>false</harmsHealth> -->
+    <impactSoundType>Electric</impactSoundType>
+    <defaultDamage>50</defaultDamage>
+    <minDamageToFragment>5</minDamageToFragment>
+    <defaultStoppingPower>3</defaultStoppingPower>
+    <defaultArmorPenetration>0.75</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>6</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>3</buildingDamageFactorPassable>
+    <plantDamageFactor>8</plantDamageFactor>
+    <explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
+    <!-- <explosionSnowMeltAmount>0</explosionSnowMeltAmount> -->
+    <explosionCellFleck>Blast_WULA_Plasma_Explosive</explosionCellFleck>
+    <explosionColorCenter>(0.2, 0.8, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.1, 0.9, 0.5)</explosionColorEdge>
+    <explosionInteriorFleck>ElectricalSpark_WULA_Plasma_Explosive</explosionInteriorFleck>
+    <soundExplosion>Explosion_EMP</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
 </Defs>

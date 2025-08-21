@@ -137,7 +137,7 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Plasm_Technology</defName>
+    <defName>WULA_Synth_Weapon_2_Plasma_Technology</defName>
     <researchViewX>3.00</researchViewX>
     <researchViewY>0.20</researchViewY>
     <label>等离子武装套件</label>
@@ -169,7 +169,7 @@
     <prerequisites>
       <li>Fabrication</li>
       <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_2_Plasm_Technology</li>
+      <li>WULA_Synth_Weapon_2_Plasma_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -195,7 +195,7 @@
     <prerequisites>
       <li>ChargedShot</li>
       <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_2_Plasm_Technology</li>
+      <li>WULA_Synth_Weapon_2_Plasma_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">

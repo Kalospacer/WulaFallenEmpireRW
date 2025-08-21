@@ -121,7 +121,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Fractal_RF</defName>
     <label>SLr-14"蓝锥"</label>
-    <description>乌拉帝国的旧式猎枪，使用简易的磁轨结构发射钢针，射速较慢，但是可以在较远距离上击穿动物和入侵殖民地的匪徒的躯体。</description>
+    <description>乌拉帝国的旧式猎枪，使用简易的磁轨结构发射钢针，射速较慢，但是强大的动能使其在击中第一个目标后仍能继续飞行，对路径上的多个敌人造成伤害。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
@@ -177,8 +177,15 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Fractal_RF</defName>
     <label>蓝锥钢针弹</label>
-    <tickerType>Normal</tickerType>
-    <neverMultiSelect>True</neverMultiSelect>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>false</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
+        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef> <!-- 拖尾特效定义 -->
+      </li>
+    </modExtensions>
     <graphicData>
       <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -295,13 +302,13 @@
 
   <!-- 双用枪 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_Plasm_AR</defName>
+    <defName>WULA_RW_Plasma_AR</defName>
     <label>PMa-72"磷叶"</label>
     <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，也可以在近距离搏斗上当成等离子喷枪来使用。</description>
     <!-- <tickerType>Normal</tickerType> -->
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Plasm_AR</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Plasma_AR</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.4</drawSize>
     </graphicData>
@@ -311,7 +318,7 @@
         <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Plasm_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Plasma_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
@@ -328,7 +335,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Plasm_AR</defaultProjectile>
+        <defaultProjectile>Bullet_WULA_RW_Plasma_AR</defaultProjectile>
         <warmupTime>1.25</warmupTime>
         <range>28</range>
         <burstShotCount>6</burstShotCount>
@@ -350,19 +357,19 @@
     </thingSetMakerTags>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_Switch">
-        <changeTo>WULA_RW_Plasm_AR_Melee</changeTo>
-        <abilityDef>WULA_RW_Plasm_AR_WeaponSwitchAbility</abilityDef>
+        <changeTo>WULA_RW_Plasma_AR_Melee</changeTo>
+        <abilityDef>WULA_RW_Plasma_AR_WeaponSwitchAbility</abilityDef>
       </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_Plasm_AR_Melee</defName>
+    <defName>WULA_RW_Plasma_AR_Melee</defName>
     <label>PMa-72"磷叶"（等离子喷枪）</label>
     <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，也可以在近距离搏斗上当成等离子喷枪来使用。</description>
     <!-- <tickerType>Normal</tickerType> -->
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Plasm_AR_Melee</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Plasma_AR_Melee</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.4</drawSize>
     </graphicData>
@@ -398,16 +405,16 @@
     </thingSetMakerTags>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_Switch">
-        <changeTo>WULA_RW_Plasm_AR</changeTo>
-        <abilityDef>WULA_RW_Plasm_AR_WeaponSwitchAbility</abilityDef>
+        <changeTo>WULA_RW_Plasma_AR</changeTo>
+        <abilityDef>WULA_RW_Plasma_AR_WeaponSwitchAbility</abilityDef>
       </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Plasm_AR</defName>
+    <defName>Bullet_WULA_RW_Plasma_AR</defName>
     <label>磷叶等离子体射弹</label>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_Plasm</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
       <color>(61,199,157,202)</color>
@@ -422,12 +429,12 @@
     <thingClass>WulaFallenEmpire.BulletWithTrail</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
       </li>
     </modExtensions>
   </ThingDef>
   <AbilityDef>
-    <defName>WULA_RW_Plasm_AR_WeaponSwitchAbility</defName>
+    <defName>WULA_RW_Plasma_AR_WeaponSwitchAbility</defName>
     <label>武装解放 / 武装闭锁</label>
     <description>控制谐振器的等离子喷射方案，以决定PMa-72"磷叶"是否切换到近距离格斗模式</description>
     <cooldownTicksRange>601</cooldownTicksRange>
