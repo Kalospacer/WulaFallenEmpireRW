@@ -105,6 +105,7 @@
     <Compile Include="HarmonyPatches\Projectile_Launch_Patch.cs" />
     <Compile Include="HarmonyPatches\Patch_JobGiver_GatherOfferingsForPsychicRitual.cs" />
     <Compile Include="HarmonyPatches\NoBloodForWulaPatch.cs" />
+    <Compile Include="HarmonyPatches\Patch_CaravanInventoryUtility_FindShuttle.cs" />
     <Compile Include="HediffComp_RegenerateBackstory.cs" />
     <Compile Include="HediffComp_WulaCharging.cs" />
     <Compile Include="IngestPatch.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="BulletWithTrail.cs" />
     <Compile Include="ArmedShuttleIncoming.cs" />
     <Compile Include="Building_ArmedShuttle.cs" />
+    <Compile Include="HarmonyPatches\Patch_DropCellFinder_SkyfallerCanLandAt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

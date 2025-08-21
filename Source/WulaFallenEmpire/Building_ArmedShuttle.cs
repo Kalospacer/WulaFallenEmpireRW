@@ -11,7 +11,7 @@ using Verse.Sound;
 namespace WulaFallenEmpire
 {
     [StaticConstructorOnStartup]
-    public class Building_ArmedShuttle : Building, IAttackTargetSearcher, IRenameable
+    public class Building_ArmedShuttle : Building_PassengerShuttle, IAttackTargetSearcher
     {
         // --- TurretTop nested class ---
         public class TurretTop
@@ -114,12 +114,6 @@ namespace WulaFallenEmpire
         protected Effecter progressBarEffecter;
         protected CompMechPowerCell powerCellComp;
         protected CompHackable hackableComp;
-        private string shuttleName;
-        private CompLaunchable cachedLaunchableComp;
-        private CompTransporter cachedTransporterComp;
-        private CompShuttle cachedShuttleComp;
-        public static readonly CachedTexture RefuelFromCargoIcon = new CachedTexture("UI/Commands/RefuelPassengerShuttle");
-        private static List<Thing> tmpContainedThings = new List<Thing>();
 
         // --- PROPERTIES ---
         public virtual Material TurretTopMaterial => def.building.turretTopMat;
@@ -158,15 +152,6 @@ namespace WulaFallenEmpire
         private bool CanExtractShell => PlayerControlled && (gun.TryGetComp<CompChangeableProjectile>()?.Loaded ?? false);
         private bool MannedByColonist => mannableComp != null && mannableComp.ManningPawn != null && mannableComp.ManningPawn.Faction == Faction.OfPlayer;
         private bool MannedByNonColonist => mannableComp != null && mannableComp.ManningPawn != null && mannableComp.ManningPawn.Faction != Faction.OfPlayer;
-        public CompLaunchable LaunchableComp => cachedLaunchableComp ?? (cachedLaunchableComp = GetComp<CompLaunchable>());
-        public CompTransporter TransporterComp => cachedTransporterComp ?? (cachedTransporterComp = GetComp<CompTransporter>());
-        public CompShuttle ShuttleComp => cachedShuttleComp ?? (cachedShuttleComp = GetComp<CompShuttle>());
-        public string RenamableLabel { get => shuttleName ?? BaseLabel; set => shuttleName = value; }
-        public string BaseLabel => def.LabelCap;
-        public string InspectLabel => RenamableLabel;
-        public override string Label => RenamableLabel;
-        public float FuelLevel => refuelableComp.Fuel;
-        public float MaxFuelLevel => refuelableComp.Props.fuelCapacity;
         Thing IAttackTargetSearcher.Thing => this;
 
         // --- CONSTRUCTOR ---
@@ -190,7 +175,7 @@ namespace WulaFallenEmpire
             if (!respawningAfterLoad)
             {
                 top.SetRotationFromOrientation();
-                ShuttleComp.shipParent.Start();
+                // ShuttleComp.shipParent.Start(); // Already handled by base.SpawnSetup
             }
         }
 
@@ -220,7 +205,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref holdFire, "holdFire", defaultValue: false);
             Scribe_Values.Look(ref burstActivated, "burstActivated", defaultValue: false);
             Scribe_Deep.Look(ref gun, "gun");
-            Scribe_Values.Look(ref shuttleName, "shuttleName");
+            // Scribe_Values.Look(ref shuttleName, "shuttleName"); // Already handled by base.ExposeData
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (gun == null)
@@ -369,31 +354,12 @@ namespace WulaFallenEmpire
                 command_Toggle.isActive = () => holdFire;
                 yield return command_Toggle;
             }
-            foreach (Gizmo gizmo in ShuttleComp.CompGetGizmosExtra()) yield return gizmo;
             Log.Message($"[WULA] Stage 2: Launch Sequence - Providing launch gizmos for {this.Label}.");
-            foreach (Gizmo gizmo in LaunchableComp.CompGetGizmosExtra()) yield return gizmo;
-            foreach (Gizmo gizmo in TransporterComp.CompGetGizmosExtra()) yield return gizmo;
-            float fuelInShuttle = FuelInShuttle();
-            string text = null;
-            if (fuelInShuttle <= 0f) text = "NoFuelInShuttle".Translate();
-            if (Mathf.Approximately(FuelLevel, MaxFuelLevel)) text = "ShuttleFullyFueled".Translate();
-            Command_Action refuelAction = new Command_Action();
-            refuelAction.defaultLabel = "CommandRefuelShuttleFromCargo".Translate();
-            refuelAction.defaultDesc = "CommandRefuelShuttleFromCargoDesc".Translate();
-            refuelAction.icon = RefuelFromCargoIcon.Texture;
-            refuelAction.action = delegate
-            {
-                int to = Mathf.FloorToInt(Mathf.Min(fuelInShuttle, MaxFuelLevel - FuelLevel));
-                Dialog_Slider window = new Dialog_Slider((int val) => "RefuelShuttleCount".Translate(val), 1, to, delegate(int count)
-                {
-                    ConsumeFuelFromInventory(count);
-                    refuelableComp.Refuel(count);
-                });
-                Find.WindowStack.Add(window);
-            };
-            refuelAction.Disabled = !text.NullOrEmpty();
-            refuelAction.disabledReason = text;
-            yield return refuelAction;
+            // The following gizmos are already provided by Building_PassengerShuttle's GetGizmos()
+            // foreach (Gizmo gizmo in ShuttleComp.CompGetGizmosExtra()) yield return gizmo;
+            // foreach (Gizmo gizmo in LaunchableComp.CompGetGizmosExtra()) yield return gizmo;
+            // foreach (Gizmo gizmo in TransporterComp.CompGetGizmosExtra()) yield return gizmo;
+            // fuel related gizmos are also handled by base class.
         }
 
         public void OrderAttack(LocalTargetInfo targ)
@@ -627,36 +593,5 @@ namespace WulaFallenEmpire
             }
         }
         
-        private float FuelInShuttle()
-        {
-            float num = 0f;
-            foreach (Thing item in (IEnumerable<Thing>)TransporterComp.innerContainer)
-            {
-                if (refuelableComp.Props.fuelFilter.Allows(item))
-                {
-                    num += (float)item.stackCount;
-                }
-            }
-            return num;
-        }
-
-        private void ConsumeFuelFromInventory(int fuelAmount)
-        {
-            tmpContainedThings.Clear();
-            tmpContainedThings.AddRange(TransporterComp.innerContainer);
-            int num = fuelAmount;
-            int num2 = tmpContainedThings.Count - 1;
-            while (num2 >= 0)
-            {
-                Thing thing = tmpContainedThings[num2];
-                if (refuelableComp.Props.fuelFilter.Allows(thing))
-                {
-                    Thing thing2 = thing.SplitOff(Mathf.Min(num, thing.stackCount));
-                    num -= thing2.stackCount;
-                }
-                if (num > 0) num2--;
-                else break;
-            }
-        }
     }
 }
