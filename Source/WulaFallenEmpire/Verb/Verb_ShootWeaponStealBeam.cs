@@ -150,11 +150,18 @@ namespace WulaFallenEmpire
                     return; // 如果丢弃了，就不尝试装备了
                 }
 
-                // 让发射者装备该武器
-                if (CasterPawn.equipment.Primary == null || CasterPawn.equipment.Primary.def != targetWeapon.def)
+                // 强制发射者装备该武器，并替换当前武器 (JobDriver_Equip 核心逻辑)
+                // 强制发射者装备该武器，并替换当前武器 (JobDriver_Equip 核心逻辑)
+                CasterPawn.equipment.MakeRoomFor(targetWeapon); // 为新装备腾出空间，并处理旧装备
+
+                // 在 AddEquipment 之前，确保武器不在库存中
+                if (CasterPawn.inventory.innerContainer.Contains(targetWeapon))
                 {
-                    CasterPawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Equip, targetWeapon), JobCondition.InterruptForced);
+                    CasterPawn.inventory.innerContainer.Remove(targetWeapon);
                 }
+                
+                CasterPawn.equipment.AddEquipment(targetWeapon); // 添加装备
+                targetWeapon.def.soundInteract?.PlayOneShot(new TargetInfo(CasterPawn.Position, CasterPawn.Map)); // 播放音效
             }
         }
 
