@@ -132,7 +132,6 @@
         </lifeStages>
         <weaponMoney>9999~9999</weaponMoney>
         <weaponTags>
-            <li>MechanoidGunMedium</li>
         </weaponTags>
         <techHediffsChance>1</techHediffsChance>
         <techHediffsMoney>9999~9999</techHediffsMoney>
@@ -140,7 +139,7 @@
 
     <ThingDef ParentName="BaseWeaponTurret">
         <defName>WULA_MechFlyerTurretGun</defName>
-        <label>乌拉小镰炮塔</label>
+        <label>磁力光束</label>
         <description>乌拉小镰的内置炮塔。</description>
         <tradeability>None</tradeability>
         <destroyOnDrop>true</destroyOnDrop>
@@ -165,7 +164,7 @@
                 <!-- 基础射线参数 -->
                 <hasStandardCommand>true</hasStandardCommand>
                 <warmupTime>0</warmupTime>
-                <range>10</range>
+                <range>15</range>
                 <burstShotCount>5</burstShotCount>
                 <ticksBetweenBurstShots>50</ticksBetweenBurstShots>
                 <beamDamageDef>Wula_Dark_Matter_Beam</beamDamageDef>
