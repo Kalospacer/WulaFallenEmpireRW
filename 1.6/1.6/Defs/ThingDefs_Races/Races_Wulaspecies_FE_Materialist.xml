@@ -336,7 +336,6 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
-    <weaponMoney>9999~9999</weaponMoney>
     <techHediffsChance>1</techHediffsChance>
     <techHediffsMoney>9999~9999</techHediffsMoney>
   </PawnKindDef>

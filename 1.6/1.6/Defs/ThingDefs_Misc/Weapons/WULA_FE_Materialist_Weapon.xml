@@ -34,6 +34,7 @@
         <defaultProjectile>Bullet_WULA_WM_Alpha_Wolf_Plasma_Gun</defaultProjectile>
         <warmupTime>1</warmupTime>
         <range>18</range>
+        <forcedMissRadius>1.0</forcedMissRadius>
         <burstShotCount>4</burstShotCount>
         <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
         <soundCast>ChargeLance_Fire</soundCast>
@@ -96,8 +97,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Unlimit_Penetrating_Beam_Cannon</defName>
     <label>XXx-00 "贯杀炮"</label>
-    <description>
-      乌拉帝国军械部在黄金时期所设计的暗物质武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的机械体所配备，所发射的切割束几乎可以贯穿战场，并抹除落点上所有的敌人。</description>
+    <description>乌拉帝国军械部在黄金时期所设计的暗物质武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的机械体所配备，所发射的切割束几乎可以贯穿战场，并抹除落点上所有的敌人。</description>
     <techLevel>Archotech</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
@@ -112,6 +112,7 @@
       <AccuracyLong>1</AccuracyLong>
       <RangedWeapon_Cooldown>16</RangedWeapon_Cooldown>
     </statBases>
+    <smeltable>false</smeltable>
     <recipeMaker Inherit="False" IsNull="True" />
     <verbs>
       <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
@@ -301,7 +302,7 @@
         <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
         <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
         <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-        <beamMoteDef>Mote_Wula_Dark_Magnetic_Beam</beamMoteDef>
+        <!-- <beamMoteDef>Mote_Wula_Dark_Magnetic_Beam</beamMoteDef> -->
         <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
 
         <screenShakeFactor>0.35</screenShakeFactor>

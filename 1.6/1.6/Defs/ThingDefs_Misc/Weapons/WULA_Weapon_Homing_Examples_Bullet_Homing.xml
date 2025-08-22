@@ -125,7 +125,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Plasma_HomingExplosive</defaultProjectile>
+        <defaultProjectile>Bullet_WULA_RW_Plasma_HomingExplosive_Old</defaultProjectile>
         <warmupTime>1.25</warmupTime>
         <range>48</range>
         <burstShotCount>6</burstShotCount>
