@@ -180,7 +180,7 @@
       <li>
         <statFactors>
           <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
-          <MeleeHitChance>1</MeleeHitChance>
+          <MeleeHitChance>1.25</MeleeHitChance>
           <StaggerDurationFactor>0</StaggerDurationFactor>
         </statFactors>
         <statOffsets>

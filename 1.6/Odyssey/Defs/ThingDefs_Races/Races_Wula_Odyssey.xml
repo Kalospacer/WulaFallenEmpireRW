@@ -356,7 +356,7 @@
       <thinkTreeConstant>HunterDroneConstant</thinkTreeConstant>
       <baseHealthScale>0.35</baseHealthScale>
       <baseBodySize>0.7</baseBodySize>
-      <hasCorpse>true</hasCorpse>
+      <hasCorpse>false</hasCorpse>
       <body>Mech_Light</body>
       <lifeStageAges>
         <li>
@@ -406,7 +406,7 @@
 			<baseHealthScale>3</baseHealthScale>
       <thinkTreeConstant>SentryDroneConstant</thinkTreeConstant>
       <baseBodySize>0.7</baseBodySize>
-      <hasCorpse>true</hasCorpse>
+      <hasCorpse>false</hasCorpse>
       <body>Mech_Light</body>
       <lifeStageAges>
         <li>
@@ -466,7 +466,7 @@
     <race>
       <thinkTreeConstant>SentryDroneConstant</thinkTreeConstant>
       <baseBodySize>0.7</baseBodySize>
-      <hasCorpse>true</hasCorpse>
+      <hasCorpse>false</hasCorpse>
       <body>Mech_Light</body>
       <lifeStageAges>
         <li>
