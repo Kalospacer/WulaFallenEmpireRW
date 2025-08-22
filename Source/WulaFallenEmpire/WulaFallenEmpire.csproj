@@ -176,6 +176,7 @@
     <Compile Include="MechWeapon\CompMechWeapon.cs" />
     <Compile Include="Verb\VerbProperties_WeaponStealBeam.cs" />
     <Compile Include="Verb\Verb_ShootWeaponStealBeam.cs" />
+    <Compile Include="Verb\Verb_ShootMeltBeam.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

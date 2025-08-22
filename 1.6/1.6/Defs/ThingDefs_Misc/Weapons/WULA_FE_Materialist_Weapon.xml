@@ -41,6 +41,7 @@
         <soundCast>ChargeLance_Fire</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>7</muzzleFlashScale>
+        <forcedMissRadius>1</forcedMissRadius>
         <requireLineOfSight>false</requireLineOfSight>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
