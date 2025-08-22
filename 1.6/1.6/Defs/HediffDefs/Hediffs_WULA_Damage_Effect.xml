@@ -14,7 +14,7 @@
     <taleOnVisible>ToxicityRevealed</taleOnVisible>
     <comps>
       <li Class="HediffCompProperties_Disappears">
-        <disappearsAfterTicks>12000</disappearsAfterTicks> <!-- 1 days -->
+        <disappearsAfterTicks>12000</disappearsAfterTicks>        <!-- 1 days -->
         <showRemainingTime>true</showRemainingTime>
       </li>
       <li Class="HediffCompProperties_SurgeryInspectable">
@@ -85,7 +85,7 @@
       </li>
     </stages>
   </HediffDef>
-  
+
   <HediffDef>
     <defName>WULA_Darkmatter_Explosion</defName>
     <label>暗流爆发</label>
@@ -165,5 +165,45 @@
       </li>
       <li Class="HediffCompProperties_DisappearsOnDeath"/>
     </comps>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>WULA_WeaponStealEffect</defName>
+    <label>磁力吸附</label>
+    <description>被磁力光束命中，磁力光束将会夺走当前所装备的武器.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <initialSeverity>0.0</initialSeverity>
+    <isBad>true</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>10000</disappearsAfterTicks>        <!-- 2/3 RimWorld days -->
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>微弱</label>
+        <minSeverity>0</minSeverity>
+      </li>
+      <li>
+        <label>较弱</label>
+        <minSeverity>0.3</minSeverity>
+        <capMods>
+        </capMods>
+      </li>
+      <li>
+        <label>较强</label>
+        <minSeverity>0.6</minSeverity>
+        <capMods>
+        </capMods>
+      </li>
+      <li>
+        <label>极强</label>
+        <minSeverity>0.9</minSeverity>
+        <capMods>
+        </capMods>
+      </li>
+    </stages>
   </HediffDef>
 </Defs>
