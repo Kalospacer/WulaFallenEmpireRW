@@ -56,7 +56,7 @@
             <cooldownTicks>100</cooldownTicks> <!-- 独立冷却: 10秒 -->
           </li>
           <li>
-            <pawnKind>WULA_Mech_Flyer</pawnKind>
+            <pawnKind>WULA_Mech_Flyer_Slow</pawnKind>
             <count>4</count>
             <cooldownTicks>600</cooldownTicks> <!-- 独立冷却: 10秒 -->
           </li>
@@ -91,8 +91,8 @@
       </li>
       <li Class="CompProperties_Shield">
         <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
-        <minDrawSize>3.5</minDrawSize>
-        <maxDrawSize>3.8</maxDrawSize>
+        <minDrawSize>4.2</minDrawSize>
+        <maxDrawSize>4.4</maxDrawSize>
         <energyLossPerDamage>0.01</energyLossPerDamage>
         <energyOnReset>4.0</energyOnReset>
         <blocksRangedWeapons>false</blocksRangedWeapons>
@@ -101,7 +101,7 @@
   </ThingDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
-    <label>SNm-6"狼王"</label>
+    <label>SNm-6"狼蛛"</label>
     <race>WULA_Alpha_Wolf</race>
     <combatPower>600</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
@@ -228,7 +228,7 @@
   </ThingDef>
   <PawnKindDef Name="WULA_Mech_Flyer_PawnKind" ParentName="BaseMechanoidKind">
     <defName>WULA_Mech_Flyer</defName>
-    <label>乌拉小镰</label>
+    <label>CRm-51"兵蚁"</label>
     <race>WULA_Mech_Flyer</race>
     <combatPower>190</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
@@ -254,6 +254,9 @@
     </lifeStages>
     <techHediffsChance>1</techHediffsChance>
     <techHediffsMoney>9999~9999</techHediffsMoney>
+  </PawnKindDef>
+  <PawnKindDef ParentName="WULA_Mech_Flyer_PawnKind">
+    <defName>WULA_Mech_Flyer_Slow</defName>
   </PawnKindDef>
 
   <AbilityDef>

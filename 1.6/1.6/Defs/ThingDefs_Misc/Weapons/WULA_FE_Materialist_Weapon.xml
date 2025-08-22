@@ -3,7 +3,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_WM_Alpha_Wolf_Plasma_Gun</defName>
     <label>PMe-92"磷灰"</label>
-    <description>搭载于SNm-6"狼王"机甲的高能等离子武器，所使用的等离子射弹虽然弹速较慢，但是能引起大范围的熔融爆炸并毁灭成群敌军。</description>
+    <description>搭载于SNm-6"狼蛛"机甲的高能等离子武器，所使用的等离子射弹虽然弹速较慢，但是能引起大范围的熔融爆炸并毁灭成群敌军。</description>
     <techLevel>Archotech</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_WM_Alpha_Wolf_Plasma_Gun</texPath>
@@ -20,7 +20,7 @@
       <AccuracyShort>0.4</AccuracyShort>
       <AccuracyMedium>0.3</AccuracyMedium>
       <AccuracyLong>0.3</AccuracyLong>
-      <RangedWeapon_Cooldown>4.0</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>12.0</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
       <Steel>1500</Steel>
@@ -33,11 +33,11 @@
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_WM_Alpha_Wolf_Plasma_Gun</defaultProjectile>
-        <warmupTime>6</warmupTime>
+        <warmupTime>0</warmupTime>
         <range>500</range>
         <minRange>8</minRange>
         <burstShotCount>48</burstShotCount>
-        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <ticksBetweenBurstShots>15</ticksBetweenBurstShots>
         <soundCast>ChargeLance_Fire</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>7</muzzleFlashScale>
@@ -99,7 +99,7 @@
       </li>
     </modExtensions>
   </ThingDef>
-
+  
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Unlimit_Penetrating_Beam_Cannon</defName>
     <label>XXx-00 "贯杀炮"</label>

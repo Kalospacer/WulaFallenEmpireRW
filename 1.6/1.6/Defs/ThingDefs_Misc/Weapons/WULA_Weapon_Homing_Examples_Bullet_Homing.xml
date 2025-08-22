@@ -96,7 +96,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Plasma_HomingExplosive_Old</defName>
     <label>PMe-92"磷灰"</label>
-    <description>搭载于SNm-6"狼王"机甲的高能等离子武器，会发射一连串密集且携带跟踪性能的等离子射弹，引起熔融爆炸并毁灭敌军。</description>
+    <description>搭载于SNm-6"狼蛛"机甲的高能等离子武器，会发射一连串密集且携带跟踪性能的等离子射弹，引起熔融爆炸并毁灭敌军。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_WM_Alpha_Wolf_Plasma_Gun</texPath>
