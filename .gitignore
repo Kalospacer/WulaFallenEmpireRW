@@ -34,3 +34,6 @@ Source/MCP/pid.txt
 *.log
 MCP/vector_cache/*.txt
 MCP/mcpserver.log
+
+# Exclude MCP local RAG folder
+MCP/local_rag/

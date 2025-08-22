@@ -20,6 +20,7 @@ from tenacity import retry, stop_after_attempt, wait_random_exponential
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # 2. --- 日志、缓存和知识库配置 ---
 MCP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -51,32 +52,98 @@ KNOWLEDGE_BASE_PATHS = [
    r"C:\Steam\steamapps\common\RimWorld\Data"
 ]
 
-# 3. --- 缓存管理 (分文件存储) ---
-def load_cache_for_keyword(keyword: str):
-    """为指定关键词加载缓存文件。"""
-    # 清理关键词，使其适合作为文件名
-    safe_filename = "".join(c for c in keyword if c.isalnum() or c in ('_', '-')).rstrip()
-    cache_file = os.path.join(CACHE_DIR, f"{safe_filename}.txt")
-    
-    if os.path.exists(cache_file):
+# 初始化OpenAI客户端用于Qwen模型
+qwen_client = OpenAI(
+    api_key=os.getenv("DASHSCOPE_API_KEY"),
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
+)
+
+# 3. --- 向量缓存管理 ---
+def load_vector_cache():
+    """加载向量缓存数据库"""
+    if os.path.exists(CACHE_FILE_PATH):
         try:
-            with open(cache_file, 'r', encoding='utf-8') as f:
-                return f.read()
-        except IOError as e:
-            logging.error(f"读取缓存文件 {cache_file} 失败: {e}")
-            return None
+            with open(CACHE_FILE_PATH, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            logging.error(f"读取向量缓存数据库失败: {e}")
+            return {}
+    return {}
+
+def save_vector_cache(cache_data):
+    """保存向量缓存数据库"""
+    try:
+        with open(CACHE_FILE_PATH, 'w', encoding='utf-8') as f:
+            json.dump(cache_data, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        logging.error(f"保存向量缓存数据库失败: {e}")
+
+def get_cache_key(keywords: list[str]) -> str:
+    """生成缓存键"""
+    return "-".join(sorted(keywords))
+
+def load_cache_for_question(question: str, keywords: list[str]):
+    """为指定问题和关键词加载缓存结果"""
+    cache_data = load_vector_cache()
+    cache_key = get_cache_key(keywords)
+    
+    # 检查是否有完全匹配的缓存
+    if cache_key in cache_data:
+        cached_entry = cache_data[cache_key]
+        logging.info(f"缓存命中: 关键词 '{cache_key}'")
+        return cached_entry.get("result", "")
+    
+    # 检查是否有相似问题的缓存（基于向量相似度）
+    question_embedding = get_embedding(question)
+    if not question_embedding:
+        return None
+        
+    best_similarity = 0
+    best_result = None
+    
+    for key, entry in cache_data.items():
+        if "embedding" in entry:
+            try:
+                cached_embedding = entry["embedding"]
+                similarity = cosine_similarity(
+                    np.array(question_embedding).reshape(1, -1),
+                    np.array(cached_embedding).reshape(1, -1)
+                )[0][0]
+                
+                if similarity > best_similarity and similarity > 0.9:  # 相似度阈值
+                    best_similarity = similarity
+                    best_result = entry.get("result", "")
+            except Exception as e:
+                logging.error(f"计算缓存相似度时出错: {e}")
+    
+    if best_result:
+        logging.info(f"相似问题缓存命中，相似度: {best_similarity:.3f}")
+        return best_result
+        
     return None
 
-def save_cache_for_keyword(keyword: str, data: str):
-    """为指定关键词保存缓存到单独的文件。"""
-    safe_filename = "".join(c for c in keyword if c.isalnum() or c in ('_', '-')).rstrip()
-    cache_file = os.path.join(CACHE_DIR, f"{safe_filename}.txt")
-    
+def save_cache_for_question(question: str, keywords: list[str], result: str):
+    """为指定问题和关键词保存缓存结果"""
     try:
-        with open(cache_file, 'w', encoding='utf-8') as f:
-            f.write(data)
-    except IOError as e:
-        logging.error(f"写入缓存文件 {cache_file} 失败: {e}")
+        cache_data = load_vector_cache()
+        cache_key = get_cache_key(keywords)
+        
+        # 获取问题的向量嵌入
+        question_embedding = get_embedding(question)
+        if not question_embedding:
+            return
+            
+        cache_data[cache_key] = {
+            "keywords": keywords,
+            "question": question,
+            "embedding": question_embedding,
+            "result": result,
+            "timestamp": logging.Formatter('%(asctime)s').format(logging.LogRecord('', 0, '', 0, '', (), None))
+        }
+        
+        save_vector_cache(cache_data)
+    except Exception as e:
+        logging.error(f"保存缓存时出错: {e}")
 
 # 4. --- 向量化与相似度计算 ---
 @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
@@ -123,6 +190,52 @@ def find_most_similar_files(question_embedding, file_embeddings, top_n=3, min_si
             break
             
     return results
+
+# 新增：重排序函数
+def rerank_files(question, file_matches, top_n=5):
+    """使用DashScope重排序API对文件进行重新排序"""
+    try:
+        # 准备重排序输入
+        documents = []
+        for match in file_matches:
+            # 读取文件内容
+            try:
+                with open(match['path'], 'r', encoding='utf-8') as f:
+                    content = f.read()[:2000]  # 限制内容长度以提高效率
+                documents.append(content)
+            except Exception as e:
+                logging.error(f"读取文件 {match['path']} 失败: {e}")
+                continue
+        
+        if not documents:
+            return file_matches[:top_n]
+        
+        # 调用重排序API
+        response = dashscope.TextReRank.call(
+            model='gte-rerank',
+            query=question,
+            documents=documents
+        )
+        
+        if response.status_code == 200:
+            # 根据重排序结果重新排序文件
+            reranked_results = []
+            for i, result in enumerate(response.output['results']):
+                if i < len(file_matches):
+                    reranked_results.append({
+                        'path': file_matches[i]['path'],
+                        'similarity': result['relevance_score']
+                    })
+            
+            # 按重排序分数排序
+            reranked_results.sort(key=lambda x: x['similarity'], reverse=True)
+            return reranked_results[:top_n]
+        else:
+            logging.error(f"重排序失败: {response.message}")
+            return file_matches[:top_n]
+    except Exception as e:
+        logging.error(f"重排序时出错: {e}", exc_info=True)
+        return file_matches[:top_n]
 
 def extract_relevant_code(file_path, keyword):
     """从文件中智能提取包含关键词的完整代码块 (C#类 或 XML Def)。"""
@@ -213,45 +326,17 @@ def extract_xml_def(lines, start_index):
         return "\n".join(lines[def_start_index:def_end_index+1])
     return ""
 
-# 5. --- 核心功能函数 ---
-def find_files_with_keyword(roots, keywords: list[str], extensions=['.xml', '.cs', '.txt']):
-    """在指定目录中查找包含任何一个关键字的文件。"""
-    found_files = set()
-    keywords_lower = [k.lower() for k in keywords]
-    for root_path in roots:
-        if not os.path.isdir(root_path):
-            logging.warning(f"知识库路径不存在或不是一个目录: {root_path}")
-            continue
-        for dirpath, _, filenames in os.walk(root_path):
-            for filename in filenames:
-                if any(filename.lower().endswith(ext) for ext in extensions):
-                    file_path = os.path.join(dirpath, filename)
-                    try:
-                        with open(file_path, 'r', encoding='utf-8') as f:
-                            content_lower = f.read().lower()
-                            # 如果任何一个关键词在内容中，就添加文件
-                            if any(kw in content_lower for kw in keywords_lower):
-                                found_files.add(file_path)
-                    except Exception as e:
-                        logging.error(f"读取文件时出错 {file_path}: {e}")
-    return list(found_files)
-
 def find_keywords_in_question(question: str) -> list[str]:
     """从问题中提取所有可能的关键词 (类型名, defName等)。"""
+    # 简化关键词提取逻辑，主要依赖LLM进行分析
+    # 这里仅作为备用方案，用于LLM不可用时的基本关键词提取
+    
     # 正则表达式优先，用于精确匹配定义
     # 匹配 C# class, struct, enum, interface 定义, 例如 "public class MyClass : Base"
     csharp_def_pattern = re.compile(r'\b(?:public|private|internal|protected|sealed|abstract|static|new)\s+(?:class|struct|enum|interface)\s+([A-Za-z_][A-Za-z0-9_]*)')
     # 匹配 XML Def, 例如 "<ThingDef Name="MyDef">" or "<MyCustomDef>"
     xml_def_pattern = re.compile(r'<([A-Za-z_][A-Za-z0-9_]*Def)\b')
     
-    # 启发式规则，用于匹配独立的关键词
-    # 规则1: 包含下划线 (很可能是 defName)
-    # 规则2: 混合大小写 (很可能是 C# 类型名)
-    # 规则3: 多个大写字母（例如 CompPsychicScaling，但要排除纯大写缩写词）
-    
-    # 排除常见但非特定的术语
-    excluded_keywords = {"XML", "C#", "DEF", "CS", "CLASS", "PUBLIC"}
-
     found_keywords = set()
 
     # 1. 正则匹配
@@ -263,33 +348,136 @@ def find_keywords_in_question(question: str) -> list[str]:
     for match in xml_matches:
         found_keywords.add(match)
 
-    # 2. 启发式单词匹配
+    # 2. 启发式单词匹配 - 简化版
     parts = re.split(r'[\s,.:;\'"`()<>]+', question)
     
     for part in parts:
-        if not part or part.upper() in excluded_keywords:
+        if not part:
             continue
 
-        # 规则1: 包含下划线
+        # 规则1: 包含下划线 (很可能是 defName)
         if '_' in part:
             found_keywords.add(part)
-        # 规则2: 驼峰命名或混合大小写
+        # 规则2: 驼峰命名或混合大小写 (很可能是 C# 类型名)
         elif any(c.islower() for c in part) and any(c.isupper() for c in part) and len(part) > 3:
             found_keywords.add(part)
-        # 规则3: 多个大写字母
-        elif sum(1 for c in part if c.isupper()) > 1 and not part.isupper():
-            found_keywords.add(part)
-        # 备用规则: 大写字母开头且较长
-        elif part[0].isupper() and len(part) > 4:
+        # 规则3: 多个大写字母（例如 CompPsychicScaling）
+        elif sum(1 for c in part if c.isupper()) > 1 and not part.isupper() and len(part) > 3:
             found_keywords.add(part)
 
     if not found_keywords:
         logging.warning(f"在 '{question}' 中未找到合适的关键词。")
-        return []
+        # 如果找不到关键词，尝试使用整个问题作为关键词
+        return [question]
         
     logging.info(f"找到的潜在关键词: {list(found_keywords)}")
     return list(found_keywords)
 
+def analyze_question_with_llm(question: str) -> dict:
+    """使用Qwen模型分析问题并提取关键词和意图"""
+    try:
+        system_prompt = """你是一个关键词提取机器人，专门用于从 RimWorld 模组开发相关问题中提取精确的搜索关键词。你的任务是识别问题中提到的核心技术术语。
+
+严格按照以下格式回复，不要添加任何额外说明：
+问题类型：[问题分类]
+关键类/方法名：[类名或方法名]
+关键概念：[关键概念]
+搜索关键词：[关键词1,关键词2,关键词3]
+
+提取规则：
+1. 搜索关键词只能包含问题中明确出现的技术术语
+2. 不要添加任何推测或联想的词
+3. 不要添加通用词如"RimWorld"、"游戏"、"定义"、"用法"等
+4. 不要添加缩写或扩展形式如"Def"、"XML"等除非问题中明确提到
+5. 只提取具体的技术名词，忽略动词、形容词等
+6. 关键词之间用英文逗号分隔，不要有空格
+
+示例：
+问题：ThingDef的定义和用法是什么？
+问题类型：API 使用和定义说明
+关键类/方法名：ThingDef
+关键概念：定义, 用法
+搜索关键词：ThingDef
+
+问题：GenExplosion.DoExplosion 和 Projectile.Launch 方法如何使用？
+问题类型：API 使用说明
+关键类/方法名：GenExplosion.DoExplosion,Projectile.Launch
+关键概念：API 使用
+搜索关键词：GenExplosion.DoExplosion,Projectile.Launch
+
+现在请分析以下问题："""
+
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": question}
+        ]
+        
+        response = qwen_client.chat.completions.create(
+            model="qwen-plus",
+            messages=messages,
+            temperature=0.0,  # 使用最低温度确保输出稳定
+            max_tokens=300,
+            stop=["\n\n"]  # 防止模型生成过多内容
+        )
+        
+        analysis_result = response.choices[0].message.content
+        logging.info(f"LLM分析结果: {analysis_result}")
+        
+        # 解析LLM的分析结果
+        lines = analysis_result.strip().split('\n')
+        result = {
+            "question_type": "",
+            "key_classes_methods": [],
+            "key_concepts": [],
+            "search_keywords": []
+        }
+        
+        for line in lines:
+            if line.startswith("问题类型："):
+                result["question_type"] = line.replace("问题类型：", "").strip()
+            elif line.startswith("关键类/方法名："):
+                methods = line.replace("关键类/方法名：", "").strip()
+                result["key_classes_methods"] = [m.strip() for m in methods.split(",") if m.strip()]
+            elif line.startswith("关键概念："):
+                concepts = line.replace("关键概念：", "").strip()
+                result["key_concepts"] = [c.strip() for c in concepts.split(",") if c.strip()]
+            elif line.startswith("搜索关键词："):
+                keywords = line.replace("搜索关键词：", "").strip()
+                # 直接按逗号分割，不进行额外处理
+                result["search_keywords"] = [k.strip() for k in keywords.split(",") if k.strip()]
+        
+        # 如果LLM没有返回有效的关键词，则使用备用方案
+        if not result["search_keywords"]:
+            result["search_keywords"] = find_keywords_in_question(question)
+        
+        return result
+    except Exception as e:
+        logging.error(f"使用LLM分析问题时出错: {e}", exc_info=True)
+        # 备用方案：使用原始关键词提取方法
+        return {
+            "question_type": "未知",
+            "key_classes_methods": [],
+            "key_concepts": [],
+            "search_keywords": find_keywords_in_question(question)
+        }
+
+def find_files_with_keyword(base_paths: list[str], keywords: list[str]) -> list[str]:
+    """
+    在基础路径中递归搜索包含任意一个关键词的文件。
+    搜索范围包括文件名。
+    """
+    found_files = set()
+    keywords_lower = [k.lower() for k in keywords]
+
+    for base_path in base_paths:
+        for root, _, files in os.walk(base_path):
+            for file in files:
+                file_lower = file.lower()
+                if any(keyword in file_lower for keyword in keywords_lower):
+                    found_files.add(os.path.join(root, file))
+
+    logging.info(f"通过关键词找到 {len(found_files)} 个文件。")
+    return list(found_files)
 
 # 5. --- 创建和配置 MCP 服务器 ---
 # 使用 FastMCP 创建服务器实例
@@ -305,7 +493,11 @@ def get_context(question: str) -> str:
    并将其整合后返回。
    """
    logging.info(f"收到问题: {question}")
-   keywords = find_keywords_in_question(question)
+   
+   # 使用LLM分析问题
+   analysis = analyze_question_with_llm(question)
+   keywords = analysis["search_keywords"]
+   
    if not keywords:
        logging.warning("无法从问题中提取关键词。")
        return "无法从问题中提取关键词，请提供更具体的信息。"
@@ -316,23 +508,15 @@ def get_context(question: str) -> str:
    cache_key = "-".join(sorted(keywords))
 
    # 1. 检查缓存
-   cached_result = load_cache_for_keyword(cache_key)
+   cached_result = load_cache_for_question(question, keywords)
    if cached_result:
-       logging.info(f"缓存命中: 关键词 '{cache_key}'")
        return cached_result
 
    logging.info(f"缓存未命中，开始实时搜索: {cache_key}")
 
    # 2. 关键词文件搜索 (分层智能筛选)
    try:
-       # 优先使用最长的（通常最具体）的关键词进行搜索
-       specific_keywords = sorted(keywords, key=len, reverse=True)
-       candidate_files = find_files_with_keyword(KNOWLEDGE_BASE_PATHS, [specific_keywords[0]])
-
-       # 如果最具体的关键词找不到文件，再尝试所有关键词
-       if not candidate_files and len(keywords) > 1:
-           logging.info(f"使用最具体的关键词 '{specific_keywords[0]}' 未找到文件，尝试所有关键词...")
-           candidate_files = find_files_with_keyword(KNOWLEDGE_BASE_PATHS, keywords)
+       candidate_files = find_files_with_keyword(KNOWLEDGE_BASE_PATHS, keywords)
 
        if not candidate_files:
            logging.info(f"未找到与 '{keywords}' 相关的文件。")
@@ -351,14 +535,11 @@ def get_context(question: str) -> str:
                    logging.info(f"文件名精确匹配: {file_path}")
                    code_block = extract_relevant_code(file_path, keyword)
                    if code_block:
-                       lang = "csharp" if file_path.endswith(('.cs', '.txt')) else "xml"
-                       priority_results.append(
-                           f"---\n"
-                           f"**文件路径 (精确匹配):** `{file_path}`\n\n"
-                           f"```{lang}\n"
-                           f"{code_block}\n"
-                           f"```"
-                       )
+                       priority_results.append({
+                           'path': file_path,
+                           'similarity': 1.0,  # 精确匹配给予最高分
+                           'code': code_block
+                       })
                    is_priority = True
                    break # 已处理该文件，跳出内层循环
            if not is_priority:
@@ -368,7 +549,7 @@ def get_context(question: str) -> str:
 
        # 3. 向量化和相似度计算 (精准筛选)
        # 增加超时保护：限制向量化的文件数量
-       MAX_FILES_TO_VECTORIZE = 25
+       MAX_FILES_TO_VECTORIZE = 50  # 增加处理文件数量
        if len(candidate_files) > MAX_FILES_TO_VECTORIZE:
            logging.warning(f"候选文件过多 ({len(candidate_files)})，仅处理前 {MAX_FILES_TO_VECTORIZE} 个。")
            candidate_files = candidate_files[:MAX_FILES_TO_VECTORIZE]
@@ -392,45 +573,38 @@ def get_context(question: str) -> str:
            return "无法为任何候选文件生成向量。"
 
        # 找到最相似的多个文件
-       best_matches = find_most_similar_files(question_embedding, file_embeddings, top_n=5) # 增加返回数量
+       best_matches = find_most_similar_files(question_embedding, file_embeddings, top_n=10) # 增加返回数量以供重排序
        
        if not best_matches:
            return "计算向量相似度失败或没有找到足够相似的文件。"
 
-       # 4. 提取代码并格式化输出
-       output_parts = [f"根据向量相似度分析，与 '{', '.join(keywords)}' 最相关的代码定义如下：\n"]
-       output_parts.extend(priority_results) # 将优先结果放在最前面
+       # 新增：重排序处理
+       reranked_matches = rerank_files(question, best_matches, top_n=5)
        
-       extracted_blocks = set() # 用于防止重复提取相同的代码块
-
-       for match in best_matches:
-           file_path = match['path']
-           similarity = match['similarity']
-           
-           # 对每个关键词都尝试提取代码
-           for keyword in keywords:
-               code_block = extract_relevant_code(file_path, keyword)
-               
-               if code_block and code_block not in extracted_blocks:
-                   extracted_blocks.add(code_block)
-                   lang = "csharp" if file_path.endswith(('.cs', '.txt')) else "xml"
-                   output_parts.append(
-                       f"---\n"
-                       f"**文件路径:** `{file_path}`\n"
-                       f"**相似度:** {similarity:.4f}\n\n"
-                       f"```{lang}\n"
-                       f"{code_block}\n"
-                       f"```"
-                   )
+       # 提取代码内容
+       results_with_code = []
+       for match in reranked_matches:
+           code_block = extract_relevant_code(match['path'], "")
+           if code_block:
+               match['code'] = code_block
+               results_with_code.append(match)
        
-       if len(output_parts) <= 1:
-           return f"虽然找到了相似的文件，但无法在其中提取到关于 '{', '.join(keywords)}' 的完整代码块。"
-
-       final_output = "\n".join(output_parts)
+       # 将优先结果添加到结果列表开头
+       results_with_code = priority_results + results_with_code
+       
+       if len(results_with_code) <= 0:
+           return f"虽然找到了相似的文件，但无法在其中提取到相关代码块。"
+       
+       # 直接返回原始代码结果，而不是使用LLM格式化
+       final_output = ""
+       for i, result in enumerate(results_with_code, 1):
+           final_output += f"--- 结果 {i} (相似度: {result['similarity']:.3f}) ---\n"
+           final_output += f"文件路径: {result['path']}\n\n"
+           final_output += f"{result['code']}\n\n"
        
        # 5. 更新缓存并返回结果
-       logging.info(f"向量搜索完成。找到了 {len(best_matches)} 个匹配项并成功提取了代码。")
-       save_cache_for_keyword(cache_key, final_output)
+       logging.info(f"向量搜索完成。找到了 {len(results_with_code)} 个匹配项并成功提取了代码。")
+       save_cache_for_question(question, keywords, final_output)
        
        return final_output
 

@@ -1752,6 +1752,7 @@
         <minRange>5.9</minRange>
         <range>75</range>
         <burstShotCount>1</burstShotCount>
+        <forcedMissRadius>0.1</forcedMissRadius>
         <soundCast>Shot_TurretSniper</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>18</muzzleFlashScale>
