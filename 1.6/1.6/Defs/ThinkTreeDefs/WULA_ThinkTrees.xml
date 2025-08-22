@@ -500,4 +500,48 @@
       </subNodes>
     </thinkRoot>
   </ThinkTreeDef>
+
+  <ThinkTreeDef>
+    <defName>WULA_Mech_Flyer_Constant</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        
+        <!-- Despawned -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+
+        <li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
+          <subNodes>
+            <!-- Keep distance -->
+            <li Class="JobGiver_FleeForDistance">
+              <enemyDistToFleeRange>0.1~2</enemyDistToFleeRange>
+              <fleeDistRange>2.5~3</fleeDistRange>
+            </li>
+            
+            <!-- React to close melee threat -->
+            <li Class="JobGiver_ReactToCloseMeleeThreat">
+              <maxDistance>2.5</maxDistance>
+            </li>
+            <li Class="JobGiver_AIFightEnemies">
+              <targetAcquireRadius>65</targetAcquireRadius>
+              <targetKeepRadius>72</targetKeepRadius>
+            </li>
+            <li Class="JobGiver_AITrashColonyClose" />
+            <li Class="JobGiver_AITrashBuildingsDistant" />
+            <li Class="JobGiver_AIGotoNearestHostile" />
+            <li Class="JobGiver_AITrashBuildingsDistant">
+              <attackAllInert>true</attackAllInert>
+            </li>
+            <li Class="ThinkNode_ConditionalPlayerMech">
+              <subNodes>
+                <li Class="JobGiver_WanderColony" />
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderAnywhere" />
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
 </Defs>

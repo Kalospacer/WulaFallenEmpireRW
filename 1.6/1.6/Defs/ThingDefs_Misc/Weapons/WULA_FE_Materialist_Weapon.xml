@@ -283,7 +283,7 @@
         <!-- 基础射线参数 -->
         <hasStandardCommand>true</hasStandardCommand>
         <warmupTime>0</warmupTime>
-        <range>2</range>
+        <range>5</range>
         <burstShotCount>5</burstShotCount>
         <ticksBetweenBurstShots>50</ticksBetweenBurstShots>
         <beamDamageDef>Wula_Dark_Matter_Beam</beamDamageDef>
@@ -301,7 +301,7 @@
         <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
         <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
         <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-        <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
+        <beamMoteDef>Mote_Wula_Dark_Magnetic_Beam</beamMoteDef>
         <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
 
         <screenShakeFactor>0.35</screenShakeFactor>
