@@ -3,42 +3,48 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_WM_Alpha_Wolf_Plasma_Gun</defName>
     <label>PMe-92"磷灰"</label>
-    <description>搭载于SNm-6"狼王"机甲的高能等离子武器，射程较短，但是所使用的等离子射弹能够在出膛后散射，引起大范围的熔融爆炸并毁灭成群敌军。</description>
+    <description>搭载于SNm-6"狼王"机甲的高能等离子武器，所使用的等离子射弹虽然弹速较慢，但是能引起大范围的熔融爆炸并毁灭成群敌军。</description>
     <techLevel>Archotech</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_WM_Alpha_Wolf_Plasma_Gun</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.4</drawSize>
+      <drawSize>2</drawSize>
     </graphicData>
+    <uiIconScale>0.5</uiIconScale>
     <soundInteract>Interact_ChargeRifle</soundInteract> <!-- Placeholder, needs a proper sound -->
     <recipeMaker Inherit="False" />
     <statBases>
-      <WorkToMake>2000</WorkToMake>
-      <Mass>5.0</Mass>
+      <WorkToMake>200000</WorkToMake>
+      <Mass>100</Mass>
       <AccuracyTouch>0.5</AccuracyTouch>
       <AccuracyShort>0.4</AccuracyShort>
       <AccuracyMedium>0.3</AccuracyMedium>
       <AccuracyLong>0.3</AccuracyLong>
-      <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>4.0</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
-      <Steel>150</Steel>
-      <ComponentIndustrial>8</ComponentIndustrial>
-      <Plasteel>30</Plasteel>
-      <Uranium>10</Uranium>
+      <Steel>1500</Steel>
+      <ComponentIndustrial>600</ComponentIndustrial>
+      <Plasteel>300</Plasteel>
+      <Uranium>100</Uranium>
     </costList>
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_WM_Alpha_Wolf_Plasma_Gun</defaultProjectile>
-        <warmupTime>1</warmupTime>
-        <range>18</range>
-        <burstShotCount>4</burstShotCount>
-        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
+        <warmupTime>6</warmupTime>
+        <range>500</range>
+        <minRange>8</minRange>
+        <burstShotCount>48</burstShotCount>
+        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
         <soundCast>ChargeLance_Fire</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>7</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
       </li>
     </verbs>
     <weaponTags>
@@ -53,20 +59,21 @@
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
       <color>(61,199,157,202)</color>
-      <drawSize>(1.5,2)</drawSize>
+      <drawSize>(3,4)</drawSize>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
     <!-- <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass> -->
     <projectile>
-      <speed>30</speed>
+      <speed>25</speed>
       <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-      <damageAmountBase>50</damageAmountBase>
+      <damageAmountBase>40</damageAmountBase>
       <armorPenetrationBase>0.7</armorPenetrationBase>
       <stoppingPower>2.0</stoppingPower>
       <explosionRadius>2.5</explosionRadius>
       <soundExplode>Explosion_EMP</soundExplode>
       <armorPenetrationBase>0.75</armorPenetrationBase>
       <screenShakeFactor>0.5</screenShakeFactor>
+      <flyOverhead>true</flyOverhead>
     </projectile>
     <modExtensions>
       <!-- <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
@@ -93,91 +100,10 @@
     </modExtensions>
   </ThingDef>
 
-  <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_Unlimit_Penetrating_Beam_Cannon</defName>
-    <label>XXx-00 "贯杀炮"</label>
-    <description>
-      乌拉帝国军械部在黄金时期所设计的暗物质武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的机械体所配备，所发射的切割束几乎可以贯穿战场，并抹除落点上所有的敌人。</description>
-    <techLevel>Archotech</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <soundInteract>Interact_Rifle</soundInteract>
-    <statBases>
-      <Mass>200</Mass>
-      <AccuracyTouch>1</AccuracyTouch>
-      <AccuracyShort>1</AccuracyShort>
-      <AccuracyMedium>1</AccuracyMedium>
-      <AccuracyLong>1</AccuracyLong>
-      <RangedWeapon_Cooldown>16</RangedWeapon_Cooldown>
-    </statBases>
-    <recipeMaker Inherit="False" IsNull="True" />
-    <verbs>
-      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
-        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
-
-        <!-- 基础射线参数 -->
-        <hasStandardCommand>true</hasStandardCommand>
-        <warmupTime>1</warmupTime>
-        <range>500</range>
-        <burstShotCount>3</burstShotCount>
-        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
-        <beamDamageDef>Wula_Dark_Matter_Beam_Huge</beamDamageDef>
-
-        <!-- 消除射线偏移的参数 -->
-        <beamFullWidthRange>1000</beamFullWidthRange>
-        <beamWidth>-1</beamWidth>
-        <beamMaxDeviation>0</beamMaxDeviation>
-        <beamCurvature>0</beamCurvature>
-        <beamStartOffset>0</beamStartOffset>
-
-        <!-- 视觉和音效 -->
-        <muzzleFlashScale>0</muzzleFlashScale>
-        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
-        <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
-        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-        <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
-        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
-
-        <screenShakeFactor>0.35</screenShakeFactor>
-
-        <!-- 火焰效果 -->
-        <beamChanceToStartFire>0.6</beamChanceToStartFire>
-        <beamChanceToAttachFire>0.6</beamChanceToAttachFire>
-        <beamFireSizeRange>0.25</beamFireSizeRange>
-
-        <!-- 其他射线属性 -->
-        <beamHitsNeighborCells>true</beamHitsNeighborCells>
-        <beamLineFleckChanceCurve>
-          <points>
-            <li>(0, 0)</li>
-            <li>(0.65, 0.4)</li>
-            <li>(1, 0.75)</li>
-          </points>
-        </beamLineFleckChanceCurve>
-
-        <!-- 攻击目标设置 -->
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-        </targetParams>
-
-        <!-- 每发都爆炸 -->
-        <enableExplosion>true</enableExplosion>
-        <explosionShotInterval>3</explosionShotInterval>
-        <explosionRadius>8</explosionRadius>
-        <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
-        <explosionDamage>200</explosionDamage>
-        <explosionSound>Explosion_Bomb</explosionSound>
-        <chanceToStartFire>1</chanceToStartFire>
-      </li>
-    </verbs>
-  </ThingDef>
-
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>WULA_Alpha_Wolf_Turret</defName>
     <label>魔眼</label>
-    <description>乌拉帝国图书馆大型机械体的眼部，除了提供视觉传感外还搭载了强大的暗物质射流炮，可以在近距离上释放恐怖的力量融化敌人</description>
+    <description>乌拉帝国图书馆大型机械体的眼部，除了提供视觉传感外还搭载了强大的暗物质射流炮，可以通过扫射战场释放恐怖的力量融化敌人</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <graphicData>
@@ -197,7 +123,7 @@
 
         <!-- 基础射线参数 -->
         <hasStandardCommand>true</hasStandardCommand>
-        <range>8</range>
+        <range>30</range>
         <burstShotCount>12</burstShotCount>
         <defaultCooldownTime>6</defaultCooldownTime>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
@@ -259,7 +185,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>WULA_MechFlyerTurretGun</defName>
     <label>磁力光束</label>
-    <description>乌拉小镰的内置炮塔。</description>
+    <description>一种可以窃取他人武器的内置炮塔。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <graphicData>
@@ -301,7 +227,7 @@
         <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
         <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
         <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-        <beamMoteDef>Mote_Wula_Dark_Magnetic_Beam</beamMoteDef>
+        <beamMoteDef>Mote_Wula_Magnetic_Beam</beamMoteDef>
         <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
 
         <screenShakeFactor>0.35</screenShakeFactor>
