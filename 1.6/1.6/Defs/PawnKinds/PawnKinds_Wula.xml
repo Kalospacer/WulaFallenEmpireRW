@@ -152,6 +152,9 @@
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>5</drawSize>
+          <shadowData>
+            <volume>(0.8, 1.6, 0.65)</volume>
+          </shadowData>
         </bodyGraphicData>
       </li>
     </lifeStages>
@@ -180,6 +183,9 @@
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>5</drawSize>
+          <shadowData>
+            <volume>(0.8, 1.6, 0.65)</volume>
+          </shadowData>
         </bodyGraphicData>
       </li>
     </lifeStages>
