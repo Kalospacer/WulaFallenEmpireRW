@@ -169,6 +169,9 @@
     <Compile Include="Projectiles\BulletWithTrail.cs" />
     <Compile Include="WULA_Shuttle\ArmedShuttleIncoming.cs" />
     <Compile Include="WULA_Shuttle\Building_ArmedShuttle.cs" />
+    <Compile Include="WULA_Shuttle\Building_ArmedShuttleWithPocket.cs" />
+    <Compile Include="WULA_Shuttle\Building_PocketMapExit.cs" />
+    <Compile Include="WULA_Shuttle\GenStep_WulaPocketSpaceSmall.cs" />
     <Compile Include="HarmonyPatches\Patch_DropCellFinder_SkyfallerCanLandAt.cs" />
     <Compile Include="MechWeapon\FloatMenuProvider_Mech.cs" />
     <Compile Include="MechWeapon\Patch_MissingWeapon.cs" />
