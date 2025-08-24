@@ -72,13 +72,16 @@
       <damageData>
         <enabled>false</enabled>
       </damageData>
+      <shadowData>
+        <volume>(0.75, 0.75, 0.5)</volume>
+      </shadowData>
     </graphicData>
     <constructEffect>ConstructMetal</constructEffect>
     <costList>
       <Steel>50</Steel>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
-    <castEdgeShadows>true</castEdgeShadows>
+    <castEdgeShadows>false</castEdgeShadows>
     <fillPercent>0.5</fillPercent>
     <useHitPoints>True</useHitPoints>
     <statBases>
@@ -147,8 +150,10 @@
       <damageData>
         <enabled>false</enabled>
       </damageData>
+      <shadowData>
+        <volume>(0.75, 0.75, 0.5)</volume>
+      </shadowData>
     </graphicData>
-    <castEdgeShadows>true</castEdgeShadows>
     <constructEffect>ConstructMetal</constructEffect>
     <costList>
       <Steel>80</Steel>
@@ -217,11 +222,14 @@
       <damageData>
         <enabled>false</enabled>
       </damageData>
+      <shadowData>
+        <volume>(1.65, 1.65, 0.85)</volume>
+        <offset>(0, 0, -0.2)</offset>
+      </shadowData>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
-    <castEdgeShadows>true</castEdgeShadows>
-    <staticSunShadowHeight>0.35</staticSunShadowHeight>
+    <castEdgeShadows>false</castEdgeShadows>
     <fillPercent>0.5</fillPercent>
     <canOverlapZones>false</canOverlapZones>
     <pathCost>42</pathCost>
@@ -260,7 +268,6 @@
         <maxSimultaneous>1</maxSimultaneous>
       </li>
     </comps>
-    <designationHotKey>Misc6</designationHotKey>
     <placeWorkers>
       <li>PlaceWorker_ShowFacilitiesConnections</li>
     </placeWorkers>
@@ -281,7 +288,13 @@
       <damageData>
         <enabled>false</enabled>
       </damageData>
+      <shadowData>
+        <volume>(0.8, 1.5, 0.9)</volume>
+        <!-- <offset>(-0.05, 0, 0.35)</offset> -->
+      </shadowData>
     </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
     <statBases>
       <Comfort>0.75</Comfort>
       <MaxHitPoints>140</MaxHitPoints>
@@ -296,11 +309,8 @@
       <ComponentIndustrial>1</ComponentIndustrial>
       <WULA_Charge_Cube>1</WULA_Charge_Cube>
     </costList>
-    <designationHotKey>Misc2</designationHotKey>
     <uiOrder>2010</uiOrder>
-    <castEdgeShadows>true</castEdgeShadows>
     <fillPercent>0.5</fillPercent>
-    <staticSunShadowHeight>0</staticSunShadowHeight>
     <designationCategory>WULA_Buildings</designationCategory>
     <researchPrerequisites Inherit="False">
       <li>WULA_Base_Technology</li>
@@ -346,7 +356,6 @@
       <drawSize>(3,4)</drawSize>
     </graphicData>
     <size>(1,2)</size>
-    <designationHotKey>Misc1</designationHotKey>
   </ThingDef>
   
   <!-- 机械工厂 -->
@@ -362,7 +371,6 @@
     <passability>PassThroughOnly</passability>
     <fillPercent>0.5</fillPercent>
     <hasInteractionCell>true</hasInteractionCell>
-    <castEdgeShadows>true</castEdgeShadows>
     <pathCost>42</pathCost>
     <surfaceType>Item</surfaceType>
     <inspectorTabs>
@@ -379,7 +387,12 @@
       <texPath>Wula/Building/WULA_Heavy_War_Machine_Productor</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(4, 4)</drawSize>
+      <shadowData>
+        <volume>(2.8, 2.8, 2.1)</volume>
+        <!-- <offset>(-0.05, 0, 0.35)</offset> -->
+      </shadowData>
     </graphicData>
+    <castEdgeShadows>False</castEdgeShadows>
     <interactionCellOffset>(1,0,3)</interactionCellOffset>
     <statBases>
       <MaxHitPoints>1250</MaxHitPoints>
@@ -559,7 +572,7 @@
   </ThingDef>
 
   <!-- 联络台 -->
-  <ThingDef ParentName="BuildingBase">
+  <ThingDef ParentName="BuildingBase">  
     <defName>WULA_Communicator_Station</defName>
     <label>乌拉帝国通讯站</label>
     <description>乌拉帝国内部用于联系的通讯站，可以联系到乌拉帝国的各大派系。</description>
@@ -569,6 +582,9 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.25, 0.25, 0.25)</volume>
+      </shadowData>
     </graphicData>
     <statBases>
       <MaxHitPoints>250</MaxHitPoints>
@@ -618,7 +634,7 @@
         <rect>(0.3,0.3,1.4,1.4)</rect>
       </damageData>
       <shadowData>
-        <volume>(1.5,0.35,1.4)</volume>
+        <volume>(0.5,0.35,0.75)</volume>
         <offset>(0,0,-0.05)</offset>
       </shadowData>
     </graphicData>
@@ -739,6 +755,10 @@
       <texPath>Wula/Building/WULA_Synth_Maintainer_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(3, 3)</drawSize>
+      <shadowData>
+        <volume>(1.5, 1.5, 1.7)</volume>
+        <!-- <offset>(-0.05, 0, 0.35)</offset> -->
+      </shadowData>
     </graphicData>
     <drawerType>RealtimeOnly</drawerType>
     <drawGUIOverlay>true</drawGUIOverlay>
