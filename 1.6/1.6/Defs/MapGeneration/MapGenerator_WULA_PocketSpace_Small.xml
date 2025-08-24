@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 13x13小型口袋空间地图生成器 -->
+  <MapGeneratorDef>
+    <defName>WULA_PocketSpace_Small</defName>
+    <label>WULA small pocket space</label>
+    <isUnderground>true</isUnderground>
+    <disableCallAid>true</disableCallAid>
+    <pocketMapProperties>
+      <biome>Underground</biome>
+      <temperature>20</temperature>
+      <canBeCleaned>true</canBeCleaned>
+      <destroyOnParentMapAbandoned>true</destroyOnParentMapAbandoned>
+    </pocketMapProperties>
+    <genSteps>
+      <li>ElevationFertility</li>
+      <li>Underground_RocksFromGrid</li>
+      <li>Terrain</li>
+      <li>WULA_PocketSpace_Small</li>
+      <!-- 移除Fog GenStep，因为它需要PlayerStartSpot而口袋空间不需要 -->
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!-- 13x13口袋空间生成步骤 -->
+  <GenStepDef>
+    <defName>WULA_PocketSpace_Small</defName>
+    <order>990</order> <!-- 调整为更高的值，确保在所有基础地形生成之后执行 -->
+    <genStep Class="WulaFallenEmpire.GenStep_WulaPocketSpaceSmall" />
+  </GenStepDef>
+</Defs>

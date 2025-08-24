@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+
   <ThingDef ParentName="BuildingBase">
-    <defName>WULA_ArmedShuttle</defName>
-    <label>乌拉武装穿梭机</label>
-    <description>A chemfuel-powered shuttle designed for long-distance travel, equipped with a turret for defense. It is capable of reaching orbital locations.</description>
-    <thingClass>WulaFallenEmpire.Building_ArmedShuttle</thingClass>
+    <defName>WULA_ArmedShuttleWithPocket</defName>
+    <label>乌拉武装运输机</label>
+    <description>An advanced chemfuel-powered shuttle with integrated pocket space technology. Equipped with a defensive turret and internal storage dimension that doesn't require hacking to access. Perfect for long-distance exploration and mobile operations.</description>
+    <thingClass>WulaFallenEmpire.Building_ArmedShuttleWithPocket</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
     <pathCost>50</pathCost>
@@ -82,19 +83,19 @@
     </researchPrerequisites>
     <comps>
       <li Class="CompProperties_Shuttle">
-        <shipDef>Ship_ArmedShuttle</shipDef>
+        <shipDef>Ship_ArmedShuttleWithPocket</shipDef>
       </li>
       <li Class="CompProperties_Launchable">
-        <fuelPerTile>3</fuelPerTile>
-        <minFuelCost>50</minFuelCost>
-        <skyfallerLeaving>ArmedShuttleLeaving_WULA</skyfallerLeaving>
+        <fuelPerTile>2.5</fuelPerTile>
+        <minFuelCost>40</minFuelCost>
+        <skyfallerLeaving>ArmedShuttleWithPocketLeaving_WULA</skyfallerLeaving>
         <worldObjectDef>PassengerShuttle</worldObjectDef>
-        <cooldownTicks>3750</cooldownTicks> <!-- 1.5 hours -->
-        <fixedLaunchDistanceMax>62</fixedLaunchDistanceMax>
+        <cooldownTicks>3000</cooldownTicks>        <!-- 1.25 hours -->
+        <fixedLaunchDistanceMax>75</fixedLaunchDistanceMax>
         <cooldownEndedMessage>{0} is ready to launch again.</cooldownEndedMessage>
       </li>
       <li Class="CompProperties_Transporter">
-        <massCapacity>500</massCapacity>
+        <massCapacity>750</massCapacity>
         <max1PerGroup>true</max1PerGroup>
         <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
         <pawnLoadedSound>Shuttle_PawnLoaded</pawnLoadedSound>
@@ -102,9 +103,9 @@
         <showMassInInspectString>true</showMassInInspectString>
       </li>
       <li Class="CompProperties_Refuelable">
-        <fuelCapacity>400</fuelCapacity>
+        <fuelCapacity>500</fuelCapacity>
         <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
-        <initialConfigurableTargetFuelLevel>400</initialConfigurableTargetFuelLevel>
+        <initialConfigurableTargetFuelLevel>500</initialConfigurableTargetFuelLevel>
         <fuelFilter>
           <thingDefs>
             <li>Chemfuel</li>
@@ -119,10 +120,23 @@
         <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
         <canEjectFuel>true</canEjectFuel>
       </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-400</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
       <li Class="CompProperties_AmbientSound">
         <sound>ShuttleIdle_Ambience</sound>
       </li>
     </comps>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.PocketMapProperties">
+        <pocketMapGenerator>WULA_PocketSpace_Small</pocketMapGenerator>
+        <exitDef>WULA_PocketMapExit</exitDef>
+        <pocketMapSize>(13, 13)</pocketMapSize>
+        <allowDirectAccess>true</allowDirectAccess>
+      </li>
+    </modExtensions>
     <placeWorkers>
       <li>PlaceWorker_NotUnderRoof</li>
       <li>PlaceWorker_TurretTop</li>
@@ -130,57 +144,69 @@
     <uiOrder>2601</uiOrder>
   </ThingDef>
 
+  <!-- 改进的武器定义 -->
   <ThingDef ParentName="BaseBullet">
-    <defName>WULA_Bullet_ArmedShuttle</defName>
-    <label>shuttle cannon shell</label>
+    <defName>WULA_Bullet_ArmedShuttleAdvanced</defName>
+    <label>advanced shuttle cannon shell</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.8, 0.9, 1.0)</color>
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>25</damageAmountBase>
-      <speed>70</speed>
+      <damageAmountBase>30</damageAmountBase>
+      <armorPenetrationBase>0.4</armorPenetrationBase>
+      <speed>75</speed>
     </projectile>
   </ThingDef>
 
   <ThingDef ParentName="BaseWeaponTurret">
-    <defName>Gun_ChargeBlasterHeavyTurret</defName>
-    <label>light charge blaster</label>
-    <description>A pulse-charged rapid-fire blaster for area fire.</description>
+    <defName>Gun_ChargeBlasterAdvancedTurret</defName>
+    <label>advanced charge blaster</label>
+    <description>An upgraded pulse-charged rapid-fire blaster with enhanced targeting systems and increased firepower.</description>
     <graphicData>
       <texPath>Things/Item/Equipment/WeaponRanged/ChargeBlasterLight</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.8, 0.9, 1.0)</color>
     </graphicData>
     <statBases>
-      <AccuracyLong>0.08</AccuracyLong>
-      <RangedWeapon_Cooldown>5.5</RangedWeapon_Cooldown>
+      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyShort>0.75</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>4.5</RangedWeapon_Cooldown>
     </statBases>
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>WULA_Bullet_ArmedShuttle</defaultProjectile>
-        <warmupTime>1.25</warmupTime>
-        <minRange>3.9</minRange>
-        <range>45.9</range>
-        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
-        <burstShotCount>9</burstShotCount>
+        <defaultProjectile>WULA_Bullet_ArmedShuttleAdvanced</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <minRange>3.5</minRange>
+        <range>50.9</range>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <burstShotCount>8</burstShotCount>
         <soundCast>Shot_ChargeBlaster</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
+        <muzzleFlashScale>10</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
       </li>
     </verbs>
   </ThingDef>
-  
+
+  <!-- 到达天降物 -->
   <ThingDef ParentName="ShuttleSkyfallerBase">
-    <defName>ArmedShuttleIncoming_WULA</defName>
-    <label>武装穿梭机 (接近中)</label>
-    <thingClass>WulaFallenEmpire.ArmedShuttleIncoming</thingClass>
+    <defName>ArmedShuttleWithPocketIncoming_WULA</defName>
+    <label>armed shuttle with pocket space (incoming)</label>
+    <thingClass>ShuttleIncoming</thingClass>
     <graphicData>
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Things/Building/PassengerShuttle/PassengerShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
+      <color>(0.85, 0.9, 1.0)</color>
       <drawSize>(3,5)</drawSize>
     </graphicData>
     <size>(3,5)</size>
@@ -212,15 +238,17 @@
     </skyfaller>
   </ThingDef>
 
+  <!-- 离开天降物 -->
   <ThingDef ParentName="ShuttleSkyfallerBase">
-    <defName>ArmedShuttleLeaving_WULA</defName>
-    <label>穿梭机出口</label>
+    <defName>ArmedShuttleWithPocketLeaving_WULA</defName>
+    <label>armed shuttle with pocket space (leaving)</label>
     <thingClass>PassengerShuttleLeaving</thingClass>
     <rotatable>true</rotatable>
     <graphicData>
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Things/Building/PassengerShuttle/PassengerShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
+      <color>(0.85, 0.9, 1.0)</color>
       <drawSize>(3,5)</drawSize>
     </graphicData>
     <size>(3,5)</size>
@@ -255,13 +283,48 @@
     </skyfaller>
   </ThingDef>
 
+  <!-- 运输船定义 -->
   <TransportShipDef>
-    <defName>Ship_ArmedShuttle</defName>
-    <label>armed shuttle</label>
-    <shipThing>WULA_ArmedShuttle</shipThing>
-    <arrivingSkyfaller>ArmedShuttleIncoming_WULA</arrivingSkyfaller>
-    <leavingSkyfaller>ArmedShuttleLeaving_WULA</leavingSkyfaller>
+    <defName>Ship_ArmedShuttleWithPocket</defName>
+    <label>armed shuttle with pocket space</label>
+    <shipThing>WULA_ArmedShuttleWithPocket</shipThing>
+    <arrivingSkyfaller>ArmedShuttleWithPocketIncoming_WULA</arrivingSkyfaller>
+    <leavingSkyfaller>ArmedShuttleWithPocketLeaving_WULA</leavingSkyfaller>
     <worldObject>PassengerShuttle</worldObject>
     <playerShuttle>true</playerShuttle>
   </TransportShipDef>
+
+  <!-- 口袋空间退出点定义 -->
+  <ThingDef ParentName="PocketMapExit">
+    <defName>WULA_PocketMapExit</defName>
+    <label>pocket space exit</label>
+    <description>An exit portal that allows return from the pocket space to the main map.</description>
+    <thingClass>WulaFallenEmpire.Building_PocketMapExit</thingClass>
+    <size>(3,3)</size>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Wula/Building/WULA_War_Machine_Recharger</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <interactionCellOffset>(0,0,0)</interactionCellOffset>
+    <passability>Standable</passability>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(140,160,184,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>UndercaveMapExitLightshafts</effecterDef>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-400</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+    </comps>
+  </ThingDef>
 </Defs>
