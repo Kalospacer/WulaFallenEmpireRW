@@ -9,15 +9,7 @@
   
   <!-- Gizmo 按钮文本 -->
   <WULA.PocketSpace.Enter>进入内部空间</WULA.PocketSpace.Enter>
-  <WULA.PocketSpace.EnterPawns>传送人员到内部空间</WULA.PocketSpace.EnterPawns>
   <WULA.PocketSpace.EnterDesc>进入穿梭机的内部口袋空间。无需骇入即可直接访问。选中的殖民者将被传送到内部空间。</WULA.PocketSpace.EnterDesc>
-  <WULA.PocketSpace.CreateMap>创建内部空间</WULA.PocketSpace.CreateMap>
-  <WULA.PocketSpace.CreateMapDesc>创建穿梭机的内部口袋空间。首次使用时需要创建。</WULA.PocketSpace.CreateMapDesc>
-  <WULA.PocketSpace.CreationSuccess>内部空间创建成功！</WULA.PocketSpace.CreationSuccess>
-  <WULA.PocketSpace.CancelEnter>取消进入</WULA.PocketSpace.CancelEnter>
-  <WULA.PocketSpace.Entering>正在进入...</WULA.PocketSpace.Entering>
-  <WULA.PocketSpace.ViewMap>查看地图</WULA.PocketSpace.ViewMap>
-  <WULA.PocketSpace.ViewMapDesc>切换到口袋空间地图查看内部情况。</WULA.PocketSpace.ViewMapDesc>
   
   <WULA.PocketSpace.SwitchTo>切换到内部空间</WULA.PocketSpace.SwitchTo>
   <WULA.PocketSpace.SwitchToDesc>直接切换视角到内部口袋空间。适用于已经有殖民者在内部空间时的快速切换。</WULA.PocketSpace.SwitchToDesc>

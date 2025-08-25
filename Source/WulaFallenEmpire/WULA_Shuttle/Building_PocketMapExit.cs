@@ -113,6 +113,106 @@ namespace WulaFallenEmpire
         protected override Texture2D EnterTex => ContentFinder<Texture2D>.Get("UI/Commands/ViewCave");
         
         /// <summary>
+        /// 重写GetGizmos方法，添加穿梭机装载相关按钮
+        /// </summary>
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+            // 获取基类的按钮（退出空间和查看地图按钮）
+            foreach (Gizmo gizmo in base.GetGizmos())
+            {
+                yield return gizmo;
+            }
+            
+            // 如果有父穿梭机，添加穿梭机相关的装载按钮
+            if (parentShuttle != null)
+            {
+                // 查看主地图按钮
+                yield return new Command_Action
+                {
+                    defaultLabel = "WULA.PocketSpace.ViewMainMap".Translate(),
+                    defaultDesc = "WULA.PocketSpace.ViewMainMapDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("UI/Commands/ViewWorld"),
+                    action = delegate
+                    {
+                        if (targetMap != null)
+                        {
+                            Current.Game.CurrentMap = targetMap;
+                            if (parentShuttle != null && parentShuttle.Spawned)
+                            {
+                                Find.CameraDriver.JumpToCurrentMapLoc(parentShuttle.Position);
+                                Find.Selector.Select(parentShuttle);
+                            }
+                            else
+                            {
+                                Find.CameraDriver.JumpToCurrentMapLoc(targetPos);
+                            }
+                        }
+                    }
+                };
+                
+                // 穿梭机装载管理按钮
+                if (parentShuttle.Spawned)
+                {
+                    // 获取穿梭机的CompTransporter组件
+                    CompTransporter transporter = parentShuttle.GetComp<CompTransporter>();
+                    if (transporter != null)
+                    {
+                        // 添加装载按钮（模仿原版CompTransporter的功能）
+                        yield return new Command_Action
+                        {
+                            defaultLabel = "WULA.PocketSpace.LoadShuttle".Translate(),
+                            defaultDesc = "WULA.PocketSpace.LoadShuttleDesc".Translate(),
+                            icon = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter"),
+                            action = delegate
+                            {
+                                OpenShuttleLoadingDialog(transporter);
+                            }
+                        };
+                        
+                        // 如果正在装载，添加取消装载按钮
+                        if (transporter.LoadingInProgress)
+                        {
+                            yield return new Command_Action
+                            {
+                                defaultLabel = "WULA.PocketSpace.CancelLoading".Translate(),
+                                defaultDesc = "WULA.PocketSpace.CancelLoadingDesc".Translate(),
+                                icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel"),
+                                action = delegate
+                                {
+                                    transporter.CancelLoad();
+                                }
+                            };
+                        }
+                    }
+                    
+                    // 添加穿梭机发射按钮（如果正在装载且可以发射）
+                    CompLaunchable launchable = parentShuttle.GetComp<CompLaunchable>();
+                    if (launchable != null && transporter != null && !transporter.LoadingInProgress)
+                    {
+                        foreach (Gizmo gizmo in launchable.CompGetGizmosExtra())
+                        {
+                            yield return gizmo;
+                        }
+                    }
+                }
+                
+                // 穿梭机状态信息按钮
+                yield return new Command_Action
+                {
+                    defaultLabel = "WULA.PocketSpace.ShuttleStatus".Translate(),
+                    defaultDesc = "WULA.PocketSpace.ShuttleStatusDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("UI/Commands/InfoCard"),
+                    action = delegate
+                    {
+                        ShowShuttleStatusInfo();
+                    }
+                };
+            }
+        }
+
+
+
+        /// <summary>
         /// 单个人员退出口袋空间（简化版本，利用MapPortal功能）
         /// </summary>
         private void ExitPocketSpace(Pawn pawn)
@@ -141,6 +241,79 @@ namespace WulaFallenEmpire
             {
                 Log.Error($"[WULA] Error exiting pocket space: {ex}");
             }
+        }
+        
+        /// <summary>
+        /// 打开穿梭机装载对话框
+        /// </summary>
+        private void OpenShuttleLoadingDialog(CompTransporter transporter)
+        {
+            if (transporter == null) return;
+            
+            try
+            {
+                // 使用原版的Dialog_LoadTransporters打开装载对话框
+                Find.WindowStack.Add(new Dialog_LoadTransporters(parentShuttle.Map, new List<CompTransporter> { transporter }));
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[WULA] Error opening shuttle loading dialog: {ex}");
+                Messages.Message("WULA.PocketSpace.LoadingDialogError".Translate(), MessageTypeDefOf.RejectInput);
+            }
+        }
+        
+        /// <summary>
+        /// 显示穿梭机状态信息
+        /// </summary>
+        private void ShowShuttleStatusInfo()
+        {
+            if (parentShuttle == null) return;
+            
+            StringBuilder statusText = new StringBuilder();
+            
+            // 基本信息
+            statusText.AppendLine("WULA.PocketSpace.ShuttleInfo".Translate());
+            statusText.AppendLine($"• 状态: {(parentShuttle.Spawned ? "已部署" : "飞行中")}");
+            
+            if (parentShuttle.Spawned)
+            {
+                statusText.AppendLine($"• 位置: {targetMap?.Parent?.Label ?? "未知"} ({targetPos.x}, {targetPos.z})");
+                
+                // 燃料信息
+                CompRefuelable fuel = parentShuttle.GetComp<CompRefuelable>();
+                if (fuel != null)
+                {
+                    statusText.AppendLine($"• 燃料: {fuel.Fuel:F0}/{fuel.Props.fuelCapacity:F0}");
+                }
+                
+                // 装载信息
+                CompTransporter transporter = parentShuttle.GetComp<CompTransporter>();
+                if (transporter != null)
+                {
+                    statusText.AppendLine($"• 载重: {transporter.MassUsage:F1}/{transporter.Props.massCapacity:F1}");
+                    if (transporter.LoadingInProgress)
+                    {
+                        statusText.AppendLine("• 装载状态: 正在装载...");
+                    }
+                }
+                
+                // 口袋空间信息
+                if (parentShuttle.pocketMapGenerated)
+                {
+                    statusText.AppendLine($"• 内部空间: 已初始化");
+                    if (parentShuttle.innerContainer.Count > 0)
+                    {
+                        statusText.AppendLine($"• 内部储存: {parentShuttle.innerContainer.Count} 件物品");
+                    }
+                }
+            }
+            else
+            {
+                statusText.AppendLine("• 穿梭机正在飞行中，无法获取详细信息");
+            }
+            
+            // 显示信息对话框
+            Find.WindowStack.Add(new Dialog_MessageBox(statusText.ToString(), "WULA.PocketSpace.ShuttleStatus".Translate()));
         }
     }
 }

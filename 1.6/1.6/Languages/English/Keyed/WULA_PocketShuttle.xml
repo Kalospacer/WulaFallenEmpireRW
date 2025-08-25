@@ -9,15 +9,7 @@
   
   <!-- Gizmo button text -->
   <WULA.PocketSpace.Enter>Enter pocket space</WULA.PocketSpace.Enter>
-  <WULA.PocketSpace.EnterPawns>Transport people to pocket space</WULA.PocketSpace.EnterPawns>
   <WULA.PocketSpace.EnterDesc>Enter the shuttle's internal pocket space. Direct access without hacking required. Selected colonists will be transported to the internal space.</WULA.PocketSpace.EnterDesc>
-  <WULA.PocketSpace.CreateMap>Create pocket space</WULA.PocketSpace.CreateMap>
-  <WULA.PocketSpace.CreateMapDesc>Create the shuttle's internal pocket space. Required for first-time use.</WULA.PocketSpace.CreateMapDesc>
-  <WULA.PocketSpace.CreationSuccess>Pocket space created successfully!</WULA.PocketSpace.CreationSuccess>
-  <WULA.PocketSpace.CancelEnter>Cancel enter</WULA.PocketSpace.CancelEnter>
-  <WULA.PocketSpace.Entering>Entering...</WULA.PocketSpace.Entering>
-  <WULA.PocketSpace.ViewMap>View map</WULA.PocketSpace.ViewMap>
-  <WULA.PocketSpace.ViewMapDesc>Switch to pocket space map to view internal conditions.</WULA.PocketSpace.ViewMapDesc>
   
   <WULA.PocketSpace.SwitchTo>Switch to pocket space</WULA.PocketSpace.SwitchTo>
   <WULA.PocketSpace.SwitchToDesc>Directly switch view to the internal pocket space. Useful for quick switching when colonists are already inside.</WULA.PocketSpace.SwitchToDesc>

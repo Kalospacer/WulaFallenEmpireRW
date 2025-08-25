@@ -17,7 +17,7 @@
       <li>Underground_RocksFromGrid</li>
       <li>Terrain</li>
       <li>WULA_PocketSpace_Small</li>
-      <!-- 移除Fog GenStep，因为它需要PlayerStartSpot而口袋空间不需要 -->
+      <li>Fog</li>
     </genSteps>
   </MapGeneratorDef>
 
