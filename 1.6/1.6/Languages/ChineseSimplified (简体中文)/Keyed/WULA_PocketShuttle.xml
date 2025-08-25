@@ -5,17 +5,15 @@
   <WULA.PocketSpace.Status>内部空间状态</WULA.PocketSpace.Status>
   <WULA.PocketSpace.Ready>已就绪</WULA.PocketSpace.Ready>
   <WULA.PocketSpace.NotGenerated>未初始化</WULA.PocketSpace.NotGenerated>
-  <WULA.PocketSpace.ItemCount>储存物品: {0}</WULA.PocketSpace.ItemCount>
   
   <!-- Gizmo 按钮文本 -->
   <WULA.PocketSpace.Enter>进入内部空间</WULA.PocketSpace.Enter>
   <WULA.PocketSpace.EnterDesc>进入穿梭机的内部口袋空间。无需骇入即可直接访问。选中的殖民者将被传送到内部空间。</WULA.PocketSpace.EnterDesc>
   
-  <WULA.PocketSpace.SwitchTo>切换到内部空间</WULA.PocketSpace.SwitchTo>
-  <WULA.PocketSpace.SwitchToDesc>直接切换视角到内部口袋空间。适用于已经有殖民者在内部空间时的快速切换。</WULA.PocketSpace.SwitchToDesc>
   
-  <WULA.PocketSpace.ManageStorage>管理内部储存</WULA.PocketSpace.ManageStorage>
-  <WULA.PocketSpace.ManageStorageDesc>打开内部容器管理界面，可以查看和取出储存在内部空间的物品。</WULA.PocketSpace.ManageStorageDesc>
+  <WULA.PocketSpace.ViewMap>查看内部空间</WULA.PocketSpace.ViewMap>
+  <WULA.PocketSpace.ViewMapDesc>切换视角到穿梭机的内部口袋空间。</WULA.PocketSpace.ViewMapDesc>
+  
   
   <!-- 消息文本 -->
   <WULA.PocketSpace.CannotEnter>无法进入内部空间。</WULA.PocketSpace.CannotEnter>
@@ -25,22 +23,16 @@
   <WULA.PocketSpace.NoTargetMap>无目标地图。</WULA.PocketSpace.NoTargetMap>
   <WULA.PocketSpace.CreationFailed>内部空间创建失败。</WULA.PocketSpace.CreationFailed>
   <WULA.PocketSpace.TransferSuccess>{0} 名人员已成功传送到内部空间。</WULA.PocketSpace.TransferSuccess>
-  <WULA.PocketSpace.SwitchToPocket>即将切换到内部口袋空间。确认吗？</WULA.PocketSpace.SwitchToPocket>
   
   <!-- 存储管理对话框 -->
-  <WULA.PocketSpace.StorageManagement>内部空间储存管理</WULA.PocketSpace.StorageManagement>
   
   <WULA.PocketSpace.PawnCount>内部空间人员: {0}</WULA.PocketSpace.PawnCount>
   <WULA.PocketSpace.NoPawnsSelected>请选择至少一名殖民者进入内部空间。</WULA.PocketSpace.NoPawnsSelected>
-  <WULA.PocketSpace.NoPawnsAvailable>没有可用的殖民者。</WULA.PocketSpace.NoPawnsAvailable>
-  <WULA.PocketSpace.AllColonists>所有殖民者 ({0}人)</WULA.PocketSpace.AllColonists>
   
   <!-- 退出点相关 -->
-  <WULA.PocketSpace.ExitThroughPortal>通过传送门返回</WULA.PocketSpace.ExitThroughPortal>
-  <WULA.PocketSpace.ExitAll>全员返回</WULA.PocketSpace.ExitAll>
-  <WULA.PocketSpace.ExitAllDesc>将所有殖民者从口袋空间传送回主地图。</WULA.PocketSpace.ExitAllDesc>
+  <WULA.PocketSpace.ExitToMainMap>返回主地图</WULA.PocketSpace.ExitToMainMap>
+  <WULA.PocketSpace.ExitToMainMapDesc>通过口袋空间出口返回主地图。</WULA.PocketSpace.ExitToMainMapDesc>
   <WULA.PocketSpace.ExitSuccess>{0} 已成功返回主地图。</WULA.PocketSpace.ExitSuccess>
-  <WULA.PocketSpace.ExitAllSuccess>{0} 名人员已全部返回主地图。</WULA.PocketSpace.ExitAllSuccess>
   
   <!-- 建筑标签和描述 -->
   <WULA_ArmedShuttleWithPocket.label>内置空间武装穿梭机</WULA_ArmedShuttleWithPocket.label>

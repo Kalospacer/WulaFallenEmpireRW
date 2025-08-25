@@ -680,44 +680,39 @@ namespace WulaFallenEmpire
             if (allowDirectAccess)
             {
                 // 进入口袋空间按钮（模仿原版MapPortal）
-                Command_Action enterCommand = new Command_Action();
-                enterCommand.action = delegate
+                // “进入”按钮
+                yield return new Command_Action
                 {
-                    // 使用自定义的殖民者选择对话框，模仿原版Dialog_EnterPortal的行为
-                    OpenPawnSelectionDialog();
-                };
-                enterCommand.icon = EnterTex;
-                enterCommand.defaultLabel = EnterString + "...";
-                enterCommand.defaultDesc = "WULA.PocketSpace.EnterDesc".Translate();
-                
-                // 检查是否可以进入（模仿原版MapPortal.IsEnterable）
-                string reason;
-                enterCommand.Disabled = !IsEnterable(out reason);
-                enterCommand.disabledReason = reason;
-                yield return enterCommand;
-                
-                // 查看口袋地图按钮（模仿原版MapPortal）
-                if (pocketMap != null)
-                {
-                    yield return new Command_Action
+                    icon = DefaultEnterTex,
+                    defaultLabel = "WULA.PocketSpace.Enter".Translate(),
+                    defaultDesc = "WULA.PocketSpace.EnterDesc".Translate(),
+                    action = delegate
                     {
-                        defaultLabel = "WULA.PocketSpace.ViewMap".Translate(),
-                        defaultDesc = "WULA.PocketSpace.ViewMapDesc".Translate(),
-                        icon = ViewPocketMapTex,
-                        action = delegate
+                        OpenPawnSelectionDialog();
+                    },
+                    hotKey = KeyBindingDefOf.Misc1
+                };
+
+                // “查看地图”按钮
+                yield return new Command_Action
+                {
+                    icon = ViewPocketMapTex,
+                    defaultLabel = "WULA.PocketSpace.ViewMap".Translate(),
+                    defaultDesc = "WULA.PocketSpace.ViewMapDesc".Translate(),
+                    action = delegate
+                    {
+                        // 模仿原版，跳转到口袋地图并选中退出点
+                        if (exit != null)
                         {
-                            // 模仿原版，跳转到口袋地图并选中退出点
-                            if (exit != null)
-                            {
-                                CameraJumper.TryJumpAndSelect(exit);
-                            }
-                            else
-                            {
-                                SwitchToPocketSpace();
-                            }
+                            CameraJumper.TryJumpAndSelect(exit);
                         }
-                    };
-                }
+                        else
+                        {
+                            SwitchToPocketSpace();
+                        }
+                    },
+                    hotKey = KeyBindingDefOf.Misc2
+                };
             }
         }
 
