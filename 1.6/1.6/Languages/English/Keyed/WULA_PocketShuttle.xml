@@ -8,6 +8,9 @@
   <WULA.PocketSpace.ItemCount>Stored items: {0}</WULA.PocketSpace.ItemCount>
   
   <!-- Gizmo button text -->
+  <WULA.PocketSpace.Initialize>Initialize pocket space</WULA.PocketSpace.Initialize>
+  <WULA.PocketSpace.InitializeDesc>Initialize the shuttle's internal pocket space. This will create the dimensional storage space inside the shuttle.</WULA.PocketSpace.InitializeDesc>
+  
   <WULA.PocketSpace.Enter>Enter pocket space</WULA.PocketSpace.Enter>
   <WULA.PocketSpace.EnterDesc>Enter the shuttle's internal pocket space. Direct access without hacking required. Selected colonists will be transported to the internal space.</WULA.PocketSpace.EnterDesc>
   
@@ -18,6 +21,11 @@
   <WULA.PocketSpace.ManageStorageDesc>Open internal container management interface to view and retrieve items stored in the pocket space.</WULA.PocketSpace.ManageStorageDesc>
   
   <!-- Message text -->
+  <WULA.PocketSpace.CannotInitialize>Cannot initialize pocket space.</WULA.PocketSpace.CannotInitialize>
+  <WULA.PocketSpace.AlreadyInitialized>Pocket space already initialized.</WULA.PocketSpace.AlreadyInitialized>
+  <WULA.PocketSpace.InitializeSuccess>Pocket space initialized successfully.</WULA.PocketSpace.InitializeSuccess>
+  <WULA.PocketSpace.InitializeFailed>Pocket space initialization failed.</WULA.PocketSpace.InitializeFailed>
+  
   <WULA.PocketSpace.CannotEnter>Cannot enter pocket space.</WULA.PocketSpace.CannotEnter>
   <WULA.PocketSpace.AccessDenied>Access denied.</WULA.PocketSpace.AccessDenied>
   <WULA.PocketSpace.TransportDisabled>Transport functionality disabled (shuttle in flight).</WULA.PocketSpace.TransportDisabled>

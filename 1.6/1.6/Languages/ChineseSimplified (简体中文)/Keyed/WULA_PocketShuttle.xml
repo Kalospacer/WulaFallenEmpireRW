@@ -7,6 +7,9 @@
   <WULA.PocketSpace.NotGenerated>未初始化</WULA.PocketSpace.NotGenerated>
   
   <!-- Gizmo 按钮文本 -->
+  <WULA.PocketSpace.Initialize>初始化内部空间</WULA.PocketSpace.Initialize>
+  <WULA.PocketSpace.InitializeDesc>初始化穿梭机的内部口袋空间。这将在穿梭机内部创建维度储存空间。</WULA.PocketSpace.InitializeDesc>
+  
   <WULA.PocketSpace.Enter>进入内部空间</WULA.PocketSpace.Enter>
   <WULA.PocketSpace.EnterDesc>进入穿梭机的内部口袋空间。无需骇入即可直接访问。选中的殖民者将被传送到内部空间。</WULA.PocketSpace.EnterDesc>
   
@@ -16,6 +19,11 @@
   
   
   <!-- 消息文本 -->
+  <WULA.PocketSpace.CannotInitialize>无法初始化内部空间。</WULA.PocketSpace.CannotInitialize>
+  <WULA.PocketSpace.AlreadyInitialized>内部空间已经初始化。</WULA.PocketSpace.AlreadyInitialized>
+  <WULA.PocketSpace.InitializeSuccess>内部空间初始化成功。</WULA.PocketSpace.InitializeSuccess>
+  <WULA.PocketSpace.InitializeFailed>内部空间初始化失败。</WULA.PocketSpace.InitializeFailed>
+  
   <WULA.PocketSpace.CannotEnter>无法进入内部空间。</WULA.PocketSpace.CannotEnter>
   <WULA.PocketSpace.AccessDenied>访问被拒绝。</WULA.PocketSpace.AccessDenied>
   <WULA.PocketSpace.NotSpawned>穿梭机未部署。</WULA.PocketSpace.NotSpawned>

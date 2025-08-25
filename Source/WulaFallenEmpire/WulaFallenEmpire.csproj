@@ -173,6 +173,7 @@
     <Compile Include="WULA_Shuttle\Building_PocketMapExit.cs" />
     <Compile Include="WULA_Shuttle\Dialog_ArmedShuttleTransfer.cs" />
     <Compile Include="WULA_Shuttle\GenStep_WulaPocketSpaceSmall.cs" />
+    <Compile Include="WULA_Shuttle\PocketSpaceThingHolder.cs" />
     <Compile Include="HarmonyPatches\Patch_DropCellFinder_SkyfallerCanLandAt.cs" />
     <Compile Include="MechWeapon\FloatMenuProvider_Mech.cs" />
     <Compile Include="MechWeapon\Patch_MissingWeapon.cs" />

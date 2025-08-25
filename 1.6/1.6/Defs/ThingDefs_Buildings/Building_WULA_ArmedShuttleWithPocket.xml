@@ -128,6 +128,7 @@
       <li Class="CompProperties_AmbientSound">
         <sound>ShuttleIdle_Ambience</sound>
       </li>
+      
     </comps>
     <modExtensions>
       <li Class="WulaFallenEmpire.PocketMapProperties">
