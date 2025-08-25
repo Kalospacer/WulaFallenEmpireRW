@@ -8,7 +8,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
-
+using WulaFallenEmpire;
 namespace WulaFallenEmpire
 {
     /// <summary>
@@ -453,16 +453,12 @@ namespace WulaFallenEmpire
         /// </summary>
         protected virtual Map GeneratePocketMapInt()
         {
-            return PocketMapUtility.GeneratePocketMap(new IntVec3(pocketMapSize.x, 1, pocketMapSize.z), mapGenerator, GetExtraGenSteps(), this.Map);
+            return PocketMapUtility.GeneratePocketMap(new IntVec3(pocketMapSize.x, 1, pocketMapSize.z), mapGenerator, null, this.Map);
         }
         
         /// <summary>
         /// 获取额外的生成步骤（模仿 MapPortal.GetExtraGenSteps）
         /// </summary>
-        protected virtual IEnumerable<GenStepWithParams> GetExtraGenSteps()
-        {
-            return System.Linq.Enumerable.Empty<GenStepWithParams>();
-        }
 
         /// <summary>
         /// 在口袋地图中创建退出点（模仿原版）
@@ -512,7 +508,7 @@ namespace WulaFallenEmpire
         /// <summary>
         /// 将单个Pawn传送到口袋空间
         /// </summary>
-        private bool TransferPawnToPocketSpace(Pawn pawn)
+        public bool TransferPawnToPocketSpace(Pawn pawn)
         {
             if (pawn == null || !pawn.Spawned || pocketMap == null) return false;
 
@@ -803,49 +799,26 @@ namespace WulaFallenEmpire
         /// </summary>
         private void OpenPawnSelectionDialog()
         {
-            // 获取所有可用的殖民者
-            List<Pawn> availablePawns = Map.mapPawns.AllPawnsSpawned
-                .Where(p => p.IsColonist && !p.Downed && p.CanReach(this, PathEndMode.Touch, Danger.Deadly))
-                .ToList();
-            
-            if (availablePawns.Count == 0)
+            if (!CanEnterPocketSpace())
             {
-                Messages.Message("WULA.PocketSpace.NoPawnsAvailable".Translate(), this, MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA.PocketSpace.CannotEnter".Translate(), this, MessageTypeDefOf.RejectInput);
                 return;
             }
-            
-            // 创建选项列表
-            List<FloatMenuOption> options = new List<FloatMenuOption>();
-            
-            // 添加单个殖民者选项
-            foreach (Pawn pawn in availablePawns)
+
+            // 创建或获取口袋地图
+            if (pocketMap == null && !pocketMapGenerated)
             {
-                FloatMenuOption option = new FloatMenuOption(
-                    $"{pawn.LabelShort}", 
-                    delegate
-                    {
-                        EnterPocketSpace(new List<Pawn> { pawn });
-                    }
-                );
-                options.Add(option);
+                CreatePocketMap();
             }
-            
-            // 添加“全部殖民者”选项
-            if (availablePawns.Count > 1)
+
+            if (pocketMap == null)
             {
-                FloatMenuOption allOption = new FloatMenuOption(
-                    "WULA.PocketSpace.AllColonists".Translate(availablePawns.Count),
-                    delegate
-                    {
-                        EnterPocketSpace(availablePawns);
-                    }
-                );
-                options.Add(allOption);
+                Messages.Message("WULA.PocketSpace.CreationFailed".Translate(), this, MessageTypeDefOf.RejectInput);
+                return;
             }
-            
-            // 显示浮动菜单
-            FloatMenu floatMenu = new FloatMenu(options);
-            Find.WindowStack.Add(floatMenu);
+
+            // 打开新的穿梭机传输对话框
+            Find.WindowStack.Add(new Dialog_ArmedShuttleTransfer(this));
         }
         
         #endregion
