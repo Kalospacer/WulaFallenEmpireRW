@@ -102,7 +102,6 @@
         <pawnExitSound>Shuttle_PawnExit</pawnExitSound>
         <showMassInInspectString>true</showMassInInspectString>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_PocketMapPortal"></li>
       <li Class="CompProperties_Refuelable">
         <fuelCapacity>500</fuelCapacity>
         <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>

@@ -96,7 +96,6 @@
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\Letter_EventChoice.cs" />
     <Compile Include="EventSystem\QuestNode_Root_EventLetter.cs" />
-    <Compile Include="HarmonyPatches\DialogEnterPortal_MapPatch.cs" />
     <Compile Include="HarmonyPatches\Caravan_NeedsTracker_TrySatisfyPawnNeeds_Patch.cs" />
     <Compile Include="HarmonyPatches\DamageInfo_Constructor_Patch.cs" />
     <Compile Include="HarmonyPatches\FloatMenuOptionProvider_Ingest_Patch.cs" />
@@ -172,8 +171,8 @@
     <Compile Include="WULA_Shuttle\Building_ArmedShuttle.cs" />
     <Compile Include="WULA_Shuttle\Building_ArmedShuttleWithPocket.cs" />
     <Compile Include="WULA_Shuttle\Building_PocketMapExit.cs" />
-    <Compile Include="WULA_Shuttle\CompPocketMapPortal.cs" />
     <Compile Include="WULA_Shuttle\GenStep_WulaPocketSpaceSmall.cs" />
+    <Compile Include="WULA_Shuttle\PocketSpaceThingHolder.cs" />
     <Compile Include="HarmonyPatches\Patch_DropCellFinder_SkyfallerCanLandAt.cs" />
     <Compile Include="MechWeapon\FloatMenuProvider_Mech.cs" />
     <Compile Include="MechWeapon\Patch_MissingWeapon.cs" />

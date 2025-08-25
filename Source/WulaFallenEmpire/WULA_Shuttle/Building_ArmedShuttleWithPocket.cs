@@ -7,6 +7,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 using Verse.Sound;
 
 namespace WulaFallenEmpire
@@ -16,91 +17,94 @@ namespace WulaFallenEmpire
     /// 结合了武装防御能力和口袋空间技术的复合型载具
     /// </summary>
     [StaticConstructorOnStartup]
-    public class Building_ArmedShuttleWithPocket : Building_ArmedShuttle
+    public class Building_ArmedShuttleWithPocket : Building_ArmedShuttle, IThingHolder
     {
         #region 静态图标定义（使用原版MapPortal的图标）
-        
+
 
         /// <summary>取消进入图标</summary>
         private static readonly Texture2D CancelEnterTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
-        
+
         /// <summary>默认进入图标</summary>
         private static readonly Texture2D DefaultEnterTex = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter");
-        
+
         #endregion
         #region 口袋空间字段
-        
+
         /// <summary>内部口袋地图实例</summary>
         private Map pocketMap;
-        
+
         /// <summary>口袋地图是否已生成</summary>
         private bool pocketMapGenerated;
-        
+
         /// <summary>内部空间大小</summary>
         private IntVec2 pocketMapSize = new IntVec2(80, 80);
-        
+
         /// <summary>地图生成器定义</summary>
         private MapGeneratorDef mapGenerator;
-        
+
         /// <summary>退出点定义</summary>
         private ThingDef exitDef;
-        
+
         /// <summary>允许直接访问（无需骇入）</summary>
         private bool allowDirectAccess = true;
-        
+
         /// <summary>传送功能是否暂停（飞行时为 true）</summary>
         private bool transportDisabled = false;
-        
+
         // 注意：我们不再使用自定义的innerContainer，
         // 所有物品都存储在CompTransporter.innerContainer中，保持简单和一致
-        
+
+        /// <summary>新的口袋空间物品容器</summary>
+        private PocketSpaceThingHolder pocketSpaceContainer;
+
         /// <summary>口袋地图退出点（模仿原版 MapPortal.exit）</summary>
         public Building_PocketMapExit exit;
-        
+
         /// <summary>是否已经进入过（模仿原版 MapPortal.beenEntered）</summary>
         protected bool beenEntered;
-        
+
         /// <summary>待加载物品列表（模仿原版 MapPortal.leftToLoad）</summary>
         public List<TransferableOneWay> leftToLoad;
-        
+
         /// <summary>是否已通知无法加载更多（模仿原版 MapPortal.notifiedCantLoadMore）</summary>
         public bool notifiedCantLoadMore;
-        
+
         #endregion
 
         #region 属性
 
         /// <summary>获取内部口袋地图</summary>
         public Map PocketMap => pocketMap;
-        
+
         /// <summary>口袋地图是否已生成</summary>
         public bool PocketMapGenerated => pocketMapGenerated;
-        
+
         /// <summary>是否允许直接访问口袋空间</summary>
         public bool AllowDirectAccess => allowDirectAccess;
-        
+
         // 注意：我们不再提供InnerContainer属性，因为所有物品都在CompTransporter.innerContainer中
-        
+
         /// <summary>
         /// 获取进入按钮的图标
         /// </summary>
         protected virtual Texture2D EnterTex => DefaultEnterTex;
-        
+
         /// <summary>
         /// 获取进入按钮的文本
         /// </summary>
         public virtual string EnterString => "WULA.PocketSpace.Enter".Translate();
-        
+
         /// <summary>
         /// 获取取消进入按钮的文本
         /// </summary>
         public virtual string CancelEnterString => "WULA.PocketSpace.CancelEnter".Translate();
-        
+
         /// <summary>
         /// 获取进入中的文本
         /// </summary>
         public virtual string EnteringString => "WULA.PocketSpace.Entering".Translate();
-        
+
         /// <summary>加载是否正在进行（模仿原版 MapPortal.LoadInProgress）</summary>
         public bool LoadInProgress
         {
@@ -113,7 +117,7 @@ namespace WulaFallenEmpire
                 return false;
             }
         }
-        
+
         /// <summary>是否有Pawn可以加载任何东西（模仿原版 MapPortal.AnyPawnCanLoadAnythingNow）</summary>
         public bool AnyPawnCanLoadAnythingNow
         {
@@ -134,12 +138,38 @@ namespace WulaFallenEmpire
 
         #endregion
 
+        #region IThingHolder 实现 (模仿 MapPortal)
+
+        /// <summary>
+        /// 获取直接持有的物品（模仿 MapPortal.GetDirectlyHeldThings）
+        /// </summary>
+        public ThingOwner GetDirectlyHeldThings()
+        {
+            return pocketSpaceContainer.innerContainer;
+        }
+
+        /// <summary>
+        /// 获取子持有者（模仿 MapPortal.GetChildHolders）
+        /// </summary>
+        public void GetChildHolders(List<IThingHolder> outChildren)
+        {
+            // 目前没有子持有者，留空
+        }
+
+
+        /// <summary>
+        /// 实现IThingHolder.ParentHolder属性
+        /// </summary>
+        public new IThingHolder ParentHolder => this; 
+
+        #endregion
+
         #region 构造函数
 
         public Building_ArmedShuttleWithPocket()
         {
             Log.Message("[WULA-DEBUG] Building_ArmedShuttleWithPocket constructor called");
-            // 不再初始化innerContainer，只使用CompTransporter的容器
+            pocketSpaceContainer = new PocketSpaceThingHolder(this);
         }
 
         #endregion
@@ -158,7 +188,7 @@ namespace WulaFallenEmpire
         public override void ExposeData()
         {
             Log.Message($"[WULA-DEBUG] ExposeData called, mode: {Scribe.mode}");
-            
+
             base.ExposeData();
             Scribe_Deep.Look(ref pocketMap, "pocketMap");
             Scribe_Values.Look(ref pocketMapGenerated, "pocketMapGenerated", false);
@@ -167,13 +197,12 @@ namespace WulaFallenEmpire
             Scribe_Defs.Look(ref exitDef, "exitDef");
             Scribe_Values.Look(ref allowDirectAccess, "allowDirectAccess", true);
             Scribe_Values.Look(ref transportDisabled, "transportDisabled", false);
-            
-            // 不再序列化innerContainer，只使用CompTransporter的容器
-            
+            Scribe_Deep.Look(ref pocketSpaceContainer, "pocketSpaceContainer", this);
+
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 Log.Message("[WULA-DEBUG] PostLoadInit: Validating components after load");
-                
+
                 // 验证CompTransporter组件是否正常
                 CompTransporter transporter = this.GetComp<CompTransporter>();
                 if (transporter == null)
@@ -190,7 +219,7 @@ namespace WulaFallenEmpire
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
             Log.Message($"[WULA-DEBUG] DeSpawn called with mode: {mode}");
-            
+
             // 只在真正销毁时清理口袋地图，发射时保留
             if (ShouldDestroyPocketMapOnDeSpawn(mode))
             {
@@ -199,10 +228,10 @@ namespace WulaFallenEmpire
                     try
                     {
                         Log.Message("[WULA-DEBUG] Destroying pocket map due to shuttle destruction");
-                        
+
                         // 将口袋空间中的物品和人员转移到主地图
                         TransferAllFromPocketToMainMap();
-                        
+
                         // 销毁口袋地图
                         PocketMapUtility.DestroyPocketMap(pocketMap);
                         pocketMap = null;
@@ -217,37 +246,34 @@ namespace WulaFallenEmpire
             else
             {
                 Log.Message("[WULA-DEBUG] Preserving pocket map during shuttle launch/transport");
-                // 发射时暂停传送功能，但保留口袋空间
                 transportDisabled = true;
                 if (pocketMap != null && exit != null)
                 {
-                    // 标记传送功能暂停
                     Log.Message("[WULA-DEBUG] Transport functionality disabled during flight");
                 }
             }
-            
+
             base.DeSpawn(mode);
         }
-        
+
         /// <summary>
         /// 判断是否应该在DeSpawn时销毁口袋地图
         /// </summary>
         private bool ShouldDestroyPocketMapOnDeSpawn(DestroyMode mode)
         {
-            // 只在真正销毁时删除口袋空间
             switch (mode)
             {
-                case DestroyMode.Vanish:  // 发射时使用，保留口袋空间
+                case DestroyMode.Vanish:
                     return false;
-                case DestroyMode.Deconstruct:  // 拆除，删除口袋空间
+                case DestroyMode.Deconstruct:
                     return true;
-                case DestroyMode.KillFinalize:  // 被摧毁，删除口袋空间  
+                case DestroyMode.KillFinalize:
                     return true;
-                case DestroyMode.Cancel:  // 取消建造，删除口袋空间
+                case DestroyMode.Cancel:
                     return true;
-                case DestroyMode.Refund:  // 退款，删除口袋空间
+                case DestroyMode.Refund:
                     return true;
-                case DestroyMode.FailConstruction:  // 建造失败，删除口袋空间
+                case DestroyMode.FailConstruction:
                     return true;
                 default:
                     Log.Warning($"[WULA-WARNING] Unknown DestroyMode: {mode}, defaulting to preserve pocket map");
@@ -258,26 +284,24 @@ namespace WulaFallenEmpire
         public override string GetInspectString()
         {
             StringBuilder sb = new StringBuilder(base.GetInspectString());
-            
+
             if (pocketMapGenerated)
             {
                 sb.AppendLine("WULA.PocketSpace.Status".Translate() + ": " + "WULA.PocketSpace.Ready".Translate());
-                
-                // 显示主容器中的物品数量
+
                 CompTransporter transporter = this.GetComp<CompTransporter>();
                 int mainContainerItems = transporter?.innerContainer?.Count ?? 0;
-                
+
                 if (mainContainerItems > 0)
                 {
                     sb.AppendLine($"容器物品: {mainContainerItems}");
                 }
-                
-                // 显示口袋空间中的物品和人员数量
+
                 if (pocketMap != null)
                 {
                     int pocketItems = pocketMap.listerThings.AllThings.Count(t => t.def.category == ThingCategory.Item && t.def.EverHaulable);
                     int pawnCount = pocketMap.mapPawns.AllPawnsSpawned.Where(p => p.IsColonist).Count();
-                    
+
                     if (pocketItems > 0)
                     {
                         sb.AppendLine($"口袋空间物品: {pocketItems}");
@@ -287,8 +311,7 @@ namespace WulaFallenEmpire
                         sb.AppendLine("WULA.PocketSpace.PawnCount".Translate(pawnCount));
                     }
                 }
-                
-                // 在开发模式下显示详细调试信息
+
                 if (Prefs.DevMode)
                 {
                     sb.AppendLine($"[Debug] {GetPocketSpaceDebugInfo()}");
@@ -298,7 +321,7 @@ namespace WulaFallenEmpire
             {
                 sb.AppendLine("WULA.PocketSpace.Status".Translate() + ": " + "WULA.PocketSpace.NotGenerated".Translate());
             }
-            
+
             return sb.ToString().TrimEndNewlines();
         }
 
@@ -313,19 +336,19 @@ namespace WulaFallenEmpire
         {
             if (!allowDirectAccess)
             {
-                return false; // 需要特殊权限
+                return false;
             }
-            
+
             if (!Spawned)
             {
                 return false;
             }
-            
+
             if (transportDisabled)
             {
-                return false; // 飞行中禁用传送功能
+                return false;
             }
-            
+
             return true;
         }
 
@@ -354,7 +377,7 @@ namespace WulaFallenEmpire
 
             // 传送玩家到口袋空间
             List<Pawn> pawnsToTransfer = new List<Pawn>();
-            
+
             if (pawns != null)
             {
                 pawnsToTransfer.AddRange(pawns.Where(p => p != null && p.Spawned && p.IsColonist));
@@ -375,16 +398,24 @@ namespace WulaFallenEmpire
             int transferredCount = 0;
             foreach (Pawn pawn in pawnsToTransfer)
             {
-                if (TransferPawnToPocketSpace(pawn))
+                if (pawn.Spawned)
+                {
+                    pawn.DeSpawn();
+                }
+                if (pocketSpaceContainer.innerContainer.TryAdd(pawn))
                 {
                     transferredCount++;
+                }
+                else
+                {
+                    Log.Warning($"[WULA-WARNING] Failed to add pawn {pawn.LabelShort} to pocketSpaceContainer.");
                 }
             }
 
             if (transferredCount > 0)
             {
                 Messages.Message("WULA.PocketSpace.TransferSuccess".Translate(transferredCount), MessageTypeDefOf.PositiveEvent);
-                
+
                 // 切换到口袋地图
                 Current.Game.CurrentMap = pocketMap;
                 Find.CameraDriver.JumpToCurrentMapLoc(pocketMap.Center);
@@ -402,7 +433,7 @@ namespace WulaFallenEmpire
                 {
                     CreatePocketMap();
                 }
-                
+
                 if (pocketMap == null)
                 {
                     Messages.Message("WULA.PocketSpace.CreationFailed".Translate(), this, MessageTypeDefOf.RejectInput);
@@ -425,14 +456,14 @@ namespace WulaFallenEmpire
                 PocketMapUtility.currentlyGeneratingPortal = null; // 我们不是 MapPortal，但可以设为 null
                 pocketMap = GeneratePocketMapInt();
                 PocketMapUtility.currentlyGeneratingPortal = null;
-                
+
                 if (pocketMap != null)
                 {
                     pocketMapGenerated = true;
-                    
+
                     // 在口袋地图中心放置退出点
                     CreateExitPoint();
-                    
+
                     Log.Message($"[WULA] Successfully created pocket map of size {pocketMapSize} for armed shuttle");
                 }
                 else
@@ -445,7 +476,7 @@ namespace WulaFallenEmpire
                 Log.Error($"[WULA] Exception creating pocket map: {ex}");
             }
         }
-        
+
         /// <summary>
         /// 生成口袋地图的内部实现（模仿 MapPortal.GeneratePocketMapInt）
         /// </summary>
@@ -453,7 +484,7 @@ namespace WulaFallenEmpire
         {
             return PocketMapUtility.GeneratePocketMap(new IntVec3(pocketMapSize.x, 1, pocketMapSize.z), mapGenerator, GetExtraGenSteps(), this.Map);
         }
-        
+
         /// <summary>
         /// 获取额外的生成步骤（模仿 MapPortal.GetExtraGenSteps）
         /// </summary>
@@ -472,29 +503,13 @@ namespace WulaFallenEmpire
             try
             {
                 // 在地图中心找一个合适的位置
-                IntVec3 exitPos = pocketMap.Center;
-                
-                // 寻找可建造的位置
-                if (!exitPos.Standable(pocketMap) || exitPos.GetThingList(pocketMap).Any(t => t.def.category == ThingCategory.Building))
-                {
-                    exitPos = CellFinder.RandomClosewalkCellNear(pocketMap.Center, pocketMap, 5, 
-                        p => p.Standable(pocketMap) && !p.GetThingList(pocketMap).Any(t => t.def.category == ThingCategory.Building));
-                }
+                IntVec3 exitPos = CellFinder.RandomClosewalkCellNear(pocketMap.Center, pocketMap, 5, (IntVec3 c) => c.IsValid && c.Standable(pocketMap) && !c.Roofed(pocketMap));
 
                 if (exitPos.IsValid)
                 {
-                    // 创建退出点建筑
-                    Thing exitBuilding = ThingMaker.MakeThing(exitDef);
-                    if (exitBuilding is Building_PocketMapExit exitPortal)
-                    {
-                        exitPortal.targetMap = this.Map;
-                        exitPortal.targetPos = this.Position;
-                        exitPortal.parentShuttle = this;
-                        exit = exitPortal; // 设置 exit 引用，模仿原版 MapPortal
-                    }
-                    
-                    GenPlace.TryPlaceThing(exitBuilding, exitPos, pocketMap, ThingPlaceMode.Direct);
-                    Log.Message($"[WULA] Created exit point at {exitPos} in pocket map");
+                    exit = (Building_PocketMapExit)ThingMaker.MakeThing(exitDef);
+                    GenPlace.TryPlaceThing(exit, exitPos, pocketMap, ThingPlaceMode.Direct);
+                    Log.Message($"[WULA] Created exit point at {exitPos} in pocket map.");
                 }
                 else
                 {
@@ -517,7 +532,7 @@ namespace WulaFallenEmpire
             try
             {
                 // 找一个安全的位置
-                IntVec3 spawnPos = CellFinder.RandomClosewalkCellNear(pocketMap.Center, pocketMap, 10, 
+                IntVec3 spawnPos = CellFinder.RandomClosewalkCellNear(pocketMap.Center, pocketMap, 10,
                     p => p.Standable(pocketMap) && !p.GetThingList(pocketMap).Any(t => t is Pawn));
 
                 if (spawnPos.IsValid)
@@ -531,7 +546,7 @@ namespace WulaFallenEmpire
             {
                 Log.Error($"[WULA] Error transferring pawn {pawn?.LabelShort} to pocket space: {ex}");
             }
-            
+
             return false;
         }
 
@@ -541,13 +556,13 @@ namespace WulaFallenEmpire
         private void TransferAllFromPocketToMainMap()
         {
             Log.Message("[WULA-DEBUG] TransferAllFromPocketToMainMap started");
-            
+
             if (pocketMap == null)
             {
                 Log.Warning("[WULA-DEBUG] TransferAllFromPocketToMainMap: pocketMap is null, nothing to transfer");
                 return;
             }
-            
+
             if (!Spawned)
             {
                 Log.Error("[WULA-ERROR] TransferAllFromPocketToMainMap: Shuttle not spawned, cannot transfer items");
@@ -556,93 +571,34 @@ namespace WulaFallenEmpire
 
             try
             {
-                // 获取穿梭机的 CompTransporter
-                CompTransporter transporter = this.GetComp<CompTransporter>();
-                if (transporter == null)
-                {
-                    Log.Error("[WULA-ERROR] CompTransporter not found on shuttle! Cannot transfer items.");
-                    return;
-                }
-                
-                Log.Message($"[WULA-DEBUG] Found CompTransporter with {transporter.innerContainer.Count} existing items");
-
-                // 转移所有殖民者
-                List<Pawn> pawnsToTransfer = pocketMap.mapPawns.AllPawnsSpawned
-                    .Where(p => p.IsColonist).ToList();
-                    
-                Log.Message($"[WULA-DEBUG] Found {pawnsToTransfer.Count} colonists to transfer");
-                    
+                // 转移所有殖民者到 pocketSpaceContainer
+                List<Pawn> pawnsToTransfer = pocketMap.mapPawns.AllPawnsSpawned.ToList();
+                Log.Message($"[WULA-DEBUG] Found {pawnsToTransfer.Count} pawns to transfer from pocket map.");
                 foreach (Pawn pawn in pawnsToTransfer)
                 {
                     if (pawn.Spawned)
                     {
-                        Log.Message($"[WULA-DEBUG] Transferring pawn: {pawn.LabelShort}");
                         pawn.DeSpawn();
-                        
-                        // 直接放入穿梭机的容器，如果失败就放到地面
-                        if (!transporter.innerContainer.TryAdd(pawn))
-                        {
-                            Log.Warning($"[WULA-WARNING] Container full, placing pawn {pawn.LabelShort} near shuttle");
-                            // 如果容器满了，放到穿梭机附近
-                            IntVec3 spawnPos = CellFinder.RandomClosewalkCellNear(this.Position, this.Map, 5, 
-                                p => p.Standable(this.Map) && !p.GetThingList(this.Map).Any(t => t is Pawn));
-                            
-                            if (spawnPos.IsValid)
-                            {
-                                GenPlace.TryPlaceThing(pawn, spawnPos, this.Map, ThingPlaceMode.Near);
-                                Log.Message($"[WULA-DEBUG] Placed pawn {pawn.LabelShort} at {spawnPos}");
-                            }
-                            else
-                            {
-                                Log.Error($"[WULA-ERROR] Could not find valid position for pawn {pawn.LabelShort}");
-                            }
-                        }
-                        else
-                        {
-                            Log.Message($"[WULA-DEBUG] Successfully added pawn {pawn.LabelShort} to container");
-                        }
                     }
+                    pocketSpaceContainer.innerContainer.TryAdd(pawn);
                 }
 
-                // 转移所有物品到穿梭机的容器
-                List<Thing> itemsToTransfer = pocketMap.listerThings.AllThings
-                    .Where(t => t.def.category == ThingCategory.Item && t.def.EverHaulable).ToList();
-                    
-                Log.Message($"[WULA-DEBUG] Found {itemsToTransfer.Count} items to transfer");
-                    
+                // 转移所有物品到 pocketSpaceContainer
+                List<Thing> itemsToTransfer = pocketMap.listerThings.AllThings.Where(t => t.def.category == ThingCategory.Item && t.def.EverHaulable).ToList();
+                Log.Message($"[WULA-DEBUG] Found {itemsToTransfer.Count} items to transfer from pocket map.");
                 foreach (Thing item in itemsToTransfer)
                 {
                     if (item.Spawned)
                     {
-                        Log.Message($"[WULA-DEBUG] Transferring item: {item.LabelShort} (stack: {item.stackCount})");
                         item.DeSpawn();
-                        
-                        // 直接使用穿梭机的主容器
-                        if (!transporter.innerContainer.TryAdd(item))
-                        {
-                            Log.Warning($"[WULA-WARNING] Container full, dropping item {item.LabelShort} near shuttle");
-                            // 如果容器满了，丢到穿梭机附近（玩家可以手动重新装载）
-                            IntVec3 dropPos = CellFinder.RandomClosewalkCellNear(this.Position, this.Map, 3);
-                            if (dropPos.IsValid)
-                            {
-                                GenPlace.TryPlaceThing(item, dropPos, this.Map, ThingPlaceMode.Near);
-                                Messages.Message($"容器已满：{item.LabelShort} 被放置在穿梭机附近", this, MessageTypeDefOf.CautionInput);
-                                Log.Message($"[WULA-DEBUG] Dropped item {item.LabelShort} at {dropPos}");
-                            }
-                            else
-                            {
-                                Log.Error($"[WULA-ERROR] Could not find valid drop position for item {item.LabelShort}");
-                            }
-                        }
-                        else
-                        {
-                            Log.Message($"[WULA-DEBUG] Successfully added item {item.LabelShort} to container");
-                        }
                     }
+                    pocketSpaceContainer.innerContainer.TryAdd(item);
                 }
-                
-                Log.Message($"[WULA-DEBUG] Transfer complete. Container now has {transporter.innerContainer.Count} total items");
-                Log.Message($"[WULA-SUCCESS] Transferred {pawnsToTransfer.Count} pawns and {itemsToTransfer.Count} items from pocket space");
+
+                Log.Message($"[WULA] Transferred all pawns and items from pocket map to pocketSpaceContainer.");
+
+                // 调用新的同步方法，将 pocketSpaceContainer 中的所有物品和 Pawn 转移到主地图的 CompTransporter
+                TransferPocketContainerToMainTransporter();
             }
             catch (Exception ex)
             {
@@ -652,102 +608,40 @@ namespace WulaFallenEmpire
         }
 
         /// <summary>
-        /// 手动同步口袋空间中的所有物品到穿梭机主容器
-        /// 用于解决物品消失问题
+        /// 将pocketSpaceContainer中的所有物品和Pawn转移到主地图的CompTransporter
         /// </summary>
-        public void SyncPocketItemsToMainContainer()
+        public void TransferPocketContainerToMainTransporter()
         {
-            Log.Message("[WULA-DEBUG] SyncPocketItemsToMainContainer started");
-            
-            if (pocketMap == null || !pocketMapGenerated)
-            {
-                Log.Warning("[WULA-DEBUG] SyncPocketItemsToMainContainer: No pocket map to sync");
-                return;
-            }
-            
+            Log.Message("[WULA-DEBUG] TransferPocketContainerToMainTransporter started.");
+
             CompTransporter transporter = this.GetComp<CompTransporter>();
             if (transporter == null)
             {
-                Log.Error("[WULA-ERROR] No CompTransporter found on shuttle, cannot sync items");
+                Log.Error("[WULA-ERROR] CompTransporter not found on shuttle! Cannot transfer items from pocketSpaceContainer.");
                 return;
             }
-            
-            Log.Message($"[WULA-DEBUG] Starting sync. Current container has {transporter.innerContainer.Count} items");
-            
-            try
+
+            List<Thing> thingsToTransfer = pocketSpaceContainer.innerContainer.ToList();
+            int transferredCount = 0;
+
+            foreach (Thing t in thingsToTransfer)
             {
-                List<Thing> itemsInPocket = pocketMap.listerThings.AllThings
-                    .Where(t => t.def.category == ThingCategory.Item && t.def.EverHaulable && t.Spawned).ToList();
-                
-                Log.Message($"[WULA-DEBUG] Found {itemsInPocket.Count} items in pocket space to check");
-                
-                int syncedCount = 0;
-                int droppedCount = 0;
-                int skippedCount = 0;
-                
-                foreach (Thing item in itemsInPocket)
+                if (pocketSpaceContainer.innerContainer.Remove(t))
                 {
-                    // 检查物品是否已经在主容器中
-                    if (!transporter.innerContainer.Contains(item))
+                    if (transporter.innerContainer.TryAdd(t))
                     {
-                        Log.Message($"[WULA-DEBUG] Syncing item: {item.LabelShort} (not in main container)");
-                        
-                        // 从口袋地图中移除
-                        IntVec3 originalPos = item.Position;
-                        item.DeSpawn();
-                        
-                        // 尝试添加到主容器
-                        if (transporter.innerContainer.TryAdd(item))
-                        {
-                            syncedCount++;
-                            Log.Message($"[WULA-DEBUG] Successfully synced item: {item.LabelShort}");
-                        }
-                        else
-                        {
-                            Log.Warning($"[WULA-WARNING] Container full, dropping item: {item.LabelShort}");
-                            // 如果主容器满了，放到穿梭机附近（玩家可以手动装载）
-                            IntVec3 dropPos = CellFinder.RandomClosewalkCellNear(this.Position, this.Map, 3);
-                            if (dropPos.IsValid)
-                            {
-                                GenPlace.TryPlaceThing(item, dropPos, this.Map, ThingPlaceMode.Near);
-                                droppedCount++;
-                                Log.Message($"[WULA-DEBUG] Dropped item {item.LabelShort} at {dropPos}");
-                            }
-                            else
-                            {
-                                // 如果找不到合适位置，重新放回口袋空间
-                                GenPlace.TryPlaceThing(item, originalPos, pocketMap, ThingPlaceMode.Near);
-                                Log.Warning($"[WULA-WARNING] Could not find drop position, returned item {item.LabelShort} to pocket");
-                            }
-                        }
+                        transferredCount++;
                     }
                     else
                     {
-                        skippedCount++;
-                        Log.Message($"[WULA-DEBUG] Item {item.LabelShort} already in main container, skipping");
+                        Log.Warning($"[WULA-WARNING] Failed to add {t.LabelShort} to main transporter container. Dropping on ground.");
+                        GenPlace.TryPlaceThing(t, this.Position, this.Map, ThingPlaceMode.Near);
                     }
                 }
-                
-                string message = $"[WULA-SUCCESS] 同步完成: {syncedCount} 个物品已同步";
-                if (droppedCount > 0)
-                {
-                    message += $", {droppedCount} 个物品因容器已满被放置在附近";
-                }
-                if (skippedCount > 0)
-                {
-                    message += $", {skippedCount} 个物品已在容器中";
-                }
-                
-                Log.Message(message);
-                Log.Message($"[WULA-DEBUG] Final container state: {transporter.innerContainer.Count} items");
             }
-            catch (Exception ex)
-            {
-                Log.Error($"[WULA-ERROR] Error syncing pocket items to main container: {ex}");
-                Log.Error($"[WULA-ERROR] Stack trace: {ex.StackTrace}");
-            }
+            Log.Message($"[WULA] Transferred {transferredCount} items/pawns from pocketSpaceContainer to main transporter.");
         }
-        
+
         /// <summary>
         /// 获取口袋空间状态信息（用于调试）
         /// </summary>
@@ -757,11 +651,11 @@ namespace WulaFallenEmpire
             {
                 return "Pocket space not initialized";
             }
-            
+
             CompTransporter transporter = this.GetComp<CompTransporter>();
             int pocketItems = pocketMap.listerThings.AllThings.Count(t => t.def.category == ThingCategory.Item && t.def.EverHaulable);
             int mainContainerItems = transporter?.innerContainer?.Count ?? 0;
-            
+
             return $"Pocket: {pocketItems}, Main: {mainContainerItems}";
         }
 
@@ -775,7 +669,7 @@ namespace WulaFallenEmpire
             {
                 yield return gizmo;
             }
-            
+
             if (allowDirectAccess)
             {
                 // 进入口袋空间按钮（模仿原版MapPortal）
@@ -788,13 +682,13 @@ namespace WulaFallenEmpire
                 enterCommand.icon = EnterTex;
                 enterCommand.defaultLabel = EnterString + "...";
                 enterCommand.defaultDesc = "WULA.PocketSpace.EnterDesc".Translate();
-                
+
                 // 检查是否可以进入（模仿原版MapPortal.IsEnterable）
                 string reason;
                 enterCommand.Disabled = !IsEnterable(out reason);
                 enterCommand.disabledReason = reason;
                 yield return enterCommand;
-                
+
 
             }
         }
@@ -804,138 +698,104 @@ namespace WulaFallenEmpire
         #endregion
 
         #region MapPortal兼容接口（使Dialog_EnterPortal能正常工作）
-        
+
         /// <summary>
-        /// 检查是否可以进入（模仿原版MapPortal.IsEnterable）
+        /// 判断是否可以进入（模仿原版MapPortal.IsEnterable）
         /// </summary>
         public virtual bool IsEnterable(out string reason)
         {
-            if (!allowDirectAccess)
-            {
-                reason = "WULA.PocketSpace.AccessDenied".Translate();
-                return false;
-            }
-            
+            reason = "";
             if (!Spawned)
             {
                 reason = "WULA.PocketSpace.NotSpawned".Translate();
                 return false;
             }
-            
             if (transportDisabled)
             {
                 reason = "WULA.PocketSpace.TransportDisabled".Translate();
                 return false;
             }
-            
-            reason = "";
+            if (!this.CanEnterPocketSpace())
+            {
+                reason = "WULA.PocketSpace.CannotEnterReason".Translate();
+                return false;
+            }
             return true;
         }
-        
+
         /// <summary>
-        /// 获取目标地图（模仿原版MapPortal.GetOtherMap）
+        /// 获取另一个地图（模仿原版MapPortal.GetOtherMap）
         /// </summary>
         public virtual Map GetOtherMap()
         {
-            if (pocketMap == null)
+            if (PocketMap == null)
             {
                 CreatePocketMap();
             }
-            return pocketMap;
+            return PocketMap;
         }
-        
+
         /// <summary>
         /// 获取目标位置（模仿原版MapPortal.GetDestinationLocation）
         /// </summary>
         public virtual IntVec3 GetDestinationLocation()
         {
-            if (exit != null)
-            {
-                return exit.Position;
-            }
-            return pocketMap?.Center ?? IntVec3.Invalid;
+            return exit?.Position ?? IntVec3.Invalid;
         }
-        
+
         /// <summary>
-        /// 处理进入事件（模仿原版MapPortal.OnEntered）
+        /// 进入时回调（模仿原版MapPortal.OnEntered）
         /// </summary>
         public virtual void OnEntered(Pawn pawn)
         {
-            // 通知物品被添加（用于统计和管理）
-            Notify_ThingAdded(pawn);
-            
-            // 播放传送音效（如果存在）
-            if (Find.CurrentMap == this.Map)
+            // 将Pawn添加到口袋空间容器
+            if (pawn.Spawned)
             {
-                // 可以在这里添加音效播放
-                // def.portal?.traverseSound?.PlayOneShot(this);
+                pawn.DeSpawn();
+            }
+            pocketSpaceContainer.innerContainer.TryAdd(pawn);
+
+            if (!beenEntered)
+            {
+                beenEntered = true;
+                // 这里可以添加一些首次进入的信件/事件
+            }
+            if (Find.CurrentMap == base.Map)
+            {
+                // def.portal.traverseSound?.PlayOneShot(this); // 暂时移除，避免NRE
+            }
+            else if (Find.CurrentMap == exit.Map)
+            {
+                // def.portal.traverseSound?.PlayOneShot(exit); // 暂时移除，避免NRE
             }
         }
-        
+
         /// <summary>
-        /// 打开殖民者选择对话框（模仿原版Dialog_EnterPortal的功能）
+        /// 打开殖民者选择对话框（模仿原版Dialog_EnterPortal）
         /// </summary>
         private void OpenPawnSelectionDialog()
         {
-            // 获取所有可用的殖民者
-            List<Pawn> availablePawns = Map.mapPawns.AllPawnsSpawned
-                .Where(p => p.IsColonist && !p.Downed && p.CanReach(this, PathEndMode.Touch, Danger.Deadly))
-                .ToList();
-            
-            if (availablePawns.Count == 0)
-            {
-                Messages.Message("WULA.PocketSpace.NoPawnsAvailable".Translate(), this, MessageTypeDefOf.RejectInput);
-                return;
-            }
-            
-            // 创建选项列表
-            List<FloatMenuOption> options = new List<FloatMenuOption>();
-            
-            // 添加单个殖民者选项
-            foreach (Pawn pawn in availablePawns)
-            {
-                FloatMenuOption option = new FloatMenuOption(
-                    $"{pawn.LabelShort}", 
-                    delegate
-                    {
-                        EnterPocketSpace(new List<Pawn> { pawn });
-                    }
-                );
-                options.Add(option);
-            }
-            
-            // 添加“全部殖民者”选项
-            if (availablePawns.Count > 1)
-            {
-                FloatMenuOption allOption = new FloatMenuOption(
-                    "WULA.PocketSpace.AllColonists".Translate(availablePawns.Count),
-                    delegate
-                    {
-                        EnterPocketSpace(availablePawns);
-                    }
-                );
-                options.Add(allOption);
-            }
-            
-            // 显示浮动菜单
-            FloatMenu floatMenu = new FloatMenu(options);
-            Find.WindowStack.Add(floatMenu);
+            List<Pawn> pawns = CaravanFormingUtility.AllSendablePawns(this.Map, true, true, true, true, true, 0).ToList();
+            List<Thing> items = CaravanFormingUtility.AllReachableColonyItems(this.Map, true, true).ToList();
+
+            // 创建并显示对话框
+            Dialog_EnterPortal window = new Dialog_EnterPortal(new global::WulaFallenEmpire.MapPortalAdapter(this)); // 使用适配器
+            Find.WindowStack.Add(window);
         }
-        
-        #endregion
-        
-        #region 原版MapPortal的物品传送方法
-        
+
         /// <summary>
-        /// 通知有物品被添加（模仿原版 MapPortal.Notify_ThingAdded）
+        /// 通知物品被添加到此持有者（从IThingHolder继承，但现在由PocketSpaceThingHolder处理）
         /// </summary>
         public void Notify_ThingAdded(Thing t)
         {
-            SubtractFromToLoadList(t, t.stackCount);
+            // 这个方法现在由 PocketSpaceThingHolder 内部处理，这里只是为了满足IThingHolder接口
+            // 或者，如果Building_ArmedShuttleWithPocket仍然需要实现IThingHolder，则可以将其转发
+            // Log.Message($"[WULA] Building_ArmedShuttleWithPocket.Notify_ThingAdded called for {t.LabelCap}");
+            // pocketSpaceContainer.innerContainer.Notify_ThingAdded(t); // 转发给内部容器
         }
-        
+
         /// <summary>
-        /// 添加到加载列表（模仿原版 MapPortal.AddToTheToLoadList）
+        /// 添加到待加载列表（模仿原版MapPortal.AddToTheToLoadList）
         /// </summary>
         public void AddToTheToLoadList(TransferableOneWay t, int count)
         {
@@ -970,9 +830,9 @@ namespace WulaFallenEmpire
                 transferableOneWay2.AdjustTo(count);
             }
         }
-        
+
         /// <summary>
-        /// 从加载列表中减去（模仿原版 MapPortal.SubtractFromToLoadList）
+        /// 从待加载列表移除（模仿原版MapPortal.SubtractFromToLoadList）
         /// </summary>
         public int SubtractFromToLoadList(Thing t, int count)
         {
@@ -998,75 +858,63 @@ namespace WulaFallenEmpire
             }
             return num;
         }
-        
+
         /// <summary>
-        /// 取消加载（模仿原版 MapPortal.CancelLoad）
+        /// 取消加载（模仿原版MapPortal.CancelLoad）
         /// </summary>
         public void CancelLoad()
         {
-            // 简化版本，只清理列表
-            if (leftToLoad != null)
+            Lord lord = base.Map.lordManager.lords.FirstOrDefault((Lord l) => l.LordJob is LordJob_LoadAndEnterPortal lordJob_LoadAndEnterPortal && lordJob_LoadAndEnterPortal.portal is global::WulaFallenEmpire.MapPortalAdapter adapter && adapter.shuttle == this);
+            if (lord != null)
             {
-                leftToLoad.Clear();
+                base.Map.lordManager.RemoveLord(lord);
             }
+            leftToLoad.Clear();
         }
 
         #endregion
-        
-        #region 穿梭机状态变化处理
-        
+
+        #region 生命周期方法
+
         /// <summary>
-        /// 更新口袋空间中退出点的目标位置（处理穿梭机位置变化）
+        /// 更新退出点目标
         /// </summary>
         public void UpdateExitPointTarget()
         {
-            if (pocketMap == null || exit == null) return;
-            
+            if (exit == null) return;
+            if (base.Map == null)
+            {
+                Log.Warning("[WULA] UpdateExitPointTarget: Shuttle map is null, cannot update exit point target.");
+                return;
+            }
+
             try
             {
-                // 如果退出点是我们的Building_PocketMapExit类型，更新其目标位置
-                if (exit is Building_PocketMapExit pocketExit)
-                {
-                    // 更新目标地图和位置
-                    if (this.Spawned)
-                    {
-                        // 穿梭机在地图上，更新目标位置
-                        if (pocketExit.targetMap != this.Map || pocketExit.targetPos != this.Position)
-                        {
-                            pocketExit.targetMap = this.Map;
-                            pocketExit.targetPos = this.Position;
-                            pocketExit.parentShuttle = this;
-                            Log.Message($"[WULA] Updated pocket map exit target to shuttle location: {this.Map?.uniqueID} at {this.Position}");
-                        }
-                    }
-                    else
-                    {
-                        // 穿梭机不在地图上（可能在飞行中），记录警告但保持原有目标
-                        Log.Warning($"[WULA] Shuttle not spawned, pocket map exit target may be outdated. Current target: {pocketExit.targetMap?.uniqueID} at {pocketExit.targetPos}");
-                    }
-                }
+                exit.targetMap = base.Map;
+                exit.targetPos = base.Position;
+                Log.Message($"[WULA] Updated exit point target to map {base.Map.uniqueID} at position {base.Position}");
             }
             catch (Exception ex)
             {
                 Log.Error($"[WULA] Error updating exit point target: {ex}");
             }
         }
-        
+
         /// <summary>
         /// 重写Tick方法，定期检查穿梭机状态变化和物品同步
         /// </summary>
         protected override void Tick()
         {
             base.Tick();
-            
+
             // 每隔一段时间检查退出点目标是否需要更新（处理穿梭机移动的情况）
             if (this.IsHashIntervalTick(2500) && pocketMapGenerated && exit != null)
             {
                 UpdateExitPointTarget();
             }
-            
+
             // 定期检查并同步口袋空间中的物品（每5分钟检查一次）
-            if (this.IsHashIntervalTick(18000) && pocketMapGenerated && pocketMap != null) // 18000 ticks = 5 minutes
+            if (this.IsHashIntervalTick(18000) && pocketMapGenerated && pocketMap != null)
             {
                 // 自动同步口袋空间中的物品到主容器
                 try
@@ -1074,7 +922,7 @@ namespace WulaFallenEmpire
                     int itemsInPocket = pocketMap.listerThings.AllThings.Count(t => t.def.category == ThingCategory.Item && t.def.EverHaulable && t.Spawned);
                     if (itemsInPocket > 0)
                     {
-                        SyncPocketItemsToMainContainer();
+                        TransferPocketContainerToMainTransporter();
                         if (Prefs.DevMode)
                         {
                             Log.Message($"[WULA] Auto-synced pocket items. Current status: {GetPocketSpaceDebugInfo()}");
@@ -1087,20 +935,20 @@ namespace WulaFallenEmpire
                 }
             }
         }
-        
+
         /// <summary>
         /// 重写 SpawnSetup，确保位置变化时更新退出点
         /// </summary>
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            Log.Message($"[WULA-DEBUG] SpawnSetup called: map={map?.uniqueID}, respawning={respawningAfterLoad}");
-            
+            Log.Message($"[WULA-DEBUG] Building_ArmedShuttleWithPocket.SpawnSetup START. Instance ID: {this.ThingID}, Map param: {map?.GetUniqueLoadID() ?? "null"}, Respawning: {respawningAfterLoad}");
+
             // 保存旧位置信息
             Map oldMap = this.Map;
             IntVec3 oldPos = this.Position;
-            
+
             base.SpawnSetup(map, respawningAfterLoad);
-            
+
             // 验证关键组件
             CompTransporter transporter = this.GetComp<CompTransporter>();
             if (transporter == null)
@@ -1111,92 +959,158 @@ namespace WulaFallenEmpire
             {
                 Log.Message($"[WULA-DEBUG] CompTransporter found with {transporter.innerContainer?.Count ?? 0} items");
             }
-            
+
             // 更新退出点目标（处理穿梭机重新部署的情况）
             UpdateExitPointTarget();
-            
+
             // 如果是从飞行状态恢复，重新启用传送功能
             if (transportDisabled)
             {
                 Log.Message("[WULA-DEBUG] Re-enabling transport functionality after landing");
                 transportDisabled = false;
-                
+
                 // 如果有口袋空间，确保退出点正确连接到新地图
                 if (pocketMapGenerated && pocketMap != null && exit != null)
                 {
-                    Log.Message($"[WULA-DEBUG] Reconnecting pocket space exit to new map: {map?.uniqueID} at {this.Position}");
-                    // 退出点会在 UpdateExitPointTarget 中自动更新
+                    Log.Message($"[WULA-DEBUG] Reconnecting pocket space exit to new map: {map?.GetUniqueLoadID() ?? "null"} at {this.Position}");
                 }
             }
-            
+
             // 从 ThingDef 中读取 portal 配置
             if (def.HasModExtension<PocketMapProperties>())
             {
-                var portalProps = def.GetModExtension<PocketMapProperties>();
-                Log.Message($"[WULA-DEBUG] Loading portal properties from ThingDef");
-                
-                if (portalProps.pocketMapGenerator != null)
+                if (this.Map == null)
                 {
-                    mapGenerator = portalProps.pocketMapGenerator;
-                    Log.Message($"[WULA-DEBUG] Set mapGenerator: {mapGenerator.defName}");
+                    Log.Error($"[WULA-ERROR] Building_ArmedShuttleWithPocket {this.ThingID} Map is NULL after SpawnSetup!");
                 }
-                if (portalProps.exitDef != null)
-                {
-                    exitDef = portalProps.exitDef;
-                    Log.Message($"[WULA-DEBUG] Set exitDef: {exitDef.defName}");
-                }
-                if (portalProps.pocketMapSize != IntVec2.Zero)
-                {
-                    pocketMapSize = portalProps.pocketMapSize;
-                    Log.Message($"[WULA-DEBUG] Set pocketMapSize: {pocketMapSize}");
-                }
-                allowDirectAccess = portalProps.allowDirectAccess;
-                Log.Message($"[WULA-DEBUG] Set allowDirectAccess: {allowDirectAccess}");
+                PocketMapProperties props = def.GetModExtension<PocketMapProperties>();
+                pocketMapSize = props.pocketMapSize;
+                mapGenerator = props.mapGenerator;
+                exitDef = props.exitDef;
+                allowDirectAccess = props.allowDirectAccess;
             }
-            
-            // 初始化地图生成器和退出点定义（如果 XML 中没有配置）
-            if (mapGenerator == null)
-            {
-                mapGenerator = DefDatabase<MapGeneratorDef>.GetNamed("AncientStockpile", false) 
-                    ?? DefDatabase<MapGeneratorDef>.GetNamed("Base_Player", false)
-                    ?? MapGeneratorDefOf.Base_Player;
-                Log.Message($"[WULA-DEBUG] Using fallback mapGenerator: {mapGenerator.defName}");
-            }
-            
-            if (exitDef == null)
-            {
-                exitDef = DefDatabase<ThingDef>.GetNamed("WULA_PocketMapExit", false) 
-                    ?? ThingDefOf.Door;
-                Log.Message($"[WULA-DEBUG] Using fallback exitDef: {exitDef.defName}");
-            }
-            
-            // 如果位置发生了变化，记录日志
-            if (oldMap != null && (oldMap != map || oldPos != this.Position))
-            {
-                Log.Message($"[WULA-DEBUG] Shuttle moved from {oldMap?.uniqueID}:{oldPos} to {map?.uniqueID}:{this.Position}, updating pocket map exit target");
-            }
-            
-            Log.Message($"[WULA-DEBUG] SpawnSetup completed successfully");
         }
-        
-        #endregion
+    }
+
+    public class PocketMapProperties : DefModExtension
+    {
+        public IntVec2 pocketMapSize = new IntVec2(80, 80);
+        public MapGeneratorDef mapGenerator;
+        public ThingDef exitDef;
+        public bool allowDirectAccess = true;
     }
 
     /// <summary>
-    /// 口袋空间属性配置类
+    /// 适配器类，使Building_ArmedShuttleWithPocket能够作为MapPortal被Dialog_EnterPortal使用
     /// </summary>
-    public class PocketMapProperties : DefModExtension
+    public class MapPortalAdapter : MapPortal
     {
-        /// <summary>口袋地图生成器</summary>
-        public MapGeneratorDef pocketMapGenerator;
-        
-        /// <summary>退出点定义</summary>
-        public ThingDef exitDef;
-        
-        /// <summary>口袋地图大小</summary>
-        public IntVec2 pocketMapSize = new IntVec2(13, 13);
-        
-        /// <summary>允许直接访问</summary>
-        public bool allowDirectAccess = true;
+        public Building_ArmedShuttleWithPocket shuttle;
+
+        public MapPortalAdapter() { } // Scribe需要无参数构造函数
+
+        public MapPortalAdapter(Building_ArmedShuttleWithPocket shuttle)
+        {
+            this.shuttle = shuttle;
+        }
+
+        public new Map PocketMap => shuttle?.PocketMap;
+
+        public new bool PocketMapExists => shuttle?.PocketMap != null; // 修正
+
+        public new bool AutoDraftOnEnter => false; // 修正
+
+        protected new Texture2D EnterTex => ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter"); // 修正
+
+        public new string EnterString => shuttle?.EnterString;
+
+        public new string CancelEnterString => shuttle?.CancelEnterString;
+
+        public new string EnteringString => shuttle?.EnteringString;
+
+        public new bool LoadInProgress => shuttle?.LoadInProgress ?? false;
+
+        public new bool AnyPawnCanLoadAnythingNow => shuttle?.AnyPawnCanLoadAnythingNow ?? false;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_References.Look(ref shuttle, "shuttle");
+        }
+
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            // 适配器不应该被Spawn，此方法留空或报错
+            Log.Error("MapPortalAdapter should not be spawned directly.");
+        }
+
+        protected override void Tick()
+        {
+            // 适配器不应该Tick，此方法留空
+        }
+
+        public new ThingOwner GetDirectlyHeldThings()
+        {
+            return shuttle?.GetDirectlyHeldThings();
+        }
+
+        public new void GetChildHolders(List<IThingHolder> outChildren)
+        {
+            shuttle?.GetChildHolders(outChildren);
+        }
+
+        public new void Notify_ThingAdded(Thing t)
+        {
+            shuttle?.Notify_ThingAdded(t);
+        }
+
+        public new void AddToTheToLoadList(TransferableOneWay t, int count)
+        {
+            shuttle?.AddToTheToLoadList(t, count);
+        }
+
+        public new int SubtractFromToLoadList(Thing t, int count)
+        {
+            return shuttle?.SubtractFromToLoadList(t, count) ?? 0;
+        }
+
+        public new void CancelLoad()
+        {
+            shuttle?.CancelLoad();
+        }
+
+        public new bool IsEnterable(out string reason)
+        {
+            if (shuttle == null)
+            {
+                reason = "WULA.PocketSpace.AdapterError".Translate();
+                return false;
+            }
+            return shuttle.IsEnterable(out reason);
+        }
+
+        public new Map GetOtherMap()
+        {
+            return shuttle?.GetOtherMap();
+        }
+
+        public new IntVec3 GetDestinationLocation()
+        {
+            return shuttle?.GetDestinationLocation() ?? IntVec3.Invalid;
+        }
+
+        public new void OnEntered(Pawn pawn)
+        {
+            shuttle?.OnEntered(pawn);
+        }
+
+        public new IEnumerable<Gizmo> GetGizmos()
+        {
+            // 适配器不直接提供Gizmo，Gizmo应该由shuttle提供
+            return base.GetGizmos(); // 或者返回空的IEnumerable
+        }
     }
+
+    #endregion // MapPortal兼容接口
+
 }
