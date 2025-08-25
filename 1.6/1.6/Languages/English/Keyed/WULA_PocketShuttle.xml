@@ -36,18 +36,6 @@
   
   <!-- Exit point related -->
   <WULA.PocketSpace.ExitThroughPortal>Return through portal</WULA.PocketSpace.ExitThroughPortal>
-  <WULA.PocketSpace.ExitToMainMap>Return to main map</WULA.PocketSpace.ExitToMainMap>
-  <WULA.PocketSpace.NoTargetMap>No target map</WULA.PocketSpace.NoTargetMap>
-  <WULA.PocketSpace.ViewMainMap>View main map</WULA.PocketSpace.ViewMainMap>
-  <WULA.PocketSpace.ViewMainMapDesc>Switch to main map and view the shuttle.</WULA.PocketSpace.ViewMainMapDesc>
-  <WULA.PocketSpace.LoadShuttle>Load shuttle</WULA.PocketSpace.LoadShuttle>
-  <WULA.PocketSpace.LoadShuttleDesc>Open shuttle loading interface to select personnel and items to load.</WULA.PocketSpace.LoadShuttleDesc>
-  <WULA.PocketSpace.CancelLoading>Cancel loading</WULA.PocketSpace.CancelLoading>
-  <WULA.PocketSpace.CancelLoadingDesc>Cancel the current loading operation.</WULA.PocketSpace.CancelLoadingDesc>
-  <WULA.PocketSpace.ShuttleStatus>Shuttle status</WULA.PocketSpace.ShuttleStatus>
-  <WULA.PocketSpace.ShuttleStatusDesc>View detailed shuttle status information.</WULA.PocketSpace.ShuttleStatusDesc>
-  <WULA.PocketSpace.ShuttleInfo>Shuttle Information</WULA.PocketSpace.ShuttleInfo>
-  <WULA.PocketSpace.LoadingDialogError>Cannot open loading dialog.</WULA.PocketSpace.LoadingDialogError>
   <WULA.PocketSpace.ExitAll>Return all</WULA.PocketSpace.ExitAll>
   <WULA.PocketSpace.ExitAllDesc>Transport all colonists from pocket space back to the main map.</WULA.PocketSpace.ExitAllDesc>
   <WULA.PocketSpace.ExitSuccess>{0} successfully returned to main map.</WULA.PocketSpace.ExitSuccess>

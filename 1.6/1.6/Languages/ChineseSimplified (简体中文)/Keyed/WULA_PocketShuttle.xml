@@ -36,18 +36,6 @@
   
   <!-- 退出点相关 -->
   <WULA.PocketSpace.ExitThroughPortal>通过传送门返回</WULA.PocketSpace.ExitThroughPortal>
-  <WULA.PocketSpace.ExitToMainMap>返回主地图</WULA.PocketSpace.ExitToMainMap>
-  <WULA.PocketSpace.NoTargetMap>没有目标地图</WULA.PocketSpace.NoTargetMap>
-  <WULA.PocketSpace.ViewMainMap>查看主地图</WULA.PocketSpace.ViewMainMap>
-  <WULA.PocketSpace.ViewMainMapDesc>切换到主地图并查看穿梭机。</WULA.PocketSpace.ViewMainMapDesc>
-  <WULA.PocketSpace.LoadShuttle>装载穿梭机</WULA.PocketSpace.LoadShuttle>
-  <WULA.PocketSpace.LoadShuttleDesc>打开穿梭机装载界面，选择要装载的人员和物品。</WULA.PocketSpace.LoadShuttleDesc>
-  <WULA.PocketSpace.CancelLoading>取消装载</WULA.PocketSpace.CancelLoading>
-  <WULA.PocketSpace.CancelLoadingDesc>取消当前的装载操作。</WULA.PocketSpace.CancelLoadingDesc>
-  <WULA.PocketSpace.ShuttleStatus>穿梭机状态</WULA.PocketSpace.ShuttleStatus>
-  <WULA.PocketSpace.ShuttleStatusDesc>查看穿梭机的详细状态信息。</WULA.PocketSpace.ShuttleStatusDesc>
-  <WULA.PocketSpace.ShuttleInfo>穿梭机信息</WULA.PocketSpace.ShuttleInfo>
-  <WULA.PocketSpace.LoadingDialogError>无法打开装载对话框。</WULA.PocketSpace.LoadingDialogError>
   <WULA.PocketSpace.ExitAll>全员返回</WULA.PocketSpace.ExitAll>
   <WULA.PocketSpace.ExitAllDesc>将所有殖民者从口袋空间传送回主地图。</WULA.PocketSpace.ExitAllDesc>
   <WULA.PocketSpace.ExitSuccess>{0} 已成功返回主地图。</WULA.PocketSpace.ExitSuccess>

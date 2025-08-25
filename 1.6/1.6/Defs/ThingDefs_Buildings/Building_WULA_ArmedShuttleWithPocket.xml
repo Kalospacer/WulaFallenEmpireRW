@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_ArmedShuttleWithPocket</defName>
-    <label>armed shuttle with pocket space</label>
+    <label>乌拉武装运输机</label>
     <description>An advanced chemfuel-powered shuttle with integrated pocket space technology. Equipped with a defensive turret and internal storage dimension that doesn't require hacking to access. Perfect for long-distance exploration and mobile operations.</description>
     <thingClass>WulaFallenEmpire.Building_ArmedShuttleWithPocket</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
@@ -26,30 +27,28 @@
       </shadowData>
     </graphicData>
     <statBases>
-      <MaxHitPoints>800</MaxHitPoints>
-      <Flammability>0.4</Flammability>
-      <WorkToBuild>60000</WorkToBuild>
-      <Mass>200</Mass>
-      <Comfort>0.75</Comfort>
+      <MaxHitPoints>6000</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>40000</WorkToBuild>
+      <Mass>150</Mass>
+      <Comfort>0.65</Comfort>
     </statBases>
     <tickerType>Normal</tickerType>
     <designationCategory>Odyssey</designationCategory>
-    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <costList>
-      <Steel>400</Steel>
-      <Plasteel>300</Plasteel>
-      <ComponentIndustrial>12</ComponentIndustrial>
-      <ComponentSpacer>4</ComponentSpacer>
+      <Steel>300</Steel>
+      <Plasteel>200</Plasteel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+      <ComponentSpacer>2</ComponentSpacer>
       <ShuttleEngine>1</ShuttleEngine>
-      <VanometricPowerCore>1</VanometricPowerCore>
     </costList>
     <canOverlapZones>true</canOverlapZones>
     <killedLeavings>
-      <Steel>80</Steel>
-      <Plasteel>90</Plasteel>
-      <ChunkSlagSteel>6</ChunkSlagSteel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-      <ComponentSpacer>1</ComponentSpacer>
+      <Steel>60</Steel>
+      <Plasteel>60</Plasteel>
+      <ChunkSlagSteel>5</ChunkSlagSteel>
+      <ComponentIndustrial>4</ComponentIndustrial>
     </killedLeavings>
     <rotatable>true</rotatable>
     <hasInteractionCell>true</hasInteractionCell>
@@ -69,30 +68,18 @@
       <isInert>true</isInert>
       <forcedCostLeavings>
         <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
-        <li MayRequire="Ludeon.RimWorld.Anomaly">VanometricPowerCore</li>
       </forcedCostLeavings>
-      <turretGunDef>Gun_ChargeBlasterAdvancedTurret</turretGunDef>
-      <turretBurstCooldownTime>4.5</turretBurstCooldownTime>
-      <turretBurstWarmupTime>1.0~1.5</turretBurstWarmupTime>
-      <turretTopDrawSize>1.9</turretTopDrawSize>
-      <turretTopOffset>(0, 0.08)</turretTopOffset>
+      <turretGunDef>Gun_ChargeBlasterHeavyTurret</turretGunDef>
+      <turretBurstCooldownTime>5.5</turretBurstCooldownTime>
+      <turretTopDrawSize>1.75</turretTopDrawSize>
+      <turretTopOffset>(0, 0.05)</turretTopOffset>
     </building>
-    <!-- 口袋空间配置 -->
-    <modExtensions>
-      <li Class="WulaFallenEmpire.PocketMapProperties">
-        <pocketMapGenerator>WULA_PocketSpace_Small</pocketMapGenerator>
-        <exitDef>WULA_PocketMapExit</exitDef>
-        <pocketMapSize>(13, 13)</pocketMapSize>
-        <allowDirectAccess>true</allowDirectAccess>
-      </li>
-    </modExtensions>
     <inspectorTabs>
       <li>ITab_ContentsTransporter</li>
       <li>ITab_Shells</li>
     </inspectorTabs>
     <researchPrerequisites>
       <li>Shuttles</li>
-      <li MayRequire="Ludeon.RimWorld.Anomaly">VoidStructure</li>
     </researchPrerequisites>
     <comps>
       <li Class="CompProperties_Shuttle">
@@ -134,19 +121,27 @@
         <canEjectFuel>true</canEjectFuel>
       </li>
       <li Class="CompProperties_Power">
-        <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>200</basePowerConsumption>
-        <shortCircuitInRain>false</shortCircuitInRain>
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-400</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
       </li>
       <li Class="CompProperties_AmbientSound">
         <sound>ShuttleIdle_Ambience</sound>
       </li>
     </comps>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.PocketMapProperties">
+        <pocketMapGenerator>WULA_PocketSpace_Small</pocketMapGenerator>
+        <exitDef>WULA_PocketMapExit</exitDef>
+        <pocketMapSize>(13, 13)</pocketMapSize>
+        <allowDirectAccess>true</allowDirectAccess>
+      </li>
+    </modExtensions>
     <placeWorkers>
       <li>PlaceWorker_NotUnderRoof</li>
       <li>PlaceWorker_TurretTop</li>
     </placeWorkers>
-    <uiOrder>2602</uiOrder>
+    <uiOrder>2601</uiOrder>
   </ThingDef>
 
   <!-- 改进的武器定义 -->
@@ -305,13 +300,15 @@
     <label>pocket space exit</label>
     <description>An exit portal that allows return from the pocket space to the main map.</description>
     <thingClass>WulaFallenEmpire.Building_PocketMapExit</thingClass>
-    <size>(1,1)</size>
+    <size>(3,3)</size>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
-      <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Things/Building/Misc/CaveExit/CaveExit</texPath>
-      <drawSize>(1,1)</drawSize>
+      <texPath>Wula/Building/WULA_War_Machine_Recharger</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
     </graphicData>
+    <interactionCellOffset>(0,0,0)</interactionCellOffset>
+    <passability>Standable</passability>
     <statBases>
       <Flammability>0</Flammability>
     </statBases>
@@ -322,6 +319,11 @@
       </li>
       <li Class="CompProperties_Effecter">
         <effecterDef>UndercaveMapExitLightshafts</effecterDef>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-400</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
       </li>
     </comps>
   </ThingDef>
