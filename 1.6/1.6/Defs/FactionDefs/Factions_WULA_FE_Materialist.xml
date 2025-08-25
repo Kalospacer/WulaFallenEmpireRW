@@ -11,6 +11,7 @@
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <factionNameMaker>NamerFaction_Wula_FE_Materialist</factionNameMaker>
     <factionIconPath>Wula/World/WorldObjects/Expanding/Wula_FE_Faction</factionIconPath>
+    <displayInFactionSelection>false</displayInFactionSelection>
     <!-- <settlementGenerationWeight>1</settlementGenerationWeight> -->
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <canSiege>false</canSiege>

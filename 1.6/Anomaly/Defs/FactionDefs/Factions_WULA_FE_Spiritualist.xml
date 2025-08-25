@@ -7,10 +7,11 @@
     <basicMemberKind>RealWula_PawnKind</basicMemberKind>
     <pawnSingular>乌拉星人</pawnSingular>
     <pawnsPlural>乌拉星人</pawnsPlural>
-    <categoryTag>Wula_FE_Spiritualist_Faction</categoryTag>
+    <categoryTag>Wula_FE_Spiritualist_FactionTag</categoryTag>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <factionNameMaker>NamerFaction_Wula_FE_Spiritualist</factionNameMaker>
     <factionIconPath>Wula/World/WorldObjects/Expanding/Wula_FE_Faction</factionIconPath>
+    <displayInFactionSelection>false</displayInFactionSelection>
     <!-- <settlementGenerationWeight>1</settlementGenerationWeight> -->
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <canSiege>false</canSiege>
