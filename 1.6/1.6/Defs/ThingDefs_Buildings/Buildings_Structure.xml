@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef ParentName="Wall">
+  <ThingDef ParentName="Wall" Name="WulaWall">
     <defName>WulaWall</defName>
     <label>乌拉帝国堡垒</label>
     <description>乌拉帝国堡垒外壁，相当厚实，能够抵御大量伤害，并且拥有气密性，可以用在飞船外壳上。</description>
@@ -58,6 +58,12 @@
 				<transmitsPower>true</transmitsPower>
 			</li>
     </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="WulaWall">
+    <defName>WulaWall_Indoor</defName>
+    <label>乌拉帝国饰板</label>
+    <description>乌拉帝国非承重墙体，相当厚实，能够抵御大量伤害，并且拥有气密性，可以用在飞船外壳上。</description>
   </ThingDef>
 
   <ThingDef ParentName="DoorBase">
