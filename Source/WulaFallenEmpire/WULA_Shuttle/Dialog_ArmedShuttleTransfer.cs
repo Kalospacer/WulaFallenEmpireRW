@@ -130,13 +130,6 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 将物品添加到穿梭机的主容器 (CompTransporter.innerContainer)
-            CompTransporter transporter = shuttle.GetComp<CompTransporter>();
-            if (transporter == null)
-            {
-                Log.Error("[WULA-ERROR] Dialog_ArmedShuttleTransfer: CompTransporter is missing on shuttle!");
-                return false;
-            }
 
             int transferredItemCount = 0;
             foreach (Thing item in itemsToTransfer)
@@ -144,26 +137,17 @@ namespace WulaFallenEmpire
                 // 从当前地图移除物品
                 item.DeSpawn();
                 
-                // 尝试添加到穿梭机主容器
-                if (transporter.innerContainer.TryAdd(item))
+                // 尝试放置到口袋空间地上
+                IntVec3 dropPos = CellFinder.RandomClosewalkCellNear(shuttle.PocketMap.Center, shuttle.PocketMap, 5); // 随机位置，避免重叠
+                if (dropPos.IsValid)
                 {
+                    GenPlace.TryPlaceThing(item, dropPos, shuttle.PocketMap, ThingPlaceMode.Near);
                     transferredItemCount++;
                 }
                 else
                 {
-                    // 如果容器已满，尝试丢弃在穿梭机附近
-                    IntVec3 dropPos = CellFinder.RandomClosewalkCellNear(shuttle.Position, shuttle.Map, 3);
-                    if (dropPos.IsValid)
-                    {
-                        GenPlace.TryPlaceThing(item, dropPos, shuttle.Map, ThingPlaceMode.Near);
-                        Messages.Message("容器已满：{0} 被放置在穿梭机附近".Translate(item.LabelShort), shuttle, MessageTypeDefOf.CautionInput);
-                    }
-                    else
-                    {
-                        Log.Error($"[WULA-ERROR] Could not find valid drop position for item {item.LabelShort}");
-                        // 实在没地方放，就让它消失吧，或者抛出异常
-                        item.Destroy(); 
-                    }
+                    Log.Error($"[WULA-ERROR] Could not find valid drop position for item {item.LabelShort} in pocket map.");
+                    item.Destroy(); // 实在没地方放，就销毁
                 }
             }
             
