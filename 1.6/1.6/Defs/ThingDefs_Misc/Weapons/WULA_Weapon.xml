@@ -1712,6 +1712,100 @@
 		</comps>
 	</HediffDef>-->
 
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Plasma_Homing_AR</defName>
+    <label>PMr-88"三叶"</label>
+    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，这种改型可以发射制导等离子体。</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Plasma_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <generateCommonality>1</generateCommonality>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses>
+      <li>LongShots</li>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_BIO</li>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>1500</WorkToMake>
+      <Mass>3.0</Mass>
+      <AccuracyTouch>0.6</AccuracyTouch>
+      <AccuracyShort>0.75</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.8</AccuracyLong>
+      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <Steel>100</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <Plasteel>20</Plasteel>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Plasma_Homing_AR</defaultProjectile>
+        <warmupTime>2.0</warmupTime>
+        <range>28</range>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <soundCast>Shot_BeamRepeater</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
+        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>Wula_Weapon_Init</li>
+      <li>HomingWeapon</li>
+    </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Plasma_Homing_AR</defName>
+    <label>磷叶等离子体射弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(61,199,157,202)</color>
+      <drawSize>(0.75,1)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>16</damageAmountBase>
+      <armorPenetrationBase>0.75</armorPenetrationBase>
+      <speed>30</speed>
+    </projectile>
+    <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <homingSpeed>0.1</homingSpeed>
+        <initRotateAngle>30</initRotateAngle>
+        <destroyTicksAfterLosingTrack>
+          <min>60</min>
+          <max>120</max>
+        </destroyTicksAfterLosingTrack>
+        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
+      </li>
+      <li Class="WulaFallenEmpire.ShotgunExtension">
+        <pelletCount>2</pelletCount>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
   <!-- 萨克森装备 -->
   <ThingDef ParentName="BaseGun">
     <defName>WULA_WM_Panzer_Turret</defName>
