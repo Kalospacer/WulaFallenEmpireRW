@@ -20,9 +20,7 @@ namespace WulaFallenEmpire
     {
         #region 静态图标定义（使用原版MapPortal的图标）
         
-        /// <summary>查看口袋地图图标</summary>
-        private static readonly Texture2D ViewPocketMapTex = ContentFinder<Texture2D>.Get("UI/Commands/ViewCave");
-        
+
         /// <summary>取消进入图标</summary>
         private static readonly Texture2D CancelEnterTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
         
@@ -797,28 +795,7 @@ namespace WulaFallenEmpire
                 enterCommand.disabledReason = reason;
                 yield return enterCommand;
                 
-                // 查看口袋地图按钮（模仿原版MapPortal）
-                if (pocketMap != null)
-                {
-                    yield return new Command_Action
-                    {
-                        defaultLabel = "WULA.PocketSpace.ViewMap".Translate(),
-                        defaultDesc = "WULA.PocketSpace.ViewMapDesc".Translate(),
-                        icon = ViewPocketMapTex,
-                        action = delegate
-                        {
-                            // 模仿原版，跳转到口袋地图并选中退出点
-                            if (exit != null)
-                            {
-                                CameraJumper.TryJumpAndSelect(exit);
-                            }
-                            else
-                            {
-                                SwitchToPocketSpace();
-                            }
-                        }
-                    };
-                }
+
             }
         }
 
