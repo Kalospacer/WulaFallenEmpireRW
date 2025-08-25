@@ -11,7 +11,7 @@
   <WULA.PocketSpace.InitializeDesc>初始化穿梭机的内部口袋空间。这将在穿梭机内部创建维度储存空间。</WULA.PocketSpace.InitializeDesc>
   
   <WULA.PocketSpace.Enter>进入内部空间</WULA.PocketSpace.Enter>
-  <WULA.PocketSpace.EnterDesc>进入穿梭机的内部口袋空间。无需骇入即可直接访问。选中的殖民者将被传送到内部空间。</WULA.PocketSpace.EnterDesc>
+  <WULA.PocketSpace.EnterDesc>进入穿梭机的内部口袋空间。选中的殖民者将被传送到内部空间。</WULA.PocketSpace.EnterDesc>
   
   
   <WULA.PocketSpace.ViewMap>查看内部空间</WULA.PocketSpace.ViewMap>
@@ -33,7 +33,6 @@
   <WULA.PocketSpace.TransferSuccess>{0} 名人员已成功传送到内部空间。</WULA.PocketSpace.TransferSuccess>
   
   <!-- 存储管理对话框 -->
-  
   <WULA.PocketSpace.PawnCount>内部空间人员: {0}</WULA.PocketSpace.PawnCount>
   <WULA.PocketSpace.NoPawnsSelected>请选择至少一名殖民者进入内部空间。</WULA.PocketSpace.NoPawnsSelected>
   
@@ -42,25 +41,4 @@
   <WULA.PocketSpace.ExitToMainMapDesc>通过口袋空间出口返回主地图。</WULA.PocketSpace.ExitToMainMapDesc>
   <WULA.PocketSpace.ExitSuccess>{0} 已成功返回主地图。</WULA.PocketSpace.ExitSuccess>
   
-  <!-- 建筑标签和描述 -->
-  <WULA_ArmedShuttleWithPocket.label>内置空间武装穿梭机</WULA_ArmedShuttleWithPocket.label>
-  <WULA_ArmedShuttleWithPocket.description>一架配备了集成口袋空间技术的先进化燃料动力穿梭机。装备有防御炮塔和无需骇入即可访问的内部储存维度。非常适合长距离探索和移动作战行动。</WULA_ArmedShuttleWithPocket.description>
-  
-  <!-- 武器相关 -->
-  <Gun_ChargeBlasterAdvancedTurret.label>先进充能爆破器</Gun_ChargeBlasterAdvancedTurret.label>
-  <Gun_ChargeBlasterAdvancedTurret.description>一种升级版脉冲充能速射爆破器，配备增强型瞄准系统和提升的火力输出。</Gun_ChargeBlasterAdvancedTurret.description>
-  
-  <WULA_Bullet_ArmedShuttleAdvanced.label>先进穿梭机炮弹</WULA_Bullet_ArmedShuttleAdvanced.label>
-  
-  <!-- 天降物相关 -->
-  <ArmedShuttleWithPocketIncoming_WULA.label>内置空间武装穿梭机（降落中）</ArmedShuttleWithPocketIncoming_WULA.label>
-  <ArmedShuttleWithPocketLeaving_WULA.label>内置空间武装穿梭机（起飞中）</ArmedShuttleWithPocketLeaving_WULA.label>
-  
-  <!-- 运输船相关 -->
-  <Ship_ArmedShuttleWithPocket.label>内置空间武装穿梭机</Ship_ArmedShuttleWithPocket.label>
-  
-  <!-- 退出点建筑 -->
-  <WULA_PocketMapExit.label>口袋空间出口</WULA_PocketMapExit.label>
-  <WULA_PocketMapExit.description>一个传送门出口，允许从口袋空间返回到主地图。</WULA_PocketMapExit.description>
-
 </LanguageData>

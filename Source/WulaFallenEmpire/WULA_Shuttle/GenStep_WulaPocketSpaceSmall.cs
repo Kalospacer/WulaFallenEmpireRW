@@ -29,10 +29,21 @@ namespace WulaFallenEmpire
                 // 生成内部地板
                 GenerateFloor(map);
                 
-                // 生成一些基础设施（照明等）
-                GenerateBasicInfrastructure(map);
-                
                 Log.Message("[WULA] WULA pocket space generation completed");
+                
+                // 添加预制件生成
+                // 注意：这里需要根据实际的PrefabDef名称进行加载
+                // 暂时使用一个示例PrefabDef名称，实际使用时应替换
+                PrefabDef customPrefabDef = DefDatabase<PrefabDef>.GetNamed("YourCustomPrefabDefName", false);
+                if (customPrefabDef != null)
+                {
+                    GeneratePrefab(map, customPrefabDef);
+                    Log.Message($"[WULA] Generated custom prefab: {customPrefabDef.defName}");
+                }
+                else
+                {
+                    Log.Warning("[WULA] Custom prefab 'YourCustomPrefabDefName' not found. Skipping prefab generation.");
+                }
             }
             catch (Exception ex)
             {
@@ -208,46 +219,53 @@ namespace WulaFallenEmpire
         }
 
         /// <summary>
-        /// 生成基础设施
+        /// 生成预制件
         /// </summary>
-        private void GenerateBasicInfrastructure(Map map)
+        private void GeneratePrefab(Map map, PrefabDef prefabDef)
         {
-            IntVec3 mapSize = map.Size;
-            IntVec3 center = map.Center;
-            
-            // 获取灯具定义
-            ThingDef lampDef = DefDatabase<ThingDef>.GetNamed("StandingLamp", false) ??
-                             DefDatabase<ThingDef>.GetNamed("TorchLamp", false) ??
-                             DefDatabase<ThingDef>.GetNamed("Campfire", false);
-            
-            if (lampDef == null)
+            if (prefabDef == null)
             {
-                Log.Warning("[WULA] No lamp definition found, skipping lighting generation");
+                Log.Error("[WULA] PrefabDef is null, cannot generate prefab.");
                 return;
             }
-            
-            // 在四个角落放置照明设备
-            var lightPositions = new List<IntVec3>
-            {
-                new IntVec3(2, 0, 2),                           // 左下角
-                new IntVec3(mapSize.x - 3, 0, 2),              // 右下角
-                new IntVec3(2, 0, mapSize.z - 3),              // 左上角
-                new IntVec3(mapSize.x - 3, 0, mapSize.z - 3)   // 右上角
-            };
 
-            foreach (IntVec3 pos in lightPositions)
+            // 获取预制件的中心点，将其放置在口袋空间的中心
+            IntVec3 mapCenter = map.Center;
+            IntVec3 prefabOrigin = mapCenter - new IntVec3(prefabDef.size.x / 2, 0, prefabDef.size.z / 2);
+
+            // 生成物品
+            foreach (var thingData in prefabDef.GetThings())
             {
-                if (pos.InBounds(map) && pos.Standable(map))
+                IntVec3 thingPos = prefabOrigin + thingData.cell;
+                if (thingPos.InBounds(map))
                 {
-                    // 放置立式灯
-                    Thing lamp = ThingMaker.MakeThing(lampDef);
-                    lamp.SetFaction(null);
-                    GenPlace.TryPlaceThing(lamp, pos, map, ThingPlaceMode.Direct);
+                    Thing thing = ThingMaker.MakeThing(thingData.data.def, thingData.data.stuff);
+                    if (thing != null)
+                    {
+                        // PrefabThingData 不包含 factionDef，派系通常在生成时由上下文决定
+                        // thing.SetFaction(thingData.data.factionDef != null ? Faction.OfPlayerSilentFail : null);
+                        GenPlace.TryPlaceThing(thing, thingPos, map, ThingPlaceMode.Direct);
+                    }
                 }
             }
 
-            // 在中心区域留出空间，这里将放置退出点
-            // 不在这里放置退出点，因为这会由Building_ArmedShuttleWithPocket来处理
+            // 生成地形
+            foreach (var terrainData in prefabDef.GetTerrain())
+            {
+                IntVec3 terrainPos = prefabOrigin + terrainData.cell;
+                if (terrainPos.InBounds(map))
+                {
+                    map.terrainGrid.SetTerrain(terrainPos, terrainData.data.def);
+                }
+            }
+
+            // 递归生成子预制件（如果存在）
+            foreach (var subPrefabData in prefabDef.GetPrefabs())
+            {
+                // 这里需要递归调用GeneratePrefab，但为了简化，暂时只处理顶层
+                // 实际项目中，可能需要更复杂的逻辑来处理子预制件的位置和旋转
+                Log.Warning($"[WULA] Sub-prefabs are not fully supported in this simple generator: {subPrefabData.data.def.defName}");
+            }
         }
     }
 }

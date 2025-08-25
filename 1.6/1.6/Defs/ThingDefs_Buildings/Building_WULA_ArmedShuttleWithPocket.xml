@@ -298,7 +298,7 @@
   <!-- 口袋空间退出点定义 -->
   <ThingDef ParentName="PocketMapExit">
     <defName>WULA_PocketMapExit</defName>
-    <label>pocket space exit</label>
+    <label>运输机升降平台</label>
     <description>An exit portal that allows return from the pocket space to the main map.</description>
     <thingClass>WulaFallenEmpire.Building_PocketMapExit</thingClass>
     <size>(3,3)</size>
