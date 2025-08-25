@@ -51,12 +51,7 @@
       <li>Fabric</li>
       <li>Leathery</li>
     </stuffCategories>
-    <recipeMaker>
-      <researchPrerequisite>WULA_FE_Spiritualist_Cloth2_Technology</researchPrerequisite>
-      <skillRequirements>
-        <Crafting>15</Crafting>
-      </skillRequirements>
-    </recipeMaker>
+    <recipeMaker Inherit="False" IsNull="True" />
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
         
@@ -91,13 +86,7 @@
     <label>乌拉帝国神官帽子</label>
     <description>乌拉帝国神官的配套帽子，能像服装那样强化使用者的心灵敏感度并支起一个灵能护盾，它的体积比神官制服的护盾稍小，以形成第二道防线。</description>
     <tickerType>Normal</tickerType>
-    <recipeMaker>
-      <researchPrerequisite>WULA_FE_Spiritualist_Cloth2_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <displayPriority>105</displayPriority>
-    </recipeMaker>
+    <recipeMaker Inherit="False" IsNull="True" />
     <graphicData>
       <texPath>Wula/Apparel/WULA_Priest_Hat</texPath>
     </graphicData>

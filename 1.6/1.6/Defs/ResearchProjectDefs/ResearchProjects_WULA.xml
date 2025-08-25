@@ -300,7 +300,19 @@
     <researchViewY>4.80</researchViewY>
     <label>基础战车部署套件</label>
     <description>获取乌拉帝国机械体SMp-38"萨克森"和其变种SMp-38A"斯佩萨特"的生产权限，一种携带突击区域护盾和强大火力武备的战车型机械体。</description>
-    <baseCost>2400</baseCost>
+    <baseCost>3000</baseCost>
+    <prerequisites>
+      <li>HighMechtech</li>
+      <li>WULA_Mech_WULA_Cat_DM_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Alpha_Wolf_Technology</defName>
+    <researchViewX>11.00</researchViewX>
+    <researchViewY>4.80</researchViewY>
+    <label>狼蛛机甲部署套件</label>
+    <description>获取乌拉帝国机械体SNm-6"狼蛛"和其变种SNm-82"螳螂"的生产权限，一种拥有个体护盾，并根据装备的武器能在近战或远程轰炸中发挥恐怖实力的四足机械体。</description>
+    <baseCost>3000</baseCost>
     <prerequisites>
       <li>HighMechtech</li>
       <li>WULA_Mech_WULA_Cat_DM_Technology</li>

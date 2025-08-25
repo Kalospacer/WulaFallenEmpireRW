@@ -27,7 +27,7 @@
     <size>(3, 3)</size>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites>
-      <li>WULA_FE_Spiritualist_Base_Technology</li>
+      <li>WULA_FE_Spiritualist_Base_Technology1</li>
     </researchPrerequisites>
     <inspectorTabs>
       <li>ITab_Entity</li>

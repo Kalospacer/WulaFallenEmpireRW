@@ -213,7 +213,7 @@
       </li>
     </comps>
   </AbilityDef>
-  <RecipeDef ParentName="HeavyMechanoidRecipe">
+  <!-- <RecipeDef ParentName="HeavyMechanoidRecipe">
     <defName>WULA_Build_Psi_Titan</defName>
     <label>建造PAt-52"灵能泰坦"</label>
     <description>建造一台PAt-52"灵能泰坦"重型灵能机械体。</description>
@@ -266,7 +266,7 @@
       <ThingDef>Wula_Psi_Titan</ThingDef>
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_FE_Spiritualist_Psi_Titan_Technology</researchPrerequisite>
-  </RecipeDef>
+  </RecipeDef> -->
 
   <!-- 乌拉大教堂 -->
   <PawnKindDef Name="Wula_FE_Spiritualist_Pawn_Base" Abstract="True">

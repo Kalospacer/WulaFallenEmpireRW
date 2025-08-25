@@ -339,7 +339,7 @@
     </researchPrerequisites>
   </RecipeDef>
 
-  <RecipeDef ParentName="MediumMechanoidRecipe">
+  <RecipeDef ParentName="HeavyMechanoidRecipe">
     <defName>WULA_Build_AI_Heavy_Panzer</defName>
     <label>建造SMp-38"萨克森"</label>
     <description>建造一台SMp-38"萨克森"智能战车。</description>
@@ -385,7 +385,7 @@
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_AI_Machine_Panzer_Technology</researchPrerequisite>
   </RecipeDef>
-  <RecipeDef ParentName="MediumMechanoidRecipe">
+  <RecipeDef ParentName="HeavyMechanoidRecipe">
     <defName>WULA_Build_AI_Heavy_Panzer_Gunnery</defName>
     <label>建造SMp-38A"斯佩萨特"</label>
     <description>建造一台SMp-38A"斯佩萨特"智能战车。</description>
@@ -430,6 +430,99 @@
       <ThingDef>Wula_AI_Heavy_Panzer_Gunnery</ThingDef>
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_AI_Machine_Panzer_Technology</researchPrerequisite>
+  </RecipeDef>
+
+  <RecipeDef ParentName="HeavyMechanoidRecipe">
+    <defName>WULA_Build_Alpha_Wolf</defName>
+    <label>建造SNm-6"狼蛛"</label>
+    <description>建造一台SNm-6"狼蛛"智能机甲。</description>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>600</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </filter>
+        <count>250</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>24</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentSpacer</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Alpha_Wolf>1</WULA_Alpha_Wolf>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Alpha_Wolf</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Alpha_Wolf_Technology</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="MediumMechanoidRecipe">
+    <defName>WULA_Build_Alpha_Mantodea</defName>
+    <label>建造SNm-82"螳螂"</label>
+    <description>建造一台SNm-82"螳螂"智能机甲。</description>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>600</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </filter>
+        <count>250</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>24</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentSpacer</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Alpha_Mantodea>1</WULA_Alpha_Mantodea>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Alpha_Mantodea</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Alpha_Wolf_Technology</researchPrerequisite>
   </RecipeDef>
 
   <RecipeDef ParentName="LightMechanoidRecipe">

@@ -963,6 +963,221 @@
 		<label>SMp-38A"斯佩萨特"</label>
 		<description>乌拉帝国所使用的中型突击战车，以逆重的方式悬浮于战场上，搭载了联装机炮和用于杀伤软目标的"石英"火箭弹，并且拥有足以保护一支突击小队的护盾。</description>
   </ThingDef>
+
+  <ThingDef Name="WULA_Alpha_Wolf" ParentName="HeavyMechanoid">
+    <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
+    <label>SNm-6"狼蛛"</label>
+    <description>乌拉帝国图书馆所使用的一种炮兵机械体，装备着一门重型等离子炮，可以在极远距离上喷射覆盖性的等离子射弹以摧毁成片敌军。</description>
+    <statBases>
+      <BandwidthCost>6</BandwidthCost>
+      <MoveSpeed>3</MoveSpeed>
+      <MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
+      <EnergyShieldEnergyMax>5</EnergyShieldEnergyMax>
+    </statBases>
+    <race>
+      <body>Mech_Warqueen</body>
+      <baseBodySize>5</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
+          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <baseHealthScale>10</baseHealthScale>
+      <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
+    </race>
+    <tools>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>4</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <comps>
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpOnDamage>true</wakeUpOnDamage>
+        <wakeUpCheckRadius>30</wakeUpCheckRadius>
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+      <li Class="CompProperties_TurretGun">
+        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
+        <angleOffset>-90</angleOffset>
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataWest>
+                <rotationOffset>180</rotationOffset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="CompProperties_Shield">
+        <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
+        <minDrawSize>4.2</minDrawSize>
+        <maxDrawSize>4.4</maxDrawSize>
+        <energyLossPerDamage>0.01</energyLossPerDamage>
+        <energyOnReset>4.0</energyOnReset>
+        <blocksRangedWeapons>false</blocksRangedWeapons>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WULA_Alpha_Wolf">
+    <defName>WULA_Alpha_Mantodea</defName>
+    <label>SNm-82"螳螂"</label>
+    <description>乌拉帝国图书馆所使用的一种近战机械体，装备着一对强大的巨镰和微型跃迁引擎，以跃迁快速靠近敌人，随后在近距离上以暴雨般的攻击切开敌军的防御。</description>
+    <statBases>
+      <MoveSpeed>6</MoveSpeed>
+      <MeleeHitChance>5</MeleeHitChance>
+      <EnergyShieldEnergyMax>10</EnergyShieldEnergyMax>
+    </statBases>
+    <tools>
+      <li>
+        <label>左巨镰</label>
+        <labelNoLocation>巨镰</labelNoLocation>
+        <capacities>
+          <li>Scratch</li>
+        </capacities>
+        <power>150</power>
+        <cooldownTime>0.5</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+        <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
+        <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss>
+      </li>
+      <li>
+        <label>右巨镰</label>
+        <labelNoLocation>巨镰</labelNoLocation>
+        <capacities>
+          <li>Scratch</li>
+        </capacities>
+        <power>150</power>
+        <cooldownTime>0.5</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+        <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
+        <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss>
+      </li>
+    </tools>
+    <comps Inherit="False">
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AutoMechCarrier">
+        <freeProduction>true</freeProduction>
+        <disableHediff>WULA_MechCarrierSwitchHediff</disableHediff>
+        <fixedIngredient>Steel</fixedIngredient>
+        <maxIngredientCount>500</maxIngredientCount> 
+        <startingIngredientCount>500</startingIngredientCount>
+        <costPerPawn>999</costPerPawn>
+        <cooldownTicks>9999</cooldownTicks>
+        <productionQueue>
+          <li>
+            <pawnKind>WULA_Mech_Flyer</pawnKind>
+            <count>8</count>
+            <cooldownTicks>50</cooldownTicks>
+          </li>
+          <li>
+            <pawnKind>WULA_Mech_Flyer_Slow</pawnKind>
+            <count>8</count>
+            <cooldownTicks>600</cooldownTicks>
+          </li>
+        </productionQueue>
+        <spawnEffecter>WarqueenWarUrchinsSpawned</spawnEffecter>
+        <spawnedMechEffecter>WarUrchinSpawned</spawnedMechEffecter>
+      </li> -->
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpOnDamage>true</wakeUpOnDamage>
+        <wakeUpCheckRadius>30</wakeUpCheckRadius>
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+      <li Class="CompProperties_TurretGun">
+        <turretDef>WULA_Alpha_Mantodea_Turret</turretDef>
+        <angleOffset>-90</angleOffset>
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataWest>
+                <rotationOffset>180</rotationOffset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="CompProperties_Shield">
+        <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
+        <minDrawSize>4.2</minDrawSize>
+        <maxDrawSize>4.4</maxDrawSize>
+        <energyLossPerDamage>0.01</energyLossPerDamage>
+        <energyOnReset>4.0</energyOnReset>
+        <blocksRangedWeapons>false</blocksRangedWeapons>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Biotech" Class="CompProperties_OverseerSubject">
+        <needsOverseerEffect>MechUncontrolled</needsOverseerEffect>
+        <delayUntilFeralCheck>60000</delayUntilFeralCheck>
+        <feralMtbDays>10</feralMtbDays>
+        <feralCascadeRadialDistance>25</feralCascadeRadialDistance>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Biotech" Class="CompProperties_MechRepairable" />
+      <li Class="AutoBlink.CompProperties_AutoBlink" MayRequire="rabiosus.autoblink">
+        <!-- <gizmoIconPath></gizmoIconPath> -->
+        <blinkIntervalTicks>480</blinkIntervalTicks>
+        <delayAfterEligibleTicks>10</delayAfterEligibleTicks>
+        <cellsBeforeTarget>1</cellsBeforeTarget>
+        <maxDistanceToBlink>40</maxDistanceToBlink>
+        <minDistanceToBlink>8</minDistanceToBlink>
+        <postBlinkStanceTicks>0</postBlinkStanceTicks>
+        <playerFactionOnly>false</playerFactionOnly>
+        <excludedJobDefs>
+          <li>GotoWander</li>
+          <li>Carried</li>
+        </excludedJobDefs>
+
+        <preBlinkSoundDefs>
+          <li>AutoBlink_Skip_Small</li>
+        </preBlinkSoundDefs>
+        <postBlinkSoundDefs>
+          <li>AutoBlink_Skip_Exit_Small</li>
+        </postBlinkSoundDefs>
+
+        <preBlinkEffecterDefs>
+          <li>Skip_Entry</li>
+        </preBlinkEffecterDefs>
+
+        <postBlinkEffecterDefs>
+          <li>Skip_ExitNoDelay</li>
+        </postBlinkEffecterDefs>
+
+        <preBlinkMoteDefs/>
+        <postBlinkMoteDefs/>
+
+      </li>
+    </comps>
+  </ThingDef>
     
   <ThingDef ParentName="LightMechanoid">
     <defName>Mech_WULA_Cat</defName>
@@ -1167,4 +1382,137 @@
       </li>
     </comps>
   </ThingDef>
+
+  <ThingDef ParentName="BaseMechanoidWalker">
+    <defName>WULA_Fxxk_Goose</defName>
+    <label>神人大鹅</label>
+    <description>一种奇怪的机械体，貌似是乌拉帝国仿生技术试验遗留的产物，然后被机械族集群所接管。它们拥有通过磁力武器从敌人身上偷取武器的能力——并且使用它们。</description>
+
+    <tools>
+      <li>
+        <label>claws</label>
+        <capacities>
+          <li>Scratch</li>
+        </capacities>
+        <power>3</power>
+        <cooldownTime>1.5</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+      </li>
+      <li>
+        <label>beak</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>5.6</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>2</power>
+        <cooldownTime>1.5</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>Mech_Light</body>
+      <baseHealthScale>1</baseHealthScale>
+      <detritusLeavings>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>11</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>12</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+      </detritusLeavings>
+      <flightStartChanceOnJobStart>0.5</flightStartChanceOnJobStart>
+      <lifeStageAges Inherit="False">
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <thinkTreeConstant>WULA_Mech_Flyer_Constant</thinkTreeConstant>
+      <deathAction Class="DeathActionProperties_Vanish">
+        <workerClass>DeathActionWorker_Vanish</workerClass>
+        <filth>Filth_MachineBits</filth>
+        <filthCountRange>1~2</filthCountRange>
+      </deathAction>
+    </race>
+    <statBases>
+      <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">0</BandwidthCost>
+      <MaxFlightTime>30</MaxFlightTime>
+      <FlightCooldown>10</FlightCooldown>
+    </statBases>
+    <comps Inherit="False">
+      <!--加上这个组件的机械体可以更换武器-->
+      <li Class="WulaFallenEmpire.CompProperties_MechWeapon" />
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpOnDamage>true</wakeUpOnDamage>
+        <wakeUpCheckRadius>30</wakeUpCheckRadius>
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+
+      <li Class="CompProperties_TurretGun">
+        <turretDef>WULA_MechFlyerTurretGun</turretDef>
+        <angleOffset>-90</angleOffset>
+        <autoAttack>false</autoAttack>
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataWest>
+                  <rotationOffset>180</rotationOffset>
+                  <offset>(0, 0, 0)</offset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+    </comps>
+  </ThingDef>
+  <PawnKindDef ParentName="BaseMechanoidKind">
+    <defName>WULA_Fxxk_Goose</defName>
+    <label>神人大鹅</label>
+    <race>WULA_Fxxk_Goose</race>
+    <combatPower>300</combatPower>
+    <allowInMechClusters>true</allowInMechClusters>
+    <flyingAnimationFramePathPrefix>Things/Pawn/Animal/Goose/Goose_Flying_</flyingAnimationFramePathPrefix>
+    <flyingAnimationDrawSize>1.35</flyingAnimationDrawSize>
+    <flyingAnimationFrameCount>2</flyingAnimationFrameCount>
+    <flyingAnimationTicksPerFrame>2</flyingAnimationTicksPerFrame>
+    <flyingAnimationInheritColors>false</flyingAnimationInheritColors>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
+    <forceNoDeathNotification>true</forceNoDeathNotification>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Goose/Goose</texPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.23</drawSize>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+  </PawnKindDef>
 </Defs>

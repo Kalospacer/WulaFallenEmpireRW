@@ -116,36 +116,4 @@
       </li>
     </stages>
   </ThoughtDef>
-  <RecipeDef>
-    <defName>Wula_Make_Zro</defName>
-    <label>烧制泽洛</label>
-    <description>使用尸体烧制泽洛。</description>
-    <jobString>烧制中。</jobString>
-    <workAmount>300</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <effectWorking>Cremate</effectWorking>
-    <soundWorking>Recipe_Cremate</soundWorking>
-    <autoStripCorpses>true</autoStripCorpses>
-    <researchPrerequisites>
-      <li>WULA_FE_Spiritualist_Base_Technology</li>
-    </researchPrerequisites>
-    <ingredients>
-      <li>
-        <filter>
-          <categories>
-            <li>Corpses</li>
-          </categories>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <categories>
-        <li>CorpsesHumanlike</li>
-      </categories>
-    </fixedIngredientFilter>
-    <products>
-      <Wula_Zro>3</Wula_Zro>
-    </products>
-  </RecipeDef>
 </Defs>

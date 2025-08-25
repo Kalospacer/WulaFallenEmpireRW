@@ -198,6 +198,68 @@
     <controlGroupPortraitZoom>0.45</controlGroupPortraitZoom>
   </PawnKindDef>
 
+  <PawnKindDef ParentName="HeavyMechanoidKind">
+    <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
+    <label>SNm-6"狼蛛"</label>
+    <race>WULA_Alpha_Wolf</race>
+    <combatPower>600</combatPower>
+    <allowInMechClusters>false</allowInMechClusters>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <abilities>
+      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
+      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
+    </abilities>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/Wula_Alpha_Wolf/Bodies/Naked_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3.5</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>99999~99999</weaponMoney>
+
+    <weaponTags>
+      <li>WULA_WM_Alpha_Wolf_Plasma_Gun</li>
+    </weaponTags>
+    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+  </PawnKindDef>
+  <PawnKindDef ParentName="HeavyMechanoidKind">
+    <defName>WULA_Alpha_Mantodea</defName> <!-- 修改了defName以避免冲突 -->
+    <label>SNm-82"螳螂"</label>
+    <race>WULA_Alpha_Mantodea</race>
+    <combatPower>600</combatPower>
+    <allowInMechClusters>false</allowInMechClusters>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <abilities>
+      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
+      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
+    </abilities>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/Wula_Alpha_Wolf/Bodies/Naked_Thin2</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3.5</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>99999~99999</weaponMoney>
+
+    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+  </PawnKindDef>
+
   <PawnKindDef ParentName="NonCombatLightMechanoidKind">
     <defName>Mech_WULA_Cat</defName>
     <label>乌拉猫猫</label>

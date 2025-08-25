@@ -222,4 +222,59 @@
     <defaultLabelColor>(0.6, 0.6, 0.6)</defaultLabelColor>
     <scenarioCanAdd>false</scenarioCanAdd>
   </HediffDef>
+  <AbilityDef>
+    <defName>WULA_RemoveSwitchHediff</defName>
+    <label>重启生产</label>
+    <description>重启自动生产机械体。</description>
+    <iconPath>Wula/UI/Abilities/WULA_WeaponSwitchAbility</iconPath>
+    <cooldownTicksRange>601</cooldownTicksRange>
+    <hostile>false</hostile>
+    <showOnCharacterCard>true</showOnCharacterCard>
+    <aiCanUse>false</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>0</warmupTime>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <!-- 这是正确的用法 -->
+      <li Class="RimWorld.CompProperties_AbilityRemoveHediff">
+        <compClass>WulaFallenEmpire.CompAbilityEffect_RemoveSwitchHediff</compClass>
+        <hediffDef>WULA_MechCarrierSwitchHediff</hediffDef>
+        <applyToSelf>true</applyToSelf>
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_GiveSwitchHediff</defName>
+    <label>停止生产</label>
+    <description>停止自动生产机械体。</description>
+    <iconPath>Wula/UI/Abilities/WULA_WeaponSwitchAbility</iconPath>
+    <cooldownTicksRange>601</cooldownTicksRange>
+    <hostile>false</hostile>
+    <showOnCharacterCard>true</showOnCharacterCard>
+    <aiCanUse>false</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>0</warmupTime>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="RimWorld.CompProperties_AbilityGiveHediff">
+        <compClass>WulaFallenEmpire.CompAbilityEffect_GiveSwitchHediff</compClass>
+        <hediffDef>WULA_MechCarrierSwitchHediff</hediffDef>
+        <applyToSelf>true</applyToSelf>
+      </li>
+    </comps>
+  </AbilityDef>
 </Defs>
