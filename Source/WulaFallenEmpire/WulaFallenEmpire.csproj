@@ -96,6 +96,7 @@
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\Letter_EventChoice.cs" />
     <Compile Include="EventSystem\QuestNode_Root_EventLetter.cs" />
+    <Compile Include="HarmonyPatches\DialogEnterPortal_MapPatch.cs" />
     <Compile Include="HarmonyPatches\Caravan_NeedsTracker_TrySatisfyPawnNeeds_Patch.cs" />
     <Compile Include="HarmonyPatches\DamageInfo_Constructor_Patch.cs" />
     <Compile Include="HarmonyPatches\FloatMenuOptionProvider_Ingest_Patch.cs" />

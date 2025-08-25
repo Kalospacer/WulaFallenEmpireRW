@@ -33,27 +33,12 @@ namespace WulaFallenEmpire
             {
                 // 创建MapPortal适配器，并设置其地图和位置信息
                 portalAdapter = new ShuttlePortalAdapter(ParentShuttle);
-                // 使用反射设置适配器的地图和位置，让Dialog_EnterPortal能正确访问
-                if (portalAdapter != null && ParentShuttle.Spawned)
+                // 确保 portalAdapter 的 shuttle 引用被正确设置
+                // 并在 PostSpawnSetup 中设置 MapPortal 基类的地图和位置信息
+                // 确保 portalAdapter 的 shuttle 引用被正确设置
+                if (portalAdapter != null)
                 {
-                    try
-                    {
-                        // 使用反射设置私有字段
-                        var mapField = typeof(Thing).GetField("mapIndexOrState", 
-                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                        var positionField = typeof(Thing).GetField("positionInt", 
-                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                        
-                        if (mapField != null && positionField != null)
-                        {
-                            mapField.SetValue(portalAdapter, mapField.GetValue(ParentShuttle));
-                            positionField.SetValue(portalAdapter, positionField.GetValue(ParentShuttle));
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Log.Warning($"[WULA] Could not set adapter map/position via reflection: {ex.Message}");
-                    }
+                    portalAdapter.shuttle = ParentShuttle;
                 }
             }
         }
@@ -147,25 +132,39 @@ namespace WulaFallenEmpire
                 enterCommand.action = delegate
                 {
                     // 使用和Building_PocketMapExit一模一样的Dialog_EnterPortal方法
-                    if (portalAdapter != null && portalAdapter.shuttle != null)
+                    if (portalAdapter == null || portalAdapter.shuttle != ParentShuttle)
+                    {
+                        // 重新创建并设置适配器，确保其指向正确的穿梭机
+                        portalAdapter = new ShuttlePortalAdapter(ParentShuttle);
+                        // 再次尝试设置 MapPortal 基类的地图和位置信息
+                        try
+                        {
+                            var mapField = typeof(Thing).GetField("mapIndexOrState",
+                                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                            var positionField = typeof(Thing).GetField("positionInt",
+                                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                            
+                            if (mapField != null && positionField != null && ParentShuttle.Spawned)
+                            {
+                                mapField.SetValue(portalAdapter, (sbyte)ParentShuttle.Map.Index); // 显式转换为 sbyte
+                                positionField.SetValue(portalAdapter, ParentShuttle.Position);
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+                            Log.Error($"[WULA] Error setting MapPortal base fields during Gizmo click: {ex.Message}");
+                        }
+                    }
+
+                    if (portalAdapter != null)
                     {
                         var dialog = new Dialog_EnterPortal(portalAdapter);
                         Find.WindowStack.Add(dialog);
                     }
                     else
                     {
-                        Log.Error("[WULA] Portal adapter or shuttle is null, recreating adapter");
-                        // 重新创建适配器
-                        if (ParentShuttle != null)
-                        {
-                            portalAdapter = new ShuttlePortalAdapter(ParentShuttle);
-                            var dialog = new Dialog_EnterPortal(portalAdapter);
-                            Find.WindowStack.Add(dialog);
-                        }
-                        else
-                        {
-                            Messages.Message("内部错误：穿梭机引用丢失", ParentShuttle, MessageTypeDefOf.RejectInput);
-                        }
+                        Messages.Message("WULA.PocketSpace.AdapterError".Translate(), ParentShuttle, MessageTypeDefOf.RejectInput);
+                        Log.Error("[WULA] Portal adapter is null after recreation attempt.");
                     }
                 };
                 enterCommand.icon = ContentFinder<Texture2D>.Get(Props.buttonIconPath);
@@ -271,7 +270,7 @@ namespace WulaFallenEmpire
         /// </summary>
         public ShuttlePortalAdapter()
         {
-            // 为空，在PostSpawnSetup中初始化
+            // 在这里不初始化 shuttle，因为它将在 PostSpawnSetup 中设置
         }
         
         public ShuttlePortalAdapter(Building_ArmedShuttleWithPocket shuttle)
@@ -286,7 +285,7 @@ namespace WulaFallenEmpire
         {
             if (shuttle?.PocketMap == null)
             {
-                // 如果口袋空间还没创建，先创建它
+                // 如口袋空间还没创建，先创建它
                 shuttle?.SwitchToPocketSpace();
             }
             return shuttle?.PocketMap;
@@ -318,7 +317,7 @@ namespace WulaFallenEmpire
             }
             
             // 检查穿梭机的传送状态
-            var transportDisabledField = typeof(Building_ArmedShuttleWithPocket).GetField("transportDisabled", 
+            var transportDisabledField = typeof(Building_ArmedShuttleWithPocket).GetField("transportDisabled",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             
             if (transportDisabledField != null)
@@ -361,19 +360,8 @@ namespace WulaFallenEmpire
         /// </summary>
         protected override Texture2D EnterTex => ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter");
         
-        /// <summary>
-        /// 获取地图引用（用于Dialog_EnterPortal）
-        /// </summary>
-        public new Map Map => shuttle?.Map;
-        
-        /// <summary>
-        /// 获取位置引用（用于Dialog_EnterPortal）
-        /// </summary>
-        public new IntVec3 Position => shuttle?.Position ?? IntVec3.Invalid;
-        
-        /// <summary>
-        /// 获取定义引用（用于Dialog_EnterPortal）
-        /// </summary>
-        public new ThingDef def => shuttle?.def;
+        // 移除了 new 关键字的 Map, Position, def 属性，因为它们在 MapPortal 基类中可能不是 virtual 的
+        // 并且我们依赖 PostSpawnSetup 中的反射来设置 MapPortal 基类的私有字段
+        // 这确保了 Dialog_EnterPortal 能够直接访问到正确的地图和位置信息。
     }
 }
