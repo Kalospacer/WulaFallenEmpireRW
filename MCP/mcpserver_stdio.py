@@ -55,7 +55,8 @@ KNOWLEDGE_BASE_PATHS = [
 # 初始化OpenAI客户端用于Qwen模型
 qwen_client = OpenAI(
     api_key=os.getenv("DASHSCOPE_API_KEY"),
-    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    timeout=15.0  # 设置15秒超时，避免MCP初始化超时
 )
 
 # 3. --- 向量缓存管理 ---
@@ -192,36 +193,47 @@ def find_most_similar_files(question_embedding, file_embeddings, top_n=3, min_si
     return results
 
 # 新增：重排序函数
-def rerank_files(question, file_matches, top_n=5):
+def rerank_files(question, file_matches, top_n=3):  # 减少默认数量
     """使用DashScope重排序API对文件进行重新排序"""
     try:
+        # 限制输入数量以减少超时风险
+        if len(file_matches) > 5:  # 进一步限制最大输入数量以避免超时
+            file_matches = file_matches[:5]
+            
         # 准备重排序输入
         documents = []
         for match in file_matches:
             # 读取文件内容
             try:
                 with open(match['path'], 'r', encoding='utf-8') as f:
-                    content = f.read()[:2000]  # 限制内容长度以提高效率
+                    content = f.read()[:1500]  # 进一步限制内容长度以提高效率
                 documents.append(content)
             except Exception as e:
                 logging.error(f"读取文件 {match['path']} 失败: {e}")
                 continue
         
         if not documents:
+            logging.warning("重排序时未能读取任何文件内容")
             return file_matches[:top_n]
         
-        # 调用重排序API
+        # 调用重排序API，添加超时处理
+        import time
+        start_time = time.time()
+        
         response = dashscope.TextReRank.call(
             model='gte-rerank',
             query=question,
             documents=documents
         )
         
+        elapsed_time = time.time() - start_time
+        logging.info(f"重排序API调用耗时: {elapsed_time:.2f}秒")
+        
         if response.status_code == 200:
             # 根据重排序结果重新排序文件
             reranked_results = []
             for i, result in enumerate(response.output['results']):
-                if i < len(file_matches):
+                if i < len(file_matches) and i < len(documents):  # 添加边界检查
                     reranked_results.append({
                         'path': file_matches[i]['path'],
                         'similarity': result['relevance_score']
@@ -417,6 +429,7 @@ def analyze_question_with_llm(question: str) -> dict:
             messages=messages,
             temperature=0.0,  # 使用最低温度确保输出稳定
             max_tokens=300,
+            timeout=12.0,  # 12秒超时，避免MCP初始化超时
             stop=["\n\n"]  # 防止模型生成过多内容
         )
         
@@ -494,13 +507,20 @@ def get_context(question: str) -> str:
    """
    logging.info(f"收到问题: {question}")
    
-   # 使用LLM分析问题
-   analysis = analyze_question_with_llm(question)
-   keywords = analysis["search_keywords"]
-   
-   if not keywords:
-       logging.warning("无法从问题中提取关键词。")
-       return "无法从问题中提取关键词，请提供更具体的信息。"
+   try:
+       # 使用LLM分析问题，添加超时保护
+       analysis = analyze_question_with_llm(question)
+       keywords = analysis["search_keywords"]
+       
+       if not keywords:
+           logging.warning("无法从问题中提取关键词。")
+           return "无法从问题中提取关键词，请提供更具体的信息。"
+   except Exception as e:
+       logging.error(f"LLM分析失败，使用备用方案: {e}")
+       # 备用方案：使用简单的关键词提取
+       keywords = find_keywords_in_question(question)
+       if not keywords:
+           return "无法分析问题，请检查网络连接或稍后重试。"
 
    logging.info(f"提取到关键词: {keywords}")
    
@@ -549,7 +569,7 @@ def get_context(question: str) -> str:
 
        # 3. 向量化和相似度计算 (精准筛选)
        # 增加超时保护：限制向量化的文件数量
-       MAX_FILES_TO_VECTORIZE = 50  # 增加处理文件数量
+       MAX_FILES_TO_VECTORIZE = 10  # 进一步减少处理文件数量以避免超时
        if len(candidate_files) > MAX_FILES_TO_VECTORIZE:
            logging.warning(f"候选文件过多 ({len(candidate_files)})，仅处理前 {MAX_FILES_TO_VECTORIZE} 个。")
            candidate_files = candidate_files[:MAX_FILES_TO_VECTORIZE]
@@ -559,27 +579,36 @@ def get_context(question: str) -> str:
            return "无法生成问题向量，请检查API连接或问题内容。"
 
        file_embeddings = []
-       for file_path in candidate_files:
+       for i, file_path in enumerate(candidate_files):
            try:
                with open(file_path, 'r', encoding='utf-8') as f:
                    content = f.read()
+                   # 添加处理进度日志
+                   if i % 5 == 0:  # 每5个文件记录一次进度
+                       logging.info(f"正在处理第 {i+1}/{len(candidate_files)} 个文件: {os.path.basename(file_path)}")
+                   
                    file_embedding = get_embedding(content[:8000]) # 限制内容长度以提高效率
                    if file_embedding:
                        file_embeddings.append({'path': file_path, 'embedding': file_embedding})
            except Exception as e:
                logging.error(f"处理文件 {file_path} 时出错: {e}")
+               continue  # 继续处理下一个文件，而不是完全失败
        
        if not file_embeddings:
-           return "无法为任何候选文件生成向量。"
+           logging.warning("未能为任何候选文件生成向量。可能是由于API超时或其他错误。")
+           return "未能为任何候选文件生成向量，请稍后重试或减少搜索范围。"
 
        # 找到最相似的多个文件
-       best_matches = find_most_similar_files(question_embedding, file_embeddings, top_n=10) # 增加返回数量以供重排序
+       best_matches = find_most_similar_files(question_embedding, file_embeddings, top_n=5) # 进一步减少返回数量以避免超时
        
        if not best_matches:
            return "计算向量相似度失败或没有找到足够相似的文件。"
 
-       # 新增：重排序处理
-       reranked_matches = rerank_files(question, best_matches, top_n=5)
+       # 新增：重排序处理（仅在找到足够多匹配项时执行）
+       if len(best_matches) > 2:
+           reranked_matches = rerank_files(question, best_matches, top_n=3)  # 减少重排序数量
+       else:
+           reranked_matches = best_matches  # 如果匹配项太少，跳过重排序以节省时间
        
        # 提取代码内容
        results_with_code = []
@@ -617,5 +646,19 @@ def get_context(question: str) -> str:
 if __name__ == "__main__":
    logging.info(f"Python Executable: {sys.executable}")
    logging.info("RimWorld 向量知识库 (FastMCP版, v2.1-v4-model) 正在启动...")
+   
+   # 快速启动：延迟初始化重量级组件
+   try:
+       # 验证基本配置
+       if not dashscope.api_key:
+           logging.warning("警告：DASHSCOPE_API_KEY 未配置，部分功能可能受限。")
+       
+       # 创建必要目录
+       os.makedirs(CACHE_DIR, exist_ok=True)
+       
+       logging.info("MCP服务器快速启动完成，等待客户端连接...")
+   except Exception as e:
+       logging.error(f"服务器启动时出错: {e}")
+   
    # 使用 'stdio' 传输协议
    mcp.run(transport="stdio")

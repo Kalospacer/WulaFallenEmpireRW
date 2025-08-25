@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- 普通好感初始事件 -->
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_FE_Spiritualist_1</defName>
     <label>乌拉帝国 大教堂</label>
     <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_3</portraitPath>
     <characterName>帝国修女</characterName>
     <descriptions>
-      <li><![CDATA[这里是乌拉帝国教会，很不高兴听你们废话。请问有何贵干？
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[好，好，你们是来聆听布道的，还是来谈生意的？
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[以主之名，我们当为边缘世界的愚昧众生带去教化——但是在那之前，这个蛮荒之地还有很多很多血要流。
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
+      <li>高好感度问候</li>
     </descriptions>
     <immediateEffects>
       <li>
@@ -24,40 +18,25 @@
             <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
             <variableName>Wula_FE_Spiritualist_Goodwill</variableName>
           </li>
-          <li Class="WulaFallenEmpire.Effect_SetVariable">
-            <name>WULA_FE_Spiritualist_Influence</name>
-            <value>0</value>
-            <type>Int</type>
-          </li>
         </effects>
       </li>
     </immediateEffects>
     <options>
       <li>
-        <label>你们是谁？</label>
+        <label>你们能再详细地说说你们自己吗？</label>
         <optionEffects>
           <li>
             <effects>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_10</defName>
+              </li>
             </effects>
           </li>
         </optionEffects>
       </li>
       <li>
         <label>你们有什么任务可以给我们吗？</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <!-- <li Class="WulaFallenEmpire.Effect_AddQuest">
-                <quest>Wula_FE_Quest_Attack_Mercenary</quest>
-              </li> -->
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>我们有一个请求</label>
         <optionEffects>
           <li>
             <effects>
@@ -78,19 +57,13 @@
       </li>
     </options>
   </WulaFallenEmpire.EventDef>
-  <!-- 高好感初始事件 -->
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_FE_Spiritualist_2</defName>
     <label>乌拉帝国 大教堂</label>
     <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_3</portraitPath>
     <characterName>帝国修女</characterName>
     <descriptions>
-      <li><![CDATA[虽然你们不是我主拥趸，但是破格招待一下你们还是可以的。
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[愿吾主也庇佑你们，就像祂庇佑乌拉星人一样。
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[我们被选中，守护乌拉星人的应许之地。我们已经执行了这条戒律千百年，今后也是如此。
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
+      <li>中好感度问候</li>
     </descriptions>
     <immediateEffects>
       <li>
@@ -103,21 +76,19 @@
             <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
             <variableName>Wula_FE_Spiritualist_Goodwill</variableName>
           </li>
-          <li Class="WulaFallenEmpire.Effect_SetVariable">
-            <name>WULA_FE_Spiritualist_Influence</name>
-            <value>0</value>
-            <type>Int</type>
-          </li>
         </effects>
       </li>
     </immediateEffects>
     <options>
       <li>
-        <label>你们是谁？</label>
+        <label>你们能再详细地说说你们自己吗？</label>
         <optionEffects>
           <li>
             <effects>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_10</defName>
+              </li>
             </effects>
           </li>
         </optionEffects>
@@ -144,19 +115,13 @@
       </li>
     </options>
   </WulaFallenEmpire.EventDef>
-  <!-- 低好感初始事件 -->
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_FE_Spiritualist_3</defName>
     <label>乌拉帝国 大教堂</label>
     <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_2</portraitPath>
     <characterName>帝国修女</characterName>
     <descriptions>
-      <li><![CDATA[你们会为无知和傲慢付出代价的，野蛮人。
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[·····明明只是一群臭鱼烂虾居然敢对帝国教会不敬真该把你们这群无信者折磨宰杀剥皮缝制沙发肉丢给沼泽猎犬头颅挂在枯树上诅咒你们的灵魂迷失在至高天中烂在无人知晓的角落变成虚境生物的脚底烂泥。
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[你们的玷污行为很快就会遭到惩戒。
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
+      <li>低好感度问候</li>
     </descriptions>
     <immediateEffects>
       <li>
@@ -169,11 +134,6 @@
             <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
             <variableName>Wula_FE_Spiritualist_Goodwill</variableName>
           </li>
-          <li Class="WulaFallenEmpire.Effect_SetVariable">
-            <name>WULA_FE_Spiritualist_Influence</name>
-            <value>0</value>
-            <type>Int</type>
-          </li>
         </effects>
       </li>
     </immediateEffects>
@@ -185,6 +145,18 @@
             <effects>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
+            <!-- 在低好感任务随机选择一个 -->
+            <randomlistEffects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_20</defName>
+              </li>
+              <!-- <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_21</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_22</defName>
+              </li> -->
+            </randomlistEffects>
           </li>
         </optionEffects>
       </li>
@@ -222,19 +194,64 @@
       </li>
     </options>
   </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_FE_Spiritualist_4</defName>
+    <label>第一次联络</label>
+    <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_1</portraitPath>
+    <characterName>帝国修女</characterName>
+    <descriptions>
+      <li>第一次联络问候</li>
+    </descriptions>
+    <immediateEffects>
+      <li>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+            <name>Wula_FE_Spiritualist_First_Contant</name>
+            <operation>Add</operation>
+            <value>1</value>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
+    <options>
+      <li>
+        <label>好的，我们尊重你们的信仰，也请你们尊重我们的殖民地</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>你们信仰的主该不是什么飞天大茄子吧？</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_ChangeFactionRelation">
+                <faction>Wula_FE_Spiritualist_Faction</faction>
+                <goodwillChange>-50</goodwillChange>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_ShowMessage">
+                <message>你的轻佻发言惹得乌拉帝国 大教堂非常的不快，她们对你的第一印象大幅度降低了！</message>
+                <messageTypeDef>NegativeEvent</messageTypeDef>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
 
-  <!-- 普通好感初始事件 -->
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_FE_Spiritualist_10</defName>
     <label>乌拉帝国 大教堂</label>
     <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_1</portraitPath>
     <characterName>帝国修女</characterName>
     <descriptions>
-      <li>我们是乌拉帝国国教教会，在帝国皇室没落以前，我们曾是每任皇帝的左膀右臂，负责维护</li>
-      <li><![CDATA[好，好，你们是来聆听布道的，还是来谈生意的？
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[以主之名，我们当为边缘世界的愚昧众生带去教化——但是在那之前，这个蛮荒之地还有很多很多血要流。
-      <color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
+      <li>好吧。我们来自乌拉帝国国教教会，也称乌拉帝国 大教堂，而在边缘世界活动的我们则是其中的一个小分支。在帝国皇室没落以前，国教曾是每任皇帝的左膀右臂，负责维护乌拉帝国和皇室的至上威权，并将祂的化身——也就是皇帝——的福音在银河系中传播。\n\n然而，我们遭到了无信者的背叛，她们自诩进步派，否定我主和皇室与生俱来的正确性，挑起了一场撕裂帝国的内战。经过护教军的与其的万古长战，她们已经被逼至绝境，我们也在着手于恢复昔日荣光，并将福音再次播撒于星海间。</li>
     </descriptions>
     <immediateEffects>
       <li>
@@ -246,50 +263,12 @@
             <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
             <variableName>Wula_FE_Spiritualist_Goodwill</variableName>
           </li>
-          <li Class="WulaFallenEmpire.Effect_SetVariable">
-            <name>WULA_FE_Spiritualist_Influence</name>
-            <value>0</value>
-            <type>Int</type>
-          </li>
         </effects>
       </li>
     </immediateEffects>
     <options>
       <li>
-        <label>你们是谁？</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>你们有什么任务可以给我们吗？</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <!-- <li Class="WulaFallenEmpire.Effect_AddQuest">
-                <quest>Wula_FE_Quest_Attack_Mercenary</quest>
-              </li> -->
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>我们有一个请求</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>换个接线员</label>
+        <label>好的，我们大概了解了</label>
         <optionEffects>
           <li>
             <effects>
@@ -302,39 +281,18 @@
   </WulaFallenEmpire.EventDef>
 
   <WulaFallenEmpire.EventDef>
-    <defName>Wula_UI_FE_Spiritualist_11</defName>
+    <defName>Wula_UI_FE_Spiritualist_20</defName>
     <label>乌拉帝国 大教堂</label>
-    <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_1</portraitPath>
+    <portraitPath>Wula/Events/Portraits/WULA_FE_Spiritualist_3</portraitPath>
     <characterName>帝国修女</characterName>
     <descriptions>
-      <li><![CDATA[这里是乌拉帝国教会，请问有何贵干？\n\n<color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[你们是来聆听布道的，还是来谈生意的？\n\n<color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-      <li><![CDATA[以主之名，我们当为边缘世界的愚昧众生带去教化。\n\n<color=#ff8c00><b>当前在乌拉帝国大教堂的影响力: {WULA_FE_Spiritualist_Influence}</b></color>]]></li>
-
-      <!-- <li>·····明明只是一群臭鱼烂虾居然敢对帝国教会刀剑相向真该把你们这群无信者折磨宰杀剥皮缝制沙发肉丢给沼泽猎犬头颅挂在枯树上诅咒你们的灵魂迷失在至高天中烂在无人知晓的角落变成虚境生物的脚底烂泥</li> -->
+      <li>低好感度任务介绍1。</li>
     </descriptions>
     <immediateEffects>
-      <li>
-        <effects>
-          <!-- 检测dlc开启情况，以决定启动哪些系统 -->
-          <li Class="WulaFallenEmpire.Effect_ClearVariable">
-            <name>Wula_FE_Spiritualist_Goodwill</name>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
-            <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
-            <variableName>Wula_FE_Spiritualist_Goodwill</variableName>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_SetVariable">
-            <name>WULA_FE_Spiritualist_Influence</name>
-            <value>0</value>
-            <type>Int</type>
-          </li>
-        </effects>
-      </li>
     </immediateEffects>
     <options>
       <li>
-        <label>你们是谁？</label>
+        <label>我们接受</label>
         <optionEffects>
           <li>
             <effects>
@@ -344,27 +302,7 @@
         </optionEffects>
       </li>
       <li>
-        <label>你们有什么任务可以给我们吗？</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>我们有一个请求</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>换个接线员</label>
+        <label>不行，我们改主意了</label>
         <optionEffects>
           <li>
             <effects>

@@ -38,6 +38,17 @@
             <operation>Add</operation>
           </li>
 
+          <!-- 第一次接触 -->
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>Wula_FE_Spiritualist_First_Contant</name>
+            <value>0</value>
+            <type>Int</type>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>Wula_FE_Materialist_First_Contant</name>
+            <value>0</value>
+            <type>Int</type>
+          </li>
           <!-- 检测好感度 -->
           <li Class="WulaFallenEmpire.Effect_ClearVariable">
             <name>Wula_FE_Spiritualist_Goodwill</name>
@@ -64,7 +75,7 @@
         </optionEffects>
       </li>
       <!-- 教堂 -->
-      <!-- <li>
+      <li>
         <label>乌拉帝国 大教堂</label>
         <hideWhenDisabled>true</hideWhenDisabled>
         <conditions>
@@ -74,6 +85,10 @@
           <li Class="WulaFallenEmpire.Condition_VariableGreaterThanOrEqual">
             <name>Wula_FE_Spiritualist_Goodwill</name>
             <value>75</value>
+          </li>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>Wula_FE_Spiritualist_First_Contant</name>
+            <value>1</value>
           </li>
         </conditions>
         <optionEffects>
@@ -102,6 +117,10 @@
             <name>Wula_FE_Spiritualist_Goodwill</name>
             <value>-75</value>
           </li>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>Wula_FE_Spiritualist_First_Contant</name>
+            <value>1</value>
+          </li>
         </conditions>
         <optionEffects>
           <li Class="WulaFallenEmpire.ConditionalEffects">
@@ -125,6 +144,10 @@
             <name>Wula_FE_Spiritualist_Goodwill</name>
             <value>-75</value>
           </li>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>Wula_FE_Spiritualist_First_Contant</name>
+            <value>1</value>
+          </li>
         </conditions>
         <optionEffects>
           <li Class="WulaFallenEmpire.ConditionalEffects">
@@ -136,7 +159,30 @@
             </effects>
           </li>
         </optionEffects>
-      </li> -->
+      </li>
+      <li>
+        <label>乌拉帝国 大教堂</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_FactionExists">
+            <factionDef>Wula_FE_Spiritualist_Faction</factionDef>
+          </li>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>Wula_FE_Spiritualist_First_Contant</name>
+            <value>0</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li Class="WulaFallenEmpire.ConditionalEffects">
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_FE_Spiritualist_4</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
 
       <li>
         <label>退出</label>

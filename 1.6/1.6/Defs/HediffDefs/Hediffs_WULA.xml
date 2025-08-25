@@ -5,7 +5,7 @@
     <defName>Wula_Synth</defName>
     <label>合成人</label>
     <description>乌拉帝国制式合成人，拥有一部分机械体的特性——她们无法被点燃、不会中毒、免疫大量疾病、不会抱怨温度，但是无法自我修复，并且需要获取能量以维持机体运转。</description>
-    <hediffClass>HediffWithComps</hediffClass>
+    <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
     <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
