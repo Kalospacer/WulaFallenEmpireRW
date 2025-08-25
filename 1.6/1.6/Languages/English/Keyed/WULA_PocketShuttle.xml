@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- Building_ArmedShuttleWithPocket related text -->
+  <WULA.PocketSpace.Status>Pocket space status</WULA.PocketSpace.Status>
+  <WULA.PocketSpace.Ready>Ready</WULA.PocketSpace.Ready>
+  <WULA.PocketSpace.NotGenerated>Not initialized</WULA.PocketSpace.NotGenerated>
+  <WULA.PocketSpace.ItemCount>Stored items: {0}</WULA.PocketSpace.ItemCount>
+  
+  <!-- Gizmo button text -->
+  <WULA.PocketSpace.Enter>Enter pocket space</WULA.PocketSpace.Enter>
+  <WULA.PocketSpace.EnterPawns>Transport people to pocket space</WULA.PocketSpace.EnterPawns>
+  <WULA.PocketSpace.EnterDesc>Enter the shuttle's internal pocket space. Direct access without hacking required. Selected colonists will be transported to the internal space.</WULA.PocketSpace.EnterDesc>
+  <WULA.PocketSpace.CreateMap>Create pocket space</WULA.PocketSpace.CreateMap>
+  <WULA.PocketSpace.CreateMapDesc>Create the shuttle's internal pocket space. Required for first-time use.</WULA.PocketSpace.CreateMapDesc>
+  <WULA.PocketSpace.CreationSuccess>Pocket space created successfully!</WULA.PocketSpace.CreationSuccess>
+  <WULA.PocketSpace.CancelEnter>Cancel enter</WULA.PocketSpace.CancelEnter>
+  <WULA.PocketSpace.Entering>Entering...</WULA.PocketSpace.Entering>
+  <WULA.PocketSpace.ViewMap>View map</WULA.PocketSpace.ViewMap>
+  <WULA.PocketSpace.ViewMapDesc>Switch to pocket space map to view internal conditions.</WULA.PocketSpace.ViewMapDesc>
+  
+  <WULA.PocketSpace.SwitchTo>Switch to pocket space</WULA.PocketSpace.SwitchTo>
+  <WULA.PocketSpace.SwitchToDesc>Directly switch view to the internal pocket space. Useful for quick switching when colonists are already inside.</WULA.PocketSpace.SwitchToDesc>
+  
+  <WULA.PocketSpace.ManageStorage>Manage internal storage</WULA.PocketSpace.ManageStorage>
+  <WULA.PocketSpace.ManageStorageDesc>Open internal container management interface to view and retrieve items stored in the pocket space.</WULA.PocketSpace.ManageStorageDesc>
+  
+  <!-- Message text -->
+  <WULA.PocketSpace.CannotEnter>Cannot enter pocket space.</WULA.PocketSpace.CannotEnter>
+  <WULA.PocketSpace.AccessDenied>Access denied.</WULA.PocketSpace.AccessDenied>
+  <WULA.PocketSpace.NotSpawned>Shuttle not deployed.</WULA.PocketSpace.NotSpawned>
+  <WULA.PocketSpace.CreationFailed>Pocket space creation failed.</WULA.PocketSpace.CreationFailed>
+  <WULA.PocketSpace.TransferSuccess>{0} personnel successfully transferred to pocket space.</WULA.PocketSpace.TransferSuccess>
+  <WULA.PocketSpace.SwitchToPocket>About to switch to internal pocket space. Confirm?</WULA.PocketSpace.SwitchToPocket>
+  
+  <!-- Storage management dialog -->
+  <WULA.PocketSpace.StorageManagement>Pocket space storage management</WULA.PocketSpace.StorageManagement>
+  
+  <WULA.PocketSpace.PawnCount>Pocket space personnel: {0}</WULA.PocketSpace.PawnCount>
+  <WULA.PocketSpace.NoPawnsSelected>Please select at least one colonist to enter the pocket space.</WULA.PocketSpace.NoPawnsSelected>
+  <WULA.PocketSpace.NoPawnsAvailable>No available colonists.</WULA.PocketSpace.NoPawnsAvailable>
+  <WULA.PocketSpace.AllColonists>All colonists ({0} people)</WULA.PocketSpace.AllColonists>
+  <WULA.PocketSpace.ViewOnly>View only</WULA.PocketSpace.ViewOnly>
+  
+  <!-- Exit point related -->
+  <WULA.PocketSpace.ExitThroughPortal>Return through portal</WULA.PocketSpace.ExitThroughPortal>
+  <WULA.PocketSpace.ExitToMainMap>Return to main map</WULA.PocketSpace.ExitToMainMap>
+  <WULA.PocketSpace.NoTargetMap>No target map</WULA.PocketSpace.NoTargetMap>
+  <WULA.PocketSpace.ViewMainMap>View main map</WULA.PocketSpace.ViewMainMap>
+  <WULA.PocketSpace.ViewMainMapDesc>Switch to main map and view the shuttle.</WULA.PocketSpace.ViewMainMapDesc>
+  <WULA.PocketSpace.LoadShuttle>Load shuttle</WULA.PocketSpace.LoadShuttle>
+  <WULA.PocketSpace.LoadShuttleDesc>Open shuttle loading interface to select personnel and items to load.</WULA.PocketSpace.LoadShuttleDesc>
+  <WULA.PocketSpace.CancelLoading>Cancel loading</WULA.PocketSpace.CancelLoading>
+  <WULA.PocketSpace.CancelLoadingDesc>Cancel the current loading operation.</WULA.PocketSpace.CancelLoadingDesc>
+  <WULA.PocketSpace.ShuttleStatus>Shuttle status</WULA.PocketSpace.ShuttleStatus>
+  <WULA.PocketSpace.ShuttleStatusDesc>View detailed shuttle status information.</WULA.PocketSpace.ShuttleStatusDesc>
+  <WULA.PocketSpace.ShuttleInfo>Shuttle Information</WULA.PocketSpace.ShuttleInfo>
+  <WULA.PocketSpace.LoadingDialogError>Cannot open loading dialog.</WULA.PocketSpace.LoadingDialogError>
+  <WULA.PocketSpace.ExitAll>Return all</WULA.PocketSpace.ExitAll>
+  <WULA.PocketSpace.ExitAllDesc>Transport all colonists from pocket space back to the main map.</WULA.PocketSpace.ExitAllDesc>
+  <WULA.PocketSpace.ExitSuccess>{0} successfully returned to main map.</WULA.PocketSpace.ExitSuccess>
+  <WULA.PocketSpace.ExitAllSuccess>{0} personnel have all returned to the main map.</WULA.PocketSpace.ExitAllSuccess>
+
+</LanguageData>

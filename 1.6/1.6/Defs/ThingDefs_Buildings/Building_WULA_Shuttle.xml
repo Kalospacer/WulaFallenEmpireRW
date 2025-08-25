@@ -2,7 +2,7 @@
 <Defs>
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_ArmedShuttle</defName>
-    <label>armed shuttle</label>
+    <label>乌拉武装穿梭机</label>
     <description>A chemfuel-powered shuttle designed for long-distance travel, equipped with a turret for defense. It is capable of reaching orbital locations.</description>
     <thingClass>WulaFallenEmpire.Building_ArmedShuttle</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
@@ -26,7 +26,7 @@
       </shadowData>
     </graphicData>
     <statBases>
-      <MaxHitPoints>600</MaxHitPoints>
+      <MaxHitPoints>6000</MaxHitPoints>
       <Flammability>0.5</Flammability>
       <WorkToBuild>40000</WorkToBuild>
       <Mass>150</Mass>
@@ -175,7 +175,7 @@
   
   <ThingDef ParentName="ShuttleSkyfallerBase">
     <defName>ArmedShuttleIncoming_WULA</defName>
-    <label>armed shuttle (incoming)</label>
+    <label>武装穿梭机 (接近中)</label>
     <thingClass>WulaFallenEmpire.ArmedShuttleIncoming</thingClass>
     <graphicData>
       <graphicClass>Graphic_Multi</graphicClass>
@@ -214,7 +214,7 @@
 
   <ThingDef ParentName="ShuttleSkyfallerBase">
     <defName>ArmedShuttleLeaving_WULA</defName>
-    <label>armed shuttle (leaving)</label>
+    <label>穿梭机出口</label>
     <thingClass>PassengerShuttleLeaving</thingClass>
     <rotatable>true</rotatable>
     <graphicData>

@@ -37,3 +37,4 @@ MCP/mcpserver.log
 
 # Exclude MCP local RAG folder
 MCP/local_rag/
+Data
