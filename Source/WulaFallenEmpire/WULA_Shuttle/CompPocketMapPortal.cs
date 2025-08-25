@@ -24,22 +24,22 @@ namespace WulaFallenEmpire
         {
             base.PostSpawnSetup(respawningAfterLoad);
             
+            Log.Message($"[WULA-DEBUG] CompPocketMapPortal.PostSpawnSetup called. Parent: {parent?.def?.defName ?? "null"}");
+            
             // 检查父对象是否是穿梭机
             if (ParentShuttle == null)
             {
                 Log.Error($"[WULA] CompPocketMapPortal attached to non-shuttle building: {parent?.def?.defName}");
+                return; // Early exit if parent is not a shuttle
             }
-            else
+            
+            // 创建MapPortal适配器，并设置其地图和位置信息
+            portalAdapter = new ShuttlePortalAdapter(ParentShuttle);
+            // 确保 portalAdapter 的 shuttle 引用被正确设置
+            if (portalAdapter != null)
             {
-                // 创建MapPortal适配器，并设置其地图和位置信息
-                portalAdapter = new ShuttlePortalAdapter(ParentShuttle);
-                // 确保 portalAdapter 的 shuttle 引用被正确设置
-                // 并在 PostSpawnSetup 中设置 MapPortal 基类的地图和位置信息
-                // 确保 portalAdapter 的 shuttle 引用被正确设置
-                if (portalAdapter != null)
-                {
-                    portalAdapter.shuttle = ParentShuttle;
-                }
+                portalAdapter.shuttle = ParentShuttle;
+                Log.Message($"[WULA-DEBUG] portalAdapter.shuttle set in PostSpawnSetup: {portalAdapter.shuttle?.def.defName ?? "null"}");
             }
         }
         
@@ -158,6 +158,7 @@ namespace WulaFallenEmpire
 
                     if (portalAdapter != null)
                     {
+                        Log.Message($"[WULA-DEBUG] Opening Dialog_EnterPortal with portalAdapter. Type: {portalAdapter.GetType().Name}. Shuttle: {portalAdapter.shuttle?.def.defName ?? "null"}");
                         var dialog = new Dialog_EnterPortal(portalAdapter);
                         Find.WindowStack.Add(dialog);
                     }
@@ -349,8 +350,6 @@ namespace WulaFallenEmpire
                 // def.portal?.traverseSound?.PlayOneShot(this);
             }
         }
-        
-        /// <summary>
         /// 重写进入按钮文本
         /// </summary>
         public override string EnterString => "WULA.PocketSpace.Enter".Translate();
