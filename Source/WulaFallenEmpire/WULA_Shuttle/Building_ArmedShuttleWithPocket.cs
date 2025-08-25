@@ -652,103 +652,6 @@ namespace WulaFallenEmpire
                 Log.Error($"[WULA-ERROR] Stack trace: {ex.StackTrace}");
             }
         }
-
-        /// <summary>
-        /// 手动同步口袋空间中的所有物品到穿梭机主容器
-        /// 用于解决物品消失问题
-        /// </summary>
-        public void SyncPocketItemsToMainContainer()
-        {
-            Log.Message("[WULA-DEBUG] SyncPocketItemsToMainContainer started");
-            
-            if (pocketMap == null || !pocketMapGenerated)
-            {
-                Log.Warning("[WULA-DEBUG] SyncPocketItemsToMainContainer: No pocket map to sync");
-                return;
-            }
-            
-            CompTransporter transporter = this.GetComp<CompTransporter>();
-            if (transporter == null)
-            {
-                Log.Error("[WULA-ERROR] No CompTransporter found on shuttle, cannot sync items");
-                return;
-            }
-            
-            Log.Message($"[WULA-DEBUG] Starting sync. Current container has {transporter.innerContainer.Count} items");
-            
-            try
-            {
-                List<Thing> itemsInPocket = pocketMap.listerThings.AllThings
-                    .Where(t => t.def.category == ThingCategory.Item && t.def.EverHaulable && t.Spawned).ToList();
-                
-                Log.Message($"[WULA-DEBUG] Found {itemsInPocket.Count} items in pocket space to check");
-                
-                int syncedCount = 0;
-                int droppedCount = 0;
-                int skippedCount = 0;
-                
-                foreach (Thing item in itemsInPocket)
-                {
-                    // 检查物品是否已经在主容器中
-                    if (!transporter.innerContainer.Contains(item))
-                    {
-                        Log.Message($"[WULA-DEBUG] Syncing item: {item.LabelShort} (not in main container)");
-                        
-                        // 从口袋地图中移除
-                        IntVec3 originalPos = item.Position;
-                        item.DeSpawn();
-                        
-                        // 尝试添加到主容器
-                        if (transporter.innerContainer.TryAdd(item))
-                        {
-                            syncedCount++;
-                            Log.Message($"[WULA-DEBUG] Successfully synced item: {item.LabelShort}");
-                        }
-                        else
-                        {
-                            Log.Warning($"[WULA-WARNING] Container full, dropping item: {item.LabelShort}");
-                            // 如果主容器满了，放到穿梭机附近（玩家可以手动装载）
-                            IntVec3 dropPos = CellFinder.RandomClosewalkCellNear(this.Position, this.Map, 3);
-                            if (dropPos.IsValid)
-                            {
-                                GenPlace.TryPlaceThing(item, dropPos, this.Map, ThingPlaceMode.Near);
-                                droppedCount++;
-                                Log.Message($"[WULA-DEBUG] Dropped item {item.LabelShort} at {dropPos}");
-                            }
-                            else
-                            {
-                                // 如果找不到合适位置，重新放回口袋空间
-                                GenPlace.TryPlaceThing(item, originalPos, pocketMap, ThingPlaceMode.Near);
-                                Log.Warning($"[WULA-WARNING] Could not find drop position, returned item {item.LabelShort} to pocket");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        skippedCount++;
-                        Log.Message($"[WULA-DEBUG] Item {item.LabelShort} already in main container, skipping");
-                    }
-                }
-                
-                string message = $"[WULA-SUCCESS] 同步完成: {syncedCount} 个物品已同步";
-                if (droppedCount > 0)
-                {
-                    message += $", {droppedCount} 个物品因容器已满被放置在附近";
-                }
-                if (skippedCount > 0)
-                {
-                    message += $", {skippedCount} 个物品已在容器中";
-                }
-                
-                Log.Message(message);
-                Log.Message($"[WULA-DEBUG] Final container state: {transporter.innerContainer.Count} items");
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"[WULA-ERROR] Error syncing pocket items to main container: {ex}");
-                Log.Error($"[WULA-ERROR] Stack trace: {ex.StackTrace}");
-            }
-        }
         
         /// <summary>
         /// 获取口袋空间状态信息（用于调试）
@@ -1097,7 +1000,6 @@ namespace WulaFallenEmpire
                     int itemsInPocket = pocketMap.listerThings.AllThings.Count(t => t.def.category == ThingCategory.Item && t.def.EverHaulable && t.Spawned);
                     if (itemsInPocket > 0)
                     {
-                        SyncPocketItemsToMainContainer();
                         if (Prefs.DevMode)
                         {
                             Log.Message($"[WULA] Auto-synced pocket items. Current status: {GetPocketSpaceDebugInfo()}");
