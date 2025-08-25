@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <FactionDef ParentName="FactionBase">
-    <defName>Wula_FE_Spiritualist_Faction</defName>
-    <label>乌拉帝国 大教堂</label>
-    <description>堕落乌拉帝国派系之一，属于保皇派，拥有独属的特殊科技。\n\n蒙受神祗庇佑的乌拉帝国神职人员已经履行职责千万年之久，但是帝国内战的到来让无信者抛弃了她们的神祗。尽管教会的盛景不再，但是狂热者内心的火焰并未就此熄灭，她们终将兑现对叛教者和无信者的审判，只需假以时日。</description>
+    <defName>WULA_FE_Materialist_Faction</defName>
+    <label>乌拉帝国 图书馆</label>
+    <description>堕落乌拉帝国派系之一，属于进步派，拥有独属的特殊科技。\n\n反抗乌拉帝国皇权的学生联盟和其他有志之士一起打响了帝国内战的第一枪，但是在千百年间，这些踌躇满志的奋斗者渐渐堕落成了刁钻刻板的学士，她们固执己见，致力于收集和垄断乌拉帝国遗留的科技资产而不再是推翻皇室残党。然而保皇派势力并未在时间中消亡，星海间的仇恨并未熄灭，革命的大旗正在等待新的有识之士高举······</description>
     <basicMemberKind>RealWula_PawnKind</basicMemberKind>
     <pawnSingular>乌拉星人</pawnSingular>
     <pawnsPlural>乌拉星人</pawnsPlural>
-    <categoryTag>Wula_FE_Spiritualist_Faction</categoryTag>
+    <categoryTag>Wula_FE_Materialist_Faction</categoryTag>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
-    <factionNameMaker>NamerFaction_Wula_FE_Spiritualist</factionNameMaker>
+    <factionNameMaker>NamerFaction_Wula_FE_Materialist</factionNameMaker>
     <factionIconPath>Wula/World/WorldObjects/Expanding/Wula_FE_Faction</factionIconPath>
     <!-- <settlementGenerationWeight>1</settlementGenerationWeight> -->
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
@@ -46,7 +46,7 @@
       <!-- <li MayRequire="Ludeon.RimWorld.Odyssey">Orbit</li> -->
     </arrivalLayerWhitelist>
     <colorSpectrum>
-      <li>(0.6, 0.5, 0.9)</li>
+      <li>(0.15, 0.9, 0.9)</li>
     </colorSpectrum>
     <raidCommonalityFromPointsCurve>
       <points>

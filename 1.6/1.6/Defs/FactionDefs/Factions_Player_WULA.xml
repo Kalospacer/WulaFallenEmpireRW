@@ -89,12 +89,13 @@
       </points>
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
-      <!-- 机械部队，大量的猫猫混杂一台战车 -->
+      <!-- 机械部队，大量的猫猫混至多2台战车 -->
       <li>
         <kindDef>Combat</kindDef>
-        <commonality>50</commonality>
+        <commonality>40</commonality>
         <options>
           <Wula_AI_Heavy_Panzer_Gunnery_PawnKind>100</Wula_AI_Heavy_Panzer_Gunnery_PawnKind>
+          <Wula_AI_Heavy_Panzer_PawnKind>100</Wula_AI_Heavy_Panzer_PawnKind>
           <Mech_WULA_Cat_Assault>60</Mech_WULA_Cat_Assault>
           <Mech_WULA_Cat_Constructor>30</Mech_WULA_Cat_Constructor>
           <Mech_WULA_Cat_Fire>10</Mech_WULA_Cat_Fire>
@@ -104,12 +105,12 @@
       <!-- 重甲部队，大量的猫猫混杂少量的重甲兵 -->
       <li>
         <kindDef>Combat</kindDef>
-        <commonality>50</commonality>
+        <commonality>40</commonality>
         <options>
           <Mech_WULA_Cat_Constructor>20</Mech_WULA_Cat_Constructor>
           <Mech_WULA_Cat_Assault>20</Mech_WULA_Cat_Assault>
-          <Wula_Broken_Personality_Pawn_7>2</Wula_Broken_Personality_Pawn_7>
-          <Wula_Broken_Personality_Pawn_5>1</Wula_Broken_Personality_Pawn_5>
+          <Wula_Broken_Personality_Pawn_7>4</Wula_Broken_Personality_Pawn_7>
+          <Wula_Broken_Personality_Pawn_5>2</Wula_Broken_Personality_Pawn_5>
         </options>
       </li>
       <!-- 骑士军团部队 -->
@@ -135,7 +136,7 @@
       <!-- 常规部队 -->
       <li>
         <kindDef>Combat</kindDef>
-        <commonality>20</commonality>
+        <commonality>30</commonality>
         <options>
           <Mech_WULA_Cat_Fire>2</Mech_WULA_Cat_Fire>
           <Mech_WULA_Cat_EMP>2</Mech_WULA_Cat_EMP>
@@ -148,7 +149,7 @@
       <li>
         <!-- militor only -->
         <kindDef>Combat</kindDef>
-        <commonality>10</commonality>
+        <commonality>30</commonality>
         <options>
           <Wula_Broken_Personality_Pawn_1>10</Wula_Broken_Personality_Pawn_1>
           <Wula_Broken_Personality_Pawn_2>2</Wula_Broken_Personality_Pawn_2>
