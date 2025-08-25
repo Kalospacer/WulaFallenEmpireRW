@@ -69,7 +69,7 @@
       <forcedCostLeavings>
         <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
       </forcedCostLeavings>
-      <turretGunDef>Gun_ChargeBlasterHeavyTurret</turretGunDef>
+      <turretGunDef>WULA_WM_Panzer_Turret</turretGunDef>
       <turretBurstCooldownTime>5.5</turretBurstCooldownTime>
       <turretTopDrawSize>1.75</turretTopDrawSize>
       <turretTopOffset>(0, 0.05)</turretTopOffset>
@@ -128,7 +128,16 @@
       <li Class="CompProperties_AmbientSound">
         <sound>ShuttleIdle_Ambience</sound>
       </li>
-      
+      <li Class="CompProperties_ProjectileInterceptor">
+        <radius>9</radius>
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <color>(0.5, 0.3, 0.9, 0.5)</color>
+        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
+        <activeSound>BulletShield_Ambience</activeSound>
+        <disarmedByEmpForTicks>1080</disarmedByEmpForTicks>
+        <chargeIntervalTicks>-1</chargeIntervalTicks>
+        <chargeDurationTicks>0</chargeDurationTicks>
+      </li>
     </comps>
     <modExtensions>
       <li Class="WulaFallenEmpire.PocketMapProperties">
@@ -143,59 +152,6 @@
       <li>PlaceWorker_TurretTop</li>
     </placeWorkers>
     <uiOrder>2601</uiOrder>
-  </ThingDef>
-
-  <!-- 改进的武器定义 -->
-  <ThingDef ParentName="BaseBullet">
-    <defName>WULA_Bullet_ArmedShuttleAdvanced</defName>
-    <label>advanced shuttle cannon shell</label>
-    <graphicData>
-      <texPath>Things/Projectile/Bullet_Big</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.8, 0.9, 1.0)</color>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>30</damageAmountBase>
-      <armorPenetrationBase>0.4</armorPenetrationBase>
-      <speed>75</speed>
-    </projectile>
-  </ThingDef>
-
-  <ThingDef ParentName="BaseWeaponTurret">
-    <defName>Gun_ChargeBlasterAdvancedTurret</defName>
-    <label>advanced charge blaster</label>
-    <description>An upgraded pulse-charged rapid-fire blaster with enhanced targeting systems and increased firepower.</description>
-    <graphicData>
-      <texPath>Things/Item/Equipment/WeaponRanged/ChargeBlasterLight</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.8, 0.9, 1.0)</color>
-    </graphicData>
-    <statBases>
-      <AccuracyTouch>0.85</AccuracyTouch>
-      <AccuracyShort>0.75</AccuracyShort>
-      <AccuracyMedium>0.65</AccuracyMedium>
-      <AccuracyLong>0.45</AccuracyLong>
-      <RangedWeapon_Cooldown>4.5</RangedWeapon_Cooldown>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>WULA_Bullet_ArmedShuttleAdvanced</defaultProjectile>
-        <warmupTime>1.0</warmupTime>
-        <minRange>3.5</minRange>
-        <range>50.9</range>
-        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <burstShotCount>8</burstShotCount>
-        <soundCast>Shot_ChargeBlaster</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>10</muzzleFlashScale>
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-        </targetParams>
-      </li>
-    </verbs>
   </ThingDef>
 
   <!-- 到达天降物 -->

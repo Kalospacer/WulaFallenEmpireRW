@@ -68,7 +68,7 @@
       <forcedCostLeavings>
         <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
       </forcedCostLeavings>
-      <turretGunDef>Gun_ChargeBlasterHeavyTurret</turretGunDef>
+      <turretGunDef>WULA_WM_Panzer_Turret</turretGunDef>
       <turretBurstCooldownTime>5.5</turretBurstCooldownTime>
       <turretTopDrawSize>1.75</turretTopDrawSize>
       <turretTopOffset>(0, 0.05)</turretTopOffset>
@@ -122,6 +122,16 @@
       <li Class="CompProperties_AmbientSound">
         <sound>ShuttleIdle_Ambience</sound>
       </li>
+      <li Class="CompProperties_ProjectileInterceptor">
+        <radius>9</radius>
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <color>(0.5, 0.3, 0.9, 0.5)</color>
+        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
+        <activeSound>BulletShield_Ambience</activeSound>
+        <disarmedByEmpForTicks>1080</disarmedByEmpForTicks>
+        <chargeIntervalTicks>-1</chargeIntervalTicks>
+        <chargeDurationTicks>0</chargeDurationTicks>
+      </li>
     </comps>
     <placeWorkers>
       <li>PlaceWorker_NotUnderRoof</li>
@@ -142,35 +152,6 @@
       <damageAmountBase>25</damageAmountBase>
       <speed>70</speed>
     </projectile>
-  </ThingDef>
-
-  <ThingDef ParentName="BaseWeaponTurret">
-    <defName>Gun_ChargeBlasterHeavyTurret</defName>
-    <label>light charge blaster</label>
-    <description>A pulse-charged rapid-fire blaster for area fire.</description>
-    <graphicData>
-      <texPath>Things/Item/Equipment/WeaponRanged/ChargeBlasterLight</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <statBases>
-      <AccuracyLong>0.08</AccuracyLong>
-      <RangedWeapon_Cooldown>5.5</RangedWeapon_Cooldown>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>WULA_Bullet_ArmedShuttle</defaultProjectile>
-        <warmupTime>1.25</warmupTime>
-        <minRange>3.9</minRange>
-        <range>45.9</range>
-        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
-        <burstShotCount>9</burstShotCount>
-        <soundCast>Shot_ChargeBlaster</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-      </li>
-    </verbs>
   </ThingDef>
   
   <ThingDef ParentName="ShuttleSkyfallerBase">
@@ -214,7 +195,7 @@
 
   <ThingDef ParentName="ShuttleSkyfallerBase">
     <defName>ArmedShuttleLeaving_WULA</defName>
-    <label>穿梭机出口</label>
+    <label>武装穿梭机 (离开中)</label>
     <thingClass>PassengerShuttleLeaving</thingClass>
     <rotatable>true</rotatable>
     <graphicData>
@@ -257,7 +238,7 @@
 
   <TransportShipDef>
     <defName>Ship_ArmedShuttle</defName>
-    <label>armed shuttle</label>
+    <label>武装穿梭机</label>
     <shipThing>WULA_ArmedShuttle</shipThing>
     <arrivingSkyfaller>ArmedShuttleIncoming_WULA</arrivingSkyfaller>
     <leavingSkyfaller>ArmedShuttleLeaving_WULA</leavingSkyfaller>

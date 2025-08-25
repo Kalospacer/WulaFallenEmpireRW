@@ -16,15 +16,16 @@
       <li>ElevationFertility</li>
       <li>Underground_RocksFromGrid</li>
       <li>Terrain</li>
-      <li>WULA_PocketSpace_Small</li>
-      <li>Fog</li>
+      <li>WULA_PocketSpace_Small_GenStep</li>
     </genSteps>
   </MapGeneratorDef>
 
   <!-- 13x13口袋空间生成步骤 -->
   <GenStepDef>
-    <defName>WULA_PocketSpace_Small</defName>
+    <defName>WULA_PocketSpace_Small_GenStep</defName>
     <order>990</order> <!-- 调整为更高的值，确保在所有基础地形生成之后执行 -->
-    <genStep Class="WulaFallenEmpire.GenStep_WulaPocketSpaceSmall" />
+    <genStep Class="WulaFallenEmpire.GenStep_WulaPocketSpaceSmall">
+      <prefabDefName>WULA_Shuttle_Prefab</prefabDefName> <!-- 指定要生成的预制件的defName -->
+    </genStep>
   </GenStepDef>
 </Defs>

@@ -14,6 +14,9 @@ namespace WulaFallenEmpire
     {
         public override int SeedPart => 928735; // 不同于AncientStockpile的种子
 
+        // 允许通过XML配置指定要生成的预制件Def名称
+        public string prefabDefName;
+
         public override void Generate(Map map, GenStepParams parms)
         {
             try
@@ -32,17 +35,19 @@ namespace WulaFallenEmpire
                 Log.Message("[WULA] WULA pocket space generation completed");
                 
                 // 添加预制件生成
-                // 注意：这里需要根据实际的PrefabDef名称进行加载
-                // 暂时使用一个示例PrefabDef名称，实际使用时应替换
-                PrefabDef customPrefabDef = DefDatabase<PrefabDef>.GetNamed("YourCustomPrefabDefName", false);
-                if (customPrefabDef != null)
+                // 如果指定了预制件Def名称，则加载并生成
+                if (!string.IsNullOrEmpty(prefabDefName))
                 {
-                    GeneratePrefab(map, customPrefabDef);
-                    Log.Message($"[WULA] Generated custom prefab: {customPrefabDef.defName}");
-                }
-                else
-                {
-                    Log.Warning("[WULA] Custom prefab 'YourCustomPrefabDefName' not found. Skipping prefab generation.");
+                    PrefabDef customPrefabDef = DefDatabase<PrefabDef>.GetNamed(prefabDefName, false);
+                    if (customPrefabDef != null)
+                    {
+                        GeneratePrefab(map, customPrefabDef);
+                        Log.Message($"[WULA] Generated custom prefab: {customPrefabDef.defName}");
+                    }
+                    else
+                    {
+                        Log.Warning($"[WULA] Custom prefab '{prefabDefName}' not found. Skipping prefab generation.");
+                    }
                 }
             }
             catch (Exception ex)

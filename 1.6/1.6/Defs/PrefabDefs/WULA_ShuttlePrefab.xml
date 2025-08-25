@@ -1,0 +1,148 @@
+<Defs>
+  <PrefabDef>
+    <defName>WULA_Shuttle_Prefab</defName> <!-- rename -->
+    <size>(13,13)</size>
+    <things>
+      <Table1x2c>
+        <position>(10, 0, 2)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </Table1x2c>
+      <Armchair>
+        <position>(6, 0, 2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Cloth</stuff>
+        <quality>Normal</quality>
+      </Armchair>
+      <WULA_Charging_Station_Synth>
+        <positions>
+          <li>(1, 0, 1)</li>
+          <li>(1, 0, 3)</li>
+          <li>(1, 0, 5)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+        <quality>Normal</quality>
+      </WULA_Charging_Station_Synth>
+      <ChessTable>
+        <position>(11, 0, 5)</position>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </ChessTable>
+      <WulaDoor>
+        <rects>
+          <li>(3,1,3,1)</li>
+          <li>(5,2,5,2)</li>
+          <li>(3,3,3,3)</li>
+          <li>(3,5,3,5)</li>
+          <li>(9,6,9,6)</li>
+          <li>(3,7,3,7)</li>
+          <li>(3,9,3,9)</li>
+          <li>(3,11,3,11)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WulaDoor>
+      <WulaDoor>
+        <position>(7, 0, 9)</position>
+      </WulaDoor>
+      <WULA_Cube_Productor_Energy>
+        <position>(6, 0, 1)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </WULA_Cube_Productor_Energy>
+      <Barricade>
+        <rects>
+          <li>(5,5,6,5)</li>
+          <li>(5,6,5,7)</li>
+          <li>(7,6,7,7)</li>
+          <li>(6,7,6,7)</li>
+        </rects>
+        <stuff>Steel</stuff>
+      </Barricade>
+      <Barricade>
+        <position>(7, 0, 5)</position>
+        <stuff>Steel</stuff>
+        <hp>278</hp>
+      </Barricade>
+      <DiningChair>
+        <position>(11, 0, 4)</position>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </DiningChair>
+      <DiningChair>
+        <position>(11, 0, 6)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </DiningChair>
+      <Bed>
+        <positions>
+          <li>(1, 0, 7)</li>
+          <li>(1, 0, 9)</li>
+          <li>(1, 0, 11)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </Bed>
+      <WulaWall>
+        <rects>
+          <li>(0,0,12,0)</li>
+          <li>(0,1,0,12)</li>
+          <li>(5,1,5,1)</li>
+          <li>(7,1,7,3)</li>
+          <li>(12,1,12,12)</li>
+          <li>(1,2,3,2)</li>
+          <li>(5,3,6,3)</li>
+          <li>(8,3,8,3)</li>
+          <li>(1,4,3,4)</li>
+          <li>(9,4,9,5)</li>
+          <li>(1,6,3,6)</li>
+          <li>(9,7,11,7)</li>
+          <li>(1,8,3,8)</li>
+          <li>(9,8,9,9)</li>
+          <li>(5,9,6,9)</li>
+          <li>(8,9,8,9)</li>
+          <li>(1,10,3,10)</li>
+          <li>(5,10,5,12)</li>
+          <li>(1,12,4,12)</li>
+          <li>(6,12,11,12)</li>
+        </rects>
+        <stuff>Steel</stuff>
+      </WulaWall>
+      <FlatscreenTelevision>
+        <position>(8, 0, 2)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </FlatscreenTelevision>
+      <Shelf>
+        <position>(10, 0, 8)</position>
+        <stuff>Steel</stuff>
+      </Shelf>
+      <Shelf>
+        <position>(6, 0, 11)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>Steel</stuff>
+      </Shelf>
+      <Shelf>
+        <position>(11, 0, 10)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>Steel</stuff>
+      </Shelf>
+      <Shelf>
+        <position>(9, 0, 11)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Steel</stuff>
+      </Shelf>
+      <Couch>
+        <position>(10, 0, 1)</position>
+        <stuff>Cloth</stuff>
+        <quality>Normal</quality>
+      </Couch>
+      <Couch>
+        <position>(11, 0, 3)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Cloth</stuff>
+        <quality>Normal</quality>
+      </Couch>
+    </things>
+  </PrefabDef>
+</Defs>
