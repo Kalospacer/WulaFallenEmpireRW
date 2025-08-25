@@ -21,6 +21,8 @@
   <WULA.PocketSpace.CannotEnter>无法进入内部空间。</WULA.PocketSpace.CannotEnter>
   <WULA.PocketSpace.AccessDenied>访问被拒绝。</WULA.PocketSpace.AccessDenied>
   <WULA.PocketSpace.NotSpawned>穿梭机未部署。</WULA.PocketSpace.NotSpawned>
+  <WULA.PocketSpace.TransportDisabled>传送功能已禁用（穿梭机飞行中）。</WULA.PocketSpace.TransportDisabled>
+  <WULA.PocketSpace.NoTargetMap>无目标地图。</WULA.PocketSpace.NoTargetMap>
   <WULA.PocketSpace.CreationFailed>内部空间创建失败。</WULA.PocketSpace.CreationFailed>
   <WULA.PocketSpace.TransferSuccess>{0} 名人员已成功传送到内部空间。</WULA.PocketSpace.TransferSuccess>
   <WULA.PocketSpace.SwitchToPocket>即将切换到内部口袋空间。确认吗？</WULA.PocketSpace.SwitchToPocket>
@@ -32,7 +34,6 @@
   <WULA.PocketSpace.NoPawnsSelected>请选择至少一名殖民者进入内部空间。</WULA.PocketSpace.NoPawnsSelected>
   <WULA.PocketSpace.NoPawnsAvailable>没有可用的殖民者。</WULA.PocketSpace.NoPawnsAvailable>
   <WULA.PocketSpace.AllColonists>所有殖民者 ({0}人)</WULA.PocketSpace.AllColonists>
-  <WULA.PocketSpace.ViewOnly>仅切换视角</WULA.PocketSpace.ViewOnly>
   
   <!-- 退出点相关 -->
   <WULA.PocketSpace.ExitThroughPortal>通过传送门返回</WULA.PocketSpace.ExitThroughPortal>

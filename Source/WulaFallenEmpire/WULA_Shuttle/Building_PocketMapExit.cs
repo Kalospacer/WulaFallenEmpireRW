@@ -3,6 +3,7 @@ using Verse;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Reflection;
 
 namespace WulaFallenEmpire
 {
@@ -75,7 +76,7 @@ namespace WulaFallenEmpire
         }
         
         /// <summary>
-        /// 重写是否可进入，检查目标地图是否存在（模仿原版MapPortal.IsEnterable）
+        /// 重写是否可进入，检查目标地图是否存在及传送状态（模仿原版MapPortal.IsEnterable）
         /// </summary>
         public override bool IsEnterable(out string reason)
         {
@@ -84,6 +85,25 @@ namespace WulaFallenEmpire
                 reason = "WULA.PocketSpace.NoTargetMap".Translate();
                 return false;
             }
+            
+            // 检查父穿梭机的传送状态
+            if (parentShuttle != null)
+            {
+                // 使用反射获取 transportDisabled 字段值
+                var transportDisabledField = typeof(Building_ArmedShuttleWithPocket).GetField("transportDisabled", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                
+                if (transportDisabledField != null)
+                {
+                    bool transportDisabled = (bool)transportDisabledField.GetValue(parentShuttle);
+                    if (transportDisabled)
+                    {
+                        reason = "WULA.PocketSpace.TransportDisabled".Translate();
+                        return false;
+                    }
+                }
+            }
+            
             reason = "";
             return true;
         }
@@ -107,9 +127,9 @@ namespace WulaFallenEmpire
         public override string EnterString => "WULA.PocketSpace.ExitToMainMap".Translate();
         
         /// <summary>
-        /// 重写进入按钮图标，使用原版的ViewCave图标
+        /// 重写进入按钮图标，使用装载按钮的贴图
         /// </summary>
-        protected override Texture2D EnterTex => ContentFinder<Texture2D>.Get("UI/Commands/ViewCave");
+        protected override Texture2D EnterTex => ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter");
 
 
 

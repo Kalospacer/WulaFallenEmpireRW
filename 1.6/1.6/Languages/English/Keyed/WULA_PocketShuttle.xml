@@ -20,6 +20,8 @@
   <!-- Message text -->
   <WULA.PocketSpace.CannotEnter>Cannot enter pocket space.</WULA.PocketSpace.CannotEnter>
   <WULA.PocketSpace.AccessDenied>Access denied.</WULA.PocketSpace.AccessDenied>
+  <WULA.PocketSpace.TransportDisabled>Transport functionality disabled (shuttle in flight).</WULA.PocketSpace.TransportDisabled>
+  <WULA.PocketSpace.NoTargetMap>No target map available.</WULA.PocketSpace.NoTargetMap>
   <WULA.PocketSpace.NotSpawned>Shuttle not deployed.</WULA.PocketSpace.NotSpawned>
   <WULA.PocketSpace.CreationFailed>Pocket space creation failed.</WULA.PocketSpace.CreationFailed>
   <WULA.PocketSpace.TransferSuccess>{0} personnel successfully transferred to pocket space.</WULA.PocketSpace.TransferSuccess>
@@ -32,7 +34,7 @@
   <WULA.PocketSpace.NoPawnsSelected>Please select at least one colonist to enter the pocket space.</WULA.PocketSpace.NoPawnsSelected>
   <WULA.PocketSpace.NoPawnsAvailable>No available colonists.</WULA.PocketSpace.NoPawnsAvailable>
   <WULA.PocketSpace.AllColonists>All colonists ({0} people)</WULA.PocketSpace.AllColonists>
-  <WULA.PocketSpace.ViewOnly>View only</WULA.PocketSpace.ViewOnly>
+
   
   <!-- Exit point related -->
   <WULA.PocketSpace.ExitThroughPortal>Return through portal</WULA.PocketSpace.ExitThroughPortal>

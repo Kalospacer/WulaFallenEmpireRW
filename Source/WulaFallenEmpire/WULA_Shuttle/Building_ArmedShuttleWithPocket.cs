@@ -16,7 +16,7 @@ namespace WulaFallenEmpire
     /// 结合了武装防御能力和口袋空间技术的复合型载具
     /// </summary>
     [StaticConstructorOnStartup]
-    public class Building_ArmedShuttleWithPocket : Building_ArmedShuttle, IThingHolder
+    public class Building_ArmedShuttleWithPocket : Building_ArmedShuttle
     {
         #region 静态图标定义（使用原版MapPortal的图标）
         
@@ -27,7 +27,7 @@ namespace WulaFallenEmpire
         private static readonly Texture2D CancelEnterTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
         
         /// <summary>默认进入图标</summary>
-        private static readonly Texture2D DefaultEnterTex = ContentFinder<Texture2D>.Get("UI/Commands/EnterCave");
+        private static readonly Texture2D DefaultEnterTex = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter");
         
         #endregion
         #region 口袋空间字段
@@ -49,6 +49,9 @@ namespace WulaFallenEmpire
         
         /// <summary>允许直接访问（无需骇入）</summary>
         private bool allowDirectAccess = true;
+        
+        /// <summary>传送功能是否暂停（飞行时为 true）</summary>
+        private bool transportDisabled = false;
         
         // 注意：我们不再使用自定义的innerContainer，
         // 所有物品都存储在CompTransporter.innerContainer中，保持简单和一致
@@ -165,6 +168,7 @@ namespace WulaFallenEmpire
             Scribe_Defs.Look(ref mapGenerator, "mapGenerator");
             Scribe_Defs.Look(ref exitDef, "exitDef");
             Scribe_Values.Look(ref allowDirectAccess, "allowDirectAccess", true);
+            Scribe_Values.Look(ref transportDisabled, "transportDisabled", false);
             
             // 不再序列化innerContainer，只使用CompTransporter的容器
             
@@ -187,23 +191,70 @@ namespace WulaFallenEmpire
 
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
-            // 清理口袋地图
-            if (pocketMap != null && pocketMapGenerated)
+            Log.Message($"[WULA-DEBUG] DeSpawn called with mode: {mode}");
+            
+            // 只在真正销毁时清理口袋地图，发射时保留
+            if (ShouldDestroyPocketMapOnDeSpawn(mode))
             {
-                try
+                if (pocketMap != null && pocketMapGenerated)
                 {
-                    // 将口袋空间中的物品和人员转移到主地图
-                    TransferAllFromPocketToMainMap();
-                    
-                    // 销毁口袋地图
-                    PocketMapUtility.DestroyPocketMap(pocketMap);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error($"[WULA] Error cleaning up pocket map: {ex}");
+                    try
+                    {
+                        Log.Message("[WULA-DEBUG] Destroying pocket map due to shuttle destruction");
+                        
+                        // 将口袋空间中的物品和人员转移到主地图
+                        TransferAllFromPocketToMainMap();
+                        
+                        // 销毁口袋地图
+                        PocketMapUtility.DestroyPocketMap(pocketMap);
+                        pocketMap = null;
+                        pocketMapGenerated = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"[WULA-ERROR] Error cleaning up pocket map: {ex}");
+                    }
                 }
             }
+            else
+            {
+                Log.Message("[WULA-DEBUG] Preserving pocket map during shuttle launch/transport");
+                // 发射时暂停传送功能，但保留口袋空间
+                transportDisabled = true;
+                if (pocketMap != null && exit != null)
+                {
+                    // 标记传送功能暂停
+                    Log.Message("[WULA-DEBUG] Transport functionality disabled during flight");
+                }
+            }
+            
             base.DeSpawn(mode);
+        }
+        
+        /// <summary>
+        /// 判断是否应该在DeSpawn时销毁口袋地图
+        /// </summary>
+        private bool ShouldDestroyPocketMapOnDeSpawn(DestroyMode mode)
+        {
+            // 只在真正销毁时删除口袋空间
+            switch (mode)
+            {
+                case DestroyMode.Vanish:  // 发射时使用，保留口袋空间
+                    return false;
+                case DestroyMode.Deconstruct:  // 拆除，删除口袋空间
+                    return true;
+                case DestroyMode.KillFinalize:  // 被摧毁，删除口袋空间  
+                    return true;
+                case DestroyMode.Cancel:  // 取消建造，删除口袋空间
+                    return true;
+                case DestroyMode.Refund:  // 退款，删除口袋空间
+                    return true;
+                case DestroyMode.FailConstruction:  // 建造失败，删除口袋空间
+                    return true;
+                default:
+                    Log.Warning($"[WULA-WARNING] Unknown DestroyMode: {mode}, defaulting to preserve pocket map");
+                    return false;
+            }
         }
 
         public override string GetInspectString()
@@ -270,6 +321,11 @@ namespace WulaFallenEmpire
             if (!Spawned)
             {
                 return false;
+            }
+            
+            if (transportDisabled)
+            {
+                return false; // 飞行中禁用传送功能
             }
             
             return true;
@@ -763,22 +819,6 @@ namespace WulaFallenEmpire
                         }
                     };
                 }
-                
-                // 添加同步物品按钮（用于修复物品消失问题）
-                if (pocketMapGenerated && pocketMap != null)
-                {
-                    yield return new Command_Action
-                    {
-                        defaultLabel = "同步物品",
-                        defaultDesc = "将口袋空间中的物品同步到穿梭机容器中。如果物品消失，可以尝试点击此按钮。",
-                        icon = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter"),
-                        action = delegate
-                        {
-                            SyncPocketItemsToMainContainer();
-                            Messages.Message("物品同步完成。" + GetPocketSpaceDebugInfo(), this, MessageTypeDefOf.TaskCompletion);
-                        }
-                    };
-                }
             }
         }
 
@@ -786,39 +826,6 @@ namespace WulaFallenEmpire
 
         #endregion
 
-        #region IThingHolder接口实现
-
-        public ThingOwner GetDirectlyHeldThings()
-        {
-            // 只使用穿梭机的标准容器，保持简单和一致性
-            CompTransporter transporter = this.GetComp<CompTransporter>();
-            if (transporter?.innerContainer != null)
-            {
-                Log.Message($"[WULA-DEBUG] GetDirectlyHeldThings: Returning main container with {transporter.innerContainer.Count} items");
-                return transporter.innerContainer;
-            }
-            
-            // 如果CompTransporter不存在，说明有严重问题，直接报错
-            Log.Error("[WULA-ERROR] CompTransporter is null! This should never happen for a shuttle.");
-            
-            // 返回一个临时空容器避免游戏崩溃，但这种情况应该被修复
-            var tempContainer = new ThingOwner<Thing>(this, oneStackOnly: false);
-            Log.Error($"[WULA-ERROR] Created temporary container as fallback. This is a bug!");
-            return tempContainer;
-        }
-
-        public void GetChildHolders(List<IThingHolder> outChildren)
-        {
-            // 只添加穿梭机的主容器
-            CompTransporter transporter = this.GetComp<CompTransporter>();
-            if (transporter != null)
-            {
-                outChildren.Add(transporter);
-            }
-        }
-        
-        #endregion
-        
         #region MapPortal兼容接口（使Dialog_EnterPortal能正常工作）
         
         /// <summary>
@@ -835,6 +842,12 @@ namespace WulaFallenEmpire
             if (!Spawned)
             {
                 reason = "WULA.PocketSpace.NotSpawned".Translate();
+                return false;
+            }
+            
+            if (transportDisabled)
+            {
+                reason = "WULA.PocketSpace.TransportDisabled".Translate();
                 return false;
             }
             
@@ -926,27 +939,6 @@ namespace WulaFallenEmpire
                 );
                 options.Add(allOption);
             }
-            
-            // 添加“只切换视角”选项
-            FloatMenuOption viewOnlyOption = new FloatMenuOption(
-                "WULA.PocketSpace.ViewOnly".Translate(),
-                delegate
-                {
-                    if (pocketMapGenerated)
-                    {
-                        SwitchToPocketSpace();
-                    }
-                    else
-                    {
-                        CreatePocketMap();
-                        if (pocketMapGenerated)
-                        {
-                            SwitchToPocketSpace();
-                        }
-                    }
-                }
-            );
-            options.Add(viewOnlyOption);
             
             // 显示浮动菜单
             FloatMenu floatMenu = new FloatMenu(options);
@@ -1145,6 +1137,20 @@ namespace WulaFallenEmpire
             
             // 更新退出点目标（处理穿梭机重新部署的情况）
             UpdateExitPointTarget();
+            
+            // 如果是从飞行状态恢复，重新启用传送功能
+            if (transportDisabled)
+            {
+                Log.Message("[WULA-DEBUG] Re-enabling transport functionality after landing");
+                transportDisabled = false;
+                
+                // 如果有口袋空间，确保退出点正确连接到新地图
+                if (pocketMapGenerated && pocketMap != null && exit != null)
+                {
+                    Log.Message($"[WULA-DEBUG] Reconnecting pocket space exit to new map: {map?.uniqueID} at {this.Position}");
+                    // 退出点会在 UpdateExitPointTarget 中自动更新
+                }
+            }
             
             // 从 ThingDef 中读取 portal 配置
             if (def.HasModExtension<PocketMapProperties>())
