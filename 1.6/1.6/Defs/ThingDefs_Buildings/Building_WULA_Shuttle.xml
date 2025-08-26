@@ -35,7 +35,7 @@
       <Comfort>0.65</Comfort>
     </statBases>
     <tickerType>Normal</tickerType>
-    <designationCategory>Odyssey</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <costList>
       <Steel>300</Steel>
@@ -177,7 +177,7 @@
       <Comfort>0.65</Comfort>
     </statBases>
     <tickerType>Normal</tickerType>
-    <designationCategory>Odyssey</designationCategory>
+    <designationCategory>WULA_Buildings</designationCategory>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <costList>
       <Steel>300</Steel>
@@ -352,7 +352,7 @@
       <AccuracyShort>0.5</AccuracyShort>
       <AccuracyMedium>0.4</AccuracyMedium>
       <AccuracyLong>0.35</AccuracyLong>
-      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.35</RangedWeapon_Cooldown>
     </statBases>
     <weaponTags>
       <li>WULA_AI_Heavy_Panzer_Gunner_Weapon</li>
@@ -367,12 +367,12 @@
         <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_Shuttle_Homing_Autocannon</defaultProjectile>
-        <warmupTime>2.0</warmupTime>
+        <warmupTime>1.2</warmupTime>
         <range>24</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
-        <soundCast>Shot_TurretSniper</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <burstShotCount>24</burstShotCount>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <soundCast>Shot_BeamRepeater</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
         <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
@@ -391,23 +391,24 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>16</damageAmountBase>
+      <damageAmountBase>6</damageAmountBase>
       <armorPenetrationBase>0.75</armorPenetrationBase>
-      <speed>30</speed>
+      <speed>60</speed>
     </projectile>
-    <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
     <modExtensions>
-      <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <homingSpeed>0.1</homingSpeed>
-        <initRotateAngle>30</initRotateAngle>
-        <destroyTicksAfterLosingTrack>
-          <min>60</min>
-          <max>120</max>
-        </destroyTicksAfterLosingTrack>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <!-- 最多穿透3个目标，设为-1则无限穿透 -->
+        <maxHits>-1</maxHits>
+        <!-- 每次穿透损失25%伤害 -->
+        <damageFalloff>0</damageFalloff>
+        <!-- 防止友军伤害 -->
+        <preventFriendlyFire>true</preventFriendlyFire>
+        <!-- 拖尾特效定义 -->
         <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
       </li>
       <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>4</pelletCount>
+        <pelletCount>2</pelletCount>
       </li>
     </modExtensions>
   </ThingDef>

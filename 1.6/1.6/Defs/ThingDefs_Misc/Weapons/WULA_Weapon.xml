@@ -834,8 +834,8 @@
         <range>18</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
-        <soundCast>Shot_BoltActionRifle</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <soundCast>Shot_BeamRepeater</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>7</muzzleFlashScale>
       </li>
     </verbs>
