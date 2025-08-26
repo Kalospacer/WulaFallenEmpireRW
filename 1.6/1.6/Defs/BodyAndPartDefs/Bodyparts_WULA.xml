@@ -565,6 +565,9 @@
     <!-- <solid>true</solid> -->
     <bleedRate>0</bleedRate>
     <destroyableByDamage>false</destroyableByDamage>
+    <tags>
+      <li>ConsciousnessSource</li>
+    </tags>
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_Skeleton_Bodypart</defName>

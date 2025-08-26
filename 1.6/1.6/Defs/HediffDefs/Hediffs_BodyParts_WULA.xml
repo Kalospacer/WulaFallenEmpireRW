@@ -734,9 +734,9 @@
   <HediffDef ParentName="ImplantHediffBase">
     <defName>WULA_Addons_Antenna_Hediff_Base</defName>
     <hediffClass>Hediff_Mechlink</hediffClass>
-    <label>基础上线链路天线</label>
-    <description>一对安装于乌拉帝国合成人脑袋两侧的天线，除了接收来自乌拉帝国人工智能网络“演算圆环”的信号外，还能兼职控制其他低级机械体。</description>
-    <descriptionShort>一对安装于乌拉帝国合成人脑袋两侧的天线。</descriptionShort>
+    <label>机械指挥节点</label>
+    <description>安装于乌拉帝国合成人脑袋两侧的天线除了接收信号外，还能兼职控制其他低级机械体。</description>
+    <descriptionShort>一对可以控制低级机械体的天线。</descriptionShort>
     <isBad>false</isBad>
     <duplicationAllowed>false</duplicationAllowed>
     <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
@@ -944,6 +944,144 @@
       </li>
     </stages>
   </HediffDef>
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>WULA_Addons_Antenna_Hediff_Spuernode</defName>
+    <label>高级节点天线</label>
+    <description>机械乌拉的特殊高频率天线，装备了这种天线的机械乌拉可以作为一群机械乌拉的高级节点，协作乌拉集群处理数据，以牺牲自己的生产力为代价换来极高的指挥能力。</description>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Addons_Antenna_Spuernode</ThingDef>
+      <HediffDef>WULA_Addons_Antenna_Commander_Hediff</HediffDef>
+    </descriptionHyperlinks>
+    <spawnThingOnRemoved>WULA_Addons_Antenna_Spuernode</spawnThingOnRemoved>
+    <addedPartProps>
+      <!-- <partEfficiency>1.5</partEfficiency> -->
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <stages>
+      <li>
+        <statFactors>
+          <WorkSpeedGlobal>0.2</WorkSpeedGlobal>
+        </statFactors>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.3</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_MakesMechanitor"/>
+      <li Class="HediffCompProperties_GiveHediffsInRange">
+        <range>45</range>
+        <!-- <mote>Mote_WorkCommand</mote> -->
+        <hideMoteWhenNotDrafted>true</hideMoteWhenNotDrafted>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <onlyTargetColonists>true</onlyTargetColonists>
+        </targetingParameters>
+        <hediff>WULA_Addons_Antenna_Commander_Hediff</hediff>
+      </li>
+    </comps>
+  </HediffDef>
+  <HediffDef>
+    <defName>WULA_Addons_Antenna_Commander_Hediff</defName>
+    <label>低级子节点（处理器）</label>
+    <defaultLabelColor>(0.52, 1, 0.95)</defaultLabelColor>
+    <hediffClass>HediffWithComps</hediffClass>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Addons_Antenna_Hediff_Spuernode</ThingDef>
+    </descriptionHyperlinks>
+    <isBad>false</isBad>
+    <description>一个高级节点正在附近指挥这只机械乌拉，并分担了其综合计算压力。</description>
+    <debugLabelExtra>other</debugLabelExtra>
+    <defaultInstallPart>WULA_Addons_Antenna_Bodypart</defaultInstallPart>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.3</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <showRemainingTime>false</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+      <li Class="HediffCompProperties_Link">
+        <requireLinkOnOtherPawn>false</requireLinkOnOtherPawn>
+        <maxDistance>45</maxDistance>
+        <!-- <customMote>Mote_WorkCommandLinkLine</customMote> -->
+      </li>
+    </comps>
+  </HediffDef>
+  <ThingDef ParentName="BodyPartBionicBase">
+    <defName>WULA_Addons_Antenna_Spuernode</defName>
+    <label>高级节点天线</label>
+    <description>机械乌拉的特殊高频率天线，装备了这种天线的机械乌拉可以作为一群机械乌拉的高级节点，协作乌拉集群处理数据，以牺牲自己的生产力为代价换来极高的指挥能力。</description>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <RecipeDef>Install_WULA_Addons_Antenna_Spuernode</RecipeDef>
+    </descriptionHyperlinks>
+    <costList>
+      <Steel>50</Steel>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <thingSetMakerTags>
+      <li>RewardStandardMidFreq</li>
+    </thingSetMakerTags>
+    <recipeMaker>
+      <researchPrerequisite>WULA_Synth_Addons_1_Technology</researchPrerequisite>
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+    </recipeMaker>
+    <statBases>
+      <Mass>0.3</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>Install_WULA_Addons_Antenna_Spuernode</defName>
+    <label>安装高级节点天线</label>
+    <description>为合成人安装高级节点天线。</description>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Addons_Antenna_Spuernode</ThingDef>
+      <HediffDef>WULA_Addons_Antenna_Hediff_Spuernode</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>安装高级节点天线中</jobString>
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
+    <anesthetize>false</anesthetize>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Addons_Antenna_Spuernode</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WULA_Addons_Antenna_Spuernode</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>WULA_Addons_Antenna_Bodypart</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>WULA_Addons_Antenna_Hediff_Spuernode</addsHediff>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <recipeUsers Inherit="False">
+      <li>WulaSpecies</li>
+    </recipeUsers>
+  </RecipeDef>
 
   <!-- 抽魂 -->
   <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
