@@ -205,10 +205,6 @@
     <combatPower>600</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
     <defaultFactionType>PlayerColony</defaultFactionType>
-    <abilities>
-      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
-      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
-    </abilities>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -237,10 +233,6 @@
     <combatPower>600</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
     <defaultFactionType>PlayerColony</defaultFactionType>
-    <abilities>
-      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
-      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
-    </abilities>
     <lifeStages>
       <li>
         <bodyGraphicData>

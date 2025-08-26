@@ -91,18 +91,6 @@
         <li>(100000,10000)</li>
       </points>
     </maxPawnCostPerTotalPointsCurve>
-    <pawnGroupMakers>
-      <li>
-        <kindDef>Combat</kindDef>
-        <commonality>50</commonality>
-        <options>
-          <Mech_WULA_Cat_Assault>60</Mech_WULA_Cat_Assault>
-          <Mech_WULA_Cat_Constructor>30</Mech_WULA_Cat_Constructor>
-          <Mech_WULA_Cat_Fire>20</Mech_WULA_Cat_Fire>
-          <Mech_WULA_Cat_EMP>20</Mech_WULA_Cat_EMP>
-        </options>
-      </li>
-    </pawnGroupMakers>
     <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
     <allowedArrivalTemperatureRange>-100~200</allowedArrivalTemperatureRange>
     <maxConfigurableAtWorldCreation>1</maxConfigurableAtWorldCreation>

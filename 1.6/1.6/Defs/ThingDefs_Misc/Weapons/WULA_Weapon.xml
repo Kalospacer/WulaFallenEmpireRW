@@ -818,7 +818,7 @@
       <AccuracyShort>0.9</AccuracyShort>
       <AccuracyMedium>0.5</AccuracyMedium>
       <AccuracyLong>0.25</AccuracyLong>
-      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.4</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
       <Steel>120</Steel>
@@ -832,7 +832,7 @@
         <defaultProjectile>WULA_Bullet_StarDrift_Shotgun_Spear</defaultProjectile>
         <warmupTime>0.2</warmupTime>
         <range>18</range>
-        <burstShotCount>3</burstShotCount>
+        <burstShotCount>2</burstShotCount>
         <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
         <soundCast>Shot_BeamRepeater</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>

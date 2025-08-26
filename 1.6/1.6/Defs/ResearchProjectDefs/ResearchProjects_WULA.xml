@@ -377,6 +377,17 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Antenna_Technology</defName>
+    <researchViewX>5.50</researchViewX>
+    <researchViewY>4.70</researchViewY>
+    <label>蜂群节点套件</label>
+    <description>获取特殊构型的机械乌拉天线，使得这些经过天线改装的乌拉可以胜任指挥任务。</description>
+    <baseCost>1000</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Addons_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Addons_2_Technology</defName>
     <label>高级植入物套件</label>
     <description>获取构建乌拉帝国合成人进阶植入物的技术，用以增强乌拉帝国合成人的机体性能。</description>
