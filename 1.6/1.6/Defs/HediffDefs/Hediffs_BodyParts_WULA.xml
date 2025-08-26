@@ -400,7 +400,7 @@
       <li>WulaSpecies</li>
     </recipeUsers>
   </RecipeDef>
-  <HediffDef ParentName="AddedBodyPartBase">
+  <HediffDef ParentName="AddedBodyPartBase" MayRequire="rabiosus.autoblink">
     <defName>WULA_Energy_Furnace_Hediff_JumpDrive_Engine</defName>
     <label></label>
     <description></description>
@@ -457,7 +457,7 @@
       </li>
     </comps>
   </HediffDef>
-  <ThingDef ParentName="BodyPartBionicBase">
+  <ThingDef ParentName="BodyPartBionicBase" MayRequire="rabiosus.autoblink">
     <defName>WULA_Energy_Furnace_JumpDrive_Engine</defName>
     <label></label>
     <description></description>
@@ -483,7 +483,7 @@
       <Mass>0.3</Mass>
     </statBases>
   </ThingDef>
-  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase" MayRequire="rabiosus.autoblink">
     <defName>Install_WULA_Energy_Furnace_JumpDrive_Engine</defName>
     <label></label>
     <description></description>
