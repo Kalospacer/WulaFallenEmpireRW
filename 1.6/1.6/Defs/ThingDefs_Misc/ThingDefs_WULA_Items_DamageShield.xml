@@ -24,7 +24,6 @@
         <comps>
             <li Class="CompProperties_Usable">
                 <useJob>UseItem</useJob>
-                <floatMenuCommandLabel>使用伤害护盾发生器</floatMenuCommandLabel>
             </li>
             <li Class="WulaFallenEmpire.CompProperties_AddDamageShieldCharges">
                 <hediffDef>WULA_DamageShield</hediffDef>

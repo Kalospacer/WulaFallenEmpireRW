@@ -183,7 +183,7 @@
     <Compile Include="Verb\Verb_ShootWeaponStealBeam.cs" />
     <Compile Include="Verb\Verb_ShootMeltBeam.cs" />
     <Compile Include="Hediff_DamageShield.cs" />
-    <Compile Include="HarmonyPatches\DamageShieldPatch.cs" />
+    <Compile Include="DRMDamageShield.cs" />
     <Compile Include="CompUseEffect_AddDamageShieldCharges.cs" />
   </ItemGroup>
   <ItemGroup />

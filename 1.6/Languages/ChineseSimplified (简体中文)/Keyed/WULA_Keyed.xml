@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<LanguageData>
-    <WULA_MessageGainedDamageShieldCharges>{0} 获得了 {1} 层伤害护盾！</WULA_MessageGainedDamageShieldCharges>
-    <WULA_CannotUseOnDeadPawn>无法对已死亡的Pawn使用。</WULA_CannotUseOnDeadPawn>
-    <WULA_DamageShieldMaxChargesReached>伤害护盾已达到最大层数。</WULA_DamageShieldMaxChargesReached>
-    <WULA_DamageShieldChargesDescription>使用：增加 {0} 层伤害护盾</WULA_DamageShieldChargesDescription>
-</LanguageData>

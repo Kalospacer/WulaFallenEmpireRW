@@ -1,19 +1,39 @@
 using Verse;
+using System; // Add for Activator
 using System.Text;
 using RimWorld;
 using UnityEngine;
+using HarmonyLib; // Needed for AccessTools if you use it here directly
 
 namespace WulaFallenEmpire
 {
     public class Hediff_DamageShield : HediffWithComps
     {
         // 伤害抵挡层数
-        // 直接将 severityInt 作为 ShieldCharges，这样外部对 severity 的修改会直接影响 ShieldCharges
         public int ShieldCharges
         {
             get => (int)severityInt;
             set => severityInt = value;
         }
+
+        // 获取或创建 DRMDamageShield 组件
+        public DRMDamageShield ShieldComp
+        {
+            get
+            {
+                DRMDamageShield comp = pawn.GetComp<DRMDamageShield>();
+                if (comp == null)
+                {
+                    comp = (DRMDamageShield)Activator.CreateInstance(typeof(DRMDamageShield));
+                    comp.parent = pawn;
+                    comp.props = new DRMCompShieldProp(); // 确保有属性，即使是默认的
+                    pawn.AllComps.Add(comp);
+                    comp.Initialize(comp.props);
+                }
+                return comp;
+            }
+        }
+
 
         public override string LabelInBrackets
         {
@@ -54,10 +74,25 @@ namespace WulaFallenEmpire
         public override void PostAdd(DamageInfo? dinfo)
         {
             base.PostAdd(dinfo);
-            // 初始层数由 XML 中的 initialSeverity 控制
-            // 如果需要一个固定的初始值，可以在这里设置
-            // 例如：如果 hediffDef.initialSeverity 设为 0，这里可以强制给一个默认值
-            // 如果 initialSeverity 在 XML 中已经设置为 10，这里就不需要额外处理
+            // 确保 Pawn 拥有 DRMCompShield 组件
+            DRMDamageShield comp = ShieldComp; // 访问属性以确保组件被添加
+            if (comp != null)
+            {
+                comp.IsActive = true; // 激活护盾组件
+                // 能量同步将在 Tick() 中完成
+            }
+        }
+
+        public override void PostRemoved()
+        {
+            base.PostRemoved();
+            // 当 Hediff 被移除时，移除对应的 DRMDamageShield 组件
+            DRMDamageShield comp = pawn.GetComp<DRMDamageShield>();
+            if (comp != null)
+            {
+                pawn.AllComps.Remove(comp);
+                comp.IsActive = false; // 确保禁用
+            }
         }
 
         public override void Tick()
@@ -67,6 +102,13 @@ namespace WulaFallenEmpire
             if (ShieldCharges <= 0)
             {
                 pawn.health.RemoveHediff(this);
+            }
+            // 同步能量到 ShieldComp
+            DRMDamageShield comp = pawn.GetComp<DRMDamageShield>(); // 每次 Tick 获取，确保是最新的
+            if (comp != null && comp.IsActive)
+            {
+                comp.Energy = ShieldCharges;
+                comp.MaxEnergy = (int)def.maxSeverity;
             }
         }
     }
