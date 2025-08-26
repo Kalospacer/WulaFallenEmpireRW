@@ -277,4 +277,29 @@
       </li>
     </comps>
   </AbilityDef>
+
+  <HediffDef>
+    <defName>Mech_WULA_Cat_Cute</defName>
+    <label>乌拉猫猫在附近</label>
+    <description>一只人见人爱的乌拉猫猫正在附近，憨憨的样子吸引了殖民者的注意</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.52, 1, 0.95)</defaultLabelColor>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>30</disappearsAfterTicks>
+        <showRemainingTime>false</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+      <li Class="HediffCompProperties_Link">
+        <requireLinkOnOtherPawn>false</requireLinkOnOtherPawn>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <minSeverity>0</minSeverity>
+        <becomeVisible>false</becomeVisible>
+      </li>
+    </stages>
+    <isBad>false</isBad>
+  </HediffDef>
 </Defs>

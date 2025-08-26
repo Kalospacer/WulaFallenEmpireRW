@@ -402,8 +402,8 @@
   </RecipeDef>
   <HediffDef ParentName="AddedBodyPartBase" MayRequire="rabiosus.autoblink">
     <defName>WULA_Energy_Furnace_Hediff_JumpDrive_Engine</defName>
-    <label></label>
-    <description></description>
+    <label>跃迁引擎</label>
+    <description>一台以暗物质和跃迁系统为核心的合成人能源炉，合成人安装后将获得短距离跃迁的能力。</description>
     <descriptionHyperlinks>
       <ThingDef>WULA_Energy_Furnace_JumpDrive_Engine</ThingDef>
     </descriptionHyperlinks>
@@ -459,8 +459,8 @@
   </HediffDef>
   <ThingDef ParentName="BodyPartBionicBase" MayRequire="rabiosus.autoblink">
     <defName>WULA_Energy_Furnace_JumpDrive_Engine</defName>
-    <label></label>
-    <description></description>
+    <label>跃迁引擎</label>
+    <description>一台以暗物质和跃迁系统为核心的合成人能源炉，合成人安装后将获得短距离跃迁的能力。</description>
     <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <RecipeDef>Install_WULA_Energy_Furnace_JumpDrive_Engine</RecipeDef>
@@ -485,13 +485,13 @@
   </ThingDef>
   <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase" MayRequire="rabiosus.autoblink">
     <defName>Install_WULA_Energy_Furnace_JumpDrive_Engine</defName>
-    <label></label>
-    <description></description>
+    <label>安装跃迁引擎</label>
+    <description>为合成人安装跃迁引擎。</description>
     <descriptionHyperlinks>
       <ThingDef>WULA_Energy_Furnace_JumpDrive_Engine</ThingDef>
       <HediffDef>WULA_Energy_Furnace_Hediff_JumpDrive_Engine</HediffDef>
     </descriptionHyperlinks>
-    <jobString></jobString>
+    <jobString>安装跃迁引擎中</jobString>
     <surgeryOutcomeEffect IsNull="True" />
     <!-- Always succeeds -->
     <anesthetize>false</anesthetize>

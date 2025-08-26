@@ -582,6 +582,10 @@
         <cannotReceiveThoughts>
           <li>AteWithoutTable</li>
         </cannotReceiveThoughts>
+        <!-- 该种族特有想法 -->
+        <restrictedThoughts>
+          <li>Mech_WULA_Cat_Cute_Though</li>
+        </restrictedThoughts>
       </thoughtSettings>
       <!-- 关系设置，不会生成任何随机关系 -->
       <relationSettings>
@@ -1219,6 +1223,13 @@
     <comps>
       <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
       <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+      <li Class="CompProperties_CauseHediff_AoE">
+        <hediff>Mech_WULA_Cat_Cute</hediff>
+        <range>5.9</range>
+        <canTargetSelf>false</canTargetSelf>
+        <drawLines>true</drawLines>
+        <ignoreMechs>true</ignoreMechs>
+      </li>
     </comps>
     <!-- <comps Inherit="False">
       <li Class="CompProperties_CanBeDormant" />
