@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-    <HediffDef>        <!-- 移除 ParentName -->
+    <HediffDef>
         <defName>WULA_DamageShield</defName>
-        <label>伤害护盾</label>
+        <label>反应护盾</label>
         <description>一种特殊的能量护盾，可以抵挡受到的伤害。每层护盾可以抵挡一次伤害。</description>
         <hediffClass>WulaFallenEmpire.Hediff_DamageShield</hediffClass>
         <initialSeverity>10</initialSeverity>        <!-- 初始层数设置为10 -->

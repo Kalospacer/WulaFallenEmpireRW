@@ -300,178 +300,6 @@
     </recipeMaker>
   </ThingDef>
 
-  <!-- 双用枪 -->
-  <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_Plasma_AR</defName>
-    <label>PMa-72"磷叶"</label>
-    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，也可以在近距离搏斗上当成等离子喷枪来使用。</description>
-    <!-- <tickerType>Normal</tickerType> -->
-    <techLevel>Spacer</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Plasma_AR</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.4</drawSize>
-    </graphicData>
-    <soundInteract>Interact_Rifle</soundInteract>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Plasma_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <statBases>
-      <WorkToMake>7500</WorkToMake>
-      <!-- <MarketValue>370</MarketValue> -->
-      <Mass>3.5</Mass>
-      <AccuracyTouch>0.85</AccuracyTouch>
-      <AccuracyShort>0.85</AccuracyShort>
-      <AccuracyMedium>0.75</AccuracyMedium>
-      <AccuracyLong>0.5</AccuracyLong>
-      <RangedWeapon_Cooldown>1.46</RangedWeapon_Cooldown>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Plasma_AR</defaultProjectile>
-        <warmupTime>1.25</warmupTime>
-        <range>28</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
-        <soundCast>ChargeLance_Fire</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>7</muzzleFlashScale>
-      </li>
-    </verbs>
-    <costList Inherit="False">
-      <Steel>180</Steel>
-      <ComponentIndustrial>10</ComponentIndustrial>
-    </costList>
-    <weaponTags>
-      <li>Wula_Weapon_Init</li>
-    </weaponTags>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_Switch">
-        <changeTo>WULA_RW_Plasma_AR_Melee</changeTo>
-        <abilityDef>WULA_RW_Plasma_AR_WeaponSwitchAbility</abilityDef>
-      </li>
-    </comps>
-  </ThingDef>
-  <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_Plasma_AR_Melee</defName>
-    <label>PMa-72"磷叶"（等离子喷枪）</label>
-    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，也可以在近距离搏斗上当成等离子喷枪来使用。</description>
-    <!-- <tickerType>Normal</tickerType> -->
-    <techLevel>Spacer</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Plasma_AR_Melee</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.4</drawSize>
-    </graphicData>
-    <soundInteract>Interact_Rifle</soundInteract>
-    <recipeMaker Inherit="False" IsNull="True" />
-    <generateCommonality>0</generateCommonality>
-    <statBases>
-      <WorkToMake>7500</WorkToMake>
-      <!-- <MarketValue>370</MarketValue> -->
-      <Mass>3.5</Mass>
-    </statBases>
-    <tools>
-      <li>
-        <label>等离子切割</label>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>25</power>
-        <cooldownTime>2</cooldownTime>
-        <armorPenetration>0.75</armorPenetration>
-        <soundMeleeHit>ChargeLance_Fire</soundMeleeHit>
-      </li>
-    </tools>
-    <costList Inherit="False">
-      <Steel>180</Steel>
-      <ComponentIndustrial>10</ComponentIndustrial>
-    </costList>
-    <weaponTags>
-      <li>Wula_Weapon_Init</li>
-    </weaponTags>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_Switch">
-        <changeTo>WULA_RW_Plasma_AR</changeTo>
-        <abilityDef>WULA_RW_Plasma_AR_WeaponSwitchAbility</abilityDef>
-      </li>
-    </comps>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Plasma_AR</defName>
-    <label>磷叶等离子体射弹</label>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>MoteGlow</shaderType>
-      <color>(61,199,157,202)</color>
-      <drawSize>(0.75,1)</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>16</damageAmountBase>
-      <armorPenetrationBase>0.75</armorPenetrationBase>
-      <speed>55</speed>
-    </projectile>
-    <thingClass>WulaFallenEmpire.BulletWithTrail</thingClass>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
-      </li>
-    </modExtensions>
-  </ThingDef>
-  <AbilityDef>
-    <defName>WULA_RW_Plasma_AR_WeaponSwitchAbility</defName>
-    <label>武装解放 / 武装闭锁</label>
-    <description>控制谐振器的等离子喷射方案，以决定PMa-72"磷叶"是否切换到近距离格斗模式</description>
-    <cooldownTicksRange>601</cooldownTicksRange>
-    <iconPath>Wula/UI/Abilities/WULA_WeaponSwitchAbility</iconPath>
-    <hostile>false</hostile>
-    <showOnCharacterCard>false</showOnCharacterCard>
-    <aiCanUse>false</aiCanUse>
-    <targetRequired>false</targetRequired>
-    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
-    <statBases>
-      <!-- 如果不需要限时，可以把这玩意删了-->
-      <!--<Ability_Duration>10</Ability_Duration>-->
-    </statBases>
-    <verbProperties>
-      <verbClass>Verb_CastAbility</verbClass>
-      <warmupTime>0</warmupTime>
-      <drawAimPie>false</drawAimPie>
-      <requireLineOfSight>false</requireLineOfSight>
-      <targetable>false</targetable>
-      <targetParams>
-        <canTargetSelf>true</canTargetSelf>
-      </targetParams>
-    </verbProperties>
-    <comps>
-      <li Class="CompProperties_AbilityEffect">
-        <compClass>WulaFallenEmpire.CompAbilityEffect_Switch</compClass>
-      </li>
-      <!-- 如果不需要限时，可以把这玩意删了-->
-      <!--<li
-      Class="CompProperties_AbilityGiveHediff">
-				<compClass>CompAbilityEffect_GiveHediff</compClass>
-				<hediffDef>WULA_HediffSwitchDuration</hediffDef>
-				<onlyApplyToSelf>True</onlyApplyToSelf>
-			</li>-->
-    </comps>
-  </AbilityDef>
-  
   <!-- 动力破墙锤 -->
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>WULA_MW_Breaker_Bar</defName>
@@ -793,7 +621,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_StarDrift_SG</defName>
     <label>DCs-7"黑曜石"</label>
-    <description>乌拉帝国配发的近距离霰弹枪，以威力巨大、可以穿透路径上所有敌人的散射破甲光束为核心，专注于在短距离上的快速反应战斗和持续性压制能力</description>
+    <description>乌拉帝国配发的近距离霰弹枪，以威力巨大的梭镖破甲弹为核心，专注于在短距离上的快速反应战斗和持续性压制能力</description>
     <techLevel>Ultra</techLevel>
     <weaponTags>
       <li>Wula_Ranged_Weapon_T2</li>
@@ -833,9 +661,9 @@
         <warmupTime>0.2</warmupTime>
         <range>18</range>
         <burstShotCount>3</burstShotCount>
-        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
-        <soundCast>Shot_BeamRepeater</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
+        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>7</muzzleFlashScale>
       </li>
     </verbs>
@@ -845,31 +673,23 @@
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>WULA_Bullet_StarDrift_Shotgun_Spear</defName>
-    <label>黑曜石光束</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
-        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
-        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
-        <preventFriendlyFire>false</preventFriendlyFire>
-        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
-        <beamStartOffset>0.5</beamStartOffset>
-      </li>
-      <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>3</pelletCount>
-      </li>
-    </modExtensions>
+    <label>梭镖</label>
     <graphicData>
-      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_StarDrift_Shotgun_Spear</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <projectile>
-      <damageDef>BeamBypassShields</damageDef>
+      <damageDef>Bullet</damageDef>
       <damageAmountBase>8</damageAmountBase>
-      <armorPenetrationBase>0.8</armorPenetrationBase>
-      <stoppingPower>1</stoppingPower>
       <stoppingPower>2.5</stoppingPower>
+      <armorPenetrationBase>0.65</armorPenetrationBase>
+      <speed>55</speed>
     </projectile>
+    <modExtensions>
+			<li Class="WulaFallenEmpire.ShotgunExtension">
+				<pelletCount>3</pelletCount>
+			</li>
+		</modExtensions>
   </ThingDef>
 
   <!-- 机枪 -->
@@ -944,109 +764,7 @@
     </projectile>
   </ThingDef>
 
-  <!-- 手持火炮 -->
-  <ThingDef ParentName="BaseGun">
-    <defName>WULA_RW_Handle_Cannon</defName>
-    <label>KRc-7"熔岩"</label>
-    <description>一般由乌拉帝国跳帮组或骑士军团携带的手持火炮，能够在锁定后连续发射三轮炮弹，夷平敌人的复合型工事或舰船内壁，并给敌人送来最炽热的消亡。</description>
-    <techLevel>Ultra</techLevel>
-    <weaponTags>
-      <li>Wula_Ranged_Weapon_Wall_Destoryer</li>
-    </weaponTags>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Handle_Cannon</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.35</drawSize>
-    </graphicData>
-    <tradeability>None</tradeability>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <statBases>
-      <WorkToMake>50000</WorkToMake>
-      <Mass>20</Mass>
-      <AccuracyTouch>0.03</AccuracyTouch>
-      <AccuracyShort>0.03</AccuracyShort>
-      <AccuracyMedium>0.03</AccuracyMedium>
-      <AccuracyLong>0.02</AccuracyLong>
-      <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
-    </statBases>
-    <costList Inherit="False">
-      <Steel>500</Steel>
-      <Plasteel>300</Plasteel>
-      <ComponentSpacer>12</ComponentSpacer>
-    </costList>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Handle_Cannon</defaultProjectile>
-        <warmupTime>3</warmupTime>
-        <range>20</range>
-        <soundCast>Shot_HellsphereCannonGun</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-        <ai_AvoidFriendlyFireRadius>6</ai_AvoidFriendlyFireRadius>
-        <ai_RangedAlawaysShootGroundBelowTarget>true</ai_RangedAlawaysShootGroundBelowTarget>
-        <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
-        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
-        <ai_TargetHasRangedAttackScoreOffset>50</ai_TargetHasRangedAttackScoreOffset>
-        <minRange>6</minRange>
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-          <canTargetPawns>false</canTargetPawns>
-        </targetParams>
-        <aimingLineMote>Mote_HellsphereCannon_Aim</aimingLineMote>
-        <aimingChargeMote>Mote_HellsphereCannon_Charge</aimingChargeMote>
-        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
-        <aimingLineMoteFixedLength>3.9</aimingLineMoteFixedLength>
-        <aimingTargetMote>Mote_HellsphereCannon_Target</aimingTargetMote>
-        <burstShotCount>3</burstShotCount>
-        <beamTargetsGround>true</beamTargetsGround>
-        <soundAiming>HellsphereCannon_Aiming</soundAiming>
-        <canGoWild>false</canGoWild>
-      </li>
-    </verbs>
-    <tools>
-      <li>
-        <label>barrel</label>
-        <capacities>
-          <li>Blunt</li>
-          <li>Poke</li>
-        </capacities>
-        <power>9</power>
-        <cooldownTime>2.6</cooldownTime>
-      </li>
-    </tools>
-    <comps>
-      <li Class="CompProperties_Biocodable"/>
-    </comps>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Handle_Cannon</defName>
-    <label>熔岩炮弹</label>
-    <thingClass>WulaFallenEmpire.Projectile_ConfigurableHellsphereCannon</thingClass>
-    <graphicData>
-      <texPath>Things/Projectile/HellsphereCannon</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>MoteGlow</shaderType>
-      <drawSize>(1.5, 3)</drawSize>
-    </graphicData>
-    <projectile Class="WulaFallenEmpire.ProjectileProperties_ConfigurableHellsphereCannon">
-      <damageDef>Vaporize</damageDef>
-      <speed>75</speed>
-      <damageAmountBase>30</damageAmountBase>
-      <explosionRadius>2</explosionRadius>
-      <screenShakeFactor>0.75</screenShakeFactor>
-    </projectile>
-  </ThingDef>
+
   <!-- 自动炮 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_AutoCannon</defName>
@@ -1219,215 +937,7 @@
     </projectile>
   </ThingDef>
 
-  <!-- 暗物质步枪 -->
-  <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_DM_AR</defName>
-    <label>DMa-8"陨硫"</label>
-    <description>乌拉帝国一线部队所使用的由暗物质驱动的常规步枪，暗物质经由螺旋结构形成自旋极化光束，可以在远距离上洞穿敌人，并引发小规模湮灭反应。</description>
-    <techLevel>Ultra</techLevel>
-    <!-- <techLevel>Spacer</techLevel> -->
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_DM_AR</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.2</drawSize>
-    </graphicData>
-    <weaponTags>
-      <li>Wula_Ranged_Weapon_T4</li>
-    </weaponTags>
-    <uiIconScale>0.9</uiIconScale>
-    <soundInteract>Interact_ChargeRifle</soundInteract>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_4_DM_Base_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <costList Inherit="False">
-      <Steel>400</Steel>
-      <Plasteel>200</Plasteel>
-      <WULA_Dark_Matter_Item>4</WULA_Dark_Matter_Item>
-    </costList>
-    <statBases>
-      <WorkToMake>40000</WorkToMake>
-      <Mass>4.5</Mass>
-      <AccuracyTouch>1</AccuracyTouch>
-      <AccuracyShort>1</AccuracyShort>
-      <AccuracyMedium>1</AccuracyMedium>
-      <AccuracyLong>1</AccuracyLong>
-      <RangedWeapon_Cooldown>1.25</RangedWeapon_Cooldown>
-    </statBases>
-    <verbs>
-      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
-        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
-
-        <!-- 基础射线参数 -->
-        <hasStandardCommand>true</hasStandardCommand>
-        <warmupTime>1</warmupTime>
-        <range>30</range>
-        <burstShotCount>3</burstShotCount>
-        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
-        <beamDamageDef>Wula_Dark_Matter_Beam</beamDamageDef>
-
-        <!-- 消除射线偏移的参数 -->
-        <beamFullWidthRange>1000</beamFullWidthRange>
-        <beamWidth>-1</beamWidth>
-        <beamMaxDeviation>0</beamMaxDeviation>
-        <beamCurvature>0</beamCurvature>
-        <beamStartOffset>0</beamStartOffset>
-
-        <!-- 视觉和音效 -->
-        <muzzleFlashScale>0</muzzleFlashScale>
-        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
-        <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
-        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-        <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
-        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
-
-        <screenShakeFactor>0.35</screenShakeFactor>
-
-        <!-- 火焰效果 -->
-        <beamChanceToStartFire>0.6</beamChanceToStartFire>
-        <beamChanceToAttachFire>0.6</beamChanceToAttachFire>
-        <beamFireSizeRange>0.25</beamFireSizeRange>
-
-        <!-- 其他射线属性 -->
-        <beamHitsNeighborCells>true</beamHitsNeighborCells>
-        <beamLineFleckChanceCurve>
-            <points>
-                <li>(0, 0)</li>
-                <li>(0.65, 0.4)</li>
-                <li>(1, 0.75)</li>
-            </points>
-        </beamLineFleckChanceCurve>
-
-        <!-- 攻击目标设置 -->
-        <targetParams>
-            <canTargetLocations>true</canTargetLocations>
-        </targetParams>
-
-        <!-- 每发都爆炸 -->
-        <enableExplosion>true</enableExplosion>
-        <explosionShotInterval>1</explosionShotInterval>
-        <explosionRadius>1.8</explosionRadius>
-        <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
-        <explosionDamage>15</explosionDamage>
-        <explosionSound>Explosion_Bomb</explosionSound>
-        <chanceToStartFire>0.6</chanceToStartFire>
-      </li>
-    </verbs>
-    <tradeability>None</tradeability>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-  </ThingDef>
-  <!-- 暗物质炮 -->
-  <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_DM_Cannon</defName>
-    <label>DMc-65"铋晶"</label>
-    <description>乌拉帝国一线部队携带的高射速反物质射线炮，会扫射敌人并造成范围爆炸，射流掠过时一切如被漩涡吞噬般分崩离析，唯留尘埃飘散。</description>
-    <techLevel>Ultra</techLevel>
-    <!-- <techLevel>Spacer</techLevel> -->
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_DM_Cannon</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.5</drawSize>
-    </graphicData>
-    <weaponTags>
-      <li>Wula_Ranged_Weapon_T4</li>
-    </weaponTags>
-    <uiIconScale>0.8</uiIconScale>
-    <soundInteract>Interact_ChargeRifle</soundInteract>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_4_DM_Base_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <costList Inherit="False">
-      <Steel>500</Steel>
-      <Plasteel>300</Plasteel>
-      <WULA_Dark_Matter_Item>6</WULA_Dark_Matter_Item>
-    </costList>
-    <statBases>
-      <WorkToMake>50000</WorkToMake>
-      <Mass>10</Mass>
-      <AccuracyTouch>0.6</AccuracyTouch>
-      <AccuracyShort>0.6</AccuracyShort>
-      <AccuracyMedium>0.6</AccuracyMedium>
-      <AccuracyLong>0.6</AccuracyLong>
-      <RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
-    </statBases>
-    <verbs>
-      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
-        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
-
-        <!-- 基础射线参数 -->
-        <hasStandardCommand>true</hasStandardCommand>
-        <warmupTime>1</warmupTime>
-        <range>22</range>
-        <burstShotCount>12</burstShotCount>
-        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <beamDamageDef>Wula_Dark_Matter_Beam</beamDamageDef>
-
-        <!-- 消除射线偏移的参数 -->
-        <!-- <beamFullWidthRange>1000</beamFullWidthRange>
-        <beamWidth>-1</beamWidth>
-        <beamMaxDeviation>0</beamMaxDeviation>
-        <beamCurvature>0</beamCurvature>
-        <beamStartOffset>0</beamStartOffset> -->
-        <beamFullWidthRange>11</beamFullWidthRange>
-        <beamWidth>6</beamWidth>
-        <beamMaxDeviation>0.5</beamMaxDeviation>
-        <beamCurvature>0.6</beamCurvature>
-        <beamStartOffset>0.5</beamStartOffset>
-
-        <!-- 视觉和音效 -->
-        <muzzleFlashScale>0</muzzleFlashScale>
-        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
-        <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
-        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-        <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
-        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
-
-        <screenShakeFactor>0.45</screenShakeFactor>
-
-        <!-- 火焰效果 -->
-        <beamChanceToStartFire>0.6</beamChanceToStartFire>
-        <beamChanceToAttachFire>0.6</beamChanceToAttachFire>
-        <beamFireSizeRange>0.25</beamFireSizeRange>
-
-        <!-- 其他射线属性 -->
-        <beamHitsNeighborCells>true</beamHitsNeighborCells>
-        <beamLineFleckChanceCurve>
-          <points>
-              <li>(0, 0)</li>
-              <li>(0.65, 0.4)</li>
-              <li>(1, 0.75)</li>
-          </points>
-        </beamLineFleckChanceCurve>
-
-        <!-- 攻击目标设置 -->
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-        </targetParams>
-
-        <!-- 爆炸参数 -->
-        <enableExplosion>true</enableExplosion>
-        <explosionShotInterval>2</explosionShotInterval>
-        <explosionRadius>3</explosionRadius>
-        <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
-        <explosionDamage>25</explosionDamage>
-        <explosionSound>Explosion_Bomb</explosionSound>
-        <chanceToStartFire>0.6</chanceToStartFire>
-      </li>
-    </verbs>
-    <tradeability>None</tradeability>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-  </ThingDef>
+  
   <!-- 铳枪 -->
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>WULA_MW_Lance</defName>
@@ -1712,100 +1222,7 @@
 		</comps>
 	</HediffDef>-->
 
-  <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>WULA_RW_Plasma_Homing_AR</defName>
-    <label>PMr-88"三叶"</label>
-    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，这种改型可以发射制导等离子体。</description>
-    <techLevel>Spacer</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Plasma_AR</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.4</drawSize>
-    </graphicData>
-    <generateCommonality>1</generateCommonality>
-    <soundInteract>Interact_Rifle</soundInteract>
-    <weaponClasses>
-      <li>LongShots</li>
-      <li>RangedHeavy</li>
-    </weaponClasses>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <statBases>
-      <WorkToMake>1500</WorkToMake>
-      <Mass>3.0</Mass>
-      <AccuracyTouch>0.6</AccuracyTouch>
-      <AccuracyShort>0.75</AccuracyShort>
-      <AccuracyMedium>0.85</AccuracyMedium>
-      <AccuracyLong>0.8</AccuracyLong>
-      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
-    </statBases>
-    <costList Inherit="False">
-      <Steel>100</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
-      <Plasteel>20</Plasteel>
-    </costList>
-    <verbs>
-      <li>
-        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Plasma_Homing_AR</defaultProjectile>
-        <warmupTime>2.0</warmupTime>
-        <range>28</range>
-        <burstShotCount>3</burstShotCount>
-        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
-        <soundCast>Shot_BeamRepeater</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
-        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
-      </li>
-    </verbs>
-    <weaponTags>
-      <li>Wula_Weapon_Init</li>
-      <li>HomingWeapon</li>
-    </weaponTags>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Plasma_Homing_AR</defName>
-    <label>磷叶等离子体射弹</label>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <color>(61,199,157,202)</color>
-      <drawSize>(0.75,1)</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>16</damageAmountBase>
-      <armorPenetrationBase>0.75</armorPenetrationBase>
-      <speed>30</speed>
-    </projectile>
-    <thingClass>WulaFallenEmpire.Projectile_TrackingBullet</thingClass>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <homingSpeed>0.1</homingSpeed>
-        <initRotateAngle>30</initRotateAngle>
-        <destroyTicksAfterLosingTrack>
-          <min>60</min>
-          <max>120</max>
-        </destroyTicksAfterLosingTrack>
-        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
-      </li>
-      <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>2</pelletCount>
-      </li>
-    </modExtensions>
-  </ThingDef>
-
+  
   <!-- 萨克森装备 -->
   <ThingDef ParentName="BaseGun">
     <defName>WULA_WM_Panzer_Turret</defName>
