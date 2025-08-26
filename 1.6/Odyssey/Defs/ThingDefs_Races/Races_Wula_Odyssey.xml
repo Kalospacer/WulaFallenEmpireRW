@@ -451,6 +451,13 @@
         <explosionDamageType>Bomb</explosionDamageType>
         <explosionDamageAmount>40</explosionDamageAmount>
       </li>
+      <li Class="CompProperties_CauseHediff_AoE">
+        <hediff>Mech_WULA_Cat_Cute</hediff>
+        <range>5.9</range>
+        <canTargetSelf>false</canTargetSelf>
+        <drawLines>true</drawLines>
+        <ignoreMechs>true</ignoreMechs>
+      </li>
     </comps>
     <tools Inherit="False">
       <li>
@@ -512,6 +519,13 @@
         <drawWithNoSelection>True</drawWithNoSelection>
         <activeSound>Broadshield_Ambience</activeSound>
       </li>
+      <li Class="CompProperties_CauseHediff_AoE">
+        <hediff>Mech_WULA_Cat_Cute</hediff>
+        <range>5.9</range>
+        <canTargetSelf>false</canTargetSelf>
+        <drawLines>true</drawLines>
+        <ignoreMechs>true</ignoreMechs>
+      </li>
     </comps>
     <tools Inherit="False">
       <li>
@@ -555,6 +569,13 @@
         <labelOverride>电池电量</labelOverride>
         <tooltipOverride>这是被临时生产的乌拉猫猫，它们很快就会因为能源耗尽而倒地。</tooltipOverride>
         <showGizmoOnNonPlayerControlled>true</showGizmoOnNonPlayerControlled>
+      </li>
+      <li Class="CompProperties_CauseHediff_AoE">
+        <hediff>Mech_WULA_Cat_Cute</hediff>
+        <range>5.9</range>
+        <canTargetSelf>false</canTargetSelf>
+        <drawLines>true</drawLines>
+        <ignoreMechs>true</ignoreMechs>
       </li>
     </comps>
     <tools Inherit="False">

@@ -1287,6 +1287,13 @@
         这使得拥有此组件的机械体可以被机械师在地图的任何位置进行指挥，无视距离限制。
       -->
       <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+      <li Class="CompProperties_CauseHediff_AoE">
+        <hediff>Mech_WULA_Cat_Cute</hediff>
+        <range>5.9</range>
+        <canTargetSelf>false</canTargetSelf>
+        <drawLines>true</drawLines>
+        <ignoreMechs>true</ignoreMechs>
+      </li>
     </comps>
     <!-- <comps Inherit="False">
       <li Class="CompProperties_CanBeDormant" />
@@ -1390,6 +1397,13 @@
         <explosionRadius>30</explosionRadius>
         <explosionDamageType>BombSuper</explosionDamageType>
         <explosionDamageAmount>550</explosionDamageAmount>
+      </li>
+      <li Class="CompProperties_CauseHediff_AoE">
+        <hediff>Mech_WULA_Cat_Cute</hediff>
+        <range>5.9</range>
+        <canTargetSelf>false</canTargetSelf>
+        <drawLines>true</drawLines>
+        <ignoreMechs>true</ignoreMechs>
       </li>
     </comps>
   </ThingDef>
