@@ -2216,7 +2216,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>WULA_Alpha_Mantodea_Turret</defName>
     <label>双子魔眼</label>
-    <description>由少量乌拉帝国图书馆大型机械体搭载的特殊眼部，比起单只魔眼可以同时从两个方向进行扫射，以释放恐怖的力量融化敌人。</description>
+    <description>由少量乌拉帝国大型机械体搭载的特殊眼部，比起单只魔眼可以同时从两个方向进行扫射，以释放恐怖的力量融化敌人。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <graphicData>
