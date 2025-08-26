@@ -132,7 +132,7 @@
       <li>WULA_FE_Spiritualist_Base_Technology2</li>
     </prerequisites>
   </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
+  <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase" MayRequire="rabiosus.autoblink">
     <defName>WULA_FE_Spiritualist_InstantJumpdriveBlessing_Technology</defName>
     <label>转瞬移型加护</label>
     <description>以乌拉帝国的仪式强化被召选者，使其获得短距离的自体传送能力。</description>

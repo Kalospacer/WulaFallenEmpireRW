@@ -67,7 +67,7 @@
       </li>
     </comps>
   </HediffDef>
-  <HediffDef>
+  <HediffDef MayRequire="rabiosus.autoblink">
     <defName>WULA_InstantJumpdriveBlessing</defName>
     <label>转瞬移型加护</label>
     <description>此人享受着乌拉帝国仪式带来的加护，身形变得飘忽不定，一切阻碍皆为无物。</description>
