@@ -388,7 +388,7 @@ def find_keywords_in_question(question: str) -> list[str]:
 def analyze_question_with_llm(question: str) -> dict:
     """使用Qwen模型分析问题并提取关键词和意图"""
     try:
-        system_prompt = """你是一个关键词提取机器人，专门用于从 RimWorld 模组开发相关问题中提取精确的搜索关键词。你的任务是识别问题中提到的核心技术术语。
+        system_prompt = """你是一个关键词提取机器人，专门用于从 RimWorld 模组开发相关问题中提取精确的搜索关键词。你的任务是识别问题中提到的核心技术术语，并将它们正确地拆分成独立的关键词。
 
 严格按照以下格式回复，不要添加任何额外说明：
 问题类型：[问题分类]
@@ -402,7 +402,8 @@ def analyze_question_with_llm(question: str) -> dict:
 3. 不要添加通用词如"RimWorld"、"游戏"、"定义"、"用法"等
 4. 不要添加缩写或扩展形式如"Def"、"XML"等除非问题中明确提到
 5. 只提取具体的技术名词，忽略动词、形容词等
-6. 关键词之间用英文逗号分隔，不要有空格
+6. 当遇到用空格连接的多个技术术语时，应将它们拆分为独立的关键词
+7. 关键词之间用英文逗号分隔，不要有空格
 
 示例：
 问题：ThingDef的定义和用法是什么？
@@ -416,6 +417,12 @@ def analyze_question_with_llm(question: str) -> dict:
 关键类/方法名：GenExplosion.DoExplosion,Projectile.Launch
 关键概念：API 使用
 搜索关键词：GenExplosion.DoExplosion,Projectile.Launch
+
+问题：RimWorld Pawn_HealthTracker PreApplyDamage
+问题类型：API 使用说明
+关键类/方法名：Pawn_HealthTracker,PreApplyDamage
+关键概念：伤害处理
+搜索关键词：Pawn_HealthTracker,PreApplyDamage
 
 现在请分析以下问题："""
 
@@ -512,6 +519,16 @@ def get_context(question: str) -> str:
        analysis = analyze_question_with_llm(question)
        keywords = analysis["search_keywords"]
        
+       # 确保关键词被正确拆分
+       split_keywords = []
+       for keyword in keywords:
+           # 如果关键词中包含空格，将其拆分为多个关键词
+           if ' ' in keyword:
+               split_keywords.extend(keyword.split())
+           else:
+               split_keywords.append(keyword)
+       keywords = split_keywords
+       
        if not keywords:
            logging.warning("无法从问题中提取关键词。")
            return "无法从问题中提取关键词，请提供更具体的信息。"
@@ -534,23 +551,32 @@ def get_context(question: str) -> str:
 
    logging.info(f"缓存未命中，开始实时搜索: {cache_key}")
 
-   # 2. 关键词文件搜索 (分层智能筛选)
+   # 2. 对每个关键词分别执行搜索过程，然后合并结果
    try:
-       candidate_files = find_files_with_keyword(KNOWLEDGE_BASE_PATHS, keywords)
-
-       if not candidate_files:
-           logging.info(f"未找到与 '{keywords}' 相关的文件。")
-           return f"未在知识库中找到与 '{keywords}' 相关的文件定义。"
+       all_results = []
+       processed_files = set()  # 避免重复处理相同文件
        
-       logging.info(f"找到 {len(candidate_files)} 个候选文件，开始向量化处理...")
+       for keyword in keywords:
+           logging.info(f"开始搜索关键词: {keyword}")
+           
+           # 为当前关键词搜索文件
+           candidate_files = find_files_with_keyword(KNOWLEDGE_BASE_PATHS, [keyword])
 
-       # 新增：文件名精确匹配优先
-       priority_results = []
-       remaining_files = []
-       for file_path in candidate_files:
-           filename_no_ext = os.path.splitext(os.path.basename(file_path))[0]
-           is_priority = False
-           for keyword in keywords:
+           if not candidate_files:
+               logging.info(f"未找到与 '{keyword}' 相关的文件。")
+               continue
+           
+           logging.info(f"找到 {len(candidate_files)} 个候选文件用于关键词 '{keyword}'，开始向量化处理...")
+
+           # 文件名精确匹配优先
+           priority_results = []
+           remaining_files = []
+           for file_path in candidate_files:
+               # 避免重复处理相同文件
+               if file_path in processed_files:
+                   continue
+                   
+               filename_no_ext = os.path.splitext(os.path.basename(file_path))[0]
                if filename_no_ext.lower() == keyword.lower():
                    logging.info(f"文件名精确匹配: {file_path}")
                    code_block = extract_relevant_code(file_path, keyword)
@@ -560,79 +586,92 @@ def get_context(question: str) -> str:
                            'similarity': 1.0,  # 精确匹配给予最高分
                            'code': code_block
                        })
-                   is_priority = True
-                   break # 已处理该文件，跳出内层循环
-           if not is_priority:
-               remaining_files.append(file_path)
-       
-       candidate_files = remaining_files # 更新候选文件列表，排除已优先处理的文件
+                   processed_files.add(file_path)
+               else:
+                   remaining_files.append(file_path)
+           
+           # 更新候选文件列表，排除已优先处理的文件
+           candidate_files = [f for f in remaining_files if f not in processed_files]
+           
+           # 限制向量化的文件数量以避免超时
+           MAX_FILES_TO_VECTORIZE = 5
+           if len(candidate_files) > MAX_FILES_TO_VECTORIZE:
+               logging.warning(f"候选文件过多 ({len(candidate_files)})，仅处理前 {MAX_FILES_TO_VECTORIZE} 个。")
+               candidate_files = candidate_files[:MAX_FILES_TO_VECTORIZE]
 
-       # 3. 向量化和相似度计算 (精准筛选)
-       # 增加超时保护：限制向量化的文件数量
-       MAX_FILES_TO_VECTORIZE = 10  # 进一步减少处理文件数量以避免超时
-       if len(candidate_files) > MAX_FILES_TO_VECTORIZE:
-           logging.warning(f"候选文件过多 ({len(candidate_files)})，仅处理前 {MAX_FILES_TO_VECTORIZE} 个。")
-           candidate_files = candidate_files[:MAX_FILES_TO_VECTORIZE]
+           # 为剩余文件生成向量
+           question_embedding = get_embedding(keyword)  # 使用关键词而不是整个问题
+           if not question_embedding:
+               logging.warning(f"无法为关键词 '{keyword}' 生成向量。")
+               # 将优先结果添加到总结果中
+               all_results.extend(priority_results)
+               continue
 
-       question_embedding = get_embedding(question)
-       if not question_embedding:
-           return "无法生成问题向量，请检查API连接或问题内容。"
+           file_embeddings = []
+           for i, file_path in enumerate(candidate_files):
+               try:
+                   # 避免重复处理相同文件
+                   if file_path in processed_files:
+                       continue
+                       
+                   with open(file_path, 'r', encoding='utf-8') as f:
+                       content = f.read()
+                       # 添加处理进度日志
+                       if i % 5 == 0:  # 每5个文件记录一次进度
+                           logging.info(f"正在处理第 {i+1}/{len(candidate_files)} 个文件: {os.path.basename(file_path)}")
+                       
+                       file_embedding = get_embedding(content[:8000]) # 限制内容长度以提高效率
+                       if file_embedding:
+                           file_embeddings.append({'path': file_path, 'embedding': file_embedding})
+               except Exception as e:
+                   logging.error(f"处理文件 {file_path} 时出错: {e}")
+                   continue # 继续处理下一个文件，而不是完全失败
+           
+           if not file_embeddings and not priority_results:
+               logging.warning(f"未能为关键词 '{keyword}' 的任何候选文件生成向量。")
+               continue
 
-       file_embeddings = []
-       for i, file_path in enumerate(candidate_files):
-           try:
-               with open(file_path, 'r', encoding='utf-8') as f:
-                   content = f.read()
-                   # 添加处理进度日志
-                   if i % 5 == 0:  # 每5个文件记录一次进度
-                       logging.info(f"正在处理第 {i+1}/{len(candidate_files)} 个文件: {os.path.basename(file_path)}")
+           # 找到最相似的多个文件
+           best_matches = find_most_similar_files(question_embedding, file_embeddings, top_n=3)
+           
+           # 重排序处理
+           if len(best_matches) > 1:
+               reranked_matches = rerank_files(keyword, best_matches, top_n=2)  # 减少重排序数量
+           else:
+               reranked_matches = best_matches
+           
+           # 提取代码内容
+           results_with_code = []
+           for match in reranked_matches:
+               # 避免重复处理相同文件
+               if match['path'] in processed_files:
+                   continue
                    
-                   file_embedding = get_embedding(content[:8000]) # 限制内容长度以提高效率
-                   if file_embedding:
-                       file_embeddings.append({'path': file_path, 'embedding': file_embedding})
-           except Exception as e:
-               logging.error(f"处理文件 {file_path} 时出错: {e}")
-               continue  # 继续处理下一个文件，而不是完全失败
+               code_block = extract_relevant_code(match['path'], "")
+               if code_block:
+                   match['code'] = code_block
+                   results_with_code.append(match)
+                   processed_files.add(match['path'])
+           
+           # 将优先结果和相似度结果合并
+           results_with_code = priority_results + results_with_code
+           
+           # 将当前关键词的结果添加到总结果中
+           all_results.extend(results_with_code)
        
-       if not file_embeddings:
-           logging.warning("未能为任何候选文件生成向量。可能是由于API超时或其他错误。")
-           return "未能为任何候选文件生成向量，请稍后重试或减少搜索范围。"
-
-       # 找到最相似的多个文件
-       best_matches = find_most_similar_files(question_embedding, file_embeddings, top_n=5) # 进一步减少返回数量以避免超时
+       # 检查是否有任何结果
+       if len(all_results) <= 0:
+           return f"未在知识库中找到与 '{keywords}' 相关的文件定义。"
        
-       if not best_matches:
-           return "计算向量相似度失败或没有找到足够相似的文件。"
-
-       # 新增：重排序处理（仅在找到足够多匹配项时执行）
-       if len(best_matches) > 2:
-           reranked_matches = rerank_files(question, best_matches, top_n=3)  # 减少重排序数量
-       else:
-           reranked_matches = best_matches  # 如果匹配项太少，跳过重排序以节省时间
-       
-       # 提取代码内容
-       results_with_code = []
-       for match in reranked_matches:
-           code_block = extract_relevant_code(match['path'], "")
-           if code_block:
-               match['code'] = code_block
-               results_with_code.append(match)
-       
-       # 将优先结果添加到结果列表开头
-       results_with_code = priority_results + results_with_code
-       
-       if len(results_with_code) <= 0:
-           return f"虽然找到了相似的文件，但无法在其中提取到相关代码块。"
-       
-       # 直接返回原始代码结果，而不是使用LLM格式化
+       # 整理最终输出
        final_output = ""
-       for i, result in enumerate(results_with_code, 1):
+       for i, result in enumerate(all_results, 1):
            final_output += f"--- 结果 {i} (相似度: {result['similarity']:.3f}) ---\n"
            final_output += f"文件路径: {result['path']}\n\n"
            final_output += f"{result['code']}\n\n"
        
        # 5. 更新缓存并返回结果
-       logging.info(f"向量搜索完成。找到了 {len(results_with_code)} 个匹配项并成功提取了代码。")
+       logging.info(f"向量搜索完成。找到了 {len(all_results)} 个匹配项并成功提取了代码。")
        save_cache_for_question(question, keywords, final_output)
        
        return final_output

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef>
+    <defName>MyWulaAura</defName>
+    <label>乌拉共鸣光环</label>
+    <description>这是一个如何使用HediffComp_GiveHediffsInRangeToRace组件的示例。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <!-- 这里使用我们新创建的C#类的完整名称 -->
+      <li Class="WulaFallenEmpire.HediffCompProperties_GiveHediffsInRangeToRace">
+        <range>10</range>
+        <hediff>PsychicSoothe</hediff> <!-- 举例：要施加的Hediff -->
+        
+        <!-- 定义可以被影响的种族列表 -->
+        <targetRaces>
+          <li>WulaSpecies</li> <!-- 您的乌拉种族 -->
+          <li>Human</li>       <!-- 也可以添加其他种族 -->
+        </targetRaces>
+
+        <!-- 其他参数和原版一样 -->
+        <targetingParameters>
+          <canTargetAllies>true</canTargetAllies>
+        </targetingParameters>
+        <onlyPawnsInSameFaction>true</onlyPawnsInSameFaction>
+      </li>
+    </comps>
+  </HediffDef>
+
+</Defs>

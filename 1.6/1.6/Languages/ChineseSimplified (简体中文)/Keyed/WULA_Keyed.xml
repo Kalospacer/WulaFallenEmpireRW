@@ -17,4 +17,9 @@
   <WULA_MaintenanceNoEffect>{PAWN_nameDef} 的维护已完成，但{PAWN_nameDef} 没有可修复的受损部位。</WULA_MaintenanceNoEffect>
   <WULA_NoComponentsToHaul>没有可用的零部件来搬运。</WULA_NoComponentsToHaul>
 
+  <WULA_MessageGainedDamageShieldCharges>{0} 获得了 {1} 层伤害护盾！</WULA_MessageGainedDamageShieldCharges>
+  <WULA_CannotUseOnDeadPawn>无法对已死亡的Pawn使用。</WULA_CannotUseOnDeadPawn>
+  <WULA_DamageShieldMaxChargesReached>伤害护盾已达到最大层数。</WULA_DamageShieldMaxChargesReached>
+  <WULA_DamageShieldChargesDescription>使用：增加 {0} 层伤害护盾</WULA_DamageShieldChargesDescription>
+
 </LanguageData>
