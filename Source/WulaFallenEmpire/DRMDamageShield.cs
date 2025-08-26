@@ -27,7 +27,6 @@ namespace WulaFallenEmpire
         }
     }
 
-    [StaticConstructorOnStartup] // 确保在游戏启动时加载
     public class DRMDamageShield : ThingComp
     {
         // 从 Hediff_DamageShield 获取层数作为能量
@@ -69,19 +68,6 @@ namespace WulaFallenEmpire
         private Vector3 impactAngleVect;
         private int lastAbsorbDamageTick = -9999;
 
-        private const float MaxDamagedJitterDist = 0.05f;
-        private const int JitterDurationTicks = 8;
-        private int KeepDisplayingTicks = 1000;
-
-        // 获取原版 CompShield 的 BubbleMat
-        private static readonly Material BubbleMat;
-
-        static DRMDamageShield()
-        {
-            // 使用 Harmony AccessTools 获取 CompShield 的私有静态字段 BubbleMat
-            BubbleMat = (Material)AccessTools.Field(typeof(CompShield), "BubbleMat").GetValue(null);
-        }
-
         public DRMCompShieldProp Props => (DRMCompShieldProp)props;
 
         public ShieldState ShieldState
@@ -97,35 +83,6 @@ namespace WulaFallenEmpire
                     return ShieldState.Active;
                 }
                 return ShieldState.Resetting;
-            }
-        }
-
-        protected bool ShouldDisplay
-        {
-            get
-            {
-                Pawn pawnOwner = PawnOwner;
-                if (pawnOwner == null || !pawnOwner.Spawned || pawnOwner.Dead || pawnOwner.Downed)
-                {
-                    return false;
-                }
-                if (pawnOwner.InAggroMentalState)
-                {
-                    return true;
-                }
-                if (pawnOwner.Drafted)
-                {
-                    return true;
-                }
-                if (pawnOwner.Faction.HostileTo(Faction.OfPlayer) && !pawnOwner.IsPrisoner)
-                {
-                    return true;
-                }
-                if (Find.TickManager.TicksGame < lastKeepDisplayTick + KeepDisplayingTicks)
-                {
-                    return true;
-                }
-                return false;
             }
         }
 
@@ -179,18 +136,9 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // 如果是 EMP 伤害，且护盾没有 EMP 抗性（这里假设我们的护盾没有），则直接击穿
-            // 为了简化，我们假设我们的次数盾没有 EMP 抗性，任何 EMP 伤害都会直接击穿
-            if (dinfo.Def == DamageDefOf.EMP)
-            {
-                Energy = 0; // 能量归零
-                Notify_ShieldBreak(); // 触发护盾击穿效果
-                absorbed = true;
-                return;
-            }
-
-            // 如果是远程或爆炸伤害，且护盾阻挡这些类型
-            if (Props.blocksRangedWeapons && (dinfo.Def.isRanged || dinfo.Def.isExplosive))
+            // 我们的护盾阻挡所有伤害类型，但不包含手术
+            // 如果伤害类型不被认为是“有益的”（例如，不是手术），则阻挡
+            if (!dinfo.Def.consideredHelpful)
             {
                 // 消耗一层护盾
                 damageShield.ShieldCharges--;
@@ -259,32 +207,5 @@ namespace WulaFallenEmpire
             lastKeepDisplayTick = Find.TickManager.TicksGame;
         }
 
-        public override void PostDraw()
-        {
-            base.PostDraw();
-            Draw();
-        }
-
-        private void Draw()
-        {
-            if (ShieldState == ShieldState.Active && ShouldDisplay)
-            {
-                float num = Mathf.Lerp(Props.minDrawSize, Props.maxDrawSize, Energy / MaxEnergy); // 根据当前能量比例调整大小
-                Vector3 drawPos = PawnOwner.Drawer.DrawPos;
-                drawPos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-                int num2 = Find.TickManager.TicksGame - lastAbsorbDamageTick;
-                if (num2 < JitterDurationTicks) // 使用 JitterDurationTicks
-                {
-                    float num3 = (float)(JitterDurationTicks - num2) / JitterDurationTicks * MaxDamagedJitterDist; // 使用 MaxDamagedJitterDist
-                    drawPos += impactAngleVect * num3;
-                    num -= num3;
-                }
-                float angle = Rand.Range(0, 360);
-                Vector3 s = new Vector3(num, 1f, num);
-                Matrix4x4 matrix = default(Matrix4x4);
-                matrix.SetTRS(drawPos, Quaternion.AngleAxis(angle, Vector3.up), s);
-                Graphics.DrawMesh(MeshPool.plane10, matrix, BubbleMat, 0);
-            }
-        }
     }
 }

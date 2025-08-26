@@ -2,7 +2,7 @@
 <Defs>
     <ThingDef ParentName="BodyPartProstheticMakeableBase">
         <defName>WULA_DamageShieldGenerator</defName>
-        <label>伤害护盾发生器</label>
+        <label>乌拉反应护盾发生器</label>
         <description>一个便携式设备，可以激活并生成一个临时的能量护盾，抵挡即将到来的伤害。</description>
         <graphicData>
       <texPath>Wula/Item/WULA_Syhth_Trainer</texPath>
@@ -24,11 +24,13 @@
         <comps>
             <li Class="CompProperties_Usable">
                 <useJob>UseItem</useJob>
+                <useLabel>使用护盾发生器充能反应护盾</useLabel>
             </li>
             <li Class="WulaFallenEmpire.CompProperties_AddDamageShieldCharges">
                 <hediffDef>WULA_DamageShield</hediffDef>
                 <chargesToAdd>100</chargesToAdd> <!-- 每次使用添加 10 层 -->
             </li>
+            <li Class="CompProperties_UseEffectDestroySelf" />
         </comps>
     </ThingDef>
 </Defs>
