@@ -185,6 +185,8 @@
     <Compile Include="Hediff_DamageShield.cs" />
     <Compile Include="DRMDamageShield.cs" />
     <Compile Include="CompUseEffect_AddDamageShieldCharges.cs" />
+<Compile Include="HediffCompProperties_GiveHediffsInRangeToRace.cs" />
+    <Compile Include="HediffComp_GiveHediffsInRangeToRace.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
