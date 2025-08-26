@@ -182,6 +182,9 @@
     <Compile Include="Verb\VerbProperties_WeaponStealBeam.cs" />
     <Compile Include="Verb\Verb_ShootWeaponStealBeam.cs" />
     <Compile Include="Verb\Verb_ShootMeltBeam.cs" />
+    <Compile Include="Hediff_DamageShield.cs" />
+    <Compile Include="HarmonyPatches\DamageShieldPatch.cs" />
+    <Compile Include="CompUseEffect_AddDamageShieldCharges.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

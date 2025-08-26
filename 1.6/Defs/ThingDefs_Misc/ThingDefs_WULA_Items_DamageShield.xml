@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ThingDef ParentName="ResourceBase">
+        <defName>WULA_DamageShieldGenerator</defName>
+        <label>伤害护盾发生器</label>
+        <description>一个便携式设备，可以激活并生成一个临时的能量护盾，抵挡即将到来的伤害。</description>
+        <graphicData>
+            <texPath>Things/Item/WULA_DamageShieldGenerator</texPath> <!-- 假设有一个贴图 -->
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <stackLimit>1</stackLimit>
+        <useHitPoints>true</useHitPoints>
+        <healthAffectsPrice>false</healthAffectsPrice>
+        <statBases>
+            <MaxHitPoints>50</MaxHitPoints>
+            <MarketValue>500</MarketValue>
+            <Mass>0.5</Mass>
+            <WorkToMake>1000</WorkToMake>
+        </statBases>
+        <thingCategories>
+            <li>Items</li>
+        </thingCategories>
+        <tradeability>Sellable</tradeability>
+        <comps>
+            <li Class="CompProperties_Usable">
+                <useJob>UseItem</useJob>
+                <floatMenuCommandLabel>使用伤害护盾发生器</floatMenuCommandLabel>
+            </li>
+            <li Class="WulaFallenEmpire.CompProperties_AddDamageShieldCharges">
+                <hediffDef>WULA_DamageShield</hediffDef>
+                <chargesToAdd>10</chargesToAdd> <!-- 每次使用添加 10 层 -->
+            </li>
+        </comps>
+    </ThingDef>
+</Defs>
