@@ -400,6 +400,126 @@
       <li>WulaSpecies</li>
     </recipeUsers>
   </RecipeDef>
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>WULA_Energy_Furnace_Hediff_JumpDrive_Engine</defName>
+    <label></label>
+    <description></description>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Energy_Furnace_JumpDrive_Engine</ThingDef>
+    </descriptionHyperlinks>
+    <spawnThingOnRemoved>WULA_Energy_Furnace_JumpDrive_Engine</spawnThingOnRemoved>
+    <addedPartProps>
+      <!-- <partEfficiency>1.5</partEfficiency> -->
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="AutoBlink.HediffCompProperties_AutoBlink" MayRequire="rabiosus.autoblink">
+        <!-- <gizmoIconPath></gizmoIconPath> -->
+        <blinkIntervalTicks>480</blinkIntervalTicks>
+        <delayAfterEligibleTicks>10</delayAfterEligibleTicks>
+        <cellsBeforeTarget>3</cellsBeforeTarget>
+        <maxDistanceToBlink>40</maxDistanceToBlink>
+        <minDistanceToBlink>6</minDistanceToBlink>
+        <postBlinkStanceTicks>0</postBlinkStanceTicks>
+        <playerFactionOnly>false</playerFactionOnly>
+        <excludedJobDefs>
+          <li>GotoWander</li>
+          <li>Carried</li>
+        </excludedJobDefs>
+
+        <preBlinkSoundDefs>
+          <li>AutoBlink_Skip_Small</li>
+        </preBlinkSoundDefs>
+        <postBlinkSoundDefs>
+          <li>AutoBlink_Skip_Exit_Small</li>
+        </postBlinkSoundDefs>
+
+        <preBlinkEffecterDefs>
+          <li>Skip_Entry</li>
+        </preBlinkEffecterDefs>
+
+        <postBlinkEffecterDefs>
+          <li>Skip_ExitNoDelay</li>
+        </postBlinkEffecterDefs>
+
+        <preBlinkMoteDefs/>
+        <postBlinkMoteDefs/>
+      </li>
+    </comps>
+  </HediffDef>
+  <ThingDef ParentName="BodyPartBionicBase">
+    <defName>WULA_Energy_Furnace_JumpDrive_Engine</defName>
+    <label></label>
+    <description></description>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <RecipeDef>Install_WULA_Energy_Furnace_JumpDrive_Engine</RecipeDef>
+    </descriptionHyperlinks>
+    <costList>
+      <Steel>200</Steel>
+      <ComponentSpacer>6</ComponentSpacer>
+      <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
+    </costList>
+    <thingSetMakerTags>
+      <li>RewardStandardMidFreq</li>
+    </thingSetMakerTags>
+    <recipeMaker>
+      <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+    </recipeMaker>
+    <statBases>
+      <Mass>0.3</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>Install_WULA_Energy_Furnace_JumpDrive_Engine</defName>
+    <label></label>
+    <description></description>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Energy_Furnace_JumpDrive_Engine</ThingDef>
+      <HediffDef>WULA_Energy_Furnace_Hediff_JumpDrive_Engine</HediffDef>
+    </descriptionHyperlinks>
+    <jobString></jobString>
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
+    <anesthetize>false</anesthetize>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Energy_Furnace_JumpDrive_Engine</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WULA_Energy_Furnace_JumpDrive_Engine</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>WULA_Energy_Furnace_Bodypart</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>WULA_Energy_Furnace_Hediff_JumpDrive_Engine</addsHediff>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <recipeUsers Inherit="False">
+      <li>WulaSpecies</li>
+    </recipeUsers>
+  </RecipeDef>
 
   <!-- 处理器 -->
   <HediffDef ParentName="AddedBodyPartBase">

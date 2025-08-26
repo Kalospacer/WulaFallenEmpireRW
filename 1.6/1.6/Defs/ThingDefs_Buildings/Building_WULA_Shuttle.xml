@@ -25,6 +25,8 @@
         <offset>(0.1, 0, -0.1)</offset>
       </shadowData>
     </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
     <statBases>
       <MaxHitPoints>6000</MaxHitPoints>
       <Flammability>0</Flammability>
@@ -165,6 +167,8 @@
         <offset>(0.1, 0, -0.1)</offset>
       </shadowData>
     </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
     <statBases>
       <MaxHitPoints>6000</MaxHitPoints>
       <Flammability>0</Flammability>
@@ -418,6 +422,8 @@
       <shaderType>CutoutComplex</shaderType>
       <drawSize>(4,4)</drawSize>
     </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
     <size>(4,4)</size>
     <skyfaller>
       <anticipationSound>Shuttle_Landing</anticipationSound>
@@ -458,6 +464,8 @@
       <shaderType>CutoutComplex</shaderType>
       <drawSize>(4,4)</drawSize>
     </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
     <size>(4,4)</size>
     <skyfaller>
       <reversed>true</reversed>

@@ -88,10 +88,10 @@
       </li>
       <li Class="AutoBlink.HediffCompProperties_AutoBlink" MayRequire="rabiosus.autoblink">
         <!-- <gizmoIconPath></gizmoIconPath> -->
-        <blinkIntervalTicks>480</blinkIntervalTicks>
+        <blinkIntervalTicks>240</blinkIntervalTicks>
         <delayAfterEligibleTicks>10</delayAfterEligibleTicks>
-        <cellsBeforeTarget>3</cellsBeforeTarget>
-        <maxDistanceToBlink>40</maxDistanceToBlink>
+        <cellsBeforeTarget>1</cellsBeforeTarget>
+        <maxDistanceToBlink>60</maxDistanceToBlink>
         <minDistanceToBlink>4</minDistanceToBlink>
         <postBlinkStanceTicks>0</postBlinkStanceTicks>
         <playerFactionOnly>false</playerFactionOnly>

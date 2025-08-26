@@ -2,43 +2,43 @@
 <LanguageData>
 
   <!-- Building_ArmedShuttleWithPocket 相关文本 -->
-  <WULA.PocketSpace.Status>内部空间状态</WULA.PocketSpace.Status>
+  <WULA.PocketSpace.Status>生活区状态</WULA.PocketSpace.Status>
   <WULA.PocketSpace.Ready>已就绪</WULA.PocketSpace.Ready>
   <WULA.PocketSpace.NotGenerated>未初始化</WULA.PocketSpace.NotGenerated>
   
   <!-- Gizmo 按钮文本 -->
-  <WULA.PocketSpace.Initialize>初始化内部空间</WULA.PocketSpace.Initialize>
-  <WULA.PocketSpace.InitializeDesc>初始化穿梭机的内部口袋空间。这将在穿梭机内部创建维度储存空间。</WULA.PocketSpace.InitializeDesc>
+  <WULA.PocketSpace.Initialize>初始化生活区</WULA.PocketSpace.Initialize>
+  <WULA.PocketSpace.InitializeDesc>初始化穿梭机的内部口袋空间。这将在穿梭机内部创建一个可供成员休息工作的生活区。</WULA.PocketSpace.InitializeDesc>
   
-  <WULA.PocketSpace.Enter>进入内部空间</WULA.PocketSpace.Enter>
+  <WULA.PocketSpace.Enter>进入生活区</WULA.PocketSpace.Enter>
   <WULA.PocketSpace.EnterDesc>进入穿梭机的内部口袋空间。选中的殖民者将被传送到内部空间。</WULA.PocketSpace.EnterDesc>
   
   
-  <WULA.PocketSpace.ViewMap>查看内部空间</WULA.PocketSpace.ViewMap>
+  <WULA.PocketSpace.ViewMap>查看生活区</WULA.PocketSpace.ViewMap>
   <WULA.PocketSpace.ViewMapDesc>切换视角到穿梭机的内部口袋空间。</WULA.PocketSpace.ViewMapDesc>
   
   
   <!-- 消息文本 -->
-  <WULA.PocketSpace.CannotInitialize>无法初始化内部空间。</WULA.PocketSpace.CannotInitialize>
-  <WULA.PocketSpace.AlreadyInitialized>内部空间已经初始化。</WULA.PocketSpace.AlreadyInitialized>
-  <WULA.PocketSpace.InitializeSuccess>内部空间初始化成功。</WULA.PocketSpace.InitializeSuccess>
-  <WULA.PocketSpace.InitializeFailed>内部空间初始化失败。</WULA.PocketSpace.InitializeFailed>
+  <WULA.PocketSpace.CannotInitialize>无法初始化生活区。</WULA.PocketSpace.CannotInitialize>
+  <WULA.PocketSpace.AlreadyInitialized>生活区已经初始化。</WULA.PocketSpace.AlreadyInitialized>
+  <WULA.PocketSpace.InitializeSuccess>生活区初始化成功。</WULA.PocketSpace.InitializeSuccess>
+  <WULA.PocketSpace.InitializeFailed>生活区初始化失败。</WULA.PocketSpace.InitializeFailed>
   
-  <WULA.PocketSpace.CannotEnter>无法进入内部空间。</WULA.PocketSpace.CannotEnter>
+  <WULA.PocketSpace.CannotEnter>无法进入生活区。</WULA.PocketSpace.CannotEnter>
   <WULA.PocketSpace.AccessDenied>访问被拒绝。</WULA.PocketSpace.AccessDenied>
   <WULA.PocketSpace.NotSpawned>穿梭机未部署。</WULA.PocketSpace.NotSpawned>
   <WULA.PocketSpace.TransportDisabled>传送功能已禁用（穿梭机飞行中）。</WULA.PocketSpace.TransportDisabled>
   <WULA.PocketSpace.NoTargetMap>无目标地图。</WULA.PocketSpace.NoTargetMap>
-  <WULA.PocketSpace.CreationFailed>内部空间创建失败。</WULA.PocketSpace.CreationFailed>
-  <WULA.PocketSpace.TransferSuccess>{0} 名人员已成功传送到内部空间。</WULA.PocketSpace.TransferSuccess>
+  <WULA.PocketSpace.CreationFailed>生活区创建失败。</WULA.PocketSpace.CreationFailed>
+  <WULA.PocketSpace.TransferSuccess>{0} 名人员已成功传送到生活区。</WULA.PocketSpace.TransferSuccess>
   
   <!-- 存储管理对话框 -->
-  <WULA.PocketSpace.PawnCount>内部空间人员: {0}</WULA.PocketSpace.PawnCount>
-  <WULA.PocketSpace.NoPawnsSelected>请选择至少一名殖民者进入内部空间。</WULA.PocketSpace.NoPawnsSelected>
+  <WULA.PocketSpace.PawnCount>生活区人员: {0}</WULA.PocketSpace.PawnCount>
+  <WULA.PocketSpace.NoPawnsSelected>请选择至少一名殖民者进入生活区。</WULA.PocketSpace.NoPawnsSelected>
   
   <!-- 退出点相关 -->
   <WULA.PocketSpace.ExitToMainMap>返回主地图</WULA.PocketSpace.ExitToMainMap>
-  <WULA.PocketSpace.ExitToMainMapDesc>通过口袋空间出口返回主地图。</WULA.PocketSpace.ExitToMainMapDesc>
+  <WULA.PocketSpace.ExitToMainMapDesc>通过生活区出口返回主地图。</WULA.PocketSpace.ExitToMainMapDesc>
   <WULA.PocketSpace.ExitSuccess>{0} 已成功返回主地图。</WULA.PocketSpace.ExitSuccess>
   
 </LanguageData>

@@ -106,6 +106,7 @@
     <recipes>
      <li>Make_WULA_Charge_Cube</li>
      <li>Recharge_WULA_Charge_Cube</li>
+     <li MayRequire="Ludeon.RimWorld.Anomaly">Wula_Make_Zro</li>
     </recipes>
     <inspectorTabs>
       <li>ITab_Bills</li>
@@ -186,6 +187,7 @@
      <li>Make_Component_By_WULA_Cube_Productor</li>
      <li>Make_WULA_Dark_Matter_Item</li>
      <li>Make_WULA_Neutronium</li>
+     <li MayRequire="Ludeon.RimWorld.Anomaly">Wula_Make_Zro</li>
     </recipes>
     <inspectorTabs>
       <li>ITab_Bills</li>

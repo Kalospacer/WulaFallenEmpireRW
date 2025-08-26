@@ -12,49 +12,49 @@
     <defName>WULA_FE_Spiritualist_Base_Technology1</defName>
     <label>乌拉帝国大教堂：科技阶段1</label>
     <description>这个科技没有任何用处，但是有一部分科技依托于此科技</description>
-    <baseCost>8500000</baseCost>
+    <baseCost>4000</baseCost>
     <researchViewX>0.00</researchViewX>
     <researchViewY>3.00</researchViewY>
-    <techprintCount>1</techprintCount>
+    <!-- <techprintCount>1</techprintCount>
     <techprintCommonality>3</techprintCommonality>
-    <techprintMarketValue>10000</techprintMarketValue>
-    <heldByFactionCategoryTags>
+    <techprintMarketValue>10000</techprintMarketValue> -->
+    <!-- <heldByFactionCategoryTags>
       <li>Wula_FE_Spiritualist_FactionTag</li>
-    </heldByFactionCategoryTags>
+    </heldByFactionCategoryTags> -->
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
     <defName>WULA_FE_Spiritualist_Base_Technology2</defName>
     <label>乌拉帝国大教堂：科技阶段2</label>
     <description>这个科技没有任何用处，但是有一部分科技依托于此科技</description>
-    <baseCost>15000000</baseCost>
+    <baseCost>5000</baseCost>
     <researchViewX>2.50</researchViewX>
     <researchViewY>3.00</researchViewY>
     <prerequisites>
       <li>WULA_FE_Spiritualist_Base_Technology1</li>
     </prerequisites>
-    <techprintCount>1</techprintCount>
+    <!-- <techprintCount>1</techprintCount>
     <techprintCommonality>3</techprintCommonality>
-    <techprintMarketValue>10000</techprintMarketValue>
-    <heldByFactionCategoryTags>
+    <techprintMarketValue>10000</techprintMarketValue> -->
+    <!-- <heldByFactionCategoryTags>
       <li>Wula_FE_Spiritualist_FactionTag</li>
-    </heldByFactionCategoryTags>
+    </heldByFactionCategoryTags> -->
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
     <defName>WULA_FE_Spiritualist_Base_Technology3</defName>
     <label>乌拉帝国大教堂：科技阶段3</label>
     <description>这个科技没有任何用处，但是有一部分科技依托于此科技</description>
-    <baseCost>35000000</baseCost>
+    <baseCost>6000</baseCost>
     <researchViewX>4.50</researchViewX>
     <researchViewY>3.00</researchViewY>
     <prerequisites>
       <li>WULA_FE_Spiritualist_Base_Technology2</li>
     </prerequisites>
-    <techprintCount>1</techprintCount>
+    <!-- <techprintCount>1</techprintCount>
     <techprintCommonality>3</techprintCommonality>
-    <techprintMarketValue>10000</techprintMarketValue>
-    <heldByFactionCategoryTags>
+    <techprintMarketValue>10000</techprintMarketValue> -->
+    <!-- <heldByFactionCategoryTags>
       <li>Wula_FE_Spiritualist_FactionTag</li>
-    </heldByFactionCategoryTags>
+    </heldByFactionCategoryTags> -->
   </ResearchProjectDef>
 
   <!-- <ResearchProjectDef ParentName="WULA_FE_Spiritualist_techBase">
