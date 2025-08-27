@@ -99,18 +99,6 @@ namespace WulaFallenEmpire
 
         protected override bool TryCastShot()
         {
-            // Temporarily commented out CompWeaponCharge related code
-            /*
-            bool flag = this.compCharge != null && !this.compCharge.CanBeUsed;
-            if (!flag)
-            {
-                CompWeaponCharge compCharge = this.compCharge;
-                if (compCharge != null)
-                {
-                    compCharge.UsedOnce();
-                }
-            */
-            
             // Calculate all affected cells once
             List<IntVec3> allAffectedCells = this.AffectedCells(this.currentTarget);
             
@@ -123,18 +111,14 @@ namespace WulaFallenEmpire
             beam.pathWidth = this.ExcaliburProps.pathWidth;
             beam.weaponDef = this.CasterPawn.equipment.Primary.def;
             beam.damageDef = this.ExcaliburProps.damageDef;
-            beam.StartStrike(allAffectedCells, this.BurstShotsLeft, this.BurstShotCount);
+            beam.StartStrike(allAffectedCells, this.verbProps.burstShotCount, this.verbProps.burstShotCount);
 
             return true;
-            /*
-            }
-            return false;
-            */
         }
 
         public override void DrawHighlight(LocalTargetInfo target)
         {
-            GenDraw.DrawFieldEdges(this.AffectedCells(target), 2900);
+            GenDraw.DrawFieldEdges(this.AffectedCells(target), SimpleColor.Red);
         }
 
         private List<IntVec3> AffectedCells(LocalTargetInfo target)
@@ -188,9 +172,10 @@ namespace WulaFallenEmpire
                 {
                     return currentCell; // Hit an impassable wall
                 }
+            }
             return (position.ToVector3() + direction * maxRange).ToIntVec3(); // Reached max range
         }
-
+        
         private bool CanUseCell(IntVec3 c)
         {
             return c.InBounds(this.CasterPawn.Map) && c != this.CasterPawn.Position;
