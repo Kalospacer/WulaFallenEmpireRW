@@ -6,9 +6,11 @@
     <description>乌拉帝国军械部在黄金时期所设计的暗物质武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的机械体所配备，所发射的切割束几乎可以横跨战场，并抹除落点上所有的敌人。</description>
     <techLevel>Archotech</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Unlimit_Penetrating_Beam_Cannon</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.5</drawSize>
     </graphicData>
+    <uiIconScale>0.75</uiIconScale>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <Mass>200</Mass>
@@ -27,63 +29,22 @@
       <Uranium>100</Uranium>
     </costList>
     <verbs>
-      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
-        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
-
-        <!-- 基础射线参数 -->
+      <li Class="WulaFallenEmpire.VerbProperties_Excalibur">
+        <verbClass>WulaFallenEmpire.Verb_Excalibur</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
+        <range>30.9</range>
         <warmupTime>6</warmupTime>
-        <range>500</range>
-        <minRange>21</minRange>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
-        <beamDamageDef>Wula_Dark_Matter_Beam_Huge</beamDamageDef>
-
-        <!-- 消除射线偏移的参数 -->
-        <beamFullWidthRange>1000</beamFullWidthRange>
-        <beamWidth>-1</beamWidth>
-        <beamMaxDeviation>0</beamMaxDeviation>
-        <beamCurvature>0</beamCurvature>
-        <beamStartOffset>0</beamStartOffset>
-
-        <!-- 视觉和音效 -->
-        <muzzleFlashScale>0</muzzleFlashScale>
-        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
-        <beamGroundFleckDef>Fleck_BeamBurn</beamGroundFleckDef>
-        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
-        <beamMoteDef>Mote_Wula_Dark_Matter_Beam</beamMoteDef>
-        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
-
-        <screenShakeFactor>0.85</screenShakeFactor>
-
-        <!-- 火焰效果 -->
-        <beamChanceToStartFire>0.6</beamChanceToStartFire>
-        <beamChanceToAttachFire>0.6</beamChanceToAttachFire>
-        <beamFireSizeRange>0.25</beamFireSizeRange>
-
-        <!-- 其他射线属性 -->
-        <beamHitsNeighborCells>true</beamHitsNeighborCells>
-        <beamLineFleckChanceCurve>
-          <points>
-            <li>(0, 0)</li>
-            <li>(0.65, 0.4)</li>
-            <li>(1, 0.75)</li>
-          </points>
-        </beamLineFleckChanceCurve>
-
-        <!-- 攻击目标设置 -->
+        <burstShotCount>1</burstShotCount>
+        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
-
-        <!-- 每发都爆炸 -->
-        <enableExplosion>true</enableExplosion>
-        <explosionShotInterval>2</explosionShotInterval>
-        <explosionRadius>8</explosionRadius>
-        <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
-        <explosionDamage>3500</explosionDamage>
-        <explosionSound>Explosion_Bomb</explosionSound>
-        <chanceToStartFire>1</chanceToStartFire>
+        <pathWidth>1</pathWidth>
+        <damageDef>Bomb</damageDef>
+        <damageAmount>450</damageAmount>
+        <armorPenetration>2</armorPenetration>
       </li>
     </verbs>
     <weaponTags>
@@ -189,7 +150,7 @@
         <defaultProjectile>Bullet_Wula_MR_Mobile_Factory_Turret</defaultProjectile>
         <range>36</range>
         <minRange>8</minRange>
-        <defaultCooldownTime>5</defaultCooldownTime>
+        <defaultCooldownTime>1.5</defaultCooldownTime>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
         <soundCast>Shot_BeamRepeater</soundCast>
