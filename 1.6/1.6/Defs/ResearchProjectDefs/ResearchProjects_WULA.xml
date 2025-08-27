@@ -67,7 +67,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Clothes_Technology</defName>
     <researchViewX>1.00</researchViewX>
-    <researchViewY>1.80</researchViewY>
+    <researchViewY>2.60</researchViewY>
     <label>基础衣物套件</label>
     <description>开发能够被乌拉帝国合成人穿着的基础衣物。</description>
     <baseCost>400</baseCost>
@@ -79,7 +79,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Clothes_2_Technology</defName>
     <researchViewX>4.50</researchViewX>
-    <researchViewY>1.80</researchViewY>
+    <researchViewY>2.60</researchViewY>
     <label>复杂衣物套件</label>
     <description>开发能够被乌拉帝国合成人穿着的具有功能性的衣物。</description>
     <baseCost>1200</baseCost>
@@ -164,7 +164,7 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_2_Plasma_Technology</defName>
-    <researchViewX>2.00</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>0.20</researchViewY>
     <label>等离子武装套件</label>
     <description>开发能够供乌拉帝国合成人的使用的等离子武器，以便进一步对抗强大的外部威胁。</description>
@@ -176,8 +176,8 @@
 
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_2_Laser_Technology</defName>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>1.80</researchViewY>
     <label>镭射武装套件</label>
     <description>开发能够供乌拉帝国合成人的使用的镭射武器，以便进一步对抗强大的外部威胁。</description>
     <baseCost>600</baseCost>
@@ -189,7 +189,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_Shield_Technology</defName>
     <researchViewX>2.00</researchViewX>
-    <researchViewY>2.50</researchViewY>
+    <researchViewY>1.80</researchViewY>
     <label>护盾武装套件</label>
     <description>开发能够保护乌拉帝国合成人的手持护盾，以抵抗来自敌方的猛烈攻击。</description>
     <baseCost>800</baseCost>
@@ -201,8 +201,8 @@
   
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_2_Ranged_Technology</defName>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
+    <researchViewX>4.50</researchViewX>
+    <researchViewY>1.80</researchViewY>
     <label>远射武装套件</label>
     <description>开发能够武装乌拉帝国合成人的远距离武器，旨在构建密集火力网消灭敌人。</description>
     <baseCost>2400</baseCost>
@@ -214,7 +214,7 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_3_Bomb_Technology</defName>
-    <researchViewX>3.00</researchViewX>
+    <researchViewX>4.50</researchViewX>
     <researchViewY>0.20</researchViewY>
     <label>轰炸武装套件</label>
     <description>开发能够武装乌拉帝国合成人的大范围杀伤性武器，用于对抗最难应付的敌人。</description>
@@ -242,7 +242,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Psi_Technology</defName>
     <researchViewX>4.50</researchViewX>
-    <researchViewY>2.50</researchViewY>
+    <researchViewY>3.90</researchViewY>
     <label>灵能基础套件</label>
     <description>开发能够供从俘虏身上获取魂锲的能力。</description>
     <baseCost>1200</baseCost>
@@ -290,8 +290,8 @@
     <label>开拓单元套件</label>
     <description>获取乌拉帝国机械体PMu-7"西比尔卡"和其变种PMu-7A"斯托洛维耶"的生产权限，一种可以在战场上生产源源不断的临时单位并部署低角护盾掩护友军的辅助型机械体。</description>
     <baseCost>2400</baseCost>
-    <researchViewX>4.50</researchViewX>
-    <researchViewY>4.70</researchViewY>
+    <researchViewX>8.00</researchViewX>
+    <researchViewY>4.80</researchViewY>
     <prerequisites>
       <li>HighMechtech</li>
       <li>WULA_Machine_Productor_1_Technology</li>
@@ -382,7 +382,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Addons_Technology</defName>
     <researchViewX>4.50</researchViewX>
-    <researchViewY>3.90</researchViewY>
+    <researchViewY>4.70</researchViewY>
     <label>基础植入物套件</label>
     <description>获取构建乌拉帝国合成人基础植入物的技术，用以增强乌拉帝国合成人的机体性能。</description>
     <baseCost>800</baseCost>
@@ -395,7 +395,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Antenna_Technology</defName>
     <researchViewX>5.50</researchViewX>
-    <researchViewY>4.70</researchViewY>
+    <researchViewY>3.90</researchViewY>
     <label>蜂群节点套件</label>
     <description>获取特殊构型的机械乌拉天线，使得这些经过天线改装的乌拉可以胜任指挥任务。</description>
     <baseCost>1000</baseCost>
