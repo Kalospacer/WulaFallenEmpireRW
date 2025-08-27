@@ -33,10 +33,10 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Penetrating_Beam_Ranged</defaultProjectile>
+        <defaultProjectile>Bullet_WULA_RW_Penetrating_Beam_Base</defaultProjectile>
         <warmupTime>2</warmupTime>
         <range>16</range>
-        <burstShotCount>2</burstShotCount>
+        <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
         <soundCast>Shot_BeamRepeater</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
@@ -55,6 +55,32 @@
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
+  </ThingDef>
+
+  <!--没霰弹的光束-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Penetrating_Beam_Base</defName>
+    <label>穿透光束</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
+        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
+        <preventFriendlyFire>false</preventFriendlyFire>
+        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
+        <beamStartOffset>0.5</beamStartOffset>
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>BeamBypassShields</damageDef>
+      <damageAmountBase>5</damageAmountBase>
+      <armorPenetrationBase>0.8</armorPenetrationBase>
+      <stoppingPower>1</stoppingPower>
+    </projectile>
   </ThingDef>
 
   <!-- Penetrating Beam Rifle -->

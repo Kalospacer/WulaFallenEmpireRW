@@ -323,25 +323,17 @@
     <projectile>
       <!-- 基础伤害和穿透。对于这个投射物，实际伤害由爆炸决定 -->
       <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-      <damageAmountBase>16</damageAmountBase>
+      <damageAmountBase>10</damageAmountBase>
       <armorPenetrationBase>0.75</armorPenetrationBase>
       <speed>55</speed>
     </projectile>
-    <!-- 1. 使用正确的thingClass -->
-    <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
     <modExtensions>
-      <!-- 2. 保留追踪和霰弹ModExtension -->
       <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <homingSpeed>0.1</homingSpeed>
-        <initRotateAngle>30</initRotateAngle>
-        <destroyTicksAfterLosingTrack>
-          <min>60</min>
-          <max>120</max>
-        </destroyTicksAfterLosingTrack>
         <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
       </li>
       <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>3</pelletCount>
+        <pelletCount>2</pelletCount>
       </li>
       <!-- 3. 添加爆炸ModExtension -->
       <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
@@ -363,7 +355,7 @@
     </graphicData>
     <projectile>
       <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-      <damageAmountBase>16</damageAmountBase>
+      <damageAmountBase>20</damageAmountBase>
       <explosionRadius>2.1</explosionRadius>
       <soundExplode>Explosion_EMP</soundExplode>
       <armorPenetrationBase>0.75</armorPenetrationBase>
