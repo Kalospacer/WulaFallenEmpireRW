@@ -42,10 +42,18 @@ namespace WulaFallenEmpire
 
         public void StartStrike(List<IntVec3> allCells, int burstIndex, int totalBursts)
         {
-            currentBurstCells = allCells;
+            if (allCells == null || !allCells.Any())
+            {
+                Destroy();
+                return;
+            }
+
+            currentBurstCells = new List<IntVec3>(allCells);
             currentBurstShot = burstIndex;
             burstShotsTotal = totalBursts;
-            ticksToDetonate = 1; // Start detonation immediately
+            
+            // Add a small delay before detonation for visual effect
+            ticksToDetonate = 10; // 10 ticks delay before detonation
         }
 
         protected override void TimeInterval(float deltaTime)
@@ -63,35 +71,81 @@ namespace WulaFallenEmpire
 
         private void Detonate()
         {
-            if (currentBurstCells == null || !currentBurstCells.Any())
+            if (currentBurstCells == null || !currentBurstCells.Any() || Map == null)
             {
                 Destroy();
                 return;
             }
 
-            // For this burst, we'll detonate all cells
-            foreach (IntVec3 cell in currentBurstCells)
+            // Create a copy of the list to avoid modification during iteration
+            List<IntVec3> cellsToDetonate = new List<IntVec3>(currentBurstCells);
+            
+            // Clear the current burst cells to prevent reuse
+            currentBurstCells.Clear();
+            
+            foreach (IntVec3 cell in cellsToDetonate)
             {
                 if (cell.InBounds(Map))
                 {
                     // Apply explosion effect, but ignore the caster
-                    List<Thing> ignoredThings = new List<Thing> { caster };
+                    List<Thing> ignoredThings = new List<Thing>();
+                    if (caster != null)
+                    {
+                        ignoredThings.Add(caster);
+                    }
+                    
                     DamageDef explosionDamageType = damageDef ?? DamageDefOf.Bomb;
-                    GenExplosion.DoExplosion(center: cell, map: Map, radius: 0.9f, damType: explosionDamageType, instigator: caster,
-                                            damAmount: (int)damageAmount, armorPenetration: armorPenetration,
-                                            explosionSound: null, weapon: weaponDef, projectile: null,
-                                            intendedTarget: null, postExplosionSpawnThingDef: null,
-                                            postExplosionSpawnChance: 0f, postExplosionSpawnThingCount: 1,
-                                            postExplosionGasType: null, applyDamageToExplosionCellsNeighbors: false,
-                                            preExplosionSpawnThingDef: null, preExplosionSpawnChance: 0f,
-                                            preExplosionSpawnThingCount: 1, chanceToStartFire: 0f,
-                                            damageFalloff: false, direction: null, ignoredThings: ignoredThings,
-                                            affectedAngle: null, doVisualEffects: true, propagationSpeed: 0f,
-                                            screenShakeFactor: 0f, doSoundEffects: true, postExplosionSpawnThingDefWater: null,
-                                            flammabilityChanceCurve: null, overrideCells: null, postExplosionSpawnSingleThingDef: null, preExplosionSpawnSingleThingDef: null);
+                    
+                    // Create explosion parameters with more precise settings
+                    GenExplosion.DoExplosion(
+                        center: cell, 
+                        map: Map, 
+                        radius: 1.2f, // Slightly larger radius for better visual effect
+                        damType: explosionDamageType, 
+                        instigator: caster,
+                        damAmount: (int)damageAmount, 
+                        armorPenetration: armorPenetration,
+                        explosionSound: null, 
+                        weapon: weaponDef, 
+                        projectile: null,
+                        intendedTarget: null, 
+                        postExplosionSpawnThingDef: null,
+                        postExplosionSpawnChance: 0f, 
+                        postExplosionSpawnThingCount: 1,
+                        postExplosionGasType: null, 
+                        applyDamageToExplosionCellsNeighbors: true, // Apply damage to neighbor cells
+                        preExplosionSpawnThingDef: null, 
+                        preExplosionSpawnChance: 0f,
+                        preExplosionSpawnThingCount: 1, 
+                        chanceToStartFire: 0.1f, // Small chance to start fire
+                        damageFalloff: true, // Add damage falloff
+                        direction: null, 
+                        ignoredThings: ignoredThings,
+                        affectedAngle: null, 
+                        doVisualEffects: true, 
+                        propagationSpeed: 0.5f, // Add some propagation speed for visual effect
+                        screenShakeFactor: 0.3f, // Add screen shake
+                        doSoundEffects: true, 
+                        postExplosionSpawnThingDefWater: null,
+                        flammabilityChanceCurve: null, 
+                        overrideCells: null, 
+                        postExplosionSpawnSingleThingDef: null, 
+                        preExplosionSpawnSingleThingDef: null);
                 }
             }
-            Destroy();
+            
+            // Check if there are more bursts to come
+            if (currentBurstShot < burstShotsTotal - 1)
+            {
+                // Prepare for next burst
+                ticksToDetonate = 15; // Wait 15 ticks before next burst
+                currentBurstShot++;
+            }
+            else
+            {
+                // All bursts completed, destroy the mote
+                Destroy();
+            }
         }
     }
 }

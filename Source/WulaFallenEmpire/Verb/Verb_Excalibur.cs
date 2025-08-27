@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -54,12 +53,10 @@ namespace WulaFallenEmpire
         {
             get
             {
-                // Use the damageAmount from VerbProperties if set, otherwise use the base damage
                 if (this.ExcaliburProps.damageAmount > 0)
                 {
                     return this.ExcaliburProps.damageAmount;
                 }
-                // Removed AncotUtility.QualityFactor, using a simple multiplier for now
                 return 1.0f * this.damageAmountBase;
             }
         }
@@ -68,32 +65,27 @@ namespace WulaFallenEmpire
         {
             get
             {
-                // Use the armorPenetration from VerbProperties if set, otherwise use the base value
                 if (this.ExcaliburProps.armorPenetration >= 0)
                 {
                     return this.ExcaliburProps.armorPenetration;
                 }
-                // Removed AncotUtility.QualityFactor, using a simple multiplier for now
                 return 1.0f * this.armorPenetrationBase;
             }
         }
-
-        // Temporarily commented out CompWeaponCharge related code
-        /*
-        public CompWeaponCharge compCharge
-        {
-            get
-            {
-                return this.weapon.TryGetComp<CompWeaponCharge>();
-            }
-        }
-        */
 
         private VerbProperties_Excalibur ExcaliburProps
         {
             get
             {
                 return (VerbProperties_Excalibur)this.verbProps;
+            }
+        }
+
+        protected override int ShotsPerBurst
+        {
+            get
+            {
+                return this.verbProps.burstShotCount;
             }
         }
 
@@ -111,14 +103,14 @@ namespace WulaFallenEmpire
             beam.pathWidth = this.ExcaliburProps.pathWidth;
             beam.weaponDef = this.CasterPawn.equipment.Primary.def;
             beam.damageDef = this.ExcaliburProps.damageDef;
-            beam.StartStrike(allAffectedCells, this.verbProps.burstShotCount, this.verbProps.burstShotCount);
+            beam.StartStrike(allAffectedCells, this.ShotsPerBurst, this.ShotsPerBurst);
 
             return true;
         }
 
         public override void DrawHighlight(LocalTargetInfo target)
         {
-            GenDraw.DrawFieldEdges(this.AffectedCells(target), SimpleColor.Red);
+            GenDraw.DrawFieldEdges(this.AffectedCells(target));
         }
 
         private List<IntVec3> AffectedCells(LocalTargetInfo target)

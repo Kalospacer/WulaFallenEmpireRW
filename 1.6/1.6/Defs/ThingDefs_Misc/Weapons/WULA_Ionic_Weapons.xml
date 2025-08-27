@@ -59,20 +59,14 @@
         <hasStandardCommand>true</hasStandardCommand>
         <range>25.9</range>
         <warmupTime>1.5</warmupTime>
-        <burstShotCount>10</burstShotCount>
-        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>50</ticksBetweenBurstShots>
         <soundCast>ChargeLance_Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
-        <accuracyTouch>0.7</accuracyTouch>
-        <accuracyShort>0.6</accuracyShort>
-        <accuracyMedium>0.5</accuracyMedium>
-        <accuracyLong>0.4</accuracyLong>
-        <minRange>3</minRange>
-        <requireLineOfSight>true</requireLineOfSight>
-        <pathWidth>2.5</pathWidth>
+        <pathWidth>1.5</pathWidth>
         <damageDef>Vaporize</damageDef>
         <damageAmount>50</damageAmount>
         <armorPenetration>0.3</armorPenetration>
