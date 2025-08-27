@@ -1187,9 +1187,9 @@
       <RangedWeapon_Cooldown>12.0</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
-      <Steel>1500</Steel>
-      <ComponentIndustrial>600</ComponentIndustrial>
-      <Plasteel>300</Plasteel>
+      <Steel>500</Steel>
+      <ComponentIndustrial>20</ComponentIndustrial>
+      <Plasteel>100</Plasteel>
       <Uranium>100</Uranium>
     </costList>
     <verbs>

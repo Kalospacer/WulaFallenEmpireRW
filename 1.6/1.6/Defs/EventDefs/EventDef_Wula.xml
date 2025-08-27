@@ -646,6 +646,19 @@
         </optionEffects>
       </li>
       <li>
+        <label>我们要找打！</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Anisia_203</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
         <label>还是算了</label>
         <optionEffects>
           <li>
@@ -732,6 +745,86 @@
                 <name>Wula_Has_Receive_MechWula_From_Anisia</name>
                 <value>1</value>
                 <operation>Add</operation>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>还是算了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Anisia_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Anisia_203</defName>
+    <label>你说你想找打？</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Anisia_3</portraitPath>
+    <characterName>URa-1138「艾妮西娅」</characterName>
+    <descriptions>
+      <li>这可是你们自己说的？\n\n最近有一批乌拉帝国的机械体被部署到边缘世界了，我可以略施小计，让它们当中最猛的家伙发狂揍一下你们的殖民地，如何？可别被一拳打死了噢。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>让我看看乌拉帝国几斤几两</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_TriggerRaid">
+                <letterLabel>陆行舰正在逼近</letterLabel>
+                <letterText>艾妮西娅按照要求，吸引了一艘乌拉帝国的陆行舰机械体攻击我们的殖民地！</letterText>
+                <points>100</points>
+                <faction>Mechanoid</faction>
+                <raidStrategy>ImmediateAttack</raidStrategy>
+                <raidArrivalMode>EdgeWalkIn</raidArrivalMode>
+                <groupKind>Combat</groupKind>
+                <pawnGroupMakers>
+                  <li>
+                    <kindDef>Combat</kindDef>
+                    <commonality>100</commonality>
+                    <options>
+                      <Wula_Mech_Mobile_Factory_1>100</Wula_Mech_Mobile_Factory_1>
+                    </options>
+                  </li>
+                </pawnGroupMakers>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label><![CDATA[<color=red>我要打十个！</color>]]></label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_TriggerRaid">
+                <letterLabel>陆行舰正在逼近</letterLabel>
+                <letterText>艾妮西娅按照要求，吸引了一支乌拉帝国的陆行舰队攻击我们的殖民地！</letterText>
+                <points>100</points>
+                <faction>Mechanoid</faction>
+                <raidStrategy>ImmediateAttack</raidStrategy>
+                <raidArrivalMode>EdgeWalkIn</raidArrivalMode>
+                <groupKind>Combat</groupKind>
+                <pawnGroupMakers>
+                  <li>
+                    <kindDef>Combat</kindDef>
+                    <commonality>100</commonality>
+                    <options>
+                      <Wula_Mech_Mobile_Factory_10>10</Wula_Mech_Mobile_Factory_10>
+                    </options>
+                  </li>
+                </pawnGroupMakers>
               </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
