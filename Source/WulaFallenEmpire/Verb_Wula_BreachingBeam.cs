@@ -18,7 +18,9 @@ namespace WulaFallenEmpire
         // --- Our custom state ---
         private Vector3 beamEndPoint;
         private int ticksLeft;
-        private bool beamHitMapEdge; // NEW: Flag to check if the beam reached the map edge
+        private bool beamHitMapEdge;
+        private int explosionTicks;
+        private float beamEnergy; 
         
         private VerbProperties_Wula_IonicBeam BeamProps => (VerbProperties_Wula_IonicBeam)verbProps;
         
@@ -28,14 +30,14 @@ namespace WulaFallenEmpire
         {
             base.WarmupComplete();
             
-            // --- Custom Damage Logic ---
-            beamHitMapEdge = true; // Assume it will hit the edge unless stopped
+            // --- Initial Damage and Path Calculation ---
+            beamHitMapEdge = true; 
             float shotAngle = (currentTarget.Cell - caster.Position).AngleFlat;
             beamEndPoint = GetMapEdgePoint(caster.Position, shotAngle);
-            var cellsOnPath = WulaBeamUtility.GetCellsInBeamArea(caster.Position, beamEndPoint.ToIntVec3(), verbProps.beamWidth);
-            var beamEnergy = BeamProps.breachingDamage; // Local variable for calculation
+            var cellsOnPath = WulaBeamUtility.GetCellsInBeamArea(caster.Position, beamEndPoint.ToIntVec3(), (int)verbProps.beamWidth);
+            this.beamEnergy = BeamProps.breachingDamage;
 
-            // This loop calculates the final beam end point based on energy depletion
+            // This loop calculates the final beam end point based on the initial piercing damage
             foreach (var cell in cellsOnPath)
             {
                 if (!cell.InBounds(caster.Map)) continue;
@@ -46,7 +48,7 @@ namespace WulaFallenEmpire
                     if (beamEnergy <= 0) break;
                     
                     float damageToDeal = Mathf.Min(beamEnergy, thing.HitPoints);
-                    var dinfo = new DamageInfo(verbProps.beamDamageDef ?? DamageDefOf.Burn, damageToDeal, BeamProps.armorPenetration, shotAngle, caster, EquipmentSource);
+                    var dinfo = new DamageInfo(verbProps.beamDamageDef ?? DamageDefOf.Burn, damageToDeal, BeamProps.armorPenetration, shotAngle, caster, null, EquipmentSource?.def);
                     
                     thing.TakeDamage(dinfo);
                     beamEnergy -= thing.HitPoints;
@@ -54,13 +56,13 @@ namespace WulaFallenEmpire
 
                 if (beamEnergy <= 0)
                 {
-                    beamEndPoint = cell.ToVector3Shifted(); // The beam stops here
-                    beamHitMapEdge = false; // It was stopped, so it didn't hit the edge
+                    beamEndPoint = cell.ToVector3Shifted(); 
+                    beamHitMapEdge = false;
                     break;
                 }
             }
             
-            // --- Copied Effect Logic ---
+            // --- Start Visual Effects ---
             if (verbProps.beamMoteDef != null)
             {
                 mote = MoteMaker.MakeInteractionOverlay(verbProps.beamMoteDef, caster, new TargetInfo(beamEndPoint.ToIntVec3(), caster.Map));
@@ -75,7 +77,7 @@ namespace WulaFallenEmpire
         {
             if (ticksLeft > 0)
             {
-                // --- Copied Effect Logic ---
+                // --- Maintain Visual Effects ---
                 if (mote != null)
                 {
                     mote.UpdateTargets(new TargetInfo(caster.Position, caster.Map), new TargetInfo(beamEndPoint.ToIntVec3(), caster.Map), Vector3.zero, Vector3.zero);
@@ -91,6 +93,17 @@ namespace WulaFallenEmpire
                 }
                 sustainer?.Maintain();
 
+                // --- Path Explosion Logic ---
+                if (BeamProps.explosionEnabled)
+                {
+                    explosionTicks--;
+                    if (explosionTicks <= 0)
+                    {
+                        ApplyPathExplosionDamage();
+                        explosionTicks = BeamProps.explosionTickInterval;
+                    }
+                }
+
                 ticksLeft--;
                 if (ticksLeft <= 0)
                 {
@@ -101,18 +114,18 @@ namespace WulaFallenEmpire
 
         protected override bool TryCastShot()
         {
-            // The actual "shot" is just starting the effects, damage is pre-calculated in WarmupComplete
             this.state = VerbState.Bursting;
             
-            // NEW: Set duration based on whether it hit the map edge
             if (beamHitMapEdge)
             {
                 this.ticksLeft = BeamProps.breachingBeamDuration;
             }
             else
             {
-                this.ticksLeft = 1; // Disappears almost instantly if blocked
+                this.ticksLeft = 1; 
             }
+            
+            this.explosionTicks = 0;
 
             return true;
         }
@@ -125,12 +138,49 @@ namespace WulaFallenEmpire
             sustainer?.End();
         }
 
+        private void ApplyPathExplosionDamage()
+        {
+            if (this.beamEnergy <= 0 || BeamProps.explosionDamageDef == null) return;
+
+            var pathCells = WulaBeamUtility.GetCellsInBeamArea(caster.Position, beamEndPoint.ToIntVec3(), (int)verbProps.beamWidth);
+            var shotAngle = (beamEndPoint - caster.DrawPos).AngleFlat();
+            var explosionDamageDef = BeamProps.explosionDamageDef;
+
+            foreach (var cell in pathCells)
+            {
+                if (this.beamEnergy <= 0) break;
+                if (!cell.InBounds(caster.Map)) continue;
+                
+                // Performance optimization: don't create explosions on every single cell of the path
+                if (cell.GetHashCode() % 2 != 0) continue;
+
+                var thingsToHit = cell.GetThingList(caster.Map).Where(t => CanHit(t)).ToList();
+                foreach (var thing in thingsToHit)
+                {
+                    if (this.beamEnergy <= 0) break;
+                    
+                    var dinfo = new DamageInfo(explosionDamageDef, explosionDamageDef.defaultDamage, explosionDamageDef.defaultArmorPenetration, shotAngle, caster, null, EquipmentSource?.def);
+                    float damageDealt = Mathf.Min(thing.HitPoints, dinfo.Amount);
+                    thing.TakeDamage(dinfo);
+                    
+                    this.beamEnergy -= damageDealt * BeamProps.explosionEnergyCostRatio;
+                }
+                
+                if(explosionDamageDef?.explosionCellMote != null)
+                {
+                    FleckMaker.Static(cell, caster.Map, explosionDamageDef.explosionCellMote);
+                }
+            }
+        }
+
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref beamEndPoint, "beamEndPoint");
             Scribe_Values.Look(ref ticksLeft, "ticksLeft");
             Scribe_Values.Look(ref beamHitMapEdge, "beamHitMapEdge");
+            Scribe_Values.Look(ref explosionTicks, "explosionTicks");
+            Scribe_Values.Look(ref beamEnergy, "beamEnergy");
         }
         
         private bool CanHit(Thing t)

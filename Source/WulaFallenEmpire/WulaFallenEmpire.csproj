@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -185,11 +186,15 @@
     <Compile Include="Hediff_DamageShield.cs" />
     <Compile Include="DRMDamageShield.cs" />
     <Compile Include="CompUseEffect_AddDamageShieldCharges.cs" />
-<Compile Include="HediffCompProperties_GiveHediffsInRangeToRace.cs" />
+    <Compile Include="HediffCompProperties_GiveHediffsInRangeToRace.cs" />
     <Compile Include="HediffComp_GiveHediffsInRangeToRace.cs" />
     <Compile Include="CompForceTargetable.cs" />
     <Compile Include="Patch_ForceTargetable.cs" />
     <Compile Include="Patch_ArmedShuttle_ForceTargetable.cs" />
+    <Compile Include="VerbProperties_Wula_IonicBeam.cs" />
+    <Compile Include="Verb_Wula_BreachingBeam.cs" />
+    <Compile Include="Verb_Wula_SustainedBeam.cs" />
+    <Compile Include="WulaBeamUtility.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

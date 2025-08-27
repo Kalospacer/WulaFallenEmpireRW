@@ -13,12 +13,12 @@ namespace WulaFallenEmpire
         // A more advanced method to get all cells in a rectangular area
         public static IEnumerable<IntVec3> GetCellsInBeamArea(IntVec3 start, IntVec3 end, int width)
         {
+            var beamLine = GenSight.PointsOnLineOfSight(start, end);
             if (width <= 1)
             {
-                return GenGrid.PointsOnLine(start, end).Distinct();
+                return beamLine.Distinct();
             }
 
-            var beamLine = GenGrid.PointsOnLine(start, end).ToList();
             var allCells = new HashSet<IntVec3>(beamLine);
             var halfWidth = (width - 1) / 2;
 
