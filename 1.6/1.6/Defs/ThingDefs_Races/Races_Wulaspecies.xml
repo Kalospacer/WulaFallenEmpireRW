@@ -971,15 +971,15 @@
   <ThingDef Name="WULA_Alpha_Wolf" ParentName="HeavyMechanoid">
     <defName>WULA_Alpha_Wolf</defName> <!-- 修改了defName以避免冲突 -->
     <label>SNm-6"狼蛛"</label>
-    <description>乌拉帝国图书馆所使用的一种炮兵机械体，装备着一门重型等离子炮，可以在极远距离上喷射覆盖性的等离子射弹以摧毁成片敌军。</description>
+    <description>乌拉帝国所使用的一种炮兵机械体，装备着一门重型等离子炮，可以在极远距离上喷射覆盖性的等离子射弹以摧毁成片敌军。</description>
     <statBases>
       <BandwidthCost>6</BandwidthCost>
       <MoveSpeed>3</MoveSpeed>
       <MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
-      <EnergyShieldEnergyMax>5</EnergyShieldEnergyMax>
+      <EnergyShieldEnergyMax>3</EnergyShieldEnergyMax>
     </statBases>
     <race>
-      <body>Mech_Warqueen</body>
+      <body>WULA_Alpha_Wolf_Body</body>
       <baseBodySize>5</baseBodySize>
       <lifeStageAges>
         <li>
@@ -990,7 +990,7 @@
           <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
         </li>
       </lifeStageAges>
-      <baseHealthScale>10</baseHealthScale>
+      <baseHealthScale>5</baseHealthScale>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
     <tools>
@@ -1047,7 +1047,7 @@
   <ThingDef ParentName="WULA_Alpha_Wolf">
     <defName>WULA_Alpha_Mantodea</defName>
     <label>SNm-82"螳螂"</label>
-    <description>乌拉帝国图书馆所使用的一种近战机械体，装备着一对强大的巨镰和微型跃迁引擎，以跃迁快速靠近敌人，随后在近距离上以暴雨般的攻击切开敌军的防御。</description>
+    <description>乌拉帝国所使用的一种近战机械体，装备着一对强大的巨镰和微型跃迁引擎，以跃迁快速靠近敌人，随后在近距离上以暴雨般的攻击切开敌军的防御。</description>
     <statBases>
       <MoveSpeed>6</MoveSpeed>
       <MeleeHitChance>5</MeleeHitChance>
