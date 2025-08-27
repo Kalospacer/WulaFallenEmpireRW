@@ -7,7 +7,7 @@
     <tickerType>Normal</tickerType>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Base_AR</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Beam_Base_AR</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -94,7 +94,7 @@
     <description>一把经过实验性改造的“蓝锥”步枪，能够发射一道可以穿透多个目标的能量光束。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Penetrating_Beam_Rifle</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -159,7 +159,7 @@
     <description>一把经过实验性改造的“蓝锥”步枪，能够发射一道可以穿透多个目标的能量光束。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Fractal_RF</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Penetrating_Beam_Rifle_Ranged</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
