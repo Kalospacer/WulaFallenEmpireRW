@@ -481,7 +481,7 @@
       </li>
     </comps>
   </ThingDef>
-  <PawnKindDef ParentName="HeavyMechanoidKind">
+  <PawnKindDef Name="Wula_Mech_Mobile_Factory" ParentName="HeavyMechanoidKind">
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
     <label>MFm-87"天秤"</label>
     <race>Wula_Mech_Mobile_Factory</race>
@@ -505,5 +505,15 @@
     <weaponMoney>99999~99999</weaponMoney>
 
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_Mech_Mobile_Factory">
+    <defName>Wula_Mech_Mobile_Factory_1</defName> <!-- 修改了defName以避免冲突 -->
+    <combatPower>1</combatPower>
+    <maxPerGroup>1</maxPerGroup>
+  </PawnKindDef>
+  <PawnKindDef ParentName="Wula_Mech_Mobile_Factory">
+    <defName>Wula_Mech_Mobile_Factory_10</defName> <!-- 修改了defName以避免冲突 -->
+    <combatPower>1</combatPower>
+    <maxPerGroup>10</maxPerGroup>
   </PawnKindDef>
 </Defs>
