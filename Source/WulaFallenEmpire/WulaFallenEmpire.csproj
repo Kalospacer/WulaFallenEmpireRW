@@ -191,12 +191,12 @@
     <Compile Include="CompForceTargetable.cs" />
     <Compile Include="Patch_ForceTargetable.cs" />
     <Compile Include="Patch_ArmedShuttle_ForceTargetable.cs" />
-    <Compile Include="VerbProperties_Wula_IonicBeam.cs" />
-    <Compile Include="Verb_Wula_BreachingBeam.cs" />
-    <Compile Include="Verb_Wula_SustainedBeam.cs" />
-    <Compile Include="WulaBeamUtility.cs" />
+    <Compile Include="Verb\VerbProperties_Excalibur.cs" />
+    <Compile Include="Verb\Verb_Excalibur.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Thing_ExcaliburBeam.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
   <Target Name="CleanDebugFiles" AfterTargets="Build">

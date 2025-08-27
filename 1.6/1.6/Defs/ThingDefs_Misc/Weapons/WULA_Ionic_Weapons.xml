@@ -6,7 +6,7 @@
     离子武器最终正确架构配置示例 (V17.0)
     =====================================================================
     说明:
-    - 核心架构: 自定义 VerbProperties (VerbProperties_Wula_IonicBeam)
+    - 核心架构: 自定义 VerbProperties (VerbProperties_Excalibur)
     - 伤害逻辑: 完全在C#中自定义，包括路径伤害和能量消耗。
     - 特效逻辑: 主要由我们自己在VerbProperties中定义的参数手动控制。
   -->
@@ -28,90 +28,56 @@
       <AccuracyLong>1</AccuracyLong>
       <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
     </statBases>
+    <weaponTags>
+      <li>WulaExcalibur</li>
+    </weaponTags>
   </ThingDef>
 
-  <!-- ==================== 模式一: 离子突破光束枪 (爆发贯穿 + 路径爆炸) ==================== -->
-
   <ThingDef ParentName="Wula_BaseIonicGun">
-    <defName>WULA_Weapon_BreachingBeamGun</defName>
-    <label>离子突破光束枪</label>
-    <description>发射一道高能离子束，能够烧穿路径上的多个目标，直到能量耗尽。光束路径上会周期性地引发小规模湮灭反应。</description>
-    <verbs>
-      <li Class="WulaFallenEmpire.VerbProperties_Wula_IonicBeam">
-        <verbClass>WulaFallenEmpire.Verb_Wula_BreachingBeam</verbClass>
-        
-        <!-- 基础参数 -->
-        <hasStandardCommand>true</hasStandardCommand>
-        <warmupTime>2.5</warmupTime>
-        <range>40</range>
-        <burstShotCount>1</burstShotCount>
-        <soundCast>BeamGraser_Shooting</soundCast>
-        
-        <!-- 我们自定义的伤害参数 -->
-        <breachingDamage>300</breachingDamage>
-        <armorPenetration>0.95</armorPenetration>
-        <breachingBeamDuration>45</breachingBeamDuration>
-        
-        <!-- 路径爆炸参数 -->
-        <explosionEnabled>true</explosionEnabled>
-        <explosionTickInterval>10</explosionTickInterval>
-        <explosionDamageDef>Wula_Dark_Matter</explosionDamageDef>
-        <explosionEnergyCostRatio>0.1</explosionEnergyCostRatio>
-        
-        <!-- 手动特效参数 -->
-        <explosionHeatEnergyPerCell>10</explosionHeatEnergyPerCell>
-        <explosionCellFleck>BlastFlame</explosionCellFleck>
-        <soundExplosion>Explosion_Flame</soundExplosion>
-
-        <!-- 光束视觉特效参数 -->
-        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
-        <muzzleFlashScale>12</muzzleFlashScale>
-        <beamWidth>3</beamWidth>
-        <beamMoteDef>Mote_GraserBeamBase</beamMoteDef>
-        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
+    <defName>WULA_Weapon_Excalibur</defName>
+    <label>王者之剑</label>
+    <description>一把传奇的剑，能够释放出沿路径爆炸的能量。</description>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_DM_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <uiIconScale>1.5</uiIconScale>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <tools>
+      <li>
+        <label>剑刃</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>15</power>
+        <cooldownTime>2</cooldownTime>
       </li>
-    </verbs>
-  </ThingDef>
-
-  <!-- ==================== 模式二: 离子灼烧光束枪 (持续伤害 + 路径爆炸) ==================== -->
-
-  <ThingDef ParentName="Wula_BaseIonicGun">
-    <defName>WULA_Weapon_SustainedBeamGun</defName>
-    <label>离子灼烧光束枪</label>
-    <description>投射一道持续存在的离子场，对作用范围内的所有敌人进行周期性灼烧，并引发连续的能量爆炸。</description>
+    </tools>
     <verbs>
-      <li Class="WulaFallenEmpire.VerbProperties_Wula_IonicBeam">
-        <verbClass>WulaFallenEmpire.Verb_Wula_SustainedBeam</verbClass>
-        
-        <!-- 基础参数 -->
+      <li Class="WulaFallenEmpire.VerbProperties_Excalibur">
+        <verbClass>WulaFallenEmpire.Verb_Excalibur</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
+        <range>25.9</range>
         <warmupTime>1.5</warmupTime>
-        <range>30</range>
-        
-        <!-- 我们自定义的伤害参数 -->
-        <sustainedDamagePerTick>15</sustainedDamagePerTick>
-        <tickInterval>15</tickInterval>
-        <duration>240</duration> 
-        <armorPenetration>0.5</armorPenetration>
-
-        <!-- 路径爆炸参数 -->
-        <explosionEnabled>true</explosionEnabled>
-        <explosionTickInterval>25</explosionTickInterval>
-        <explosionDamageDef>Wula_Dark_Matter_Flame</explosionDamageDef>
-
-        <!-- 手动特效参数 -->
-        <explosionHeatEnergyPerCell>10</explosionHeatEnergyPerCell>
-        <explosionCellFleck>BlastFlame</explosionCellFleck>
-        <soundExplosion>Explosion_Flame</soundExplosion>
-        
-        <!-- 光束视觉特效参数 -->
-        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
-        <muzzleFlashScale>9</muzzleFlashScale>
-        <beamWidth>3</beamWidth>
-        <beamMoteDef>Mote_GraserBeamBase</beamMoteDef>
-        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
+        <burstShotCount>10</burstShotCount>
+        <ticksBetweenBurstShots>50</ticksBetweenBurstShots>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <accuracyTouch>0.7</accuracyTouch>
+        <accuracyShort>0.6</accuracyShort>
+        <accuracyMedium>0.5</accuracyMedium>
+        <accuracyLong>0.4</accuracyLong>
+        <minRange>3</minRange>
+        <requireLineOfSight>true</requireLineOfSight>
+        <pathWidth>1</pathWidth>
+        <damageDef>Vaporize</damageDef>
+        <damageAmount>50</damageAmount>
+        <armorPenetration>0.3</armorPenetration>
       </li>
     </verbs>
-  </ThingDef>
+ </ThingDef>
 
 </Defs>
