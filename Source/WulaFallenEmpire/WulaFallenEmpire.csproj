@@ -187,6 +187,9 @@
     <Compile Include="CompUseEffect_AddDamageShieldCharges.cs" />
 <Compile Include="HediffCompProperties_GiveHediffsInRangeToRace.cs" />
     <Compile Include="HediffComp_GiveHediffsInRangeToRace.cs" />
+    <Compile Include="CompForceTargetable.cs" />
+    <Compile Include="Patch_ForceTargetable.cs" />
+    <Compile Include="Patch_ArmedShuttle_ForceTargetable.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

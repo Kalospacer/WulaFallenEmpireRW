@@ -281,6 +281,7 @@
         <chargeIntervalTicks>-1</chargeIntervalTicks>
         <chargeDurationTicks>0</chargeDurationTicks>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
     </comps>
     <modExtensions>
       <li Class="WulaFallenEmpire.PocketMapProperties">

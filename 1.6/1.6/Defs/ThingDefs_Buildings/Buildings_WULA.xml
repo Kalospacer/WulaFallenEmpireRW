@@ -679,6 +679,7 @@
       <li Class="CompProperties_AmbientSound">
         <sound>MechTurretBig_Call</sound>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
     </comps>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
