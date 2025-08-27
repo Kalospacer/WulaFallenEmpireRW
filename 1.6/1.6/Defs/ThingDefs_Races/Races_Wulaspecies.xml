@@ -976,10 +976,10 @@
       <BandwidthCost>6</BandwidthCost>
       <MoveSpeed>3</MoveSpeed>
       <MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
-      <EnergyShieldEnergyMax>5</EnergyShieldEnergyMax>
+      <EnergyShieldEnergyMax>3</EnergyShieldEnergyMax>
     </statBases>
     <race>
-      <body>Mech_Warqueen</body>
+      <body>WULA_Alpha_Wolf_Body</body>
       <baseBodySize>5</baseBodySize>
       <lifeStageAges>
         <li>

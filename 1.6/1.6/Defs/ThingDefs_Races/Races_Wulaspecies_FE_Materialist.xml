@@ -171,8 +171,8 @@
         <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
+        <turretDef>Wula_CR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
@@ -182,16 +182,32 @@
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1, 0, -1.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(2.15, 0, -1)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1, 0, -1.45)</offset>
+              </dataSouth>
               <dataWest>
-                <rotationOffset>180</rotationOffset>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-2.15, 0, -1)</offset>
               </dataWest>
             </drawData>
           </li>
         </renderNodeProperties>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
+        <turretDef>Wula_CR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
@@ -201,16 +217,31 @@
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1, 0, -1.45)</offset>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(2.15, 0, -1)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1, 0, -1.45)</offset>
+              </dataSouth>
               <dataWest>
-                <rotationOffset>180</rotationOffset>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-2.15, 0, -1)</offset>
+                <layer>-5</layer>
               </dataWest>
             </drawData>
           </li>
         </renderNodeProperties>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
+        <turretDef>Wula_MR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
@@ -220,16 +251,32 @@
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.3, 0, -0.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(1.4, 0, -0.35)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.3, 0, -0.45)</offset>
+              </dataSouth>
               <dataWest>
-                <rotationOffset>180</rotationOffset>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-1.4, 0, -0.35)</offset>
               </dataWest>
             </drawData>
           </li>
         </renderNodeProperties>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
+        <turretDef>Wula_MR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
@@ -239,16 +286,32 @@
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.3, 0, -0.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.4, 0, -0.35)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.3, 0, -0.45)</offset>
+              </dataSouth>
               <dataWest>
-                <rotationOffset>180</rotationOffset>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(-1.4, 0, -0.35)</offset>
               </dataWest>
             </drawData>
           </li>
         </renderNodeProperties>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
+        <turretDef>Wula_LR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
@@ -258,16 +321,32 @@
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.25, 0, 0.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(0.6, 0, 0.15)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.25, 0, 0.65)</offset>
+              </dataSouth>
               <dataWest>
-                <rotationOffset>180</rotationOffset>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-0.6, 0, 0.15)</offset>
               </dataWest>
             </drawData>
           </li>
         </renderNodeProperties>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
+        <turretDef>Wula_LR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
@@ -277,84 +356,24 @@
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.25, 0, 0.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(0.6, 0, 0.15)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.25, 0, 0.65)</offset>
+              </dataSouth>
               <dataWest>
-                <rotationOffset>180</rotationOffset>
-              </dataWest>
-            </drawData>
-          </li>
-        </renderNodeProperties>
-      </li>
-      <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
-        <renderNodeProperties>
-          <li>
-            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
-            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
-            <parentTagDef>Body</parentTagDef>
-            <overrideMeshSize>(1, 1)</overrideMeshSize>
-            <baseLayer>20</baseLayer>
-            <pawnType>Any</pawnType>
-            <drawData>
-              <dataWest>
-                <rotationOffset>180</rotationOffset>
-              </dataWest>
-            </drawData>
-          </li>
-        </renderNodeProperties>
-      </li>
-      <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
-        <renderNodeProperties>
-          <li>
-            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
-            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
-            <parentTagDef>Body</parentTagDef>
-            <overrideMeshSize>(1, 1)</overrideMeshSize>
-            <baseLayer>20</baseLayer>
-            <pawnType>Any</pawnType>
-            <drawData>
-              <dataWest>
-                <rotationOffset>180</rotationOffset>
-              </dataWest>
-            </drawData>
-          </li>
-        </renderNodeProperties>
-      </li>
-      <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
-        <renderNodeProperties>
-          <li>
-            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
-            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
-            <parentTagDef>Body</parentTagDef>
-            <overrideMeshSize>(1, 1)</overrideMeshSize>
-            <baseLayer>20</baseLayer>
-            <pawnType>Any</pawnType>
-            <drawData>
-              <dataWest>
-                <rotationOffset>180</rotationOffset>
-              </dataWest>
-            </drawData>
-          </li>
-        </renderNodeProperties>
-      </li>
-      <li Class="CompProperties_TurretGun">
-        <turretDef>WULA_Alpha_Wolf_Turret</turretDef>
-        <angleOffset>-90</angleOffset>
-        <renderNodeProperties>
-          <li>
-            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
-            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
-            <parentTagDef>Body</parentTagDef>
-            <overrideMeshSize>(1, 1)</overrideMeshSize>
-            <baseLayer>20</baseLayer>
-            <pawnType>Any</pawnType>
-            <drawData>
-              <dataWest>
-                <rotationOffset>180</rotationOffset>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(-0.6, 0, 0.15)</offset>
               </dataWest>
             </drawData>
           </li>
@@ -485,9 +504,6 @@
     </lifeStages>
     <weaponMoney>99999~99999</weaponMoney>
 
-    <weaponTags>
-      <li>WULA_WM_Alpha_Wolf_Plasma_Gun</li>
-    </weaponTags>
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
   </PawnKindDef>
 </Defs>
