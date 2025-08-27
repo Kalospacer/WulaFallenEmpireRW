@@ -45,14 +45,16 @@
         <muzzleFlashScale>7</muzzleFlashScale>
         <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+        <forcedMissRadius>0.1</forcedMissRadius>
       </li>
     </verbs>
     <costList Inherit="False">
-      <Steel>180</Steel>
-      <ComponentIndustrial>10</ComponentIndustrial>
+      <Steel>60</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <Plasteel>20</Plasteel>
     </costList>
     <weaponTags>
-      <li>Wula_Weapon_Init</li>
+      <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
@@ -124,7 +126,7 @@
     </graphicData>
     <projectile>
       <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-      <damageAmountBase>16</damageAmountBase>
+      <damageAmountBase>6</damageAmountBase>
       <explosionRadius>0.9</explosionRadius>
       <soundExplode>Explosion_EMP</soundExplode>
       <armorPenetrationBase>0.75</armorPenetrationBase>
@@ -193,10 +195,9 @@
     </weaponClasses>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Plasma_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
@@ -209,8 +210,8 @@
       <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
-      <Steel>100</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
+      <Steel>120</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
       <Plasteel>20</Plasteel>
     </costList>
     <verbs>
@@ -227,11 +228,11 @@
         <muzzleFlashScale>9</muzzleFlashScale>
         <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+        <forcedMissRadius>1.1</forcedMissRadius>
       </li>
     </verbs>
     <weaponTags>
-      <li>Wula_Weapon_Init</li>
-      <li>HomingWeapon</li>
+      <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
@@ -253,20 +254,13 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.4</drawSize>
     </graphicData>
-    <generateCommonality>1</generateCommonality>
     <soundInteract>Interact_Rifle</soundInteract>
     <weaponClasses>
       <li>LongShots</li>
       <li>RangedHeavy</li>
     </weaponClasses>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
+    <recipeMaker Inherit="False" IsNull="True" />
+    <generateCommonality>0</generateCommonality>
     <statBases>
       <WorkToMake>1500</WorkToMake>
       <Mass>3.0</Mass>
@@ -295,11 +289,11 @@
         <muzzleFlashScale>9</muzzleFlashScale>
         <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+        <forcedMissRadius>1.1</forcedMissRadius>
       </li>
     </verbs>
     <weaponTags>
       <li>Wula_Weapon_Init</li>
-      <li>HomingWeapon</li>
     </weaponTags>
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
@@ -323,7 +317,9 @@
     <projectile>
       <!-- 基础伤害和穿透。对于这个投射物，实际伤害由爆炸决定 -->
       <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-      <damageAmountBase>10</damageAmountBase>
+      <damageAmountBase>6</damageAmountBase>
+      <explosionRadius>0.9</explosionRadius>
+      <soundExplode>Explosion_EMP</soundExplode>
       <armorPenetrationBase>0.75</armorPenetrationBase>
       <speed>55</speed>
     </projectile>
@@ -333,13 +329,7 @@
         <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
       </li>
       <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>2</pelletCount>
-      </li>
-      <!-- 3. 添加爆炸ModExtension -->
-      <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
-        <explosionRadius>0.9</explosionRadius>
-        <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-        <soundExplode>Explosion_EMP</soundExplode>
+        <pelletCount>3</pelletCount>
       </li>
     </modExtensions>
   </ThingDef>
@@ -355,8 +345,8 @@
     </graphicData>
     <projectile>
       <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-      <damageAmountBase>20</damageAmountBase>
-      <explosionRadius>2.1</explosionRadius>
+      <damageAmountBase>16</damageAmountBase>
+      <explosionRadius>2</explosionRadius>
       <soundExplode>Explosion_EMP</soundExplode>
       <armorPenetrationBase>0.75</armorPenetrationBase>
       <speed>55</speed>
@@ -471,6 +461,7 @@
         <beamTargetsGround>true</beamTargetsGround>
         <soundAiming>HellsphereCannon_Aiming</soundAiming>
         <canGoWild>false</canGoWild>
+        <forcedMissRadius>1.1</forcedMissRadius>
       </li>
     </verbs>
     <tools>

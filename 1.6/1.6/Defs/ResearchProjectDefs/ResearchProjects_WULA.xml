@@ -137,29 +137,6 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Plasma_Technology</defName>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>0.20</researchViewY>
-    <label>等离子武装套件</label>
-    <description>开发能够供乌拉帝国合成人的使用的等离子武器，以便进一步对抗强大的外部威胁。</description>
-    <baseCost>600</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Weapon_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_Shield_Technology</defName>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>1.20</researchViewY>
-    <label>护盾武装套件</label>
-    <description>开发能够保护乌拉帝国合成人的手持护盾，以抵抗来自敌方的猛烈攻击。</description>
-    <baseCost>800</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Weapon_Technology</li>
-      <li>WULA_Synth_Clothes_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_2_Melee_Technology</defName>
     <label>短兵武装套件</label>
     <description>开发能够武装乌拉帝国合成人的近距离武器，可以在短距离上消灭敌人。</description>
@@ -169,7 +146,7 @@
     <prerequisites>
       <li>Fabrication</li>
       <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_2_Plasma_Technology</li>
+      <li>WULA_Synth_Weapon_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -186,28 +163,66 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Ranged_Technology</defName>
-    <researchViewX>4.50</researchViewX>
+    <defName>WULA_Synth_Weapon_2_Plasma_Technology</defName>
+    <researchViewX>2.00</researchViewX>
     <researchViewY>0.20</researchViewY>
+    <label>等离子武装套件</label>
+    <description>开发能够供乌拉帝国合成人的使用的等离子武器，以便进一步对抗强大的外部威胁。</description>
+    <baseCost>600</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_2_Laser_Technology</defName>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
+    <label>镭射武装套件</label>
+    <description>开发能够供乌拉帝国合成人的使用的镭射武器，以便进一步对抗强大的外部威胁。</description>
+    <baseCost>600</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_Shield_Technology</defName>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>2.50</researchViewY>
+    <label>护盾武装套件</label>
+    <description>开发能够保护乌拉帝国合成人的手持护盾，以抵抗来自敌方的猛烈攻击。</description>
+    <baseCost>800</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_Technology</li>
+      <li>WULA_Synth_Clothes_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_2_Ranged_Technology</defName>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
     <label>远射武装套件</label>
     <description>开发能够武装乌拉帝国合成人的远距离武器，旨在构建密集火力网消灭敌人。</description>
     <baseCost>2400</baseCost>
     <prerequisites>
       <li>ChargedShot</li>
       <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_2_Plasma_Technology</li>
+      <li>WULA_Synth_Weapon_2_Laser_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_3_Bomb_Technology</defName>
-    <researchViewX>5.50</researchViewX>
+    <researchViewX>3.00</researchViewX>
     <researchViewY>0.20</researchViewY>
     <label>轰炸武装套件</label>
     <description>开发能够武装乌拉帝国合成人的大范围杀伤性武器，用于对抗最难应付的敌人。</description>
     <baseCost>3200</baseCost>
     <prerequisites>
-      <li>WULA_Synth_Weapon_2_Ranged_Technology</li>
       <li>BeamWeapons</li>
+      <li>WULA_Adv_WorkTable_Technology</li>
+      <li>WULA_Synth_Weapon_2_Plasma_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -218,6 +233,7 @@
     <description>开发供乌拉帝国合成人使用的暗物质驱动远程武器——乌拉帝国科技极致伟力的具象化。</description>
     <baseCost>4000</baseCost>
     <prerequisites>
+      <li>WULA_Synth_Weapon_2_Ranged_Technology</li>
       <li>WULA_Synth_Weapon_3_Bomb_Technology</li>
       <li>WULA_Dark_Matter_Technology</li>
     </prerequisites>

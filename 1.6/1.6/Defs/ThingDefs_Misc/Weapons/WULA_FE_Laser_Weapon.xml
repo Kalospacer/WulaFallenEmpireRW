@@ -16,7 +16,7 @@
         <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Laser_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
@@ -33,7 +33,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Penetrating_Beam_Base</defaultProjectile>
+        <defaultProjectile>Bullet_WULA_RW_Penetrating_Rifle</defaultProjectile>
         <warmupTime>2</warmupTime>
         <range>16</range>
         <burstShotCount>3</burstShotCount>
@@ -47,38 +47,42 @@
     </verbs>
     <costList Inherit="False">
       <Steel>60</Steel>
-      <ComponentIndustrial>8</ComponentIndustrial>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <Plasteel>20</Plasteel>
     </costList>
     <weaponTags>
-      <li>Wula_Weapon_Init</li>
+      <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
   </ThingDef>
 
-  <!--没霰弹的光束-->
   <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Penetrating_Beam_Base</defName>
+    <defName>Bullet_WULA_RW_Penetrating_Rifle</defName>
     <label>穿透光束</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
     <modExtensions>
-      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
-        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
-        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
-        <preventFriendlyFire>false</preventFriendlyFire>
-        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
-        <beamStartOffset>0.5</beamStartOffset>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
+        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
       </li>
     </modExtensions>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
     <graphicData>
       <texPath>Things/Projectile/ChargeLanceShot</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>1.4</drawSize>
     </graphicData>
     <projectile>
       <damageDef>BeamBypassShields</damageDef>
       <damageAmountBase>5</damageAmountBase>
-      <armorPenetrationBase>0.8</armorPenetrationBase>
+      <speed>130</speed>
+      <armorPenetrationBase>0.9</armorPenetrationBase>
       <stoppingPower>1</stoppingPower>
     </projectile>
   </ThingDef>
@@ -110,8 +114,15 @@
     <costList Inherit="False">
       <Steel>120</Steel>
       <ComponentIndustrial>6</ComponentIndustrial>
+      <Plasteel>20</Plasteel>
     </costList>
-    <recipeMaker Inherit="False" IsNull="True" />
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Laser_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
     <verbs>
       <li>
         <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
@@ -129,7 +140,7 @@
       </li>
     </verbs>
     <weaponTags>
-      <li>Wula_Weapon_Init</li>
+      <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
@@ -212,7 +223,7 @@
       <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
         <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
         <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
-        <preventFriendlyFire>false</preventFriendlyFire>
+        <preventFriendlyFire>true</preventFriendlyFire>
         <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
         <beamStartOffset>0.5</beamStartOffset>
       </li>
@@ -240,7 +251,7 @@
       <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
         <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
         <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
-        <preventFriendlyFire>false</preventFriendlyFire>
+        <preventFriendlyFire>true</preventFriendlyFire>
         <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
         <beamStartOffset>0.5</beamStartOffset>
       </li>
@@ -293,6 +304,86 @@
 			</li>-->
     </comps>
   </AbilityDef>
+
+  <!-- 机枪 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Sphene_MG</defName>
+    <label>FLm-43"榍石"</label>
+    <description>乌拉帝国的通用机枪，负责在班组中提供如暴雨倾泻的高速连射光束流，产生的高温熔烧效果将融化一切敌人的装甲。</description>
+    <techLevel>Ultra</techLevel>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T3</li>
+    </weaponTags>
+    <!-- <techLevel>Spacer</techLevel> -->
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Sphene_MG</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Ranged_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <costList Inherit="False">
+      <Steel>350</Steel>
+      <Plasteel>200</Plasteel>
+      <ComponentSpacer>8</ComponentSpacer>
+    </costList>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>4.5</Mass>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.5</AccuracyMedium>
+      <AccuracyLong>0.4</AccuracyLong>
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Sphene_MG</defaultProjectile>
+        <warmupTime>0.5</warmupTime>
+        <range>33.9</range>
+        <burstShotCount>32</burstShotCount>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Sphene_MG</defName>
+    <label>榍石光束</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>BeamBypassShields</damageDef><!-- BeamBypassShields -->
+      <damageAmountBase>5</damageAmountBase>
+      <beamStartOffset>0.5</beamStartOffset>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
+      <stoppingPower>1</stoppingPower>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
+        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
+        <preventFriendlyFire>true</preventFriendlyFire>
+        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
+        <beamStartOffset>0.5</beamStartOffset>
+      </li>
+    </modExtensions>
+  </ThingDef>
 
   <!-- 暗物质步枪 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
@@ -395,12 +486,6 @@
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_Switch">
-        <changeTo>WULA_RW_DM_Cannon</changeTo>
-        <abilityDef>WULA_RW_DM_ARSwitchAbility</abilityDef>
-      </li>
-    </comps>
   </ThingDef>
   <!-- 暗物质炮 -->
   <ThingDef ParentName="BaseHumanMakeableGun">
@@ -508,48 +593,5 @@
     <thingSetMakerTags>
       <li>RewardStandardQualitySuper</li>
     </thingSetMakerTags>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_Switch">
-        <changeTo>WULA_RW_DM_AR</changeTo>
-        <abilityDef>WULA_RW_DM_ARSwitchAbility</abilityDef>
-      </li>
-    </comps>
   </ThingDef>
-  <AbilityDef>
-    <defName>WULA_RW_DM_ARSwitchAbility</defName>
-    <label>武装解放 / 武装闭锁</label>
-    <description>控制聚能透镜档位，以决定DMa-8"陨硫"/DMc-65"铋晶"是否切换到扫射炮击模式。</description>
-    <cooldownTicksRange>601</cooldownTicksRange>
-    <iconPath>Wula/UI/Abilities/WULA_WeaponSwitchAbility</iconPath>
-    <hostile>false</hostile>
-    <showOnCharacterCard>false</showOnCharacterCard>
-    <aiCanUse>false</aiCanUse>
-    <targetRequired>false</targetRequired>
-    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
-    <statBases>
-      <!-- 如果不需要限时，可以把这玩意删了-->
-      <!--<Ability_Duration>10</Ability_Duration>-->
-    </statBases>
-    <verbProperties>
-      <verbClass>Verb_CastAbility</verbClass>
-      <warmupTime>0</warmupTime>
-      <drawAimPie>false</drawAimPie>
-      <requireLineOfSight>false</requireLineOfSight>
-      <targetable>false</targetable>
-      <targetParams>
-        <canTargetSelf>true</canTargetSelf>
-      </targetParams>
-    </verbProperties>
-    <comps>
-      <li Class="CompProperties_AbilityEffect">
-        <compClass>WulaFallenEmpire.CompAbilityEffect_Switch</compClass>
-      </li>
-      <!-- 如果不需要限时，可以把这玩意删了-->
-      <!--<li Class="CompProperties_AbilityGiveHediff">
-				<compClass>CompAbilityEffect_GiveHediff</compClass>
-				<hediffDef>WULA_HediffSwitchDuration</hediffDef>
-				<onlyApplyToSelf>True</onlyApplyToSelf>
-			</li>-->
-    </comps>
-  </AbilityDef>
 </Defs>
