@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 
+    =====================================================================
+    离子武器最终正确架构配置示例
+    =====================================================================
+    说明:
+    - 核心架构: 自定义 VerbProperties (VerbProperties_Wula_IonicBeam)
+    - 数据流: XML -> VerbProperties_Wula_IonicBeam -> Verb_Wula_...
+    - 特效: 复用原版Verb_ShootBeam的XML参数，由我们自己的C#代码读取和播放。
+    - 伤害: 由我们自定义的伤害参数控制，逻辑完全在C#中。
+  -->
+
+  <ThingDef Name="Wula_BaseIonicGun" Abstract="True" ParentName="BaseHumanMakeableGun">
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_DM_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.2</drawSize>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>4.5</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>1</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+    </statBases>
+  </ThingDef>
+
+  <!-- ==================== 模式一: 离子突破光束枪 (爆发贯穿) ==================== -->
+
+  <ThingDef ParentName="Wula_BaseIonicGun">
+    <defName>WULA_Weapon_BreachingBeamGun</defName>
+    <label>离子突破光束枪</label>
+    <description>发射一道高能离子束，能够烧穿路径上的多个目标，直到能量耗尽。单发威力巨大，但射速较慢。</description>
+    <verbs>
+      <li Class="WulaFallenEmpire.VerbProperties_Wula_IonicBeam">
+        <verbClass>WulaFallenEmpire.Verb_Wula_BreachingBeam</verbClass>
+        
+        <!-- 基础参数 -->
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>2.5</warmupTime>
+        <range>40</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_ChargeLance</soundCast>
+        
+        <!-- 我们自定义的伤害参数 -->
+        <breachingDamage>30000</breachingDamage>
+        <armorPenetration>0.95</armorPenetration>
+        <breachingBeamDuration>45</breachingBeamDuration> <!-- 光束命中后的短暂持续时间 -->
+
+        <!-- ==================== 特效参数 (由我们复制的逻辑使用) ==================== -->
+        
+        <!-- 核心特效 -->
+        <beamMoteDef>Mote_ChargeLanceBeam</beamMoteDef>          <!-- 光束主体样式 -->
+        <beamEndEffecterDef>ChargeLance_Explosion</beamEndEffecterDef> <!-- 光束终点特效 -->
+        <soundCastBeam>Shot_ChargeLance_Sustainer</soundCastBeam>    <!-- 光束持续音效 -->
+        <muzzleFlashScale>12</muzzleFlashScale>                      <!-- 枪口火焰大小 -->
+        
+        <!-- 范围与伤害类型 (伤害数值由我们的自定义参数控制) -->
+        <beamWidth>3</beamWidth>                               <!-- **决定视觉宽度和伤害范围** -->
+        <beamDamageDef>Beam</beamDamageDef>                     <!-- 伤害类型，主要影响被击中时的特效和音效 -->
+        <beamHitsNeighborCells>true</beamHitsNeighborCells>     <!-- 是否对主光束旁边的格子造成溅射影响 -->
+
+        <!-- 火焰效果 -->
+        <beamChanceToStartFire>0.2</beamChanceToStartFire>       <!-- 在地面点燃火焰的几率 -->
+        <beamChanceToAttachFire>0.2</beamChanceToAttachFire>    <!-- 点燃击中单位的几率 -->
+        <beamFireSizeRange>0.3~0.5</beamFireSizeRange>        <!-- 火焰大小 -->
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- ==================== 模式二: 离子灼烧光束枪 (持续伤害) ==================== -->
+
+  <ThingDef ParentName="Wula_BaseIonicGun">
+    <defName>WULA_Weapon_SustainedBeamGun</defName>
+    <label>离子灼烧光束枪</label>
+    <description>投射一道持续存在的离子场，对作用范围内的所有敌人进行周期性灼烧。适合用于区域压制和清理大量轻甲目标。</description>
+    <verbs>
+      <li Class="WulaFallenEmpire.VerbProperties_Wula_IonicBeam">
+        <verbClass>WulaFallenEmpire.Verb_Wula_SustainedBeam</verbClass>
+        
+        <!-- 基础参数 -->
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>1.5</warmupTime>
+        <range>30</range>
+        
+        <!-- 我们自定义的伤害参数 -->
+        <sustainedDamagePerTick>20</sustainedDamagePerTick>
+        <tickInterval>15</tickInterval>
+        <duration>240</duration> <!-- 4 seconds -->
+        <armorPenetration>0.5</armorPenetration>
+
+        <!-- ==================== 特效参数 (由我们复制的逻辑使用) ==================== -->
+        
+        <!-- 核心特效 -->
+        <beamMoteDef>Mote_GraserBeamBase</beamMoteDef>
+        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
+        <soundCastBeam>BeamGraser_Shooting</soundCastBeam>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        
+        <!-- 范围与伤害类型 (伤害数值由我们的自定义参数控制) -->
+        <beamWidth>3</beamWidth>                                 <!-- **决定视觉宽度和伤害范围** -->
+        <beamDamageDef>Flame</beamDamageDef>
+        <beamHitsNeighborCells>true</beamHitsNeighborCells>
+
+        <!-- 火焰效果 -->
+        <beamChanceToStartFire>0.1</beamChanceToStartFire>
+        <beamChanceToAttachFire>0.1</beamChanceToAttachFire>
+        <beamFireSizeRange>0.4~0.6</beamFireSizeRange>
+
+        <!-- 粒子效果 (可选，用于增加细节) -->
+        <beamGroundFleckDef>Fleck_Longspark</beamGroundFleckDef>   <!-- 光束在地面上留下的斑点 -->
+        <beamFleckChancePerTick>0.5</beamFleckChancePerTick>      <!-- 每Tick生成地面斑点的几率 -->
+        <beamLineFleckDef>Fleck_BeamSpark</beamLineFleckDef>       <!-- 光束路径上的粒子 -->
+        <beamLineFleckChanceCurve>                                <!-- 路径粒子生成几率曲线 -->
+            <points>
+                <li>(0, 0)</li>
+                <li>(0.5, 0.5)</li>
+                <li>(1, 0)</li>
+            </points>
+        </beamLineFleckChanceCurve>
+      </li>
+    </verbs>
+  </ThingDef>
+
+</Defs>
