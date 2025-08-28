@@ -70,6 +70,7 @@
         <damageDef>Vaporize</damageDef>
         <damageAmount>50</damageAmount>
         <armorPenetration>0.3</armorPenetration>
+        <maxRange>1000</maxRange>
       </li>
     </verbs>
  </ThingDef>
