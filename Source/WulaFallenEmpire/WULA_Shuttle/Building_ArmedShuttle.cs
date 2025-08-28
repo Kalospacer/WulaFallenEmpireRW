@@ -11,7 +11,7 @@ using Verse.Sound;
 namespace WulaFallenEmpire
 {
     [StaticConstructorOnStartup]
-    public class Building_ArmedShuttle : Building_PassengerShuttle, IAttackTargetSearcher
+    public class Building_ArmedShuttle : Building_PassengerShuttle, IAttackTarget, IAttackTargetSearcher
     {
         // --- TurretTop nested class ---
         public class TurretTop
@@ -116,6 +116,9 @@ namespace WulaFallenEmpire
         protected CompHackable hackableComp;
 
         // --- PROPERTIES ---
+        Thing IAttackTarget.Thing => this;
+        public LocalTargetInfo TargetCurrentlyAimingAt => CurrentTarget;
+        public float TargetPriorityFactor => 1f;
         public virtual Material TurretTopMaterial => def.building.turretTopMat;
         protected bool IsStunned
         {
@@ -129,7 +132,6 @@ namespace WulaFallenEmpire
                 return stunner != null && stunner.Stunned;
             }
         }
-        public LocalTargetInfo TargetCurrentlyAimingAt => CurrentTarget;
         public Verb CurrentEffectiveVerb => AttackVerb;
         public LocalTargetInfo LastAttackedTarget => lastAttackedTarget;
         public int LastAttackTargetTick => lastAttackTargetTick;
@@ -361,7 +363,7 @@ namespace WulaFallenEmpire
             // foreach (Gizmo gizmo in TransporterComp.CompGetGizmosExtra()) yield return gizmo;
             // fuel related gizmos are also handled by base class.
         }
-
+        
         public void OrderAttack(LocalTargetInfo targ)
         {
             if (!targ.IsValid)
@@ -407,7 +409,7 @@ namespace WulaFallenEmpire
             lastAttackTargetTick = Find.TickManager.TicksGame;
             lastAttackedTarget = target;
         }
-
+        
         public void TryStartShootSomething(bool canBeginBurstImmediately)
         {
             if (progressBarEffecter != null)
@@ -498,7 +500,7 @@ namespace WulaFallenEmpire
             }
             return true;
         }
-
+        
         protected virtual void BeginBurst()
         {
             AttackVerb.TryStartCastOn(CurrentTarget);
