@@ -142,7 +142,7 @@ namespace WulaFallenEmpire
         public virtual Verb AttackVerb => GunCompEq.PrimaryVerb;
         public bool IsMannable => mannableComp != null;
         private bool PlayerControlled => (base.Faction == Faction.OfPlayer || MannedByColonist) && !MannedByNonColonist && !IsActivable;
-        protected virtual bool CanSetForcedTarget => mannableComp != null && PlayerControlled;
+        protected virtual bool CanSetForcedTarget => (mannableComp != null || GetComp<CompForceTargetable>() != null) && PlayerControlled;
         private bool CanToggleHoldFire => PlayerControlled;
         private bool IsMortar => def.building.IsMortar;
         private bool IsMortarOrProjectileFliesOverhead => AttackVerb.ProjectileFliesOverhead() || IsMortar;

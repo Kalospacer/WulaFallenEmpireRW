@@ -243,4 +243,11 @@
     <defName>Damage_WULA_Melta_Small</defName>
     <defaultDamage>5</defaultDamage>
   </DamageDef>
+
+  <DamageDef ParentName="Bullet">
+    <defName>WULA_Shuttle_Autocannon_Bullet</defName>
+    <label>bullet</label>
+    <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
+  </DamageDef>
+
 </Defs>

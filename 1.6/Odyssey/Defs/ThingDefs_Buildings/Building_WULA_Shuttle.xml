@@ -91,7 +91,7 @@
         <minFuelCost>50</minFuelCost>
         <skyfallerLeaving>ArmedShuttleLeaving_WULA</skyfallerLeaving>
         <worldObjectDef>PassengerShuttle</worldObjectDef>
-        <cooldownTicks>3750</cooldownTicks> <!-- 1.5 hours -->
+        <cooldownTicks>3750</cooldownTicks>        <!-- 1.5 hours -->
         <fixedLaunchDistanceMax>62</fixedLaunchDistanceMax>
         <cooldownEndedMessage>{0} is ready to launch again.</cooldownEndedMessage>
       </li>
@@ -134,6 +134,7 @@
         <chargeIntervalTicks>-1</chargeIntervalTicks>
         <chargeDurationTicks>0</chargeDurationTicks>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
     </comps>
     <placeWorkers>
       <li>PlaceWorker_NotUnderRoof</li>
@@ -233,7 +234,7 @@
         <minFuelCost>50</minFuelCost>
         <skyfallerLeaving>ArmedShuttleLeaving_WULA</skyfallerLeaving>
         <worldObjectDef>PassengerShuttle</worldObjectDef>
-        <cooldownTicks>3750</cooldownTicks> <!-- 1.5 hours -->
+        <cooldownTicks>3750</cooldownTicks>        <!-- 1.5 hours -->
         <fixedLaunchDistanceMax>62</fixedLaunchDistanceMax>
         <cooldownEndedMessage>{0} is ready to launch again.</cooldownEndedMessage>
       </li>
@@ -298,7 +299,7 @@
     <uiOrder>2601</uiOrder>
   </ThingDef>
 
-   <!-- 口袋空间退出点定义 -->
+  <!-- 口袋空间退出点定义 -->
   <ThingDef ParentName="PocketMapExit">
     <defName>WULA_PocketMapExit</defName>
     <label>运输机升降平台</label>
@@ -332,10 +333,9 @@
     </comps>
   </ThingDef>
 
-
   <ThingDef ParentName="BaseGun">
     <defName>WULA_Shuttle_Autocannon</defName>
-    <label>PMr-89"四叶"</label>
+    <label>SRc-22"四叶"</label>
     <description>由乌拉帝国的穿梭机所装备的自动炮，能够组织起高射速的弹幕压制杀伤大规模目标。</description>
     <techLevel>Ultra</techLevel>
     <relicChance>0</relicChance>
@@ -353,10 +353,9 @@
       <AccuracyShort>0.5</AccuracyShort>
       <AccuracyMedium>0.4</AccuracyMedium>
       <AccuracyLong>0.35</AccuracyLong>
-      <RangedWeapon_Cooldown>1.35</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
     </statBases>
     <weaponTags>
-      <li>WULA_AI_Heavy_Panzer_Gunner_Weapon</li>
     </weaponTags>
     <costList Inherit="False">
       <Steel>500</Steel>
@@ -365,55 +364,49 @@
     </costList>
     <verbs>
       <li>
-        <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
+        <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_Shuttle_Homing_Autocannon</defaultProjectile>
-        <warmupTime>1.2</warmupTime>
+        <defaultProjectile>Bullet_WULA_Shuttle_Autocannon</defaultProjectile>
+        <warmupTime>0.25</warmupTime>
         <range>24</range>
-        <burstShotCount>24</burstShotCount>
+        <burstShotCount>10</burstShotCount>
+        <forcedMissRadius>0.35</forcedMissRadius>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <soundCast>Shot_BeamRepeater</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
-        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+        <soundCast>Shot_TurretSniper</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <targetParams>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetBuildings>true</canTargetBuildings>
+        </targetParams>
       </li>
     </verbs>
   </ThingDef>
-
   <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_Shuttle_Homing_Autocannon</defName>
-    <label>磷叶等离子体射弹</label>
+    <defName>Bullet_WULA_Shuttle_Autocannon</defName>
+    <label>四叶自动炮子弹</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red_Double</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(61,199,157,202)</color>
-      <drawSize>(0.75,1)</drawSize>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>1.4</drawSize>
     </graphicData>
     <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>6</damageAmountBase>
+      <damageDef>WULA_Shuttle_Autocannon_Bullet</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <speed>120</speed>
+      <explosionRadius>2.4</explosionRadius>
+      <arcHeightFactor>0.4</arcHeightFactor>
+      <soundExplode>Explosion_Rocket</soundExplode>
       <armorPenetrationBase>0.75</armorPenetrationBase>
-      <speed>60</speed>
+      <screenShakeFactor>0.1</screenShakeFactor>
     </projectile>
-    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
-        <!-- 最多穿透3个目标，设为-1则无限穿透 -->
-        <maxHits>-1</maxHits>
-        <!-- 每次穿透损失25%伤害 -->
-        <damageFalloff>0</damageFalloff>
-        <!-- 防止友军伤害 -->
-        <preventFriendlyFire>true</preventFriendlyFire>
-        <!-- 拖尾特效定义 -->
-        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
-      </li>
-      <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>2</pelletCount>
-      </li>
-    </modExtensions>
   </ThingDef>
-    
+
   <ThingDef ParentName="ShuttleSkyfallerBase">
     <defName>ArmedShuttleIncoming_WULA</defName>
     <label>武装穿梭机 (接近中)</label>

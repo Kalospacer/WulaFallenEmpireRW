@@ -1072,7 +1072,7 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="BaseBullet">
+  <ThingDef Name="Bullet_WULA_WM_Panzer_Autocannon" ParentName="BaseBullet">
     <defName>Bullet_WULA_WM_Panzer_Autocannon</defName>
     <label>辉锑自动炮子弹</label>
     <thingClass>Projectile_Explosive</thingClass>
@@ -1095,6 +1095,7 @@
       <screenShakeFactor>0.1</screenShakeFactor>
     </projectile>
   </ThingDef>
+  
   <AbilityDef>
     <defName>WULA_WM_Panzer_Autocannon_Ability</defName>
     <label>PRr-34"石英"</label>
