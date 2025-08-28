@@ -157,7 +157,7 @@
     <armorCategory>Heat</armorCategory>
     <!-- <harmsHealth>false</harmsHealth> -->
     <impactSoundType>Electric</impactSoundType>
-    <defaultDamage>50</defaultDamage>
+    <defaultDamage>20</defaultDamage>
     <minDamageToFragment>5</minDamageToFragment>
     <defaultStoppingPower>3</defaultStoppingPower>
     <defaultArmorPenetration>0.75</defaultArmorPenetration>
@@ -167,8 +167,8 @@
     <explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
     <!-- <explosionSnowMeltAmount>0</explosionSnowMeltAmount> -->
     <explosionCellFleck>Blast_WULA_Plasma_Explosive</explosionCellFleck>
-    <explosionColorCenter>(0.2, 0.8, 0.3)</explosionColorCenter>
-    <explosionColorEdge>(0.1, 0.9, 0.5)</explosionColorEdge>
+    <explosionColorCenter>(0.95, 0.6, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(1, 0.5, 0.15)</explosionColorEdge>
     <explosionInteriorFleck>ElectricalSpark_WULA_Plasma_Explosive</explosionInteriorFleck>
     <soundExplosion>Explosion_EMP</soundExplosion>
     <combatLogRules>Damage_Bomb</combatLogRules>

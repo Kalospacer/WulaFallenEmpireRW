@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <FleckDef ParentName="FleckBase">
+  <FleckDef Name="WULA_GunTail_Plasma" ParentName="FleckBase">
     <defName>WULA_GunTail_Plasma</defName>
     <altitudeLayer>Projectile</altitudeLayer>
     <solidTime>0.05</solidTime>
@@ -10,6 +10,12 @@
       <shaderType>MoteGlow</shaderType>
       <drawSize>1.25</drawSize>
       <color>(3,189,243,155)</color>
+    </graphicData>
+  </FleckDef>
+  <FleckDef  ParentName="WULA_GunTail_Plasma">
+    <defName>WULA_GunTail_Plasma_Yellow</defName>
+    <graphicData>
+      <color>(242,160,69,155)</color>
     </graphicData>
   </FleckDef>
 

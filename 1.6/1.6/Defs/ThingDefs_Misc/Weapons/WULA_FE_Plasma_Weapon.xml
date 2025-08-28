@@ -118,14 +118,14 @@
     <defName>Bullet_WULA_RW_Plasma_AR</defName>
     <label>磷叶等离子体射弹</label>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasma_Yellow</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
-      <color>(61,199,157,202)</color>
+      <!-- <color>(61,199,157,202)</color> -->
       <drawSize>(0.75,1)</drawSize>
     </graphicData>
     <projectile>
-      <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
+      <damageDef>Damage_WULA_Plasma</damageDef>
       <damageAmountBase>6</damageAmountBase>
       <explosionRadius>0.9</explosionRadius>
       <soundExplode>Explosion_EMP</soundExplode>
@@ -135,7 +135,7 @@
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
+        <tailFleckDef>WULA_GunTail_Plasma_Yellow</tailFleckDef>
       </li>
     </modExtensions>
   </ThingDef>
@@ -180,7 +180,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Plasma_Homing_AR</defName>
     <label>PMr-88"三叶"</label>
-    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，这种改型可以发射制导等离子体。</description>
+    <description>乌拉帝国的等离子体霰弹枪，搭载了一套用于发射等离子体的谐振器，可以喷射多道等离子体射流；也可以进入超频状态，聚焦于主枪管以发射能量高度集中且会产生爆炸的射弹。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Plasma_AR</texPath>
@@ -200,6 +200,9 @@
       <researchPrerequisite>WULA_Synth_Weapon_2_Plasma_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
+    <researchPrerequisites>
+      <li>WULA_Adv_WorkTable_Technology</li>
+    </researchPrerequisites>
     <statBases>
       <WorkToMake>1500</WorkToMake>
       <Mass>3.0</Mass>
@@ -247,7 +250,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Plasma_Homing_AR_Ex</defName>
     <label>PMr-88"三叶"(超频)</label>
-    <description>乌拉帝国的旧式多用途突击步枪，搭载了一套用于发射等离子体的谐振器，可以射出高精度的等离子体，这种模式放弃制导功能发射充能等离子体。</description>
+    <description>乌拉帝国的等离子体霰弹枪，搭载了一套用于发射等离子体的谐振器，可以喷射多道等离子体射流；也可以进入超频状态，聚焦于主枪管以发射能量高度集中且会产生爆炸的射弹。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Plasma_AR</texPath>
@@ -281,7 +284,7 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Plasma_Homing_AR_Ex</defaultProjectile>
         <warmupTime>2.0</warmupTime>
-        <range>28</range>
+        <range>12</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
         <soundCast>ChargeLance_Fire</soundCast>
@@ -300,7 +303,7 @@
     </thingSetMakerTags>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_Switch">
-        <changeTo>Bullet_WULA_RW_Plasma_Homing_AR</changeTo>
+        <changeTo>WULA_RW_Plasma_Homing_AR</changeTo>
         <abilityDef>WULA_RW_Plasma_Homing_AR_WeaponSwitchAbility</abilityDef>
       </li>
     </comps>
@@ -309,14 +312,14 @@
     <defName>Bullet_WULA_RW_Plasma_Homing_AR</defName>
     <label>磷叶等离子体射弹</label>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasma_Yellow</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(61,199,157,202)</color>
+      <!-- <color>(61,199,157,202)</color> -->
       <drawSize>(0.75,1)</drawSize>
     </graphicData>
     <projectile>
       <!-- 基础伤害和穿透。对于这个投射物，实际伤害由爆炸决定 -->
-      <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
+      <damageDef>Damage_WULA_Plasma</damageDef>
       <damageAmountBase>6</damageAmountBase>
       <explosionRadius>0.9</explosionRadius>
       <soundExplode>Explosion_EMP</soundExplode>
@@ -326,7 +329,7 @@
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
+        <tailFleckDef>WULA_GunTail_Plasma_Yellow</tailFleckDef>
       </li>
       <li Class="WulaFallenEmpire.ShotgunExtension">
         <pelletCount>3</pelletCount>
@@ -340,8 +343,8 @@
       <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
-      <color>(61,199,157,202)</color>
-      <drawSize>(1,1)</drawSize>
+      <!-- <color>(61,199,157,202)</color> -->
+      <drawSize>(2,1.5)</drawSize>
     </graphicData>
     <projectile>
       <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
@@ -489,7 +492,7 @@
       <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
-      <color>(61,199,157,202)</color>
+      <!-- <color>(61,199,157,202)</color> -->
       <drawSize>(3,4)</drawSize>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>

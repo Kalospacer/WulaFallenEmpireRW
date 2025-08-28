@@ -390,8 +390,8 @@
     <graphicData>
       <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red_Double</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-      <drawSize>1.4</drawSize>
+      <!-- <color>(61,199,157,202)</color> -->
+      <drawSize>(0.75,1)</drawSize>
     </graphicData>
     <projectile>
       <damageDef>WULA_Shuttle_Autocannon_Bullet</damageDef>

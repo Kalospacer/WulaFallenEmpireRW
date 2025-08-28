@@ -352,7 +352,7 @@
       <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
-      <color>(61,199,157,202)</color>
+      <!-- <color>(61,199,157,202)</color> -->
       <drawSize>(3,4)</drawSize>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>

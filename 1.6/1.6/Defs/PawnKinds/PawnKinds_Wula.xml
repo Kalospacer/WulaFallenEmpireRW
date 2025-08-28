@@ -144,6 +144,7 @@
     <isBoss>true</isBoss>
     <maxPerGroup>1</maxPerGroup>
     <isGoodBreacher>true</isGoodBreacher>
+    <canMeleeAttack>false</canMeleeAttack>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -159,10 +160,6 @@
       </li>
     </lifeStages>
     <weaponMoney>99999~99999</weaponMoney>
-
-    <weaponTags>
-      <li>WULA_AI_Heavy_Panzer_AT_Weapon</li>
-    </weaponTags>
 
     <controlGroupPortraitZoom>0.45</controlGroupPortraitZoom>
   </PawnKindDef>
@@ -175,6 +172,7 @@
     <combatPower>1000</combatPower>
     <isBoss>true</isBoss>
     <maxPerGroup>1</maxPerGroup>
+    <canMeleeAttack>false</canMeleeAttack>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -190,10 +188,9 @@
       </li>
     </lifeStages>
     <weaponMoney>99999~99999</weaponMoney>
-
-    <weaponTags>
-      <li>WULA_AI_Heavy_Panzer_Gunner_Weapon</li>
-    </weaponTags>
+    <abilities>
+      <li>WULA_WM_Panzer_Autocannon_Ability</li>
+    </abilities>
 
     <controlGroupPortraitZoom>0.45</controlGroupPortraitZoom>
   </PawnKindDef>

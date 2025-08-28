@@ -940,42 +940,33 @@
 
   
   <!-- 萨克森装备 -->
-  <ThingDef ParentName="BaseGun">
+  <ThingDef ParentName="BaseWeaponTurret">
     <defName>WULA_WM_Panzer_Turret</defName>
     <label>ATt-6"金红石"</label>
     <description>由乌拉帝国的"萨克森"战车所装备的战车炮塔，可以从极远距离上精准地点杀高价值目标。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
     <techLevel>Ultra</techLevel>
-    <relicChance>0</relicChance>
     <graphicData>
       <texPath>Wula/Weapon/WULA_WM_Panzer_Turret</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>2</drawSize>
     </graphicData>
-    <tradeability>None</tradeability>
     <uiIconScale>0.5</uiIconScale>
     <statBases>
-      <WorkToMake>20000</WorkToMake>
       <Mass>150</Mass>
       <AccuracyTouch>1</AccuracyTouch>
       <AccuracyShort>2</AccuracyShort>
       <AccuracyMedium>2</AccuracyMedium>
       <AccuracyLong>2</AccuracyLong>
-      <RangedWeapon_Cooldown>4.0</RangedWeapon_Cooldown>
     </statBases>
-    <costList Inherit="False">
-      <Steel>500</Steel>
-      <Plasteel>100</Plasteel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-    </costList>
-    <weaponTags>
-      <li>WULA_AI_Heavy_Panzer_AT_Weapon</li>
-    </weaponTags>
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_WM_Panzer_Turret</defaultProjectile>
         <warmupTime>0</warmupTime>
+        <defaultCooldownTime>4</defaultCooldownTime>
         <minRange>5.9</minRange>
         <range>75</range>
         <burstShotCount>1</burstShotCount>
@@ -1009,43 +1000,46 @@
       <armorPenetrationBase>1</armorPenetrationBase>
     </projectile>
   </ThingDef>
-  <ThingDef Name="WULA_WM_Panzer_Autocannon" ParentName="BaseGun">
+  <ThingDef Name="WULA_WM_Panzer_Autocannon" ParentName="BaseWeaponTurret">
     <defName>WULA_WM_Panzer_Autocannon</defName>
     <label>SRc-15"辉锑"</label>
     <description>由乌拉帝国的"萨克森"战车所装备的自动炮，能够组织起高射速的弹幕压制杀伤大规模目标，并且外挂了两具PRr-34"石英"火箭发射器，用于对抗集群冲击。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
     <techLevel>Ultra</techLevel>
-    <relicChance>0</relicChance>
     <graphicData>
       <texPath>Wula/Weapon/WULA_WM_Panzer_Autocannon</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>2</drawSize>
     </graphicData>
     <uiIconScale>0.5</uiIconScale>
-    <tradeability>None</tradeability>
     <statBases>
-      <WorkToMake>40000</WorkToMake>
       <Mass>150</Mass>
       <AccuracyTouch>0.5</AccuracyTouch>
       <AccuracyShort>0.5</AccuracyShort>
       <AccuracyMedium>0.4</AccuracyMedium>
       <AccuracyLong>0.35</AccuracyLong>
-      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
     </statBases>
-    <weaponTags>
-      <li>WULA_AI_Heavy_Panzer_Gunner_Weapon</li>
-    </weaponTags>
-    <costList Inherit="False">
-      <Steel>500</Steel>
-      <Plasteel>150</Plasteel>
-      <ComponentSpacer>8</ComponentSpacer>
-    </costList>
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_WM_Panzer_Turret</defaultProjectile>
+        <defaultCooldownTime>4</defaultCooldownTime>
+        <minRange>5.9</minRange>
+        <range>75</range>
+        <burstShotCount>1</burstShotCount>
+        <forcedMissRadius>0.1</forcedMissRadius>
+        <soundCast>Shot_TurretSniper</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>18</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_WM_Panzer_Autocannon</defaultProjectile>
-        <warmupTime>0.25</warmupTime>
         <range>36</range>
+        <defaultCooldownTime>1.5</defaultCooldownTime>
         <burstShotCount>10</burstShotCount>
         <forcedMissRadius>0.35</forcedMissRadius>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
@@ -1059,18 +1053,6 @@
         </targetParams>
       </li>
     </verbs>
-
-    <comps Inherit="False">
-      <li Class="CompProperties_EquippableAbilityReloadable">
-        <abilityDef>WULA_WM_Panzer_Autocannon_Ability</abilityDef>
-        <!-- <maxCharges>2</maxCharges> -->
-        <soundReload>AnomalyAbilityWarmup</soundReload>
-        <chargeNoun>火箭弹</chargeNoun>
-        <!-- <ammoDef>WULA_Soul_Wedge</ammoDef> -->
-        <!-- <ammoCountPerCharge>20</ammoCountPerCharge> -->
-        <baseReloadTicks>60</baseReloadTicks>
-      </li>
-    </comps>
   </ThingDef>
   <ThingDef Name="Bullet_WULA_WM_Panzer_Autocannon" ParentName="BaseBullet">
     <defName>Bullet_WULA_WM_Panzer_Autocannon</defName>
@@ -1095,7 +1077,6 @@
       <screenShakeFactor>0.1</screenShakeFactor>
     </projectile>
   </ThingDef>
-  
   <AbilityDef>
     <defName>WULA_WM_Panzer_Autocannon_Ability</defName>
     <label>PRr-34"石英"</label>
@@ -1224,7 +1205,7 @@
       <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
-      <color>(61,199,157,202)</color>
+      <!-- <color>(61,199,157,202)</color> -->
       <drawSize>(3,4)</drawSize>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
