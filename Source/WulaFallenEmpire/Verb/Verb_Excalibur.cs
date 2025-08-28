@@ -150,7 +150,7 @@ namespace WulaFallenEmpire
             Vector3 direction = (cell - position).ToVector3().normalized;
 
             // Define a maximum range to prevent infinite loops or excessively long beams
-            float maxRange = 1000f; // Increased range for longer beams
+            float maxRange = this.ExcaliburProps.maxRange; // Use configurable max range
 
             for (float i = 0; i < maxRange; i += 1f)
             {
