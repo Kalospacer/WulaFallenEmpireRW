@@ -95,7 +95,7 @@ namespace WulaFallenEmpire
             List<IntVec3> allAffectedCells = this.AffectedCells(this.currentTarget);
             
             // Create a beam for this specific burst
-            Thing_ExcaliburBeam beam = (Thing_ExcaliburBeam)GenSpawn.Spawn(DefDatabase<ThingDef>.GetNamed("ExcaliburBeam", true), this.CasterPawn.Position, this.CasterPawn.Map);
+            Thing_ExcaliburBeam beam = (Thing_ExcaliburBeam)GenSpawn.Spawn(DefDatabase<ThingDef>.GetNamed(this.ExcaliburProps.beamDefName, true), this.CasterPawn.Position, this.CasterPawn.Map);
             beam.caster = this.CasterPawn;
             beam.targetCell = this.currentTarget.Cell;
             beam.damageAmount = this.damageAmount;

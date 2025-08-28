@@ -10,5 +10,6 @@ namespace WulaFallenEmpire
         public float damageAmount = -1f; // Custom damage amount
         public float armorPenetration = -1f; // Custom armor penetration
         public float maxRange = 1000f; // Default max range for beams
+        public string beamDefName = "ExcaliburBeam"; // Default beam def name
     }
 }

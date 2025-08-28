@@ -45,6 +45,7 @@
         <damageDef>Bomb</damageDef>
         <damageAmount>450</damageAmount>
         <armorPenetration>2</armorPenetration>
+        <beamDefName>ExcaliburBeam</beamDefName>
       </li>
     </verbs>
     <weaponTags>
