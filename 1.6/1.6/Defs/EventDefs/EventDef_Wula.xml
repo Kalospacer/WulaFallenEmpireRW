@@ -75,7 +75,7 @@
         </optionEffects>
       </li>
       <!-- 教堂 -->
-      <li>
+      <!-- <li>
         <label>乌拉帝国 大教堂</label>
         <hideWhenDisabled>true</hideWhenDisabled>
         <conditions>
@@ -182,7 +182,7 @@
             </effects>
           </li>
         </optionEffects>
-      </li>
+      </li> -->
 
       <li>
         <label>退出</label>

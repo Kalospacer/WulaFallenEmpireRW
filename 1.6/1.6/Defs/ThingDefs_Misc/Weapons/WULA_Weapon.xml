@@ -950,9 +950,9 @@
     <graphicData>
       <texPath>Wula/Weapon/WULA_WM_Panzer_Turret</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>2</drawSize>
+      <drawSize>3</drawSize>
     </graphicData>
-    <uiIconScale>0.5</uiIconScale>
+    <uiIconScale>0.33</uiIconScale>
     <statBases>
       <Mass>150</Mass>
       <AccuracyTouch>1</AccuracyTouch>
@@ -1010,9 +1010,9 @@
     <graphicData>
       <texPath>Wula/Weapon/WULA_WM_Panzer_Autocannon</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>2</drawSize>
+      <drawSize>3</drawSize>
     </graphicData>
-    <uiIconScale>0.5</uiIconScale>
+    <uiIconScale>0.33</uiIconScale>
     <statBases>
       <Mass>150</Mass>
       <AccuracyTouch>0.5</AccuracyTouch>
@@ -1021,19 +1021,6 @@
       <AccuracyLong>0.35</AccuracyLong>
     </statBases>
     <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_WM_Panzer_Turret</defaultProjectile>
-        <defaultCooldownTime>4</defaultCooldownTime>
-        <minRange>5.9</minRange>
-        <range>75</range>
-        <burstShotCount>1</burstShotCount>
-        <forcedMissRadius>0.1</forcedMissRadius>
-        <soundCast>Shot_TurretSniper</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>18</muzzleFlashScale>
-      </li>
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>

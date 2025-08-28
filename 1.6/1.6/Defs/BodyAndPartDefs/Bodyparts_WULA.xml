@@ -842,6 +842,7 @@
           <height>Top</height>
           <groups>
             <li>Torso</li>
+            <li>HeadAttackTool</li>
           </groups>
           <parts>
             <li>

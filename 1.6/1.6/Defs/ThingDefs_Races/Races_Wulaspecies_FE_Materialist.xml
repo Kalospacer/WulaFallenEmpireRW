@@ -659,7 +659,7 @@
         </renderNodeProperties>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>Wula_CR_Mobile_Factory_Turret_MK2</turretDef>
+        <turretDef>Wula_CR_Mobile_Factory_Turret_MKII</turretDef>
         <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
@@ -694,7 +694,7 @@
         </renderNodeProperties>
       </li>
       <li Class="CompProperties_TurretGun">
-        <turretDef>Wula_CR_Mobile_Factory_Turret_MK2</turretDef>
+        <turretDef>Wula_CR_Mobile_Factory_Turret_MKII</turretDef>
         <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>

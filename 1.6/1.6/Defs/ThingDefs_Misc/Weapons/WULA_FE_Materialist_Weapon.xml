@@ -127,7 +127,7 @@
     </verbs>
   </ThingDef>
   <ThingDef ParentName="Wula_CR_Mobile_Factory_Turret">
-    <defName>Wula_CR_Mobile_Factory_Turret_MK2</defName>
+    <defName>Wula_CR_Mobile_Factory_Turret_MKII</defName>
     <label>CRt-92"铱锇MK2"</label>
     <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，此改进版比起其原型可以将热熔束喷到更远的地方，但是无法处理过近的目标。</description>
     <verbs Inherit="False">
@@ -392,90 +392,5 @@
         <pelletCount>3</pelletCount>
       </li>
     </modExtensions>
-  </ThingDef>
-  <ThingDef ParentName="BaseWeaponTurret">
-    <defName>Wula_MIS_Mobile_Factory_Turret</defName>
-    <label>CRt-60"陨磷"</label>
-    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，可以射出两道交叉扫射的暗物质射流以引发爆炸毁灭中等范围内的敌军。</description>
-    <tradeability>None</tradeability>
-    <destroyOnDrop>true</destroyOnDrop>
-    <graphicData>
-      <texPath>Wula/Weapon/Wula_Mobile_Factory_Turret</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>0.5</drawSize>
-    </graphicData>
-    <uiIconScale>2</uiIconScale>
-    <statBases>
-      <Mass>2.6</Mass>
-      <AccuracyTouch>1</AccuracyTouch>
-      <AccuracyShort>1</AccuracyShort>
-      <AccuracyMedium>1</AccuracyMedium>
-      <AccuracyLong>1</AccuracyLong>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_Wula_MIS_Mobile_Factory_Turret</defaultProjectile>
-        <forcedMissRadius>0.1</forcedMissRadius>
-        <burstShotCount>2</burstShotCount>
-        <defaultCooldownTime>4</defaultCooldownTime>
-        <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
-        <isMortar>true</isMortar>
-        <requireLineOfSight>false</requireLineOfSight>
-        <minRange>16</minRange>
-        <range>500</range>
-        <soundCast>RocketswarmLauncher_Fire</soundCast>
-        <muzzleFlashScale>4</muzzleFlashScale>
-      
-        <!-- <aimingLineMote>Mote_FleshmelterBolt_Aim</aimingLineMote>
-        <aimingChargeMote>Mote_FleshmelterBolt_Charge</aimingChargeMote> 
-        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
-        <aimingLineMoteFixedLength>15.9</aimingLineMoteFixedLength>
-        <aimingTargetMote>Mote_FleshmelterBolt_Target</aimingTargetMote>  -->
-        <!-- <soundAiming>FleshmelterBolt_Charging</soundAiming> -->
-
-        <targetParams>
-          <canTargetLocations>true</canTargetLocations>
-        </targetParams>
-      </li>
-    </verbs>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_Wula_MIS_Mobile_Factory_Turret</defName>
-    <label>灵能星光</label>
-    <graphicData>
-      <texPath>Things/Projectile/Rocket_Swarm</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.2</drawSize>
-    </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass>
-		<modExtensions>
-      <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
-        <explosionRadius>3.5</explosionRadius>
-        <damageDef>Bomb</damageDef>
-      </li>
-      <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <homingSpeed>0.1</homingSpeed>
-        <initRotateAngle>60</initRotateAngle>
-        <destroyTicksAfterLosingTrack>
-          <min>60</min>
-          <max>120</max>
-        </destroyTicksAfterLosingTrack>
-        <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
-        <impactThreshold>1</impactThreshold>
-      </li>
-		</modExtensions>
-    <projectile>
-      <damageDef>Bomb</damageDef>
-      <damageAmountBase>50</damageAmountBase>
-      <speed>15</speed>
-      <explosionRadius>3.5</explosionRadius>
-      <armorPenetrationBase>1</armorPenetrationBase>
-      <flyOverhead>true</flyOverhead>
-      <arcHeightFactor>0.4</arcHeightFactor>
-      <soundExplode>Explosion_Rocket</soundExplode>
-      <soundAmbient>MortarRound_Ambient</soundAmbient>
-    </projectile>
   </ThingDef>
 </Defs>

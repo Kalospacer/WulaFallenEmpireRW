@@ -183,7 +183,7 @@
     <description>乌拉帝国的等离子体霰弹枪，搭载了一套用于发射等离子体的谐振器，可以喷射多道等离子体射流；也可以进入超频状态，聚焦于主枪管以发射能量高度集中且会产生爆炸的射弹。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Plasma_AR</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Plasma_Homing_AR</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.4</drawSize>
     </graphicData>
@@ -253,7 +253,7 @@
     <description>乌拉帝国的等离子体霰弹枪，搭载了一套用于发射等离子体的谐振器，可以喷射多道等离子体射流；也可以进入超频状态，聚焦于主枪管以发射能量高度集中且会产生爆炸的射弹。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Plasma_AR</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Plasma_Homing_AR_Ex</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.4</drawSize>
     </graphicData>

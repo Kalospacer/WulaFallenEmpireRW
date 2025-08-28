@@ -1061,6 +1061,7 @@
         <hasStandardCommand>true</hasStandardCommand>
         <targetable>true</targetable>
         <violent>true</violent>
+        <forcedMissRadius>0.01</forcedMissRadius>
         <targetParams>
           <canTargetPawns>true</canTargetPawns>
           <canTargetBuildings>true</canTargetBuildings>

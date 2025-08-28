@@ -972,8 +972,21 @@
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
+              <dataNorth>
+                <rotationOffset>180</rotationOffset>
+                <offset>(0.04, 0, 0)</offset>
+                <flip>true</flip>
+              </dataNorth>
+              <dataEast>
+                <!-- <offset>(0.6, 0, 0.15)</offset> -->
+              </dataEast>
+              <dataSouth>
+                <!-- <rotationOffset>-90</rotationOffset> -->
+                <offset>(0.04, 0, 0)</offset>
+              </dataSouth>
               <dataWest>
                 <rotationOffset>180</rotationOffset>
+                <!-- <offset>(-0.6, 0, 0.15)</offset> -->
               </dataWest>
             </drawData>
           </li>
@@ -1023,12 +1036,25 @@
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
             <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
             <parentTagDef>Body</parentTagDef>
-            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <overrideMeshSize>(1.5, 1.5)</overrideMeshSize>
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
+              <dataNorth>
+                <rotationOffset>180</rotationOffset>
+                <offset>(0.04, 0, 0)</offset>
+                <flip>true</flip>
+              </dataNorth>
+              <dataEast>
+                <!-- <offset>(0.6, 0, 0.15)</offset> -->
+              </dataEast>
+              <dataSouth>
+                <!-- <rotationOffset>-90</rotationOffset> -->
+                <offset>(0.04, 0, 0)</offset>
+              </dataSouth>
               <dataWest>
                 <rotationOffset>180</rotationOffset>
+                <!-- <offset>(-0.6, 0, 0.15)</offset> -->
               </dataWest>
             </drawData>
           </li>

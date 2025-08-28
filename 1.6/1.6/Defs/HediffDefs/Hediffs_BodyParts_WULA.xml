@@ -1229,6 +1229,153 @@
       <li>WulaSpecies</li>
     </recipeUsers>
   </RecipeDef>
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>WULA_Addons_Antenna_Hediff_Shotgun</defName>
+    <label>梭镖发射器天线</label>
+    <description>一种特殊的上行链路天线，通过省去一些结构以在小小的天线中塞下两具微型梭镖发射器，这使得换装此天线的机械乌拉可以将自己的头当霰弹枪用——尽管射程不会太长并且会挤占天线的机械体带宽。</description>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Addons_Antenna_Shotgun</ThingDef>
+      <ThingDef>WULA_Addons_Antenna_Shotgun_Turret</ThingDef>
+      <RecipeDef>Install_WULA_Addons_Antenna_Shotgun</RecipeDef>
+    </descriptionHyperlinks>
+    <spawnThingOnRemoved>WULA_Addons_Antenna_Shield</spawnThingOnRemoved>
+    <addedPartProps>
+      <!-- <partEfficiency>1.5</partEfficiency> -->
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MechBandwidth>-2</MechBandwidth>
+          <MechControlGroups>-1</MechControlGroups>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_TopTurret">
+        <turretDef>WULA_Addons_Antenna_Shotgun_Turret</turretDef>
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
+      </li>
+    </comps>
+  </HediffDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>WULA_Addons_Antenna_Shotgun_Turret</defName>
+    <label>梭镖发射器</label>
+    <description>藏在机械乌拉脑袋两侧天线中的微型霰弹枪，射程不远但是对接近的敌人有很大的威慑力。</description>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Addons_Antenna_Shotgun</ThingDef>
+      <RecipeDef>Install_WULA_Addons_Antenna_Shotgun</RecipeDef>
+    </descriptionHyperlinks>
+    <statBases>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>0.6</AccuracyShort>
+      <AccuracyMedium>0.3</AccuracyMedium>
+      <AccuracyLong>0.1</AccuracyLong>
+      <Mass>5</Mass>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_WULA_Addons_Antenna_Shotgun_Turret</defaultProjectile>
+        <range>4</range>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <burstShotCount>2</burstShotCount>
+        <soundCast>Shot_BeamRepeater</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <defaultCooldownTime>6</defaultCooldownTime>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_Addons_Antenna_Shotgun_Turret</defName>
+    <label>梭镖</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_StarDrift_Shotgun_Spear</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <stoppingPower>15</stoppingPower>
+      <armorPenetrationBase>0.65</armorPenetrationBase>
+      <speed>55</speed>
+    </projectile>
+  </ThingDef>
+  <ThingDef ParentName="BodyPartBionicBase">
+    <defName>WULA_Addons_Antenna_Shotgun</defName>
+    <label>梭镖发射器天线</label>
+    <description>一种特殊的上行链路天线，通过省去一些结构以在小小的天线中塞下两具微型梭镖发射器，这使得换装此天线的机械乌拉可以将自己的头当霰弹枪用——尽管射程不会太长并且会挤占天线的机械体带宽。</description>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <RecipeDef>Install_WULA_Addons_Antenna_Shotgun</RecipeDef>
+      <ThingDef>WULA_Addons_Antenna_Shotgun_Turret</ThingDef>
+    </descriptionHyperlinks>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <thingSetMakerTags>
+      <li>RewardStandardMidFreq</li>
+    </thingSetMakerTags>
+    <recipeMaker>
+      <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite>
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+    </recipeMaker>
+    <statBases>
+      <Mass>0.3</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>Install_WULA_Addons_Antenna_Shotgun</defName>
+    <label>安装梭镖发射器天线</label>
+    <description>为合成人安装梭镖发射器天线。</description>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Addons_Antenna_Shotgun</ThingDef>
+      <HediffDef>WULA_Addons_Antenna_Hediff_Shotgun</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>安装梭镖发射器天线中</jobString>
+    <surgeryOutcomeEffect IsNull="True" />
+    <!-- Always succeeds -->
+    <anesthetize>false</anesthetize>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Addons_Antenna_Shotgun</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WULA_Addons_Antenna_Shotgun</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>WULA_Addons_Antenna_Bodypart</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>WULA_Addons_Antenna_Hediff_Shotgun</addsHediff>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <recipeUsers Inherit="False">
+      <li>WulaSpecies</li>
+    </recipeUsers>
+  </RecipeDef>
 
   <!-- 抽魂 -->
   <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
