@@ -3,7 +3,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Unlimit_Penetrating_Beam_Cannon</defName>
     <label>XXx-00 "贯杀炮"</label>
-    <description>乌拉帝国军械部在黄金时期所设计的暗物质武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的机械体所配备，所发射的切割束几乎可以横跨战场，并抹除落点上所有的敌人。</description>
+    <description>乌拉帝国军械部在黄金时期所设计的武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的战争平台所配备，所发射的切割束几乎可以横跨战场，并抹除路径上所有的敌人。</description>
     <techLevel>Archotech</techLevel>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Unlimit_Penetrating_Beam_Cannon</texPath>
@@ -38,6 +38,7 @@
         <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
         <soundCast>ChargeLance_Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
+        <requireLineOfSight>false</requireLineOfSight>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
@@ -52,7 +53,7 @@
     </weaponTags>
   </ThingDef>
 
-  <ThingDef ParentName="BaseWeaponTurret">
+  <ThingDef Name="Wula_CR_Mobile_Factory_Turret" ParentName="BaseWeaponTurret">
     <defName>Wula_CR_Mobile_Factory_Turret</defName>
     <label>CRt-91"铱锇"</label>
     <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，能够喷射穿透装甲的热熔束，处理靠近陆行舰的威胁。</description>
@@ -80,7 +81,7 @@
         <defaultCooldownTime>6</defaultCooldownTime>
         <burstShotCount>20</burstShotCount>
         <showBurstShotStats>false</showBurstShotStats>
-        <requireLineOfSight>true</requireLineOfSight>
+        <requireLineOfSight>false</requireLineOfSight>
         <beamWidth>6</beamWidth>
         <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
         <beamDamageDef>Damage_WULA_Melta</beamDamageDef>
@@ -124,10 +125,124 @@
       </li>
     </verbs>
   </ThingDef>
+  <ThingDef ParentName="Wula_CR_Mobile_Factory_Turret">
+    <defName>Wula_CR_Mobile_Factory_Turret_MK2</defName>
+    <label>CRt-92"铱锇MK2"</label>
+    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，此改进版比起其原型可以将热熔束喷到更远的地方，但是无法处理过近的目标。</description>
+    <verbs Inherit="False">
+      <li>
+        <verbClass>Verb_ArcSprayIncinerator</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>26</range>
+        <beamFullWidthRange>15</beamFullWidthRange>
+        <defaultCooldownTime>6</defaultCooldownTime>
+        <burstShotCount>25</burstShotCount>
+        <showBurstShotStats>false</showBurstShotStats>
+        <requireLineOfSight>false</requireLineOfSight>
+        <beamWidth>6</beamWidth>
+        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <beamDamageDef>Damage_WULA_Melta</beamDamageDef>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <soundCastBeam>Flamethrower_Firing</soundCastBeam>
+        <beamGroundFleckDef>Fleck_IncineratorBeamBurn</beamGroundFleckDef>
+        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
+        <beamMaxDeviation>0.5</beamMaxDeviation>
+        <beamCurvature>0</beamCurvature>
+        <beamEndEffecterDef>IncineratorBeam_End</beamEndEffecterDef> 
+        <beamChanceToStartFire>0.85</beamChanceToStartFire>
+        <beamFireSizeRange>0.55~0.85</beamFireSizeRange>
+        <beamStartOffset>.5</beamStartOffset>
+        <beamHitsNeighborCells>true</beamHitsNeighborCells>
+        <beamCantHitWithinMinRange>true</beamCantHitWithinMinRange>
+        <beamHitsNeighborCellsRequiresLOS>true</beamHitsNeighborCellsRequiresLOS>
+        <beamSetsGroundOnFire>true</beamSetsGroundOnFire>
+        <ai_BeamIsIncendiary>true</ai_BeamIsIncendiary>
+        <beamLineFleckDef>Fleck_IncineratorBeamSmoke</beamLineFleckDef>
+        <highlightColor>(58, 225, 225)</highlightColor>
+        <secondaryHighlightColor>(102, 200, 200)</secondaryHighlightColor>
+        <beamLineFleckChanceCurve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.65, 0.02)</li>
+            <li>(1, .5)</li>
+          </points>
+        </beamLineFleckChanceCurve>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <flammabilityAttachFireChanceCurve>
+          <points>
+            <li>(0.6, 0)</li>
+            <li>(0.7, 0.2)</li>
+            <li>(1.2, 0.8)</li>
+          </points>
+        </flammabilityAttachFireChanceCurve>
+        <rangedFireRulepack>Combat_RangedFlamethrower</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="Wula_CR_Mobile_Factory_Turret">
+    <defName>WULA_MechFlyerTurretGun_Melta</defName>
+    <label>CRt-93"铱锇MK3"</label>
+    <description>由乌拉帝国的CRm-51"兵蚁"机械体所配备的武装，替换了常规的磁力光束，可以在近距离上灼烧敌军。</description>
+    <verbs Inherit="False">
+      <li>
+        <verbClass>Verb_ArcSprayIncinerator</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>3</range>
+        <beamFullWidthRange>6</beamFullWidthRange>
+        <defaultCooldownTime>4</defaultCooldownTime>
+        <burstShotCount>25</burstShotCount>
+        <showBurstShotStats>false</showBurstShotStats>
+        <requireLineOfSight>false</requireLineOfSight>
+        <beamWidth>3</beamWidth>
+        <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <beamDamageDef>Damage_WULA_Melta_Small</beamDamageDef>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <soundCastBeam>Flamethrower_Firing</soundCastBeam>
+        <beamGroundFleckDef>Fleck_IncineratorBeamBurn</beamGroundFleckDef>
+        <beamFleckChancePerTick>0.32</beamFleckChancePerTick>
+        <beamMaxDeviation>0.5</beamMaxDeviation>
+        <beamCurvature>0</beamCurvature>
+        <beamEndEffecterDef>IncineratorBeam_End</beamEndEffecterDef> 
+        <beamChanceToStartFire>0.85</beamChanceToStartFire>
+        <beamFireSizeRange>0.55~0.85</beamFireSizeRange>
+        <beamStartOffset>.5</beamStartOffset>
+        <beamHitsNeighborCells>true</beamHitsNeighborCells>
+        <beamCantHitWithinMinRange>true</beamCantHitWithinMinRange>
+        <beamHitsNeighborCellsRequiresLOS>true</beamHitsNeighborCellsRequiresLOS>
+        <beamSetsGroundOnFire>true</beamSetsGroundOnFire>
+        <ai_BeamIsIncendiary>true</ai_BeamIsIncendiary>
+        <beamLineFleckDef>Fleck_IncineratorBeamSmoke</beamLineFleckDef>
+        <highlightColor>(58, 225, 225)</highlightColor>
+        <secondaryHighlightColor>(102, 200, 200)</secondaryHighlightColor>
+        <beamLineFleckChanceCurve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.65, 0.02)</li>
+            <li>(1, .5)</li>
+          </points>
+        </beamLineFleckChanceCurve>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <flammabilityAttachFireChanceCurve>
+          <points>
+            <li>(0.6, 0)</li>
+            <li>(0.7, 0.2)</li>
+            <li>(1.2, 0.8)</li>
+          </points>
+        </flammabilityAttachFireChanceCurve>
+        <rangedFireRulepack>Combat_RangedFlamethrower</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_MR_Mobile_Factory_Turret</defName>
     <label>CRt-60"陨磷"</label>
-    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，可以射出两道交叉扫射的暗物质射流以引发爆炸毁灭中等范围内的敌军。</description>
+    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，可以射出连续短促的穿透性激光，贯穿路径上的敌军。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <graphicData>
@@ -276,5 +391,90 @@
         <pelletCount>3</pelletCount>
       </li>
     </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Wula_MIS_Mobile_Factory_Turret</defName>
+    <label>CRt-60"陨磷"</label>
+    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，可以射出两道交叉扫射的暗物质射流以引发爆炸毁灭中等范围内的敌军。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <graphicData>
+      <texPath>Wula/Weapon/Wula_Mobile_Factory_Turret</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <uiIconScale>2</uiIconScale>
+    <statBases>
+      <Mass>2.6</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>1</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_Wula_MIS_Mobile_Factory_Turret</defaultProjectile>
+        <forcedMissRadius>0.1</forcedMissRadius>
+        <burstShotCount>2</burstShotCount>
+        <defaultCooldownTime>4</defaultCooldownTime>
+        <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>16</minRange>
+        <range>500</range>
+        <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <muzzleFlashScale>4</muzzleFlashScale>
+      
+        <!-- <aimingLineMote>Mote_FleshmelterBolt_Aim</aimingLineMote>
+        <aimingChargeMote>Mote_FleshmelterBolt_Charge</aimingChargeMote> 
+        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+        <aimingLineMoteFixedLength>15.9</aimingLineMoteFixedLength>
+        <aimingTargetMote>Mote_FleshmelterBolt_Target</aimingTargetMote>  -->
+        <!-- <soundAiming>FleshmelterBolt_Charging</soundAiming> -->
+
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Wula_MIS_Mobile_Factory_Turret</defName>
+    <label>灵能星光</label>
+    <graphicData>
+      <texPath>Things/Projectile/Rocket_Swarm</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.2</drawSize>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass>
+		<modExtensions>
+      <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
+        <explosionRadius>3.5</explosionRadius>
+        <damageDef>Bomb</damageDef>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <homingSpeed>0.1</homingSpeed>
+        <initRotateAngle>60</initRotateAngle>
+        <destroyTicksAfterLosingTrack>
+          <min>60</min>
+          <max>120</max>
+        </destroyTicksAfterLosingTrack>
+        <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+        <impactThreshold>1</impactThreshold>
+      </li>
+		</modExtensions>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>50</damageAmountBase>
+      <speed>15</speed>
+      <explosionRadius>3.5</explosionRadius>
+      <armorPenetrationBase>1</armorPenetrationBase>
+      <flyOverhead>true</flyOverhead>
+      <arcHeightFactor>0.4</arcHeightFactor>
+      <soundExplode>Explosion_Rocket</soundExplode>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
   </ThingDef>
 </Defs>
