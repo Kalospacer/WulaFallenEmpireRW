@@ -204,7 +204,7 @@
     <combatLogRules>Damage_Bomb</combatLogRules>
   </DamageDef>
 
-  <DamageDef ParentName="Wula_Dark_Matter_Beam_DMG">
+  <DamageDef Name="Damage_WULA_Melta" ParentName="Wula_Dark_Matter_Beam_DMG">
     <defName>Damage_WULA_Melta</defName>
     <ignoreShields>true</ignoreShields>
     <igniteChanceByTargetFlammability>
@@ -238,5 +238,9 @@
         <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
       </li>
     </additionalHediffs> -->
+  </DamageDef>
+  <DamageDef ParentName="Damage_WULA_Melta">
+    <defName>Damage_WULA_Melta_Small</defName>
+    <defaultDamage>5</defaultDamage>
   </DamageDef>
 </Defs>
