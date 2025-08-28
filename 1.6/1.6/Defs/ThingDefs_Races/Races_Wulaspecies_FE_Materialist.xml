@@ -497,7 +497,7 @@
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>6</drawSize>
           <shadowData>
-            <volume>(0.4, 0.8, 0.4)</volume>
+            <volume>(1.4, 1.8, 1.4)</volume>
           </shadowData>
         </bodyGraphicData>
       </li>
@@ -505,6 +505,14 @@
     <weaponMoney>99999~99999</weaponMoney>
 
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+    <weaponTags>
+      <li>Wula_Mech_Mobile_Factory_Main_Weapon</li>
+    </weaponTags>
+
+    <abilities>
+      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
+      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
+    </abilities>
   </PawnKindDef>
   <PawnKindDef ParentName="Wula_Mech_Mobile_Factory">
     <defName>Wula_Mech_Mobile_Factory_1</defName> <!-- 修改了defName以避免冲突 -->
