@@ -192,6 +192,7 @@
     <Compile Include="Patch_ForceTargetable.cs" />
     <Compile Include="Verb\VerbProperties_Excalibur.cs" />
     <Compile Include="Verb\Verb_Excalibur.cs" />
+    <Compile Include="HediffComp_TopTurret.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Thing_ExcaliburBeam.cs" />

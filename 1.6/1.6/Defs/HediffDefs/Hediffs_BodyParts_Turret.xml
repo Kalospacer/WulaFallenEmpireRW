@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- 
+    这是作为炮塔的武器定义 (ThingDef)
+    它本身是一个不可装备、不可见的物品，仅作为 HediffComp 的数据源。
+    HediffComp_TopTurret 会从这里读取武器的属性 (verb)、射程、冷却时间等，
+    以及炮塔的图形 (graphicData)。
+  -->
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_WULA_MiniTurretGun_ForHediff</defName>
+    <label>tactical turret gun</label>
+    <description>A simple automatic gun made to be mounted on a turret.</description>
+    <graphicData>
+      <texPath>Things/Building/TacticalTurret/TacticalTurret_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.77</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.45</AccuracyMedium>
+      <AccuracyLong>0.24</AccuracyLong>
+      <RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_TacticalTurret</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>19.9</range> <!-- Must be kept in sync with "explosion radius" of Grenade_TurretPack -->
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <burstShotCount>2</burstShotCount>
+        <soundCast>GunShotA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- 
+    这是 Hediff 定义本身 
+    你可以通过任何方式将这个 Hediff 添加给一个 Pawn，
+    例如通过植入物、基因、甚至是开发人员命令。
+  -->
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>WULA_ShoulderCannon</defName>
+    <label>shoulder cannon</label>
+    <description>A shoulder-mounted automated cannon that tracks and fires upon hostiles.</description>
+    <spawnThingOnRemoved>Steel</spawnThingOnRemoved>
+    <hediffClass>Hediff_Implant</hediffClass>
+    <defaultLabelColor>(0.6, 0.6, 0.6)</defaultLabelColor>
+    <isBad>false</isBad>
+    
+    <!-- 这里是关键部分 -->
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_TopTurret">
+        <!-- 
+          指定上面定义的那个武器 ThingDef。
+          这个组件会根据这个 ThingDef 创建一个虚拟的枪械并进行射击。
+        -->
+        <turretDef>Gun_WULA_MiniTurretGun_ForHediff</turretDef>
+        
+        <!-- (可选) 炮塔旋转的偏移角度，0度通常指向右方 -->
+        <angleOffset>0</angleOffset>
+        
+        <!-- (可选) 是否自动攻击，默认为 true -->
+        <autoAttack>true</autoAttack>
+      </li>
+    </comps>
+    
+    <stages>
+      <li>
+        <!-- 你可以在这里添加其他效果，比如移动速度加成/减成等 -->
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
