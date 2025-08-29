@@ -42,6 +42,11 @@
         <soundCast>RocketswarmLauncher_Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
+        <targetParams>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetBuildings>true</canTargetBuildings>
+        </targetParams>
       </li>
     </verbs>
     <costList Inherit="False">

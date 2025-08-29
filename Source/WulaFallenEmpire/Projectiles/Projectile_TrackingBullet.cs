@@ -84,8 +84,13 @@ namespace WulaFallenEmpire
 
             if (homing)
             {
+                // 首先检查目标是否是一个有效的 Thing
+                if (!intendedTarget.HasThing)
+                {
+                    homing = false; // 如果目标是地面，则禁用追踪
+                }
                 // 如果目标消失或距离太远，停止追踪
-                if (!intendedTarget.IsValid || !intendedTarget.Thing.Spawned || (intendedTarget.Cell.ToVector3() - ExactPosition).magnitude > def.projectile.speed * 2f) // 假设2倍速度为最大追踪距离
+                else if (!intendedTarget.IsValid || !intendedTarget.Thing.Spawned || (intendedTarget.Cell.ToVector3() - ExactPosition).magnitude > def.projectile.speed * 2f) // 假设2倍速度为最大追踪距离
                 {
                     homing = false;
                     destroyTicksAfterLosingTrack = TrackingDef.destroyTicksAfterLosingTrack.RandomInRange; // 失去追踪后根据XML配置的范围自毁

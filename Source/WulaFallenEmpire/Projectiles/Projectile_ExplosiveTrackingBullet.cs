@@ -50,7 +50,7 @@ namespace WulaFallenEmpire
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            bool flag = blockedByShield || ExplosiveDef.explosionDelay == 0; // Use ExplosiveDef for explosionDelay
+            bool flag = hitThing == null || blockedByShield || ExplosiveDef.explosionDelay == 0; // Use ExplosiveDef for explosionDelay
             if (flag)
             {
                 this.Explode();
