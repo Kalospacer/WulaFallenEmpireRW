@@ -218,7 +218,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Penetrating_Beam</defName>
     <label>穿透光束</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_WulaPenetratingBeam</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
         <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
@@ -246,7 +246,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Penetrating_Beam_Ranged</defName>
     <label>穿透光束</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_WulaPenetratingBeam</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
         <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
@@ -362,7 +362,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Sphene_MG</defName>
     <label>榍石光束</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaBeam</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_WulaPenetratingBeam</thingClass>
     <graphicData>
       <texPath>Things/Projectile/ChargeLanceShot</texPath>
       <graphicClass>Graphic_Single</graphicClass>
