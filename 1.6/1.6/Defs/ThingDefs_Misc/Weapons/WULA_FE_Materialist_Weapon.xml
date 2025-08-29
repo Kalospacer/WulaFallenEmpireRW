@@ -5,6 +5,7 @@
     <label>XXx-00 "贯杀炮"</label>
     <description>乌拉帝国军械部在黄金时期所设计的武器，时至今日仍未被确认其实际代号。这种武器装填缓慢、体积巨大，只能由最庞大的战争平台所配备，所发射的切割束几乎可以横跨战场，并抹除路径上所有的敌人。</description>
     <techLevel>Archotech</techLevel>
+    <tradeability>None</tradeability>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Unlimit_Penetrating_Beam_Cannon</texPath>
       <graphicClass>Graphic_Single</graphicClass>

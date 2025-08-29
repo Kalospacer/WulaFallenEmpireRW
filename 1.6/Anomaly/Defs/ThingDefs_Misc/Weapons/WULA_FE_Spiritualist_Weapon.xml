@@ -790,8 +790,9 @@
     <defName>Bullet_WULA_RW_Photon_Missile</defName>
     <label>灵能星光</label>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Photon_Missile</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Wula/Building/WULA_Charging_Station_Synth</texPath>
+      <!-- <texPath>Wula/Projectile/WULA_Photon_Missile</texPath> -->
+      <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_CruiseMissile</thingClass>

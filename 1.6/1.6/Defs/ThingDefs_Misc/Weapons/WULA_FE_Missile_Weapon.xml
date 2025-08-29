@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>WULA_RW_Base_Loitering_Munition</defName>
+    <label>WLl-35"沸石"</label>
+    <description>乌拉帝国使用的一种基础反装甲肩扛式巡飞弹，开火速度和飞弹飞行速度都较慢，但是可以在远距离上击穿装甲并造成伤害，通常给派发给个殖民地用于对付凶猛的大型野兽。</description>
+    <tickerType>Normal</tickerType>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Base_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>2500</WorkToMake>
+      <!-- <MarketValue>370</MarketValue> -->
+      <Mass>8</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>1</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>3.5</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <!-- <defaultProjectile>Bullet_AssaultRifle</defaultProjectile> -->
+        <defaultProjectile>Bullet_WULA_RW_Base_Loitering_Munition</defaultProjectile>
+        <warmupTime>5</warmupTime>
+        <range>46</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+    <costList Inherit="False">
+      <Steel>200</Steel>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T2</li>
+    </weaponTags>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Base_Loitering_Munition</defName>
+    <label>沸石巡飞弹</label>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Charging_Station_Synth</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
+    <projectile>
+      <speed>25</speed>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>100</damageAmountBase>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
+      <stoppingPower>10</stoppingPower>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
+        <explosionRadius>1.5</explosionRadius>
+        <damageDef>Bomb</damageDef>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <homingSpeed>0.75</homingSpeed>
+        <initRotateAngle>0</initRotateAngle>
+        <destroyTicksAfterLosingTrack>
+          <min>60</min>
+          <max>120</max>
+        </destroyTicksAfterLosingTrack>
+        <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+        <impactThreshold>1</impactThreshold>
+      </li>
+    </modExtensions>
+  </ThingDef>
+</Defs>
