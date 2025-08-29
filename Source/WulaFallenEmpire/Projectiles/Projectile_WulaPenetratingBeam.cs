@@ -16,7 +16,7 @@ namespace WulaFallenEmpire
         public float beamStartOffset = 0f;
     }
 
-    public class Projectile_WulaBeam : Bullet
+    public class Projectile_WulaPenetratingBeam : Bullet
     {
         private int hitCounter = 0;
         private List<Thing> alreadyDamaged = new List<Thing>();
