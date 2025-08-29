@@ -1,5 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- 有一个verb的cs引用了这个，勿删 -->
+  <ThingDef ParentName="MoteBase">
+    <defName>ExcaliburBeam</defName>
+    <thingClass>WulaFallenEmpire.Thing_ExcaliburBeam</thingClass>
+    <label>Excalibur Beam</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData>
+      <texPath>Things/Mote/PowerBeam</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <drawOffscreen>true</drawOffscreen>
+    <mote>
+      <fadeInTime>0.5</fadeInTime>
+      <solidTime>9.3</solidTime>
+      <fadeOutTime>1.0</fadeOutTime>
+    </mote>
+  </ThingDef>
+
   <ThingDef ParentName="MoteBase">
     <defName>Mote_Wula_Dark_Matter_Beam</defName>
     <thingClass>MoteDualAttached</thingClass>

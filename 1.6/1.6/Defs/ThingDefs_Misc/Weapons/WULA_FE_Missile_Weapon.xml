@@ -20,6 +20,9 @@
       <researchPrerequisite>WULA_Synth_Weapon_2_Missile_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
+    <researchPrerequisites>
+      <li>WULA_Adv_WorkTable_Technology</li>
+    </researchPrerequisites>
     <statBases>
       <WorkToMake>2500</WorkToMake>
       <!-- <MarketValue>370</MarketValue> -->
