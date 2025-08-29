@@ -195,6 +195,12 @@
     <Compile Include="HediffComp_TopTurret.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Spawner\CompMultiFuelSpawner.cs" />
+    <Compile Include="Spawner\CompRefuelableWithKey.cs" />
+    <Compile Include="Spawner\Patch_CompRefuelableWithKey.cs" />
+    <Compile Include="Spawner\Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Thing_ExcaliburBeam.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
