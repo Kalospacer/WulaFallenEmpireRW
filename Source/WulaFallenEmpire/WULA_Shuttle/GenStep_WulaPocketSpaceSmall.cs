@@ -91,7 +91,9 @@ namespace WulaFallenEmpire
                         ThingDef wallDef = DefDatabase<ThingDef>.GetNamed("WulaWall", false);
                         if (wallDef != null)
                         {
-                            Thing wall = ThingMaker.MakeThing(wallDef);
+                            // WulaWall是madeFromStuff的建筑，需要指定材料
+                            ThingDef steelDef = DefDatabase<ThingDef>.GetNamed("Steel", false);
+                            Thing wall = ThingMaker.MakeThing(wallDef, steelDef);
                             wall.SetFaction(null);
                             GenPlace.TryPlaceThing(wall, pos, map, ThingPlaceMode.Direct);
                         }
