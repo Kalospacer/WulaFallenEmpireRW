@@ -3,19 +3,21 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Base_Loitering_Munition</defName>
     <label>WLl-35"沸石"</label>
-    <description>乌拉帝国使用的一种基础反装甲肩扛式巡飞弹，开火速度和飞弹飞行速度都较慢，但是可以在远距离上击穿装甲并造成伤害，通常给派发给个殖民地用于对付凶猛的大型野兽。</description>
+    <description>乌拉帝国使用的一种反装甲肩扛式巡飞弹，开火速度和飞弹飞行速度都较慢，但是可以在远距离上击穿装甲并造成伤害。</description>
     <tickerType>Normal</tickerType>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Base_AR</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Base_Loitering_Munition</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.35</drawSize>
     </graphicData>
+    <uiIconScale>0.8</uiIconScale>
     <soundInteract>Interact_Rifle</soundInteract>
     <recipeMaker>
       <recipeUsers Inherit="False">
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Missile_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
@@ -57,8 +59,8 @@
     <defName>Bullet_WULA_RW_Base_Loitering_Munition</defName>
     <label>沸石巡飞弹</label>
     <graphicData>
-      <texPath>Wula/Building/WULA_Charging_Station_Synth</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Wula/Projectile/WULA_Loitering_Munition</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
     <projectile>

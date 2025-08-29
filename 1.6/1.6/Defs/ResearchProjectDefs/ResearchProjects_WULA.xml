@@ -150,6 +150,17 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_2_Missile_Technology</defName>
+    <label>导弹武装套件</label>
+    <description>开发能够发射追踪巡飞弹的乌拉帝国武备，以对抗难以消灭的重甲敌军。</description>
+    <baseCost>1600</baseCost>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>1.00</researchViewY>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_2_Stun_Technology</defName>
     <label>镇暴武装套件</label>
     <description>开发能够武装乌拉帝国合成人的镇暴类装备，以盾牌和失能武器构成，旨在抑制对手的行动。</description>
@@ -173,6 +184,7 @@
       <li>WULA_Synth_Weapon_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+
 
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_2_Laser_Technology</defName>
@@ -223,6 +235,7 @@
       <li>BeamWeapons</li>
       <li>WULA_Adv_WorkTable_Technology</li>
       <li>WULA_Synth_Weapon_2_Plasma_Technology</li>
+      <li>WULA_Synth_Weapon_2_Missile_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">

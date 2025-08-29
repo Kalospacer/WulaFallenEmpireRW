@@ -162,6 +162,7 @@
     </tools>
     <recipeMaker>
       <recipeUsers Inherit="False" />
+      <researchPrerequisite Inherit="False" />
     </recipeMaker>
   </ThingDef>
 

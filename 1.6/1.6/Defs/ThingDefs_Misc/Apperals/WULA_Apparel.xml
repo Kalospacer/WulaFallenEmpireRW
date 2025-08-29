@@ -1519,6 +1519,131 @@
     </projectile>
   </ThingDef>
 
+  
+  <!-- 特殊 -->
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>Apparel_WULA_Manpack_Loitering_Munition</defName>
+    <label>MPl_8"蛭石"</label>
+    <description>派发给乌拉帝国突击队的一次性巡飞弹发射器，装有温压炸药，能对大量软目标造成范围性的伤害——而且不需要占用编制，允许突击队携带其他武器。</description>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Manpack_Loitering_Munition</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <statBases>
+      <WorkToMake>1000</WorkToMake>
+      <Mass>1</Mass>
+      <EquipDelay>1</EquipDelay>
+      <MaxHitPoints>150</MaxHitPoints>
+    </statBases>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Missile_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <costList Inherit="False">
+      <Steel>30</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <tickerType>Normal</tickerType>
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <apparel>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <scoreOffset>4</scoreOffset>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <ignoredByNonViolent>true</ignoredByNonViolent>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <wornGraphicPath>Wula/Apparel/WULA_Manpack_Loitering_Munition</wornGraphicPath>
+      <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+        <north>
+          <!-- <scale>(0.7,0.7)</scale> -->
+        </north>
+        <south>
+          <offset>(0,0)</offset>
+        </south>
+        <east>
+          <offset>(-0.1,0)</offset>
+        </east>
+        <west>
+          <offset>(0.1,0)</offset>
+        </west>
+      </wornGraphicData>
+    </apparel>
+    <smeltable>false</smeltable>
+    <burnableByRecipe>false</burnableByRecipe>
+    <drawGUIOverlay>false</drawGUIOverlay>
+    <comps>
+      <li Class="CompProperties_ApparelReloadable">
+        <maxCharges>1</maxCharges>
+        <destroyOnEmpty>true</destroyOnEmpty>
+        <hotKey>Misc4</hotKey>
+        <chargeNoun>蛭石巡飞弹</chargeNoun>
+        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_LaunchProjectileStaticPsychic</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <!-- <defaultProjectile>Bullet_AssaultRifle</defaultProjectile> -->
+        <defaultProjectile>Bullet_WULA_Manpack_Loitering_Munition</defaultProjectile>
+        <warmupTime>1</warmupTime>
+        <range>25</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_Manpack_Loitering_Munition</defName>
+    <label>蛭石巡飞弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Loitering_Munition</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
+    <projectile>
+      <speed>25</speed>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>60</damageAmountBase>
+      <armorPenetrationBase>0.25</armorPenetrationBase>
+      <stoppingPower>10</stoppingPower>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
+        <explosionRadius>4.5</explosionRadius>
+        <damageDef>Bomb</damageDef>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <homingSpeed>0.75</homingSpeed>
+        <initRotateAngle>0</initRotateAngle>
+        <destroyTicksAfterLosingTrack>
+          <min>60</min>
+          <max>120</max>
+        </destroyTicksAfterLosingTrack>
+        <tailFleckDef>WULA_GunTail_Blue</tailFleckDef>
+        <impactThreshold>1</impactThreshold>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
 
 	<ApparelLayerDef>
 		<defName>Shield</defName>
