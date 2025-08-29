@@ -381,7 +381,7 @@
     <chanterRole>ChanterAdvanced</chanterRole>
     <iconPath>UI/PsychicRituals/PsychicRitual_ImbueDeathRefusal</iconPath>
   </WulaFallenEmpire.PsychicRitualDef_AddHediff>
-  <WulaFallenEmpire.PsychicRitualDef_AddHediff>
+  <WulaFallenEmpire.PsychicRitualDef_AddHediff MayRequire="rabiosus.autoblink">
     <defName>WULA_InstantJumpdriveBlessing_Buff</defName>
     <label>祝福：转瞬移型加护</label>
     <description>以乌拉帝国的仪式强化被召选者，使其获得短距离的自体传送能力，一次只能获得一种来自乌拉帝国仪式的加护。</description>

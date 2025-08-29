@@ -25,7 +25,7 @@
           <li>
             <!-- <hediff>WULA_SwiftHunterBlessing</hediff> -->
             <hediff>WULA_AbyssFearBlessing</hediff>
-            <hediff>WULA_InstantJumpdriveBlessing</hediff>
+            <hediff MayRequire="rabiosus.autoblink">WULA_InstantJumpdriveBlessing</hediff>
             <hediff>WULA_MindSpringBlessing</hediff>
           </li>
         </hediffs>
@@ -58,7 +58,7 @@
           <li>
             <hediff>WULA_SwiftHunterBlessing</hediff>
             <!-- <hediff>WULA_AbyssFearBlessing</hediff> -->
-            <hediff>WULA_InstantJumpdriveBlessing</hediff>
+            <hediff MayRequire="rabiosus.autoblink">WULA_InstantJumpdriveBlessing</hediff>
             <hediff>WULA_MindSpringBlessing</hediff>
           </li>
         </hediffs>
@@ -80,7 +80,7 @@
           <li>
             <hediff>WULA_SwiftHunterBlessing</hediff>
             <hediff>WULA_AbyssFearBlessing</hediff>
-            <!-- <hediff>WULA_InstantJumpdriveBlessing</hediff> -->
+            <!-- <hediff MayRequire="rabiosus.autoblink">WULA_InstantJumpdriveBlessing</hediff> -->
           </li>
         </hediffs>
         <letterLabel>加护已取代</letterLabel>
@@ -136,7 +136,7 @@
           <li>
             <hediff>WULA_SwiftHunterBlessing</hediff>
             <hediff>WULA_AbyssFearBlessing</hediff>
-            <hediff>WULA_InstantJumpdriveBlessing</hediff>
+            <hediff MayRequire="rabiosus.autoblink">WULA_InstantJumpdriveBlessing</hediff>
             <!-- <hediff>WULA_MindSpringBlessing</hediff> -->
           </li>
         </hediffs>
