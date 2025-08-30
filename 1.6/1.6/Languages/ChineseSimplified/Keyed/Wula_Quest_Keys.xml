@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- 回收物品任务 -->
+  <Wula_Quest_RecoverItem_Name>回收：{0}</Wula_Quest_RecoverItem_Name>
+  <Wula_Quest_RecoverItem_Description>乌拉族的一个代理人联系了你。他们发现了一个装有{0}的古代遗迹，但是被{1}的{2}看守着。\n\n他们希望你派人去取回这个物品。作为回报，他们会提供奖励。\n\n地点在[site_tile_label]，位于[site_tile_label]方向[site_tile_distance]天路程。</Wula_Quest_RecoverItem_Description>
+  <Wula_Quest_RecoverItem_LetterLabel>任务：回收物品</Wula_Quest_RecoverItem_LetterLabel>
+  <Wula_Quest_RecoverItem_LetterText>你收到了一个来自乌拉族的任务请求。</Wula_Quest_RecoverItem_LetterText>
+  <Wula_Quest_RecoverItem_ItemPickedUp_Label>已取回物品</Wula_Quest_RecoverItem_ItemPickedUp_Label>
+  <Wula_Quest_RecoverItem_ItemPickedUp_Text>你的人已经拿到了{0}。现在需要将它安全带回殖民地，乌拉族会派穿梭机来取走它。</Wula_Quest_RecoverItem_ItemPickedUp_Text>
+  <Wula_Quest_RecoverItem_ShuttleArrived_Label>回收穿梭机已抵达</Wula_Quest_RecoverItem_ShuttleArrived_Label>
+  <Wula_Quest_RecoverItem_ShuttleArrived_Text>乌拉族的回收穿梭机已经抵达。请将{0}装载到穿梭机中以完成任务。</Wula_Quest_RecoverItem_ShuttleArrived_Text>
+
+</LanguageData>

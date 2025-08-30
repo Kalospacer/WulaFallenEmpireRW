@@ -192,6 +192,8 @@
     <Compile Include="Verb\Verb_Excalibur\VerbProperties_Excalibur.cs" />
     <Compile Include="Verb\Verb_Excalibur\Verb_Excalibur.cs" />
     <Compile Include="HediffComp\GD3_HediffComp_TopTurret\HediffComp_TopTurret.cs" />
+    <Compile Include="Quests\CustomQuestNodes.cs" />
+    <Compile Include="Quests\QuestUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WULA_MutiFuelSpawner\CompMultiFuelSpawner.cs" />

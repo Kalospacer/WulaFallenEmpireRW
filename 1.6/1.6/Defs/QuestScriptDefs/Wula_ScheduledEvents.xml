@@ -1,61 +1,136 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <QuestScriptDef>
-    <defName>Wula_Quest_ExampleEvent</defName>
-    <label>乌拉的呼唤</label>
-    <description>一个强大的心灵实体将它的意志强加于你的意识之中。</description>
+    <defName>Wula_Quest_RecoverItem</defName>
     <root Class="QuestNode_Sequence">
       <nodes>
-        <li Class="QuestNode_ResolveQuestName">
-          <rules>
-            <rulesStrings>
-              <li>questName->乌拉的呼唤</li>
-            </rulesStrings>
-          </rules>
+        <!-- Setup -->
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
         </li>
-        <li Class="QuestNode_ResolveQuestDescription">
-          <rules>
-            <rulesStrings>
-              <li>questDescription->一个强大的心灵实体将它的意志强加于你的意识之中。</li>
-            </rulesStrings>
-          </rules>
+        <li Class="QuestNode_GetMap" />
+        <li Class="QuestNode_GetFaction">
+          <storeAs>asker</storeAs>
+          <allowEnemy>false</allowEnemy>
         </li>
-        <li Class="WulaFallenEmpire.QuestNode_Root_EventLetter">
-          <letterLabel>乌拉需要你的注意</letterLabel>
-          <letterTitle>乌拉需要你的注意</letterTitle>
-          <letterText>一个强大的心灵实体将它的意志强加于你的意识之中。它自称为“乌拉”，并要求你阅览它的消息。这股力量是压倒性的，不容拒绝。</letterText>
-          <options>
+
+        <!-- Generate Site -->
+        <li Class="QuestNode_GetSiteTile">
+          <storeAs>siteTile</storeAs>
+          <preferCloserTiles>true</preferCloserTiles>
+        </li>
+        <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+          <storeAs>sitePartDefs</storeAs>
+          <storeFactionAs>siteFaction</storeFactionAs>
+          <sitePartsTags>
             <li>
-              <label>阅览消息</label>
-              <optionEffects>
-                <li>
-                  <effects>
-                    <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
-                      <defName>Wula_UI_Anisia_1</defName>
-                    </li>
-                  </effects>
-                </li>
-              </optionEffects>
+              <tag>ItemStash</tag>
             </li>
             <li>
-              <label>尝试抵抗（但失败了）</label>
-              <optionEffects>
-                <li>
-                  <effects>
-                    <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
-                      <defName>Wula_UI_Anisia_1</defName>
-                    </li>
-                    <li Class="WulaFallenEmpire.Effect_ShowMessage">
-                      <message>你试图抵抗心灵入侵，但这股力量过于强大。无论如何，消息还是涌入了你的脑海。</message>
-                      <messageTypeDef>NegativeEvent</messageTypeDef>
-                    </li>
-                  </effects>
-                </li>
-              </optionEffects>
+              <tag>ItemStashQuestThreat</tag>
+              <chance>0.85</chance>
             </li>
-          </options>
+          </sitePartsTags>
         </li>
+        <li Class="QuestNode_GetDefaultSitePartsParams">
+          <tile>$siteTile</tile>
+          <faction>$siteFaction</faction>
+          <sitePartDefs>$sitePartDefs</sitePartDefs>
+          <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_GenerateSite</def>
+        </li>
+        <li Class="QuestNode_SpawnWorldObjects">
+          <worldObjects>$site</worldObjects>
+        </li>
+
+        <!-- Generate Items -->
+        <li Class="QuestNode_GenerateThing">
+          <def>Wula_QuestItem_AncientDataDevice</def>
+          <storeAs>itemStashContents</storeAs>
+        </li>
+        <li Class="WulaFallenEmpire.Quests.QuestNode_AddThingRules">
+          <thing>$itemStashContents</thing>
+          <prefix>itemStashContents</prefix>
+        </li>
+
+        <!-- Resolve text -->
+        <li Class="QuestNode_ResolveQuestName" />
+        <li Class="QuestNode_ResolveQuestDescription" />
+
+        <!-- Start Quest -->
+        <li Class="QuestNode_Letter">
+          <label Tkey="LetterLabelQuestAvailable">任务：[questName]</label>
+          <text Tkey="LetterTextQuestAvailable">[questDescription]</text>
+        </li>
+        
+        <!-- Main Quest Logic -->
+        <li Class="QuestNode_Signal">
+          <inSignal>site.MapGenerated</inSignal>
+          <node Class="WulaFallenEmpire.Quests.QuestNode_SpawnThing_Wula">
+              <mapParent>$site</mapParent>
+              <thing>$itemStashContents</thing>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>itemStashContents.PickedUp</inSignal>
+          <node Class="QuestNode_Letter">
+            <label>已取回物品</label>
+            <text>你的人已经拿到了[itemStashContents_label]。现在需要将它安全带回殖民地，乌拉族会派穿梭机来取走它。</text>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>WulaFallenEmpire.Quest.RecoverItem.ItemRecoveredToHome</inSignal>
+          <node Class="WulaFallenEmpire.Quests.QuestNode_DropShuttleForRecovery">
+              <map>$itemStashContents.Map</map>
+              <itemToRecover>$itemStashContents</itemToRecover>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+            <inSignal>WulaFallenEmpire.Quest.RecoverItem.ItemLoadedOnShuttle</inSignal>
+            <node Class="QuestNode_Sequence">
+                <nodes>
+                    <li Class="QuestNode_GiveRewards">
+                        <parms>
+                          <rewardValue>$(800 * questPointFactor)</rewardValue>
+                        </parms>
+                    </li>
+                    <li Class="QuestNode_End">
+                        <outcome>Success</outcome>
+                    </li>
+                </nodes>
+            </node>
+        </li>
+
+        <!-- Timeout -->
+        <li Class="QuestNode_WorldObjectTimeout">
+          <worldObject>$site</worldObject>
+          <isQuestTimeout>true</isQuestTimeout>
+          <delayTicks>$(randInt(12,28)*60000)</delayTicks>
+          <inSignalDisable>site.MapGenerated</inSignalDisable>
+          <outSignalComplete>QuestTimeout</outSignalComplete>
+        </li>
+        <li Class="QuestNode_End">
+            <inSignal>QuestTimeout</inSignal>
+            <outcome>Fail</outcome>
+        </li>
+
       </nodes>
     </root>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->回收[itemStashContents_label]</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[asker_nameDef]希望你前往[site_tile_label]附近的一个地点，取回一个[itemStashContents_label]。\n\n该地点由[siteFaction_name]的[siteFaction_pawnsPlural]看守。</li>
+      </rulesStrings>
+    </questDescriptionRules>
   </QuestScriptDef>
+
 </Defs>

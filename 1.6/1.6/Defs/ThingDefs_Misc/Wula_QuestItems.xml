@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>Wula_QuestItem_AncientDataDevice</defName>
+    <label>古代数据设备</label>
+    <description>一个古老的、无法破译的数据存储设备。它不包含任何有价值的信息，但乌拉族似乎对回收它很感兴趣。</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/ComponentSpacer</texPath> <!-- 使用零件的贴图，更常见 -->
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <resourceReadoutPriority>First</resourceReadoutPriority>
+    <soundInteract>Silver_Drop</soundInteract>
+    <soundDrop>Silver_Drop</soundDrop>
+    <useHitPoints>true</useHitPoints> <!-- 可燃物品必须有生命值 -->
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <Mass>2</Mass>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+    </statBases>
+    <thingCategories>
+      <li>Items</li>
+    </thingCategories>
+    <tradeability>None</tradeability>
+    <thingSetMakerTags>
+      <li>Quest</li>
+    </thingSetMakerTags>
+    <stackLimit>1</stackLimit>
+    <techLevel>Ultra</techLevel>
+  </ThingDef>
+
+</Defs>

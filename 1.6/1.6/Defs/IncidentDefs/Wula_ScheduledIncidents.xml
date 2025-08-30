@@ -22,4 +22,18 @@
     -->
   </IncidentDef>
 
+  <IncidentDef>
+    <defName>Wula_Incident_RecoverItem</defName>
+    <label>回收物品</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <questScriptDef>Wula_Quest_RecoverItem</questScriptDef>
+    <baseChance>0.4</baseChance>
+    <earliestDay>15</earliestDay>
+    <minRefireDays>20</minRefireDays>
+  </IncidentDef>
+
 </Defs>
