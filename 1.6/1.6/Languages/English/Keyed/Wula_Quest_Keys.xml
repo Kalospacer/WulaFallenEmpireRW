@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- Recover Item Quest -->
+  <Wula_Quest_RecoverItem_Name>Recover: {0}</Wula_Quest_RecoverItem_Name>
+  <Wula_Quest_RecoverItem_Description>An agent of the Wula has contacted you. They have located an ancient relic containing {0}, guarded by {1} of the {2}.\n\nThey wish for you to retrieve this item. In return, they will provide a reward.\n\nThe location is at [site_tile_label], [site_tile_distance] days travel from [site_tile_label].</Wula_Quest_RecoverItem_Description>
+  <Wula_Quest_RecoverItem_LetterLabel>Quest: Recover Item</Wula_Quest_RecoverItem_LetterLabel>
+  <Wula_Quest_RecoverItem_LetterText>You have received a quest request from the Wula.</Wula_Quest_RecoverItem_LetterText>
+  <Wula_Quest_RecoverItem_ItemPickedUp_Label>Item Retrieved</Wula_Quest_RecoverItem_ItemPickedUp_Label>
+  <Wula_Quest_RecoverItem_ItemPickedUp_Text>Your people have retrieved the {0}. You now need to bring it safely back to your colony, and the Wula will send a shuttle to collect it.</Wula_Quest_RecoverItem_ItemPickedUp_Text>
+  <Wula_Quest_RecoverItem_ShuttleArrived_Label>Recovery Shuttle Arrived</Wula_Quest_RecoverItem_ShuttleArrived_Label>
+  <Wula_Quest_RecoverItem_ShuttleArrived_Text>The enemies at the quest site have been cleared. The Wula recovery shuttle is en route, please wait for its arrival and load the item.</Wula_Quest_RecoverItem_ShuttleArrived_Text>
+  <Wula_Quest_RecoverItem_FailedNoShuttle_Label>Quest Failed: Item Not Recovered</Wula_Quest_RecoverItem_FailedNoShuttle_Label>
+  <Wula_Quest_RecoverItem_FailedNoShuttle_Text>You left the quest site without loading the {0} onto the recovery shuttle. The Wula are disappointed, and the quest has failed.</Wula_Quest_RecoverItem_FailedNoShuttle_Text>
+
+</LanguageData>

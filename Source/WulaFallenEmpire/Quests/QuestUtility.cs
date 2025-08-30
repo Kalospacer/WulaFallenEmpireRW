@@ -50,13 +50,13 @@ namespace WulaFallenEmpire.Quests
 
                 if (item.Map != null && item.Map.IsPlayerHome)
                 {
-                    Find.SignalManager.SendSignal(new Signal("WulaFallenEmpire.Quest.RecoverItem.ItemRecoveredToHome"));
+                    Find.SignalManager.SendSignal(new Signal("WulaFallenEmpire.Quest.RecoverItem.ItemRecoveredToHome", new NamedArgument(item, "SUBJECT")));
                 }
                 
                 if (item.ParentHolder is CompTransporter transporter && transporter.groupID == shuttleGroupID)
                 {
-                    Find.SignalManager.SendSignal(new Signal("WulaFallenEmpire.Quest.RecoverItem.ItemLoadedOnShuttle"));
-                    UnregisterRecoveryQuest(item); 
+                    Find.SignalManager.SendSignal(new Signal("WulaFallenEmpire.Quest.RecoverItem.ItemLoadedOnShuttle", new NamedArgument(item, "SUBJECT")));
+                    UnregisterRecoveryQuest(item);
                 }
             }
         }

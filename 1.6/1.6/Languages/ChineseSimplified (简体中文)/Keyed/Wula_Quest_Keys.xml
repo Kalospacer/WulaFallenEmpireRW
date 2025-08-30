@@ -8,7 +8,9 @@
   <Wula_Quest_RecoverItem_LetterText>你收到了一个来自乌拉族的任务请求。</Wula_Quest_RecoverItem_LetterText>
   <Wula_Quest_RecoverItem_ItemPickedUp_Label>已取回物品</Wula_Quest_RecoverItem_ItemPickedUp_Label>
   <Wula_Quest_RecoverItem_ItemPickedUp_Text>你的人已经拿到了{0}。现在需要将它安全带回殖民地，乌拉族会派穿梭机来取走它。</Wula_Quest_RecoverItem_ItemPickedUp_Text>
-  <Wula_Quest_RecoverItem_ShuttleArrived_Label>回收穿梭机已抵达</Wula_Quest_RecoverItem_ShuttleArrived_Label>
-  <Wula_Quest_RecoverItem_ShuttleArrived_Text>乌拉族的回收穿梭机已经抵达。请将{0}装载到穿梭机中以完成任务。</Wula_Quest_RecoverItem_ShuttleArrived_Text>
+  <Wula_Quest_RecoverItem_ShuttleArrived_Label>回收穿梭机即将抵达</Wula_Quest_RecoverItem_ShuttleArrived_Label>
+  <Wula_Quest_RecoverItem_ShuttleArrived_Text>任务地点的敌人已被清除。乌拉族的回收穿梭机正在赶来，请等待其抵达并装载物品。</Wula_Quest_RecoverItem_ShuttleArrived_Text>
+  <Wula_Quest_RecoverItem_FailedNoShuttle_Label>任务失败：未回收物品</Wula_Quest_RecoverItem_FailedNoShuttle_Label>
+  <Wula_Quest_RecoverItem_FailedNoShuttle_Text>你离开了任务地点，但未能将{0}装载到回收穿梭机中。乌拉族对此表示失望，任务失败。</Wula_Quest_RecoverItem_FailedNoShuttle_Text>
 
 </LanguageData>
