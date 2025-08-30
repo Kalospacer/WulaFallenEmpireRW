@@ -1,3 +1,4 @@
+using System; // Add this line
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,6 +27,7 @@ namespace WulaFallenEmpire
 
         public Vector2 windowSize = Vector2.zero;
 
+        public Type windowType = typeof(Dialog_CustomDisplay); // 默认窗口类型
         public List<EventOption> options;
         public string backgroundImagePath;
         public List<ConditionalEffects> immediateEffects;
@@ -83,7 +85,7 @@ namespace WulaFallenEmpire
         public List<Effect> randomlistEffects;
         public List<LoopEffects> loopEffects;
 
-        public void Execute(Dialog_CustomDisplay dialog)
+        public void Execute(Window dialog)
         {
             // Execute all standard effects
             if (!effects.NullOrEmpty())

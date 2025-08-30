@@ -1,3 +1,4 @@
+using System; // Required for Activator
 using System.Collections.Generic;
 using LudeonTK;
 using Verse;
@@ -45,7 +46,7 @@ namespace WulaFallenEmpire
                     }
                     else
                     {
-                        Find.WindowStack.Add(new Dialog_CustomDisplay(currentDef));
+                        Find.WindowStack.Add((Window)Activator.CreateInstance(currentDef.windowType, currentDef));
                     }
                 }));
             }

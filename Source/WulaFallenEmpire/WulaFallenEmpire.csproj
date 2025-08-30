@@ -90,6 +90,7 @@
     <Compile Include="WULA_EventSystem\Dialog_ManageEventVariables.cs" />
     <Compile Include="WULA_EventSystem\DelayedActionManager.cs" />
     <Compile Include="WULA_EventSystem\Dialog_CustomDisplay.cs" />
+    <Compile Include="WULA_EventSystem\Dialog_NewLayoutDisplay.cs" />
     <Compile Include="WULA_EventSystem\Effect.cs" />
     <Compile Include="WULA_EventSystem\EventVariableManager.cs" />
     <Compile Include="WULA_EventSystem\EventDef.cs" />

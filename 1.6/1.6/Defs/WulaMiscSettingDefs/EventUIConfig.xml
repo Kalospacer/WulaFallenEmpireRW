@@ -22,6 +22,15 @@
     <optionsTextOffset>0</optionsTextOffset>
 
     <defaultWindowSize>(750, 600)</defaultWindowSize>
+
+    <!-- New Layout Dimensions -->
+    <newLayoutNameSize>(200, 50)</newLayoutNameSize>
+    <newLayoutLihuiSize>(600, 200)</newLayoutLihuiSize>
+    <newLayoutTextSize>(600, 200)</newLayoutTextSize>
+    <newLayoutOptionsWidth>600</newLayoutOptionsWidth>
+    <newLayoutPadding>20</newLayoutPadding>
+    <newLayoutTextNameOffset>20</newLayoutTextNameOffset>
+    <newLayoutOptionsTextOffset>20</newLayoutOptionsTextOffset>
     
   </WulaFallenEmpire.EventUIConfigDef>
 

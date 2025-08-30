@@ -22,5 +22,13 @@ namespace WulaFallenEmpire
         // Virtual Layout Offsets
         public float textNameOffset = 20f;
         public float optionsTextOffset = 20f;
+        // New Layout Dimensions
+        public Vector2 newLayoutNameSize = new Vector2(200f, 50f);
+        public Vector2 newLayoutLihuiSize = new Vector2(300f, 400f);
+        public Vector2 newLayoutTextSize = new Vector2(600f, 200f);
+        public float newLayoutOptionsWidth = 600f;
+        public float newLayoutPadding = 20f;
+        public float newLayoutTextNameOffset = 20f;
+        public float newLayoutOptionsTextOffset = 20f;
     }
 }

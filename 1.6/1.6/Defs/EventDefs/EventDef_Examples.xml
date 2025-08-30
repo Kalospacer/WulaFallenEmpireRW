@@ -2,6 +2,57 @@
 <Defs>
 
   <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Anisia_1_NewWindow</defName>
+    <label>来自守密者的问候</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Anisia_1</portraitPath>
+    <characterName>URa-1138「艾妮西娅」</characterName>
+    <windowType>WulaFallenEmpire.Dialog_NewLayoutDisplay</windowType>
+    <descriptions>
+      <li>很高兴看到你们的殖民地没有变成荒野中的烂泥。那么，今天找我有什么事情？</li>
+      <li>宇宙生存法则第一条：不要惹平胸火气大的女人。</li>
+      <li>什么样的结局，才配得上这一路的颠沛流离？无论你们走向何方，我都将见证你们。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>我想问你点问题</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Anisia_10</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>有事情想拜托你</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Anisia_200</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>再见</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+
+  <WulaFallenEmpire.EventDef>
     <defName>Wula_Test_Raid_Event</defName>
     <label>测试袭击事件</label>
     <description>这是一个测试，用于触发一个带有自定义 pawn 组的袭击。</description>

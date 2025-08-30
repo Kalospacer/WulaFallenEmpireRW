@@ -1,3 +1,4 @@
+using System; // Required for Activator
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace WulaFallenEmpire
     public abstract class Effect
     {
         public float weight = 1.0f;
-        public abstract void Execute(Dialog_CustomDisplay dialog = null);
+        public abstract void Execute(Window dialog = null);
     }
 
     public class Effect_OpenCustomUI : Effect
@@ -17,7 +18,7 @@ namespace WulaFallenEmpire
         public string defName;
         public int delayTicks = 0;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (delayTicks > 0)
             {
@@ -58,7 +59,7 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Find.WindowStack.Add(new Dialog_CustomDisplay(nextDef));
+                    Find.WindowStack.Add((Window)Activator.CreateInstance(nextDef.windowType, nextDef));
                 }
             }
             else
@@ -89,7 +90,7 @@ namespace WulaFallenEmpire
 
     public class Effect_CloseDialog : Effect
     {
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             dialog?.Close();
         }
@@ -100,7 +101,7 @@ namespace WulaFallenEmpire
         public string message;
         public MessageTypeDef messageTypeDef;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (messageTypeDef == null)
             {
@@ -114,7 +115,7 @@ namespace WulaFallenEmpire
     {
         public IncidentDef incident;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (incident == null)
             {
@@ -140,7 +141,7 @@ namespace WulaFallenEmpire
         public FactionDef faction;
         public int goodwillChange;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (faction == null)
             {
@@ -166,7 +167,7 @@ namespace WulaFallenEmpire
         public string type; // Int, Float, String, Bool
         public bool forceSet = false;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             if (!forceSet && eventVarManager.HasVariable(name))
@@ -199,7 +200,7 @@ namespace WulaFallenEmpire
         public FactionDef faction;
         public string goodwillVariableName;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (faction == null)
             {
@@ -225,7 +226,7 @@ namespace WulaFallenEmpire
         public int count = 1;
         public string storeAs;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (kindDef == null)
             {
@@ -264,7 +265,7 @@ namespace WulaFallenEmpire
         public ThingDef thingDef;
         public int count = 1;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (thingDef == null)
             {
@@ -298,7 +299,7 @@ namespace WulaFallenEmpire
         public string letterText;
         public LetterDef letterDef;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (kindDef == null)
             {
@@ -356,7 +357,7 @@ namespace WulaFallenEmpire
         public string valueVariableName;
         public VariableOperation operation;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -434,7 +435,7 @@ namespace WulaFallenEmpire
     {
         public string name;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -449,7 +450,7 @@ namespace WulaFallenEmpire
     {
         public QuestScriptDef quest;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (quest == null)
             {
@@ -468,7 +469,7 @@ namespace WulaFallenEmpire
     {
         public ResearchProjectDef research;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (research == null)
             {
@@ -490,7 +491,7 @@ namespace WulaFallenEmpire
         public string letterLabel;
         public string letterText;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             Map map = Find.CurrentMap;
             if (map == null)
@@ -563,7 +564,7 @@ namespace WulaFallenEmpire
         public FactionDef factionDef;
         public string variableName;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (factionDef == null || string.IsNullOrEmpty(variableName))
             {
@@ -592,7 +593,7 @@ namespace WulaFallenEmpire
     {
         public string variableName;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (string.IsNullOrEmpty(variableName))
             {
@@ -611,7 +612,7 @@ namespace WulaFallenEmpire
     {
         public string variableName;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (string.IsNullOrEmpty(variableName))
             {
@@ -630,7 +631,7 @@ namespace WulaFallenEmpire
     {
         public string variableName;
 
-        public override void Execute(Dialog_CustomDisplay dialog = null)
+        public override void Execute(Window dialog = null)
         {
             if (string.IsNullOrEmpty(variableName))
             {

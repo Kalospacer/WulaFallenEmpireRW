@@ -74,7 +74,7 @@ namespace WulaFallenEmpire
             {
                 // This logic is simplified from Effect_OpenCustomUI.OpenUI
                 // It assumes delayed actions always open a new dialog.
-                Find.WindowStack.Add(new Dialog_CustomDisplay(nextDef));
+                Find.WindowStack.Add((Window)Activator.CreateInstance(nextDef.windowType, nextDef));
             }
             else
             {

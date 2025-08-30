@@ -1,3 +1,4 @@
+using System; // Required for Activator
 using RimWorld;
 using Verse;
 using System.Collections.Generic;
@@ -46,7 +47,7 @@ namespace WulaFallenEmpire
                 EventDef uiDef = DefDatabase<EventDef>.GetNamed(Props.uiDefName, false);
                 if (uiDef != null)
                 {
-                    Find.WindowStack.Add(new Dialog_CustomDisplay(uiDef));
+                    Find.WindowStack.Add((Window)Activator.CreateInstance(uiDef.windowType, uiDef));
                 }
                 else
                 {

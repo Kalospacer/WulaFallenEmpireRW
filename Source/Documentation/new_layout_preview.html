@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件UI布局预览 (动态版)</title>
+    <style>
+        body {
+            background-color: #333;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .controls {
+            margin-bottom: 20px;
+            width: 1000px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            background-color: #222;
+            color: #ddd;
+            border: 1px solid #555;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .window {
+            width: 1000px;
+            height: 750px;
+            background-color: #555;
+            border: 2px solid #ccc;
+            position: relative;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+        }
+        .element {
+            position: absolute;
+            box-sizing: border-box;
+            border: 2px solid white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+        }
+        .lihui { background-color: rgba(255, 0, 0, 0.4); }
+        .name { background-color: rgba(0, 255, 0, 0.4); }
+        .text { background-color: rgba(0, 0, 255, 0.4); }
+        .options { background-color: rgba(255, 255, 0, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h3>动态布局预览</h3>
+        <p>请将您的 <code>EventUIConfig.xml</code> 文件内容完整粘贴到下面的文本框中，然后点击“生成预览”按钮。</p>
+        <textarea id="xmlInput" placeholder="在这里粘贴 EventUIConfig.xml 的内容..."></textarea>
+        <button onclick="generatePreview()">生成预览</button>
+    </div>
+    <div class="window" id="window">
+        <!-- 布局将在这里生成 -->
+    </div>
+
+    <script>
+        function parseVector2(str) {
+            const match = str.match(/\((\s*[\d.]+)\s*,\s*([\d.]+)\s*\)/);
+            return match ? { x: parseFloat(match[1]), y: parseFloat(match[2]) } : { x: 0, y: 0 };
+        }
+
+        function generatePreview() {
+            const xmlString = document.getElementById('xmlInput').value;
+            if (!xmlString) {
+                alert('请先粘贴XML内容！');
+                return;
+            }
+
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+            
+            // Need to escape the dot in the class name for querySelector
+            const configDef = xmlDoc.querySelector('WulaFallenEmpire\\.EventUIConfigDef');
+            if (!configDef) {
+                alert('无法找到 WulaFallenEmpire.EventUIConfigDef 节点，请检查XML内容是否正确。');
+                return;
+            }
+
+            const config = {
+                newLayoutNameSize: parseVector2(configDef.querySelector('newLayoutNameSize')?.textContent || '(0,0)'),
+                newLayoutLihuiSize: parseVector2(configDef.querySelector('newLayoutLihuiSize')?.textContent || '(0,0)'),
+                newLayoutTextSize: parseVector2(configDef.querySelector('newLayoutTextSize')?.textContent || '(0,0)'),
+                newLayoutOptionsWidth: parseFloat(configDef.querySelector('newLayoutOptionsWidth')?.textContent || '0'),
+                newLayoutPadding: parseFloat(configDef.querySelector('newLayoutPadding')?.textContent || '0'),
+                newLayoutTextNameOffset: parseFloat(configDef.querySelector('newLayoutTextNameOffset')?.textContent || '0'),
+                newLayoutOptionsTextOffset: parseFloat(configDef.querySelector('newLayoutOptionsTextOffset')?.textContent || '0')
+            };
+
+            const windowRect = { width: 1000, height: 750 };
+            const windowDiv = document.getElementById('window');
+            windowDiv.innerHTML = ''; // Clear previous preview
+
+            // --- Calculation logic from Dialog_NewLayoutDisplay.cs ---
+            const padding = config.newLayoutPadding;
+
+            // Name
+            const nameHeight = config.newLayoutNameSize.y;
+            const nameWidth = config.newLayoutNameSize.x;
+            const nameRect = { left: (windowRect.width - nameWidth) / 2, top: padding, width: nameWidth, height: nameHeight };
+            createDiv('name', '名称 (Name)', nameRect);
+
+            // Lihui (Portrait)
+            const lihuiWidth = config.newLayoutLihuiSize.x;
+            const lihuiHeight = config.newLayoutLihuiSize.y;
+            const lihuiRect = { left: (windowRect.width - lihuiWidth) / 2, top: nameRect.top + nameRect.height + padding, width: lihuiWidth, height: lihuiHeight };
+            createDiv('lihui', '立绘 (Portrait)', lihuiRect);
+
+            // Options (pre-calculate height for text area)
+            const optionButtonHeight = 30; // This is a placeholder, as JS can't directly use C#'s dynamic calculation
+            const optionSpacing = 5;
+            let calculatedOptionHeight = 100; // Default or minimum height for options for preview
+            // In a real JS implementation, you might dynamically measure the height needed for buttons based on text content
+
+            const optionsWidth = config.newLayoutOptionsWidth;
+            const optionRect = { left: (windowRect.width - optionsWidth) / 2, top: windowRect.height - padding - calculatedOptionHeight, width: optionsWidth, height: calculatedOptionHeight };
+            
+            // Text (Description)
+            const textWidth = config.newLayoutTextSize.x;
+            const textRect = { left: (windowRect.width - textWidth) / 2, top: lihuiRect.top + lihuiRect.height + padding, width: textWidth, height: optionRect.top - (lihuiRect.top + lihuiRect.height + padding) - padding };
+            createDiv('text', '描述 (Description)', textRect);
+
+            createDiv('options', '选项 (Options)', optionRect);
+        }
+
+        function createDiv(className, text, rect) {
+            const div = document.createElement('div');
+            div.className = `element ${className}`;
+            div.textContent = text;
+            div.style.left = `${rect.left}px`;
+            div.style.top = `${rect.top}px`;
+            div.style.width = `${rect.width}px`;
+            div.style.height = `${rect.height}px`;
+            document.getElementById('window').appendChild(div);
+        }
+        
+        // Auto-populate with example content
+        document.getElementById('xmlInput').value = `<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <WulaFallenEmpire.EventUIConfigDef>
+    <defName>Wula_EventUIConfig</defName>
+    
+    <!-- General Style -->
+    <labelFont>Small</labelFont>
+    <drawBorders>true</drawBorders>
+    <defaultBackgroundImagePath></defaultBackgroundImagePath>
+    
+    <!-- New Layout Dimensions -->
+    <newLayoutNameSize>(200, 50)</newLayoutNameSize>
+    <newLayoutLihuiSize>(300, 400)</newLayoutLihuiSize>
+    <newLayoutTextSize>(600, 200)</newLayoutTextSize>
+    <newLayoutOptionsWidth>600</newLayoutOptionsWidth>
+    <newLayoutPadding>20</newLayoutPadding>
+    <newLayoutTextNameOffset>20</newLayoutTextNameOffset>
+    <newLayoutOptionsTextOffset>20</newLayoutOptionsTextOffset>
+    
+  </WulaFallenEmpire.EventUIConfigDef>
+</Defs>`;
+
+    </script>
+</body>
+</html>
