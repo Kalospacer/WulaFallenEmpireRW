@@ -1313,7 +1313,12 @@
       </lifeStageAges>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
       <!-- <baseHealthScale>4</baseHealthScale> -->
-       <canFlyInVacuum>true</canFlyInVacuum>
+      <!-- <canFlyInVacuum>true</canFlyInVacuum> -->
+      <deathAction Class="DeathActionProperties_Vanish">
+        <workerClass>DeathActionWorker_Vanish</workerClass>
+        <filth>Filth_MachineBits</filth>
+        <filthCountRange>1~2</filthCountRange>
+      </deathAction>
     </race>
     <comps>
       <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
@@ -1372,7 +1377,12 @@
       </lifeStageAges>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
       <!-- <baseHealthScale>4</baseHealthScale> -->
-      <canFlyInVacuum>true</canFlyInVacuum>
+      <!-- <canFlyInVacuum>true</canFlyInVacuum> -->
+      <deathAction Class="DeathActionProperties_Vanish">
+        <workerClass>DeathActionWorker_Vanish</workerClass>
+        <filth>Filth_MachineBits</filth>
+        <filthCountRange>1~2</filthCountRange>
+      </deathAction>
     </race>
     <comps>
       <!--
@@ -1483,7 +1493,12 @@
       </lifeStageAges>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
       <!-- <baseHealthScale>4</baseHealthScale> -->
-       <canFlyInVacuum>true</canFlyInVacuum>
+       <!-- <canFlyInVacuum>true</canFlyInVacuum> -->
+      <deathAction Class="DeathActionProperties_Vanish">
+        <workerClass>DeathActionWorker_Vanish</workerClass>
+        <filth>Filth_MachineBits</filth>
+        <filthCountRange>1~2</filthCountRange>
+      </deathAction>
     </race>
     <comps>
       <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->

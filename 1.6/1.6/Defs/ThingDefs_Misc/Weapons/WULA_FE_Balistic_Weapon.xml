@@ -33,8 +33,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <!-- <defaultProjectile>Bullet_AssaultRifle</defaultProjectile> -->
-        <defaultProjectile>Bullet_WULA_Weapon_Plasm_HomingExplosive</defaultProjectile>
+        <defaultProjectile>Bullet_AssaultRifle</defaultProjectile>
         <warmupTime>1</warmupTime>
         <range>25</range>
         <burstShotCount>1</burstShotCount>

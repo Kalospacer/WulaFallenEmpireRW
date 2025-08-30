@@ -224,7 +224,7 @@
     <statBases>
       <MarketValue>1000</MarketValue>
       <Mass>0.01</Mass>
-      <WorkToMake>30000</WorkToMake>
+      <MaxHitPoints>50</MaxHitPoints>
     </statBases>
     <thingCategories>
       <li>ResourcesRaw</li>
@@ -309,6 +309,79 @@
     <allowedArchonexusCount>200</allowedArchonexusCount>
     <possessionCount>50</possessionCount>
   </ThingDef>
+
+  <!-- 制造有机物前体 -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>Wula_Organic_Precursor</defName>
+    <label>有机物前体</label>
+    <description>一坨经过封包之后完全认不出原料的玩意，只能扔进乌拉帝国铸铁仪中加工为钢铁。</description>
+    <graphicData>
+      <texPath>Wula/Item/WULA_Dark_Matter_Item</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tickerType>Rare</tickerType>
+    <smeltable>false</smeltable>
+    <genericMarketSellable>false</genericMarketSellable>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <DeteriorationRate>6</DeteriorationRate>
+      <MarketValue>1</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+  </ThingDef>
+  <RecipeDef>
+    <defName>Make_Wula_Organic_Precursor</defName>
+    <label>制造有机物前体</label>
+    <description>制造有机物前体以供乌拉帝国铸铁仪器使用</description>
+    <jobString>正在制造有机物前体。</jobString>
+    <workAmount>450</workAmount>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredients>
+      <li>
+        <filter>
+          <customSummary>有机物</customSummary>
+          <categories>
+            <li>MeatRaw</li>
+            <li>AnimalProductRaw</li>
+            <li>PlantFoodRaw</li>
+          </categories>
+          <thingDefs>
+            <li>Hay</li>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>30</count>
+      </li>
+    </ingredients>
+    <products>
+      <Wula_Organic_Precursor>30</Wula_Organic_Precursor>
+    </products>
+    <fixedIngredientFilter>
+      <categories>
+        <li>FoodRaw</li>
+      </categories>
+      <thingDefs>
+        <li>Hay</li>
+        <li>WoodLog</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <categories>
+        <li>Foods</li>
+      </categories>
+      <thingDefs>
+        <li>Hay</li>
+      </thingDefs>
+    </defaultIngredientFilter>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
 
   <ThingDef Abstract="True" Name="WULA_Syhth_Trainer">
     <!-- <defName>WULA_Syhth_Trainer</defName>

@@ -277,7 +277,6 @@
   <ThingDef ParentName="BasicBedBase">
     <defName>WULA_Charging_Station_Synth</defName>
     <thingClass>Building_Bed</thingClass>
-    <tickerType>Normal</tickerType>
     <label>合成人充电站</label>
     <description>一台供乌拉帝国合成人进行机体充能和改装的检修站，当机械乌拉需要充电时会优先前往此处充电。</description>
     <tickerType>Normal</tickerType>
@@ -835,5 +834,79 @@
     <placeWorkers>
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
     </placeWorkers>
+  </ThingDef>
+
+  <!-- 产铁机 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Steel_Assembler</defName>
+    <label>乌拉帝国铸铁仪</label>
+    <description>一台来自于乌拉帝国的极其复杂的机器，无法在边缘世界建造。其可以将有机物转化通过分子重构转换为无机物钢铁，以辅助乌拉帝国殖民地的开拓进程。</description>
+    <thingClass>Building</thingClass>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <graphicData>
+      <texPath>Things/Building/Production/FabricationBench</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.5, 1.5)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>70</pathCost>
+    <rotatable>true</rotatable>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Beauty>-15</Beauty>
+      <Mass>20</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <size>(3,3)</size>
+    <comps>
+      <!-- Power Connection -->
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      
+      <li Class="WulaFallenEmpire.CompProperties_MultiFuelSpawner">
+        <spawnIntervalRange>120000~120000</spawnIntervalRange>
+        <products>
+          <li>
+            <thingDef>Steel</thingDef>
+            <count>100</count>
+          </li>
+        </products>
+        <showMessageIfOwned>true</showMessageIfOwned>
+      </li>
+
+      <li Class="WulaFallenEmpire.CompProperties_RefuelableWithKey">
+        <saveKeysPrefix>steel</saveKeysPrefix>
+        <fuelLabel>有机物储量</fuelLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Wula_Organic_Precursor</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>200</fuelCapacity>
+        <fuelConsumptionRate>10</fuelConsumptionRate>
+        <canEjectFuel>true</canEjectFuel>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <consumeFuelOnlyWhenUsed>false</consumeFuelOnlyWhenUsed>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
   </ThingDef>
 </Defs>

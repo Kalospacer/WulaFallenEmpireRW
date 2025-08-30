@@ -35,15 +35,7 @@
       <Comfort>0.65</Comfort>
     </statBases>
     <tickerType>Normal</tickerType>
-    <designationCategory>WULA_Buildings</designationCategory>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
-    <costList>
-      <Steel>300</Steel>
-      <Plasteel>200</Plasteel>
-      <ComponentIndustrial>8</ComponentIndustrial>
-      <ComponentSpacer>2</ComponentSpacer>
-      <ShuttleEngine>1</ShuttleEngine>
-    </costList>
     <canOverlapZones>true</canOverlapZones>
     <killedLeavings>
       <Steel>60</Steel>
@@ -79,9 +71,9 @@
       <li>ITab_ContentsTransporter</li>
       <li>ITab_Shells</li>
     </inspectorTabs>
-    <researchPrerequisites>
+    <!-- <researchPrerequisites>
       <li>Shuttles</li>
-    </researchPrerequisites>
+    </researchPrerequisites> -->
     <comps>
       <li Class="CompProperties_Shuttle">
         <shipDef>Ship_ArmedShuttle</shipDef>
@@ -153,7 +145,7 @@
     <blockWind>true</blockWind>
     <passability>PassThroughOnly</passability>
     <fillPercent>0.5</fillPercent>
-    <size>(4,4)</size>
+    <size>(2,2)</size>
     <drawHighlight>true</drawHighlight>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <uiIconScale>1</uiIconScale>
@@ -161,10 +153,11 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Wula/Building/WULA_ArmedShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(4,4)</drawSize>
+      <drawSize>(3,3.25)</drawSize>
+      <drawOffset>(0, 8, 0.8)</drawOffset>
       <shadowData>
-        <volume>(1.4, 1, 1.3)</volume>
-        <offset>(-0.5, 0, -0.1)</offset>
+        <volume>(1, 1, 1)</volume>
+        <offset>(0, 0, -1.2)</offset>
       </shadowData>
     </graphicData>
     <staticSunShadowHeight Inherit="False" IsNull="True" />
@@ -195,7 +188,7 @@
     </killedLeavings>
     <rotatable>true</rotatable>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(2, 0, 0)</interactionCellOffset>
+    <interactionCellOffset>(0, 1, 0)</interactionCellOffset>
     <defaultPlacingRot>East</defaultPlacingRot>
     <selectable>true</selectable>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
@@ -338,7 +331,7 @@
     <techLevel>Ultra</techLevel>
     <relicChance>0</relicChance>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_WM_Panzer_Autocannon</texPath>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>2</drawSize>
     </graphicData>
@@ -413,11 +406,12 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Wula/Building/WULA_ArmedShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(4,4)</drawSize>
+      <drawSize>(3,3.25)</drawSize>
+      <drawOffset>(0, 8, 0.8)</drawOffset>
     </graphicData>
     <staticSunShadowHeight Inherit="False" IsNull="True" />
     <castEdgeShadows>False</castEdgeShadows>
-    <size>(4,4)</size>
+    <size>(2,2)</size>
     <skyfaller>
       <anticipationSound>Shuttle_Landing</anticipationSound>
       <anticipationSoundTicks>250</anticipationSoundTicks>
@@ -455,11 +449,12 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Wula/Building/WULA_ArmedShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(4,4)</drawSize>
+      <drawSize>(3,3.25)</drawSize>
+      <drawOffset>(0, 8, 0.8)</drawOffset>
     </graphicData>
     <staticSunShadowHeight Inherit="False" IsNull="True" />
     <castEdgeShadows>False</castEdgeShadows>
-    <size>(4,4)</size>
+    <size>(2,2)</size>
     <skyfaller>
       <reversed>true</reversed>
       <anticipationSound>Shuttle_Leaving</anticipationSound>
@@ -490,15 +485,20 @@
       </speedCurve>
     </skyfaller>
   </ThingDef>
-
   <TransportShipDef>
     <defName>Ship_ArmedShuttle</defName>
     <label>武装穿梭机</label>
     <shipThing>WULA_ArmedShuttle</shipThing>
     <arrivingSkyfaller>ArmedShuttleIncoming_WULA</arrivingSkyfaller>
     <leavingSkyfaller>ArmedShuttleLeaving_WULA</leavingSkyfaller>
-    <worldObject>PassengerShuttle</worldObject>
+    <worldObject>Wula_ArmedShuttle_Object</worldObject>
     <playerShuttle>true</playerShuttle>
   </TransportShipDef>
-
+  <WorldObjectDef ParentName="ShuttleWorldObjectBase">
+    <defName>Wula_ArmedShuttle_Object</defName>
+    <label>乌拉帝国武装穿梭机</label>
+    <description>一台正在飞行的乌拉帝国武装穿梭机。</description>
+    <expandingIconTexture>World/WorldObjects/Expanding/Wula_ArmedShuttle</expandingIconTexture>
+    <expandingIconDrawSize>1</expandingIconDrawSize>
+  </WorldObjectDef>
 </Defs>

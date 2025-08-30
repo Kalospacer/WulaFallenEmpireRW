@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Patch>
-    <Operation Class="PatchOperationSequence" MayRequire="Ludeon.RimWorld.Odyssey">
-        <operations>
-            <li Class="PatchOperationAdd">
-                <xpath>*/ThingDef[defName = "GravEngine"]/comps/li[@Class = "CompProperties_AffectedByFacilities"]/linkableFacilities</xpath>
-                <value>
-                    <li>Wula_DarkEnergy_FuelTank</li>
-                </value>
-            </li>
-        </operations>
-    </Operation>
+  <Operation Class="PatchOperationSequence" MayRequire="Ludeon.RimWorld.Odyssey">
+    <operations>
+      <li Class="PatchOperationAdd">
+        <xpath>*/ThingDef[defName = "GravEngine"]/comps/li[@Class = "CompProperties_AffectedByFacilities"]/linkableFacilities</xpath>
+        <value>
+          <li>Wula_DarkEnergy_FuelTank</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <li Class="PatchOperationAdd">
+          <xpath>*/ThingDef[defName = "TableButcher"]/recipes</xpath>
+          <value>
+            <li>Make_Wula_Organic_Precursor</li>
+          </value>
+      </li>
+    </operations>
+  </Operation>
 </Patch>
