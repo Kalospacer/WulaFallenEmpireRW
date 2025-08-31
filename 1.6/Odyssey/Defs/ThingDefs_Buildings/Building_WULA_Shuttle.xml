@@ -11,7 +11,7 @@
     <blockWind>true</blockWind>
     <passability>PassThroughOnly</passability>
     <fillPercent>0.5</fillPercent>
-    <size>(4,4)</size>
+    <size>(2,2)</size>
     <drawHighlight>true</drawHighlight>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <uiIconScale>1</uiIconScale>
@@ -19,10 +19,11 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Wula/Building/WULA_ArmedShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(4,4)</drawSize>
+      <drawSize>(3,3.25)</drawSize>
+      <drawOffset>(0, 8, 0.8)</drawOffset>
       <shadowData>
-        <volume>(1.4, 1, 1.3)</volume>
-        <offset>(-0.5, 0, -0.1)</offset>
+        <volume>(1, 1, 1)</volume>
+        <offset>(0, 0, -1.2)</offset>
       </shadowData>
     </graphicData>
     <staticSunShadowHeight Inherit="False" IsNull="True" />
