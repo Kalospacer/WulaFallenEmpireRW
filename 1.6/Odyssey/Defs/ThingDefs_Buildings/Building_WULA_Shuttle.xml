@@ -407,8 +407,8 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Wula/Building/WULA_ArmedShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(3,3.25)</drawSize>
-      <drawOffset>(0, 8, 0.8)</drawOffset>
+      <drawSize>(6,6.25)</drawSize>
+      <drawOffset>(0, 8, 1.6)</drawOffset>
     </graphicData>
     <staticSunShadowHeight Inherit="False" IsNull="True" />
     <castEdgeShadows>False</castEdgeShadows>
@@ -450,8 +450,8 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Wula/Building/WULA_ArmedShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(3,3.25)</drawSize>
-      <drawOffset>(0, 8, 0.8)</drawOffset>
+      <drawSize>(6,6.25)</drawSize>
+      <drawOffset>(0, 8, 1.6)</drawOffset>
     </graphicData>
     <staticSunShadowHeight Inherit="False" IsNull="True" />
     <castEdgeShadows>False</castEdgeShadows>
