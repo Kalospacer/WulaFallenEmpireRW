@@ -203,6 +203,10 @@
   <ItemGroup>
     <Compile Include="Verb\Verb_Excalibur\Thing_ExcaliburBeam.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Harmony\MapLifecycle_Patches.cs" />
+    <Compile Include="Harmony\WulaMapProtectionHelper.cs" />
+  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

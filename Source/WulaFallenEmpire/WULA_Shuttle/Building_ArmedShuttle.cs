@@ -356,7 +356,6 @@ namespace WulaFallenEmpire
                 command_Toggle.isActive = () => holdFire;
                 yield return command_Toggle;
             }
-            Log.Message($"[WULA] Stage 2: Launch Sequence - Providing launch gizmos for {this.Label}.");
             // The following gizmos are already provided by Building_PassengerShuttle's GetGizmos()
             // foreach (Gizmo gizmo in ShuttleComp.CompGetGizmosExtra()) yield return gizmo;
             // foreach (Gizmo gizmo in LaunchableComp.CompGetGizmosExtra()) yield return gizmo;

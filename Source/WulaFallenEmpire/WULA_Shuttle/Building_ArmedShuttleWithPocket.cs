@@ -162,7 +162,7 @@ namespace WulaFallenEmpire
             Log.Message($"[WULA-DEBUG] ExposeData called, mode: {Scribe.mode}");
             
             base.ExposeData();
-            Scribe_Deep.Look(ref pocketMap, "pocketMap");
+            Scribe_References.Look(ref pocketMap, "pocketMap");
             Scribe_Values.Look(ref pocketMapGenerated, "pocketMapGenerated", false);
             Scribe_Values.Look(ref pocketMapSize, "pocketMapSize", new IntVec2(80, 80));
             Scribe_Defs.Look(ref mapGenerator, "mapGenerator");
@@ -453,7 +453,8 @@ namespace WulaFallenEmpire
         /// </summary>
         protected virtual Map GeneratePocketMapInt()
         {
-            return PocketMapUtility.GeneratePocketMap(new IntVec3(pocketMapSize.x, 1, pocketMapSize.z), mapGenerator, null, this.Map);
+            // [核心修复] 将 sourceMap 设置为 null，彻底斩断口袋地图与创建它的主地图的生命周期联系。
+            return PocketMapUtility.GeneratePocketMap(new IntVec3(pocketMapSize.x, 1, pocketMapSize.z), mapGenerator, null, null);
         }
         
         /// <summary>
@@ -994,6 +995,9 @@ namespace WulaFallenEmpire
             
             base.SpawnSetup(map, respawningAfterLoad);
             
+            // 更新退出点目标，确保它指向当前的新地图
+            UpdateExitPointTarget();
+
             // 验证关键组件
             CompTransporter transporter = this.GetComp<CompTransporter>();
             if (transporter == null)
@@ -1004,9 +1008,6 @@ namespace WulaFallenEmpire
             {
                 Log.Message($"[WULA-DEBUG] CompTransporter found with {transporter.innerContainer?.Count ?? 0} items");
             }
-            
-            // 更新退出点目标（处理穿梭机重新部署的情况）
-            UpdateExitPointTarget();
             
             // 如果是从飞行状态恢复，重新启用传送功能
             if (transportDisabled)
