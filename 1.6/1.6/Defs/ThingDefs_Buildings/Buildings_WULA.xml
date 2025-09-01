@@ -486,6 +486,8 @@
       <li>WULA_Build_Mech_Cat_DM</li>
       <li>WULA_Build_AI_Heavy_Panzer</li>
       <li>WULA_Build_AI_Heavy_Panzer_Gunnery</li>
+      <li>WULA_Build_Alpha_Wolf</li>
+      <li>WULA_Build_Alpha_Mantodea</li>
       <li MayRequire="Ludeon.RimWorld.Odyssey">WULA_Build_AI_Engineer_Mother</li>
       <li MayRequire="Ludeon.RimWorld.Odyssey">WULA_Build_AI_Engineer_Mother_Attack</li>
     </recipes>
