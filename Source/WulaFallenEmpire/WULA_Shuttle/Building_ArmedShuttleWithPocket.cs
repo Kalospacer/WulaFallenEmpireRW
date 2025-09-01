@@ -566,8 +566,7 @@ namespace WulaFallenEmpire
                 Log.Message($"[WULA-DEBUG] Found CompTransporter with {transporter.innerContainer.Count} existing items");
 
                 // 转移所有殖民者
-                List<Pawn> pawnsToTransfer = pocketMap.mapPawns.AllPawnsSpawned
-                    .Where(p => p.IsColonist).ToList();
+                List<Pawn> pawnsToTransfer = pocketMap.mapPawns.AllPawnsSpawned.ToList();
                     
                 Log.Message($"[WULA-DEBUG] Found {pawnsToTransfer.Count} colonists to transfer");
                     
