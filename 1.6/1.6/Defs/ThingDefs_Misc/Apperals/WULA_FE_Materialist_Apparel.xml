@@ -258,7 +258,7 @@
       <HediffDef>WULA_Witch_Hat_Hediff</HediffDef>
     </descriptionHyperlinks>
     <isBad>false</isBad>
-    <tickerType>Normal</tickerType>
+    <!-- <tickerType>Normal</tickerType> -->
     <description>一位身着乌拉帝国学院魔女帽的乌拉星人在该机械体附近，发出的自持协议信号使该机械族自行汲取能量而无需充电。</description>
     <debugLabelExtra>other</debugLabelExtra>
     <defaultInstallPart>WULA_Addons_Antenna_Bodypart</defaultInstallPart>
