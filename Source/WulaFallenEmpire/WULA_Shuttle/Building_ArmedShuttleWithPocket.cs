@@ -71,7 +71,7 @@ namespace WulaFallenEmpire
         #endregion
 
         #region 属性
-
+ 
         /// <summary>获取内部口袋地图</summary>
         public Map PocketMap => pocketMap;
         
@@ -453,7 +453,9 @@ namespace WulaFallenEmpire
         /// </summary>
         protected virtual Map GeneratePocketMapInt()
         {
-            return PocketMapUtility.GeneratePocketMap(new IntVec3(pocketMapSize.x, 1, pocketMapSize.z), mapGenerator, null, this.Map);
+            // [核心修复] 将 sourceMap 设置为 null，彻底斩断口袋地图与创建它的主地图的生命周期联系。
+            // 这样，即使主地图被删除，口袋地图也不会被连锁删除。
+            return PocketMapUtility.GeneratePocketMap(new IntVec3(pocketMapSize.x, 1, pocketMapSize.z), mapGenerator, null, null);
         }
         
         /// <summary>
@@ -993,6 +995,38 @@ namespace WulaFallenEmpire
             IntVec3 oldPos = this.Position;
             
             base.SpawnSetup(map, respawningAfterLoad);
+
+            // [核心修复] 当穿梭机降落时，恢复其口袋地图的父级和在游戏中的注册状态
+            if (pocketMap != null && pocketMapGenerated)
+            {
+                // 验证口袋地图的父级对象是否存在于世界列表中
+                if (pocketMap.Parent is PocketMapParent pocketParent && !Find.World.pocketMaps.Contains(pocketParent))
+                {
+                    Log.Warning($"[WULA] Pocket map parent for map ID {pocketMap.uniqueID} was not found in the world list. Re-adding it to prevent data loss.");
+                    Find.World.pocketMaps.Add(pocketParent);
+                }
+
+                // 验证口袋地图本身是否存在于游戏地图列表中
+                if (!Find.Maps.Contains(pocketMap))
+                {
+                    Log.Warning($"[WULA] Pocket map ID {pocketMap.uniqueID} was not found in the game's map list. Re-registering it.");
+                    
+                    // 在重新添加前，进行安全检查，防止添加已损坏的地图
+                    if (!Find.Maps.Contains(pocketMap) && (pocketMap.mapPawns == null || pocketMap.Tile < 0))
+                    {
+                        Log.Error("[WULA] Cannot re-register a corrupted pocket map. The contents of the pocket space are likely lost. This is a critical error.");
+                        Messages.Message("WULA.PocketSpace.MapInvalidAndRecovering".Translate(), this, MessageTypeDefOf.NegativeEvent);
+                        pocketMap = null;
+                        pocketMapGenerated = false;
+                    }
+                    else
+                    {
+                        // 重新注册地图，使其再次“激活”
+                        Current.Game.AddMap(pocketMap);
+                        Log.Message($"[WULA] Pocket map {pocketMap.uniqueID} successfully re-registered.");
+                    }
+                }
+            }
             
             // 验证关键组件
             CompTransporter transporter = this.GetComp<CompTransporter>();
