@@ -153,8 +153,8 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Wula/Building/WULA_ArmedShuttle</texPath>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(3,3.25)</drawSize>
-      <drawOffset>(0, 8, 0.8)</drawOffset>
+      <drawSize>(6,6.25)</drawSize>
+      <drawOffset>(0, 8, 1.6)</drawOffset>
       <shadowData>
         <volume>(1, 1, 1)</volume>
         <offset>(0, 0, -1.2)</offset>

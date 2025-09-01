@@ -6,6 +6,9 @@
 		},
 		{
 			"path": "../../../../Data"
+		},
+		{
+			"path": "../../../ArachnaeSwarm"
 		}
 	],
 	"settings": {}
