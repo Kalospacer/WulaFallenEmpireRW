@@ -5,7 +5,16 @@
 			"path": "../.."
 		},
 		{
+			"name": "ArachnaeSwarm",
+			"path": "../../../ArachnaeSwarm"
+		},
+		{
+			"name": "Data",
 			"path": "../../../../Data"
+		},
+		{
+			"name": "Assemblies",
+			"path": "../../../../../../workshop/content/294100/2988801276/1.6/Assemblies"
 		}
 	],
 	"settings": {}
