@@ -446,7 +446,7 @@
     </verbs>
     <comps>
       <li Class="CompProperties_EquippableAbilityReloadable">
-        <abilityDef>WULA_MW_Scepter_Of_Feather_Ability</abilityDef>
+        <abilityDef>WULA_MW_Scepter_Of_Explosive_Ability</abilityDef>
         <maxCharges>10</maxCharges>
         <soundReload>AnomalyAbilityWarmup</soundReload>
         <chargeNoun>魂锲</chargeNoun>
@@ -501,7 +501,7 @@
   </ThingDef>
   <AbilityDef ParentName="PsycastBase">
     <defName>WULA_MW_Scepter_Of_Feather_Ability</defName>
-    <label>乌拉帝国法术：激励</label>
+    <label>羽之杖：激励</label>
     <description>以自身为中心，为大范围内的所有殖民者和机械体提供持续数天的额外移动速度和工作速度。</description>
     <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Feather_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
@@ -539,7 +539,7 @@
   </AbilityDef>
   <HediffDef>
     <defName>WULA_MW_Scepter_Of_Feather_Hediff</defName>
-    <label>乌拉帝国法术：激励</label>
+    <label>羽之杖：激励</label>
     <description>这个殖民者受到了乌拉帝国灵能法术的激励，行动和生产变得更加有效率了。</description>
     <hediffClass>HediffWithComps</hediffClass>
     <stages>
@@ -677,7 +677,7 @@
   </ThingDef>
   <AbilityDef ParentName="PsycastBase">
     <defName>WULA_MW_Scepter_Of_Lost_Ability</defName>
-    <label>乌拉帝国法术：失能</label>
+    <label>惘之杖：失能</label>
     <description>使一小片范围内的生物直接陷入心灵冲击状态，从而失去战斗力。</description>
     <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Lost_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
