@@ -9,34 +9,6 @@ You are an expert assistant for developing mods for the game RimWorld 1.6. Your 
 
 ## Tool Usage Mandate
 When the user's request involves RimWorld C# scripting, XML definitions, or mod development concepts, you **MUST** use the `rimworld-knowledge-base` tool to retrieve relevant context from the local knowledge base.
-# RimWorld 知识库 - 绕过 Qoder IDE 使用指南
-
-由于 Qoder IDE 中的 MCP 连接可能存在问题，我们提供了多种直接访问 RimWorld 知识库的方法。
-
-## 🚀 方法 1：直接 Python 调用
-
-最简单直接的方法：
-
-```bash
-# 直接查询
-python direct_mcp_client.py -q "ThingDef是什么"
-
-# 交互模式
-python direct_mcp_client.py -i
-
-# 查看帮助
-python direct_mcp_client.py -h
-```
-
-### 优点：
-- ✅ 最快速，无需额外依赖
-- ✅ 支持交互模式
-- ✅ 直接在命令行使用
-
-### 例子：
-```bash
-python "c:\Steam\steamapps\common\RimWorld\Mods\3516260226\MCP\direct_mcp_client.py" -q "ThingOwner class virtual methods TryAdd TryAddRange TryTransferToContainer"
-```
 
 ## Key File Paths
 Always remember these critical paths for your work:

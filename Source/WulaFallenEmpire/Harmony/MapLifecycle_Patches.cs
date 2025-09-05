@@ -11,14 +11,19 @@ namespace WulaFallenEmpire
     {
         public static void Postfix(ref bool __result, MapParent __instance)
         {
-            if (!__result)
+            // 如果游戏本来就不打算删除，或者地图不存在，我们什么都不做
+            if (!__result || !__instance.HasMap)
             {
                 return;
             }
+
             try
             {
-                if (__instance.HasMap && WulaMapProtectionHelper.ShouldProtectMap(__instance.Map))
+                // 检查地图上是否存在一个“活着”的武装穿梭机
+                if (WulaMapProtectionHelper.ShouldProtectMap(__instance.Map))
                 {
+                    // 游戏打算删除，但我们的逻辑说现在还不行，所以直接覆盖结果。
+                    // 因为 ShouldRemoveMapNow 会被周期性调用，所以这是安全的。
                     __result = false;
                 }
             }
@@ -26,23 +31,6 @@ namespace WulaFallenEmpire
             {
                 Log.Error($"[WULA] Error in MapParent_ShouldRemoveMapNow_Patch: {arg}");
             }
-        }
-    }
-
-    [HarmonyPatch(typeof(Game), "DeinitAndRemoveMap")]
-    [HarmonyPatch(new Type[] { typeof(Map), typeof(bool) })]
-    [HarmonyPriority(600)]
-    public static class Game_DeinitAndRemoveMap_Patch
-    {
-        [HarmonyPrefix]
-        private static bool PreventMapRemoval(Map map)
-        {
-            if (WulaMapProtectionHelper.ShouldProtectMap(map))
-            {
-                Log.Message("[WULA] Map destruction prevented by WulaMapProtectionHelper at Game.DeinitAndRemoveMap level.");
-                return false; // 返回 false 来阻止原始方法的执行
-            }
-            return true; // 返回 true 来继续执行原始方法
         }
     }
 }
