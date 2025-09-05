@@ -106,6 +106,7 @@
     <Compile Include="HarmonyPatches\Patch_JobGiver_GatherOfferingsForPsychicRitual.cs" />
     <Compile Include="HarmonyPatches\NoBloodForWulaPatch.cs" />
     <Compile Include="HarmonyPatches\Patch_CaravanInventoryUtility_FindShuttle.cs" />
+    <Compile Include="HarmonyPatches\MapParent_ShouldRemoveMapNow_Patch.cs" />
     <Compile Include="HediffComp\HediffComp_RegenerateBackstory.cs" />
     <Compile Include="WULA_Energy\HediffComp_WulaCharging.cs" />
     <Compile Include="HarmonyPatches\IngestPatch.cs" />
@@ -158,12 +159,12 @@
     <Compile Include="WULA_Energy\WorkGiverDefExtension_FeedWula.cs" />
     <Compile Include="WULA_Energy\WulaCaravanEnergyDef.cs" />
     <Compile Include="WulaFallenEmpireMod.cs" />
+    <Compile Include="WulaDefOf.cs" />
     <Compile Include="WULA_Energy\WulaStatDefOf.cs" />
     <Compile Include="WULA_Maintenance\Building_MaintenancePod.cs" />
     <Compile Include="WULA_Maintenance\HediffComp_MaintenanceNeed.cs" />
     <Compile Include="HediffComp\HediffComp_DamageResponse.cs" />
     <Compile Include="WULA_Maintenance\JobDefOf_WULA.cs" />
-    <Compile Include="ThingDefOf_WULA.cs" />
     <Compile Include="Cinder_WeaponSwitch\WeaponSwitch.cs" />
     <Compile Include="Verb\MeleeAttack_MultiStrike\CompMultiStrike.cs" />
     <Compile Include="Verb\MeleeAttack_MultiStrike\Verb_MeleeAttack_MultiStrike.cs" />
