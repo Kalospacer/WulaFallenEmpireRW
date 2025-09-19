@@ -21,6 +21,7 @@ from mcp.server.fastmcp import FastMCP
 
 # 2. --- 日志、缓存和知识库配置 ---
 LOG_FILE_PATH = os.path.join(MCP_DIR, 'mcpserver_parallel.log')
+RESULTS_LOG_PATH = os.path.join(MCP_DIR, 'mcp_results.log') # New log for results
 logging.basicConfig(filename=LOG_FILE_PATH, level=logging.INFO,
                    format='%(asctime)s - %(levelname)s - %(message)s',
                    encoding='utf-8')
@@ -162,6 +163,16 @@ def get_context(question: str) -> str:
         f"--- 本地完整代码参考 ---\n{local_result}"
     )
     
+    # Save the result to a separate log file
+    try:
+        with open(RESULTS_LOG_PATH, 'a', encoding='utf-8') as f:
+            import datetime
+            f.write(f"--- Query at {datetime.datetime.now()} ---\n")
+            f.write(f"Question: {question}\n")
+            f.write(f"--- Response ---\n{final_response}\n\n")
+    except Exception as e:
+        logging.error(f"无法将结果写入到 mcp_results.log: {e}")
+
     return final_response
 
 # 6. --- 启动服务器 ---

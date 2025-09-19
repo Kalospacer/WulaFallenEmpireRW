@@ -13,8 +13,18 @@
 			"path": "../../../../Data"
 		},
 		{
-			"name": "Assemblies",
-			"path": "../../../../../../workshop/content/294100/2988801276/1.6/Assemblies"
+			"name": "AlienRace",
+			"path": "../../../../../../../../Users/Kalo/Downloads/AlienRaces/Source/AlienRace/AlienRace"
+		},
+		{
+			"name": "3256974620",
+			"path": "../../../../../../workshop/content/294100/3256974620"
+		},
+		{
+			"path": "../../../../../../workshop/content/294100/3256974620/1.6/Assemblies/Milira"
+		},
+		{
+			"path": "../../../../../../workshop/content/294100/3240244292"
 		}
 	],
 	"settings": {}
