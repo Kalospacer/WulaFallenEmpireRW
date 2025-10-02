@@ -14,9 +14,9 @@ import threading
 
 # 1. --- 导入MCP SDK ---
 MCP_DIR = os.path.dirname(os.path.abspath(__file__))
-SDK_PATH = os.path.join(MCP_DIR, 'python-sdk', 'src')
-if SDK_PATH not in sys.path:
-    sys.path.insert(0, SDK_PATH)
+# SDK_PATH = os.path.join(MCP_DIR, 'python-sdk', 'src')
+# if SDK_PATH not in sys.path:
+#     sys.path.insert(0, SDK_PATH)
 from mcp.server.fastmcp import FastMCP
 
 # 2. --- 日志、缓存和知识库配置 ---
