@@ -243,7 +243,7 @@
     </verbProperties>
     <comps>
       <!-- 这是正确的用法 -->
-      <li Class="RimWorld.CompProperties_AbilityRemoveHediff">
+      <li Class="CompProperties_AbilityRemoveHediff">
         <compClass>WulaFallenEmpire.CompAbilityEffect_RemoveSwitchHediff</compClass>
         <hediffDef>WULA_MechCarrierSwitchHediff</hediffDef>
         <applyToSelf>true</applyToSelf>
@@ -270,7 +270,7 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <li Class="RimWorld.CompProperties_AbilityGiveHediff">
+      <li Class="CompProperties_AbilityGiveHediff">
         <compClass>WulaFallenEmpire.CompAbilityEffect_GiveSwitchHediff</compClass>
         <hediffDef>WULA_MechCarrierSwitchHediff</hediffDef>
         <applyToSelf>true</applyToSelf>

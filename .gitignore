@@ -38,3 +38,4 @@ MCP/mcpserver.log
 # Exclude MCP local RAG folder
 MCP/local_rag/
 Data
+MCP/python-sdk
