@@ -11,16 +11,6 @@
 		</styleTags>
 	</HairDef>
 	<HairDef>
-		<defName>WULA_Scattered_Hair_Long</defName>
-		<label>散发（长）</label>
-		<hairGender>Female</hairGender>
-		<texPath>Wula/Hair/WULA_Scattered_Hair_Long</texPath>
-		<category>WULA_Style</category>
-		<styleTags>
-			<li>WULA_Style</li>
-		</styleTags>
-	</HairDef>
-	<HairDef>
 		<defName>WULA_One_Side_Ponytail</defName>
 		<label>侧马尾发</label>
 		<hairGender>Female</hairGender>
