@@ -4,7 +4,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace WulaFallenEmpire.MoharHediffs
+namespace WulaFallenEmpire
 {
 	public static class Tools
 	{

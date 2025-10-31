@@ -1,7 +1,7 @@
 using System;
 using Verse;
 
-namespace WulaFallenEmpire.MoharHediffs
+namespace WulaFallenEmpire
 {
 	public class HediffCompProperties_Spawner : HediffCompProperties
 	{

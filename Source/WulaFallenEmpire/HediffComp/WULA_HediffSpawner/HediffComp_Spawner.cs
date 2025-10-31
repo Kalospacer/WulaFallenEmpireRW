@@ -5,7 +5,7 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
-namespace WulaFallenEmpire.MoharHediffs
+namespace WulaFallenEmpire
 {
 	public class HediffComp_Spawner : HediffComp
 	{

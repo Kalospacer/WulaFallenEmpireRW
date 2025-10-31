@@ -317,7 +317,7 @@
       </li>
     </stages>
     <comps>
-      <li Class="WulaFallenEmpire.MoharHediffs.HediffCompProperties_Spawner">
+      <li Class="WulaFallenEmpire.HediffCompProperties_Spawner">
         <!--
           ==================================================
           基础设置 (Basic Settings)
