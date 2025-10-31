@@ -30,6 +30,14 @@ namespace WulaFallenEmpire
         }
     }
 
+    // 新增：自主工作模式枚举
+    public enum AutonomousWorkMode
+    {
+        Work,       // 工作模式：通过 thinktree 寻找工作
+        Recharge,   // 充电模式：优先充电，完成后休眠
+        Shutdown    // 关机模式：立即休眠
+    }
+
     public class CompProperties_AutonomousMech : CompProperties
     {
         public bool enableAutonomousDrafting = true;
@@ -48,6 +56,9 @@ namespace WulaFallenEmpire
         public CompProperties_AutonomousMech Props => (CompProperties_AutonomousMech)props;
         
         public Pawn MechPawn => parent as Pawn;
+        
+        // 新增：当前工作模式
+        private AutonomousWorkMode currentWorkMode = AutonomousWorkMode.Work;
         
         public bool CanBeAutonomous
         {
@@ -101,6 +112,9 @@ namespace WulaFallenEmpire
             }
         }
 
+        // 新增：公开访问当前工作模式
+        public AutonomousWorkMode CurrentWorkMode => currentWorkMode;
+
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
@@ -132,7 +146,7 @@ namespace WulaFallenEmpire
             {
                 yield return new Command_Action
                 {
-                    defaultLabel = "Work Mode: " + GetCurrentWorkMode(),
+                    defaultLabel = "Work Mode: " + GetCurrentWorkModeDisplay(),
                     defaultDesc = "Switch autonomous work mode",
                     icon = TexCommand.Attack,
                     action = () => ShowWorkModeMenu()
@@ -167,21 +181,20 @@ namespace WulaFallenEmpire
             }
         }
 
-        private string GetCurrentWorkMode()
+        // 修改：返回自定义工作模式的显示名称
+        private string GetCurrentWorkModeDisplay()
         {
-            if (MechPawn.workSettings == null)
-                return "None";
-
-            // 检查当前激活的工作模式
-            foreach (var workType in MechPawn.RaceProps.mechEnabledWorkTypes)
+            switch (currentWorkMode)
             {
-                if (MechPawn.workSettings.GetPriority(workType) > 0)
-                {
-                    return workType.defName;
-                }
+                case AutonomousWorkMode.Work:
+                    return "Work";
+                case AutonomousWorkMode.Recharge:
+                    return "Recharge";
+                case AutonomousWorkMode.Shutdown:
+                    return "Shutdown";
+                default:
+                    return "Unknown";
             }
-            
-            return "None";
         }
 
         private void ShowWorkModeMenu()
@@ -189,36 +202,36 @@ namespace WulaFallenEmpire
             List<FloatMenuOption> list = new List<FloatMenuOption>();
             
             // 工作模式
-            list.Add(new FloatMenuOption("Work Mode", () => SetWorkMode("Work")));
+            list.Add(new FloatMenuOption("Work Mode - Perform assigned work tasks", 
+                () => SetWorkMode(AutonomousWorkMode.Work)));
             
             // 充电模式
-            list.Add(new FloatMenuOption("Recharge Mode", () => SetWorkMode("Recharge")));
+            list.Add(new FloatMenuOption("Recharge Mode - Charge and then shutdown", 
+                () => SetWorkMode(AutonomousWorkMode.Recharge)));
             
             // 休眠模式
-            list.Add(new FloatMenuOption("Shutdown Mode", () => SetWorkMode("SelfShutdown")));
+            list.Add(new FloatMenuOption("Shutdown Mode - Immediately shutdown", 
+                () => SetWorkMode(AutonomousWorkMode.Shutdown)));
 
             Find.WindowStack.Add(new FloatMenu(list));
         }
 
-        private void SetWorkMode(string mode)
+        // 修改：设置自定义工作模式
+        private void SetWorkMode(AutonomousWorkMode mode)
         {
-            if (MechPawn.workSettings == null)
-                return;
-
-            // 重置所有工作模式优先级
-            foreach (var workType in MechPawn.RaceProps.mechEnabledWorkTypes)
+            currentWorkMode = mode;
+            
+            // 清除当前工作，让机械族重新选择符合新模式的工作
+            if (MechPawn.CurJob != null && MechPawn.CurJob.def != JobDefOf.Wait_Combat)
             {
-                MechPawn.workSettings.SetPriority(workType, 0);
+                MechPawn.jobs.StopAll();
             }
-
-            // 设置选择的工作模式
-            var targetMode = DefDatabase<WorkTypeDef>.GetNamedSilentFail(mode);
-            if (targetMode != null)
-            {
-                MechPawn.workSettings.SetPriority(targetMode, 3);
-                Messages.Message($"{MechPawn.LabelCap} switched to {mode} mode", 
-                    MechPawn, MessageTypeDefOf.NeutralEvent);
-            }
+            
+            string modeName = GetCurrentWorkModeDisplay();
+            Messages.Message($"{MechPawn.LabelCap} switched to {modeName} mode", 
+                MechPawn, MessageTypeDefOf.NeutralEvent);
+                
+            Log.Message($"AutonomousMech: {MechPawn.LabelCap} work mode set to {modeName}");
         }
 
         private string GetBlockReason()
@@ -245,16 +258,6 @@ namespace WulaFallenEmpire
             {
                 MechPawn.workSettings = new Pawn_WorkSettings(MechPawn);
             }
-            
-            if (MechPawn.RaceProps.mechEnabledWorkTypes != null)
-            {
-                // 默认设置为工作模式
-                var workMode = DefDatabase<WorkTypeDef>.GetNamedSilentFail("Work");
-                if (workMode != null)
-                {
-                    MechPawn.workSettings.SetPriority(workMode, 3);
-                }
-            }
         }
 
         public string GetAutonomousStatusString()
@@ -265,7 +268,14 @@ namespace WulaFallenEmpire
             if (MechPawn.Drafted)
                 return "Operating autonomously";
             else
-                return "Autonomous mode available";
+                return $"Autonomous mode: {GetCurrentWorkModeDisplay()}";
+        }
+        
+        // 新增：保存和加载工作模式
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_Values.Look(ref currentWorkMode, "currentWorkMode", AutonomousWorkMode.Work);
         }
     }
 }
