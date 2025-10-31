@@ -21,9 +21,12 @@
           <treeDef>Downed</treeDef>
         </li>
 
-        <!-- Self-Shutdown -->
-        <li Class="ThinkNode_ConditionalLowEnergy" MayRequire="Ludeon.RimWorld.Biotech">
+        <!-- 紧急能量状态：临界能量时立即寻找充电站 -->
+        <li Class="WulaFallenEmpire.ThinkNode_ConditionalEmergencyRecharge">
+          <emergencyThreshold>0.05</emergencyThreshold>
           <subNodes>
+            <li Class="JobGiver_GetEnergy_Charger" />
+            <!-- 如果没有充电站，强制休眠 -->
             <li Class="JobGiver_SelfShutdown" />
           </subNodes>
         </li>
@@ -46,14 +49,19 @@
         <!-- Do a queued job (支持右键强制高优先级工作) -->
         <li Class="ThinkNode_QueuedJob" />
 
-        <!-- 征召行为：使用人类的条件节点 -->
-        <li Class="ThinkNode_ConditionalDrafted">
+        <!-- 更完整的征召战斗行为 -->
+        <li Class="ThinkNode_ConditionalOfPlayerFaction">
           <subNodes>
             <li Class="ThinkNode_Tagger">
               <tagToGive>DraftedOrder</tagToGive>
               <subNodes>
                 <li Class="JobGiver_MoveToStandable" />
                 <li Class="JobGiver_Orders" />
+                <!-- 4. 自主战斗工作（独立系统） -->
+                <li Class="WulaFallenEmpire.JobGiver_AutonomousCombat">
+                  <priority>8</priority>
+                  <expiryInterval>30</expiryInterval>
+                </li>
               </subNodes>
             </li>
           </subNodes>
@@ -70,6 +78,14 @@
             <li Class="ThinkNode_ConditionalNotFormingCaravan">
               <subNodes>
                 
+                <!-- 低能量充电检查（比工作优先级更高） -->
+                <li Class="WulaFallenEmpire.ThinkNode_ConditionalNeedRecharge">
+                  <energyThreshold>0.3</energyThreshold>
+                  <subNodes>
+                    <li Class="JobGiver_GetEnergy_Charger" />
+                  </subNodes>
+                </li>
+                
                 <!-- Keep charging if we're already charging -->
                 <li Class="ThinkNode_ConditionalRecharging">
                   <subNodes>
@@ -82,7 +98,14 @@
                   <requiredMode>Work</requiredMode>
                   <subNodes>
                     <li Class="JobGiver_SeekAllowedArea" />
-                    <li Class="JobGiver_GetEnergy_Charger" />
+                    
+                    <!-- 工作前的能量检查 -->
+                    <li Class="WulaFallenEmpire.ThinkNode_ConditionalNeedRecharge">
+                      <energyThreshold>0.2</energyThreshold>
+                      <subNodes>
+                        <li Class="JobGiver_GetEnergy_Charger" />
+                      </subNodes>
+                    </li>
                     
                     <!-- 紧急工作 -->
                     <li Class="JobGiver_Work">
@@ -119,9 +142,26 @@
                   <requiredMode>Recharge</requiredMode>
                   <subNodes>
                     <li Class="JobGiver_SeekAllowedArea" />
+                    
+                    <!-- 检查是否充满电 -->
+                    <li Class="WulaFallenEmpire.ThinkNode_ConditionalFullyCharged">
+                      <fullChargeThreshold>0.9</fullChargeThreshold>
+                      <subNodes>
+                        <!-- 充满电后自动切换到工作模式 -->
+                        <li Class="JobGiver_WanderColony">
+                          <maxDanger>None</maxDanger>
+                          <reportStringOverride>充电完成</reportStringOverride>
+                        </li>
+                      </subNodes>
+                    </li>
+                    
+                    <!-- 去充电 -->
                     <li Class="JobGiver_GetEnergy_Charger" />
-                    <li Class="JobGiver_GetEnergy_SelfShutdown">
-                      <forced>true</forced>
+                    
+                    <!-- 如果没有充电站可用，等待 -->
+                    <li Class="JobGiver_WanderColony">
+                      <maxDanger>None</maxDanger>
+                      <reportStringOverride>等待空闲充电站</reportStringOverride>
                     </li>
                   </subNodes>
                 </li>
@@ -166,4 +206,36 @@
       </subNodes>
     </thinkRoot>
   </ThinkTreeDef>
+  
+  <!-- 自主机械族专用工作类型 -->
+  <WorkTypeDef>
+    <defName>WULA_AutonomousCombat</defName>
+    <label>自主战斗</label>
+    <gerundLabel>战斗中</gerundLabel>
+    <verb>战斗</verb>
+    <visible>false</visible> <!-- 不在工作面板显示 -->
+    <naturalPriority>99</naturalPriority>
+    <workTags>Violent</workTags>
+    <alwaysStartActive>true</alwaysStartActive>
+  </WorkTypeDef>
+  <!-- 自主机械族征召工作 -->
+  <JobDef>
+    <defName>WULA_AutonomousWaitCombat</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_AutonomousWaitCombat</driverClass>
+    <reportString>standing guard.</reportString>
+    <playerInterruptible>true</playerInterruptible>
+    <checkOverrideOnDamage>true</checkOverrideOnDamage>
+    <canBeForcedByDuty>false</canBeForcedByDuty>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <suspendsUntilCombatEnd>false</suspendsUntilCombatEnd>
+    <ignoreJoyTimeAssignment>true</ignoreJoyTimeAssignment>
+    <makeTargetPause>false</makeTargetPause>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.JobExtension_AutonomousCombat">
+        <canUseRangedWeapon>true</canUseRangedWeapon>
+        <autoAttackEnabled>true</autoAttackEnabled>
+        <attackSearchRadius>35</attackSearchRadius>
+      </li>
+    </modExtensions>
+  </JobDef>
 </Defs>

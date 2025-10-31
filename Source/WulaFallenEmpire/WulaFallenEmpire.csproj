@@ -105,9 +105,11 @@
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompProperties_AutoMechCarrier.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\PawnProductionEntry.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\CompAutonomousMech.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\JobGiver_AutonomousWaitCombat.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\Patch_MechanitorUtility_CanDraftMech.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\Patch_UncontrolledMechDrawPulse.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalAutonomousWorkMode.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalNeedRecharge.cs" />
     <Compile Include="Pawn\WULA_BrokenPersonality\MentalBreakWorker_BrokenPersonality.cs" />
     <Compile Include="Pawn\WULA_BrokenPersonality\MentalStateDefExtension_BrokenPersonality.cs" />
     <Compile Include="Pawn\WULA_BrokenPersonality\MentalState_BrokenPersonality.cs" />

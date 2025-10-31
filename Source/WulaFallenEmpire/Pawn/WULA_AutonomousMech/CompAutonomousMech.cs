@@ -38,13 +38,19 @@ namespace WulaFallenEmpire
         Shutdown    // 关机模式：立即休眠
     }
 
+
     public class CompProperties_AutonomousMech : CompProperties
     {
         public bool enableAutonomousDrafting = true;
         public bool enableAutonomousWork = true;
         public bool requirePowerForAutonomy = true;
         public bool suppressUncontrolledWarning = true;
-        
+
+        // 新增：能量管理设置
+        public float lowEnergyThreshold = 0.3f;      // 低能量阈值
+        public float criticalEnergyThreshold = 0.1f; // 临界能量阈值
+        public float rechargeCompleteThreshold = 0.9f; // 充电完成阈值
+
         public CompProperties_AutonomousMech()
         {
             compClass = typeof(CompAutonomousMech);
@@ -54,74 +60,196 @@ namespace WulaFallenEmpire
     public class CompAutonomousMech : ThingComp
     {
         public CompProperties_AutonomousMech Props => (CompProperties_AutonomousMech)props;
-        
+
         public Pawn MechPawn => parent as Pawn;
-        
-        // 新增：当前工作模式
+
         private AutonomousWorkMode currentWorkMode = AutonomousWorkMode.Work;
-        
+        private bool wasLowEnergy = false; // 记录上次是否处于低能量状态
+
         public bool CanBeAutonomous
         {
             get
             {
                 if (MechPawn == null || MechPawn.Dead || MechPawn.Downed)
                     return false;
-                    
+
                 if (!Props.enableAutonomousDrafting)
                     return false;
-                    
+
                 if (MechPawn.GetOverseer() != null)
                     return false;
-                    
+
                 if (Props.requirePowerForAutonomy)
                 {
-                    var energyNeed = MechPawn.needs?.TryGetNeed<Need_MechEnergy>();
-                    if (energyNeed != null && energyNeed.CurLevelPercentage < 0.1f)
+                    // 在临界能量下不允许自主模式
+                    if (GetEnergyLevel() < Props.criticalEnergyThreshold)
                         return false;
                 }
-                
+
                 return true;
             }
         }
-        
+
         public bool CanWorkAutonomously
         {
             get
             {
                 if (!Props.enableAutonomousWork)
                     return false;
-                    
+
                 if (!CanBeAutonomous)
                     return false;
-                    
+
                 if (MechPawn.Drafted)
                     return false;
-                    
+
                 return true;
             }
         }
-        
+
         public bool ShouldSuppressUncontrolledWarning
         {
             get
             {
                 if (!Props.suppressUncontrolledWarning)
                     return false;
-                    
+
                 return CanBeAutonomous;
             }
         }
 
-        // 新增：公开访问当前工作模式
         public AutonomousWorkMode CurrentWorkMode => currentWorkMode;
 
+        // 新增：能量状态检查方法
+        public float GetEnergyLevel()
+        {
+            var energyNeed = MechPawn.needs?.TryGetNeed<Need_MechEnergy>();
+            return energyNeed?.CurLevelPercentage ?? 0f;
+        }
+
+        public bool IsLowEnergy => GetEnergyLevel() < Props.lowEnergyThreshold;
+        public bool IsCriticalEnergy => GetEnergyLevel() < Props.criticalEnergyThreshold;
+        public bool IsFullyCharged => GetEnergyLevel() >= Props.rechargeCompleteThreshold;
+
+        // ... 现有代码 ...
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            
-            if (MechPawn != null && MechPawn.IsColonyMech)
+
+            // 确保使用独立战斗系统
+            InitializeAutonomousCombat();
+        }
+        private void InitializeAutonomousCombat()
+        {
+            // 确保有 draftController
+            if (MechPawn.drafter == null)
             {
+                MechPawn.drafter = new Pawn_DraftController(MechPawn);
+            }
+
+            // 强制启用 FireAtWill
+            if (MechPawn.drafter != null)
+            {
+                MechPawn.drafter.FireAtWill = true;
+            }
+
+            // 确保工作设置不会干扰战斗
+            EnsureCombatWorkSettings();
+        }
+        private void EnsureCombatWorkSettings()
+        {
+            if (MechPawn.workSettings == null)
+                return;
+            // 设置自主战斗工作类型（如果存在）
+            WorkTypeDef autonomousCombat = DefDatabase<WorkTypeDef>.GetNamedSilentFail("WULA_AutonomousCombat");
+            if (autonomousCombat != null)
+            {
+                MechPawn.workSettings.SetPriority(autonomousCombat, 1);
+            }
+        }
+        public override void CompTick()
+        {
+            base.CompTick();
+
+            // 定期检查战斗状态
+            if (Find.TickManager.TicksGame % 60 == 0)
+            {
+                CheckCombatStatus();
+            }
+        }
+        private void CheckCombatStatus()
+        {
+            if (MechPawn.drafter?.Drafted == true && MechPawn.CurJob == null)
+            {
+                // 如果被征召但没有工作，强制进入自主战斗状态
+                ForceAutonomousCombat();
+            }
+        }
+        private void ForceAutonomousCombat()
+        {
+            JobDef autonomousCombatJob = DefDatabase<JobDef>.GetNamedSilentFail("WULA_AutonomousWaitCombat");
+            if (autonomousCombatJob != null)
+            {
+                Job job = JobMaker.MakeJob(autonomousCombatJob);
+                MechPawn.jobs.StartJob(job, JobCondition.InterruptForced);
+            }
+        }
+        public override void CompTick()
+        {
+            base.CompTick();
+
+            // 每60 tick检查一次能量状态
+            if (MechPawn != null && MechPawn.IsColonyMech && Find.TickManager.TicksGame % 60 == 0)
+            {
+                CheckEnergyStatus();
                 EnsureWorkSettings();
+            }
+        }
+
+        // 新增：能量状态检查
+        private void CheckEnergyStatus()
+        {
+            if (!CanWorkAutonomously)
+                return;
+
+            bool isLowEnergyNow = IsLowEnergy;
+
+            // 如果能量状态发生变化
+            if (isLowEnergyNow != wasLowEnergy)
+            {
+                if (isLowEnergyNow)
+                {
+                    // 进入低能量状态
+                    if (currentWorkMode == AutonomousWorkMode.Work)
+                    {
+                        // 自动切换到充电模式
+                        SetWorkMode(AutonomousWorkMode.Recharge);
+                        Messages.Message("WULA_LowEnergySwitchToRecharge".Translate(MechPawn.LabelCap),
+                            MechPawn, MessageTypeDefOf.CautionInput);
+                    }
+                }
+                else
+                {
+                    // 恢复能量状态
+                    if (currentWorkMode == AutonomousWorkMode.Recharge && IsFullyCharged)
+                    {
+                        // 充满电后自动切换回工作模式
+                        SetWorkMode(AutonomousWorkMode.Work);
+                        Messages.Message("WULA_FullyChargedSwitchToWork".Translate(MechPawn.LabelCap),
+                            MechPawn, MessageTypeDefOf.PositiveEvent);
+                    }
+                }
+
+                wasLowEnergy = isLowEnergyNow;
+            }
+
+            // 临界能量警告
+            if (IsCriticalEnergy && currentWorkMode != AutonomousWorkMode.Recharge && currentWorkMode != AutonomousWorkMode.Shutdown)
+            {
+                Messages.Message("WULA_CriticalEnergyLevels".Translate(MechPawn.LabelCap),
+                    MechPawn, MessageTypeDefOf.ThreatBig);
+                // 强制切换到充电模式
+                SetWorkMode(AutonomousWorkMode.Recharge);
             }
         }
 
@@ -129,127 +257,93 @@ namespace WulaFallenEmpire
         {
             if (MechPawn == null || !CanBeAutonomous)
                 yield break;
-
-            // 自主征召按钮
-            yield return new Command_Toggle
-            {
-                defaultLabel = "Autonomous Mode",
-                defaultDesc = "Enable autonomous operation without mechanitor control",
-                icon = TexCommand.Draft,
-                isActive = () => MechPawn.Drafted,
-                toggleAction = () => ToggleAutonomousDraft(),
-                hotKey = KeyBindingDefOf.Misc1
-            };
-
+                
             // 工作模式切换按钮
             if (CanWorkAutonomously)
             {
+                string energyInfo = "WULA_EnergyInfo".Translate(GetEnergyLevel().ToStringPercent());
                 yield return new Command_Action
                 {
-                    defaultLabel = "Work Mode: " + GetCurrentWorkModeDisplay(),
-                    defaultDesc = "Switch autonomous work mode",
-                    icon = TexCommand.Attack,
+                    defaultLabel = "WULA_Mech_WorkMode".Translate(GetCurrentWorkModeDisplay()) + energyInfo,
+                    defaultDesc = GetWorkModeDescription(),
+                    icon = GetWorkModeIcon(),
                     action = () => ShowWorkModeMenu()
                 };
             }
         }
 
-        private void ToggleAutonomousDraft()
+        // 修改：返回包含能量信息的描述
+        private string GetWorkModeDescription()
         {
-            if (MechPawn.drafter == null)
-                return;
+            string baseDesc = "WULA_Switch_Mech_WorkMode".Translate();
+            string energyInfo = "WULA_CurrentEnergy".Translate(GetEnergyLevel().ToStringPercent());
 
-            if (MechPawn.Drafted)
-            {
-                MechPawn.drafter.Drafted = false;
-                Messages.Message($"{MechPawn.LabelCap} autonomous mode deactivated", 
-                    MechPawn, MessageTypeDefOf.NeutralEvent);
-            }
-            else
-            {
-                if (CanBeAutonomous)
-                {
-                    MechPawn.drafter.Drafted = true;
-                    Messages.Message($"{MechPawn.LabelCap} is now operating autonomously", 
-                        MechPawn, MessageTypeDefOf.PositiveEvent);
-                }
-                else
-                {
-                    Messages.Message($"Cannot activate autonomous mode: {GetBlockReason()}", 
-                        MechPawn, MessageTypeDefOf.NegativeEvent);
-                }
-            }
+            if (IsLowEnergy)
+                energyInfo += "WULA_EnergyLow".Translate();
+            if (IsCriticalEnergy)
+                energyInfo += "WULA_EnergyCritical".Translate();
+
+            return baseDesc + "\n" + energyInfo;
         }
 
-        // 修改：返回自定义工作模式的显示名称
+        // 新增：根据能量状态返回不同的图标
+        private UnityEngine.Texture2D GetWorkModeIcon()
+        {
+            if (IsCriticalEnergy)
+                return TexCommand.DesirePower;
+            else if (IsLowEnergy)
+                return TexCommand.ToggleVent;
+            else
+                return TexCommand.Attack;
+        }
+
         private string GetCurrentWorkModeDisplay()
         {
             switch (currentWorkMode)
             {
                 case AutonomousWorkMode.Work:
-                    return "Work";
+                    return "WULA_WorkMode_Work".Translate();
                 case AutonomousWorkMode.Recharge:
-                    return "Recharge";
+                    return "WULA_WorkMode_Recharge".Translate();
                 case AutonomousWorkMode.Shutdown:
-                    return "Shutdown";
+                    return "WULA_WorkMode_Shutdown".Translate();
                 default:
-                    return "Unknown";
+                    return "WULA_WorkMode_Unknown".Translate();
             }
         }
 
         private void ShowWorkModeMenu()
         {
             List<FloatMenuOption> list = new List<FloatMenuOption>();
-            
+
             // 工作模式
-            list.Add(new FloatMenuOption("Work Mode - Perform assigned work tasks", 
+            list.Add(new FloatMenuOption("WULA_WorkMode_Work_Desc".Translate(),
                 () => SetWorkMode(AutonomousWorkMode.Work)));
-            
+
             // 充电模式
-            list.Add(new FloatMenuOption("Recharge Mode - Charge and then shutdown", 
+            list.Add(new FloatMenuOption("WULA_WorkMode_Recharge_Desc".Translate(),
                 () => SetWorkMode(AutonomousWorkMode.Recharge)));
-            
+
             // 休眠模式
-            list.Add(new FloatMenuOption("Shutdown Mode - Immediately shutdown", 
+            list.Add(new FloatMenuOption("WULA_WorkMode_Shutdown_Desc".Translate(),
                 () => SetWorkMode(AutonomousWorkMode.Shutdown)));
 
             Find.WindowStack.Add(new FloatMenu(list));
         }
 
-        // 修改：设置自定义工作模式
         private void SetWorkMode(AutonomousWorkMode mode)
         {
             currentWorkMode = mode;
-            
+
             // 清除当前工作，让机械族重新选择符合新模式的工作
             if (MechPawn.CurJob != null && MechPawn.CurJob.def != JobDefOf.Wait_Combat)
             {
                 MechPawn.jobs.StopAll();
             }
-            
-            string modeName = GetCurrentWorkModeDisplay();
-            Messages.Message($"{MechPawn.LabelCap} switched to {modeName} mode", 
-                MechPawn, MessageTypeDefOf.NeutralEvent);
-                
-            Log.Message($"AutonomousMech: {MechPawn.LabelCap} work mode set to {modeName}");
-        }
 
-        private string GetBlockReason()
-        {
-            if (MechPawn.Dead || MechPawn.Downed)
-                return "Mech is incapacitated";
-                
-            if (MechPawn.GetOverseer() != null)
-                return "Mech is under mechanitor control";
-                
-            if (Props.requirePowerForAutonomy)
-            {
-                var energyNeed = MechPawn.needs?.TryGetNeed<Need_MechEnergy>();
-                if (energyNeed != null && energyNeed.CurLevelPercentage < 0.1f)
-                    return "Insufficient energy";
-            }
-                
-            return "Autonomous mode disabled";
+            string modeName = GetCurrentWorkModeDisplay();
+            Messages.Message("WULA_SwitchedToMode".Translate(MechPawn.LabelCap, modeName),
+                MechPawn, MessageTypeDefOf.NeutralEvent);
         }
 
         private void EnsureWorkSettings()
@@ -264,18 +358,20 @@ namespace WulaFallenEmpire
         {
             if (!CanBeAutonomous)
                 return null;
-                
+
+            string energyInfo = "WULA_EnergyInfoShort".Translate(GetEnergyLevel().ToStringPercent());
+
             if (MechPawn.Drafted)
-                return "Operating autonomously";
+                return "WULA_Autonomous_Drafted".Translate() + energyInfo;
             else
-                return $"Autonomous mode: {GetCurrentWorkModeDisplay()}";
+                return "WULA_Autonomous_Mode".Translate(GetCurrentWorkModeDisplay()) + energyInfo;
         }
-        
-        // 新增：保存和加载工作模式
+
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref currentWorkMode, "currentWorkMode", AutonomousWorkMode.Work);
+            Scribe_Values.Look(ref wasLowEnergy, "wasLowEnergy", false);
         }
     }
 }

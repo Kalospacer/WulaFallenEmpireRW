@@ -6,5 +6,37 @@
   <WULA_AutoSpawn_Label>自动生产</WULA_AutoSpawn_Label>
   <WULA_AutoSpawn_Desc>切换是否自动生产单位。开启后，当资源和冷却允许时，会自动生产单位以维持队列上限。</WULA_AutoSpawn_Desc>
   <WULA_AutoSpawn_On_Reason>自动生产已开启。再次点击以关闭。</WULA_AutoSpawn_On_Reason>
+  
+  <!-- 工作模式相关 -->
+  <WULA_Mech_WorkMode>行为模式：{0}</WULA_Mech_WorkMode>
+  <WULA_Switch_Mech_WorkMode>修改自律机械的行为模式</WULA_Switch_Mech_WorkMode>
+  
+  <WULA_WorkMode_Work>工作</WULA_WorkMode_Work>
+  <WULA_WorkMode_Recharge>充电</WULA_WorkMode_Recharge>
+  <WULA_WorkMode_Shutdown>关机</WULA_WorkMode_Shutdown>
+  <WULA_WorkMode_Unknown>未知</WULA_WorkMode_Unknown>
+  
+  <WULA_WorkMode_Work_Desc>工作模式 - 根据机体设定，自行进行工作</WULA_WorkMode_Work_Desc>
+  <WULA_WorkMode_Recharge_Desc>充电模式 - 充电后休眠</WULA_WorkMode_Recharge_Desc>
+  <WULA_WorkMode_Shutdown_Desc>关机模式 - 立即关机，会在此状态下以非常缓慢的速率充电</WULA_WorkMode_Shutdown_Desc>
+  
+  <!-- 状态显示 -->
+  <WULA_Autonomous_Drafted>自主操作中</WULA_Autonomous_Drafted>
+  <WULA_Autonomous_Mode>自主模式：{0}</WULA_Autonomous_Mode>
+  
+  <!-- 能量信息 -->
+  <WULA_EnergyInfo>（{0}）</WULA_EnergyInfo>
+  <WULA_EnergyInfoShort>（{0}）</WULA_EnergyInfoShort>
+  <WULA_CurrentEnergy>当前能量：{0}</WULA_CurrentEnergy>
+  <WULA_EnergyLow>（低电量）</WULA_EnergyLow>
+  <WULA_EnergyCritical>（电量危急！）</WULA_EnergyCritical>
+  
+  <!-- 消息提示 -->
+  <WULA_LowEnergySwitchToRecharge>{0}电量不足，切换到充电模式</WULA_LowEnergySwitchToRecharge>
+  <WULA_FullyChargedSwitchToWork>{0}已充满电，返回工作模式</WULA_FullyChargedSwitchToWork>
+  <WULA_CriticalEnergyLevels>{0}电量危急！</WULA_CriticalEnergyLevels>
+  <WULA_SwitchedToMode>{0}切换到{1}模式</WULA_SwitchedToMode>
 
+  <WULA_Autonomous_Mode>征召自律机械</WULA_Autonomous_Mode>
+  <WULA_Autonomous_Mode_Desc>使自律机械进入征召状态</WULA_Autonomous_Mode_Desc>
 </LanguageData>

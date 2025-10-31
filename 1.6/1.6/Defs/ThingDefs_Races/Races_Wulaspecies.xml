@@ -903,6 +903,225 @@
     </comps>
 	</AlienRace.ThingDef_AlienRace>
   
+  <!-- 乌拉基础机械族类 -->
+  <ThingDef ParentName="BasePawn" Name="WULA_BaseMechanoid" Abstract="True">
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <statBases>
+      <MarketValue>1200</MarketValue>
+      <PsychicSensitivity>0.5</PsychicSensitivity>
+      <ToxicResistance>1</ToxicResistance>
+      <Flammability>0</Flammability>
+      <ComfyTemperatureMin>-100</ComfyTemperatureMin>
+      <ComfyTemperatureMax>250</ComfyTemperatureMax>
+      <MeatAmount>0</MeatAmount>
+      <ArmorRating_Heat>2.00</ArmorRating_Heat>
+      <MoveSpeed>3.4</MoveSpeed>
+      <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">1</BandwidthCost>
+      <ControlTakingTime MayRequire="Ludeon.RimWorld.Biotech">12</ControlTakingTime>
+      <ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
+      <MechEnergyLossPerHP MayRequire="Ludeon.RimWorld.Biotech">0.33</MechEnergyLossPerHP>
+      <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">5</WastepacksPerRecharge>
+      <WorkSpeedGlobal MayRequire="Ludeon.RimWorld.Biotech">0.5</WorkSpeedGlobal>
+      <ArmorRating_Blunt>0.10</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.20</ArmorRating_Sharp>
+      <MechEnergyLossPerHP>0.66</MechEnergyLossPerHP>
+    </statBases>
+    <receivesSignals>true</receivesSignals>
+    <tradeability>None</tradeability>
+    <race>
+      <fleshType>Mechanoid</fleshType>
+      <needsRest>false</needsRest>
+      <hasGenders>false</hasGenders>
+      <foodType>None</foodType>
+      <lifeExpectancy>2500</lifeExpectancy>
+      <bloodDef>Filth_MachineBits</bloodDef>
+      <nameGenerator MayRequire="Ludeon.RimWorld.Biotech">NamerMech</nameGenerator>
+      <soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+      <soundCallIntervalFriendlyFactor>2</soundCallIntervalFriendlyFactor>
+      <thinkTreeConstant MayRequire="Ludeon.RimWorld.Biotech">MechConstant</thinkTreeConstant>
+      <canFlyInVacuum>true</canFlyInVacuum>
+      <body>Mech_Light</body>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>WULA_AutonomousMech</thinkTreeMain>
+      <baseBodySize>0.7</baseBodySize>
+      <mechWeightClass>Light</mechWeightClass>
+    </race>
+    <butcherProducts>
+      <Steel>10</Steel>
+    </butcherProducts>
+    <tools>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>6</power>
+        <cooldownTime>2.6</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <comps>
+      <li Class="CompProperties_CanBeDormant">
+        <compClass>CompMechanoid</compClass>
+      </li>
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpOnDamage>true</wakeUpOnDamage>
+        <wakeUpCheckRadius>30</wakeUpCheckRadius>
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+      <!-- 自动机械族，不需要人工监管 -->
+      <li Class="WulaFallenEmpire.CompProperties_AutonomousMech">
+        <enableAutonomousDrafting>true</enableAutonomousDrafting>
+        <enableAutonomousWork>true</enableAutonomousWork>
+        <requirePowerForAutonomy>true</requirePowerForAutonomy>
+      </li>
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定，征召必须-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+      <li MayRequire="Ludeon.RimWorld.Biotech" Class="CompProperties_MechRepairable" />
+      <li MayRequire="Ludeon.RimWorld.Biotech" Class="CompProperties_OverseerSubject">
+        <needsOverseerEffect></needsOverseerEffect>
+        <delayUntilFeralCheck>-10</delayUntilFeralCheck>
+        <feralMtbDays>999999</feralMtbDays>
+        <feralCascadeRadialDistance>0</feralCascadeRadialDistance>
+      </li>
+    </comps>
+  </ThingDef>
+    
+  <!-- 猫猫族系 -->
+  <ThingDef Abstract="True" Name="Mech_WULA_Cat_Base" ParentName="WULA_BaseMechanoid">
+    <statBases>
+      <MoveSpeed>5</MoveSpeed>
+      
+      <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">0</WastepacksPerRecharge>
+    </statBases>
+    <race>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+        </li>
+      </lifeStageAges>
+      <deathAction Class="DeathActionProperties_Vanish">
+        <workerClass>DeathActionWorker_Vanish</workerClass>
+        <filth>Filth_MachineBits</filth>
+        <filthCountRange>1~2</filthCountRange>
+      </deathAction>
+    </race>
+    <comps>
+      <li Class="CompProperties_CauseHediff_AoE">
+        <hediff>Mech_WULA_Cat_Cute</hediff>
+        <range>5.9</range>
+        <canTargetSelf>false</canTargetSelf>
+        <drawLines>false</drawLines>
+        <ignoreMechs>true</ignoreMechs>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="Mech_WULA_Cat_Base">
+    <defName>Mech_WULA_Cat</defName>
+    <label>CAt-11"猫猫"</label>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作，因为似猫的外形受到乌拉星人欢迎。</description>
+    <uiIconPath>Wula/Things/WULA_Cat/WULA_Cat_Thin_south</uiIconPath>
+
+    <statBases>
+      <MoveSpeed>6</MoveSpeed>
+      <FoodPoisonChance>0.001</FoodPoisonChance>
+    </statBases>
+    <race>
+      <mechEnabledWorkTypes>
+        <li>Hauling</li>
+        <!-- <li>Mining</li> -->
+        <!-- <li>Construction</li> -->
+        <!-- <li>Crafting</li> -->
+        <!-- <li>Smithing</li> -->
+        <!-- <li>Tailoring</li> -->
+        <li>Cooking</li>
+        <!-- <li>Research</li> -->
+        <li>PlantCutting</li>
+        <li>Growing</li>
+        <li>Cleaning</li>
+        <li>Doctor</li>
+        <li>Firefighter</li>
+      </mechEnabledWorkTypes>
+    </race>
+  </ThingDef>
+  <ThingDef ParentName="Mech_WULA_Cat_Base">
+    <defName>Mech_WULA_Cat_EMP</defName>
+    <label>CAt-23"闪电猫猫"</label>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，只能执行救火、搬运和清扫任务，但是相比起基础型号多配备了一个EMP投掷物，可以辅助乌拉帝国军团对抗机械部队。</description>
+  </ThingDef>  
+  <ThingDef ParentName="Mech_WULA_Cat_Base">
+    <defName>Mech_WULA_Cat_Fire</defName>
+    <label>CAt-42"烈焰猫猫"</label>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，只能执行救火、搬运和清扫任务，但是相比起基础型号多配备了一个燃烧瓶投掷物，可以点燃靠近阵线的敌军。</description>
+  </ThingDef>
+  <ThingDef ParentName="Mech_WULA_Cat_Base">
+    <defName>Mech_WULA_Cat_Constructor</defName>
+    <label>CAt-86"猫猫劳工"</label>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，只能执行建造和开采任务，可以跳起来用手上的HAm-1"装修锤"锤烂敌人的膝盖。</description>
+    <uiIconPath>Wula/Things/WULA_Constructor_Cat/WULA_Cat_Thin_south</uiIconPath>
+    <race>
+      <mechEnabledWorkTypes Inherit="False">
+        <li>Mining</li>
+        <li>Construction</li>
+      </mechEnabledWorkTypes>
+    </race>
+    <statBases>
+      <WorkSpeedGlobal>2</WorkSpeedGlobal>
+    </statBases>
+  </ThingDef>
+  <ThingDef ParentName="Mech_WULA_Cat_Base">
+    <defName>Mech_WULA_Cat_Assault</defName>
+    <label>CAt-46"猫猫冲锋队"</label>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行搬运、狩猎和割除任务，身着轻甲，装备了一把DLa-4"云母"突击步枪附下挂刺刀，可以给敌方造成不小的麻烦。</description>
+    <uiIconPath>Wula/Things/WULA_Assault_Cat/WULA_Cat_Thin_south</uiIconPath>
+    <race>
+      <mechEnabledWorkTypes Inherit="False">
+        <li>Hunting</li>
+        <li>Hauling</li>
+        <li>PlantCutting</li>
+      </mechEnabledWorkTypes>
+    </race>
+    <statBases>
+      <ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+      <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
+      <MoveSpeed>4</MoveSpeed>
+    </statBases>
+  </ThingDef>
+  <ThingDef ParentName="Mech_WULA_Cat_Base">
+    <defName>Mech_WULA_Cat_DM</defName>
+    <label>CAt-96"暗物质猫猫"</label>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作。这种型号的乌拉猫猫内置了一台不稳定暗物质引擎，这使得其无需充电，但是在死亡时会产生巨大的爆炸。</description>
+    <uiIconPath>Wula/Things/WULA_DM_Cat/WULA_Cat_Thin_south</uiIconPath>
+
+    <statBases>
+      <MoveSpeed>6</MoveSpeed>
+      <FoodPoisonChance>0.001</FoodPoisonChance>
+      <MechEnergyUsageFactor>-1</MechEnergyUsageFactor>
+    </statBases>
+    <race>
+      <mechEnabledWorkTypes>
+        <li>Hauling</li>
+        <li>Cooking</li>
+        <li>PlantCutting</li>
+        <li>Growing</li>
+        <li>Cleaning</li>
+        <li>Doctor</li>
+        <li>Firefighter</li>
+      </mechEnabledWorkTypes>
+    </race>
+    <comps>
+      <li Class="CompProperties_HunterDrone">
+        <explosionRadius>30</explosionRadius>
+        <explosionDamageType>BombSuper</explosionDamageType>
+        <explosionDamageAmount>550</explosionDamageAmount>
+      </li>
+    </comps>
+  </ThingDef>
+
+
+
   <ThingDef Name="Wula_AI_Heavy_Panzer" ParentName="HeavyMechanoid">
 		<defName>Wula_AI_Heavy_Panzer</defName>
 		<label>SMp-38"萨克森"</label>
@@ -1284,252 +1503,6 @@
         <preBlinkMoteDefs/>
         <postBlinkMoteDefs/>
 
-      </li>
-    </comps>
-  </ThingDef>
-    
-  <ThingDef ParentName="LightMechanoid">
-    <defName>Mech_WULA_Cat</defName>
-    <label>CAt-11"猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作，因为似猫的外形受到乌拉星人欢迎。</description>
-    <uiIconPath>Wula/Things/WULA_Cat/WULA_Cat_Thin_south</uiIconPath>
-
-    <statBases>
-      <MoveSpeed>6</MoveSpeed>
-      <FoodPoisonChance>0.001</FoodPoisonChance>
-
-      <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">0</WastepacksPerRecharge>
-    </statBases>
-    <race>
-      <mechEnabledWorkTypes>
-        <li>Hauling</li>
-        <!-- <li>Mining</li> -->
-        <!-- <li>Construction</li> -->
-        <!-- <li>Crafting</li> -->
-        <!-- <li>Smithing</li> -->
-        <!-- <li>Tailoring</li> -->
-        <li>Cooking</li>
-        <!-- <li>Research</li> -->
-        <li>PlantCutting</li>
-        <li>Growing</li>
-        <li>Cleaning</li>
-        <li>Doctor</li>
-        <li>Firefighter</li>
-      </mechEnabledWorkTypes>
-      <lifeStageAges>
-        <li>
-          <def>MechanoidFullyFormed</def>
-        </li>
-      </lifeStageAges>
-      <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
-      <!-- <baseHealthScale>4</baseHealthScale> -->
-      <!-- <canFlyInVacuum>true</canFlyInVacuum> -->
-      <deathAction Class="DeathActionProperties_Vanish">
-        <workerClass>DeathActionWorker_Vanish</workerClass>
-        <filth>Filth_MachineBits</filth>
-        <filthCountRange>1~2</filthCountRange>
-      </deathAction>
-    </race>
-    <comps>
-      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
-      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
-      <li Class="CompProperties_CauseHediff_AoE">
-        <hediff>Mech_WULA_Cat_Cute</hediff>
-        <range>5.9</range>
-        <canTargetSelf>false</canTargetSelf>
-        <drawLines>true</drawLines>
-        <ignoreMechs>true</ignoreMechs>
-      </li>
-    </comps>
-    <!-- <comps Inherit="False">
-      <li Class="CompProperties_CanBeDormant" />
-      <li Class="CompProperties_WakeUpDormant">
-        <wakeUpOnDamage>true</wakeUpOnDamage>
-        <wakeUpCheckRadius>30</wakeUpCheckRadius>
-        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
-      </li>
-      <li Class="CompProperties_MechPowerCell">
-        <totalPowerTicks>30000</totalPowerTicks>
-      </li>
-    </comps> -->
-  </ThingDef>
-  <ThingDef Abstract="True" Name="Mech_WULA_Cat_Soldier" ParentName="LightMechanoid">
-    <!-- <defName>Mech_WULA_Cat_EMP</defName>
-    <label>乌拉猫猫掷弹兵（EMP）</label>
-    <description>乌拉帝国的一种小型机械体，只能执行救火、搬运和清扫任务，但是相比起基础型号多配备了一个EMP投掷物，可以辅助乌拉帝国军团对抗机械部队。</description> -->
-    <uiIconPath>Wula/Things/WULA_Attack_Cat/WULA_Cat_Thin_south</uiIconPath>
-
-    <statBases>
-      <MoveSpeed>5</MoveSpeed>
-      
-      <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">0</WastepacksPerRecharge>
-    </statBases>
-    <race>
-      <thinkTreeMain>WULA_AutonomousMech</thinkTreeMain>
-      <mechEnabledWorkTypes>
-        <li>Hauling</li>
-        <!-- <li>Mining</li> -->
-        <!-- <li>Construction</li> -->
-        <!-- <li>Crafting</li> -->
-        <!-- <li>Smithing</li> -->
-        <!-- <li>Tailoring</li> -->
-        <!-- <li>Cooking</li> -->
-        <!-- <li>Research</li> -->
-        <!-- <li>PlantCutting</li> -->
-        <!-- <li>Growing</li> -->
-        <li>Cleaning</li>
-        <!-- <li>Doctor</li> -->
-        <li>Firefighter</li>
-      </mechEnabledWorkTypes>
-      <lifeStageAges>
-        <li>
-          <def>MechanoidFullyFormed</def>
-        </li>
-      </lifeStageAges>
-      <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
-      <!-- <baseHealthScale>4</baseHealthScale> -->
-      <!-- <canFlyInVacuum>true</canFlyInVacuum> -->
-      <deathAction Class="DeathActionProperties_Vanish">
-        <workerClass>DeathActionWorker_Vanish</workerClass>
-        <filth>Filth_MachineBits</filth>
-        <filthCountRange>1~2</filthCountRange>
-      </deathAction>
-    </race>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_AutonomousMech">
-        <enableAutonomousDrafting>true</enableAutonomousDrafting>
-        <enableAutonomousWork>true</enableAutonomousWork>
-        <requirePowerForAutonomy>true</requirePowerForAutonomy>
-      </li>
-      <!--
-        全局指挥组件 (Global Mech Command Component)
-        此组件通过Harmony补丁 MechanitorUtility_InMechanitorCommandRange_Patch.cs 来实现功能。
-        当一个Pawn的ThingDef拥有此组件时，补丁会拦截原版的指挥范围检查，并始终返回“在范围内”。
-        这使得拥有此组件的机械体可以被机械师在地图的任何位置进行指挥，无视距离限制。
-      -->
-      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
-      <li Class="CompProperties_CauseHediff_AoE">
-        <hediff>Mech_WULA_Cat_Cute</hediff>
-        <range>5.9</range>
-        <canTargetSelf>false</canTargetSelf>
-        <drawLines>true</drawLines>
-        <ignoreMechs>true</ignoreMechs>
-      </li>
-    </comps>
-    <!-- <comps Inherit="False">
-      <li Class="CompProperties_CanBeDormant" />
-      <li Class="CompProperties_WakeUpDormant">
-        <wakeUpOnDamage>true</wakeUpOnDamage>
-        <wakeUpCheckRadius>30</wakeUpCheckRadius>
-        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
-      </li>
-      <li Class="CompProperties_MechPowerCell">
-        <totalPowerTicks>30000</totalPowerTicks>
-      </li>
-    </comps> -->
-  </ThingDef>
-  <ThingDef ParentName="Mech_WULA_Cat_Soldier">
-    <defName>Mech_WULA_Cat_EMP</defName>
-    <label>CAt-23"闪电猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，只能执行救火、搬运和清扫任务，但是相比起基础型号多配备了一个EMP投掷物，可以辅助乌拉帝国军团对抗机械部队。</description>
-  </ThingDef>  
-  <ThingDef ParentName="Mech_WULA_Cat_Soldier">
-    <defName>Mech_WULA_Cat_Fire</defName>
-    <label>CAt-42"烈焰猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，只能执行救火、搬运和清扫任务，但是相比起基础型号多配备了一个燃烧瓶投掷物，可以点燃靠近阵线的敌军。</description>
-  </ThingDef>
-  <ThingDef ParentName="Mech_WULA_Cat_Soldier">
-    <defName>Mech_WULA_Cat_Constructor</defName>
-    <label>CAt-86"土木猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，只能执行建造和开采任务，可以跳起来用手上的HAm-1"装修锤"锤烂敌人的膝盖。</description>
-    <uiIconPath>Wula/Things/WULA_Constructor_Cat/WULA_Cat_Thin_south</uiIconPath>
-    <race>
-      <mechEnabledWorkTypes Inherit="False">
-        <li>Mining</li>
-        <li>Construction</li>
-      </mechEnabledWorkTypes>
-    </race>
-    <statBases>
-      <WorkSpeedGlobal>2</WorkSpeedGlobal>
-    </statBases>
-  </ThingDef>
-  <ThingDef ParentName="Mech_WULA_Cat_Soldier">
-    <defName>Mech_WULA_Cat_Assault</defName>
-    <label>CAt-46"突击猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，可以执行搬运、狩猎和割除任务，身着轻甲，装备了一把DLa-4"云母"突击步枪附下挂刺刀，可以给敌方造成不小的麻烦。</description>
-    <uiIconPath>Wula/Things/WULA_Assault_Cat/WULA_Cat_Thin_south</uiIconPath>
-    <race>
-      <mechEnabledWorkTypes Inherit="False">
-        <li>Hunting</li>
-        <li>Hauling</li>
-        <li>PlantCutting</li>
-      </mechEnabledWorkTypes>
-    </race>
-    <statBases>
-      <ArmorRating_Sharp>0.25</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.25</ArmorRating_Blunt>
-      <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
-      <MoveSpeed>4</MoveSpeed>
-    </statBases>
-  </ThingDef>
-  <ThingDef ParentName="LightMechanoid">
-    <defName>Mech_WULA_Cat_DM</defName>
-    <label>CAt-96"暗物质猫猫"</label>
-    <description>乌拉帝国的一种小型机械体，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作。这种型号的乌拉猫猫内置了一台不稳定暗物质引擎，这使得其无需充电，但是在死亡时会产生巨大的爆炸。</description>
-    <uiIconPath>Wula/Things/WULA_DM_Cat/WULA_Cat_Thin_south</uiIconPath>
-
-    <statBases>
-      <MoveSpeed>6</MoveSpeed>
-      <FoodPoisonChance>0.001</FoodPoisonChance>
-      <MechEnergyUsageFactor>-1</MechEnergyUsageFactor>
-
-      <!-- <MechEnergyLossPerHP MayRequire="Ludeon.RimWorld.Biotech">0</MechEnergyLossPerHP> -->
-      <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">0</WastepacksPerRecharge>
-    </statBases>
-    <race>
-      <mechEnabledWorkTypes>
-        <li>Hauling</li>
-        <!-- <li>Mining</li> -->
-        <!-- <li>Construction</li> -->
-        <!-- <li>Crafting</li> -->
-        <!-- <li>Smithing</li> -->
-        <!-- <li>Tailoring</li> -->
-        <li>Cooking</li>
-        <!-- <li>Research</li> -->
-        <li>PlantCutting</li>
-        <li>Growing</li>
-        <li>Cleaning</li>
-        <li>Doctor</li>
-        <li>Firefighter</li>
-      </mechEnabledWorkTypes>
-      <lifeStageAges>
-        <li>
-          <def>MechanoidFullyFormed</def>
-        </li>
-      </lifeStageAges>
-      <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
-      <!-- <baseHealthScale>4</baseHealthScale> -->
-       <!-- <canFlyInVacuum>true</canFlyInVacuum> -->
-      <deathAction Class="DeathActionProperties_Vanish">
-        <workerClass>DeathActionWorker_Vanish</workerClass>
-        <filth>Filth_MachineBits</filth>
-        <filthCountRange>1~2</filthCountRange>
-      </deathAction>
-    </race>
-    <comps>
-      <!--加上这个组件的机械体会直接跳过原版指挥范围判定-->
-      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
-      <li Class="CompProperties_HunterDrone">
-        <explosionRadius>30</explosionRadius>
-        <explosionDamageType>BombSuper</explosionDamageType>
-        <explosionDamageAmount>550</explosionDamageAmount>
-      </li>
-      <li Class="CompProperties_CauseHediff_AoE">
-        <hediff>Mech_WULA_Cat_Cute</hediff>
-        <range>5.9</range>
-        <canTargetSelf>false</canTargetSelf>
-        <drawLines>true</drawLines>
-        <ignoreMechs>true</ignoreMechs>
       </li>
     </comps>
   </ThingDef>
