@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef Abstract="True" Name="Wula_Human_Protect_Superclass" ParentName="BasePawn">
+  <!-- human的克隆，防止其他mod修改human导致的不兼容 -->
+  <ThingDef Name="Wula_Human_Protect_Superclass" ParentName="BasePawn">
+    <defName>Human</defName>
+    <label>human</label>
+    <description>A baseline human, mostly unmodified by gene engineering and mostly unchanged by evolutionary pressures on non-Earth planets.</description>
     <statBases>
       <MarketValue>1750</MarketValue>
       <MoveSpeed>4.6</MoveSpeed>
@@ -221,10 +225,16 @@
       </li>
     </comps>
   </ThingDef>
-	<AlienRace.ThingDef_AlienRace Name="Race_Wula_Machine" ParentName="Wula_Human_Protect_Superclass">
+  <!-- 基础类，希望对human的更改在此处应用 -->
+  <ThingDef Abstract="True" Name="Wula_Human_Base" ParentName="Wula_Human_Protect_Superclass">
+    <statBases>
+      <MarketValue>0</MarketValue>
+    </statBases>
+  </ThingDef>
+	<AlienRace.ThingDef_AlienRace Name="Race_Wula_Machine" ParentName="Wula_Human_Base">
 		<defName>WulaSpecies</defName>
 		<label>机械乌拉</label>
-		<description>乌拉星人是一个曾统治银河系的堕落帝国的主要种族，机械乌拉则是仿照她们样貌制作的合成人——随着帝国的衰颓，大量乌拉合成人流散各地。她们拥有近乎无限的寿命，并且拥有一部分机械体的特性。</description>
+		<description>诞生于乌拉帝国的机械生命体</description>
     <uiIconPath>Wula/Things/WulaSpecies/WULA_Species_Icon</uiIconPath>
 
     <alienRace>
@@ -1355,6 +1365,7 @@
       <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">0</WastepacksPerRecharge>
     </statBases>
     <race>
+      <thinkTreeMain>WULA_AutonomousMech</thinkTreeMain>
       <mechEnabledWorkTypes>
         <li>Hauling</li>
         <!-- <li>Mining</li> -->
@@ -1385,6 +1396,11 @@
       </deathAction>
     </race>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AutonomousMech">
+        <enableAutonomousDrafting>true</enableAutonomousDrafting>
+        <enableAutonomousWork>true</enableAutonomousWork>
+        <requirePowerForAutonomy>true</requirePowerForAutonomy>
+      </li>
       <!--
         全局指挥组件 (Global Mech Command Component)
         此组件通过Harmony补丁 MechanitorUtility_InMechanitorCommandRange_Patch.cs 来实现功能。

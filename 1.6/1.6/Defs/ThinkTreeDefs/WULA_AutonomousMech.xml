@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThinkTreeDef>
+    <defName>WULA_AutonomousMech</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Despawned -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+
+        <!-- Deactivated -->
+        <li Class="ThinkNode_ConditionalDeactivated" MayRequire="Ludeon.RimWorld.Odyssey">
+          <subNodes>
+            <li Class="JobGiver_Deactivated" />
+          </subNodes>
+        </li>
+
+        <!-- Downed -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+
+        <!-- Self-Shutdown -->
+        <li Class="ThinkNode_ConditionalLowEnergy" MayRequire="Ludeon.RimWorld.Biotech">
+          <subNodes>
+            <li Class="JobGiver_SelfShutdown" />
+          </subNodes>
+        </li>
+
+        <!-- Mental state -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>BerserkMechanoid</state>
+          <subNodes>
+            <li Class="ThinkNode_Priority">
+              <subNodes>
+                <li Class="JobGiver_Berserk" />
+                <li Class="JobGiver_WanderAnywhere">
+                  <maxDanger>Deadly</maxDanger>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Do a queued job (支持右键强制高优先级工作) -->
+        <li Class="ThinkNode_QueuedJob" />
+
+        <!-- 征召行为：使用人类的条件节点 -->
+        <li Class="ThinkNode_ConditionalDrafted">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>DraftedOrder</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_MoveToStandable" />
+                <li Class="JobGiver_Orders" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Lord -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>LordDuty</treeDef>
+        </li>
+
+        <!-- 自主机械族工作模式 -->
+        <li Class="WulaFallenEmpire.ThinkNode_ConditionalAutonomousMech">
+          <subNodes>
+            <li Class="ThinkNode_ConditionalNotFormingCaravan">
+              <subNodes>
+                
+                <!-- Keep charging if we're already charging -->
+                <li Class="ThinkNode_ConditionalRecharging">
+                  <subNodes>
+                    <li Class="JobGiver_GetEnergy_Charger" />
+                  </subNodes>
+                </li>
+                
+                <!-- Work modes -->
+                <li Class="ThinkNode_ConditionalWorkMode" MayRequire="Ludeon.RimWorld.Biotech">
+                  <workMode>Work</workMode>
+                  <subNodes>
+                    <li Class="JobGiver_SeekAllowedArea" />
+                    <li Class="JobGiver_GetEnergy_Charger" />
+                    
+                    <!-- 紧急工作 -->
+                    <li Class="JobGiver_Work">
+                      <emergency>true</emergency>
+                    </li>
+                    
+                    <!-- 常规工作 -->
+                    <li Class="JobGiver_Work" />
+                    
+                    <!-- 非战斗机械族的巡逻行为 -->
+                    <li Class="ThinkNode_ConditionalWorkMech">
+                      <invert>true</invert>
+                      <subNodes>
+                        <li Class="JobGiver_AIFightEnemies">
+                          <targetAcquireRadius>65</targetAcquireRadius>
+                          <targetKeepRadius>72</targetKeepRadius>
+                        </li>
+                        <li Class="ThinkNode_Tagger">
+                          <tagToGive>MiscWork</tagToGive>
+                          <subNodes>
+                            <li Class="JobGiver_WanderColony">
+                              <maxDanger>Deadly</maxDanger>
+                              <reportStringOverride>Patrolling.</reportStringOverride>
+                            </li>
+                          </subNodes>
+                        </li>
+                      </subNodes>
+                    </li>
+                  </subNodes>
+                </li>
+                
+                <!-- 充电模式 -->
+                <li Class="ThinkNode_ConditionalWorkMode" MayRequire="Ludeon.RimWorld.Biotech">
+                  <workMode>Recharge</workMode>
+                  <subNodes>
+                    <li Class="JobGiver_SeekAllowedArea" />
+                    <li Class="JobGiver_GetEnergy_Charger" />
+                    <li Class="JobGiver_GetEnergy_SelfShutdown">
+                      <forced>true</forced>
+                    </li>
+                  </subNodes>
+                </li>
+                
+                <!-- 休眠模式 -->
+                <li Class="ThinkNode_ConditionalWorkMode" MayRequire="Ludeon.RimWorld.Biotech">
+                  <workMode>SelfShutdown</workMode>
+                  <subNodes>
+                    <li Class="JobGiver_SeekAllowedArea" />
+                    <li Class="JobGiver_SelfShutdown" />
+                  </subNodes>
+                </li>
+
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- 非玩家控制机械族的战斗行为 -->
+        <li Class="ThinkNode_ConditionalPlayerControlledMech">
+          <invert>true</invert>
+          <subNodes>
+            <li Class="JobGiver_AIFightEnemies">
+              <targetAcquireRadius>30</targetAcquireRadius>
+              <targetKeepRadius>35</targetKeepRadius>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- 空闲时的行为 -->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_WanderColony">
+              <maxDanger>None</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Idle error -->
+        <li Class="JobGiver_IdleError"/>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+</Defs>
