@@ -32,4 +32,57 @@
       </li>
     </subSounds>
   </SoundDef>
+  <SoundDef>
+    <defName>WULA_MW_Breaker_Bar_Hit</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/WULA_MW_Breaker_Bar_Hit</clipPath>
+          </li>
+        </grains>
+        <volumeRange>65</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>WULA_RW_Railgun_Shootingsound</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/WULA_RW_Railgun_Shootingsound</clipPath>
+          </li>
+        </grains>
+        <volumeRange>65</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>WULA_RW_Beam_Shootingsound</defName>
+    <sustain>true</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>99</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <!-- <sustainStopSound>BeamGraser_Shooting_Resolve</sustainStopSound> -->
+    <subSounds>
+      <li>
+        <!-- <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed> -->
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/WULA_RW_Beam_Shootingsound</clipPath>
+          </li>
+        </grains>
+        <pitchRange>0.99~1.01</pitchRange>
+        <volumeRange>50</volumeRange>
+        <sustainRelease>0.2</sustainRelease>
+      </li>
+    </subSounds>
+  </SoundDef>
 </Defs>

@@ -649,66 +649,6 @@
     <researchPrerequisite>WULA_Machine_Productor_Technology</researchPrerequisite>
   </RecipeDef>
   <RecipeDef ParentName="LightMechanoidRecipe">
-    <defName>WULA_Build_Mech_Cat_EMP</defName>
-    <label>建造CAt-23"闪电猫猫"</label>
-    <description>建造一台CAt-23"闪电猫猫"辅助机器人，可以执行搬运、清理、和灭火工作，配备EMP手榴弹。</description>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>50</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-    </ingredients>
-    <products>
-      <Mech_WULA_Cat_EMP>1</Mech_WULA_Cat_EMP>
-    </products>
-    <descriptionHyperlinks>
-      <ThingDef>Mech_WULA_Cat_EMP</ThingDef>
-    </descriptionHyperlinks>
-    <researchPrerequisite>WULA_Machine_Productor_1_Technology</researchPrerequisite>
-  </RecipeDef>
-  <RecipeDef ParentName="LightMechanoidRecipe">
-    <defName>WULA_Build_Mech_Cat_Fire</defName>
-    <label>建造CAt-42"烈焰猫猫"</label>
-    <description>建造一台CAt-42"烈焰猫猫"辅助机器人，可以执行搬运、清理、和灭火工作，配备燃烧瓶。</description>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>50</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-    </ingredients>
-    <products>
-      <Mech_WULA_Cat_Fire>1</Mech_WULA_Cat_Fire>
-    </products>
-    <descriptionHyperlinks>
-      <ThingDef>Mech_WULA_Cat_Fire</ThingDef>
-    </descriptionHyperlinks>
-    <researchPrerequisite>WULA_Machine_Productor_1_Technology</researchPrerequisite>
-  </RecipeDef>
-  <RecipeDef ParentName="LightMechanoidRecipe">
     <defName>WULA_Build_Mech_Cat_Assault</defName>
     <label>建造CAt-46"突击猫猫"</label>
     <description>建造一台CAt-46"突击猫猫"辅助机器人，可以执行搬运、狩猎和割除任务，配备与DLa-1"页岩"性能相近的DLa-4"云母"突击步枪。</description>
@@ -737,43 +677,5 @@
       <ThingDef>Mech_WULA_Cat_Assault</ThingDef>
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_Machine_Productor_1_Technology</researchPrerequisite>
-  </RecipeDef>
-  <RecipeDef ParentName="LightMechanoidRecipe">
-    <defName>WULA_Build_Mech_Cat_DM</defName>
-    <label>建造CAt-96"暗物质猫猫"</label>
-    <description>建造一台CAt-96"暗物质猫猫"辅助机器人，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作，无需充电，但是死亡时会产生湮灭爆炸。</description>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>50</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WULA_Dark_Matter_Item</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-    <products>
-      <Mech_WULA_Cat_DM>1</Mech_WULA_Cat_DM>
-    </products>
-    <descriptionHyperlinks>
-      <ThingDef>Mech_WULA_Cat_DM</ThingDef>
-    </descriptionHyperlinks>
-    <researchPrerequisite>WULA_Mech_WULA_Cat_DM_Technology</researchPrerequisite>
   </RecipeDef>
 </Defs>

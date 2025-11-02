@@ -267,7 +267,6 @@
       </li>
     </lifeStages>
   </PawnKindDef>
-
   <PawnKindDef Abstract="True" Name="Mech_WULA_Cat_Soldier_PawnKind" ParentName="LightMechanoidKind">
     <lifeStages>
       <li>
@@ -287,24 +286,6 @@
     <!-- <techHediffsChance MayRequire="Ludeon.RimWorld.Biotech">1</techHediffsChance>
     <techHediffsMoney>9999~9999</techHediffsMoney>
     <controlGroupPortraitZoom>0.65</controlGroupPortraitZoom>   -->
-  </PawnKindDef>
-  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
-    <defName>Mech_WULA_Cat_Fire</defName>
-    <label>乌拉猫猫掷弹兵（燃烧弹）</label>
-    <race>Mech_WULA_Cat_Fire</race>
-    <combatPower>200</combatPower>
-    <weaponTags>
-      <li>GrenadeFlame</li>
-    </weaponTags>
-  </PawnKindDef>
-  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
-    <defName>Mech_WULA_Cat_EMP</defName>
-    <label>乌拉猫猫掷弹兵（EMP）</label>
-    <race>Mech_WULA_Cat_EMP</race>
-    <combatPower>200</combatPower>
-    <weaponTags>
-      <li>GrenadeEMP</li>
-    </weaponTags>
   </PawnKindDef>
   <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
     <defName>Mech_WULA_Cat_Constructor</defName>
@@ -345,30 +326,6 @@
     <weaponTags>
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
-  </PawnKindDef>
-  <PawnKindDef ParentName="NonCombatLightMechanoidKind">
-    <defName>Mech_WULA_Cat_DM</defName>
-    <label>暗物质猫猫</label>
-    <race>Mech_WULA_Cat_DM</race>
-    <defaultFactionType>PlayerColony</defaultFactionType>
-    <allowInMechClusters>False</allowInMechClusters>
-    <combatPower>1000</combatPower>
-    <lifeStages>
-      <li>
-        <bodyGraphicData>
-          <texPath>Wula/Things/WULA_DM_Cat/WULA_Cat_Thin</texPath>
-          <maskPath>Wula/Things/WULA_DM_Cat/AllegianceOverlays/None</maskPath>
-          <shaderType>CutoutWithOverlay</shaderType>
-          <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>1.1</drawSize>
-        </bodyGraphicData>
-      </li>
-    </lifeStages>
-    <techHediffsTags>
-      <li>Mech_WULA_Cat_DM_HediffTag</li>
-    </techHediffsTags>
-    <techHediffsMoney>9999~9999</techHediffsMoney>
-    <techHediffsChance>1</techHediffsChance>
   </PawnKindDef>
 
   <!-- 乌拉族反常网络 -->

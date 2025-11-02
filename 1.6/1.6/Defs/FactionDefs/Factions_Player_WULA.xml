@@ -98,8 +98,6 @@
           <Wula_AI_Heavy_Panzer_PawnKind>100</Wula_AI_Heavy_Panzer_PawnKind>
           <Mech_WULA_Cat_Assault>60</Mech_WULA_Cat_Assault>
           <Mech_WULA_Cat_Constructor>30</Mech_WULA_Cat_Constructor>
-          <Mech_WULA_Cat_Fire>10</Mech_WULA_Cat_Fire>
-          <Mech_WULA_Cat_EMP>10</Mech_WULA_Cat_EMP>
         </options>
       </li>
       <!-- 重甲部队，大量的猫猫混杂少量的重甲兵 -->
@@ -138,8 +136,6 @@
         <kindDef>Combat</kindDef>
         <commonality>30</commonality>
         <options>
-          <Mech_WULA_Cat_Fire>2</Mech_WULA_Cat_Fire>
-          <Mech_WULA_Cat_EMP>2</Mech_WULA_Cat_EMP>
           <Wula_Broken_Personality_Pawn_2>10</Wula_Broken_Personality_Pawn_2>
           <Wula_Broken_Personality_Pawn_3>3</Wula_Broken_Personality_Pawn_3>
           <Wula_Broken_Personality_Pawn_4>3</Wula_Broken_Personality_Pawn_4>

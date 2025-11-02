@@ -38,7 +38,6 @@ namespace WulaFallenEmpire
         Shutdown    // 关机模式：立即休眠
     }
 
-
     public class CompProperties_AutonomousMech : CompProperties
     {
         public bool enableAutonomousDrafting = true;
@@ -70,7 +69,7 @@ namespace WulaFallenEmpire
         {
             get
             {
-                if (MechPawn == null || MechPawn.Dead || MechPawn.Downed)
+                if (MechPawn == null || MechPawn.Dead )
                     return false;
 
                 if (!Props.enableAutonomousDrafting)
@@ -78,13 +77,6 @@ namespace WulaFallenEmpire
 
                 if (MechPawn.GetOverseer() != null)
                     return false;
-
-                if (Props.requirePowerForAutonomy)
-                {
-                    // 在临界能量下不允许自主模式
-                    if (GetEnergyLevel() < Props.criticalEnergyThreshold)
-                        return false;
-                }
 
                 return true;
             }
@@ -118,6 +110,33 @@ namespace WulaFallenEmpire
             }
         }
 
+        // 在 CompAutonomousMech 类中添加这个新属性
+        public bool CanFightAutonomously
+        {
+            get
+            {
+                if (MechPawn == null || MechPawn.Dead || MechPawn.Downed)
+                    return false;
+
+                if (!Props.enableAutonomousDrafting)
+                    return false;
+
+                if (MechPawn.GetOverseer() != null)
+                    return false;
+
+                if (!MechPawn.drafter?.Drafted == true)
+                    return false;
+
+                if (Props.requirePowerForAutonomy)
+                {
+                    if (GetEnergyLevel() < Props.criticalEnergyThreshold)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
         public AutonomousWorkMode CurrentWorkMode => currentWorkMode;
 
         // 新增：能量状态检查方法
@@ -131,7 +150,6 @@ namespace WulaFallenEmpire
         public bool IsCriticalEnergy => GetEnergyLevel() < Props.criticalEnergyThreshold;
         public bool IsFullyCharged => GetEnergyLevel() >= Props.rechargeCompleteThreshold;
 
-        // ... 现有代码 ...
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
@@ -139,6 +157,7 @@ namespace WulaFallenEmpire
             // 确保使用独立战斗系统
             InitializeAutonomousCombat();
         }
+
         private void InitializeAutonomousCombat()
         {
             // 确保有 draftController
@@ -152,48 +171,8 @@ namespace WulaFallenEmpire
             {
                 MechPawn.drafter.FireAtWill = true;
             }
+        }
 
-            // 确保工作设置不会干扰战斗
-            EnsureCombatWorkSettings();
-        }
-        private void EnsureCombatWorkSettings()
-        {
-            if (MechPawn.workSettings == null)
-                return;
-            // 设置自主战斗工作类型（如果存在）
-            WorkTypeDef autonomousCombat = DefDatabase<WorkTypeDef>.GetNamedSilentFail("WULA_AutonomousCombat");
-            if (autonomousCombat != null)
-            {
-                MechPawn.workSettings.SetPriority(autonomousCombat, 1);
-            }
-        }
-        public override void CompTick()
-        {
-            base.CompTick();
-
-            // 定期检查战斗状态
-            if (Find.TickManager.TicksGame % 60 == 0)
-            {
-                CheckCombatStatus();
-            }
-        }
-        private void CheckCombatStatus()
-        {
-            if (MechPawn.drafter?.Drafted == true && MechPawn.CurJob == null)
-            {
-                // 如果被征召但没有工作，强制进入自主战斗状态
-                ForceAutonomousCombat();
-            }
-        }
-        private void ForceAutonomousCombat()
-        {
-            JobDef autonomousCombatJob = DefDatabase<JobDef>.GetNamedSilentFail("WULA_AutonomousWaitCombat");
-            if (autonomousCombatJob != null)
-            {
-                Job job = JobMaker.MakeJob(autonomousCombatJob);
-                MechPawn.jobs.StartJob(job, JobCondition.InterruptForced);
-            }
-        }
         public override void CompTick()
         {
             base.CompTick();
@@ -211,7 +190,6 @@ namespace WulaFallenEmpire
         {
             if (!CanWorkAutonomously)
                 return;
-
             bool isLowEnergyNow = IsLowEnergy;
 
             // 如果能量状态发生变化

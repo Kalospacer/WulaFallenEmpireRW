@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WULA_BattleShip</defName>
+    <label>乌拉帝国战舰</label>
+    <thingClass>WulaFallenEmpire.FlyOver</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <texPath>Wula/FlyoverThing/WULA_BattleShip_Shadow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(100,250)</drawSize>
+      <color>(195,195,195,45)</color>
+    </graphicData>
+    <skyfaller>
+      <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <motesPerCell>0</motesPerCell>
+      <floatingSound>FlyOver/Flying</floatingSound>
+      <impactSound>FlyOver/Landing</impactSound>
+    </skyfaller>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.FlyOverShadowExtension">
+        <customShadowPath>Wula/Weapon/WULA_Weapon_Empty</customShadowPath>
+        <useCustomShadow>true</useCustomShadow>
+        <shadowIntensity>0.8</shadowIntensity>
+        <minShadowAlpha>0</minShadowAlpha>
+        <maxShadowAlpha>0</maxShadowAlpha>
+        <minShadowScale>0</minShadowScale>
+        <maxShadowScale>0</maxShadowScale>
+
+        <useApproachAnimation>true</useApproachAnimation>
+        <approachDuration>1</approachDuration>
+        <approachOffsetDistance>50</approachOffsetDistance>
+      </li>
+    </modExtensions>
+    <seeThroughFog>true</seeThroughFog>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <alwaysHaulable>false</alwaysHaulable>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <comps>
+      <!-- 入场信封信息 -->
+      <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
+        <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
+        <letterLabel>帝国母舰已抵达</letterLabel>
+        <letterText>一艘帝国母舰响应请求抵达殖民地上空！</letterText>
+        <letterDef>PositiveEvent</letterDef>
+        <onlySendOnce>true</onlySendOnce>
+        <requireOnMap>true</requireOnMap>
+        <destroyAfterSending>false</destroyAfterSending> <!-- 发送后销毁flyover -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverType">
+        <flyOverType>WULA_Flyover_BaseBuilder</flyOverType>
+        <isRequiredForDrop>true</isRequiredForDrop>
+      </li>
+    </comps>
+  </ThingDef> 
+  <AbilityDef>
+    <defName>WULA_CallBattleShip</defName>
+    <label>帝国战舰召唤</label>
+    <description>发送增援请求，呼叫乌拉帝国舰队的战舰前往殖民地</description>
+    <iconPath>Wula/UI/Abilities/WULA_CallBattleShip</iconPath>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+      <warmupTime>1</warmupTime>
+      <range>19.9</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_BattleShip</flyOverDef>
+        <flyOverType>Standard</flyOverType>
+        <flightSpeed>0.01</flightSpeed>
+        <altitude>20</altitude>
+        <startPosition>MapEdge</startPosition>
+        <endPosition>OppositeMapEdge</endPosition>
+        <playFlyOverSound>true</playFlyOverSound>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <ThingDef Name="WULA_Fighter_Base" ParentName="EtherealThingBase" Abstract="True">
+    <label>乌拉帝国战机</label>
+    <thingClass>WulaFallenEmpire.FlyOver</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <!-- <texPath>ArachnaeSwarm/Weapon/ARA_Weapon_Empty</texPath> -->
+      <texPath>Wula/FlyoverThing/WULA_Fighter_Shadow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(40,20)</drawSize>
+      <color>(195,195,195,45)</color>
+    </graphicData>
+    <castEdgeShadows>false</castEdgeShadows>
+    <staticSunShadowHeight>0</staticSunShadowHeight>
+    <skyfaller>
+      <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <motesPerCell>0</motesPerCell>
+      <floatingSound>FlyOver/Flying</floatingSound>
+      <impactSound>FlyOver/Landing</impactSound>
+    </skyfaller>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.FlyOverShadowExtension">
+        <customShadowPath>Wula/Weapon/WULA_Weapon_Empty</customShadowPath>
+        <useCustomShadow>true</useCustomShadow>
+        <shadowIntensity>0.8</shadowIntensity>
+        <minShadowAlpha>0</minShadowAlpha>
+        <maxShadowAlpha>0</maxShadowAlpha>
+        <minShadowScale>0</minShadowScale>
+        <maxShadowScale>0</maxShadowScale>
+
+        <useApproachAnimation>true</useApproachAnimation>
+        <approachDuration>1</approachDuration>
+        <approachOffsetDistance>20</approachOffsetDistance>
+      </li>
+    </modExtensions>
+    <seeThroughFog>true</seeThroughFog>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <alwaysHaulable>false</alwaysHaulable>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+  </ThingDef>
+  <ThingDef ParentName="WULA_Fighter_Base">
+    <defName>WULA_Fighter_A</defName>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_GroundStrafing">
+        <projectileDef>Bullet_WULA_Fighter_A_Rocket</projectileDef>
+        <range>50</range>
+    
+        <!-- 横向偏移配置（左右） -->
+        <lateralOffsetDistance>13</lateralOffsetDistance>
+        <lateralInitialOffsetAngle>0</lateralInitialOffsetAngle>
+        <lateralMaxOffsetAngle>0</lateralMaxOffsetAngle>
+        <lateralAngleIncrement>0</lateralAngleIncrement>
+        <lateralOffsetMode>Alternating</lateralOffsetMode>
+        
+        <!-- 纵向偏移配置（前后） -->
+        <longitudinalInitialOffset>10</longitudinalInitialOffset>
+        <longitudinalMinOffset>10</longitudinalMinOffset>
+        <longitudinalMaxOffset>10</longitudinalMaxOffset>
+        <longitudinalOffsetMode>Fixed</longitudinalOffsetMode>
+
+        <!-- 视觉效果 -->
+        <spawnOffsetEffect>true</spawnOffsetEffect>
+        <offsetEffectDef>Mote_SparkSimple</offsetEffectDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SectorSurveillance">
+        <projectileDef>Bullet_WULA_RW_Fractal_RF</projectileDef>
+        <sectorAngle>30</sectorAngle>      <!-- 扇形角度 -->
+        <sectorRange>50</sectorRange>      <!-- 射程 -->
+        <shotCount>3</shotCount>           <!-- 发射次数 -->
+        <shotInterval>0.3</shotInterval>   <!-- 发射间隔 -->
+        <maxProjectiles>24</maxProjectiles><!-- 最大射弹数量限制-->
+    
+        <!-- 横向偏移配置（左右） -->
+        <lateralOffsetDistance>13</lateralOffsetDistance>
+        <lateralInitialOffsetAngle>0</lateralInitialOffsetAngle>
+        <lateralMaxOffsetAngle>0</lateralMaxOffsetAngle>
+        <lateralAngleIncrement>0</lateralAngleIncrement>
+        <lateralOffsetMode>Alternating</lateralOffsetMode>
+        
+        <!-- 纵向偏移配置（前后） -->
+        <longitudinalInitialOffset>13</longitudinalInitialOffset>
+        <longitudinalMinOffset>13</longitudinalMinOffset>
+        <longitudinalMaxOffset>13</longitudinalMaxOffset>
+        <longitudinalOffsetMode>Fixed</longitudinalOffsetMode>
+
+        <!-- 视觉效果 -->
+        <spawnOffsetEffect>true</spawnOffsetEffect>
+        <offsetEffectDef>Mote_SparkSimple</offsetEffectDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_Fighter_A_Rocket</defName>
+    <label>沸石巡飞弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Loitering_Munition</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
+    <projectile>
+      <damageDef>BombSuper</damageDef>
+      <speed>180</speed>
+      <damageAmountBase>30</damageAmountBase>
+      <armorPenetrationBase>1</armorPenetrationBase>
+      <stoppingPower>2.0</stoppingPower>
+      <explosionRadius>4</explosionRadius>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <screenShakeFactor>0.5</screenShakeFactor>
+      <flyOverhead>false</flyOverhead>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
+        <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <AbilityDef>
+    <defName>WULA_Spawn_Fighter_Rocket</defName>
+    <label>战机巡航</label>
+    <description>指挥乌拉帝国的战机，中速掠过战场，使用其导弹对目标区域发起打击。\n\n在飞行期间，它会使用磁轨炮打击遇到的敌人。</description>
+    <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>ARA_HiveCorvette_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
+        <aircraftsPerUse>1</aircraftsPerUse>
+      </li> -->
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_Fighter_A</flyOverDef>
+        <flyOverType>GroundStrafing</flyOverType>
+        <flightSpeed>3</flightSpeed>
+        <altitude>20</altitude>
+        <playFlyOverSound>true</playFlyOverSound>
+        <approachType>Perpendicular</approachType>
+
+        <!-- 扫射参数 -->
+        <enableGroundStrafing>true</enableGroundStrafing>
+        <strafeWidth>4</strafeWidth>
+        <strafeLength>25</strafeLength>
+        <strafeFireChance>0.13</strafeFireChance>
+        <!-- 新增：控制最终射弹数量 -->
+        <minStrafeProjectiles>12</minStrafeProjectiles>
+        <maxStrafeProjectiles>16</maxStrafeProjectiles>
+
+        <!-- 只传递信号，不传递具体参数 -->
+        <enableSectorSurveillance>true</enableSectorSurveillance>
+
+        <!-- 可视化 -->
+        <showStrafePreview>true</showStrafePreview>
+        <strafePreviewColor>(1.0,0.3,0.1,0.2)</strafePreviewColor>
+
+        <!-- 预览配置 -->
+        <showSectorPreview>true</showSectorPreview>
+        <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="WULA_Fighter_Base">
+    <defName>WULA_Fighter_B</defName>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SectorSurveillance">
+        <projectileDef>Bullet_WULA_RW_Fractal_RF</projectileDef>
+        <sectorAngle>30</sectorAngle>      <!-- 扇形角度 -->
+        <sectorRange>50</sectorRange>      <!-- 射程 -->
+        <shotCount>6</shotCount>           <!-- 发射次数 -->
+        <shotInterval>0.1</shotInterval>   <!-- 发射间隔 -->
+        <maxProjectiles>-1</maxProjectiles><!-- 最大射弹数量限制-->
+    
+        <!-- 横向偏移配置（左右） -->
+        <lateralOffsetDistance>13</lateralOffsetDistance>
+        <lateralInitialOffsetAngle>0</lateralInitialOffsetAngle>
+        <lateralMaxOffsetAngle>0</lateralMaxOffsetAngle>
+        <lateralAngleIncrement>0</lateralAngleIncrement>
+        <lateralOffsetMode>Alternating</lateralOffsetMode>
+        
+        <!-- 纵向偏移配置（前后） -->
+        <longitudinalInitialOffset>13</longitudinalInitialOffset>
+        <longitudinalMinOffset>13</longitudinalMinOffset>
+        <longitudinalMaxOffset>13</longitudinalMaxOffset>
+        <longitudinalOffsetMode>Fixed</longitudinalOffsetMode>
+
+        <!-- 视觉效果 -->
+        <spawnOffsetEffect>true</spawnOffsetEffect>
+        <offsetEffectDef>Mote_SparkSimple</offsetEffectDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <AbilityDef>
+    <defName>WULA_Spawn_Fighter_RailGun</defName>
+    <label>战机巡航（磁轨炮）</label>
+    <description>指挥乌拉帝国的战机，低速掠过战场，使用其磁轨炮打击遇到的所有敌人。</description>
+    <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>ARA_HiveCorvette_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
+        <aircraftsPerUse>1</aircraftsPerUse>
+      </li> -->
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_Fighter_B</flyOverDef>
+        <flyOverType>GroundStrafing</flyOverType>
+        <flightSpeed>3</flightSpeed>
+        <altitude>20</altitude>
+        <playFlyOverSound>true</playFlyOverSound>
+        <approachType>Perpendicular</approachType>
+
+        <!-- 只传递信号，不传递具体参数 -->
+        <enableSectorSurveillance>true</enableSectorSurveillance>
+
+        <!-- 预览配置 -->
+        <showSectorPreview>true</showSectorPreview>
+        <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      </li>
+    </comps>
+  </AbilityDef>
+</Defs>

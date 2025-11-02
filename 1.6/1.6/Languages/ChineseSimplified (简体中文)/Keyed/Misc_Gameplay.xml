@@ -39,4 +39,57 @@
 
   <WULA_Autonomous_Mode>征召自律机械</WULA_Autonomous_Mode>
   <WULA_Autonomous_Mode_Desc>使自律机械进入征召状态</WULA_Autonomous_Mode_Desc>
+
+  <WULA_NanoRepair_Active>纳米修复系统：修复中</WULA_NanoRepair_Active>
+  <WULA_NanoRepair_Inactive>纳米修复系统：待机</WULA_NanoRepair_Inactive>
+  <WULA_CurrentEnergy>当前能量：{0}</WULA_CurrentEnergy>
+  <WULA_NoEnergyNeed>无能量需求</WULA_NoEnergyNeed>
+  <WULA_DamageDetected>检测到损伤</WULA_DamageDetected>
+  <WULA_NoDamage>无损伤</WULA_NoDamage>
+  <WULA_RepairCooldown>修复冷却：{0}秒</WULA_RepairCooldown>
+
+  <!-- 中文 -->
+  <WULA_NanoRepair_Disable>禁用纳米修复</WULA_NanoRepair_Disable>
+  <WULA_NanoRepair_DisableDesc>关闭纳米修复系统以节省能量</WULA_NanoRepair_DisableDesc>
+  <WULA_NanoRepair_Enable>启用纳米修复</WULA_NanoRepair_Enable>
+  <WULA_NanoRepair_EnableDesc>开启纳米修复系统以自动修复损伤</WULA_NanoRepair_EnableDesc>
+  <WULA_NanoRepair_EnabledMsg>{0}的纳米修复系统已启用</WULA_NanoRepair_EnabledMsg>
+  <WULA_NanoRepair_DisabledMsg>{0}的纳米修复系统已禁用</WULA_NanoRepair_DisabledMsg>
+  <WULA_NanoRepair_Disabled>纳米修复: 已禁用</WULA_NanoRepair_Disabled>
+
+  <!-- 消息文本 -->
+  <WULA_NoRecyclableMechanoidsNearby>附近没有可回收的乌拉猫猫。</WULA_NoRecyclableMechanoidsNearby>
+  <WULA_RecyclerStorageFull>地堡已满。</WULA_RecyclerStorageFull>
+  <WULA_CalledMechanoidsForRecycling>已调用 {0} 个乌拉猫猫回到地堡。</WULA_CalledMechanoidsForRecycling>
+  <WULA_MechanoidRecycled>已回收 {0}。</WULA_MechanoidRecycled>
+  <WULA_NoMechanoidsAvailableForConversion>没有可转换的乌拉猫猫。</WULA_NoMechanoidsAvailableForConversion>
+  <WULA_NotEnoughStoredMechanoids>地堡内的的乌拉猫猫不足。</WULA_NotEnoughStoredMechanoids>
+  <WULA_ConvertingMechanoids>正在将地堡内的{0}个乌拉猫猫转换为{1}。</WULA_ConvertingMechanoids>
+  <!-- Gizmo 文本 -->
+  <WULA_RecycleNearbyMechanoids>呼叫乌拉猫猫进驻</WULA_RecycleNearbyMechanoids>
+  <WULA_RecycleNearbyMechanoidsDesc>呼叫{0}格内的乌拉猫猫前来报到，以便转换为其他类型的猫猫，或是使用地堡内武器抵御敌军。</WULA_RecycleNearbyMechanoidsDesc>
+  <WULA_RecycleNearbyMechanoidsDisabled>地堡存储已满。</WULA_RecycleNearbyMechanoidsDisabled>
+  <WULA_ConvertMechanoids>释放乌拉猫猫</WULA_ConvertMechanoids>
+  <WULA_ConvertMechanoidsDesc>将地堡内的乌拉猫猫释放出来，它们可以在离开前重新选择装备以转变类型。\n容量：{0}/{1}</WULA_ConvertMechanoidsDesc>
+  <WULA_ConvertMechanoidsDisabled>地堡内没有乌拉猫猫待命。</WULA_ConvertMechanoidsDisabled>
+  <!-- 检查字符串 -->
+  <WULA_StoredInfo>容量：{0}/{1}</WULA_StoredInfo>
+
+  <WULA_CallSkyfaller>召唤空投建筑</WULA_CallSkyfaller>
+  <WULA_CallSkyfallerDesc>从乌拉帝国的舰队呼叫对应的建筑空投到此处</WULA_CallSkyfallerDesc>
+  <WULA_SkyfallerIncoming>空投建筑将在 {0} 后到达</WULA_SkyfallerIncoming>
+  <WULA_SkyfallerArrivingIn>空投建筑将在 {0} 后到达</WULA_SkyfallerArrivingIn>
+  <WULA_ReadyToCallSkyfaller>准备召唤空投建筑</WULA_ReadyToCallSkyfaller>
+  <!-- FlyOver 相关翻译 -->
+  <WULA_Flyover_BaseBuilder>可空投建筑</WULA_Flyover_BaseBuilder>
+  <WULA_NoRequiredFlyOver>需要 {0} 在殖民地上空时才可以空投建筑</WULA_NoRequiredFlyOver>
+  <WULA_RequiresFlyOver>需要 {0} 在殖民地上空时才可以空投建筑</WULA_RequiresFlyOver>
+  <WULA_MissingFlyOver>需要 {0} 在殖民地上空时才可以空投建筑</WULA_MissingFlyOver>
+  <!-- 屋顶相关翻译 -->
+  <WULA_ThickRoofBlocking>厚岩顶阻挡空投</WULA_ThickRoofBlocking>
+  <WULA_RoofBlocking>屋顶阻挡空投</WULA_RoofBlocking>
+  <WULA_ThickRoofBlockingDesc>该空投地点顶部有厚岩顶，无法进行空投</WULA_ThickRoofBlockingDesc>
+  <WULA_RoofBlockingDesc>该空投地点顶部有屋顶，无法进行空投</WULA_RoofBlockingDesc>
+  <WULA_BlockedByThickRoof>被厚岩顶阻挡</WULA_BlockedByThickRoof>
+  <WULA_BlockedByRoof>被屋顶阻挡</WULA_BlockedByRoof>
 </LanguageData>

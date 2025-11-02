@@ -49,7 +49,7 @@
         <!-- Do a queued job (支持右键强制高优先级工作) -->
         <li Class="ThinkNode_QueuedJob" />
 
-        <!-- 更完整的征召战斗行为 -->
+        <!-- 征召行为：使用独立的条件节点 -->
         <li Class="ThinkNode_ConditionalOfPlayerFaction">
           <subNodes>
             <li Class="ThinkNode_Tagger">
@@ -57,11 +57,6 @@
               <subNodes>
                 <li Class="JobGiver_MoveToStandable" />
                 <li Class="JobGiver_Orders" />
-                <!-- 4. 自主战斗工作（独立系统） -->
-                <li Class="WulaFallenEmpire.JobGiver_AutonomousCombat">
-                  <priority>8</priority>
-                  <expiryInterval>30</expiryInterval>
-                </li>
               </subNodes>
             </li>
           </subNodes>
@@ -206,36 +201,4 @@
       </subNodes>
     </thinkRoot>
   </ThinkTreeDef>
-  
-  <!-- 自主机械族专用工作类型 -->
-  <WorkTypeDef>
-    <defName>WULA_AutonomousCombat</defName>
-    <label>自主战斗</label>
-    <gerundLabel>战斗中</gerundLabel>
-    <verb>战斗</verb>
-    <visible>false</visible> <!-- 不在工作面板显示 -->
-    <naturalPriority>99</naturalPriority>
-    <workTags>Violent</workTags>
-    <alwaysStartActive>true</alwaysStartActive>
-  </WorkTypeDef>
-  <!-- 自主机械族征召工作 -->
-  <JobDef>
-    <defName>WULA_AutonomousWaitCombat</defName>
-    <driverClass>WulaFallenEmpire.JobDriver_AutonomousWaitCombat</driverClass>
-    <reportString>standing guard.</reportString>
-    <playerInterruptible>true</playerInterruptible>
-    <checkOverrideOnDamage>true</checkOverrideOnDamage>
-    <canBeForcedByDuty>false</canBeForcedByDuty>
-    <alwaysShowWeapon>true</alwaysShowWeapon>
-    <suspendsUntilCombatEnd>false</suspendsUntilCombatEnd>
-    <ignoreJoyTimeAssignment>true</ignoreJoyTimeAssignment>
-    <makeTargetPause>false</makeTargetPause>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.JobExtension_AutonomousCombat">
-        <canUseRangedWeapon>true</canUseRangedWeapon>
-        <autoAttackEnabled>true</autoAttackEnabled>
-        <attackSearchRadius>35</attackSearchRadius>
-      </li>
-    </modExtensions>
-  </JobDef>
 </Defs>

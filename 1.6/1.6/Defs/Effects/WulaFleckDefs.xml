@@ -68,4 +68,17 @@
     <solidTime>0.08</solidTime>
     <fadeOutTime>0.13</fadeOutTime>
   </FleckDef>
+
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>WULA_Smoke_Tail</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.50</fadeInTime>
+    <solidTime>1</solidTime>
+    <fadeOutTime>1.2</fadeOutTime>
+    <growthRate>0.005</growthRate>
+  </FleckDef>
 </Defs>

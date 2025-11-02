@@ -4,7 +4,7 @@
     <defName>WULA_Energy</defName>
     <needClass>WulaFallenEmpire.Need_WulaEnergy</needClass>
     <label>能量</label>
-    <description>乌拉帝国的合成人正常活动需要能量维持，在缺少能量时将倒地不起，无法进行任何工作。\n\n机械乌拉和常规机械体不同，她们只有一种指定的能量接口，只能通过能源核心补充能量，在乌拉帝国编织体工作台制造这种核心。</description>
+    <description>乌拉帝国的合成人正常活动需要能量维持，在缺少能量时将倒地不起，无法进行任何工作。\n\n机械乌拉的充电站是特殊的，她们只能在合成人充电站充电，无法使用常规充电站。</description>
     <listPriority>800</listPriority>
     <major>true</major>
     <onlyIfCausedByHediff>true</onlyIfCausedByHediff>

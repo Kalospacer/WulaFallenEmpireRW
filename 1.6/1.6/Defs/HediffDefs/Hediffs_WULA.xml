@@ -4,7 +4,7 @@
   <HediffDef>
     <defName>Wula_Synth</defName>
     <label>合成人</label>
-    <description>乌拉帝国制式合成人，拥有一部分机械体的特性——她们无法被点燃、不会中毒、免疫大量疾病、不会抱怨温度，但是无法自我修复，并且需要获取能量以维持机体运转。</description>
+    <description>乌拉帝国的合成人，拥有一部分机械体的特性——她们难以被点燃、免疫常规疾病、可以使用纳米系统自我修复，但是需要获取能量以维持机体运转。</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
@@ -20,16 +20,9 @@
         <naturalHealingFactor>0</naturalHealingFactor>
         <!-- 不会感到痛苦 -->
         <painFactor>0</painFactor>
-        <!-- 抗毒抗火抗寒热 -->
-        <statOffsets>
-          <ComfyTemperatureMin>-100</ComfyTemperatureMin>
-          <ComfyTemperatureMax>120</ComfyTemperatureMax>
-          <ToxicResistance>1</ToxicResistance>
-          <ToxicEnvironmentResistance MayRequire="Ludeon.RimWorld.Biotech">1</ToxicEnvironmentResistance>
-        </statOffsets>
         <statFactors>
-          <!-- 易燃性，作为半机械生物很难起火 -->
-          <Flammability>0</Flammability>
+          <!-- 易燃性 -->
+          <Flammability>0.05</Flammability>
         </statFactors>
         <!-- 免疫非纳米机械疾病 -->
         <makeImmuneTo>
@@ -75,71 +68,10 @@
       </li>
     </stages>
   </HediffDef>
-
-  <HediffDef ParentName="ImplantHediffBase">
-    <defName>WULA_Heavy_Infantry_PowerArmor_PowerFist</defName>
-    <label>动力拳</label>
-    <labelNoun>动力拳</labelNoun>
-    <description>一个由外骨骼和加压线圈组成的拳套，内置于乌拉帝国重装装甲的夹层中，可以击碎任何胆敢靠近的敌军的头颅。这套武备是由神经系统直接驱动的——无论盔甲穿戴者是否还拥有生物学意义上的“手”。</description>
-    <comps>
-      <li Class="HediffCompProperties_VerbGiver">
-        <tools>
-          <li>
-            <label>动力拳</label>
-            <capacities>
-              <li>Poke</li>
-            </capacities>
-            <power>25</power>
-            <cooldownTime>2.2</cooldownTime>
-            <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
-            <surpriseAttack>
-              <extraMeleeDamages>
-                <li>
-                  <def>Stun</def>
-                  <amount>12</amount>
-                </li>
-              </extraMeleeDamages>
-            </surpriseAttack>
-            <!-- <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
-            <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss> -->
-          </li>
-        </tools>
-      </li>
-      <li Class="HediffCompProperties_RemoveIfApparelDropped" />
-    </comps>
-  </HediffDef>
-
-  <HediffDef>
-    <defName>WULA_Shutdown</defName>
-    <label>停机</label>
-    <description>机械乌拉的机体能量已完全耗尽，所有非核心功能已下线，需要立刻补充能量。\n\n如果需要重启机械乌拉，你需要建造一个抢修点或者合成人充电站，可以从事医生职位的殖民者将会把失能的机械乌拉带到修复站，并使用乌拉帝国能源核心重启机械乌拉。</description>
-    <hediffClass>HediffWithComps</hediffClass>
-    <isBad>true</isBad>
-    <stages>
-      <li>
-        <label>停机</label>
-        <minSeverity>0</minSeverity>
-        <capMods>
-          <li>
-            <capacity>Consciousness</capacity>
-            <setMax>0.1</setMax>
-          </li>
-          <li>
-            <capacity>Moving</capacity>
-            <setMax>0.1</setMax>
-          </li>
-          <li>
-            <capacity>Manipulation</capacity>
-            <setMax>0.1</setMax>
-          </li>
-        </capMods>
-      </li>
-    </stages>
-  </HediffDef>
   <HediffDef>
     <defName>WULA_Maintenance_Neglect</defName>
     <label>维护</label>
-    <description>如果缺乏定期维护，身体机能将会出现衰退迹象。需要进入维护舱进行修复。</description>
+    <description>乌拉帝国的合成人因为设计的过于繁琐，导致需要频繁维护。当她们处于良好维护状态时，各方面的能力都会有所上升，反之如果常年得不到维护或是短时间受到大量伤害，则其将变得难以自主运行甚至直接停机！</description>
     <hediffClass>Hediff_High</hediffClass>
     <defaultLabelColor>(0.8, 0.35, 0.35)</defaultLabelColor>
     <isBad>false</isBad>
@@ -206,6 +138,67 @@
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>WULA_Heavy_Infantry_PowerArmor_PowerFist</defName>
+    <label>动力拳</label>
+    <labelNoun>动力拳</labelNoun>
+    <description>一个由外骨骼和加压线圈组成的拳套，内置于乌拉帝国重装装甲的夹层中，可以击碎任何胆敢靠近的敌军的头颅。这套武备是由神经系统直接驱动的——无论盔甲穿戴者是否还拥有生物学意义上的“手”。</description>
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+          <li>
+            <label>动力拳</label>
+            <capacities>
+              <li>Poke</li>
+            </capacities>
+            <power>25</power>
+            <cooldownTime>2.2</cooldownTime>
+            <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+            <surpriseAttack>
+              <extraMeleeDamages>
+                <li>
+                  <def>Stun</def>
+                  <amount>12</amount>
+                </li>
+              </extraMeleeDamages>
+            </surpriseAttack>
+            <!-- <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
+            <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss> -->
+          </li>
+        </tools>
+      </li>
+      <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+    </comps>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>WULA_Shutdown</defName>
+    <label>停机</label>
+    <description>机械乌拉的机体能量已完全耗尽，所有非核心功能已下线，需要立刻补充能量。\n\n如果需要重启机械乌拉，你需要建造一个抢修点或者合成人充电站，可以从事医生职位的殖民者将会把失能的机械乌拉带到修复站，并使用乌拉帝国能源核心重启机械乌拉。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>true</isBad>
+    <stages>
+      <li>
+        <label>停机</label>
+        <minSeverity>0</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
             <setMax>0.1</setMax>
           </li>
         </capMods>
@@ -301,5 +294,36 @@
       </li>
     </stages>
     <isBad>false</isBad>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>WULA_NanoRepairHediff</defName>
+    <label>纳米维修</label>
+    <description>乌拉帝国的机械体集成了纳米修复系统，只要有电量，它们就能一直修复机械体受到的损伤——这套系统的设计使其需要在一段时间内未受到伤害才能启动。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.6, 0.4, 0.8)</defaultLabelColor>
+    <isBad>false</isBad>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <comps>
+    </comps>
+    <stages>
+      <li>
+        <label>启动</label>
+        <minSeverity>0</minSeverity>
+      </li>
+      <li>
+        <label>休眠</label>
+        <minSeverity>1</minSeverity>
+      </li>
+    </stages>
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_NanoRepair">
+        <activeSeverity>0.5</activeSeverity>
+        <inactiveSeverity>1.5</inactiveSeverity>
+        <minEnergyThreshold>0.1</minEnergyThreshold>
+        <repairCostPerHP>0.01</repairCostPerHP>
+        <repairCooldownAfterDamage>1200</repairCooldownAfterDamage>
+      </li>
+  </comps>
   </HediffDef>
 </Defs>

@@ -60,13 +60,40 @@
     </mote>
     <drawOffscreen>true</drawOffscreen>
     <graphicData>
-      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <texPath>Things/Mote/GraserBeam</texPath>
       <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
       <shaderType>MoteBeam</shaderType>
+      <drawSize>(0.25,1)</drawSize>
+      <color>(165, 44, 2, 255)</color>
       <shaderParameters>
         <_ScrollSpeedA>0</_ScrollSpeedA>
         <_ScrollSpeedB>0</_ScrollSpeedB>
         <_Intensity>2</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_WULA_Beam_Charge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Wula/Mote/Mote_WULA_Beam_Charge</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <shaderParameters>
+        <_RandomTex>/Things/Mote/RandomFlicker</_RandomTex>
+        <_FlickerFrequency>0.25</_FlickerFrequency>
+        <_FlickerAmount>0.6</_FlickerAmount>
+        <_InnerCircleIntensity>0.1</_InnerCircleIntensity>
+        <_InnerCircleSize>0.1</_InnerCircleSize>
+        <_InnerCircleShimmerAmount>0.14</_InnerCircleShimmerAmount>
       </shaderParameters>
     </graphicData>
   </ThingDef>

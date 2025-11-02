@@ -234,8 +234,7 @@
 	<AlienRace.ThingDef_AlienRace Name="Race_Wula_Machine" ParentName="Wula_Human_Base">
 		<defName>WulaSpecies</defName>
 		<label>机械乌拉</label>
-		<description>诞生于乌拉帝国的机械生命体</description>
-    <uiIconPath>Wula/Things/WulaSpecies/WULA_Species_Icon</uiIconPath>
+		<description>诞生于乌拉帝国的机械生命体，是对这个帝国的统治者精妙的仿制。作为机械生命，乌拉帝国合成人比常规的人类要坚韧的多——她们不害怕极端气候、真空和毒气侵袭，也不需要常规意义上的食物。\n\n然而，她们也有自己的缺陷——她们移动速度较慢、害怕EMP攻击、不擅长采矿和建造，并且如时钟发条的精密的身体难以连续承受高额伤害，必须定期返回维修舱检修。</description>
 
     <alienRace>
       <!-- 核心设置 -->
@@ -256,7 +255,7 @@
         <canLayDown>true</canLayDown>
         <validBeds>
           <li>WULA_Charging_Station_Synth</li>
-          <li>Wula_SleepingSpot</li>
+          <li>SleepingSpot</li>
         </validBeds>
         <!-- 各种零件定义 -->
         <alienPartGenerator Inherit="False">
@@ -621,13 +620,16 @@
     <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
     <statBases>
       <WorkToMake>7200</WorkToMake>
-      <MarketValue>12000</MarketValue>
+      <MarketValue>10000</MarketValue>
       <Mass>50</Mass>
-      <MoveSpeed>4.5</MoveSpeed>
+      <MoveSpeed>4</MoveSpeed>
       <EatingSpeed>1000</EatingSpeed>
       <!-- 温度适应性，在hediff修改 -->
       <ComfyTemperatureMin>-100</ComfyTemperatureMin>
-      <ComfyTemperatureMax>100</ComfyTemperatureMax>
+      <ComfyTemperatureMax>250</ComfyTemperatureMax>
+      <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
+      <ToxicResistance>1</ToxicResistance>
+      <ToxicEnvironmentResistance MayRequire="Ludeon.RimWorld.Biotech">1</ToxicEnvironmentResistance>
       <!-- 心灵敏感，很低 -->
       <PsychicSensitivity>0.25</PsychicSensitivity>
       <!-- 肉量 -->
@@ -639,18 +641,18 @@
       <!-- 社交效果，机械乌拉社交的影响很小 -->
       <SocialImpact>0.25</SocialImpact>
       <!-- 挖矿速度 -->
-      <MiningSpeed>1</MiningSpeed>
+      <MiningSpeed>0.25</MiningSpeed>
       <!-- 采矿效率 -->
-      <MiningYield>1</MiningYield>
+      <MiningYield>0.5</MiningYield>
       <!-- 种植速度 -->
       <PlantWorkSpeed>1</PlantWorkSpeed>
       <!-- 狩猎隐蔽 -->
       <HuntingStealth>1</HuntingStealth>
       <!-- 建造速度 -->
-      <ConstructionSpeed>1</ConstructionSpeed>
+      <ConstructionSpeed>0.25</ConstructionSpeed>
+      <ConstructSuccessChance>0.5</ConstructSuccessChance>
       <!-- 研究速度 -->
       <ResearchSpeed>1</ResearchSpeed>
-      <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
     </statBases>
 
     <race>
@@ -661,8 +663,8 @@
 			<intelligence>Humanlike</intelligence>
 			<!-- 血液，不流血 -->
 			<bloodDef>Filth_MachineBits</bloodDef>
-      <!-- 基础血量，很高 -->
-			<baseHealthScale>1.5</baseHealthScale>
+      <!-- 基础血量 -->
+			<baseHealthScale>1</baseHealthScale>
 			<!-- 解剖产物 -->
 			<leatherDef>Steel</leatherDef>
       <specificMeatDef>Steel</specificMeatDef>
@@ -696,8 +698,27 @@
       </lifeStageWorkSettings>
       <lifeStageAges Inherit="False">
         <li>
-          <def>Wula_Species_Lifestage</def>
+          <def>HumanlikeBaby</def>
           <minAge>0</minAge>
+        </li>
+        <li>
+          <def>HumanlikeChild</def>
+          <minAge>0.25</minAge>
+        </li>
+        <li MayRequire="Ludeon.RimWorld.Biotech">
+          <def>HumanlikePreTeenager</def>
+          <minAge>0.5</minAge>
+        </li>
+        <li>
+          <def>HumanlikeTeenager</def>
+          <minAge>0.75</minAge>
+        </li>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>1</minAge>
+          <!-- <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded> -->
+          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
+          <!-- <soundCall>Pawn_Mech_Warqueen_Call</soundCall> -->
         </li>
       </lifeStageAges>
       <canFlyInVacuum>true</canFlyInVacuum>
@@ -747,6 +768,13 @@
       <li MayRequire="Nals.FacialAnimation">
 				<compClass>FacialAnimation.FacialAnimationControllerComp</compClass>
 			</li>
+      <li Class="WulaFallenEmpire.CompProperties_HediffGiver">
+        <hediffs>
+          <li>WULA_NanoRepairHediff</li>
+        </hediffs>
+        <addChance>1.0</addChance>
+        <allowDuplicates>false</allowDuplicates>
+      </li>
       <!--<li>
         <compClass>FacialAnimation.EmotionControllerComp</compClass>
       </li>-->
@@ -924,7 +952,6 @@
       <WorkSpeedGlobal MayRequire="Ludeon.RimWorld.Biotech">0.5</WorkSpeedGlobal>
       <ArmorRating_Blunt>0.10</ArmorRating_Blunt>
       <ArmorRating_Sharp>0.20</ArmorRating_Sharp>
-      <MechEnergyLossPerHP>0.66</MechEnergyLossPerHP>
     </statBases>
     <receivesSignals>true</receivesSignals>
     <tradeability>None</tradeability>
@@ -962,6 +989,7 @@
       </li>
     </tools>
     <comps>
+      <!-- 休眠系统 -->
       <li Class="CompProperties_CanBeDormant">
         <compClass>CompMechanoid</compClass>
       </li>
@@ -970,20 +998,27 @@
         <wakeUpCheckRadius>30</wakeUpCheckRadius>
         <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
       </li>
+      <!--加上这个组件的机械体会直接跳过原版指挥范围判定，征召必须-->
+      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
+      <!-- 原版监护者系统，必须加不然绕不开征召 -->
+      <li MayRequire="Ludeon.RimWorld.Biotech" Class="CompProperties_OverseerSubject">
+        <needsOverseerEffect></needsOverseerEffect>
+        <delayUntilFeralCheck>-10</delayUntilFeralCheck>
+        <feralMtbDays>999999</feralMtbDays>
+        <feralCascadeRadialDistance>0</feralCascadeRadialDistance>
+      </li>
       <!-- 自动机械族，不需要人工监管 -->
       <li Class="WulaFallenEmpire.CompProperties_AutonomousMech">
         <enableAutonomousDrafting>true</enableAutonomousDrafting>
         <enableAutonomousWork>true</enableAutonomousWork>
         <requirePowerForAutonomy>true</requirePowerForAutonomy>
       </li>
-      <!--加上这个组件的机械体会直接跳过原版指挥范围判定，征召必须-->
-      <li Class="WulaFallenEmpire.CompProperties_GlobalMechCommand" />
-      <li MayRequire="Ludeon.RimWorld.Biotech" Class="CompProperties_MechRepairable" />
-      <li MayRequire="Ludeon.RimWorld.Biotech" Class="CompProperties_OverseerSubject">
-        <needsOverseerEffect></needsOverseerEffect>
-        <delayUntilFeralCheck>-10</delayUntilFeralCheck>
-        <feralMtbDays>999999</feralMtbDays>
-        <feralCascadeRadialDistance>0</feralCascadeRadialDistance>
+      <li Class="WulaFallenEmpire.CompProperties_HediffGiver">
+        <hediffs>
+          <li>WULA_NanoRepairHediff</li>
+        </hediffs>
+        <addChance>1.0</addChance>
+        <allowDuplicates>false</allowDuplicates>
       </li>
     </comps>
   </ThingDef>
@@ -1046,16 +1081,6 @@
     </race>
   </ThingDef>
   <ThingDef ParentName="Mech_WULA_Cat_Base">
-    <defName>Mech_WULA_Cat_EMP</defName>
-    <label>CAt-23"闪电猫猫"</label>
-    <description>乌拉帝国的一种小型自律机械体，无需监管者，只能执行救火、搬运和清扫任务，但是相比起基础型号多配备了一个EMP投掷物，可以辅助乌拉帝国军团对抗机械部队。</description>
-  </ThingDef>  
-  <ThingDef ParentName="Mech_WULA_Cat_Base">
-    <defName>Mech_WULA_Cat_Fire</defName>
-    <label>CAt-42"烈焰猫猫"</label>
-    <description>乌拉帝国的一种小型自律机械体，无需监管者，只能执行救火、搬运和清扫任务，但是相比起基础型号多配备了一个燃烧瓶投掷物，可以点燃靠近阵线的敌军。</description>
-  </ThingDef>
-  <ThingDef ParentName="Mech_WULA_Cat_Base">
     <defName>Mech_WULA_Cat_Constructor</defName>
     <label>CAt-86"猫猫劳工"</label>
     <description>乌拉帝国的一种小型自律机械体，无需监管者，只能执行建造和开采任务，可以跳起来用手上的HAm-1"装修锤"锤烂敌人的膝盖。</description>
@@ -1088,36 +1113,6 @@
       <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
       <MoveSpeed>4</MoveSpeed>
     </statBases>
-  </ThingDef>
-  <ThingDef ParentName="Mech_WULA_Cat_Base">
-    <defName>Mech_WULA_Cat_DM</defName>
-    <label>CAt-96"暗物质猫猫"</label>
-    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作。这种型号的乌拉猫猫内置了一台不稳定暗物质引擎，这使得其无需充电，但是在死亡时会产生巨大的爆炸。</description>
-    <uiIconPath>Wula/Things/WULA_DM_Cat/WULA_Cat_Thin_south</uiIconPath>
-
-    <statBases>
-      <MoveSpeed>6</MoveSpeed>
-      <FoodPoisonChance>0.001</FoodPoisonChance>
-      <MechEnergyUsageFactor>-1</MechEnergyUsageFactor>
-    </statBases>
-    <race>
-      <mechEnabledWorkTypes>
-        <li>Hauling</li>
-        <li>Cooking</li>
-        <li>PlantCutting</li>
-        <li>Growing</li>
-        <li>Cleaning</li>
-        <li>Doctor</li>
-        <li>Firefighter</li>
-      </mechEnabledWorkTypes>
-    </race>
-    <comps>
-      <li Class="CompProperties_HunterDrone">
-        <explosionRadius>30</explosionRadius>
-        <explosionDamageType>BombSuper</explosionDamageType>
-        <explosionDamageAmount>550</explosionDamageAmount>
-      </li>
-    </comps>
   </ThingDef>
 
 
@@ -1309,9 +1304,9 @@
         <li>
           <def>MechanoidFullyFormed</def>
           <minAge>0</minAge>
-          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
+          <!-- <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded> -->
           <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
-          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+          <!-- <soundCall>Pawn_Mech_Warqueen_Call</soundCall> -->
         </li>
       </lifeStageAges>
       <baseHealthScale>5</baseHealthScale>
