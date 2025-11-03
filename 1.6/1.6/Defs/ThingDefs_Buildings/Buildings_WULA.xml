@@ -807,18 +807,20 @@
         <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MaintenancePod">
-        <baseDurationTicks>30000</baseDurationTicks> <!-- Merged from user feedback -->
-        <ticksPerSeverity>150000</ticksPerSeverity> <!-- Kept from previous change -->
-        <powerConsumptionRunning>500</powerConsumptionRunning>
-        <powerConsumptionIdle>25</powerConsumptionIdle>
-        <hediffToRemove>WULA_Maintenance_Neglect</hediffToRemove>
-        <componentCostPerSeverity>2</componentCostPerSeverity> <!-- 5 components per 100% severity -->
-        <baseComponentCost>1</baseComponentCost>
-        <!-- <minSeverityToMaintain>0.75</minSeverityToMaintain> -->
-        <hediffSeverityAfterCycle>0.01</hediffSeverityAfterCycle>
         <enterSound>BiosculpterPod_Enter</enterSound>
         <exitSound>BiosculpterPod_Exit</exitSound>
         <operatingEffecter>BiosculpterPod_Operating</operatingEffecter>
+        <baseDurationTicks>30000</baseDurationTicks> <!-- 1天 -->
+        <ticksPerNeedLevel>150000</ticksPerNeedLevel> <!-- 每降低1点需求需要2天 -->
+        <powerConsumptionRunning>500</powerConsumptionRunning>
+        <powerConsumptionIdle>25</powerConsumptionIdle>
+        <componentCostPerNeedLevel>2</componentCostPerNeedLevel>
+        <baseComponentCost>1</baseComponentCost>
+        <minNeedLevelToMaintain>0.3</minNeedLevelToMaintain>
+        <needLevelAfterCycle>1.0</needLevelAfterCycle>
+        <healInjuries>true</healInjuries>
+        <healMissingParts>true</healMissingParts>
+        <maxInjuriesHealedPerCycle>5</maxInjuriesHealedPerCycle>
       </li>
     </comps>
     <placeWorkers>

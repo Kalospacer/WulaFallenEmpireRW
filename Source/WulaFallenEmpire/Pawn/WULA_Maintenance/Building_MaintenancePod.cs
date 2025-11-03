@@ -1,35 +1,32 @@
+// Building_MaintenancePod.cs
 using RimWorld;
 using Verse;
 
 namespace WulaFallenEmpire
 {
-    public class CompProperties_MaintenanceCycle : CompProperties_BiosculpterPod_BaseCycle
+    public class Building_MaintenancePod : Building
     {
-        public HediffDef hediffToRemove;
+        public CompMaintenancePod MaintenanceComp => GetComp<CompMaintenancePod>();
 
-        public CompProperties_MaintenanceCycle()
+        protected override void Tick()
         {
-            compClass = typeof(CompMaintenanceCycle);
+            base.Tick();
+            // 建筑级别的特殊逻辑可以在这里添加
         }
-    }
 
-    public class CompMaintenanceCycle : CompBiosculpterPod_Cycle
-    {
-        public new CompProperties_MaintenanceCycle Props => (CompProperties_MaintenanceCycle)props;
-
-        public override void CycleCompleted(Pawn pawn)
+        public override string GetInspectString()
         {
-            if (pawn == null)
+            string baseString = base.GetInspectString();
+            string maintenanceString = MaintenanceComp?.CompInspectStringExtra();
+
+            if (!string.IsNullOrEmpty(maintenanceString))
             {
-                return;
+                if (!string.IsNullOrEmpty(baseString))
+                    return baseString + "\n" + maintenanceString;
+                return maintenanceString;
             }
 
-            Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.hediffToRemove);
-            if (hediff != null)
-            {
-                hediff.Severity = 0f;
-                Messages.Message("WULA_MaintenanceCycleComplete".Translate(pawn.Named("PAWN")), pawn, MessageTypeDefOf.PositiveEvent);
-            }
+            return baseString;
         }
     }
 }

@@ -1,3 +1,4 @@
+// JobDriver_HaulToMaintenancePod.cs (修复版)
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
@@ -12,52 +13,70 @@ namespace WulaFallenEmpire
 
         protected Pawn Takee => (Pawn)job.GetTarget(TakeeIndex).Thing;
         protected Building Pod => (Building)job.GetTarget(PodIndex).Thing;
-        protected CompMaintenancePod PodComp => Pod.TryGetComp<CompMaintenancePod>();
+        protected CompMaintenancePod PodComp => Pod?.TryGetComp<CompMaintenancePod>();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
+            // 修复：明确指定计数为1
             return pawn.Reserve(Takee, job, 1, -1, null, errorOnFailed) 
                 && pawn.Reserve(Pod, job, 1, -1, null, errorOnFailed);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            Log.Warning($"[WulaPodDebug] JobDriver_HaulToMaintenancePod started. Hauler: {pawn.LabelShortCap}, Takee: {Takee.LabelShortCap}");
-            // Standard failure conditions
             this.FailOnDestroyedOrNull(TakeeIndex);
             this.FailOnDestroyedOrNull(PodIndex);
-            this.FailOnAggroMentalStateAndHostile(TakeeIndex);
-            this.FailOn(() => PodComp == null);
-            this.FailOn(() => !pawn.CanReach(Pod, PathEndMode.InteractionCell, Danger.Deadly));
-            this.FailOn(() => !Takee.Downed);
+            this.FailOn(() => PodComp == null || PodComp.State != MaintenancePodState.Idle);
 
-            // Go to the pawn to be rescued
-            Toil goToTakee = Toils_Goto.GotoThing(TakeeIndex, PathEndMode.ClosestTouch)
-                .FailOnDespawnedNullOrForbidden(TakeeIndex)
-                .FailOnDespawnedNullOrForbidden(PodIndex)
-                .FailOnSomeonePhysicallyInteracting(TakeeIndex);
-            goToTakee.AddPreInitAction(() => Log.Warning($"[WulaPodDebug] HaulJob: {pawn.LabelShortCap} is going to pick up {Takee.LabelShortCap}."));
-            yield return goToTakee;
+            // 前往目标 pawn
+            yield return Toils_Goto.GotoThing(TakeeIndex, PathEndMode.ClosestTouch);
 
-            // Start carrying the pawn
-            Toil startCarrying = Toils_Haul.StartCarryThing(TakeeIndex, false, true, false);
-            startCarrying.AddPreInitAction(() => Log.Warning($"[WulaPodDebug] HaulJob: {pawn.LabelShortCap} is now carrying {Takee.LabelShortCap}."));
-            yield return startCarrying;
-
-            // Go to the maintenance pod
-            Toil goToPod = Toils_Goto.GotoThing(PodIndex, PathEndMode.InteractionCell);
-            goToPod.AddPreInitAction(() => Log.Warning($"[WulaPodDebug] HaulJob: {pawn.LabelShortCap} is hauling {Takee.LabelShortCap} to the pod."));
-            yield return goToPod;
-
-            // Place the pawn inside the pod
-            Toil placeInPod = ToilMaker.MakeToil("PlaceInPod");
-            placeInPod.initAction = delegate
+            // 开始搬运 - 修复计数问题
+            yield return new Toil
             {
-                Log.Warning($"[WulaPodDebug] HaulJob: {pawn.LabelShortCap} has arrived and is placing {Takee.LabelShortCap} in the pod.");
-                PodComp.StartCycle(Takee);
+                initAction = () =>
+                {
+                    // 明确设置搬运数量为1
+                    if (pawn.carryTracker.CarriedThing == null)
+                    {
+                        if (Takee == null || Takee.Destroyed)
+                        {
+                            Log.Error("试图搬运不存在的Pawn");
+                            return;
+                        }
+
+                        // 使用TryStartCarryThing并明确指定数量
+                        if (pawn.carryTracker.TryStartCarry(Takee, 1) <= 0)
+                        {
+                            Log.Error($"无法搬运Pawn: {Takee.Label}");
+                            EndJobWith(JobCondition.Incompletable);
+                        }
+                    }
+                },
+                defaultCompleteMode = ToilCompleteMode.Instant
             };
-            placeInPod.defaultCompleteMode = ToilCompleteMode.Instant;
-            yield return placeInPod;
+
+            // 前往维护舱
+            yield return Toils_Goto.GotoThing(PodIndex, PathEndMode.InteractionCell);
+
+            // 放入维护舱
+            yield return new Toil
+            {
+                initAction = () =>
+                {
+                    if (PodComp != null && Takee != null)
+                    {
+                        // 确保Pawn被放下
+                        if (pawn.carryTracker.CarriedThing == Takee)
+                        {
+                            pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Near, out _);
+                        }
+                        
+                        PodComp.StartCycle(Takee);
+                    }
+                },
+                defaultCompleteMode = ToilCompleteMode.Instant
+            };
         }
     }
 }

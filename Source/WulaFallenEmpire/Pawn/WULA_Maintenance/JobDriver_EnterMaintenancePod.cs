@@ -1,5 +1,5 @@
+// JobDriver_EnterMaintenancePod.cs (更新版)
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -11,6 +11,7 @@ namespace WulaFallenEmpire
         private const TargetIndex PodIndex = TargetIndex.A;
 
         protected Thing Pod => job.GetTarget(PodIndex).Thing;
+        protected CompMaintenancePod PodComp => Pod?.TryGetComp<CompMaintenancePod>();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -19,29 +20,24 @@ namespace WulaFallenEmpire
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            Log.Warning($"[WulaPodDebug] JobDriver_EnterMaintenancePod started for pawn: {pawn.LabelShortCap}");
             this.FailOnDespawnedNullOrForbidden(PodIndex);
-            this.FailOnBurningImmobile(PodIndex);
+            this.FailOn(() => PodComp == null || PodComp.State != MaintenancePodState.Idle || !PodComp.PowerOn);
 
-            var podComp = Pod.TryGetComp<CompMaintenancePod>();
-            this.FailOn(() => podComp == null || podComp.State != MaintenancePodState.Idle || !podComp.PowerOn);
+            // 移动到维护舱
+            yield return Toils_Goto.GotoThing(PodIndex, PathEndMode.InteractionCell);
 
-            // Go to the pod's interaction cell
-            Toil goToPod = Toils_Goto.GotoThing(PodIndex, PathEndMode.InteractionCell);
-            goToPod.AddPreInitAction(() => Log.Warning($"[WulaPodDebug] EnterJob: Pawn {pawn.LabelShortCap} is going to the pod."));
-            yield return goToPod;
-
-            // Enter the pod
-            Toil enterToil = new Toil
+            // 进入维护舱
+            yield return new Toil
             {
                 initAction = () =>
                 {
-                    Log.Warning($"[WulaPodDebug] EnterJob: Pawn {pawn.LabelShortCap} has arrived and is entering the pod.");
-                    podComp.StartCycle(pawn);
+                    if (PodComp != null)
+                    {
+                        PodComp.StartCycle(pawn);
+                    }
                 },
                 defaultCompleteMode = ToilCompleteMode.Instant
             };
-            yield return enterToil;
         }
     }
 }

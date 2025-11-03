@@ -110,4 +110,16 @@
     </modExtensions>
   </WorkGiverDef>
 
+  <!-- 维护工作 -->
+  <WorkGiverDef>
+    <defName>WULA_DoMaintenanceWork</defName>
+    <workType>PatientBedRest</workType>
+    <giverClass>WulaFallenEmpire.WorkGiver_DoMaintenance</giverClass>
+    <priorityInType>100</priorityInType>
+    <verb>接受维护于</verb>
+    <gerund>接受维护于</gerund>
+    <emergency>false</emergency>
+    <scanCells>true</scanCells>
+    <directOrderable>true</directOrderable>
+  </WorkGiverDef>
 </Defs>

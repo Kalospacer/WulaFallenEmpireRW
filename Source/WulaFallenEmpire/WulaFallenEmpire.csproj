@@ -106,6 +106,11 @@
     <Compile Include="Flyover\WULA_ShipArtillery\CompShipArtillery.cs" />
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompAbilityEffect_SpawnFlyOver.cs" />
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
+    <Compile Include="GlobalWorkTable\Building_GlobalWorkTable.cs" />
+    <Compile Include="GlobalWorkTable\GlobalProductionOrder.cs" />
+    <Compile Include="GlobalWorkTable\GlobalProductionOrderStack.cs" />
+    <Compile Include="GlobalWorkTable\GlobalStorageWorldComponent.cs" />
+    <Compile Include="GlobalWorkTable\ITab_GlobalBills.cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\DRMDamageShield.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\Hediff_DamageShield.cs" />
@@ -142,11 +147,12 @@
     <Compile Include="Pawn\WULA_Energy\WulaStatDefOf.cs" />
     <Compile Include="Pawn\WULA_Maintenance\Building_MaintenancePod.cs" />
     <Compile Include="Pawn\WULA_Maintenance\CompMaintenancePod.cs" />
-    <Compile Include="Pawn\WULA_Maintenance\HediffComp_MaintenanceNeed.cs" />
-    <Compile Include="Pawn\WULA_Maintenance\JobDefOf_WULA.cs" />
+    <Compile Include="Pawn\WULA_Maintenance\HediffCompProperties_MaintenanceDamage.cs" />
     <Compile Include="Pawn\WULA_Maintenance\JobDriver_EnterMaintenancePod.cs" />
     <Compile Include="Pawn\WULA_Maintenance\JobDriver_HaulToMaintenancePod.cs" />
-    <Compile Include="Pawn\WULA_Maintenance\Job_Maintenance.cs" />
+    <Compile Include="Pawn\WULA_Maintenance\MaintenanceNeedExtension.cs" />
+    <Compile Include="Pawn\WULA_Maintenance\Need_Maintenance.cs" />
+    <Compile Include="Pawn\WULA_Maintenance\WorkGiver_DoMaintenance.cs" />
     <Compile Include="ThingComp\CompAndPatch_GiveHediffOnShot.cs" />
     <Compile Include="ThingComp\CompApparelInterceptor.cs" />
     <Compile Include="ThingComp\CompPsychicScaling.cs" />

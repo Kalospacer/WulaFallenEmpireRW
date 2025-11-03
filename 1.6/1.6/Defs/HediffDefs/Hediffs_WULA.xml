@@ -24,6 +24,12 @@
           <!-- 易燃性 -->
           <Flammability>0.05</Flammability>
         </statFactors>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.25</offset>
+          </li>
+        </capMods>
         <!-- 免疫非纳米机械疾病 -->
         <makeImmuneTo>
           <li>Flu</li>
@@ -38,6 +44,7 @@
         </makeImmuneTo>
         <enablesNeeds>
           <li>WULA_Energy</li>
+          <li>WULA_MaintenanceNeed</li>
         </enablesNeeds>
         <disablesNeeds>
           <li>Food</li>
@@ -45,6 +52,11 @@
         </disablesNeeds>
       </li>
     </stages>
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceDamage">
+        <damageToMaintenanceFactor>0.0025</damageToMaintenanceFactor> <!-- 1点伤害 = 0.25%维护度减少 -->
+      </li>
+    </comps>
   </HediffDef>
   <HediffDef>
     <defName>WULA_ChargingHediff</defName>
@@ -68,73 +80,67 @@
       </li>
     </stages>
   </HediffDef>
+
   <HediffDef>
-    <defName>WULA_Maintenance_Neglect</defName>
+    <defName>WULA_Maintenance_MinorBreakdown</defName>
     <label>维护</label>
-    <description>乌拉帝国的合成人因为设计的过于繁琐，导致需要频繁维护。当她们处于良好维护状态时，各方面的能力都会有所上升，反之如果常年得不到维护或是短时间受到大量伤害，则其将变得难以自主运行甚至直接停机！</description>
+    <description>这台乌拉帝国合成人已经在环境恶劣的边缘世界活跃了一段时间，尽管总体状态良好但是已经有了一些小瑕疵。</description>
     <hediffClass>Hediff_High</hediffClass>
     <defaultLabelColor>(0.8, 0.35, 0.35)</defaultLabelColor>
     <isBad>false</isBad>
-    <initialSeverity>0</initialSeverity>
-    <minSeverity>0</minSeverity>
-    <maxSeverity>2.0</maxSeverity>
-    <!--<lethalSeverity>2</lethalSeverity>-->
-    <comps>
-      <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceNeed">
-        <thresholdDays>60</thresholdDays>
-        <!-- 60天内严重性达到1.0 (1.0 / 60 = 0.0166) -->
-        <severityPerDayBeforeThreshold>0.0166</severityPerDayBeforeThreshold>
-        <!-- 达到阈值后，在30天内从1.0增长到2.0 (1.0 / 30 ≈ 0.03333) -->
-        <severityPerDayAfterThreshold>0.03333</severityPerDayAfterThreshold>
-      </li>
-      <li Class="WulaFallenEmpire.HediffCompProperties_DamageResponse">
-        <severityIncreasePerDamage>0.005</severityIncreasePerDamage>
-      </li>
-    </comps>
+    <minSeverity>0.1</minSeverity>
+    <initialSeverity>0.5</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
     <stages>
       <li>
-        <label>极佳</label>
+        <label>轻微损坏</label>
         <minSeverity>0</minSeverity>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
-            <offset>0.1</offset>
+            <offset>-0.25</offset>
           </li>
         </capMods>
       </li>
-      <li>
-        <label>稳定</label>
-        <minSeverity>0.5</minSeverity>
-        <capMods>
-          <li>
-            <capacity>Consciousness</capacity>
-            <offset>0</offset>
-          </li>
-        </capMods>
-      </li>
-      <li>
-        <label>需要</label>
-        <minSeverity>0.75</minSeverity>
-        <capMods>
-          <li>
-            <capacity>Consciousness</capacity>
-            <offset>-0.20</offset>
-          </li>
-        </capMods>
-      </li>
+    </stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>WULA_Maintenance_MajorBreakdown</defName>
+    <label>维护</label>
+    <description>这台乌拉帝国合成人有一段时间没有进行维护了，运行起来相当吃力。</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(0.8, 0.35, 0.35)</defaultLabelColor>
+    <isBad>false</isBad>
+    <minSeverity>0.1</minSeverity>
+    <initialSeverity>0.5</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
+    <stages>
       <li>
         <label>损坏</label>
-        <minSeverity>1.0</minSeverity>
+        <minSeverity>0</minSeverity>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
-            <setMax>0.5</setMax>
+            <offset>-0.25</offset>
           </li>
         </capMods>
       </li>
+    </stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>WULA_Maintenance_CriticalFailuren</defName>
+    <label>维护</label>
+    <description>这台乌拉帝国合成人几乎无法运作了，需要立刻进行维护，否则就只是一堆废铁。</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(0.8, 0.35, 0.35)</defaultLabelColor>
+    <isBad>false</isBad>
+    <minSeverity>0.1</minSeverity>
+    <initialSeverity>0.5</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
+    <stages>
       <li>
         <label>崩坏</label>
-        <minSeverity>2.0</minSeverity>
+        <minSeverity>0</minSeverity>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
@@ -321,9 +327,9 @@
         <activeSeverity>0.5</activeSeverity>
         <inactiveSeverity>1.5</inactiveSeverity>
         <minEnergyThreshold>0.1</minEnergyThreshold>
-        <repairCostPerHP>0.01</repairCostPerHP>
-        <repairCooldownAfterDamage>1200</repairCooldownAfterDamage>
+        <repairCostPerHP>0.02</repairCostPerHP>
+        <repairCooldownAfterDamage>600</repairCooldownAfterDamage>
       </li>
-  </comps>
+    </comps>
   </HediffDef>
 </Defs>

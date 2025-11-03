@@ -1,3 +1,4 @@
+// HediffCompProperties_NanoRepair.cs
 using RimWorld;
 using Verse;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace WulaFallenEmpire
         public float minEnergyThreshold = 0.1f;  // 最低能量阈值
         public float repairCostPerHP = 0.1f;     // 每点生命值修复的能量消耗
         public int repairCooldownAfterDamage = 300; // 受到伤害后的修复冷却时间
-        public float repairTolerance = 0f;     // 修复容忍度，低于此值认为已完全修复
 
         public HediffCompProperties_NanoRepair()
         {
@@ -200,7 +200,7 @@ namespace WulaFallenEmpire
                 return true;
             }
 
-            // 使用 GetPartHealth 检查是否有损伤
+            // 检查是否有损伤
             if (HasDamagedParts())
             {
                 if (debugCounter % 10 == 0)
@@ -208,14 +208,7 @@ namespace WulaFallenEmpire
                 return true;
             }
 
-            // 检查是否有需要治疗的疾病
-            if (Pawn.health.hediffSet.HasTendableNonInjuryNonMissingPartHediff())
-            {
-                if (debugCounter % 10 == 0)
-                    Log.Message($"[NanoRepair] 检测到可治疗疾病");
-                return true;
-            }
-
+            // 不再检查疾病
             if (debugCounter % 10 == 0)
                 Log.Message($"[NanoRepair] 没有检测到任何需要修复的损伤");
             return false;
@@ -235,12 +228,12 @@ namespace WulaFallenEmpire
                     float maxHealth = part.def.GetMaxHealth(Pawn);
                     float currentHealth = Pawn.health.hediffSet.GetPartHealth(part);
                     
-                    // 使用修复容忍度，只有当损伤大于容忍度时才认为需要修复
-                    if (currentHealth < maxHealth - Props.repairTolerance)
+                    // 不再使用修复容忍度，任何损伤都需要修复
+                    if (currentHealth < maxHealth)
                     {
                         damagedCount++;
                         if (debugCounter % 10 == 0 && damagedCount == 1)
-                            Log.Message($"[NanoRepair] 部位 {part.def.defName} 有损伤: {currentHealth}/{maxHealth} (容忍度: {Props.repairTolerance})");
+                            Log.Message($"[NanoRepair] 部位 {part.def.defName} 有损伤: {currentHealth}/{maxHealth}");
                     }
                 }
             }
@@ -264,8 +257,8 @@ namespace WulaFallenEmpire
                     float maxHealth = part.def.GetMaxHealth(Pawn);
                     float currentHealth = Pawn.health.hediffSet.GetPartHealth(part);
                     
-                    // 使用修复容忍度
-                    if (currentHealth < maxHealth - Props.repairTolerance)
+                    // 不再使用修复容忍度，任何损伤都需要修复
+                    if (currentHealth < maxHealth)
                     {
                         damagedParts.Add(part);
                         if (debugCounter % 10 == 0 && damagedParts.Count <= 3)
@@ -309,13 +302,7 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // 最后修复疾病
-            if (TryRepairDiseases(energyNeed))
-            {
-                if (debugCounter % 10 == 0)
-                    Log.Message($"[NanoRepair] 已修复疾病");
-                return;
-            }
+            // 不再修复疾病
 
             if (debugCounter % 10 == 0)
                 Log.Message($"[NanoRepair] 没有执行任何修复");
@@ -450,110 +437,18 @@ namespace WulaFallenEmpire
             return false;
         }
 
-        private bool TryRepairDiseases(Need energyNeed)
-        {
-            var diseases = Pawn.health.hediffSet.GetTendableNonInjuryNonMissingPartHediffs();
-            if (diseases == null)
-            {
-                if (debugCounter % 10 == 0)
-                    Log.Message($"[NanoRepair] 没有可治疗疾病");
-                return false;
-            }
-
-            int diseaseCount = 0;
-            foreach (var disease in diseases)
-            {
-                if (disease.TendableNow())
-                    diseaseCount++;
-            }
-
-            if (diseaseCount == 0)
-            {
-                if (debugCounter % 10 == 0)
-                    Log.Message($"[NanoRepair] 没有可治疗的疾病");
-                return false;
-            }
-
-            if (debugCounter % 10 == 0)
-                Log.Message($"[NanoRepair] 检查修复疾病，共有 {diseaseCount} 个");
-
-            foreach (var disease in diseases)
-            {
-                if (disease.TendableNow())
-                {
-                    float repairCost = CalculateRepairCost(disease);
-                    
-                    if (debugCounter % 10 == 0)
-                        Log.Message($"[NanoRepair] 尝试修复疾病 {disease.def.defName}, 严重性: {disease.Severity:F2}, 成本: {repairCost:F2}, 当前能量: {energyNeed.CurLevel:F2}");
-                    
-                    if (energyNeed.CurLevel >= repairCost)
-                    {
-                        if (RepairDisease(disease, repairCost))
-                        {
-                            energyNeed.CurLevel -= repairCost;
-                            if (debugCounter % 10 == 0)
-                                Log.Message($"[NanoRepair] 成功修复疾病 {disease.def.defName}, 消耗能量: {repairCost:F2}");
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (debugCounter % 10 == 0)
-                            Log.Message($"[NanoRepair] 能量不足修复疾病: {energyNeed.CurLevel:F2} < {repairCost:F2}");
-                    }
-                }
-            }
-            return false;
-        }
-
-        private float CalculateRepairCost(Hediff hediff)
-        {
-            float baseCost = Props.repairCostPerHP;
-            
-            // 根据机械族的能量消耗属性调整成本
-            var mechEnergyLoss = Pawn.GetStatValue(StatDefOf.MechEnergyLossPerHP);
-            if (mechEnergyLoss > 0)
-            {
-                baseCost *= mechEnergyLoss;
-            }
-
-            float severityMultiplier = 1.0f;
-
-            if (hediff is Hediff_Injury injury)
-            {
-                severityMultiplier = injury.Severity;
-            }
-            else if (hediff is Hediff_MissingPart)
-            {
-                // 缺失部件修复成本使用正常计算
-                severityMultiplier = 1.0f;
-            }
-            else
-            {
-                severityMultiplier = hediff.Severity * 1.5f;
-            }
-
-            float finalCost = baseCost * severityMultiplier;
-            
-            if (debugCounter % 10 == 0)
-                Log.Message($"[NanoRepair] 计算修复成本: 基础={Props.repairCostPerHP}, 机械族能耗系数={mechEnergyLoss}, 严重性系数={severityMultiplier}, 最终成本={finalCost:F2}");
-                
-            return finalCost;
-        }
-
+        // 新的修复逻辑：完美修复所有伤口
         private bool RepairDamagedPart(BodyPartRecord part, float repairCost)
         {
             try
             {
                 float maxHealth = part.def.GetMaxHealth(Pawn);
                 float currentHealth = Pawn.health.hediffSet.GetPartHealth(part);
-                float healthToRepair = Mathf.Min(maxHealth - currentHealth, repairCost / Props.repairCostPerHP);
                 
                 if (debugCounter % 10 == 0)
-                    Log.Message($"[NanoRepair] 开始修复部位 {part.def.defName}, 计划修复量: {healthToRepair:F1}");
+                    Log.Message($"[NanoRepair] 开始修复部位 {part.def.defName}, 当前健康: {currentHealth:F1}/{maxHealth:F1}");
                 
-                // 直接修复部位的健康值，而不是查找特定的hediff
-                // 找到该部位的所有hediff并尝试修复
+                // 获取该部位的所有hediff
                 var hediffsOnPart = new List<Hediff>();
                 foreach (var hediff in Pawn.health.hediffSet.hediffs)
                 {
@@ -575,17 +470,10 @@ namespace WulaFallenEmpire
                 if (debugCounter % 10 == 0)
                     Log.Message($"[NanoRepair] 在部位 {part.def.defName} 上找到 {hediffsOnPart.Count} 个hediff");
                 
-                // 按严重性排序，先修复最严重的hediff
-                hediffsOnPart.Sort((a, b) => b.Severity.CompareTo(a.Severity));
-                
-                float remainingRepair = healthToRepair;
                 bool anyRepairDone = false;
                 
                 foreach (var hediff in hediffsOnPart)
                 {
-                    if (remainingRepair <= 0)
-                        break;
-                        
                     // 检查hediff是否可修复
                     if (!CanRepairHediff(hediff))
                     {
@@ -593,26 +481,29 @@ namespace WulaFallenEmpire
                             Log.Message($"[NanoRepair] 跳过不可修复的hediff: {hediff.def.defName}");
                         continue;
                     }
-                        
-                    float healAmount = Mathf.Min(hediff.Severity, remainingRepair);
-                    hediff.Severity -= healAmount;
-                    remainingRepair -= healAmount;
-                    anyRepairDone = true;
                     
-                    if (debugCounter % 10 == 0)
-                        Log.Message($"[NanoRepair] 修复hediff {hediff.def.defName}, 修复量: {healAmount:F1}, 剩余严重性: {hediff.Severity:F1}");
-                    
-                    // 使用修复容忍度，只有当严重性大于容忍度时才移除hediff
-                    if (hediff.Severity <= Props.repairTolerance)
+                    // 新的修复逻辑：对于小于1的伤口，直接删除
+                    if (hediff.Severity < 1.0f)
                     {
                         Pawn.health.RemoveHediff(hediff);
+                        anyRepairDone = true;
                         if (debugCounter % 10 == 0)
-                            Log.Message($"[NanoRepair] hediff {hediff.def.defName} 已完全修复并移除");
+                            Log.Message($"[NanoRepair] 删除严重性小于1的hediff: {hediff.def.defName} (严重性: {hediff.Severity:F2})");
+                    }
+                    else
+                    {
+                        // 对于大于等于1的伤口，完全修复
+                        float originalSeverity = hediff.Severity;
+                        hediff.Severity = 0f;
+                        Pawn.health.RemoveHediff(hediff);
+                        anyRepairDone = true;
+                        if (debugCounter % 10 == 0)
+                            Log.Message($"[NanoRepair] 完全修复hediff: {hediff.def.defName} (严重性: {originalSeverity:F2} -> 0)");
                     }
                 }
                 
                 if (debugCounter % 10 == 0)
-                    Log.Message($"[NanoRepair] 部位 {part.def.defName} 修复完成，总修复量: {healthToRepair - remainingRepair:F1}");
+                    Log.Message($"[NanoRepair] 部位 {part.def.defName} 修复完成，执行了 {anyRepairDone} 次修复");
                 
                 return anyRepairDone;
             }
@@ -626,12 +517,16 @@ namespace WulaFallenEmpire
         // 检查hediff是否可修复
         private bool CanRepairHediff(Hediff hediff)
         {
-            // 如果是机械族特有的hediff，总是可以修复
-            if (IsMechSpecificHediff(hediff))
-                return true;
+            // 跳过疾病
+            if (IsDisease(hediff))
+            {
+                if (debugCounter % 10 == 0)
+                    Log.Message($"[NanoRepair] 跳过疾病: {hediff.def.defName}");
+                return false;
+            }
             
-            // 如果是可治疗的hediff，可以修复
-            if (hediff.TendableNow())
+            // 如果是机械族特有的hediff，可以修复
+            if (IsMechSpecificHediff(hediff))
                 return true;
             
             // 如果是损伤类型的hediff，可以修复
@@ -639,6 +534,26 @@ namespace WulaFallenEmpire
                 return true;
             
             // 其他情况不可修复
+            return false;
+        }
+
+        // 检查是否是疾病
+        private bool IsDisease(Hediff hediff)
+        {
+            // 这里可以定义哪些hediff被认为是疾病
+            // 常见的疾病类型
+            string[] diseaseKeywords = {
+                "Disease", "Flu", "Plague", "Infection", "Malaria", 
+                "SleepingSickness", "FibrousMechanites", "SensoryMechanites",
+                "WoundInfection", "FoodPoisoning", "GutWorms", "MuscleParasites"
+            };
+            
+            foreach (string keyword in diseaseKeywords)
+            {
+                if (hediff.def.defName.Contains(keyword))
+                    return true;
+            }
+            
             return false;
         }
 
@@ -699,33 +614,6 @@ namespace WulaFallenEmpire
             return hediff.def.defName.Contains("Mech") || 
                    hediff.def.defName.Contains("Mechanical") ||
                    hediff.def.defName.Contains("Gunshot"); // 包括枪伤
-        }
-
-        private bool RepairDisease(Hediff disease, float repairCost)
-        {
-            try
-            {
-                // 修复疾病
-                float healAmount = Mathf.Min(disease.Severity, repairCost / (Props.repairCostPerHP * 1.5f));
-                disease.Severity -= healAmount;
-                
-                if (debugCounter % 10 == 0)
-                    Log.Message($"[NanoRepair] 修复疾病 {disease.def.defName}, 修复量: {healAmount:F2}, 剩余严重性: {disease.Severity:F2}");
-                
-                // 使用修复容忍度
-                if (disease.Severity <= Props.repairTolerance)
-                {
-                    Pawn.health.RemoveHediff(disease);
-                    if (debugCounter % 10 == 0)
-                        Log.Message($"[NanoRepair] 疾病 {disease.def.defName} 已完全修复并移除");
-                }
-                return true;
-            }
-            catch (System.Exception ex)
-            {
-                Log.Error($"[NanoRepair] 修复疾病 {disease.def.defName} 时出错: {ex}");
-                return false;
-            }
         }
 
         public override void Notify_PawnPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)

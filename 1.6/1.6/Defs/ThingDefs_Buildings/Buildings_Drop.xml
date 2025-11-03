@@ -147,9 +147,6 @@
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
       <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
     </building>
-    <thingCategories>
-      <li>BuildingsMisc</li>
-    </thingCategories>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_MechanoidRecycler">
         <maxStorageCapacity>6</maxStorageCapacity>
@@ -229,5 +226,85 @@
         <consumeFuelPerShot>1</consumeFuelPerShot>
       </li>
     </verbs>
+  </ThingDef>
+
+  <!-- 制造机 -->
+  <ThingDef ParentName="BenchBase">
+    <defName>WULA_Cube_Productor_BIO</defName>
+    <label>乌拉帝国编织体（生物能）</label>
+    <description>一台仿制乌拉帝国科技而建造的塑性构造体，不仅要消耗大量木头用以提供生物能，还只能生产基础的衣物和能源核心用以维持生存——不过它很轻，可以随探险队一起移动。</description>
+    <thingClass>WulaFallenEmpire.Building_GlobalWorkTable</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Cube_Productor_BIO</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+      <shadowData>
+        <volume>(0.75, 0.75, 0.5)</volume>
+      </shadowData>
+    </graphicData>
+    <constructEffect>ConstructMetal</constructEffect>
+    <costList>
+      <Steel>50</Steel>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <useHitPoints>True</useHitPoints>
+    <statBases>
+      <Mass>5</Mass>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <WorkTableWorkSpeedFactor>0.5</WorkTableWorkSpeedFactor>
+    </statBases>
+    <size>(1,1)</size>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <uiOrder>2120</uiOrder>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <researchPrerequisites>
+      <li>WULA_Base_Technology</li>
+    </researchPrerequisites>
+    <!-- 可用配方 -->
+    <recipes>
+     <li>Make_WULA_Charge_Cube</li>
+     <li>Recharge_WULA_Charge_Cube</li>
+     <li MayRequire="Ludeon.RimWorld.Anomaly">Wula_Make_Zro</li>
+    </recipes>
+    <inspectorTabs>
+      <li>WulaFallenEmpire.ITab_GlobalBills</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>300.0</fuelConsumptionRate>
+        <fuelCapacity>150.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>4</heatPerSecond>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <building>
+      <!-- <isMealSource>true</isMealSource> -->
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+      <heatPerTickWhileWorking>0.10</heatPerTickWhileWorking>
+    </building>
   </ThingDef>
 </Defs>

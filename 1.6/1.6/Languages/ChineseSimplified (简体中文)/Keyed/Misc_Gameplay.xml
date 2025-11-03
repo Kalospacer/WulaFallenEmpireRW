@@ -92,4 +92,68 @@
   <WULA_RoofBlockingDesc>该空投地点顶部有屋顶，无法进行空投</WULA_RoofBlockingDesc>
   <WULA_BlockedByThickRoof>被厚岩顶阻挡</WULA_BlockedByThickRoof>
   <WULA_BlockedByRoof>被屋顶阻挡</WULA_BlockedByRoof>
+
+  <!-- 维护舱状态 -->
+  <WULA_MaintenancePod_Status>维护舱状态</WULA_MaintenancePod_Status>
+  <WULA_MaintenancePod_State_Idle>空闲</WULA_MaintenancePod_State_Idle>
+  <WULA_MaintenancePod_State_Running>运行中</WULA_MaintenancePod_State_Running>
+  
+  <!-- 维护舱交互 -->
+  <WULA_MaintenancePod_Enter>进入维护舱</WULA_MaintenancePod_Enter>
+  <WULA_MaintenancePod_EnterDesc>选择需要维护的合成人</WULA_MaintenancePod_EnterDesc>
+  <WULA_MaintenancePod_CancelDesc>取消当前维护周期</WULA_MaintenancePod_CancelDesc>
+  <WULA_MaintenancePod_NoOneNeeds>没有合成人需要维护</WULA_MaintenancePod_NoOneNeeds>
+  <WULA_MaintenancePod_NotEnoughComponents>需要 {0} 个零部件</WULA_MaintenancePod_NotEnoughComponents>
+  
+  <!-- 维护效果消息 -->
+  <WULA_MaintenanceLevel>维护水平</WULA_MaintenanceLevel>
+  <WULA_MaintenanceCycleStarted>{0} 开始维护周期</WULA_MaintenanceCycleStarted>
+  <WULA_MaintenanceCycleComplete>{0} 维护完成</WULA_MaintenanceCycleComplete>
+  <WULA_MaintenanceHealedInjuries>修复了 {0} 的 {1} 处损伤</WULA_MaintenanceHealedInjuries>
+  <WULA_MaintenanceHealedParts>修复了 {0} 的缺失部位</WULA_MaintenanceHealedParts>
+  <WULA_MaintenanceCanceled>维护已取消</WULA_MaintenanceCanceled>
+  <WULA_NoHaulerAvailable>没有可用的搬运者</WULA_NoHaulerAvailable>
+  <WULA_NoMaintenanceNeed>无维护需求</WULA_NoMaintenanceNeed>
+  
+  <!-- 维护需求相关 -->
+  <WULA_MaintenanceNeed>维护需求</WULA_MaintenanceNeed>
+  <WULA_MaintenanceStatus>状态: {0} (上次维护: {1}天前)</WULA_MaintenanceStatus>
+  <WULA_DegradationRate>退化速率: {0}/天</WULA_DegradationRate>
+  <WULA_MaintenanceCompleted>{0} 的维护已完成</WULA_MaintenanceCompleted>
+  
+  <!-- 维护状态 -->
+  <WULA_Operational>运行正常</WULA_Operational>
+  <WULA_MinorBreakdown>轻微故障</WULA_MinorBreakdown>
+  <WULA_MajorBreakdown>严重故障</WULA_MajorBreakdown>
+  <WULA_CriticalFailure>完全故障</WULA_CriticalFailure>
+  
+  <WULA_OperationalDesc>合成人运行在最佳状态</WULA_OperationalDesc>
+  <WULA_MinorBreakdownDesc>合成人出现轻微故障，工作效率降低</WULA_MinorBreakdownDesc>
+  <WULA_MajorBreakdownDesc>合成人出现严重故障，需要立即维护</WULA_MajorBreakdownDesc>
+  <WULA_CriticalFailureDesc>合成人完全故障，无法工作</WULA_CriticalFailureDesc>
+  
+  <!-- 工作相关 -->
+  <WULA_SynthMaintenance>合成人维护</WULA_SynthMaintenance>
+  <WULA_DoMaintenance>执行维护</WULA_DoMaintenance>
+  
+  <!-- 伤害相关翻译 -->
+  <WULA_DamageAffectsMaintenance>伤害会影响维护度（{0}/点伤害）</WULA_DamageAffectsMaintenance>
+  <WULA_DamagePenalty>损伤惩罚</WULA_DamagePenalty>
+  <WULA_RecentDamageEvents>近期损伤事件</WULA_RecentDamageEvents>
+  <WULA_MaintenanceCompletedWithDamage>{0} 维护完成（修复了 {1} 损伤）</WULA_MaintenanceCompletedWithDamage>
+  <WULA_MaintenanceRepairedDamage>修复了 {0} 的结构损伤</WULA_MaintenanceRepairedDamage>
+  <WULA_DaysSinceMaintenance>距上次维护</WULA_DaysSinceMaintenance>
+
+  <!-- Global Production System -->
+  <WULA_GlobalBillsTab>全球生产</WULA_GlobalBillsTab>
+  <WULA_GlobalProduction>生产订单</WULA_GlobalProduction>
+  <WULA_AddProductionOrder>添加生产订单</WULA_AddProductionOrder>
+  <WULA_Resume>Resume</WULA_Resume>
+  <WULA_Pause>Pause</WULA_Pause>
+  <WULA_Delete>Delete</WULA_Delete>
+  <WULA_WaitingForResources>等待资源</WULA_WaitingForResources>
+  <WULA_Completed>Completed</WULA_Completed>
+  <WULA_Unknown>Unknown</WULA_Unknown>
+  <WULA_InsufficientResources>全球存储中的资源不足</WULA_InsufficientResources>
+  <WULA_NoAvailableRecipes>无可用配方</WULA_NoAvailableRecipes>
 </LanguageData>

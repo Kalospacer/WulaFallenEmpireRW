@@ -664,7 +664,7 @@
 			<!-- 血液，不流血 -->
 			<bloodDef>Filth_MachineBits</bloodDef>
       <!-- 基础血量 -->
-			<baseHealthScale>1</baseHealthScale>
+			<baseHealthScale>1.2</baseHealthScale>
 			<!-- 解剖产物 -->
 			<leatherDef>Steel</leatherDef>
       <specificMeatDef>Steel</specificMeatDef>
