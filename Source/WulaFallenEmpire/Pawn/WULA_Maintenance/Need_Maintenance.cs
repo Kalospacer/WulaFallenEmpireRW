@@ -150,12 +150,6 @@ namespace WulaFallenEmpire
             
             // 立即检查状态变化
             CheckStatusChanges();
-            
-            if (pawn.IsColonistPlayerControlled && reduction > 0.01f)
-            {
-                Messages.Message("WULA_MaintenanceReducedDueToDamage".Translate(pawn.LabelShort, reduction.ToStringPercent()), 
-                    pawn, MessageTypeDefOf.NegativeEvent);
-            }
         }
 
         private void OnMaintenancePerformed(float amount)

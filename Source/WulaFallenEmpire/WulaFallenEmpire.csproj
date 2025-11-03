@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildingComp\WULA_InitialFaction\CompProperties_InitialFaction.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\CompProperties_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\JobDriver_RecycleMechanoid.cs" />
@@ -108,6 +109,9 @@
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
     <Compile Include="GlobalWorkTable\Building_GlobalWorkTable.cs" />
     <Compile Include="GlobalWorkTable\Building_ResourceSubmitter.cs" />
+    <Compile Include="GlobalWorkTable\Command_LoadToResourceSubmitter.cs" />
+    <Compile Include="GlobalWorkTable\CompResourceSubmitter.cs" />
+    <Compile Include="GlobalWorkTable\Dialog_LoadResourceSubmitter.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrder.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrderStack.cs" />
     <Compile Include="GlobalWorkTable\GlobalStorageWorldComponent.cs" />
@@ -206,7 +210,6 @@
     <Compile Include="HediffComp\WULA_HediffSpawner\HediffCompProperties_Spawner.cs" />
     <Compile Include="HediffComp\WULA_HediffSpawner\HediffComp_Spawner.cs" />
     <Compile Include="HediffComp\WULA_HediffSpawner\Tools.cs" />
-    <Compile Include="SectionLayer_WulaHull.cs" />
     <Compile Include="HediffComp\HediffComp_TimedExplosion.cs" />
     <Compile Include="Projectiles\Projectile_ConfigurableHellsphereCannon.cs" />
     <Compile Include="Verb\Verb_ShootBeamSplitAndChain.cs" />

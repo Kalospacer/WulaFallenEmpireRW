@@ -2,6 +2,7 @@
 using RimWorld;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 using Verse;
 
 namespace WulaFallenEmpire
@@ -12,7 +13,6 @@ namespace WulaFallenEmpire
         public int targetCount = 1;
         public int currentCount = 0;
         public bool paused = true; // 初始状态为暂停
-        public float progress = 0f;
         
         // 生产状态
         public ProductionState state = ProductionState.Waiting;
@@ -24,18 +24,94 @@ namespace WulaFallenEmpire
             Completed   // 完成
         }
 
+        public string Label => recipe.LabelCap;
+        public string Description => $"{currentCount}/{targetCount} {recipe.products[0].thingDef.label}"; private float _progress = 0f;
+        public float progress
+        {
+            get => _progress;
+            set
+            {
+                // 确保进度在有效范围内
+                _progress = Mathf.Clamp01(value);
+
+                // 如果检测到异常值，记录警告
+                if (value < 0f || value > 1f)
+                {
+                    Log.Warning($"Progress clamped from {value} to {_progress} for {recipe?.defName ?? "unknown"}");
+                }
+            }
+        }
+
         public void ExposeData()
         {
             Scribe_Defs.Look(ref recipe, "recipe");
             Scribe_Values.Look(ref targetCount, "targetCount", 1);
             Scribe_Values.Look(ref currentCount, "currentCount", 0);
             Scribe_Values.Look(ref paused, "paused", true);
-            Scribe_Values.Look(ref progress, "progress", 0f);
+            Scribe_Values.Look(ref _progress, "progress", 0f); // 序列化私有字段
             Scribe_Values.Look(ref state, "state", ProductionState.Waiting);
+
+            // 修复：加载后验证数据
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                // 使用属性设置器来钳制值
+                progress = _progress;
+
+                // 确保状态正确
+                UpdateState();
+            }
         }
 
-        public string Label => recipe.LabelCap;
-        public string Description => $"{currentCount}/{targetCount} {recipe.products[0].thingDef.label}";
+        // 修复：改进状态更新逻辑
+        public void UpdateState()
+        {
+            if (state == ProductionState.Completed)
+                return;
+
+            if (currentCount >= targetCount)
+            {
+                state = ProductionState.Completed;
+                progress = 0f;
+                return;
+            }
+
+            if (HasEnoughResources())
+            {
+                if (state == ProductionState.Waiting && !paused)
+                {
+                    state = ProductionState.Producing;
+                    progress = 0f; // 开始生产时重置进度
+                }
+            }
+            else
+            {
+                if (state == ProductionState.Producing)
+                {
+                    state = ProductionState.Waiting;
+                    progress = 0f; // 资源不足时重置进度
+                }
+            }
+        }
+
+        // 修复：改进生产完成逻辑
+        public void Produce()
+        {
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            if (globalStorage == null)
+                return;
+            foreach (var product in recipe.products)
+            {
+                globalStorage.AddToOutputStorage(product.thingDef, product.count);
+            }
+
+            currentCount++;
+            progress = 0f; // 生产完成后重置进度
+
+            if (currentCount >= targetCount)
+            {
+                state = ProductionState.Completed;
+            }
+        }
 
         // 检查是否有足够资源 - 修复逻辑
         public bool HasEnoughResources()
@@ -103,68 +179,51 @@ namespace WulaFallenEmpire
             
             return true;
         }
-
-        // 生产一个产品
-        public void Produce()
+        // 修复：添加获取正确工作量的方法
+        public float GetWorkAmount()
         {
-            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            if (globalStorage == null) return;
+            if (recipe == null)
+                return 1000f;
 
-            foreach (var product in recipe.products)
-            {
-                globalStorage.AddToOutputStorage(product.thingDef, product.count);
-            }
-            
-            currentCount++;
-            progress = 0f;
-            
-            if (currentCount >= targetCount)
-            {
-                state = ProductionState.Completed;
-            }
-        }
+            // 如果配方有明确的工作量且大于0，使用配方的工作量
+            if (recipe.workAmount > 0)
+                return recipe.workAmount;
 
-        // 新增方法：检查并更新状态
-        public void UpdateState()
-        {
-            if (state == ProductionState.Completed) return;
-            
-            if (HasEnoughResources())
+            // 否则，使用第一个产品的WorkToMake属性
+            if (recipe.products != null && recipe.products.Count > 0)
             {
-                if (state == ProductionState.Waiting && !paused)
+                ThingDef productDef = recipe.products[0].thingDef;
+                if (productDef != null)
                 {
-                    state = ProductionState.Producing;
+                    // 获取产品的WorkToMake统计值
+                    float workToMake = productDef.GetStatValueAbstract(StatDefOf.WorkToMake);
+                    if (workToMake > 0)
+                        return workToMake;
+
+                    // 如果WorkToMake也是0或无效，使用产品的市场价值作为估算
+                    float marketValue = productDef.GetStatValueAbstract(StatDefOf.MarketValue);
+                    if (marketValue > 0)
+                        return marketValue * 10f; // 基于市场价值的估算
                 }
             }
-            else
-            {
-                if (state == ProductionState.Producing)
-                {
-                    state = ProductionState.Waiting;
-                    progress = 0f; // 重置进度
-                }
-            }
+
+            return 1000f; // 默认工作量
         }
 
-        // 获取配方材料信息的字符串
+        // 修复：在信息显示中使用正确的工作量
         public string GetIngredientsInfo()
         {
             StringBuilder sb = new StringBuilder();
-
             // 添加标题
             sb.AppendLine("WULA_RequiredIngredients".Translate() + ":");
-
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-
             foreach (var ingredient in recipe.ingredients)
             {
                 bool firstAllowedThing = true;
-
                 foreach (var thingDef in ingredient.filter.AllowedThingDefs)
                 {
                     int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
                     int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
-
                     if (firstAllowedThing)
                     {
                         sb.Append(" - ");
@@ -174,9 +233,7 @@ namespace WulaFallenEmpire
                     {
                         sb.Append(" / ");
                     }
-
                     sb.Append($"{requiredCount} {thingDef.label}");
-
                     // 添加可用数量信息
                     if (availableCount < requiredCount)
                     {
@@ -187,10 +244,8 @@ namespace WulaFallenEmpire
                         sb.Append($" ({availableCount}/{requiredCount})");
                     }
                 }
-
                 sb.AppendLine();
             }
-
             // 添加产品信息
             sb.AppendLine();
             sb.AppendLine("WULA_Products".Translate() + ":");
@@ -198,46 +253,37 @@ namespace WulaFallenEmpire
             {
                 sb.AppendLine($" - {product.count} {product.thingDef.label}");
             }
-
-            // 添加工作量信息
+            // 修复：使用正确的工作量信息
             sb.AppendLine();
-            sb.AppendLine("WULA_WorkAmount".Translate() + ": " + recipe.workAmount.ToStringWorkAmount());
-
+            sb.AppendLine("WULA_WorkAmount".Translate() + ": " + GetWorkAmount().ToStringWorkAmount());
             return sb.ToString();
         }
-        // 获取简化的材料信息（用于Tooltip）
+
+        // 修复：在Tooltip中也使用正确的工作量
         public string GetIngredientsTooltip()
         {
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine(recipe.LabelCap);
             sb.AppendLine();
-
             // 材料需求
             sb.AppendLine("WULA_RequiredIngredients".Translate() + ":");
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-
             foreach (var ingredient in recipe.ingredients)
             {
                 bool ingredientSatisfied = false;
                 StringBuilder ingredientSB = new StringBuilder();
-
                 foreach (var thingDef in ingredient.filter.AllowedThingDefs)
                 {
                     int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
                     int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
-
                     if (ingredientSB.Length > 0)
                         ingredientSB.Append(" / ");
-
                     ingredientSB.Append($"{requiredCount} {thingDef.label}");
-
                     if (availableCount >= requiredCount)
                     {
                         ingredientSatisfied = true;
                     }
                 }
-
                 if (ingredientSatisfied)
                 {
                     sb.AppendLine($" <color=green>{ingredientSB}</color>");
@@ -247,7 +293,6 @@ namespace WulaFallenEmpire
                     sb.AppendLine($" <color=red>{ingredientSB}</color>");
                 }
             }
-
             // 产品
             sb.AppendLine();
             sb.AppendLine("WULA_Products".Translate() + ":");
@@ -255,7 +300,9 @@ namespace WulaFallenEmpire
             {
                 sb.AppendLine($" {product.count} {product.thingDef.label}");
             }
-
+            // 修复：使用正确的工作量
+            sb.AppendLine();
+            sb.AppendLine("WULA_WorkAmount".Translate() + ": " + GetWorkAmount().ToStringWorkAmount());
             return sb.ToString();
         }
     }

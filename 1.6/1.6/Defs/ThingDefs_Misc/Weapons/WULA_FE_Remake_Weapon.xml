@@ -61,7 +61,7 @@
     </tools>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_2_Stun_Technology</researchPrerequisite>
       <skillRequirements>
@@ -117,7 +117,7 @@
     </tools>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_2_Melee_Technology</researchPrerequisite>
       <skillRequirements>
@@ -211,7 +211,7 @@
     </tools>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_2_Stun_Technology</researchPrerequisite>
       <skillRequirements>
@@ -315,8 +315,7 @@
     <soundInteract>Interact_Rifle</soundInteract>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -444,8 +443,7 @@
     <soundInteract>Interact_ChargeRifle</soundInteract>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -525,8 +523,7 @@
     <recipeMaker>
       <!-- <WorkToMake>60000</WorkToMake> -->
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -613,7 +610,7 @@
     <soundInteract>Interact_ChargeRifle</soundInteract>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -765,8 +762,7 @@
     <soundInteract>Interact_Rifle</soundInteract>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_2_Laser_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -886,7 +882,7 @@
     </costList>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_2_Laser_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -1089,7 +1085,7 @@
     <soundInteract>Interact_ChargeRifle</soundInteract>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_2_Ranged_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -1194,7 +1190,7 @@
     <tradeability>None</tradeability>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -1571,7 +1567,7 @@
     <soundInteract>Interact_Rifle</soundInteract>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_2_Missile_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
@@ -1737,7 +1733,7 @@
     <uiIconScale>0.8</uiIconScale>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>

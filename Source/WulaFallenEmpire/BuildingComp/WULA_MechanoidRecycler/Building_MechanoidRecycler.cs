@@ -44,29 +44,9 @@ namespace WulaFallenEmpire
         // 是否已经生成初始单位
         private bool initialUnitsSpawned = false;
         
-        // 是否已经执行过归属权转换
-        private bool ownershipTransferred = false;
-        
         public int StoredCount => storedMechanoids.Count;
         public int MaxStorage => Props.maxStorageCapacity;
         
-        // 强制归属权转换
-        private void TransferOwnership()
-        {
-            if (ownershipTransferred)
-                return;
-                
-            // 获取目标派系（默认为玩家派系）
-            Faction targetFaction = Props.ownershipFaction ?? Faction.OfPlayer;
-            
-            if (Faction != targetFaction)
-            {
-                Log.Message($"[MechanoidRecycler] Transferring ownership from {Faction?.Name ?? "NULL"} to {targetFaction.Name}");
-                SetFaction(targetFaction);
-            }
-            
-            ownershipTransferred = true;
-        }
         
         // 生成初始单位
         private void SpawnInitialUnits()
@@ -104,12 +84,6 @@ namespace WulaFallenEmpire
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-            
-            // 执行归属权转换
-            if (!respawningAfterLoad)
-            {
-                TransferOwnership();
-            }
             
             // 如果不是从存档加载，生成初始单位
             if (!respawningAfterLoad)
@@ -400,7 +374,6 @@ namespace WulaFallenEmpire
             Scribe_Collections.Look(ref storedMechanoids, "storedMechanoids", LookMode.Reference);
             Scribe_Collections.Look(ref spawnQueue, "spawnQueue", LookMode.Deep);
             Scribe_Values.Look(ref initialUnitsSpawned, "initialUnitsSpawned", false);
-            Scribe_Values.Look(ref ownershipTransferred, "ownershipTransferred", false);
             
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {

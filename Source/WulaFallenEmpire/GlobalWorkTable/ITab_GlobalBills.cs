@@ -310,7 +310,7 @@ namespace WulaFallenEmpire
                 // 如果暂停，在状态前添加暂停标识
                 if (order.paused && order.state != GlobalProductionOrder.ProductionState.Completed)
                 {
-                    statusText = $"[Paused] {statusText}";
+                    statusText = $"[||] {statusText}";
                 }
                 
                 Widgets.Label(statusRect, statusText);

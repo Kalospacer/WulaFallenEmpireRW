@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
   <JobDef>
     <defName>WULA_EnterMaintenancePod</defName>
     <driverClass>WulaFallenEmpire.JobDriver_EnterMaintenancePod</driverClass>
@@ -28,5 +27,11 @@
     <reportString>正在将TargetA抬到TargetB</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
     <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
+  <JobDef>
+    <defName>WULA_RecycleMechanoid</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_RecycleMechanoid</driverClass>
+    <reportString>正在准备进入猫猫地堡。</reportString>
   </JobDef>
 </Defs>

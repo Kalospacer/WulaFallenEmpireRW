@@ -145,8 +145,8 @@
   <WULA_DaysSinceMaintenance>距上次维护</WULA_DaysSinceMaintenance>
 
   <!-- Global Production System -->
-  <WULA_GlobalBillsTab>全球生产</WULA_GlobalBillsTab>
-  <WULA_GlobalProduction>生产订单</WULA_GlobalProduction>
+  <WULA_GlobalBillsTab>舰队生产</WULA_GlobalBillsTab>
+  <WULA_GlobalProduction>舰队生产订单</WULA_GlobalProduction>
   <WULA_AddProductionOrder>添加生产订单</WULA_AddProductionOrder>
   <WULA_Resume>恢复</WULA_Resume>
   <WULA_Pause>暂停</WULA_Pause>
@@ -154,7 +154,7 @@
   <WULA_WaitingForResources>等待资源</WULA_WaitingForResources>
   <WULA_Completed>完成</WULA_Completed>
   <WULA_Unknown>未知</WULA_Unknown>
-  <WULA_InsufficientResources>全球存储中的资源不足</WULA_InsufficientResources>
+  <WULA_InsufficientResources>帝国舰队存储的资源不足</WULA_InsufficientResources>
   <WULA_NoAvailableRecipes>无可用配方</WULA_NoAvailableRecipes>
   <!-- 添加到您的语言文件中 -->
   <WULA_RequiredIngredients>可用配方</WULA_RequiredIngredients>
@@ -172,18 +172,18 @@
   <WULA_OutputItems>种输出物品</WULA_OutputItems>
   
   <!-- 中文翻译 -->
-  <WULA_AirdropProducts>空投产品</WULA_AirdropProducts>
-  <WULA_AirdropProductsDesc>将产物储存器中的所有物品通过空投舱分发到指定区域</WULA_AirdropProductsDesc>
+  <WULA_AirdropProducts>空投成品</WULA_AirdropProducts>
+  <WULA_AirdropProductsDesc>将乌拉帝国母舰和后勤舰上完成加工的所有物品通过空投舱投放到指定区域</WULA_AirdropProductsDesc>
   <WULA_CannotAirdrop>无法执行空投：工作台未就绪</WULA_CannotAirdrop>
-  <WULA_NoProductsToAirdrop>没有可空投的产品</WULA_NoProductsToAirdrop>
+  <WULA_NoProductsToAirdrop>没有可空投的物品</WULA_NoProductsToAirdrop>
   <WULA_AirdropTargetTooFar>目标距离超出最大空投范围（{0}）</WULA_AirdropTargetTooFar>
   <WULA_NoValidDropSpots>没有有效的空投落点。请选择另一个位置</WULA_NoValidDropSpots>
   <WULA_FailedToDistributeItems>无法分配物品到空投舱</WULA_FailedToDistributeItems>
   <WULA_AirdropSuccessful>成功空投了{0}个空投舱</WULA_AirdropSuccessful>
 
-  <WULA_ResourceSubmitter>资源提交器</WULA_ResourceSubmitter>
-  <WULA_SubmitToStorage>提交到储存器</WULA_SubmitToStorage>
-  <WULA_SubmitToStorageDesc>将所有存储物品转移到全局储存</WULA_SubmitToStorageDesc>
+  <WULA_ResourceSubmitter>舰队资源储存</WULA_ResourceSubmitter>
+  <WULA_SubmitToStorage>提交到舰队贮存</WULA_SubmitToStorage>
+  <WULA_SubmitToStorageDesc>将所有存储物品转移到舰队贮存</WULA_SubmitToStorageDesc>
   <WULA_StoredItems>存储物品</WULA_StoredItems>
   <WULA_ItemsSubmitted>{0}个物品已提交到储存器</WULA_ItemsSubmitted>
   <WULA_SubmissionFailed>提交物品失败</WULA_SubmissionFailed>
@@ -219,16 +219,27 @@
   <WULA_NoItems>无物品</WULA_NoItems>
   <WULA_Value>价值</WULA_Value>
   <!-- 中文翻译 -->
-<WULA_Items>物品</WULA_Items>
-<WULA_Stacks>堆叠</WULA_Stacks>
-<WULA_ItemName>物品名称</WULA_ItemName>
-<WULA_Count>数量</WULA_Count>
-<WULA_NoItemsInStorage>存储中无物品</WULA_NoItemsInStorage>
-<WULA_ItemTooltip>{0}\n总数: {1}\n堆叠: {2}\n价值: {3}</WULA_ItemTooltip>
-<WULA_DeviceInoperative>设备不可用</WULA_DeviceInoperative>
-<WULA_NoItemsToSubmitDesc>没有可提交的物品</WULA_NoItemsToSubmitDesc>
-<WULA_ViewGlobalStorage>查看全局存储</WULA_ViewGlobalStorage>
-<WULA_ViewGlobalStorageDesc>查看全局存储中的物品</WULA_ViewGlobalStorageDesc>
-<WULA_UnknownReason>未知原因</WULA_UnknownReason>
-<WULA_Value>价值</WULA_Value>
+  <WULA_Items>物品</WULA_Items>
+  <WULA_Stacks>堆叠</WULA_Stacks>
+  <WULA_ItemName>物品名称</WULA_ItemName>
+  <WULA_Count>数量</WULA_Count>
+  <WULA_NoItemsInStorage>存储中无物品</WULA_NoItemsInStorage>
+  <WULA_ItemTooltip>{0}\n总数: {1}\n堆叠: {2}\n价值: {3}</WULA_ItemTooltip>
+  <WULA_DeviceInoperative>设备不可用</WULA_DeviceInoperative>
+  <WULA_NoItemsToSubmitDesc>没有可提交的物品</WULA_NoItemsToSubmitDesc>
+  <WULA_ViewGlobalStorage>查看全局存储</WULA_ViewGlobalStorage>
+  <WULA_ViewGlobalStorageDesc>查看全局存储中的物品</WULA_ViewGlobalStorageDesc>
+  <WULA_UnknownReason>未知原因</WULA_UnknownReason>
+  <WULA_Value>价值</WULA_Value>
+
+  <WULA_LoadResourceSubmitter>Load Resource Submitter</WULA_LoadResourceSubmitter>
+  <WULA_NoItemsAvailable>No items available</WULA_NoItemsAvailable>
+  <WULA_Available>Available</WULA_Available>
+  <WULA_ToLoad>To Load</WULA_ToLoad>
+  <WULA_Max>Max</WULA_Max>
+  <WULA_SetLoadCount>Set load count for {0}</WULA_SetLoadCount>
+  <WULA_LoadAll>Load All</WULA_LoadAll>
+  <WULA_ClearAll>Clear All</WULA_ClearAll>
+  <WULA_LoadingJobsCreated>Loading jobs created</WULA_LoadingJobsCreated>
+  <WULA_Description>Description</WULA_Description>
 </LanguageData>

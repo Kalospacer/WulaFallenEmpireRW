@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
-  <!-- 这里的节点名 "WulaFallenEmpire.WulaHullDef" 必须与C#代码中的 "命名空间.类名" 完全一致 -->
-  <WulaFallenEmpire.WulaHullDef>
+  <!-- <WulaFallenEmpire.WulaHullDef>
     <defName>WulaHullConfig</defName>
     <label>乌拉船体斜角配置</label>
 
-    <!-- 指定这个斜角效果应用在哪个建筑上 (使用建筑的defName) -->
     <targetDef>WulaWall</targetDef>
 
-    <!-- 指定渲染时使用的着色器类型。CutoutComplex是建筑和墙体很常用的选项 -->
     <shaderType>CutoutWithOverlay</shaderType>
 
-    <!-- 占位符: 所有贴图路径都暂时指向原版奥德赛DLC的贴图 -->
     <texPath_Corner_NW>Wula/Building/Linked/WulaWall/AngledWulaWall_northwest</texPath_Corner_NW>
     <texPath_Corner_NE>Wula/Building/Linked/WulaWall/AngledWulaWall_northeast</texPath_Corner_NE>
     <texPath_Corner_SW>Wula/Building/Linked/WulaWall/AngledWulaWall_southwest</texPath_Corner_SW>
@@ -21,6 +16,5 @@
     <texPath_Diagonal_NE>Wula/Building/Linked/WulaWall/AngledWulaWall_Partial_northeast</texPath_Diagonal_NE>
     <texPath_Diagonal_SW>Wula/Building/Linked/WulaWall/AngledWulaWall_Partial_southwest</texPath_Diagonal_SW>
     <texPath_Diagonal_SE>Wula/Building/Linked/WulaWall/AngledWulaWall_Partial_southeast</texPath_Diagonal_SE>
-  </WulaFallenEmpire.WulaHullDef>
-
+  </WulaFallenEmpire.WulaHullDef> -->
 </Defs>

@@ -30,6 +30,10 @@
         <minShadowScale>0</minShadowScale>
         <maxShadowScale>0</maxShadowScale>
 
+        <!-- 淡入淡出开关 -->
+        <useFadeEffects>false</useFadeEffects>      <!-- 完全禁用淡入淡出 -->
+        <useFadeIn>false</useFadeIn>                <!-- 仅禁用淡入 -->
+        <useFadeOut>false</useFadeOut>              <!-- 仅禁用淡出 -->
         <useApproachAnimation>true</useApproachAnimation>
         <approachDuration>1</approachDuration>
         <approachOffsetDistance>50</approachOffsetDistance>

@@ -35,16 +35,17 @@ namespace WulaFallenEmpire
             breakdownableComp = GetComp<CompBreakdownable>();
         }
 
+        // 在 Building_GlobalWorkTable 类中修改 Tick 方法
         protected override void Tick()
         {
             base.Tick();
-            
-            // 改为每tick处理，以实现精确的工作量控制
-            if (Find.TickManager.TicksGame % ProcessInterval == 0 && 
+
+            // 修复：改为每60 ticks（1秒）处理一次，避免每tick处理导致的精度问题
+            if (Find.TickManager.TicksGame % 60 == 0 &&
                 Find.TickManager.TicksGame != lastProcessTick)
             {
                 lastProcessTick = Find.TickManager.TicksGame;
-                
+
                 if (CurrentlyUsableForGlobalBills())
                 {
                     globalOrderStack.ProcessOrders();
@@ -84,7 +85,7 @@ namespace WulaFallenEmpire
                     action = StartAirdropTargeting,
                     defaultLabel = "WULA_AirdropProducts".Translate(),
                     defaultDesc = "WULA_AirdropProductsDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("UI/Commands/Airdrop"),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_AirdropProducts"),
                     disabledReason = "WULA_CannotAirdrop".Translate()
                 };
             }
