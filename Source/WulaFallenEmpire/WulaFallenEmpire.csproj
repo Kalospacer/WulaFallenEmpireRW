@@ -107,9 +107,11 @@
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompAbilityEffect_SpawnFlyOver.cs" />
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
     <Compile Include="GlobalWorkTable\Building_GlobalWorkTable.cs" />
+    <Compile Include="GlobalWorkTable\Building_ResourceSubmitter.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrder.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrderStack.cs" />
     <Compile Include="GlobalWorkTable\GlobalStorageWorldComponent.cs" />
+    <Compile Include="GlobalWorkTable\GlobalWorkTableAirdropExtension.cs" />
     <Compile Include="GlobalWorkTable\ITab_GlobalBills.cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\DRMDamageShield.cs" />

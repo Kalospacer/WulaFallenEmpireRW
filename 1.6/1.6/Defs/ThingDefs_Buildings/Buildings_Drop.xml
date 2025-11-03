@@ -235,6 +235,15 @@
     <description>一台仿制乌拉帝国科技而建造的塑性构造体，不仅要消耗大量木头用以提供生物能，还只能生产基础的衣物和能源核心用以维持生存——不过它很轻，可以随探险队一起移动。</description>
     <thingClass>WulaFallenEmpire.Building_GlobalWorkTable</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
+    <tickerType>Normal</tickerType>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.GlobalWorkTableAirdropExtension">
+        <maxRange>50</maxRange>
+        <randomRange>15</randomRange>
+        <minPods>1</minPods>
+        <maxPods>10</maxPods>
+      </li>
+    </modExtensions>
     <graphicData>
       <texPath>Wula/Building/WULA_Cube_Productor_BIO</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
@@ -259,7 +268,6 @@
       <WorkToBuild>2000</WorkToBuild>
       <MaxHitPoints>180</MaxHitPoints>
       <Flammability>1.0</Flammability>
-      <WorkTableWorkSpeedFactor>0.5</WorkTableWorkSpeedFactor>
     </statBases>
     <size>(1,1)</size>
     <designationCategory>WULA_Buildings</designationCategory>
@@ -282,21 +290,6 @@
       <li>WulaFallenEmpire.ITab_GlobalBills</li>
     </inspectorTabs>
     <comps>
-      <li Class="CompProperties_Refuelable">
-        <fuelConsumptionRate>300.0</fuelConsumptionRate>
-        <fuelCapacity>150.0</fuelCapacity>
-        <fuelFilter>
-          <thingDefs>
-            <li>WoodLog</li>
-          </thingDefs>
-        </fuelFilter>
-        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
-        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
-      </li>
-      <li Class="CompProperties_HeatPusher">
-        <compClass>CompHeatPusherPowered</compClass>
-        <heatPerSecond>4</heatPerSecond>
-      </li>
     </comps>
     <placeWorkers>
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
@@ -306,5 +299,54 @@
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
       <heatPerTickWhileWorking>0.10</heatPerTickWhileWorking>
     </building>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_ResourceSubmitter</defName>
+    <label>乌拉帝国物资交换舱</label>
+    <description>乌拉帝国从地面向舰队提交资源的特殊交换仓。</description>
+    <thingClass>WulaFallenEmpire.Building_ResourceSubmitter</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Furniture/Shelf</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <designationHotKey>Misc12</designationHotKey>
+    <fillPercent>0.5</fillPercent>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <uiOrder>2200</uiOrder>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>1600</WorkToBuild>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>20</Steel>
+    </costList>
+    <!-- <comps>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>300</massCapacity>
+        <restEffectiveness>0.8</restEffectiveness>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+        <max1PerGroup>true</max1PerGroup>
+      </li>
+      <li Class="CompProperties_Launchable_TransportPod">
+        <skyfallerLeaving>ARA_DropPodLeaving</skyfallerLeaving>
+        <requiresFuelingPort>false</requiresFuelingPort>
+        <fixedLaunchDistanceMax>53</fixedLaunchDistanceMax> 
+      </li>
+    </comps> -->
+    <inspectorTabs>
+      <li>WulaFallenEmpire.ITab_ResourceSubmitterContents</li>
+    </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+    </placeWorkers>
+    <uiIconScale>0.65</uiIconScale>
   </ThingDef>
 </Defs>

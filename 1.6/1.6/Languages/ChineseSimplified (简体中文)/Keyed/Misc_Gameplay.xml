@@ -148,12 +148,87 @@
   <WULA_GlobalBillsTab>全球生产</WULA_GlobalBillsTab>
   <WULA_GlobalProduction>生产订单</WULA_GlobalProduction>
   <WULA_AddProductionOrder>添加生产订单</WULA_AddProductionOrder>
-  <WULA_Resume>Resume</WULA_Resume>
-  <WULA_Pause>Pause</WULA_Pause>
-  <WULA_Delete>Delete</WULA_Delete>
+  <WULA_Resume>恢复</WULA_Resume>
+  <WULA_Pause>暂停</WULA_Pause>
+  <WULA_Delete>删除</WULA_Delete>
   <WULA_WaitingForResources>等待资源</WULA_WaitingForResources>
-  <WULA_Completed>Completed</WULA_Completed>
-  <WULA_Unknown>Unknown</WULA_Unknown>
+  <WULA_Completed>完成</WULA_Completed>
+  <WULA_Unknown>未知</WULA_Unknown>
   <WULA_InsufficientResources>全球存储中的资源不足</WULA_InsufficientResources>
   <WULA_NoAvailableRecipes>无可用配方</WULA_NoAvailableRecipes>
+  <!-- 添加到您的语言文件中 -->
+  <WULA_RequiredIngredients>可用配方</WULA_RequiredIngredients>
+  <WULA_Products>产物</WULA_Products>
+  <WULA_WorkAmount>工作量</WULA_WorkAmount>
+
+  <!-- 中文翻译 -->
+  <WULA_ViewStorage>查看存储</WULA_ViewStorage>
+  <WULA_InputStorage>输入存储（原材料）</WULA_InputStorage>
+  <WULA_OutputStorage>输出存储（产品）</WULA_OutputStorage>
+  <WULA_NoGlobalStorage>未找到全局存储组件</WULA_NoGlobalStorage> 
+  <WULA_NoItems>无物品</WULA_NoItems>
+  <WULA_StorageStats>存储统计</WULA_StorageStats>
+  <WULA_InputItems>种输入物品</WULA_InputItems>
+  <WULA_OutputItems>种输出物品</WULA_OutputItems>
+  
+  <!-- 中文翻译 -->
+  <WULA_AirdropProducts>空投产品</WULA_AirdropProducts>
+  <WULA_AirdropProductsDesc>将产物储存器中的所有物品通过空投舱分发到指定区域</WULA_AirdropProductsDesc>
+  <WULA_CannotAirdrop>无法执行空投：工作台未就绪</WULA_CannotAirdrop>
+  <WULA_NoProductsToAirdrop>没有可空投的产品</WULA_NoProductsToAirdrop>
+  <WULA_AirdropTargetTooFar>目标距离超出最大空投范围（{0}）</WULA_AirdropTargetTooFar>
+  <WULA_NoValidDropSpots>没有有效的空投落点。请选择另一个位置</WULA_NoValidDropSpots>
+  <WULA_FailedToDistributeItems>无法分配物品到空投舱</WULA_FailedToDistributeItems>
+  <WULA_AirdropSuccessful>成功空投了{0}个空投舱</WULA_AirdropSuccessful>
+
+  <WULA_ResourceSubmitter>资源提交器</WULA_ResourceSubmitter>
+  <WULA_SubmitToStorage>提交到储存器</WULA_SubmitToStorage>
+  <WULA_SubmitToStorageDesc>将所有存储物品转移到全局储存</WULA_SubmitToStorageDesc>
+  <WULA_StoredItems>存储物品</WULA_StoredItems>
+  <WULA_ItemsSubmitted>{0}个物品已提交到储存器</WULA_ItemsSubmitted>
+  <WULA_SubmissionFailed>提交物品失败</WULA_SubmissionFailed>
+  <WULA_NoItemsToSubmit>没有可提交的物品</WULA_NoItemsToSubmit>
+  <WULA_DeviceNotOperational>设备不可用</WULA_DeviceNotOperational>
+  <WULA_NoPower>无电力</WULA_NoPower>
+  <WULA_NoFuel>无燃料</WULA_NoFuel>
+  <WULA_SwitchOff>开关关闭</WULA_SwitchOff>
+  <WULA_Inoperative>不可用</WULA_Inoperative>
+  <WULA_Status>状态</WULA_Status>
+
+  <WULA_SubmitterContents>提交器内容</WULA_SubmitterContents>
+  <WULA_Operational>运行正常</WULA_Operational>
+  <WULA_Inoperative>无法运行</WULA_Inoperative>
+  <WULA_Status>状态</WULA_Status>
+  <WULA_Items>物品</WULA_Items>
+  <WULA_Stacks>堆叠</WULA_Stacks>
+  <WULA_NoItemsInStorage>存储中无物品</WULA_NoItemsInStorage>
+  <WULA_ItemName>物品名称</WULA_ItemName>
+  <WULA_Count>数量</WULA_Count>
+  <WULA_ItemTooltip>{0}\n总数: {1}\n堆叠数: {2}\n价值: {3} 白银</WULA_ItemTooltip>
+  <WULA_SubmitToStorage>提交到存储</WULA_SubmitToStorage>
+  <WULA_SubmitToStorageDesc>将所有存储物品提交到全局存储</WULA_SubmitToStorageDesc>
+  <WULA_DeviceInoperative>设备无法运行</WULA_DeviceInoperative>
+  <WULA_NoItemsToSubmit>无物品可提交</WULA_NoItemsToSubmit>
+  <WULA_NoItemsToSubmitDesc>没有可以提交的物品</WULA_NoItemsToSubmitDesc>
+  <WULA_ViewGlobalStorage>查看全局存储</WULA_ViewGlobalStorage>
+  <WULA_ViewGlobalStorageDesc>查看全局输入和输出存储内容</WULA_ViewGlobalStorageDesc>
+  <WULA_UnknownReason>未知原因</WULA_UnknownReason>
+  <WULA_GlobalStorage>全局存储</WULA_GlobalStorage>
+  <WULA_InputStorage>输入存储</WULA_InputStorage>
+  <WULA_OutputStorage>输出存储</WULA_OutputStorage>
+  <WULA_NoItems>无物品</WULA_NoItems>
+  <WULA_Value>价值</WULA_Value>
+  <!-- 中文翻译 -->
+<WULA_Items>物品</WULA_Items>
+<WULA_Stacks>堆叠</WULA_Stacks>
+<WULA_ItemName>物品名称</WULA_ItemName>
+<WULA_Count>数量</WULA_Count>
+<WULA_NoItemsInStorage>存储中无物品</WULA_NoItemsInStorage>
+<WULA_ItemTooltip>{0}\n总数: {1}\n堆叠: {2}\n价值: {3}</WULA_ItemTooltip>
+<WULA_DeviceInoperative>设备不可用</WULA_DeviceInoperative>
+<WULA_NoItemsToSubmitDesc>没有可提交的物品</WULA_NoItemsToSubmitDesc>
+<WULA_ViewGlobalStorage>查看全局存储</WULA_ViewGlobalStorage>
+<WULA_ViewGlobalStorageDesc>查看全局存储中的物品</WULA_ViewGlobalStorageDesc>
+<WULA_UnknownReason>未知原因</WULA_UnknownReason>
+<WULA_Value>价值</WULA_Value>
 </LanguageData>

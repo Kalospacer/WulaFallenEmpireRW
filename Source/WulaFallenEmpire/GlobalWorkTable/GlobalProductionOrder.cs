@@ -1,6 +1,7 @@
 // GlobalProductionOrder.cs (修复版)
 using RimWorld;
 using System.Collections.Generic;
+using System.Text;
 using Verse;
 
 namespace WulaFallenEmpire
@@ -36,63 +37,71 @@ namespace WulaFallenEmpire
         public string Label => recipe.LabelCap;
         public string Description => $"{currentCount}/{targetCount} {recipe.products[0].thingDef.label}";
 
-        // 检查是否有足够资源 - 修复逻辑，只检查costList
+        // 检查是否有足够资源 - 修复逻辑
         public bool HasEnoughResources()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            if (globalStorage == null) 
-            {
-                Log.Warning("GlobalStorageWorldComponent not found");
-                return false;
-            }
+            if (globalStorage == null) return false;
 
-            // 只检查costList，不检查ingredients
-            if (recipe.costList != null && recipe.costList.Count > 0)
+            // 遍历所有配料要求
+            foreach (var ingredient in recipe.ingredients)
             {
-                foreach (var cost in recipe.costList)
+                bool hasEnoughForThisIngredient = false;
+                
+                // 检查这个配料的所有允许物品类型
+                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
                 {
-                    int required = cost.count;
-                    int available = globalStorage.GetInputStorageCount(cost.thingDef);
+                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                    int availableCount = globalStorage.GetInputStorageCount(thingDef);
                     
-                    Log.Message($"[DEBUG] Checking {cost.thingDef.defName}: required={required}, available={available}");
-                    
-                    if (available < required)
+                    if (availableCount >= requiredCount)
                     {
-                        Log.Message($"[DEBUG] Insufficient {cost.thingDef.defName}");
-                        return false;
+                        hasEnoughForThisIngredient = true;
+                        break; // 这个配料有足够的资源
                     }
                 }
-                Log.Message("[DEBUG] All resources available");
-                return true;
+                
+                // 如果任何一个配料没有足够资源，整个配方就无法生产
+                if (!hasEnoughForThisIngredient)
+                    return false;
             }
-            else
-            {
-                Log.Warning($"Recipe {recipe.defName} has no costList");
-                return false;
-            }
+            
+            return true;
         }
 
-        // 消耗资源 - 修复逻辑，只消耗costList
+        // 消耗资源 - 修复逻辑
         public bool ConsumeResources()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null) return false;
 
-            // 只消耗costList中的资源
-            if (recipe.costList != null)
+            // 遍历所有配料要求
+            foreach (var ingredient in recipe.ingredients)
             {
-                foreach (var cost in recipe.costList)
+                bool consumedThisIngredient = false;
+                
+                // 尝试消耗这个配料的允许物品类型
+                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
                 {
-                    if (!globalStorage.RemoveFromInputStorage(cost.thingDef, cost.count))
+                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                    int availableCount = globalStorage.GetInputStorageCount(thingDef);
+                    
+                    if (availableCount >= requiredCount)
                     {
-                        Log.Warning($"Failed to consume {cost.count} {cost.thingDef.defName}");
-                        return false;
+                        if (globalStorage.RemoveFromInputStorage(thingDef, requiredCount))
+                        {
+                            consumedThisIngredient = true;
+                            break; // 成功消耗这个配料
+                        }
                     }
-                    Log.Message($"[DEBUG] Consumed {cost.count} {cost.thingDef.defName}");
                 }
-                return true;
+                
+                // 如果任何一个配料无法消耗，整个生产失败
+                if (!consumedThisIngredient)
+                    return false;
             }
-            return false;
+            
+            return true;
         }
 
         // 生产一个产品
@@ -104,7 +113,6 @@ namespace WulaFallenEmpire
             foreach (var product in recipe.products)
             {
                 globalStorage.AddToOutputStorage(product.thingDef, product.count);
-                Log.Message($"[DEBUG] Produced {product.count} {product.thingDef.defName}");
             }
             
             currentCount++;
@@ -113,8 +121,142 @@ namespace WulaFallenEmpire
             if (currentCount >= targetCount)
             {
                 state = ProductionState.Completed;
-                Log.Message("[DEBUG] Order completed");
             }
+        }
+
+        // 新增方法：检查并更新状态
+        public void UpdateState()
+        {
+            if (state == ProductionState.Completed) return;
+            
+            if (HasEnoughResources())
+            {
+                if (state == ProductionState.Waiting && !paused)
+                {
+                    state = ProductionState.Producing;
+                }
+            }
+            else
+            {
+                if (state == ProductionState.Producing)
+                {
+                    state = ProductionState.Waiting;
+                    progress = 0f; // 重置进度
+                }
+            }
+        }
+
+        // 获取配方材料信息的字符串
+        public string GetIngredientsInfo()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            // 添加标题
+            sb.AppendLine("WULA_RequiredIngredients".Translate() + ":");
+
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+
+            foreach (var ingredient in recipe.ingredients)
+            {
+                bool firstAllowedThing = true;
+
+                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
+                {
+                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                    int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
+
+                    if (firstAllowedThing)
+                    {
+                        sb.Append(" - ");
+                        firstAllowedThing = false;
+                    }
+                    else
+                    {
+                        sb.Append(" / ");
+                    }
+
+                    sb.Append($"{requiredCount} {thingDef.label}");
+
+                    // 添加可用数量信息
+                    if (availableCount < requiredCount)
+                    {
+                        sb.Append($" (<color=red>{availableCount}</color>/{requiredCount})");
+                    }
+                    else
+                    {
+                        sb.Append($" ({availableCount}/{requiredCount})");
+                    }
+                }
+
+                sb.AppendLine();
+            }
+
+            // 添加产品信息
+            sb.AppendLine();
+            sb.AppendLine("WULA_Products".Translate() + ":");
+            foreach (var product in recipe.products)
+            {
+                sb.AppendLine($" - {product.count} {product.thingDef.label}");
+            }
+
+            // 添加工作量信息
+            sb.AppendLine();
+            sb.AppendLine("WULA_WorkAmount".Translate() + ": " + recipe.workAmount.ToStringWorkAmount());
+
+            return sb.ToString();
+        }
+        // 获取简化的材料信息（用于Tooltip）
+        public string GetIngredientsTooltip()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine(recipe.LabelCap);
+            sb.AppendLine();
+
+            // 材料需求
+            sb.AppendLine("WULA_RequiredIngredients".Translate() + ":");
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+
+            foreach (var ingredient in recipe.ingredients)
+            {
+                bool ingredientSatisfied = false;
+                StringBuilder ingredientSB = new StringBuilder();
+
+                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
+                {
+                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                    int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
+
+                    if (ingredientSB.Length > 0)
+                        ingredientSB.Append(" / ");
+
+                    ingredientSB.Append($"{requiredCount} {thingDef.label}");
+
+                    if (availableCount >= requiredCount)
+                    {
+                        ingredientSatisfied = true;
+                    }
+                }
+
+                if (ingredientSatisfied)
+                {
+                    sb.AppendLine($" <color=green>{ingredientSB}</color>");
+                }
+                else
+                {
+                    sb.AppendLine($" <color=red>{ingredientSB}</color>");
+                }
+            }
+
+            // 产品
+            sb.AppendLine();
+            sb.AppendLine("WULA_Products".Translate() + ":");
+            foreach (var product in recipe.products)
+            {
+                sb.AppendLine($" {product.count} {product.thingDef.label}");
+            }
+
+            return sb.ToString();
         }
     }
 }

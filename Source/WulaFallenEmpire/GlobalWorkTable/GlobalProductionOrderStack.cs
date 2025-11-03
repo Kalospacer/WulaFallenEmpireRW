@@ -1,4 +1,4 @@
-// GlobalProductionOrderStack.cs (修复版)
+// GlobalProductionOrderStack.cs (调整为每秒1工作量)
 using RimWorld;
 using System.Collections.Generic;
 using Verse;
@@ -9,6 +9,11 @@ namespace WulaFallenEmpire
     {
         public Building_GlobalWorkTable table;
         public List<GlobalProductionOrder> orders = new List<GlobalProductionOrder>();
+
+        // 调整为每秒1工作量 - RimWorld中1秒=60ticks
+        private const float WorkPerSecond = 1f;
+        private const float TicksPerSecond = 60f;
+        private const float WorkPerTick = WorkPerSecond / TicksPerSecond;
 
         public GlobalProductionOrderStack(Building_GlobalWorkTable table)
         {
@@ -25,7 +30,6 @@ namespace WulaFallenEmpire
         {
             orders.Add(order);
             
-            // 添加到全局存储中统一管理
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage != null)
             {
@@ -48,48 +52,55 @@ namespace WulaFallenEmpire
         {
             foreach (var order in orders)
             {
+                // 首先更新状态
+                order.UpdateState();
+                
                 if (order.paused || order.state == GlobalProductionOrder.ProductionState.Completed)
                     continue;
-
-                // 检查资源并更新状态
-                if (order.state == GlobalProductionOrder.ProductionState.Waiting)
-                {
-                    if (order.HasEnoughResources())
-                    {
-                        order.state = GlobalProductionOrder.ProductionState.Producing;
-                        Log.Message($"[DEBUG] Order {order.recipe.defName} started producing");
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
 
                 // 生产中
                 if (order.state == GlobalProductionOrder.ProductionState.Producing)
                 {
-                    // 更清晰的进度计算
-                    float progressPerTick = 1f / (order.recipe.workAmount * 5f); // 调整系数以控制生产速度
-                    order.progress += progressPerTick;
+                    // 计算每tick的工作量进度
+                    float workAmount = order.recipe.workAmount;
+                    float progressIncrement = WorkPerTick / workAmount;
+                    
+                    order.progress += progressIncrement;
+
+                    // 调试信息 - 减少频率以免太吵
+                    if (Find.TickManager.TicksGame % 600 == 0) // 每10秒输出一次调试信息
+                    {
+                        Log.Message($"[DEBUG] Order {order.recipe.defName} progress: {order.progress:P0}, " +
+                                   $"workAmount: {workAmount}, increment: {progressIncrement:F6}");
+                    }
 
                     if (order.progress >= 1f)
                     {
-                        // 消耗资源并生产 - 在结束时扣除资源
+                        // 生产完成，消耗资源
                         if (order.ConsumeResources())
                         {
                             order.Produce();
+                            order.UpdateState();
+                            
+                            Log.Message($"[SUCCESS] Produced {order.recipe.products[0].thingDef.defName}, " +
+                                       $"count: {order.currentCount}/{order.targetCount}, " +
+                                       $"workAmount: {workAmount}");
                         }
                         else
                         {
-                            // 资源被其他订单消耗，回到等待状态
                             order.state = GlobalProductionOrder.ProductionState.Waiting;
                             order.progress = 0f;
-                            Log.Message("[DEBUG] Resources consumed by another order, returning to waiting state");
+                            Log.Message($"[WARNING] Failed to consume resources for {order.recipe.defName}");
                         }
                     }
-                    else
+                }
+                else if (order.state == GlobalProductionOrder.ProductionState.Waiting && !order.paused)
+                {
+                    // 调试：检查为什么订单在等待状态
+                    if (Find.TickManager.TicksGame % 1200 == 0) // 每20秒检查一次
                     {
-                        Log.Message($"[DEBUG] Order {order.recipe.defName} progress: {order.progress:P0}");
+                        Log.Message($"[DEBUG] Order {order.recipe.defName} is waiting. " +
+                                   $"HasEnoughResources: {order.HasEnoughResources()}, paused: {order.paused}");
                     }
                 }
             }

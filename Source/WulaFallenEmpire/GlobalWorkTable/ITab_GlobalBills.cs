@@ -1,5 +1,7 @@
-// ITab_GlobalBills.cs (修复版)
+// ITab_GlobalBills.cs (添加存储查看功能)
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -33,6 +35,10 @@ namespace WulaFallenEmpire
             Widgets.Label(new Rect(mainRect.x, mainRect.y, mainRect.width, 30f), "WULA_GlobalProduction".Translate());
             Text.Font = GameFont.Small;
             
+            // 存储查看按钮 - 放在标题旁边
+            Rect storageButtonRect = new Rect(mainRect.xMax - 120f, mainRect.y, 120f, 25f);
+            DoStorageButton(storageButtonRect);
+            
             // 开发模式按钮区域
             if (Prefs.DevMode)
             {
@@ -51,6 +57,95 @@ namespace WulaFallenEmpire
             {
                 Find.WindowStack.Add(new FloatMenu(GenerateRecipeOptions()));
             }
+            
+            // 绘制鼠标悬停信息 - 使用简单的Tooltip方式
+            if (mouseoverOrder != null)
+            {
+                // 使用Tooltip显示材料信息，不绘制额外窗口
+                // 信息已经在DoOrderRow中的TooltipHandler显示
+            }
+        }
+
+        // 新增：存储查看按钮
+        private void DoStorageButton(Rect rect)
+        {
+            // 绘制按钮
+            if (Widgets.ButtonText(rect, "WULA_ViewStorage".Translate()))
+            {
+                // 点击按钮时也可以做一些事情，比如打开详细存储窗口
+                // 暂时只显示Tooltip
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            
+            // 鼠标悬停时显示存储信息Tooltip
+            if (Mouse.IsOver(rect))
+            {
+                TooltipHandler.TipRegion(rect, GetStorageTooltip());
+            }
+        }
+
+        // 新增：获取存储信息的Tooltip
+        private string GetStorageTooltip()
+        {
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            if (globalStorage == null)
+                return "WULA_NoGlobalStorage".Translate();
+
+            StringBuilder sb = new StringBuilder();
+            
+            // 输入存储（原材料）
+            sb.AppendLine("WULA_InputStorage".Translate() + ":");
+            sb.AppendLine();
+            
+            var inputItems = globalStorage.inputStorage
+                .Where(kvp => kvp.Value > 0)
+                .OrderByDescending(kvp => kvp.Value)
+                .ThenBy(kvp => kvp.Key.label)
+                .ToList();
+                
+            if (inputItems.Count == 0)
+            {
+                sb.AppendLine("WULA_NoItems".Translate());
+            }
+            else
+            {
+                foreach (var kvp in inputItems)
+                {
+                    sb.AppendLine($"  {kvp.Value} {kvp.Key.label}");
+                }
+            }
+            
+            sb.AppendLine();
+            
+            // 输出存储（产品）
+            sb.AppendLine("WULA_OutputStorage".Translate() + ":");
+            sb.AppendLine();
+            
+            var outputItems = globalStorage.outputStorage
+                .Where(kvp => kvp.Value > 0)
+                .OrderByDescending(kvp => kvp.Value)
+                .ThenBy(kvp => kvp.Key.label)
+                .ToList();
+                
+            if (outputItems.Count == 0)
+            {
+                sb.AppendLine("WULA_NoItems".Translate());
+            }
+            else
+            {
+                foreach (var kvp in outputItems)
+                {
+                    sb.AppendLine($"  {kvp.Value} {kvp.Key.label}");
+                }
+            }
+            
+            // 添加存储统计信息
+            sb.AppendLine();
+            sb.AppendLine("WULA_StorageStats".Translate());
+            sb.AppendLine($"  {inputItems.Count} {("WULA_InputItems".Translate())}");
+            sb.AppendLine($"  {outputItems.Count} {("WULA_OutputItems".Translate())}");
+            
+            return sb.ToString();
         }
 
         private void DoDevButtons(Rect rect)
@@ -211,15 +306,28 @@ namespace WulaFallenEmpire
                     GlobalProductionOrder.ProductionState.Completed => "WULA_Completed".Translate(),
                     _ => "WULA_Unknown".Translate()
                 };
+                
+                // 如果暂停，在状态前添加暂停标识
+                if (order.paused && order.state != GlobalProductionOrder.ProductionState.Completed)
+                {
+                    statusText = $"[Paused] {statusText}";
+                }
+                
                 Widgets.Label(statusRect, statusText);
             }
             
             // 控制按钮
             float buttonY = rect.y + padding;
             Rect pauseButtonRect = new Rect(rect.xMax - 90f, buttonY, 40f, 25f);
-            if (Widgets.ButtonText(pauseButtonRect, order.paused ? "WULA_Resume".Translate() : "WULA_Pause".Translate()))
+            
+            string pauseButtonText = order.paused ? "WULA_Resume".Translate() : "WULA_Pause".Translate();
+            if (Widgets.ButtonText(pauseButtonRect, pauseButtonText))
             {
                 order.paused = !order.paused;
+                
+                // 暂停/恢复时更新状态
+                order.UpdateState();
+                
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
             
@@ -230,14 +338,21 @@ namespace WulaFallenEmpire
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
             
-            // 资源检查提示 - 修复逻辑
-            bool shouldShowRedBorder = (order.state == GlobalProductionOrder.ProductionState.Waiting && !order.HasEnoughResources());
-            if (shouldShowRedBorder)
+            // 资源检查提示 - 只在等待资源且不暂停时显示红色边框
+            if (!order.HasEnoughResources() && 
+                order.state == GlobalProductionOrder.ProductionState.Waiting && 
+                !order.paused)
             {
                 TooltipHandler.TipRegion(rect, "WULA_InsufficientResources".Translate());
                 GUI.color = Color.red;
                 Widgets.DrawBox(rect, 2);
                 GUI.color = Color.white;
+            }
+            
+            // 添加材料信息的Tooltip - 这是核心功能
+            if (Mouse.IsOver(rect))
+            {
+                TooltipHandler.TipRegion(rect, order.GetIngredientsTooltip());
             }
             
             return Mouse.IsOver(rect);
