@@ -63,7 +63,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Base_Technology</researchPrerequisite>
       <recipeUsers>
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
     </recipeMaker>
@@ -726,34 +725,10 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Base_Technology</researchPrerequisite>
       <recipeUsers>
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
     </recipeMaker>
   </ThingDef>
-  <HediffDef ParentName="ImplantHediffBase">
-    <defName>WULA_Addons_Antenna_Hediff_Base</defName>
-    <hediffClass>Hediff_Mechlink</hediffClass>
-    <label>机械指挥节点</label>
-    <description>安装于乌拉帝国合成人脑袋两侧的天线除了接收信号外，还能兼职控制其他低级机械体。</description>
-    <descriptionShort>一对可以控制低级机械体的天线。</descriptionShort>
-    <isBad>false</isBad>
-    <duplicationAllowed>false</duplicationAllowed>
-    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
-    <stages>
-      <li>
-        <statOffsets>
-          <MechBandwidth>2</MechBandwidth>
-          <MechControlGroups>1</MechControlGroups>
-        </statOffsets>
-      </li>
-    </stages>
-    <defaultInstallPart>WULA_Addons_Antenna_Bodypart</defaultInstallPart>
-    <!-- <spawnThingOnRemoved>WULA_Addons_Antenna_Base</spawnThingOnRemoved> -->
-    <comps>
-      <li Class="WulaFallenEmpire.HediffCompProperties_MakesMechanitor"/>
-    </comps>
-  </HediffDef>
   <ThingDef ParentName="MechanitorImplantCraftableBase">
     <defName>WULA_Addons_Antenna_Expansion</defName>
     <label>上行链路天线-扩容插件</label>
@@ -1504,7 +1479,6 @@
     <recipeMaker>
       <unfinishedThingDef>UnfinishedHealthItemProsthetic</unfinishedThingDef>
       <recipeUsers>
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
       <useIngredientsForColor>false</useIngredientsForColor>

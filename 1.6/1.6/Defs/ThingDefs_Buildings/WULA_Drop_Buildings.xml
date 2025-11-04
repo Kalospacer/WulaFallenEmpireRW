@@ -1056,7 +1056,6 @@
     </graphicData>
     <interactionCellOffset>(0,0,0)</interactionCellOffset>
     <passability>Standable</passability>
-    <designationCategory>WULA_Buildings</designationCategory>
     <statBases>
       <MaxHitPoints>250</MaxHitPoints>
       <WorkToBuild>8000</WorkToBuild>
@@ -1118,4 +1117,14 @@
       </li>
     </comps>
   </ThingDef>
+
+  <comps>
+  <li Class="WulaFallenEmpire.CompAutoLaunchHangar">
+    <aircraftDef>YourAircraftDef</aircraftDef>
+    <aircraftCount>1</aircraftCount>
+    <skyfallerLeaving>SkyfallerLeaving</skyfallerLeaving>
+    <launchDelayTicks>120</launchDelayTicks> <!-- 2秒延迟 -->
+    <requirePower>false</requirePower>
+  </li>
+</comps>
 </Defs>

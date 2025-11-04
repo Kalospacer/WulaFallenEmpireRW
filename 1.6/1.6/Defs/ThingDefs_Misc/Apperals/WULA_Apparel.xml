@@ -267,7 +267,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -312,7 +311,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -328,7 +326,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
       <displayPriority>105</displayPriority>
@@ -392,7 +389,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -408,7 +404,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
       <displayPriority>105</displayPriority>
@@ -474,7 +469,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -701,7 +695,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
     </recipeMaker>
@@ -729,7 +722,6 @@
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
     </recipeMaker>
@@ -1541,7 +1533,6 @@
     </statBases>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_BIO</li>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_2_Missile_Technology</researchPrerequisite>

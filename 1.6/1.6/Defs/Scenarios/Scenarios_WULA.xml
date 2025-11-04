@@ -61,11 +61,6 @@
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>WULA_MW_Mace</thingDef>
-          <stuff>Uranium</stuff>
-        </li>
-        <li Class="ScenPart_StartingThing_Defined">
-          <def>StartingThing_Defined</def>
           <thingDef>WULA_RW_Base_AR</thingDef>
           <count>1</count>
         </li>
@@ -193,11 +188,6 @@
           <def>StartingThing_Defined</def>
           <thingDef>ComponentIndustrial</thingDef>
           <count>50</count>
-        </li>
-        <li Class="ScenPart_StartingThing_Defined">
-          <def>StartingThing_Defined</def>
-          <thingDef>WULA_MW_Mace</thingDef>
-          <stuff>Uranium</stuff>
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
