@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <AbilityDef>
+    <defName>WULA_CallBattleShip</defName>
+    <label>支援请求：帝国母舰</label>
+    <description>发送增援请求，呼叫乌拉帝国舰队的一艘母舰前往殖民地。\n\n隶属于乌拉帝国边缘开发署的母舰是帝国殖民地扩张的基石，它们徘徊于近地轨道上，随时为下面的乌拉帝国殖民地提供援助。母舰的速度非常慢，在离开轨道前，它们能够提供好几天的全方位的支援。\n\n母舰拥有以下设施：\n&lt;color=#6BB7B7>&lt;i>-生产设施&lt;/i>&lt;/color>\n&lt;color=#DEC28F>&lt;i>-建筑空投设施&lt;/i>&lt;/color>\n&lt;color=#BD952F>&lt;i>-机库&lt;/i>&lt;/color>\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
+    <iconPath>Wula/UI/Abilities/WULA_CallBattleShip</iconPath>
+    <cooldownTicksRange>640000</cooldownTicksRange> <!-- 10d -->
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>true</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+      <warmupTime>8</warmupTime>
+      <range>-1</range>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_BattleShip</flyOverDef>
+        <flyOverType>Standard</flyOverType>
+        <flightSpeed>0.01</flightSpeed>
+        <altitude>20</altitude>
+        <startPosition>MapEdge</startPosition>
+        <endPosition>OppositeMapEdge</endPosition>
+        <playFlyOverSound>true</playFlyOverSound>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <AbilityDef>
+    <defName>WULA_Spawn_Fighter_Rocket</defName>
+    <label>战机巡航</label>
+    <description>指挥乌拉帝国的战机，中速掠过战场，使用其导弹对目标区域发起打击。\n\n在飞行期间，它会使用磁轨炮打击遇到的敌人。</description>
+    <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>ARA_HiveCorvette_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
+        <aircraftsPerUse>1</aircraftsPerUse>
+      </li> -->
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_Fighter_A</flyOverDef>
+        <flyOverType>GroundStrafing</flyOverType>
+        <flightSpeed>3</flightSpeed>
+        <altitude>20</altitude>
+        <playFlyOverSound>true</playFlyOverSound>
+        <approachType>Perpendicular</approachType>
+
+        <!-- 扫射参数 -->
+        <enableGroundStrafing>true</enableGroundStrafing>
+        <strafeWidth>4</strafeWidth>
+        <strafeLength>25</strafeLength>
+        <strafeFireChance>0.13</strafeFireChance>
+        <!-- 新增：控制最终射弹数量 -->
+        <minStrafeProjectiles>12</minStrafeProjectiles>
+        <maxStrafeProjectiles>16</maxStrafeProjectiles>
+
+        <!-- 只传递信号，不传递具体参数 -->
+        <enableSectorSurveillance>true</enableSectorSurveillance>
+
+        <!-- 可视化 -->
+        <showStrafePreview>true</showStrafePreview>
+        <strafePreviewColor>(1.0,0.3,0.1,0.2)</strafePreviewColor>
+
+        <!-- 预览配置 -->
+        <showSectorPreview>true</showSectorPreview>
+        <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_Spawn_Fighter_RailGun</defName>
+    <label>战机巡航（磁轨炮）</label>
+    <description>指挥乌拉帝国的战机，低速掠过战场，使用其磁轨炮打击遇到的所有敌人。</description>
+    <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>ARA_HiveCorvette_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
+        <aircraftsPerUse>1</aircraftsPerUse>
+      </li> -->
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_Fighter_B</flyOverDef>
+        <flyOverType>GroundStrafing</flyOverType>
+        <flightSpeed>3</flightSpeed>
+        <altitude>20</altitude>
+        <playFlyOverSound>true</playFlyOverSound>
+        <approachType>Perpendicular</approachType>
+
+        <!-- 只传递信号，不传递具体参数 -->
+        <enableSectorSurveillance>true</enableSectorSurveillance>
+
+        <!-- 预览配置 -->
+        <showSectorPreview>true</showSectorPreview>
+        <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      </li>
+    </comps>
+  </AbilityDef>
+</Defs>

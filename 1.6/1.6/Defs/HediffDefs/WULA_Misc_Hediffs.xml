@@ -59,6 +59,57 @@
     </comps>
   </HediffDef>
   <HediffDef>
+    <defName>WULA_NanoRepairHediff</defName>
+    <label>纳米维修</label>
+    <description>乌拉帝国的机械体集成了纳米修复系统，只要有电量，它们就能一直修复机械体受到的损伤——这套系统的设计使其需要在一段时间内未受到伤害才能启动。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.6, 0.4, 0.8)</defaultLabelColor>
+    <isBad>false</isBad>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <comps>
+    </comps>
+    <stages>
+      <li>
+        <label>启动</label>
+        <minSeverity>0</minSeverity>
+      </li>
+      <li>
+        <label>休眠</label>
+        <minSeverity>1</minSeverity>
+      </li>
+    </stages>
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_NanoRepair">
+        <activeSeverity>0.5</activeSeverity>
+        <inactiveSeverity>1.5</inactiveSeverity>
+        <minEnergyThreshold>0.1</minEnergyThreshold>
+        <repairCostPerHP>0.02</repairCostPerHP>
+        <repairCooldownAfterDamage>600</repairCooldownAfterDamage>
+      </li>
+    </comps>
+  </HediffDef>
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>WULA_Addons_Antenna_Hediff_Base</defName>
+    <hediffClass>Hediff_Mechlink</hediffClass>
+    <label>机械指挥节点</label>
+    <description>乌拉帝国合成人脑袋上有一对天线，她们可以使用这套通讯设备与乌拉帝国舰队通讯。</description>
+    <descriptionShort>一对可以与舰队通讯的天线。</descriptionShort>
+    <isBad>false</isBad>
+    <duplicationAllowed>false</duplicationAllowed>
+    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
+    <defaultInstallPart>WULA_Addons_Antenna_Bodypart</defaultInstallPart>
+    <!-- <spawnThingOnRemoved>WULA_Addons_Antenna_Base</spawnThingOnRemoved> -->
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_MakesMechanitor"/>
+      <li Class="HediffCompProperties_GiveAbility">
+        <abilityDefs>
+          <li>WULA_CallBattleShip</li>
+        </abilityDefs>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef>
     <defName>WULA_ChargingHediff</defName>
     <label>能量充盈</label>
     <description>乌拉正在从能量核心中持续吸收能量。</description>
@@ -300,36 +351,5 @@
       </li>
     </stages>
     <isBad>false</isBad>
-  </HediffDef>
-
-  <HediffDef>
-    <defName>WULA_NanoRepairHediff</defName>
-    <label>纳米维修</label>
-    <description>乌拉帝国的机械体集成了纳米修复系统，只要有电量，它们就能一直修复机械体受到的损伤——这套系统的设计使其需要在一段时间内未受到伤害才能启动。</description>
-    <hediffClass>HediffWithComps</hediffClass>
-    <defaultLabelColor>(0.6, 0.4, 0.8)</defaultLabelColor>
-    <isBad>false</isBad>
-    <scenarioCanAdd>false</scenarioCanAdd>
-    <comps>
-    </comps>
-    <stages>
-      <li>
-        <label>启动</label>
-        <minSeverity>0</minSeverity>
-      </li>
-      <li>
-        <label>休眠</label>
-        <minSeverity>1</minSeverity>
-      </li>
-    </stages>
-    <comps>
-      <li Class="WulaFallenEmpire.HediffCompProperties_NanoRepair">
-        <activeSeverity>0.5</activeSeverity>
-        <inactiveSeverity>1.5</inactiveSeverity>
-        <minEnergyThreshold>0.1</minEnergyThreshold>
-        <repairCostPerHP>0.02</repairCostPerHP>
-        <repairCooldownAfterDamage>600</repairCooldownAfterDamage>
-      </li>
-    </comps>
   </HediffDef>
 </Defs>
