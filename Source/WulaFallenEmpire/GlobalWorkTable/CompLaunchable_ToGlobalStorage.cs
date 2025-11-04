@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using System.Text;
 
 namespace WulaFallenEmpire
 {
@@ -58,19 +59,105 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // 1. 将物品转移到全局存储
+            // 统计发送的物品
+            int inputItemsCount = 0;
+            int outputItemsCount = 0;
+            StringBuilder inputItemsList = new StringBuilder();
+            StringBuilder outputItemsList = new StringBuilder();
+
+            // 1. 将物品分类转移到相应的存储
             foreach (Thing item in transporter.innerContainer)
             {
-                globalStorage.AddToInputStorage(item.def, item.stackCount);
+                if (ShouldGoToOutputStorage(item))
+                {
+                    // 发送到输出存储器
+                    globalStorage.AddToOutputStorage(item.def, item.stackCount);
+                    outputItemsCount += item.stackCount;
+                    if (outputItemsList.Length > 0) outputItemsList.Append(", ");
+                    outputItemsList.Append($"{item.LabelCap} x{item.stackCount}");
+                }
+                else
+                {
+                    // 发送到输入存储器
+                    globalStorage.AddToInputStorage(item.def, item.stackCount);
+                    inputItemsCount += item.stackCount;
+                    if (inputItemsList.Length > 0) inputItemsList.Append(", ");
+                    inputItemsList.Append($"{item.LabelCap} x{item.stackCount}");
+                }
             }
-            Messages.Message("WULA_ItemsSentToGlobalStorage".Translate(transporter.innerContainer.ContentsString), this.parent, MessageTypeDefOf.PositiveEvent);
 
-            // 2. 清空容器，防止物品掉落
+            // 2. 显示发送结果消息
+            string message = BuildTransferMessage(inputItemsCount, outputItemsCount, inputItemsList.ToString(), outputItemsList.ToString());
+            Messages.Message(message, this.parent, MessageTypeDefOf.PositiveEvent);
+
+            // 3. 清空容器，防止物品掉落
             transporter.innerContainer.ClearAndDestroyContents();
 
-            // 3. 调用基类的发射方法，让它处理动画和销毁
-            // 我们给一个无效的目标和空的到达动作，让它飞出地图后就消失
+            // 4. 调用基类的发射方法，让它处理动画和销毁
             base.TryLaunch(this.parent.Map.Tile, null);
+        }
+
+        // 判断物品是否应该发送到输出存储器
+        private bool ShouldGoToOutputStorage(Thing item)
+        {
+            // 武器
+            if (item.def.IsWeapon)
+                return true;
+
+            // 装备
+            if (item.def.IsApparel)
+                return true;
+
+            // 活着的Pawn
+            //if (item is Pawn pawn && !pawn.Dead)
+            //    return true;
+
+            // Pawn的尸体
+            if (item.def.IsCorpse)
+                return true;
+
+            // 其他物品发送到输入存储器
+            return false;
+        }
+
+        // 构建转移消息
+        private string BuildTransferMessage(int inputCount, int outputCount, string inputList, string outputList)
+        {
+            StringBuilder message = new StringBuilder();
+
+            if (inputCount > 0 && outputCount > 0)
+            {
+                // 既有输入又有输出物品
+                message.Append("WULA_ItemsSentToBothStorages".Translate(inputCount, outputCount));
+                if (!string.IsNullOrEmpty(inputList))
+                {
+                    message.Append("\n").Append("WULA_InputStorageItems".Translate(inputList));
+                }
+                if (!string.IsNullOrEmpty(outputList))
+                {
+                    message.Append("\n").Append("WULA_OutputStorageItems".Translate(outputList));
+                }
+            }
+            else if (inputCount > 0)
+            {
+                // 只有输入物品
+                message.Append("WULA_ItemsSentToInputStorage".Translate(inputCount));
+                if (!string.IsNullOrEmpty(inputList))
+                {
+                    message.Append(": ").Append(inputList);
+                }
+            }
+            else if (outputCount > 0)
+            {
+                // 只有输出物品
+                message.Append("WULA_ItemsSentToOutputStorage".Translate(outputCount));
+                if (!string.IsNullOrEmpty(outputList))
+                {
+                    message.Append(": ").Append(outputList);
+                }
+            }
+
+            return message.ToString();
         }
     }
 }

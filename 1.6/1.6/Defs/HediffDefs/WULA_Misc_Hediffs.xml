@@ -24,12 +24,6 @@
           <!-- 易燃性 -->
           <Flammability>0.05</Flammability>
         </statFactors>
-        <capMods>
-          <li>
-            <capacity>Consciousness</capacity>
-            <offset>0.25</offset>
-          </li>
-        </capMods>
         <!-- 免疫非纳米机械疾病 -->
         <makeImmuneTo>
           <li>Flu</li>

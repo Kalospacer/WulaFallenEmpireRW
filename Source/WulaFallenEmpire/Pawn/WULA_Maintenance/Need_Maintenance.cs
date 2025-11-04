@@ -12,6 +12,10 @@ namespace WulaFallenEmpire
         
         // 上次维护的天数
         private float daysSinceLastMaintenance = 0f;
+        
+        // 新增：记录当前应用的 Hediff 状态
+        private MaintenanceStatus currentAppliedStatus = MaintenanceStatus.Operational;
+        private Hediff currentAppliedHediff = null;
 
         // 当前维护状态
         public MaintenanceStatus Status
@@ -35,6 +39,8 @@ namespace WulaFallenEmpire
         {
             CurLevel = 1.0f;
             daysSinceLastMaintenance = 0f;
+            currentAppliedStatus = MaintenanceStatus.Operational;
+            currentAppliedHediff = null;
         }
 
         public override void NeedInterval()
@@ -82,46 +88,72 @@ namespace WulaFallenEmpire
             if (Extension == null)
                 return;
 
-            // 检查是否需要应用故障效果
-            var currentStatus = Status;
+            var newStatus = Status;
             
-            // 移除旧的维护相关 Hediff
-            RemoveMaintenanceHediffs();
-
-            // 根据状态添加相应的 Hediff
-            switch (currentStatus)
+            // 只有当状态发生变化时才更新 Hediff
+            if (newStatus != currentAppliedStatus)
             {
-                case MaintenanceStatus.MinorBreakdown:
-                    if (Extension.minorBreakdownHediff != null)
-                        pawn.health.AddHediff(Extension.minorBreakdownHediff);
-                    break;
-                    
-                case MaintenanceStatus.MajorBreakdown:
-                    if (Extension.majorBreakdownHediff != null)
-                        pawn.health.AddHediff(Extension.majorBreakdownHediff);
-                    break;
-                    
-                case MaintenanceStatus.CriticalFailure:
-                    if (Extension.criticalFailureHediff != null)
-                        pawn.health.AddHediff(Extension.criticalFailureHediff);
-                    break;
+                UpdateHediffForStatus(newStatus);
+                currentAppliedStatus = newStatus;
+            }
+            
+            // 额外检查：确保当前 Hediff 仍然存在（可能被其他系统移除）
+            if (currentAppliedHediff != null && !pawn.health.hediffSet.hediffs.Contains(currentAppliedHediff))
+            {
+                // Hediff 被意外移除，重新应用
+                UpdateHediffForStatus(currentAppliedStatus);
             }
         }
 
-        private void RemoveMaintenanceHediffs()
+        // 新增：智能更新 Hediff
+        private void UpdateHediffForStatus(MaintenanceStatus status)
+        {
+            // 首先移除当前应用的 Hediff
+            if (currentAppliedHediff != null)
+            {
+                pawn.health.RemoveHediff(currentAppliedHediff);
+                currentAppliedHediff = null;
+            }
+
+            // 根据新状态添加相应的 Hediff
+            HediffDef hediffDefToAdd = GetHediffDefForStatus(status);
+            
+            if (hediffDefToAdd != null)
+            {
+                currentAppliedHediff = pawn.health.AddHediff(hediffDefToAdd);
+                
+                // 调试日志
+                if (Prefs.DevMode)
+                {
+                    Log.Message($"Maintenance: Applied {hediffDefToAdd.defName} for status {status} to {pawn.Label}");
+                }
+            }
+            else if (status == MaintenanceStatus.Operational)
+            {
+                // 操作状态，不需要 Hediff
+                if (Prefs.DevMode)
+                {
+                    Log.Message($"Maintenance: {pawn.Label} is operational, no hediff needed");
+                }
+            }
+        }
+
+        // 新增：获取对应状态的 HediffDef
+        private HediffDef GetHediffDefForStatus(MaintenanceStatus status)
         {
             if (Extension == null)
-                return;
+                return null;
 
-            // 移除所有维护相关的 Hediff
-            var hediffsToRemove = pawn.health.hediffSet.hediffs.FindAll(h => 
-                h.def == Extension.minorBreakdownHediff || 
-                h.def == Extension.majorBreakdownHediff || 
-                h.def == Extension.criticalFailureHediff);
-                
-            foreach (var hediff in hediffsToRemove)
+            switch (status)
             {
-                pawn.health.RemoveHediff(hediff);
+                case MaintenanceStatus.MinorBreakdown:
+                    return Extension.minorBreakdownHediff;
+                case MaintenanceStatus.MajorBreakdown:
+                    return Extension.majorBreakdownHediff;
+                case MaintenanceStatus.CriticalFailure:
+                    return Extension.criticalFailureHediff;
+                default:
+                    return null;
             }
         }
 
@@ -132,8 +164,10 @@ namespace WulaFallenEmpire
             CurLevel = ClampNeedLevel(CurLevel);
             daysSinceLastMaintenance = 0f;
             
-            // 移除所有维护相关的负面效果
-            RemoveMaintenanceHediffs();
+            // 更新状态（会自动移除旧的 Hediff 并应用新的）
+            var newStatus = Status;
+            UpdateHediffForStatus(newStatus);
+            currentAppliedStatus = newStatus;
             
             // 触发维护完成的效果
             OnMaintenancePerformed(maintenanceAmount);
@@ -148,8 +182,13 @@ namespace WulaFallenEmpire
             float reduction = damageAmount * Extension.damageToMaintenanceFactor;
             CurLevel = Math.Max(0f, CurLevel - reduction);
             
-            // 立即检查状态变化
-            CheckStatusChanges();
+            // 检查状态变化
+            var newStatus = Status;
+            if (newStatus != currentAppliedStatus)
+            {
+                UpdateHediffForStatus(newStatus);
+                currentAppliedStatus = newStatus;
+            }
         }
 
         private void OnMaintenancePerformed(float amount)
@@ -180,6 +219,24 @@ namespace WulaFallenEmpire
         {
             base.ExposeData();
             Scribe_Values.Look(ref daysSinceLastMaintenance, "daysSinceLastMaintenance", 0f);
+            Scribe_Values.Look(ref currentAppliedStatus, "currentAppliedStatus", MaintenanceStatus.Operational);
+            Scribe_References.Look(ref currentAppliedHediff, "currentAppliedHediff");
+            
+            // 修复：加载后验证状态一致性
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                // 确保当前状态与实际 Hediff 一致
+                if (currentAppliedHediff != null && !pawn.health.hediffSet.hediffs.Contains(currentAppliedHediff))
+                {
+                    // Hediff 丢失，重新应用
+                    UpdateHediffForStatus(currentAppliedStatus);
+                }
+                else if (currentAppliedHediff == null && currentAppliedStatus != MaintenanceStatus.Operational)
+                {
+                    // 应该有 Hediff 但没有，重新应用
+                    UpdateHediffForStatus(currentAppliedStatus);
+                }
+            }
         }
     }
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- Aircraft Strike Messages -->
+  <AircraftManagerNotFound>战机管理器未找到！</AircraftManagerNotFound>
+  <AircraftStrikeInitiated>空中打击已启动：{0}</AircraftStrikeInitiated>
+  <AircraftStrikeSuccess>空中打击：成功使用 {0} 只 {1}</AircraftStrikeSuccess>
+  <NoAvailableAircraft>没有可用的战机：{0}</NoAvailableAircraft>
+  <AircraftStrikeFailed>空中打击：{1} 没有可用的 {0}</AircraftStrikeFailed>
+  <NoAircraftForStrike>没有可用的 {0}</NoAircraftForStrike>
+  
+  <!-- Mouse Overlay Text -->
+  <AvailableAircraft>{0}：{1}</AvailableAircraft>
+  <CooldownAircraft>冷却中：{0}</CooldownAircraft>
+  <CostPerUse>消耗：{0}</CostPerUse>
+  
+  <!-- Tooltip Text -->
+  <AircraftStatusTooltip>飞行器状态：</AircraftStatusTooltip>
+  <TotalAircraft>总数：{0}</TotalAircraft>
+  <ReadyAircraft>准备入场：{0}</ReadyAircraft>
+  <CooldownAircraft>冷却中：{0}</CooldownAircraft>
+  <AircraftCost>每次使用消耗：{0}</AircraftCost>
+  <!-- Existing keys... -->
+  
+  <!-- New Aircraft Cooldown Time Keys -->
+  <AircraftCooldownTime>冷却时间：{0}小时</AircraftCooldownTime>
+  <AircraftAbilityDescription>\n该技能需要 {0} 入场\n每次使用占用 {1} {0}\n冷却时间：{2}小时</AircraftAbilityDescription>
+  
+  <!-- Miscellaneous -->
+  <UnknownFaction>未知派系</UnknownFaction>
+
+  
+  <!-- Aircraft Hangar Gizmo Text -->
+  <LaunchAircraft>战机起飞</LaunchAircraft>
+  <LaunchAircraftDesc>命令战机起飞。起飞的战机将永不落地，如果想要使用它们就需要有机械乌拉的指挥。</LaunchAircraftDesc>
+  <HangarDamaged>战机受损</HangarDamaged>
+  
+  <!-- Aircraft Hangar Messages -->
+  <AircraftLaunched>战机已起飞：{0} 只 {1}</AircraftLaunched>
+  <AircraftManagerNotFound>战机管理器未找到！</AircraftManagerNotFound>
+  
+  <!-- Takeoff Effect Messages -->
+  <TakeoffEffectMapNull>无法创建起飞效果：父级地图为空</TakeoffEffectMapNull>
+  <TakeoffSkyfallerCreated>在 {0} 创建了起飞天空坠落者，携带1单位化学燃料</TakeoffSkyfallerCreated>
+  <TakeoffEffectError>创建起飞效果时出错：{0}</TakeoffEffectError>
+
+  <!-- Aircraft Manager Error Messages -->
+  <AddAircraftNullFaction>尝试将战机添加到空派系</AddAircraftNullFaction>
+  
+  <!-- Aircraft Status Messages -->
+  <AircraftCooldownEnded>{0} 准备好再次进行打击</AircraftCooldownEnded>
+  <NoAircraftStatus>没有可用的战机</NoAircraftStatus>
+  <AircraftStatusLine>{0}：{1}/{2}（冷却中：{3}）</AircraftStatusLine>
+</LanguageData>

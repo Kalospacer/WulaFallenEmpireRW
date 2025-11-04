@@ -3,8 +3,8 @@
   <!-- 输送舱 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_GlobalStorageSenderPod</defName>
-    <label>全局存储输送舱</label>
-    <description>一个一次性的物资输送装置，可以将装载的货物直接发射到全局存储网络中，而无需选择目标地点。发射后即告销毁。</description>
+    <label>乌拉帝国物资输送舱</label>
+    <description>一个一次性的物资输送装置，可以将装载的货物发射到乌拉帝国的舰队以供其使用。</description>
     <graphicData>
       <texPath>Things/Special/DropPod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -32,7 +32,7 @@
     </costList>
     <comps>
       <li Class="CompProperties_Transporter">
-        <massCapacity>300</massCapacity>
+        <massCapacity>500</massCapacity>
         <restEffectiveness>0.8</restEffectiveness>
         <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
       </li>
@@ -52,64 +52,6 @@
     </researchPrerequisites>
     <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
     <uiIconScale>0.65</uiIconScale>
-  </ThingDef>
-
-  <!-- 服务器 -->
-  <ThingDef ParentName="BenchBase">
-    <defName>WULA_Synth_Server</defName>
-    <label>乌拉帝国服务器系统</label>
-    <description>一台大型服务器，可以从乌拉帝国的上行链路接收关于各种技能的数据，并以实体数据包的形式封装储存起来，供那些新生代合成人使用。</description>
-    <thingClass>Building_WorkTable</thingClass>
-    <drawerType>MapMeshAndRealTime</drawerType>
-    <graphicData>
-      <texPath>Wula/Building/WULA_Synth_Server</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(2,2)</drawSize>
-      <damageData>
-        <enabled>false</enabled>
-      </damageData>
-    </graphicData>
-    <castEdgeShadows>true</castEdgeShadows>
-    <constructEffect>ConstructMetal</constructEffect>
-    <costList>
-      <Steel>100</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
-      <WULA_Charge_Cube>1</WULA_Charge_Cube>
-    </costList>
-    <altitudeLayer>Building</altitudeLayer>
-    <fillPercent>0.5</fillPercent>
-    <useHitPoints>True</useHitPoints>
-    <researchPrerequisites>
-      <li>WULA_New_Synth_Skill_Technology</li>
-    </researchPrerequisites>
-    <statBases>
-      <WorkToBuild>2000</WorkToBuild>
-      <MaxHitPoints>180</MaxHitPoints>
-      <Flammability>1.0</Flammability>
-    </statBases>
-    <size>(2,2)</size>
-    <hasInteractionCell>True</hasInteractionCell>
-    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
-    <designationCategory>WULA_Buildings</designationCategory>
-    <uiOrder>2120</uiOrder>
-    <passability>PassThroughOnly</passability>
-    <pathCost>50</pathCost>
-    <surfaceType>Item</surfaceType>
-    <inspectorTabs>
-      <li>ITab_Bills</li>
-    </inspectorTabs>
-    <comps>
-      <li Class="CompProperties_Power">
-        <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>100</basePowerConsumption>
-      </li>
-    </comps>
-    <placeWorkers>
-      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
-    </placeWorkers>
-    <building>
-      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
-    </building>
   </ThingDef>
 
   <!-- 制造机 -->
@@ -163,7 +105,6 @@
      <li>Make_Component_By_WULA_Cube_Productor</li>
      <li>Make_WULA_Dark_Matter_Item</li>
      <li>Make_WULA_Neutronium</li>
-     <li MayRequire="Ludeon.RimWorld.Anomaly">Wula_Make_Zro</li>
     </recipes>
     <inspectorTabs>
       <li>ITab_Bills</li>
@@ -175,7 +116,6 @@
       </li>
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>
-          <li>WULA_Cube_Productor_Component</li>
         </linkableFacilities>
       </li>
     </comps>
@@ -186,67 +126,6 @@
       <!-- <isMealSource>true</isMealSource> -->
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>
-  </ThingDef>
-  <ThingDef ParentName="BuildingBase">
-    <defName>WULA_Cube_Productor_Component</defName>
-    <label>乌拉帝国外置编织单元</label>
-    <description>用于辅助乌拉帝国编织体工作的特殊设备，可以加快其工作速度。每个乌拉帝国编织体最多连接一个此类设备。</description>
-    <graphicData>
-      <texPath>Wula/Building/WULA_Cube_Productor_Component</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(2,2)</drawSize>
-      <damageData>
-        <enabled>false</enabled>
-      </damageData>
-      <shadowData>
-        <volume>(1.65, 1.65, 0.85)</volume>
-        <offset>(0, 0, -0.2)</offset>
-      </shadowData>
-    </graphicData>
-    <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
-    <castEdgeShadows>false</castEdgeShadows>
-    <fillPercent>0.5</fillPercent>
-    <canOverlapZones>false</canOverlapZones>
-    <pathCost>42</pathCost>
-    <statBases>
-      <MaxHitPoints>100</MaxHitPoints>
-      <WorkToBuild>30000</WorkToBuild>
-      <Mass>20</Mass>
-      <Flammability>0</Flammability>
-    </statBases>
-    <size>(2,2)</size>
-    <costList>
-      <Steel>200</Steel>
-      <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
-    </costList>
-    <building>
-      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
-    </building>
-    <researchPrerequisites>
-      <li>WULA_Dark_Matter_Technology</li>
-    </researchPrerequisites>
-    <designationCategory>WULA_Buildings</designationCategory>
-    <minifiedDef>MinifiedThing</minifiedDef>
-    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
-    <thingCategories>
-      <li>BuildingsMisc</li>
-    </thingCategories>
-    <comps>
-      <li Class="CompProperties_Power">
-        <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>500</basePowerConsumption>
-      </li>
-      <li Class="CompProperties_Facility">
-        <statOffsets>
-          <WorkTableWorkSpeedFactor>2</WorkTableWorkSpeedFactor>
-        </statOffsets>
-        <maxSimultaneous>1</maxSimultaneous>
-      </li>
-    </comps>
-    <placeWorkers>
-      <li>PlaceWorker_ShowFacilitiesConnections</li>
-    </placeWorkers>
   </ThingDef>
 
   <!-- 床 -->
@@ -317,198 +196,6 @@
       <li Class="WulaFallenEmpire.CompProperties_ChargingBed">
         <hediffDef>WULA_ChargingHediff</hediffDef>
         <raceDefName>WulaSpecies</raceDefName>
-      </li>
-    </comps>
-  </ThingDef>
-  
-  <!-- 机械工厂 -->
-  <ThingDef ParentName="BuildingBase">
-    <defName>WULA_Large_Mechine_proudctor</defName>
-    <label>乌拉帝国机械工厂</label>
-    <description>乌拉帝国所建造的一种机械工厂，能构建各种乌拉帝国机械体，包括机械乌拉。</description>
-    <thingClass>Building_MechGestator</thingClass>
-    <containedPawnsSelectable>true</containedPawnsSelectable>
-    <tickerType>Normal</tickerType>
-    <drawerType>MapMeshAndRealTime</drawerType>
-    <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
-    <fillPercent>0.5</fillPercent>
-    <hasInteractionCell>true</hasInteractionCell>
-    <pathCost>42</pathCost>
-    <surfaceType>Item</surfaceType>
-    <inspectorTabs>
-      <li>ITab_Bills</li>
-    </inspectorTabs>
-    <designationCategory>WULA_Buildings</designationCategory>
-    <uiOrder>2400</uiOrder>
-    <defaultPlacingRot>South</defaultPlacingRot>
-    <placeWorkers>
-      <li>PlaceWorker_MechGestatorTop</li>
-    </placeWorkers>
-
-    <graphicData>
-      <texPath>Wula/Building/WULA_Heavy_War_Machine_Productor</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4, 4)</drawSize>
-      <shadowData>
-        <volume>(2.8, 2.8, 2.1)</volume>
-        <!-- <offset>(-0.05, 0, 0.35)</offset> -->
-      </shadowData>
-    </graphicData>
-    <castEdgeShadows>False</castEdgeShadows>
-    <interactionCellOffset>(1,0,3)</interactionCellOffset>
-    <statBases>
-      <MaxHitPoints>1250</MaxHitPoints>
-      <WorkToBuild>16000</WorkToBuild>
-      <Mass>35</Mass>
-      <Flammability>0.5</Flammability>
-    </statBases>
-    <size>(4,4)</size>
-    <costList>
-      <Steel>300</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-      <WULA_Charge_Cube>5</WULA_Charge_Cube>
-    </costList>
-    <researchPrerequisites>
-      <li>WULA_Machine_Productor_Technology</li>
-    </researchPrerequisites>
-    <building>
-      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
-      <canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
-      <ai_chillDestination>false</ai_chillDestination>
-      <buildingTags>
-        <li>Production</li>
-        <li>Biotech</li>
-      </buildingTags>
-      <barDrawData>
-        <north>
-          <preRotationOffset>(-1.06, 0.91)</preRotationOffset>
-          <size>(0, 0)</size>
-        </north>
-        <south>
-          <preRotationOffset>(-1.06, 0.82)</preRotationOffset>
-          <size>(0, 0)</size>
-        </south>
-        <east>
-          <preRotationOffset>(1.06, -0.97)</preRotationOffset>
-          <size>(0, 0)</size>
-        </east>
-        <west>
-          <preRotationOffset>(-1.06, -0.97)</preRotationOffset>
-          <size>(0, 0)</size>
-        </west>
-      </barDrawData>
-      <formingGraphicData>
-        <texPath>Things/Pawn/Mechanoid/HalfGestatedMechSmall</texPath>
-        <graphicClass>Graphic_Single</graphicClass>
-        <drawSize>(0,0)</drawSize>
-      </formingGraphicData>
-      <formingMechPerRotationOffset>
-        <li>(0, 0, 0.45)</li>
-        <li>(0, 0, 0.45)</li>
-        <li>(0, 0, 0.45)</li>
-        <li>(0, 0, 0.45)</li>
-      </formingMechPerRotationOffset>
-      <mechGestatorCylinderGraphic>
-        <texPath>Things/Building/Production/MechGestatorStandardGlass</texPath>
-        <graphicClass>Graphic_Multi</graphicClass>
-        <drawSize>(0,0)</drawSize>
-        <shaderType>Transparent</shaderType>
-      </mechGestatorCylinderGraphic>
-      <mechGestatorTopGraphic>
-        <texPath>Things/Building/Production/MechGestatorStandardTop</texPath>
-        <graphicClass>Graphic_Multi</graphicClass>
-        <drawSize>(0,0)</drawSize>
-      </mechGestatorTopGraphic>
-      <gestatorFormingMote>
-        <north></north>
-        <east></east>
-        <west></west>
-        <south></south>
-      </gestatorFormingMote>
-      <gestatorCycleCompleteMote>
-        <north></north>
-        <east></east>
-        <west></west>
-        <south></south>
-      </gestatorCycleCompleteMote>
-      <gestatorFormedMote>
-        <north></north>
-        <east></east>
-        <west></west>
-        <south></south>
-      </gestatorFormedMote>
-    </building>
-    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
-    <recipes>
-      <li>WULA_Build_Wula_Synth</li>
-      <li>WULA_Build_Mech_Cat</li>
-      <li>WULA_Build_Mech_Cat_Constructor</li>
-      <li>WULA_Build_Mech_Cat_EMP</li>
-      <li>WULA_Build_Mech_Cat_Fire</li>
-      <li>WULA_Build_Mech_Cat_Assault</li>
-      <li>WULA_Build_Mech_Cat_DM</li>
-      <li>WULA_Build_AI_Heavy_Panzer</li>
-      <li>WULA_Build_AI_Heavy_Panzer_Gunnery</li>
-      <li>WULA_Build_Alpha_Wolf</li>
-      <li>WULA_Build_Alpha_Mantodea</li>
-      <li MayRequire="Ludeon.RimWorld.Odyssey">WULA_Build_AI_Engineer_Mother</li>
-      <li MayRequire="Ludeon.RimWorld.Odyssey">WULA_Build_AI_Engineer_Mother_Attack</li>
-    </recipes>
-    <comps>
-      <li Class="CompProperties_WasteProducer" />
-      <li Class="CompProperties_Flickable"/>
-      <li Class="CompProperties_Power">
-        <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>500</basePowerConsumption>
-        <idlePowerDraw>50</idlePowerDraw>
-      </li>
-    </comps>
-  </ThingDef>
-
-  <!-- 联络台 -->
-  <ThingDef ParentName="BuildingBase">  
-    <defName>WULA_Communicator_Station</defName>
-    <label>乌拉帝国通讯站</label>
-    <description>乌拉帝国内部用于联系的通讯站，可以联系到乌拉帝国的各大派系。</description>
-    <thingClass>Building</thingClass>
-    <graphicData>
-      <texPath>Wula/Building/WULA_Communicator_Station</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-      <drawSize>(1,1)</drawSize>
-      <shadowData>
-        <volume>(0.25, 0.25, 0.25)</volume>
-      </shadowData>
-    </graphicData>
-    <statBases>
-      <MaxHitPoints>250</MaxHitPoints>
-      <WorkToBuild>2000</WorkToBuild>
-      <Mass>70</Mass>
-      <Flammability>0</Flammability>
-    </statBases>
-    <size>(1,1)</size>
-    <rotatable>false</rotatable>
-    <costList>
-      <Steel>50</Steel>
-    </costList>
-    <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
-    <pathCost>50</pathCost>
-    <designationCategory>WULA_Buildings</designationCategory>
-    <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
-    </researchPrerequisites>
-    <comps>
-      <!-- <li Class="CompProperties_Power">
-        <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>100</basePowerConsumption>
-      </li> -->
-      <li Class="CompProperties_Flickable"/>
-      <li Class="WulaFallenEmpire.CompProperties_OpenCustomUI">
-        <uiDefName>Wula_UI_Main_1</uiDefName>
-        <label>联络乌拉帝国</label>
-        <failReason>无法接触通讯站。</failReason>
       </li>
     </comps>
   </ThingDef>

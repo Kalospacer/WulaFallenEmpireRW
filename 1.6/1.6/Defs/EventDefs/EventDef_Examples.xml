@@ -68,7 +68,7 @@
           </li>
         </conditions>
         <effects>
-          <li Class="WulaFallenEmpire.Effect_TriggerRaid">
+          <!-- <li Class="WulaFallenEmpire.Effect_TriggerRaid">
             <letterLabel>来自乌拉帝国 大教堂的进攻</letterLabel>
             <letterText>我们的传感器侦测到一伙来自乌拉帝国 大教堂的袭击者！他们看起来充满敌意，正朝着我们的殖民地前进。</letterText>
             <points>10000</points>
@@ -89,7 +89,7 @@
                 </options>
               </li>
             </pawnGroupMakers>
-          </li>
+          </li> -->
         </effects>
       </li>
     </dismissEffects>

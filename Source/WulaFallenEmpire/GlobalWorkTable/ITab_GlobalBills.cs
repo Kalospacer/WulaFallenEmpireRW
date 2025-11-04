@@ -36,19 +36,19 @@ namespace WulaFallenEmpire
             Text.Font = GameFont.Small;
             
             // 存储查看按钮 - 放在标题旁边
-            Rect storageButtonRect = new Rect(mainRect.xMax - 120f, mainRect.y, 120f, 25f);
+            Rect storageButtonRect = new Rect(mainRect.xMax - 160f, mainRect.y, 120f, 25f);
             DoStorageButton(storageButtonRect);
             
-            // 开发模式按钮区域
-            if (Prefs.DevMode)
+            // 上帝模式按钮区域
+            if (DebugSettings.godMode)
             {
-                Rect devButtonRect = new Rect(mainRect.x, mainRect.y + 35f, mainRect.width, 25f);
-                DoDevButtons(devButtonRect);
+                Rect godModeButtonRect = new Rect(mainRect.x, mainRect.y + 35f, mainRect.width, 25f);
+                DoGodModeButtons(godModeButtonRect);
             }
             
             // 订单列表区域 - 调整位置
-            float ordersRectY = Prefs.DevMode ? mainRect.y + 65f : mainRect.y + 35f;
-            Rect ordersRect = new Rect(mainRect.x, ordersRectY, mainRect.width, mainRect.height - (Prefs.DevMode ? 110f : 80f));
+            float ordersRectY = DebugSettings.godMode ? mainRect.y + 65f : mainRect.y + 35f;
+            Rect ordersRect = new Rect(mainRect.x, ordersRectY, mainRect.width, mainRect.height - (DebugSettings.godMode ? 110f : 80f));
             mouseoverOrder = DoOrdersListing(ordersRect);
             
             // 添加订单按钮
@@ -148,17 +148,18 @@ namespace WulaFallenEmpire
             return sb.ToString();
         }
 
-        private void DoDevButtons(Rect rect)
+        // 修改：将开发者模式按钮改为上帝模式按钮
+        private void DoGodModeButtons(Rect rect)
         {
             Rect button1Rect = new Rect(rect.x, rect.y, rect.width / 2 - 5f, rect.height);
             Rect button2Rect = new Rect(rect.x + rect.width / 2 + 5f, rect.y, rect.width / 2 - 5f, rect.height);
             
-            if (Widgets.ButtonText(button1Rect, "DEV: Add Resources"))
+            if (Widgets.ButtonText(button1Rect, "GOD: Add Resources"))
             {
                 AddTestResources();
             }
             
-            if (Widgets.ButtonText(button2Rect, "DEV: Spawn Products"))
+            if (Widgets.ButtonText(button2Rect, "GOD: Spawn Products"))
             {
                 SpawnOutputProducts();
             }
@@ -178,7 +179,7 @@ namespace WulaFallenEmpire
                 globalStorage.AddToInputStorage(componentDef, 100);
                 
                 Messages.Message("Added 200 Steel and 100 Components to global storage", MessageTypeDefOf.PositiveEvent);
-                Log.Message("[DEBUG] Added test resources");
+                Log.Message("[GOD MODE] Added test resources");
             }
         }
 
@@ -223,7 +224,7 @@ namespace WulaFallenEmpire
                 }
                 
                 Messages.Message($"Spawned {totalSpawned} items at worktable location", MessageTypeDefOf.PositiveEvent);
-                Log.Message($"[DEBUG] Spawned {totalSpawned} output products");
+                Log.Message($"[GOD MODE] Spawned {totalSpawned} output products");
             }
         }
 
@@ -318,8 +319,31 @@ namespace WulaFallenEmpire
             
             // 控制按钮
             float buttonY = rect.y + padding;
-            Rect pauseButtonRect = new Rect(rect.xMax - 90f, buttonY, 40f, 25f);
+            float buttonWidth = 40f;
+            float buttonSpacing = 5f;
             
+            // 计算按钮位置（从右向左排列）
+            float currentX = rect.xMax;
+            
+            // 删除按钮（最右边）
+            Rect deleteButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
+            currentX -= (buttonWidth + buttonSpacing);
+            
+            // 暂停/恢复按钮
+            Rect pauseButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
+            currentX -= (buttonWidth + buttonSpacing);
+            
+            // 上帝模式：立刻完成按钮（在暂停按钮左边）
+            Rect completeButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
+            
+            // 绘制删除按钮
+            if (Widgets.ButtonText(deleteButtonRect, "WULA_Delete".Translate()))
+            {
+                SelTable.globalOrderStack.Delete(order);
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            
+            // 绘制暂停/恢复按钮
             string pauseButtonText = order.paused ? "WULA_Resume".Translate() : "WULA_Pause".Translate();
             if (Widgets.ButtonText(pauseButtonRect, pauseButtonText))
             {
@@ -327,15 +351,23 @@ namespace WulaFallenEmpire
                 
                 // 暂停/恢复时更新状态
                 order.UpdateState();
-                
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
             
-            Rect deleteButtonRect = new Rect(rect.xMax - 45f, buttonY, 40f, 25f);
-            if (Widgets.ButtonText(deleteButtonRect, "WULA_Delete".Translate()))
+            // 绘制上帝模式按钮（仅上帝模式下可见）
+            if (DebugSettings.godMode && order.state != GlobalProductionOrder.ProductionState.Completed)
             {
-                SelTable.globalOrderStack.Delete(order);
-                SoundDefOf.Click.PlayOneShotOnCamera();
+                if (Widgets.ButtonText(completeButtonRect, "GOD: Complete"))
+                {
+                    CompleteOrderImmediately(order);
+                    SoundDefOf.Click.PlayOneShotOnCamera();
+                }
+                
+                // 为上帝模式按钮添加Tooltip
+                if (Mouse.IsOver(completeButtonRect))
+                {
+                    TooltipHandler.TipRegion(completeButtonRect, "Instantly complete this order (God Mode Only)");
+                }
             }
             
             // 资源检查提示 - 只在等待资源且不暂停时显示红色边框
@@ -356,6 +388,79 @@ namespace WulaFallenEmpire
             }
             
             return Mouse.IsOver(rect);
+        }
+
+        // 新增：立刻完成订单的方法
+        private void CompleteOrderImmediately(GlobalProductionOrder order)
+        {
+            if (order.state == GlobalProductionOrder.ProductionState.Completed)
+                return;
+
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            if (globalStorage == null)
+                return;
+
+            // 检查是否有足够资源
+            bool hasEnoughResources = order.HasEnoughResources();
+            
+            if (!hasEnoughResources)
+            {
+                // 上帝模式下，如果没有足够资源，显示确认对话框
+                Find.WindowStack.Add(new Dialog_MessageBox(
+                    "This order doesn't have enough resources. Complete anyway? (God Mode)",
+                    "Yes, Complete Anyway",
+                    () => ForceCompleteOrder(order),
+                    "Cancel",
+                    null,
+                    "Complete Without Resources",
+                    false,
+                    null,
+                    null
+                ));
+            }
+            else
+            {
+                // 有足够资源，正常完成
+                ForceCompleteOrder(order);
+            }
+        }
+
+        // 强制完成订单（上帝模式）
+        private void ForceCompleteOrder(GlobalProductionOrder order)
+        {
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            if (globalStorage == null)
+                return;
+
+            // 计算需要完成的数量
+            int remainingCount = order.targetCount - order.currentCount;
+            
+            if (remainingCount <= 0)
+                return;
+
+            // 尝试消耗资源（如果可能）
+            bool resourcesConsumed = order.ConsumeResources();
+            
+            if (!resourcesConsumed)
+            {
+                Log.Message($"[GOD MODE] Could not consume resources for {order.recipe.defName}, completing without resource consumption");
+            }
+
+            // 添加产品到输出存储
+            foreach (var product in order.recipe.products)
+            {
+                int totalCount = product.count * remainingCount;
+                globalStorage.AddToOutputStorage(product.thingDef, totalCount);
+            }
+
+            // 更新订单状态
+            order.currentCount = order.targetCount;
+            order.state = GlobalProductionOrder.ProductionState.Completed;
+            order.progress = 0f;
+
+            // 显示完成消息
+            Messages.Message($"GOD MODE: Completed order for {order.recipe.LabelCap} ({remainingCount} units)", MessageTypeDefOf.PositiveEvent);
+            Log.Message($"[GOD MODE] Force completed order: {order.recipe.defName}, produced {remainingCount} units");
         }
 
         private List<FloatMenuOption> GenerateRecipeOptions()

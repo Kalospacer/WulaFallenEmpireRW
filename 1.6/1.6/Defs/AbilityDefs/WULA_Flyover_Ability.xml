@@ -5,7 +5,7 @@
     <label>支援请求：帝国母舰</label>
     <description>发送增援请求，呼叫乌拉帝国舰队的一艘母舰前往殖民地。\n\n隶属于乌拉帝国边缘开发署的母舰是帝国殖民地扩张的基石，它们徘徊于近地轨道上，随时为下面的乌拉帝国殖民地提供援助。母舰的速度非常慢，在离开轨道前，它们能够提供好几天的全方位的支援。\n\n母舰拥有以下设施：\n&lt;color=#6BB7B7>&lt;i>-生产设施&lt;/i>&lt;/color>\n&lt;color=#DEC28F>&lt;i>-建筑空投设施&lt;/i>&lt;/color>\n&lt;color=#BD952F>&lt;i>-机库&lt;/i>&lt;/color>\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
     <iconPath>Wula/UI/Abilities/WULA_CallBattleShip</iconPath>
-    <cooldownTicksRange>640000</cooldownTicksRange> <!-- 10d -->
+    <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
     <verbProperties>
@@ -13,14 +13,20 @@
       <drawAimPie>true</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
-      <warmupTime>8</warmupTime>
+      <warmupTime>5</warmupTime>
       <range>-1</range>
       <targetable>false</targetable>
       <targetParams>
-        <canTargetSelf>True</canTargetSelf>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetSelf>true</canTargetSelf>
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>WULA_BattleShip_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>640000</aircraftCooldownTicks> 
+        <aircraftsPerUse>1</aircraftsPerUse>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
         <flyOverDef>WULA_BattleShip</flyOverDef>
         <flyOverType>Standard</flyOverType>

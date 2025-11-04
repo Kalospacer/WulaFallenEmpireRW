@@ -19,23 +19,6 @@
   </WorkGiverDef>
 
   <WorkGiverDef>
-    <defName>WULA_Large_Mechine_proudctor_Bills</defName>
-    <label>在乌拉帝国机械工厂培育机械</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Smithing</workType>
-    <priorityInType>75</priorityInType>
-    <fixedBillGiverDefs>
-      <li>WULA_Large_Mechine_proudctor</li>
-    </fixedBillGiverDefs>
-    <verb>工作于</verb>
-    <gerund>工作于</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-    <prioritizeSustains>true</prioritizeSustains>
-  </WorkGiverDef>
-
-  <WorkGiverDef>
     <defName>WULA_Synth_ServerBills</defName>
     <label>在服务器系统下载数据</label>
     <giverClass>WorkGiver_DoBill</giverClass>

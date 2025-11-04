@@ -95,7 +95,6 @@
     <Compile Include="Flyover\WULA_AircraftHangar\CompAbilityEffect_AircraftStrike.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\CompAircraftHangar.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\WorldComponent_AircraftManager.cs" />
-    <Compile Include="Flyover\WULA_AutoLaunchHangar\CompProperties_AutoLaunchHangar.cs" />
     <Compile Include="Flyover\WULA_FlyOverDropPod\CompProperties_FlyOverDropPod.cs" />
     <Compile Include="Flyover\WULA_FlyOverEscort\CompFlyOverEscort.cs" />
     <Compile Include="Flyover\WULA_FlyOverEscort\CompProperties_FlyOverEscort.cs" />

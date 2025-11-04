@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Fake_Mothership_Beacon_Building</defName>
+    <label>帝国母舰信标</label>
+    <description>111</description>
+    <thingClass>Building</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Cat_Bunker_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(1,1)</drawSize>
+      <color>(195,195,195,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>East</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
+        <aircraftDef>WULA_BattleShip_Entity</aircraftDef>
+        <aircraftCount>1</aircraftCount>
+        <skyfallerLeaving></skyfallerLeaving>
+        
+        <autoLaunchEnabled>true</autoLaunchEnabled>
+        <autoLaunchDelayTicks>1</autoLaunchDelayTicks>
+        <autoLaunchOnConstruction>true</autoLaunchOnConstruction>
+        <autoLaunchOnPowerOn>false</autoLaunchOnPowerOn>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_BattleShip_Entity</defName>
+    <label>帝国母舰</label>
+    <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
+    <thingClass>Thing</thingClass>
+  </ThingDef>
+</Defs>

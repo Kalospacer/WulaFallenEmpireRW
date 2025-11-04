@@ -181,65 +181,33 @@
   <WULA_FailedToDistributeItems>无法分配物品到空投舱</WULA_FailedToDistributeItems>
   <WULA_AirdropSuccessful>成功空投了{0}个空投舱</WULA_AirdropSuccessful>
 
-  <WULA_ResourceSubmitter>舰队资源储存</WULA_ResourceSubmitter>
-  <WULA_SubmitToStorage>提交到舰队贮存</WULA_SubmitToStorage>
-  <WULA_SubmitToStorageDesc>将所有存储物品转移到舰队贮存</WULA_SubmitToStorageDesc>
-  <WULA_StoredItems>存储物品</WULA_StoredItems>
-  <WULA_ItemsSubmitted>{0}个物品已提交到储存器</WULA_ItemsSubmitted>
-  <WULA_SubmissionFailed>提交物品失败</WULA_SubmissionFailed>
-  <WULA_NoItemsToSubmit>没有可提交的物品</WULA_NoItemsToSubmit>
-  <WULA_DeviceNotOperational>设备不可用</WULA_DeviceNotOperational>
-  <WULA_NoPower>无电力</WULA_NoPower>
-  <WULA_NoFuel>无燃料</WULA_NoFuel>
-  <WULA_SwitchOff>开关关闭</WULA_SwitchOff>
-  <WULA_Inoperative>不可用</WULA_Inoperative>
-  <WULA_Status>状态</WULA_Status>
-
-  <WULA_SubmitterContents>提交器内容</WULA_SubmitterContents>
-  <WULA_Operational>运行正常</WULA_Operational>
-  <WULA_Inoperative>无法运行</WULA_Inoperative>
-  <WULA_Status>状态</WULA_Status>
-  <WULA_Items>物品</WULA_Items>
-  <WULA_Stacks>堆叠</WULA_Stacks>
-  <WULA_NoItemsInStorage>存储中无物品</WULA_NoItemsInStorage>
-  <WULA_ItemName>物品名称</WULA_ItemName>
-  <WULA_Count>数量</WULA_Count>
-  <WULA_ItemTooltip>{0}\n总数: {1}\n堆叠数: {2}\n价值: {3} 白银</WULA_ItemTooltip>
-  <WULA_SubmitToStorage>提交到存储</WULA_SubmitToStorage>
-  <WULA_SubmitToStorageDesc>将所有存储物品提交到全局存储</WULA_SubmitToStorageDesc>
-  <WULA_DeviceInoperative>设备无法运行</WULA_DeviceInoperative>
-  <WULA_NoItemsToSubmit>无物品可提交</WULA_NoItemsToSubmit>
-  <WULA_NoItemsToSubmitDesc>没有可以提交的物品</WULA_NoItemsToSubmitDesc>
-  <WULA_ViewGlobalStorage>查看全局存储</WULA_ViewGlobalStorage>
-  <WULA_ViewGlobalStorageDesc>查看全局输入和输出存储内容</WULA_ViewGlobalStorageDesc>
-  <WULA_UnknownReason>未知原因</WULA_UnknownReason>
-  <WULA_GlobalStorage>全局存储</WULA_GlobalStorage>
-  <WULA_InputStorage>输入存储</WULA_InputStorage>
-  <WULA_OutputStorage>输出存储</WULA_OutputStorage>
-  <WULA_NoItems>无物品</WULA_NoItems>
-  <WULA_Value>价值</WULA_Value>
-  <!-- 中文翻译 -->
-  <WULA_Items>物品</WULA_Items>
-  <WULA_Stacks>堆叠</WULA_Stacks>
-  <WULA_ItemName>物品名称</WULA_ItemName>
-  <WULA_Count>数量</WULA_Count>
-  <WULA_NoItemsInStorage>存储中无物品</WULA_NoItemsInStorage>
-  <WULA_ItemTooltip>{0}\n总数: {1}\n堆叠: {2}\n价值: {3}</WULA_ItemTooltip>
-  <WULA_DeviceInoperative>设备不可用</WULA_DeviceInoperative>
-  <WULA_NoItemsToSubmitDesc>没有可提交的物品</WULA_NoItemsToSubmitDesc>
-  <WULA_ViewGlobalStorage>查看全局存储</WULA_ViewGlobalStorage>
-  <WULA_ViewGlobalStorageDesc>查看全局存储中的物品</WULA_ViewGlobalStorageDesc>
-  <WULA_UnknownReason>未知原因</WULA_UnknownReason>
-  <WULA_Value>价值</WULA_Value>
-
-  <WULA_LoadResourceSubmitter>Load Resource Submitter</WULA_LoadResourceSubmitter>
-  <WULA_NoItemsAvailable>No items available</WULA_NoItemsAvailable>
-  <WULA_Available>Available</WULA_Available>
-  <WULA_ToLoad>To Load</WULA_ToLoad>
-  <WULA_Max>Max</WULA_Max>
-  <WULA_SetLoadCount>Set load count for {0}</WULA_SetLoadCount>
-  <WULA_LoadAll>Load All</WULA_LoadAll>
-  <WULA_ClearAll>Clear All</WULA_ClearAll>
-  <WULA_LoadingJobsCreated>Loading jobs created</WULA_LoadingJobsCreated>
-  <WULA_Description>Description</WULA_Description>
+  <!-- 自动发射相关 -->
+  <LaunchAircraft>发射战机</LaunchAircraft>
+  <LaunchAircraftDesc>手动发射战机到全球战机库</LaunchAircraftDesc>
+  <ToggleAutoLaunch>启用自动发射</ToggleAutoLaunch>
+  <ToggleAutoLaunchDesc>启用战机自动发射功能</ToggleAutoLaunchDesc>
+  <CancelAutoLaunch>取消自动发射</CancelAutoLaunch>
+  <CancelAutoLaunchDesc>取消预定的自动发射</CancelAutoLaunchDesc>
+  <!-- 状态消息 -->
+  <AircraftStatusLaunched>状态：已发射</AircraftStatusLaunched>
+  <AutoLaunchScheduled>自动发射：{0}秒后</AutoLaunchScheduled>
+  <AutoLaunchReady>自动发射：就绪</AutoLaunchReady>
+  <!-- 事件消息 -->
+  <AircraftAutoLaunchScheduled>战机自动发射预定：{0} 将在 {1} 秒后发射</AircraftAutoLaunchScheduled>
+  <AircraftAutoLaunchThreatDetected>检测到威胁 {0}，预定战机自动发射</AircraftAutoLaunchThreatDetected>
+  <AircraftAutoLaunchManhunterDetected>检测到狂躁动物 {0}，预定战机自动发射</AircraftAutoLaunchManhunterDetected>
+  <AutoLaunchCancelled>自动发射已取消</AutoLaunchCancelled>
+  <!-- 原有翻译保持不变 -->
+  <AircraftLaunched>已发射 {0} 架 {1}</AircraftLaunched>
+  <HangarDamaged>机库已损坏</HangarDamaged>
+  
+  <WULA_LaunchToGlobalStorage>发射到乌拉帝国舰队</WULA_LaunchToGlobalStorage>
+  <WULA_LaunchToGlobalStorageDesc>将物品发送到乌拉帝国舰队，以便其使用这些材料进行加工。\n\n如果装备、武器和尸体被送到乌拉帝国舰队，则它们会在下一次成品空投被扔回来，其他的物资若被乌拉帝国舰队接收则一概不退。</WULA_LaunchToGlobalStorageDesc>
+  <WULA_NoItemsToSendToGlobalStorage>没有物品可以发送到全局存储</WULA_NoItemsToSendToGlobalStorage>
+  <!-- CompLaunchable_ToGlobalStorage.cs 新增翻译 -->
+  <WULA_ItemsSentToBothStorages>{0}件物资被舰队接收，{1}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToBothStorages>
+  <WULA_ItemsSentToInputStorage>{0}件物资被舰队接收</WULA_ItemsSentToInputStorage>
+  <WULA_ItemsSentToOutputStorage>{0}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToOutputStorage>
+  <WULA_InputStorageItems>输入存储: {0}</WULA_InputStorageItems>
+  <WULA_OutputStorageItems>输出存储: {0}</WULA_OutputStorageItems>
 </LanguageData>

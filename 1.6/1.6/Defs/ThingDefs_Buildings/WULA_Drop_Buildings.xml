@@ -17,6 +17,7 @@
       <drawSize>(1,1)</drawSize>
       <color>(73,185,254,155)</color>
     </graphicData>
+    <rotatable>false</rotatable>
     <neverMultiSelect>false</neverMultiSelect>
     <blockLight>false</blockLight>
     <holdsRoof>false</holdsRoof>
@@ -120,6 +121,7 @@
     <costList>
       <Steel>15</Steel>
     </costList>
+    <designationCategory Inherit="False"/>
     <stuffCategories Inherit="False"/>
     <costStuffCount>0</costStuffCount>
     <building>
@@ -175,6 +177,7 @@
     <altitudeLayer>DoorMoveable</altitudeLayer>
     <fillPercent>1</fillPercent>
     <useHitPoints>true</useHitPoints>
+    <rotatable>false</rotatable>
     <graphicData>
       <texPath>Wula/Building/Door/WulaAutodoor_Mover</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -305,10 +308,10 @@
     <tickerType>Normal</tickerType>
     <!-- <rotatable>false</rotatable> -->
     <!--<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>-->
+    <designationCategory Inherit="False"/>
     <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
     <stuffCategories Inherit="False"></stuffCategories>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <designationCategory>Structure</designationCategory>
     <holdsRoof>true</holdsRoof>
     <staticSunShadowHeight>1.0</staticSunShadowHeight>
     <blockLight>true</blockLight>
@@ -420,6 +423,7 @@
     <fillPercent>0.5</fillPercent>
     <canOverlapZones>false</canOverlapZones>
     <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
     <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
@@ -532,6 +536,10 @@
       <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
     </building>
     <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
         <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
         <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
@@ -622,7 +630,7 @@
     <defName>WULA_MaintenancePod_Cleanzone</defName>
     <label>合成人维护舱</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n合成人维护舱是为乌拉帝国合成人设计的设施，机械乌拉需要定期进入其中进行身体机能的维护和校准，否则他们的身体会逐渐衰弱。维护需要消耗零部件，同时会修理所有的伤口。</description>
-    <uiIconPath>Wula/Building/WULA_MaintenancePod_south</uiIconPath>
+    <uiIconPath>Wula/Building/WULA_MaintenancePod</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
     <descriptionHyperlinks>
@@ -645,8 +653,12 @@
     <fillPercent>0.5</fillPercent>
     <canOverlapZones>false</canOverlapZones>
     <pathCost>0</pathCost>
-    <hasInteractionCell>false</hasInteractionCell>
-    <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
+    <rotatable>false</rotatable>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <hasInteractionCell>true</hasInteractionCell>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>1</WorkToBuild>
@@ -716,7 +728,7 @@
     <description>一个为乌拉帝国合成人设计的全自动维护舱，机械乌拉需要定期进入其中进行身体机能的维护和校准，否则他们的身体会逐渐衰弱。维护需要消耗零部件，同时会修理所有的伤口。</description>
     <containedPawnsSelectable>true</containedPawnsSelectable>
     <graphicData>
-      <texPath>Wula/Building/WULA_MaintenancePod_south</texPath>
+      <texPath>Wula/Building/WULA_MaintenancePod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(3, 3)</drawSize>
       <shadowData>
@@ -724,6 +736,7 @@
         <!-- <offset>(-0.05, 0, 0.35)</offset> -->
       </shadowData>
     </graphicData>
+    <tickerType>Normal</tickerType>
     <drawerType>RealtimeOnly</drawerType>
     <drawGUIOverlay>true</drawGUIOverlay>
     <!-- <defaultPlacingRot>South</defaultPlacingRot> -->
@@ -733,7 +746,6 @@
     <blockWind>true</blockWind>
     <fillPercent>0.5</fillPercent>
     <canOverlapZones>false</canOverlapZones>
-    <rotatable>false</rotatable>
     <statBases>
       <MaxHitPoints>250</MaxHitPoints>
       <WorkToBuild>20000</WorkToBuild>
@@ -744,6 +756,13 @@
     <size>(3,3)</size>
     <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <hasInteractionCell>true</hasInteractionCell>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
     <costList>
       <Steel>150</Steel>
       <ComponentIndustrial>10</ComponentIndustrial>
@@ -754,8 +773,11 @@
       <destroySound>BuildingDestroyed_Metal_Big</destroySound>
       <uninstallWork>1800</uninstallWork>
     </building>
-    <tickerType>Normal</tickerType>
     <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
         <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
         <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
@@ -795,9 +817,6 @@
         <maxInjuriesHealedPerCycle>5</maxInjuriesHealedPerCycle>
       </li>
     </comps>
-    <placeWorkers>
-      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
-    </placeWorkers>
   </ThingDef>
 
   <!-- 制造机 -->
@@ -805,21 +824,22 @@
     <defName>WULA_WeaponArmor_Productor_Cleanzone</defName>
     <label>乌拉帝国作业通讯台（装备）</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国作业通讯台是用于联络乌拉帝国母舰和后勤舰并下达武器、装备订单的特殊通讯台。这些武器装备的生产不需要殖民地参与，只需要使用乌拉帝国物资交换舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
-    <uiIconPath>Wula/Building/WULA_MaintenancePod_south</uiIconPath>
+    <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
     </thingCategories>
-    <size>(5,5)</size>
+    <size>(3,3)</size>
     <graphicData>
       <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(5,5)</drawSize>
+      <drawSize>(3,3)</drawSize>
       <damageData>
         <enabled>false</enabled>
       </damageData>
     </graphicData>
+    <designationCategory>WULA_Buildings</designationCategory>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <castEdgeShadows>false</castEdgeShadows>
@@ -827,6 +847,7 @@
     <canOverlapZones>false</canOverlapZones>
     <pathCost>0</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
     <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
@@ -842,7 +863,6 @@
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>
-    <designationCategory>WULA_Buildings</designationCategory>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
         <skyfallerDef>WULA_WeaponArmor_Productor_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
@@ -858,12 +878,12 @@
   <ThingDef ParentName="SkyfallerBase">
     <defName>WULA_WeaponArmor_Productor_Incoming</defName>
     <label>乌拉帝国作业通讯台（空投中）</label>
-    <size>(5,5)</size>
+    <size>(3,3)</size>
     <graphicData>
-      <texPath>Wula/Building/WULA_MaintenancePod_Incoming</texPath>
+      <texPath>Wula/Building/WULA_WeaponArmor_Productor_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
-      <drawSize>(5,5)</drawSize>
+      <drawSize>(3,3)</drawSize>
     </graphicData>
     <skyfaller>
       <movementType>Accelerate</movementType>
@@ -891,15 +911,12 @@
   </ThingDef>
   <ThingDef ParentName="BenchBase">
     <defName>WULA_WeaponArmor_Productor</defName>
-    <label>乌拉帝国作业通讯台（装备）</label>
-    <description>一台用于联络乌拉帝国母舰和后勤舰并下达武器、装备订单的特殊通讯台。这些武器装备的生产不需要殖民地参与，只需要使用乌拉帝国物资交换舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
+    <label>乌拉帝国作业通讯台</label>
+    <description>一台用于联络乌拉帝国母舰和后勤舰并下达订单的特殊通讯台。这些物资装备的生产不需要殖民地参与，只需要使用乌拉帝国物资输送舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
     <thingClass>WulaFallenEmpire.Building_GlobalWorkTable</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <tickerType>Normal</tickerType>
-    <minifiedDef>MinifiedThing</minifiedDef>
-    <thingCategories Inherit="False">
-      <li>BuildingsMisc</li>
-    </thingCategories>
+    <rotatable>false</rotatable>
     <modExtensions>
       <li Class="WulaFallenEmpire.GlobalWorkTableAirdropExtension">
         <maxRange>50</maxRange>
@@ -910,13 +927,13 @@
     </modExtensions>
     <graphicData>
       <texPath>Wula/Building/WULA_WeaponArmor_Productor</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(5,5)</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,2.75)</drawSize>
       <damageData>
         <enabled>false</enabled>
       </damageData>
       <shadowData>
-        <volume>(0.75, 0.75, 0.5)</volume>
+        <volume>(1.5, 1.5, 1.5)</volume>
       </shadowData>
     </graphicData>
     <constructEffect>ConstructMetal</constructEffect>
@@ -933,8 +950,7 @@
       <MaxHitPoints>180</MaxHitPoints>
       <Flammability>1.0</Flammability>
     </statBases>
-    <size>(5,5)</size>
-    <designationCategory>WULA_Buildings</designationCategory>
+    <size>(3,3)</size>
     <uiOrder>2120</uiOrder>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
@@ -947,15 +963,24 @@
       <li>WulaFallenEmpire.ITab_GlobalBills</li>
     </inspectorTabs>
     <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
         <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
         <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
         <overrideExistingFaction>false</overrideExistingFaction>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_OpenCustomUI">
+        <uiDefName>Wula_UI_Main_1</uiDefName>
+        <label>联络乌拉帝国</label>
+        <failReason>无法接触通讯站。</failReason>
+      </li>
     </comps>
   </ThingDef>
 
-  <!-- 电容器 -->
+  <!-- 充电器 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Machine_Recharger_Cleanzone</defName>
     <label>乌拉帝国充电站</label>
@@ -981,6 +1006,7 @@
     <canOverlapZones>false</canOverlapZones>
     <pathCost>0</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
     <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
@@ -1016,7 +1042,7 @@
     <label>乌拉帝国充电站（空投中）</label>
     <size>(3,3)</size>
     <graphicData>
-      <texPath>Wula/Building/WULA_MaintenancePod_Incoming</texPath>
+      <texPath>Wula/Building/WULA_Machine_Recharger_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
       <drawSize>(3,3)</drawSize>
@@ -1099,11 +1125,14 @@
       <li>WULA_Machine_Productor_Technology</li>
     </researchPrerequisites>
     <comps>
-      <li Class="CompProperties_Battery">
-        <storedEnergyMax>2500</storedEnergyMax>
-        <efficiency>0.5</efficiency>
-        <shortCircuitInRain>false</shortCircuitInRain>
-        <transmitsPower>true</transmitsPower>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
       </li>
       <li Class="CompProperties_ThingContainer">
         <compClass>CompThingContainer</compClass>
@@ -1117,14 +1146,4 @@
       </li>
     </comps>
   </ThingDef>
-
-  <comps>
-  <li Class="WulaFallenEmpire.CompAutoLaunchHangar">
-    <aircraftDef>YourAircraftDef</aircraftDef>
-    <aircraftCount>1</aircraftCount>
-    <skyfallerLeaving>SkyfallerLeaving</skyfallerLeaving>
-    <launchDelayTicks>120</launchDelayTicks> <!-- 2秒延迟 -->
-    <requirePower>false</requirePower>
-  </li>
-</comps>
 </Defs>
