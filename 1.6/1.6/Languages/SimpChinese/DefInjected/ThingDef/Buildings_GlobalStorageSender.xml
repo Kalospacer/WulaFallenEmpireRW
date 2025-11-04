@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <WULA_GlobalStorageSenderPod.label>全局存储输送舱</WULA_GlobalStorageSenderPod.label>
+  <WULA_GlobalStorageSenderPod.description>一个一次性的物资输送装置，可以将装载的货物直接发射到全局存储网络中，而无需选择目标地点。发射后即告销毁。</WULA_GlobalStorageSenderPod.description>
+
+</LanguageData>
