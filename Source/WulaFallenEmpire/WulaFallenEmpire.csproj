@@ -108,10 +108,6 @@
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompAbilityEffect_SpawnFlyOver.cs" />
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
     <Compile Include="GlobalWorkTable\Building_GlobalWorkTable.cs" />
-    <Compile Include="GlobalWorkTable\Building_ResourceSubmitter.cs" />
-    <Compile Include="GlobalWorkTable\Command_LoadToResourceSubmitter.cs" />
-    <Compile Include="GlobalWorkTable\CompResourceSubmitter.cs" />
-    <Compile Include="GlobalWorkTable\Dialog_LoadResourceSubmitter.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrder.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrderStack.cs" />
     <Compile Include="GlobalWorkTable\GlobalStorageWorldComponent.cs" />

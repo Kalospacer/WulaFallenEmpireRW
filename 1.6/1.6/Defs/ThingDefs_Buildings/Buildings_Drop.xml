@@ -836,46 +836,4 @@
       <heatPerTickWhileWorking>0.10</heatPerTickWhileWorking>
     </building>
   </ThingDef>
-  <ThingDef ParentName="BuildingBase">
-    <defName>WULA_ResourceSubmitter</defName>
-    <label>乌拉帝国物资交换舱</label>
-    <description>乌拉帝国从地面向舰队提交资源的特殊交换仓。</description>
-    <thingClass>WulaFallenEmpire.Building_ResourceSubmitter</thingClass>
-    <graphicData>
-      <texPath>Things/Building/Furniture/Shelf</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(1,1)</drawSize>
-    </graphicData>
-    <size>(1,1)</size>
-    <rotatable>false</rotatable>
-    <tickerType>Normal</tickerType>
-    <altitudeLayer>BuildingOnTop</altitudeLayer>
-    <passability>PassThroughOnly</passability>
-    <castEdgeShadows>false</castEdgeShadows>
-    <designationHotKey>Misc12</designationHotKey>
-    <fillPercent>0.5</fillPercent>
-    <designationCategory>WULA_Buildings</designationCategory>
-    <uiOrder>2200</uiOrder>
-    <statBases>
-      <MaxHitPoints>250</MaxHitPoints>
-      <WorkToBuild>1600</WorkToBuild>
-      <Flammability>0.5</Flammability>
-    </statBases>
-    <costList>
-      <Steel>20</Steel>
-    </costList>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_ResourceSubmitter">
-        <massCapacity>500</massCapacity>
-      </li>
-    </comps>
-    <inspectorTabs>
-      <li>ITab_Storage</li>
-      <!-- <li>WulaFallenEmpire.ITab_ResourceSubmitterContents</li> -->
-    </inspectorTabs>
-    <placeWorkers>
-      <li>PlaceWorker_NotUnderRoof</li>
-    </placeWorkers>
-    <uiIconScale>0.65</uiIconScale>
-  </ThingDef>
 </Defs>
