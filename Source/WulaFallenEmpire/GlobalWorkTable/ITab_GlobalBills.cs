@@ -1,4 +1,4 @@
-// ITab_GlobalBills.cs (添加存储查看功能)
+// ITab_GlobalBills.cs (添加图标支持)
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -278,20 +278,37 @@ namespace WulaFallenEmpire
             float padding = 8f;
             float lineHeight = 20f;
             
-            // 订单信息
-            Rect infoRect = new Rect(rect.x + padding, rect.y + padding, rect.width - 100f, lineHeight);
+            // 图标区域 - 添加在左侧
+            float iconSize = 32f;
+            Rect iconRect = new Rect(rect.x + padding, rect.y + padding, iconSize, iconSize);
+            
+            // 绘制配方图标
+            if (order.recipe.UIIconThing != null)
+            {
+                Widgets.ThingIcon(iconRect, order.recipe.UIIconThing);
+            }
+            else if (order.recipe.UIIcon != null)
+            {
+                GUI.DrawTexture(iconRect, order.recipe.UIIcon);
+            }
+            
+            // 订单信息区域 - 向右偏移图标宽度
+            float infoX = rect.x + padding + iconSize + 8f;
+            float infoWidth = rect.width - (padding * 2 + iconSize + 8f + 100f); // 减去控制按钮区域
+            
+            Rect infoRect = new Rect(infoX, rect.y + padding, infoWidth, lineHeight);
             Widgets.Label(infoRect, order.Label);
             
-            Rect descRect = new Rect(rect.x + padding, rect.y + padding + lineHeight + 2f, rect.width - 100f, lineHeight);
+            Rect descRect = new Rect(infoX, rect.y + padding + lineHeight + 2f, infoWidth, lineHeight);
             Widgets.Label(descRect, order.Description);
             
             // 状态显示区域
-            Rect statusRect = new Rect(rect.x + padding, rect.y + padding + (lineHeight + 2f) * 2, rect.width - 100f, lineHeight);
+            Rect statusRect = new Rect(infoX, rect.y + padding + (lineHeight + 2f) * 2, infoWidth, lineHeight);
             
             if (order.state == GlobalProductionOrder.ProductionState.Producing)
             {
                 // 进度条
-                Rect progressRect = new Rect(rect.x + padding, rect.y + padding + (lineHeight + 2f) * 2, rect.width - 100f, 18f);
+                Rect progressRect = new Rect(infoX, rect.y + padding + (lineHeight + 2f) * 2, infoWidth, 18f);
                 Widgets.FillableBar(progressRect, order.progress);
                 
                 // 进度文本
@@ -462,6 +479,7 @@ namespace WulaFallenEmpire
             Messages.Message($"GOD MODE: Completed order for {order.recipe.LabelCap} ({remainingCount} units)", MessageTypeDefOf.PositiveEvent);
             Log.Message($"[GOD MODE] Force completed order: {order.recipe.defName}, produced {remainingCount} units");
         }
+
         private List<FloatMenuOption> GenerateRecipeOptions()
         {
             var options = new List<FloatMenuOption>();
@@ -473,19 +491,38 @@ namespace WulaFallenEmpire
                 {
                     string label = recipe.LabelCap;
 
-                    options.Add(new FloatMenuOption(label, () =>
-                    {
-                        var newOrder = new GlobalProductionOrder
+                    // 使用原版风格的FloatMenuOption构造函数，包含图标
+                    options.Add(new FloatMenuOption(
+                        label: label,
+                        action: () =>
                         {
-                            recipe = recipe,
-                            targetCount = 1,
-                            paused = true // 初始暂停
-                        };
+                            var newOrder = new GlobalProductionOrder
+                            {
+                                recipe = recipe,
+                                targetCount = 1,
+                                paused = true // 初始暂停
+                            };
 
-                        SelTable.globalOrderStack.AddOrder(newOrder);
-                        SoundDefOf.Click.PlayOneShotOnCamera();
-                        Log.Message($"[DEBUG] Added order for {recipe.defName}");
-                    }));
+                            SelTable.globalOrderStack.AddOrder(newOrder);
+                            SoundDefOf.Click.PlayOneShotOnCamera();
+                            Log.Message($"[DEBUG] Added order for {recipe.defName}");
+                        },
+                        shownItemForIcon: recipe.UIIconThing, // 使用配方的图标ThingDef
+                        thingStyle: null,
+                        forceBasicStyle: false,
+                        priority: MenuOptionPriority.Default,
+                        mouseoverGuiAction: null,
+                        revalidateClickTarget: null,
+                        extraPartWidth: 29f, // 为信息卡按钮留出空间
+                        extraPartOnGUI: (Rect rect) => 
+                        {
+                            // 绘制信息卡按钮，像原版一样
+                            return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, recipe);
+                        },
+                        revalidateWorldClickTarget: null,
+                        playSelectionSound: true,
+                        orderInPriority: -recipe.displayPriority // 使用配方的显示优先级
+                    ));
                 }
             }
 
