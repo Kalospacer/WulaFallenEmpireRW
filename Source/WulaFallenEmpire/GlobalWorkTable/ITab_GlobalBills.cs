@@ -462,17 +462,17 @@ namespace WulaFallenEmpire
             Messages.Message($"GOD MODE: Completed order for {order.recipe.LabelCap} ({remainingCount} units)", MessageTypeDefOf.PositiveEvent);
             Log.Message($"[GOD MODE] Force completed order: {order.recipe.defName}, produced {remainingCount} units");
         }
-
         private List<FloatMenuOption> GenerateRecipeOptions()
         {
             var options = new List<FloatMenuOption>();
-            
+
             foreach (var recipe in SelTable.def.AllRecipes)
             {
+                // 移除对Pawn配方的过滤，允许所有配方
                 if (recipe.AvailableNow && recipe.AvailableOnNow(SelTable))
                 {
                     string label = recipe.LabelCap;
-                    
+
                     options.Add(new FloatMenuOption(label, () =>
                     {
                         var newOrder = new GlobalProductionOrder
@@ -481,19 +481,19 @@ namespace WulaFallenEmpire
                             targetCount = 1,
                             paused = true // 初始暂停
                         };
-                        
+
                         SelTable.globalOrderStack.AddOrder(newOrder);
                         SoundDefOf.Click.PlayOneShotOnCamera();
                         Log.Message($"[DEBUG] Added order for {recipe.defName}");
                     }));
                 }
             }
-            
+
             if (options.Count == 0)
             {
                 options.Add(new FloatMenuOption("WULA_NoAvailableRecipes".Translate(), null));
             }
-            
+
             return options;
         }
 

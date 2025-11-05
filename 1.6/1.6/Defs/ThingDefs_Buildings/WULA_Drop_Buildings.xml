@@ -950,6 +950,9 @@
       <MaxHitPoints>180</MaxHitPoints>
       <Flammability>1.0</Flammability>
     </statBases>
+    <recipes>
+      <li>WULA_Build_Wula_Synth</li>
+    </recipes>
     <size>(3,3)</size>
     <uiOrder>2120</uiOrder>
     <passability>PassThroughOnly</passability>

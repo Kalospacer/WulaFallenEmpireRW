@@ -730,8 +730,17 @@
       <ComponentIndustrial>4</ComponentIndustrial>
     </butcherProducts>
 
-    <recipes>
-    </recipes> 
+    <!-- 按理来说，原版写在这里的costlist和recipemaker是无效的，然而全局生产组件读取的是thing上面的属性 -->
+    <!-- 但是对应pawn仍需要定义一个专门的recipe，否则产物数量会异常 -->
+    <costList Inherit="False">
+      <Steel>5</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_WeaponArmor_Productor</li>
+      </recipeUsers>
+    </recipeMaker>
 
     <comps>
       <li Class="CompProperties_Stunnable">
@@ -782,155 +791,6 @@
     </comps>
 	</AlienRace.ThingDef_AlienRace>
 
-	<AlienRace.ThingDef_AlienRace ParentName="Race_Wula_Machine">
-		<defName>WulaSpeciesReal</defName>
-		<label>乌拉星人</label>
-		<description>一个源自远古时代的种族。她们曾将荣光播撒至银河的每一个角落，建立起庞大而强盛的乌拉帝国。然而，辉煌未能永恒，无情的分裂与惨烈的内战最终撕裂了这个帝国，将其拖入了衰亡的深渊，这些人则是乌拉帝国万古长战后仅存的遗孤。</description>
-    <uiIconPath>Wula/Things/WulaSpeciesReal/WULA_Species_Icon</uiIconPath>
-
-    <alienRace>
-      <!-- 核心设置 -->
-      <generalSettings>
-        <!-- 乌拉族的床是正常的 -->
-        <validBeds Inherit="False" />
-        <!-- 各种零件定义 -->
-        <alienPartGenerator>
-          <!-- 额外身体部件 -->
-          <bodyAddons Inherit="False">
-            <li>
-              <path>Wula/Things/WulaSpeciesReal/Addons/WULA_Bow_Tie</path>
-              <offsets>
-                <south>
-                  <offset>(0,0.32)</offset>
-                </south>
-                <north>
-                  <offset>(0,0.32)</offset>
-                </north>
-                <east>
-                  <offset>(-0.1,0.32)</offset>
-                </east>
-                <west>
-                  <offset>(-0.1,0.32)</offset>
-                </west>
-              </offsets>
-              <inFrontOfBody>true</inFrontOfBody>
-            </li>
-          </bodyAddons>
-        </alienPartGenerator>
-        <!-- 额外特质，暂时设为0 -->
-        <additionalTraits>0</additionalTraits>
-      </generalSettings>
-      <!-- 图形 -->
-			<graphicPaths>
-				<body>Wula/Things/WulaSpeciesReal/Bodies/</body>
-				<head>Wula/Things/WulaSpeciesReal/Heads/</head>
-				<skeleton>Things/Pawn/Humanlike/Bodies/Dessicated/Dessicated_Thin</skeleton> 
-        <stump>Wula/Things/WulaSpeciesReal/Bodies</stump>
-			</graphicPaths>
-      <!-- 种族的允许和禁止特化设置 -->
-      <raceRestriction>
-        <!-- 食物列表 -->
-        <foodList Inherit="False" />
-        <onlyEatRaceRestrictedFood>false</onlyEatRaceRestrictedFood>
-        <!-- 允许的特质类型 -->
-        <traitList Inherit="False" />
-      </raceRestriction>
-      <!-- 想法设置 -->
-      <thoughtSettings>
-        <!-- 不会产生的想法 -->
-        <cannotReceiveThoughts Inherit="False" />
-      </thoughtSettings>
-      <!-- 关系设置，不会生成任何随机关系 -->
-      <relationSettings Inherit="False" />
-      <!-- 兼容性标签，非必要 -->
-      <compatibility>
-        <isFlesh>true</isFlesh>
-      </compatibility>
-    </alienRace>
-    
-    <!-- 以下是原版标签 -->
-    <!-- 受击音效 -->
-    <soundImpactDefault>BulletImpact_Flesh</soundImpactDefault>
-    <statBases>
-      <MoveSpeed>4</MoveSpeed>
-      <EatingSpeed>1</EatingSpeed>
-      <!-- 温度适应性 -->
-      <ComfyTemperatureMin>-50</ComfyTemperatureMin>
-      <ComfyTemperatureMax>40</ComfyTemperatureMax>
-      <!-- 心灵敏感，稍高 -->
-      <PsychicSensitivity>1.25</PsychicSensitivity>
-      <!-- 肉量 -->
-      <MeatAmount>60</MeatAmount>
-      <!-- 皮革量 -->
-      <LeatherAmount>75</LeatherAmount>
-      <!-- 谈判能力 -->
-      <NegotiationAbility>1</NegotiationAbility>
-      <!-- 社交效果，机械乌拉社交的影响很小 -->
-      <SocialImpact>1</SocialImpact>
-      <!-- 挖矿速度 -->
-      <MiningSpeed>1</MiningSpeed>
-      <!-- 采矿效率 -->
-      <MiningYield>1</MiningYield>
-      <!-- 种植速度 -->
-      <PlantWorkSpeed>1</PlantWorkSpeed>
-      <!-- 狩猎隐蔽 -->
-      <HuntingStealth>1</HuntingStealth>
-      <!-- 建造速度 -->
-      <ConstructionSpeed>1</ConstructionSpeed>
-      <!-- 研究速度 -->
-      <ResearchSpeed>1</ResearchSpeed>
-      <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0</VacuumResistance>
-    </statBases>
-
-    <race>
-      <fleshType>Normal</fleshType>
-      <thinkTreeMain>Humanlike</thinkTreeMain>
-      <thinkTreeConstant>HumanlikeConstant</thinkTreeConstant>
-      <intelligence>Humanlike</intelligence>
-      <bloodDef>Filth_Blood</bloodDef>
-			<baseHealthScale>1</baseHealthScale>
-			<leatherDef>Leather_Human</leatherDef>
-      <specificMeatDef>Meat_Human</specificMeatDef>
-			<!-- 身体类型 -->
-			<body>Human</body>
-      <foodType>OmnivoreHuman</foodType>
-      <!-- 年龄阶段 -->
-      <lifeExpectancy>150</lifeExpectancy>
-      <canFlyInVacuum>false</canFlyInVacuum>
-    </race>
-
-    <comps Inherit="False">
-			<li MayRequire="Nals.FacialAnimation">
-				<compClass>FacialAnimation.DrawFaceGraphicsComp</compClass>
-			</li>
-			<li MayRequire="Nals.FacialAnimation">
-				<compClass>FacialAnimation.HeadControllerComp</compClass>
-			</li>
-			<li MayRequire="Nals.FacialAnimation">
-				<compClass>FacialAnimation.EyeballControllerComp</compClass>
-			</li>
-      <li MayRequire="Nals.FacialAnimation">
-        <compClass>FacialAnimation.LidControllerComp</compClass>
-      </li>
-      <li MayRequire="Nals.FacialAnimation">
-				<compClass>FacialAnimation.BrowControllerComp</compClass>
-			</li>
-			<li MayRequire="Nals.FacialAnimation">
-				<compClass>FacialAnimation.MouthControllerComp</compClass>
-			</li>
-      <li MayRequire="Nals.FacialAnimation">
-        <compClass>FacialAnimation.SkinControllerComp</compClass>
-      </li>
-      <li MayRequire="Nals.FacialAnimation">
-				<compClass>FacialAnimation.FacialAnimationControllerComp</compClass>
-			</li>
-      <!--<li>
-        <compClass>FacialAnimation.EmotionControllerComp</compClass>
-      </li>-->
-      <!-- <li Class="CompProperties_DrugAddict"/> -->
-    </comps>
-	</AlienRace.ThingDef_AlienRace>
-  
   <!-- 乌拉基础机械族类 -->
   <ThingDef ParentName="BasePawn" Name="WULA_BaseMechanoid" Abstract="True">
     <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
@@ -1114,8 +974,6 @@
       <MoveSpeed>4</MoveSpeed>
     </statBases>
   </ThingDef>
-
-
 
   <ThingDef Name="Wula_AI_Heavy_Panzer" ParentName="HeavyMechanoid">
 		<defName>Wula_AI_Heavy_Panzer</defName>

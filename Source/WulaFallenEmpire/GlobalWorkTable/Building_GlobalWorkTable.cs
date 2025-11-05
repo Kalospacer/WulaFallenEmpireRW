@@ -230,7 +230,7 @@ namespace WulaFallenEmpire
         private List<List<Thing>> DistributeItemsToPods(GlobalStorageWorldComponent storage, int podCount)
         {
             List<List<Thing>> podContents = new List<List<Thing>>();
-            
+
             // 初始化空投舱内容列表
             for (int i = 0; i < podCount; i++)
             {
@@ -246,14 +246,31 @@ namespace WulaFallenEmpire
                 ThingDef thingDef = kvp.Key;
                 int remainingCount = kvp.Value;
 
-                // 按照堆叠限制分割物品
-                while (remainingCount > 0)
+                // 如果是Pawn，需要特殊处理
+                if (thingDef.race != null)
                 {
-                    int stackSize = Mathf.Min(remainingCount, thingDef.stackLimit);
-                    Thing thing = ThingMaker.MakeThing(thingDef);
-                    thing.stackCount = stackSize;
-                    allItems.Add(thing);
-                    remainingCount -= stackSize;
+                    // 对于Pawn，每个单独生成
+                    for (int i = 0; i < remainingCount; i++)
+                    {
+                        PawnKindDef randomPawnKind = GetRandomPawnKindForType(thingDef);
+                        if (randomPawnKind != null)
+                        {
+                            Pawn pawn = PawnGenerator.GeneratePawn(randomPawnKind, Faction.OfPlayer);
+                            allItems.Add(pawn);
+                        }
+                    }
+                }
+                else
+                {
+                    // 对于普通物品，按照堆叠限制分割
+                    while (remainingCount > 0)
+                    {
+                        int stackSize = Mathf.Min(remainingCount, thingDef.stackLimit);
+                        Thing thing = ThingMaker.MakeThing(thingDef);
+                        thing.stackCount = stackSize;
+                        allItems.Add(thing);
+                        remainingCount -= stackSize;
+                    }
                 }
             }
 
@@ -276,6 +293,89 @@ namespace WulaFallenEmpire
 
             return podContents;
         }
+
+        // 在 Building_GlobalWorkTable.cs 中修改 GetRandomPawnKindForType 方法
+        private PawnKindDef GetRandomPawnKindForType(ThingDef pawnType)
+        {
+            if (pawnType.race == null) return null;
+
+            // 获取建筑拥有者派系
+            Faction buildingFaction = this.Faction;
+            if (buildingFaction == null)
+            {
+                Log.Warning("Building has no faction, cannot select appropriate pawn kind");
+                return null;
+            }
+
+            // 获取该种族的所有PawnKindDef
+            var availableKinds = DefDatabase<PawnKindDef>.AllDefs
+                .Where(kind => kind.race == pawnType)
+                .ToList();
+
+            if (availableKinds.Count == 0) return null;
+
+            // 按优先级分组
+            var matchingFactionKinds = availableKinds
+                .Where(kind => kind.defaultFactionDef != null &&
+                              kind.defaultFactionDef == buildingFaction.def)
+                .ToList();
+
+            var noFactionKinds = availableKinds
+                .Where(kind => kind.defaultFactionDef == null)
+                .ToList();
+
+            // 排除与建筑派系不同的PawnKind
+            var excludedKinds = availableKinds
+                .Where(kind => kind.defaultFactionDef != null &&
+                              kind.defaultFactionDef != buildingFaction.def)
+                .ToList();
+
+            // 记录调试信息
+            if (DebugSettings.godMode)
+            {
+                Log.Message($"[DEBUG] PawnKind selection for {pawnType.defName}:");
+                Log.Message($"  Building faction: {buildingFaction.def.defName}");
+                Log.Message($"  Matching faction kinds: {matchingFactionKinds.Count}");
+                Log.Message($"  No faction kinds: {noFactionKinds.Count}");
+                Log.Message($"  Excluded kinds: {excludedKinds.Count}");
+
+                foreach (var kind in matchingFactionKinds)
+                    Log.Message($"    Matching: {kind.defName} (faction: {kind.defaultFactionDef?.defName ?? "null"})");
+
+                foreach (var kind in noFactionKinds)
+                    Log.Message($"    No faction: {kind.defName}");
+
+                foreach (var kind in excludedKinds)
+                    Log.Message($"    Excluded: {kind.defName} (faction: {kind.defaultFactionDef?.defName})");
+            }
+
+            // 优先级选择
+            PawnKindDef selectedKind = null;
+
+            // 1. 最高优先级：与建筑派系相同的PawnKind
+            if (matchingFactionKinds.Count > 0)
+            {
+                selectedKind = matchingFactionKinds.RandomElement();
+                if (DebugSettings.godMode)
+                    Log.Message($"[DEBUG] Selected matching faction kind: {selectedKind.defName}");
+            }
+            // 2. 备选：没有defaultFactionDef的PawnKind
+            else if (noFactionKinds.Count > 0)
+            {
+                selectedKind = noFactionKinds.RandomElement();
+                if (DebugSettings.godMode)
+                    Log.Message($"[DEBUG] Selected no-faction kind: {selectedKind.defName}");
+            }
+            // 3. 没有符合条件的PawnKind
+            else
+            {
+                Log.Warning($"No suitable PawnKind found for {pawnType.defName} with building faction {buildingFaction.def.defName}");
+                return null;
+            }
+
+            return selectedKind;
+        }
+
 
         // 新增：创建空投舱
         private bool CreateDropPod(IntVec3 dropCell, List<Thing> contents)

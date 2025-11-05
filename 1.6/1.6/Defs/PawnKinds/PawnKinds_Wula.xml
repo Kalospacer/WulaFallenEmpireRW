@@ -4,7 +4,7 @@
     <defName>Wula_PawnKind</defName>
     <label>机械乌拉</label>
     <race>WulaSpecies</race>
-    <defaultFactionType>PlayerColony</defaultFactionType>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -19,7 +19,8 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
-    <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">18</minGenerationAge>
+    <minGenerationAge>18</minGenerationAge>
+		<maxGenerationAge>20</maxGenerationAge>
     <forceNormalGearQuality>true</forceNormalGearQuality>
     <combatPower>0</combatPower>
     <initialWillRange>10~20</initialWillRange>
@@ -39,96 +40,6 @@
       <li>
         <categories>
           <li>Wula_Backstory_Categories</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
-  </PawnKindDef>
-  <PawnKindDef>
-    <defName>Wula_PawnKind_Ingame</defName>
-    <label>机械乌拉</label>
-    <race>WulaSpecies</race>
-    <defaultFactionType>PlayerColony</defaultFactionType>
-    <lifeStages>
-      <li>
-        <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
-          <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
-          <shaderType>CutoutWithOverlay</shaderType>
-          <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>1.1</drawSize>
-          <shadowData>
-            <volume>(0.2, 0.3, 0.2)</volume>
-          </shadowData>
-        </bodyGraphicData>
-      </li>
-    </lifeStages>
-    <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">18</minGenerationAge>
-    <combatPower>0</combatPower>
-    <initialWillRange>10~20</initialWillRange>
-    <initialResistanceRange>10~20</initialResistanceRange>
-    <itemQuality>Poor</itemQuality>
-    <isFighter>false</isFighter>
-    <apparelTags>
-      <li>Wula_Apparel_Init</li>
-    </apparelTags>
-    <abilities>
-    </abilities>
-    <apparelRequired Inherit="False" />
-
-    <weaponMoney>0</weaponMoney>
-    <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
-    <apparelMoney>0</apparelMoney>
-
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
-  </PawnKindDef>
-
-  <PawnKindDef>
-    <defName>RealWula_PawnKind</defName>
-    <label>乌拉</label>
-    <race>WulaSpeciesReal</race>
-    <defaultFactionType>PlayerColony</defaultFactionType>
-    <lifeStages>
-      <li>
-        <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
-          <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
-          <shaderType>CutoutWithOverlay</shaderType>
-          <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>1.1</drawSize>
-          <shadowData>
-            <volume>(0.2, 0.3, 0.2)</volume>
-          </shadowData>
-        </bodyGraphicData>
-      </li>
-    </lifeStages>
-    <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">18</minGenerationAge>
-    <forceNormalGearQuality>true</forceNormalGearQuality>
-    <combatPower>0</combatPower>
-    <initialWillRange>10~20</initialWillRange>
-    <initialResistanceRange>10~20</initialResistanceRange>
-    <itemQuality>Poor</itemQuality>
-    <isFighter>false</isFighter>
-    <apparelTags>
-      <li>Wula_Apparel_Init</li>
-    </apparelTags>
-    <abilities>
-    </abilities>
-    <weaponMoney>0</weaponMoney>
-    <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
-    <apparelMoney>1000~2000</apparelMoney>
-
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories_For_RealWula</li>
         </categories>
       </li>
     </backstoryFiltersOverride>
@@ -362,8 +273,7 @@
     <backstoryFiltersOverride>
       <li>
         <categories>
-          <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-          <li>Wula_Old_Synth_Backstory_Categories</li>
+          <li>Wula_Backstory_Categories</li>
         </categories>
       </li>
     </backstoryFiltersOverride>

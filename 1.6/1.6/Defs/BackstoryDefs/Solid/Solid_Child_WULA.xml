@@ -4,25 +4,14 @@
     <defName>WULA_Child_Backstory01</defName>
     <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>
     <slot>Childhood</slot>
-    <title>旧日遗物</title>
-    <titleShort>旧日遗物</titleShort>
+    <title>产地：</title>
+    <titleShort></titleShort>
     <description>[PAWN_nameDef] 是诞生于乌拉帝国的合成人。</description>
     <skillGains>
       <Shooting>3</Shooting>
       <Melee>3</Melee>
-      <Construction>3</Construction>
-      <Mining>3</Mining>
-      <Cooking>3</Cooking>
-      <Plants>3</Plants>
-      <Animals>3</Animals>
-      <Crafting>3</Crafting>
-      <Artistic>3</Artistic>
-      <Medicine>3</Medicine>
-      <Social>3</Social>
-      <Intellectual>3</Intellectual>
     </skillGains>
     <spawnCategories>
-      <li>Wula_Old_Synth_Backstory_Categories</li>
       <li>Wula_Backstory_Categories</li>
     </spawnCategories>
     <requiredWorkTags>None</requiredWorkTags>
@@ -37,18 +26,5 @@
         <chance>100</chance>
       </li>
     </forcedTraitsChance>
-  </AlienRace.AlienBackstoryDef>
-
-  <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Child_Backstory999</defName>
-    <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>
-    <slot>Childhood</slot>
-    <title>未知</title>
-    <titleShort>未知</titleShort>
-    <description>[PAWN_nameDef] 是真正的乌拉星人，但是无人知晓她诞生于何时——自从乌拉帝国大内战后，这个衰退的超级帝国已经很久很久没有诞生任何新生命了。</description>
-    <spawnCategories>
-      <li>Wula_Backstory_Categories_For_RealWula</li>
-    </spawnCategories>
-    <requiredWorkTags>None</requiredWorkTags>
   </AlienRace.AlienBackstoryDef>
 </Defs>

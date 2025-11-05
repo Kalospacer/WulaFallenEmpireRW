@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <!-- 仅在开局时刷出 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Fake_Mothership_Beacon_Building</defName>
     <label>帝国母舰信标</label>

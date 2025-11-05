@@ -339,6 +339,37 @@
     </researchPrerequisites>
   </RecipeDef>
 
+  <RecipeDef ParentName="LightMechanoidRecipe">
+    <defName>WULA_Build_Wula_Synth</defName>
+    <label>建造URa-00"机械乌拉"</label>
+    <description>建造一台URa-00"机械乌拉"合成人，是乌拉帝国合成人殖民地的主体种族，作为机械体的同时拥有复杂拟真的模拟情感。\n\n以此方法建造的合成人被称为新生代合成人，它们在出厂时只会设置人格，不会拥有任何技能等级，需要通过乌拉帝国数据库下载相关技能！</description>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>6</count>
+      </li>
+    </ingredients>
+    <products>
+      <WulaSpecies>1</WulaSpecies>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>WulaSpecies</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Synth_Productor_Technology</researchPrerequisite>
+  </RecipeDef>
+
   <RecipeDef ParentName="HeavyMechanoidRecipe">
     <defName>WULA_Build_AI_Heavy_Panzer</defName>
     <label>建造SMp-38"萨克森"</label>
@@ -352,14 +383,14 @@
         </filter>
         <count>600</count>
       </li>
-      <li>
+      <!-- <li>
         <filter>
           <thingDefs>
             <li>Plasteel</li>
           </thingDefs>
         </filter>
         <count>250</count>
-      </li>
+      </li> -->
       <li>
         <filter>
           <thingDefs>
@@ -368,14 +399,14 @@
         </filter>
         <count>24</count>
       </li>
-      <li>
+      <!-- <li>
         <filter>
           <thingDefs>
             <li>ComponentSpacer</li>
           </thingDefs>
         </filter>
         <count>4</count>
-      </li>
+      </li> -->
     </ingredients>
     <products>
       <Wula_AI_Heavy_Panzer>1</Wula_AI_Heavy_Panzer>
@@ -525,68 +556,6 @@
     <researchPrerequisite>WULA_Alpha_Wolf_Technology</researchPrerequisite>
   </RecipeDef>
 
-  <RecipeDef ParentName="LightMechanoidRecipe">
-    <defName>WULA_Build_Wula_Synth</defName>
-    <label>建造URa-00"机械乌拉"</label>
-    <description>建造一台URa-00"机械乌拉"合成人，是乌拉帝国合成人殖民地的主体种族，作为机械体的同时拥有复杂拟真的模拟情感。\n\n以此方法建造的合成人被称为新生代合成人，它们在出厂时只会设置人格，不会拥有任何技能等级，需要通过乌拉帝国数据库下载相关技能！</description>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WULA_Addons_Antenna_Base</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WULA_Energy_Furnace_Base</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WULA_Charge_Cube</li>
-          </thingDefs>
-        </filter>
-        <count>30</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Chemfuel</li>
-          </thingDefs>
-        </filter>
-        <count>140</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>400</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>8</count>
-      </li>
-    </ingredients>
-    <products>
-      <WulaSpecies>1</WulaSpecies>
-    </products>
-    <descriptionHyperlinks>
-      <ThingDef>WulaSpecies</ThingDef>
-    </descriptionHyperlinks>
-    <researchPrerequisite>WULA_Synth_Productor_Technology</researchPrerequisite>
-  </RecipeDef>
 
   <RecipeDef ParentName="LightMechanoidRecipe">
     <defName>WULA_Build_Mech_Cat</defName>

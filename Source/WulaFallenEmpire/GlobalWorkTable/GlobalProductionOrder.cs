@@ -101,12 +101,20 @@ namespace WulaFallenEmpire
                 return;
             foreach (var product in recipe.products)
             {
-                globalStorage.AddToOutputStorage(product.thingDef, product.count);
+                // 检查产物是否为Pawn
+                if (product.thingDef.race != null)
+                {
+                    // 对于Pawn，我们存储的是Pawn的ThingDef，在释放时再随机生成PawnKind
+                    globalStorage.AddToOutputStorage(product.thingDef, product.count);
+                }
+                else
+                {
+                    // 对于普通物品，正常存储
+                    globalStorage.AddToOutputStorage(product.thingDef, product.count);
+                }
             }
-
             currentCount++;
             progress = 0f; // 生产完成后重置进度
-
             if (currentCount >= targetCount)
             {
                 state = ProductionState.Completed;

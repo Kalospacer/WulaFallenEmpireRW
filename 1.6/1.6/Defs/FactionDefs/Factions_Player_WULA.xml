@@ -10,7 +10,6 @@
     <pawnsPlural>colonists</pawnsPlural>
     <techLevel>Spacer</techLevel>
     <backstoryCategories>
-      <li>Wula_Old_Synth_Backstory_Categories</li>
       <li>Wula_Backstory_Categories</li>
     </backstoryCategories>
     <!-- 命名规则 -->
@@ -159,8 +158,7 @@
     <dropPodActive>ActiveDropPodMechanoid</dropPodActive>
     <dropPodIncoming>DropPodIncomingMechanoidRapid</dropPodIncoming>
     <backstoryCategories>
-      <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
-      <li>Wula_Old_Synth_Backstory_Categories</li>
+      <li>Wula_Backstory_Categories</li>
     </backstoryCategories>
   </FactionDef>
 </Defs>
