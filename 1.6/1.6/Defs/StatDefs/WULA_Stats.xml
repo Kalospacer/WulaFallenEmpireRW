@@ -74,7 +74,6 @@
     <showOnDrones>true</showOnDrones>
     <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
   </StatDef>
-
   <StatDef>
     <defName>WULA_MaintenanceDamageToMaintenanceFactor</defName>
     <label>维护伤害</label>
@@ -99,7 +98,6 @@
     <showOnDrones>true</showOnDrones>
     <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
   </StatDef>
-
   <StatDef>
     <defName>WULA_MaintenanceMajorBreakdownThresholdFactor</defName>
     <label>严重故障等级阈值</label>
@@ -111,7 +109,6 @@
     <showOnDrones>true</showOnDrones>
     <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
   </StatDef>
-
   <StatDef>
     <defName>WULA_MaintenanceCriticalFailureThresholdFactor</defName>
     <label>完全故障等级阈值</label>

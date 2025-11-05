@@ -6,10 +6,10 @@
     <slot>Childhood</slot>
     <title>产地：科鲁普</title>
     <titleShort>科鲁普</titleShort>
-    <description>[PAWN_nameDef] 是产自科鲁普星区的合成人。这片星区是一个四战之地——由于其地处边缘且地缘政治复杂，乌拉帝国从未真正掌控这片星区，但是此处优秀的稀有水晶和异星天然气使得帝国不愿放弃此星区的掌控。\n\n在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗。</description>
+    <description>[PAWN_nameDef] 是产自科鲁普星区的合成人。这片星区是一个四战之地——由于其地处边缘且地缘政治复杂，乌拉帝国从未真正掌控这片星区，但是此处优秀的稀有水晶和异星天然气使得帝国不愿放弃此星区的掌控。\n\n在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗，并且内置了一定的战斗和手工能力。</description>
     <skillGains>
       <Shooting>3</Shooting>
-      <Melee>3</Melee>
+      <Crafting>4</Crafting>
     </skillGains>
     <spawnCategories>
       <li>Wula_Backstory_Categories</li>
@@ -24,7 +24,7 @@
   <HediffDef>
     <defName>WULA_Child_Backstory01_Hediff</defName>
     <label>产地：科鲁普</label>
-    <description>[PAWN_nameDef] 是产自科鲁普星区的合成人。这片星区是一个四战之地——由于其地处边缘且地缘政治复杂，乌拉帝国从未真正掌控这片星区，但是此处优秀的稀有水晶和异星天然气使得帝国不愿放弃此星区的掌控。\n\n在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗。</description>
+    <description>[PAWN_nameDef] 是产自科鲁普星区的合成人。在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗，并且内置了一定的战斗能力。</description>
     <hediffClass>HediffWithComps</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
@@ -32,12 +32,136 @@
     <isBad>false</isBad>
     <stages>
       <li>
+        <statFactors>
+          <IncomingDamageFactor>0.85</IncomingDamageFactor>
+          <WulaEnergyFallRateFactor>0.85</WulaEnergyFallRateFactor>
+        </statFactors>
       </li>
     </stages>
-    <comps>
-      <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceDamage">
-        <damageToMaintenanceFactor>0.0025</damageToMaintenanceFactor> <!-- 1点伤害 = 0.25%维护度减少 -->
+  </HediffDef>
+  <AlienRace.AlienBackstoryDef>
+    <defName>WULA_Child_Backstory02</defName>
+    <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>
+    <slot>Childhood</slot>
+    <title>产地：代达罗斯</title>
+    <titleShort>代达罗斯</titleShort>
+    <description>[PAWN_nameDef] 是产自代达罗斯星区的合成人。这片星区是乌拉帝国靠近边缘世界的一个工厂星域，无数供给乌拉舰队之用的高质量合金从此处诞生，是诸工业区搏动的心脏。\n\n从此生产的合成人配置了强大的生产系统，使得它们可以抵消此型合成人在采矿和建造上的天然劣势。</description>
+    <skillGains>
+      <Shooting>3</Shooting>
+      <Melee>3</Melee>
+    </skillGains>
+    <spawnCategories>
+      <li>Wula_Backstory_Categories</li>
+    </spawnCategories>
+    <requiredWorkTags>None</requiredWorkTags>
+    <forcedHediffs>
+      <li>WULA_Child_Backstory02_Hediff</li>
+    </forcedHediffs>
+    <forcedTraitsChance>
+    </forcedTraitsChance>
+  </AlienRace.AlienBackstoryDef>
+  <HediffDef>
+    <defName>WULA_Child_Backstory02_Hediff</defName>
+    <label>产地：代达罗斯</label>
+    <description>[PAWN_nameDef] 是产自代达罗斯星区的合成人。从此生产的合成人配置了强大的生产系统，使得它们可以抵消此型合成人在采矿和建造上的天然劣势。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <everCurableByItem>false</everCurableByItem>
+    <duplicationAllowed>false</duplicationAllowed>
+    <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <statOffsets>
+          <MiningSpeed>0.75</MiningSpeed>
+          <MiningYield>0.5</MiningYield>
+          <ConstructionSpeed>0.75</ConstructionSpeed>
+          <ConstructSuccessChance>0.5</ConstructSuccessChance>
+        </statOffsets>
       </li>
-    </comps>
+    </stages>
+  </HediffDef>
+  <AlienRace.AlienBackstoryDef>
+    <defName>WULA_Child_Backstory03</defName>
+    <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>
+    <slot>Childhood</slot>
+    <title>产地：皇宫区</title>
+    <titleShort>皇宫区</titleShort>
+    <description>[PAWN_nameDef] 是产自皇宫区的合成人。皇宫区是乌拉帝国政治和权力的核心，在这片星区生产的东西一般都是皇室专供，不会外流到其他星区——当然也有例外就是了。\n\n此处生产的合成人通常是比其他星区的合成人更加精致和风度翩翩，这使得她们在社交和艺术上拥有得天独厚的优势。</description>
+    <skillGains>
+      <Artistic>5</Artistic>
+      <Social>5</Social>
+    </skillGains>
+    <spawnCategories>
+      <li>Wula_Backstory_Categories</li>
+    </spawnCategories>
+    <requiredWorkTags>None</requiredWorkTags>
+    <forcedHediffs>
+      <li>WULA_Child_Backstory03_Hediff</li>
+    </forcedHediffs>
+    <forcedTraitsChance>
+    </forcedTraitsChance>
+  </AlienRace.AlienBackstoryDef>
+  <HediffDef>
+    <defName>WULA_Child_Backstory03_Hediff</defName>
+    <label>产地：皇宫区</label>
+    <description>[PAWN_nameDef] 是产自代达罗斯星区的合成人。此处生产的合成人通常是比其他星区的合成人更加精致和风度翩翩，这使得她们在社交和艺术上拥有得天独厚的优势。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <everCurableByItem>false</everCurableByItem>
+    <duplicationAllowed>false</duplicationAllowed>
+    <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <statOffsets>
+          <PawnBeauty>2</PawnBeauty>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  <AlienRace.AlienBackstoryDef>
+    <defName>WULA_Child_Backstory04</defName>
+    <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>
+    <slot>Childhood</slot>
+    <title>产地：德尔塔</title>
+    <titleShort>德尔塔</titleShort>
+    <description>[PAWN_nameDef] 是产自德尔塔星区的合成人。德尔塔星区是真正的堡垒星区，无数装配工厂迸溅着硫磺与火焰，战争机械是这里唯一的产物——她们一踏出生产线，便会加入"军团"的洪流中，奔赴乌拉帝国的战场。\n\n此处生产的合成人作为专门的战争机械而设计，结构简单易维护，拥有无可争议的战斗能力，但是不太擅长其他的工作。</description>
+    <skillGains>
+      <Shooting>5</Shooting>
+      <Melee>5</Melee>
+    </skillGains>
+    <spawnCategories>
+      <li>Wula_Backstory_Categories</li>
+    </spawnCategories>
+    <requiredWorkTags>None</requiredWorkTags>
+    <forcedHediffs>
+      <li>WULA_Child_Backstory04_Hediff</li>
+    </forcedHediffs>
+    <forcedTraitsChance>
+    </forcedTraitsChance>
+  </AlienRace.AlienBackstoryDef>
+  <HediffDef>
+    <defName>WULA_Child_Backstory04_Hediff</defName>
+    <label>产地：德尔塔</label>
+    <description>[PAWN_nameDef] 是产自代达罗斯星区的合成人。此处生产的合成人作为专门的战争机械而设计，结构简单易维护，拥有无可争议的战斗能力，但是不太擅长其他的工作。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <everCurableByItem>false</everCurableByItem>
+    <duplicationAllowed>false</duplicationAllowed>
+    <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <statFactors>
+          <WorkSpeedGlobal>0.8</WorkSpeedGlobal>
+          <WULA_MaintenanceDamageToMaintenanceFactor>0.5</WULA_MaintenanceDamageToMaintenanceFactor>
+          <AimingDelayFactor>0.75</AimingDelayFactor>
+          <ShootingAccuracyPawn>2</ShootingAccuracyPawn>
+          <MeleeDamageFactor>1.2</MeleeDamageFactor>
+          <MeleeCooldownFactor>0.75</MeleeCooldownFactor>
+        </statFactors>
+        <statOffsets>
+          <MentalBreakThreshold>-0.1</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
   </HediffDef>
 </Defs>
