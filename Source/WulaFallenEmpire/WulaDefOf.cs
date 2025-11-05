@@ -27,4 +27,15 @@ namespace WulaFallenEmpire
             DefOfHelper.EnsureInitializedInCtor(typeof(JobDefOf_WULA));
         }
     }
+    [DefOf]
+    public static class WulaStatDefOf
+    {
+        public static StatDef WulaEnergyMaxLevelOffset;
+        public static StatDef WulaEnergyFallRateFactor;
+
+        static WulaStatDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(WulaStatDefOf));
+        }
+    }
 }

@@ -22,14 +22,33 @@ namespace WulaFallenEmpire
         {
             get
             {
-                if (CurLevel <= Extension?.criticalFailureThreshold) return MaintenanceStatus.CriticalFailure;
-                if (CurLevel <= Extension?.majorBreakdownThreshold) return MaintenanceStatus.MajorBreakdown;
-                if (CurLevel <= Extension?.minorBreakdownThreshold) return MaintenanceStatus.MinorBreakdown;
+                if (Extension == null) return MaintenanceStatus.Operational;
+                // 获取阈值乘数
+                float minorFactor = GetStatValue("WULA_MaintenanceMinorBreakdownThresholdFactor");
+                float majorFactor = GetStatValue("WULA_MaintenanceMajorBreakdownThresholdFactor");
+                float criticalFactor = GetStatValue("WULA_MaintenanceCriticalFailureThresholdFactor");
+                float minorThreshold = Extension.minorBreakdownThreshold * minorFactor;
+                float majorThreshold = Extension.majorBreakdownThreshold * majorFactor;
+                float criticalThreshold = Extension.criticalFailureThreshold * criticalFactor;
+                if (CurLevel <= criticalThreshold) return MaintenanceStatus.CriticalFailure;
+                if (CurLevel <= majorThreshold) return MaintenanceStatus.MajorBreakdown;
+                if (CurLevel <= minorThreshold) return MaintenanceStatus.MinorBreakdown;
                 return MaintenanceStatus.Operational;
             }
         }
 
         public float DaysSinceLastMaintenance => daysSinceLastMaintenance;
+
+        // 新增：获取 StatDef 值的方法
+        private float GetStatValue(string statDefName)
+        {
+            var statDef = DefDatabase<StatDef>.GetNamedSilentFail(statDefName);
+            if (statDef != null)
+            {
+                return pawn.GetStatValue(statDef);
+            }
+            return 1.0f; // 默认值
+        }
 
         public Need_Maintenance(Pawn pawn) : base(pawn)
         {
@@ -68,19 +87,17 @@ namespace WulaFallenEmpire
             CheckStatusChanges();
         }
 
+        // 修改 CalculateDegradationRate 方法以使用 StatDef
         private float CalculateDegradationRate()
         {
             if (Extension == null)
                 return 0f;
-
-            if (daysSinceLastMaintenance < Extension.thresholdDays)
-            {
-                return Extension.severityPerDayBeforeThreshold;
-            }
-            else
-            {
-                return Extension.severityPerDayAfterThreshold;
-            }
+            float baseRate = daysSinceLastMaintenance < Extension.thresholdDays ?
+                Extension.severityPerDayBeforeThreshold :
+                Extension.severityPerDayAfterThreshold;
+            // 应用退化乘数
+            float degradationFactor = GetStatValue("WULA_MaintenanceDegradationFactor");
+            return baseRate * degradationFactor;
         }
 
         private void CheckStatusChanges()
@@ -173,15 +190,17 @@ namespace WulaFallenEmpire
             OnMaintenancePerformed(maintenanceAmount);
         }
 
-        // 应用伤害惩罚 - 简单的线性减少
+        // 修改 ApplyDamagePenalty 方法以使用 StatDef
         public void ApplyDamagePenalty(float damageAmount)
         {
             if (Extension == null) return;
-            
-            // 直接线性减少维护度
-            float reduction = damageAmount * Extension.damageToMaintenanceFactor;
+
+            // 获取伤害转换因子
+            float damageFactor = GetStatValue("WULA_MaintenanceDamageToMaintenanceFactor");
+            float reduction = damageAmount * damageFactor;
+
             CurLevel = Math.Max(0f, CurLevel - reduction);
-            
+
             // 检查状态变化
             var newStatus = Status;
             if (newStatus != currentAppliedStatus)

@@ -13,24 +13,29 @@ namespace WulaFallenEmpire
             compClass = typeof(HediffComp_MaintenanceDamage);
         }
     }
-
+    // 在 HediffComp_MaintenanceDamage 类中添加 StatDef 支持
     public class HediffComp_MaintenanceDamage : HediffComp
     {
         private HediffCompProperties_MaintenanceDamage Props => (HediffCompProperties_MaintenanceDamage)props;
-
         public override void Notify_PawnPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             base.Notify_PawnPostApplyDamage(dinfo, totalDamageDealt);
-
-            // 获取维护需求
             var maintenanceNeed = Pawn.needs?.TryGetNeed<Need_Maintenance>();
             if (maintenanceNeed == null)
                 return;
-
-            // 直接应用伤害惩罚
+            // 使用 StatDef 值而不是硬编码值
             maintenanceNeed.ApplyDamagePenalty(totalDamageDealt);
         }
+        public override string CompTipStringExtra
+        {
+            get
+            {
+                // 获取 StatDef 值
+                var statDef = DefDatabase<StatDef>.GetNamedSilentFail("WULA_MaintenanceDamageToMaintenanceFactor");
+                float damageFactor = statDef != null ? Pawn.GetStatValue(statDef) : Props.damageToMaintenanceFactor;
 
-        public override string CompTipStringExtra => "WULA_DamageAffectsMaintenance".Translate(Props.damageToMaintenanceFactor.ToStringPercent());
+                return "WULA_DamageAffectsMaintenance".Translate(damageFactor.ToStringPercent());
+            }
+        }
     }
 }

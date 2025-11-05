@@ -13,10 +13,16 @@ namespace WulaFallenEmpire
         public float minEnergyThreshold = 0.1f;  // 最低能量阈值
         public float repairCostPerHP = 0.1f;     // 每点生命值修复的能量消耗
         public int repairCooldownAfterDamage = 300; // 受到伤害后的修复冷却时间
-
+                                                    // 新增：与 StatDef 的关联
+        public StatDef repairCostStatDef;
+        public StatDef cooldownStatDef;
         public HediffCompProperties_NanoRepair()
         {
             compClass = typeof(HediffComp_NanoRepair);
+
+            // 设置默认的 StatDef 引用
+            repairCostStatDef = DefDatabase<StatDef>.GetNamedSilentFail("WULA_NanoRepairCostPerHP");
+            cooldownStatDef = DefDatabase<StatDef>.GetNamedSilentFail("WULA_NanoRepairCooldownAfterDamage");
         }
     }
 
@@ -27,7 +33,7 @@ namespace WulaFallenEmpire
         private int lastDamageTick = -9999;
         private const int CheckInterval = 60;
         private int debugCounter = 0;
-        private bool repairSystemEnabled = true; // 默认开启修复系统
+        public bool repairSystemEnabled = true; // 默认开启修复系统
 
         // 获取可用的能量源
         private Need GetEnergyNeed()
@@ -161,7 +167,7 @@ namespace WulaFallenEmpire
             }
 
             // 检查是否在冷却期内
-            int cooldownRemaining = Props.repairCooldownAfterDamage - (Find.TickManager.TicksGame - lastDamageTick);
+            int cooldownRemaining = ActualRepairCooldownAfterDamage - (Find.TickManager.TicksGame - lastDamageTick);
             if (cooldownRemaining > 0)
             {
                 if (debugCounter % 10 == 0)
@@ -404,10 +410,10 @@ namespace WulaFallenEmpire
                 float maxHealth = partToRepair.def.GetMaxHealth(Pawn);
                 float currentHealth = Pawn.health.hediffSet.GetPartHealth(partToRepair);
                 float healthToRepair = maxHealth - currentHealth;
-                
+
                 // 计算修复成本
-                float repairCost = healthToRepair * Props.repairCostPerHP;
-                
+                float repairCost = healthToRepair * ActualRepairCostPerHP;
+
                 // 根据机械族的能量消耗属性调整成本
                 var mechEnergyLoss = Pawn.GetStatValue(StatDefOf.MechEnergyLossPerHP);
                 if (mechEnergyLoss > 0)
@@ -625,6 +631,30 @@ namespace WulaFallenEmpire
             Log.Message($"[NanoRepair] 受到伤害，开始修复冷却: {lastDamageTick}");
         }
 
+        // 新增：动态获取属性值的方法
+        public float ActualRepairCostPerHP
+        {
+            get
+            {
+                if (Props.repairCostStatDef != null && Pawn != null)
+                {
+                    return Pawn.GetStatValue(Props.repairCostStatDef);
+                }
+                return Props.repairCostPerHP;
+            }
+        }
+        public int ActualRepairCooldownAfterDamage
+        {
+            get
+            {
+                if (Props.cooldownStatDef != null && Pawn != null)
+                {
+                    return (int)Pawn.GetStatValue(Props.cooldownStatDef);
+                }
+                return Props.repairCooldownAfterDamage;
+            }
+        }
+
         // 添加Gizmo（小工具）用于切换修复系统
         public override IEnumerable<Gizmo> CompGetGizmos()
         {
@@ -671,13 +701,14 @@ namespace WulaFallenEmpire
                     "WULA_NoDamage".Translate();
 
                 string cooldownInfo = "";
-                int cooldownRemaining = Props.repairCooldownAfterDamage - (Find.TickManager.TicksGame - lastDamageTick);
+                int cooldownRemaining = ActualRepairCooldownAfterDamage - (Find.TickManager.TicksGame - lastDamageTick);
                 if (cooldownRemaining > 0)
                 {
                     cooldownInfo = "\n" + "WULA_RepairCooldown".Translate((cooldownRemaining / 60f).ToString("F1"));
                 }
-
-                return status + "\n" + damageInfo + cooldownInfo;
+                // 添加修复成本信息
+                string costInfo = "\n" + "WULA_RepairCostPerHP".Translate(ActualRepairCostPerHP.ToStringPercent());
+                return status + "\n" + damageInfo + cooldownInfo + costInfo;
             }
         }
 

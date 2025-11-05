@@ -210,4 +210,45 @@
   <WULA_ItemsSentToOutputStorage>{0}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToOutputStorage>
   <WULA_InputStorageItems>输入存储: {0}</WULA_InputStorageItems>
   <WULA_OutputStorageItems>输出存储: {0}</WULA_OutputStorageItems>
+
+  <WULA_ChooseStuff>材质</WULA_ChooseStuff>
+  <WULA_ChooseStuffTooltip>为此武器选择材质</WULA_ChooseStuffTooltip>
+  <WULA_CurrentStuff>当前材质：{0}</WULA_CurrentStuff>
+  <WULA_NoStuffAvailable>没有可用的材质</WULA_NoStuffAvailable>
+  <WULA_StuffSelected>已选择 {0} 作为材质</WULA_StuffSelected>
+  <WULA_StuffAutoSelected>已自动选择 {0} 作为材质</WULA_StuffAutoSelected>
+  <WULA_AutoSelectStuff>自动选择（最充足）</WULA_AutoSelectStuff>
+  <WULA_ClearStuffSelection>清除选择</WULA_ClearStuffSelection>
+  <WULA_StuffSelectionCleared>材质选择已清除</WULA_StuffSelectionCleared>
+  <WULA_CannotChangeStuffAfterStart>生产开始后无法更改材质</WULA_CannotChangeStuffAfterStart>
+  <WULA_RecipeDoesNotSupportStuff>此武器不支持材质选择</WULA_RecipeDoesNotSupportStuff>
+  <WULA_NoStuffSelected>未选择材质</WULA_NoStuffSelected>
+  <!-- 区分固定消耗和材质消耗 -->
+  <WULA_FixedIngredients>固定原料</WULA_FixedIngredients>
+  <WULA_StuffMaterial>材质</WULA_StuffMaterial>
+  <!-- 材质属性相关 -->
+  <WULA_Commonality>普遍性</WULA_Commonality>
+  <WULA_Adjective>前缀</WULA_Adjective>
+
+  <!-- 纳米修复统计相关翻译 -->
+  <WULA_NanoRepairCostPerHP>纳米修复能量消耗</WULA_NanoRepairCostPerHP>
+  <WULA_NanoRepairCostPerHP_Desc>纳米修复系统修复每点生命值所消耗的能量。数值越低，修复消耗越低。</WULA_NanoRepairCostPerHP_Desc>
+  <WULA_NanoRepairCooldownAfterDamage>纳米修复冷却时间</WULA_NanoRepairCooldownAfterDamage>
+  <WULA_NanoRepairCooldownAfterDamage_Desc>受到伤害后纳米修复系统进入冷却的时间。数值越低，系统响应越快。</WULA_NanoRepairCooldownAfterDamage_Desc>
+  <!-- 纳米修复统计解释文本 -->
+  <WULA_NanoRepair_Properties>纳米修复系统属性：</WULA_NanoRepair_Properties>
+  <WULA_NanoRepair_CostPerHP_Line>• 每点生命值修复消耗: {0}</WULA_NanoRepair_CostPerHP_Line>
+  <WULA_NanoRepair_MinEnergyThreshold_Line>• 最低启动能量阈值: {0}</WULA_NanoRepair_MinEnergyThreshold_Line>
+  <WULA_NanoRepair_CooldownAfterDamage_Line>• 伤害后冷却时间: {1} 秒</WULA_NanoRepair_CooldownAfterDamage_Line>
+  <WULA_NanoRepair_SystemStatus_Line>• 系统状态: {0}</WULA_NanoRepair_SystemStatus_Line>
+  <WULA_NanoRepair_SystemStatus_Enabled>已启用</WULA_NanoRepair_SystemStatus_Enabled>
+  <WULA_NanoRepair_SystemStatus_Disabled>已禁用</WULA_NanoRepair_SystemStatus_Disabled>
+  <!-- 维护系统统计解释 -->
+  <WULA_Maintenance_Properties>维护系统属性：</WULA_Maintenance_Properties>
+  <WULA_Maintenance_DegradationFactor_Explanation>• 阈值前退化速率: {0}/天\n• 阈值后退化速率: {1}/天\n• 阈值天数: {2}天</WULA_Maintenance_DegradationFactor_Explanation>
+  <WULA_Maintenance_StatusThresholdFactor_Explanation>• 轻微故障阈值: {0}\n• 严重故障阈值: {1}\n• 完全故障阈值: {2}</WULA_Maintenance_StatusThresholdFactor_Explanation>
+  <WULA_Maintenance_DamageToMaintenanceFactor_Explanation>• 伤害转换因子: {0}/点伤害</WULA_Maintenance_DamageToMaintenanceFactor_Explanation>
+  <WULA_Maintenance_MinorBreakdownThreshold_Explanation>• 轻微故障阈值: {0}</WULA_Maintenance_MinorBreakdownThreshold_Explanation>
+  <WULA_Maintenance_MajorBreakdownThreshold_Explanation>• 严重故障阈值: {0}</WULA_Maintenance_MajorBreakdownThreshold_Explanation>
+  <WULA_Maintenance_CriticalFailureThreshold_Explanation>• 完全故障阈值: {0}</WULA_Maintenance_CriticalFailureThreshold_Explanation>
 </LanguageData>

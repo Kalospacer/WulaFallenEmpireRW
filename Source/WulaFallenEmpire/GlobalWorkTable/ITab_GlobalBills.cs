@@ -92,17 +92,17 @@ namespace WulaFallenEmpire
                 return "WULA_NoGlobalStorage".Translate();
 
             StringBuilder sb = new StringBuilder();
-            
+
             // 输入存储（原材料）
             sb.AppendLine("WULA_InputStorage".Translate() + ":");
             sb.AppendLine();
-            
+
             var inputItems = globalStorage.inputStorage
                 .Where(kvp => kvp.Value > 0)
                 .OrderByDescending(kvp => kvp.Value)
                 .ThenBy(kvp => kvp.Key.label)
                 .ToList();
-                
+
             if (inputItems.Count == 0)
             {
                 sb.AppendLine("WULA_NoItems".Translate());
@@ -111,22 +111,23 @@ namespace WulaFallenEmpire
             {
                 foreach (var kvp in inputItems)
                 {
-                    sb.AppendLine($"  {kvp.Value} {kvp.Key.label}");
+                    // 使用正确的图标格式并保留名称
+                    sb.AppendLine($"  {kvp.Value} {kvp.Key.LabelCap}");
                 }
             }
-            
+
             sb.AppendLine();
-            
+
             // 输出存储（产品）
             sb.AppendLine("WULA_OutputStorage".Translate() + ":");
             sb.AppendLine();
-            
+
             var outputItems = globalStorage.outputStorage
                 .Where(kvp => kvp.Value > 0)
                 .OrderByDescending(kvp => kvp.Value)
                 .ThenBy(kvp => kvp.Key.label)
                 .ToList();
-                
+
             if (outputItems.Count == 0)
             {
                 sb.AppendLine("WULA_NoItems".Translate());
@@ -135,18 +136,20 @@ namespace WulaFallenEmpire
             {
                 foreach (var kvp in outputItems)
                 {
-                    sb.AppendLine($"  {kvp.Value} {kvp.Key.label}");
+                    // 使用正确的图标格式并保留名称
+                    sb.AppendLine($"  {kvp.Value} {kvp.Key.LabelCap}");
                 }
             }
-            
+
             // 添加存储统计信息
             sb.AppendLine();
             sb.AppendLine("WULA_StorageStats".Translate());
             sb.AppendLine($"  {inputItems.Count} {("WULA_InputItems".Translate())}");
             sb.AppendLine($"  {outputItems.Count} {("WULA_OutputItems".Translate())}");
-            
+
             return sb.ToString();
         }
+
 
         // 修改：将开发者模式按钮改为上帝模式按钮
         private void DoGodModeButtons(Rect rect)
@@ -268,20 +271,19 @@ namespace WulaFallenEmpire
             
             Widgets.EndScrollView();
             return result;
-        }
-
+        }// 在 ITab_GlobalBills.cs 中修正材质选择功能
         private bool DoOrderRow(Rect rect, GlobalProductionOrder order)
         {
             Widgets.DrawHighlightIfMouseover(rect);
-            
+
             // 增加内边距和行高
             float padding = 8f;
             float lineHeight = 20f;
-            
-            // 图标区域 - 添加在左侧
+
+            // 图标区域
             float iconSize = 32f;
             Rect iconRect = new Rect(rect.x + padding, rect.y + padding, iconSize, iconSize);
-            
+
             // 绘制配方图标
             if (order.recipe.UIIconThing != null)
             {
@@ -291,26 +293,26 @@ namespace WulaFallenEmpire
             {
                 GUI.DrawTexture(iconRect, order.recipe.UIIcon);
             }
-            
-            // 订单信息区域 - 向右偏移图标宽度
+
+            // 订单信息区域
             float infoX = rect.x + padding + iconSize + 8f;
-            float infoWidth = rect.width - (padding * 2 + iconSize + 8f + 100f); // 减去控制按钮区域
-            
+            float infoWidth = rect.width - (padding * 2 + iconSize + 8f + 100f);
+
             Rect infoRect = new Rect(infoX, rect.y + padding, infoWidth, lineHeight);
             Widgets.Label(infoRect, order.Label);
-            
+
             Rect descRect = new Rect(infoX, rect.y + padding + lineHeight + 2f, infoWidth, lineHeight);
             Widgets.Label(descRect, order.Description);
-            
+
             // 状态显示区域
             Rect statusRect = new Rect(infoX, rect.y + padding + (lineHeight + 2f) * 2, infoWidth, lineHeight);
-            
+
             if (order.state == GlobalProductionOrder.ProductionState.Producing)
             {
                 // 进度条
                 Rect progressRect = new Rect(infoX, rect.y + padding + (lineHeight + 2f) * 2, infoWidth, 18f);
                 Widgets.FillableBar(progressRect, order.progress);
-                
+
                 // 进度文本
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(progressRect, $"{order.progress:P0}");
@@ -324,53 +326,84 @@ namespace WulaFallenEmpire
                     GlobalProductionOrder.ProductionState.Completed => "WULA_Completed".Translate(),
                     _ => "WULA_Unknown".Translate()
                 };
-                
-                // 如果暂停，在状态前添加暂停标识
+
                 if (order.paused && order.state != GlobalProductionOrder.ProductionState.Completed)
                 {
                     statusText = $"[||] {statusText}";
                 }
-                
+
                 Widgets.Label(statusRect, statusText);
             }
-            
-            // 控制按钮
+
+            // 控制按钮区域
             float buttonY = rect.y + padding;
             float buttonWidth = 40f;
             float buttonSpacing = 5f;
-            
+
             // 计算按钮位置（从右向左排列）
             float currentX = rect.xMax;
-            
+
             // 删除按钮（最右边）
             Rect deleteButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
             currentX -= (buttonWidth + buttonSpacing);
-            
+
             // 暂停/恢复按钮
             Rect pauseButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
             currentX -= (buttonWidth + buttonSpacing);
-            
-            // 上帝模式：立刻完成按钮（在暂停按钮左边）
+
+            // 材质选择按钮（如果支持材质选择且未开始生产）
+            Rect stuffButtonRect = new Rect(0f, 0f, 0f, 0f);
+            bool showStuffButton = false;
+
+            if (order.SupportsStuffChoice && !order.HasStartedProduction)
+            {
+                showStuffButton = true;
+                stuffButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
+                currentX -= (buttonWidth + buttonSpacing);
+            }
+
+            // 上帝模式：立刻完成按钮
             Rect completeButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
-            
+
             // 绘制删除按钮
             if (Widgets.ButtonText(deleteButtonRect, "WULA_Delete".Translate()))
             {
                 SelTable.globalOrderStack.Delete(order);
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
-            
+
             // 绘制暂停/恢复按钮
             string pauseButtonText = order.paused ? "WULA_Resume".Translate() : "WULA_Pause".Translate();
             if (Widgets.ButtonText(pauseButtonRect, pauseButtonText))
             {
                 order.paused = !order.paused;
-                
-                // 暂停/恢复时更新状态
                 order.UpdateState();
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
-            
+
+            // 绘制材质选择按钮
+            if (showStuffButton)
+            {
+                string stuffButtonText = order.chosenStuff != null ?
+                    order.chosenStuff.LabelCap :
+                    "WULA_ChooseStuff".Translate();
+
+                if (Widgets.ButtonText(stuffButtonRect, stuffButtonText))
+                {
+                    ShowStuffSelectionMenu(order);
+                    SoundDefOf.Click.PlayOneShotOnCamera();
+                }
+
+                // 为材质选择按钮添加Tooltip
+                if (Mouse.IsOver(stuffButtonRect))
+                {
+                    string tooltip = order.chosenStuff != null ?
+                        $"WULA_CurrentStuff".Translate(order.chosenStuff.LabelCap) :
+                        "WULA_ChooseStuffTooltip".Translate();
+                    TooltipHandler.TipRegion(stuffButtonRect, tooltip);
+                }
+            }
+
             // 绘制上帝模式按钮（仅上帝模式下可见）
             if (DebugSettings.godMode && order.state != GlobalProductionOrder.ProductionState.Completed)
             {
@@ -379,17 +412,16 @@ namespace WulaFallenEmpire
                     CompleteOrderImmediately(order);
                     SoundDefOf.Click.PlayOneShotOnCamera();
                 }
-                
-                // 为上帝模式按钮添加Tooltip
+
                 if (Mouse.IsOver(completeButtonRect))
                 {
                     TooltipHandler.TipRegion(completeButtonRect, "Instantly complete this order (God Mode Only)");
                 }
             }
-            
-            // 资源检查提示 - 只在等待资源且不暂停时显示红色边框
-            if (!order.HasEnoughResources() && 
-                order.state == GlobalProductionOrder.ProductionState.Waiting && 
+
+            // 资源检查提示
+            if (!order.HasEnoughResources() &&
+                order.state == GlobalProductionOrder.ProductionState.Waiting &&
                 !order.paused)
             {
                 TooltipHandler.TipRegion(rect, "WULA_InsufficientResources".Translate());
@@ -397,14 +429,164 @@ namespace WulaFallenEmpire
                 Widgets.DrawBox(rect, 2);
                 GUI.color = Color.white;
             }
-            
-            // 添加材料信息的Tooltip - 这是核心功能
+
+            // 添加材料信息的Tooltip
             if (Mouse.IsOver(rect))
             {
                 TooltipHandler.TipRegion(rect, order.GetIngredientsTooltip());
             }
-            
+
             return Mouse.IsOver(rect);
+        }
+        // 修正：显示材质选择菜单
+        private void ShowStuffSelectionMenu(GlobalProductionOrder order)
+        {
+            if (order.HasStartedProduction)
+            {
+                Messages.Message("WULA_CannotChangeStuffAfterStart".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (!order.SupportsStuffChoice)
+            {
+                Messages.Message("WULA_RecipeDoesNotSupportStuff".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            var availableStuff = order.GetAvailableStuffForProduct();
+
+            if (availableStuff.Count == 0)
+            {
+                Messages.Message("WULA_NoStuffAvailable".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            List<FloatMenuOption> options = new List<FloatMenuOption>();
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+
+            foreach (var stuffDef in availableStuff)
+            {
+                var stuffDefCopy = stuffDef;
+
+                // 计算所需数量
+                int requiredStuffCount = order.ProductDef.costStuffCount;
+                int availableCount = globalStorage?.GetInputStorageCount(stuffDefCopy) ?? 0;
+
+                // 构建显示文本
+                string label = $"{stuffDefCopy.LabelCap} ({requiredStuffCount} needed)";
+                if (availableCount < requiredStuffCount)
+                {
+                    label += $" <color=red>(Only {availableCount} available)</color>";
+                }
+                else
+                {
+                    label += $" <color=green>({availableCount} available)</color>";
+                }
+
+                // 添加材质属性信息
+                if (stuffDefCopy.stuffProps != null)
+                {
+                    label += $"\n  - {"WULA_Commonality".Translate()}: {stuffDefCopy.stuffProps.commonality}";
+                    if (stuffDefCopy.stuffProps.stuffAdjective != null)
+                    {
+                        label += $"\n  - {"WULA_Adjective".Translate()}: {stuffDefCopy.stuffProps.stuffAdjective}";
+                    }
+                }
+
+                options.Add(new FloatMenuOption(
+                    label: label,
+                    action: () =>
+                    {
+                        order.chosenStuff = stuffDefCopy;
+                        Messages.Message($"WULA_StuffSelected".Translate(stuffDefCopy.LabelCap), MessageTypeDefOf.TaskCompletion);
+                    },
+                    shownItemForIcon: stuffDefCopy
+                ));
+            }
+
+            // 添加"自动选择"选项
+            options.Add(new FloatMenuOption(
+                label: "WULA_AutoSelectStuff".Translate(),
+                action: () =>
+                {
+                    // 选择库存最充足的材质
+                    var bestStuff = availableStuff
+                        .OrderByDescending(stuff => globalStorage?.GetInputStorageCount(stuff) ?? 0)
+                        .ThenBy(stuff => stuff.stuffProps?.commonality ?? 1f)
+                        .FirstOrDefault();
+
+                    if (bestStuff != null)
+                    {
+                        order.chosenStuff = bestStuff;
+                        Messages.Message($"WULA_StuffAutoSelected".Translate(bestStuff.LabelCap), MessageTypeDefOf.TaskCompletion);
+                    }
+                }
+            ));
+
+            // 添加"清除选择"选项（如果当前有选择）
+            if (order.chosenStuff != null)
+            {
+                options.Add(new FloatMenuOption(
+                    label: "WULA_ClearStuffSelection".Translate(),
+                    action: () =>
+                    {
+                        order.chosenStuff = null;
+                        Messages.Message("WULA_StuffSelectionCleared".Translate(), MessageTypeDefOf.TaskCompletion);
+                    }
+                ));
+            }
+
+            Find.WindowStack.Add(new FloatMenu(options));
+        }
+        // 修正：在添加订单时初始化材质选择
+        private List<FloatMenuOption> GenerateRecipeOptions()
+        {
+            var options = new List<FloatMenuOption>();
+            foreach (var recipe in SelTable.def.AllRecipes)
+            {
+                if (recipe.AvailableNow && recipe.AvailableOnNow(SelTable))
+                {
+                    string label = recipe.LabelCap;
+                    options.Add(new FloatMenuOption(
+                        label: label,
+                        action: () =>
+                        {
+                            var newOrder = new GlobalProductionOrder
+                            {
+                                recipe = recipe,
+                                targetCount = 1,
+                                paused = true
+                            };
+
+                            // 初始化材质选择（如果支持）
+                            if (newOrder.SupportsStuffChoice)
+                            {
+                                newOrder.InitializeStuffChoice();
+                            }
+
+                            SelTable.globalOrderStack.AddOrder(newOrder);
+                            SoundDefOf.Click.PlayOneShotOnCamera();
+                            Log.Message($"[DEBUG] Added order for {recipe.defName}");
+                        },
+                        shownItemForIcon: recipe.UIIconThing,
+                        thingStyle: null,
+                        forceBasicStyle: false,
+                        priority: MenuOptionPriority.Default,
+                        mouseoverGuiAction: null,
+                        revalidateClickTarget: null,
+                        extraPartWidth: 29f,
+                        extraPartOnGUI: (Rect rect) =>
+                        {
+                            return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, recipe);
+                        },
+                        revalidateWorldClickTarget: null,
+                        playSelectionSound: true,
+                        orderInPriority: -recipe.displayPriority
+                    ));
+                }
+            }
+            if (options.Count == 0)
+            {
+                options.Add(new FloatMenuOption("WULA_NoAvailableRecipes".Translate(), null));
+            }
+            return options;
         }
 
         // 新增：立刻完成订单的方法
@@ -478,60 +660,6 @@ namespace WulaFallenEmpire
             // 显示完成消息
             Messages.Message($"GOD MODE: Completed order for {order.recipe.LabelCap} ({remainingCount} units)", MessageTypeDefOf.PositiveEvent);
             Log.Message($"[GOD MODE] Force completed order: {order.recipe.defName}, produced {remainingCount} units");
-        }
-
-        private List<FloatMenuOption> GenerateRecipeOptions()
-        {
-            var options = new List<FloatMenuOption>();
-
-            foreach (var recipe in SelTable.def.AllRecipes)
-            {
-                // 移除对Pawn配方的过滤，允许所有配方
-                if (recipe.AvailableNow && recipe.AvailableOnNow(SelTable))
-                {
-                    string label = recipe.LabelCap;
-
-                    // 使用原版风格的FloatMenuOption构造函数，包含图标
-                    options.Add(new FloatMenuOption(
-                        label: label,
-                        action: () =>
-                        {
-                            var newOrder = new GlobalProductionOrder
-                            {
-                                recipe = recipe,
-                                targetCount = 1,
-                                paused = true // 初始暂停
-                            };
-
-                            SelTable.globalOrderStack.AddOrder(newOrder);
-                            SoundDefOf.Click.PlayOneShotOnCamera();
-                            Log.Message($"[DEBUG] Added order for {recipe.defName}");
-                        },
-                        shownItemForIcon: recipe.UIIconThing, // 使用配方的图标ThingDef
-                        thingStyle: null,
-                        forceBasicStyle: false,
-                        priority: MenuOptionPriority.Default,
-                        mouseoverGuiAction: null,
-                        revalidateClickTarget: null,
-                        extraPartWidth: 29f, // 为信息卡按钮留出空间
-                        extraPartOnGUI: (Rect rect) => 
-                        {
-                            // 绘制信息卡按钮，像原版一样
-                            return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, recipe);
-                        },
-                        revalidateWorldClickTarget: null,
-                        playSelectionSound: true,
-                        orderInPriority: -recipe.displayPriority // 使用配方的显示优先级
-                    ));
-                }
-            }
-
-            if (options.Count == 0)
-            {
-                options.Add(new FloatMenuOption("WULA_NoAvailableRecipes".Translate(), null));
-            }
-
-            return options;
         }
 
         public override void TabUpdate()

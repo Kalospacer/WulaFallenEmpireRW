@@ -1,61 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- 贵族服装 -->
-  <ThingDef Name="WULA_ApparelRoyalBase" ParentName="ApparelMakeableBase" Abstract="True">
-    <graphicData>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutComplex</shaderType>
-    </graphicData>
-    <recipeMaker>
-      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
-      <useIngredientsForColor>false</useIngredientsForColor>
-      <researchPrerequisite>WULA_Synth_Clothes_3_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <displayPriority>225</displayPriority>
-    </recipeMaker>
-    <costStuffCount>125</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <thingCategories>
-      <li>ApparelNoble</li>
-    </thingCategories>
-    <statBases>
-      <WorkToMake>15000</WorkToMake>
-      <Mass>1</Mass>
-      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
-      <EquipDelay>1.5</EquipDelay>
-    </statBases>
-    <apparel>
-      <tags>
-        <li>Royal</li>
-        <li>Wula_Apparel</li>
-      </tags>
-      <useWornGraphicMask>true</useWornGraphicMask>
-      <!-- 在身体后渲染 -->
-      <!-- <shellRenderedBehindHead>true</shellRenderedBehindHead> -->
-      <!-- 待查？ -->
-      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
-      <!-- 会考虑温度，待查？ -->
-      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
-      <!-- 会考虑毒性环境，待查？ -->
-      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
-    </apparel>
-    <colorGenerator Class="ColorGenerator_Options">
-      <options>
-        <li>
-          <weight>10</weight>
-          <only>(1,1,1,1)</only>
-        </li>
-      </options>
-    </colorGenerator>
-  </ThingDef>
-  <ThingDef Name="WULA_ApparelHatRoyalBase" ParentName="HatMakeableBase" Abstract="True">
+  <ThingDef Name="WULA_ApparelCivilBase" ParentName="ApparelMakeableBase" Abstract="True">
+    <costStuffCount>0</costStuffCount>
+    <stuffCategories Inherit="False"/>
     <thingCategories>
       <li>ApparelMisc</li>
     </thingCategories>
@@ -65,7 +12,65 @@
     </graphicData>
     <apparel>
       <tags>
+        <li>Wula_Apparel</li>
+      </tags>
+      <bodyPartGroups>
+				<li>Torso</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Middle</li>
+      </layers>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+      <useWornGraphicMask>true</useWornGraphicMask>
+    </apparel>
+    <colorGenerator Class="ColorGenerator_Options">
+      <options>
+        <li>
+          <weight>10</weight>
+          <only>(1,1,1,1)</only>
+        </li>
+      </options>
+    </colorGenerator>
+    <possessionCount>1</possessionCount>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+      <useIngredientsForColor>false</useIngredientsForColor>
+    </recipeMaker>
+    <statBases>
+      <Mass>1</Mass>
+      <WorkToMake>7000</WorkToMake>
+      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
+  </ThingDef>
+  <ThingDef Name="WULA_ApparelRoyalBase" ParentName="WULA_ApparelCivilBase" Abstract="True">
+    <thingCategories>
+      <li>ApparelNoble</li>
+    </thingCategories>
+    <apparel>
+      <tags>
         <li>Royal</li>
+      </tags>
+      <useWornGraphicMask>true</useWornGraphicMask>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+    </apparel>
+    <possessionCount>50</possessionCount>
+  </ThingDef>
+  <ThingDef Name="WULA_ApparelCivilHatBase" ParentName="HatMakeableBase" Abstract="True">
+    <thingCategories>
+      <li>ApparelMisc</li>
+    </thingCategories>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <apparel>
+      <tags>
         <li>Wula_Apparel</li>
       </tags>
       <renderSkipFlags>
@@ -88,20 +93,52 @@
     <recipeMaker>
       <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
       <useIngredientsForColor>false</useIngredientsForColor>
-      <researchPrerequisite>WULA_Synth_Clothes_3_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <displayPriority>225</displayPriority>
     </recipeMaker>
-    <statBases>
-      <Mass>0.2</Mass>
-      <WorkToMake>3000</WorkToMake>
-      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
-    </statBases>
   </ThingDef>
+  <ThingDef Name="WULA_ApparelRoyalHatBase" ParentName="WULA_ApparelCivilHatBase" Abstract="True">
+    <thingCategories>
+      <li>ApparelNoble</li>
+    </thingCategories>
+    <apparel>
+      <tags>
+        <li>Royal</li>
+      </tags>
+    </apparel>
+    <possessionCount>50</possessionCount>
+  </ThingDef>
+  <ThingDef Name="WULA_ApparelOnSkinBase" ParentName="ApparelMakeableBase" Abstract="True">
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <thingCategories>
+      <li>ApparelMisc</li>
+    </thingCategories>
+    <costStuffCount>0</costStuffCount>
+    <stuffCategories Inherit="False"/>
+    <apparel>
+      <tags>
+        <li>Wula_Apparel</li>
+        <li>Wula_Inner</li>
+      </tags>
+      <bodyPartGroups>
+				<li>Torso</li>
+      </bodyPartGroups>
+      <layers>
+        <li>OnSkin</li>
+      </layers>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+      <useWornGraphicMask>true</useWornGraphicMask>
+    </apparel>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <useIngredientsForColor>false</useIngredientsForColor>
+    </recipeMaker>
+  </ThingDef>
+
   <ThingDef ParentName="WULA_ApparelRoyalBase">
 		<defName>WULA_Official_Uniform</defName>
 		<label>乌拉帝国双幡礼服</label>
@@ -150,535 +187,6 @@
     <possessionCount>1</possessionCount>
   </ThingDef>
 
-  <!-- 平民服装 -->
-  <ThingDef Name="WULA_ApparelCivilBase" ParentName="ApparelMakeableBase" Abstract="True">
-    <thingCategories>
-      <li>ApparelMisc</li>
-    </thingCategories>
-    <graphicData>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutComplex</shaderType>
-    </graphicData>
-    <apparel>
-      <tags>
-        <li>Wula_Apparel_Init</li>
-        <li>Wula_Apparel</li>
-        <li>Wula_Clothes</li>
-      </tags>
-      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
-      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
-      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
-      <useWornGraphicMask>true</useWornGraphicMask>
-    </apparel>
-    <colorGenerator Class="ColorGenerator_Options">
-      <options>
-        <li>
-          <weight>10</weight>
-          <only>(1,1,1,1)</only>
-        </li>
-      </options>
-    </colorGenerator>
-    <possessionCount>1</possessionCount>
-    <recipeMaker>
-      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
-      <useIngredientsForColor>false</useIngredientsForColor>
-    </recipeMaker>
-    <statBases>
-      <Mass>1</Mass>
-      <WorkToMake>7000</WorkToMake>
-      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
-    </statBases>
-  </ThingDef>
-  <ThingDef Name="WULA_ApparelCivilHatBase" ParentName="HatMakeableBase" Abstract="True">
-    <thingCategories>
-      <li>ApparelMisc</li>
-    </thingCategories>
-    <graphicData>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutComplex</shaderType>
-    </graphicData>
-    <apparel>
-      <tags>
-        <li>Wula_Apparel</li>
-        <li>Wula_Clothes</li>
-      </tags>
-      <renderSkipFlags>
-        <li>None</li>
-      </renderSkipFlags>
-      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
-      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
-      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
-      <useWornGraphicMask>true</useWornGraphicMask>
-    </apparel>
-    <colorGenerator Class="ColorGenerator_Options">
-      <options>
-        <li>
-          <weight>10</weight>
-          <only>(1,1,1,1)</only>
-        </li>
-      </options>
-    </colorGenerator>
-    <possessionCount>1</possessionCount>
-    <recipeMaker>
-      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
-      <useIngredientsForColor>false</useIngredientsForColor>
-    </recipeMaker>
-    <statBases>
-      <Mass>0.2</Mass>
-      <WorkToMake>3000</WorkToMake>
-      <StuffEffectMultiplierArmor>0.35</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
-    </statBases>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelCivilBase">
-		<defName>WULA_Sailor_Dress</defName>
-		<label>乌拉帝国水手连衣裙</label>
-		<description>这是乌拉帝国的一款连衣裙，上到贵族下到平民都可以穿，在肃穆的帝国中传递出了一丝俏皮和活泼。</description>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Sailor_Dress</texPath>
-    </graphicData>
-    <apparel>
-      <bodyPartGroups>
-				<li>Torso</li>
-				<!-- <li>Shoulders</li> -->
-				<li>Arms</li>
-				<li>Legs</li>
-      </bodyPartGroups>
-      <layers>
-        <!-- <li>OnSkin</li> -->
-        <li>Middle</li>
-      </layers>
-      <wornGraphicPath>Wula/Apparel/WULA_Sailor_Dress</wornGraphicPath>
-    </apparel>
-    <costStuffCount>100</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <equippedStatOffsets>
-      <SocialImpact>0.1</SocialImpact>
-			<MoveSpeed>0.15</MoveSpeed>
-      <!-- <SlaveSuppressionOffset MayRequire="Ludeon.RimWorld.Ideology">-0.1</SlaveSuppressionOffset>
-      <WorkSpeedGlobal>0.15</WorkSpeedGlobal> -->
-    </equippedStatOffsets>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <skillRequirements>
-        <Crafting>3</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelCivilBase">
-		<defName>WULA_Maid_Uniform</defName>
-		<label>乌拉帝国女仆装</label>
-		<description>乌拉帝国平民所穿的女仆装。虽然她们更习惯让异族的奴隶服侍自己，不过还是有一些乌拉星人选择从事服务业。</description>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Maid_Uniform</texPath>
-    </graphicData>
-    <apparel>
-      <bodyPartGroups>
-				<li>Torso</li>
-				<li>Shoulders</li>
-				<li>Arms</li>
-				<li>Legs</li>
-      </bodyPartGroups>
-      <layers>
-        <!-- <li>OnSkin</li> -->
-        <li>Middle</li>
-      </layers>
-      <wornGraphicPath>Wula/Apparel/WULA_Maid_Uniform</wornGraphicPath>
-    </apparel>
-    <equippedStatOffsets>
-			<PlantWorkSpeed>0.15</PlantWorkSpeed>
-			<PlantHarvestYield>0.1</PlantHarvestYield>
-			<CookSpeed>0.2</CookSpeed>
-			<ButcheryFleshSpeed>0.2</ButcheryFleshSpeed>
-      <!-- <SlaveSuppressionOffset MayRequire="Ludeon.RimWorld.Ideology">-0.1</SlaveSuppressionOffset>
-      <WorkSpeedGlobal>0.15</WorkSpeedGlobal> -->
-    </equippedStatOffsets>
-    <costStuffCount>100</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <skillRequirements>
-        <Crafting>3</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelCivilHatBase">
-    <defName>WULA_Maid_Uniform_Headband</defName>
-    <label>乌拉帝国女仆发饰</label>
-    <description>乌拉帝国女仆装的配套发饰。</description>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <displayPriority>105</displayPriority>
-    </recipeMaker>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Maid_Uniform_Headband</texPath>
-    </graphicData>
-    <statBases>
-      <Mass>0.1</Mass>
-    </statBases>
-    <equippedStatOffsets>
-    </equippedStatOffsets>
-    <costStuffCount>20</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <apparel>
-      <countsAsClothingForNudity>false</countsAsClothingForNudity>
-      <bodyPartGroups>
-        <li>FullHead</li>
-      </bodyPartGroups>
-      <layers>
-        <li>Overhead</li>
-      </layers>
-      <parentTagDef>ApparelHead</parentTagDef>
-      <wornGraphicPath>Wula/Apparel/WULA_Maid_Uniform_Headband</wornGraphicPath>
-    </apparel>
-    <thingSetMakerTags>
-      <li>RewardStandardHighFreq</li>
-    </thingSetMakerTags>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelCivilBase">
-		<defName>WULA_Nurse_Uniform</defName>
-		<label>乌拉帝国护士装</label>
-		<description>乌拉帝国平民所穿的护士装。一反常态的深色护士服反倒让病人感到不安——不过比起救人，她们更多的是在执行一些在其他种族看来“非道德”的医学操作。</description>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Nurse_Uniform</texPath>
-    </graphicData>
-    <apparel>
-      <bodyPartGroups>
-				<li>Torso</li>
-				<li>Shoulders</li>
-				<li>Arms</li>
-				<li>Legs</li>
-      </bodyPartGroups>
-      <layers>
-        <!-- <li>OnSkin</li> -->
-        <li>Middle</li>
-      </layers>
-      <wornGraphicPath>Wula/Apparel/WULA_Nurse_Uniform</wornGraphicPath>
-    </apparel>
-    <equippedStatOffsets>
-			<MedicalTendQualityOffset>1</MedicalTendQualityOffset>
-    </equippedStatOffsets>
-    <costStuffCount>100</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <skillRequirements>
-        <Crafting>3</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelCivilHatBase">
-    <defName>WULA_Nurse_Uniform_Headband</defName>
-    <label>乌拉帝国护士帽</label>
-    <description>乌拉帝国护士装的配套发饰。</description>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <displayPriority>105</displayPriority>
-    </recipeMaker>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Nurse_Uniform_Headband</texPath>
-    </graphicData>
-    <statBases>
-      <Mass>0.1</Mass>
-    </statBases>
-    <equippedStatOffsets>
-    </equippedStatOffsets>
-    <costStuffCount>20</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <apparel>
-      <countsAsClothingForNudity>false</countsAsClothingForNudity>
-      <bodyPartGroups>
-        <li>FullHead</li>
-      </bodyPartGroups>
-      <layers>
-        <li>Overhead</li>
-      </layers>
-      <parentTagDef>ApparelHead</parentTagDef>
-      <wornGraphicPath>Wula/Apparel/WULA_Nurse_Uniform_Headband</wornGraphicPath>
-    </apparel>
-    <thingSetMakerTags>
-      <li>RewardStandardHighFreq</li>
-    </thingSetMakerTags>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelCivilBase">
-		<defName>WULA_Qipao</defName>
-		<label>乌拉帝国旗袍</label>
-		<description>乌拉帝国中较高等的公民所着服装，修身而不失典雅之姿。</description>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Qipao</texPath>
-    </graphicData>
-    <apparel>
-      <bodyPartGroups>
-				<li>Torso</li>
-				<li>Shoulders</li>
-				<li>Arms</li>
-				<li>Legs</li>
-      </bodyPartGroups>
-      <layers>
-        <!-- <li>OnSkin</li> -->
-        <li>Middle</li>
-      </layers>
-      <wornGraphicPath>Wula/Apparel/WULA_Qipao</wornGraphicPath>
-    </apparel>
-    <equippedStatOffsets>
-			<ResearchSpeedFactor>0.1</ResearchSpeedFactor>
-      <EntityStudyRate MayRequire="Ludeon.RimWorld.Anomaly">0.1</EntityStudyRate>
-      <SocialImpact>0.1</SocialImpact>
-    </equippedStatOffsets>
-    <costStuffCount>100</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <skillRequirements>
-        <Crafting>3</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelCivilBase">
-		<defName>WULA_Nun_Uniform</defName>
-		<label>乌拉帝国修女服</label>
-		<description>乌拉帝国修女所着的衣服，虽然作为战斗服装来说几乎没有防护，但是它可以用乌拉帝国的技术抽出穿着者的灵能并形成一道灵能护盾——无论使用者是否愿意。</description>
-    <tickerType>Normal</tickerType>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Nun_Uniform</texPath>
-    </graphicData>
-    <apparel>
-      <tags>
-        <li>Wula_FE_Spiritualist_T1</li>
-      </tags>
-      <bodyPartGroups>
-				<li>Torso</li>
-				<li>Shoulders</li>
-				<li>Arms</li>
-				<li>Legs</li>
-      </bodyPartGroups>
-      <layers>
-        <!-- <li>OnSkin</li> -->
-        <li>Middle</li>
-      </layers>
-      <wornGraphicPath>Wula/Apparel/WULA_Nun_Uniform</wornGraphicPath>
-    </apparel>
-    <costList Inherit="False">
-      <ComponentIndustrial>2</ComponentIndustrial>
-    </costList>
-    <statBases>
-      <WorkToMake>10000</WorkToMake>
-      <MaxHitPoints>200</MaxHitPoints>
-      <ArmorRating_Sharp>0.2</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.1</ArmorRating_Blunt>
-      <ArmorRating_Heat>0.1</ArmorRating_Heat>
-      <EnergyShieldEnergyMax>1.5</EnergyShieldEnergyMax>
-    </statBases>
-    <equippedStatOffsets>
-			<MeleeDodgeChance>0.2</MeleeDodgeChance>	
-      <MentalBreakThreshold>-0.1</MentalBreakThreshold>
-    </equippedStatOffsets>
-    <costStuffCount>200</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <skillRequirements>
-        <Crafting>5</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
-        
-        <!-- 基础功能 -->
-        <radius>1.5</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>250</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
-        <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
-
-        <!-- 拦截类型 -->
-        <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
-        <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
-        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
-
-        <!-- 视觉与音效 -->
-        <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
-        <soundInterceptEffecter>Interceptor_BlockedProjectile</soundInterceptEffecter> <!-- 成功拦截时的音效 -->
-        <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
-        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
-
-        <!-- EMP 效果 -->
-        <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
-
-        <!-- 被动恢复 -->
-        <rechargeHitPointsIntervalTicks>60</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
-
-      </li>
-    </comps>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelCivilHatBase">
-    <defName>WULA_Nun_veil</defName>
-    <label>乌拉帝国修女头巾</label>
-    <description>乌拉帝国修女装的配套发饰，能像服装那样支起一个较小的灵能护盾。</description>
-    <tickerType>Normal</tickerType>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <displayPriority>105</displayPriority>
-    </recipeMaker>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Nun_veil</texPath>
-    </graphicData>
-    <statBases>
-      <EnergyShieldEnergyMax>0.25</EnergyShieldEnergyMax>
-      <Mass>0.1</Mass>
-    </statBases>
-    <equippedStatOffsets>
-    </equippedStatOffsets>
-    <costStuffCount>50</costStuffCount>
-    <costList Inherit="False">
-      <ComponentIndustrial>1</ComponentIndustrial>
-    </costList>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <apparel>
-      <tags>
-        <li>Wula_FE_Spiritualist_T1</li>
-      </tags>
-      <countsAsClothingForNudity>false</countsAsClothingForNudity>
-      <bodyPartGroups>
-        <li>FullHead</li>
-      </bodyPartGroups>
-      <layers>
-        <li>Overhead</li>
-      </layers>
-      <parentTagDef>ApparelHead</parentTagDef>
-      <wornGraphicPath>Wula/Apparel/WULA_Nun_veil</wornGraphicPath>
-    </apparel>
-    <thingSetMakerTags>
-      <li>RewardStandardHighFreq</li>
-    </thingSetMakerTags>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
-        
-        <!-- 基础功能 -->
-        <radius>1.46</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>100</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
-        <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
-
-        <!-- 拦截类型 -->
-        <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
-        <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
-        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
-
-        <!-- 视觉与音效 -->
-        <color>(0.5, 0.3, 0.9, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
-        <soundInterceptEffecter>Interceptor_BlockedProjectile</soundInterceptEffecter> <!-- 成功拦截时的音效 -->
-        <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
-        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
-
-        <!-- EMP 效果 -->
-        <isImmuneToEMP>true</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
-
-        <!-- 被动恢复 -->
-        <rechargeHitPointsIntervalTicks>60</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
-
-      </li>
-    </comps>
-  </ThingDef>
-
-  <!-- 内衬 -->
-  <ThingDef Name="WULA_ApparelOnSkinBase" ParentName="ApparelMakeableBase" Abstract="True">
-    <graphicData>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutComplex</shaderType>
-    </graphicData>
-    <thingCategories>
-      <li>ApparelMisc</li>
-    </thingCategories>
-    <costStuffCount>30</costStuffCount>
-    <stuffCategories>
-      <li>Fabric</li>
-      <li>Leathery</li>
-    </stuffCategories>
-    <apparel>
-      <tags>
-        <li>Wula_Apparel</li>
-        <li>Wula_Inner</li>
-      </tags>
-      <bodyPartGroups>
-				<li>Torso</li>
-      </bodyPartGroups>
-      <layers>
-        <li>OnSkin</li>
-      </layers>
-      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
-      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
-      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
-      <useWornGraphicMask>true</useWornGraphicMask>
-    </apparel>
-    <recipeMaker>
-      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <useIngredientsForColor>false</useIngredientsForColor>
-    </recipeMaker>
-    <possessionCount>1</possessionCount>
-    <statBases>
-      <Mass>0.2</Mass>
-      <StuffEffectMultiplierArmor>0.1</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>0.5</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>0.5</StuffEffectMultiplierInsulation_Heat>
-    </statBases>
-  </ThingDef>
   <ThingDef ParentName="WULA_ApparelOnSkinBase">
 		<defName>WULA_Bodystocking</defName>
 		<label>乌拉帝国连身黑丝</label>
@@ -769,7 +277,6 @@
     </statBases>
   </ThingDef>
 
-  <!-- 普通甲 -->
   <ThingDef Name="WULA_ApparelArmorBase" ParentName="ArmorMachineableBase" Abstract="True">
     <techLevel>Spacer</techLevel>
     <tickerType>Normal</tickerType>
@@ -1290,7 +797,6 @@
     </costList>
   </ThingDef>
 
-  <!-- 盾牌 -->
   <ThingDef Name="WULA_ApparelShieldBase" ParentName="ArmorMachineableBase" Abstract="True">
     <techLevel>Spacer</techLevel>
     <tickerType>Normal</tickerType>
@@ -1512,7 +1018,6 @@
   </ThingDef>
 
   
-  <!-- 特殊 -->
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>Apparel_WULA_Manpack_Loitering_Munition</defName>
     <label>MPl_8"蛭石"</label>
@@ -1634,7 +1139,6 @@
       </li>
     </modExtensions>
   </ThingDef>
-
 
 	<ApparelLayerDef>
 		<defName>Shield</defName>

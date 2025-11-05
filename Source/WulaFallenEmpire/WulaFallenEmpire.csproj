@@ -148,7 +148,6 @@
     <Compile Include="Pawn\WULA_Energy\WorkGiver_Warden_DeliverEnergy.cs" />
     <Compile Include="Pawn\WULA_Energy\WorkGiver_Warden_FeedWula.cs" />
     <Compile Include="Pawn\WULA_Energy\WulaCaravanEnergyDef.cs" />
-    <Compile Include="Pawn\WULA_Energy\WulaStatDefOf.cs" />
     <Compile Include="Pawn\WULA_Maintenance\Building_MaintenancePod.cs" />
     <Compile Include="Pawn\WULA_Maintenance\CompMaintenancePod.cs" />
     <Compile Include="Pawn\WULA_Maintenance\HediffCompProperties_MaintenanceDamage.cs" />
@@ -157,6 +156,7 @@
     <Compile Include="Pawn\WULA_Maintenance\MaintenanceNeedExtension.cs" />
     <Compile Include="Pawn\WULA_Maintenance\Need_Maintenance.cs" />
     <Compile Include="Pawn\WULA_Maintenance\WorkGiver_DoMaintenance.cs" />
+    <Compile Include="Stat\StatWorker_NanoRepair.cs" />
     <Compile Include="ThingComp\CompAndPatch_GiveHediffOnShot.cs" />
     <Compile Include="ThingComp\CompApparelInterceptor.cs" />
     <Compile Include="ThingComp\CompPsychicScaling.cs" />

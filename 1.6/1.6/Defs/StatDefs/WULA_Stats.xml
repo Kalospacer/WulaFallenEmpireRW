@@ -1,23 +1,126 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <StatCategoryDef>
+    <defName>WULA_Synth</defName>
+    <label>乌拉帝国机械</label>
+    <displayOrder>160</displayOrder>
+  </StatCategoryDef>
+
+  <!-- 机械能量 -->
   <StatDef>
     <defName>WulaEnergyMaxLevelOffset</defName>
     <label>机械乌拉能量上限</label>
     <description>影响机械乌拉能量上限的偏移量。</description>
-    <category>PawnMisc</category>
+    <category>WULA_Synth</category>
     <minValue>-1</minValue>
     <defaultBaseValue>1</defaultBaseValue>
     <!-- <maxValue>1</maxValue> -->
     <toStringStyle>PercentZero</toStringStyle>
   </StatDef>
-
   <StatDef>
     <defName>WulaEnergyFallRateFactor</defName>
     <label>机械乌拉能量消耗速度</label>
     <description>影响机械乌拉能量消耗速度的乘数因子。</description>
-    <category>PawnMisc</category>
+    <category>WULA_Synth</category>
     <defaultBaseValue>1</defaultBaseValue>
     <minValue>0</minValue>
     <toStringStyle>PercentZero</toStringStyle>
+  </StatDef>
+  
+  <!-- 纳米修复相关统计 -->
+  <StatDef>
+    <defName>WULA_NanoRepairCostPerHP</defName>
+    <label>纳米修复能量消耗</label>
+    <description>纳米修复系统修复每点生命值所消耗的能量。</description>
+    <category>WULA_Synth</category>
+    <defaultBaseValue>0.1</defaultBaseValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <showOnMechanoids>true</showOnMechanoids>
+    <showOnDrones>true</showOnDrones>
+    <workerClass>WulaFallenEmpire.StatWorker_NanoRepair</workerClass>
+  </StatDef>
+  <StatDef>
+    <defName>WULA_NanoRepairCooldownAfterDamage</defName>
+    <label>纳米修复冷却时间</label>
+    <description>受到伤害后纳米修复系统进入冷却的时间（秒）。</description>
+    <category>WULA_Synth</category>
+    <defaultBaseValue>300</defaultBaseValue>
+    <toStringStyle>Integer</toStringStyle>
+    <showOnMechanoids>true</showOnMechanoids>
+    <showOnDrones>true</showOnDrones>
+    <workerClass>WulaFallenEmpire.StatWorker_NanoRepair</workerClass>
+  </StatDef>
+
+  <!-- 维护系统统计 -->
+  <StatDef>
+    <defName>WULA_MaintenanceDegradationFactor</defName>
+    <label>维护退化乘数</label>
+    <description>乌拉帝国合成人维护需求退化速率的乘数。数值越高，机械乌拉越容易陷入低维护状态。</description>
+    <category>WULA_Synth</category>
+    <defaultBaseValue>1.0</defaultBaseValue>
+    <toStringStyle>FloatTwo</toStringStyle>
+    <showOnMechanoids>true</showOnMechanoids>
+    <showOnDrones>true</showOnDrones>
+    <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
+  </StatDef>
+  <StatDef>
+    <defName>WULA_MaintenanceStatusThresholdFactor</defName>
+    <label>维护等级阈值</label>
+    <description>影响乌拉帝国合成人维护状态阈值的乘数。数值越高，越容易陷入低维护带来的减益状态。</description>
+    <category>WULA_Synth</category>
+    <defaultBaseValue>1.0</defaultBaseValue>
+    <toStringStyle>FloatTwo</toStringStyle>
+    <showOnMechanoids>true</showOnMechanoids>
+    <showOnDrones>true</showOnDrones>
+    <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
+  </StatDef>
+
+  <StatDef>
+    <defName>WULA_MaintenanceDamageToMaintenanceFactor</defName>
+    <label>维护伤害</label>
+    <description>乌拉帝国合成人因为伤害导致维护度损失的程度。数值越高，受到伤害时损失越多维护度。</description>
+    <category>WULA_Synth</category>
+    <defaultBaseValue>0.01</defaultBaseValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <showOnMechanoids>true</showOnMechanoids>
+    <showOnDrones>true</showOnDrones>
+    <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
+  </StatDef>
+
+  <!-- 具体的状态阈值乘数 -->
+  <StatDef>
+    <defName>WULA_MaintenanceMinorBreakdownThresholdFactor</defName>
+    <label>轻微故障等级阈值</label>
+    <description>影响乌拉帝国合成人进入轻微故障阈值的乘数。数值越高，越容易进入轻微故障状态。</description>
+    <category>WULA_Synth</category>
+    <defaultBaseValue>1.0</defaultBaseValue>
+    <toStringStyle>FloatTwo</toStringStyle>
+    <showOnMechanoids>true</showOnMechanoids>
+    <showOnDrones>true</showOnDrones>
+    <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
+  </StatDef>
+
+  <StatDef>
+    <defName>WULA_MaintenanceMajorBreakdownThresholdFactor</defName>
+    <label>严重故障等级阈值</label>
+    <description>影响乌拉帝国合成人进入严重故障阈值的乘数。数值越高，越容易进入严重故障状态。</description>
+    <category>WULA_Synth</category>
+    <defaultBaseValue>1.0</defaultBaseValue>
+    <toStringStyle>FloatTwo</toStringStyle>
+    <showOnMechanoids>true</showOnMechanoids>
+    <showOnDrones>true</showOnDrones>
+    <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
+  </StatDef>
+
+  <StatDef>
+    <defName>WULA_MaintenanceCriticalFailureThresholdFactor</defName>
+    <label>完全故障等级阈值</label>
+    <description>影响乌拉帝国合成人进入完全故障阈值的乘数。数值越高，越容易进入完全故障状态。</description>
+    <category>WULA_Synth</category>
+    <defaultBaseValue>1.0</defaultBaseValue>
+    <toStringStyle>FloatTwo</toStringStyle>
+    <showOnMechanoids>true</showOnMechanoids>
+    <showOnDrones>true</showOnDrones>
+    <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
   </StatDef>
 </Defs>

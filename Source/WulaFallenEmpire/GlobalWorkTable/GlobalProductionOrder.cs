@@ -1,6 +1,7 @@
-// GlobalProductionOrder.cs (修复版)
+// GlobalProductionOrder.cs (修正材质属性读取)
 using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -12,7 +13,10 @@ namespace WulaFallenEmpire
         public RecipeDef recipe;
         public int targetCount = 1;
         public int currentCount = 0;
-        public bool paused = true; // 初始状态为暂停
+        public bool paused = true;
+        
+        // 材质选择：存储配方选择的材质（只有支持材质的配方才有）
+        public ThingDef chosenStuff = null;
         
         // 生产状态
         public ProductionState state = ProductionState.Waiting;
@@ -25,16 +29,15 @@ namespace WulaFallenEmpire
         }
 
         public string Label => recipe.LabelCap;
-        public string Description => $"{currentCount}/{targetCount} {recipe.products[0].thingDef.label}"; private float _progress = 0f;
+        public string Description => $"{currentCount}/{targetCount} {recipe.products[0].thingDef.label}";
+        
+        private float _progress = 0f;
         public float progress
         {
             get => _progress;
             set
             {
-                // 确保进度在有效范围内
                 _progress = Mathf.Clamp01(value);
-
-                // 如果检测到异常值，记录警告
                 if (value < 0f || value > 1f)
                 {
                     Log.Warning($"Progress clamped from {value} to {_progress} for {recipe?.defName ?? "unknown"}");
@@ -42,27 +45,252 @@ namespace WulaFallenEmpire
             }
         }
 
+        // 新增：检查订单是否已经开始生产（一旦开始就不能修改材质）
+        public bool HasStartedProduction => state == ProductionState.Producing || currentCount > 0;
+
+        // 修正：检查产物是否支持材质选择
+        public bool SupportsStuffChoice
+        {
+            get
+            {
+                if (recipe?.products == null || recipe.products.Count == 0)
+                    return false;
+                    
+                var productDef = recipe.products[0].thingDef;
+                if (productDef == null)
+                    return false;
+                    
+                // 检查产物是否有stuffCategories且costStuffCount > 0
+                return productDef.stuffCategories != null && 
+                       productDef.stuffCategories.Count > 0 && 
+                       productDef.costStuffCount > 0;
+            }
+        }
+
+        // 修正：获取产物的ThingDef
+        public ThingDef ProductDef => recipe?.products?.Count > 0 ? recipe.products[0].thingDef : null;
+
         public void ExposeData()
         {
             Scribe_Defs.Look(ref recipe, "recipe");
             Scribe_Values.Look(ref targetCount, "targetCount", 1);
             Scribe_Values.Look(ref currentCount, "currentCount", 0);
             Scribe_Values.Look(ref paused, "paused", true);
-            Scribe_Values.Look(ref _progress, "progress", 0f); // 序列化私有字段
+            Scribe_Values.Look(ref _progress, "progress", 0f);
             Scribe_Values.Look(ref state, "state", ProductionState.Waiting);
+            Scribe_Defs.Look(ref chosenStuff, "chosenStuff");
 
             // 修复：加载后验证数据
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                // 使用属性设置器来钳制值
                 progress = _progress;
-
-                // 确保状态正确
                 UpdateState();
+                
+                // 确保材质选择有效
+                if (SupportsStuffChoice && chosenStuff == null)
+                {
+                    InitializeStuffChoice();
+                }
             }
         }
 
-        // 修复：改进状态更新逻辑
+        // 修正：初始化材质选择
+        public void InitializeStuffChoice()
+        {
+            if (!SupportsStuffChoice) return;
+            
+            var availableStuff = GetAvailableStuffForProduct();
+            
+            if (availableStuff.Count > 0)
+            {
+                chosenStuff = availableStuff[0];
+            }
+        }
+
+        // 修正：获取产物的可用材质列表
+        public List<ThingDef> GetAvailableStuffForProduct()
+        {
+            var availableStuff = new List<ThingDef>();
+            
+            if (ProductDef?.stuffCategories != null)
+            {
+                foreach (var stuffCategory in ProductDef.stuffCategories)
+                {
+                    var stuffInCategory = DefDatabase<ThingDef>.AllDefs
+                        .Where(def => def.IsStuff && def.stuffProps?.categories != null && def.stuffProps.categories.Contains(stuffCategory))
+                        .ToList();
+                    
+                    availableStuff.AddRange(stuffInCategory);
+                }
+            }
+            
+            return availableStuff.Distinct().ToList();
+        }
+
+        // 修正：HasEnoughResources 方法，考虑选择的材质
+        public bool HasEnoughResources()
+        {
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            if (globalStorage == null) return false;
+
+            // 检查固定消耗（costList）
+            foreach (var ingredient in recipe.ingredients)
+            {
+                bool hasEnoughForThisIngredient = false;
+                
+                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
+                {
+                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                    int availableCount = globalStorage.GetInputStorageCount(thingDef);
+                    
+                    if (availableCount >= requiredCount)
+                    {
+                        hasEnoughForThisIngredient = true;
+                        break;
+                    }
+                }
+                
+                if (!hasEnoughForThisIngredient)
+                    return false;
+            }
+            
+            // 检查材质消耗（如果支持材质选择）
+            if (SupportsStuffChoice && chosenStuff != null)
+            {
+                int requiredStuffCount = ProductDef.costStuffCount;
+                int availableStuffCount = globalStorage.GetInputStorageCount(chosenStuff);
+                
+                if (availableStuffCount < requiredStuffCount)
+                    return false;
+            }
+            
+            return true;
+        }
+
+        // 修正：ConsumeResources 方法，考虑选择的材质
+        public bool ConsumeResources()
+        {
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            if (globalStorage == null) return false;
+
+            // 消耗固定资源（costList）
+            foreach (var ingredient in recipe.ingredients)
+            {
+                bool consumedThisIngredient = false;
+                
+                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
+                {
+                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                    int availableCount = globalStorage.GetInputStorageCount(thingDef);
+                    
+                    if (availableCount >= requiredCount)
+                    {
+                        if (globalStorage.RemoveFromInputStorage(thingDef, requiredCount))
+                        {
+                            consumedThisIngredient = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!consumedThisIngredient)
+                    return false;
+            }
+            
+            // 消耗材质（如果支持材质选择）
+            if (SupportsStuffChoice && chosenStuff != null)
+            {
+                int requiredStuffCount = ProductDef.costStuffCount;
+                
+                if (!globalStorage.RemoveFromInputStorage(chosenStuff, requiredStuffCount))
+                    return false;
+            }
+            
+            return true;
+        }
+
+        // 修正：GetIngredientsTooltip 方法，显示固定消耗和可选材质
+        public string GetIngredientsTooltip()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(recipe.LabelCap);
+            sb.AppendLine();
+
+            // 固定消耗（costList）
+            sb.AppendLine("WULA_FixedIngredients".Translate() + ":");
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+
+            foreach (var ingredient in recipe.ingredients)
+            {
+                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
+                {
+                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                    int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
+
+                    string itemDisplay = $"{requiredCount} {thingDef.LabelCap}";
+
+                    if (availableCount >= requiredCount)
+                    {
+                        sb.AppendLine($" <color=green>{itemDisplay}</color>");
+                    }
+                    else
+                    {
+                        sb.AppendLine($" <color=red>{itemDisplay}</color>");
+                    }
+                }
+            }
+
+            // 材质消耗（如果支持材质选择）
+            if (SupportsStuffChoice)
+            {
+                sb.AppendLine();
+                sb.AppendLine("WULA_StuffMaterial".Translate() + ":");
+                
+                if (chosenStuff != null)
+                {
+                    int requiredStuffCount = ProductDef.costStuffCount;
+                    int availableStuffCount = globalStorage?.GetInputStorageCount(chosenStuff) ?? 0;
+                    
+                    string stuffDisplay = $"{requiredStuffCount} {chosenStuff.LabelCap}";
+                    
+                    if (availableStuffCount >= requiredStuffCount)
+                    {
+                        sb.AppendLine($" <color=green>{stuffDisplay} (Selected)</color>");
+                    }
+                    else
+                    {
+                        sb.AppendLine($" <color=red>{stuffDisplay} (Selected)</color>");
+                    }
+                }
+                else
+                {
+                    sb.AppendLine($" <color=yellow>{"WULA_NoStuffSelected".Translate()}</color>");
+                }
+            }
+
+            // 产品
+            sb.AppendLine();
+            sb.AppendLine("WULA_Products".Translate() + ":");
+            foreach (var product in recipe.products)
+            {
+                sb.AppendLine($" {product.count} {product.thingDef.LabelCap}");
+            }
+
+            // 工作量信息
+            sb.AppendLine();
+            sb.AppendLine("WULA_WorkAmount".Translate() + ": " + GetWorkAmount().ToStringWorkAmount());
+            
+            // 添加材质选择状态信息
+            if (HasStartedProduction && SupportsStuffChoice)
+            {
+                sb.AppendLine();
+                sb.AppendLine("<color=yellow>Material choice is locked because production has started.</color>");
+            }
+
+            return sb.ToString();
+        }
+
+        // 其余方法保持不变...
         public void UpdateState()
         {
             if (state == ProductionState.Completed)
@@ -80,7 +308,7 @@ namespace WulaFallenEmpire
                 if (state == ProductionState.Waiting && !paused)
                 {
                     state = ProductionState.Producing;
-                    progress = 0f; // 开始生产时重置进度
+                    progress = 0f;
                 }
             }
             else
@@ -88,230 +316,62 @@ namespace WulaFallenEmpire
                 if (state == ProductionState.Producing)
                 {
                     state = ProductionState.Waiting;
-                    progress = 0f; // 资源不足时重置进度
+                    progress = 0f;
                 }
             }
         }
 
-        // 修复：改进生产完成逻辑
         public void Produce()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null)
                 return;
+            
             foreach (var product in recipe.products)
             {
-                // 检查产物是否为Pawn
                 if (product.thingDef.race != null)
                 {
-                    // 对于Pawn，我们存储的是Pawn的ThingDef，在释放时再随机生成PawnKind
                     globalStorage.AddToOutputStorage(product.thingDef, product.count);
                 }
                 else
                 {
-                    // 对于普通物品，正常存储
                     globalStorage.AddToOutputStorage(product.thingDef, product.count);
                 }
             }
+
             currentCount++;
-            progress = 0f; // 生产完成后重置进度
+            progress = 0f;
+
             if (currentCount >= targetCount)
             {
                 state = ProductionState.Completed;
             }
         }
 
-        // 检查是否有足够资源 - 修复逻辑
-        public bool HasEnoughResources()
-        {
-            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            if (globalStorage == null) return false;
-
-            // 遍历所有配料要求
-            foreach (var ingredient in recipe.ingredients)
-            {
-                bool hasEnoughForThisIngredient = false;
-                
-                // 检查这个配料的所有允许物品类型
-                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
-                {
-                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
-                    int availableCount = globalStorage.GetInputStorageCount(thingDef);
-                    
-                    if (availableCount >= requiredCount)
-                    {
-                        hasEnoughForThisIngredient = true;
-                        break; // 这个配料有足够的资源
-                    }
-                }
-                
-                // 如果任何一个配料没有足够资源，整个配方就无法生产
-                if (!hasEnoughForThisIngredient)
-                    return false;
-            }
-            
-            return true;
-        }
-
-        // 消耗资源 - 修复逻辑
-        public bool ConsumeResources()
-        {
-            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            if (globalStorage == null) return false;
-
-            // 遍历所有配料要求
-            foreach (var ingredient in recipe.ingredients)
-            {
-                bool consumedThisIngredient = false;
-                
-                // 尝试消耗这个配料的允许物品类型
-                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
-                {
-                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
-                    int availableCount = globalStorage.GetInputStorageCount(thingDef);
-                    
-                    if (availableCount >= requiredCount)
-                    {
-                        if (globalStorage.RemoveFromInputStorage(thingDef, requiredCount))
-                        {
-                            consumedThisIngredient = true;
-                            break; // 成功消耗这个配料
-                        }
-                    }
-                }
-                
-                // 如果任何一个配料无法消耗，整个生产失败
-                if (!consumedThisIngredient)
-                    return false;
-            }
-            
-            return true;
-        }
-        // 修复：添加获取正确工作量的方法
         public float GetWorkAmount()
         {
             if (recipe == null)
                 return 1000f;
 
-            // 如果配方有明确的工作量且大于0，使用配方的工作量
             if (recipe.workAmount > 0)
                 return recipe.workAmount;
 
-            // 否则，使用第一个产品的WorkToMake属性
             if (recipe.products != null && recipe.products.Count > 0)
             {
                 ThingDef productDef = recipe.products[0].thingDef;
                 if (productDef != null)
                 {
-                    // 获取产品的WorkToMake统计值
                     float workToMake = productDef.GetStatValueAbstract(StatDefOf.WorkToMake);
                     if (workToMake > 0)
                         return workToMake;
 
-                    // 如果WorkToMake也是0或无效，使用产品的市场价值作为估算
                     float marketValue = productDef.GetStatValueAbstract(StatDefOf.MarketValue);
                     if (marketValue > 0)
-                        return marketValue * 10f; // 基于市场价值的估算
+                        return marketValue * 10f;
                 }
             }
 
-            return 1000f; // 默认工作量
-        }
-
-        // 修复：在信息显示中使用正确的工作量
-        public string GetIngredientsInfo()
-        {
-            StringBuilder sb = new StringBuilder();
-            // 添加标题
-            sb.AppendLine("WULA_RequiredIngredients".Translate() + ":");
-            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            foreach (var ingredient in recipe.ingredients)
-            {
-                bool firstAllowedThing = true;
-                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
-                {
-                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
-                    int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
-                    if (firstAllowedThing)
-                    {
-                        sb.Append(" - ");
-                        firstAllowedThing = false;
-                    }
-                    else
-                    {
-                        sb.Append(" / ");
-                    }
-                    sb.Append($"{requiredCount} {thingDef.label}");
-                    // 添加可用数量信息
-                    if (availableCount < requiredCount)
-                    {
-                        sb.Append($" (<color=red>{availableCount}</color>/{requiredCount})");
-                    }
-                    else
-                    {
-                        sb.Append($" ({availableCount}/{requiredCount})");
-                    }
-                }
-                sb.AppendLine();
-            }
-            // 添加产品信息
-            sb.AppendLine();
-            sb.AppendLine("WULA_Products".Translate() + ":");
-            foreach (var product in recipe.products)
-            {
-                sb.AppendLine($" - {product.count} {product.thingDef.label}");
-            }
-            // 修复：使用正确的工作量信息
-            sb.AppendLine();
-            sb.AppendLine("WULA_WorkAmount".Translate() + ": " + GetWorkAmount().ToStringWorkAmount());
-            return sb.ToString();
-        }
-
-        // 修复：在Tooltip中也使用正确的工作量
-        public string GetIngredientsTooltip()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine(recipe.LabelCap);
-            sb.AppendLine();
-            // 材料需求
-            sb.AppendLine("WULA_RequiredIngredients".Translate() + ":");
-            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            foreach (var ingredient in recipe.ingredients)
-            {
-                bool ingredientSatisfied = false;
-                StringBuilder ingredientSB = new StringBuilder();
-                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
-                {
-                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
-                    int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
-                    if (ingredientSB.Length > 0)
-                        ingredientSB.Append(" / ");
-                    ingredientSB.Append($"{requiredCount} {thingDef.label}");
-                    if (availableCount >= requiredCount)
-                    {
-                        ingredientSatisfied = true;
-                    }
-                }
-                if (ingredientSatisfied)
-                {
-                    sb.AppendLine($" <color=green>{ingredientSB}</color>");
-                }
-                else
-                {
-                    sb.AppendLine($" <color=red>{ingredientSB}</color>");
-                }
-            }
-            // 产品
-            sb.AppendLine();
-            sb.AppendLine("WULA_Products".Translate() + ":");
-            foreach (var product in recipe.products)
-            {
-                sb.AppendLine($" {product.count} {product.thingDef.label}");
-            }
-            // 修复：使用正确的工作量
-            sb.AppendLine();
-            sb.AppendLine("WULA_WorkAmount".Translate() + ": " + GetWorkAmount().ToStringWorkAmount());
-            return sb.ToString();
+            return 1000f;
         }
     }
 }

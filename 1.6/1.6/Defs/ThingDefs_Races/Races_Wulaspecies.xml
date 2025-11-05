@@ -779,6 +779,8 @@
 			</li>
       <li Class="WulaFallenEmpire.CompProperties_HediffGiver">
         <hediffs>
+          <li>Wula_Synth</li>
+          <li>WULA_Addons_Antenna_Hediff_Base</li>
           <li>WULA_NanoRepairHediff</li>
         </hediffs>
         <addChance>1.0</addChance>

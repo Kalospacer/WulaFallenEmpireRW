@@ -4,9 +4,9 @@
     <defName>WULA_Child_Backstory01</defName>
     <ignoreIllegalLabelCharacterConfigError>False</ignoreIllegalLabelCharacterConfigError>
     <slot>Childhood</slot>
-    <title>产地：</title>
-    <titleShort></titleShort>
-    <description>[PAWN_nameDef] 是诞生于乌拉帝国的合成人。</description>
+    <title>产地：科鲁普</title>
+    <titleShort>科鲁普</titleShort>
+    <description>[PAWN_nameDef] 是产自科鲁普星区的合成人。这片星区是一个四战之地——由于其地处边缘且地缘政治复杂，乌拉帝国从未真正掌控这片星区，但是此处优秀的稀有水晶和异星天然气使得帝国不愿放弃此星区的掌控。\n\n在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗。</description>
     <skillGains>
       <Shooting>3</Shooting>
       <Melee>3</Melee>
@@ -16,15 +16,28 @@
     </spawnCategories>
     <requiredWorkTags>None</requiredWorkTags>
     <forcedHediffs>
-      <li>Wula_Synth</li>
-      <li>WULA_Addons_Antenna_Hediff_Base</li>
-      <!--<li>MechlinkImplant</li>-->
+      <li>WULA_Child_Backstory01_Hediff</li>
     </forcedHediffs>
     <forcedTraitsChance>
-      <li>
-        <defName Degree="0">WULA_BrokenPersonalityTrait</defName>
-        <chance>100</chance>
-      </li>
     </forcedTraitsChance>
   </AlienRace.AlienBackstoryDef>
+  <HediffDef>
+    <defName>WULA_Child_Backstory01_Hediff</defName>
+    <label>产地：科鲁普</label>
+    <description>[PAWN_nameDef] 是产自科鲁普星区的合成人。这片星区是一个四战之地——由于其地处边缘且地缘政治复杂，乌拉帝国从未真正掌控这片星区，但是此处优秀的稀有水晶和异星天然气使得帝国不愿放弃此星区的掌控。\n\n在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <everCurableByItem>false</everCurableByItem>
+    <duplicationAllowed>false</duplicationAllowed>
+    <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+      </li>
+    </stages>
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceDamage">
+        <damageToMaintenanceFactor>0.0025</damageToMaintenanceFactor> <!-- 1点伤害 = 0.25%维护度减少 -->
+      </li>
+    </comps>
+  </HediffDef>
 </Defs>
