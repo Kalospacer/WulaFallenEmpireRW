@@ -11,8 +11,8 @@ namespace WulaFallenEmpire
         public float activeSeverity = 0.5f;      // 有能量且损伤时的严重性
         public float inactiveSeverity = 1.5f;    // 其他情况的严重性
         public float minEnergyThreshold = 0.1f;  // 最低能量阈值
-        public float repairCostPerHP = 0.1f;     // 每点生命值修复的能量消耗
-        public int repairCooldownAfterDamage = 300; // 受到伤害后的修复冷却时间
+        public float repairCostPerHP = 0.03f;     // 每点生命值修复的能量消耗
+        public int repairCooldownAfterDamage = 600; // 受到伤害后的修复冷却时间
                                                     // 新增：与 StatDef 的关联
         public StatDef repairCostStatDef;
         public StatDef cooldownStatDef;

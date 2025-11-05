@@ -370,6 +370,7 @@
     <edgeType>Hard</edgeType>
     <renderPrecedence>70</renderPrecedence>
     <isPaintable>true</isPaintable>
+    <designationCategory>WULA_Buildings</designationCategory>
     <statBases>
       <Beauty>3</Beauty>
       <WorkToBuild>100</WorkToBuild>
@@ -986,8 +987,8 @@
   <!-- 充电器 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Machine_Recharger_Cleanzone</defName>
-    <label>乌拉帝国充电站</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国充电站是能够储存大量电量并允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。由于其根基埋于地下，因此不会阻碍其他殖民者和机械体在其上面的移动。</description>
+    <label>乌拉帝国地下维护站</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国地下维护站是能够储存大量电量并允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。由于其根基埋于地下，因此不会阻碍其他殖民者和机械体在其上面的移动。</description>
     <uiIconPath>Wula/Building/WULA_Machine_Recharger</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1042,7 +1043,7 @@
   </ThingDef>
   <ThingDef ParentName="SkyfallerBase">
     <defName>WULA_Machine_Recharger_Incoming</defName>
-    <label>乌拉帝国充电站（空投中）</label>
+    <label>乌拉帝国地下维护站（空投中）</label>
     <size>(3,3)</size>
     <graphicData>
       <texPath>Wula/Building/WULA_Machine_Recharger_Incoming</texPath>
@@ -1076,7 +1077,7 @@
   </ThingDef>
   <ThingDef ParentName="BaseMechCharger">
     <defName>WULA_Machine_Recharger</defName>
-    <label>乌拉帝国充电站</label>
+    <label>乌拉帝国地下维护站</label>
     <description>一个能够储存大量电量并允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。由于其根基埋于地下，因此不会阻碍其他殖民者和机械体在其上面的移动。</description>
     <graphicData>
       <texPath>Wula/Building/WULA_Machine_Recharger</texPath>
@@ -1146,6 +1147,162 @@
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
         <basePowerConsumption>400</basePowerConsumption>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 床 -->  
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Charging_Station_Synth_Cleanzone</defName>
+    <label>合成人充电站</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n合成人充电站是一台供乌拉帝国合成人进行机体充能和改装的检修站，当机械乌拉需要充电时会优先前往此处充电。</description>
+    <uiIconPath>Wula/Building/WULA_Charging_Station_Synth_south</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_12_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.8,2)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(1,2)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <costList>
+      <Steel>50</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>WULA_Charging_Station_Synth_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Charging_Station_Synth_Incoming</defName>
+    <label>合成人充电站（空投中）</label>
+    <size>(1,2)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Charging_Station_Synth_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(1.8,2)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Charging_Station_Synth</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BasicBedBase">
+    <defName>WULA_Charging_Station_Synth</defName>
+    <thingClass>Building_Bed</thingClass>
+    <label>合成人充电站</label>
+    <description>一台供乌拉帝国合成人进行机体充能和改装的检修站，当机械乌拉需要充电时会优先前往此处充电。</description>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Charging_Station_Synth</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.8,2)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+      <shadowData>
+        <volume>(0.8, 1.5, 0.9)</volume>
+        <!-- <offset>(-0.05, 0, 0.35)</offset> -->
+      </shadowData>
+    </graphicData>
+    <designationCategory Inherit="False" IsNull="True" />
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
+    <statBases>
+      <Comfort>0.75</Comfort>
+      <MaxHitPoints>140</MaxHitPoints>
+      <Beauty>1</Beauty>
+      <WorkToBuild>800</WorkToBuild>
+      <Mass>30</Mass>
+      <MedicalTendQualityOffset>10</MedicalTendQualityOffset>
+    </statBases>
+    <size>(1,2)</size>
+    <costList>
+      <Steel>1</Steel>
+    </costList>
+    <uiOrder>2010</uiOrder>
+    <fillPercent>0.5</fillPercent>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Base_Technology</li>
+    </researchPrerequisites>
+    <stuffCategories Inherit="False" IsNull="True" />
+    <building>
+      <paintable>false</paintable>
+      <bed_showSleeperBody>true</bed_showSleeperBody>
+      <bed_healPerDay>0</bed_healPerDay>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>200</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_ChargingBed">
+        <hediffDef>WULA_ChargingHediff</hediffDef>
+        <raceDefName>WulaSpecies</raceDefName>
       </li>
     </comps>
   </ThingDef>

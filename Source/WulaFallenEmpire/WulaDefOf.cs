@@ -15,11 +15,11 @@ namespace WulaFallenEmpire
             DefOfHelper.EnsureInitializedInCtor(typeof(ThingDefOf_WULA));
         }
     }
+    
     [DefOf]
     public static class JobDefOf_WULA
     {
         public static JobDef WULA_EnterMaintenancePod;
-
         public static JobDef WULA_HaulToMaintenancePod;
 
         static JobDefOf_WULA()
@@ -27,6 +27,7 @@ namespace WulaFallenEmpire
             DefOfHelper.EnsureInitializedInCtor(typeof(JobDefOf_WULA));
         }
     }
+    
     [DefOf]
     public static class WulaStatDefOf
     {
@@ -36,6 +37,29 @@ namespace WulaFallenEmpire
         static WulaStatDefOf()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(WulaStatDefOf));
+        }
+    }
+    
+    [DefOf]
+    public static class WulaNeedDefOf
+    {
+        public static NeedDef WULA_Energy;
+        
+        static WulaNeedDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(WulaNeedDefOf));
+        }
+    }
+
+
+    [DefOf]
+    public static class WulaStatCategoryDefOf
+    {
+        public static StatCategoryDef WULA_Synth;
+
+        static WulaStatCategoryDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(WulaStatCategoryDefOf));
         }
     }
 }

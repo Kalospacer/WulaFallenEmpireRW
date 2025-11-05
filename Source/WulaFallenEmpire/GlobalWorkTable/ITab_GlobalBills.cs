@@ -1,4 +1,4 @@
-// ITab_GlobalBills.cs (添加图标支持)
+// ITab_GlobalBills.cs (移除材质选择功能)
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,13 +57,6 @@ namespace WulaFallenEmpire
             {
                 Find.WindowStack.Add(new FloatMenu(GenerateRecipeOptions()));
             }
-            
-            // 绘制鼠标悬停信息 - 使用简单的Tooltip方式
-            if (mouseoverOrder != null)
-            {
-                // 使用Tooltip显示材料信息，不绘制额外窗口
-                // 信息已经在DoOrderRow中的TooltipHandler显示
-            }
         }
 
         // 新增：存储查看按钮
@@ -72,8 +65,6 @@ namespace WulaFallenEmpire
             // 绘制按钮
             if (Widgets.ButtonText(rect, "WULA_ViewStorage".Translate()))
             {
-                // 点击按钮时也可以做一些事情，比如打开详细存储窗口
-                // 暂时只显示Tooltip
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
             
@@ -111,7 +102,6 @@ namespace WulaFallenEmpire
             {
                 foreach (var kvp in inputItems)
                 {
-                    // 使用正确的图标格式并保留名称
                     sb.AppendLine($"  {kvp.Value} {kvp.Key.LabelCap}");
                 }
             }
@@ -136,20 +126,12 @@ namespace WulaFallenEmpire
             {
                 foreach (var kvp in outputItems)
                 {
-                    // 使用正确的图标格式并保留名称
                     sb.AppendLine($"  {kvp.Value} {kvp.Key.LabelCap}");
                 }
             }
 
-            // 添加存储统计信息
-            sb.AppendLine();
-            sb.AppendLine("WULA_StorageStats".Translate());
-            sb.AppendLine($"  {inputItems.Count} {("WULA_InputItems".Translate())}");
-            sb.AppendLine($"  {outputItems.Count} {("WULA_OutputItems".Translate())}");
-
             return sb.ToString();
         }
-
 
         // 修改：将开发者模式按钮改为上帝模式按钮
         private void DoGodModeButtons(Rect rect)
@@ -182,7 +164,6 @@ namespace WulaFallenEmpire
                 globalStorage.AddToInputStorage(componentDef, 100);
                 
                 Messages.Message("Added 200 Steel and 100 Components to global storage", MessageTypeDefOf.PositiveEvent);
-                Log.Message("[GOD MODE] Added test resources");
             }
         }
 
@@ -227,7 +208,6 @@ namespace WulaFallenEmpire
                 }
                 
                 Messages.Message($"Spawned {totalSpawned} items at worktable location", MessageTypeDefOf.PositiveEvent);
-                Log.Message($"[GOD MODE] Spawned {totalSpawned} output products");
             }
         }
 
@@ -271,7 +251,9 @@ namespace WulaFallenEmpire
             
             Widgets.EndScrollView();
             return result;
-        }// 在 ITab_GlobalBills.cs 中修正材质选择功能
+        }
+
+        // 简化：DoOrderRow 方法，移除材质选择按钮
         private bool DoOrderRow(Rect rect, GlobalProductionOrder order)
         {
             Widgets.DrawHighlightIfMouseover(rect);
@@ -351,17 +333,6 @@ namespace WulaFallenEmpire
             Rect pauseButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
             currentX -= (buttonWidth + buttonSpacing);
 
-            // 材质选择按钮（如果支持材质选择且未开始生产）
-            Rect stuffButtonRect = new Rect(0f, 0f, 0f, 0f);
-            bool showStuffButton = false;
-
-            if (order.SupportsStuffChoice && !order.HasStartedProduction)
-            {
-                showStuffButton = true;
-                stuffButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
-                currentX -= (buttonWidth + buttonSpacing);
-            }
-
             // 上帝模式：立刻完成按钮
             Rect completeButtonRect = new Rect(currentX - buttonWidth, buttonY, buttonWidth, 25f);
 
@@ -379,29 +350,6 @@ namespace WulaFallenEmpire
                 order.paused = !order.paused;
                 order.UpdateState();
                 SoundDefOf.Click.PlayOneShotOnCamera();
-            }
-
-            // 绘制材质选择按钮
-            if (showStuffButton)
-            {
-                string stuffButtonText = order.chosenStuff != null ?
-                    order.chosenStuff.LabelCap :
-                    "WULA_ChooseStuff".Translate();
-
-                if (Widgets.ButtonText(stuffButtonRect, stuffButtonText))
-                {
-                    ShowStuffSelectionMenu(order);
-                    SoundDefOf.Click.PlayOneShotOnCamera();
-                }
-
-                // 为材质选择按钮添加Tooltip
-                if (Mouse.IsOver(stuffButtonRect))
-                {
-                    string tooltip = order.chosenStuff != null ?
-                        $"WULA_CurrentStuff".Translate(order.chosenStuff.LabelCap) :
-                        "WULA_ChooseStuffTooltip".Translate();
-                    TooltipHandler.TipRegion(stuffButtonRect, tooltip);
-                }
             }
 
             // 绘制上帝模式按钮（仅上帝模式下可见）
@@ -438,104 +386,8 @@ namespace WulaFallenEmpire
 
             return Mouse.IsOver(rect);
         }
-        // 修正：显示材质选择菜单
-        private void ShowStuffSelectionMenu(GlobalProductionOrder order)
-        {
-            if (order.HasStartedProduction)
-            {
-                Messages.Message("WULA_CannotChangeStuffAfterStart".Translate(), MessageTypeDefOf.RejectInput);
-                return;
-            }
-            if (!order.SupportsStuffChoice)
-            {
-                Messages.Message("WULA_RecipeDoesNotSupportStuff".Translate(), MessageTypeDefOf.RejectInput);
-                return;
-            }
-            var availableStuff = order.GetAvailableStuffForProduct();
 
-            if (availableStuff.Count == 0)
-            {
-                Messages.Message("WULA_NoStuffAvailable".Translate(), MessageTypeDefOf.RejectInput);
-                return;
-            }
-            List<FloatMenuOption> options = new List<FloatMenuOption>();
-            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-
-            foreach (var stuffDef in availableStuff)
-            {
-                var stuffDefCopy = stuffDef;
-
-                // 计算所需数量
-                int requiredStuffCount = order.ProductDef.costStuffCount;
-                int availableCount = globalStorage?.GetInputStorageCount(stuffDefCopy) ?? 0;
-
-                // 构建显示文本
-                string label = $"{stuffDefCopy.LabelCap} ({requiredStuffCount} needed)";
-                if (availableCount < requiredStuffCount)
-                {
-                    label += $" <color=red>(Only {availableCount} available)</color>";
-                }
-                else
-                {
-                    label += $" <color=green>({availableCount} available)</color>";
-                }
-
-                // 添加材质属性信息
-                if (stuffDefCopy.stuffProps != null)
-                {
-                    label += $"\n  - {"WULA_Commonality".Translate()}: {stuffDefCopy.stuffProps.commonality}";
-                    if (stuffDefCopy.stuffProps.stuffAdjective != null)
-                    {
-                        label += $"\n  - {"WULA_Adjective".Translate()}: {stuffDefCopy.stuffProps.stuffAdjective}";
-                    }
-                }
-
-                options.Add(new FloatMenuOption(
-                    label: label,
-                    action: () =>
-                    {
-                        order.chosenStuff = stuffDefCopy;
-                        Messages.Message($"WULA_StuffSelected".Translate(stuffDefCopy.LabelCap), MessageTypeDefOf.TaskCompletion);
-                    },
-                    shownItemForIcon: stuffDefCopy
-                ));
-            }
-
-            // 添加"自动选择"选项
-            options.Add(new FloatMenuOption(
-                label: "WULA_AutoSelectStuff".Translate(),
-                action: () =>
-                {
-                    // 选择库存最充足的材质
-                    var bestStuff = availableStuff
-                        .OrderByDescending(stuff => globalStorage?.GetInputStorageCount(stuff) ?? 0)
-                        .ThenBy(stuff => stuff.stuffProps?.commonality ?? 1f)
-                        .FirstOrDefault();
-
-                    if (bestStuff != null)
-                    {
-                        order.chosenStuff = bestStuff;
-                        Messages.Message($"WULA_StuffAutoSelected".Translate(bestStuff.LabelCap), MessageTypeDefOf.TaskCompletion);
-                    }
-                }
-            ));
-
-            // 添加"清除选择"选项（如果当前有选择）
-            if (order.chosenStuff != null)
-            {
-                options.Add(new FloatMenuOption(
-                    label: "WULA_ClearStuffSelection".Translate(),
-                    action: () =>
-                    {
-                        order.chosenStuff = null;
-                        Messages.Message("WULA_StuffSelectionCleared".Translate(), MessageTypeDefOf.TaskCompletion);
-                    }
-                ));
-            }
-
-            Find.WindowStack.Add(new FloatMenu(options));
-        }
-        // 修正：在添加订单时初始化材质选择
+        // 简化：在添加订单时移除材质初始化
         private List<FloatMenuOption> GenerateRecipeOptions()
         {
             var options = new List<FloatMenuOption>();
@@ -555,15 +407,8 @@ namespace WulaFallenEmpire
                                 paused = true
                             };
 
-                            // 初始化材质选择（如果支持）
-                            if (newOrder.SupportsStuffChoice)
-                            {
-                                newOrder.InitializeStuffChoice();
-                            }
-
                             SelTable.globalOrderStack.AddOrder(newOrder);
                             SoundDefOf.Click.PlayOneShotOnCamera();
-                            Log.Message($"[DEBUG] Added order for {recipe.defName}");
                         },
                         shownItemForIcon: recipe.UIIconThing,
                         thingStyle: null,
@@ -659,7 +504,6 @@ namespace WulaFallenEmpire
 
             // 显示完成消息
             Messages.Message($"GOD MODE: Completed order for {order.recipe.LabelCap} ({remainingCount} units)", MessageTypeDefOf.PositiveEvent);
-            Log.Message($"[GOD MODE] Force completed order: {order.recipe.defName}, produced {remainingCount} units");
         }
 
         public override void TabUpdate()

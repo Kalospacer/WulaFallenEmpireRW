@@ -237,18 +237,26 @@
   <WULA_NanoRepairCooldownAfterDamage_Desc>受到伤害后纳米修复系统进入冷却的时间。数值越低，系统响应越快。</WULA_NanoRepairCooldownAfterDamage_Desc>
   <!-- 纳米修复统计解释文本 -->
   <WULA_NanoRepair_Properties>纳米修复系统属性：</WULA_NanoRepair_Properties>
-  <WULA_NanoRepair_CostPerHP_Line>• 每点生命值修复消耗: {0}</WULA_NanoRepair_CostPerHP_Line>
-  <WULA_NanoRepair_MinEnergyThreshold_Line>• 最低启动能量阈值: {0}</WULA_NanoRepair_MinEnergyThreshold_Line>
-  <WULA_NanoRepair_CooldownAfterDamage_Line>• 伤害后冷却时间: {1} 秒</WULA_NanoRepair_CooldownAfterDamage_Line>
-  <WULA_NanoRepair_SystemStatus_Line>• 系统状态: {0}</WULA_NanoRepair_SystemStatus_Line>
+  <WULA_NanoRepair_CostPerHP_Line>\n• 每点生命值修复消耗电量: {0}</WULA_NanoRepair_CostPerHP_Line>
+  <WULA_NanoRepair_MinEnergyThreshold_Line>\n• 最低启动能量阈值: {0}</WULA_NanoRepair_MinEnergyThreshold_Line>
+  <WULA_NanoRepair_CooldownAfterDamage_Line>\n• 伤害后冷却时间: {1} 秒</WULA_NanoRepair_CooldownAfterDamage_Line>
+  <WULA_NanoRepair_SystemStatus_Line>\n• 系统状态: {0}</WULA_NanoRepair_SystemStatus_Line>
   <WULA_NanoRepair_SystemStatus_Enabled>已启用</WULA_NanoRepair_SystemStatus_Enabled>
   <WULA_NanoRepair_SystemStatus_Disabled>已禁用</WULA_NanoRepair_SystemStatus_Disabled>
+  <WULA_RepairCostPerHP>每点生命值修复消耗电量: {0}</WULA_RepairCostPerHP>
   <!-- 维护系统统计解释 -->
   <WULA_Maintenance_Properties>维护系统属性：</WULA_Maintenance_Properties>
-  <WULA_Maintenance_DegradationFactor_Explanation>• 阈值前退化速率: {0}/天\n• 阈值后退化速率: {1}/天\n• 阈值天数: {2}天</WULA_Maintenance_DegradationFactor_Explanation>
-  <WULA_Maintenance_StatusThresholdFactor_Explanation>• 轻微故障阈值: {0}\n• 严重故障阈值: {1}\n• 完全故障阈值: {2}</WULA_Maintenance_StatusThresholdFactor_Explanation>
-  <WULA_Maintenance_DamageToMaintenanceFactor_Explanation>• 伤害转换因子: {0}/点伤害</WULA_Maintenance_DamageToMaintenanceFactor_Explanation>
-  <WULA_Maintenance_MinorBreakdownThreshold_Explanation>• 轻微故障阈值: {0}</WULA_Maintenance_MinorBreakdownThreshold_Explanation>
-  <WULA_Maintenance_MajorBreakdownThreshold_Explanation>• 严重故障阈值: {0}</WULA_Maintenance_MajorBreakdownThreshold_Explanation>
-  <WULA_Maintenance_CriticalFailureThreshold_Explanation>• 完全故障阈值: {0}</WULA_Maintenance_CriticalFailureThreshold_Explanation>
+  <WULA_Maintenance_DegradationFactor_Explanation>\n• 阈值前退化速率: {0}/天\n• 阈值后退化速率: {1}/天\n• 阈值天数: {2}天</WULA_Maintenance_DegradationFactor_Explanation>
+  <WULA_Maintenance_StatusThresholdFactor_Explanation>\n• 轻微故障阈值: {0}\n• 严重故障阈值: {1}\n• 完全故障阈值: {2}</WULA_Maintenance_StatusThresholdFactor_Explanation>
+  <WULA_Maintenance_DamageToMaintenanceFactor_Explanation>\n• 维护伤害: {0}/点伤害</WULA_Maintenance_DamageToMaintenanceFactor_Explanation>
+  <WULA_Maintenance_MinorBreakdownThreshold_Explanation>\n• 轻微故障阈值: {0}</WULA_Maintenance_MinorBreakdownThreshold_Explanation>
+  <WULA_Maintenance_MajorBreakdownThreshold_Explanation>\n• 严重故障阈值: {0}</WULA_Maintenance_MajorBreakdownThreshold_Explanation>
+  <WULA_Maintenance_CriticalFailureThreshold_Explanation>\n• 完全故障阈值: {0}</WULA_Maintenance_CriticalFailureThreshold_Explanation>
+  <!-- StatWorker_Energy  -->
+  <WULA_Energy_Properties>能量系统属性：</WULA_Energy_Properties>
+  <WULA_Energy_MaxLevelOffset_PawnExplanation>机械乌拉能量上限偏移量：影响该个体的最大能量储备。</WULA_Energy_MaxLevelOffset_PawnExplanation>
+  <WULA_Energy_FallRateFactor_PawnExplanation>机械乌拉能量消耗速度：影响该个体的能量消耗速率。</WULA_Energy_FallRateFactor_PawnExplanation>
+  <WULA_Energy_RaceProperties>种族能量属性：</WULA_Energy_RaceProperties>
+  <WULA_Energy_MaxLevelOffset_RaceExplanation>机械乌拉能量上限偏移量：影响该种族的最大能量储备。</WULA_Energy_MaxLevelOffset_RaceExplanation>
+  <WULA_Energy_FallRateFactor_RaceExplanation>机械乌拉能量消耗速度：影响该种族的能量消耗速率。</WULA_Energy_FallRateFactor_RaceExplanation>
 </LanguageData>

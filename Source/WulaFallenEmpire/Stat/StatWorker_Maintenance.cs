@@ -23,6 +23,9 @@ namespace WulaFallenEmpire
 
         public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
         {
+            // 关键修复：调用基类方法让 RimWorld 的统计系统处理所有修正
+            float baseValue = base.GetValueUnfinalized(req, applyPostProcess);
+            
             if (req.Thing is Pawn pawn)
             {
                 var maintenanceNeed = GetMaintenanceNeed(pawn);
@@ -30,11 +33,11 @@ namespace WulaFallenEmpire
                 
                 if (maintenanceNeed != null && extension != null)
                 {
-                    return GetStatValueForMaintenance(stat.defName, maintenanceNeed, extension);
+                    return GetStatValueForMaintenance(stat.defName, maintenanceNeed, extension, baseValue);
                 }
             }
 
-            return stat.defaultBaseValue;
+            return baseValue;
         }
 
         public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
@@ -71,30 +74,31 @@ namespace WulaFallenEmpire
             return maintenanceNeed?.Extension;
         }
 
-        private float GetStatValueForMaintenance(string statDefName, Need_Maintenance need, MaintenanceNeedExtension extension)
+        private float GetStatValueForMaintenance(string statDefName, Need_Maintenance need, MaintenanceNeedExtension extension, float baseValue)
         {
+            // 关键修复：使用基础值而不是固定值
             switch (statDefName)
             {
                 case "WULA_MaintenanceDegradationFactor":
-                    return CalculateDegradationFactor(need, extension);
+                    return CalculateDegradationFactor(need, extension, baseValue);
                     
                 case "WULA_MaintenanceStatusThresholdFactor":
-                    return CalculateStatusThresholdFactor(need, extension);
+                    return CalculateStatusThresholdFactor(need, extension, baseValue);
                     
                 case "WULA_MaintenanceDamageToMaintenanceFactor":
-                    return CalculateDamageToMaintenanceFactor(need, extension);
+                    return CalculateDamageToMaintenanceFactor(need, extension, baseValue);
                     
                 case "WULA_MaintenanceMinorBreakdownThresholdFactor":
-                    return CalculateMinorBreakdownThresholdFactor(need, extension);
+                    return CalculateMinorBreakdownThresholdFactor(need, extension, baseValue);
                     
                 case "WULA_MaintenanceMajorBreakdownThresholdFactor":
-                    return CalculateMajorBreakdownThresholdFactor(need, extension);
+                    return CalculateMajorBreakdownThresholdFactor(need, extension, baseValue);
                     
                 case "WULA_MaintenanceCriticalFailureThresholdFactor":
-                    return CalculateCriticalFailureThresholdFactor(need, extension);
+                    return CalculateCriticalFailureThresholdFactor(need, extension, baseValue);
                     
                 default:
-                    return stat.defaultBaseValue;
+                    return baseValue;
             }
         }
 
@@ -132,44 +136,44 @@ namespace WulaFallenEmpire
             return explanation;
         }
 
-        // 计算各种统计值的方法
-        private float CalculateDegradationFactor(Need_Maintenance need, MaintenanceNeedExtension extension)
+        // 计算各种统计值的方法 - 现在接受基础值参数
+        private float CalculateDegradationFactor(Need_Maintenance need, MaintenanceNeedExtension extension, float baseValue)
         {
-            // 基础退化速率乘数
-            return 1.0f; // 默认值，可以根据需要调整
+            // 基础退化速率乘数，使用统计系统修正后的值
+            return baseValue;
         }
 
-        private float CalculateStatusThresholdFactor(Need_Maintenance need, MaintenanceNeedExtension extension)
+        private float CalculateStatusThresholdFactor(Need_Maintenance need, MaintenanceNeedExtension extension, float baseValue)
         {
-            // 状态阈值乘数
-            return 1.0f; // 默认值，可以根据需要调整
+            // 状态阈值乘数，使用统计系统修正后的值
+            return baseValue;
         }
 
-        private float CalculateDamageToMaintenanceFactor(Need_Maintenance need, MaintenanceNeedExtension extension)
+        private float CalculateDamageToMaintenanceFactor(Need_Maintenance need, MaintenanceNeedExtension extension, float baseValue)
         {
-            // 伤害到维护度的转换因子
-            return extension?.damageToMaintenanceFactor ?? 0.01f;
+            // 伤害到维护度的转换因子，使用统计系统修正后的值
+            return baseValue;
         }
 
-        private float CalculateMinorBreakdownThresholdFactor(Need_Maintenance need, MaintenanceNeedExtension extension)
+        private float CalculateMinorBreakdownThresholdFactor(Need_Maintenance need, MaintenanceNeedExtension extension, float baseValue)
         {
-            // 轻微故障阈值乘数
-            return 1.0f; // 默认值
+            // 轻微故障阈值乘数，使用统计系统修正后的值
+            return baseValue;
         }
 
-        private float CalculateMajorBreakdownThresholdFactor(Need_Maintenance need, MaintenanceNeedExtension extension)
+        private float CalculateMajorBreakdownThresholdFactor(Need_Maintenance need, MaintenanceNeedExtension extension, float baseValue)
         {
-            // 严重故障阈值乘数
-            return 1.0f; // 默认值
+            // 严重故障阈值乘数，使用统计系统修正后的值
+            return baseValue;
         }
 
-        private float CalculateCriticalFailureThresholdFactor(Need_Maintenance need, MaintenanceNeedExtension extension)
+        private float CalculateCriticalFailureThresholdFactor(Need_Maintenance need, MaintenanceNeedExtension extension, float baseValue)
         {
-            // 完全故障阈值乘数
-            return 1.0f; // 默认值
+            // 完全故障阈值乘数，使用统计系统修正后的值
+            return baseValue;
         }
 
-        // 解释文本生成方法
+        // 解释文本生成方法（保持不变）
         private string GetDegradationFactorExplanation(Need_Maintenance need, MaintenanceNeedExtension extension)
         {
             return "WULA_Maintenance_DegradationFactor_Explanation".Translate(

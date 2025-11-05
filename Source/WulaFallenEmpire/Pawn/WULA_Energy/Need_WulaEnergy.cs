@@ -9,7 +9,7 @@ namespace WulaFallenEmpire
     {
         private NeedDefExtension_Energy ext;
 
-        private NeedDefExtension_Energy Ext
+        public NeedDefExtension_Energy Ext
         {
             get
             {

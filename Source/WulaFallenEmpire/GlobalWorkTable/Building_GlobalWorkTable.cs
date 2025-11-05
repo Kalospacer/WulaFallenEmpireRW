@@ -1,4 +1,4 @@
-// Building_GlobalWorkTable.cs (调整为每秒处理)
+// 在 Building_GlobalWorkTable.cs 中移除材质相关代码
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace WulaFallenEmpire
         private CompPowerTrader powerComp;
         private CompBreakdownable breakdownableComp;
         private int lastProcessTick = -1;
-        private const int ProcessInterval = 1; // 改为每tick处理，以实现每秒1工作量
+        private const int ProcessInterval = 1;
 
         public Building_GlobalWorkTable()
         {
@@ -35,12 +35,10 @@ namespace WulaFallenEmpire
             breakdownableComp = GetComp<CompBreakdownable>();
         }
 
-        // 在 Building_GlobalWorkTable 类中修改 Tick 方法
         protected override void Tick()
         {
             base.Tick();
 
-            // 修复：改为每60 ticks（1秒）处理一次，避免每tick处理导致的精度问题
             if (Find.TickManager.TicksGame % 60 == 0 &&
                 Find.TickManager.TicksGame != lastProcessTick)
             {
@@ -226,7 +224,7 @@ namespace WulaFallenEmpire
             return validSpots;
         }
 
-        // 新增：分配物品到空投舱
+        // 简化：分配物品到空投舱，移除材质相关代码
         private List<List<Thing>> DistributeItemsToPods(GlobalStorageWorldComponent storage, int podCount)
         {
             List<List<Thing>> podContents = new List<List<Thing>>();
@@ -266,7 +264,7 @@ namespace WulaFallenEmpire
                     while (remainingCount > 0)
                     {
                         int stackSize = Mathf.Min(remainingCount, thingDef.stackLimit);
-                        Thing thing = ThingMaker.MakeThing(thingDef);
+                        Thing thing = ThingMaker.MakeThing(thingDef); // 不再传递材质参数
                         thing.stackCount = stackSize;
                         allItems.Add(thing);
                         remainingCount -= stackSize;
@@ -330,25 +328,6 @@ namespace WulaFallenEmpire
                               kind.defaultFactionDef != buildingFaction.def)
                 .ToList();
 
-            // 记录调试信息
-            if (DebugSettings.godMode)
-            {
-                Log.Message($"[DEBUG] PawnKind selection for {pawnType.defName}:");
-                Log.Message($"  Building faction: {buildingFaction.def.defName}");
-                Log.Message($"  Matching faction kinds: {matchingFactionKinds.Count}");
-                Log.Message($"  No faction kinds: {noFactionKinds.Count}");
-                Log.Message($"  Excluded kinds: {excludedKinds.Count}");
-
-                foreach (var kind in matchingFactionKinds)
-                    Log.Message($"    Matching: {kind.defName} (faction: {kind.defaultFactionDef?.defName ?? "null"})");
-
-                foreach (var kind in noFactionKinds)
-                    Log.Message($"    No faction: {kind.defName}");
-
-                foreach (var kind in excludedKinds)
-                    Log.Message($"    Excluded: {kind.defName} (faction: {kind.defaultFactionDef?.defName})");
-            }
-
             // 优先级选择
             PawnKindDef selectedKind = null;
 
@@ -356,15 +335,11 @@ namespace WulaFallenEmpire
             if (matchingFactionKinds.Count > 0)
             {
                 selectedKind = matchingFactionKinds.RandomElement();
-                if (DebugSettings.godMode)
-                    Log.Message($"[DEBUG] Selected matching faction kind: {selectedKind.defName}");
             }
             // 2. 备选：没有defaultFactionDef的PawnKind
             else if (noFactionKinds.Count > 0)
             {
                 selectedKind = noFactionKinds.RandomElement();
-                if (DebugSettings.godMode)
-                    Log.Message($"[DEBUG] Selected no-faction kind: {selectedKind.defName}");
             }
             // 3. 没有符合条件的PawnKind
             else
@@ -375,7 +350,6 @@ namespace WulaFallenEmpire
 
             return selectedKind;
         }
-
 
         // 新增：创建空投舱
         private bool CreateDropPod(IntVec3 dropCell, List<Thing> contents)

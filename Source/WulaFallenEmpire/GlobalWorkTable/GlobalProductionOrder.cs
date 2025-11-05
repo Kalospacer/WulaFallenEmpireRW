@@ -1,4 +1,4 @@
-// GlobalProductionOrder.cs (修正材质属性读取)
+// GlobalProductionOrder.cs (移除所有材质相关代码)
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +14,6 @@ namespace WulaFallenEmpire
         public int targetCount = 1;
         public int currentCount = 0;
         public bool paused = true;
-        
-        // 材质选择：存储配方选择的材质（只有支持材质的配方才有）
-        public ThingDef chosenStuff = null;
         
         // 生产状态
         public ProductionState state = ProductionState.Waiting;
@@ -45,28 +42,6 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 新增：检查订单是否已经开始生产（一旦开始就不能修改材质）
-        public bool HasStartedProduction => state == ProductionState.Producing || currentCount > 0;
-
-        // 修正：检查产物是否支持材质选择
-        public bool SupportsStuffChoice
-        {
-            get
-            {
-                if (recipe?.products == null || recipe.products.Count == 0)
-                    return false;
-                    
-                var productDef = recipe.products[0].thingDef;
-                if (productDef == null)
-                    return false;
-                    
-                // 检查产物是否有stuffCategories且costStuffCount > 0
-                return productDef.stuffCategories != null && 
-                       productDef.stuffCategories.Count > 0 && 
-                       productDef.costStuffCount > 0;
-            }
-        }
-
         // 修正：获取产物的ThingDef
         public ThingDef ProductDef => recipe?.products?.Count > 0 ? recipe.products[0].thingDef : null;
 
@@ -78,62 +53,22 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref paused, "paused", true);
             Scribe_Values.Look(ref _progress, "progress", 0f);
             Scribe_Values.Look(ref state, "state", ProductionState.Waiting);
-            Scribe_Defs.Look(ref chosenStuff, "chosenStuff");
 
             // 修复：加载后验证数据
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 progress = _progress;
                 UpdateState();
-                
-                // 确保材质选择有效
-                if (SupportsStuffChoice && chosenStuff == null)
-                {
-                    InitializeStuffChoice();
-                }
             }
         }
 
-        // 修正：初始化材质选择
-        public void InitializeStuffChoice()
-        {
-            if (!SupportsStuffChoice) return;
-            
-            var availableStuff = GetAvailableStuffForProduct();
-            
-            if (availableStuff.Count > 0)
-            {
-                chosenStuff = availableStuff[0];
-            }
-        }
-
-        // 修正：获取产物的可用材质列表
-        public List<ThingDef> GetAvailableStuffForProduct()
-        {
-            var availableStuff = new List<ThingDef>();
-            
-            if (ProductDef?.stuffCategories != null)
-            {
-                foreach (var stuffCategory in ProductDef.stuffCategories)
-                {
-                    var stuffInCategory = DefDatabase<ThingDef>.AllDefs
-                        .Where(def => def.IsStuff && def.stuffProps?.categories != null && def.stuffProps.categories.Contains(stuffCategory))
-                        .ToList();
-                    
-                    availableStuff.AddRange(stuffInCategory);
-                }
-            }
-            
-            return availableStuff.Distinct().ToList();
-        }
-
-        // 修正：HasEnoughResources 方法，考虑选择的材质
+        // 简化：HasEnoughResources 方法，移除材质检查
         public bool HasEnoughResources()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null) return false;
 
-            // 检查固定消耗（costList）
+            // 只检查固定消耗（costList）
             foreach (var ingredient in recipe.ingredients)
             {
                 bool hasEnoughForThisIngredient = false;
@@ -154,26 +89,16 @@ namespace WulaFallenEmpire
                     return false;
             }
             
-            // 检查材质消耗（如果支持材质选择）
-            if (SupportsStuffChoice && chosenStuff != null)
-            {
-                int requiredStuffCount = ProductDef.costStuffCount;
-                int availableStuffCount = globalStorage.GetInputStorageCount(chosenStuff);
-                
-                if (availableStuffCount < requiredStuffCount)
-                    return false;
-            }
-            
             return true;
         }
 
-        // 修正：ConsumeResources 方法，考虑选择的材质
+        // 简化：ConsumeResources 方法，移除材质消耗
         public bool ConsumeResources()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null) return false;
 
-            // 消耗固定资源（costList）
+            // 只消耗固定资源（costList）
             foreach (var ingredient in recipe.ingredients)
             {
                 bool consumedThisIngredient = false;
@@ -197,19 +122,10 @@ namespace WulaFallenEmpire
                     return false;
             }
             
-            // 消耗材质（如果支持材质选择）
-            if (SupportsStuffChoice && chosenStuff != null)
-            {
-                int requiredStuffCount = ProductDef.costStuffCount;
-                
-                if (!globalStorage.RemoveFromInputStorage(chosenStuff, requiredStuffCount))
-                    return false;
-            }
-            
             return true;
         }
 
-        // 修正：GetIngredientsTooltip 方法，显示固定消耗和可选材质
+        // 简化：GetIngredientsTooltip 方法，只显示固定消耗
         public string GetIngredientsTooltip()
         {
             StringBuilder sb = new StringBuilder();
@@ -240,34 +156,6 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 材质消耗（如果支持材质选择）
-            if (SupportsStuffChoice)
-            {
-                sb.AppendLine();
-                sb.AppendLine("WULA_StuffMaterial".Translate() + ":");
-                
-                if (chosenStuff != null)
-                {
-                    int requiredStuffCount = ProductDef.costStuffCount;
-                    int availableStuffCount = globalStorage?.GetInputStorageCount(chosenStuff) ?? 0;
-                    
-                    string stuffDisplay = $"{requiredStuffCount} {chosenStuff.LabelCap}";
-                    
-                    if (availableStuffCount >= requiredStuffCount)
-                    {
-                        sb.AppendLine($" <color=green>{stuffDisplay} (Selected)</color>");
-                    }
-                    else
-                    {
-                        sb.AppendLine($" <color=red>{stuffDisplay} (Selected)</color>");
-                    }
-                }
-                else
-                {
-                    sb.AppendLine($" <color=yellow>{"WULA_NoStuffSelected".Translate()}</color>");
-                }
-            }
-
             // 产品
             sb.AppendLine();
             sb.AppendLine("WULA_Products".Translate() + ":");
@@ -279,13 +167,6 @@ namespace WulaFallenEmpire
             // 工作量信息
             sb.AppendLine();
             sb.AppendLine("WULA_WorkAmount".Translate() + ": " + GetWorkAmount().ToStringWorkAmount());
-            
-            // 添加材质选择状态信息
-            if (HasStartedProduction && SupportsStuffChoice)
-            {
-                sb.AppendLine();
-                sb.AppendLine("<color=yellow>Material choice is locked because production has started.</color>");
-            }
 
             return sb.ToString();
         }

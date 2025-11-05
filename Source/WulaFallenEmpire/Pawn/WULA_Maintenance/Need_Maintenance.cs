@@ -8,7 +8,7 @@ namespace WulaFallenEmpire
 {
     public class Need_Maintenance : Need
     {
-        private MaintenanceNeedExtension Extension => def.GetModExtension<MaintenanceNeedExtension>();
+        public MaintenanceNeedExtension Extension => def.GetModExtension<MaintenanceNeedExtension>();
         
         // 上次维护的天数
         private float daysSinceLastMaintenance = 0f;

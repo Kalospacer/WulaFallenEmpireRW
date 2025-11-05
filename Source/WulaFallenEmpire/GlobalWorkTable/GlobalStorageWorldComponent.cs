@@ -1,11 +1,11 @@
+// GlobalStorageWorldComponent.cs (移除材质相关存储)
 using LudeonTK;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 using Verse;
+using UnityEngine;
 
 namespace WulaFallenEmpire
 {
@@ -111,6 +111,7 @@ namespace WulaFallenEmpire
                 Log.Message("Added test resources to global storage");
             }
         }
+        
         [DebugAction("WULA", "Spawn All Products", actionType = DebugActionType.Action)]
         public static void DebugSpawnAllProducts()
         {

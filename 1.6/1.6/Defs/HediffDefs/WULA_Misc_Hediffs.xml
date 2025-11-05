@@ -77,8 +77,8 @@
         <activeSeverity>0.5</activeSeverity>
         <inactiveSeverity>1.5</inactiveSeverity>
         <minEnergyThreshold>0.1</minEnergyThreshold>
-        <repairCostPerHP>0.02</repairCostPerHP>
-        <repairCooldownAfterDamage>600</repairCooldownAfterDamage>
+        <repairCostPerHP>0.03</repairCostPerHP>
+        <!-- <repairCooldownAfterDamage>600</repairCooldownAfterDamage> -->
       </li>
     </comps>
   </HediffDef>

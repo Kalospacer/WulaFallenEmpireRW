@@ -156,6 +156,8 @@
     <Compile Include="Pawn\WULA_Maintenance\MaintenanceNeedExtension.cs" />
     <Compile Include="Pawn\WULA_Maintenance\Need_Maintenance.cs" />
     <Compile Include="Pawn\WULA_Maintenance\WorkGiver_DoMaintenance.cs" />
+    <Compile Include="Stat\StatWorker_Energy.cs" />
+    <Compile Include="Stat\StatWorker_Maintenance.cs" />
     <Compile Include="Stat\StatWorker_NanoRepair.cs" />
     <Compile Include="ThingComp\CompAndPatch_GiveHediffOnShot.cs" />
     <Compile Include="ThingComp\CompApparelInterceptor.cs" />
