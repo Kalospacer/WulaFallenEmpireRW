@@ -44,7 +44,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
   <RecipeDef>
@@ -91,7 +91,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
 
@@ -140,7 +140,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
   <RecipeDef>
@@ -180,7 +180,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
   <RecipeDef>
@@ -220,7 +220,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
 
@@ -339,28 +339,10 @@
     </researchPrerequisites>
   </RecipeDef>
 
-  <RecipeDef ParentName="LightMechanoidRecipe">
+  <RecipeDef ParentName="BaseMechanoidRecipe">
     <defName>WULA_Build_Wula_Synth</defName>
     <label>建造URa-00"机械乌拉"</label>
-    <description>建造一台URa-00"机械乌拉"合成人，是乌拉帝国合成人殖民地的主体种族，作为机械体的同时拥有复杂拟真的模拟情感。\n\n以此方法建造的合成人被称为新生代合成人，它们在出厂时只会设置人格，不会拥有任何技能等级，需要通过乌拉帝国数据库下载相关技能！</description>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>5</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>6</count>
-      </li>
-    </ingredients>
+    <description>建造一台URa-00"机械乌拉"合成人，是乌拉帝国合成人殖民地的主体种族，作为机械体的同时拥有复杂拟真的模拟情感。</description>
     <products>
       <WulaSpecies>1</WulaSpecies>
     </products>
@@ -369,8 +351,44 @@
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_Synth_Productor_Technology</researchPrerequisite>
   </RecipeDef>
+  <RecipeDef ParentName="BaseMechanoidRecipe">
+    <defName>WULA_Build_Mech_Cat</defName>
+    <label>建造CAt-11"猫猫"</label>
+    <description>建造一台CAt-11"猫猫"辅助机器人，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作。</description>
+    <products>
+      <Mech_WULA_Cat>1</Mech_WULA_Cat>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>Mech_WULA_Cat</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Bunker_Drop_Technology</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="BaseMechanoidRecipe">
+    <defName>WULA_Build_Mech_Cat_Constructor</defName>
+    <label>建造CAt-86"土木猫猫"</label>
+    <description>建造一台CAt-86"土木猫猫"辅助机器人，允许执行挖矿和建造的工作，并且拥有一把可以砸碎敌人膝盖的锤子。</description>
+    <products>
+      <Mech_WULA_Cat_Constructor>1</Mech_WULA_Cat_Constructor>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>Mech_WULA_Cat_Constructor</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Bunker_Drop_Technology</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="BaseMechanoidRecipe">
+    <defName>WULA_Build_Mech_Cat_Assault</defName>
+    <label>建造CAt-46"突击猫猫"</label>
+    <description>建造一台CAt-46"突击猫猫"辅助机器人，可以执行搬运、狩猎和割除任务，配备与DLa-1"页岩"性能相近的DLa-4"云母"突击步枪。</description>
+    <products>
+      <Mech_WULA_Cat_Assault>1</Mech_WULA_Cat_Assault>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>Mech_WULA_Cat_Assault</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Bunker_Drop_Technology</researchPrerequisite>
+  </RecipeDef>
 
-  <RecipeDef ParentName="HeavyMechanoidRecipe">
+  <RecipeDef ParentName="BaseMechanoidRecipe">
     <defName>WULA_Build_AI_Heavy_Panzer</defName>
     <label>建造SMp-38"萨克森"</label>
     <description>建造一台SMp-38"萨克森"智能战车。</description>
@@ -416,7 +434,7 @@
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_AI_Machine_Panzer_Technology</researchPrerequisite>
   </RecipeDef>
-  <RecipeDef ParentName="HeavyMechanoidRecipe">
+  <RecipeDef ParentName="BaseMechanoidRecipe">
     <defName>WULA_Build_AI_Heavy_Panzer_Gunnery</defName>
     <label>建造SMp-38A"斯佩萨特"</label>
     <description>建造一台SMp-38A"斯佩萨特"智能战车。</description>
@@ -463,7 +481,7 @@
     <researchPrerequisite>WULA_AI_Machine_Panzer_Technology</researchPrerequisite>
   </RecipeDef>
 
-  <RecipeDef ParentName="HeavyMechanoidRecipe">
+  <RecipeDef ParentName="BaseMechanoidRecipe">
     <defName>WULA_Build_Alpha_Wolf</defName>
     <label>建造SNm-6"狼蛛"</label>
     <description>建造一台SNm-6"狼蛛"智能机甲。</description>
@@ -509,7 +527,7 @@
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_Alpha_Wolf_Technology</researchPrerequisite>
   </RecipeDef>
-  <RecipeDef ParentName="MediumMechanoidRecipe">
+  <RecipeDef ParentName="BaseMechanoidRecipe">
     <defName>WULA_Build_Alpha_Mantodea</defName>
     <label>建造SNm-82"螳螂"</label>
     <description>建造一台SNm-82"螳螂"智能机甲。</description>
@@ -554,97 +572,5 @@
       <ThingDef>WULA_Alpha_Mantodea</ThingDef>
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_Alpha_Wolf_Technology</researchPrerequisite>
-  </RecipeDef>
-
-
-  <RecipeDef ParentName="LightMechanoidRecipe">
-    <defName>WULA_Build_Mech_Cat</defName>
-    <label>建造CAt-11"猫猫"</label>
-    <description>建造一台CAt-11"猫猫"辅助机器人，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作。</description>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>50</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-    </ingredients>
-    <products>
-      <Mech_WULA_Cat>1</Mech_WULA_Cat>
-    </products>
-    <descriptionHyperlinks>
-      <ThingDef>Mech_WULA_Cat</ThingDef>
-    </descriptionHyperlinks>
-    <researchPrerequisite>WULA_Machine_Productor_Technology</researchPrerequisite>
-  </RecipeDef>
-  <RecipeDef ParentName="LightMechanoidRecipe">
-    <defName>WULA_Build_Mech_Cat_Constructor</defName>
-    <label>建造CAt-86"土木猫猫"</label>
-    <description>建造一台CAt-86"土木猫猫"辅助机器人，允许执行挖矿和建造的工作，并且拥有一把可以砸碎敌人膝盖的锤子。</description>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>50</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-    </ingredients>
-    <products>
-      <Mech_WULA_Cat_Constructor>1</Mech_WULA_Cat_Constructor>
-    </products>
-    <descriptionHyperlinks>
-      <ThingDef>Mech_WULA_Cat_Constructor</ThingDef>
-    </descriptionHyperlinks>
-    <researchPrerequisite>WULA_Machine_Productor_Technology</researchPrerequisite>
-  </RecipeDef>
-  <RecipeDef ParentName="LightMechanoidRecipe">
-    <defName>WULA_Build_Mech_Cat_Assault</defName>
-    <label>建造CAt-46"突击猫猫"</label>
-    <description>建造一台CAt-46"突击猫猫"辅助机器人，可以执行搬运、狩猎和割除任务，配备与DLa-1"页岩"性能相近的DLa-4"云母"突击步枪。</description>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>50</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-    </ingredients>
-    <products>
-      <Mech_WULA_Cat_Assault>1</Mech_WULA_Cat_Assault>
-    </products>
-    <descriptionHyperlinks>
-      <ThingDef>Mech_WULA_Cat_Assault</ThingDef>
-    </descriptionHyperlinks>
-    <researchPrerequisite>WULA_Machine_Productor_1_Technology</researchPrerequisite>
   </RecipeDef>
 </Defs>

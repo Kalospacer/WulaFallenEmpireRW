@@ -113,6 +113,8 @@
       <li>
         <statOffsets>
           <PawnBeauty>2</PawnBeauty>
+          <NegotiationAbility>0.5</NegotiationAbility>
+          <SocialImpact>0.75</SocialImpact>
         </statOffsets>
       </li>
     </stages>
@@ -151,7 +153,7 @@
       <li>
         <statFactors>
           <WorkSpeedGlobal>0.8</WorkSpeedGlobal>
-          <WULA_MaintenanceDamageToMaintenanceFactor>0.5</WULA_MaintenanceDamageToMaintenanceFactor>
+          <WULA_MaintenanceDamageToMaintenanceFactor>0.75</WULA_MaintenanceDamageToMaintenanceFactor>
           <AimingDelayFactor>0.75</AimingDelayFactor>
           <ShootingAccuracyPawn>2</ShootingAccuracyPawn>
           <MeleeDamageFactor>1.2</MeleeDamageFactor>
@@ -195,6 +197,7 @@
     <stages>
       <li>
         <statOffsets>
+          <ResearchSpeed>0.15</ResearchSpeed>
           <MechBandwidth>3</MechBandwidth>
           <MechControlGroups>1</MechControlGroups>
         </statOffsets>
@@ -207,7 +210,7 @@
     <slot>Childhood</slot>
     <title>产地：玛瑞克</title>
     <titleShort>玛瑞克</titleShort>
-    <description>[PAWN_nameDef] 是产自玛瑞克星区的合成人。玛瑞克星区是一个相较于其他星区都要庞大的农业型星区。这里有多个天文位置得天独厚的行星适合进行农业生产，使其得以源源不断地向乌拉帝国输送大量的食材。\n\n这个星域生产的合成人通常内置了家政和农业系统，使得她们非常善于处理一些杂事。此外她们经久耐用的射击使其在自然条件下的磨损速度比其他星区的合成人要慢很多。</description>
+    <description>[PAWN_nameDef] 是产自玛瑞克星区的合成人。玛瑞克星区是一个相较于其他星区都要庞大的农业型星区。这里有多个天文位置得天独厚的行星适合进行农业生产，使其得以源源不断地向乌拉帝国输送大量的食材。\n\n这个星域生产的合成人通常内置了家政和农业系统，使得她们非常善于处理一些杂事。此外她们经久耐用的设计使其在自然条件下的磨损速度比其他星区的合成人要慢很多。</description>
     <skillGains>
       <Cooking>4</Cooking>
       <Plants>4</Plants>
@@ -226,7 +229,7 @@
   <HediffDef>
     <defName>WULA_Child_Backstory06_Hediff</defName>
     <label>产地：玛瑞克</label>
-    <description>这个星域生产的合成人通常内置了家政和农业系统，使得她们非常善于处理一些杂事。此外她们经久耐用的射击使其在自然条件下的磨损速度比其他星区的合成人要慢很多。</description>
+    <description>这个星域生产的合成人通常内置了家政和农业系统，使得她们非常善于处理一些杂事。此外她们经久耐用的设计使其在自然条件下的磨损速度比其他星区的合成人要慢很多。</description>
     <hediffClass>HediffWithComps</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>

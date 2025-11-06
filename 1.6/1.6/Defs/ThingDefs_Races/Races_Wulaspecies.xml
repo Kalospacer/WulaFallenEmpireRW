@@ -497,22 +497,6 @@
         <onlyEatRaceRestrictedFood>true</onlyEatRaceRestrictedFood>
         <!-- 可以穿戴的衣服 -->
         <apparelList>
-          <li>WULA_Official_Uniform</li>
-          <li>WULA_Sailor_Dress</li>
-          <li>WULA_Body_Suit</li>
-          <li>WULA_Knight_PowerArmor</li>
-          <li>WULA_Maid_Uniform</li>
-          <li>WULA_Maid_Uniform_Headband</li>
-          <li>WULA_Nurse_Uniform</li>
-          <li>WULA_Nurse_Uniform_Headband</li>
-          <li>WULA_Qipao</li>
-          <li>WULA_Bodystocking</li>
-          <li>WULA_Bodystocking_White</li>
-          <li>WULA_Body_Suit</li>
-          <li>WULA_Assault_Troop_PowerArmor</li>
-          <li>WULA_Assault_Troop_Helmet</li>
-          <li>WULA_Knight_Helmet</li>
-          <li>WULA_Heavy_Infantry_PowerArmor</li>
         </apparelList>
         <blackApparelList>
             <li>Apparel_AdvancedHelmet</li>

@@ -61,7 +61,7 @@
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>WULA_Base_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Colony_License_LV1_Technology</researchPrerequisite>
       <recipeUsers>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>
@@ -723,7 +723,7 @@
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>WULA_Base_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Colony_License_LV1_Technology</researchPrerequisite>
       <recipeUsers>
         <li>WULA_Cube_Productor_Energy</li>
       </recipeUsers>

@@ -41,6 +41,9 @@
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
     <stuffCategories Inherit="False"/>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Structure_Technology</li>
+    </researchPrerequisites>
     <costStuffCount>0</costStuffCount>
     <costList>
       <Steel>15</Steel>
@@ -211,6 +214,9 @@
     <designationCategory>Structure</designationCategory>
     <drawerType>RealtimeOnly</drawerType>
     <designationCategory>WULA_Buildings</designationCategory>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Structure_Technology</li>
+    </researchPrerequisites>
     <building>
       <paintable>true</paintable>
       <isInert>true</isInert>
@@ -386,7 +392,7 @@
 		  <Steel>3</Steel>
     </costList>
     <designationHotKey>Misc6</designationHotKey>
-    <researchPrerequisites>
+    <researchPrerequisites Inherit="False">
       <li>WULA_Structure_Technology</li>
     </researchPrerequisites>
     <uiOrder>1138</uiOrder>
@@ -425,7 +431,9 @@
     <canOverlapZones>false</canOverlapZones>
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
-    <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Bunker_Drop_Technology</li>
+    </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>1</WorkToBuild>
@@ -669,6 +677,9 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Synth_Maintain_Technology</li>
+    </researchPrerequisites>
     <costList>
       <Steel>150</Steel>
       <ComponentIndustrial>10</ComponentIndustrial>
@@ -823,7 +834,7 @@
   <!-- 制造机 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_WeaponArmor_Productor_Cleanzone</defName>
-    <label>乌拉帝国作业通讯台（装备）</label>
+    <label>乌拉帝国作业通讯台</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国作业通讯台是用于联络乌拉帝国母舰和后勤舰并下达武器、装备订单的特殊通讯台。这些武器装备的生产不需要殖民地参与，只需要使用乌拉帝国物资交换舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
     <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
@@ -961,7 +972,7 @@
     <hasInteractionCell>false</hasInteractionCell>
     <surfaceType>Item</surfaceType>
     <researchPrerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
     <inspectorTabs>
       <li>WulaFallenEmpire.ITab_GlobalBills</li>
@@ -1011,7 +1022,9 @@
     <pathCost>0</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
-    <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Bunker_Drop_Technology</li>
+    </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>1</WorkToBuild>
@@ -1178,7 +1191,9 @@
     <pathCost>0</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
-    <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Synth_Maintain_Technology</li>
+    </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>1</WorkToBuild>
@@ -1278,7 +1293,7 @@
     <uiOrder>2010</uiOrder>
     <fillPercent>0.5</fillPercent>
     <researchPrerequisites Inherit="False">
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
     <stuffCategories Inherit="False" IsNull="True" />
     <building>

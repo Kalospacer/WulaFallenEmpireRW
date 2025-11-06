@@ -18,7 +18,7 @@
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
       <floatingSound>FlyOver/Flying</floatingSound>
-      <impactSound>FlyOver/Landing</impactSound>
+      <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
       <li Class="WulaFallenEmpire.FlyOverShadowExtension">
@@ -81,7 +81,7 @@
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
       <floatingSound>FlyOver/Flying</floatingSound>
-      <impactSound>FlyOver/Landing</impactSound>
+      <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
       <li Class="WulaFallenEmpire.FlyOverShadowExtension">

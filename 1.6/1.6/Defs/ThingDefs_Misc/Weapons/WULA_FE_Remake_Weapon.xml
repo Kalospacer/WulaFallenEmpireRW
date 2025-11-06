@@ -19,13 +19,11 @@
       <WorkToMake>20000</WorkToMake>
       <Mass>5</Mass>
     </statBases>
-    <costStuffCount>60</costStuffCount>
-    <stuffCategories>
-      <li>Metallic</li>
-    </stuffCategories>
+    <costStuffCount>0</costStuffCount>
+    <stuffCategories Inherit="False"/>
     <costList Inherit="False">
-      <Plasteel>5</Plasteel>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <Steel>80</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <tools>
       <li>
@@ -63,7 +61,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Stun_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_1_Base_Technology</researchPrerequisite>
       <skillRequirements>
         <Crafting>7</Crafting>
       </skillRequirements>
@@ -90,13 +88,12 @@
     <soundInteract>Interact_WULA_MW_ChainSword</soundInteract>
     <!-- <equippedAngleOffset>-65</equippedAngleOffset> -->
     <techLevel>Spacer</techLevel>
-    <costStuffCount>60</costStuffCount>
-    <stuffCategories>
-      <li>Metallic</li>
-    </stuffCategories>
+    <costStuffCount>0</costStuffCount>
+    <stuffCategories Inherit="False"/>
     <costList Inherit="False">
-      <Plasteel>5</Plasteel>
-      <ComponentIndustrial>3</ComponentIndustrial>
+      <Steel>90</Steel>
+      <Plasteel>25</Plasteel>
+      <ComponentIndustrial>6</ComponentIndustrial>
     </costList>
     <statBases>
       <WorkToMake>20000</WorkToMake>
@@ -177,16 +174,16 @@
     </weaponTags>
     <uiIconScale>0.8</uiIconScale>
     <techLevel>Spacer</techLevel>
-    <costStuffCount>50</costStuffCount>
+    <costStuffCount>0</costStuffCount>
+    <stuffCategories Inherit="False"/>
     <statBases>
       <!-- <MarketValue>441</MarketValue> -->
       <WorkToMake>20000</WorkToMake>
       <Mass>20</Mass>
     </statBases>
-    <stuffCategories>
-      <li>Metallic</li>
-    </stuffCategories>
     <costList Inherit="False">
+      <Steel>40</Steel>
+      <Uranium>80</Uranium>
       <Plasteel>20</Plasteel>
       <ComponentIndustrial>4</ComponentIndustrial>
     </costList>
@@ -317,7 +314,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_1_Base_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
@@ -445,7 +442,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Bullet_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
@@ -525,7 +522,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Bullet_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
@@ -612,7 +609,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_3_Explosive_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <costList Inherit="False">
@@ -682,7 +679,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>15</damageAmountBase>
+      <damageAmountBase>12</damageAmountBase>
       <speed>90</speed>
       <explosionRadius>1.2</explosionRadius>
       <arcHeightFactor>0.4</arcHeightFactor>
@@ -752,7 +749,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Beam_Base_AR</defName>
     <label>SLb-3"星岚"</label>
-    <description>乌拉帝国殖民地的制式装备之一，在预热后通过高能电容能量的瞬间释放产生短光束，烧穿敌军。作为手持武器，其功率不算太高，因此虽然有强大的贯穿能力却没办法造成太大的伤害。</description>
+    <description>乌拉帝国殖民地的制式装备之一，在预热后通过高能电容能量的瞬间释放产生短光束，烧穿多个敌军。作为手持武器，其功率不算太高，因此虽然有强大的贯穿能力却没办法造成太大的伤害。</description>
     <tickerType>Normal</tickerType>
     <techLevel>Spacer</techLevel>
     <graphicData>
@@ -829,8 +826,8 @@
     <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
-        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
-        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <maxHits>4</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0.25</damageFalloff>        <!-- 无伤害衰减 -->
         <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
         <!-- <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef> -->
       </li>
@@ -854,7 +851,7 @@
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Penetrating_Beam_Rifle</defName>
-    <label>MLr-15 "三叉戟"</label>
+    <label>MLr-15 "三叉戟"（分光）</label>
     <description>乌拉帝国的多用途穿透型光束武器，可以在散射和集束模式下切换以应对不同的情况。当分光棱镜打开时，其所发射的光束将分裂为多道，伤害和射程有所降低但是获得了更大的散射面积。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
@@ -880,13 +877,7 @@
       <ComponentIndustrial>6</ComponentIndustrial>
       <Plasteel>20</Plasteel>
     </costList>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_WeaponArmor_Productor</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Laser_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
+    <recipeMaker Inherit="False" IsNull="True" />
     <verbs>
       <li>
         <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
@@ -918,9 +909,36 @@
       </li>
     </comps>
   </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Penetrating_Beam</defName>
+    <label>穿透光束</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaPenetratingBeam</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
+        <maxHits>2</maxHits>        <!-- -1 for infinite hits -->
+        <damageFalloff>0.5</damageFalloff>        <!-- 0 for no damage falloff -->
+        <preventFriendlyFire>true</preventFriendlyFire>
+        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
+        <beamStartOffset>0.5</beamStartOffset>
+      </li>
+      <li Class="WulaFallenEmpire.ShotgunExtension">
+        <pelletCount>3</pelletCount>
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>BeamBypassShields</damageDef>
+      <damageAmountBase>6</damageAmountBase>
+      <armorPenetrationBase>0.8</armorPenetrationBase>
+      <stoppingPower>1</stoppingPower>
+    </projectile>
+  </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Penetrating_Beam_Rifle_Ranged</defName>
-    <label>SLb-15 "三叉戟"(集中)</label>
+    <label>SLb-15 "三叉戟"</label>
     <description>乌拉帝国的多用途穿透型光束武器，可以在散射和集束模式下切换以应对不同的情况。当分光棱镜关闭时，其所发射的光束将集中在一个目标上，获得更大的对单目标的输出能力。</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
@@ -945,7 +963,13 @@
       <Steel>120</Steel>
       <ComponentIndustrial>6</ComponentIndustrial>
     </costList>
-    <recipeMaker Inherit="False" IsNull="True" />
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_WeaponArmor_Productor</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Laser_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
@@ -982,40 +1006,13 @@
     <generateCommonality>0</generateCommonality>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Penetrating_Beam</defName>
-    <label>穿透光束</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaPenetratingBeam</thingClass>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
-        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
-        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
-        <preventFriendlyFire>true</preventFriendlyFire>
-        <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
-        <beamStartOffset>0.5</beamStartOffset>
-      </li>
-      <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>3</pelletCount>
-      </li>
-    </modExtensions>
-    <graphicData>
-      <texPath>Things/Projectile/ChargeLanceShot</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <projectile>
-      <damageDef>BeamBypassShields</damageDef>
-      <damageAmountBase>6</damageAmountBase>
-      <armorPenetrationBase>0.8</armorPenetrationBase>
-      <stoppingPower>1</stoppingPower>
-    </projectile>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Penetrating_Beam_Ranged</defName>
     <label>穿透光束</label>
     <thingClass>WulaFallenEmpire.Projectile_WulaPenetratingBeam</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
-        <maxHits>-1</maxHits>        <!-- -1 for infinite hits -->
-        <damageFalloff>0</damageFalloff>        <!-- 0 for no damage falloff -->
+        <maxHits>2</maxHits>        <!-- -1 for infinite hits -->
+        <damageFalloff>0.5</damageFalloff>        <!-- 0 for no damage falloff -->
         <preventFriendlyFire>true</preventFriendlyFire>
         <beamMoteDef>Mote_WULA_RW_Penetrating_Beam</beamMoteDef>
         <beamStartOffset>0.5</beamStartOffset>
@@ -1087,7 +1084,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Ranged_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_3_Laser_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <costList Inherit="False">
@@ -1192,7 +1189,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_3_Laser_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
@@ -1552,6 +1549,127 @@
   </ThingDef>
 
   <!-- 发射器 -->
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>Apparel_WULA_Manpack_Loitering_Munition</defName>
+    <label>MPl_8"蛭石"</label>
+    <description>派发给乌拉帝国突击队的一次性巡飞弹发射器，装有温压炸药，能对大量软目标造成范围性的伤害——而且不需要占用编制，允许突击队携带其他武器。</description>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Manpack_Loitering_Munition</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <statBases>
+      <WorkToMake>1000</WorkToMake>
+      <Mass>1</Mass>
+      <EquipDelay>1</EquipDelay>
+      <MaxHitPoints>150</MaxHitPoints>
+    </statBases>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_1_Missile_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <costList Inherit="False">
+      <Steel>30</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <tickerType>Normal</tickerType>
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <apparel>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <scoreOffset>4</scoreOffset>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <ignoredByNonViolent>true</ignoredByNonViolent>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <wornGraphicPath>Wula/Apparel/WULA_Manpack_Loitering_Munition</wornGraphicPath>
+      <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+        <north>
+          <!-- <scale>(0.7,0.7)</scale> -->
+        </north>
+        <south>
+          <offset>(0,0)</offset>
+        </south>
+        <east>
+          <offset>(-0.1,0)</offset>
+        </east>
+        <west>
+          <offset>(0.1,0)</offset>
+        </west>
+      </wornGraphicData>
+    </apparel>
+    <smeltable>false</smeltable>
+    <burnableByRecipe>false</burnableByRecipe>
+    <drawGUIOverlay>false</drawGUIOverlay>
+    <comps>
+      <li Class="CompProperties_ApparelReloadable">
+        <maxCharges>1</maxCharges>
+        <destroyOnEmpty>true</destroyOnEmpty>
+        <hotKey>Misc4</hotKey>
+        <chargeNoun>蛭石巡飞弹</chargeNoun>
+        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_LaunchProjectileStaticPsychic</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <!-- <defaultProjectile>Bullet_AssaultRifle</defaultProjectile> -->
+        <defaultProjectile>Bullet_WULA_Manpack_Loitering_Munition</defaultProjectile>
+        <warmupTime>1</warmupTime>
+        <range>25</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_Manpack_Loitering_Munition</defName>
+    <label>蛭石巡飞弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Loitering_Munition</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
+    <projectile>
+      <speed>25</speed>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>60</damageAmountBase>
+      <armorPenetrationBase>0.25</armorPenetrationBase>
+      <stoppingPower>10</stoppingPower>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
+        <explosionRadius>4.5</explosionRadius>
+        <damageDef>Bomb</damageDef>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <homingSpeed>0.75</homingSpeed>
+        <initRotateAngle>0</initRotateAngle>
+        <destroyTicksAfterLosingTrack>
+          <min>60</min>
+          <max>120</max>
+        </destroyTicksAfterLosingTrack>
+        <impactThreshold>1</impactThreshold>
+      </li>
+    </modExtensions>
+  </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Base_Loitering_Munition</defName>
     <label>WLl-35"沸石"</label>
@@ -1569,7 +1687,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Missile_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_1_Missile_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <researchPrerequisites>
@@ -1659,7 +1777,7 @@
   <AbilityDef>
     <defName>WULA_RW_Base_Loitering_Munition_Ability</defName>
     <label>启动引导系统</label>
-    <description>启动WLl-35"沸石"的自引导系统，使得其在短时间内可以连续发射飞弹而不需要漫长的引导。</description>
+    <description>启动WLl-35"沸石"的自引导系统，使得其下一发飞弹不需要漫长的引导。</description>
     <iconPath>Wula/UI/Abilities/WULA_RW_Base_Loitering_Munition_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -1667,7 +1785,7 @@
     <showOnCharacterCard>false</showOnCharacterCard>
     <cooldownTicksRange>3600</cooldownTicksRange>
     <statBases>
-      <Ability_Duration>6</Ability_Duration>
+      <Ability_Duration>1</Ability_Duration>
     </statBases>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
@@ -1735,7 +1853,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_3_Bomb_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_3_Explosive_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <costList Inherit="False">

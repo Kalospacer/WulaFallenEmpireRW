@@ -100,6 +100,8 @@
     <Compile Include="Flyover\WULA_FlyOverEscort\CompProperties_FlyOverEscort.cs" />
     <Compile Include="Flyover\WULA_FlyOverType\CompProperties_FlyOverType.cs" />
     <Compile Include="Flyover\WULA_GroundStrafing\CompGroundStrafing.cs" />
+    <Compile Include="Flyover\WULA_OrbitalBombardment\CompAbilityOrbitalBombardment.cs" />
+    <Compile Include="Flyover\WULA_OrbitalBombardment\CompOrbitalBombardment.cs" />
     <Compile Include="Flyover\WULA_SectorSurveillance\CompSectorSurveillance.cs" />
     <Compile Include="Flyover\WULA_SendLetterAfterTicks\CompProperties_SendLetterAfterTicks.cs" />
     <Compile Include="Flyover\WULA_SendLetterAfterTicks\CompSendLetterAfterTicks.cs" />

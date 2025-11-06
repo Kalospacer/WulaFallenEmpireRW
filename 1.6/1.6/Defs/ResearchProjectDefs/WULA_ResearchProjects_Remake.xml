@@ -6,12 +6,12 @@
     <heldByFactionCategoryTags Inherit="False" />
   </ResearchProjectDef>
 
-  <!-- LV1 -->
+  <!-- 等级 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Colony_License_LV1_Technology</defName>
     <label>乌拉帝国殖民地许可：等级1</label>
-    <description>乌拉帝国的第一阶殖民地许可，代表此殖民地正式被乌拉帝国承认为其下辖殖民地之一，允许建立与乌拉帝国舰队进行通讯的设施。（只有机械乌拉才能呼叫舰队）</description>
-    <baseCost>35000</baseCost>
+    <description>乌拉帝国的第一阶殖民地许可，代表此殖民地正式被乌拉帝国承认为其下辖殖民地之一。许可不会为殖民地带来什么好处，但是提升许可是继续研究乌拉帝国科技的重要条件。</description>
+    <baseCost>10000</baseCost>
     <researchViewX>0.00</researchViewX>
     <researchViewY>3.20</researchViewY>
     <prerequisites>
@@ -19,66 +19,232 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Colony_License_LV2_Technology</defName>
+    <label>乌拉帝国殖民地许可：等级2</label>
+    <description>乌拉帝国的第二阶殖民地许可，代表此殖民地已经被乌拉帝国赋予更多特权，许可不会为殖民地带来什么好处，但是提升许可是继续研究乌拉帝国科技的重要条件。</description>
+    <baseCost>15000</baseCost>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>3.20</researchViewY>
+    <prerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Colony_License_LV3_Technology</defName>
+    <label>乌拉帝国殖民地许可：等级3</label>
+    <description>乌拉帝国的第一阶殖民地许可，代表此殖民地已经被乌拉帝国赋予更多特权，许可不会为殖民地带来什么好处，但是提升许可是继续研究乌拉帝国科技的重要条件。</description>
+    <baseCost>20000</baseCost>
+    <researchViewX>8.00</researchViewX>
+    <researchViewY>3.20</researchViewY>
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+
+  <!-- 飞行器 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Light_Fighter_Drone_Technology</defName>
+    <label>蜂群无人机许可</label>
+    <description>允许殖民地自行组装和放飞蜂群无人机，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n蜂群无人机是一种轻型的智能无人机，通过乌拉帝国的大气层内电离网络输电运作，可以以较高的频率对敌方进行编队掠袭和投掷小型炸弹。\n\n和其他的航空器不同，蜂群无人机不依赖于机库，因此不需要携带机库的战舰到场即可呼叫支援。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>4.40</researchViewY>
+    <prerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Striker_Technology</defName>
+    <label>攻击机调配许可</label>
+    <description>允许殖民地建立信标增加攻击机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的攻击机是强大的对地支援火力，挂载了大量导弹和强大的机炮，对敌方目标实施精准收割。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>4.40</researchViewY>
+    <prerequisites>
+      <li>WULA_Light_Fighter_Drone_Technology</li>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Bomber_Technology</defName>
+    <label>轰炸机调配许可</label>
+    <description>允许殖民地建立信标增加轰炸机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的轰炸机是可以进入大气层的最大的飞行载具，除了可以使用机炮监视航路外，还能投下大量炸弹夷平帝国之敌。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>4.40</researchViewY>
+    <prerequisites>
+      <li>WULA_Striker_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Aircraft_Carrier_Technology</defName>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>4.40</researchViewY>
+    <label>航空母舰调配许可</label>
+    <description>允许殖民地建立信标增加航空母舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援。\n\n乌拉帝国的轻型航空母舰没有什么武装，但是能够装载大量的战机以支援地面战斗。\n\n此战舰携带以下设施：\n&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color></description>
+    <baseCost>600</baseCost>
+    <prerequisites>
+      <li>WULA_Bomber_Technology</li>
+      <li>WULA_Colony_License_LV3_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  
+  <!-- 建筑 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_WeaponArmor_Productor_Technology</defName>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>0.90</researchViewY>
+    <label>作业通讯台空投许可</label>
+    <description>允许殖民地申请空投作业通讯台和建造物资输送舱，可以向乌拉帝国舰队输送资源、提交生产订单和获取舰队生产的产品。</description>
+    <baseCost>600</baseCost>
+    <prerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Maintain_Technology</defName>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>2.70</researchViewY>
+    <label>维护空投许可</label>
+    <description>允许殖民地申请空投合成人维护舱和合成人充电站，以实现对机械乌拉的充电和周期性维护。</description>
+    <baseCost>600</baseCost>
+    <prerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Structure_Technology</defName>
-    <label>结构构件空投许可</label>
-    <description>允许殖民地申请空投乌拉帝国堡垒结构，包括坚固耐用的墙和通过速度较高的自动门。</description>
-    <baseCost>600</baseCost>
     <researchViewX>1.00</researchViewX>
-    <researchViewY>4.70</researchViewY>
-    <prerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Clothes_Technology</defName>
-    <researchViewX>1.00</researchViewX>
-    <researchViewY>2.60</researchViewY>
-    <label>基础衣物加工许可</label>
-    <description>许殖民地申请加工基础衣物</description>
-    <baseCost>400</baseCost>
-    <prerequisites>
-      <li>ComplexClothing</li>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_Technology</defName>
-    <researchViewX>1.00</researchViewX>
-    <researchViewY>0.20</researchViewY>
-    <label>基础武装加工许可</label>
-    <description>开发能够武装乌拉帝国合成人的老式气动武器，以抵御针对殖民地的外部袭击。</description>
+    <researchViewY>1.50</researchViewY>
+    <label>结构空投许可</label>
+    <description>允许殖民地申请空投乌拉帝国堡垒结构。以快速构建殖民地外墙和门。</description>
     <baseCost>600</baseCost>
     <prerequisites>
-      <li>Machining</li>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+  <!-- 地堡-防御和机械双线前置 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Bunker_Drop_Technology</defName>
     <researchViewX>1.00</researchViewX>
-    <researchViewY>0.20</researchViewY>
+    <researchViewY>2.10</researchViewY>
     <label>地堡空投许可</label>
-    <description>开发能够武装乌拉帝国合成人的老式气动武器，以抵御针对殖民地的外部袭击。</description>
+    <description>允许殖民地申请空投乌拉猫猫地堡和机械族充电站，地堡是内含三只乌拉猫猫机械体的集防御和生产为一身的建筑。</description>
     <baseCost>600</baseCost>
     <prerequisites>
-      <li>Machining</li>
+      <li>BasicMechtech</li>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+  <!-- 机械 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Productor_Technology</defName>
     <label>合成人空投许可</label>
-    <description>获取构建乌拉帝国合成人的相关知识，以增加殖民地人口。</description>
+    <description>允许殖民地申请机械乌拉的订单，为殖民地生产新的机械乌拉。</description>
     <baseCost>1000</baseCost>
     <researchViewX>2.00</researchViewX>
-    <researchViewY>5.50</researchViewY>
+    <researchViewY>2.10</researchViewY>
     <prerequisites>
-      <li>WULA_Machine_Productor_Technology</li>
+      <li>WULA_Bunker_Drop_Technology</li>
+      <li>WULA_WeaponArmor_Productor_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Shutdown_Technology</defName>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>3.90</researchViewY>
+    <label>系统休眠套件</label>
+    <description>获取关闭乌拉帝国合成人各系统的必须知识。</description>
+    <baseCost>800</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Productor_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+
+  <!-- 武器 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_1_Base_Technology</defName>
+    <label>基础武装加工许可</label>
+    <description>允许从作业通讯台提交生产基础武器的订单，一些资源花费不是很多但是可以护殖民地周全的步枪和近战武器。</description>
+    <baseCost>1600</baseCost>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>0.90</researchViewY>
+    <prerequisites>
+      <li>Fabrication</li>
+      <li>WULA_WeaponArmor_Productor_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_1_Missile_Technology</defName>
+    <label>导弹武装加工许可</label>
+    <description>允许从作业通讯台提交生产发射追踪巡飞弹的乌拉帝国武备的订单，以对抗普通武器难以消灭的重甲敌军。</description>
+    <baseCost>1600</baseCost>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>0.20</researchViewY>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_1_Base_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_2_Laser_Technology</defName>
+    <label>镭射武装加工许可</label>
+    <description>允许从作业通讯台提交生产基础能量武器的乌拉帝国武备的订单，这些武器需要较长的瞄准时间，但是瞄准之后可以连续开火。</description>
+    <baseCost>2400</baseCost>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>0.80</researchViewY>
+    <hiddenPrerequisites>
+    </hiddenPrerequisites>  
+    <prerequisites>
+      <li>WULA_Synth_Weapon_1_Base_Technology</li>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_2_Bullet_Technology</defName>
+    <label>磁轨武装加工许可</label>
+    <description>允许从作业通讯台提交生产高级实弹武器的乌拉帝国武备的订单，这些武器的破坏力较强，但是其优劣射程区间都相当明显。</description>
+    <baseCost>2400</baseCost>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>0.20</researchViewY>
+    <hiddenPrerequisites>
+    </hiddenPrerequisites>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_1_Base_Technology</li>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_3_Explosive_Technology</defName>
+    <label>爆炸武装加工许可</label>
+    <description>允许从作业通讯台提交生产爆炸武器的乌拉帝国武备的订单，这些武器能够造成区域性爆炸，拥有相当凶狠的火力。</description>
+    <baseCost>2400</baseCost>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>0.20</researchViewY>
+    <hiddenPrerequisites>
+      <li>WULA_Synth_Weapon_1_Missile_Technology</li>
+    </hiddenPrerequisites>  
+    <prerequisites>
+      <li>WULA_Synth_Weapon_2_Bullet_Technology</li>
+      <li>WULA_Colony_License_LV3_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_3_Laser_Technology</defName>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>0.80</researchViewY>
+    <label>熔炉武装套件</label>
+    <description>允许从作业通讯台提交生产高级能量武器的乌拉帝国武备的订单，只要为其提供安稳的输出环境，它们就能展现其恐怖的攻坚能力。</description>
+    <baseCost>600</baseCost>
+    <hiddenPrerequisites>
+    </hiddenPrerequisites>
+    <prerequisites>
+      <li>WULA_Synth_Weapon_2_Laser_Technology</li>
+      <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
 
 
-  <ResearchProjectDef ParentName="WULAtechBase">
+  <!-- <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Adv_WorkTable_Technology</defName>
     <researchViewX>3.00</researchViewX>
     <researchViewY>3.20</researchViewY>
@@ -86,7 +252,7 @@
     <description>开发功能性更强的工作台，以支持后续的高级设备构建。</description>
     <baseCost>1000</baseCost>
     <prerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
       <li>MicroelectronicsBasics</li>
     </prerequisites>
   </ResearchProjectDef>
@@ -113,7 +279,6 @@
       <li>WULA_Dark_Matter_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
-  <!-- 衣服 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Clothes_2_Technology</defName>
     <researchViewX>4.50</researchViewX>
@@ -160,71 +325,8 @@
       <li>PoweredArmor</li>
       <li>WULA_Synth_Armor_Technology</li>
     </prerequisites>
-  </ResearchProjectDef>
-  <!-- 武器 -->
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Melee_Technology</defName>
-    <label>短兵武装套件</label>
-    <description>开发能够武装乌拉帝国合成人的近距离武器，可以在短距离上消灭敌人。</description>
-    <baseCost>1600</baseCost>
-    <researchViewX>4.50</researchViewX>
-    <researchViewY>1.00</researchViewY>
-    <prerequisites>
-      <li>Fabrication</li>
-      <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Missile_Technology</defName>
-    <label>导弹武装套件</label>
-    <description>开发能够发射追踪巡飞弹的乌拉帝国武备，以对抗难以消灭的重甲敌军。</description>
-    <baseCost>1600</baseCost>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>1.00</researchViewY>
-    <prerequisites>
-      <li>WULA_Synth_Weapon_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Stun_Technology</defName>
-    <label>镇暴武装套件</label>
-    <description>开发能够武装乌拉帝国合成人的镇暴类装备，以盾牌和失能武器构成，旨在抑制对手的行动。</description>
-    <baseCost>2400</baseCost>
-    <researchViewX>5.50</researchViewX>
-    <researchViewY>1.00</researchViewY>
-    <prerequisites>
-      <li>ReconArmor</li>
-      <li>Bionics</li>
-      <li>WULA_Synth_Weapon_2_Melee_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Plasma_Technology</defName>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>0.20</researchViewY>
-    <label>等离子武装套件</label>
-    <description>开发能够供乌拉帝国合成人的使用的等离子武器，以便进一步对抗强大的外部威胁。</description>
-    <baseCost>600</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Weapon_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-
-
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Laser_Technology</defName>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>1.80</researchViewY>
-    <label>镭射武装套件</label>
-    <description>开发能够供乌拉帝国合成人的使用的镭射武器，以便进一步对抗强大的外部威胁。</description>
-    <baseCost>600</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Weapon_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-
-  <ResearchProjectDef ParentName="WULAtechBase">
+  </ResearchProjectDef> -->
+  <!-- <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_Shield_Technology</defName>
     <researchViewX>2.00</researchViewX>
     <researchViewY>1.80</researchViewY>
@@ -235,50 +337,9 @@
       <li>WULA_Synth_Weapon_Technology</li>
       <li>WULA_Synth_Clothes_Technology</li>
     </prerequisites>
-  </ResearchProjectDef>
+  </ResearchProjectDef> -->
   
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_2_Ranged_Technology</defName>
-    <researchViewX>4.50</researchViewX>
-    <researchViewY>1.80</researchViewY>
-    <label>远射武装套件</label>
-    <description>开发能够武装乌拉帝国合成人的远距离武器，旨在构建密集火力网消灭敌人。</description>
-    <baseCost>2400</baseCost>
-    <prerequisites>
-      <li>ChargedShot</li>
-      <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_2_Laser_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_3_Bomb_Technology</defName>
-    <researchViewX>4.50</researchViewX>
-    <researchViewY>0.20</researchViewY>
-    <label>轰炸武装套件</label>
-    <description>开发能够武装乌拉帝国合成人的大范围杀伤性武器，用于对抗最难应付的敌人。</description>
-    <baseCost>3200</baseCost>
-    <prerequisites>
-      <li>BeamWeapons</li>
-      <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Synth_Weapon_2_Plasma_Technology</li>
-      <li>WULA_Synth_Weapon_2_Missile_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_4_DM_Base_Technology</defName>
-    <researchViewX>9.00</researchViewX>
-    <researchViewY>0.20</researchViewY>
-    <label>暗物质远射套件</label>
-    <description>开发供乌拉帝国合成人使用的暗物质驱动远程武器——乌拉帝国科技极致伟力的具象化。</description>
-    <baseCost>4000</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Weapon_2_Ranged_Technology</li>
-      <li>WULA_Synth_Weapon_3_Bomb_Technology</li>
-      <li>WULA_Dark_Matter_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <!-- 法杖 -->
-  <ResearchProjectDef ParentName="WULAtechBase">
+  <!-- <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Psi_Technology</defName>
     <researchViewX>4.50</researchViewX>
     <researchViewY>3.90</researchViewY>
@@ -289,7 +350,6 @@
       <li>WULA_Adv_WorkTable_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
-  <!-- 机械 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Machine_Productor_Technology</defName>
     <label>机械体构建套件</label>
@@ -298,7 +358,7 @@
     <researchViewX>1.00</researchViewX>
     <researchViewY>5.50</researchViewY>
     <prerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -362,7 +422,6 @@
       <li>WULA_Mech_WULA_Cat_DM_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
-  <!-- 植入物 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Repair_All_Technology</defName>
     <researchViewX>2.00</researchViewX>
@@ -371,18 +430,7 @@
     <description>获取构建修理包并使用其修复乌拉帝国合成人的必须知识。</description>
     <baseCost>600</baseCost>
     <prerequisites>
-      <li>WULA_Base_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Shutdown_Technology</defName>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>3.90</researchViewY>
-    <label>系统休眠套件</label>
-    <description>获取关闭乌拉帝国合成人各系统的必须知识。</description>
-    <baseCost>800</baseCost>
-    <prerequisites>
-      <li>WULA_Repair_All_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -393,7 +441,7 @@
     <researchViewX>2.00</researchViewX>
     <researchViewY>4.70</researchViewY>
     <prerequisites>
-      <li>WULA_Base_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -442,5 +490,5 @@
       <li>WULA_Synth_Addons_Technology</li>
       <li>WULA_Dark_Matter_Technology</li>
     </prerequisites>
-  </ResearchProjectDef>
+  </ResearchProjectDef> -->
 </Defs>

@@ -114,7 +114,7 @@
         <!-- 初始科技 -->
         <li Class="ScenPart_StartingResearch">
           <def>StartingResearch</def>
-          <project>WULA_Base_Technology</project>
+          <project>WULA_Colony_License_LV1_Technology</project>
         </li>
         <li Class="ScenPart_StartingResearch">
           <def>StartingResearch</def>
