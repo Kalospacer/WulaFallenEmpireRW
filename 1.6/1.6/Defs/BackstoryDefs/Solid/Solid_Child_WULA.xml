@@ -8,7 +8,8 @@
     <titleShort>科鲁普</titleShort>
     <description>[PAWN_nameDef] 是产自科鲁普星区的合成人。这片星区是一个四战之地——由于其地处边缘且地缘政治复杂，乌拉帝国从未真正掌控这片星区，但是此处优秀的稀有水晶和异星天然气使得帝国不愿放弃此星区的掌控。\n\n在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗，并且内置了一定的战斗和手工能力。</description>
     <skillGains>
-      <Shooting>3</Shooting>
+      <Shooting>4</Shooting>
+      <Crafting>2</Crafting>
     </skillGains>
     <spawnCategories>
       <li>Wula_Backstory_Categories</li>
@@ -46,8 +47,8 @@
     <titleShort>代达罗斯</titleShort>
     <description>[PAWN_nameDef] 是产自代达罗斯星区的合成人。这片星区是乌拉帝国靠近边缘世界的一个工厂星域，无数供给乌拉舰队之用的高质量合金从此处诞生，是诸工业区搏动的心脏。\n\n从此生产的合成人配置了强大的生产系统，使得它们可以抵消此型合成人在采矿和建造上的天然劣势。</description>
     <skillGains>
-      <Shooting>3</Shooting>
-      <Melee>3</Melee>
+      <Mining>5</Mining>
+      <Construction>3</Construction>
     </skillGains>
     <spawnCategories>
       <li>Wula_Backstory_Categories</li>

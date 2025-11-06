@@ -71,6 +71,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ability\WULA_AbilityBombardment\CompAbilityEffect_Bombardment.cs" />
+    <Compile Include="Ability\WULA_AbilityBombardment\CompProperties_AbilityBombardment.cs" />
     <Compile Include="BuildingComp\WULA_InitialFaction\CompProperties_InitialFaction.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\CompProperties_MechanoidRecycler.cs" />
@@ -98,10 +100,10 @@
     <Compile Include="Flyover\WULA_FlyOverDropPod\CompProperties_FlyOverDropPod.cs" />
     <Compile Include="Flyover\WULA_FlyOverEscort\CompFlyOverEscort.cs" />
     <Compile Include="Flyover\WULA_FlyOverEscort\CompProperties_FlyOverEscort.cs" />
+    <Compile Include="Flyover\WULA_FlyOverFacilities\CompAbilityEffect_RequireFlyOverFacility.cs" />
+    <Compile Include="Flyover\WULA_FlyOverFacilities\CompFlyOverFacilities.cs" />
     <Compile Include="Flyover\WULA_FlyOverType\CompProperties_FlyOverType.cs" />
     <Compile Include="Flyover\WULA_GroundStrafing\CompGroundStrafing.cs" />
-    <Compile Include="Flyover\WULA_OrbitalBombardment\CompAbilityOrbitalBombardment.cs" />
-    <Compile Include="Flyover\WULA_OrbitalBombardment\CompOrbitalBombardment.cs" />
     <Compile Include="Flyover\WULA_SectorSurveillance\CompSectorSurveillance.cs" />
     <Compile Include="Flyover\WULA_SendLetterAfterTicks\CompProperties_SendLetterAfterTicks.cs" />
     <Compile Include="Flyover\WULA_SendLetterAfterTicks\CompSendLetterAfterTicks.cs" />

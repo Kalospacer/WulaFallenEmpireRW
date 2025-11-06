@@ -42,7 +42,7 @@
   <AbilityDef>
     <defName>WULA_Spawn_Fighter_Rocket</defName>
     <label>战机巡航</label>
-    <description>指挥乌拉帝国的战机，中速掠过战场，使用其导弹对目标区域发起打击。\n\n在飞行期间，它会使用磁轨炮打击遇到的敌人。</description>
+    <description>指挥乌拉帝国的攻击机，中速掠过战场，使用其导弹对目标区域发起打击。\n\n在飞行期间，它会使用磁轨炮打击遇到的敌人。</description>
     <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -93,6 +93,11 @@
         <showSectorPreview>true</showSectorPreview>
         <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <!-- <flyOverDef></flyOverDef> -->
+        <requiredFacility>HarborFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</facilityNotFoundMessage>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -135,6 +140,54 @@
         <!-- 预览配置 -->
         <showSectorPreview>true</showSectorPreview>
         <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <!-- <flyOverDef></flyOverDef> -->
+        <requiredFacility>HarborFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</facilityNotFoundMessage>
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_Spawn_ShipChunkIncoming</defName>
+    <label>战舰轰炸</label>
+    <description>我炸死你</description>
+    <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityBombardment">
+        <bombardmentWidth>5</bombardmentWidth>
+        <bombardmentLength>35</bombardmentLength>
+        <targetSelectionChance>0.6</targetSelectionChance>
+        <minTargetCells>25</minTargetCells>
+        <maxTargetCells>30</maxTargetCells>
+        <warmupTicks>120</warmupTicks>
+        <rowDelayTicks>5</rowDelayTicks>
+        <impactDelayTicks>2</impactDelayTicks>
+        <showBombardmentArea>true</showBombardmentArea>
+        <effecterScale>1.5</effecterScale>
+        <areaPreviewColor>1.0,0.3,0.1,0.3</areaPreviewColor>
+        <skyfallerDef>ShipChunkIncoming</skyfallerDef>
+        <randomBombardmentDirection>true</randomBombardmentDirection>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <!-- <flyOverDef></flyOverDef> -->
+        <requiredFacility>BombardmentFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
       </li>
     </comps>
   </AbilityDef>

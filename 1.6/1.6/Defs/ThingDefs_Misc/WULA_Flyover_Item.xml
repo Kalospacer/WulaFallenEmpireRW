@@ -2,7 +2,7 @@
 <Defs>
   <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_BattleShip</defName>
-    <label>乌拉帝国战舰</label>
+    <label>乌拉帝国母舰</label>
     <thingClass>WulaFallenEmpire.FlyOver</thingClass>
     <tickerType>Normal</tickerType>
     <drawerType>RealtimeOnly</drawerType>
@@ -58,6 +58,14 @@
       <li Class="WulaFallenEmpire.CompProperties_FlyOverType">
         <flyOverType>WULA_Flyover_BaseBuilder</flyOverType>
         <isRequiredForDrop>true</isRequiredForDrop>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverFacilities">
+        <availableFacilities>
+          <li>BombardmentFacility</li>
+          <li>HarborFacility</li>
+          <li>FactoryFacility</li>
+          <li>BuildingdropperFacility</li>
+        </availableFacilities>
       </li>
     </comps>
   </ThingDef> 
