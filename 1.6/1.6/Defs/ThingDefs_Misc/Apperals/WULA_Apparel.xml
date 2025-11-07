@@ -2,7 +2,9 @@
 <Defs>
   <ThingDef Name="WULA_ApparelCivilBase" ParentName="ApparelMakeableBase" Abstract="True">
     <costStuffCount>0</costStuffCount>
-    <stuffCategories Inherit="False"/>
+    <stuffCategories>
+      <li>Fabric</li>
+    </stuffCategories>
     <thingCategories>
       <li>ApparelMisc</li>
     </thingCategories>

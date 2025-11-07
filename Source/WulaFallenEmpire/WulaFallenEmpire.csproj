@@ -120,6 +120,7 @@
     <Compile Include="GlobalWorkTable\CompLaunchable_ToGlobalStorage.cs" />
     <Compile Include="GlobalWorkTable\CompProperties_Launchable_ToGlobalStorage.cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
+    <Compile Include="HediffComp\HediffCompProperties_SwitchableHediff.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\DRMDamageShield.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\Hediff_DamageShield.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompAutoMechCarrier.cs" />
@@ -174,6 +175,8 @@
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompProperties_CustomUniqueWeapon.cs" />
     <Compile Include="ThingComp\Wula_MechRepairKit\CompUseEffect_FixAllHealthConditions.cs" />
     <Compile Include="ThingComp\Wula_MechRepairKit\Recipe_AdministerWulaMechRepairKit.cs" />
+    <Compile Include="ThingComp\WULA_PersonaCore\CompExperienceCore.cs" />
+    <Compile Include="ThingComp\WULA_PersonaCore\CompProperties_ExperienceCore.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\CompWulaRitualSpot.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\PsychicRitualDef_AddHediff.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\PsychicRitualDef_Wula.cs" />

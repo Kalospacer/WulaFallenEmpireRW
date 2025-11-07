@@ -9,7 +9,8 @@ namespace WulaFallenEmpire
         public static ThingDef WULA_MaintenancePod;
         public static ThingDef WULA_Charging_Station_Synth;
         public static ThingDef WULA_PocketMapExit;
-
+        public static ThingDef Hyperweave;
+        
         static ThingDefOf_WULA()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(ThingDefOf_WULA));

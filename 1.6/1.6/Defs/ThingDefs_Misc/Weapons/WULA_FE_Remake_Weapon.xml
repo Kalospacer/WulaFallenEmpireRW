@@ -20,7 +20,9 @@
       <Mass>5</Mass>
     </statBases>
     <costStuffCount>0</costStuffCount>
-    <stuffCategories Inherit="False"/>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
     <costList Inherit="False">
       <Steel>80</Steel>
       <ComponentIndustrial>2</ComponentIndustrial>
@@ -89,7 +91,9 @@
     <!-- <equippedAngleOffset>-65</equippedAngleOffset> -->
     <techLevel>Spacer</techLevel>
     <costStuffCount>0</costStuffCount>
-    <stuffCategories Inherit="False"/>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
     <costList Inherit="False">
       <Steel>90</Steel>
       <Plasteel>25</Plasteel>
@@ -175,7 +179,9 @@
     <uiIconScale>0.8</uiIconScale>
     <techLevel>Spacer</techLevel>
     <costStuffCount>0</costStuffCount>
-    <stuffCategories Inherit="False"/>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
     <statBases>
       <!-- <MarketValue>441</MarketValue> -->
       <WorkToMake>20000</WorkToMake>
@@ -354,6 +360,32 @@
         <abilityDef>WULA_RW_Base_AR_Ability</abilityDef>
         <chargeNoun>眩光弹</chargeNoun>
       </li>
+      <!-- 经验核心组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">
+        <trackedSkill>Shooting</trackedSkill> <!-- 或 Melee -->
+        <experienceMultiplier>1.5</experienceMultiplier>
+        <showExperienceInfo>true</showExperienceInfo>
+        <experienceThresholds>
+          <li>
+            <experienceRequired>1000</experienceRequired>
+            <quality>Good</quality>
+            <messageKey>WULA_WeaponEvolving</messageKey>
+          </li>
+          <li>
+            <experienceRequired>3000</experienceRequired>
+            <quality>Excellent</quality>
+          </li>
+          <li>
+            <experienceRequired>6000</experienceRequired>
+            <quality>Masterwork</quality>
+          </li>
+          <li>
+            <experienceRequired>10000</experienceRequired>
+            <quality>Legendary</quality>
+            <messageKey>WULA_WeaponMastering</messageKey>
+          </li>
+        </experienceThresholds>
+    </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">

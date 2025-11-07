@@ -861,6 +861,9 @@
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
     <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
+    <researchPrerequisites Inherit="False">
+      <li>WULA_WeaponArmor_Productor_Technology</li>
+    </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>1</WorkToBuild>
@@ -971,9 +974,6 @@
     <pathCost>50</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
     <surfaceType>Item</surfaceType>
-    <researchPrerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </researchPrerequisites>
     <inspectorTabs>
       <li>WulaFallenEmpire.ITab_GlobalBills</li>
     </inspectorTabs>
@@ -1320,5 +1320,167 @@
         <raceDefName>WulaSpecies</raceDefName>
       </li>
     </comps>
+  </ThingDef>
+
+  <!-- 制造机 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Cube_Productor_Cleanzone</defName>
+    <label>乌拉帝国编织体</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国编织体是一台简易的塑性构造体，只能生产一些材料，以本地加工的方式降低舰队的加工压力。</description>
+    <uiIconPath>Wula/Building/WULA_Cube_Productor_Energy_south</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_WeaponArmor_Productor_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(1,1)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <costList>
+      <Steel>50</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>WULA_Cube_Productor_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Cube_Productor_Incoming</defName>
+    <label>乌拉帝国编织体（空投中）</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Charging_Station_Synth_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Cube_Productor</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BenchBase">
+    <defName>WULA_Cube_Productor</defName>
+    <label>乌拉帝国编织体</label>
+    <description>一台简易的塑性构造体，只能生产一些材料，以本地加工的方式降低舰队的加工压力。</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Cube_Productor_Energy</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+      <shadowData>
+        <volume>(0.75, 0.75, 0.5)</volume>
+      </shadowData>
+    </graphicData>
+    <constructEffect>ConstructMetal</constructEffect>
+    <costList>
+      <Steel>80</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <fillPercent>0.5</fillPercent>
+    <useHitPoints>True</useHitPoints>
+    <statBases>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <size>(1,1)</size>
+    <uiOrder>2120</uiOrder>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <!-- 可用配方 -->
+    <recipes>
+     <li>Make_WULA_Charge_Cube</li>
+     <li>Make_WULA_Charge_Cube_Group</li>
+     <li>Recharge_WULA_Charge_Cube_Energy</li>
+     <li>Recharge_WULA_Charge_Cube_Energy_Group</li>
+     <li>Make_Component_By_WULA_Cube_Productor</li>
+     <li>Make_WULA_Dark_Matter_Item</li>
+     <li>Make_WULA_Neutronium</li>
+    </recipes>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>500</basePowerConsumption>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <building>
+      <!-- <isMealSource>true</isMealSource> -->
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
   </ThingDef>
 </Defs>

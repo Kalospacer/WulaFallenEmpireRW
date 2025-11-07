@@ -1,4 +1,4 @@
-// GlobalProductionOrder.cs (移除所有材质相关代码)
+// GlobalProductionOrder.cs (修复成本计算，使用产物的costList)
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,13 +62,47 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 简化：HasEnoughResources 方法，移除材质检查
+        // 新增：获取产物的成本列表
+        private Dictionary<ThingDef, int> GetProductCostList()
+        {
+            var costDict = new Dictionary<ThingDef, int>();
+            
+            if (ProductDef?.costList != null)
+            {
+                foreach (var cost in ProductDef.costList)
+                {
+                    if (costDict.ContainsKey(cost.thingDef))
+                        costDict[cost.thingDef] += cost.count;
+                    else
+                        costDict[cost.thingDef] = cost.count;
+                }
+            }
+            
+            return costDict;
+        }
+
+        // 修复：HasEnoughResources 方法，使用产物的costList
         public bool HasEnoughResources()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null) return false;
 
-            // 只检查固定消耗（costList）
+            // 首先检查产物的costList（对于武器等物品）
+            var productCostList = GetProductCostList();
+            if (productCostList.Count > 0)
+            {
+                foreach (var kvp in productCostList)
+                {
+                    int requiredCount = kvp.Value;
+                    int availableCount = globalStorage.GetInputStorageCount(kvp.Key);
+                    
+                    if (availableCount < requiredCount)
+                        return false;
+                }
+                return true;
+            }
+            
+            // 如果没有costList，则回退到配方的ingredients（对于加工类配方）
             foreach (var ingredient in recipe.ingredients)
             {
                 bool hasEnoughForThisIngredient = false;
@@ -92,13 +126,25 @@ namespace WulaFallenEmpire
             return true;
         }
 
-        // 简化：ConsumeResources 方法，移除材质消耗
+        // 修复：ConsumeResources 方法，使用产物的costList
         public bool ConsumeResources()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null) return false;
 
-            // 只消耗固定资源（costList）
+            // 首先消耗产物的costList（对于武器等物品）
+            var productCostList = GetProductCostList();
+            if (productCostList.Count > 0)
+            {
+                foreach (var kvp in productCostList)
+                {
+                    if (!globalStorage.RemoveFromInputStorage(kvp.Key, kvp.Value))
+                        return false;
+                }
+                return true;
+            }
+            
+            // 如果没有costList，则消耗配方的ingredients（对于加工类配方）
             foreach (var ingredient in recipe.ingredients)
             {
                 bool consumedThisIngredient = false;
@@ -125,22 +171,25 @@ namespace WulaFallenEmpire
             return true;
         }
 
-        // 简化：GetIngredientsTooltip 方法，只显示固定消耗
+        // 修复：GetIngredientsTooltip 方法，显示正确的成本信息
         public string GetIngredientsTooltip()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(recipe.LabelCap);
             sb.AppendLine();
 
-            // 固定消耗（costList）
-            sb.AppendLine("WULA_FixedIngredients".Translate() + ":");
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
 
-            foreach (var ingredient in recipe.ingredients)
+            // 首先显示产物的costList（对于武器等物品）
+            var productCostList = GetProductCostList();
+            if (productCostList.Count > 0)
             {
-                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
+                sb.AppendLine("WULA_FixedIngredients".Translate() + ":");
+                
+                foreach (var kvp in productCostList)
                 {
-                    int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                    ThingDef thingDef = kvp.Key;
+                    int requiredCount = kvp.Value;
                     int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
 
                     string itemDisplay = $"{requiredCount} {thingDef.LabelCap}";
@@ -152,6 +201,31 @@ namespace WulaFallenEmpire
                     else
                     {
                         sb.AppendLine($" <color=red>{itemDisplay}</color>");
+                    }
+                }
+            }
+            else
+            {
+                // 如果没有costList，显示配方的ingredients（对于加工类配方）
+                sb.AppendLine("WULA_FixedIngredients".Translate() + ":");
+                
+                foreach (var ingredient in recipe.ingredients)
+                {
+                    foreach (var thingDef in ingredient.filter.AllowedThingDefs)
+                    {
+                        int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
+                        int availableCount = globalStorage?.GetInputStorageCount(thingDef) ?? 0;
+
+                        string itemDisplay = $"{requiredCount} {thingDef.LabelCap}";
+
+                        if (availableCount >= requiredCount)
+                        {
+                            sb.AppendLine($" <color=green>{itemDisplay}</color>");
+                        }
+                        else
+                        {
+                            sb.AppendLine($" <color=red>{itemDisplay}</color>");
+                        }
                     }
                 }
             }

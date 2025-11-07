@@ -259,4 +259,38 @@
   <WULA_Energy_RaceProperties>种族能量属性：</WULA_Energy_RaceProperties>
   <WULA_Energy_MaxLevelOffset_RaceExplanation>机械乌拉能量上限偏移量：影响该种族的最大能量储备。</WULA_Energy_MaxLevelOffset_RaceExplanation>
   <WULA_Energy_FallRateFactor_RaceExplanation>机械乌拉能量消耗速度：影响该种族的能量消耗速率。</WULA_Energy_FallRateFactor_RaceExplanation>
+
+  <!-- 默认标签和描述 -->
+  <WULA_SwitchableHediff_SwitchLabel>切换效果</WULA_SwitchableHediff_SwitchLabel>
+  <WULA_SwitchableHediff_SwitchDesc>点击打开菜单选择不同的效果模式</WULA_SwitchableHediff_SwitchDesc>
+  <WULA_SwitchableHediff_StatusLabel>当前效果：{0}</WULA_SwitchableHediff_StatusLabel>
+  <WULA_SwitchableHediff_StatusDesc>点击查看当前效果的详细信息</WULA_SwitchableHediff_StatusDesc>
+  
+  <!-- 动态内容 -->
+  <WULA_SwitchableHediff_CurrentMode>当前：{0}</WULA_SwitchableHediff_CurrentMode>
+  <WULA_SwitchableHediff_CurrentDesc>{0}</WULA_SwitchableHediff_CurrentDesc>
+  <WULA_SwitchableHediff_SwitchedTo>已切换到：{0}</WULA_SwitchableHediff_SwitchedTo>
+  <WULA_SwitchableHediff_SelectMode>选择效果模式</WULA_SwitchableHediff_SelectMode>
+  <WULA_SwitchableHediff_CurrentModeInfo>当前效果：{0}\n\n{1}</WULA_SwitchableHediff_CurrentModeInfo>
+  <WULA_SwitchableHediff_CurrentEffect>当前效果：{0}</WULA_SwitchableHediff_CurrentEffect>
+  
+  <!-- 通用术语 -->
+  <WULA_Unknown>未知</WULA_Unknown>
+  <WULA_None>无</WULA_None>
+  <WULA_NoDescription>暂无描述</WULA_NoDescription>
+
+  <!-- English -->
+  <WULA_CurrentExperience>Current Experience: {0}</WULA_CurrentExperience>
+  <WULA_CurrentExperienceDesc>The total experience accumulated by this weapon.</WULA_CurrentExperienceDesc>
+  <WULA_NextQualityProgress>Next Quality: {0} ({1})</WULA_NextQualityProgress>
+  <WULA_NextQuality>Next Quality</WULA_NextQuality>
+  <WULA_NextQualityDesc>Unlocks at {0} experience.</WULA_NextQualityDesc>
+  <WULA_CurrentQuality>Current Quality</WULA_CurrentQuality>
+  <WULA_CurrentQualityDesc>The current quality level of this weapon.</WULA_CurrentQualityDesc>
+  <WULA_MaxQuality>Maximum Quality Reached: {0}</WULA_MaxQuality>
+  <WULA_TrackedSkill>Tracked Skill: {0}</WULA_TrackedSkill>
+  <WULA_WeaponUpgraded>{0} has been upgraded to {1} quality!</WULA_WeaponUpgraded>
+  <!-- 可以添加特定的升级消息 -->
+  <WULA_WeaponEvolving>Your {0} is evolving with experience!</WULA_WeaponEvolving>
+  <WULA_WeaponMastering>The {0} has reached mastery level!</WULA_WeaponMastering>
 </LanguageData>

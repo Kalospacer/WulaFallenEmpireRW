@@ -1,4 +1,4 @@
-// 在 Building_GlobalWorkTable.cs 中移除材质相关代码
+// 在 Building_GlobalWorkTable.cs 中添加材质处理逻辑
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +16,13 @@ namespace WulaFallenEmpire
         private CompBreakdownable breakdownableComp;
         private int lastProcessTick = -1;
         private const int ProcessInterval = 1;
+
+        // 材质映射定义
+        private static readonly Dictionary<StuffCategoryDef, ThingDef> StuffCategoryMapping = new Dictionary<StuffCategoryDef, ThingDef>
+        {
+            { StuffCategoryDefOf.Metallic, ThingDefOf.Plasteel },     // 金属类 -> 玻璃钢
+            { StuffCategoryDefOf.Fabric, ThingDefOf_WULA.Hyperweave }      // 布革类 -> 超织物
+        };
 
         public Building_GlobalWorkTable()
         {
@@ -214,7 +221,7 @@ namespace WulaFallenEmpire
                     if (!validSpots.Contains(cell) && cell.Standable(map))
                     {
                         validSpots.Add(cell);
-                        
+
                         if (validSpots.Count >= maxSpots)
                             break;
                     }
@@ -224,7 +231,7 @@ namespace WulaFallenEmpire
             return validSpots;
         }
 
-        // 简化：分配物品到空投舱，移除材质相关代码
+        // 新增：分配物品到空投舱，包含材质处理
         private List<List<Thing>> DistributeItemsToPods(GlobalStorageWorldComponent storage, int podCount)
         {
             List<List<Thing>> podContents = new List<List<Thing>>();
@@ -264,8 +271,7 @@ namespace WulaFallenEmpire
                     while (remainingCount > 0)
                     {
                         int stackSize = Mathf.Min(remainingCount, thingDef.stackLimit);
-                        Thing thing = ThingMaker.MakeThing(thingDef); // 不再传递材质参数
-                        thing.stackCount = stackSize;
+                        Thing thing = CreateThingWithMaterial(thingDef, stackSize);
                         allItems.Add(thing);
                         remainingCount -= stackSize;
                     }
@@ -290,6 +296,57 @@ namespace WulaFallenEmpire
             }
 
             return podContents;
+        }
+
+        // 新增：创建物品并应用材质规则
+        private Thing CreateThingWithMaterial(ThingDef thingDef, int stackCount)
+        {
+            // 检查物品是否需要材质
+            if (thingDef.MadeFromStuff)
+            {
+                // 获取物品可用的材质类别
+                var stuffCategories = thingDef.stuffCategories;
+                if (stuffCategories != null && stuffCategories.Count > 0)
+                {
+                    // 检查是否有金属类材质需求
+                    var metallicCategory = stuffCategories.FirstOrDefault(sc => 
+                        sc.defName == "Metallic" || sc.defName.Contains("Metallic"));
+                    
+                    // 检查是否有布革类材质需求  
+                    var fabricCategory = stuffCategories.FirstOrDefault(sc =>
+                        sc.defName == "Fabric" || sc.defName.Contains("Fabric") || 
+                        sc.defName == "Leathery" || sc.defName.Contains("Leather"));
+
+                    // 应用材质规则
+                    ThingDef selectedStuff = null;
+                    
+                    if (metallicCategory != null)
+                    {
+                        // 金属类 -> 玻璃钢
+                        selectedStuff = ThingDefOf.Plasteel;
+                        Log.Message($"[Material Rule] {thingDef.defName} requires metallic, using Plasteel");
+                    }
+                    else if (fabricCategory != null)
+                    {
+                        // 布革类 -> 超织物
+                        selectedStuff = ThingDefOf_WULA.Hyperweave;
+                        Log.Message($"[Material Rule] {thingDef.defName} requires fabric/leather, using Hyperweave");
+                    }
+
+                    // 创建带有指定材质的物品
+                    if (selectedStuff != null)
+                    {
+                        Thing thing = ThingMaker.MakeThing(thingDef, selectedStuff);
+                        thing.stackCount = stackCount;
+                        return thing;
+                    }
+                }
+            }
+
+            // 默认情况：创建无材质的物品
+            Thing defaultThing = ThingMaker.MakeThing(thingDef);
+            defaultThing.stackCount = stackCount;
+            return defaultThing;
         }
 
         // 在 Building_GlobalWorkTable.cs 中修改 GetRandomPawnKindForType 方法

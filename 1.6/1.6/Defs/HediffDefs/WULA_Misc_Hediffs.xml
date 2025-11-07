@@ -82,26 +82,6 @@
       </li>
     </comps>
   </HediffDef>
-  <HediffDef ParentName="ImplantHediffBase">
-    <defName>WULA_Addons_Antenna_Hediff_Base</defName>
-    <hediffClass>Hediff_Mechlink</hediffClass>
-    <label>机械指挥节点</label>
-    <description>乌拉帝国合成人脑袋上有一对天线，她们可以使用这套通讯设备与乌拉帝国舰队通讯。</description>
-    <descriptionShort>一对可以与舰队通讯的天线。</descriptionShort>
-    <isBad>false</isBad>
-    <duplicationAllowed>false</duplicationAllowed>
-    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
-    <defaultInstallPart>WULA_Addons_Antenna_Bodypart</defaultInstallPart>
-    <!-- <spawnThingOnRemoved>WULA_Addons_Antenna_Base</spawnThingOnRemoved> -->
-    <comps>
-      <li Class="WulaFallenEmpire.HediffCompProperties_MakesMechanitor"/>
-      <li Class="HediffCompProperties_GiveAbility">
-        <abilityDefs>
-          <li>WULA_CallBattleShip</li>
-        </abilityDefs>
-      </li>
-    </comps>
-  </HediffDef>
 
   <HediffDef>
     <defName>WULA_ChargingHediff</defName>
