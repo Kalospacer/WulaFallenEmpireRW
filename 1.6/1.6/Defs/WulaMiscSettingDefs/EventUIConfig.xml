@@ -6,22 +6,22 @@
     
     <!-- General Style -->
     <labelFont>Small</labelFont>
-    <drawBorders>false</drawBorders>
+    <drawBorders>true</drawBorders>
     <showDefName>false</showDefName>
     <showLabel>true</showLabel>
     <defaultBackgroundImagePath></defaultBackgroundImagePath>
     
     <!-- Virtual Layout Dimensions -->
-    <lihuiSize>(500, 800)</lihuiSize>
-    <nameSize>(650, 130)</nameSize>
-    <textSize>(650, 350)</textSize>
+    <lihuiSize>(1093, 687)</lihuiSize>
+    <nameSize>(593, 530)</nameSize>
+    <textSize>(593, 330)</textSize>
     <optionsWidth>750</optionsWidth>
     
     <!-- Virtual Layout Offsets -->
     <textNameOffset>0</textNameOffset>
     <optionsTextOffset>0</optionsTextOffset>
 
-    <defaultWindowSize>(750, 600)</defaultWindowSize>
+    <defaultWindowSize>(693, 887)</defaultWindowSize>
 
     <!-- New Layout Dimensions -->
     <newLayoutNameSize>(200, 50)</newLayoutNameSize>

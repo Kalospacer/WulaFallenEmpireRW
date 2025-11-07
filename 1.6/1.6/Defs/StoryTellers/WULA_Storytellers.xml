@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <StorytellerDef ParentName="BaseStoryteller">
-	<defName>WULA_Anisia</defName>
-	<label>URa-1138「艾妮西娅」</label>
-	<description>一位诞生于乌拉帝国黄金时代的合成人，是黄金时代禁忌科技的守密者。她在边缘世界一带强制唤醒了大量的旧时代乌拉帝国合成人，无人知晓她真正的目的。\n\n艾妮西娅喜欢大场面，因此她不会安排任何小型袭击，而是安排比其他叙事者所安排的大型袭击更加强大的袭击。不过，在两次袭击间她将安排充足的时间让殖民地进行发展，并让殖民者得到放松以充分消化战利品和修补战线。</description>
-	<portraitLarge>Wula/Storyteller/WULA_Anisia</portraitLarge>
-	<portraitTiny>Wula/Storyteller/WULA_Anisia_TINY</portraitTiny>
+	<defName>WULA_Legion</defName>
+	<label>「军团」</label>
+	<description>一个超级AI，负责控制调度乌拉帝国行星封锁机关P.I.A的舰队，是帝国开发署扩张领地的先锋。当帝国需要对一个星球进行控制和介入时，她会指挥庞大的先锋舰队攻占轨道，以不容置疑的实力向星球宣示帝国的权威。\n\n作为讲述者，她不会为你留下任何保护措施，所有的袭击和恶性事件从落地开始就有可能生成，并且袭击的频率要比常规情况下更高——尽管它们还是有周期规律的。</description>
+	<portraitLarge>Wula/Storyteller/WULA_Legion</portraitLarge>
+	<portraitTiny>Wula/Storyteller/WULA_Legion_TINY</portraitTiny>
   <listOrder>20</listOrder>
     <comps>
       <!-- Intro -->
@@ -13,9 +13,9 @@
       <!-- 袭击生成器 -->
       <li Class="StorytellerCompProperties_OnOffCycle">
         <category>ThreatBig</category> <!-- 大型袭击 -->
-        <minDaysPassed>15.0</minDaysPassed> <!-- 最低在15日后开始生成 -->
+        <minDaysPassed>0</minDaysPassed>
         <onDays>2</onDays> <!-- 每个周期(12天)有多少天允许生成袭击 -->
-        <offDays>9</offDays> <!-- 每个周期(12天)有多少天不生成袭击 -->
+        <offDays>5</offDays> <!-- 每个周期(12天)有多少天不生成袭击 -->
         <minSpacingDays>0.25</minSpacingDays> <!-- 事件最小间隔 -->
         <numIncidentsRange>2~3</numIncidentsRange> <!-- 事件点数 -->
         <!-- <forceRaidEnemyBeforeDaysPassed>20</forceRaidEnemyBeforeDaysPassed> -->
@@ -23,11 +23,11 @@
           <li>Map_RaidBeacon</li>
         </disallowedTargetTags>
       </li>
-      <!-- <li Class="StorytellerCompProperties_OnOffCycle">
+      <li Class="StorytellerCompProperties_OnOffCycle">
         <category>ThreatSmall</category>
-        <minDaysPassed>11.0</minDaysPassed>
-        <onDays>4.6</onDays>
-        <offDays>6.0</offDays>
+        <minDaysPassed>0</minDaysPassed>
+        <onDays>2.6</onDays>
+        <offDays>3.0</offDays>
         <numIncidentsRange>0.2~1</numIncidentsRange>
         <acceptPercentFactorPerThreatPointsCurve>
           <points>
@@ -35,7 +35,7 @@
             <li>(2800, 0)</li>
           </points>
         </acceptPercentFactorPerThreatPointsCurve>
-      </li> -->
+      </li>
       <li Class="StorytellerCompProperties_ThreatsGenerator">
         <allowedTargetTags>
           <li>Map_RaidBeacon</li>
@@ -55,17 +55,17 @@
         <allowedTargetTags>
           <li>Map_PlayerHome</li>
         </allowedTargetTags>
-        <minDaysPassed>5</minDaysPassed>
+        <minDaysPassed>0</minDaysPassed>
         <mtbDays>4.8</mtbDays>
       </li>
       <li Class="StorytellerCompProperties_ShipChunkDrop"/>
       <li Class="StorytellerCompProperties_Disease">
         <category>DiseaseHuman</category>
-        <minDaysPassed>9</minDaysPassed>
+        <minDaysPassed>0</minDaysPassed>
       </li>
       <li Class="StorytellerCompProperties_Disease">
         <category>DiseaseAnimal</category>
-        <minDaysPassed>9</minDaysPassed>
+        <minDaysPassed>0</minDaysPassed>
       </li>
       <!-- Ally/neutral interaction -->
       <li Class="StorytellerCompProperties_FactionInteraction">
@@ -170,7 +170,7 @@
         <allowedTargetTags>
           <li>World</li>
         </allowedTargetTags>
-        <minDaysPassed>15</minDaysPassed>
+        <minDaysPassed>0</minDaysPassed>
         <mtbDays>15</mtbDays>
       </li>
       <!-- Orbital trader -->
@@ -179,11 +179,6 @@
         <onDays>7</onDays>
         <offDays>8</offDays>
         <numIncidentsRange>1</numIncidentsRange>
-      </li>
-      <!-- Triggered -->
-      <li Class="StorytellerCompProperties_Triggered">
-        <incident>StrangerInBlackJoin</incident>
-        <delayTicks>180</delayTicks>
       </li>
     </comps>
   </StorytellerDef>

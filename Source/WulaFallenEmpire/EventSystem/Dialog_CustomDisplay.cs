@@ -103,11 +103,13 @@ namespace WulaFallenEmpire
 
         public override void DoWindowContents(Rect inRect)
         {
+            // 绘制背景
             if (background != null)
             {
                 GUI.DrawTexture(inRect, background, ScaleMode.ScaleToFit);
             }
 
+            // 调试信息（def名称）
             if (Config.showDefName)
             {
                 Text.Font = GameFont.Tiny;
@@ -116,34 +118,31 @@ namespace WulaFallenEmpire
                 GUI.color = Color.white;
             }
 
-            if (Config.showLabel)
-            {
-                Text.Font = Config.labelFont;
-                Widgets.Label(new Rect(5, 20f, inRect.width - 10, 30f), def.label);
-                Text.Font = GameFont.Small;
-            }
+            // 使用新的布局参数
+            float scale = CalculateScale(inRect);
+            
+            // 使用新的布局尺寸
+            float scaledLihuiWidth = Config.newLayoutLihuiSize.x * scale;
+            float scaledLihuiHeight = Config.newLayoutLihuiSize.y * scale;
+            float scaledTextWidth = Config.newLayoutTextSize.x * scale;
+            float scaledTextHeight = Config.newLayoutTextSize.y * scale;
+            float scaledOptionsWidth = Config.newLayoutOptionsWidth * scale;
 
-            float virtualWidth = Config.lihuiSize.x + Config.textSize.x;
-            float virtualHeight = Config.lihuiSize.y;
+            // 计算各元素高度
+            float labelHeight = 30f * scale;
+            float characterNameHeight = 25f * scale;
+            float descriptionHeight = scaledTextHeight;
+            float optionsHeight = CalculateOptionsHeight(def.options, scaledOptionsWidth, scale);
 
-            float scaleX = inRect.width / virtualWidth;
-            float scaleY = inRect.height / virtualHeight;
-            float scale = Mathf.Min(scaleX, scaleY) * 0.95f;
+            // 使用新的间距参数
+            float topMargin = Config.newLayoutPadding * scale;
+            float elementSpacing = Config.newLayoutTextNameOffset * scale;
+            float textOptionsSpacing = Config.newLayoutOptionsTextOffset * scale;
 
-            float scaledLihuiWidth = Config.lihuiSize.x * scale;
-            float scaledLihuiHeight = Config.lihuiSize.y * scale;
-            float scaledNameWidth = Config.nameSize.x * scale;
-            float scaledNameHeight = Config.nameSize.y * scale;
-            float scaledTextWidth = Config.textSize.x * scale;
-            float scaledTextHeight = Config.textSize.y * scale;
-            float scaledOptionsWidth = Config.optionsWidth * scale;
+            float currentY = topMargin;
 
-            float totalContentWidth = scaledLihuiWidth + scaledTextWidth;
-            float totalContentHeight = scaledLihuiHeight;
-            float startX = (inRect.width - totalContentWidth) / 2;
-            float startY = (inRect.height - totalContentHeight) / 2;
-
-            Rect lihuiRect = new Rect(startX, startY, scaledLihuiWidth, scaledLihuiHeight);
+            // 1. 立绘（水平居中，顶着顶部）
+            Rect lihuiRect = new Rect((inRect.width - scaledLihuiWidth) / 2, currentY, scaledLihuiWidth, scaledLihuiHeight);
             if (portrait != null)
             {
                 GUI.DrawTexture(lihuiRect, portrait, ScaleMode.ScaleToFit);
@@ -152,58 +151,145 @@ namespace WulaFallenEmpire
             {
                 Widgets.DrawBox(lihuiRect);
             }
+            currentY += scaledLihuiHeight + elementSpacing;
 
-            Rect nameRect = new Rect(lihuiRect.xMax, lihuiRect.y, scaledNameWidth, scaledNameHeight);
-            if (Config.drawBorders)
+            // 2. Label（水平居中）
+            if (Config.showLabel)
             {
-                Widgets.DrawBox(nameRect);
+                Rect labelRect = new Rect(0, currentY, inRect.width, labelHeight);
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Text.Font = Config.labelFont;
+                Widgets.Label(labelRect, def.label);
+                Text.Font = GameFont.Small;
+                Text.Anchor = TextAnchor.UpperLeft;
+                
+                if (Config.drawBorders)
+                {
+                    Widgets.DrawBox(labelRect);
+                }
+                currentY += labelHeight + elementSpacing;
             }
+
+            // 3. CharacterName（水平居中）
+            Rect nameRect = new Rect(0, currentY, inRect.width, characterNameHeight);
             Text.Anchor = TextAnchor.MiddleCenter;
             Text.Font = GameFont.Medium;
             Widgets.Label(nameRect, def.characterName);
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.UpperLeft;
+            
+            if (Config.drawBorders)
+            {
+                Widgets.DrawBox(nameRect);
+            }
+            currentY += characterNameHeight + elementSpacing;
 
-            Rect textRect = new Rect(nameRect.x, nameRect.yMax + Config.textNameOffset * scale, scaledTextWidth, scaledTextHeight);
+            // 4. Descriptions（水平居中）
+            Rect textRect = new Rect((inRect.width - scaledTextWidth) / 2, currentY, scaledTextWidth, descriptionHeight);
             if (Config.drawBorders)
             {
                 Widgets.DrawBox(textRect);
             }
-            Rect textInnerRect = textRect.ContractedBy(10f * scale);
-            Widgets.Label(textInnerRect, selectedDescription);
-
-            Rect optionRect = new Rect(nameRect.x, textRect.yMax + Config.optionsTextOffset * scale, scaledOptionsWidth, lihuiRect.height - nameRect.height - textRect.height - (Config.textNameOffset + Config.optionsTextOffset) * scale);
             
-            Listing_Standard listing = new Listing_Standard();
-            listing.Begin(optionRect.ContractedBy(10f * scale));
-            if (def.options != null)
-            {
-                foreach (var option in def.options)
-                {
-                    string reason;
-                    bool conditionsMet = AreConditionsMet(option.conditions, out reason);
+            // 增加内边距
+            float textInnerPadding = 15f * scale;
+            Rect textInnerRect = textRect.ContractedBy(textInnerPadding);
+            Widgets.LabelScrollable(textInnerRect, selectedDescription, ref scrollPosition);
+            
+            currentY += descriptionHeight + textOptionsSpacing;
 
-                    if (conditionsMet)
+            // 5. Options（水平居中）
+            Rect optionRect = new Rect((inRect.width - scaledOptionsWidth) / 2, currentY, scaledOptionsWidth, optionsHeight);
+            if (Config.drawBorders)
+            {
+                Widgets.DrawBox(optionRect);
+            }
+            
+            // 增加内边距
+            float optionsInnerPadding = 10f * scale;
+            DrawOptions(optionRect.ContractedBy(optionsInnerPadding), def.options, scale);
+        }
+
+        // 计算缩放比例 - 使用新的布局参数
+        private float CalculateScale(Rect inRect)
+        {
+            float virtualWidth = Mathf.Max(
+                Config.newLayoutLihuiSize.x, 
+                Config.newLayoutTextSize.x, 
+                Config.newLayoutOptionsWidth
+            );
+            float scaleX = inRect.width / virtualWidth;
+            return Mathf.Min(scaleX, 1.0f) * 0.85f; // 稍微减少缩放以留出更多边距
+        }
+
+        // 计算选项区域高度
+        private float CalculateOptionsHeight(List<EventOption> options, float optionsWidth, float scale)
+        {
+            if (options == null || options.Count == 0)
+                return 0f;
+
+            float totalHeight = 0f;
+            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
+
+            foreach (var option in options)
+            {
+                string reason;
+                bool conditionsMet = AreConditionsMet(option.conditions, out reason);
+
+                if (!conditionsMet && option.hideWhenDisabled)
+                {
+                    continue;
+                }
+
+                // 增加选项高度和间距
+                totalHeight += 35f * scale; // 每个选项高度
+                totalHeight += 8f * scale; // 选项间距
+            }
+
+            return totalHeight;
+        }
+
+        // 绘制选项
+        private void DrawOptions(Rect rect, List<EventOption> options, float scale)
+        {
+            if (options == null || options.Count == 0)
+                return;
+
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(rect);
+
+            // 增加选项之间的间距
+            listing.verticalSpacing = 8f * scale;
+
+            foreach (var option in options)
+            {
+                string reason;
+                bool conditionsMet = AreConditionsMet(option.conditions, out reason);
+
+                if (conditionsMet)
+                {
+                    if (listing.ButtonText(option.label))
                     {
-                        if (listing.ButtonText(option.label))
-                        {
-                            HandleAction(option.optionEffects);
-                        }
-                    }
-                    else
-                    {
-                        if (option.hideWhenDisabled)
-                        {
-                            continue;
-                        }
-                        Rect rect = listing.GetRect(30f);
-                        Widgets.ButtonText(rect, option.label, false, true, false);
-                        TooltipHandler.TipRegion(rect, GetDisabledReason(option, reason));
+                        HandleAction(option.optionEffects);
                     }
                 }
+                else
+                {
+                    if (option.hideWhenDisabled)
+                    {
+                        continue;
+                    }
+                    Rect buttonRect = listing.GetRect(35f * scale); // 增加按钮高度
+                    Widgets.ButtonText(buttonRect, option.label, false, true, false);
+                    TooltipHandler.TipRegion(buttonRect, GetDisabledReason(option, reason));
+                }
             }
+
             listing.End();
         }
+
+        // 滚动位置用于描述文本
+        private Vector2 scrollPosition = Vector2.zero;
 
         private void HandleAction(List<ConditionalEffects> conditionalEffects)
         {
@@ -258,16 +344,14 @@ namespace WulaFallenEmpire
         private string FormatDescription(string description)
         {
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
-            // Use regex to find all placeholders like {variableName}
             return Regex.Replace(description, @"\{(.+?)\}", match =>
             {
                 string varName = match.Groups[1].Value;
                 if (eventVarManager.HasVariable(varName))
                 {
-                    // Important: GetVariable<object> to get any type
                     return eventVarManager.GetVariable<object>(varName)?.ToString() ?? "";
                 }
-                return match.Value; // Keep placeholder if variable not found
+                return match.Value;
             });
         }
     }

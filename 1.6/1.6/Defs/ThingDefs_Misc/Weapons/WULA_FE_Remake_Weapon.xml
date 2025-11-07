@@ -5,8 +5,9 @@
     <label>自律核心数据包（射击）</label>
     <description>包含了射击经验的自律核心数据包，可以被乌拉帝国拥有自律核心的武器吸收以提升其品质。</description>
     <graphicData>
-      <texPath>Wula/Item/WULA_Dark_Matter_Item</texPath>
+      <texPath>Wula/Item/WULA_ExperienceDataPack</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
     </graphicData>
     <tickerType>Never</tickerType>
     <smeltable>false</smeltable>
@@ -35,8 +36,9 @@
     <label>自律核心数据包（近战）</label>
     <description>包含了近战经验的自律核心数据包，可以被乌拉帝国拥有自律核心的武器吸收以提升其品质。</description>
     <graphicData>
-      <texPath>Wula/Item/WULA_Dark_Matter_Item</texPath>
+      <texPath>Wula/Item/WULA_ExperienceDataPack</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
     </graphicData>
     <tickerType>Never</tickerType>
     <smeltable>false</smeltable>
@@ -62,7 +64,7 @@
   </ThingDef>
 
   <!-- 近战 -->
-  <ThingDef Name="WULA_ExperienceCore_Weapon_Melee" ParentName="BaseMeleeWeapon_Blunt_Quality">
+  <ThingDef Name="WULA_ExperienceCore_Weapon_Melee" ParentName="BaseMeleeWeapon_Blunt_Quality" Abstract="True">
     <comps>
       <!-- 经验核心组件 -->
       <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">
@@ -428,7 +430,7 @@
   </ThingDef>
 
   <!-- 射弹武器 -->
-  <ThingDef Name="WULA_ExperienceCore_Weapon_Ranged" ParentName="BaseHumanMakeableGun">
+  <ThingDef Name="WULA_ExperienceCore_Weapon_Ranged" ParentName="BaseHumanMakeableGun" Abstract="True">
     <comps>
       <!-- 经验核心组件 -->
       <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">

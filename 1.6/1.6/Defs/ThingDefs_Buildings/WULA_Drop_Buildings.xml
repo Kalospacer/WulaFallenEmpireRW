@@ -831,7 +831,7 @@
     </comps>
   </ThingDef>
 
-  <!-- 制造机 -->
+  <!-- 订单机 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_WeaponArmor_Productor_Cleanzone</defName>
     <label>乌拉帝国作业通讯台</label>
@@ -988,9 +988,9 @@
         <overrideExistingFaction>false</overrideExistingFaction>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_OpenCustomUI">
-        <uiDefName>Wula_UI_Main_1</uiDefName>
-        <label>联络乌拉帝国</label>
-        <failReason>无法接触通讯站。</failReason>
+        <uiDefName>Wula_UI_Legion_1</uiDefName>
+        <label>联络行星封锁机关</label>
+        <failReason>无法接触。</failReason>
       </li>
     </comps>
   </ThingDef>
