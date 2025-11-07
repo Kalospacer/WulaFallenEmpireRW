@@ -176,6 +176,7 @@
     <Compile Include="ThingComp\Wula_MechRepairKit\CompUseEffect_FixAllHealthConditions.cs" />
     <Compile Include="ThingComp\Wula_MechRepairKit\Recipe_AdministerWulaMechRepairKit.cs" />
     <Compile Include="ThingComp\WULA_PersonaCore\CompExperienceCore.cs" />
+    <Compile Include="ThingComp\WULA_PersonaCore\CompExperienceDataPack.cs" />
     <Compile Include="ThingComp\WULA_PersonaCore\CompProperties_ExperienceCore.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\CompWulaRitualSpot.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\PsychicRitualDef_AddHediff.cs" />

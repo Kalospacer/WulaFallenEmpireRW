@@ -279,18 +279,43 @@
   <WULA_None>无</WULA_None>
   <WULA_NoDescription>暂无描述</WULA_NoDescription>
 
-  <!-- English -->
-  <WULA_CurrentExperience>Current Experience: {0}</WULA_CurrentExperience>
-  <WULA_CurrentExperienceDesc>The total experience accumulated by this weapon.</WULA_CurrentExperienceDesc>
-  <WULA_NextQualityProgress>Next Quality: {0} ({1})</WULA_NextQualityProgress>
-  <WULA_NextQuality>Next Quality</WULA_NextQuality>
-  <WULA_NextQualityDesc>Unlocks at {0} experience.</WULA_NextQualityDesc>
-  <WULA_CurrentQuality>Current Quality</WULA_CurrentQuality>
-  <WULA_CurrentQualityDesc>The current quality level of this weapon.</WULA_CurrentQualityDesc>
-  <WULA_MaxQuality>Maximum Quality Reached: {0}</WULA_MaxQuality>
-  <WULA_TrackedSkill>Tracked Skill: {0}</WULA_TrackedSkill>
-  <WULA_WeaponUpgraded>{0} has been upgraded to {1} quality!</WULA_WeaponUpgraded>
-  <!-- 可以添加特定的升级消息 -->
-  <WULA_WeaponEvolving>Your {0} is evolving with experience!</WULA_WeaponEvolving>
-  <WULA_WeaponMastering>The {0} has reached mastery level!</WULA_WeaponMastering>
+  <WULA_CurrentExperience>当前经验: {0}</WULA_CurrentExperience>
+  <WULA_CurrentExperienceStat>当前经验</WULA_CurrentExperienceStat>
+  <WULA_CurrentExperienceDesc>此武器积累的总经验值</WULA_CurrentExperienceDesc>
+  
+  <WULA_NextQualityProgress>下一个品质: {0} ({1})</WULA_NextQualityProgress>
+  <WULA_NextQuality>下一个品质</WULA_NextQuality>
+  <WULA_NextQualityDesc>在 {0} 经验时解锁</WULA_NextQualityDesc>
+  
+  <WULA_CurrentQuality>当前品质</WULA_CurrentQuality>
+  <WULA_CurrentQualityDesc>此武器当前的品质等级</WULA_CurrentQualityDesc>
+  
+  <WULA_MaxQuality>已达到最高品质: {0}</WULA_MaxQuality>
+  <WULA_TrackedSkill>提升自律核心经验所需技能: {0}</WULA_TrackedSkill>
+  
+  <WULA_WeaponUpgraded>{0} 已升级为 {1} 品质！</WULA_WeaponUpgraded>
+  
+  <!-- 可选的升级消息 -->
+  <WULA_WeaponEvolving>{0} 的自律核心正在随着其使用者获得的经验而进化，这将提升武器的品质</WULA_WeaponEvolving>
+  <WULA_WeaponMastering>{0} 的自律核心经验已达到最高水平！</WULA_WeaponMastering>
+
+  <!-- 中文翻译 -->
+  <WULA_EjectDataPack>弹出数据包</WULA_EjectDataPack>
+  <WULA_EjectDataPackDesc>将自律核心包含的数据提取为可被其他武器的自律核心吸收的数据包，武器将重置为初始状态。</WULA_EjectDataPackDesc>
+  <WULA_AbsorbDataPack>吸收数据包</WULA_AbsorbDataPack>
+  <WULA_AbsorbDataPackDesc>自律核心将吸收附近数据包中的经验来提升此武器的品质。</WULA_AbsorbDataPackDesc>
+  <WULA_DataPackExperience>存储经验: {0} (来自 {1})</WULA_DataPackExperience>
+  <WULA_DataPackEjected>经验核心已弹出，包含 {0} 经验</WULA_DataPackEjected>
+  <WULA_DataPackAbsorbed>从数据包吸收了 {0} 经验</WULA_DataPackAbsorbed>
+  <WULA_NoDataPackDef>未配置数据包定义</WULA_NoDataPackDef>
+  <WULA_NoExperienceToEject>没有数据可弹出</WULA_NoExperienceToEject>
+  <WULA_NoDataPackNearby>附近未找到兼容的数据包</WULA_NoDataPackNearby>
+  <WULA_DataPackEmpty>数据包中不包含经验</WULA_DataPackEmpty>
+  <WULA_DataPackCompMissing>数据包组件缺失</WULA_DataPackCompMissing>
+  <WULA_OverflowExperience>溢出经验: {0}</WULA_OverflowExperience>
+  <WULA_OverflowExperienceStat>溢出经验</WULA_OverflowExperienceStat>
+  <WULA_OverflowExperienceDesc>超过最大品质阈值的存储经验</WULA_OverflowExperienceDesc>
+  <WULA_OverflowStored>超出经验已存储</WULA_OverflowStored>
+  <WULA_DataPackPartiallyAbsorbed>吸收了 {0} 经验，{1} 转换为溢出数据包</WULA_DataPackPartiallyAbsorbed>
+  <WULA_DataPackOverflowOnly>所有 {0} 经验转换为溢出数据包（已达到最大品质）</WULA_DataPackOverflowOnly>
 </LanguageData>

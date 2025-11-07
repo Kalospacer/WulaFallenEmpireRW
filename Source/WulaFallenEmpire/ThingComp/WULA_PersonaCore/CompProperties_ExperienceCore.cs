@@ -18,6 +18,15 @@ namespace WulaFallenEmpire
         // 是否显示经验信息
         public bool showExperienceInfo = true;
         
+        // 数据包定义
+        public ThingDef dataPackDef;
+        
+        // 弹出数据包时保留的经验比例 (0-1)
+        public float experienceRetentionOnEject = 0f;
+        
+        // 吸收数据包时的搜索半径
+        public int absorbRadius = 3;
+        
         public CompProperties_ExperienceCore()
         {
             compClass = typeof(CompExperienceCore);

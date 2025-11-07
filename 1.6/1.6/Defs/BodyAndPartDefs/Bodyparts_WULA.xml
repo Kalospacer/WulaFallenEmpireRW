@@ -725,7 +725,7 @@
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_AI_Core_Bodypart</defName>
-    <label>人格核心</label>
+    <label>自律核心</label>
     <hitPoints>50</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
