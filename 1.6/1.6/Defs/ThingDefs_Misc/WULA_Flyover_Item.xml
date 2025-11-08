@@ -114,7 +114,7 @@
     <altitudeLayer>MetaOverlays</altitudeLayer>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_FlyOverType">
-        <flyOverType>WULA_Flyover_Airstrick</flyOverType>
+        <flyOverType>WULA_Flyover_Airstrike</flyOverType>
         <isRequiredForDrop>true</isRequiredForDrop>
         <laneLevel>0</laneLevel>
       </li>
