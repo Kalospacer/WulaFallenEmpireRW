@@ -27,24 +27,28 @@ namespace WulaFallenEmpire
             }
         }
 
+        // 使用配置的窗口尺寸
         public override Vector2 InitialSize
         {
             get
             {
-                if (def.windowSize != Vector2.zero)
-                {
-                    return def.windowSize;
-                }
-                return Config.defaultWindowSize;
+                return def.windowSize != Vector2.zero ? def.windowSize : Config.windowSize;
             }
         }
 
         public Dialog_CustomDisplay(EventDef def)
         {
             this.def = def;
-            this.forcePause = true;
+            
+            // 关键修改：使用配置控制是否暂停游戏
+            this.forcePause = Config.pauseGameOnOpen;
+            
             this.absorbInputAroundWindow = true;
             this.doCloseX = true;
+            
+            // 根据配置设置是否绘制窗口背景和阴影
+            this.doWindowBackground = Config.showMainWindow;
+            this.drawShadow = Config.showMainWindow;
 
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             if (!def.descriptions.NullOrEmpty())
@@ -73,12 +77,33 @@ namespace WulaFallenEmpire
         public override void PreOpen()
         {
             base.PreOpen();
-            if (!def.portraitPath.NullOrEmpty())
+            
+            // 加载立绘
+            if (Config.showPortrait && !def.portraitPath.NullOrEmpty())
             {
                 portrait = ContentFinder<Texture2D>.Get(def.portraitPath);
             }
 
-            string bgPath = !def.backgroundImagePath.NullOrEmpty() ? def.backgroundImagePath : Config.defaultBackgroundImagePath;
+            // 加载背景 - 优先级：事件定义背景 > 自定义背景 > 默认背景
+            string bgPath = null;
+            
+            // 1. 首先检查事件定义中的背景
+            if (!def.backgroundImagePath.NullOrEmpty())
+            {
+                bgPath = def.backgroundImagePath;
+            }
+            // 2. 然后检查自定义背景
+            else if (!string.IsNullOrEmpty(Config.customBackgroundImagePath))
+            {
+                bgPath = Config.customBackgroundImagePath;
+            }
+            // 3. 最后检查是否使用默认背景
+            else if (Config.useDefaultBackground)
+            {
+                // 这里可以设置一个默认背景路径，或者留空
+                // bgPath = "UI/Backgrounds/DefaultEventBackground";
+            }
+            
             if (!bgPath.NullOrEmpty())
             {
                 background = ContentFinder<Texture2D>.Get(bgPath);
@@ -103,60 +128,55 @@ namespace WulaFallenEmpire
 
         public override void DoWindowContents(Rect inRect)
         {
-            // 绘制背景
+            // 绘制自定义背景（如果有）
             if (background != null)
             {
-                GUI.DrawTexture(inRect, background, ScaleMode.ScaleToFit);
+                GUI.DrawTexture(inRect, background, ScaleMode.StretchToFill);
             }
 
-            // 调试信息（def名称）
-            if (Config.showDefName)
+            float currentY = 0f;
+
+            // 1. 立绘
+            if (Config.showPortrait)
             {
-                Text.Font = GameFont.Tiny;
-                GUI.color = Color.gray;
-                Widgets.Label(new Rect(5, 5, inRect.width - 10, 20f), def.defName);
-                GUI.color = Color.white;
+                currentY += Config.GetScaledMargin(Config.portraitMargins.x, inRect);
+                
+                Rect portraitRect = Config.GetScaledRect(Config.portraitSize, inRect);
+                portraitRect.y = currentY;
+                
+                if (portrait != null)
+                {
+                    // 保持图片比例
+                    float aspectRatio = (float)portrait.width / portrait.height;
+                    float portraitWidth = portraitRect.height * aspectRatio;
+                    
+                    // 居中显示
+                    Rect centeredPortraitRect = new Rect(
+                        portraitRect.center.x - portraitWidth / 2,
+                        portraitRect.y,
+                        portraitWidth,
+                        portraitRect.height
+                    );
+                    
+                    GUI.DrawTexture(centeredPortraitRect, portrait, ScaleMode.ScaleToFit);
+                }
+                
+                if (Config.drawBorders)
+                {
+                    Widgets.DrawBox(portraitRect);
+                }
+                
+                currentY += portraitRect.height + Config.GetScaledMargin(Config.portraitMargins.y, inRect);
             }
 
-            // 使用新的布局参数
-            float scale = CalculateScale(inRect);
-            
-            // 使用新的布局尺寸
-            float scaledLihuiWidth = Config.newLayoutLihuiSize.x * scale;
-            float scaledLihuiHeight = Config.newLayoutLihuiSize.y * scale;
-            float scaledTextWidth = Config.newLayoutTextSize.x * scale;
-            float scaledTextHeight = Config.newLayoutTextSize.y * scale;
-            float scaledOptionsWidth = Config.newLayoutOptionsWidth * scale;
-
-            // 计算各元素高度
-            float labelHeight = 30f * scale;
-            float characterNameHeight = 25f * scale;
-            float descriptionHeight = scaledTextHeight;
-            float optionsHeight = CalculateOptionsHeight(def.options, scaledOptionsWidth, scale);
-
-            // 使用新的间距参数
-            float topMargin = Config.newLayoutPadding * scale;
-            float elementSpacing = Config.newLayoutTextNameOffset * scale;
-            float textOptionsSpacing = Config.newLayoutOptionsTextOffset * scale;
-
-            float currentY = topMargin;
-
-            // 1. 立绘（水平居中，顶着顶部）
-            Rect lihuiRect = new Rect((inRect.width - scaledLihuiWidth) / 2, currentY, scaledLihuiWidth, scaledLihuiHeight);
-            if (portrait != null)
-            {
-                GUI.DrawTexture(lihuiRect, portrait, ScaleMode.ScaleToFit);
-            }
-            if (Config.drawBorders)
-            {
-                Widgets.DrawBox(lihuiRect);
-            }
-            currentY += scaledLihuiHeight + elementSpacing;
-
-            // 2. Label（水平居中）
+            // 2. Label
             if (Config.showLabel)
             {
-                Rect labelRect = new Rect(0, currentY, inRect.width, labelHeight);
+                currentY += Config.GetScaledMargin(Config.labelMargins.x, inRect);
+                
+                Rect labelRect = Config.GetScaledRect(Config.labelSize, inRect);
+                labelRect.y = currentY;
+                
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Text.Font = Config.labelFont;
                 Widgets.Label(labelRect, def.label);
@@ -167,68 +187,108 @@ namespace WulaFallenEmpire
                 {
                     Widgets.DrawBox(labelRect);
                 }
-                currentY += labelHeight + elementSpacing;
+                
+                currentY += labelRect.height + Config.GetScaledMargin(Config.labelMargins.y, inRect);
             }
 
-            // 3. CharacterName（水平居中）
-            Rect nameRect = new Rect(0, currentY, inRect.width, characterNameHeight);
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Text.Font = GameFont.Medium;
-            Widgets.Label(nameRect, def.characterName);
-            Text.Font = GameFont.Small;
-            Text.Anchor = TextAnchor.UpperLeft;
-            
-            if (Config.drawBorders)
+            // 3. CharacterName
+            if (Config.showCharacterName)
             {
-                Widgets.DrawBox(nameRect);
+                currentY += Config.GetScaledMargin(Config.characterNameMargins.x, inRect);
+                
+                Rect nameRect = Config.GetScaledRect(Config.characterNameSize, inRect);
+                nameRect.y = currentY;
+                
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Text.Font = GameFont.Medium;
+                Widgets.Label(nameRect, def.characterName);
+                Text.Font = GameFont.Small;
+                Text.Anchor = TextAnchor.UpperLeft;
+                
+                if (Config.drawBorders)
+                {
+                    Widgets.DrawBox(nameRect);
+                }
+                
+                currentY += nameRect.height + Config.GetScaledMargin(Config.characterNameMargins.y, inRect);
             }
-            currentY += characterNameHeight + elementSpacing;
 
-            // 4. Descriptions（水平居中）
-            Rect textRect = new Rect((inRect.width - scaledTextWidth) / 2, currentY, scaledTextWidth, descriptionHeight);
-            if (Config.drawBorders)
+            // 4. 描述
+            if (Config.showDescriptions)
             {
-                Widgets.DrawBox(textRect);
+                currentY += Config.GetScaledMargin(Config.descriptionsMargins.x, inRect);
+                
+                Rect descriptionRect = Config.GetScaledRect(Config.descriptionsSize, inRect);
+                descriptionRect.y = currentY;
+                
+                if (Config.drawBorders)
+                {
+                    Widgets.DrawBox(descriptionRect);
+                }
+                
+                // 应用描述区域内边距
+                Vector2 scaledDescriptionsPadding = Config.GetScaledDescriptionsPadding(descriptionRect);
+                Rect descriptionInnerRect = descriptionRect.ContractedBy(scaledDescriptionsPadding.y, scaledDescriptionsPadding.x);
+                
+                // 使用可滚动的文本区域
+                float textHeight = Text.CalcHeight(selectedDescription, descriptionInnerRect.width);
+                Rect viewRect = new Rect(0, 0, descriptionInnerRect.width, Mathf.Max(textHeight, descriptionInnerRect.height));
+                
+                Widgets.BeginScrollView(descriptionInnerRect, ref descriptionScrollPosition, viewRect);
+                Widgets.Label(new Rect(0, 0, viewRect.width, viewRect.height), selectedDescription);
+                Widgets.EndScrollView();
+                
+                currentY += descriptionRect.height + Config.GetScaledMargin(Config.descriptionsMargins.y, inRect);
             }
-            
-            // 增加内边距
-            float textInnerPadding = 15f * scale;
-            Rect textInnerRect = textRect.ContractedBy(textInnerPadding);
-            Widgets.LabelScrollable(textInnerRect, selectedDescription, ref scrollPosition);
-            
-            currentY += descriptionHeight + textOptionsSpacing;
 
-            // 5. Options（水平居中）
-            Rect optionRect = new Rect((inRect.width - scaledOptionsWidth) / 2, currentY, scaledOptionsWidth, optionsHeight);
-            if (Config.drawBorders)
+            // 5. 选项列表
+            if (Config.showOptions)
             {
-                Widgets.DrawBox(optionRect);
+                currentY += Config.GetScaledMargin(Config.optionsListMargins.x, inRect);
+                
+                Rect optionsRect = Config.GetScaledRect(Config.optionsListSize, inRect);
+                optionsRect.y = currentY;
+                
+                if (Config.drawBorders)
+                {
+                    Widgets.DrawBox(optionsRect);
+                }
+                
+                DrawOptions(optionsRect, def.options);
+                
+                currentY += optionsRect.height + Config.GetScaledMargin(Config.optionsListMargins.y, inRect);
             }
-            
-            // 增加内边距
-            float optionsInnerPadding = 10f * scale;
-            DrawOptions(optionRect.ContractedBy(optionsInnerPadding), def.options, scale);
+
+            // 调试信息
+            if (Config.showDefName)
+            {
+                Text.Font = GameFont.Tiny;
+                GUI.color = Color.gray;
+                Widgets.Label(new Rect(5, 5, inRect.width - 10, 20f), def.defName);
+                GUI.color = Color.white;
+            }
         }
 
-        // 计算缩放比例 - 使用新的布局参数
-        private float CalculateScale(Rect inRect)
-        {
-            float virtualWidth = Mathf.Max(
-                Config.newLayoutLihuiSize.x, 
-                Config.newLayoutTextSize.x, 
-                Config.newLayoutOptionsWidth
-            );
-            float scaleX = inRect.width / virtualWidth;
-            return Mathf.Min(scaleX, 1.0f) * 0.85f; // 稍微减少缩放以留出更多边距
-        }
+        // 滚动位置
+        private Vector2 descriptionScrollPosition = Vector2.zero;
+        private Vector2 optionsScrollPosition = Vector2.zero;
 
-        // 计算选项区域高度
-        private float CalculateOptionsHeight(List<EventOption> options, float optionsWidth, float scale)
+        // 绘制选项区域
+        private void DrawOptions(Rect rect, List<EventOption> options)
         {
             if (options == null || options.Count == 0)
-                return 0f;
+                return;
 
-            float totalHeight = 0f;
+            // 应用选项列表内边距
+            Vector2 scaledPadding = Config.GetScaledOptionsListPadding(rect);
+            Rect optionsInnerRect = rect.ContractedBy(scaledPadding.x, scaledPadding.y);
+            
+            // 计算缩放后的选项尺寸和间距
+            Vector2 scaledOptionSize = Config.GetScaledOptionSize(optionsInnerRect);
+            float scaledOptionSpacing = Config.GetScaledOptionSpacing(optionsInnerRect);
+            
+            // 计算可见的选项
+            var visibleOptions = new List<EventOption>();
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
 
             foreach (var option in options)
@@ -240,56 +300,149 @@ namespace WulaFallenEmpire
                 {
                     continue;
                 }
-
-                // 增加选项高度和间距
-                totalHeight += 35f * scale; // 每个选项高度
-                totalHeight += 8f * scale; // 选项间距
+                visibleOptions.Add(option);
             }
 
-            return totalHeight;
-        }
-
-        // 绘制选项
-        private void DrawOptions(Rect rect, List<EventOption> options, float scale)
-        {
-            if (options == null || options.Count == 0)
+            if (visibleOptions.Count == 0)
                 return;
 
-            Listing_Standard listing = new Listing_Standard();
-            listing.Begin(rect);
-
-            // 增加选项之间的间距
-            listing.verticalSpacing = 8f * scale;
-
-            foreach (var option in options)
+            // 计算选项列表的总高度
+            float totalOptionsHeight = (scaledOptionSize.y * visibleOptions.Count) + 
+                                     (scaledOptionSpacing * (visibleOptions.Count - 1));
+            
+            bool needsScroll = totalOptionsHeight > optionsInnerRect.height;
+            
+            // 如果需要滚动，使用滚动视图
+            if (needsScroll)
             {
-                string reason;
-                bool conditionsMet = AreConditionsMet(option.conditions, out reason);
-
-                if (conditionsMet)
+                Rect viewRect = new Rect(0, 0, optionsInnerRect.width - 20f, totalOptionsHeight);
+                Widgets.BeginScrollView(optionsInnerRect, ref optionsScrollPosition, viewRect);
+                
+                float currentY = 0f;
+                foreach (var option in visibleOptions)
                 {
-                    if (listing.ButtonText(option.label))
+                    DrawSingleOption(new Rect(0, currentY, viewRect.width, scaledOptionSize.y), option);
+                    currentY += scaledOptionSize.y + scaledOptionSpacing;
+                }
+                
+                Widgets.EndScrollView();
+            }
+            else
+            {
+                // 不需要滚动，垂直居中显示所有选项
+                float totalHeight = (scaledOptionSize.y * visibleOptions.Count) + 
+                                  (scaledOptionSpacing * (visibleOptions.Count - 1));
+                float startY = optionsInnerRect.y + (optionsInnerRect.height - totalHeight) / 2;
+                
+                float currentY = startY;
+                foreach (var option in visibleOptions)
+                {
+                    DrawSingleOption(new Rect(optionsInnerRect.x, currentY, optionsInnerRect.width, scaledOptionSize.y), option);
+                    currentY += scaledOptionSize.y + scaledOptionSpacing;
+                }
+            }
+        }
+
+        // 绘制单个选项
+        private void DrawSingleOption(Rect rect, EventOption option)
+        {
+            string reason;
+            bool conditionsMet = AreConditionsMet(option.conditions, out reason);
+
+            // 水平居中选项
+            float optionWidth = Mathf.Min(rect.width, Config.optionSize.x * (rect.width / Config.windowSize.x));
+            float optionX = rect.x + (rect.width - optionWidth) / 2;
+            Rect optionRect = new Rect(optionX, rect.y, optionWidth, rect.height);
+
+            if (conditionsMet)
+            {
+                // 保存原始颜色状态
+                Color originalColor = GUI.color;
+                GameFont originalFont = Text.Font;
+                Color originalTextColor = GUI.contentColor;
+
+                try
+                {
+                    // 应用自定义颜色
+                    if (option.useCustomColors)
+                    {
+                        ApplyOptionColors(option, optionRect);
+                    }
+
+                    if (Widgets.ButtonText(optionRect, option.label))
                     {
                         HandleAction(option.optionEffects);
                     }
                 }
-                else
+                finally
                 {
-                    if (option.hideWhenDisabled)
-                    {
-                        continue;
-                    }
-                    Rect buttonRect = listing.GetRect(35f * scale); // 增加按钮高度
-                    Widgets.ButtonText(buttonRect, option.label, false, true, false);
-                    TooltipHandler.TipRegion(buttonRect, GetDisabledReason(option, reason));
+                    // 恢复原始颜色状态
+                    GUI.color = originalColor;
+                    Text.Font = originalFont;
+                    GUI.contentColor = originalTextColor;
                 }
             }
+            else
+            {
+                // 禁用状态的选项
+                Color originalColor = GUI.color;
+                GameFont originalFont = Text.Font;
+                Color originalTextColor = GUI.contentColor;
 
-            listing.End();
+                try
+                {
+                    // 应用禁用状态的自定义颜色
+                    if (option.useCustomColors && option.disabledColor.HasValue)
+                    {
+                        GUI.color = option.disabledColor.Value;
+                    }
+                    if (option.useCustomColors && option.textDisabledColor.HasValue)
+                    {
+                        GUI.contentColor = option.textDisabledColor.Value;
+                    }
+
+                    Widgets.ButtonText(optionRect, option.label, false, true, false);
+                    TooltipHandler.TipRegion(optionRect, GetDisabledReason(option, reason));
+                }
+                finally
+                {
+                    // 恢复原始颜色状态
+                    GUI.color = originalColor;
+                    Text.Font = originalFont;
+                    GUI.contentColor = originalTextColor;
+                }
+            }
         }
 
-        // 滚动位置用于描述文本
-        private Vector2 scrollPosition = Vector2.zero;
+        // 应用选项颜色
+        private void ApplyOptionColors(EventOption option, Rect rect)
+        {
+            if (!option.useCustomColors)
+                return;
+
+            // 检查鼠标是否悬停在选项上
+            bool isMouseOver = Mouse.IsOver(rect);
+
+            // 设置按钮背景颜色
+            if (isMouseOver && option.hoverColor.HasValue)
+            {
+                GUI.color = option.hoverColor.Value;
+            }
+            else if (option.normalColor.HasValue)
+            {
+                GUI.color = option.normalColor.Value;
+            }
+
+            // 设置文本颜色
+            if (isMouseOver && option.textHoverColor.HasValue)
+            {
+                GUI.contentColor = option.textHoverColor.Value;
+            }
+            else if (option.textColor.HasValue)
+            {
+                GUI.contentColor = option.textColor.Value;
+            }
+        }
 
         private void HandleAction(List<ConditionalEffects> conditionalEffects)
         {

@@ -11,6 +11,61 @@
     <options>
       <li>
         <label>再见</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(133,206,219,185)</normalColor>
+        <hoverColor>(133,206,219,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>再见</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>再见</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>再见</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>再见</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>再见</label>
         <optionEffects>
           <li>
             <effects>

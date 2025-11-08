@@ -1,37 +1,53 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
   <WulaFallenEmpire.EventUIConfigDef>
     <defName>Wula_EventUIConfig</defName>
     
-    <!-- General Style -->
-    <labelFont>Small</labelFont>
-    <drawBorders>true</drawBorders>
+    <!-- 主窗口设置 -->
+    <showMainWindow>false</showMainWindow>
+    <useDefaultBackground>false</useDefaultBackground>
+    <customBackgroundImagePath>Wula/Events/tile_large_bg</customBackgroundImagePath>
+    <!-- <backgroundImagePath>Wula/Events/Portraits/PIA</backgroundImagePath> -->
+    
+    <windowSize>(600,850)</windowSize>
+
+    <!-- 元素显示控制 -->
+    <showPortrait>true</showPortrait>
+    <showLabel>false</showLabel>
+    <showCharacterName>true</showCharacterName>
+    <showDescriptions>true</showDescriptions>
+    <showOptions>true</showOptions>
+    
+    <!-- 游戏控制设置 -->
+    <pauseGameOnOpen>false</pauseGameOnOpen>
+
+    <!-- 元素尺寸 -->
+    <portraitSize>(600,400)</portraitSize>
+    <labelSize>(600,40)</labelSize>
+    <characterNameSize>(600,30)</characterNameSize>
+    <descriptionsSize>(500,150)</descriptionsSize>
+    <optionsListSize>(600,200)</optionsListSize>
+    <optionSize>(500,150)</optionSize>
+    
+    <!-- 元素间距 (x=上间距, y=下间距) -->
+    <portraitMargins>(0,10)</portraitMargins>
+    <labelMargins>(10,0)</labelMargins>
+    <characterNameMargins>(10,0)</characterNameMargins>
+    <descriptionsMargins>(10,20)</descriptionsMargins>
+    <optionsListMargins>(10,0)</optionsListMargins>
+    
+    <!-- 描述区域内边距 (x=上下间距, y=左右间距) -->
+    <descriptionsPadding>(10,25)</descriptionsPadding>
+
+    <!-- 选项列表内边距 (x=左右间距, y=上下间距) -->
+    <optionsListPadding>(20,20)</optionsListPadding>
+    
+    <!-- 选项设置 -->
+    <optionSpacing>20</optionSpacing>
+    
+    <!-- 调试和样式 -->
+    <drawBorders>false</drawBorders>
     <showDefName>false</showDefName>
-    <showLabel>true</showLabel>
-    <defaultBackgroundImagePath></defaultBackgroundImagePath>
-    
-    <!-- Virtual Layout Dimensions -->
-    <lihuiSize>(1093, 687)</lihuiSize>
-    <nameSize>(593, 530)</nameSize>
-    <textSize>(593, 330)</textSize>
-    <optionsWidth>750</optionsWidth>
-    
-    <!-- Virtual Layout Offsets -->
-    <textNameOffset>0</textNameOffset>
-    <optionsTextOffset>0</optionsTextOffset>
-
-    <defaultWindowSize>(693, 887)</defaultWindowSize>
-
-    <!-- New Layout Dimensions -->
-    <newLayoutNameSize>(200, 50)</newLayoutNameSize>
-    <newLayoutLihuiSize>(600, 200)</newLayoutLihuiSize>
-    <newLayoutTextSize>(600, 200)</newLayoutTextSize>
-    <newLayoutOptionsWidth>600</newLayoutOptionsWidth>
-    <newLayoutPadding>20</newLayoutPadding>
-    <newLayoutTextNameOffset>20</newLayoutTextNameOffset>
-    <newLayoutOptionsTextOffset>20</newLayoutOptionsTextOffset>
-    
+    <labelFont>Medium</labelFont>
   </WulaFallenEmpire.EventUIConfigDef>
-
 </Defs>

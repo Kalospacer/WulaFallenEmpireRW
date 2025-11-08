@@ -58,6 +58,7 @@
       <li Class="WulaFallenEmpire.CompProperties_FlyOverType">
         <flyOverType>WULA_Flyover_BaseBuilder</flyOverType>
         <isRequiredForDrop>true</isRequiredForDrop>
+        <laneLevel>3</laneLevel>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_FlyOverFacilities">
         <availableFacilities>
@@ -111,6 +112,13 @@
     <selectable>false</selectable>
     <alwaysHaulable>false</alwaysHaulable>
     <altitudeLayer>MetaOverlays</altitudeLayer>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverType">
+        <flyOverType>WULA_Flyover_Airstrick</flyOverType>
+        <isRequiredForDrop>true</isRequiredForDrop>
+        <laneLevel>0</laneLevel>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="WULA_Fighter_Base">
     <defName>WULA_Fighter_A</defName>

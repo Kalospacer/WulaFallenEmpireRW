@@ -69,27 +69,27 @@
       <!-- 经验核心组件 -->
       <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">
         <trackedSkill>Melee</trackedSkill> <!-- 或 Melee -->
-        <experienceMultiplier>1.5</experienceMultiplier>
+        <experienceMultiplier>1</experienceMultiplier>
         <showExperienceInfo>true</showExperienceInfo>
         <dataPackDef>WULA_ExperienceDataPack_Melee</dataPackDef>
         <experienceThresholds>
           <li>
-            <experienceRequired>1000</experienceRequired>
+            <experienceRequired>2000</experienceRequired>
             <quality>Good</quality>
             <messageKey>WULA_WeaponEvolving</messageKey>
           </li>
           <li>
-            <experienceRequired>3000</experienceRequired>
+            <experienceRequired>6000</experienceRequired>
             <quality>Excellent</quality>
             <messageKey>WULA_WeaponEvolving</messageKey>
           </li>
           <li>
-            <experienceRequired>6000</experienceRequired>
+            <experienceRequired>12000</experienceRequired>
             <quality>Masterwork</quality>
             <messageKey>WULA_WeaponEvolving</messageKey>
           </li>
           <li>
-            <experienceRequired>10000</experienceRequired>
+            <experienceRequired>20000</experienceRequired>
             <quality>Legendary</quality>
             <messageKey>WULA_WeaponMastering</messageKey>
           </li>
@@ -435,27 +435,27 @@
       <!-- 经验核心组件 -->
       <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">
         <trackedSkill>Shooting</trackedSkill> <!-- 或 Melee -->
-        <experienceMultiplier>1.5</experienceMultiplier>
+        <experienceMultiplier>1</experienceMultiplier>
         <showExperienceInfo>true</showExperienceInfo>
         <dataPackDef>WULA_ExperienceDataPack_Shooting</dataPackDef>
         <experienceThresholds>
           <li>
-            <experienceRequired>1000</experienceRequired>
+            <experienceRequired>2000</experienceRequired>
             <quality>Good</quality>
             <messageKey>WULA_WeaponEvolving</messageKey>
           </li>
           <li>
-            <experienceRequired>3000</experienceRequired>
+            <experienceRequired>6000</experienceRequired>
             <quality>Excellent</quality>
             <messageKey>WULA_WeaponEvolving</messageKey>
           </li>
           <li>
-            <experienceRequired>6000</experienceRequired>
+            <experienceRequired>12000</experienceRequired>
             <quality>Masterwork</quality>
             <messageKey>WULA_WeaponEvolving</messageKey>
           </li>
           <li>
-            <experienceRequired>10000</experienceRequired>
+            <experienceRequired>20000</experienceRequired>
             <quality>Legendary</quality>
             <messageKey>WULA_WeaponMastering</messageKey>
           </li>

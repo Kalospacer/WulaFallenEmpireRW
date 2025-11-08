@@ -26,7 +26,7 @@
           <li>Wula_FM_Switc_Aircraft</li>
         </availableHediffs>
         <defaultHediffIndex>0</defaultHediffIndex>
-        <gizmoIconPath>Wula/UI/Commands/WULA_NanoSwitch</gizmoIconPath>
+        <gizmoIconPath>Wula/UI/Commands/WULA_Antenna_Switch</gizmoIconPath>
         <showStatusInGizmo>false</showStatusInGizmo>
       </li>
     </comps>

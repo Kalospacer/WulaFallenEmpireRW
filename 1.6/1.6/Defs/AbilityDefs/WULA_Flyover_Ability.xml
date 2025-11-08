@@ -8,6 +8,8 @@
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <drawAimPie>true</drawAimPie>
@@ -182,7 +184,6 @@
         <effecterScale>1.5</effecterScale>
         <areaPreviewColor>1.0,0.3,0.1,0.3</areaPreviewColor>
         <skyfallerDef>ShipChunkIncoming</skyfallerDef>
-        <randomBombardmentDirection>true</randomBombardmentDirection>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
         <!-- <flyOverDef></flyOverDef> -->

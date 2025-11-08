@@ -33,6 +33,8 @@ namespace WulaFallenEmpire
         public List<ConditionalEffects> immediateEffects;
         public List<ConditionalEffects> dismissEffects;
         public List<ConditionalDescription> conditionalDescriptions;
+        public Color? defaultOptionColor = null;
+        public Color? defaultOptionTextColor = null;
 
         public override void PostLoad()
         {
@@ -65,10 +67,25 @@ namespace WulaFallenEmpire
     public class EventOption
     {
         public string label;
-        public List<ConditionalEffects> optionEffects;
         public List<Condition> conditions;
         public string disabledReason;
-        public bool hideWhenDisabled = false;
+        public bool hideWhenDisabled = true;
+        public List<ConditionalEffects> optionEffects;
+
+        // 新增：选项颜色设置
+        public Color? normalColor = null;      // 正常状态颜色
+        public Color? hoverColor = null;       // 悬停状态颜色
+        public Color? activeColor = null;      // 激活状态颜色
+        public Color? disabledColor = null;    // 禁用状态颜色
+
+        // 新增：文本颜色设置
+        public Color? textColor = null;        // 文本颜色
+        public Color? textHoverColor = null;   // 悬停时文本颜色
+        public Color? textActiveColor = null;  // 激活时文本颜色
+        public Color? textDisabledColor = null;// 禁用时文本颜色
+
+        // 新增：是否使用自定义颜色
+        public bool useCustomColors = false;
     }
 
     public class LoopEffects
