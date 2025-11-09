@@ -73,7 +73,7 @@
     <comps>
       <li Class="HediffCompProperties_GiveAbility">
         <abilityDefs>
-          <li>WULA_Spawn_ShipChunkIncoming</li>
+          <li>WULA_Firepower_Minigun_Strafe</li>
         </abilityDefs>
       </li>
     </comps>

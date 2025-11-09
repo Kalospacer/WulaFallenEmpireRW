@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+  <!-- 自动发射相关 -->
+  <LaunchAircraft>获得航空器</LaunchAircraft>
+  <LaunchAircraftDesc>获得对应的航空器</LaunchAircraftDesc>
+  <ToggleAutoLaunch>启用自动发射</ToggleAutoLaunch>
+  <ToggleAutoLaunchDesc>启用战机自动发射功能</ToggleAutoLaunchDesc>
+  <CancelAutoLaunch>取消自动发射</CancelAutoLaunch>
+  <CancelAutoLaunchDesc>取消预定的自动发射</CancelAutoLaunchDesc>
+  <!-- 状态消息 -->
+  <AircraftStatusLaunched>状态：已发射</AircraftStatusLaunched>
+  <AutoLaunchScheduled>自动发射：{0}秒后</AutoLaunchScheduled>
+  <AutoLaunchReady>自动发射：就绪</AutoLaunchReady>
+  <!-- 事件消息 -->
+  <AircraftAutoLaunchScheduled>战机自动发射预定：{0} 将在 {1} 秒后发射</AircraftAutoLaunchScheduled>
+  <AircraftAutoLaunchThreatDetected>检测到威胁 {0}，预定战机自动发射</AircraftAutoLaunchThreatDetected>
+  <AircraftAutoLaunchManhunterDetected>检测到狂躁动物 {0}，预定战机自动发射</AircraftAutoLaunchManhunterDetected>
+  <AutoLaunchCancelled>自动发射已取消</AutoLaunchCancelled>
+  <!-- 原有翻译保持不变 -->
+  <AircraftLaunched>已获得 {0} {1}</AircraftLaunched>
+  <HangarDamaged>机库已损坏</HangarDamaged>
+  
   <!-- Aircraft Strike Messages -->
   <AircraftManagerNotFound>战机管理器未找到！</AircraftManagerNotFound>
   <AircraftStrikeInitiated>空中打击已启动：{0}</AircraftStrikeInitiated>

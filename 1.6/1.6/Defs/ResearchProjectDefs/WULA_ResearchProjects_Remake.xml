@@ -56,7 +56,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Striker_Technology</defName>
     <label>攻击机调配许可</label>
-    <description>允许殖民地建立信标增加攻击机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的攻击机是强大的对地支援火力，挂载了大量导弹和强大的机炮，对敌方目标实施精准收割。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
+    <description>允许殖民地建立信标增加攻击机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的攻击机是强大的对地支援火力，挂载了大量导弹、EMP炸弹和强大的机炮，对敌方目标实施精准收割。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
     <baseCost>600</baseCost>
     <researchViewX>5.00</researchViewX>
     <researchViewY>4.40</researchViewY>
@@ -81,7 +81,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Bomber_Technology</defName>
     <label>轰炸机调配许可</label>
-    <description>允许殖民地建立信标增加轰炸机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的轰炸机是可以进入大气层的最大的飞行载具，除了可以使用机炮监视航路外，还能投下大量炸弹夷平帝国之敌。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
+    <description>允许殖民地建立信标增加轰炸机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的轰炸机是可以进入大气层的最大的飞行载具，除了投掷功能性的烟雾弹外，也能投下大量炸弹或是发射一枚暗物质导弹夷平帝国之敌。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
     <baseCost>600</baseCost>
     <researchViewX>9.00</researchViewX>
     <researchViewY>4.40</researchViewY>

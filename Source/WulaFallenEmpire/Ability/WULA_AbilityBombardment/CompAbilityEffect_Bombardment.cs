@@ -1,4 +1,3 @@
-// CompAbilityEffect_Bombardment.cs
 using RimWorld;
 using Verse;
 using UnityEngine;
@@ -7,7 +6,7 @@ using System.Linq;
 
 namespace WulaFallenEmpire
 {
-    public class CompAbilityEffect_Bombardment : CompAbilityEffect
+    public class CompAbilityEffect_Bombardment : CompAbilityEffect_WithDest
     {
         public new CompProperties_AbilityBombardment Props => (CompProperties_AbilityBombardment)props;
         
@@ -16,7 +15,7 @@ namespace WulaFallenEmpire
         private List<IntVec3> targetCells = new List<IntVec3>();
         private List<BombardmentRow> bombardmentRows = new List<BombardmentRow>();
         private IntVec3 bombardmentCenter;
-        private Vector3 bombardmentDirection; // 轰炸前进方向（长度方向）
+        private Vector3 bombardmentDirection; // 轰炸前进方向
         private int currentRowIndex = 0;
         private int currentCellIndex = 0;
         private int warmupTicksRemaining = 0;
@@ -37,15 +36,15 @@ namespace WulaFallenEmpire
 
             try
             {
-                Log.Message($"[Bombardment] Starting bombardment at {target.Cell}");
+                Log.Message($"[Bombardment] Starting bombardment at {target.Cell} with direction to {dest.Cell}");
                 
-                // 计算轰炸区域和方向
-                CalculateBombardmentArea(target.Cell);
+                // 计算轰炸区域和方向（基于两个目标点）
+                CalculateBombardmentArea(target.Cell, dest.Cell);
                 
                 // 选择目标格子
                 SelectTargetCells();
                 
-                // 组织成排
+                // 组织成排 - 修复：确保正确的排序
                 OrganizeTargetCellsIntoRows();
                 
                 // 开始前摇
@@ -59,6 +58,7 @@ namespace WulaFallenEmpire
             }
         }
 
+        // 重写：绘制双目标预览
         public override void DrawEffectPreview(LocalTargetInfo target)
         {
             base.DrawEffectPreview(target);
@@ -68,11 +68,15 @@ namespace WulaFallenEmpire
 
             try
             {
-                // 动态计算轰炸区域
-                CalculateDynamicBombardmentArea(target.Cell);
-                
-                // 绘制轰炸区域预览
-                DrawBombardmentAreaPreview(target.Cell);
+                // 如果正在选择第二个目标（方向点），则显示轰炸区域预览
+                if (selectedTarget.IsValid)
+                {
+                    // 动态计算轰炸区域（基于第一个目标和当前鼠标位置）
+                    CalculateDynamicBombardmentArea(selectedTarget.Cell, target.Cell);
+                    
+                    // 绘制轰炸区域预览
+                    DrawBombardmentAreaPreview(selectedTarget.Cell, target.Cell);
+                }
             }
             catch (System.Exception)
             {
@@ -80,29 +84,26 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 修复：动态计算轰炸区域，确保矩形长边垂直于施法者-目标连线
-        private void CalculateDynamicBombardmentArea(IntVec3 targetCell)
+        // 新增：基于两个目标点动态计算轰炸区域
+        private void CalculateDynamicBombardmentArea(IntVec3 startCell, IntVec3 directionCell)
         {
             Map map = parent.pawn.Map;
             
-            // 计算施法者到目标的方向
-            Vector3 casterToTarget = (targetCell.ToVector3() - parent.pawn.Position.ToVector3()).normalized;
+            // 计算轰炸方向（从起点指向方向点）
+            Vector3 direction = (directionCell.ToVector3() - startCell.ToVector3()).normalized;
             
             // 如果方向为零向量，使用默认方向
-            if (casterToTarget == Vector3.zero)
+            if (direction == Vector3.zero)
             {
-                casterToTarget = Vector3.forward;
+                direction = Vector3.forward;
             }
             
-            // 修复：计算垂直于施法者-目标连线的方向（作为轰炸区域的长边方向）
-            Vector3 perpendicularDirection = new Vector3(-casterToTarget.z, 0, casterToTarget.x).normalized;
-            
-            // 计算轰炸区域的所有单元格（使用正确的方向）
-            currentPreviewCells = CalculateBombardmentAreaCells(targetCell, perpendicularDirection, casterToTarget);
+            // 计算轰炸区域的所有单元格
+            currentPreviewCells = CalculateBombardmentAreaCells(startCell, direction);
         }
 
-        // 绘制轰炸区域预览
-        private void DrawBombardmentAreaPreview(IntVec3 targetCell)
+        // 绘制轰炸区域预览（基于两个目标点）
+        private void DrawBombardmentAreaPreview(IntVec3 startCell, IntVec3 directionCell)
         {
             Map map = parent.pawn.Map;
 
@@ -116,37 +117,40 @@ namespace WulaFallenEmpire
             }
 
             // 绘制轰炸区域边界
-            DrawBombardmentBoundaries(targetCell);
+            DrawBombardmentBoundaries(startCell, directionCell);
         }
 
-        // 修复：绘制轰炸区域边界，确保矩形长边垂直于施法者-目标连线
-        private void DrawBombardmentBoundaries(IntVec3 targetCell)
+        // 绘制轰炸区域边界（基于两个目标点）
+        private void DrawBombardmentBoundaries(IntVec3 startCell, IntVec3 directionCell)
         {
             Map map = parent.pawn.Map;
             
-            // 计算施法者到目标的方向
-            Vector3 casterToTarget = (targetCell.ToVector3() - parent.pawn.Position.ToVector3()).normalized;
+            // 计算轰炸方向
+            Vector3 direction = (directionCell.ToVector3() - startCell.ToVector3()).normalized;
             
             // 如果方向为零向量，使用默认方向
-            if (casterToTarget == Vector3.zero)
+            if (direction == Vector3.zero)
             {
-                casterToTarget = Vector3.forward;
+                direction = Vector3.forward;
             }
             
-            // 修复：计算垂直于施法者-目标连线的方向（作为轰炸区域的长边方向）
-            Vector3 lengthDirection = new Vector3(-casterToTarget.z, 0, casterToTarget.x).normalized;
-            Vector3 widthDirection = casterToTarget; // 宽度方向沿着施法者-目标连线
+            // 计算垂直于轰炸方向的方向（作为轰炸区域的宽度方向）
+            Vector3 perpendicularDirection = new Vector3(-direction.z, 0, direction.x).normalized;
             
             // 计算轰炸区域的四个角
-            Vector3 targetCenter = targetCell.ToVector3();
+            Vector3 startCenter = startCell.ToVector3();
             
             float halfWidth = Props.bombardmentWidth * 0.5f;
-            float halfLength = Props.bombardmentLength * 0.5f;
+            float totalLength = Props.bombardmentLength;
             
-            Vector3 startLeft = targetCenter - lengthDirection * halfLength + widthDirection * halfWidth;
-            Vector3 startRight = targetCenter - lengthDirection * halfLength - widthDirection * halfWidth;
-            Vector3 endLeft = targetCenter + lengthDirection * halfLength + widthDirection * halfWidth;
-            Vector3 endRight = targetCenter + lengthDirection * halfLength - widthDirection * halfWidth;
+            // 轰炸起点
+            Vector3 startLeft = startCenter + perpendicularDirection * halfWidth;
+            Vector3 startRight = startCenter - perpendicularDirection * halfWidth;
+            
+            // 轰炸终点（沿方向前进轰炸长度）
+            Vector3 endCenter = startCenter + direction * totalLength;
+            Vector3 endLeft = endCenter + perpendicularDirection * halfWidth;
+            Vector3 endRight = endCenter - perpendicularDirection * halfWidth;
             
             // 转换为 IntVec3 并确保在地图范围内
             IntVec3 startLeftCell = GetSafeMapPosition(new IntVec3((int)startLeft.x, (int)startLeft.y, (int)startLeft.z), map);
@@ -166,18 +170,39 @@ namespace WulaFallenEmpire
             
             if (endLeftCell.InBounds(map) && endRightCell.InBounds(map))
                 GenDraw.DrawLineBetween(endLeftCell.ToVector3Shifted(), endRightCell.ToVector3Shifted(), SimpleColor.Red, 0.2f);
+            
+            // 绘制方向箭头
+            DrawDirectionArrow(startCell, directionCell);
         }
 
-        // 修复：计算轰炸区域的所有单元格，确保正确的方向
-        private List<IntVec3> CalculateBombardmentAreaCells(IntVec3 centerCell, Vector3 lengthDirection, Vector3 widthDirection)
+        // 绘制方向箭头
+        private void DrawDirectionArrow(IntVec3 startCell, IntVec3 directionCell)
+        {
+            Map map = parent.pawn.Map;
+            
+            Vector3 startPos = startCell.ToVector3Shifted();
+            Vector3 directionPos = directionCell.ToVector3Shifted();
+            
+            // 绘制从起点到方向点的连线
+            GenDraw.DrawLineBetween(startPos, directionPos, SimpleColor.Yellow, 0.1f);
+            
+            // 在方向点绘制箭头标记
+            GenDraw.DrawTargetHighlight(directionCell);
+        }
+
+        // 计算轰炸区域的所有单元格（基于起点和方向）
+        private List<IntVec3> CalculateBombardmentAreaCells(IntVec3 startCell, Vector3 direction)
         {
             var areaCells = new List<IntVec3>();
             Map map = parent.pawn.Map;
             
-            Vector3 center = centerCell.ToVector3();
+            Vector3 start = startCell.ToVector3();
+            
+            // 计算垂直于轰炸方向的方向（宽度方向）
+            Vector3 perpendicularDirection = new Vector3(-direction.z, 0, direction.x).normalized;
             
             float halfWidth = Props.bombardmentWidth * 0.5f;
-            float halfLength = Props.bombardmentLength * 0.5f;
+            float totalLength = Props.bombardmentLength;
             
             // 使用浮点步进计算所有单元格
             int widthSteps = Mathf.Max(1, Props.bombardmentWidth);
@@ -186,15 +211,15 @@ namespace WulaFallenEmpire
             for (int l = 0; l <= lengthSteps; l++)
             {
                 float lengthProgress = (float)l / lengthSteps;
-                float lengthOffset = Mathf.Lerp(-halfLength, halfLength, lengthProgress);
+                float lengthOffset = Mathf.Lerp(0, totalLength, lengthProgress);
                 
                 for (int w = 0; w <= widthSteps; w++)
                 {
                     float widthProgress = (float)w / widthSteps;
                     float widthOffset = Mathf.Lerp(-halfWidth, halfWidth, widthProgress);
                     
-                    // 修复：使用正确的方向计算单元格位置
-                    Vector3 cellPos = center + lengthDirection * lengthOffset + widthDirection * widthOffset;
+                    // 计算单元格位置
+                    Vector3 cellPos = start + direction * lengthOffset + perpendicularDirection * widthOffset;
                     
                     IntVec3 cell = new IntVec3(
                         Mathf.RoundToInt(cellPos.x),
@@ -212,44 +237,29 @@ namespace WulaFallenEmpire
             return areaCells;
         }
 
-        // 修复：计算轰炸区域和方向，确保轰炸前进方向垂直于施法者-目标连线
-        private void CalculateBombardmentArea(IntVec3 targetCell)
+        // 计算轰炸区域和方向（基于两个目标点）
+        private void CalculateBombardmentArea(IntVec3 startCell, IntVec3 directionCell)
         {
-            bombardmentCenter = targetCell;
+            bombardmentCenter = startCell;
             
-            // 计算施法者到目标的方向
-            Vector3 casterToTarget = (targetCell.ToVector3() - parent.pawn.Position.ToVector3()).normalized;
+            // 计算轰炸方向（从起点指向方向点）
+            Vector3 direction = (directionCell.ToVector3() - startCell.ToVector3()).normalized;
             
             // 如果方向为零向量，使用默认方向
-            if (casterToTarget == Vector3.zero)
+            if (direction == Vector3.zero)
             {
-                casterToTarget = Vector3.forward;
+                direction = Vector3.forward;
             }
             
-            // 修复：计算垂直于施法者-目标连线的两个方向（作为可能的轰炸前进方向）
-            Vector3 perpendicular1 = new Vector3(-casterToTarget.z, 0, casterToTarget.x).normalized;
-            Vector3 perpendicular2 = new Vector3(casterToTarget.z, 0, -casterToTarget.x).normalized;
+            bombardmentDirection = direction;
             
-            // 随机选择轰炸前进方向（垂直于施法者-目标连线）
-            bombardmentDirection = Rand.Value < 0.5f ? perpendicular1 : perpendicular2;
-            
-            Log.Message($"[Bombardment] Bombardment direction: {bombardmentDirection} (perpendicular to caster-target line)");
+            Log.Message($"[Bombardment] Bombardment direction: {bombardmentDirection} (from {startCell} to {directionCell})");
         }
 
         private void SelectTargetCells()
         {
-            // 计算施法者到目标的方向
-            Vector3 casterToTarget = (bombardmentCenter.ToVector3() - parent.pawn.Position.ToVector3()).normalized;
-            
-            // 如果方向为零向量，使用默认方向
-            if (casterToTarget == Vector3.zero)
-            {
-                casterToTarget = Vector3.forward;
-            }
-            
-            // 修复：使用正确的方向计算轰炸区域
-            Vector3 widthDirection = casterToTarget; // 宽度方向沿着施法者-目标连线
-            var areaCells = CalculateBombardmentAreaCells(bombardmentCenter, bombardmentDirection, widthDirection);
+            // 计算轰炸区域的所有单元格
+            var areaCells = CalculateBombardmentAreaCells(bombardmentCenter, bombardmentDirection);
             
             var selectedCells = new List<IntVec3>();
             var missedCells = new List<IntVec3>();
@@ -287,21 +297,20 @@ namespace WulaFallenEmpire
             Log.Message($"[Bombardment] Selected {targetCells.Count} target cells from {areaCells.Count} area cells");
         }
 
-        // 修复：组织目标格子成排，按照轰炸前进方向分组
+        // 修复：重新组织目标格子成排，确保正确的渐进顺序
         private void OrganizeTargetCellsIntoRows()
         {
             bombardmentRows.Clear();
             
-            // 计算施法者到目标的方向（作为宽度方向）
-            Vector3 casterToTarget = (bombardmentCenter.ToVector3() - parent.pawn.Position.ToVector3()).normalized;
-            Vector3 widthDirection = casterToTarget;
+            // 计算垂直于轰炸方向的方向（宽度方向）
+            Vector3 perpendicularDirection = new Vector3(-bombardmentDirection.z, 0, bombardmentDirection.x).normalized;
             
             // 根据轰炸前进方向将格子分组到不同的排
             var rows = new Dictionary<int, List<IntVec3>>();
             
             foreach (var cell in targetCells)
             {
-                // 计算格子相对于轰炸中心的"行索引"（在轰炸前进方向上的投影）
+                // 计算格子相对于轰炸起点的"行索引"（在轰炸前进方向上的投影）
                 Vector3 cellVector = cell.ToVector3() - bombardmentCenter.ToVector3();
                 float dotProduct = Vector3.Dot(cellVector, bombardmentDirection);
                 int rowIndex = Mathf.RoundToInt(dotProduct);
@@ -313,22 +322,28 @@ namespace WulaFallenEmpire
                 rows[rowIndex].Add(cell);
             }
             
-            // 按行索引排序并创建 BombardmentRow
+            // 修复：按照轰炸方向正确排序行索引
+            // 从起点（行索引=0）开始，向轰炸方向前进
             var sortedRowIndices = rows.Keys.OrderBy(x => x).ToList();
+            
             foreach (var rowIndex in sortedRowIndices)
             {
+                // 修复：在每排内按照宽度方向正确排序
+                // 从轰炸区域的一侧到另一侧
+                var sortedCells = rows[rowIndex].OrderBy(cell => 
+                {
+                    Vector3 cellVector = cell.ToVector3() - bombardmentCenter.ToVector3();
+                    return Vector3.Dot(cellVector, perpendicularDirection);
+                }).ToList();
+                
                 bombardmentRows.Add(new BombardmentRow
                 {
                     rowIndex = rowIndex,
-                    cells = rows[rowIndex].OrderBy(cell => 
-                    {
-                        Vector3 cellVector = cell.ToVector3() - bombardmentCenter.ToVector3();
-                        return Vector3.Dot(cellVector, widthDirection); // 在宽度方向上排序
-                    }).ToList()
+                    cells = sortedCells
                 });
             }
             
-            Log.Message($"[Bombardment] Organized into {bombardmentRows.Count} rows");
+            Log.Message($"[Bombardment] Organized into {bombardmentRows.Count} rows in progressive order");
         }
 
         private void StartWarmup()
@@ -356,7 +371,7 @@ namespace WulaFallenEmpire
                 // 前摇结束，开始轰炸
                 currentState = BombardmentState.Bombarding;
                 nextBombardmentTick = Find.TickManager.TicksGame;
-                Log.Message($"[Bombardment] Warmup completed, starting bombardment");
+                Log.Message($"[Bombardment] Warmup completed, starting progressive bombardment");
             }
         }
 
@@ -369,7 +384,7 @@ namespace WulaFallenEmpire
             {
                 // 所有排都轰炸完毕
                 currentState = BombardmentState.Completed;
-                Log.Message($"[Bombardment] Bombardment completed");
+                Log.Message($"[Bombardment] Progressive bombardment completed");
                 return;
             }
             
@@ -381,7 +396,7 @@ namespace WulaFallenEmpire
                 currentRowIndex++;
                 currentCellIndex = 0;
                 nextBombardmentTick = Find.TickManager.TicksGame + Props.rowDelayTicks;
-                Log.Message($"[Bombardment] Moving to row {currentRowIndex + 1}/{bombardmentRows.Count}");
+                Log.Message($"[Bombardment] Moving to next row {currentRowIndex + 1}/{bombardmentRows.Count}");
                 return;
             }
             
@@ -391,6 +406,9 @@ namespace WulaFallenEmpire
             
             currentCellIndex++;
             nextBombardmentTick = Find.TickManager.TicksGame + Props.impactDelayTicks;
+            
+            // 记录轰炸进度
+            Log.Message($"[Bombardment] Bombarding cell {currentCellIndex}/{currentRow.cells.Count} in row {currentRowIndex + 1}/{bombardmentRows.Count}");
         }
 
         private void LaunchBombardment(IntVec3 targetCell)
@@ -510,6 +528,80 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref currentCellIndex, "currentCellIndex", 0);
             Scribe_Values.Look(ref warmupTicksRemaining, "warmupTicksRemaining", 0);
             Scribe_Values.Look(ref nextBombardmentTick, "nextBombardmentTick", 0);
+        }
+
+        // 重写：获取目标参数
+        public override TargetingParameters targetParams => new TargetingParameters
+        {
+            canTargetLocations = true,
+            canTargetPawns = false,
+            canTargetBuildings = false,
+            canTargetItems = false,
+            mapObjectTargetsMustBeAutoAttackable = false
+        };
+
+        // 重写：验证目标
+        public override bool ValidateTarget(LocalTargetInfo target, bool showMessages = true)
+        {
+            if (!target.IsValid)
+            {
+                return false;
+            }
+
+            // 检查是否可以放置目标
+            if (!CanPlaceSelectedTargetAt(target))
+            {
+                if (showMessages)
+                {
+                    // 修复：使用 LookTargets 而不是 LocalTargetInfo
+                    Messages.Message("CannotBombardInvalidLocation".Translate(), new LookTargets(target.Cell, parent.pawn.Map), MessageTypeDefOf.RejectInput);
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        // 修复：使用 new 而不是 override，因为基类方法不是 virtual
+        public new void DrawHighlight(LocalTargetInfo target)
+        {
+            if (selectedTarget.IsValid)
+            {
+                // 当选择第二个目标时，显示轰炸区域
+                CalculateDynamicBombardmentArea(selectedTarget.Cell, target.Cell);
+                DrawBombardmentAreaPreview(selectedTarget.Cell, target.Cell);
+            }
+            else
+            {
+                // 当选择第一个目标时，显示普通高亮
+                GenDraw.DrawTargetHighlight(target);
+            }
+        }
+
+        // 修复：使用 new 而不是 override，因为基类方法不是 virtual
+        public new void OnGUI(LocalTargetInfo target)
+        {
+            Texture2D icon = ((!target.IsValid) ? TexCommand.CannotShoot : parent.def.uiIcon);
+            GenUI.DrawMouseAttachment(icon);
+            
+            string text = ExtraLabelMouseAttachment(target);
+            if (!text.NullOrEmpty())
+            {
+                Widgets.MouseAttachedLabel(text);
+            }
+        }
+
+        // 重写：额外标签
+        public override string ExtraLabelMouseAttachment(LocalTargetInfo target)
+        {
+            if (selectedTarget.IsValid)
+            {
+                return "SelectBombardmentDirection".Translate();
+            }
+            else
+            {
+                return "SelectBombardmentStart".Translate();
+            }
         }
     }
 

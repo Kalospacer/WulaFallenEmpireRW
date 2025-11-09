@@ -187,25 +187,6 @@
   <WULA_NoFactoryFlyOver>需要拥有-生产设施-的战舰部署在殖民地轨道上才能空投</WULA_NoFactoryFlyOver>
   <WULA_NoFactoryFlyOverDesc>当前地图上没有拥有-生产设施-的战舰部署在殖民地轨道上，无法进行空投</WULA_NoFactoryFlyOverDesc>
 
-  <!-- 自动发射相关 -->
-  <LaunchAircraft>发射战机</LaunchAircraft>
-  <LaunchAircraftDesc>手动发射战机到战机库</LaunchAircraftDesc>
-  <ToggleAutoLaunch>启用自动发射</ToggleAutoLaunch>
-  <ToggleAutoLaunchDesc>启用战机自动发射功能</ToggleAutoLaunchDesc>
-  <CancelAutoLaunch>取消自动发射</CancelAutoLaunch>
-  <CancelAutoLaunchDesc>取消预定的自动发射</CancelAutoLaunchDesc>
-  <!-- 状态消息 -->
-  <AircraftStatusLaunched>状态：已发射</AircraftStatusLaunched>
-  <AutoLaunchScheduled>自动发射：{0}秒后</AutoLaunchScheduled>
-  <AutoLaunchReady>自动发射：就绪</AutoLaunchReady>
-  <!-- 事件消息 -->
-  <AircraftAutoLaunchScheduled>战机自动发射预定：{0} 将在 {1} 秒后发射</AircraftAutoLaunchScheduled>
-  <AircraftAutoLaunchThreatDetected>检测到威胁 {0}，预定战机自动发射</AircraftAutoLaunchThreatDetected>
-  <AircraftAutoLaunchManhunterDetected>检测到狂躁动物 {0}，预定战机自动发射</AircraftAutoLaunchManhunterDetected>
-  <AutoLaunchCancelled>自动发射已取消</AutoLaunchCancelled>
-  <!-- 原有翻译保持不变 -->
-  <AircraftLaunched>已发射 {0} 架 {1}</AircraftLaunched>
-  <HangarDamaged>机库已损坏</HangarDamaged>
   
   <WULA_LaunchToGlobalStorage>发射到乌拉帝国舰队</WULA_LaunchToGlobalStorage>
   <WULA_LaunchToGlobalStorageDesc>将物品发送到乌拉帝国舰队，以便其使用这些材料进行加工。\n\n如果装备、武器和尸体被送到乌拉帝国舰队，则它们会在下一次成品空投被扔回来，其他的物资若被乌拉帝国舰队接收则一概不退。</WULA_LaunchToGlobalStorageDesc>
@@ -331,4 +312,27 @@
   <WULA_OverflowStored>超出经验已存储</WULA_OverflowStored>
   <WULA_DataPackPartiallyAbsorbed>吸收了 {0} 经验，{1} 转换为溢出数据包</WULA_DataPackPartiallyAbsorbed>
   <WULA_DataPackOverflowOnly>所有 {0} 经验转换为溢出数据包（已达到最大品质）</WULA_DataPackOverflowOnly>
+
+  <WULA_ResearchRequired>使用该技能需要研究科技 {0}</WULA_ResearchRequired>
+
+  <!-- 轰炸能力相关翻译 -->
+  <SelectBombardmentStart>选择轰炸起点</SelectBombardmentStart>
+  <SelectBombardmentDirection>选择轰炸方向</SelectBombardmentDirection>
+  <CannotBombardInvalidLocation>无法在此位置进行轰炸</CannotBombardInvalidLocation>
+  <BombardmentInProgress>轰炸进行中</BombardmentInProgress>
+  <BombardmentCompleted>轰炸完成</BombardmentCompleted>
+
+  <WULA_GlobalFlyOverCooldown.CannotUseOutsideMap>无法在地图外使用</WULA_GlobalFlyOverCooldown.CannotUseOutsideMap>
+  <WULA_GlobalFlyOverCooldown.NoAvailableFacilities>轨道上的战舰没有可用的武器阵列（共{0}个，全部冷却中）</WULA_GlobalFlyOverCooldown.NoAvailableFacilities>
+  <WULA_GlobalFlyOverCooldown.FacilityStatus>武器阵列：{0}个就绪，{1}个冷却中</WULA_GlobalFlyOverCooldown.FacilityStatus>
+  <WULA_GlobalFlyOverCooldown.FacilityStatusError>设施状态错误</WULA_GlobalFlyOverCooldown.FacilityStatusError>
+  <WULA_GlobalFlyOverCooldown.FacilityStatusDetailed>武器阵列：{0}个就绪，{1}个冷却中</WULA_GlobalFlyOverCooldown.FacilityStatusDetailed>
+  <WULA_GlobalFlyOverCooldown.CooldownTime>冷却时间：{0}</WULA_GlobalFlyOverCooldown.CooldownTime>
+  <WULA_GlobalFlyOverCooldown.NoAvailableFacilitiesSimple>没有可用的武器阵列</WULA_GlobalFlyOverCooldown.NoAvailableFacilitiesSimple>
+  
+  <!-- FlyOverCooldown 翻译 -->
+  <WULA_FlyOverCooldown.Ready>就绪</WULA_FlyOverCooldown.Ready>
+  <WULA_FlyOverCooldown.CooldownRemaining>冷却：{0}</WULA_FlyOverCooldown.CooldownRemaining>
+  <WULA_FlyOverCooldown.BombardmentFacilityStatus>武器阵列：{0}</WULA_FlyOverCooldown.BombardmentFacilityStatus>
+  <WULA_FlyOverCooldown.BombardmentFacilityReady>武器阵列：就绪</WULA_FlyOverCooldown.BombardmentFacilityReady>
 </LanguageData>

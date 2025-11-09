@@ -63,6 +63,10 @@
           <li>BuildingdropperFacility</li>
         </availableFacilities>
       </li>
+      <!-- 新增冷却组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverCooldown">
+        <baseCooldownTicks>60000</baseCooldownTicks> <!-- 1天 -->
+      </li>
     </comps>
   </ThingDef> 
   <ThingDef ParentName="EtherealThingBase">
@@ -124,6 +128,10 @@
         <availableFacilities>
           <li>BombardmentFacility</li>
         </availableFacilities>
+      </li>
+      <!-- 新增冷却组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverCooldown">
+        <baseCooldownTicks>60000</baseCooldownTicks> <!-- 1天 -->
       </li>
     </comps>
   </ThingDef> 
@@ -191,6 +199,7 @@
     </comps>
   </ThingDef> 
 
+  <!-- 战机 -->
   <ThingDef Name="WULA_Fighter_Drone_Base" ParentName="EtherealThingBase" Abstract="True">
     <thingClass>WulaFallenEmpire.FlyOver</thingClass>
     <tickerType>Normal</tickerType>
@@ -695,4 +704,49 @@
       </li>
     </modExtensions>
   </ThingDef>
+
+  <!-- 炮击 -->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Firepower_Minigun_Strafe_Skyfaller</defName>
+    <label>链炮子弹</label>
+    <size>(1, 1)</size>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>5</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(1, 1)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Bomb</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <rotationCurve>
+        <points>
+          <li>(0,180)</li>
+          <li>(1, 181)</li>
+        </points>
+      </rotationCurve>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <explosionRadius>4</explosionRadius>
+      <explosionDamage>WULA_Firepower_Minigun_Strafe_Damage</explosionDamage>
+      <explosionDamageFactor>1</explosionDamageFactor>
+    </skyfaller>
+  </ThingDef>
+  <DamageDef ParentName="Bullet">
+    <defName>WULA_Firepower_Minigun_Strafe_Damage</defName>
+    <label>子弹</label>
+    <defaultDamage>25</defaultDamage>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+  </DamageDef>
 </Defs>

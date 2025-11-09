@@ -71,7 +71,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Fake_Fighter_Drone_Building</defName>
     <label>乌拉帝国蜂群无人机</label>
-    <description>111</description>
+    <description>一台小型无人机，装备了激光炮和汽油弹，可以为殖民地提供廉价但有效的空中支援。和那些大家伙不同，蜂群无人机不需要机库，并且可以通过舰队的电磁网补充能量，实现永久滞空作战。</description>
     <thingClass>Building</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
@@ -182,7 +182,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Fake_Striker_Beacon_Building</defName>
     <label>乌拉帝国攻击机信标</label>
-    <description>111</description>
+    <description>用于向乌拉帝国舰队提交资源的信标，可以换取一台乌拉帝国攻击机的支援。若想调动大型战机入场，需要轨道上有携带&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>的战舰。\n\n乌拉帝国的攻击机是强大的对地支援火力，挂载了大量导弹、EMP炸弹和强大的机炮，对敌方目标实施精准收割。</description>
     <thingClass>Building</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
@@ -252,7 +252,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Fake_Bomber_Beacon_Building</defName>
     <label>乌拉帝国轰炸机信标</label>
-    <description>111</description>
+    <description>用于向乌拉帝国舰队提交资源的信标，可以换取一台乌拉帝国轰炸机的支援。若想调动大型战机入场，需要轨道上有携带&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>的战舰。\n\n乌拉帝国的轰炸机是可以进入大气层的最大的飞行载具，除了投掷功能性的烟雾弹外，也能投下大量炸弹或是发射一枚暗物质导弹夷平帝国之敌。</description>
     <thingClass>Building</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>

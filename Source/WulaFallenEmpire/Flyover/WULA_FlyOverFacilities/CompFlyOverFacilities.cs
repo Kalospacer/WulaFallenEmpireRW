@@ -7,6 +7,27 @@ namespace WulaFallenEmpire
 {
     public class CompFlyOverFacilities : ThingComp
     {
+        // 在 CompFlyOverFacilities 类中添加以下方法
+        public bool IsFacilityReady(string facilityName)
+        {
+            if (!HasFacility(facilityName))
+                return false;
+
+            var cooldownComp = parent.GetComp<CompFlyOverCooldown>();
+            return cooldownComp == null || !cooldownComp.IsOnCooldown;
+        }
+
+        public string GetFacilityStatus(string facilityName)
+        {
+            if (!HasFacility(facilityName))
+                return "Not Available";
+
+            var cooldownComp = parent.GetComp<CompFlyOverCooldown>();
+            if (cooldownComp == null)
+                return "Ready (No Cooldown)";
+
+            return cooldownComp.IsOnCooldown ? $"Cooldown: {cooldownComp.CooldownTicksRemaining.ToStringTicksToPeriod()}" : "Ready";
+        }
         public CompProperties_FlyOverFacilities Props => (CompProperties_FlyOverFacilities)props;
         
         // 当前激活的设施列表
@@ -61,6 +82,8 @@ namespace WulaFallenEmpire
             }
         }
     }
+
+
 
     public class CompProperties_FlyOverFacilities : CompProperties
     {

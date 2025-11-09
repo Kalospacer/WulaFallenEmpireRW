@@ -1,11 +1,10 @@
-// CompProperties_AbilityBombardment.cs
 using RimWorld;
 using Verse;
 using UnityEngine;
 
 namespace WulaFallenEmpire
 {
-    public class CompProperties_AbilityBombardment : CompProperties_AbilityEffect
+    public class CompProperties_AbilityBombardment : CompProperties_EffectWithDest
     {
         // 轰炸区域配置
         public int bombardmentWidth = 5;           // 轰炸区域宽度
@@ -33,6 +32,8 @@ namespace WulaFallenEmpire
         public CompProperties_AbilityBombardment()
         {
             this.compClass = typeof(CompAbilityEffect_Bombardment);
+            // 设置双目标选择
+            this.destination = AbilityEffectDestination.Selected;
         }
     }
 }

@@ -143,6 +143,9 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+          <requiredResearch>WULA_Light_Fighter_Drone_Technology</requiredResearch>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_Fighter_Drone_Entity</requiredAircraftType>
         <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
@@ -189,6 +192,9 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+          <requiredResearch>WULA_Light_Fighter_Drone_Technology</requiredResearch>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_Fighter_Drone_Entity</requiredAircraftType>
         <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
@@ -243,6 +249,9 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+          <requiredResearch>WULA_Striker_Technology</requiredResearch>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_Striker_Entity</requiredAircraftType>
         <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
@@ -277,7 +286,7 @@
   <AbilityDef>
     <defName>WULA_Spawn_Striker_RailGun</defName>
     <label>攻击机扫射</label>
-    <description>指挥乌拉帝国的战机，高速掠过战场，使用机腹的两台高射速机炮打击目标地点——因为速度原因，打击区会很狭长。</description>
+    <description>指挥乌拉帝国的攻击机，高速掠过战场，使用机腹的两台高射速机炮打击目标地点——因为速度原因，打击区会很狭长。</description>
     <iconPath>Wula/UI/Abilities/WULA_Spawn_Striker_RailGun</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -295,6 +304,9 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Striker_Technology</requiredResearch>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_Striker_Entity</requiredAircraftType>
         <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
@@ -340,7 +352,7 @@
   <AbilityDef>
     <defName>WULA_Spawn_Striker_EMP</defName>
     <label>攻击机电磁压制</label>
-    <description>指挥乌拉帝国的战机，高速掠过战场，快速丢下一组EMP炸弹——因为速度原因，打击区会很狭长。</description>
+    <description>指挥乌拉帝国的攻击机，高速掠过战场，快速丢下一组EMP炸弹——因为速度原因，打击区会很狭长。</description>
     <iconPath>Wula/UI/Abilities/WULA_Spawn_Striker_EMP</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -358,6 +370,9 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Striker_Technology</requiredResearch>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_Striker_Entity</requiredAircraftType>
         <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
@@ -421,6 +436,9 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Bomber_Technology</requiredResearch>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_Bomber_Entity</requiredAircraftType>
         <aircraftCooldownTicks>10000</aircraftCooldownTicks> 
@@ -484,6 +502,9 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Bomber_Technology</requiredResearch>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_Bomber_Entity</requiredAircraftType>
         <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
@@ -547,6 +568,9 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Bomber_Technology</requiredResearch>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_Bomber_Entity</requiredAircraftType>
         <aircraftCooldownTicks>10000</aircraftCooldownTicks> 
@@ -592,9 +616,9 @@
   
   <!-- 炮击 -->
   <AbilityDef>
-    <defName>WULA_Spawn_ShipChunkIncoming</defName>
-    <label>战舰轰炸</label>
-    <description>我炸死你</description>
+    <defName>WULA_Firepower_Minigun_Strafe</defName>
+    <label>链炮扫射</label>
+    <description>以战舰上的自动链炮对目标区域进行可选方向的扫射，射击速度和冷却都很快，但是威力欠佳。</description>
     <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -612,6 +636,10 @@
       </targetParams>
     </verbProperties>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
+        <globalCooldownTicks>1000</globalCooldownTicks>
+        <requiredFacility>BombardmentFacility</requiredFacility>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityBombardment">
         <bombardmentWidth>5</bombardmentWidth>
         <bombardmentLength>35</bombardmentLength>
@@ -624,7 +652,7 @@
         <showBombardmentArea>true</showBombardmentArea>
         <effecterScale>1.5</effecterScale>
         <areaPreviewColor>1.0,0.3,0.1,0.3</areaPreviewColor>
-        <skyfallerDef>ShipChunkIncoming</skyfallerDef>
+        <skyfallerDef>WULA_Firepower_Minigun_Strafe_Skyfaller</skyfallerDef>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
         <!-- <flyOverDef></flyOverDef> -->
