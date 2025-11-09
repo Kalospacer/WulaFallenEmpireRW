@@ -38,6 +38,13 @@
         <endPosition>OppositeMapEdge</endPosition>
         <playFlyOverSound>true</playFlyOverSound>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_BlockedByFlyOverFacility">
+          <blockedMessage>航道堵塞：已经有一艘大型舰船在殖民地上空</blockedMessage>
+          <!-- 可选：指定特定的FlyOver定义 -->
+          <!-- <specificFlyOverDef>ARA_HiveShip</specificFlyOverDef> -->
+          <!-- 可选：指定特定的设施名称 -->
+          <!-- <requiredFacility>BombardmentFacility</requiredFacility> -->
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -78,6 +85,13 @@
         <endPosition>OppositeMapEdge</endPosition>
         <playFlyOverSound>true</playFlyOverSound>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_BlockedByFlyOverFacility">
+          <blockedMessage>航道堵塞：已经有一艘大型舰船在殖民地上空</blockedMessage>
+          <!-- 可选：指定特定的FlyOver定义 -->
+          <!-- <specificFlyOverDef>ARA_HiveShip</specificFlyOverDef> -->
+          <!-- 可选：指定特定的设施名称 -->
+          <!-- <requiredFacility>BombardmentFacility</requiredFacility> -->
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -117,6 +131,13 @@
         <startPosition>MapEdge</startPosition>
         <endPosition>OppositeMapEdge</endPosition>
         <playFlyOverSound>true</playFlyOverSound>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_BlockedByFlyOverFacility">
+          <blockedMessage>航道堵塞：已经有一艘大型舰船在殖民地上空</blockedMessage>
+          <!-- 可选：指定特定的FlyOver定义 -->
+          <!-- <specificFlyOverDef>ARA_HiveShip</specificFlyOverDef> -->
+          <!-- 可选：指定特定的设施名称 -->
+          <!-- <requiredFacility>BombardmentFacility</requiredFacility> -->
       </li>
     </comps>
   </AbilityDef>

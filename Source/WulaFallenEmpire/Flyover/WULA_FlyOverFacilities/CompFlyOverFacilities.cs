@@ -16,6 +16,65 @@ namespace WulaFallenEmpire
             var cooldownComp = parent.GetComp<CompFlyOverCooldown>();
             return cooldownComp == null || !cooldownComp.IsOnCooldown;
         }
+        // 在 CompFlyOverFacilities 类中添加以下静态方法
+        public static bool AnyFlyOverHasFacilities(Map map)
+        {
+            if (map == null)
+                return false;
+            try
+            {
+                var dynamicObjects = map.dynamicDrawManager.DrawThings;
+
+                foreach (var thing in dynamicObjects)
+                {
+                    if (thing is FlyOver flyOver && !flyOver.Destroyed)
+                    {
+                        var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
+                        if (facilitiesComp != null)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[FlyOverFacilities] Error in AnyFlyOverHasFacilities: {ex}");
+                return false;
+            }
+        }
+        public static List<FlyOver> GetAllFlyOversWithFacilities(Map map)
+        {
+            var result = new List<FlyOver>();
+
+            if (map == null)
+                return result;
+            try
+            {
+                var dynamicObjects = map.dynamicDrawManager.DrawThings;
+
+                foreach (var thing in dynamicObjects)
+                {
+                    if (thing is FlyOver flyOver && !flyOver.Destroyed)
+                    {
+                        var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
+                        if (facilitiesComp != null)
+                        {
+                            result.Add(flyOver);
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[FlyOverFacilities] Error in GetAllFlyOversWithFacilities: {ex}");
+                return result;
+            }
+        }
 
         public string GetFacilityStatus(string facilityName)
         {

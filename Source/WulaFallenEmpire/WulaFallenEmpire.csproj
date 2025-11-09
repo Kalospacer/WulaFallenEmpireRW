@@ -98,12 +98,12 @@
     <Compile Include="Flyover\WULA_AircraftHangar\CompAbilityEffect_AircraftStrike.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\CompAircraftHangar.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\WorldComponent_AircraftManager.cs" />
+    <Compile Include="Flyover\WULA_BlockedByFlyOverFacility\CompAbilityEffect_BlockedByFlyOverFacility.cs" />
     <Compile Include="Flyover\WULA_FlyOverDropPod\CompProperties_FlyOverDropPod.cs" />
     <Compile Include="Flyover\WULA_FlyOverEscort\CompFlyOverEscort.cs" />
     <Compile Include="Flyover\WULA_FlyOverEscort\CompProperties_FlyOverEscort.cs" />
     <Compile Include="Flyover\WULA_FlyOverFacilities\CompAbilityEffect_RequireFlyOverFacility.cs" />
     <Compile Include="Flyover\WULA_FlyOverFacilities\CompFlyOverFacilities.cs" />
-    <Compile Include="Flyover\WULA_FlyOverFormation\CompFlyOverFormation.cs" />
     <Compile Include="Flyover\WULA_GlobalFlyOverCooldown\CompAbilityEffect_GlobalFlyOverCooldown.cs" />
     <Compile Include="Flyover\WULA_GlobalFlyOverCooldown\CompFlyOverCooldown.cs" />
     <Compile Include="Flyover\WULA_GroundStrafing\CompGroundStrafing.cs" />
