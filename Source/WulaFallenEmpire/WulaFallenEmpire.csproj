@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Ability\WULA_AbilityBombardment\CompAbilityEffect_Bombardment.cs" />
     <Compile Include="Ability\WULA_AbilityBombardment\CompProperties_AbilityBombardment.cs" />
+    <Compile Include="BuildingComp\Building_TurretGunHasSpeed.cs" />
     <Compile Include="BuildingComp\WULA_InitialFaction\CompProperties_InitialFaction.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\CompProperties_MechanoidRecycler.cs" />
@@ -101,7 +102,6 @@
     <Compile Include="Flyover\WULA_FlyOverEscort\CompProperties_FlyOverEscort.cs" />
     <Compile Include="Flyover\WULA_FlyOverFacilities\CompAbilityEffect_RequireFlyOverFacility.cs" />
     <Compile Include="Flyover\WULA_FlyOverFacilities\CompFlyOverFacilities.cs" />
-    <Compile Include="Flyover\WULA_FlyOverType\CompProperties_FlyOverType.cs" />
     <Compile Include="Flyover\WULA_GroundStrafing\CompGroundStrafing.cs" />
     <Compile Include="Flyover\WULA_SectorSurveillance\CompSectorSurveillance.cs" />
     <Compile Include="Flyover\WULA_SendLetterAfterTicks\CompProperties_SendLetterAfterTicks.cs" />
@@ -111,6 +111,8 @@
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompAbilityEffect_SpawnFlyOver.cs" />
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
     <Compile Include="GlobalWorkTable\Building_GlobalWorkTable.cs" />
+    <Compile Include="GlobalWorkTable\CompProperties_GarbageShield.cs" />
+    <Compile Include="GlobalWorkTable\CompProperties_ProductionCategory.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrder.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrderStack.cs" />
     <Compile Include="GlobalWorkTable\GlobalStorageWorldComponent.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="Pawn\WULA_Maintenance\MaintenanceNeedExtension.cs" />
     <Compile Include="Pawn\WULA_Maintenance\Need_Maintenance.cs" />
     <Compile Include="Pawn\WULA_Maintenance\WorkGiver_DoMaintenance.cs" />
+    <Compile Include="Placeworker\CompProperties_CustomRadius.cs" />
     <Compile Include="Stat\StatWorker_Energy.cs" />
     <Compile Include="Stat\StatWorker_Maintenance.cs" />
     <Compile Include="Stat\StatWorker_NanoRepair.cs" />

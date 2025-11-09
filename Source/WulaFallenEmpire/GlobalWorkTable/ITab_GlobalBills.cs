@@ -14,10 +14,14 @@ namespace WulaFallenEmpire
         private float viewHeight = 1000f;
         private Vector2 scrollPosition;
         private GlobalProductionOrder mouseoverOrder;
-        
+
         private static readonly Vector2 WinSize = new Vector2(420f, 480f);
 
+        // 分类按钮状态
+        private ProductionCategory? selectedCategory = null;
+
         protected Building_GlobalWorkTable SelTable => (Building_GlobalWorkTable)base.SelThing;
+
 
         public ITab_GlobalBills()
         {
@@ -25,75 +29,256 @@ namespace WulaFallenEmpire
             labelKey = "WULA_GlobalBillsTab";
             tutorTag = "GlobalBills";
         }
-
         protected override void FillTab()
         {
             Rect mainRect = new Rect(0f, 0f, WinSize.x, WinSize.y).ContractedBy(10f);
-            
+
             // 标题
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(mainRect.x, mainRect.y, mainRect.width, 30f), "WULA_GlobalProduction".Translate());
             Text.Font = GameFont.Small;
-            
-            // 存储查看按钮 - 放在标题旁边
+
+            // 存储查看按钮
             Rect storageButtonRect = new Rect(mainRect.xMax - 160f, mainRect.y, 120f, 25f);
             DoStorageButton(storageButtonRect);
-            
+
+            // 分类按钮区域
+            Rect categoryButtonsRect = new Rect(mainRect.x, mainRect.y + 35f, mainRect.width, 25f);
+            DoCategoryButtons(categoryButtonsRect);
+
             // 上帝模式按钮区域
             if (DebugSettings.godMode)
             {
-                Rect godModeButtonRect = new Rect(mainRect.x, mainRect.y + 35f, mainRect.width, 25f);
+                Rect godModeButtonRect = new Rect(mainRect.x, mainRect.y + 65f, mainRect.width, 25f);
                 DoGodModeButtons(godModeButtonRect);
             }
-            
-            // 订单列表区域 - 调整位置
-            float ordersRectY = DebugSettings.godMode ? mainRect.y + 65f : mainRect.y + 35f;
-            Rect ordersRect = new Rect(mainRect.x, ordersRectY, mainRect.width, mainRect.height - (DebugSettings.godMode ? 110f : 80f));
+
+            // 订单列表区域
+            float ordersRectY = DebugSettings.godMode ? mainRect.y + 90f : mainRect.y + 65f;
+            Rect ordersRect = new Rect(mainRect.x, ordersRectY, mainRect.width, mainRect.height - (DebugSettings.godMode ? 130f : 100f));
             mouseoverOrder = DoOrdersListing(ordersRect);
-            
-            // 添加订单按钮
+
+            // 添加订单按钮（现在显示选中的分类）
             Rect addButtonRect = new Rect(mainRect.x, mainRect.yMax - 35f, mainRect.width, 30f);
-            if (Widgets.ButtonText(addButtonRect, "WULA_AddProductionOrder".Translate()))
+            DoAddOrderButton(addButtonRect);
+        }
+        // 新增：分类按钮
+        private void DoCategoryButtons(Rect rect)
+        {
+            float buttonWidth = (rect.width - 10f) / 3f;
+
+            Rect equipmentRect = new Rect(rect.x, rect.y, buttonWidth, rect.height);
+            Rect weaponRect = new Rect(rect.x + buttonWidth + 5f, rect.y, buttonWidth, rect.height);
+            Rect mechanoidRect = new Rect(rect.x + (buttonWidth + 5f) * 2, rect.y, buttonWidth, rect.height);
+
+            // 装备按钮
+            string equipmentLabel = selectedCategory == ProductionCategory.Equipment ?
+                $"<color=yellow>{"WULA_Equipment".Translate()}</color>" :
+                "WULA_Equipment".Translate();
+
+            if (Widgets.ButtonText(equipmentRect, equipmentLabel))
             {
-                Find.WindowStack.Add(new FloatMenu(GenerateRecipeOptions()));
+                selectedCategory = selectedCategory == ProductionCategory.Equipment ? null : ProductionCategory.Equipment;
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+
+            // 武器按钮
+            string weaponLabel = selectedCategory == ProductionCategory.Weapon ?
+                $"<color=yellow>{"WULA_Weapon".Translate()}</color>" :
+                "WULA_Weapon".Translate();
+
+            if (Widgets.ButtonText(weaponRect, weaponLabel))
+            {
+                selectedCategory = selectedCategory == ProductionCategory.Weapon ? null : ProductionCategory.Weapon;
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+
+            // 机械体按钮
+            string mechanoidLabel = selectedCategory == ProductionCategory.Mechanoid ?
+                $"<color=yellow>{"WULA_Mechanoid".Translate()}</color>" :
+                "WULA_Mechanoid".Translate();
+
+            if (Widgets.ButtonText(mechanoidRect, mechanoidLabel))
+            {
+                selectedCategory = selectedCategory == ProductionCategory.Mechanoid ? null : ProductionCategory.Mechanoid;
+                SoundDefOf.Click.PlayOneShotOnCamera();
             }
         }
+        // 修改：添加订单按钮，显示当前选择的分类
+        private void DoAddOrderButton(Rect rect)
+        {
+            string buttonLabel = selectedCategory.HasValue ?
+                $"{"WULA_AddProductionOrder".Translate()} ({GetCategoryLabel(selectedCategory.Value)})" :
+                "WULA_AddProductionOrder".Translate();
 
-        // 新增：存储查看按钮
+            if (Widgets.ButtonText(rect, buttonLabel))
+            {
+                Find.WindowStack.Add(new FloatMenu(GenerateRecipeOptions()));
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+
+            // 如果没有选择分类，显示提示
+            if (!selectedCategory.HasValue && Mouse.IsOver(rect))
+            {
+                TooltipHandler.TipRegion(rect, "WULA_SelectCategoryFirst".Translate());
+            }
+        }
+        // 获取分类标签
+        private string GetCategoryLabel(ProductionCategory category)
+        {
+            return category switch
+            {
+                ProductionCategory.Equipment => "WULA_Equipment".Translate(),
+                ProductionCategory.Weapon => "WULA_Weapon".Translate(),
+                ProductionCategory.Mechanoid => "WULA_Mechanoid".Translate(),
+                _ => "WULA_Unknown".Translate()
+            };
+        }
+        // 修改：根据选择的分类生成配方选项
+        private List<FloatMenuOption> GenerateRecipeOptions()
+        {
+            var options = new List<FloatMenuOption>();
+
+            // 如果没有选择分类，显示所有配方
+            if (!selectedCategory.HasValue)
+            {
+                foreach (var recipe in SelTable.def.AllRecipes)
+                {
+                    if (recipe.AvailableNow && recipe.AvailableOnNow(SelTable))
+                    {
+                        options.Add(CreateRecipeOption(recipe));
+                    }
+                }
+            }
+            else
+            {
+                // 根据选择的分类筛选配方
+                foreach (var recipe in SelTable.def.AllRecipes)
+                {
+                    if (recipe.AvailableNow && recipe.AvailableOnNow(SelTable) &&
+                        RecipeMatchesCategory(recipe, selectedCategory.Value))
+                    {
+                        options.Add(CreateRecipeOption(recipe));
+                    }
+                }
+            }
+
+            if (options.Count == 0)
+            {
+                options.Add(new FloatMenuOption("WULA_NoAvailableRecipes".Translate(), null));
+            }
+
+            // 按显示优先级排序
+            options.SortByDescending(opt => opt.orderInPriority);
+
+            return options;
+        }
+        // 创建配方选项
+        private FloatMenuOption CreateRecipeOption(RecipeDef recipe)
+        {
+            string label = recipe.LabelCap;
+
+            // 添加分类标签
+            var category = GetRecipeCategory(recipe);
+            if (category.HasValue)
+            {
+                label += $" [{GetCategoryLabel(category.Value)}]";
+            }
+
+            return new FloatMenuOption(
+                label: label,
+                action: () =>
+                {
+                    var newOrder = new GlobalProductionOrder
+                    {
+                        recipe = recipe,
+                        targetCount = 1,
+                        paused = true
+                    };
+                    SelTable.globalOrderStack.AddOrder(newOrder);
+                    SoundDefOf.Click.PlayOneShotOnCamera();
+                },
+                shownItemForIcon: recipe.UIIconThing,
+                thingStyle: null,
+                forceBasicStyle: false,
+                priority: MenuOptionPriority.Default,
+                mouseoverGuiAction: null,
+                revalidateClickTarget: null,
+                extraPartWidth: 29f,
+                extraPartOnGUI: (Rect rect) =>
+                {
+                    return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, recipe);
+                },
+                revalidateWorldClickTarget: null,
+                playSelectionSound: true,
+                orderInPriority: -recipe.displayPriority
+            );
+        }
+        // 检查配方是否匹配分类
+        private bool RecipeMatchesCategory(RecipeDef recipe, ProductionCategory category)
+        {
+            var recipeCategory = GetRecipeCategory(recipe);
+            return recipeCategory == category;
+        }
+        // 获取配方的分类
+        private ProductionCategory? GetRecipeCategory(RecipeDef recipe)
+        {
+            if (recipe.products == null || recipe.products.Count == 0)
+                return null;
+
+            ThingDef productDef = recipe.products[0].thingDef;
+            if (productDef == null)
+                return null;
+
+            // 检查产品是否有分类组件
+            var categoryComp = productDef.GetCompProperties<CompProperties_ProductionCategory>();
+            if (categoryComp != null)
+                return categoryComp.category;
+
+            // 如果没有分类组件，根据产品类型推断
+            return InferCategoryFromThingDef(productDef);
+        }
+        // 根据ThingDef推断分类
+        private ProductionCategory? InferCategoryFromThingDef(ThingDef thingDef)
+        {
+            if (thingDef.IsMeleeWeapon || thingDef.IsRangedWeapon)
+                return ProductionCategory.Weapon;
+
+            if (thingDef.IsApparel || thingDef.equipmentType != EquipmentType.None)
+                return ProductionCategory.Equipment;
+
+            if (thingDef.race != null && thingDef.race.IsMechanoid)
+                return ProductionCategory.Mechanoid;
+
+            return null;
+        }
+        // 其余方法保持不变（DoStorageButton, DoGodModeButtons, DoOrdersListing, DoOrderRow 等）
         private void DoStorageButton(Rect rect)
         {
-            // 绘制按钮
             if (Widgets.ButtonText(rect, "WULA_ViewStorage".Translate()))
             {
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
-            
-            // 鼠标悬停时显示存储信息Tooltip
+
             if (Mouse.IsOver(rect))
             {
                 TooltipHandler.TipRegion(rect, GetStorageTooltip());
             }
         }
-
-        // 新增：获取存储信息的Tooltip
         private string GetStorageTooltip()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null)
                 return "WULA_NoGlobalStorage".Translate();
-
             StringBuilder sb = new StringBuilder();
-
             // 输入存储（原材料）
             sb.AppendLine("WULA_InputStorage".Translate() + ":");
             sb.AppendLine();
-
             var inputItems = globalStorage.inputStorage
                 .Where(kvp => kvp.Value > 0)
                 .OrderByDescending(kvp => kvp.Value)
                 .ThenBy(kvp => kvp.Key.label)
                 .ToList();
-
             if (inputItems.Count == 0)
             {
                 sb.AppendLine("WULA_NoItems".Translate());
@@ -105,19 +290,15 @@ namespace WulaFallenEmpire
                     sb.AppendLine($"  {kvp.Value} {kvp.Key.LabelCap}");
                 }
             }
-
             sb.AppendLine();
-
             // 输出存储（产品）
             sb.AppendLine("WULA_OutputStorage".Translate() + ":");
             sb.AppendLine();
-
             var outputItems = globalStorage.outputStorage
                 .Where(kvp => kvp.Value > 0)
                 .OrderByDescending(kvp => kvp.Value)
                 .ThenBy(kvp => kvp.Key.label)
                 .ToList();
-
             if (outputItems.Count == 0)
             {
                 sb.AppendLine("WULA_NoItems".Translate());
@@ -129,7 +310,6 @@ namespace WulaFallenEmpire
                     sb.AppendLine($"  {kvp.Value} {kvp.Key.LabelCap}");
                 }
             }
-
             return sb.ToString();
         }
 
@@ -138,12 +318,12 @@ namespace WulaFallenEmpire
         {
             Rect button1Rect = new Rect(rect.x, rect.y, rect.width / 2 - 5f, rect.height);
             Rect button2Rect = new Rect(rect.x + rect.width / 2 + 5f, rect.y, rect.width / 2 - 5f, rect.height);
-            
+
             if (Widgets.ButtonText(button1Rect, "GOD: Add Resources"))
             {
                 AddTestResources();
             }
-            
+
             if (Widgets.ButtonText(button2Rect, "GOD: Spawn Products"))
             {
                 SpawnOutputProducts();
@@ -158,11 +338,11 @@ namespace WulaFallenEmpire
                 // 添加200钢铁
                 ThingDef steelDef = ThingDefOf.Steel;
                 globalStorage.AddToInputStorage(steelDef, 200);
-                
+
                 // 添加100零部件
                 ThingDef componentDef = ThingDefOf.ComponentIndustrial;
                 globalStorage.AddToInputStorage(componentDef, 100);
-                
+
                 Messages.Message("Added 200 Steel and 100 Components to global storage", MessageTypeDefOf.PositiveEvent);
             }
         }
@@ -175,15 +355,15 @@ namespace WulaFallenEmpire
                 Map map = SelTable.Map;
                 IntVec3 spawnCell = SelTable.Position;
                 int totalSpawned = 0;
-                
+
                 // 复制列表以避免修改时枚举
                 var outputCopy = new Dictionary<ThingDef, int>(globalStorage.outputStorage);
-                
+
                 foreach (var kvp in outputCopy)
                 {
                     ThingDef thingDef = kvp.Key;
                     int count = kvp.Value;
-                    
+
                     if (count > 0)
                     {
                         // 创建物品并放置到地图上
@@ -192,7 +372,7 @@ namespace WulaFallenEmpire
                             int stackSize = Mathf.Min(count, thingDef.stackLimit);
                             Thing thing = ThingMaker.MakeThing(thingDef);
                             thing.stackCount = stackSize;
-                            
+
                             if (GenPlace.TryPlaceThing(thing, spawnCell, map, ThingPlaceMode.Near))
                             {
                                 globalStorage.RemoveFromOutputStorage(thingDef, stackSize);
@@ -206,7 +386,7 @@ namespace WulaFallenEmpire
                         }
                     }
                 }
-                
+
                 Messages.Message($"Spawned {totalSpawned} items at worktable location", MessageTypeDefOf.PositiveEvent);
             }
         }
@@ -214,28 +394,28 @@ namespace WulaFallenEmpire
         private GlobalProductionOrder DoOrdersListing(Rect rect)
         {
             GlobalProductionOrder result = null;
-            
+
             Widgets.DrawMenuSection(rect);
             Rect outRect = rect.ContractedBy(5f);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, viewHeight);
-            
+
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
-            
+
             float curY = 0f;
             for (int i = 0; i < SelTable.globalOrderStack.orders.Count; i++)
             {
                 var order = SelTable.globalOrderStack.orders[i];
-                
+
                 // 增加订单行高度
                 Rect orderRect = new Rect(0f, curY, viewRect.width, 90f);
-                
+
                 if (DoOrderRow(orderRect, order))
                 {
                     result = order;
                 }
-                
+
                 curY += 95f; // 增加行间距
-                
+
                 // 分隔线
                 if (i < SelTable.globalOrderStack.orders.Count - 1)
                 {
@@ -243,12 +423,12 @@ namespace WulaFallenEmpire
                     curY += 5f;
                 }
             }
-            
+
             if (Event.current.type == EventType.Layout)
             {
                 viewHeight = curY;
             }
-            
+
             Widgets.EndScrollView();
             return result;
         }
@@ -387,53 +567,6 @@ namespace WulaFallenEmpire
             return Mouse.IsOver(rect);
         }
 
-        // 简化：在添加订单时移除材质初始化
-        private List<FloatMenuOption> GenerateRecipeOptions()
-        {
-            var options = new List<FloatMenuOption>();
-            foreach (var recipe in SelTable.def.AllRecipes)
-            {
-                if (recipe.AvailableNow && recipe.AvailableOnNow(SelTable))
-                {
-                    string label = recipe.LabelCap;
-                    options.Add(new FloatMenuOption(
-                        label: label,
-                        action: () =>
-                        {
-                            var newOrder = new GlobalProductionOrder
-                            {
-                                recipe = recipe,
-                                targetCount = 1,
-                                paused = true
-                            };
-
-                            SelTable.globalOrderStack.AddOrder(newOrder);
-                            SoundDefOf.Click.PlayOneShotOnCamera();
-                        },
-                        shownItemForIcon: recipe.UIIconThing,
-                        thingStyle: null,
-                        forceBasicStyle: false,
-                        priority: MenuOptionPriority.Default,
-                        mouseoverGuiAction: null,
-                        revalidateClickTarget: null,
-                        extraPartWidth: 29f,
-                        extraPartOnGUI: (Rect rect) =>
-                        {
-                            return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, recipe);
-                        },
-                        revalidateWorldClickTarget: null,
-                        playSelectionSound: true,
-                        orderInPriority: -recipe.displayPriority
-                    ));
-                }
-            }
-            if (options.Count == 0)
-            {
-                options.Add(new FloatMenuOption("WULA_NoAvailableRecipes".Translate(), null));
-            }
-            return options;
-        }
-
         // 新增：立刻完成订单的方法
         private void CompleteOrderImmediately(GlobalProductionOrder order)
         {
@@ -446,7 +579,7 @@ namespace WulaFallenEmpire
 
             // 检查是否有足够资源
             bool hasEnoughResources = order.HasEnoughResources();
-            
+
             if (!hasEnoughResources)
             {
                 // 上帝模式下，如果没有足够资源，显示确认对话框
@@ -478,13 +611,13 @@ namespace WulaFallenEmpire
 
             // 计算需要完成的数量
             int remainingCount = order.targetCount - order.currentCount;
-            
+
             if (remainingCount <= 0)
                 return;
 
             // 尝试消耗资源（如果可能）
             bool resourcesConsumed = order.ConsumeResources();
-            
+
             if (!resourcesConsumed)
             {
                 Log.Message($"[GOD MODE] Could not consume resources for {order.recipe.defName}, completing without resource consumption");

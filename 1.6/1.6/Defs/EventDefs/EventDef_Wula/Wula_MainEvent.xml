@@ -3,10 +3,13 @@
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Legion_1</defName>
     <label>和P.I.A的通讯</label>
-    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
-    <characterName>「军团」</characterName>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
     <descriptions>
-      <li>这里是P.I.A，通讯信号良好，等待输入。</li>
+      <li>这里是乌拉帝国行星封锁机关P.I.A，通讯信号良好，等待输入。</li>
+      <li>那句话怎么说来着？天下无敌，天上来敌。</li>
+      <li>早在这些生物的祖先还在有机汤里面翻滚时，我们就已经是这个银河系的霸主了——以前如此，今后也会如此。</li>
+      <li>一般来说，我们并不喜欢暴力和流血冲突，如果这些星系的原住民能更配合点就好了。</li>
     </descriptions>
     <options>
       <li>
@@ -66,6 +69,35 @@
       </li>
       <li>
         <label>再见</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+
+  <!-- 乱丢垃圾 -->
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Legion_Reply_1</defName>
+    <label>和P.I.A的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_4</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>请，不要，往舰队扔尸体、废物殖民者、动物和有毒垃圾！</li>
+      <li>你们是把舰队当成垃圾处理厂了吗？把你的尸体、废物殖民者、动物和有毒垃圾搬走！</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>好的</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>
           <li>
             <effects>

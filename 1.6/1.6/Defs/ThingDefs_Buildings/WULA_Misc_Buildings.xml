@@ -9,7 +9,6 @@
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
     <pathCost>50</pathCost>
-    <designationCategory>WULA_Buildings</designationCategory>
     <blockWind>true</blockWind>
     <passability>PassThroughOnly</passability>
     <fillPercent>1</fillPercent>
@@ -17,7 +16,7 @@
     <drawHighlight>true</drawHighlight>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <graphicData>
-      <texPath>Wula/Building/WULA_Cat_Bunker_south</texPath>
+      <texPath>Wula/Building/WULA_Flyover_Beacon</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>(1,1)</drawSize>
@@ -30,6 +29,77 @@
       <Mass>125</Mass>
       <Comfort>0.65</Comfort>
     </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
+        <aircraftDef>WULA_MotherShip_Entity</aircraftDef>
+        <aircraftCount>1</aircraftCount>
+        <skyfallerLeaving></skyfallerLeaving>
+        
+        <autoLaunchEnabled>true</autoLaunchEnabled>
+        <autoLaunchDelayTicks>1</autoLaunchDelayTicks>
+        <autoLaunchOnConstruction>true</autoLaunchOnConstruction>
+        <autoLaunchOnPowerOn>false</autoLaunchOnPowerOn>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_MotherShip_Entity</defName>
+    <label>帝国母舰</label>
+    <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
+    <thingClass>Thing</thingClass>
+  </ThingDef>
+
+  
+  <!-- 战机 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Fake_Fighter_Drone_Building</defName>
+    <label>乌拉帝国蜂群无人机</label>
+    <description>111</description>
+    <thingClass>Building</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(3,3)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Fake_Fighter_Drone_Building</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(3,3)</drawSize>
+      <color>(195,195,195,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Light_Fighter_Drone_Technology</li>
+    </researchPrerequisites>
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>
     <rotatable>true</rotatable>
@@ -49,20 +119,204 @@
     </building>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
-        <aircraftDef>WULA_BattleShip_Entity</aircraftDef>
+        <aircraftDef>WULA_Fighter_Drone_Entity</aircraftDef>
+        <aircraftCount>1</aircraftCount>
+        <skyfallerLeaving>WULA_Fighter_Drone_Leaving</skyfallerLeaving>
+        
+        <autoLaunchEnabled>false</autoLaunchEnabled>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Fighter_Drone_Leaving</defName>
+    <label>乌拉帝国蜂群无人机 (起飞中)</label>
+    <thingClass>FlyShipLeaving</thingClass>
+    <skyfaller>
+      <reversed>true</reversed>
+      <anticipationSound>Shuttle_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange>-40~-15</ticksToImpactRange>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <shadow>Things/Skyfaller/SkyfallerShadowRectangle</shadow>
+      <shadowSize>(2,2)</shadowSize>
+      <motesPerCell>1</motesPerCell>
+      <angleCurve>
+        <points>
+          <li>(0,90)</li>
+          <li>(1,110)</li>
+        </points>
+      </angleCurve>
+      <rotationCurve>
+        <points>
+          <li>(0,90)</li>
+          <li>(1,91)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(0.08,2)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0,0.2)</li>
+          <li>(0.4,0.7)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Fake_Fighter_Drone_Building</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2.65,2.65)</drawSize>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_Fighter_Drone_Entity</defName>
+    <label>乌拉帝国蜂群无人机</label>
+    <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
+    <thingClass>Thing</thingClass>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Fake_Striker_Beacon_Building</defName>
+    <label>乌拉帝国攻击机信标</label>
+    <description>111</description>
+    <thingClass>Building</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <size>(2,2)</size>
+    <uiIconPath>Wula/Building/WULA_Fake_Striker_Beacon_Building</uiIconPath>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Flyover_Beacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <color>(195,195,195,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Striker_Technology</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
+        <aircraftDef>WULA_Striker_Entity</aircraftDef>
         <aircraftCount>1</aircraftCount>
         <skyfallerLeaving></skyfallerLeaving>
         
-        <autoLaunchEnabled>true</autoLaunchEnabled>
-        <autoLaunchDelayTicks>1</autoLaunchDelayTicks>
-        <autoLaunchOnConstruction>true</autoLaunchOnConstruction>
-        <autoLaunchOnPowerOn>false</autoLaunchOnPowerOn>
+        <autoLaunchEnabled>false</autoLaunchEnabled>
       </li>
     </comps>
   </ThingDef>
   <ThingDef>
-    <defName>WULA_BattleShip_Entity</defName>
-    <label>帝国母舰</label>
+    <defName>WULA_Striker_Entity</defName>
+    <label>乌拉帝国攻击机</label>
+    <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
+    <thingClass>Thing</thingClass>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Fake_Bomber_Beacon_Building</defName>
+    <label>乌拉帝国轰炸机信标</label>
+    <description>111</description>
+    <thingClass>Building</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(2,2)</size>
+    <rotatable>false</rotatable>
+    <uiIconPath>Wula/Building/WULA_Fake_Bomber_Beacon_Building</uiIconPath>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Flyover_Beacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <color>(195,195,195,255)</color>
+    </graphicData>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Bomber_Technology</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
+        <aircraftDef>WULA_Bomber_Entity</aircraftDef>
+        <aircraftCount>1</aircraftCount>
+        <skyfallerLeaving></skyfallerLeaving>
+        
+        <autoLaunchEnabled>false</autoLaunchEnabled>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_Bomber_Entity</defName>
+    <label>乌拉帝国轰炸机</label>
     <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
     <thingClass>Thing</thingClass>
   </ThingDef>

@@ -1,4 +1,4 @@
-// 在 Building_GlobalWorkTable.cs 中添加材质处理逻辑
+// Building_GlobalWorkTable.cs (修改版本)
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +73,7 @@ namespace WulaFallenEmpire
         public GlobalWorkTableAirdropExtension AirdropExtension => 
             def.GetModExtension<GlobalWorkTableAirdropExtension>();
 
-        // 新增：添加空投命令到技能栏
+        // 修改：添加空投命令到技能栏，添加工厂设施检查
         public override IEnumerable<Gizmo> GetGizmos()
         {
             foreach (Gizmo g in base.GetGizmos())
@@ -81,9 +81,12 @@ namespace WulaFallenEmpire
                 yield return g;
             }
 
-            // 只有在有输出物品时才显示空投按钮
+            // 只有在有输出物品且有工厂设施的飞行器时才显示空投按钮
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            if (globalStorage != null && globalStorage.outputStorage.Any(kvp => kvp.Value > 0))
+            bool hasOutputItems = globalStorage != null && globalStorage.outputStorage.Any(kvp => kvp.Value > 0);
+            bool hasFactoryFlyOver = HasFactoryFacilityFlyOver();
+
+            if (hasOutputItems && hasFactoryFlyOver)
             {
                 yield return new Command_Action
                 {
@@ -91,8 +94,72 @@ namespace WulaFallenEmpire
                     defaultLabel = "WULA_AirdropProducts".Translate(),
                     defaultDesc = "WULA_AirdropProductsDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_AirdropProducts"),
-                    disabledReason = "WULA_CannotAirdrop".Translate()
                 };
+            }
+            else if (hasOutputItems && !hasFactoryFlyOver)
+            {
+                yield return new Command_Action
+                {
+                    action = () => Messages.Message("WULA_NoFactoryFlyOver".Translate(), MessageTypeDefOf.RejectInput),
+                    defaultLabel = "WULA_AirdropProducts".Translate(),
+                    defaultDesc = "WULA_NoFactoryFlyOverDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_AirdropProducts"),
+                };
+            }
+        }
+
+        // 新增：检查是否有拥有FactoryFacility设施的飞行器
+        private bool HasFactoryFacilityFlyOver()
+        {
+            Map map = Map;
+            if (map == null) return false;
+
+            try
+            {
+                // 检查所有FlyOver类型的物体
+                var allFlyOvers = new List<Thing>();
+                var dynamicObjects = map.dynamicDrawManager.DrawThings;
+                foreach (var thing in dynamicObjects)
+                {
+                    if (thing is FlyOver)
+                    {
+                        allFlyOvers.Add(thing);
+                    }
+                }
+
+                Log.Message($"[FactoryFacility Check] Found {allFlyOvers.Count} FlyOvers on map");
+
+                foreach (var thing in allFlyOvers)
+                {
+                    if (thing is FlyOver flyOver && !flyOver.Destroyed)
+                    {
+                        // 检查设施
+                        var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
+                        if (facilitiesComp == null)
+                        {
+                            Log.Warning($"[FactoryFacility Check] FlyOver at {flyOver.Position} has no CompFlyOverFacilities");
+                            continue;
+                        }
+                        
+                        if (facilitiesComp.HasFacility("FactoryFacility"))
+                        {
+                            Log.Message($"[FactoryFacility Check] Found valid FlyOver at {flyOver.Position} with FactoryFacility");
+                            return true;
+                        }
+                        else
+                        {
+                            Log.Message($"[FactoryFacility Check] FlyOver at {flyOver.Position} missing FactoryFacility. Has: {string.Join(", ", facilitiesComp.GetActiveFacilities())}");
+                        }
+                    }
+                }
+
+                Log.Message("[FactoryFacility Check] No FlyOver with FactoryFacility found");
+                return false;
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[FactoryFacility Check] Error in HasFactoryFacilityFlyOver: {ex}");
+                return false;
             }
         }
 
@@ -106,6 +173,14 @@ namespace WulaFallenEmpire
                 Messages.Message("WULA_NoProductsToAirdrop".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
+
+            // 检查是否有工厂设施的飞行器
+            if (!HasFactoryFacilityFlyOver())
+            {
+                Messages.Message("WULA_NoFactoryFlyOver".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
             // 启动目标选择
             Find.Targeter.BeginTargeting(new TargetingParameters
             {
@@ -132,6 +207,13 @@ namespace WulaFallenEmpire
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null)
                 return;
+
+            // 再次检查是否有工厂设施的飞行器
+            if (!HasFactoryFacilityFlyOver())
+            {
+                Messages.Message("WULA_NoFactoryFlyOver".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
 
             // 获取空投参数
             var airdropExt = AirdropExtension;

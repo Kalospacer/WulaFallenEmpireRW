@@ -497,6 +497,12 @@
         <onlyEatRaceRestrictedFood>true</onlyEatRaceRestrictedFood>
         <!-- 可以穿戴的衣服 -->
         <apparelList>
+          <li>WULA_Latex_Catsuit</li>
+          <li>WULA_Pantyhose_White</li>
+          <li>WULA_Pantyhose_Black</li>
+          <li>WULA_Bodystocking_White</li>
+          <li>WULA_Bodystocking_Black</li>
+          <li>WULA_Maid_Uniform</li>
         </apparelList>
         <blackApparelList>
             <li>Apparel_AdvancedHelmet</li>
@@ -727,6 +733,9 @@
     </recipeMaker>
 
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_ProductionCategory">
+        <category>Mechanoid</category>
+      </li>
       <li Class="CompProperties_Stunnable">
         <useLargeEMPEffecter>true</useLargeEMPEffecter>
         <affectedDamageDefs>

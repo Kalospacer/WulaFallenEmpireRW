@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <ThingDef Name="WULA_ApparelCivilBase" ParentName="ApparelMakeableBase" Abstract="True">
-    <costStuffCount>0</costStuffCount>
     <stuffCategories>
       <li>Fabric</li>
     </stuffCategories>
@@ -39,6 +38,9 @@
     <recipeMaker>
       <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
       <useIngredientsForColor>false</useIngredientsForColor>
+      <recipeUsers Inherit="False">
+        <li>WULA_WeaponArmor_Productor</li>
+      </recipeUsers>
     </recipeMaker>
     <statBases>
       <Mass>1</Mass>
@@ -47,6 +49,11 @@
       <StuffEffectMultiplierInsulation_Cold>1</StuffEffectMultiplierInsulation_Cold>
       <StuffEffectMultiplierInsulation_Heat>1</StuffEffectMultiplierInsulation_Heat>
     </statBases>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_ProductionCategory">
+        <category>Equipment</category>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef Name="WULA_ApparelRoyalBase" ParentName="WULA_ApparelCivilBase" Abstract="True">
     <thingCategories>
@@ -64,6 +71,9 @@
     <possessionCount>50</possessionCount>
   </ThingDef>
   <ThingDef Name="WULA_ApparelCivilHatBase" ParentName="HatMakeableBase" Abstract="True">
+    <stuffCategories>
+      <li>Fabric</li>
+    </stuffCategories>
     <thingCategories>
       <li>ApparelMisc</li>
     </thingCategories>
@@ -95,7 +105,15 @@
     <recipeMaker>
       <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
       <useIngredientsForColor>false</useIngredientsForColor>
+      <recipeUsers Inherit="False">
+        <li>WULA_WeaponArmor_Productor</li>
+      </recipeUsers>
     </recipeMaker>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_ProductionCategory">
+        <category>Equipment</category>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef Name="WULA_ApparelRoyalHatBase" ParentName="WULA_ApparelCivilHatBase" Abstract="True">
     <thingCategories>
@@ -109,6 +127,10 @@
     <possessionCount>50</possessionCount>
   </ThingDef>
   <ThingDef Name="WULA_ApparelOnSkinBase" ParentName="ApparelMakeableBase" Abstract="True">
+		<description>乌拉帝国合成人的贴身织物，有些微防御能力。</description>
+    <statBases>
+      <WorkToMake>3000</WorkToMake>
+    </statBases>
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
@@ -117,11 +139,18 @@
       <li>ApparelMisc</li>
     </thingCategories>
     <costStuffCount>0</costStuffCount>
+    <generateCommonality>0.01</generateCommonality>
     <stuffCategories Inherit="False"/>
+    <equippedStatOffsets>
+      <StuffEffectMultiplierArmor>0.1</StuffEffectMultiplierArmor>
+			<StuffEffectMultiplierInsulation_Cold>0.10</StuffEffectMultiplierInsulation_Cold>
+			<StuffEffectMultiplierInsulation_Heat>0.10</StuffEffectMultiplierInsulation_Heat>
+    </equippedStatOffsets>
     <apparel>
       <tags>
         <li>Wula_Apparel</li>
         <li>Wula_Inner</li>
+        <li>Wula_Apparel_Init</li>
       </tags>
       <bodyPartGroups>
 				<li>Torso</li>
@@ -138,20 +167,82 @@
       <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <useIngredientsForColor>false</useIngredientsForColor>
+      <researchPrerequisite>WULA_Synth_Clothes_1_Technology</researchPrerequisite>
+      <recipeUsers Inherit="False">
+        <li>WULA_WeaponArmor_Productor</li>
+      </recipeUsers>
     </recipeMaker>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_ProductionCategory">
+        <category>Equipment</category>
+      </li>
+    </comps>
   </ThingDef>
 
-  <ThingDef ParentName="WULA_ApparelRoyalBase">
-		<defName>WULA_Official_Uniform</defName>
-		<label>乌拉帝国双幡礼服</label>
-		<description>这是乌拉帝国宫廷专门配发给高级官员的制服，以一对形似幡的附件而得名。裁制得体大方，设计经久耐用，并且为合成人的躯体做了特殊改造。</description>
+  <!-- 内衬 -->
+  <ThingDef ParentName="WULA_ApparelOnSkinBase">
+		<defName>WULA_Bodystocking</defName>
+		<label>乌拉帝国连身黑丝</label>
     <graphicData>
-      <texPath>Wula/Apparel/WULA_official_uniform</texPath>
+      <texPath>Wula/Apparel/WULA_Bodystocking</texPath>
     </graphicData>
     <apparel>
-      <tags>
-        <li>RoyalTier5</li>
-      </tags>
+      <wornGraphicPath>Wula/Apparel/WULA_Bodystocking</wornGraphicPath>
+    </apparel>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelOnSkinBase">
+		<defName>WULA_Bodystocking_White</defName>
+		<label>乌拉帝国连身白丝</label>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Bodystocking_White</texPath>
+    </graphicData>
+    <apparel>
+      <wornGraphicPath>Wula/Apparel/WULA_Bodystocking_White</wornGraphicPath>
+    </apparel>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelOnSkinBase">
+		<defName>WULA_Pantyhose_Black</defName>
+		<label>乌拉帝国黑丝裤袜</label>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Pantyhose_Black</texPath>
+    </graphicData>
+    <apparel>
+      <wornGraphicPath>Wula/Apparel/WULA_Pantyhose_Black</wornGraphicPath>
+    </apparel>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelOnSkinBase">
+		<defName>WULA_Pantyhose_White</defName>
+		<label>乌拉帝国白丝裤袜</label>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Pantyhose_White</texPath>
+    </graphicData>
+    <apparel>
+      <wornGraphicPath>Wula/Apparel/WULA_Pantyhose_White</wornGraphicPath>
+    </apparel>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelOnSkinBase">
+		<defName>WULA_Latex_Catsuit</defName>
+		<label>乌拉帝国黑色紧身衣</label>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Latex_Catsuit</texPath>
+    </graphicData>
+    <apparel>
+      <wornGraphicPath>Wula/Apparel/WULA_Latex_Catsuit</wornGraphicPath>
+    </apparel>
+  </ThingDef>
+
+  <!-- 女仆装 -->
+  <ThingDef ParentName="WULA_ApparelCivilBase">
+		<defName>WULA_Maid_Uniform</defName>
+		<label>乌拉帝国女仆装</label>
+		<description>配发给乌拉帝国合成人的标志性制服，没什么防御力，但是轻便美观，方便活动和工作。</description>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Maid_Uniform</texPath>
+    </graphicData>
+    <recipeMaker>
+      <researchPrerequisite>WULA_Synth_Clothes_1_Technology</researchPrerequisite>
+    </recipeMaker>
+    <apparel>
       <bodyPartGroups>
         <li>Torso</li>
         <li>Neck</li>
@@ -160,10 +251,9 @@
         <li>Legs</li>
       </bodyPartGroups>
       <layers>
-        <li>OnSkin</li>
         <li>Middle</li>
       </layers>
-      <wornGraphicPath>Wula/Apparel/WULA_official_uniform</wornGraphicPath>
+      <wornGraphicPath>Wula/Apparel/WULA_Maid_Uniform</wornGraphicPath>
       <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
       <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
       <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
@@ -171,112 +261,44 @@
     <statBases>
       <MaxHitPoints>200</MaxHitPoints>
       <WorkToMake>6000</WorkToMake>
-      <Insulation_Cold>3</Insulation_Cold>
-      <Insulation_Heat>1.5</Insulation_Heat>
-      <EquipDelay>5</EquipDelay>
+      <EquipDelay>2</EquipDelay>
       <StuffEffectMultiplierArmor>0.25</StuffEffectMultiplierArmor>
     </statBases>
     <equippedStatOffsets>
-      <SlaveSuppressionOffset MayRequire="Ludeon.RimWorld.Ideology">-0.1</SlaveSuppressionOffset>
-      <WorkSpeedGlobal>0.35</WorkSpeedGlobal>
+      <WorkSpeedGlobal>0.1</WorkSpeedGlobal>
     </equippedStatOffsets>
-    <recipeMaker>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <skillRequirements>
-        <Crafting>7</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-    <possessionCount>1</possessionCount>
   </ThingDef>
-
-  <ThingDef ParentName="WULA_ApparelOnSkinBase">
-		<defName>WULA_Bodystocking</defName>
-		<label>乌拉帝国连身黑丝</label>
-		<description>这就是普通的连身黑丝，在哪里造的有什么关系吗？它没有什么别的功能，除了提供一些保暖能力——话说回来，乌拉合成人又不会感到冷。</description>
+  <ThingDef ParentName="WULA_ApparelCivilHatBase">
+		<defName>WULA_Maid_Uniform_Headband</defName>
+		<label>乌拉帝国女仆发带</label>
+		<description>配发给乌拉帝国合成人的标志性制服，没什么防御力，但是轻便美观，方便活动和工作。</description>
     <graphicData>
-      <texPath>Wula/Apparel/WULA_Bodystocking</texPath>
+      <texPath>Wula/Apparel/WULA_Maid_Uniform_Headband</texPath>
     </graphicData>
-    <apparel>
-      <tags>
-        <li>Wula_Apparel_Init</li>
-      </tags>
-      <wornGraphicPath>Wula/Apparel/WULA_Bodystocking</wornGraphicPath>
-    </apparel>
     <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Clothes_1_Technology</researchPrerequisite>
     </recipeMaker>
+    <apparel>
+      <bodyPartGroups>
+        <li>UpperHead</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Middle</li>
+      </layers>
+      <wornGraphicPath>Wula/Apparel/WULA_Maid_Uniform_Headband</wornGraphicPath>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+    </apparel>
     <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
       <WorkToMake>3000</WorkToMake>
+      <EquipDelay>1</EquipDelay>
+      <StuffEffectMultiplierArmor>0.25</StuffEffectMultiplierArmor>
     </statBases>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelOnSkinBase">
-		<defName>WULA_Bodystocking_White</defName>
-		<label>乌拉帝国连身白丝</label>
-		<description>虽然名为连身白丝，但是这种织物的实际颜色取决于材料的颜色。</description>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Bodystocking_White</texPath>
-    </graphicData>
-    <apparel>
-      <tags>
-        <li>Wula_Apparel_Init</li>
-      </tags>
-      <wornGraphicPath>Wula/Apparel/WULA_Bodystocking_White</wornGraphicPath>
-    </apparel>
     <equippedStatOffsets>
-			<StuffEffectMultiplierInsulation_Cold>0.20</StuffEffectMultiplierInsulation_Cold>
-			<StuffEffectMultiplierInsulation_Heat>0.10</StuffEffectMultiplierInsulation_Heat>
+      <WorkSpeedGlobal>0.05</WorkSpeedGlobal>
     </equippedStatOffsets>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-    </recipeMaker>
-    <statBases>
-      <WorkToMake>3000</WorkToMake>
-    </statBases>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelOnSkinBase">
-		<defName>WULA_Body_Suit</defName>
-		<label>乌拉帝国驾驶服</label>
-		<description>这是乌拉帝国的战斗人员专用的制服，拥有一整套神经接口用以和其他外接护甲连接。它可以增加穿戴者的战斗技能，但是在干活的时候会束手束脚不太方便。</description>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Body_Suit</texPath>
-    </graphicData>
-    <thingCategories>
-      <li>ApparelArmor</li>
-    </thingCategories>
-    <costStuffCount>50</costStuffCount>
-    <costList Inherit="False">
-      <ComponentIndustrial>2</ComponentIndustrial>
-    </costList>
-    <apparel>
-      <wornGraphicPath>Wula/Apparel/WULA_Body_Suit</wornGraphicPath>
-    </apparel>
-    <equippedStatOffsets>
-      <WorkSpeedGlobal>-0.1</WorkSpeedGlobal>
-      <AimingDelayFactor>-0.1</AimingDelayFactor>
-      <ShootingAccuracyPawn>0.5</ShootingAccuracyPawn>
-      <MeleeDamageFactor>0.2</MeleeDamageFactor>
-      <MeleeCooldownFactor>-0.1</MeleeCooldownFactor>
-      <MoveSpeed>0.5</MoveSpeed>
-    </equippedStatOffsets>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Clothes_2_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <skillRequirements>
-        <Crafting>5</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-    <statBases>
-      <WorkToMake>7000</WorkToMake>
-      <StuffEffectMultiplierArmor>0.5</StuffEffectMultiplierArmor>
-    </statBases>
   </ThingDef>
 
   <ThingDef Name="WULA_ApparelArmorBase" ParentName="ArmorMachineableBase" Abstract="True">
@@ -387,86 +409,6 @@
     </statBases>
   </ThingDef>
   <ThingDef ParentName="WULA_ApparelArmorBase">
-    <defName>WULA_Assault_Troop_PowerArmor</defName>
-    <label>乌拉帝国突击队装甲</label>
-    <description>乌拉帝国的常规步兵部队穿戴的动力甲，以轻便和高防御力受到喜爱。</description>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Armor_Technology</researchPrerequisite>
-      <skillRequirements>
-        <Crafting>7</Crafting>
-      </skillRequirements>
-      <useIngredientsForColor>false</useIngredientsForColor>
-    </recipeMaker>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Assault_Troop_PowerArmor</texPath>
-    </graphicData>
-    <statBases>
-      <WorkToMake>40000</WorkToMake>
-      <MaxHitPoints>500</MaxHitPoints>
-      <Mass>8</Mass>
-      <Flammability>0</Flammability>
-      <ArmorRating_Sharp>0.75</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.75</ArmorRating_Blunt>
-      <ArmorRating_Heat>1.0</ArmorRating_Heat>
-      <EquipDelay>15</EquipDelay>
-      <!-- <EnergyShieldEnergyMax>1.5</EnergyShieldEnergyMax> -->
-    </statBases>
-    <equippedStatOffsets>
-      <WorkSpeedGlobal>-0.05</WorkSpeedGlobal>
-      <StaggerDurationFactor>-0.5</StaggerDurationFactor>
-			<CarryingCapacity>60</CarryingCapacity>
-    </equippedStatOffsets>
-    <costStuffCount>200</costStuffCount>
-    <costList Inherit="False">
-      <ComponentIndustrial>8</ComponentIndustrial>
-    </costList>
-    <apparel>
-      <tags>
-        <li>Wula_Armor_Medium</li>
-      </tags>
-      <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_PowerArmor</wornGraphicPath>
-    </apparel>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelHelmetBase">
-    <defName>WULA_Assault_Troop_Helmet</defName>
-    <label>乌拉帝国突击队头盔</label>
-    <description>与乌拉帝国突击队装甲配套的头盔，能够辅助穿戴者的瞄准，但是会导致使用者头部重心向前，十分阻碍日常工作。</description>
-    <recipeMaker>
-      <skillRequirements>
-        <Crafting>7</Crafting>
-      </skillRequirements>
-      <researchPrerequisite>WULA_Synth_Armor_Technology</researchPrerequisite>
-    </recipeMaker>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Assault_Troop_Helmet</texPath>
-    </graphicData>
-    <statBases>
-      <WorkToMake>10000</WorkToMake>
-      <MaxHitPoints>500</MaxHitPoints>
-      <Mass>1</Mass>
-      <Flammability>0</Flammability>
-      <ArmorRating_Sharp>1</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1</ArmorRating_Blunt>
-      <ArmorRating_Heat>2.0</ArmorRating_Heat>
-      <EquipDelay>15</EquipDelay>
-    </statBases>
-    <equippedStatOffsets>
-      <WorkSpeedGlobal>-0.1</WorkSpeedGlobal>
-      <AimingDelayFactor>-0.15</AimingDelayFactor>
-      <ShootingAccuracyPawn>0.5</ShootingAccuracyPawn>
-    </equippedStatOffsets>
-    <apparel>
-      <tags>
-        <li>Wula_Armor_Medium</li>
-      </tags>
-      <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_Helmet</wornGraphicPath>
-    </apparel>
-    <costStuffCount>30</costStuffCount>
-    <costList Inherit="False">
-      <ComponentIndustrial>1</ComponentIndustrial>
-    </costList>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelArmorBase">
     <defName>WULA_Knight_PowerArmor</defName>
     <label>乌拉帝国骑士军团甲</label>
     <description>乌拉帝国骑士所穿戴的动力甲，虽然看起来很薄但是实际上防御力相当强大，能够以能量护盾抵挡射弹，还有一只挂载了KRc-7"熔岩"火炮的副肢提供补充火力。</description>
@@ -474,7 +416,7 @@
       <li>ApparelNoble</li>
     </thingCategories>
     <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Armor_2_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Armor_1_Technology</researchPrerequisite>
       <skillRequirements>
         <Crafting>10</Crafting>
       </skillRequirements>
@@ -589,7 +531,7 @@
       <skillRequirements>
         <Crafting>10</Crafting>
       </skillRequirements>
-      <researchPrerequisite>WULA_Synth_Armor_2_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Armor_1_Technology</researchPrerequisite>
     </recipeMaker>
     <graphicData>
       <texPath>Wula/Apparel/WULA_Knight_Helmet</texPath>

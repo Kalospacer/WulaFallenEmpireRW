@@ -92,6 +92,10 @@
   <WULA_RoofBlockingDesc>该空投地点顶部有屋顶，无法进行空投</WULA_RoofBlockingDesc>
   <WULA_BlockedByThickRoof>被厚岩顶阻挡</WULA_BlockedByThickRoof>
   <WULA_BlockedByRoof>被屋顶阻挡</WULA_BlockedByRoof>
+  <!-- 建筑空投相关翻译 -->
+  <WULA_NoBuildingDropperFlyOver>需要拥有-建筑空投设施-的战舰部署在殖民地轨道上才能空投</WULA_NoBuildingDropperFlyOver>
+  <WULA_RequiresBuildingDropperFlyOver>需要拥有-建筑空投设施-的战舰部署在殖民地轨道上才能空投</WULA_RequiresBuildingDropperFlyOver>
+  <WULA_MissingBuildingDropperFlyOver>没有拥有-建筑空投设施-的战舰部署在殖民地轨道上</WULA_MissingBuildingDropperFlyOver>
 
   <!-- 维护舱状态 -->
   <WULA_MaintenancePod_Status>维护舱状态</WULA_MaintenancePod_Status>
@@ -173,17 +177,19 @@
   
   <!-- 中文翻译 -->
   <WULA_AirdropProducts>空投成品</WULA_AirdropProducts>
-  <WULA_AirdropProductsDesc>将乌拉帝国母舰和后勤舰上完成加工的所有物品通过空投舱投放到指定区域</WULA_AirdropProductsDesc>
+  <WULA_AirdropProductsDesc>将乌拉帝国母舰和工程舰上完成加工的所有物品通过空投舱投放到指定区域</WULA_AirdropProductsDesc>
   <WULA_CannotAirdrop>无法执行空投：工作台未就绪</WULA_CannotAirdrop>
   <WULA_NoProductsToAirdrop>没有可空投的物品</WULA_NoProductsToAirdrop>
   <WULA_AirdropTargetTooFar>目标距离超出最大空投范围（{0}）</WULA_AirdropTargetTooFar>
   <WULA_NoValidDropSpots>没有有效的空投落点。请选择另一个位置</WULA_NoValidDropSpots>
   <WULA_FailedToDistributeItems>无法分配物品到空投舱</WULA_FailedToDistributeItems>
   <WULA_AirdropSuccessful>成功空投了{0}个空投舱</WULA_AirdropSuccessful>
+  <WULA_NoFactoryFlyOver>需要拥有-生产设施-的战舰部署在殖民地轨道上才能空投</WULA_NoFactoryFlyOver>
+  <WULA_NoFactoryFlyOverDesc>当前地图上没有拥有-生产设施-的战舰部署在殖民地轨道上，无法进行空投</WULA_NoFactoryFlyOverDesc>
 
   <!-- 自动发射相关 -->
   <LaunchAircraft>发射战机</LaunchAircraft>
-  <LaunchAircraftDesc>手动发射战机到全球战机库</LaunchAircraftDesc>
+  <LaunchAircraftDesc>手动发射战机到战机库</LaunchAircraftDesc>
   <ToggleAutoLaunch>启用自动发射</ToggleAutoLaunch>
   <ToggleAutoLaunchDesc>启用战机自动发射功能</ToggleAutoLaunchDesc>
   <CancelAutoLaunch>取消自动发射</CancelAutoLaunch>
@@ -210,6 +216,7 @@
   <WULA_ItemsSentToOutputStorage>{0}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToOutputStorage>
   <WULA_InputStorageItems>输入存储: {0}</WULA_InputStorageItems>
   <WULA_OutputStorageItems>输出存储: {0}</WULA_OutputStorageItems>
+  <WULA_LaunchCancelledDueToForbiddenItems>舰队拒绝接收物资——里面包含了殖民者、动物、尸体或有毒垃圾</WULA_LaunchCancelledDueToForbiddenItems>
 
   <WULA_ChooseStuff>材质</WULA_ChooseStuff>
   <WULA_ChooseStuffTooltip>为此武器选择材质</WULA_ChooseStuffTooltip>
@@ -229,6 +236,12 @@
   <!-- 材质属性相关 -->
   <WULA_Commonality>普遍性</WULA_Commonality>
   <WULA_Adjective>前缀</WULA_Adjective>
+
+  <!-- 在语言文件中添加 -->
+  <WULA_Equipment>装备</WULA_Equipment>
+  <WULA_Weapon>武器</WULA_Weapon>
+  <WULA_Mechanoid>机械体</WULA_Mechanoid>
+  <WULA_SelectCategoryFirst>请先选择分类</WULA_SelectCategoryFirst>
 
   <!-- 纳米修复统计相关翻译 -->
   <WULA_NanoRepairCostPerHP>纳米修复能量消耗</WULA_NanoRepairCostPerHP>

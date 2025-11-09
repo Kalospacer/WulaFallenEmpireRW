@@ -4,7 +4,7 @@
   <ThingDef ParentName="Wall">
     <defName>WulaWall_Cleanzone</defName>
     <label>乌拉帝国堡垒墙</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国用于建造堡垒的外壁相当厚实，能够抵御大量伤害，并且拥有气密性，可以用在飞船外壳上。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n乌拉帝国用于建造堡垒的外壁相当厚实，能够抵御大量伤害，并且拥有气密性，可以用在飞船外壳上。</description>
     <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -59,10 +59,8 @@
         <skyfallerDef>WulaWall_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
         <destroyBuilding>true</destroyBuilding>
         <delayTicks>1</delayTicks>
-        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
-        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
       </li>
     </comps>
   </ThingDef>
@@ -174,7 +172,7 @@
   <ThingDef ParentName="DoorBase">
     <defName>WulaDoor_Cleanzone</defName>
     <label>乌拉帝国大门</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国堡垒的大门不仅能够抵御大量爆炸和震荡伤害，还拥有无需通电即可运转的伺服系统来增加大门通过速度。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n乌拉帝国堡垒的大门不仅能够抵御大量爆炸和震荡伤害，还拥有无需通电即可运转的伺服系统来增加大门通过速度。</description>
     <thingClass>Building_Door</thingClass>
     <category>Building</category>
     <altitudeLayer>DoorMoveable</altitudeLayer>
@@ -238,10 +236,8 @@
         <skyfallerDef>WulaDoor_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
         <destroyBuilding>true</destroyBuilding>
         <delayTicks>1</delayTicks>
-        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
-        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
       </li>
     </comps>
   </ThingDef>
@@ -397,248 +393,70 @@
     </researchPrerequisites>
     <uiOrder>1138</uiOrder>
   </TerrainDef>
-
-  <!-- 猫猫地堡 -->
+  
+  <!-- 输送舱 -->
   <ThingDef ParentName="BuildingBase">
-    <defName>WULA_Cat_Bunker_Cleanzone</defName>
-    <label>乌拉猫猫地堡</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉猫猫地堡是集生产和防御为一体的坚实建筑，3只乌拉猫猫自律机械体会和地堡一起空降。地堡可供乌拉猫猫更换工作类型，并允许乌拉猫猫进驻使用内部武器击败来犯敌军。</description>
-    <uiIconPath>Wula/Building/WULA_Cat_Bunker_south</uiIconPath>
-    <minifiedDef>MinifiedThing</minifiedDef>
-    <tickerType>Normal</tickerType>
-    <descriptionHyperlinks>
-      <ThingDef>WULA_Cat_Bunker</ThingDef>
-      <ThingDef>Mech_WULA_Cat</ThingDef>
-      <ThingDef>Mech_WULA_Cat_Constructor</ThingDef>
-      <ThingDef>Mech_WULA_Cat_Assault</ThingDef>
-    </descriptionHyperlinks>
-    <thingCategories Inherit="False">
-      <li>BuildingsMisc</li>
-    </thingCategories>
+    <defName>WULA_GlobalStorageSenderPod</defName>
+    <label>乌拉帝国物资输送舱</label>
+    <description>一个一次性的物资输送装置，可以将装载的货物发射到乌拉帝国的舰队以供其使用。</description>
     <graphicData>
-      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3,3)</drawSize>
-      <damageData>
-        <enabled>false</enabled>
-      </damageData>
+      <texPath>Things/Special/DropPod</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
     </graphicData>
-    <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
-    <pathCost>0</pathCost>
-    <castEdgeShadows>false</castEdgeShadows>
-    <fillPercent>0.5</fillPercent>
-    <canOverlapZones>false</canOverlapZones>
-    <hasInteractionCell>false</hasInteractionCell>
+    <size>(1,1)</size>
     <rotatable>false</rotatable>
-    <researchPrerequisites Inherit="False">
-      <li>WULA_Bunker_Drop_Technology</li>
-    </researchPrerequisites>
-    <statBases>
-      <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
-      <Mass>1</Mass>
-      <Flammability>0</Flammability>
-    </statBases>
-    <size>(3,3)</size>
-    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
-    <costList>
-      <Steel>300</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
-    </costList>
-    <building>
-      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
-    </building>
-    <designationCategory>WULA_Buildings</designationCategory>
-    <comps>
-      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
-        <skyfallerDef>WULA_Cat_Bunker_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
-        <destroyBuilding>true</destroyBuilding>
-        <delayTicks>1</delayTicks>
-        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
-        <allowThinRoof>true</allowThinRoof>
-        <allowThickRoof>false</allowThickRoof>
-        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
-      </li>
-    </comps>
-  </ThingDef>
-  <ThingDef ParentName="SkyfallerBase">
-    <defName>WULA_Cat_Bunker_Incoming</defName>
-    <label>乌拉猫猫地堡（空投中）</label>
-    <size>(3,3)</size>
-    <graphicData>
-      <texPath>Wula/Building/WULA_Cat_Bunker_Incoming</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutFlying</shaderType>
-      <drawSize>(3,3)</drawSize>
-    </graphicData>
-    <skyfaller>
-      <movementType>Accelerate</movementType>
-      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
-      <shadowSize>(2, 2)</shadowSize>
-      <anticipationSound>DropPod_Fall</anticipationSound>
-      <anticipationSoundTicks>100</anticipationSoundTicks>
-      <impactSound>Explosion_Vaporize</impactSound>
-      <moteSpawnTime>0.05</moteSpawnTime>
-      <motesPerCell>1</motesPerCell>
-      <cameraShake>1</cameraShake>
-      <angleCurve>
-        <points>
-          <li>(0,0)</li>
-          <li>(1, 1)</li>
-        </points>
-      </angleCurve>
-      <spawnThing>WULA_Cat_Bunker</spawnThing>
-    </skyfaller>
-    <comps>
-      <li Class="CompProperties_Effecter">
-        <effecterDef>Smoke_Joint</effecterDef>
-      </li>
-    </comps>
-  </ThingDef>
-  <ThingDef ParentName="BuildingBase">
-    <defName>WULA_Cat_Bunker</defName>
-    <label>乌拉猫猫地堡</label>
-    <description>这是一个从乌拉帝国母舰上空投下来的地堡，它拥有一些预制件，可以供乌拉猫猫更换其工作类型。此外，当敌人袭击时，可将乌拉猫猫召回至地堡内，它们将在地堡里对外射击以击退来犯者。</description>
-    <thingClass>WulaFallenEmpire.Building_MechanoidRecycler</thingClass>
     <tickerType>Normal</tickerType>
-    <descriptionHyperlinks>
-      <ThingDef>WULA_Cat_Bunker_TurretGun</ThingDef>
-      <ThingDef>Mech_WULA_Cat</ThingDef>
-      <ThingDef>Mech_WULA_Cat_Constructor</ThingDef>
-      <ThingDef>Mech_WULA_Cat_Assault</ThingDef>
-    </descriptionHyperlinks>
-    <graphicData>
-      <texPath>Wula/Building/WULA_Cat_Bunker</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3,3)</drawSize>
-      <damageData>
-        <enabled>false</enabled>
-      </damageData>
-      <shadowData>
-        <volume>(1.65, 1.65, 0.85)</volume>
-        <offset>(0, 0, -0.2)</offset>
-      </shadowData>
-    </graphicData>
-    <altitudeLayer>Building</altitudeLayer>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <castEdgeShadows>false</castEdgeShadows>
+    <designationHotKey>Misc12</designationHotKey>
     <fillPercent>0.5</fillPercent>
-    <canOverlapZones>false</canOverlapZones>
-    <pathCost>42</pathCost>
-    <hasInteractionCell>false</hasInteractionCell>
-    <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
-    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <uiOrder>2201</uiOrder> <!-- Slightly after the original -->
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <statBases>
-      <MaxHitPoints>500</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
-      <Mass>20</Mass>
-      <Flammability>0</Flammability>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>1600</WorkToBuild>
+      <Flammability>0.5</Flammability>
     </statBases>
-    <size>(3,3)</size>
     <costList>
-      <Steel>200</Steel>
+      <Steel>60</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
-    <building>
-      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
-      <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
-    </building>
     <comps>
-      <li Class="CompProperties_Glower">
-        <glowRadius>6</glowRadius>
-        <glowColor>(120,240,252,0)</glowColor>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>500</massCapacity>
+        <restEffectiveness>0.8</restEffectiveness>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
-        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
-        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
-        <overrideExistingFaction>false</overrideExistingFaction>
+      <li Class="WulaFallenEmpire.CompProperties_Launchable_ToGlobalStorage">
+        <skyfallerLeaving>DropPodLeaving</skyfallerLeaving>
+        <requiresFuelingPort>false</requiresFuelingPort>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_MechanoidRecycler">
-        <maxStorageCapacity>6</maxStorageCapacity>
-        
-        <!-- 可回收的机械族种族 -->
-        <recyclableRaces>
-          <li>Mech_WULA_Cat</li>
-          <li>Mech_WULA_Cat_Constructor</li>
-          <li>Mech_WULA_Cat_Assault</li>
-        </recyclableRaces>
-        <recycleJobDef>WULA_RecycleMechanoid</recycleJobDef>
-        <recycleRange>5</recycleRange>
-        
-        <!-- 可生成的机械族种类 -->
-        <spawnablePawnKinds>
-          <li>Mech_WULA_Cat</li>
-          <li>Mech_WULA_Cat_Constructor</li>
-          <li>Mech_WULA_Cat_Assault</li>
-        </spawnablePawnKinds>
-
-        <!-- 新增初始单位配置 -->
-        <initialUnits>
-          <li>
-            <pawnKindDef>Mech_WULA_Cat</pawnKindDef>
-            <count>1</count>
-          </li>
-          <li>
-            <pawnKindDef>Mech_WULA_Cat_Constructor</pawnKindDef>
-            <count>1</count>
-          </li>
-          <li>
-            <pawnKindDef>Mech_WULA_Cat_Assault</pawnKindDef>
-            <count>1</count>
-          </li>
-        </initialUnits>
-
-        <!-- <ownershipFaction>Player</ownershipFaction> -->
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_StorageTurret">
-        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef> <!-- 替换为您想要的炮塔 -->
-        <angleOffset>0</angleOffset>
-        <autoAttack>true</autoAttack>
-        <maxTurrets>6</maxTurrets>
-        <turretSpacing>1.5</turretSpacing>
+      <li Class="WulaFallenEmpire.CompProperties_GarbageShield">
+        <garbageShieldEnabled>true</garbageShieldEnabled>
+        <garbageShieldUIEventDefName>Wula_UI_Legion_Reply_1</garbageShieldUIEventDefName>
       </li>
     </comps>
-  </ThingDef>
-  <ThingDef ParentName="BaseWeaponTurret">
-    <defName>WULA_Cat_Bunker_TurretGun</defName>
-    <label>地堡炮塔</label>
-    <description>由进入地堡的乌拉猫猫操纵的炮塔——说那么多干什么，扣扳机就完了，殖民地会报销弹药的。</description>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <statBases>
-      <AccuracyTouch>0.5</AccuracyTouch>
-      <AccuracyShort>0.3</AccuracyShort>
-      <AccuracyMedium>0.25</AccuracyMedium>
-      <AccuracyLong>0.12</AccuracyLong>
-      <RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
-      <DeteriorationRate>0</DeteriorationRate>
-      <Mass>5</Mass>
-      <Flammability>0</Flammability>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <defaultProjectile>Bullet_WULA_RW_Base_AR</defaultProjectile>
-        <warmupTime>0</warmupTime>
-        <range>21</range>
-        <ticksBetweenBurstShots>32</ticksBetweenBurstShots>
-        <burstShotCount>2</burstShotCount>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-        <consumeFuelPerShot>1</consumeFuelPerShot>
-      </li>
-    </verbs>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>TransportPod</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <uiIconScale>0.65</uiIconScale>
   </ThingDef>
 
   <!-- 维护舱 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_MaintenancePod_Cleanzone</defName>
     <label>合成人维护舱</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n合成人维护舱是为乌拉帝国合成人设计的设施，机械乌拉需要定期进入其中进行身体机能的维护和校准，否则他们的身体会逐渐衰弱。维护需要消耗零部件，同时会修理所有的伤口。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n合成人维护舱是为乌拉帝国合成人设计的设施，机械乌拉需要定期进入其中进行身体机能的维护和校准，否则他们的身体会逐渐衰弱。维护需要消耗零部件，同时会修理所有的伤口。</description>
     <uiIconPath>Wula/Building/WULA_MaintenancePod</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -693,10 +511,8 @@
         <skyfallerDef>WULA_MaintenancePod_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
         <destroyBuilding>true</destroyBuilding>
         <delayTicks>1</delayTicks>
-        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
-        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
       </li>
     </comps>
   </ThingDef>
@@ -835,7 +651,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_WeaponArmor_Productor_Cleanzone</defName>
     <label>乌拉帝国作业通讯台</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国作业通讯台是用于联络乌拉帝国母舰和后勤舰并下达武器、装备订单的特殊通讯台。这些武器装备的生产不需要殖民地参与，只需要使用乌拉帝国物资交换舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n乌拉帝国作业通讯台是用于联络乌拉帝国母舰和工程舰并下达武器、装备订单的特殊通讯台。这些武器装备的生产不需要殖民地参与，只需要使用乌拉帝国物资交换舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
     <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -883,10 +699,8 @@
         <skyfallerDef>WULA_WeaponArmor_Productor_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
         <destroyBuilding>true</destroyBuilding>
         <delayTicks>1</delayTicks>
-        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
-        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
       </li>
     </comps>
   </ThingDef>
@@ -927,7 +741,7 @@
   <ThingDef ParentName="BenchBase">
     <defName>WULA_WeaponArmor_Productor</defName>
     <label>乌拉帝国作业通讯台</label>
-    <description>一台用于联络乌拉帝国母舰和后勤舰并下达订单的特殊通讯台。这些物资装备的生产不需要殖民地参与，只需要使用乌拉帝国物资输送舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
+    <description>一台用于联络乌拉帝国母舰和工程舰并下达订单的特殊通讯台。这些物资装备的生产不需要殖民地参与，只需要使用乌拉帝国物资输送舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
     <thingClass>WulaFallenEmpire.Building_GlobalWorkTable</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <tickerType>Normal</tickerType>
@@ -999,7 +813,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Machine_Recharger_Cleanzone</defName>
     <label>乌拉帝国地下维护站</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国地下维护站是能够储存大量电量并允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。由于其根基埋于地下，因此不会阻碍其他殖民者和机械体在其上面的移动。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n乌拉帝国地下维护站是能够储存大量电量并允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。由于其根基埋于地下，因此不会阻碍其他殖民者和机械体在其上面的移动。</description>
     <uiIconPath>Wula/Building/WULA_Machine_Recharger</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1047,10 +861,8 @@
         <skyfallerDef>WULA_Machine_Recharger_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
         <destroyBuilding>true</destroyBuilding>
         <delayTicks>1</delayTicks>
-        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
-        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
       </li>
     </comps>
   </ThingDef>
@@ -1168,7 +980,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Charging_Station_Synth_Cleanzone</defName>
     <label>合成人充电站</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n合成人充电站是一台供乌拉帝国合成人进行机体充能和改装的检修站，当机械乌拉需要充电时会优先前往此处充电。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n合成人充电站是一台供乌拉帝国合成人进行机体充能和改装的检修站，当机械乌拉需要充电时会优先前往此处充电。</description>
     <uiIconPath>Wula/Building/WULA_Charging_Station_Synth_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1216,10 +1028,8 @@
         <skyfallerDef>WULA_Charging_Station_Synth_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
         <destroyBuilding>true</destroyBuilding>
         <delayTicks>1</delayTicks>
-        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
-        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
       </li>
     </comps>
   </ThingDef>
@@ -1326,8 +1136,8 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Cube_Productor_Cleanzone</defName>
     <label>乌拉帝国编织体</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者后勤舰在上空才能投送建筑。\n\n乌拉帝国编织体是一台简易的塑性构造体，只能生产一些材料，以本地加工的方式降低舰队的加工压力。</description>
-    <uiIconPath>Wula/Building/WULA_Cube_Productor_Energy_south</uiIconPath>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n乌拉帝国编织体是一台简易的塑性构造体，只能生产一些材料，以本地加工的方式降低舰队的加工压力。</description>
+    <uiIconPath>Wula/Building/WULA_Cube_Productor_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
     <thingCategories Inherit="False">
@@ -1378,10 +1188,8 @@
         <skyfallerDef>WULA_Cube_Productor_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
         <destroyBuilding>true</destroyBuilding>
         <delayTicks>1</delayTicks>
-        <requiredFlyOverType>WULA_Flyover_BaseBuilder</requiredFlyOverType>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
-        <requiredFlyOverLabel>乌拉帝国母舰或后勤舰</requiredFlyOverLabel> <!-- 新增显示标签 -->
       </li>
     </comps>
   </ThingDef>
@@ -1390,7 +1198,7 @@
     <label>乌拉帝国编织体（空投中）</label>
     <size>(1,1)</size>
     <graphicData>
-      <texPath>Wula/Building/WULA_Charging_Station_Synth_Incoming</texPath>
+      <texPath>Wula/Building/WULA_Cube_Productor_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
       <drawSize>(1,1)</drawSize>
@@ -1426,7 +1234,7 @@
     <thingClass>Building_WorkTable</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
-      <texPath>Wula/Building/WULA_Cube_Productor_Energy</texPath>
+      <texPath>Wula/Building/WULA_Cube_Productor</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(1,1)</drawSize>
       <damageData>
@@ -1458,6 +1266,8 @@
     <surfaceType>Item</surfaceType>
     <!-- 可用配方 -->
     <recipes>
+     <li>Make_WULA_Alloy</li>
+     <li>Make_WULA_Alloy_Group</li>
      <li>Make_WULA_Charge_Cube</li>
      <li>Make_WULA_Charge_Cube_Group</li>
      <li>Recharge_WULA_Charge_Cube_Energy</li>
@@ -1469,12 +1279,6 @@
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>
-    <comps>
-      <li Class="CompProperties_Power">
-        <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>500</basePowerConsumption>
-      </li>
-    </comps>
     <placeWorkers>
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
     </placeWorkers>
@@ -1482,5 +1286,216 @@
       <!-- <isMealSource>true</isMealSource> -->
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>500</basePowerConsumption>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 发电机 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_DarkEnergy_Generators_Cleanzone</defName>
+    <label>暗物质发电机</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n一台使用暗物质湮灭反应提供能量的乌拉帝国发电机，需要消耗暗物质作为燃料且消耗速率很高，但是拥有普通发电机望尘莫及的发电能力。为了在野战环境下随炮塔群一起空投，这种发电机的装甲层设计的非常厚实。</description>
+    <uiIconPath>Wula/Building/Wula_DarkEnergy_Generators</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(5,5)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_DarkEnergy_Generators_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(5,5)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <costList>
+      <Steel>50</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>7.9</radius> <!-- 半径大小 -->
+        <color>(0.5, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>供电半径</label>
+        <description>在不接电线的情况下，该建筑可提供的最大供电半径，可作为野战状态下的阵地构建参考。</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Wula_DarkEnergy_Generators_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Wula_DarkEnergy_Generators_Incoming</defName>
+    <label>暗物质发电机（空投中）</label>
+    <size>(5,5)</size>
+    <graphicData>
+      <texPath>Wula/Building/Wula_DarkEnergy_Generators_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(7,7)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(7, 7)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>Wula_DarkEnergy_Generators</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_DarkEnergy_Generators</defName>
+    <label>暗物质发电机</label>
+    <description>一台使用暗物质湮灭反应提供能量的乌拉帝国发电机，需要消耗暗物质作为燃料且消耗速率很高，但是拥有普通发电机望尘莫及的发电能力。为了在野战环境下随炮塔群一起空投，这种发电机的装甲层设计的非常厚实。</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Wula/Building/Wula_DarkEnergy_Generators</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(7,7.25)</drawSize>
+      <drawOffset>(0, 0, 1.15)</drawOffset>
+      <shadowData>
+        <volume>(1.93,1,1.69)</volume>
+        <offset>(-0.03,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0</fillPercent>
+    <pathCost>50</pathCost>
+    <rotatable>false</rotatable>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>3500</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>-20</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>false</canOverlapZones>
+    <size>(5,5)</size>
+    <building>
+      <isAirtight>false</isAirtight>
+      <isStuffableAirtight>false</isStuffableAirtight>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>7.9</radius> <!-- 半径大小 -->
+        <color>(0.5, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>供电半径</label>
+        <description>在不接电线的情况下，该建筑可提供的最大供电半径，可作为野战状态下的阵地构建参考。</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-10000</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+        <soundAmbientProducingPower>ChemfuelFiredGenerator_Ambience</soundAmbientProducingPower>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>暗物质燃料</fuelLabel>
+        <fuelGizmoLabel>暗物质燃料</fuelGizmoLabel>
+        <outOfFuelMessage>需要填入封装的暗物质</outOfFuelMessage>
+        <fuelConsumptionRate>1.0</fuelConsumptionRate>
+        <fuelCapacity>5.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>WULA_Dark_Matter_Item</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <canEjectFuel>true</canEjectFuel>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>9</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Stunnable">
+        <useLargeEMPEffecter>true</useLargeEMPEffecter>
+        <affectedDamageDefs>
+          <li>EMP</li>
+        </affectedDamageDefs>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+    </comps>
+    <designationCategory>WULA_Buildings</designationCategory>
   </ThingDef>
 </Defs>

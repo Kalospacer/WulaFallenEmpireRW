@@ -7,6 +7,10 @@ namespace WulaFallenEmpire
     {
         public float fuelNeededToLaunch = 25f;
         public SoundDef launchSound;
+        
+        // 垃圾屏蔽配置 - 通过XML控制
+        public bool garbageShieldEnabled = false;
+        public string garbageShieldUIEventDefName = "Wula_UI_Legion_Reply_1";
 
         public CompProperties_Launchable_ToGlobalStorage()
         {

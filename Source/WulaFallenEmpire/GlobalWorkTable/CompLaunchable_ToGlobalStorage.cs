@@ -4,12 +4,16 @@ using UnityEngine;
 using Verse;
 using Verse.Sound;
 using System.Text;
+using System.Linq;
 
 namespace WulaFallenEmpire
 {
     public class CompLaunchable_ToGlobalStorage : CompLaunchable_TransportPod
     {
         public new CompProperties_Launchable_ToGlobalStorage Props => (CompProperties_Launchable_ToGlobalStorage)this.props;
+
+        // 获取垃圾屏蔽组件
+        public CompGarbageShield GarbageShieldComp => this.parent.GetComp<CompGarbageShield>();
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
@@ -59,6 +63,30 @@ namespace WulaFallenEmpire
                 return;
             }
 
+            // 检查垃圾屏蔽 - 如果启用了垃圾屏蔽并且有禁止物品，取消发射
+            if (GarbageShieldComp != null && GarbageShieldComp.GarbageShieldEnabled)
+            {
+                List<Thing> forbiddenItems = GarbageShieldComp.GetForbiddenItems(transporter.innerContainer);
+                if (forbiddenItems.Count > 0)
+                {
+                    // 显示取消发射消息
+                    StringBuilder forbiddenList = new StringBuilder();
+                    foreach (Thing item in forbiddenItems)
+                    {
+                        if (forbiddenList.Length > 0) forbiddenList.Append(", ");
+                        forbiddenList.Append($"{item.LabelCap} x{item.stackCount}");
+                    }
+                    
+                    Messages.Message("WULA_LaunchCancelledDueToForbiddenItems".Translate(forbiddenList.ToString()), 
+                        this.parent, MessageTypeDefOf.RejectInput);
+                    
+                    // 触发垃圾屏蔽UI事件
+                    GarbageShieldComp.ProcessGarbageShieldTrigger(forbiddenItems);
+                    
+                    return; // 取消发射
+                }
+            }
+
             // 统计发送的物品
             int inputItemsCount = 0;
             int outputItemsCount = 0;
@@ -87,7 +115,8 @@ namespace WulaFallenEmpire
             }
 
             // 2. 显示发送结果消息
-            string message = BuildTransferMessage(inputItemsCount, outputItemsCount, inputItemsList.ToString(), outputItemsList.ToString());
+            string message = BuildTransferMessage(inputItemsCount, outputItemsCount, 
+                inputItemsList.ToString(), outputItemsList.ToString());
             Messages.Message(message, this.parent, MessageTypeDefOf.PositiveEvent);
 
             // 3. 清空容器，防止物品掉落
@@ -108,20 +137,13 @@ namespace WulaFallenEmpire
             if (item.def.IsApparel)
                 return true;
 
-            // 活着的Pawn
-            //if (item is Pawn pawn && !pawn.Dead)
-            //    return true;
-
-            // Pawn的尸体
-            if (item.def.IsCorpse)
-                return true;
-
             // 其他物品发送到输入存储器
             return false;
         }
 
         // 构建转移消息
-        private string BuildTransferMessage(int inputCount, int outputCount, string inputList, string outputList)
+        private string BuildTransferMessage(int inputCount, int outputCount, 
+            string inputList, string outputList)
         {
             StringBuilder message = new StringBuilder();
 
@@ -155,6 +177,11 @@ namespace WulaFallenEmpire
                 {
                     message.Append(": ").Append(outputList);
                 }
+            }
+            else
+            {
+                // 没有任何物品
+                message.Append("WULA_NoItemsProcessed".Translate());
             }
 
             return message.ToString();

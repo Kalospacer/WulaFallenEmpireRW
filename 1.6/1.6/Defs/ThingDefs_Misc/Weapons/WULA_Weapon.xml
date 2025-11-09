@@ -2,66 +2,6 @@
 <Defs>
 
   <!-- 萨克森装备 -->
-  <ThingDef ParentName="BaseWeaponTurret">
-    <defName>WULA_WM_Panzer_Turret</defName>
-    <label>ATt-6"金红石"</label>
-    <description>由乌拉帝国的"萨克森"战车所装备的战车炮塔，可以从极远距离上精准地点杀高价值目标。</description>
-    <tradeability>None</tradeability>
-    <destroyOnDrop>true</destroyOnDrop>
-    <techLevel>Ultra</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_WM_Panzer_Turret</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>3</drawSize>
-    </graphicData>
-    <uiIconScale>0.33</uiIconScale>
-    <statBases>
-      <Mass>150</Mass>
-      <AccuracyTouch>1</AccuracyTouch>
-      <AccuracyShort>2</AccuracyShort>
-      <AccuracyMedium>2</AccuracyMedium>
-      <AccuracyLong>2</AccuracyLong>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_WM_Panzer_Turret</defaultProjectile>
-        <warmupTime>0</warmupTime>
-        <defaultCooldownTime>4</defaultCooldownTime>
-        <minRange>5.9</minRange>
-        <range>75</range>
-        <burstShotCount>1</burstShotCount>
-        <forcedMissRadius>0.1</forcedMissRadius>
-        <soundCast>Shot_TurretSniper</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>18</muzzleFlashScale>
-      </li>
-    </verbs>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_WM_Panzer_Turret</defName>
-    <label>金红石穿甲弹</label>
-    <thingClass>Projectile_Explosive</thingClass>
-    <tickerType>Normal</tickerType>
-    <neverMultiSelect>True</neverMultiSelect>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-      <drawSize>3.4</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>385</damageAmountBase>
-      <speed>220</speed>
-      <stoppingPower>5</stoppingPower>
-      <soundExplode>Explosion_Rocket</soundExplode>
-      <explosionRadius>3.5</explosionRadius>
-      <arcHeightFactor>0.4</arcHeightFactor>
-      <armorPenetrationBase>1</armorPenetrationBase>
-    </projectile>
-  </ThingDef>
   <ThingDef Name="WULA_WM_Panzer_Autocannon" ParentName="BaseWeaponTurret">
     <defName>WULA_WM_Panzer_Autocannon</defName>
     <label>SRc-15"辉锑"</label>

@@ -96,7 +96,7 @@ namespace WulaFallenEmpire
                 {
                     defaultLabel = "WULA_EjectDataPack".Translate(),
                     defaultDesc = "WULA_EjectDataPackDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("UI/Commands/EjectDataPack"),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_EjectDataPack"),
                     action = EjectDataPack
                 };
             }
@@ -108,7 +108,7 @@ namespace WulaFallenEmpire
                 {
                     defaultLabel = "WULA_AbsorbDataPack".Translate(),
                     defaultDesc = "WULA_AbsorbDataPackDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("UI/Commands/AbsorbDataPack"),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_AbsorbDataPack"),
                     action = AbsorbDataPack
                 };
             }

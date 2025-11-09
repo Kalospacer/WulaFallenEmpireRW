@@ -12,10 +12,10 @@ namespace WulaFallenEmpire
         public ThingDef skyfallerDef;
         public bool destroyBuilding = true;
         public int delayTicks = 0;
-        public string requiredFlyOverType = "default"; // 需要的 FlyOver 类型
+        // 删除 requiredFlyOverType 字段
         public bool allowThinRoof = true; // 允许砸穿薄屋顶
         public bool allowThickRoof = false; // 是否允许在厚岩顶下空投
-        public string requiredFlyOverLabel = "FlyOver"; // 显示给玩家的标签
+        // 删除 requiredFlyOverLabel 字段
         
         public CompProperties_SkyfallerCaller()
         {
@@ -33,49 +33,63 @@ namespace WulaFallenEmpire
 
         public bool CanCall => !used && !calling;
 
-        // 获取所需的 FlyOver 显示标签
-        public string RequiredFlyOverLabel
-        {
-            get
-            {
-                // 优先使用建筑配置的显示标签
-                if (!Props.requiredFlyOverLabel.NullOrEmpty())
-                    return Props.requiredFlyOverLabel;
-                    
-                // 如果没有配置，回退到类型名称
-                return Props.requiredFlyOverType;
-            }
-        }
+        // 固定的显示标签
+        public string RequiredFlyOverLabel => "建筑空投飞行器";
 
-        // 检查是否有对应类型的 FlyOver
+        // 检查是否有拥有 BuildingdropperFacility 设施的 FlyOver
         public bool HasRequiredFlyOver
         {
             get
             {
                 if (parent?.Map == null) return false;
                 
-                // 查找地图上所有具有 FlyOverType 组件的物体
-                List<Thing> allThings = parent.Map.listerThings.AllThings;
-                int flyOverCount = 0;
-                int matchingTypeCount = 0;
-                
-                foreach (Thing thing in allThings)
+                try
                 {
-                    var typeComp = thing.TryGetComp<CompFlyOverType>();
-                    if (typeComp != null)
+                    // 检查所有FlyOver类型的物体
+                    var allFlyOvers = new List<Thing>();
+                    var dynamicObjects = parent.Map.dynamicDrawManager.DrawThings;
+                    foreach (var thing in dynamicObjects)
                     {
-                        flyOverCount++;
-                        if (typeComp.FlyOverType == Props.requiredFlyOverType && typeComp.IsRequiredForDrop)
+                        if (thing is FlyOver)
                         {
-                            matchingTypeCount++;
-                            Log.Message($"[SkyfallerCaller] Found required FlyOver of type: {Props.requiredFlyOverType} at {thing.Position}");
+                            allFlyOvers.Add(thing);
                         }
                     }
+
+                    Log.Message($"[SkyfallerCaller] Found {allFlyOvers.Count} FlyOvers on map");
+
+                    foreach (var thing in allFlyOvers)
+                    {
+                        if (thing is FlyOver flyOver && !flyOver.Destroyed)
+                        {
+                            // 检查设施
+                            var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
+                            if (facilitiesComp == null)
+                            {
+                                Log.Warning($"[SkyfallerCaller] FlyOver at {flyOver.Position} has no CompFlyOverFacilities");
+                                continue;
+                            }
+                            
+                            if (facilitiesComp.HasFacility("BuildingdropperFacility"))
+                            {
+                                Log.Message($"[SkyfallerCaller] Found valid FlyOver at {flyOver.Position} with BuildingdropperFacility");
+                                return true;
+                            }
+                            else
+                            {
+                                Log.Message($"[SkyfallerCaller] FlyOver at {flyOver.Position} missing BuildingdropperFacility. Has: {string.Join(", ", facilitiesComp.GetActiveFacilities())}");
+                            }
+                        }
+                    }
+
+                    Log.Message("[SkyfallerCaller] No FlyOver with BuildingdropperFacility found");
+                    return false;
                 }
-                
-                Log.Message($"[SkyfallerCaller] Searched {allThings.Count} things, found {flyOverCount} FlyOvers, {matchingTypeCount} matching type: {Props.requiredFlyOverType}");
-                
-                return matchingTypeCount > 0;
+                catch (System.Exception ex)
+                {
+                    Log.Error($"[SkyfallerCaller] Error in HasRequiredFlyOver: {ex}");
+                    return false;
+                }
             }
         }
 
@@ -121,7 +135,7 @@ namespace WulaFallenEmpire
                 
                 if (!HasRequiredFlyOver)
                 {
-                    Log.Message($"[SkyfallerCaller] Cannot call: missing required FlyOver type: {Props.requiredFlyOverType}");
+                    Log.Message($"[SkyfallerCaller] Cannot call: missing required FlyOver with BuildingdropperFacility");
                     return false;
                 }
                 
@@ -161,7 +175,7 @@ namespace WulaFallenEmpire
                 // 显示相应的错误消息
                 if (!HasRequiredFlyOver)
                 {
-                    Messages.Message("WULA_NoRequiredFlyOver".Translate(RequiredFlyOverLabel), parent, MessageTypeDefOf.RejectInput);
+                    Messages.Message("WULA_NoBuildingDropperFlyOver".Translate(), parent, MessageTypeDefOf.RejectInput);
                 }
                 else if (!CheckRoofConditions)
                 {
@@ -272,7 +286,7 @@ namespace WulaFallenEmpire
             
             if (!HasRequiredFlyOver)
             {
-                desc += $"\n{"WULA_RequiresFlyOver".Translate(RequiredFlyOverLabel)}";
+                desc += $"\n{"WULA_RequiresBuildingDropperFlyOver".Translate()}";
             }
             
             // 添加 null 检查
@@ -299,7 +313,7 @@ namespace WulaFallenEmpire
         {
             if (!HasRequiredFlyOver)
             {
-                return "WULA_NoRequiredFlyOver".Translate(RequiredFlyOverLabel);
+                return "WULA_NoBuildingDropperFlyOver".Translate();
             }
             
             if (!CheckRoofConditions)
@@ -343,7 +357,7 @@ namespace WulaFallenEmpire
                 // 添加条件信息
                 if (!HasRequiredFlyOver)
                 {
-                    status += $"\n{"WULA_MissingFlyOver".Translate(RequiredFlyOverLabel)}";
+                    status += $"\n{"WULA_MissingBuildingDropperFlyOver".Translate()}";
                 }
                 
                 // 添加 null 检查

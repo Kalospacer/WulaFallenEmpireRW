@@ -14,100 +14,10 @@ namespace WulaFallenEmpire
         {
             if (!base.CanApplyOn(target, dest))
                 return false;
-            // 检查航道等级系统
-            if (Props.useLaneLevelSystem)
-            {
-                string disableReason;
-                if (!CanSpawnWithLaneLevelCheck(out disableReason))
-                {
-                    return false;
-                }
-            }
             return true;
         }
-        // 新增：航道等级检查逻辑
-        private bool CanSpawnWithLaneLevelCheck(out string disableReason)
-        {
-            disableReason = null;
-            Map map = parent.pawn.Map;
-            if (map == null)
-                return true;
-            // 获取地图上所有的 FlyOver 物体
-            var existingFlyOvers = map.listerThings.ThingsOfDef(Props.flyOverDef)
-                .OfType<FlyOver>()
-                .Where(f => f.Spawned && !f.Destroyed)
-                .ToList();
-            // 获取当前技能的航道等级和类型
-            int currentLaneLevel = Props.laneLevel;
-            string currentFlyOverType = Props.flyOverTypeName;
-            Log.Message($"Lane Level Check: Current level={currentLaneLevel}, type={currentFlyOverType}, existing flyovers={existingFlyOvers.Count}");
-            // 规则1：航道等级0可以不受限制召唤
-            if (currentLaneLevel == 0)
-            {
-                return true;
-            }
-            // 规则2：检查是否有更高航道等级的flyover存在
-            var higherLevelFlyOvers = existingFlyOvers
-                .Where(f => GetFlyOverLaneLevel(f) > currentLaneLevel)
-                .ToList();
-            if (higherLevelFlyOvers.Any())
-            {
-                disableReason = "Cannot summon: Higher lane level flyover exists";
-                Log.Message($"Cannot summon: Found {higherLevelFlyOvers.Count} higher level flyovers");
-                return false;
-            }
-            // 规则3：检查是否有相同航道等级和类型的flyover存在
-            var sameTypeAndLevelFlyOvers = existingFlyOvers
-                .Where(f => GetFlyOverLaneLevel(f) == currentLaneLevel &&
-                           GetFlyOverType(f) == currentFlyOverType)
-                .ToList();
-            if (sameTypeAndLevelFlyOvers.Any())
-            {
-                disableReason = $"Cannot summon: Same lane level and type flyover already exists";
-                Log.Message($"Cannot summon: Found {sameTypeAndLevelFlyOvers.Count} same type and level flyovers");
-                return false;
-            }
-            return true;
-        }
-        // 新增：获取FlyOver的航道等级
-        private int GetFlyOverLaneLevel(FlyOver flyOver)
-        {
-            var comp = flyOver.GetComp<CompFlyOverType>();
-            return comp?.LaneLevel ?? 0;
-        }
-        // 新增：获取FlyOver的类型
-        private string GetFlyOverType(FlyOver flyOver)
-        {
-            var comp = flyOver.GetComp<CompFlyOverType>();
-            return comp?.FlyOverType ?? "default";
-        }
-        // 新增：强制销毁低等级FlyOver
-        private void DestroyLowerLevelFlyOvers()
-        {
-            Map map = parent.pawn.Map;
-            if (map == null) return;
-            var existingFlyOvers = map.listerThings.ThingsOfDef(Props.flyOverDef)
-                .OfType<FlyOver>()
-                .Where(f => f.Spawned && !f.Destroyed)
-                .ToList();
-            int currentLaneLevel = Props.laneLevel;
-            string currentFlyOverType = Props.flyOverTypeName;
-            // 查找需要销毁的低等级FlyOver
-            var flyOversToDestroy = existingFlyOvers
-                .Where(f => GetFlyOverLaneLevel(f) < currentLaneLevel ||
-                           (GetFlyOverLaneLevel(f) == currentLaneLevel &&
-                            GetFlyOverType(f) != currentFlyOverType))
-                .ToList();
-            foreach (var flyOver in flyOversToDestroy)
-            {
-                Log.Message($"Destroying lower level flyover: Level={GetFlyOverLaneLevel(flyOver)}, Type={GetFlyOverType(flyOver)}");
-                flyOver.EmergencyDestroy();
-            }
-            if (flyOversToDestroy.Count > 0)
-            {
-                Log.Message($"Destroyed {flyOversToDestroy.Count} lower level flyovers");
-            }
-        }
+        // 在 CompAbilityEffect_SpawnFlyOver.cs 中修改航道检查方法：
+        // 修改 DestroyLowerLevelFlyOvers 方法（现在由全局管理器处理）：
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
             base.Apply(target, dest);
@@ -115,18 +25,6 @@ namespace WulaFallenEmpire
                 return;
             try
             {
-                // 检查航道等级系统
-                if (Props.useLaneLevelSystem)
-                {
-                    string disableReason;
-                    if (!CanSpawnWithLaneLevelCheck(out disableReason))
-                    {
-                        Messages.Message(disableReason, MessageTypeDefOf.RejectInput);
-                        return;
-                    }
-                    // 强制销毁低等级FlyOver
-                    DestroyLowerLevelFlyOvers();
-                }
                 Log.Message($"FlyOver skill activated by {parent.pawn.Label} at position {parent.pawn.Position}");
                 Log.Message($"Target cell: {target.Cell}, Dest: {dest.Cell}");
                 // 计算起始和结束位置
@@ -183,19 +81,6 @@ namespace WulaFallenEmpire
             {
                 baseInfo = $"扇形监视: 约{Props.strafeWidth * 2 + 1}格宽度\n(具体参数在飞行物定义中)";
             }
-            // 添加航道等级信息
-            if (Props.useLaneLevelSystem)
-            {
-                if (!string.IsNullOrEmpty(baseInfo))
-                    baseInfo += "\n";
-                baseInfo += $"航道等级: {Props.laneLevel}";
-                // 检查是否可以被召唤
-                string disableReason;
-                if (!CanSpawnWithLaneLevelCheck(out disableReason))
-                {
-                    baseInfo += $"\n<color=red>{disableReason}</color>";
-                }
-            }
             return baseInfo;
         }
         // 更新：验证方法，包含航道等级检查
@@ -207,19 +92,6 @@ namespace WulaFallenEmpire
                 return false;
             if (!target.Cell.IsValid || !target.Cell.InBounds(parent.pawn.Map))
                 return false;
-            // 航道等级检查
-            if (Props.useLaneLevelSystem)
-            {
-                string disableReason;
-                if (!CanSpawnWithLaneLevelCheck(out disableReason))
-                {
-                    if (throwMessages)
-                    {
-                        Messages.Message(disableReason, MessageTypeDefOf.RejectInput);
-                    }
-                    return false;
-                }
-            }
             return true;
         }
         // 更新：创建标准飞越方法，添加航道等级组件
@@ -241,19 +113,6 @@ namespace WulaFallenEmpire
             );
             flyOver.spawnContentsOnImpact = Props.dropContentsOnImpact;
             flyOver.playFlyOverSound = Props.playFlyOverSound;
-            // 设置航道等级信息
-            if (Props.useLaneLevelSystem)
-            {
-                var laneComp = flyOver.GetComp<CompFlyOverType>();
-                if (laneComp != null)
-                {
-                    Log.Message($"FlyOver created with lane level: {Props.laneLevel}, type: {Props.flyOverTypeName}");
-                }
-                else
-                {
-                    Log.Warning("FlyOver def does not have CompFlyOverType component!");
-                }
-            }
             if (Props.customSound != null)
             {
                 // 自定义音效逻辑
@@ -281,15 +140,6 @@ namespace WulaFallenEmpire
             // 设置基本属性
             flyOver.spawnContentsOnImpact = Props.dropContentsOnImpact;
             flyOver.playFlyOverSound = Props.playFlyOverSound;
-            // 设置航道等级信息
-            if (Props.useLaneLevelSystem)
-            {
-                var laneComp = flyOver.GetComp<CompFlyOverType>();
-                if (laneComp != null)
-                {
-                    Log.Message($"Ground Strafing FlyOver created with lane level: {Props.laneLevel}, type: {Props.flyOverTypeName}");
-                }
-            }
             // 获取扫射组件并设置预处理后的目标单元格
             CompGroundStrafing strafingComp = flyOver.GetComp<CompGroundStrafing>();
             if (strafingComp != null)
@@ -344,15 +194,6 @@ namespace WulaFallenEmpire
             // 设置基本属性
             flyOver.spawnContentsOnImpact = Props.dropContentsOnImpact;
             flyOver.playFlyOverSound = Props.playFlyOverSound;
-            // 设置航道等级信息
-            if (Props.useLaneLevelSystem)
-            {
-                var laneComp = flyOver.GetComp<CompFlyOverType>();
-                if (laneComp != null)
-                {
-                    Log.Message($"Sector Surveillance FlyOver created with lane level: {Props.laneLevel}, type: {Props.flyOverTypeName}");
-                }
-            }
             Log.Message($"SectorSurveillance FlyOver created: {flyOver} from {startPos} to {endPos}");
         }
         // 新增：验证和优化飞行路径

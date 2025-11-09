@@ -1,5 +1,148 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <!-- 基础材料 -->
+  <RecipeDef>
+    <defName>Make_WULA_Alloy</defName>
+    <label>制造乌拉帝国合金</label>
+    <description>使用钢铁进行加工得到的高密度合金，是许多乌拉帝国装备的原材料。</description>
+    <jobString>正在锻造合金</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>500</workAmount>
+    <!-- 允许混合成分 -->
+    <allowMixingIngredients>false</allowMixingIngredients>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Alloy>2</WULA_Alloy>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_WeaponArmor_Productor_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>Make_WULA_Alloy_Group</defName>
+    <label>制造乌拉帝国合金（10块）</label>
+    <description>使用钢铁进行加工得到的高密度合金，是许多乌拉帝国装备的原材料。</description>
+    <jobString>正在锻造合金</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>2200</workAmount>
+    <!-- 允许混合成分 -->
+    <allowMixingIngredients>false</allowMixingIngredients>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>15</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Alloy>10</WULA_Alloy>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_WeaponArmor_Productor_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>Make_WULA_Dark_Matter_Item</defName>
+    <label>制造乌拉帝国暗物质</label>
+    <description>制造1份封装的暗物质，由暗物质约束装置和暗物质组成，是乌拉帝国大型设施和武备所必须的能量来源。</description>
+    <jobString>正在制造乌拉帝国暗物质</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <!-- 允许混合成分 -->
+    <allowMixingIngredients>false</allowMixingIngredients>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Alloy</li>
+          </thingDefs>
+        </filter>
+        <count>16</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>Make_WULA_Neutronium</defName>
+    <label>以乌拉帝国暗物质压缩零素</label>
+    <description>以2份乌拉帝国暗物质制造1份零素，一种强大的材料，可以打造出最坚硬的护甲或者最强大的近战武器。</description>
+    <jobString>正在压缩零素</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>5000</workAmount>
+    <!-- 允许混合成分 -->
+    <allowMixingIngredients>false</allowMixingIngredients>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+    <skillRequirements>
+      <Crafting>15</Crafting>
+    </skillRequirements>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_Dark_Matter_Item</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <WULA_Neutronium>1</WULA_Neutronium>
+    </products>
+    <workSkill>Crafting</workSkill>
+    <displayPriority>100</displayPriority>
+    
+    <researchPrerequisites>
+      <li>WULA_Colony_License_LV3_Technology</li>
+    </researchPrerequisites>
+  </RecipeDef>
+
   <RecipeDef>
     <defName>Make_WULA_Charge_Cube</defName>
     <label>制造乌拉帝国能源核心</label>
@@ -261,83 +404,6 @@
     </researchPrerequisites>
   </RecipeDef>
 
-  <RecipeDef>
-    <defName>Make_WULA_Dark_Matter_Item</defName>
-    <label>制造乌拉帝国暗物质</label>
-    <description>制造1份封装的暗物质，由暗物质约束装置和暗物质组成，是乌拉帝国大型设施和武备所必须的能量来源。</description>
-    <jobString>正在制造乌拉帝国暗物质</jobString>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <!-- 允许混合成分 -->
-    <allowMixingIngredients>false</allowMixingIngredients>
-    <skillRequirements>
-      <Crafting>15</Crafting>
-    </skillRequirements>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WULA_Charge_Cube</li>
-          </thingDefs>
-        </filter>
-        <count>25</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentSpacer</li>
-          </thingDefs>
-        </filter>
-        <count>8</count>
-      </li>
-    </ingredients>
-    <products>
-      <WULA_Dark_Matter_Item>1</WULA_Dark_Matter_Item>
-    </products>
-    <workSkill>Crafting</workSkill>
-    <displayPriority>100</displayPriority>
-    
-    <researchPrerequisites>
-      <li>WULA_Dark_Matter_Technology</li>
-    </researchPrerequisites>
-  </RecipeDef>
-  <RecipeDef>
-    <defName>Make_WULA_Neutronium</defName>
-    <label>以乌拉帝国暗物质压缩零素</label>
-    <description>以1份乌拉帝国暗物质制造10份零素，一种强大的材料，可以打造出最坚硬的护甲或者最强大的近战武器。</description>
-    <jobString>正在压缩零素</jobString>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>15000</workAmount>
-    <!-- 允许混合成分 -->
-    <allowMixingIngredients>false</allowMixingIngredients>
-    <skillRequirements>
-      <Crafting>15</Crafting>
-    </skillRequirements>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WULA_Dark_Matter_Item</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-    <products>
-      <WULA_Neutronium>10</WULA_Neutronium>
-    </products>
-    <workSkill>Crafting</workSkill>
-    <displayPriority>100</displayPriority>
-    
-    <researchPrerequisites>
-      <li>WULA_Neutronium_Technology</li>
-    </researchPrerequisites>
-  </RecipeDef>
 
   <RecipeDef ParentName="BaseMechanoidRecipe">
     <defName>WULA_Build_Wula_Synth</defName>

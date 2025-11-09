@@ -1,0 +1,808 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- 猫猫地堡 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Cat_Bunker_Cleanzone</defName>
+    <label>乌拉猫猫地堡</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n乌拉猫猫地堡是集生产和防御为一体的坚实建筑，3只乌拉猫猫自律机械体会和地堡一起空降。地堡可供乌拉猫猫更换工作类型，并允许乌拉猫猫进驻使用内部武器击败来犯敌军。</description>
+    <uiIconPath>Wula/Building/WULA_Cat_Bunker_south</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Cat_Bunker</ThingDef>
+      <ThingDef>Mech_WULA_Cat</ThingDef>
+      <ThingDef>Mech_WULA_Cat_Constructor</ThingDef>
+      <ThingDef>Mech_WULA_Cat_Assault</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Bunker_Drop_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(3,3)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <costList>
+      <Steel>300</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>21</radius> <!-- 半径大小 -->
+        <color>(1, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>射程</label>
+        <description>在该建筑空降到指定地点时，其炮台武器的最大射程。</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>WULA_Cat_Bunker_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Cat_Bunker_Incoming</defName>
+    <label>乌拉猫猫地堡（空投中）</label>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Cat_Bunker_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Cat_Bunker</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Cat_Bunker</defName>
+    <label>乌拉猫猫地堡</label>
+    <description>这是一个从乌拉帝国母舰上空投下来的地堡，它拥有一些预制件，可以供乌拉猫猫更换其工作类型。此外，当敌人袭击时，可将乌拉猫猫召回至地堡内，它们将在地堡里对外射击以击退来犯者。</description>
+    <thingClass>WulaFallenEmpire.Building_MechanoidRecycler</thingClass>
+    <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Cat_Bunker_TurretGun</ThingDef>
+      <ThingDef>Mech_WULA_Cat</ThingDef>
+      <ThingDef>Mech_WULA_Cat_Constructor</ThingDef>
+      <ThingDef>Mech_WULA_Cat_Assault</ThingDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Cat_Bunker</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+      <shadowData>
+        <volume>(1.65, 1.65, 0.85)</volume>
+        <offset>(0, 0, -0.2)</offset>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>42</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>20</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(3,3)</size>
+    <costList>
+      <Steel>200</Steel>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+    </building>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MechanoidRecycler">
+        <maxStorageCapacity>6</maxStorageCapacity>
+        
+        <!-- 可回收的机械族种族 -->
+        <recyclableRaces>
+          <li>Mech_WULA_Cat</li>
+          <li>Mech_WULA_Cat_Constructor</li>
+          <li>Mech_WULA_Cat_Assault</li>
+        </recyclableRaces>
+        <recycleJobDef>WULA_RecycleMechanoid</recycleJobDef>
+        <recycleRange>5</recycleRange>
+        
+        <!-- 可生成的机械族种类 -->
+        <spawnablePawnKinds>
+          <li>Mech_WULA_Cat</li>
+          <li>Mech_WULA_Cat_Constructor</li>
+          <li>Mech_WULA_Cat_Assault</li>
+        </spawnablePawnKinds>
+
+        <!-- 新增初始单位配置 -->
+        <initialUnits>
+          <li>
+            <pawnKindDef>Mech_WULA_Cat</pawnKindDef>
+            <count>1</count>
+          </li>
+          <li>
+            <pawnKindDef>Mech_WULA_Cat_Constructor</pawnKindDef>
+            <count>1</count>
+          </li>
+          <li>
+            <pawnKindDef>Mech_WULA_Cat_Assault</pawnKindDef>
+            <count>1</count>
+          </li>
+        </initialUnits>
+
+        <!-- <ownershipFaction>Player</ownershipFaction> -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_StorageTurret">
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef> <!-- 替换为您想要的炮塔 -->
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
+        <maxTurrets>6</maxTurrets>
+        <turretSpacing>1.5</turretSpacing>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>WULA_Cat_Bunker_TurretGun</defName>
+    <label>地堡炮塔</label>
+    <description>由进入地堡的乌拉猫猫操纵的炮塔——说那么多干什么，扣扳机就完了，殖民地会报销弹药的。</description>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.3</AccuracyShort>
+      <AccuracyMedium>0.25</AccuracyMedium>
+      <AccuracyLong>0.12</AccuracyLong>
+      <RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_WULA_RW_Base_AR</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>21</range>
+        <ticksBetweenBurstShots>32</ticksBetweenBurstShots>
+        <burstShotCount>2</burstShotCount>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- 反坦克炮 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Base_ATGun_Turret_Cleanzone</defName>
+    <label>ATt-6"金红石"反战车炮塔</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\nATt-6"金红石"反战车炮塔是一种需要通电才能运转的中型防御炮塔，依靠澎湃的电磁动力发射高穿透性的炮弹。这种炮台的射速不是很高，但是穿甲能力很强，且会造成小范围溅射伤害。</description>
+    <uiIconPath>Wula/Building/Wula_Base_ATGun_Turret</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_Base_ATGun_Turret_Weapon</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Turret_Base_AT_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(3,3)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <costList>
+      <Steel>300</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>75</radius> <!-- 半径大小 -->
+        <color>(1, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>射程</label>
+        <description>在该建筑空降到指定地点时，其炮台武器的最大射程。</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Wula_Base_ATGun_Turret_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Wula_Base_ATGun_Turret_Incoming</defName>
+    <label>ATt-6"金红石"反战车炮塔（空投中）</label>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Base_ATGun_Turret_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(3,3.75)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>Wula_Base_ATGun_Turret</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Base_ATGun_Turret</defName>
+    <label>ATt-6"金红石"反战车炮塔</label>
+    <description>ATt-6"金红石"反战车炮塔是一种需要通电才能运转的中型防御炮塔，依靠澎湃的电磁动力发射高穿透性的炮弹。这种炮台的射速不是很高，但是穿甲能力很强，且会造成小范围溅射伤害。</description>
+    <thingClass>WulaFallenEmpire.Building_TurretGunHasSpeed</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExt_HasSpeedTurret">
+        <speed>0.5</speed>        <!-- 旋转速度 (度/Tick)。值越大，旋转越快。 -->
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Turret_Component</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <!-- <drawOffset>(0,0,-0.16)</drawOffset> -->
+      <damageData>
+        <rect>(0.3,0.3,1.4,1.4)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.5,0.35,0.75)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <receivesSignals>true</receivesSignals>
+    <uiIconPath>Wula/Building/Wula_Base_ATGun_Turret</uiIconPath>
+    <uiIconScale>1.0</uiIconScale>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3200</WorkToBuild>
+      <Mass>80</Mass>
+      <Beauty>0</Beauty>
+      <ShootingAccuracyTurret>1.00</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Steel>200</Steel>
+      <Plasteel>30</Plasteel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <building>
+      <combatPower>640</combatPower>
+      <!--<buildingTags>
+        <li>SRAClusterMember</li>
+        <li>SRAClusterCombatThreat</li>
+        <li>SRA_SmallCluster_SingleTurret</li>
+      </buildingTags>-->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Wula_Base_ATGun_Turret_Weapon</turretGunDef>
+      <turretBurstCooldownTime>3</turretBurstCooldownTime>
+      <turretTopOffset>(-0.04, 0)</turretTopOffset>
+      <turretTopDrawSize>5.0</turretTopDrawSize>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_Initiatable" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+      <li Class="CompProperties_Stunnable">
+        <affectedDamageDefs>
+          <li>EMP</li>
+        </affectedDamageDefs>
+      </li>
+      <li Class="CompProperties_AmbientSound">
+        <sound>MechTurretBig_Call</sound>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>300</basePowerConsumption> <!-- This is now idle power -->
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Wula_Base_ATGun_Turret_Weapon</defName>
+    <label>ATt-6"金红石"</label>
+    <description>反战车炮塔，可以从极远距离上精准地点杀高价值目标。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Base_ATGun_Turret_Weapon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <uiIconScale>0.33</uiIconScale>
+    <statBases>
+      <Mass>150</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>2</AccuracyShort>
+      <AccuracyMedium>2</AccuracyMedium>
+      <AccuracyLong>2</AccuracyLong>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_WM_Panzer_Turret</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <defaultCooldownTime>4</defaultCooldownTime>
+        <minRange>5.9</minRange>
+        <range>75</range>
+        <burstShotCount>1</burstShotCount>
+        <forcedMissRadius>0.1</forcedMissRadius>
+        <soundCast>WULA_MW_Mass_Drivers_Shootingsound</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>18</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_WM_Panzer_Turret</defName>
+    <label>金红石穿甲弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>5</drawSize>
+    </graphicData>
+    <projectile>
+    </projectile>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>180</damageAmountBase>
+      <speed>220</speed>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <explosionRadius>3.5</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <stoppingPower>10</stoppingPower>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>
+        <fleckMakeFleckTickMax>5</fleckMakeFleckTickMax>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <!-- 激光炮 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Base_Laser_Turret_Cleanzone</defName>
+    <label>MLt-1"棱晶"激光炮塔</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\nMLt-1"棱晶"激光炮塔是一种需要通电才能运转的中型防御炮塔，能够以高能激光束持续照射一个目标将其气化。装载在炮塔上的激光武器不需要预热，因此对付多个目标的效果要优于手持光束武器。</description>
+    <uiIconPath>Wula/Building/Wula_Base_Laser_Turret</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_Base_ATGun_Turret_Weapon</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3.5)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Turret_Base_AT_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(3,3)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <costList>
+      <Steel>300</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>52</radius> <!-- 半径大小 -->
+        <color>(1, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>射程</label>
+        <description>在该建筑空降到指定地点时，其炮台武器的最大射程。</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Wula_Base_Laser_Turret_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Wula_Base_Laser_Turret_Incoming</defName>
+    <label>MLt-1"棱晶"激光炮塔（空投中）</label>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Base_Laser_Turret_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(3,3.75)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>Wula_Base_Laser_Turret</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Base_Laser_Turret</defName>
+    <label>MLt-1"棱晶"激光炮塔</label>
+    <description>MLt-1"棱晶"激光炮塔是一种需要通电才能运转的中型防御炮塔，能够以高能激光束持续照射一个目标将其气化。装载在炮塔上的激光武器不需要预热，因此对付多个目标的效果要优于手持光束武器。</description>
+    <thingClass>WulaFallenEmpire.Building_TurretGunHasSpeed</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExt_HasSpeedTurret">
+        <speed>0.5</speed>        <!-- 旋转速度 (度/Tick)。值越大，旋转越快。 -->
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Turret_Component</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <!-- <drawOffset>(0,0,-0.16)</drawOffset> -->
+      <damageData>
+        <rect>(0.3,0.3,1.4,1.4)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.5,0.35,0.75)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <receivesSignals>true</receivesSignals>
+    <uiIconPath>Wula/Building/Wula_Base_Laser_Turret</uiIconPath>
+    <uiIconScale>1.0</uiIconScale>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3200</WorkToBuild>
+      <Mass>80</Mass>
+      <Beauty>0</Beauty>
+      <ShootingAccuracyTurret>1.00</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Steel>200</Steel>
+      <Plasteel>30</Plasteel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <building>
+      <combatPower>640</combatPower>
+      <!--<buildingTags>
+        <li>SRAClusterMember</li>
+        <li>SRAClusterCombatThreat</li>
+        <li>SRA_SmallCluster_SingleTurret</li>
+      </buildingTags>-->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Wula_Base_Laser_Turret_Weapon</turretGunDef>
+      <turretBurstCooldownTime>0.01</turretBurstCooldownTime>
+      <turretTopOffset>(-0.04, 0)</turretTopOffset>
+      <turretTopDrawSize>5.0</turretTopDrawSize>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_Initiatable" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+      <li Class="CompProperties_Stunnable">
+        <affectedDamageDefs>
+          <li>EMP</li>
+        </affectedDamageDefs>
+      </li>
+      <li Class="CompProperties_AmbientSound">
+        <sound>MechTurretBig_Call</sound>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>500</basePowerConsumption> <!-- This is now idle power -->
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Wula_Base_Laser_Turret_Weapon</defName>
+    <label>MLt-1"棱晶"</label>
+    <description>激光炮塔，通过持续照射融化敌军。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Base_Laser_Turret_Weapon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <uiIconScale>0.33</uiIconScale>
+    <statBases>
+      <Mass>150</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>2</AccuracyShort>
+      <AccuracyMedium>2</AccuracyMedium>
+      <AccuracyLong>2</AccuracyLong>
+    </statBases>
+    <verbs>
+      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
+        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
+
+        <!-- 基础射线参数 -->
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>52</range>
+        <burstShotCount>32</burstShotCount>
+        <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+        <beamDamageDef>WULA_RW_Handle_Cannon_Burn</beamDamageDef>
+        <beamTotalDamage>1</beamTotalDamage>
+
+        <!-- 消除射线偏移的参数 -->
+        <beamFullWidthRange>1000</beamFullWidthRange>
+        <beamWidth>-1</beamWidth>
+        <beamMaxDeviation>0</beamMaxDeviation>
+        <beamCurvature>0</beamCurvature>
+        <beamStartOffset>0</beamStartOffset>
+
+        <!-- 视觉和音效 -->
+        <muzzleFlashScale>0</muzzleFlashScale>
+        <soundCastBeam>WULA_RW_Beam_Shootingsound</soundCastBeam>
+        <beamMoteDef>Mote_WULA_RW_Handle_Cannon_Beam</beamMoteDef>
+        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
+
+        <screenShakeFactor>0</screenShakeFactor>
+
+        <!-- 火焰效果 -->
+        <beamChanceToStartFire>1</beamChanceToStartFire>
+        <beamChanceToAttachFire>0</beamChanceToAttachFire>
+        <beamFireSizeRange>0</beamFireSizeRange>
+
+        <!-- 其他射线属性 -->
+        <beamStartOffset>0.8</beamStartOffset>
+        <beamHitsNeighborCells>true</beamHitsNeighborCells>
+        <beamLineFleckChanceCurve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.65, 0.4)</li>
+            <li>(1, 0.75)</li>
+          </points>
+        </beamLineFleckChanceCurve>
+
+        <!-- 攻击目标设置 -->
+        <targetParams>
+          <canTargetLocations>false</canTargetLocations>
+        </targetParams>
+
+        <!-- 每发都爆炸 -->
+        <enableExplosion>false</enableExplosion>
+        <explosionShotInterval>1</explosionShotInterval>
+        <explosionRadius>0</explosionRadius>
+        <explosionDamageDef>Burn</explosionDamageDef>
+        <explosionDamage>1</explosionDamage>
+        <!-- <explosionSound>Explosion_Stun</explosionSound> -->
+        <chanceToStartFire>1</chanceToStartFire>
+
+        <aimingChargeMote>Mote_WULA_Beam_Charge</aimingChargeMote>
+        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+      </li>
+    </verbs>
+  </ThingDef>
+</Defs>

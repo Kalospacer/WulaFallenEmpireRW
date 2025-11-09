@@ -47,11 +47,6 @@ namespace WulaFallenEmpire
         public bool showSectorPreview = true;          // 是否显示扇形预览
         public Color sectorPreviewColor = new Color(0.3f, 0.7f, 1f, 0.3f);
 
-        // 航道等级系统配置
-        public bool useLaneLevelSystem = false;        // 是否使用航道等级系统
-        public int laneLevel = 0;                      // 该技能的航道等级
-        public string flyOverTypeName = "default";     // FlyOver类型名称
-
         public CompProperties_AbilitySpawnFlyOver()
         {
             this.compClass = typeof(CompAbilityEffect_SpawnFlyOver);

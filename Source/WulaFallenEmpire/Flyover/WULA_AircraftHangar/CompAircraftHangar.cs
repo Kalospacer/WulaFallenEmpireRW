@@ -10,13 +10,13 @@ namespace WulaFallenEmpire
         public ThingDef aircraftDef; // 对应的战机定义
         public int aircraftCount = 1; // 起飞后提供的战机数量
         public ThingDef skyfallerLeaving; // 起飞时的天空坠落者效果
-        
+
         // 新增：自动发射配置
         public bool autoLaunchEnabled = false; // 是否启用自动发射
         public int autoLaunchDelayTicks = 600; // 自动发射延迟（ticks，默认10秒）
         public bool autoLaunchOnConstruction = true; // 建造完成后自动发射
         public bool autoLaunchOnPowerOn = false; // 通电时自动发射
-        
+
         public CompProperties_AircraftHangar()
         {
             compClass = typeof(CompAircraftHangar);
@@ -26,16 +26,16 @@ namespace WulaFallenEmpire
     public class CompAircraftHangar : ThingComp
     {
         public CompProperties_AircraftHangar Props => (CompProperties_AircraftHangar)props;
-        
+
         // 新增：自动发射状态
         private bool autoLaunchScheduled = false;
         private int autoLaunchTick = -1;
         private bool hasLaunched = false;
-        
+
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            
+
             if (!respawningAfterLoad && Props.autoLaunchEnabled && Props.autoLaunchOnConstruction)
             {
                 ScheduleAutoLaunch();
@@ -53,7 +53,7 @@ namespace WulaFallenEmpire
         public override void CompTick()
         {
             base.CompTick();
-            
+
             // 处理自动发射
             if (Props.autoLaunchEnabled && !hasLaunched)
             {
@@ -94,7 +94,7 @@ namespace WulaFallenEmpire
 
             autoLaunchScheduled = true;
             autoLaunchTick = Find.TickManager.TicksGame + Props.autoLaunchDelayTicks;
-            
+
             Messages.Message("AircraftAutoLaunchScheduled".Translate(Props.aircraftDef.LabelCap, (Props.autoLaunchDelayTicks / 60f).ToString("F1")), parent, MessageTypeDefOf.NeutralEvent);
         }
 
@@ -160,7 +160,7 @@ namespace WulaFallenEmpire
 
             // 获取全局战机管理器
             WorldComponent_AircraftManager aircraftManager = Find.World.GetComponent<WorldComponent_AircraftManager>();
-            
+
             if (aircraftManager == null)
             {
                 Log.Error("AircraftManagerNotFound".Translate());
@@ -169,10 +169,10 @@ namespace WulaFallenEmpire
 
             // 立即向全局管理器注册战机
             aircraftManager.AddAircraft(Props.aircraftDef, Props.aircraftCount, parent.Faction);
-            
+
             // 显示消息
             Messages.Message("AircraftLaunched".Translate(Props.aircraftCount, Props.aircraftDef.LabelCap), parent, MessageTypeDefOf.PositiveEvent);
-            
+
             // 创建起飞效果（仅视觉效果）
             if (Props.skyfallerLeaving != null)
             {
@@ -195,25 +195,25 @@ namespace WulaFallenEmpire
                 // 创建 1 单位 Chemfuel 作为 Skyfaller 的内容物
                 Thing chemfuel = ThingMaker.MakeThing(ThingDefOf.Chemfuel);
                 chemfuel.stackCount = 1;
-                
+
                 // 创建包含 Chemfuel 的 Skyfaller
                 Skyfaller skyfaller = SkyfallerMaker.MakeSkyfaller(Props.skyfallerLeaving, chemfuel);
-                
+
                 // 设置起飞位置（建筑当前位置）
                 IntVec3 takeoffPos = parent.Position;
-                
+
                 // 检查地图是否有效
                 if (parent.Map == null)
                 {
                     Log.Error("TakeoffEffectMapNull".Translate());
                     return;
                 }
-                
+
                 // 生成 Skyfaller
                 GenSpawn.Spawn(skyfaller, takeoffPos, parent.Map);
-                
+
                 Log.Message("TakeoffSkyfallerCreated".Translate(takeoffPos));
-                
+
                 // 销毁原建筑
                 parent.Destroy(DestroyMode.Vanish);
             }
