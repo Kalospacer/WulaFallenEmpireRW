@@ -92,6 +92,69 @@
       <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+
+  <!-- 炮击 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Firepower_Minigun_Technology</defName>
+    <label>链炮打击许可</label>
+    <description>允许殖民地申请来自武器阵列的链炮进行近地支援打击。\n\n链炮是一种射速非常快的大口径机炮，得益于乌拉帝国优秀的材料学，其弹头在穿越大气层后依然保有对轻甲目标的强大杀伤力。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>5.00</researchViewY>
+    <prerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Battleship_Technology</defName>
+    <label>护航舰调配许可</label>
+    <description>允许殖民地建立信标增加护航舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援。\n\n乌拉帝国边缘开发署的护航舰是近地支援舰队的基础作战单位，它们的体积虽然不如战列巡洋舰那样庞大，但是依然搭载了让地面武装望尘莫及的庞大火炮阵列，可以对地面发起骇人的轰炸。\n\n护航舰拥有以下设施：\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
+    <baseCost>600</baseCost>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>5.00</researchViewY>
+    <prerequisites>
+      <li>WULA_Firepower_Minigun_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Firepower_Cannon_Technology</defName>
+    <label>副炮打击许可</label>
+    <description>允许殖民地申请来自武器阵列的轻型舰炮进行近地支援打击。\n\n乌拉帝国的轻型舰炮是用于在太空战中对付中小型舰船的速射炮——当然，对地面目标同样有效。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>5.00</researchViewY>
+    <hiddenPrerequisites>
+      <li>WULA_Battleship_Technology</li>
+    </hiddenPrerequisites>  
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Firepower_EnergyLance_Technology</defName>
+    <label>光矛打击许可</label>
+    <description>允许殖民地申请来自武器阵列的光矛进行近地支援打击。\n\n暗物质光矛是乌拉帝国舰队现役的主战装备之一，杀伤力来源是近乎纯净的能量，无论何种装甲防御在其面前都是螳臂当车。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>5.00</researchViewY>
+    <hiddenPrerequisites>
+      <li>WULA_Firepower_Cannon_Technology</li>
+    </hiddenPrerequisites>  
+    <prerequisites>
+      <li>WULA_Colony_License_LV3_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Firepower_Primary_Cannon_Technology</defName>
+    <label>主炮打击许可</label>
+    <description>允许殖民地申请来自武器阵列的主炮进行近地支援打击。\n\n乌拉帝国战舰的主炮被安装在轴线上，充当舰队战中的定音锤。如果把那些足以击碎舰队龙骨的炮弹射到地上的话···\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>10.00</researchViewX>
+    <researchViewY>5.00</researchViewY>
+    <prerequisites>
+      <li>WULA_Firepower_EnergyLance_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
   
   <!-- 建筑 -->
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -179,7 +242,7 @@
   <!-- 防御 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Turret_Base_AT_Technology</defName>
-    <researchViewX>6.00</researchViewX>
+    <researchViewX>7.00</researchViewX>
     <researchViewY>1.40</researchViewY>
     <label>反战车磁轨炮许可</label>
     <description>允许殖民地申请空投反战车磁轨炮台，可以在远距离上击穿拥有厚重装甲的敌人。</description>
@@ -194,7 +257,7 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Turret_Base_Laser_Technology</defName>
-    <researchViewX>7.00</researchViewX>
+    <researchViewX>6.00</researchViewX>
     <researchViewY>1.40</researchViewY>
     <label>涡轮激光炮许可</label>
     <description>允许殖民地申请空投激光炮台，可以持续定向烧灼敌军，最大限度地击伤对手并留存战利品和俘虏。</description>
@@ -207,7 +270,6 @@
       <li>WULA_Colony_License_LV2_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
-
 
   <!-- 武器 -->
   <ResearchProjectDef ParentName="WULAtechBase">

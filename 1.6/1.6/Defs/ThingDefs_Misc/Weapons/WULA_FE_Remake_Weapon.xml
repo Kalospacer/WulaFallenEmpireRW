@@ -344,7 +344,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Stun_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_3_Melee_Technology</researchPrerequisite>
       <skillRequirements>
         <Crafting>7</Crafting>
       </skillRequirements>
@@ -2006,7 +2006,7 @@
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
     <defName>WULA_RW_Auto_GL</defName>
     <label>SEl-78"角砾岩"</label>
-    <description>乌拉帝国所装备的自动榴弹炮，主要发射用于对抗低护甲集群的杀伤性榴弹，优秀的供弹结构使其射速较同类武器快得多。除此之外，它也能临时装填和发射EMP榴弹或烟雾榴弹，这使其成为了一款多功能的支援型武器。</description>
+    <description>乌拉帝国所装备的自动榴弹炮，主要发射用于对抗低护甲集群的杀伤性榴弹，优秀的供弹结构使其射速较同类武器快得多。除此之外，它也能临时装填和发射烟雾榴弹，这使其成为了一款多功能的支援型武器。</description>
     <techLevel>Ultra</techLevel>
     <tradeability>None</tradeability>
     <!-- <techLevel>Spacer</techLevel> -->

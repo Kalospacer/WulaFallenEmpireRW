@@ -327,7 +327,7 @@
   <WULA_GlobalFlyOverCooldown.FacilityStatus>武器阵列：{0}个就绪，{1}个冷却中</WULA_GlobalFlyOverCooldown.FacilityStatus>
   <WULA_GlobalFlyOverCooldown.FacilityStatusError>设施状态错误</WULA_GlobalFlyOverCooldown.FacilityStatusError>
   <WULA_GlobalFlyOverCooldown.FacilityStatusDetailed>武器阵列：{0}个就绪，{1}个冷却中</WULA_GlobalFlyOverCooldown.FacilityStatusDetailed>
-  <WULA_GlobalFlyOverCooldown.CooldownTime>冷却时间：{0}</WULA_GlobalFlyOverCooldown.CooldownTime>
+  <WULA_GlobalFlyOverCooldown.CooldownTime>使用此支援后，武器阵列的冷却时间：{0}</WULA_GlobalFlyOverCooldown.CooldownTime>
   <WULA_GlobalFlyOverCooldown.NoAvailableFacilitiesSimple>没有可用的武器阵列</WULA_GlobalFlyOverCooldown.NoAvailableFacilitiesSimple>
   
   <!-- FlyOverCooldown 翻译 -->

@@ -8,6 +8,9 @@
     <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>WulaWall</ThingDef>
+    </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
     </thingCategories>
@@ -173,6 +176,9 @@
     <defName>WulaDoor_Cleanzone</defName>
     <label>乌拉帝国大门</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n乌拉帝国堡垒的大门不仅能够抵御大量爆炸和震荡伤害，还拥有无需通电即可运转的伺服系统来增加大门通过速度。</description>
+    <descriptionHyperlinks>
+      <ThingDef>WulaDoor</ThingDef>
+    </descriptionHyperlinks>
     <thingClass>Building_Door</thingClass>
     <category>Building</category>
     <altitudeLayer>DoorMoveable</altitudeLayer>
@@ -462,6 +468,7 @@
     <tickerType>Normal</tickerType>
     <descriptionHyperlinks>
       <ThingDef>WulaSpecies</ThingDef>
+      <ThingDef>WULA_MaintenancePod</ThingDef>
     </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
@@ -655,6 +662,9 @@
     <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_WeaponArmor_Productor</ThingDef>
+    </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
     </thingCategories>
@@ -817,6 +827,9 @@
     <uiIconPath>Wula/Building/WULA_Machine_Recharger</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Machine_Recharger</ThingDef>
+    </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
     </thingCategories>
@@ -984,6 +997,9 @@
     <uiIconPath>Wula/Building/WULA_Charging_Station_Synth_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Charging_Station_Synth</ThingDef>
+    </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
     </thingCategories>
@@ -1140,6 +1156,9 @@
     <uiIconPath>Wula/Building/WULA_Cube_Productor_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Cube_Productor</ThingDef>
+    </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
     </thingCategories>
@@ -1311,6 +1330,9 @@
     <uiIconPath>Wula/Building/Wula_DarkEnergy_Generators</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_DarkEnergy_Generators</ThingDef>
+    </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
     </thingCategories>

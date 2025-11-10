@@ -43,12 +43,24 @@
     <buildingDamageFactorPassable>5</buildingDamageFactorPassable>
   </DamageDef>
 
+  <!-- 不要删掉这个伤害类，有一个C#硬代码正在使用 -->
   <DamageDef ParentName="Flame">
     <defName>Wula_Dark_Matter_Flame</defName>
     <label>暗物质湮灭</label>
-    <deathMessage>{0} 由于暗物质湮灭爆炸而死。</deathMessage>
+    <deathMessage>{0} 被暗物质湮灭带来的高能射流蒸发。</deathMessage>
+    <defaultDamage>15</defaultDamage>
+    <defaultArmorPenetration>2</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>5</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>5</buildingDamageFactorPassable>
   </DamageDef>
 
+  <DamageDef ParentName="Bullet">
+    <defName>WULA_Firepower_Minigun_Strafe_Damage</defName>
+    <label>子弹</label>
+    <defaultDamage>25</defaultDamage>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+  </DamageDef>
+  
   <DamageDef ParentName="Wula_Dark_Matter_Beam_DMG">
     <defName>Wula_Psi_Damage</defName>
     <ignoreShields>true</ignoreShields>
@@ -250,4 +262,12 @@
     <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
   </DamageDef>
 
+  <DamageDef ParentName="Bomb">
+    <defName>WULA_DarkMatterBomb</defName>
+    <label>暗物质湮灭爆炸</label>
+    <defaultDamage>550</defaultDamage>
+    <defaultStoppingPower>2.0</defaultStoppingPower>
+    <defaultArmorPenetration>1.30</defaultArmorPenetration>
+    <explosionCenterEffecter>WULA_DarkMatterBomb_Shockwave</explosionCenterEffecter>
+  </DamageDef>
 </Defs>

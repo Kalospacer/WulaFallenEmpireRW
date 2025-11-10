@@ -75,8 +75,11 @@
         <abilityDefs>
           <li>WULA_Firepower_Minigun_Strafe</li>
           <li>WULA_Firepower_Cannon_Salvo</li>
-          <li>WULA_Firepower_Cannon_Surveillance_Beacon</li>
+          <li>WULA_Firepower_Cannon_Surveillance</li>
           <li>WULA_Firepower_EnergyLance_Strafe</li>
+          <li>WULA_Firepower_EnergyLance_Surveillance</li>
+          <li>WULA_Firepower_Primary_Cannon_Strafe</li>
+          <li>WULA_Firepower_Primary_Cannon_EMP_Surveillance</li>
         </abilityDefs>
       </li>
     </comps>

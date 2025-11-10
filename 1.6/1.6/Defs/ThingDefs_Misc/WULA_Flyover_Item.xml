@@ -743,21 +743,16 @@
       <explosionDamageFactor>1</explosionDamageFactor>
     </skyfaller>
   </ThingDef>
-  <DamageDef ParentName="Bullet">
-    <defName>WULA_Firepower_Minigun_Strafe_Damage</defName>
-    <label>子弹</label>
-    <defaultDamage>25</defaultDamage>
-    <soundExplosion>Explosion_Bomb</soundExplosion>
-  </DamageDef>
   <ThingDef ParentName="SkyfallerBase">
     <defName>WULA_Firepower_Cannon_Salvo_Skyfaller</defName>
     <label>轻型副炮炮弹</label>
     <size>(1, 1)</size>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <texPath>Wula/Projectile/WULA_Energy_Shell</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
       <drawSize>8</drawSize>
+      <color>(86,66,157,255)</color>
     </graphicData>
     <skyfaller>
       <movementType>Accelerate</movementType>
@@ -791,21 +786,25 @@
     <label>舰炮监视信标</label>
     <size>(1,1)</size>
     <graphicData>
-      <texPath>Wula/Building/WULA_WeaponArmor_Productor_Incoming</texPath>
+      <texPath>Wula/Building/WULA_Surveillance_Building</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutFlying</shaderType>
-      <drawSize>(1,1)</drawSize>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(24,24)</drawSize>
+      <color>(255,255,255,150)</color>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
     </graphicData>
     <skyfaller>
-      <movementType>Accelerate</movementType>
+      <movementType>Decelerate</movementType>
       <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
-      <shadowSize>(5, 5)</shadowSize>
+      <shadowSize>(0, 0)</shadowSize>
       <anticipationSound>DropPod_Fall</anticipationSound>
       <anticipationSoundTicks>100</anticipationSoundTicks>
-      <impactSound>Explosion_Vaporize</impactSound>
+      <!-- <impactSound>Explosion_Vaporize</impactSound> -->
       <moteSpawnTime>0.05</moteSpawnTime>
-      <motesPerCell>1</motesPerCell>
-      <cameraShake>1</cameraShake>
+      <motesPerCell>0</motesPerCell>
+      <cameraShake>0</cameraShake>
       <angleCurve>
         <points>
           <li>(0,0)</li>
@@ -819,15 +818,17 @@
     <defName>WULA_Firepower_Cannon_Surveillance_Beacon</defName>
     <label>舰炮监视信标</label>
     <description>一枚标定监视区的轰炸信标，进入此处的敌对势力都会被乌拉帝国舰队的舰炮狠狠打击。</description>
-    <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath>
+    <!-- <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath> -->
     <tickerType>Normal</tickerType>
-    <selectable>true</selectable>
+    <selectable>false</selectable>
     <useHitPoints>false</useHitPoints>
     <size>(1,1)</size>
     <graphicData>
-      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3,3)</drawSize>
+      <texPath>Wula/Building/WULA_Surveillance_Building</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(24,24)</drawSize>
+      <color>(255,255,255,150)</color>
       <damageData>
         <enabled>false</enabled>
       </damageData>
@@ -847,22 +848,10 @@
     </statBases>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <building>
+      <expandHomeArea>false</expandHomeArea>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>
     <comps>
-      <li Class="CompProperties_OrbitalBeam">
-        <width>0.2</width>
-        <color>(255, 20, 20, 242)</color>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
-        <radius>12</radius> <!-- 半径大小 -->
-        <color>(0.85,0.85,0.3)</color> <!-- 绿色圆圈 -->
-        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
-        <showInGUI>true</showInGUI>
-        <label>射程</label>
-        <description>该信标所标定的舰炮监视范围，进入其中的敌军将遭到炮击</description>
-        <defaultVisible>true</defaultVisible>
-      </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingBombardment">
         <radius>12</radius>
         <targetEnemies>true</targetEnemies>
@@ -888,6 +877,12 @@
       </li>
     </comps>
   </ThingDef>
+  <DamageDef ParentName="Bullet">
+    <defName>WULA_Firepower_Minigun_Strafe_Damage</defName>
+    <label>子弹</label>
+    <defaultDamage>25</defaultDamage>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+  </DamageDef>
   <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_EnergyLance_Base</defName>
     <label>乌拉帝国光矛</label>
@@ -900,11 +895,23 @@
     
     <modExtensions>
       <li Class="WulaFallenEmpire.EnergyLanceExtension">
-        <moveSmoothing>0.001</moveSmoothing>
-        <moteSpawnInterval>3</moteSpawnInterval>
-        <moteScale>0.8</moteScale>
+        <moteSpawnInterval>9999</moteSpawnInterval>
+
         <firesPerTick>2</firesPerTick>
-        <effectRadius>8</effectRadius>
+        <effectRadius>15</effectRadius>
+
+        <flightSpeed>3</flightSpeed>
+        <acceleration>2</acceleration> 
+        <maxSpeed>5</maxSpeed>
+        <turnSpeed>90</turnSpeed>
+
+        <useDynamicMovement>true</useDynamicMovement>
+        <snapToTarget>false</snapToTarget>
+        <snapDistance>0</snapDistance>
+
+        <hoverOverTarget>true</hoverOverTarget>
+        <attackRange>15</attackRange>
+        <hoverAltitude>20</hoverAltitude>
       </li>
       <li Class="WulaFallenEmpire.AbilityWeaponDefExtension">
         <weaponDef>WULA_RW_Base_AR</weaponDef>
@@ -916,7 +923,7 @@
       <li Class="CompProperties_OrbitalBeam">
         <width>6</width>
         <color>(147, 116, 201, 212)</color>
-        <sound>OrbitalBeam</sound>
+        <!-- <sound>OrbitalBeam</sound> -->
       </li>
       
       <!-- 相机震动 -->
@@ -926,8 +933,6 @@
       
       <!-- 天空效果 -->
       <li Class="CompProperties_AffectsSky">
-        <fadeInTicks>30</fadeInTicks>
-        <fadeOutTicks>15</fadeOutTicks>
         <skyColors>
           <sky>(147, 116, 201)</sky>
           <shadow>(147, 116, 185)</shadow>
@@ -947,11 +952,11 @@
     <children>
       <li>
         <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
-        <soundDef>VoidStructure_Emerging</soundDef>
+        <soundDef>OrbitalBeam</soundDef>
       </li>
       <li>
         <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
-        <fleckDef>EnergyLance_Fleck</fleckDef>
+        <fleckDef>WULA_EnergyLance_Fleck</fleckDef>
         <chancePerTick>1</chancePerTick>
         <lifespanMaxTicks>999</lifespanMaxTicks>
         <chancePeriodTicks>40</chancePeriodTicks>
@@ -961,17 +966,7 @@
       </li>
       <li>
         <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
-        <fleckDef>EnergyLance_Fleck</fleckDef>
-        <chancePerTick>1</chancePerTick>
-        <lifespanMaxTicks>999</lifespanMaxTicks>
-        <chancePeriodTicks>40</chancePeriodTicks>
-        <burstCount>1~1</burstCount>
-        <scale>5</scale>
-        <spawnLocType>OnSource</spawnLocType>
-      </li>
-      <li>
-        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
-        <fleckDef>EnergyLance_Fleck</fleckDef>
+        <fleckDef>WULA_EnergyLance_Fleck</fleckDef>
         <chancePerTick>1</chancePerTick>
         <lifespanMaxTicks>999</lifespanMaxTicks>
         <chancePeriodTicks>40</chancePeriodTicks>
@@ -982,7 +977,7 @@
     </children>
   </EffecterDef>
   <FleckDef ParentName="FleckBase">
-    <defName>EnergyLance_Fleck</defName>
+    <defName>WULA_EnergyLance_Fleck</defName>
     <altitudeLayer>MoteOverhead</altitudeLayer>
     <fadeInTime>1</fadeInTime>
     <solidTime>0</solidTime>
@@ -1001,4 +996,405 @@
       <drawSize>10.0</drawSize>
     </graphicData>
   </FleckDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Firepower_EnergyLance_Surveillance_Skyfaller</defName>
+    <label>光矛监视信标</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Surveillance_Building</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(72,72)</drawSize>
+      <color>(255,255,255,150)</color>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <!-- <impactSound>Explosion_Vaporize</impactSound> -->
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>0</motesPerCell>
+      <cameraShake>0</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Firepower_EnergyLance_Surveillance_Beacon</spawnThing>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Firepower_EnergyLance_Surveillance_Beacon</defName>
+    <label>光矛监视信标</label>
+    <description>一枚标定监视区的轰炸信标，进入此处的敌对势力都会被乌拉帝国舰队的舰炮狠狠打击。</description>
+    <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath>
+    <tickerType>Normal</tickerType>
+    <selectable>false</selectable>
+    <useHitPoints>false</useHitPoints>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Surveillance_Building</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(72,72)</drawSize>
+      <color>(255,255,255,150)</color>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>0</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_EnergyLanceTurret">
+          <energyLanceDef>WULA_EnergyLance_Surveillance</energyLanceDef>
+          <energyLanceDuration>600</energyLanceDuration>
+          <energyLanceMoveDistance>25</energyLanceMoveDistance>
+          <detectionRange>36</detectionRange>
+          <targetUpdateInterval>30</targetUpdateInterval>
+          <targetSwitchRange>20</targetSwitchRange>
+          <warmupTicks>45</warmupTicks>
+          <cooldownTicks>180</cooldownTicks>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>4000</lifespanTicks>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(0.85,0.85,0.3,0.5)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WULA_EnergyLance_Surveillance</defName>
+    <label>乌拉帝国光矛</label>
+    <description>一束从乌拉帝国战舰上发射的纯净能量光束，将点燃路径上的一切活物。</description>
+    <thingClass>WulaFallenEmpire.EnergyLance</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+    <seeThroughFog>true</seeThroughFog>
+    
+    <!-- 比扫射用的光束结算更密集范围更小 -->
+    <modExtensions>
+      <li Class="WulaFallenEmpire.EnergyLanceExtension">
+        <moteSpawnInterval>9999</moteSpawnInterval>
+
+        <firesPerTick>1</firesPerTick>
+        <effectRadius>10</effectRadius>
+
+        <flightSpeed>3</flightSpeed>
+        <acceleration>2</acceleration> 
+        <maxSpeed>5</maxSpeed>
+        <turnSpeed>90</turnSpeed>
+
+        <useDynamicMovement>true</useDynamicMovement>
+        <snapToTarget>false</snapToTarget>
+        <snapDistance>0</snapDistance>
+
+        <hoverOverTarget>true</hoverOverTarget>
+        <attackRange>15</attackRange>
+        <hoverAltitude>20</hoverAltitude>
+      </li>
+      <li Class="WulaFallenEmpire.AbilityWeaponDefExtension">
+        <weaponDef>WULA_RW_Base_AR</weaponDef>
+      </li>
+    </modExtensions>
+
+    <comps>
+      <!-- 光束视觉效果 -->
+      <li Class="CompProperties_OrbitalBeam">
+        <width>6</width>
+        <color>(147, 116, 201, 212)</color>
+        <!-- <sound>OrbitalBeam</sound> -->
+      </li>
+      
+      <!-- 相机震动 -->
+      <li Class="CompProperties_CameraShaker">
+        <mag>0.02</mag>
+      </li>
+      
+      <!-- 天空效果 -->
+      <li Class="CompProperties_AffectsSky">
+        <skyColors>
+          <sky>(147, 116, 201)</sky>
+          <shadow>(147, 116, 185)</shadow>
+          <overlay>(147, 116, 150)</overlay>
+          <saturation>1.5</saturation>
+        </skyColors>
+      </li>
+
+      <li Class="CompProperties_Effecter">
+        <effecterDef>WULA_EnergyLance_Effecter</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Firepower_Primary_Cannon_Strafe_Skyfaller</defName>
+    <label>主炮炮弹</label>
+    <size>(1, 1)</size>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasma_Yellow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>15</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(5, 5)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Bomb</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <rotationCurve>
+        <points>
+          <li>(0,180)</li>
+          <li>(1, 181)</li>
+        </points>
+      </rotationCurve>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <explosionRadius>35</explosionRadius>
+      <explosionDamage>WULA_DarkMatterBomb</explosionDamage>
+      <explosionDamageFactor>1</explosionDamageFactor>
+      <spawnThing>CraterLarge</spawnThing>
+    </skyfaller>
+  </ThingDef>
+  <EffecterDef>
+    <defName>WULA_DarkMatterBomb_Shockwave</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>WULA_DarkMatterBomb_MechBandRedLine_Fleck</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>WULA_DarkMatterBomb_FlashStrong</moteDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <scale>24</scale>
+      </li>
+    </children>
+  </EffecterDef>
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>WULA_DarkMatterBomb_MechBandRedLine_Fleck</defName>
+    <altitudeLayer>LightingOverlay</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.28</fadeOutTime>
+    <solidTime>0.7</solidTime>
+    <growthRate>11</growthRate>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Mote/RedLineGlow</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MoteMultiplyAddCircular</shaderType>
+      <color>(78,0,106,215)</color>
+      <shaderParameters>
+        <_DistortionTex>/Things/Mote/RadiationDistortion_A</_DistortionTex>
+        <_texAScale>0.5</_texAScale>
+        <_texBScale>2</_texBScale>
+        <_texAScrollSpeed>0</_texAScrollSpeed>
+        <_texBScrollSpeed>-0.4</_texBScrollSpeed>
+        <_Intensity>0.5</_Intensity>
+        <_InnerFadeAmount>0</_InnerFadeAmount>
+        <_DistortionIntensity>0.5</_DistortionIntensity>
+        <_TexAScaleDivisorPerProgress>1.5</_TexAScaleDivisorPerProgress>
+      </shaderParameters>
+      <drawSize>(7, 7)</drawSize>
+    </graphicData>
+  </FleckDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>WULA_DarkMatterBomb_FlashStrong</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.1</fadeInTime>
+      <fadeOutTime>0.13</fadeOutTime>
+      <solidTime>0.1</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Mote/BrightFlash</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <color>(78,0,106,215)</color>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Firepower_Primary_Cannon_EMP_Surveillance_Skyfaller</defName>
+    <label>主炮EMP监视信标</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Surveillance_Building</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(200,200)</drawSize>
+      <color>(255,255,255,150)</color>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <!-- <impactSound>Explosion_Vaporize</impactSound> -->
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>0</motesPerCell>
+      <cameraShake>0</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon</spawnThing>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon</defName>
+    <label>主炮EMP监视信标</label>
+    <description>一枚标定监视区的轰炸信标，进入此处的敌对势力都会被乌拉帝国舰队的舰炮狠狠打击。</description>
+    <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath>
+    <tickerType>Normal</tickerType>
+    <selectable>false</selectable>
+    <useHitPoints>false</useHitPoints>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Surveillance_Building</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(170,170)</drawSize>
+      <color>(255,255,255,150)</color>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>0</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_BuildingBombardment">
+        <radius>100</radius>
+        <targetEnemies>true</targetEnemies>
+        <targetNeutrals>false</targetNeutrals>
+        <targetAnimals>false</targetAnimals>
+        <burstCount>1</burstCount>
+        <innerBurstIntervalTicks>15</innerBurstIntervalTicks>
+        <burstIntervalTicks>240</burstIntervalTicks>
+        <randomOffset>6</randomOffset>
+        <skyfallerDef>WULA_Firepower_Primary_Cannon_EMP_Skyfaller</skyfallerDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>12000</lifespanTicks>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(0.85,0.85,0.3,0.5)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Firepower_Primary_Cannon_EMP_Skyfaller</defName>
+    <label>主炮炮弹</label>
+    <size>(1, 1)</size>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_Plasma_Yellow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>15</drawSize>
+      <color>(13,88,195,255)</color>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(5, 5)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_EMP</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <rotationCurve>
+        <points>
+          <li>(0,180)</li>
+          <li>(1, 181)</li>
+        </points>
+      </rotationCurve>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <explosionRadius>35</explosionRadius>
+      <explosionDamage>EMP</explosionDamage>
+      <explosionDamageFactor>10</explosionDamageFactor>
+    </skyfaller>
+  </ThingDef>
 </Defs>

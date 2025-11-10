@@ -255,6 +255,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
     <descriptionHyperlinks>
+      <ThingDef>Wula_Base_ATGun_Turret</ThingDef>
       <ThingDef>Wula_Base_ATGun_Turret_Weapon</ThingDef>
     </descriptionHyperlinks>
     <thingCategories Inherit="False">
@@ -529,7 +530,8 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
     <descriptionHyperlinks>
-      <ThingDef>Wula_Base_ATGun_Turret_Weapon</ThingDef>
+      <ThingDef>Wula_Base_Laser_Turret</ThingDef>
+      <ThingDef>Wula_Base_Laser_Turret_Weapon</ThingDef>
     </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
@@ -551,7 +553,7 @@
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
     <researchPrerequisites Inherit="False">
-      <li>WULA_Turret_Base_AT_Technology</li>
+      <li>WULA_Turret_Base_Laser_Technology</li>
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>

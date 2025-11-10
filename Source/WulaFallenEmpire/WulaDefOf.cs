@@ -63,4 +63,16 @@ namespace WulaFallenEmpire
             DefOfHelper.EnsureInitializedInCtor(typeof(WulaStatCategoryDefOf));
         }
     }
+
+    [DefOf]
+    public static class WulaDamageDefOf
+    {
+        public static DamageDef Wula_Dark_Matter_Flame;
+
+        static WulaDamageDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(WulaDamageDefOf));
+        }
+    }
+
 }
