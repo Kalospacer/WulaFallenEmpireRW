@@ -74,6 +74,17 @@
     <Compile Include="Ability\CompAbilityEffect_ResearchPrereq.cs" />
     <Compile Include="Ability\WULA_AbilityBombardment\CompAbilityEffect_Bombardment.cs" />
     <Compile Include="Ability\WULA_AbilityBombardment\CompProperties_AbilityBombardment.cs" />
+    <Compile Include="Ability\WULA_AbilityCircularBombardment\CompAbilityEffect_CircularBombardment.cs" />
+    <Compile Include="Ability\WULA_AbilityCircularBombardment\CompProperties_AbilityCircularBombardment.cs" />
+    <Compile Include="Ability\WULA_AbilityEnergyLance\CompAbilityEffect_EnergyLance.cs" />
+    <Compile Include="Ability\WULA_AbilityEnergyLance\CompProperties_EnergyLance.cs" />
+    <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLance.cs" />
+    <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLanceExtension.cs" />
+    <Compile Include="Ability\WULA_AbilitySurveillanceBombardment\CompAbilityEffect_CallSkyfaller.cs" />
+    <Compile Include="Ability\WULA_AbilitySurveillanceBombardment\CompBuildingBombardment.cs" />
+    <Compile Include="Ability\WULA_AbilitySurveillanceBombardment\CompProperties_AbilityCallSkyfaller.cs" />
+    <Compile Include="Ability\WULA_AbilitySurveillanceBombardment\CompProperties_BuildingBombardment.cs" />
+    <Compile Include="Ability\WULA_AbilitySurveillanceBombardment\MapComponent_SkyfallerDelayed.cs" />
     <Compile Include="BuildingComp\Building_TurretGunHasSpeed.cs" />
     <Compile Include="BuildingComp\WULA_InitialFaction\CompProperties_InitialFaction.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />

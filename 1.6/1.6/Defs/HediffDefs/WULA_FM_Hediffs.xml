@@ -74,6 +74,7 @@
       <li Class="HediffCompProperties_GiveAbility">
         <abilityDefs>
           <li>WULA_Firepower_Minigun_Strafe</li>
+          <li>WULA_Firepower_Cannon_Salvo</li>
         </abilityDefs>
       </li>
     </comps>

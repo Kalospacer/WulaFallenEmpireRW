@@ -635,11 +635,10 @@
     </comps>
   </AbilityDef>
   
-  <!-- 炮击 -->
   <AbilityDef>
     <defName>WULA_Firepower_Minigun_Strafe</defName>
     <label>链炮扫射</label>
-    <description>以战舰上的自动链炮对目标区域进行可选方向的扫射，射击速度和冷却都很快，但是威力欠佳。</description>
+    <description>以战舰上的自动链炮对目标区域进行可选方向的扫射，射击速度和冷却都很快，对轻甲目标有效，但是威力欠佳。</description>
     <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -674,6 +673,129 @@
         <effecterScale>1.5</effecterScale>
         <areaPreviewColor>1.0,0.3,0.1,0.3</areaPreviewColor>
         <skyfallerDef>WULA_Firepower_Minigun_Strafe_Skyfaller</skyfallerDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <!-- <flyOverDef></flyOverDef> -->
+        <requiredFacility>BombardmentFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_Firepower_Cannon_Salvo</defName>
+    <label>轻型舰炮齐射</label>
+    <description>指挥战舰侧弦的副炮，进行一轮共计12发炮弹的齐射，造成中规中矩的毁伤。</description>
+    <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
+        <globalCooldownTicks>1000</globalCooldownTicks>
+        <requiredFacility>BombardmentFacility</requiredFacility>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityCircularBombardment">
+        <radius>10</radius>
+        <simultaneousLaunches>3</simultaneousLaunches>
+        <launchIntervalTicks>90</launchIntervalTicks>
+        <maxLaunches>12</maxLaunches>
+        <warmupTicks>120</warmupTicks>
+        
+        <!-- 独立间隔模式：组内依次发射 -->
+        <useIndependentIntervals>true</useIndependentIntervals>
+        <innerLaunchIntervalTicks>5</innerLaunchIntervalTicks>
+        
+        <skyfallerDef>WULA_Firepower_Cannon_Salvo_Skyfaller</skyfallerDef>
+        <showBombardmentArea>true</showBombardmentArea>
+        <showImpactPreview>false</showImpactPreview>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <!-- <flyOverDef></flyOverDef> -->
+        <requiredFacility>BombardmentFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_Firepower_Cannon_Surveillance</defName>
+    <label>轻型舰炮监视</label>
+    <description>指挥战舰侧弦的副炮，监视一个区域30秒，对任何进入范围的敌对目标进行炮击。</description>
+    <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
+        <globalCooldownTicks>1000</globalCooldownTicks>
+        <requiredFacility>BombardmentFacility</requiredFacility>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityCallSkyfaller">
+        <delayTicks>180</delayTicks>
+        <skyfallerDef>WULA_Firepower_Cannon_Surveillance_Skyfaller</skyfallerDef>
+        <previewRadius>12</previewRadius>
+        <previewColor>(0.85,0.85,0.3,0.5)</previewColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <!-- <flyOverDef></flyOverDef> -->
+        <requiredFacility>BombardmentFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_Firepower_EnergyLance_Strafe</defName>
+    <label>光矛扫射</label>
+    <description>指挥战舰侧弦的光矛阵列，发射一道光矛横扫战场，造成大量的热能伤害。</description>
+    <!-- <iconPath>ArachnaeSwarm/UI/Abilities/ARA_Spawn_ARA_HiveCorvette_Rocket</iconPath> -->
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
+        <globalCooldownTicks>1000</globalCooldownTicks>
+        <requiredFacility>BombardmentFacility</requiredFacility>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_EnergyLance">
+        <durationTicks>600</durationTicks>
+        <moveDistance>20</moveDistance>
+        <useFixedDistance>true</useFixedDistance>
+        <firesPerTick>3</firesPerTick>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
         <!-- <flyOverDef></flyOverDef> -->
