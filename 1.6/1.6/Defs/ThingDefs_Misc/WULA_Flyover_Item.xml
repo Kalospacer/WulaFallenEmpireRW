@@ -856,7 +856,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
         <radius>12</radius> <!-- 半径大小 -->
-        <color>(1, 1, 1)</color> <!-- 绿色圆圈 -->
+        <color>(0.85,0.85,0.3)</color> <!-- 绿色圆圈 -->
         <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
         <showInGUI>true</showInGUI>
         <label>射程</label>
@@ -880,7 +880,7 @@
         <overrideExistingFaction>false</overrideExistingFaction>
       </li>
       <li Class="CompProperties_Lifespan">
-        <lifespanTicks>3600</lifespanTicks>
+        <lifespanTicks>1200</lifespanTicks>
       </li>
       <li Class="CompProperties_Glower">
         <glowRadius>6</glowRadius>
