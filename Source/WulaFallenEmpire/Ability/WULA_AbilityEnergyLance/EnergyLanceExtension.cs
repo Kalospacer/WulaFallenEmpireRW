@@ -5,18 +5,13 @@ namespace WulaFallenEmpire
 {
     public class EnergyLanceExtension : DefModExtension
     {
-        // 伤害类型配置
-        public DamageDef damageDef = DamageDefOf.Flame;    // 伤害类型，默认为火焰伤害
-        public bool applyDamageToCorpses = true;          // 是否对尸体造成伤害
-        public bool igniteFires = true;                   // 是否点燃火焰
-        public float fireIgniteChance = 0.8f;             // 点燃火焰的概率
+        // 移动平滑配置
+        public float moveSmoothing = 0.1f;         // 移动平滑度 (0-1)，值越小越平滑
+        public int moteSpawnInterval = 3;          // Mote生成间隔，值越大密度越低
+        public float moteScale = 0.8f;             // Mote缩放比例
         
-        // 伤害量配置
-        public IntRange damageAmountRange = new IntRange(65, 100);        // 对生物的伤害范围
-        public IntRange corpseDamageAmountRange = new IntRange(5, 10);    // 对尸体的伤害范围
-        
-        // 视觉效果配置
-        public ThingDef moteDef;                          // 使用的Mote类型
-        public SoundDef impactSound;                      // 撞击音效
+        // 伤害配置
+        public int firesPerTick = 4;
+        public float effectRadius = 15f;
     }
 }

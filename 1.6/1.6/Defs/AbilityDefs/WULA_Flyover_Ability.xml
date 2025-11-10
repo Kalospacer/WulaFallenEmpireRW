@@ -787,21 +787,22 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
+      <!-- <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
         <globalCooldownTicks>1000</globalCooldownTicks>
         <requiredFacility>BombardmentFacility</requiredFacility>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_EnergyLance">
-        <durationTicks>600</durationTicks>
+      </li> -->
+      <li Class="WulaFallenEmpire.CompProperties_AbilityEnergyLance">
+        <durationTicks>450</durationTicks>
         <moveDistance>20</moveDistance>
         <useFixedDistance>true</useFixedDistance>
-        <firesPerTick>3</firesPerTick>
+        <energyLanceDef>WULA_EnergyLance_Base</energyLanceDef>
+        <firesPerTick>4</firesPerTick>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+      <!-- <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility"> -->
         <!-- <flyOverDef></flyOverDef> -->
-        <requiredFacility>BombardmentFacility</requiredFacility>
-        <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
-      </li>
+          <!-- <requiredFacility>BombardmentFacility</requiredFacility>
+          <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
+        </li> -->
     </comps>
   </AbilityDef>
 </Defs>

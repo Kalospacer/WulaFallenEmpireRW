@@ -6,124 +6,117 @@ namespace WulaFallenEmpire
 {
     public class CompAbilityEffect_EnergyLance : CompAbilityEffect_WithDest
     {
-        public new CompProperties_EnergyLance Props => (CompProperties_EnergyLance)props;
+        public new CompProperties_AbilityEnergyLance Props => (CompProperties_AbilityEnergyLance)props;
+
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
             base.Apply(target, dest);
-
-            // 计算光束的起点和方向
-            IntVec3 startPos = target.Cell;
-            IntVec3 endPos = dest.Cell;
-
-            // 如果使用固定距离，则从起点向终点方向移动固定距离
-            if (Props.useFixedDistance)
-            {
-                Vector3 direction = (endPos.ToVector3() - startPos.ToVector3()).normalized;
-                Vector3 offset = direction * Props.moveDistance;
-                endPos = startPos + new IntVec3(Mathf.RoundToInt(offset.x), 0, Mathf.RoundToInt(offset.z));
-            }
-
-            // 创建移动的能量光束
-            EnergyLance obj = (EnergyLance)GenSpawn.Spawn(ThingDef.Named("EnergyLance"), startPos, parent.pawn.Map);
-            obj.duration = Props.durationTicks;
-            obj.instigator = parent.pawn;
-            obj.startPos = startPos;
-            obj.endPos = endPos;
-            obj.moveDistance = Props.moveDistance;
-            obj.useFixedDistance = Props.useFixedDistance;
-            obj.firesPerTick = Props.firesPerTick;
-            // 不再需要传递伤害范围，因为现在从ModExtension读取
-            obj.StartStrike();
-
-            Log.Message($"[EnergyLance] Created energy lance from {startPos} to {endPos}, distance: {Props.moveDistance}");
-        }
-
-        // 绘制预览效果
-        public override void DrawEffectPreview(LocalTargetInfo target)
-        {
-            base.DrawEffectPreview(target);
             
-            if (parent.pawn == null || parent.pawn.Map == null || !target.IsValid)
+            if (parent.pawn == null || parent.pawn.Map == null)
                 return;
 
             try
             {
-                // 绘制起点预览
-                GenDraw.DrawTargetHighlight(target.Cell);
+                // 使用配置的光束类型
+                ThingDef lanceDef = Props.energyLanceDef ?? ThingDef.Named("EnergyLance");
                 
-                // 如果选择了终点，绘制移动路径预览
-                if (selectedTarget.IsValid)
-                {
-                    DrawMovePathPreview(target.Cell, selectedTarget.Cell);
-                }
+                // 创建EnergyLance
+                EnergyLance.MakeEnergyLance(
+                    lanceDef,
+                    target.Cell,
+                    dest.Cell,
+                    parent.pawn.Map,
+                    Props.moveDistance,
+                    Props.useFixedDistance,
+                    Props.durationTicks,
+                    parent.pawn
+                );
+                
+                Log.Message($"[EnergyLance] Started {lanceDef.defName} from {target.Cell} to {dest.Cell}");
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                // 忽略预览绘制错误
+                Log.Error($"[EnergyLance] Error starting EnergyLance: {ex}");
             }
         }
 
-        private void DrawMovePathPreview(IntVec3 startPos, IntVec3 endPos)
+        // 绘制预览保持不变
+        public new void DrawHighlight(LocalTargetInfo target)
+        {
+            if (selectedTarget.IsValid)
+            {
+                DrawBeamPathPreview(selectedTarget.Cell, target.Cell);
+            }
+            else
+            {
+                GenDraw.DrawTargetHighlight(target);
+            }
+        }
+
+        private void DrawBeamPathPreview(IntVec3 startCell, IntVec3 endCell)
         {
             Map map = parent.pawn.Map;
             
-            // 计算实际终点
-            IntVec3 actualEndPos = endPos;
+            Vector3 startPos = startCell.ToVector3();
+            Vector3 direction = (endCell.ToVector3() - startPos).normalized;
+            Vector3 actualEndPos;
+            
             if (Props.useFixedDistance)
             {
-                Vector3 direction = (endPos.ToVector3() - startPos.ToVector3()).normalized;
-                Vector3 offset = direction * Props.moveDistance;
-                actualEndPos = startPos + new IntVec3(Mathf.RoundToInt(offset.x), 0, Mathf.RoundToInt(offset.z));
+                actualEndPos = startPos + direction * Props.moveDistance;
+            }
+            else
+            {
+                actualEndPos = endCell.ToVector3();
             }
             
-            // 绘制移动路径
-            Vector3 startVec = startPos.ToVector3Shifted();
-            Vector3 endVec = actualEndPos.ToVector3Shifted();
+            IntVec3 actualEndCell = new IntVec3(
+                Mathf.RoundToInt(actualEndPos.x),
+                Mathf.RoundToInt(actualEndPos.y),
+                Mathf.RoundToInt(actualEndPos.z)
+            );
             
-            GenDraw.DrawLineBetween(startVec, endVec, SimpleColor.Yellow, 0.2f);
-            
-            // 绘制终点预览
-            GenDraw.DrawTargetHighlight(actualEndPos);
-            
-            // 绘制作用范围预览（在移动路径上）
-            DrawEffectRangePreview(startPos, actualEndPos);
+            DrawBeamLine(startCell, actualEndCell);
+            GenDraw.DrawTargetHighlight(startCell);
+            GenDraw.DrawTargetHighlight(actualEndCell);
+            DrawEffectRadiusPreview(startCell);
+            DrawEffectRadiusPreview(actualEndCell);
         }
 
-        private void DrawEffectRangePreview(IntVec3 startPos, IntVec3 endPos)
+        private void DrawBeamLine(IntVec3 startCell, IntVec3 endCell)
+        {
+            Vector3 startPos = startCell.ToVector3Shifted();
+            Vector3 endPos = endCell.ToVector3Shifted();
+            
+            GenDraw.DrawLineBetween(startPos, endPos, SimpleColor.Yellow, 0.3f);
+        }
+
+        private void DrawEffectRadiusPreview(IntVec3 center)
         {
             Map map = parent.pawn.Map;
-            
-            // 沿着移动路径绘制作用范围
-            Vector3 currentPos = startPos.ToVector3();
-            Vector3 direction = (endPos.ToVector3() - startPos.ToVector3()).normalized;
-            float totalDistance = Vector3.Distance(startPos.ToVector3(), endPos.ToVector3());
-            float step = 1f; // 每格绘制
-            
-            for (float distance = 0; distance <= totalDistance; distance += step)
-            {
-                Vector3 checkPos = startPos.ToVector3() + direction * distance;
-                IntVec3 checkCell = new IntVec3(Mathf.RoundToInt(checkPos.x), 0, Mathf.RoundToInt(checkPos.z));
-                
-                if (checkCell.InBounds(map))
-                {
-                    // 绘制作用范围指示
-                    GenDraw.DrawRadiusRing(checkCell, 1.5f, Color.red, (c) => true);
-                }
-            }
+            GenDraw.DrawRadiusRing(center, 15f, Color.yellow);
         }
 
         public override string ExtraLabelMouseAttachment(LocalTargetInfo target)
         {
-            string baseInfo = $"能量长矛: 持续{Props.durationTicks}刻";
-            
-            if (Props.useFixedDistance)
+            if (selectedTarget.IsValid)
             {
-                baseInfo += $"\n移动距离: {Props.moveDistance}格";
+                string beamType = Props.energyLanceDef?.label ?? "EnergyLance";
+                return $"选择{beamType}方向\n移动距离: {Props.moveDistance}格\n模式: {(Props.useFixedDistance ? "固定距离" : "移动到终点")}";
             }
-            
-            baseInfo += $"\n选择起点后，再选择移动方向";
-            
-            return baseInfo;
+            else
+            {
+                return "选择光束起点";
+            }
         }
+
+        public override TargetingParameters targetParams => new TargetingParameters
+        {
+            canTargetLocations = true,
+            canTargetPawns = false,
+            canTargetBuildings = false,
+            canTargetItems = false,
+            mapObjectTargetsMustBeAutoAttackable = false
+        };
     }
 }

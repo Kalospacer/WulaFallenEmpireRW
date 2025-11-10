@@ -3,82 +3,141 @@ using Verse;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Verse.Sound;
 
 namespace WulaFallenEmpire
 {
-    public class EnergyLance : OrbitalStrike
+    [StaticConstructorOnStartup]
+    public class EnergyLance : ThingWithComps
     {
         // 移动相关属性
-        public IntVec3 startPos;
-        public IntVec3 endPos;
+        public IntVec3 startPosition;
+        public IntVec3 endPosition;
         public float moveDistance;
         public bool useFixedDistance;
+        public float flightSpeed = 1f;
+        public float currentProgress = 0f;
+        public float altitude = 20f;
         
         // 伤害配置
         public int firesPerTick = 4;
-        
-        // ModExtension引用
-        private EnergyLanceExtension extension;
+        public float effectRadius = 15f;
+        public int durationTicks = 600;
+        private int ticksPassed = 0;
         
         // 移动状态
-        private Vector3 currentPos;
+        private Vector3 exactPosition;
         private Vector3 moveDirection;
-        private float moveSpeed;
-        private float traveledDistance;
-        private const float effectRadius = 3f; // 作用半径
+        private bool hasStarted = false;
+        private bool hasCompleted = false;
         
-        private static List<Thing> tmpThings = new List<Thing>();
+        // 视觉效果
+        private CompOrbitalBeam orbitalBeamComp;
+        private Sustainer sustainer;
 
-        public override void StartStrike()
+        // 伤害相关
+        private static List<Thing> tmpThings = new List<Thing>();
+        private static readonly IntRange FlameDamageAmountRange = new IntRange(65, 100);
+        private static readonly IntRange CorpseFlameDamageAmountRange = new IntRange(5, 10);
+        public Thing instigator;
+        public ThingDef weaponDef;
+
+        // 精确位置计算（基于FlyOver的逻辑）
+        public override Vector3 DrawPos
         {
-            base.StartStrike();
-            
-            // 获取ModExtension
-            extension = def.GetModExtension<EnergyLanceExtension>();
-            if (extension == null)
+            get
             {
-                Log.Error($"[EnergyLance] No EnergyLanceExtension found on {def.defName}");
-                return;
+                Vector3 start = startPosition.ToVector3();
+                Vector3 end = CalculateEndPosition();
+                Vector3 basePos = Vector3.Lerp(start, end, currentProgress);
+                basePos.y = altitude;
+                return basePos;
             }
-            
-            // 初始化移动参数
-            currentPos = startPos.ToVector3();
-            
-            if (useFixedDistance)
-            {
-                // 从起点向终点方向移动固定距离
-                Vector3 direction = (endPos.ToVector3() - startPos.ToVector3()).normalized;
-                moveDirection = direction;
-                moveSpeed = moveDistance / duration; // 根据持续时间计算移动速度
-            }
-            else
-            {
-                // 直接从起点移动到终点
-                Vector3 direction = (endPos.ToVector3() - startPos.ToVector3());
-                moveDirection = direction.normalized;
-                moveSpeed = direction.magnitude / duration;
-            }
-            
-            traveledDistance = 0f;
-            
-            // 创建视觉效果
-            CreateVisualEffect();
-            
-            Log.Message($"[EnergyLance] Strike started from {startPos} to {endPos}, " +
-                       $"damage: {extension.damageDef.defName}, speed: {moveSpeed}");
         }
 
-        private void CreateVisualEffect()
+        // 计算实际终点位置
+        private Vector3 CalculateEndPosition()
         {
-            // 使用ModExtension中定义的Mote，如果没有则使用默认的PowerBeam
-            if (extension.moteDef != null)
+            if (useFixedDistance)
             {
-                Mote mote = MoteMaker.MakeStaticMote(base.Position, base.Map, extension.moteDef);
+                Vector3 direction = (endPosition.ToVector3() - startPosition.ToVector3()).normalized;
+                return startPosition.ToVector3() + direction * moveDistance;
             }
             else
             {
-                // 使用原版PowerBeam的视觉效果
-                MoteMaker.MakePowerBeamMote(base.Position, base.Map);
+                return endPosition.ToVector3();
+            }
+        }
+
+        // 精确旋转
+        public virtual Quaternion ExactRotation
+        {
+            get
+            {
+                Vector3 direction = (CalculateEndPosition() - startPosition.ToVector3()).normalized;
+                return Quaternion.LookRotation(direction.Yto0());
+            }
+        }
+
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            
+            orbitalBeamComp = GetComp<CompOrbitalBeam>();
+            
+            if (!respawningAfterLoad)
+            {
+                base.Position = startPosition;
+                hasStarted = true;
+                
+                // 计算移动方向
+                Vector3 endPos = CalculateEndPosition();
+                moveDirection = (endPos - startPosition.ToVector3()).normalized;
+                
+                // 初始化光束组件
+                if (orbitalBeamComp != null)
+                {
+                    // 使用反射调用StartAnimation方法
+                    StartOrbitalBeamAnimation();
+                }
+                
+                // 开始音效
+                StartSound();
+                
+                Log.Message($"[EnergyLance] Spawned at {startPosition}, moving to {endPosition}, " +
+                           $"distance: {moveDistance}, fixed: {useFixedDistance}");
+            }
+        }
+
+        // 使用反射调用StartAnimation方法
+        private void StartOrbitalBeamAnimation()
+        {
+            var startAnimationMethod = orbitalBeamComp.GetType().GetMethod("StartAnimation");
+            if (startAnimationMethod != null)
+            {
+                startAnimationMethod.Invoke(orbitalBeamComp, new object[] { durationTicks, 10, 0f });
+                Log.Message("[EnergyLance] Orbital beam animation started");
+            }
+            else
+            {
+                Log.Warning("[EnergyLance] Could not find StartAnimation method on CompOrbitalBeam");
+            }
+        }
+
+        private void StartSound()
+        {
+            var soundProp = orbitalBeamComp?.GetType().GetProperty("Props")?.GetValue(orbitalBeamComp);
+            if (soundProp != null)
+            {
+                var soundField = soundProp.GetType().GetField("sound");
+                if (soundField != null)
+                {
+                    SoundDef soundDef = soundField.GetValue(soundProp) as SoundDef;
+                    if (soundDef != null)
+                    {
+                        sustainer = soundDef.TrySpawnSustainer(SoundInfo.InMap(this, MaintenanceType.PerTick));
+                    }
+                }
             }
         }
 
@@ -86,110 +145,142 @@ namespace WulaFallenEmpire
         {
             base.Tick();
             
-            if (!base.Destroyed && extension != null)
+            if (!hasStarted || hasCompleted)
+                return;
+
+            ticksPassed++;
+            
+            // 更新移动进度
+            UpdateMovement();
+            
+            // 造成伤害
+            for (int i = 0; i < firesPerTick; i++)
             {
-                // 移动光束
-                MoveBeam();
-                
-                // 造成伤害
-                for (int i = 0; i < firesPerTick; i++)
-                {
-                    DoBeamDamage();
-                }
+                StartRandomFireAndDoFlameDamage();
+            }
+            
+            // 更新音效
+            sustainer?.Maintain();
+            
+            // 检查是否完成
+            if (ticksPassed >= durationTicks || currentProgress >= 1f)
+            {
+                CompleteEnergyLance();
             }
         }
 
-        private void MoveBeam()
+        private void UpdateMovement()
         {
-            // 计算移动距离
-            float moveThisTick = moveSpeed;
+            // 计算总距离
+            float totalDistance = useFixedDistance ? moveDistance : Vector3.Distance(startPosition.ToVector3(), endPosition.ToVector3());
             
-            // 更新位置
-            currentPos += moveDirection * moveThisTick;
-            traveledDistance += moveThisTick;
+            // 计算移动速度（基于持续时间和总距离）
+            float progressPerTick = 1f / durationTicks;
+            currentProgress += progressPerTick;
+            currentProgress = Mathf.Clamp01(currentProgress);
             
-            // 更新光束的实际位置
-            IntVec3 newCell = new IntVec3(Mathf.RoundToInt(currentPos.x), 0, Mathf.RoundToInt(currentPos.z));
+            // 更新精确位置
+            exactPosition = Vector3.Lerp(startPosition.ToVector3(), CalculateEndPosition(), currentProgress);
+            
+            // 更新格子位置
+            IntVec3 newCell = new IntVec3(
+                Mathf.RoundToInt(exactPosition.x),
+                Mathf.RoundToInt(exactPosition.y),
+                Mathf.RoundToInt(exactPosition.z)
+            );
+            
             if (newCell != base.Position && newCell.InBounds(base.Map))
             {
                 base.Position = newCell;
             }
-            
-            // 检查是否到达终点
-            if (useFixedDistance && traveledDistance >= moveDistance)
-            {
-                // 固定距离模式：移动指定距离后结束
-                Destroy();
-                Log.Message($"[EnergyLance] Reached fixed distance, destroying");
-            }
-            else if (!useFixedDistance && traveledDistance >= Vector3.Distance(startPos.ToVector3(), endPos.ToVector3()))
-            {
-                // 终点模式：到达终点后结束
-                Destroy();
-                Log.Message($"[EnergyLance] Reached end position, destroying");
-            }
         }
 
-        private void DoBeamDamage()
+        private void StartRandomFireAndDoFlameDamage()
         {
-            if (extension == null) return;
-
-            // 在当前光束位置周围随机选择一个单元格
             IntVec3 targetCell = (from x in GenRadial.RadialCellsAround(base.Position, effectRadius, useCenter: true)
                 where x.InBounds(base.Map)
                 select x).RandomElementByWeight((IntVec3 x) => 1f - Mathf.Min(x.DistanceTo(base.Position) / effectRadius, 1f) + 0.05f);
 
-            // 尝试在该单元格点火（如果配置了点火）
-            if (extension.igniteFires)
-            {
-                FireUtility.TryStartFireIn(targetCell, base.Map, Rand.Range(0.1f, extension.fireIgniteChance), instigator);
-            }
+            FireUtility.TryStartFireIn(targetCell, base.Map, Rand.Range(0.1f, 0.925f), instigator);
             
-            // 对该单元格内的物体造成伤害
             tmpThings.Clear();
             tmpThings.AddRange(targetCell.GetThingList(base.Map));
             
             for (int i = 0; i < tmpThings.Count; i++)
             {
-                Thing thing = tmpThings[i];
-                
-                // 检查是否对尸体造成伤害
-                if (!extension.applyDamageToCorpses && thing is Corpse)
-                    continue;
-                
-                // 计算伤害量
-                int damageAmount = (thing is Corpse) ? 
-                    extension.corpseDamageAmountRange.RandomInRange : 
-                    extension.damageAmountRange.RandomInRange;
-                
-                Pawn pawn = thing as Pawn;
-                BattleLogEntry_DamageTaken battleLogEntry = null;
+                int num = ((tmpThings[i] is Corpse) ? CorpseFlameDamageAmountRange.RandomInRange : FlameDamageAmountRange.RandomInRange);
+                Pawn pawn = tmpThings[i] as Pawn;
+                BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = null;
                 
                 if (pawn != null)
                 {
-                    battleLogEntry = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_PowerBeam, instigator as Pawn);
-                    Find.BattleLog.Add(battleLogEntry);
+                    battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_PowerBeam, instigator as Pawn);
+                    Find.BattleLog.Add(battleLogEntry_DamageTaken);
                 }
                 
-                // 使用ModExtension中定义的伤害类型
-                DamageInfo damageInfo = new DamageInfo(extension.damageDef, damageAmount, 0f, -1f, instigator, null, weaponDef);
-                thing.TakeDamage(damageInfo).AssociateWithLog(battleLogEntry);
-                
-                Log.Message($"[EnergyLance] Applied {extension.damageDef.defName} damage {damageAmount} to {thing.Label}");
+                DamageInfo damageInfo = new DamageInfo(DamageDefOf.Flame, num, 0f, -1f, instigator, null, weaponDef);
+                tmpThings[i].TakeDamage(damageInfo).AssociateWithLog(battleLogEntry_DamageTaken);
             }
             
             tmpThings.Clear();
+        }
+
+        private void CompleteEnergyLance()
+        {
+            hasCompleted = true;
+            
+            // 停止音效
+            sustainer?.End();
+            sustainer = null;
+            
+            Log.Message($"[EnergyLance] Completed at position {base.Position}");
+            
+            // 销毁自身
+            Destroy();
+        }
+
+        // 重写绘制方法，确保光束正确显示
+        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        {
+            // 让CompOrbitalBeam处理绘制
+            Comps_PostDraw();
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
             
-            Scribe_Values.Look(ref startPos, "startPos");
-            Scribe_Values.Look(ref endPos, "endPos");
+            Scribe_Values.Look(ref startPosition, "startPosition");
+            Scribe_Values.Look(ref endPosition, "endPosition");
             Scribe_Values.Look(ref moveDistance, "moveDistance");
             Scribe_Values.Look(ref useFixedDistance, "useFixedDistance");
+            Scribe_Values.Look(ref flightSpeed, "flightSpeed", 1f);
+            Scribe_Values.Look(ref currentProgress, "currentProgress", 0f);
+            Scribe_Values.Look(ref altitude, "altitude", 20f);
             Scribe_Values.Look(ref firesPerTick, "firesPerTick", 4);
+            Scribe_Values.Look(ref effectRadius, "effectRadius", 15f);
+            Scribe_Values.Look(ref durationTicks, "durationTicks", 600);
+            Scribe_Values.Look(ref ticksPassed, "ticksPassed", 0);
+            Scribe_Values.Look(ref hasStarted, "hasStarted", false);
+            Scribe_Values.Look(ref hasCompleted, "hasCompleted", false);
+        }
+
+        // 创建EnergyLance的静态方法
+        public static EnergyLance MakeEnergyLance(ThingDef energyLanceDef, IntVec3 start, IntVec3 end, Map map, 
+            float distance = 15f, bool fixedDistance = true, int duration = 600, Pawn instigatorPawn = null)
+        {
+            EnergyLance energyLance = (EnergyLance)ThingMaker.MakeThing(energyLanceDef);
+            energyLance.startPosition = start;
+            energyLance.endPosition = end;
+            energyLance.moveDistance = distance;
+            energyLance.useFixedDistance = fixedDistance;
+            energyLance.durationTicks = duration;
+            energyLance.instigator = instigatorPawn;
+            
+            GenSpawn.Spawn(energyLance, start, map);
+            
+            Log.Message($"[EnergyLance] Created {energyLanceDef.defName} from {start} to {end}");
+            return energyLance;
         }
     }
 }

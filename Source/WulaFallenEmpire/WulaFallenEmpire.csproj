@@ -76,8 +76,9 @@
     <Compile Include="Ability\WULA_AbilityBombardment\CompProperties_AbilityBombardment.cs" />
     <Compile Include="Ability\WULA_AbilityCircularBombardment\CompAbilityEffect_CircularBombardment.cs" />
     <Compile Include="Ability\WULA_AbilityCircularBombardment\CompProperties_AbilityCircularBombardment.cs" />
+    <Compile Include="Ability\WULA_AbilityEnergyLance\AbilityWeaponDefExtension.cs" />
     <Compile Include="Ability\WULA_AbilityEnergyLance\CompAbilityEffect_EnergyLance.cs" />
-    <Compile Include="Ability\WULA_AbilityEnergyLance\CompProperties_EnergyLance.cs" />
+    <Compile Include="Ability\WULA_AbilityEnergyLance\CompProperties_AbilityEnergyLance.cs" />
     <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLance.cs" />
     <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLanceExtension.cs" />
     <Compile Include="Ability\WULA_AbilitySurveillanceBombardment\CompAbilityEffect_CallSkyfaller.cs" />

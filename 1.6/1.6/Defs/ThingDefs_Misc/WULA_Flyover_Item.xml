@@ -888,48 +888,117 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="OrbitalStrikeBase">
+  <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_EnergyLance_Base</defName>
-    <label>power beam</label>
-    <thingClass>PowerBeam</thingClass>
-  </ThingDef>
-  <ThingDef ParentName="OrbitalStrikeBase">
-    <defName>WULA_EnergyLance_Base</defName>
-    <label>energy lance</label>
+    <label>乌拉帝国光矛</label>
+    <description>移动的能量光束武器</description>
     <thingClass>WulaFallenEmpire.EnergyLance</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+    <seeThroughFog>true</seeThroughFog>
+    
     <modExtensions>
       <li Class="WulaFallenEmpire.EnergyLanceExtension">
-        <damageDef>Flame</damageDef>
-        <igniteFires>true</igniteFires>
-        <fireIgniteChance>0.9</fireIgniteChance>
-        <damageAmountRange>
-          <min>60</min>
-          <max>95</max>
-        </damageAmountRange>
-        <corpseDamageAmountRange>
-          <min>5</min>
-          <max>10</max>
-        </corpseDamageAmountRange>
+        <moveSmoothing>0.001</moveSmoothing>
+        <moteSpawnInterval>3</moteSpawnInterval>
+        <moteScale>0.8</moteScale>
+        <firesPerTick>4</firesPerTick>
+        <effectRadius>15</effectRadius>
+      </li>
+      <li Class="WulaFallenEmpire.AbilityWeaponDefExtension">
+        <weaponDef>WULA_RW_Base_AR</weaponDef>
       </li>
     </modExtensions>
+
     <comps>
-      <!-- 使用原版的轨道光束组件 -->
+      <!-- 光束视觉效果 -->
       <li Class="CompProperties_OrbitalBeam">
         <width>6</width>
-        <color>(255, 200, 50, 242)</color>
+        <color>(147, 116, 201, 212)</color>
         <sound>OrbitalBeam</sound>
       </li>
+      
+      <!-- 相机震动 -->
       <li Class="CompProperties_CameraShaker">
         <mag>0.02</mag>
       </li>
+      
+      <!-- 天空效果 -->
       <li Class="CompProperties_AffectsSky">
+        <fadeInTicks>30</fadeInTicks>
+        <fadeOutTicks>15</fadeOutTicks>
         <skyColors>
-          <sky>(255, 220, 180)</sky>
-          <shadow>(220, 200, 160)</shadow>
-          <overlay>(255, 240, 200)</overlay>
-          <saturation>1.2</saturation>
+          <sky>(147, 116, 201)</sky>
+          <shadow>(147, 116, 185)</shadow>
+          <overlay>(147, 116, 150)</overlay>
+          <saturation>1.5</saturation>
         </skyColors>
+      </li>
+
+      <li Class="CompProperties_Effecter">
+        <effecterDef>WULA_EnergyLance_Effecter</effecterDef>
       </li>
     </comps>
   </ThingDef>
+  <EffecterDef>
+    <defName>WULA_EnergyLance_Effecter</defName>
+    <maintainTicks>300</maintainTicks>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+        <soundDef>VoidStructure_Emerging</soundDef>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <fleckDef>EnergyLance_Fleck</fleckDef>
+        <chancePerTick>1</chancePerTick>
+        <lifespanMaxTicks>999</lifespanMaxTicks>
+        <chancePeriodTicks>40</chancePeriodTicks>
+        <burstCount>1~1</burstCount>
+        <scale>15</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <fleckDef>EnergyLance_Fleck</fleckDef>
+        <chancePerTick>1</chancePerTick>
+        <lifespanMaxTicks>999</lifespanMaxTicks>
+        <chancePeriodTicks>40</chancePeriodTicks>
+        <burstCount>1~1</burstCount>
+        <scale>5</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <fleckDef>EnergyLance_Fleck</fleckDef>
+        <chancePerTick>1</chancePerTick>
+        <lifespanMaxTicks>999</lifespanMaxTicks>
+        <chancePeriodTicks>40</chancePeriodTicks>
+        <burstCount>1~1</burstCount>
+        <scale>2</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  <FleckDef ParentName="FleckBase">
+    <defName>EnergyLance_Fleck</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>1</fadeInTime>
+    <solidTime>0</solidTime>
+    <fadeOutTime>1</fadeOutTime>
+    <growthRate>5</growthRate>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <texPath>Things/Mote/PowerBeam</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <color>(147, 116, 201, 255)</color>
+      <shaderParameters>
+        <_NoiseTex>/Things/Mote/PsycastNoise</_NoiseTex>
+        <_NoiseIntensity>100</_NoiseIntensity>
+        <_Color2>(1, 1, 1, 0.85)</_Color2>
+      </shaderParameters>
+      <drawSize>10.0</drawSize>
+    </graphicData>
+  </FleckDef>
 </Defs>
