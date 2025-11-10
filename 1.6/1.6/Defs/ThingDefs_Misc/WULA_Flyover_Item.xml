@@ -891,7 +891,7 @@
   <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_EnergyLance_Base</defName>
     <label>乌拉帝国光矛</label>
-    <description>移动的能量光束武器</description>
+    <description>一束从乌拉帝国战舰上发射的纯净能量光束，将点燃路径上的一切活物。</description>
     <thingClass>WulaFallenEmpire.EnergyLance</thingClass>
     <tickerType>Normal</tickerType>
     <drawerType>RealtimeOnly</drawerType>
@@ -903,8 +903,8 @@
         <moveSmoothing>0.001</moveSmoothing>
         <moteSpawnInterval>3</moteSpawnInterval>
         <moteScale>0.8</moteScale>
-        <firesPerTick>4</firesPerTick>
-        <effectRadius>15</effectRadius>
+        <firesPerTick>2</firesPerTick>
+        <effectRadius>8</effectRadius>
       </li>
       <li Class="WulaFallenEmpire.AbilityWeaponDefExtension">
         <weaponDef>WULA_RW_Base_AR</weaponDef>
