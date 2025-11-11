@@ -970,6 +970,270 @@
     </statBases>
   </ThingDef>
 
+  <!-- 大型机械族 -->
+  <ThingDef Name="Wula_Mech_Mobile_Factory" ParentName="WULA_BaseMechanoid">
+    <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
+    <label>MFm-2"陆行舰"</label>
+    <description>乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的堡垒和顽强的抵抗。</description>
+    <statBases>
+      <BandwidthCost>1</BandwidthCost>
+      <MoveSpeed>1.5</MoveSpeed>
+      <EnergyShieldEnergyMax>5</EnergyShieldEnergyMax>
+    </statBases>
+    <race>
+      <body>Mech_Warqueen</body>
+      <baseBodySize>30</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
+          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <baseHealthScale>25</baseHealthScale>
+      <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
+    </race>
+    <tools>
+      <li>
+        <label>碾压</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>360</power>
+        <cooldownTime>8</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>0</ID>
+        <turretDef>Wula_CR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1, 0, -1.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(2.15, 0, -1)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1, 0, -1.45)</offset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-2.15, 0, -1)</offset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>1</ID>
+        <turretDef>Wula_CR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1, 0, -1.45)</offset>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(2.15, 0, -1)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1, 0, -1.45)</offset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-2.15, 0, -1)</offset>
+                <layer>-5</layer>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>2</ID>
+        <turretDef>Wula_MR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.3, 0, -0.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(1.4, 0, -0.35)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.3, 0, -0.45)</offset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-1.4, 0, -0.35)</offset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>3</ID>
+        <turretDef>Wula_MR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.3, 0, -0.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.4, 0, -0.35)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.3, 0, -0.45)</offset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(-1.4, 0, -0.35)</offset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>4</ID>
+        <turretDef>Wula_LR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.25, 0, 0.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(0.6, 0, 0.15)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.25, 0, 0.65)</offset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-0.6, 0, 0.15)</offset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>5</ID>
+        <turretDef>Wula_LR_Mobile_Factory_Turret</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.25, 0, 0.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(0.6, 0, 0.15)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.25, 0, 0.65)</offset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(-0.6, 0, 0.15)</offset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="CompProperties_Shield">
+        <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
+        <minDrawSize>8.2</minDrawSize>
+        <maxDrawSize>8.4</maxDrawSize>
+        <energyLossPerDamage>0.01</energyLossPerDamage>
+        <energyOnReset>4.0</energyOnReset>
+        <blocksRangedWeapons>false</blocksRangedWeapons>
+      </li>
+    </comps>
+  </ThingDef>
+
   <ThingDef Name="Wula_AI_Heavy_Panzer" ParentName="HeavyMechanoid">
 		<defName>Wula_AI_Heavy_Panzer</defName>
 		<label>SMp-38"萨克森"</label>
@@ -1355,6 +1619,7 @@
     </comps>
   </ThingDef>
 
+  <!-- 特殊单位 -->
   <ThingDef ParentName="BaseMechanoidWalker">
     <defName>WULA_Fxxk_Goose</defName>
     <label>神人大鹅</label>

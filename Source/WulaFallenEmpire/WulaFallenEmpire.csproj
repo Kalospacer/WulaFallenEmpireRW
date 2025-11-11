@@ -90,8 +90,6 @@
     <Compile Include="BuildingComp\Building_TurretGunHasSpeed.cs" />
     <Compile Include="BuildingComp\WULA_EnergyLanceTurret\CompEnergyLanceTurret.cs" />
     <Compile Include="BuildingComp\WULA_EnergyLanceTurret\CompProperties_EnergyLanceTurret.cs" />
-    <Compile Include="BuildingComp\WULA_FlyOverBeacon\Building_FlyOverBeacon.cs" />
-    <Compile Include="BuildingComp\WULA_FlyOverBeacon\WorldObject_FlyOverCarrier.cs" />
     <Compile Include="BuildingComp\WULA_InitialFaction\CompProperties_InitialFaction.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\CompProperties_MechanoidRecycler.cs" />
@@ -149,6 +147,8 @@
     <Compile Include="HediffComp\HediffCompProperties_SwitchableHediff.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\DRMDamageShield.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\Hediff_DamageShield.cs" />
+    <Compile Include="Pawn\Comp_MultiTurretGun.cs" />
+    <Compile Include="Pawn\Comp_PawnRenderExtra.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompAutoMechCarrier.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompProperties_AutoMechCarrier.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\PawnProductionEntry.cs" />
@@ -280,7 +280,9 @@
   <ItemGroup>
     <Compile Include="Verb\Verb_Excalibur\Thing_ExcaliburBeam.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BuildingComp\WULA_FlyOverBeacon\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
   <Target Name="CleanDebugFiles" AfterTargets="Build">
