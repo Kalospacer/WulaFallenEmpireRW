@@ -92,14 +92,14 @@ namespace WulaFallenEmpire
     {
         public int count = 1;
         public string countVariableName;
-        public List<Effect> effects;
+        public List<EffectBase> effects;
     }
 
     public class ConditionalEffects
     {
         public List<Condition> conditions;
-        public List<Effect> effects;
-        public List<Effect> randomlistEffects;
+        public List<EffectBase> effects;
+        public List<EffectBase> randomlistEffects;
         public List<LoopEffects> loopEffects;
 
         public void Execute(Window dialog)

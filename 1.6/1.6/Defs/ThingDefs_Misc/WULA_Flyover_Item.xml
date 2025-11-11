@@ -877,12 +877,6 @@
       </li>
     </comps>
   </ThingDef>
-  <DamageDef ParentName="Bullet">
-    <defName>WULA_Firepower_Minigun_Strafe_Damage</defName>
-    <label>子弹</label>
-    <defaultDamage>25</defaultDamage>
-    <soundExplosion>Explosion_Bomb</soundExplosion>
-  </DamageDef>
   <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_EnergyLance_Base</defName>
     <label>乌拉帝国光矛</label>

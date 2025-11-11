@@ -7,13 +7,13 @@ using RimWorld;
 
 namespace WulaFallenEmpire
 {
-    public abstract class Effect
+    public abstract class EffectBase
     {
         public float weight = 1.0f;
         public abstract void Execute(Window dialog = null);
     }
 
-    public class Effect_OpenCustomUI : Effect
+    public class Effect_OpenCustomUI : EffectBase
     {
         public string defName;
         public int delayTicks = 0;
@@ -88,7 +88,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_CloseDialog : Effect
+    public class Effect_CloseDialog : EffectBase
     {
         public override void Execute(Window dialog = null)
         {
@@ -96,7 +96,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_ShowMessage : Effect
+    public class Effect_ShowMessage : EffectBase
     {
         public string message;
         public MessageTypeDef messageTypeDef;
@@ -111,7 +111,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_FireIncident : Effect
+    public class Effect_FireIncident : EffectBase
     {
         public IncidentDef incident;
 
@@ -136,7 +136,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_ChangeFactionRelation : Effect
+    public class Effect_ChangeFactionRelation : EffectBase
     {
         public FactionDef faction;
         public int goodwillChange;
@@ -160,7 +160,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_SetVariable : Effect
+    public class Effect_SetVariable : EffectBase
     {
         public string name;
         public string value;
@@ -195,7 +195,7 @@ namespace WulaFallenEmpire
         }
     }
     
-    public class Effect_ChangeFactionRelation_FromVariable : Effect
+    public class Effect_ChangeFactionRelation_FromVariable : EffectBase
     {
         public FactionDef faction;
         public string goodwillVariableName;
@@ -220,7 +220,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_SpawnPawnAndStore : Effect
+    public class Effect_SpawnPawnAndStore : EffectBase
     {
         public PawnKindDef kindDef;
         public int count = 1;
@@ -260,7 +260,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_GiveThing : Effect
+    public class Effect_GiveThing : EffectBase
     {
         public ThingDef thingDef;
         public int count = 1;
@@ -290,7 +290,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_SpawnPawn : Effect
+    public class Effect_SpawnPawn : EffectBase
     {
         public PawnKindDef kindDef;
         public int count = 1;
@@ -350,7 +350,7 @@ namespace WulaFallenEmpire
         Divide
     }
 
-    public class Effect_ModifyVariable : Effect
+    public class Effect_ModifyVariable : EffectBase
     {
         public string name;
         public string value;
@@ -431,7 +431,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_ClearVariable : Effect
+    public class Effect_ClearVariable : EffectBase
     {
         public string name;
 
@@ -446,7 +446,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_AddQuest : Effect
+    public class Effect_AddQuest : EffectBase
     {
         public QuestScriptDef quest;
 
@@ -465,7 +465,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_FinishResearch : Effect
+    public class Effect_FinishResearch : EffectBase
     {
         public ResearchProjectDef research;
 
@@ -480,7 +480,7 @@ namespace WulaFallenEmpire
             Find.ResearchManager.FinishProject(research);
         }
     }
-    public class Effect_TriggerRaid : Effect
+    public class Effect_TriggerRaid : EffectBase
     {
         public float points;
         public FactionDef faction;
@@ -559,7 +559,7 @@ namespace WulaFallenEmpire
         }
     }
     
-    public class Effect_CheckFactionGoodwill : Effect
+    public class Effect_CheckFactionGoodwill : EffectBase
     {
         public FactionDef factionDef;
         public string variableName;
@@ -589,7 +589,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_StoreRealPlayTime : Effect
+    public class Effect_StoreRealPlayTime : EffectBase
     {
         public string variableName;
 
@@ -608,7 +608,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_StoreDaysPassed : Effect
+    public class Effect_StoreDaysPassed : EffectBase
     {
         public string variableName;
 
@@ -627,7 +627,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public class Effect_StoreColonyWealth : Effect
+    public class Effect_StoreColonyWealth : EffectBase
     {
         public string variableName;
 

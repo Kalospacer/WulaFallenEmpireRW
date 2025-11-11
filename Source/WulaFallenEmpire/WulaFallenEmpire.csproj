@@ -82,6 +82,7 @@
     <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLance.cs" />
     <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLanceExtension.cs" />
     <Compile Include="Ability\WULA_AbilityCallSkyfaller\CompAbilityEffect_CallSkyfaller.cs" />
+    <Compile Include="BuildingComp\Building_MapObserver.cs" />
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompBuildingBombardment.cs" />
     <Compile Include="Ability\WULA_AbilityCallSkyfaller\CompProperties_AbilityCallSkyfaller.cs" />
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompProperties_BuildingBombardment.cs" />
@@ -89,6 +90,8 @@
     <Compile Include="BuildingComp\Building_TurretGunHasSpeed.cs" />
     <Compile Include="BuildingComp\WULA_EnergyLanceTurret\CompEnergyLanceTurret.cs" />
     <Compile Include="BuildingComp\WULA_EnergyLanceTurret\CompProperties_EnergyLanceTurret.cs" />
+    <Compile Include="BuildingComp\WULA_FlyOverBeacon\Building_FlyOverBeacon.cs" />
+    <Compile Include="BuildingComp\WULA_FlyOverBeacon\WorldObject_FlyOverCarrier.cs" />
     <Compile Include="BuildingComp\WULA_InitialFaction\CompProperties_InitialFaction.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\CompProperties_MechanoidRecycler.cs" />
@@ -102,7 +105,7 @@
     <Compile Include="EventSystem\DelayedActionManager.cs" />
     <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
     <Compile Include="EventSystem\Dialog_ManageEventVariables.cs" />
-    <Compile Include="EventSystem\Effect.cs" />
+    <Compile Include="EventSystem\Effect\EffectBase.cs" />
     <Compile Include="EventSystem\EventDef.cs" />
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\EventVariableManager.cs" />
@@ -138,6 +141,10 @@
     <Compile Include="GlobalWorkTable\ITab_GlobalBills.cs" />
     <Compile Include="GlobalWorkTable\CompLaunchable_ToGlobalStorage.cs" />
     <Compile Include="GlobalWorkTable\CompProperties_Launchable_ToGlobalStorage.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_FloatMenuOptionProvider_SelectedPawnValid.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_IsColonyMechPlayerControlled.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MechanitorUtility_CanDraftMech.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_UncontrolledMechDrawPulse.cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
     <Compile Include="HediffComp\HediffCompProperties_SwitchableHediff.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\DRMDamageShield.cs" />
@@ -146,10 +153,6 @@
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompProperties_AutoMechCarrier.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\PawnProductionEntry.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\CompAutonomousMech.cs" />
-    <Compile Include="Pawn\WULA_AutonomousMech\Patch_FloatMenuOptionProvider_SelectedPawnValid.cs" />
-    <Compile Include="Pawn\WULA_AutonomousMech\Patch_IsColonyMechPlayerControlled.cs" />
-    <Compile Include="Pawn\WULA_AutonomousMech\Patch_MechanitorUtility_CanDraftMech.cs" />
-    <Compile Include="Pawn\WULA_AutonomousMech\Patch_UncontrolledMechDrawPulse.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalAutonomousWorkMode.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalNeedRecharge.cs" />
     <Compile Include="Pawn\WULA_BrokenPersonality\MentalBreakWorker_BrokenPersonality.cs" />

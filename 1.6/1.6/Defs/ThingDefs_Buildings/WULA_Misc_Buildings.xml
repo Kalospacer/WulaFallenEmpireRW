@@ -66,6 +66,56 @@
     <thingClass>Thing</thingClass>
   </ThingDef>
 
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Watch_Tower</defName>
+    <label>乌拉帝国监视塔</label>
+    <description></description>
+    <thingClass>WulaFallenEmpire.Building_MapObserver</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(3,3)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Fake_Fighter_Drone_Building</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(3,3)</drawSize>
+      <color>(195,195,195,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>East</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <comps>
+    </comps>
+  </ThingDef>
+
   
   <!-- 战机 -->
   <ThingDef ParentName="BuildingBase">
