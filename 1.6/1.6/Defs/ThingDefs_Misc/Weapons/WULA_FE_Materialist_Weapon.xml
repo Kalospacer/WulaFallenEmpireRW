@@ -58,7 +58,7 @@
   <ThingDef Name="Wula_CR_Mobile_Factory_Turret" ParentName="BaseWeaponTurret">
     <defName>Wula_CR_Mobile_Factory_Turret</defName>
     <label>CRt-91"铱锇"</label>
-    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，能够喷射穿透装甲的热熔束，处理靠近陆行舰的威胁。</description>
+    <description>由乌拉帝国的陆行舰所配备的炮塔之一，能够喷射穿透装甲的热熔束，处理靠近陆行舰的威胁。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <graphicData>
@@ -130,7 +130,7 @@
   <ThingDef ParentName="Wula_CR_Mobile_Factory_Turret">
     <defName>Wula_CR_Mobile_Factory_Turret_MKII</defName>
     <label>CRt-92"铱锇MK2"</label>
-    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，此改进版比起其原型可以将热熔束喷到更远的地方，但是无法处理过近的目标。</description>
+    <description>由乌拉帝国的陆行舰所配备的炮塔之一，此改进版比起其原型可以将热熔束喷到更远的地方，但是无法处理过近的目标。</description>
     <verbs Inherit="False">
       <li>
         <verbClass>Verb_ArcSprayIncinerator</verbClass>
@@ -244,7 +244,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_MR_Mobile_Factory_Turret</defName>
     <label>CRt-60"陨磷"</label>
-    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，可以射出连续短促的穿透性激光，贯穿路径上的敌军。</description>
+    <description>由乌拉帝国的陆行舰所配备的炮塔之一，是一种射速较快的自动炮，可以压制杀伤成片敌军。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <graphicData>
@@ -255,61 +255,64 @@
     <uiIconScale>2</uiIconScale>
     <statBases>
       <Mass>2.6</Mass>
-      <AccuracyTouch>1</AccuracyTouch>
-      <AccuracyShort>1</AccuracyShort>
-      <AccuracyMedium>1</AccuracyMedium>
-      <AccuracyLong>1</AccuracyLong>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.5</AccuracyMedium>
+      <AccuracyLong>0.4</AccuracyLong>
     </statBases>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_ShootWithOffset</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_Wula_MR_Mobile_Factory_Turret</defaultProjectile>
-        <range>36</range>
-        <minRange>8</minRange>
-        <defaultCooldownTime>1.5</defaultCooldownTime>
-        <burstShotCount>3</burstShotCount>
-        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
-        <soundCast>Shot_BeamRepeater</soundCast>
+        <warmupTime>0</warmupTime>
+        <range>32</range>
+        <defaultCooldownTime>3</defaultCooldownTime>
+        <forcedMissRadius>0.1</forcedMissRadius>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>7</muzzleFlashScale>
-        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
-        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <targetParams>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetBuildings>true</canTargetBuildings>
+        </targetParams>
       </li>
     </verbs>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_MR_Mobile_Factory_Turret</defName>
-    <label>陨磷穿透光束</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
+    <label>陨磷自动炮炮弹</label>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>2.5</drawSize>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>12</damageAmountBase>
+      <speed>90</speed>
+      <explosionRadius>1.2</explosionRadius>
+      <arcHeightFactor>0.4</arcHeightFactor>
+      <soundExplode>Explosion_Rocket</soundExplode>
+      <armorPenetrationBase>0.75</armorPenetrationBase>
+      <screenShakeFactor>0.1</screenShakeFactor>
+    </projectile>
     <modExtensions>
-      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
-        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
-        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
-        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
-        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>
+        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
       </li>
     </modExtensions>
-    <tickerType>Normal</tickerType>
-    <neverMultiSelect>True</neverMultiSelect>
-    <graphicData>
-      <texPath>Things/Projectile/ChargeLanceShot</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-      <drawSize>(3,1)</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>BeamBypassShields</damageDef>
-      <damageAmountBase>5</damageAmountBase>
-      <speed>130</speed>
-      <armorPenetrationBase>0.9</armorPenetrationBase>
-      <stoppingPower>1</stoppingPower>
-    </projectile>
   </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_LR_Mobile_Factory_Turret</defName>
     <label>CRt-26"晶丛"</label>
-    <description>由乌拉帝国的MFm-87"天秤"陆行舰所配备的炮塔之一，能够在远距离上发射等离子射弹覆盖敌军。</description>
+    <description>由乌拉帝国的陆行舰所配备的炮塔之一，射程远威力大，可以在远距离上夷平试图抵抗的敌军。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <graphicData>
@@ -330,16 +333,16 @@
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_Wula_LR_Mobile_Factory_Turret</defaultProjectile>
-        <range>180</range>
-        <minRange>15</minRange>
-        <burstShotCount>12</burstShotCount>
-        <ticksBetweenBurstShots>15</ticksBetweenBurstShots>
-        <soundCast>ChargeLance_Fire</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>7</muzzleFlashScale>
-        <forcedMissRadius>1</forcedMissRadius>
+        <warmupTime>0</warmupTime>
+        <defaultCooldownTime>9</defaultCooldownTime>
+        <isMortar>true</isMortar>
         <requireLineOfSight>false</requireLineOfSight>
-        <defaultCooldownTime>8</defaultCooldownTime>
+        <minRange>4</minRange>
+        <range>120</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <forcedMissRadius>6</forcedMissRadius>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
@@ -348,49 +351,30 @@
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_LR_Mobile_Factory_Turret</defName>
-    <label>晶丛等离子体爆弹</label>
+    <label>晶丛炮弹</label>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_Plasma</texPath>
+      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>MoteGlow</shaderType>
-      <!-- <color>(61,199,157,202)</color> -->
-      <drawSize>(3,4)</drawSize>
+      <drawSize>(2,3)</drawSize>
     </graphicData>
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
-    <!-- <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass> -->
     <projectile>
-      <speed>25</speed>
-      <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-      <damageAmountBase>40</damageAmountBase>
-      <armorPenetrationBase>0.7</armorPenetrationBase>
-      <stoppingPower>2.0</stoppingPower>
-      <explosionRadius>2.5</explosionRadius>
-      <soundExplode>Explosion_EMP</soundExplode>
-      <armorPenetrationBase>0.75</armorPenetrationBase>
-      <screenShakeFactor>0.5</screenShakeFactor>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>45</damageAmountBase>
+      <speed>60</speed>
+      <explosionRadius>6</explosionRadius>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
       <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <stoppingPower>10</stoppingPower>
     </projectile>
     <modExtensions>
-      <!-- <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
-        <explosionRadius>2.5</explosionRadius>
-        <damageDef>Damage_WULA_Plasma_Explosive</damageDef>
-      </li> -->
-      <!-- <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <homingSpeed>0</homingSpeed>
-        <initRotateAngle>0</initRotateAngle>
-        <destroyTicksAfterLosingTrack>
-          <min>60</min>
-          <max>120</max>
-        </destroyTicksAfterLosingTrack>
-        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
-        <impactThreshold>1</impactThreshold>
-      </li> -->
       <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
-        <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
-      </li>
-      <li Class="WulaFallenEmpire.ShotgunExtension">
-        <pelletCount>3</pelletCount>
+        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
+        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
       </li>
     </modExtensions>
   </ThingDef>

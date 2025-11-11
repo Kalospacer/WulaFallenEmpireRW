@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- 悬浮飞行 -->
+  <AnimationDef>
+    <defName>WULA_Hover_FlyEast</defName>
+    <durationTicks>60</durationTicks>
+    <keyframeParts>
+      <!-- <li>
+        <key>ARA_Flight_Attachment</key>
+        <value>
+          <keyframes>
+            <li><graphicState>ARA_FlyEast_0</graphicState><tick>6</tick></li>
+            <li><graphicState>ARA_FlyEast_1</graphicState><tick>12</tick></li>
+          </keyframes>
+        </value>
+      </li> -->
+      <li>
+        <key>Root</key>
+        <value><workerType>AnimationWorker_Keyframes</workerType><keyframes>
+            <li><tick>0</tick><offset>(0,0,-0.05)</offset></li>
+            <li><tick>30</tick><offset>(0,0,0.05)</offset></li>
+            <li><tick>60</tick><offset>(0,0,-0.05)</offset></li>
+          </keyframes></value>
+      </li>
+    </keyframeParts>
+  </AnimationDef>
+  <AnimationDef>
+    <defName>WULA_Hover_FlyNorth</defName>
+    <durationTicks>60</durationTicks>
+    <keyframeParts>
+      <!-- <li>
+        <key>ARA_Flight_Attachment</key>
+        <value>
+          <keyframes>
+            <li><graphicState>ARA_FlyNorth_0</graphicState><tick>6</tick></li>
+            <li><graphicState>ARA_FlyNorth_1</graphicState><tick>12</tick></li>
+          </keyframes>
+        </value>
+      </li> -->
+      <li>
+        <key>Root</key>
+        <value><workerType>AnimationWorker_Keyframes</workerType><keyframes>
+            <li><tick>0</tick><offset>(0,0,-0.05)</offset></li>
+            <li><tick>30</tick><offset>(0,0,0.05)</offset></li>
+            <li><tick>60</tick><offset>(0,0,-0.05)</offset></li>
+          </keyframes></value>
+      </li>
+    </keyframeParts>
+  </AnimationDef>
+  <AnimationDef>
+    <defName>WULA_Hover_FlySouth</defName>
+    <durationTicks>60</durationTicks>
+    <keyframeParts>
+      <!-- <li>
+        <key>ARA_Flight_Attachment</key>
+        <value>
+          <keyframes>
+            <li><graphicState>ARA_FlySouth_0</graphicState><tick>6</tick></li>
+            <li><graphicState>ARA_FlySouth_1</graphicState><tick>12</tick></li>
+          </keyframes>
+        </value>
+      </li> -->
+      <li>
+        <key>Root</key>
+        <value><workerType>AnimationWorker_Keyframes</workerType><keyframes>
+            <li><tick>0</tick><offset>(0,0,-0.05)</offset></li>
+            <li><tick>30</tick><offset>(0,0,0.05)</offset></li>
+            <li><tick>60</tick><offset>(0,0,-0.05)</offset></li>
+          </keyframes></value>
+      </li>
+    </keyframeParts>
+  </AnimationDef>
+</Defs>

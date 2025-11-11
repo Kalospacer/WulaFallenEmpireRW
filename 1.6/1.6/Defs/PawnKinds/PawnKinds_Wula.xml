@@ -239,6 +239,49 @@
     </weaponTags>
   </PawnKindDef>
 
+  <PawnKindDef Name="Wula_Mech_Mobile_Factory_PawnKind" ParentName="HeavyMechanoidKind">
+    <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
+    <label>MFm-87"天秤"</label>
+    <race>Wula_Mech_Mobile_Factory</race>
+    <combatPower>1000</combatPower>
+    <allowInMechClusters>false</allowInMechClusters>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <canMeleeAttack>false</canMeleeAttack>
+    <isGoodBreacher>true</isGoodBreacher>
+
+		<flyingAnimationFramePathPrefix>Wula/Things/Wula_Mech_Mobile_Factory/Flying/Wula_Mech_Mobile_Factory_Flying_</flyingAnimationFramePathPrefix>
+    <flyingAnimationDrawSize>1</flyingAnimationDrawSize>
+		<flyingAnimationFrameCount>1</flyingAnimationFrameCount>
+		<flyingAnimationTicksPerFrame>2</flyingAnimationTicksPerFrame>
+		<flyingAnimationInheritColors>false</flyingAnimationInheritColors>
+
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/Wula_Mech_Mobile_Factory/Bodies/Naked_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>6</drawSize>
+          <shadowData>
+            <volume>(1.4, 1.8, 1.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>99999~99999</weaponMoney>
+
+    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+    <weaponTags>
+      <li>Wula_Mech_Mobile_Factory_Main_Weapon</li>
+    </weaponTags>
+
+    <abilities>
+      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
+      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
+    </abilities>
+  </PawnKindDef>
+
   <!-- 乌拉族反常网络 -->
   <PawnKindDef Name="Wula_Broken_Personality_Pawn_Base" Abstract="True">
     <race>WulaSpecies</race>

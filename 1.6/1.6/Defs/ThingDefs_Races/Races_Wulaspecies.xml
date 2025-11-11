@@ -977,8 +977,11 @@
     <description>乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的堡垒和顽强的抵抗。</description>
     <statBases>
       <BandwidthCost>1</BandwidthCost>
-      <MoveSpeed>1.5</MoveSpeed>
+      <MoveSpeed>1</MoveSpeed>
       <EnergyShieldEnergyMax>5</EnergyShieldEnergyMax>
+
+      <MaxFlightTime>9999</MaxFlightTime>
+      <FlightCooldown>0</FlightCooldown>
     </statBases>
     <race>
       <body>Mech_Warqueen</body>
@@ -993,6 +996,8 @@
         </li>
       </lifeStageAges>
       <baseHealthScale>25</baseHealthScale>
+
+      <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
     <tools>
@@ -1230,6 +1235,17 @@
         <energyLossPerDamage>0.01</energyLossPerDamage>
         <energyOnReset>4.0</energyOnReset>
         <blocksRangedWeapons>false</blocksRangedWeapons>
+      </li>
+      <!-- 飞行组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_PawnFlight">        
+
+        <!-- 飞行触发条件：仅在征召时飞行 -->
+        <flightCondition>Drafted</flightCondition>
+
+        <!-- 链接到我们刚刚创建的 AnimationDef -->
+        <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
+        <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
+        <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
       </li>
     </comps>
   </ThingDef>

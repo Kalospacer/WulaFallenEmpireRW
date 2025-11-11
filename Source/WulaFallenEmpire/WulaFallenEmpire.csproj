@@ -175,6 +175,10 @@
     <Compile Include="Pawn\WULA_Energy\WorkGiver_Warden_DeliverEnergy.cs" />
     <Compile Include="Pawn\WULA_Energy\WorkGiver_Warden_FeedWula.cs" />
     <Compile Include="Pawn\WULA_Energy\WulaCaravanEnergyDef.cs" />
+    <Compile Include="Pawn\WULA_Flight\CompPawnFlight.cs" />
+    <Compile Include="Pawn\WULA_Flight\CompProperties_PawnFlight.cs" />
+    <Compile Include="Pawn\WULA_Flight\PawnRenderNodeWorker_AttachmentBody_NoFlight.cs" />
+    <Compile Include="Pawn\WULA_Flight\Pawn_FlightTrackerPatches.cs" />
     <Compile Include="Pawn\WULA_Maintenance\Building_MaintenancePod.cs" />
     <Compile Include="Pawn\WULA_Maintenance\CompMaintenancePod.cs" />
     <Compile Include="Pawn\WULA_Maintenance\HediffCompProperties_MaintenanceDamage.cs" />

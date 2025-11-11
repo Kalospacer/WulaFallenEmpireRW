@@ -1899,9 +1899,6 @@
     <weaponTags>
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
     <comps>
       <li Class="CompProperties_EquippableAbilityReloadable">
         <abilityDef>WULA_RW_Base_Loitering_Munition_Ability</abilityDef>
