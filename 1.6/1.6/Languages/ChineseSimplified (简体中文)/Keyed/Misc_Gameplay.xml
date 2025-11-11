@@ -335,4 +335,6 @@
   <WULA_FlyOverCooldown.CooldownRemaining>冷却：{0}</WULA_FlyOverCooldown.CooldownRemaining>
   <WULA_FlyOverCooldown.BombardmentFacilityStatus>武器阵列：{0}</WULA_FlyOverCooldown.BombardmentFacilityStatus>
   <WULA_FlyOverCooldown.BombardmentFacilityReady>武器阵列：就绪</WULA_FlyOverCooldown.BombardmentFacilityReady>
+
+  <SkyfallerPawnLanded>战争机械已部署</SkyfallerPawnLanded>
 </LanguageData>

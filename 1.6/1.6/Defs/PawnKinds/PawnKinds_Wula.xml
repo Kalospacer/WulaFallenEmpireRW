@@ -241,7 +241,7 @@
 
   <PawnKindDef Name="Wula_Mech_Mobile_Factory_PawnKind" ParentName="HeavyMechanoidKind">
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
-    <label>MFm-87"天秤"</label>
+    <label>MFm-2"陆行舰"</label>
     <race>Wula_Mech_Mobile_Factory</race>
     <combatPower>1000</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
@@ -262,7 +262,7 @@
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>6</drawSize>
+          <drawSize>9</drawSize>
           <shadowData>
             <volume>(1.4, 1.8, 1.4)</volume>
           </shadowData>
@@ -277,10 +277,85 @@
     </weaponTags>
 
     <abilities>
-      <li>WULA_GiveSwitchHediff</li>   <!-- 添加“停止生产”技能 -->
-      <li>WULA_RemoveSwitchHediff</li> <!-- 保留“恢复生产”技能 -->
+      <li>Wula_Mech_Mobile_Factory_Produce</li>
     </abilities>
   </PawnKindDef>
+  <PawnKindDef Name="WULA_Mech_Flyer_PawnKind" ParentName="BaseMechanoidKind">
+    <defName>WULA_Mech_Flyer</defName>
+    <label>CRm-51"兵蚁"</label>
+    <race>WULA_Mech_Flyer</race>
+    <combatPower>190</combatPower>
+    <allowInMechClusters>false</allowInMechClusters>
+    <flyingAnimationFramePathPrefix>Wula/Things/WULA_Mech_Flyer/Wula_Mech_Flyer_east_Flying_</flyingAnimationFramePathPrefix>
+    <flyingAnimationDrawSize>1</flyingAnimationDrawSize>
+		<flyingAnimationFrameCount>1</flyingAnimationFrameCount>
+		<flyingAnimationTicksPerFrame>2</flyingAnimationTicksPerFrame>
+		<flyingAnimationInheritColors>false</flyingAnimationInheritColors>
+    
+    <forceDeathOnDowned>true</forceDeathOnDowned>
+    <forceNoDeathNotification>true</forceNoDeathNotification>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/WULA_Mech_Flyer/WULA_Mech_Flyer</texPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.5</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+  </PawnKindDef>
+  <AbilityDef>
+    <defName>Wula_Mech_Mobile_Factory_Produce</defName>
+    <label>生产战争机器</label>
+    <description>立刻生产10台CRm-51"兵蚁"，快速组织一道近战阵线。</description>
+    <iconPath>Wula/UI/Abilities/Wula_Mech_Mobile_Factory_Produce</iconPath>
+    <cooldownTicksRange>5000</cooldownTicksRange>
+    <charges>5</charges>
+    <cooldownPerCharge>true</cooldownPerCharge>
+    <aiCanUse>true</aiCanUse>
+    <displayOrder>300</displayOrder>
+    <disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>24</range>
+      <warmupTime>0</warmupTime>
+      <soundCast>WarqueenWarUrchinsSpawned</soundCast>
+      <violent>false</violent>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityLaunchMultiProjectile">
+        <projectileDef>Wula_Mech_Mobile_Factory_Produce_Proj</projectileDef>
+        <numProjectiles>10</numProjectiles>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>Wula_Mech_Mobile_Factory_Produce_Proj</defName>
+    <label>CRm-51"兵蚁"</label>
+    <thingClass>Projectile_SpawnsPawnZeroAge</thingClass>
+    <graphicData>
+      <texPath>Wula/Things/WULA_Mech_Flyer/WULA_Mech_Flyer_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <speed>41</speed>
+      <spawnsPawnKind>WULA_Mech_Flyer</spawnsPawnKind>
+      <tryAdjacentFreeSpaces>true</tryAdjacentFreeSpaces>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>1</damageAmountBase>
+    </projectile>
+  </ThingDef>
 
   <!-- 乌拉族反常网络 -->
   <PawnKindDef Name="Wula_Broken_Personality_Pawn_Base" Abstract="True">

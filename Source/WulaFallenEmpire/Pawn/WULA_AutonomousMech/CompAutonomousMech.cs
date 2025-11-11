@@ -109,6 +109,16 @@ namespace WulaFallenEmpire
                 return CanBeAutonomous;
             }
         }
+        public bool IsInCombatMode
+        {
+            get
+            {
+                if (MechPawn == null || MechPawn.Dead || MechPawn.Downed)
+                    return false;
+                // 被征召或处于自主战斗模式
+                return MechPawn.Drafted || (CanFightAutonomously && MechPawn.mindState?.duty?.def == DutyDefOf.AssaultColony);
+            }
+        }
 
         // 在 CompAutonomousMech 类中添加这个新属性
         public bool CanFightAutonomously

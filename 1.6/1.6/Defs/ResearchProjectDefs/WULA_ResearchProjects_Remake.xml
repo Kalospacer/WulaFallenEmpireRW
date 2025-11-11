@@ -239,6 +239,17 @@
       <li>WULA_Synth_Productor_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Mech_Mobile_Factory_Technology</defName>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>5.60</researchViewY>
+    <label>陆行舰空投许可</label>
+    <description>允许殖民地申请空投MFm-2"陆行舰"，乌拉帝国的大型战争机械，一座插满火炮和战地生产设施的移动堡垒。</description>
+    <baseCost>800</baseCost>
+    <prerequisites>
+      <li>WULA_Colony_License_LV3_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
   <!-- 防御 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Turret_Base_AT_Technology</defName>
@@ -382,8 +393,6 @@
       <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
-
-
 
   <!-- 衣服 -->
   <ResearchProjectDef ParentName="WULAtechBase">

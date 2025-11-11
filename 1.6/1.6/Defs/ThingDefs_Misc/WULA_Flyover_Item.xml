@@ -1200,6 +1200,42 @@
       </li>
       <li>
         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_BlastMechBandRedLine</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>FlashMechBand</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_RedFlashStrong</moteDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <scale>24</scale>
+      </li>
+    </children>
+  </EffecterDef>
+  <!-- <EffecterDef>
+    <defName>WULA_DarkMatterBomb_Shockwave</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
         <fleckDef>WULA_DarkMatterBomb_MechBandRedLine_Fleck</fleckDef>
         <burstCount>1</burstCount>
         <spawnLocType>OnSource</spawnLocType>
@@ -1214,8 +1250,8 @@
         <scale>24</scale>
       </li>
     </children>
-  </EffecterDef>
-  <FleckDef ParentName="FleckBase_Thrown">
+  </EffecterDef> -->
+  <!-- <FleckDef ParentName="FleckBase_Thrown">
     <defName>WULA_DarkMatterBomb_MechBandRedLine_Fleck</defName>
     <altitudeLayer>LightingOverlay</altitudeLayer>
     <fadeInTime>0.1</fadeInTime>
@@ -1241,7 +1277,7 @@
       </shaderParameters>
       <drawSize>(7, 7)</drawSize>
     </graphicData>
-  </FleckDef>
+  </FleckDef> -->
   <ThingDef ParentName="MoteBase">
     <defName>WULA_DarkMatterBomb_FlashStrong</defName>
     <thingClass>MoteAttached</thingClass>

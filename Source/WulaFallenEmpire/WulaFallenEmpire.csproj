@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ability\CompAbilityEffect_LaunchMultiProjectile.cs" />
     <Compile Include="Ability\CompAbilityEffect_ResearchPrereq.cs" />
     <Compile Include="Ability\WULA_AbilityBombardment\CompAbilityEffect_Bombardment.cs" />
     <Compile Include="Ability\WULA_AbilityBombardment\CompProperties_AbilityBombardment.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_FloatMenuOptionProvider_SelectedPawnValid.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_IsColonyMechPlayerControlled.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MechanitorUtility_CanDraftMech.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_Pawn_ThreatDisabled.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_UncontrolledMechDrawPulse.cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
     <Compile Include="HediffComp\HediffCompProperties_SwitchableHediff.cs" />
@@ -220,6 +222,8 @@
     <Compile Include="BuildingComp\WULA_Shuttle\Dialog_ArmedShuttleTransfer.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\GenStep_WulaPocketSpaceSmall.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\PocketSpaceThingHolder.cs" />
+    <Compile Include="ThingComp\WULA_SkyfallerPawnSpawner\CompProperties_SkyfallerPawnSpawner.cs" />
+    <Compile Include="ThingComp\WULA_SkyfallerPawnSpawner\Skyfaller_PawnSpawner.cs" />
     <Compile Include="Utils\BezierUtil.cs" />
     <Compile Include="Verb\MeleeAttack_Cleave\CompCleave.cs" />
     <Compile Include="HarmonyPatches\Caravan_NeedsTracker_TrySatisfyPawnNeeds_Patch.cs" />
