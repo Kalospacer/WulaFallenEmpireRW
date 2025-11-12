@@ -22,4 +22,6 @@
   <WULA_DamageShieldMaxChargesReached>伤害护盾已达到最大层数。</WULA_DamageShieldMaxChargesReached>
   <WULA_DamageShieldChargesDescription>使用：增加 {0} 层伤害护盾</WULA_DamageShieldChargesDescription>
 
+  <WULA_AutonomousMechsSection>自律机械体</WULA_AutonomousMechsSection>
+
 </LanguageData>
