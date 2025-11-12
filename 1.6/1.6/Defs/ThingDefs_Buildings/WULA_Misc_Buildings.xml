@@ -72,10 +72,10 @@
     <thingClass>Thing</thingClass>
   </ThingDef>
 
-  <ThingDef ParentName="BuildingBase">
+  <!-- <ThingDef ParentName="BuildingBase">
     <defName>WULA_Watch_Tower</defName>
     <label>乌拉帝国监视塔</label>
-    <description></description>
+    <description>111</description>
     <thingClass>WulaFallenEmpire.Building_MapObserver</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
@@ -100,7 +100,6 @@
       <Mass>125</Mass>
       <Comfort>0.65</Comfort>
     </statBases>
-    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>
     <rotatable>true</rotatable>
@@ -120,7 +119,7 @@
     </building>
     <comps>
     </comps>
-  </ThingDef>
+  </ThingDef> -->
   
   <!-- 战机 -->
   <ThingDef ParentName="BuildingBase">

@@ -19,23 +19,6 @@
   </WorkGiverDef>
 
   <WorkGiverDef>
-    <defName>WULA_Synth_ServerBills</defName>
-    <label>在服务器系统下载数据</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Smithing</workType>
-    <priorityInType>75</priorityInType>
-    <fixedBillGiverDefs>
-      <li>WULA_Synth_Server</li>
-    </fixedBillGiverDefs>
-    <verb>工作于</verb>
-    <gerund>工作于</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-    <prioritizeSustains>true</prioritizeSustains>
-  </WorkGiverDef>
-
-  <WorkGiverDef>
     <defName>FeedWulaPatient</defName>
     <label>为机械乌拉补充能量</label>
     <giverClass>WulaFallenEmpire.WorkGiver_FeedWulaPatient</giverClass>

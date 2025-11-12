@@ -96,6 +96,13 @@
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\CompProperties_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\JobDriver_RecycleMechanoid.cs" />
+    <Compile Include="BuildingComp\WULA_Shuttle\ArmedShuttleIncoming.cs" />
+    <Compile Include="BuildingComp\WULA_Shuttle\Building_ArmedShuttle.cs" />
+    <Compile Include="BuildingComp\WULA_Shuttle\Building_ArmedShuttleWithPocket.cs" />
+    <Compile Include="BuildingComp\WULA_Shuttle\Building_PocketMapExit.cs" />
+    <Compile Include="BuildingComp\WULA_Shuttle\Dialog_ArmedShuttleTransfer.cs" />
+    <Compile Include="BuildingComp\WULA_Shuttle\GenStep_WulaPocketSpaceSmall.cs" />
+    <Compile Include="BuildingComp\WULA_Shuttle\PocketSpaceThingHolder.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompSkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompProperties_StorageTurret.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompStorageTurret.cs" />
@@ -219,13 +226,6 @@
     <Compile Include="ThingComp\WULA_PsychicRitual\PsychicRitualToil_GatherForInvocation_Wula.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\PsychicRitual_TechOffering.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\RitualTagExtension.cs" />
-    <Compile Include="BuildingComp\WULA_Shuttle\ArmedShuttleIncoming.cs" />
-    <Compile Include="BuildingComp\WULA_Shuttle\Building_ArmedShuttle.cs" />
-    <Compile Include="BuildingComp\WULA_Shuttle\Building_ArmedShuttleWithPocket.cs" />
-    <Compile Include="BuildingComp\WULA_Shuttle\Building_PocketMapExit.cs" />
-    <Compile Include="BuildingComp\WULA_Shuttle\Dialog_ArmedShuttleTransfer.cs" />
-    <Compile Include="BuildingComp\WULA_Shuttle\GenStep_WulaPocketSpaceSmall.cs" />
-    <Compile Include="BuildingComp\WULA_Shuttle\PocketSpaceThingHolder.cs" />
     <Compile Include="ThingComp\WULA_SkyfallerPawnSpawner\CompProperties_SkyfallerPawnSpawner.cs" />
     <Compile Include="ThingComp\WULA_SkyfallerPawnSpawner\Skyfaller_PawnSpawner.cs" />
     <Compile Include="Utils\BezierUtil.cs" />

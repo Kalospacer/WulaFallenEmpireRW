@@ -12,7 +12,7 @@
     <modExtensions>
       <li Class="WulaFallenEmpire.MentalStateDefExtension_BrokenPersonality">
         <traitToAdd>WULA_Trait_Broken_Personality</traitToAdd>
-        <factionToJoin>Wula_Broken_Personality_Faction</factionToJoin>
+        <factionToJoin>AncientsHostile</factionToJoin>
         <skillLevelFactor>0.5</skillLevelFactor>
       </li>
     </modExtensions>

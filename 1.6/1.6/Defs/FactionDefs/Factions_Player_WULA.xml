@@ -41,7 +41,7 @@
     <pawnsPlural>乌拉帝国合成人</pawnsPlural>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <factionNameMaker>NamerFaction_Wula_PIA_Legion_Faction</factionNameMaker>
-    <factionIconPath>Wula/World/WorldObjects/Expanding/Wula_Broken_Personality_Faction</factionIconPath>
+    <factionIconPath>Wula/World/WorldObjects/Expanding/Wula_PIA_Legion_Faction</factionIconPath>
     <!-- <settlementGenerationWeight>1</settlementGenerationWeight> -->
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <canSiege>false</canSiege>
@@ -51,7 +51,7 @@
       <li MayRequire="Ludeon.RimWorld.Odyssey">Orbit</li>
     </arrivalLayerWhitelist>
     <colorSpectrum>
-      <li>(0.5, 0.5, 0.5)</li>
+      <li>(1, 1, 1)</li>
     </colorSpectrum>
     <raidCommonalityFromPointsCurve>
       <points>
@@ -88,66 +88,13 @@
       </points>
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
-      <!-- 机械部队，大量的猫猫混至多2台战车 -->
-      <li>
-        <kindDef>Combat</kindDef>
-        <commonality>40</commonality>
-        <options>
-          <Wula_AI_Heavy_Panzer_Gunnery_PawnKind>100</Wula_AI_Heavy_Panzer_Gunnery_PawnKind>
-          <Wula_AI_Heavy_Panzer_PawnKind>100</Wula_AI_Heavy_Panzer_PawnKind>
-          <Mech_WULA_Cat_Assault>60</Mech_WULA_Cat_Assault>
-          <Mech_WULA_Cat_Constructor>30</Mech_WULA_Cat_Constructor>
-        </options>
-      </li>
-      <!-- 重甲部队，大量的猫猫混杂少量的重甲兵 -->
-      <li>
-        <kindDef>Combat</kindDef>
-        <commonality>40</commonality>
-        <options>
-          <Mech_WULA_Cat_Constructor>20</Mech_WULA_Cat_Constructor>
-          <Mech_WULA_Cat_Assault>20</Mech_WULA_Cat_Assault>
-          <Wula_Broken_Personality_Pawn_7>4</Wula_Broken_Personality_Pawn_7>
-          <Wula_Broken_Personality_Pawn_5>2</Wula_Broken_Personality_Pawn_5>
-        </options>
-      </li>
-      <!-- 骑士军团部队 -->
-      <li>
-        <kindDef>Combat</kindDef>
-        <commonality>40</commonality>
-        <options>
-          <Mech_WULA_Cat_Constructor>20</Mech_WULA_Cat_Constructor>
-          <Mech_WULA_Cat_Assault>20</Mech_WULA_Cat_Assault>
-          <Wula_Broken_Personality_Pawn_6>3</Wula_Broken_Personality_Pawn_6>
-        </options>
-      </li>
-      <!-- 破袭部队，可能会有破墙重甲 -->
-      <li>
-        <kindDef>Combat</kindDef>
-        <commonality>30</commonality>
-        <options>
-          <Wula_Broken_Personality_Pawn_2>12</Wula_Broken_Personality_Pawn_2>
-          <Wula_Broken_Personality_Pawn_4>3</Wula_Broken_Personality_Pawn_4>
-          <Wula_Broken_Personality_Pawn_5>1</Wula_Broken_Personality_Pawn_5>
-        </options>
-      </li>
-      <!-- 常规部队 -->
-      <li>
-        <kindDef>Combat</kindDef>
-        <commonality>30</commonality>
-        <options>
-          <Wula_Broken_Personality_Pawn_2>10</Wula_Broken_Personality_Pawn_2>
-          <Wula_Broken_Personality_Pawn_3>3</Wula_Broken_Personality_Pawn_3>
-          <Wula_Broken_Personality_Pawn_4>3</Wula_Broken_Personality_Pawn_4>
-        </options>
-      </li>
       <!-- 服务安保部队 -->
       <li>
         <!-- militor only -->
         <kindDef>Combat</kindDef>
         <commonality>30</commonality>
         <options>
-          <Wula_Broken_Personality_Pawn_1>10</Wula_Broken_Personality_Pawn_1>
-          <Wula_Broken_Personality_Pawn_2>2</Wula_Broken_Personality_Pawn_2>
+          <Wula_PawnKind>10</Wula_PawnKind>
         </options>
       </li>
     </pawnGroupMakers>
@@ -172,5 +119,8 @@
       <li MayRequire="Ludeon.RimWorld.Odyssey">GravshipCrew</li>
       <li MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</li>
     </permanentEnemyToEveryoneExcept>
+    <backstoryCategories>
+      <li>Wula_Backstory_Categories</li>
+    </backstoryCategories>
   </FactionDef>
 </Defs>

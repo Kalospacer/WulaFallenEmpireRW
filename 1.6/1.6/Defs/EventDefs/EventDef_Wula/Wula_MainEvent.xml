@@ -15,8 +15,8 @@
       <li>
         <label>请求协助</label>
         <useCustomColors>true</useCustomColors>
-        <normalColor>(226,191,195,195)</normalColor>
-        <hoverColor>(226,191,195,185)</hoverColor>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
         <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>
@@ -36,7 +36,7 @@
                     <kindDef>Combat</kindDef>
                     <commonality>100</commonality>
                     <options>
-                      <Wula_Broken_Personality_Pawn_2>10</Wula_Broken_Personality_Pawn_2>
+                      <Wula_PawnKind>10</Wula_PawnKind>
                     </options>
                   </li>
                 </pawnGroupMakers>
@@ -48,8 +48,8 @@
       <li>
         <label>再见</label>
         <useCustomColors>true</useCustomColors>
-        <normalColor>(226,191,195,195)</normalColor>
-        <hoverColor>(226,191,195,185)</hoverColor>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
         <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>
@@ -67,7 +67,7 @@
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Legion_Reply_1</defName>
     <label>和P.I.A的通讯</label>
-    <portraitPath>Wula/Events/Portraits/WULA_Legion_4</portraitPath>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_6</portraitPath>
     <characterName>「军团」,P.I.A</characterName>
     <descriptions>
       <li>请，不要，往舰队扔尸体、废物殖民者、动物和有毒垃圾！</li>
@@ -77,8 +77,8 @@
       <li>
         <label>好的</label>
         <useCustomColors>true</useCustomColors>
-        <normalColor>(226,191,195,195)</normalColor>
-        <hoverColor>(226,191,195,185)</hoverColor>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
         <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>

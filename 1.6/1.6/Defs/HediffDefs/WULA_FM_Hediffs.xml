@@ -11,12 +11,13 @@
     <statBases>
       <MaxHitPoints>-1</MaxHitPoints>
       <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
     </statBases>
     <graphicData>
       <texPath>Things/Item/Health/HealthItem</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <recipeMaker Inherit="False"/>
+    <recipeMaker Inherit="False" IsNull="True"/>
     <comps>
       <li Class="CompProperties_Usable">
         <compClass>CompUsableImplant</compClass>

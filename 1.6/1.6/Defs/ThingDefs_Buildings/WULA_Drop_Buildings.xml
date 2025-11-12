@@ -964,7 +964,7 @@
       <WULA_Charge_Cube>1</WULA_Charge_Cube>
     </costList>
     <researchPrerequisites>
-      <li>WULA_Machine_Productor_Technology</li>
+      <li>WULA_Bunker_Drop_Technology</li>
     </researchPrerequisites>
     <comps>
       <li Class="CompProperties_Glower">

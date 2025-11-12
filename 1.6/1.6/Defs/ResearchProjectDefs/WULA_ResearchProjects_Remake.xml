@@ -260,7 +260,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Turret_Base_AT_Technology</defName>
     <researchViewX>7.00</researchViewX>
-    <researchViewY>1.40</researchViewY>
+    <researchViewY>0.90</researchViewY>
     <label>反战车磁轨炮许可</label>
     <description>允许殖民地申请空投反战车磁轨炮台，可以在远距离上击穿拥有厚重装甲的敌人。</description>
     <baseCost>600</baseCost>
@@ -275,7 +275,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Turret_Base_Laser_Technology</defName>
     <researchViewX>6.00</researchViewX>
-    <researchViewY>1.40</researchViewY>
+    <researchViewY>0.90</researchViewY>
     <label>涡轮激光炮许可</label>
     <description>允许殖民地申请空投激光炮台，可以持续定向烧灼敌军，最大限度地击伤对手并留存战利品和俘虏。</description>
     <baseCost>600</baseCost>
@@ -318,7 +318,7 @@
     <description>允许从作业通讯台提交生产基础能量武器的乌拉帝国武备的订单，这些武器需要较长的瞄准时间，但是瞄准之后可以连续开火。</description>
     <baseCost>2400</baseCost>
     <researchViewX>5.00</researchViewX>
-    <researchViewY>0.80</researchViewY>
+    <researchViewY>0.90</researchViewY>
     <hiddenPrerequisites>
     </hiddenPrerequisites>  
     <hiddenPrerequisites>
@@ -360,7 +360,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_3_Laser_Technology</defName>
     <researchViewX>9.00</researchViewX>
-    <researchViewY>0.80</researchViewY>
+    <researchViewY>0.90</researchViewY>
     <label>熔炉武装加工许可</label>
     <description>允许从作业通讯台提交生产高级能量武器的乌拉帝国武备的订单，只要为其提供安稳的输出环境，它们就能展现其恐怖的攻坚能力。</description>
     <baseCost>600</baseCost>
@@ -427,8 +427,19 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Weapon_Shield_Technology</defName>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>2.10</researchViewY>
+    <label>护盾加工许可</label>
+    <description>允许从作业通讯台提交各种手持护盾的订单。</description>
+    <baseCost>800</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Clothes_2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Armor_1_Technology</defName>
-    <researchViewX>6.00</researchViewX>
+    <researchViewX>7.00</researchViewX>
     <researchViewY>2.70</researchViewY>
     <label>基础装甲加工许可</label>
     <description>允许从作业通讯台提交生产基础乌拉帝国装甲的订单。</description>
@@ -452,7 +463,46 @@
     </prerequisites>
   </ResearchProjectDef>
 
-
+  <!-- 植入物 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Addons_Technology</defName>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>1.50</researchViewY>
+    <label>基础植入物加工许可</label>
+    <description>获取构建乌拉帝国合成人基础植入物的技术，用以增强乌拉帝国合成人的机体性能。</description>
+    <baseCost>800</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Productor_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Antenna_Technology</defName>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>1.50</researchViewY>
+    <label>蜂群节点加工许可</label>
+    <description>获取特殊构型的机械乌拉天线，使得这些经过天线改装的乌拉可以胜任指挥任务。</description>
+    <baseCost>1000</baseCost>
+    <hiddenPrerequisites>
+      <li>WULA_Synth_Addons_Technology</li>
+    </hiddenPrerequisites>  
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Addons_2_Technology</defName>
+    <label>高级植入物加工许可</label>
+    <description>获取构建乌拉帝国合成人进阶植入物的技术，用以增强乌拉帝国合成人的机体性能。</description>
+    <baseCost>3600</baseCost>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>1.50</researchViewY>
+    <hiddenPrerequisites>
+      <li>WULA_Synth_Antenna_Technology</li>
+    </hiddenPrerequisites>  
+    <prerequisites>
+      <li>WULA_Colony_License_LV3_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
 
   <!-- <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Adv_WorkTable_Technology</defName>
@@ -534,18 +584,6 @@
     <prerequisites>
       <li>PoweredArmor</li>
       <li>WULA_Synth_Armor_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef> -->
-  <!-- <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_Shield_Technology</defName>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>1.80</researchViewY>
-    <label>护盾武装套件</label>
-    <description>开发能够保护乌拉帝国合成人的手持护盾，以抵抗来自敌方的猛烈攻击。</description>
-    <baseCost>800</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Weapon_Technology</li>
-      <li>WULA_Synth_Clothes_Technology</li>
     </prerequisites>
   </ResearchProjectDef> -->
   
@@ -663,42 +701,6 @@
     <researchViewY>4.70</researchViewY>
     <prerequisites>
       <li>WULA_New_Synth_Skill_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Addons_Technology</defName>
-    <researchViewX>4.50</researchViewX>
-    <researchViewY>4.70</researchViewY>
-    <label>基础植入物套件</label>
-    <description>获取构建乌拉帝国合成人基础植入物的技术，用以增强乌拉帝国合成人的机体性能。</description>
-    <baseCost>800</baseCost>
-    <prerequisites>
-      <li>WULA_Adv_WorkTable_Technology</li>
-      <li>WULA_Shutdown_Technology</li>
-      <li>WULA_New_Synth_Skill_2_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Antenna_Technology</defName>
-    <researchViewX>5.50</researchViewX>
-    <researchViewY>3.90</researchViewY>
-    <label>蜂群节点套件</label>
-    <description>获取特殊构型的机械乌拉天线，使得这些经过天线改装的乌拉可以胜任指挥任务。</description>
-    <baseCost>1000</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Addons_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Addons_2_Technology</defName>
-    <label>高级植入物套件</label>
-    <description>获取构建乌拉帝国合成人进阶植入物的技术，用以增强乌拉帝国合成人的机体性能。</description>
-    <baseCost>3600</baseCost>
-    <researchViewX>9.00</researchViewX>
-    <researchViewY>3.90</researchViewY>
-    <prerequisites>
-      <li>WULA_Synth_Addons_Technology</li>
-      <li>WULA_Dark_Matter_Technology</li>
     </prerequisites>
   </ResearchProjectDef> -->
 </Defs>

@@ -1728,9 +1728,6 @@
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <techLevel>Spacer</techLevel>
-    <thingSetMakerTags>
-      <li>RewardStandardLowFreq</li>
-    </thingSetMakerTags>
     <statBases>
       <WorkToMake>1000</WorkToMake>
       <Mass>1</Mass>
@@ -1860,9 +1857,6 @@
       <researchPrerequisite>WULA_Synth_Weapon_1_Missile_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
-    <researchPrerequisites>
-      <li>WULA_Adv_WorkTable_Technology</li>
-    </researchPrerequisites>
     <statBases>
       <WorkToMake>2500</WorkToMake>
       <!-- <MarketValue>370</MarketValue> -->

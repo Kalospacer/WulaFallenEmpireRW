@@ -171,7 +171,7 @@
       <Comfort>0.65</Comfort>
     </statBases>
     <tickerType>Normal</tickerType>
-    <designationCategory>WULA_Buildings</designationCategory>
+    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <costList>
       <Steel>300</Steel>
@@ -300,10 +300,11 @@
     <size>(3,3)</size>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
-      <texPath>Wula/Building/WULA_War_Machine_Recharger</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Wula/Building/WULA_Machine_Recharger</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(3,3)</drawSize>
     </graphicData>
+    <rotatable>false</rotatable>
     <interactionCellOffset>(0,0,0)</interactionCellOffset>
     <passability>Standable</passability>
     <statBases>

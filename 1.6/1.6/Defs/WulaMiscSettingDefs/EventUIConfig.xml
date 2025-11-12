@@ -46,7 +46,7 @@
     <optionSpacing>20</optionSpacing>
     
     <!-- 调试和样式 -->
-    <drawBorders>true</drawBorders>
+    <drawBorders>false</drawBorders>
     <showDefName>false</showDefName>
     <labelFont>Medium</labelFont>
   </WulaFallenEmpire.EventUIConfigDef>

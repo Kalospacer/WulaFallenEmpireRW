@@ -645,7 +645,6 @@
       <researchPrerequisite  Inherit="False"/>
       <researchPrerequisites>
         <li>WULA_Synth_Addons_2_Technology</li>
-        <li>WULA_Neutronium_Technology</li>
       </researchPrerequisites>
       <recipeUsers Inherit="False"/>
     </recipeMaker>
@@ -1325,35 +1324,6 @@
   </RecipeDef>
 
   <!-- 抽魂 -->
-  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
-    <defName>WULA_Extract_Soul_Wedge</defName>
-    <label>提取魂楔</label>
-    <description>从该目标体内提取50枚魂楔以供乌拉帝国灵能法杖充能，被提取灵魂的目标将进入灵魂抽离状态，在这种状态下，目标不稳定的灵魂每过一段时间都可能导致目标无法行动、陷入昏迷甚至是直接死亡——这种症状没有固定的治愈时间，但是每天都将有一定几率自动消失，届时可再次开展提取手术。</description>
-    <jobString>正在提取魂楔</jobString>
-    <workAmount>500</workAmount>
-    <workerClass>Recipe_AddHediff</workerClass>
-    <hideBodyPartNames>true</hideBodyPartNames>
-    <targetsBodyPart>false</targetsBodyPart>
-    <isViolation>true</isViolation>
-    <descriptionHyperlinks>
-      <ThingDef>WULA_Soul_Wedge</ThingDef>
-    </descriptionHyperlinks>
-    <researchPrerequisites>
-      <li>WULA_Synth_Psi_Technology</li>
-    </researchPrerequisites>
-    <uiIconThing>WULA_Soul_Wedge</uiIconThing>
-    <surgeryOutcomeEffect IsNull="True" />
-    <!-- Always succeeds -->
-    <anesthetize>false</anesthetize>
-    <workSkillLearnFactor>2</workSkillLearnFactor>
-    <products>
-      <WULA_Soul_Wedge>50</WULA_Soul_Wedge>
-    </products>
-
-    <ingredients Inherit="False">
-    </ingredients>
-    <addsHediff>WULA_Extract_Soul_Wedge_Hediff</addsHediff>
-  </RecipeDef>
   <HediffDef ParentName="ImplantHediffBase">
     <defName>WULA_Extract_Soul_Wedge_Hediff</defName>
     <hediffClass>HediffWithComps</hediffClass>
@@ -1412,93 +1382,6 @@
       </li>
     </stages>
   </HediffDef>
-
-  <!-- 修复器 -->
-  <ThingDef ParentName="MechSerumBase">
-    <defName>WULA_MechRepairKit</defName>
-    <label>机械乌拉修理套件</label>
-    <description>一种一次性使用的堕落乌拉帝国修理套件，专门用来紧急修复机械乌拉的伤口。</description>
-    <descriptionHyperlinks><RecipeDef>AdministerWULA_MechRepairKit</RecipeDef></descriptionHyperlinks>
-    <graphicData>
-      <texPath>Wula/Item/WULA_MechRepairKit</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>0.7</drawSize>
-    </graphicData>
-    <stackLimit>10</stackLimit>
-    <statBases>
-      <MarketValue>1</MarketValue>
-    </statBases>
-    <thingCategories>
-      <li>Drugs</li>
-    </thingCategories>
-    <tradeability>None</tradeability>
-    <comps>
-      <li Class="CompProperties_UseEffect">
-        <compClass>WulaFallenEmpire.CompUseEffect_FixAllHealthConditions</compClass>
-      </li>
-      <li Class="CompProperties_UseEffectPlaySound">
-        <soundOnUsed>MechSerumUsed</soundOnUsed>
-      </li>
-      <li Class="CompProperties_UseEffectDestroySelf" />
-    </comps>
-    <costList>
-      <Steel>25</Steel>
-      <WULA_Charge_Cube>2</WULA_Charge_Cube>
-    </costList>
-    <thingSetMakerTags>
-      <li>RewardStandardCore</li>
-    </thingSetMakerTags>
-    <recipeMaker>
-      <unfinishedThingDef>UnfinishedHealthItemProsthetic</unfinishedThingDef>
-      <recipeUsers Inherit="False"/>
-      <useIngredientsForColor>false</useIngredientsForColor>
-      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-      <workSkill>Crafting</workSkill>
-      <effectWorking>Smith</effectWorking>
-      <soundWorking>Recipe_Machining</soundWorking>
-      <displayPriority>650</displayPriority>
-      <researchPrerequisites>
-        <li>WULA_Repair_All_Technology</li>
-      </researchPrerequisites>
-    </recipeMaker>
-  </ThingDef>
-  <RecipeDef>
-    <defName>AdministerWULA_MechRepairKit</defName>
-    <label>修理机械乌拉</label>
-    <description>施用一个机械乌拉修理套件，修复乌拉族目标的所有健康状况。</description>
-    <workerClass>WulaFallenEmpire.Recipe_AdministerWulaMechRepairKit</workerClass> <!-- 更改为自定义的 RecipeWorker -->
-    <descriptionHyperlinks><ThingDef>WULA_MechRepairKit</ThingDef></descriptionHyperlinks>
-    <jobString>正在修理机械乌拉。</jobString>
-    <workAmount>5000</workAmount> <!-- 增加工作量以适应手术 -->
-    <workSkill>Medicine</workSkill> <!-- 需要医疗技能 -->
-    <skillRequirements>
-      <Medicine>6</Medicine> <!-- 示例：需要医疗技能等级 6 -->
-    </skillRequirements>
-    <recipeUsers>
-      <li>WulaSpecies</li> <!-- 只能在乌拉族上执行 -->
-    </recipeUsers>
-    <targetsBodyPart>false</targetsBodyPart> <!-- 仍然作用于整个小人 -->
-    <anesthetize>false</anesthetize> <!-- 不需要麻醉 -->
-    <dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <!-- 此处无需特定的 surgeryOutcomeEffect，因为物品的 CompUseEffect 处理实际治疗 -->
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WULA_MechRepairKit</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>WULA_MechRepairKit</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-  </RecipeDef>
 
   <!-- 关机 -->
   <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
