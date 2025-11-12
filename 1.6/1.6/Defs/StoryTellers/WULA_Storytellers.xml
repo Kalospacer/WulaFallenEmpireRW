@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <StorytellerDef ParentName="BaseStoryteller">
-	<defName>WULA_Legion</defName>
-	<label>「军团」</label>
-	<description>一个超级AI，负责控制调度乌拉帝国行星封锁机关P.I.A的舰队，是帝国开发署扩张领地的先锋。当帝国需要对一个星球进行控制和介入时，她会指挥庞大的先锋舰队攻占轨道，以不容置疑的实力向星球宣示帝国的权威。\n\n作为讲述者，她不会为你留下任何保护措施，所有的袭击和恶性事件从落地开始就有可能生成，并且袭击的频率要比常规情况下更高——尽管它们还是有周期规律的。</description>
-	<portraitLarge>Wula/Storyteller/WULA_Legion</portraitLarge>
-	<portraitTiny>Wula/Storyteller/WULA_Legion_TINY</portraitTiny>
-  <listOrder>20</listOrder>
+    <defName>WULA_Legion</defName>
+    <label>「军团」</label>
+    <description>一个超级AI，负责控制调度乌拉帝国行星封锁机关P.I.A的舰队，是帝国开发署扩张领地的先锋。当帝国需要对一个星球进行控制和介入时，她会指挥庞大的先锋舰队攻占轨道，以不容置疑的实力向星球宣示帝国的权威。\n\n作为讲述者，她不会为你留下任何保护措施，所有的袭击和恶性事件从落地开始就有可能生成，并且袭击的频率要比常规情况下更高——尽管它们还是有周期规律的。</description>
+    <portraitLarge>Wula/Storyteller/WULA_Legion</portraitLarge>
+    <portraitTiny>Wula/Storyteller/WULA_Legion_TINY</portraitTiny>
+    <listOrder>50</listOrder>
     <comps>
       <!-- Intro -->
       <!-- <li Class="StorytellerCompProperties_ClassicIntro"/> -->

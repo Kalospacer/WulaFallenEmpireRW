@@ -13,62 +13,45 @@
     </descriptions>
     <options>
       <li>
-        <label>再见</label>
+        <label>请求协助</label>
         <useCustomColors>true</useCustomColors>
-        <normalColor>(133,206,219,185)</normalColor>
-        <hoverColor>(133,206,219,185)</hoverColor>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
         <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>
           <li>
             <effects>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_TriggerRaid">
+                <letterLabel>增援</letterLabel>
+                <letterText>乌拉帝国 行星封锁机关的一支分队正在接近。</letterText>
+                <points>10000</points>
+                <faction>Wula_PIA_Legion_Faction</faction>
+                <raidStrategy>ImmediateAttack</raidStrategy>
+                <raidArrivalMode>EdgeDrop</raidArrivalMode>
+                <groupKind>Combat</groupKind>
+                <pawnGroupMakers>
+                  <li>
+                    <kindDef>Combat</kindDef>
+                    <commonality>100</commonality>
+                    <options>
+                      <Wula_Broken_Personality_Pawn_2>10</Wula_Broken_Personality_Pawn_2>
+                    </options>
+                  </li>
+                </pawnGroupMakers>
+              </li>
             </effects>
           </li>
         </optionEffects>
       </li>
       <li>
         <label>再见</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>再见</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>再见</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>再见</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>再见</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>
           <li>
             <effects>

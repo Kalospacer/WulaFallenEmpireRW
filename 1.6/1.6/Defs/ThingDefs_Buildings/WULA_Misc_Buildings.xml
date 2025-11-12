@@ -94,7 +94,7 @@
       <Mass>125</Mass>
       <Comfort>0.65</Comfort>
     </statBases>
-    <designationCategory>WULA_Buildings</designationCategory>
+    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>
     <rotatable>true</rotatable>
@@ -115,7 +115,6 @@
     <comps>
     </comps>
   </ThingDef>
-
   
   <!-- 战机 -->
   <ThingDef ParentName="BuildingBase">

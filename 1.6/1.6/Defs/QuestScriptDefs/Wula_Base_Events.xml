@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <IncidentDef ParentName="GiveQuestBase">
+    <defName>WULA_GiveQuest_Intro_Spy</defName>
+    <label>SPY</label>
+    <questScriptDef>WULA_Intro_Spy</questScriptDef> <!-- 通向具体的questScrip -->
+    <baseChance>0</baseChance> <!-- given by a special storyteller comp -->
+  </IncidentDef>
+  <QuestScriptDef>
+    <defName>WULA_Intro_Spy</defName>
+    <defaultChallengeRating>1</defaultChallengeRating> <!-- 挑战等级（星级） -->
+    <expireDaysRange>2</expireDaysRange> <!-- 过期时间 -->
+    <isRootSpecial>true</isRootSpecial> <!-- 特殊任务 -->
+    <defaultCharity>false</defaultCharity> <!-- 是否仁善 -->
+     <!-- 仁善想法 -->
+    <!-- <successHistoryEvent MayRequire="Ludeon.RimWorld.Ideology">CharityFulfilled_IntroWimp</successHistoryEvent>
+    <failedOrExpiredHistoryEvent MayRequire="Ludeon.RimWorld.Ideology">CharityRefused_IntroWimp</failedOrExpiredHistoryEvent> -->
+    <!-- 命名规则 -->
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->the [adjAny] [asker_royalTitleInCurrentFaction]</li>
+
+        <!-- Pieces -->
+        <li>adjAny->hunted</li>
+        <li>adjAny->fleeing</li>
+        <li>adjAny->solitary</li>
+        <li>adjAny->ambushed</li>
+
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
+      <rulesStrings>
+        <li>questDescription->[asker_nameFull], a [asker_royalTitleInCurrentFaction] of [asker_faction_name] is calling from nearby. [asker_possessive] guards were killed in an ambush. [asker_pronoun] escaped, but is now being followed by (*Threat)a manhunting [animalKindDef_label](/Threat).\n\n[asker_nameDef] wants you to keep [asker_objective] safe at [map_definite] for a few hours until [asker_possessive] shuttle can come pick [asker_objective] up.
+\n[asker_pronoun] will bestow [royalFavorReward] [asker_faction_royalFavorLabel] on whoever accepts this quest. This is enough [asker_faction_royalFavorLabel] to receive the royal title of Novice, and all benefits that come with it - including the first level of psychic powers.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <!-- 运行规则 -->
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="WulaFallenEmpire.QuestNode_Root_EventLetter">
+          <eventDefName>Wula_UI_Legion_1</eventDefName>
+        </li>
+        <li Class="QuestNode_ResolveQuestName">
+          <rules>
+            <rulesStrings>
+              <li>questName->乌拉的呼唤</li>
+            </rulesStrings>
+          </rules>
+        </li>
+        <li Class="QuestNode_ResolveQuestDescription">
+          <rules>
+            <rulesStrings>
+              <li>questDescription->一个强大的心灵实体将它的意志强加于你的意识之中。</li>
+            </rulesStrings>
+          </rules>
+        </li>
+        <!-- 通讯 -->
+        <li Class="WulaFallenEmpire.QuestNode_Root_EventLetter">
+          <letterLabel>乌拉需要你的注意</letterLabel>
+          <letterTitle>乌拉需要你的注意</letterTitle>
+          <letterText>一个强大的心灵实体将它的意志强加于你的意识之中。它自称为“乌拉”，并要求你阅览它的消息。这股力量是压倒性的，不容拒绝。</letterText>
+          <options>
+            <li>
+              <label>阅览消息</label>
+              <optionEffects>
+                <li>
+                  <effects>
+                    <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                      <defName>Wula_UI_Legion_1</defName>
+                    </li>
+                  </effects>
+                </li>
+              </optionEffects>
+            </li>
+          </options>
+        </li>
+
+        <!-- 获取地图 -->
+        <li Class="QuestNode_GetMap" />
+        <!-- 获取边缘进入点 -->
+        <li Class="QuestNode_GetWalkInSpot" />
+        <!-- 产生超链接 -->
+        <li Class="QuestNode_RoyalTitleHyperlink">
+          <faction>Wula_PIA_Legion_Faction</faction>
+        </li>
+        <!-- 判断任务能否用皇家声望，后续生成奖励用 -->
+        <!-- <li Class="QuestNode_RequireRoyalFavorFromFaction">
+          <faction>Wula_PIA_Legion_Faction</faction>
+        </li> -->
+        <!-- 对目标给予皇家威望 -->
+        <!-- <li Class="QuestNode_Set">
+          <name>royalFavorReward</name>
+          <value>8</value>
+        </li> -->
+        <!-- 生成pawn -->
+        <li Class="QuestNode_GeneratePawn">
+          <kindDef>Wula_PawnKind</kindDef>
+          <storeAs>asker</storeAs> <!--  特殊的字段，供后续调用 -->
+          <faction>Wula_PIA_Legion_Faction</faction>
+          <biocodeWeaponChance>1</biocodeWeaponChance>
+          <biocodeApparelChance>1</biocodeApparelChance>
+          <allowPregnant>false</allowPregnant> <!--  允许怀孕？ -->
+        </li>
+        <!-- pawn抵达 -->
+        <li Class="QuestNode_PawnsArrive">
+          <pawns>$asker</pawns>
+          <joinPlayer>true</joinPlayer>
+        </li>
+        <!-- 请求者如果进入“回归野性”崩溃状态则将其从离开列表清除 -->
+        <li Class="QuestNode_LeaveOnCleanup">
+          <pawns>$asker</pawns>
+          <sendStandardLetter>false</sendStandardLetter>
+          <inSignalRemovePawn>asker.RanWild</inSignalRemovePawn>
+        </li>
+        <!-- 禁用崩溃 -->
+        <li Class="QuestNode_DisableRandomMoodCausedMentalBreaks">
+          <pawns>$asker</pawns>
+        </li>
+        <!-- 设置袭击点数 -->
+        <li Class="QuestNode_Set">
+          <name>points</name>
+          <value>50</value>
+        </li>
+        <!-- 延迟生成袭击 -->
+        <li Class="QuestNode_Delay">
+          <delayTicks>1800</delayTicks>
+          <!-- 判断条件：是否允许暴力行为（游戏设置） -->
+          <node Class="QuestNode_ViolentQuestsAllowed">
+            <!-- 允许暴力则生成狂暴动物袭击 -->
+            <node Class="QuestNode_ManhunterPack">
+              <animalCount>1</animalCount>
+              <customLetterLabel TKey="LetterLabelAngryAnimal">Manhunting [animalKindDef_label]</customLetterLabel>
+              <customLetterText TKey="LetterTextAngryAnimal">The [animalKindDef_label] which was following [asker_nameFull] has arrived in the area.</customLetterText>
+            </node>
+            <!-- 不允许暴力则生成温和动物 -->
+            <elseNode Class="QuestNode_Sequence">
+              <nodes>
+                <li Class="QuestNode_GetAnimalKindByPoints" />
+                <li Class="QuestNode_GeneratePawn">
+                  <kindDef>$animalKindDef</kindDef>
+                  <storeAs>peacefulAnimal</storeAs>
+                </li>
+                <li Class="QuestNode_PawnsArrive">
+                  <pawns>$peacefulAnimal</pawns>
+                  <customLetterLabel TKey="LetterLabelAnimalArrived">[animalKindDef_label] arrived</customLetterLabel>
+                  <customLetterText TKey="LetterTextAnimalArrived">The [animalKindDef_label] that [asker_nameDef] was fleeing has arrived.\n\nIt turned out to be quite gentle and not aggressive at all.</customLetterText>
+                </li>
+              </nodes>
+            </elseNode>
+          </node>
+        </li>
+        <!-- 穿梭机延迟抵达 -->
+        <li Class="QuestNode_ShuttleDelay">
+          <delayTicks>7500</delayTicks>
+          <lodgers>$asker</lodgers> <!-- 必须装载人员 -->
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_SubScript">
+                <def>Util_TransportShip_Pickup</def>
+                <parms>
+                  <leaveDelayTicks>45000</leaveDelayTicks> <!-- 强制起飞时间 -->
+                  <requiredPawns>$asker</requiredPawns> <!-- 起飞需求的人员 -->
+                  <leaveImmediatelyWhenSatisfied>true</leaveImmediatelyWhenSatisfied> <!--装载后立刻离开 -->
+                </parms>
+              </li>
+              <!-- 选中指定对象时显示自定义的检查信息 -->
+              <li Class="QuestNode_InspectString">
+                <targets>$asker</targets>
+                <inspectString TKey="InspectStringDepartShuttle">Should depart on shuttle</inspectString>
+              </li>
+              <!-- 信封 -->
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelShuttleArrived">Shuttle arrived</label>
+                <text TKey="LetterTextShuttleArrived">The shuttle has arrived to collect [asker_nameDef].</text>
+                <lookTargets>$pickupShipThing</lookTargets>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 临时派系关系 -->
+        <li Class="QuestNode_ExtraFaction">
+          <pawns>$asker</pawns>
+          <factionType>HomeFaction</factionType>
+          <faction>Wula_PIA_Legion_Faction</faction>
+          <inSignalsRemovePawn>
+            <li>lodgers.RanWild</li>
+            <li>lodgers.BecameMutant</li>
+          </inSignalsRemovePawn>
+        </li>
+        <!-- 不允许更改访问者的装备 -->
+        <li Class="QuestNode_SetAllApparelLocked">
+          <pawns>$asker</pawns>
+        </li>
+        <!-- 允许使用皇家支援?待查 -->
+        <!-- <li Class="QuestNode_AllowDecreesForLodger">
+          <lodger>$asker</lodger>
+        </li> -->
+
+        <!-- - - - - - - -  -->
+        <!-- 结束控件 -->
+        <!-- - - - - - - -  -->
+
+        <!-- 访问者死亡 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.Destroyed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelGuestDied">Guest died: {SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextGuestDied">{SUBJECT_definite}, who you were charged to protect, has died. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 访问者被遗弃 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.LeftBehind</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelGuestDied">Guest left behind: {SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextGuestDied">{SUBJECT_definite}, who you were charged to protect, has been left behind. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 访问者被执行暴力手术 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.SurgeryViolation</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelUnauthorizedSurgery">Unauthorized surgery: {SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextUnauthorizedSurgery">Unauthorized, violating surgery has been performed on {SUBJECT_definite}, who you were charged to protect. Because of this violation, [asker_pronoun] will now attempt to leave. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>PerformedHarmfulSurgery</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 访问者基因被提取 -->
+        <li Class="QuestNode_Signal" MayRequire="Ludeon.RimWorld.Biotech">
+          <inSignal>asker.XenogermAbsorbed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label>Xenogerm absorbed: {SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text>{SUBJECT_definite}, who you were charged to protect, has had {SUBJECT_possessive} xenogerm forcibly absorbed. Because of this violation, {SUBJECT_pronoun} will now attempt to leave. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>XenogermAbsorbed</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 逮捕访问者 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.Arrested</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelCaptured">Captured: {SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextCaptured">{SUBJECT_definite}, who you were charged to host, has been arrested. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnArrested</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 访问者立离开定居点 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.LeftMap</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelGuestLost">Guest lost: {SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextGuestLost">{SUBJECT_definite}, who you were charged to protect, has left the designated settlement. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 访问者崩溃回归野性 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.RanWild</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelLodgerRanWild">Guest lost: {SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextLodgerRanWild">{SUBJECT_definite}, who you were charged to protect, has run wild. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 穿梭机被摧毁 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>pickupShipThing.Destroyed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelShuttleDestroyed">Shuttle destroyed</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextShuttleDestroyed">The shuttle sent to collect [asker_nameDef] has been destroyed. [asker_pronoun] will now leave on foot. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>ShuttleDestroyed</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 穿梭机被抛弃 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>pickupShipThing.LeftBehind</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelShuttleDestroyed">Shuttle left behind</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextShuttleDestroyed">The shuttle sent to collect [asker_nameDef] has been left behind. [asker_pronoun] will now leave on foot.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <!-- 任务结束后给予皇家威望 -->
+        <!-- <li Class="QuestNode_GiveRoyalFavorAndDevelopmentPoints">
+          <inSignal>pickupShipThing.SentSatisfied</inSignal>
+          <giveToAccepter>true</giveToAccepter>
+          <factionOf>$asker</factionOf>
+          <amount>$royalFavorReward</amount>
+          <isSingleReward>true</isSingleReward>
+        </li> -->
+        <!-- 穿梭机成功离开后发送任务完成信号 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>pickupShipThing.SentSatisfied</inSignal>
+          <node Class="QuestNode_End">
+            <outcome>Success</outcome>
+            <sendStandardLetter>true</sendStandardLetter>
+          </node>
+        </li>
+        <!-- 穿梭机超时离开,访问者徒步离开地图 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>pickupShipThing.SentUnsatisfied</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextQuestFailed">The shuttle sent to collect [asker_nameDef] has departed without [asker_objective]. [asker_pronoun] will now leave on foot. [failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>MemberMissedShuttle</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

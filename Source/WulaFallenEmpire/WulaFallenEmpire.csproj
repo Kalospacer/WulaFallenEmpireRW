@@ -108,8 +108,7 @@
     <Compile Include="EventSystem\EventDef.cs" />
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\EventVariableManager.cs" />
-    <Compile Include="EventSystem\Letter_EventChoice.cs" />
-    <Compile Include="EventSystem\QuestNode_Root_EventLetter.cs" />
+    <Compile Include="EventSystem\QuestNode\QuestNode_Root_EventLetter.cs" />
     <Compile Include="Flyover\ThingclassFlyOver.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\CompAbilityEffect_AircraftStrike.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\CompAircraftHangar.cs" />

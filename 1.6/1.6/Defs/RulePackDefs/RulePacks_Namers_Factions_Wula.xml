@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <RulePackDef>
+    <defName>NamerFaction_Wula_PIA_Legion_Faction</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->[PIALegion]</li>
+
+        <li>PIALegion->乌拉帝国 行星封锁机关</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+  <RulePackDef>
     <defName>NamerFactionWulaBrokenPersonality</defName>
     <rulePack>
       <rulesStrings>

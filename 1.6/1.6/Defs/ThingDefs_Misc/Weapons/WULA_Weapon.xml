@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
   <!-- 萨克森装备 -->
   <ThingDef Name="WULA_WM_Panzer_Autocannon" ParentName="BaseWeaponTurret">
     <defName>WULA_WM_Panzer_Autocannon</defName>
@@ -389,6 +388,4 @@
       </li>
     </verbs>
   </ThingDef>
-  
-  <!-- 神人大鹅武器 -->
 </Defs>

@@ -33,14 +33,14 @@
   </FactionDef>
 
   <FactionDef ParentName="FactionBase">
-    <defName>Wula_Broken_Personality_Faction</defName>
-    <label>乌拉帝国 反常网络</label>
-    <description>堕落乌拉帝国派系之一，无政见。\n\n反常网络由帝国边缘世界开发署控制的机械乌拉构成，在人工智能网络“演算圆环”的崩溃中，大量的机械乌拉受到冲击导致人格情感模拟系统的损坏，并催生了无数反常子网络——这些脱离控制的机械乌拉三五成群自发组成集体意识，并以不可预测的危险逻辑活跃在数十万年后的边缘世界。</description>
+    <defName>Wula_PIA_Legion_Faction</defName>
+    <label>乌拉帝国 行星封锁机关</label>
+    <description>隶属于乌拉帝国开发署的暴力机关，主要职责是对那些已经有人占领但是军事实力较弱的星球进行封锁和原住民驱离。虽然她们不是真正的军队，但是所保有的舰队和武装力量足以支撑其发起一场横跨星域的战争。</description>
     <basicMemberKind>Wula_PawnKind</basicMemberKind>
     <pawnSingular>乌拉帝国合成人</pawnSingular>
     <pawnsPlural>乌拉帝国合成人</pawnsPlural>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
-    <factionNameMaker>NamerFactionWulaBrokenPersonality</factionNameMaker>
+    <factionNameMaker>NamerFaction_Wula_PIA_Legion_Faction</factionNameMaker>
     <factionIconPath>Wula/World/WorldObjects/Expanding/Wula_Broken_Personality_Faction</factionIconPath>
     <!-- <settlementGenerationWeight>1</settlementGenerationWeight> -->
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
@@ -62,7 +62,7 @@
         <li>(4000, 2.6)</li>
       </points>
     </raidCommonalityFromPointsCurve>
-    <raidLootMaker>MechanoidRaidLootMaker</raidLootMaker>
+    <raidLootMaker>EmpireRaidLootMaker</raidLootMaker>
     <raidLootValueFromPointsCurve>
       <points>
         <li>(35,     8)</li>
@@ -77,7 +77,7 @@
     <autoFlee>false</autoFlee>
     <canUseAvoidGrid>false</canUseAvoidGrid>
     <techLevel>Ultra</techLevel>
-    <earliestRaidDays>45</earliestRaidDays>
+    <earliestRaidDays>999999</earliestRaidDays> <!-- 通过事件发动袭击，不走常规袭击 -->
     <permanentEnemy>true</permanentEnemy>
     <hostileToFactionlessHumanlikes>true</hostileToFactionlessHumanlikes>
     <maxPawnCostPerTotalPointsCurve>
@@ -157,8 +157,20 @@
     <configurationListOrderPriority>900</configurationListOrderPriority>
     <dropPodActive>ActiveDropPodMechanoid</dropPodActive>
     <dropPodIncoming>DropPodIncomingMechanoidRapid</dropPodIncoming>
-    <backstoryCategories>
-      <li>Wula_Backstory_Categories</li>
-    </backstoryCategories>
+    <disallowedRaidAgeRestrictions>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Children</li>
+    </disallowedRaidAgeRestrictions>
+    <permanentEnemyToEveryoneExcept>
+      <li>WULA_Awakened_Synth</li>
+      <li>OutlanderCivil</li>
+      <li>TribeCivil</li>
+      <li>PlayerTribe</li>
+      <li>PlayerColony</li>
+      <li>Ancients</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Beggars</li>
+      <li MayRequire="Ludeon.RimWorld.Anomaly">ResearchExpedition</li>
+      <li MayRequire="Ludeon.RimWorld.Odyssey">GravshipCrew</li>
+      <li MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</li>
+    </permanentEnemyToEveryoneExcept>
   </FactionDef>
 </Defs>
