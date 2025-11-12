@@ -16,7 +16,7 @@
     <drawHighlight>true</drawHighlight>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <graphicData>
-      <texPath>Wula/Building/WULA_Flyover_Beacon</texPath>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>(1,1)</drawSize>
@@ -42,11 +42,17 @@
     <repairEffect>ConstructMetal</repairEffect>
     <forceDebugSpawnable>true</forceDebugSpawnable>
     <building>
+      <expandHomeArea>false</expandHomeArea>
       <destroySound>BuildingDestroyed_Metal_Big</destroySound>
       <paintable>true</paintable>
       <isInert>true</isInert>
     </building>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
         <aircraftDef>WULA_MotherShip_Entity</aircraftDef>
         <aircraftCount>1</aircraftCount>

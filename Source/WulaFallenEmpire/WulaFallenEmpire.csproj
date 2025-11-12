@@ -106,9 +106,11 @@
     <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
     <Compile Include="EventSystem\Dialog_ManageEventVariables.cs" />
     <Compile Include="EventSystem\Effect\EffectBase.cs" />
+    <Compile Include="EventSystem\Effect\Effect_CallSkyfaller.cs" />
     <Compile Include="EventSystem\EventDef.cs" />
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\EventVariableManager.cs" />
+    <Compile Include="EventSystem\QuestNode\QuestNode_EventLetter.cs" />
     <Compile Include="EventSystem\QuestNode\QuestNode_Root_EventLetter.cs" />
     <Compile Include="Flyover\ThingclassFlyOver.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\CompAbilityEffect_AircraftStrike.cs" />

@@ -6,6 +6,7 @@
     <questScriptDef>WULA_Intro_Spy</questScriptDef> <!-- 通向具体的questScrip -->
     <baseChance>0</baseChance> <!-- given by a special storyteller comp -->
   </IncidentDef>
+  
   <QuestScriptDef>
     <defName>WULA_Intro_Spy</defName>
     <defaultChallengeRating>1</defaultChallengeRating> <!-- 挑战等级（星级） -->
@@ -18,14 +19,10 @@
     <!-- 命名规则 -->
     <questNameRules>
       <rulesStrings>
-        <li>questName->the [adjAny] [asker_royalTitleInCurrentFaction]</li>
+        <li>questName->[QuestName]</li>
 
         <!-- Pieces -->
-        <li>adjAny->hunted</li>
-        <li>adjAny->fleeing</li>
-        <li>adjAny->solitary</li>
-        <li>adjAny->ambushed</li>
-
+        <li>QuestName->hunted</li>
       </rulesStrings>
     </questNameRules>
     <questDescriptionRules>
@@ -33,8 +30,7 @@
         <li>QuestHospitalityCommon</li>
       </include>
       <rulesStrings>
-        <li>questDescription->[asker_nameFull], a [asker_royalTitleInCurrentFaction] of [asker_faction_name] is calling from nearby. [asker_possessive] guards were killed in an ambush. [asker_pronoun] escaped, but is now being followed by (*Threat)a manhunting [animalKindDef_label](/Threat).\n\n[asker_nameDef] wants you to keep [asker_objective] safe at [map_definite] for a few hours until [asker_possessive] shuttle can come pick [asker_objective] up.
-\n[asker_pronoun] will bestow [royalFavorReward] [asker_faction_royalFavorLabel] on whoever accepts this quest. This is enough [asker_faction_royalFavorLabel] to receive the royal title of Novice, and all benefits that come with it - including the first level of psychic powers.</li>
+        <li>questDescription->[asker_nameFull], a [asker_royalTitleInCurrentFaction] of [asker_faction_name] is calling from nearby. [asker_possessive] guards were killed in an ambush. [asker_pronoun] escaped, but is now being followed by (*Threat)a manhunting [animalKindDef_label](/Threat).\n\n[asker_nameDef] wants you to keep [asker_objective] safe at [map_definite] for a few hours until [asker_possessive] shuttle can come pick [asker_objective] up.\n[asker_pronoun] will bestow [royalFavorReward] [asker_faction_royalFavorLabel] on whoever accepts this quest. This is enough [asker_faction_royalFavorLabel] to receive the royal title of Novice, and all benefits that come with it - including the first level of psychic powers.</li>
       </rulesStrings>
     </questDescriptionRules>
 
@@ -42,43 +38,26 @@
     <root Class="QuestNode_Sequence">
       <nodes>
         <li Class="WulaFallenEmpire.QuestNode_Root_EventLetter">
-          <eventDefName>Wula_UI_Legion_1</eventDefName>
+          <eventDefName>Wula_Intro_Spy_UI_1</eventDefName>
         </li>
         <li Class="QuestNode_ResolveQuestName">
           <rules>
             <rulesStrings>
-              <li>questName->乌拉的呼唤</li>
+              <li>questName->掩护帝国密探</li>
             </rulesStrings>
           </rules>
         </li>
         <li Class="QuestNode_ResolveQuestDescription">
           <rules>
             <rulesStrings>
-              <li>questDescription->一个强大的心灵实体将它的意志强加于你的意识之中。</li>
+              <li>questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个请求。一位乌拉帝国密探已经暴露，正在遭受未知派系追杀——密探手无寸铁且携带重要信息，殖民地需要掩护它直到乌拉帝国的穿梭机抵达并将其接走。袭击不会太剧烈，密探已经甩掉了大部分敌人。</li>
             </rulesStrings>
           </rules>
         </li>
-        <!-- 通讯 -->
-        <li Class="WulaFallenEmpire.QuestNode_Root_EventLetter">
-          <letterLabel>乌拉需要你的注意</letterLabel>
-          <letterTitle>乌拉需要你的注意</letterTitle>
-          <letterText>一个强大的心灵实体将它的意志强加于你的意识之中。它自称为“乌拉”，并要求你阅览它的消息。这股力量是压倒性的，不容拒绝。</letterText>
-          <options>
-            <li>
-              <label>阅览消息</label>
-              <optionEffects>
-                <li>
-                  <effects>
-                    <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
-                      <defName>Wula_UI_Legion_1</defName>
-                    </li>
-                  </effects>
-                </li>
-              </optionEffects>
-            </li>
-          </options>
-        </li>
 
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+        </li>
         <!-- 获取地图 -->
         <li Class="QuestNode_GetMap" />
         <!-- 获取边缘进入点 -->
@@ -87,6 +66,21 @@
         <li Class="QuestNode_RoyalTitleHyperlink">
           <faction>Wula_PIA_Legion_Faction</faction>
         </li>
+        <!-- 选取敌对派系 -->
+        <li Class="QuestNode_GetFaction">
+          <allowEnemy>true</allowEnemy>
+          <mustBePermanentEnemy>true</mustBePermanentEnemy>
+          <storeAs>enemyFaction</storeAs>
+        </li>
+
+        <!-- 生成物品奖励 -->
+        <!-- <li Class="QuestNode_GenerateThingSet">
+          <thingSetMaker>Reward_GravshipUpgrade</thingSetMaker>
+          <storeAs>upgradeItem</storeAs>
+        </li>
+        <li Class="QuestNode_AddItemsReward">
+          <items>$upgradeItem</items>
+        </li> -->
         <!-- 判断任务能否用皇家声望，后续生成奖励用 -->
         <!-- <li Class="QuestNode_RequireRoyalFavorFromFaction">
           <faction>Wula_PIA_Legion_Faction</faction>
@@ -131,10 +125,19 @@
           <!-- 判断条件：是否允许暴力行为（游戏设置） -->
           <node Class="QuestNode_ViolentQuestsAllowed">
             <!-- 允许暴力则生成狂暴动物袭击 -->
-            <node Class="QuestNode_ManhunterPack">
-              <animalCount>1</animalCount>
-              <customLetterLabel TKey="LetterLabelAngryAnimal">Manhunting [animalKindDef_label]</customLetterLabel>
-              <customLetterText TKey="LetterTextAngryAnimal">The [animalKindDef_label] which was following [asker_nameFull] has arrived in the area.</customLetterText>
+            <node Class="QuestNode_SubScript">
+              <def>Util_Raid</def>
+              <prefix>raid</prefix>
+              <parms>
+                <inSignal>$inSignal</inSignal>
+                <map>$map</map>
+                <points>$points</points>
+                <enemyFaction>$enemyFaction</enemyFaction>
+                <walkInSpot>$walkInSpot</walkInSpot>
+                <customLetterLabel TKey="LetterLabelChasing">{BASELABEL} chasing [../asker_nameDef]</customLetterLabel>
+                <customLetterText TKey="LetterTextChasing">{BASETEXT}
+                \nThe [enemyFaction_pawnsPlural] have come to get [../asker_nameDef].</customLetterText>
+              </parms>
             </node>
             <!-- 不允许暴力则生成温和动物 -->
             <elseNode Class="QuestNode_Sequence">
@@ -381,9 +384,23 @@
           <amount>$royalFavorReward</amount>
           <isSingleReward>true</isSingleReward>
         </li> -->
-        <!-- 穿梭机成功离开后发送任务完成信号 -->
+        <li Class="WulaFallenEmpire.QuestNode_EventLetter">
+          <inSignal>pickupShipThing.SentSatisfied</inSignal>
+          <eventDefName>Wula_Intro_Spy_UI_End_1</eventDefName>
+        </li>
+        <!-- 穿梭机成功离开后任务完成信号 -->
         <li Class="QuestNode_Signal">
           <inSignal>pickupShipThing.SentSatisfied</inSignal>
+          <!-- 等待特定信号再打开窗口 -->
+          <node Class="QuestNode_End">
+            <outcome>Success</outcome>
+            <sendStandardLetter>true</sendStandardLetter>
+          </node>
+        </li>
+        <!-- 穿梭机成功离开后任务完成信号 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>pickupShipThing.SentSatisfied</inSignal>
+          <!-- 等待特定信号再打开窗口 -->
           <node Class="QuestNode_End">
             <outcome>Success</outcome>
             <sendStandardLetter>true</sendStandardLetter>
@@ -411,4 +428,207 @@
       </nodes>
     </root>
   </QuestScriptDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_Spy_UI_1</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>未知通讯</characterName>
+    <descriptions>
+      <li>殖民地的居民们，这里是乌拉帝国舰队。我们有一个临时请求，现在需要你们的协助。\n\n我们的一名情报密探在执行侦察任务时暴露了身份，正遭到敌对势力的追捕。这名密探手无寸铁，但携带着至关重要的战略信息——我们需要你们提供临时庇护，保护密探安全直到我们的穿梭机抵达。作为交换，我们将提供相应的报酬，并在未来考虑与你们建立更正式的关系。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>你们是谁？</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_Spy_UI_2</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们能得到什么好处？</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_Spy_UI_3</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>好的，我们会留意的</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_Spy_UI_2</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
+    <characterName>未知通讯</characterName>
+    <descriptions>
+      <li>我们是乌拉帝国开发署的先遣力量——行星封锁机关P.I.A，负责控制调度帝国在你们星球轨道上的先锋舰队。\n\n帝国开发署的使命是在银河系中寻找有价值的殖民地并进行整合。我们不是来摧毁你们的，而是来建立秩序。\n\n这次请求是试探你们合作意愿的机会。如果你们证明了自己值得信任，未来可能会有更多互惠互利的机会。拒绝合作不会带来任何好处，但合作可能会为你们在这个危险星球上的生存带来转机。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>还有别的事情···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_Spy_UI_1</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_Spy_UI_3</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>未知通讯</characterName>
+    <descriptions>
+      <li>务实的问题。成功的合作将为你们带来：\n\n1. 技术数据访问权限 - 有限度地开放部分基础科技信息\n2. 舰队调度许可 - 我们将允许你们获得一份植入物，使你们的一名殖民者获得向帝国舰队发送信号请求炮击增援、空投、战机近地支援等能力\n3. 政治考量加分 - 在帝国对你们星球的最终评估中获得正面评价\n\n记住，这只是一个开始。乌拉帝国对待合作伙伴的态度取决于他们的表现。如果这次任务顺利完成，更多实质性的利益将会随之而来。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>还有别的事情···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_Spy_UI_1</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_Spy_UI_End_1</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
+    <characterName>未知通讯</characterName>
+    <descriptions>
+      <li>任务完成。你们的合作态度令人满意。密探已安全撤离，携带的情报将对帝国在你们星球上的行动规划起到关键作用。\n\n作为对你们协助的回报，我们向你们提供以下技术资产：\n\n1. 乌拉帝国技术系统接入许可 - 允许你们访问初步访问乌拉帝国的数据库\n\n2. 神经链接植入物 - 使一名殖民者能够直接与我们舰队建立通讯连接，可请求轨道支援\n\n3. 通讯终端 - 一套专用通讯设备，用于和乌拉帝国舰队生产设施进行通讯以下达订单——如果你们需要一些别的帮助，也可以通过这个通讯台联络我\n\n这些只是开始。如果你们继续证明自己的价值，更多先进的帝国技术将会向你们开放。记住，合作是双向的——我们对忠诚的合作伙伴从不吝啬。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>我们好像还不知道你的名字？</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_Spy_UI_End_2</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+    <dismissEffects>
+      <li>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_ShowMessage">
+            <message>来自乌拉帝国的谢礼已抵达，此外，乌拉帝国科技树已经开放</message>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_CallSkyfaller">
+            <skyfallerDef>WULA_WeaponArmor_Productor_Incoming</skyfallerDef>
+            <delayTicks>1</delayTicks>
+            <checkClearance>true</checkClearance>
+            <clearanceRadius>3</clearanceRadius>
+            <letterLabel>空投建筑</letterLabel>
+            <letterText>乌拉帝国的空投建筑正在路上，注意落点！</letterText>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_GiveThing">
+            <thingDef>WULA_Addons_Antenna_Hide</thingDef>
+            <count>1</count>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_GiveThing">
+            <thingDef>WULA_Fake_Mothership_Beacon_Building</thingDef>
+            <count>1</count>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_FinishResearch">
+            <research>WULA_Colony_License_LV1_Technology</research>
+          </li>
+        </effects>
+      </li>
+    </dismissEffects>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_Spy_UI_End_2</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_3</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>名字？我是乌拉帝国行星封锁机关的中控AI，你们就叫我「军团」吧。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>好的，奖励我们就收下了</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(226,191,195,195)</normalColor>
+        <hoverColor>(226,191,195,185)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
 </Defs>

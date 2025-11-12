@@ -1739,7 +1739,7 @@
     </statBases>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
+        <li>WULA_Cube_Productor</li>
       </recipeUsers>
       <researchPrerequisite>WULA_Synth_Weapon_1_Missile_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>

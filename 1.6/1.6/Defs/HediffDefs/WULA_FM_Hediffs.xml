@@ -1,6 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Defs>
+  <ThingDef ParentName="BodyPartProstheticMakeableBase">
+    <defName>WULA_Addons_Antenna_Hide</defName>
+    <label>隐藏式天线</label>
+    <description>埋于脑后的特殊指挥天线，拥有一套独特的系统编码，任何殖民者都可以使用这套通讯设备与乌拉帝国舰队通讯，是乌拉帝国对殖民地认可的凭证。</description>
+    <descriptionHyperlinks><HediffDef>WULA_Addons_Antenna_Hediff_Base</HediffDef></descriptionHyperlinks>
+    <!-- <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags> -->
+    <useHitPoints>false</useHitPoints>
+    <statBases>
+      <MaxHitPoints>-1</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Item/Health/HealthItem</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <recipeMaker Inherit="False"/>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <compClass>CompUsableImplant</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>安装隐藏式天线</useLabel>
+        <!-- <userMustHaveHediff>WULA_Addons_Antenna_Hediff_Base</userMustHaveHediff> -->
+      </li>
+      <li Class="CompProperties_UseEffectDestroySelf" />
+      <li Class="CompProperties_UseEffectInstallImplant">
+        <hediffDef>WULA_Addons_Antenna_Hediff_Base</hediffDef>
+        <bodyPart>Brain</bodyPart>
+        <canUpgrade>false</canUpgrade>
+        <maxSeverity>1</maxSeverity>
+      </li>
+    </comps>
+  </ThingDef>
   <HediffDef ParentName="ImplantHediffBase">
     <defName>WULA_Addons_Antenna_Hediff_Base</defName>
     <hediffClass>Hediff_Mechlink</hediffClass>
@@ -10,7 +42,7 @@
     <isBad>false</isBad>
     <duplicationAllowed>false</duplicationAllowed>
     <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
-    <defaultInstallPart>WULA_Addons_Antenna_Bodypart</defaultInstallPart>
+    <defaultInstallPart>Brain</defaultInstallPart>
     <!-- <spawnThingOnRemoved>WULA_Addons_Antenna_Base</spawnThingOnRemoved> -->
     <comps>
       <li Class="WulaFallenEmpire.HediffCompProperties_MakesMechanitor"/>
@@ -21,6 +53,7 @@
         <statusLabel>频道：{0}</statusLabel>
         <statusDesc>查看当前频率的详细信息</statusDesc>
         <availableHediffs>
+          <li>Wula_FM_Switc_None</li>
           <li>Wula_FM_Switc_Fleet</li>
           <li>Wula_FM_Switc_Artillery</li>
           <li>Wula_FM_Switc_Aircraft</li>
@@ -32,6 +65,23 @@
     </comps>
   </HediffDef>
 
+  <HediffDef>
+    <defName>Wula_FM_Switc_None</defName>
+    <label>调频（无）</label>
+    <description>关闭所有的调频，免得技能栏太挤</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <everCurableByItem>false</everCurableByItem>
+    <duplicationAllowed>false</duplicationAllowed>
+    <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <becomeVisible>false</becomeVisible>
+      </li>
+    </stages>
+    <comps>
+    </comps>
+  </HediffDef>
   <HediffDef>
     <defName>Wula_FM_Switc_Fleet</defName>
     <label>调频（舰队）</label>

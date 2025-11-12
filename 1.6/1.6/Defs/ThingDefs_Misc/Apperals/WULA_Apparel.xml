@@ -178,6 +178,113 @@
       </li>
     </comps>
   </ThingDef>
+  <ThingDef Name="WULA_ApparelArmorBase" ParentName="ArmorMachineableBase" Abstract="True">
+    <techLevel>Spacer</techLevel>
+    <tickerType>Normal</tickerType>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <recipeMaker>
+      <displayPriority>105</displayPriority>
+      <unfinishedThingDef>UnfinishedTechArmor</unfinishedThingDef>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+      <useIngredientsForColor>false</useIngredientsForColor>
+    </recipeMaker>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <apparel>
+      <tags>
+        <li>Wula_Apparel</li>
+        <li>Wula_Armor</li>
+      </tags>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Middle</li>
+        <li>Shell</li>
+      </layers>
+      <useDeflectMetalEffect>true</useDeflectMetalEffect>
+      <soundWear>Wear_PowerArmor</soundWear>
+      <soundRemove>Remove_PowerArmor</soundRemove>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+      <useWornGraphicMask>true</useWornGraphicMask>
+    </apparel>
+    <thingClass>Apparel</thingClass>
+    <comps>
+      <li Class="CompProperties_Biocodable"/>
+    </comps>
+    <thingSetMakerTags>
+      <li>RewardStandardHighFreq</li>
+    </thingSetMakerTags>
+    <statBases>
+      <StuffEffectMultiplierArmor>0.6</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.25</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
+  </ThingDef>
+  <ThingDef Name="WULA_ApparelHelmetBase" ParentName="HatMakeableBase" Abstract="True">
+    <techLevel>Spacer</techLevel>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <recipeMaker>
+      <displayPriority>105</displayPriority>
+      <unfinishedThingDef>UnfinishedTechArmor</unfinishedThingDef>
+      <recipeUsers Inherit="False">
+        <li>WULA_Cube_Productor_Energy</li>
+      </recipeUsers>
+    </recipeMaker>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <apparel>
+      <renderSkipFlags>
+        <li>None</li>
+      </renderSkipFlags>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <tags>
+        <li>Wula_Apparel</li>
+        <li>Wula_Armor</li>
+      </tags>
+      <bodyPartGroups>
+        <li>FullHead</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <parentTagDef>ApparelHead</parentTagDef>
+      <useDeflectMetalEffect>true</useDeflectMetalEffect>
+      <soundWear>Wear_PowerArmor</soundWear>
+      <soundRemove>Remove_PowerArmor</soundRemove>
+      <useWornGraphicMask>true</useWornGraphicMask>
+    </apparel>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <thingSetMakerTags>
+      <li>RewardStandardHighFreq</li>
+    </thingSetMakerTags>
+    <statBases>
+      <StuffEffectMultiplierArmor>0.6</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.25</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
+    </statBases>
+  </ThingDef>
 
   <!-- 内衬 -->
   <ThingDef ParentName="WULA_ApparelOnSkinBase">
@@ -301,113 +408,6 @@
     </equippedStatOffsets>
   </ThingDef>
 
-  <ThingDef Name="WULA_ApparelArmorBase" ParentName="ArmorMachineableBase" Abstract="True">
-    <techLevel>Spacer</techLevel>
-    <tickerType>Normal</tickerType>
-    <thingCategories>
-      <li>ApparelArmor</li>
-    </thingCategories>
-    <recipeMaker>
-      <displayPriority>105</displayPriority>
-      <unfinishedThingDef>UnfinishedTechArmor</unfinishedThingDef>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-      <useIngredientsForColor>false</useIngredientsForColor>
-    </recipeMaker>
-    <graphicData>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutComplex</shaderType>
-    </graphicData>
-    <stuffCategories>
-      <li>Metallic</li>
-    </stuffCategories>
-    <apparel>
-      <tags>
-        <li>Wula_Apparel</li>
-        <li>Wula_Armor</li>
-      </tags>
-      <bodyPartGroups>
-        <li>Torso</li>
-        <li>Neck</li>
-        <li>Shoulders</li>
-        <li>Arms</li>
-        <li>Legs</li>
-      </bodyPartGroups>
-      <layers>
-        <li>Middle</li>
-        <li>Shell</li>
-      </layers>
-      <useDeflectMetalEffect>true</useDeflectMetalEffect>
-      <soundWear>Wear_PowerArmor</soundWear>
-      <soundRemove>Remove_PowerArmor</soundRemove>
-      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
-      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
-      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
-      <useWornGraphicMask>true</useWornGraphicMask>
-    </apparel>
-    <thingClass>Apparel</thingClass>
-    <comps>
-      <li Class="CompProperties_Biocodable"/>
-    </comps>
-    <thingSetMakerTags>
-      <li>RewardStandardHighFreq</li>
-    </thingSetMakerTags>
-    <statBases>
-      <StuffEffectMultiplierArmor>0.6</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>0.25</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
-    </statBases>
-  </ThingDef>
-  <ThingDef Name="WULA_ApparelHelmetBase" ParentName="HatMakeableBase" Abstract="True">
-    <techLevel>Spacer</techLevel>
-    <thingCategories>
-      <li>ApparelArmor</li>
-    </thingCategories>
-    <recipeMaker>
-      <displayPriority>105</displayPriority>
-      <unfinishedThingDef>UnfinishedTechArmor</unfinishedThingDef>
-      <recipeUsers Inherit="False">
-        <li>WULA_Cube_Productor_Energy</li>
-      </recipeUsers>
-    </recipeMaker>
-    <graphicData>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>CutoutComplex</shaderType>
-    </graphicData>
-    <apparel>
-      <renderSkipFlags>
-        <li>None</li>
-      </renderSkipFlags>
-      <countsAsClothingForNudity>false</countsAsClothingForNudity>
-      <tags>
-        <li>Wula_Apparel</li>
-        <li>Wula_Armor</li>
-      </tags>
-      <bodyPartGroups>
-        <li>FullHead</li>
-      </bodyPartGroups>
-      <layers>
-        <li>Overhead</li>
-      </layers>
-      <parentTagDef>ApparelHead</parentTagDef>
-      <useDeflectMetalEffect>true</useDeflectMetalEffect>
-      <soundWear>Wear_PowerArmor</soundWear>
-      <soundRemove>Remove_PowerArmor</soundRemove>
-      <useWornGraphicMask>true</useWornGraphicMask>
-    </apparel>
-    <stuffCategories>
-      <li>Metallic</li>
-    </stuffCategories>
-    <thingSetMakerTags>
-      <li>RewardStandardHighFreq</li>
-    </thingSetMakerTags>
-    <statBases>
-      <StuffEffectMultiplierArmor>0.6</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>0.25</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
-    </statBases>
-  </ThingDef>
   <ThingDef ParentName="WULA_ApparelArmorBase">
     <defName>WULA_Knight_PowerArmor</defName>
     <label>乌拉帝国骑士军团甲</label>

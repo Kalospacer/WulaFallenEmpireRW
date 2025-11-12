@@ -480,6 +480,20 @@
   <variableName>MechanoidGoodwill</variableName>
 </li>
 ```
+
+### `Effect_CallSkyfaller`
+在玩家殖民地附近呼叫一个skyfaller。
+- **checkClearance**: 确保落点附近X格内净空。
+```xml
+<li Class="WulaFallenEmpire.Effect_CallSkyfaller">
+  <skyfallerDef>DropPodIncoming</skyfallerDef>
+  <delayTicks>180</delayTicks>
+  <checkClearance>true</checkClearance>
+  <clearanceRadius>4</clearanceRadius>
+  <letterLabel>空投舱已呼叫</letterLabel>
+  <letterText>轨道空投舱已在途中，预计3秒后抵达。</letterText>
+</li>
+```
 ---
 
 ## 4. 可用的条件 (`Condition`)

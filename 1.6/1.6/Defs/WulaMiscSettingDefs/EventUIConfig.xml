@@ -9,7 +9,7 @@
     <customBackgroundImagePath>Wula/Events/tile_large_bg</customBackgroundImagePath>
     <!-- <backgroundImagePath>Wula/Events/Portraits/PIA</backgroundImagePath> -->
     
-    <windowSize>(600,850)</windowSize>
+    <windowSize>(600,900)</windowSize>
 
     <!-- 元素显示控制 -->
     <showPortrait>true</showPortrait>
@@ -25,7 +25,7 @@
     <portraitSize>(600,400)</portraitSize>
     <labelSize>(600,40)</labelSize>
     <characterNameSize>(600,30)</characterNameSize>
-    <descriptionsSize>(500,150)</descriptionsSize>
+    <descriptionsSize>(560,200)</descriptionsSize>
     <optionsListSize>(600,200)</optionsListSize>
     <optionSize>(500,150)</optionSize>
     
@@ -33,11 +33,11 @@
     <portraitMargins>(0,10)</portraitMargins>
     <labelMargins>(10,0)</labelMargins>
     <characterNameMargins>(10,0)</characterNameMargins>
-    <descriptionsMargins>(10,20)</descriptionsMargins>
-    <optionsListMargins>(10,0)</optionsListMargins>
+    <descriptionsMargins>(10,10)</descriptionsMargins>
+    <optionsListMargins>(5,0)</optionsListMargins>
     
     <!-- 描述区域内边距 (x=上下间距, y=左右间距) -->
-    <descriptionsPadding>(10,25)</descriptionsPadding>
+    <descriptionsPadding>(0,0)</descriptionsPadding>
 
     <!-- 选项列表内边距 (x=左右间距, y=上下间距) -->
     <optionsListPadding>(20,20)</optionsListPadding>
@@ -46,7 +46,7 @@
     <optionSpacing>20</optionSpacing>
     
     <!-- 调试和样式 -->
-    <drawBorders>false</drawBorders>
+    <drawBorders>true</drawBorders>
     <showDefName>false</showDefName>
     <labelFont>Medium</labelFont>
   </WulaFallenEmpire.EventUIConfigDef>

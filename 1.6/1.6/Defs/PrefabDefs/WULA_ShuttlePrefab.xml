@@ -45,10 +45,6 @@
       <WulaDoor>
         <position>(7, 0, 9)</position>
       </WulaDoor>
-      <WULA_Cube_Productor_Energy>
-        <position>(6, 0, 1)</position>
-        <relativeRotation>Opposite</relativeRotation>
-      </WULA_Cube_Productor_Energy>
       <Barricade>
         <rects>
           <li>(5,5,6,5)</li>

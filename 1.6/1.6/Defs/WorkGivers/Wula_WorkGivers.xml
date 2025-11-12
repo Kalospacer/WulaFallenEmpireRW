@@ -8,7 +8,7 @@
     <workType>Smithing</workType>
     <priorityInType>75</priorityInType>
     <fixedBillGiverDefs>
-      <li>WULA_Cube_Productor_Energy</li>
+      <li>WULA_Cube_Productor</li>
     </fixedBillGiverDefs>
     <verb>工作于</verb>
     <gerund>工作于</gerund>
