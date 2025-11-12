@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="AlienRace">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\839005762\1.6\Assemblies\AlienRace.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -142,6 +143,8 @@
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_FloatMenuOptionProvider_SelectedPawnValid.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_IsColonyMechPlayerControlled.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MechanitorUtility_CanDraftMech.cs" />
+    <Compile Include="HarmonyPatches\Patch_CaravanUIUtility_AddPawnsSections_Postfix.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_CaravanFormingUtility_AllSendablePawns.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_Pawn_ThreatDisabled.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_UncontrolledMechDrawPulse.cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
