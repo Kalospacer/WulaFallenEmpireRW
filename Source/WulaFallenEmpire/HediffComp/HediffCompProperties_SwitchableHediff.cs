@@ -43,6 +43,9 @@ namespace WulaFallenEmpire
         // 当前激活的hediff引用
         private Hediff activeHediff;
         
+        // 用于保存和恢复的hediff ID
+        private int activeHediffId = -1;
+        
         public override void CompPostMake()
         {
             base.CompPostMake();
@@ -68,6 +71,7 @@ namespace WulaFallenEmpire
                 Pawn.health.RemoveHediff(activeHediff);
             }
             activeHediff = null;
+            activeHediffId = -1;
             
             // 应用新的hediff
             if (currentHediffIndex >= 0 && currentHediffIndex < Props.availableHediffs.Count)
@@ -79,9 +83,54 @@ namespace WulaFallenEmpire
                     activeHediff.Severity = 1f; // 默认严重性为1
                     Pawn.health.AddHediff(activeHediff);
                     
-                    Log.Message($"[SwitchableHediff] Applied {hediffDef.defName} to {Pawn.LabelShort}");
+                    // 记录hediff的ID用于保存/恢复
+                    activeHediffId = GetHediffId(activeHediff);
+                    
+                    Log.Message($"[SwitchableHediff] Applied {hediffDef.defName} to {Pawn.LabelShort}, ID: {activeHediffId}");
                 }
             }
+        }
+        
+        // 获取hediff的唯一标识符
+        private int GetHediffId(Hediff hediff)
+        {
+            // 使用哈希码作为临时ID，实际游戏中可能需要更稳定的标识方法
+            return hediff.GetHashCode();
+        }
+        
+        // 尝试恢复已保存的hediff引用
+        private bool TryRestoreActiveHediff()
+        {
+            if (activeHediffId == -1) return false;
+            
+            // 在pawn的所有hediff中查找匹配的
+            foreach (var hediff in Pawn.health.hediffSet.hediffs)
+            {
+                if (GetHediffId(hediff) == activeHediffId)
+                {
+                    activeHediff = hediff;
+                    Log.Message($"[SwitchableHediff] Restored active hediff: {hediff.def.defName}, ID: {activeHediffId}");
+                    return true;
+                }
+            }
+            
+            // 如果找不到，尝试根据currentHediffIndex查找对应的hediff
+            if (currentHediffIndex >= 0 && currentHediffIndex < Props.availableHediffs.Count)
+            {
+                var expectedDef = Props.availableHediffs[currentHediffIndex];
+                foreach (var hediff in Pawn.health.hediffSet.hediffs)
+                {
+                    if (hediff.def == expectedDef)
+                    {
+                        activeHediff = hediff;
+                        activeHediffId = GetHediffId(hediff);
+                        Log.Message($"[SwitchableHediff] Found matching hediff by def: {hediff.def.defName}");
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
         }
         
         // 切换到特定索引的hediff
@@ -154,6 +203,7 @@ namespace WulaFallenEmpire
             }
             return string.Empty;
         }
+        
         public override IEnumerable<Gizmo> CompGetGizmos()
         {
             // 只有玩家派系的pawn才显示Gizmo
@@ -272,13 +322,90 @@ namespace WulaFallenEmpire
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look(ref currentHediffIndex, "currentHediffIndex", -1);
             
-            // 加载后重新应用hediff
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && currentHediffIndex != -1)
+            Scribe_Values.Look(ref currentHediffIndex, "currentHediffIndex", -1);
+            Scribe_Values.Look(ref activeHediffId, "activeHediffId", -1);
+            
+            // 加载后恢复状态
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                ApplySelectedHediff();
+                Log.Message($"[SwitchableHediff] PostLoadInit - currentHediffIndex: {currentHediffIndex}, activeHediffId: {activeHediffId}");
+                
+                if (currentHediffIndex == -1 && Props.availableHediffs.Count > 0)
+                {
+                    // 如果没有保存的索引，使用默认值
+                    currentHediffIndex = Props.defaultHediffIndex;
+                    if (currentHediffIndex >= Props.availableHediffs.Count)
+                        currentHediffIndex = 0;
+                }
+                
+                // 尝试恢复已保存的hediff引用
+                if (!TryRestoreActiveHediff())
+                {
+                    // 如果恢复失败，重新应用当前选择的hediff
+                    Log.Message($"[SwitchableHediff] Failed to restore active hediff, reapplying...");
+                    ApplySelectedHediff();
+                }
+                else
+                {
+                    Log.Message($"[SwitchableHediff] Successfully restored active hediff");
+                }
+                
+                // 验证状态一致性
+                ValidateStateConsistency();
             }
+        }
+        
+        // 验证状态一致性
+        private void ValidateStateConsistency()
+        {
+            bool hasConsistency = true;
+            
+            // 检查currentHediffIndex是否有效
+            if (currentHediffIndex < 0 || currentHediffIndex >= Props.availableHediffs.Count)
+            {
+                Log.Warning($"[SwitchableHediff] Invalid currentHediffIndex: {currentHediffIndex}");
+                hasConsistency = false;
+            }
+            
+            // 检查activeHediff是否与currentHediffIndex一致
+            if (activeHediff != null && currentHediffIndex >= 0 && currentHediffIndex < Props.availableHediffs.Count)
+            {
+                var expectedDef = Props.availableHediffs[currentHediffIndex];
+                if (activeHediff.def != expectedDef)
+                {
+                    Log.Warning($"[SwitchableHediff] Inconsistent state: activeHediff.def ({activeHediff.def.defName}) != expectedDef ({expectedDef.defName})");
+                    hasConsistency = false;
+                }
+            }
+            
+            if (!hasConsistency)
+            {
+                Log.Message($"[SwitchableHediff] State inconsistency detected, attempting to repair...");
+                RepairState();
+            }
+        }
+        
+        // 修复状态不一致
+        private void RepairState()
+        {
+            // 如果activeHediff存在但与currentHediffIndex不匹配，尝试根据activeHediff找到正确的索引
+            if (activeHediff != null)
+            {
+                for (int i = 0; i < Props.availableHediffs.Count; i++)
+                {
+                    if (Props.availableHediffs[i] == activeHediff.def)
+                    {
+                        currentHediffIndex = i;
+                        Log.Message($"[SwitchableHediff] Repaired: set currentHediffIndex to {i} based on active hediff");
+                        return;
+                    }
+                }
+            }
+            
+            // 如果无法修复，重新应用当前选择的hediff
+            Log.Message($"[SwitchableHediff] Could not repair state, reapplying current selection");
+            ApplySelectedHediff();
         }
         
         // 当父hediff被移除时，也要移除激活的hediff
@@ -291,6 +418,7 @@ namespace WulaFallenEmpire
                 Pawn.health.RemoveHediff(activeHediff);
             }
             activeHediff = null;
+            activeHediffId = -1;
         }
     }
 }
