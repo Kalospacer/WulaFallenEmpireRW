@@ -49,8 +49,8 @@
   </AbilityDef>
   <AbilityDef>
     <defName>WULA_CallBattleShip</defName>
-    <label>支援请求：帝国护航舰</label>
-    <description>发送增援请求，呼叫乌拉帝国舰队的一艘护航舰前往殖民地。\n\n乌拉帝国边缘开发署的护航舰是近地支援舰队的基础作战单位，它们的体积虽然不如战列巡洋舰那样庞大，但是依然搭载了让地面武装望尘莫及的庞大火炮阵列，可以对地面发起骇人的轰炸。\n\n护航舰拥有以下设施：\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
+    <label>支援请求：帝国巡洋舰</label>
+    <description>发送增援请求，呼叫乌拉帝国舰队的一队（3艘）巡洋舰前往殖民地。\n\n乌拉帝国边缘开发署的巡洋舰是近地支援舰队的基础作战单位，它们的体积虽然不如战列巡洋舰那样庞大，但是依然搭载了让地面武装望尘莫及的庞大火炮阵列，可以对地面发起骇人的轰炸。\n\n巡洋舰拥有以下设施：\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
     <iconPath>Wula/UI/Abilities/WULA_CallBattleShip</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -71,15 +71,62 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <!-- <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
-        <requiredAircraftType>WULA_MotherShip_Entity</requiredAircraftType>
-        <aircraftCooldownTicks>640000</aircraftCooldownTicks> 
+      <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>WULA_BattleShip_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>320000</aircraftCooldownTicks> 
         <aircraftsPerUse>1</aircraftsPerUse>
-      </li> -->
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
         <flyOverDef>WULA_BattleShip</flyOverDef>
         <flyOverType>Standard</flyOverType>
-        <flightSpeed>0.05</flightSpeed>
+        <flightSpeed>0.03</flightSpeed>
+        <altitude>20</altitude>
+        <startPosition>MapEdge</startPosition>
+        <endPosition>OppositeMapEdge</endPosition>
+        <playFlyOverSound>true</playFlyOverSound>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_BlockedByFlyOverFacility">
+          <blockedMessage>航道堵塞：已经有一艘大型舰船在殖民地上空</blockedMessage>
+          <!-- 可选：指定特定的FlyOver定义 -->
+          <!-- <specificFlyOverDef>ARA_HiveShip</specificFlyOverDef> -->
+          <!-- 可选：指定特定的设施名称 -->
+          <!-- <requiredFacility>BombardmentFacility</requiredFacility> -->
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_CallAircraftCarrier</defName>
+    <label>支援请求：帝国航空舰</label>
+    <description>发送增援请求，呼叫乌拉帝国舰队的一艘航空舰前往殖民地。\n\n乌拉帝国的轻型航空舰是功能单一的舰种，没有什么武装，但是能够装载大量的战机以支援地面战斗。\n\n巡洋舰拥有以下设施：\n&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color></description>
+    <iconPath>Wula/UI/Abilities/WULA_CallAircraftCarrier</iconPath>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>true</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+      <warmupTime>2</warmupTime>
+      <range>-1</range>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>WULA_AircraftCarrier_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>320000</aircraftCooldownTicks> 
+        <aircraftsPerUse>1</aircraftsPerUse>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_AircraftCarrier</flyOverDef>
+        <flyOverType>Standard</flyOverType>
+        <flightSpeed>0.02</flightSpeed>
         <altitude>20</altitude>
         <startPosition>MapEdge</startPosition>
         <endPosition>OppositeMapEdge</endPosition>
@@ -118,15 +165,15 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <!-- <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
-        <requiredAircraftType>WULA_MotherShip_Entity</requiredAircraftType>
-        <aircraftCooldownTicks>640000</aircraftCooldownTicks> 
+      <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>WULA_ConstructionShip_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>320000</aircraftCooldownTicks> 
         <aircraftsPerUse>1</aircraftsPerUse>
-      </li> -->
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
         <flyOverDef>WULA_ConstructionShip</flyOverDef>
         <flyOverType>Standard</flyOverType>
-        <flightSpeed>0.025</flightSpeed>
+        <flightSpeed>0.01</flightSpeed>
         <altitude>20</altitude>
         <startPosition>MapEdge</startPosition>
         <endPosition>OppositeMapEdge</endPosition>

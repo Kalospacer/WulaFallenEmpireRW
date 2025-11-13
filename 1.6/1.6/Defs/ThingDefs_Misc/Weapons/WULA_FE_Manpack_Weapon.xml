@@ -2090,7 +2090,7 @@
       </li>
     </modExtensions>
   </ThingDef>
-  <!-- <AbilityDef>
+  <AbilityDef>
     <defName>WULA_RW_Auto_GL_Smoke_Ability</defName>
     <label>发射烟雾弹</label>
     <description>使用SEl-78"角砾岩"临时装填并发射一枚烟雾弹，用于遮蔽炮塔的瞄准和防止己方被流弹击中。</description>
@@ -2124,21 +2124,64 @@
         <projectileDef>Bullet_Shell_Smoke</projectileDef>
       </li>
     </comps>
-  </AbilityDef> -->
+  </AbilityDef>
+
+  <!-- 作弊 -->
+  <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
+    <defName>WULA_MW_Cheat_Weapon</defName>
+    <label>由于原版实在是太难太难了，而其他各个受欢迎的MOD也太难太难了，您在苦苦支撑的过程中已经付出了无可指摘的努力，您的游戏理解完全正确，只是您的游戏遭遇太不公了。所以您不应该去寻求他人的指导或者做出任何改进，而是理应用一种合理的、不是作弊的、无可置疑正统的方式，轻松地享受成为边缘世界霸主的感觉。</label>
+    <description>可以删除除了块堆和地板外所有东西的武器，拿去和其他超正义mod对打吧——你或许知道，这玩意不属于正常流程中应使用的东西。</description>
+    <smeltable>false</smeltable>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_MW_Scepter_Of_CLoak</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <techLevel>Spacer</techLevel>
+    <statBases>
+      <WorkToMake>9999999999</WorkToMake>
+      <Mass>5</Mass>
+    </statBases>
+    <costStuffCount>0</costStuffCount>
+    <stuffCategories Inherit="False"/>
+    <tools>
+      <li>
+        <label>槌头</label>
+        <capacities>
+          <li>Poke</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>1.5</cooldownTime>
+        <armorPenetration>0.8</armorPenetration>
+        <extraMeleeDamages>
+          <li>
+            <def>Stun</def>
+            <amount>0.5</amount>
+          </li>
+        </extraMeleeDamages>
+      </li>
+    </tools>
+    <recipeMaker Inherit="False" IsNull="True"/>
+    <comps>
+      <li Class="CompProperties_EquippableAbilityReloadable">
+        <abilityDef>WULA_MW_Cheat_Weapon_Ability</abilityDef>
+        <chargeNoun>伟力</chargeNoun>
+      </li>
+    </comps>
+  </ThingDef>
   <AbilityDef>
-    <defName>WULA_RW_Auto_GL_Smoke_Ability</defName>
-    <label>律令死亡</label>
+    <defName>WULA_MW_Cheat_Weapon_Ability</defName>
+    <label>放逐之门</label>
     <description>使得目标立刻被放逐——无视一切保护措施，将其从存档中永远擦除。</description>
-    <iconPath>Wula/UI/Abilities/WULA_RW_Auto_GL_Smoke_Ability</iconPath>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Cheat_Weapon_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <hotKey>Misc11</hotKey>
     <showOnCharacterCard>false</showOnCharacterCard>
-    <charges>3</charges>
-    <cooldownPerCharge>true</cooldownPerCharge>
     <cooldownTicksRange>1</cooldownTicksRange>
     <statBases>
-      <Ability_EffectRadius>35</Ability_EffectRadius>
+      <Ability_EffectRadius>15</Ability_EffectRadius>
     </statBases>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>

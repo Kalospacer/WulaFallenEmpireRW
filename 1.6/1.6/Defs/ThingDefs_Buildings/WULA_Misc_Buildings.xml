@@ -71,6 +71,228 @@
     <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
     <thingClass>Thing</thingClass>
   </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Fake_BattleShip_Beacon_Building</defName>
+    <label>帝国巡洋舰信标</label>
+    <description>用于向乌拉帝国舰队提交资源的信标，可以换取一艘帝国巡洋舰的支援。\n\n乌拉帝国边缘开发署的巡洋舰是近地支援舰队的基础作战单位，它们的体积虽然不如战列巡洋舰那样庞大，但是依然搭载了让地面武装望尘莫及的庞大火炮阵列，可以对地面发起骇人的轰炸。\n\n巡洋舰拥有以下设施：\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
+    <thingClass>Building</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Battleship_Technology</li>
+    </researchPrerequisites>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(3,3)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Flyover_Beacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <color>(195,195,195,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
+        <aircraftDef>WULA_BattleShip_Entity</aircraftDef>
+        <aircraftCount>1</aircraftCount>
+        <skyfallerLeaving></skyfallerLeaving>
+        
+        <autoLaunchEnabled>true</autoLaunchEnabled>
+        <autoLaunchDelayTicks>1</autoLaunchDelayTicks>
+        <autoLaunchOnConstruction>true</autoLaunchOnConstruction>
+        <autoLaunchOnPowerOn>false</autoLaunchOnPowerOn>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_BattleShip_Entity</defName>
+    <label>帝国巡洋舰</label>
+    <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
+    <thingClass>Thing</thingClass>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Fake_AircraftCarrier_Beacon_Building</defName>
+    <label>帝国航空舰信标</label>
+    <description>用于向乌拉帝国舰队提交资源的信标，可以换取一艘帝国航空舰的支援。\n\n乌拉帝国的轻型航空舰是功能单一的舰种，没有什么武装，但是能够装载大量的战机以支援地面战斗。\n\n巡洋舰拥有以下设施：\n&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color></description>
+    <thingClass>Building</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Aircraft_Carrier_Technology</li>
+    </researchPrerequisites>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(3,3)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Flyover_Beacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <color>(195,195,195,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
+        <aircraftDef>WULA_AircraftCarrier_Entity</aircraftDef>
+        <aircraftCount>1</aircraftCount>
+        <skyfallerLeaving></skyfallerLeaving>
+        
+        <autoLaunchEnabled>true</autoLaunchEnabled>
+        <autoLaunchDelayTicks>1</autoLaunchDelayTicks>
+        <autoLaunchOnConstruction>true</autoLaunchOnConstruction>
+        <autoLaunchOnPowerOn>false</autoLaunchOnPowerOn>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_AircraftCarrier_Entity</defName>
+    <label>帝国航空舰</label>
+    <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
+    <thingClass>Thing</thingClass>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Fake_ConstructionShip_Beacon_Building</defName>
+    <label>帝国工程舰信标</label>
+    <description>用于向乌拉帝国舰队提交资源的信标，可以换取一艘帝国工程舰的支援。\n\n帝国工程舰是搭载了移动工厂的无武装舰种，它们可以完整地使用乌拉帝国的锻造技术生产装备、护甲、建筑和机械体，并依照指令通过空投仓将其送至各殖民地。\n\n工程舰拥有以下设施：\n&lt;color=#6BB7B7>&lt;i>-生产设施&lt;/i>&lt;/color>\n&lt;color=#DEC28F>&lt;i>-建筑空投设施&lt;/i>&lt;/color></description>
+    <thingClass>Building</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_ConstructionShip_Technology</li>
+    </researchPrerequisites>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(3,3)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Flyover_Beacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <color>(195,195,195,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Aircraft_Carrier_Technology</li>
+    </researchPrerequisites>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftHangar">
+        <aircraftDef>WULA_ConstructionShip_Entity</aircraftDef>
+        <aircraftCount>1</aircraftCount>
+        <skyfallerLeaving></skyfallerLeaving>
+        
+        <autoLaunchEnabled>true</autoLaunchEnabled>
+        <autoLaunchDelayTicks>1</autoLaunchDelayTicks>
+        <autoLaunchOnConstruction>true</autoLaunchOnConstruction>
+        <autoLaunchOnPowerOn>false</autoLaunchOnPowerOn>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_ConstructionShip_Entity</defName>
+    <label>帝国工程舰</label>
+    <description>什么？这是个记录数量用的thingdef，你不应该在任何场合下看到这个。</description>
+    <thingClass>Thing</thingClass>
+  </ThingDef>
 
   <!-- <ThingDef ParentName="BuildingBase">
     <defName>WULA_Watch_Tower</defName>

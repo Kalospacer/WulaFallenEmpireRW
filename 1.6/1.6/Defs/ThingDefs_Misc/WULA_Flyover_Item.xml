@@ -67,11 +67,144 @@
       <li Class="WulaFallenEmpire.CompProperties_FlyOverCooldown">
         <baseCooldownTicks>60000</baseCooldownTicks> <!-- 1天 -->
       </li>
+      <!-- 伴飞 -->
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Striker_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>300</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>20</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>100</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>8</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Bomber_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>750</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>10</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>130</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>5</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_BattleShip_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>3000</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>2</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>70</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>1</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.5</min>
+          <max>0.8</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
     </comps>
   </ThingDef> 
   <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_BattleShip</defName>
-    <label>乌拉帝国护航舰</label>
+    <label>乌拉帝国巡洋舰</label>
     <thingClass>WulaFallenEmpire.FlyOver</thingClass>
     <tickerType>Normal</tickerType>
     <drawerType>RealtimeOnly</drawerType>
@@ -117,8 +250,8 @@
       <!-- 入场信封信息 -->
       <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
         <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
-        <letterLabel>帝国护航舰已抵达</letterLabel>
-        <letterText>一艘帝国护航舰响应请求抵达殖民地上空！</letterText>
+        <letterLabel>帝国巡洋舰已抵达</letterLabel>
+        <letterText>一艘帝国巡洋舰响应请求抵达殖民地上空！</letterText>
         <letterDef>PositiveEvent</letterDef>
         <onlySendOnce>true</onlySendOnce>
         <requireOnMap>true</requireOnMap>
@@ -132,6 +265,112 @@
       <!-- 新增冷却组件 -->
       <li Class="WulaFallenEmpire.CompProperties_FlyOverCooldown">
         <baseCooldownTicks>60000</baseCooldownTicks> <!-- 1天 -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_BattleShip_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>3000</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>2</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>70</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>1</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.5</min>
+          <max>0.8</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
+    </comps>
+  </ThingDef> 
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WULA_AircraftCarrier</defName>
+    <label>乌拉帝国航空舰</label>
+    <thingClass>WulaFallenEmpire.FlyOver</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <texPath>Wula/FlyoverThing/WULA_ConstructionShip_Shadow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(70,200)</drawSize>
+      <color>(195,195,195,45)</color>
+    </graphicData>
+    <skyfaller>
+      <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <motesPerCell>0</motesPerCell>
+      <floatingSound>FlyOver/Flying</floatingSound>
+      <!-- <impactSound>FlyOver/Landing</impactSound> -->
+    </skyfaller>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.FlyOverShadowExtension">
+        <customShadowPath>Wula/Weapon/WULA_Weapon_Empty</customShadowPath>
+        <useCustomShadow>true</useCustomShadow>
+        <shadowIntensity>0.8</shadowIntensity>
+        <minShadowAlpha>0</minShadowAlpha>
+        <maxShadowAlpha>0</maxShadowAlpha>
+        <minShadowScale>0</minShadowScale>
+        <maxShadowScale>0</maxShadowScale>
+
+        <!-- 淡入淡出开关 -->
+        <useFadeEffects>false</useFadeEffects>      <!-- 完全禁用淡入淡出 -->
+        <useFadeIn>false</useFadeIn>                <!-- 仅禁用淡入 -->
+        <useFadeOut>false</useFadeOut>              <!-- 仅禁用淡出 -->
+        <useApproachAnimation>true</useApproachAnimation>
+        <approachDuration>1</approachDuration>
+        <approachOffsetDistance>50</approachOffsetDistance>
+      </li>
+    </modExtensions>
+    <seeThroughFog>true</seeThroughFog>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <alwaysHaulable>false</alwaysHaulable>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <comps>
+      <!-- 入场信封信息 -->
+      <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
+        <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
+        <letterLabel>帝国航空舰已抵达</letterLabel>
+        <letterText>一艘帝国航空舰响应请求抵达殖民地上空！</letterText>
+        <letterDef>PositiveEvent</letterDef>
+        <onlySendOnce>true</onlySendOnce>
+        <requireOnMap>true</requireOnMap>
+        <destroyAfterSending>false</destroyAfterSending> <!-- 发送后销毁flyover -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverFacilities">
+        <availableFacilities>
+          <li>HarborFacility</li>
+        </availableFacilities>
       </li>
     </comps>
   </ThingDef> 
@@ -195,6 +434,152 @@
           <li>FactoryFacility</li>
           <li>BuildingdropperFacility</li>
         </availableFacilities>
+      </li>
+    </comps>
+  </ThingDef> 
+
+  <!-- 伴飞类 -->
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WULA_Striker_Escort</defName>
+    <label>乌拉帝国攻击机（伴飞）</label>
+    <thingClass>WulaFallenEmpire.FlyOver</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <!-- <texPath>ArachnaeSwarm/Weapon/ARA_Weapon_Empty</texPath> -->
+      <texPath>Wula/FlyoverThing/WULA_Striker_Shadow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(30,15)</drawSize>
+      <color>(255,255,255,45)</color>
+    </graphicData>
+    <castEdgeShadows>false</castEdgeShadows>
+    <staticSunShadowHeight>0</staticSunShadowHeight>
+    <skyfaller>
+      <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <motesPerCell>0</motesPerCell>
+      <floatingSound>FlyOver/Flying</floatingSound>
+      <!-- <impactSound>FlyOver/Landing</impactSound> -->
+    </skyfaller>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.FlyOverShadowExtension">
+        <customShadowPath>Wula/Weapon/WULA_Weapon_Empty</customShadowPath>
+        <useCustomShadow>true</useCustomShadow>
+        <shadowIntensity>0.8</shadowIntensity>
+        <minShadowAlpha>0</minShadowAlpha>
+        <maxShadowAlpha>0</maxShadowAlpha>
+        <minShadowScale>0</minShadowScale>
+        <maxShadowScale>0</maxShadowScale>
+
+        <useApproachAnimation>true</useApproachAnimation>
+        <approachDuration>1</approachDuration>
+        <approachOffsetDistance>20</approachOffsetDistance>
+      </li>
+    </modExtensions>
+    <seeThroughFog>true</seeThroughFog>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <alwaysHaulable>false</alwaysHaulable>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+  </ThingDef>
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WULA_Bomber_Escort</defName>
+    <thingClass>WulaFallenEmpire.FlyOver</thingClass>
+    <label>乌拉帝国轰炸机</label>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <!-- <texPath>ArachnaeSwarm/Weapon/ARA_Weapon_Empty</texPath> -->
+      <texPath>Wula/FlyoverThing/WULA_Bomber_Shadow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(50,35)</drawSize>
+      <color>(255,255,255,45)</color>
+    </graphicData>
+    <castEdgeShadows>false</castEdgeShadows>
+    <staticSunShadowHeight>0</staticSunShadowHeight>
+    <skyfaller>
+      <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <motesPerCell>0</motesPerCell>
+      <floatingSound>FlyOver/Flying</floatingSound>
+      <!-- <impactSound>FlyOver/Landing</impactSound> -->
+    </skyfaller>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.FlyOverShadowExtension">
+        <customShadowPath>Wula/Weapon/WULA_Weapon_Empty</customShadowPath>
+        <useCustomShadow>true</useCustomShadow>
+        <shadowIntensity>0.8</shadowIntensity>
+        <minShadowAlpha>0</minShadowAlpha>
+        <maxShadowAlpha>0</maxShadowAlpha>
+        <minShadowScale>0</minShadowScale>
+        <maxShadowScale>0</maxShadowScale>
+
+        <useApproachAnimation>true</useApproachAnimation>
+        <approachDuration>1</approachDuration>
+        <approachOffsetDistance>20</approachOffsetDistance>
+      </li>
+    </modExtensions>
+    <seeThroughFog>true</seeThroughFog>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <alwaysHaulable>false</alwaysHaulable>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+  </ThingDef>
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WULA_BattleShip_Escort</defName>
+    <label>乌拉帝国巡洋舰（伴飞）</label>
+    <thingClass>WulaFallenEmpire.FlyOver</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <texPath>Wula/FlyoverThing/WULA_BattleShip_Shadow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(70,100)</drawSize>
+      <color>(195,195,195,45)</color>
+    </graphicData>
+    <skyfaller>
+      <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <motesPerCell>0</motesPerCell>
+      <floatingSound>FlyOver/Flying</floatingSound>
+      <!-- <impactSound>FlyOver/Landing</impactSound> -->
+    </skyfaller>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.FlyOverShadowExtension">
+        <customShadowPath>Wula/Weapon/WULA_Weapon_Empty</customShadowPath>
+        <useCustomShadow>true</useCustomShadow>
+        <shadowIntensity>0.8</shadowIntensity>
+        <minShadowAlpha>0</minShadowAlpha>
+        <maxShadowAlpha>0</maxShadowAlpha>
+        <minShadowScale>0</minShadowScale>
+        <maxShadowScale>0</maxShadowScale>
+
+        <!-- 淡入淡出开关 -->
+        <useFadeEffects>false</useFadeEffects>      <!-- 完全禁用淡入淡出 -->
+        <useFadeIn>false</useFadeIn>                <!-- 仅禁用淡入 -->
+        <useFadeOut>false</useFadeOut>              <!-- 仅禁用淡出 -->
+        <useApproachAnimation>true</useApproachAnimation>
+        <approachDuration>1</approachDuration>
+        <approachOffsetDistance>50</approachOffsetDistance>
+      </li>
+    </modExtensions>
+    <seeThroughFog>true</seeThroughFog>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <alwaysHaulable>false</alwaysHaulable>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverFacilities">
+        <availableFacilities>
+          <li>BombardmentFacility</li>
+        </availableFacilities>
+      </li>
+      <!-- 新增冷却组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverCooldown">
+        <baseCooldownTicks>60000</baseCooldownTicks> <!-- 1天 -->
       </li>
     </comps>
   </ThingDef> 
@@ -347,7 +732,7 @@
     <drawerType>RealtimeOnly</drawerType>
     <graphicData>
       <!-- <texPath>ArachnaeSwarm/Weapon/ARA_Weapon_Empty</texPath> -->
-      <texPath>Wula/FlyoverThing/WULA_Fighter_Shadow</texPath>
+      <texPath>Wula/FlyoverThing/WULA_Striker</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>(30,15)</drawSize>
@@ -533,7 +918,7 @@
     <drawerType>RealtimeOnly</drawerType>
     <graphicData>
       <!-- <texPath>ArachnaeSwarm/Weapon/ARA_Weapon_Empty</texPath> -->
-      <texPath>Wula/FlyoverThing/WULA_Bomber_Shadow</texPath>
+      <texPath>Wula/FlyoverThing/WULA_Bomber</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>(50,35)</drawSize>

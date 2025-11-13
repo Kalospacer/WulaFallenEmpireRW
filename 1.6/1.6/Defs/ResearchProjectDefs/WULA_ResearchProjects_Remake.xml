@@ -6,6 +6,7 @@
     <heldByFactionCategoryTags Inherit="False" />
   </ResearchProjectDef>
 
+
   <!-- 等级 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Colony_License_LV1_Technology</defName>
@@ -47,6 +48,19 @@
     </prerequisites>
   </ResearchProjectDef>
 
+  <!-- 工程舰 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_ConstructionShip_Technology</defName>
+    <label>工程舰调配许可</label>
+    <description>允许殖民地建立信标增加工程舰配额，并使得机械乌拉可以调频天线以申请舰队生产支援。\n\n帝国工程舰是搭载了移动工厂的无武装舰种，它们可以完整地使用乌拉帝国的锻造技术生产装备、护甲、建筑和机械体，并依照指令通过空投仓将其送至各殖民地。\n\n工程舰拥有以下设施：\n&lt;color=#6BB7B7>&lt;i>-生产设施&lt;/i>&lt;/color>\n&lt;color=#DEC28F>&lt;i>-建筑空投设施&lt;/i>&lt;/color></description>
+    <baseCost>600</baseCost>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>3.80</researchViewY>
+    <prerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  
   <!-- 飞行器 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Light_Fighter_Drone_Technology</defName>
@@ -75,8 +89,8 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Aircraft_Carrier_Technology</defName>
-    <label>航空母舰调配许可</label>
-    <description>允许殖民地建立信标增加航空母舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援。\n\n乌拉帝国的轻型航空母舰没有什么武装，但是能够装载大量的战机以支援地面战斗。\n\n此战舰携带以下设施：\n&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color></description>
+    <label>航空舰调配许可</label>
+    <description>允许殖民地建立信标增加航空舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援。\n\n乌拉帝国的轻型航空舰没有什么武装，但是能够装载大量的战机以支援地面战斗。\n\n此战舰携带以下设施：\n&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color></description>
     <baseCost>600</baseCost>
     <researchViewX>6.00</researchViewX>
     <researchViewY>4.40</researchViewY>
@@ -113,8 +127,8 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Battleship_Technology</defName>
-    <label>护航舰调配许可</label>
-    <description>允许殖民地建立信标增加护航舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援。\n\n乌拉帝国边缘开发署的护航舰是近地支援舰队的基础作战单位，它们的体积虽然不如战列巡洋舰那样庞大，但是依然搭载了让地面武装望尘莫及的庞大火炮阵列，可以对地面发起骇人的轰炸。\n\n护航舰拥有以下设施：\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
+    <label>巡洋舰调配许可</label>
+    <description>允许殖民地建立信标增加巡洋舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援。\n\n乌拉帝国边缘开发署的巡洋舰是近地支援舰队的基础作战单位，它们的体积虽然不如战列巡洋舰那样庞大，但是依然搭载了让地面武装望尘莫及的庞大火炮阵列，可以对地面发起骇人的轰炸。\n\n巡洋舰拥有以下设施：\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
     <baseCost>600</baseCost>
     <researchViewX>2.00</researchViewX>
     <researchViewY>5.00</researchViewY>
