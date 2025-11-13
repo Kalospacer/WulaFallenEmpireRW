@@ -2090,7 +2090,7 @@
       </li>
     </modExtensions>
   </ThingDef>
-  <AbilityDef>
+  <!-- <AbilityDef>
     <defName>WULA_RW_Auto_GL_Smoke_Ability</defName>
     <label>发射烟雾弹</label>
     <description>使用SEl-78"角砾岩"临时装填并发射一枚烟雾弹，用于遮蔽炮塔的瞄准和防止己方被流弹击中。</description>
@@ -2122,6 +2122,47 @@
     <comps>
       <li Class="CompProperties_AbilityLaunchProjectile">
         <projectileDef>Bullet_Shell_Smoke</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef> -->
+  <AbilityDef>
+    <defName>WULA_RW_Auto_GL_Smoke_Ability</defName>
+    <label>律令死亡</label>
+    <description>使得目标立刻被放逐——无视一切保护措施，将其从存档中永远擦除。</description>
+    <iconPath>Wula/UI/Abilities/WULA_RW_Auto_GL_Smoke_Ability</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>False</showPsycastEffects>
+    <hotKey>Misc11</hotKey>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <charges>3</charges>
+    <cooldownPerCharge>true</cooldownPerCharge>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <statBases>
+      <Ability_EffectRadius>35</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>500</range>
+      <warmupTime>0.25</warmupTime>
+      <muzzleFlashScale>9</muzzleFlashScale>
+      <ai_IsWeapon>true</ai_IsWeapon>
+      <soundCast>Pawn_Mech_Apocriton_Death</soundCast>
+      <requireLineOfSight>false</requireLineOfSight>
+
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetPawns>true</canTargetPawns>
+        <canTargetBuildings>true</canTargetBuildings>
+        <canTargetPlants>true</canTargetPlants>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityDeleteTarget">
+        <affectEverything>true</affectEverything>
+        <requireLineOfSight>false</requireLineOfSight>
+        <!-- <showEffect>true</showEffect>
+        <soundEffect>EnergyWeapon_Discharge</soundEffect> -->
       </li>
     </comps>
   </AbilityDef>
