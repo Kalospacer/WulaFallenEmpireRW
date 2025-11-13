@@ -312,71 +312,118 @@ namespace WulaFallenEmpire
 
             return validSpots;
         }
-
-        // 新增：分配物品到空投舱，包含材质处理
+        // 在 Building_GlobalWorkTable.cs 中修改 DistributeItemsToPods 方法
         private List<List<Thing>> DistributeItemsToPods(GlobalStorageWorldComponent storage, int podCount)
         {
             List<List<Thing>> podContents = new List<List<Thing>>();
-
             // 初始化空投舱内容列表
             for (int i = 0; i < podCount; i++)
             {
                 podContents.Add(new List<Thing>());
             }
-
             // 获取所有输出物品并转换为Thing列表
             List<Thing> allItems = new List<Thing>();
+
+            // 首先处理机械体，因为需要特殊处理
             foreach (var kvp in storage.outputStorage.ToList())
             {
                 if (kvp.Value <= 0) continue;
-
                 ThingDef thingDef = kvp.Key;
                 int remainingCount = kvp.Value;
-
                 // 如果是Pawn，需要特殊处理
                 if (thingDef.race != null)
                 {
+                    Log.Message($"[Airdrop] Processing {remainingCount} pawns of type {thingDef.defName}");
+
                     // 对于Pawn，每个单独生成
                     for (int i = 0; i < remainingCount; i++)
                     {
                         PawnKindDef randomPawnKind = GetRandomPawnKindForType(thingDef);
                         if (randomPawnKind != null)
                         {
-                            Pawn pawn = PawnGenerator.GeneratePawn(randomPawnKind, Faction.OfPlayer);
-                            allItems.Add(pawn);
+                            try
+                            {
+                                Pawn pawn = PawnGenerator.GeneratePawn(randomPawnKind, Faction.OfPlayer);
+                                // 确保Pawn处于活跃状态
+                                if (pawn != null)
+                                {
+                                    // 设置Pawn为可用的状态
+                                    pawn.health.Reset();
+                                    pawn.drafter = new Pawn_DraftController(pawn);
+
+                                    allItems.Add(pawn);
+                                    Log.Message($"[Airdrop] Successfully generated pawn: {pawn.Label}");
+                                }
+                                else
+                                {
+                                    Log.Error("[Airdrop] Generated pawn is null");
+                                }
+                            }
+                            catch (System.Exception ex)
+                            {
+                                Log.Error($"[Airdrop] Error generating pawn: {ex}");
+                            }
+                        }
+                        else
+                        {
+                            Log.Error($"[Airdrop] Could not find suitable PawnKindDef for {thingDef.defName}");
                         }
                     }
+
+                    // 立即从存储中移除已处理的机械体
+                    storage.RemoveFromOutputStorage(thingDef, remainingCount);
                 }
-                else
+            }
+            // 然后处理普通物品
+            foreach (var kvp in storage.outputStorage.ToList())
+            {
+                if (kvp.Value <= 0) continue;
+                ThingDef thingDef = kvp.Key;
+                int remainingCount = kvp.Value;
+                // 跳过已经处理的机械体
+                if (thingDef.race != null) continue;
+                Log.Message($"[Airdrop] Processing {remainingCount} items of type {thingDef.defName}");
+                // 对于普通物品，按照堆叠限制分割
+                while (remainingCount > 0)
                 {
-                    // 对于普通物品，按照堆叠限制分割
-                    while (remainingCount > 0)
+                    int stackSize = Mathf.Min(remainingCount, thingDef.stackLimit);
+                    Thing thing = CreateThingWithMaterial(thingDef, stackSize);
+                    if (thing != null)
                     {
-                        int stackSize = Mathf.Min(remainingCount, thingDef.stackLimit);
-                        Thing thing = CreateThingWithMaterial(thingDef, stackSize);
                         allItems.Add(thing);
                         remainingCount -= stackSize;
                     }
+                    else
+                    {
+                        Log.Error($"[Airdrop] Failed to create thing: {thingDef.defName}");
+                        break;
+                    }
                 }
+
+                // 从存储中移除已处理的物品
+                storage.RemoveFromOutputStorage(thingDef, kvp.Value);
             }
-
             if (allItems.Count == 0)
+            {
+                Log.Message("[Airdrop] No items to distribute");
                 return podContents;
-
+            }
+            Log.Message($"[Airdrop] Total items to distribute: {allItems.Count}");
             // 平均分配物品到空投舱
             int currentPod = 0;
             foreach (Thing item in allItems)
             {
-                podContents[currentPod].Add(item);
-                currentPod = (currentPod + 1) % podCount;
+                if (item != null)
+                {
+                    podContents[currentPod].Add(item);
+                    currentPod = (currentPod + 1) % podCount;
+                }
             }
-
-            // 从存储中移除已分配的物品
-            foreach (var kvp in storage.outputStorage.ToList())
+            // 记录分配结果
+            for (int i = 0; i < podContents.Count; i++)
             {
-                storage.outputStorage[kvp.Key] = 0;
+                Log.Message($"[Airdrop] Pod {i} contains {podContents[i].Count} items");
             }
-
             return podContents;
         }
 
@@ -431,94 +478,127 @@ namespace WulaFallenEmpire
             return defaultThing;
         }
 
-        // 在 Building_GlobalWorkTable.cs 中修改 GetRandomPawnKindForType 方法
+        // 改进 GetRandomPawnKindForType 方法
         private PawnKindDef GetRandomPawnKindForType(ThingDef pawnType)
         {
-            if (pawnType.race == null) return null;
-
-            // 获取建筑拥有者派系
-            Faction buildingFaction = this.Faction;
-            if (buildingFaction == null)
+            if (pawnType.race == null)
             {
-                Log.Warning("Building has no faction, cannot select appropriate pawn kind");
+                Log.Error($"[Airdrop] GetRandomPawnKindForType: {pawnType.defName} is not a pawn type");
                 return null;
             }
-
+            // 获取工作台的派系
+            Faction workTableFaction = this.Faction;
+            if (workTableFaction == null)
+            {
+                Log.Error($"[Airdrop] Work table has no faction");
+                return null;
+            }
+            Log.Message($"[Airdrop] Work table faction: {workTableFaction.def.defName}");
             // 获取该种族的所有PawnKindDef
             var availableKinds = DefDatabase<PawnKindDef>.AllDefs
                 .Where(kind => kind.race == pawnType)
                 .ToList();
-
-            if (availableKinds.Count == 0) return null;
-
-            // 按优先级分组
+            if (availableKinds.Count == 0)
+            {
+                Log.Error($"[Airdrop] No PawnKindDef found for race: {pawnType.defName}");
+                return null;
+            }
+            Log.Message($"[Airdrop] Found {availableKinds.Count} PawnKindDefs for {pawnType.defName}");
+            // 最高优先级：与工作台派系完全相同的PawnKind
             var matchingFactionKinds = availableKinds
                 .Where(kind => kind.defaultFactionDef != null &&
-                              kind.defaultFactionDef == buildingFaction.def)
+                              kind.defaultFactionDef == workTableFaction.def)
                 .ToList();
-
+            if (matchingFactionKinds.Count > 0)
+            {
+                var selected = matchingFactionKinds.RandomElement();
+                Log.Message($"[Airdrop] Selected matching faction PawnKind: {selected.defName} (faction: {workTableFaction.def.defName})");
+                return selected;
+            }
+            // 次高优先级：玩家派系的PawnKind（如果工作台是玩家派系）
+            if (workTableFaction.IsPlayer)
+            {
+                var playerFactionKinds = availableKinds
+                    .Where(kind => kind.defaultFactionDef != null &&
+                                  (kind.defaultFactionDef == FactionDefOf.PlayerColony ||
+                                   kind.defaultFactionDef == FactionDefOf.PlayerTribe))
+                    .ToList();
+                if (playerFactionKinds.Count > 0)
+                {
+                    var selected = playerFactionKinds.RandomElement();
+                    Log.Message($"[Airdrop] Selected player faction PawnKind: {selected.defName}");
+                    return selected;
+                }
+            }
+            // 备选：没有特定派系的PawnKind
             var noFactionKinds = availableKinds
                 .Where(kind => kind.defaultFactionDef == null)
                 .ToList();
-
-            // 排除与建筑派系不同的PawnKind
-            var excludedKinds = availableKinds
-                .Where(kind => kind.defaultFactionDef != null &&
-                              kind.defaultFactionDef != buildingFaction.def)
-                .ToList();
-
-            // 优先级选择
-            PawnKindDef selectedKind = null;
-
-            // 1. 最高优先级：与建筑派系相同的PawnKind
-            if (matchingFactionKinds.Count > 0)
+            if (noFactionKinds.Count > 0)
             {
-                selectedKind = matchingFactionKinds.RandomElement();
+                var selected = noFactionKinds.RandomElement();
+                Log.Message($"[Airdrop] Selected no-faction PawnKind: {selected.defName}");
+                return selected;
             }
-            // 2. 备选：没有defaultFactionDef的PawnKind
-            else if (noFactionKinds.Count > 0)
-            {
-                selectedKind = noFactionKinds.RandomElement();
-            }
-            // 3. 没有符合条件的PawnKind
-            else
-            {
-                Log.Warning($"No suitable PawnKind found for {pawnType.defName} with building faction {buildingFaction.def.defName}");
-                return null;
-            }
-
+            // 最后选择任何可用的PawnKind
+            var selectedKind = availableKinds.RandomElement();
+            Log.Message($"[Airdrop] Selected fallback PawnKind: {selectedKind.defName}");
             return selectedKind;
         }
 
-        // 新增：创建空投舱
+        // 修改 CreateDropPod 方法
         private bool CreateDropPod(IntVec3 dropCell, List<Thing> contents)
         {
             try
             {
                 if (contents == null || contents.Count == 0)
-                    return false;
-
-                // 创建空投舱信息
-                ActiveTransporterInfo dropPodInfo = new ActiveTransporterInfo();
-                
-                // 添加所有物品到空投舱
-                foreach (Thing thing in contents)
                 {
-                    dropPodInfo.innerContainer.TryAdd(thing, true);
+                    Log.Warning("[Airdrop] CreateDropPod: contents is null or empty");
+                    return false;
                 }
-
-                // 设置空投舱参数
+                Log.Message($"[Airdrop] Creating drop pod at {dropCell} with {contents.Count} items");
+                // 检查目标单元格是否有效
+                if (!dropCell.IsValid || !dropCell.InBounds(Map))
+                {
+                    Log.Error($"[Airdrop] Invalid drop cell: {dropCell}");
+                    return false;
+                }
+                // 创建空投舱信息 - 使用 DropPodInfo 而不是 ActiveTransporterInfo
+                ActiveTransporterInfo dropPodInfo = new ActiveTransporterInfo();
                 dropPodInfo.openDelay = 180; // 3秒后打开
                 dropPodInfo.leaveSlag = true;
 
+                // 创建容器并添加物品
+                ThingOwner container = new ThingOwner<Thing>();
+                foreach (Thing thing in contents)
+                {
+                    if (thing != null)
+                    {
+                        if (!container.TryAdd(thing, true))
+                        {
+                            Log.Error($"[Airdrop] Failed to add {thing.Label} to drop pod");
+                        }
+                        else
+                        {
+                            Log.Message($"[Airdrop] Added {thing.Label} to drop pod");
+                        }
+                    }
+                }
+                if (container.Count == 0)
+                {
+                    Log.Warning("[Airdrop] No items were successfully added to drop pod");
+                    return false;
+                }
+                dropPodInfo.innerContainer = container;
                 // 生成空投舱
                 DropPodUtility.MakeDropPodAt(dropCell, Map, dropPodInfo);
-                
+
+                Log.Message($"[Airdrop] Successfully created drop pod at {dropCell}");
                 return true;
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Failed to create drop pod at {dropCell}: {ex}");
+                Log.Error($"[Airdrop] Failed to create drop pod at {dropCell}: {ex}");
                 return false;
             }
         }

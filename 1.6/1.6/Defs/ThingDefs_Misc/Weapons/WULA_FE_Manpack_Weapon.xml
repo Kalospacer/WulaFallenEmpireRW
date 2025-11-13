@@ -2174,7 +2174,7 @@
     <defName>WULA_MW_Cheat_Weapon_Ability</defName>
     <label>放逐之门</label>
     <description>使得目标立刻被放逐——无视一切保护措施，将其从存档中永远擦除。</description>
-    <iconPath>Wula/UI/Abilities/WULA_MW_Cheat_Weapon_Ability</iconPath>
+    <iconPath>Wula/UI/Abilities/WULA_RW_Auto_GL_Smoke_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <hotKey>Misc11</hotKey>

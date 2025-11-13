@@ -5,7 +5,7 @@
     <label>合金</label>
     <description>由乌拉帝国工艺加工得到的高密度合金，是许多乌拉帝国装备的原材料。</description>
     <graphicData>
-      <texPath>Wula/Item/WULA_Neutronium</texPath>
+      <texPath>Wula/Item/WULA_Alloy</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <tradeability>None</tradeability>

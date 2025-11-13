@@ -187,60 +187,12 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
+      <li>WULA_Synth_Charge_Cube_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
-  <RecipeDef>
-    <defName>Make_WULA_Charge_Cube_Group</defName>
-    <label>制造乌拉帝国能源核心（4个）</label>
-    <description>制造4块乌拉帝国能源核心，包括可复冲的电容器与供给机械运转的能量，这是机械乌拉唯一可接受的外部输入性能量来源，也是多种乌拉帝国产物的前体。</description>
-    <jobString>正在制造乌拉帝国能源核心</jobString>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <!-- 允许混合成分 -->
-    <allowMixingIngredients>true</allowMixingIngredients>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>8</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Chemfuel</li>
-          </thingDefs>
-        </filter>
-        <count>8</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-    </ingredients>
-    <products>
-      <WULA_Charge_Cube>4</WULA_Charge_Cube>
-    </products>
-    <workSkill>Crafting</workSkill>
-    <displayPriority>100</displayPriority>
-    
-    <researchPrerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </researchPrerequisites>
-  </RecipeDef>
-
   <RecipeDef>
     <defName>Recharge_WULA_Charge_Cube</defName>
-    <label>以化合燃料充能能源核心</label>
+    <label>充能能源核心</label>
     <description>使用化合燃料，将被使用过的失去能量的乌拉帝国能源核心重新充能。</description>
     <jobString>正在为乌拉帝国能源核心充能</jobString>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -283,53 +235,13 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
+      <li>WULA_Synth_Charge_Cube_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
   <RecipeDef>
-    <defName>Recharge_WULA_Charge_Cube_Energy</defName>
-    <label>充能能源核心</label>
-    <description>使用电力，将被使用过的失去能量的乌拉帝国能源核心重新充能。</description>
-    <jobString>正在为乌拉帝国能源核心充能</jobString>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
-    <effectWorking>Smith</effectWorking>
-    <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>300</workAmount>
-    <!-- 允许混合成分 -->
-    <allowMixingIngredients>true</allowMixingIngredients>
-    <ingredients Inherit="False">
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>2</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WULA_Charge_Cube_No_Power</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-    <products>
-      <WULA_Charge_Cube>1</WULA_Charge_Cube>
-    </products>
-    <workSkill>Crafting</workSkill>
-    <displayPriority>100</displayPriority>
-    
-    <researchPrerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </researchPrerequisites>
-  </RecipeDef>
-  <RecipeDef>
-    <defName>Recharge_WULA_Charge_Cube_Energy_Group</defName>
+    <defName>Recharge_WULA_Charge_Cube_Group</defName>
     <label>充能能源核心（4个）</label>
-    <description>使用电力，将被使用过的失去能量的乌拉帝国能源核心重新充能。</description>
+    <description>使用化合燃料，将被使用过的失去能量的乌拉帝国能源核心重新充能。</description>
     <jobString>正在为乌拉帝国能源核心充能</jobString>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
@@ -339,6 +251,14 @@
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
       <li>
         <filter>
           <thingDefs>
@@ -363,7 +283,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
+      <li>WULA_Synth_Charge_Cube_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
 
@@ -415,5 +335,41 @@
       <ThingDef>WulaSpecies</ThingDef>
     </descriptionHyperlinks>
     <researchPrerequisite>WULA_Synth_Productor_Technology</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="BaseMechanoidRecipe">
+    <defName>WULA_Build_Mech_WULA_Cat</defName>
+    <label>建造CAt-11"猫猫"</label>
+    <description>建造一台CAt-11"猫猫"。</description>
+    <products>
+      <Mech_WULA_Cat>1</Mech_WULA_Cat>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>Mech_WULA_Cat</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Bunker_Drop_Technology</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="BaseMechanoidRecipe">
+    <defName>WULA_Build_Mech_WULA_Cat_Constructor</defName>
+    <label>建造CAt-86"猫猫劳工"</label>
+    <description>建造一台CAt-86"猫猫劳工"。</description>
+    <products>
+      <Mech_WULA_Cat_Constructor>1</Mech_WULA_Cat_Constructor>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>Mech_WULA_Cat_Constructor</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Bunker_Drop_Technology</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="BaseMechanoidRecipe">
+    <defName>WULA_Build_Mech_WULA_Cat_Assault</defName>
+    <label>建造CAt-46"猫猫冲锋队"</label>
+    <description>建造一台CAt-46"猫猫冲锋队"。</description>
+    <products>
+      <Mech_WULA_Cat_Assault>1</Mech_WULA_Cat_Assault>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>Mech_WULA_Cat_Assault</ThingDef>
+    </descriptionHyperlinks>
+    <researchPrerequisite>WULA_Bunker_Drop_Technology</researchPrerequisite>
   </RecipeDef>
 </Defs>

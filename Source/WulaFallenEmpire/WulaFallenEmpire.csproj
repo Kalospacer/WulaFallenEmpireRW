@@ -86,6 +86,7 @@
     <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLance.cs" />
     <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLanceExtension.cs" />
     <Compile Include="Ability\WULA_AbilityCallSkyfaller\CompAbilityEffect_CallSkyfaller.cs" />
+    <Compile Include="BuildingComp\Building_ExtraGraphics.cs" />
     <Compile Include="BuildingComp\Building_MapObserver.cs" />
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompBuildingBombardment.cs" />
     <Compile Include="Ability\WULA_AbilityCallSkyfaller\CompProperties_AbilityCallSkyfaller.cs" />

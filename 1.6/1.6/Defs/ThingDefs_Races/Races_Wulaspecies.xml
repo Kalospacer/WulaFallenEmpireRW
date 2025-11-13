@@ -727,9 +727,7 @@
       <ComponentIndustrial>6</ComponentIndustrial>
     </costList>
     <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_WeaponArmor_Productor</li>
-      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Productor_Technology</researchPrerequisite>
     </recipeMaker>
 
     <comps>
@@ -882,6 +880,7 @@
   <ThingDef Abstract="True" Name="Mech_WULA_Cat_Base" ParentName="WULA_BaseMechanoid">
     <statBases>
       <MoveSpeed>5</MoveSpeed>
+      <WorkToMake>1500</WorkToMake>
       
       <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">0</WastepacksPerRecharge>
     </statBases>
@@ -897,6 +896,9 @@
         <filthCountRange>1~2</filthCountRange>
       </deathAction>
     </race>
+    <recipeMaker>
+      <researchPrerequisite>WULA_Bunker_Drop_Technology</researchPrerequisite>
+    </recipeMaker>
     <comps>
       <li Class="CompProperties_CauseHediff_AoE">
         <hediff>Mech_WULA_Cat_Cute</hediff>
@@ -953,7 +955,7 @@
   <ThingDef ParentName="Mech_WULA_Cat_Base">
     <defName>Mech_WULA_Cat_Assault</defName>
     <label>CAt-46"猫猫冲锋队"</label>
-    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行搬运、狩猎和割除任务，身着轻甲，装备了一把DLa-4"云母"突击步枪附下挂刺刀，可以给敌方造成不小的麻烦。</description>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行搬运、狩猎和割除任务，身着轻甲，装备了一把DLa-1"页岩"，可以给敌方造成不小的麻烦。</description>
     <uiIconPath>Wula/Things/WULA_Assault_Cat/WULA_Cat_Thin_south</uiIconPath>
     <race>
       <mechEnabledWorkTypes Inherit="False">

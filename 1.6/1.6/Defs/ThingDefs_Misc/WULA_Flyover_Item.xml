@@ -72,7 +72,7 @@
         <escortFlyOverDef>WULA_Striker_Escort</escortFlyOverDef>
         
         <!-- 生成配置 -->
-        <spawnIntervalTicks>300</spawnIntervalTicks> <!-- 5秒 -->
+        <spawnIntervalTicks>1000</spawnIntervalTicks> <!-- 5秒 -->
         <maxEscorts>20</maxEscorts>
         <spawnCount>1</spawnCount>
         
@@ -116,7 +116,7 @@
         <escortFlyOverDef>WULA_Bomber_Escort</escortFlyOverDef>
         
         <!-- 生成配置 -->
-        <spawnIntervalTicks>750</spawnIntervalTicks> <!-- 5秒 -->
+        <spawnIntervalTicks>1350</spawnIntervalTicks> <!-- 5秒 -->
         <maxEscorts>10</maxEscorts>
         <spawnCount>1</spawnCount>
         
@@ -371,6 +371,95 @@
         <availableFacilities>
           <li>HarborFacility</li>
         </availableFacilities>
+      </li>
+      <!-- 伴飞 -->
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Striker_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>1000</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>20</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>100</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>8</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Bomber_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>1350</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>10</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>130</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>5</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
       </li>
     </comps>
   </ThingDef> 

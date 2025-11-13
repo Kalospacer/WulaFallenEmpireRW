@@ -517,6 +517,20 @@
       <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Synth_Charge_Cube_Technology</defName>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>1.50</researchViewY>
+    <label>能源核心加工许可</label>
+    <description>获取构建能源核心的知识，用以在脱离充电站的情况下为机械乌拉补充能量。</description>
+    <baseCost>800</baseCost>
+    <hiddenPrerequisites>
+      <li>WULA_Synth_Addons_Technology</li>
+    </hiddenPrerequisites>  
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
 
   <!-- <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Adv_WorkTable_Technology</defName>

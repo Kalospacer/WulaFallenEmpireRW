@@ -791,6 +791,9 @@
     </statBases>
     <recipes>
       <li>WULA_Build_Wula_Synth</li>
+      <li>WULA_Build_Mech_WULA_Cat</li>
+      <li>WULA_Build_Mech_WULA_Cat_Constructor</li>
+      <li>WULA_Build_Mech_WULA_Cat_Assault</li>
     </recipes>
     <size>(3,3)</size>
     <uiOrder>2120</uiOrder>
@@ -963,9 +966,6 @@
       <ComponentIndustrial>2</ComponentIndustrial>
       <WULA_Charge_Cube>1</WULA_Charge_Cube>
     </costList>
-    <researchPrerequisites>
-      <li>WULA_Bunker_Drop_Technology</li>
-    </researchPrerequisites>
     <comps>
       <li Class="CompProperties_Glower">
         <glowRadius>6</glowRadius>
@@ -1288,9 +1288,8 @@
      <li>Make_WULA_Alloy</li>
      <li>Make_WULA_Alloy_Group</li>
      <li>Make_WULA_Charge_Cube</li>
-     <li>Make_WULA_Charge_Cube_Group</li>
-     <li>Recharge_WULA_Charge_Cube_Energy</li>
-     <li>Recharge_WULA_Charge_Cube_Energy_Group</li>
+     <li>Recharge_WULA_Charge_Cube</li>
+     <li>Recharge_WULA_Charge_Cube_Group</li>
      <li>Make_Component_By_WULA_Cube_Productor</li>
      <li>Make_WULA_Dark_Matter_Item</li>
      <li>Make_WULA_Neutronium</li>
@@ -1434,6 +1433,7 @@
     <description>一台使用暗物质湮灭反应提供能量的乌拉帝国发电机，需要消耗暗物质作为燃料且消耗速率很高，但是拥有普通发电机望尘莫及的发电能力。为了在野战环境下随炮塔群一起空投，这种发电机的装甲层设计的非常厚实。</description>
     <thingClass>Building</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
     <graphicData>
       <texPath>Wula/Building/Wula_DarkEnergy_Generators</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -1444,7 +1444,6 @@
         <offset>(-0.03,0,-0.1)</offset>
       </shadowData>
     </graphicData>
-    <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <fillPercent>0</fillPercent>
     <pathCost>50</pathCost>

@@ -62,7 +62,10 @@
     </costList>
     <recipeMaker>
       <researchPrerequisite>WULA_Colony_License_LV1_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <!-- <techHediffsTags>
       <li>FieldHand</li>
@@ -84,7 +87,10 @@
     </costList>
     <recipeMaker Inherit="False">
       <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="CompProperties_Usable">
@@ -202,7 +208,10 @@
     </graphicData>
     <recipeMaker Inherit="False">
       <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <costList>
       <Steel>200</Steel>
@@ -265,7 +274,10 @@
     </costList>
     <recipeMaker Inherit="False">
       <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="CompProperties_Usable">
@@ -346,7 +358,10 @@
     </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <statBases>
       <Mass>0.3</Mass>
@@ -464,7 +479,10 @@
     </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <statBases>
       <Mass>0.3</Mass>
@@ -550,7 +568,10 @@
     </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <statBases>
       <Mass>0.3</Mass>
@@ -646,7 +667,10 @@
       <researchPrerequisites>
         <li>WULA_Synth_Addons_2_Technology</li>
       </researchPrerequisites>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <statBases>
       <Mass>0.3</Mass>
@@ -707,7 +731,10 @@
     </costList>
     <recipeMaker>
       <researchPrerequisite>WULA_Colony_License_LV1_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
   </ThingDef>
   <ThingDef ParentName="MechanitorImplantCraftableBase">
@@ -723,7 +750,10 @@
     </costList>
     <recipeMaker Inherit="False">
       <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="CompProperties_Usable">
@@ -813,7 +843,10 @@
     </costList>
     <recipeMaker Inherit="False">
       <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="CompProperties_Usable">
@@ -996,7 +1029,10 @@
     </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Antenna_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <statBases>
       <Mass>0.3</Mass>
@@ -1134,7 +1170,10 @@
     </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Addons_2_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <statBases>
       <Mass>0.3</Mass>
@@ -1279,7 +1318,10 @@
     </thingSetMakerTags>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Addons_Technology</researchPrerequisite>
-      <recipeUsers Inherit="False"/>
+      
+      <recipeUsers>
+        <li>WULA_Cube_Productor_Cleanzone</li>
+      </recipeUsers>
     </recipeMaker>
     <statBases>
       <Mass>0.3</Mass>
@@ -1397,7 +1439,7 @@
     <researchPrerequisites>
       <li>WULA_Shutdown_Technology</li>
     </researchPrerequisites>
-    <uiIconThing>WULA_Charge_Cube_No_Power</uiIconThing>
+    <uiIconPath>Wula/UI/Commands/WULA_Shutdown_Synth</uiIconPath>
     <surgeryOutcomeEffect IsNull="True" />
     <!-- Always succeeds -->
     <anesthetize>false</anesthetize>
@@ -1420,7 +1462,7 @@
     <workerClass>Recipe_RemoveHediff</workerClass>
     <jobString>正在重启合成人。</jobString>
     <successfullyRemovedHediffMessage>{0} 成功重启了 {1}。</successfullyRemovedHediffMessage>
-    <uiIconThing>WULA_Charge_Cube</uiIconThing>
+    <uiIconPath>Wula/UI/Commands/WULA_Synth_Power_On</uiIconPath>
     <removesHediff>WULA_Shutdown_Synth_Hediff</removesHediff>
     <surgeryOutcomeEffect IsNull="True" />
     <!-- Always succeeds -->

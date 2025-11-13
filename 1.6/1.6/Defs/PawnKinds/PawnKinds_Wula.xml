@@ -4,7 +4,6 @@
     <defName>Wula_PawnKind</defName>
     <label>机械乌拉</label>
     <race>WulaSpecies</race>
-    <defaultFactionDef>PlayerColony</defaultFactionDef>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -47,9 +46,8 @@
 
   <PawnKindDef ParentName="NonCombatLightMechanoidKind">
     <defName>Mech_WULA_Cat</defName>
-    <label>乌拉猫猫</label>
+    <label>CAt-11"猫猫"</label>
     <race>Mech_WULA_Cat</race>
-    <defaultFactionType>PlayerColony</defaultFactionType>
     <allowInMechClusters>False</allowInMechClusters>
     <lifeStages>
       <li>
@@ -85,7 +83,7 @@
   </PawnKindDef>
   <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
     <defName>Mech_WULA_Cat_Constructor</defName>
-    <label>土木乌拉猫猫</label>
+    <label>CAt-86"猫猫劳工"</label>
     <race>Mech_WULA_Cat_Constructor</race>
     <weaponTags>
       <li>Wula_Constructor_Cat_Weapon</li>
@@ -105,7 +103,7 @@
   </PawnKindDef>
   <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
     <defName>Mech_WULA_Cat_Assault</defName>
-    <label>突击乌拉猫猫</label>
+    <label>CAt-46"猫猫冲锋队"</label>
     <race>Mech_WULA_Cat_Assault</race>
     <combatPower>500</combatPower>
     <lifeStages Inherit="False">

@@ -76,7 +76,7 @@
       <drawSize>(9,9)</drawSize>
     </graphicData>
     <skyfaller>
-      <movementType>Decelerate</movementType>
+      <movementType>Accelerate</movementType>
       <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
       <shadowSize>(6, 6)</shadowSize>
       <anticipationSound>DropPod_Fall</anticipationSound>
