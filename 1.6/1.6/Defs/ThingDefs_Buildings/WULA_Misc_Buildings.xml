@@ -588,6 +588,7 @@
     <thingClass>Thing</thingClass>
   </ThingDef>
 
+  <!-- 装饰品 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Holographic_Flag_Building</defName>
     <label>P.I.A全息旗帜</label>

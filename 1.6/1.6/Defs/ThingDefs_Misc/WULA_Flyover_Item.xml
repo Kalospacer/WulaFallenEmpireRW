@@ -319,7 +319,7 @@
     <tickerType>Normal</tickerType>
     <drawerType>RealtimeOnly</drawerType>
     <graphicData>
-      <texPath>Wula/FlyoverThing/WULA_ConstructionShip_Shadow</texPath>
+      <texPath>Wula/FlyoverThing/WULA_AircraftCarrier_Shadow</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>(70,200)</drawSize>
