@@ -96,6 +96,10 @@
       <drawSize>(3,3)</drawSize>
       <color>(195,195,195,255)</color>
     </graphicData>
+    <costList>
+      <WULA_Alloy>600</WULA_Alloy>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
     <statBases>
       <MaxHitPoints>600</MaxHitPoints>
       <Flammability>0.5</Flammability>
@@ -153,6 +157,7 @@
     <passability>PassThroughOnly</passability>
     <fillPercent>1</fillPercent>
     <size>(3,3)</size>
+    <uiIconPath>Wula/Building/WULA_Fake_AircraftCarrier_Beacon_Building</uiIconPath>
     <drawHighlight>true</drawHighlight>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <graphicData>
@@ -168,6 +173,10 @@
       <Mass>125</Mass>
       <Comfort>0.65</Comfort>
     </statBases>
+    <costList Inherit="False">
+      <WULA_Alloy>500</WULA_Alloy>
+      <WULA_Charge_Cube>25</WULA_Charge_Cube>
+    </costList>
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>
     <rotatable>false</rotatable>
@@ -242,6 +251,10 @@
       <Mass>125</Mass>
       <Comfort>0.65</Comfort>
     </statBases>
+    <costList>
+      <WULA_Alloy>300</WULA_Alloy>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>
     <rotatable>false</rotatable>
@@ -363,6 +376,10 @@
       <Mass>125</Mass>
       <Comfort>0.65</Comfort>
     </statBases>
+    <costList>
+      <WULA_Alloy>50</WULA_Alloy>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
     <designationCategory>WULA_Buildings</designationCategory>
     <researchPrerequisites Inherit="False">
       <li>WULA_Light_Fighter_Drone_Technology</li>
@@ -469,6 +486,10 @@
       <drawSize>(2,2)</drawSize>
       <color>(195,195,195,255)</color>
     </graphicData>
+    <costList Inherit="False">
+      <WULA_Alloy>200</WULA_Alloy>
+      <WULA_Charge_Cube>10</WULA_Charge_Cube>
+    </costList>
     <statBases>
       <MaxHitPoints>600</MaxHitPoints>
       <Flammability>0.5</Flammability>
@@ -551,6 +572,10 @@
     <researchPrerequisites Inherit="False">
       <li>WULA_Bomber_Technology</li>
     </researchPrerequisites>
+    <costList Inherit="False">
+      <WULA_Alloy>250</WULA_Alloy>
+      <WULA_Dark_Matter_Item>4</WULA_Dark_Matter_Item>
+    </costList>
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>
     <hasInteractionCell>false</hasInteractionCell>
@@ -610,6 +635,9 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1,1)</drawSize>
     </graphicData>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
     <statBases>
       <MaxHitPoints>600</MaxHitPoints>
       <Flammability>0.5</Flammability>
@@ -699,9 +727,6 @@
       </damageData>
     </graphicData>
     <altitudeLayer>BuildingOnTop</altitudeLayer>
-    <costList>
-      <Steel>15</Steel>
-    </costList>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
       <Flammability>1.0</Flammability>

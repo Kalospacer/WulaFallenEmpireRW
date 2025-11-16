@@ -1,135 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- 萨克森装备 -->
-  <ThingDef Name="WULA_WM_Panzer_Autocannon" ParentName="BaseWeaponTurret">
-    <defName>WULA_WM_Panzer_Autocannon</defName>
-    <label>SRc-15"辉锑"</label>
-    <description>由乌拉帝国的"萨克森"战车所装备的自动炮，能够组织起高射速的弹幕压制杀伤大规模目标，并且外挂了两具PRr-34"石英"火箭发射器，用于对抗集群冲击。</description>
+  <!-- 装备炮塔 -->
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>WULA_Heavy_Infantry_PowerArmor_Mortar</defName>
+    <label>ILm-60"铬铁"迫击炮</label>
+    <description>一具双联装轻型迫击炮，通过背挂式武器附件的形式外挂在乌拉帝国重装装甲上，可以自行分析敌方的运动并进行开火——只要装甲穿着者不处于近战状态即可。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
-    <techLevel>Ultra</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_WM_Panzer_Autocannon</texPath>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>3</drawSize>
+      <drawSize>0.75</drawSize>
     </graphicData>
-    <uiIconScale>0.33</uiIconScale>
+    <uiIconScale>1.5</uiIconScale>
     <statBases>
-      <Mass>150</Mass>
-      <AccuracyTouch>0.5</AccuracyTouch>
-      <AccuracyShort>0.5</AccuracyShort>
-      <AccuracyMedium>0.4</AccuracyMedium>
-      <AccuracyLong>0.35</AccuracyLong>
+      <Mass>2.6</Mass>
+      <AccuracyTouch>0.3</AccuracyTouch>
+      <AccuracyShort>0.3</AccuracyShort>
+      <AccuracyMedium>0.3</AccuracyMedium>
+      <AccuracyLong>0.4</AccuracyLong>
     </statBases>
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_WM_Panzer_Autocannon</defaultProjectile>
-        <range>36</range>
-        <defaultCooldownTime>1.5</defaultCooldownTime>
-        <burstShotCount>10</burstShotCount>
-        <forcedMissRadius>0.35</forcedMissRadius>
-        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <defaultProjectile>Bullet_WULA_Heavy_Infantry_PowerArmor_Mortar</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <defaultCooldownTime>16</defaultCooldownTime>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>12</minRange>
+        <range>70</range>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>16</ticksBetweenBurstShots>
         <soundCast>Shot_TurretSniper</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
+        <forcedMissRadius>8</forcedMissRadius>
         <targetParams>
-          <canTargetPawns>true</canTargetPawns>
           <canTargetLocations>true</canTargetLocations>
-          <canTargetBuildings>true</canTargetBuildings>
         </targetParams>
       </li>
     </verbs>
   </ThingDef>
-  <ThingDef Name="Bullet_WULA_WM_Panzer_Autocannon" ParentName="BaseBullet">
-    <defName>Bullet_WULA_WM_Panzer_Autocannon</defName>
-    <label>辉锑自动炮子弹</label>
-    <thingClass>Projectile_Explosive</thingClass>
-    <tickerType>Normal</tickerType>
-    <neverMultiSelect>True</neverMultiSelect>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red_Double</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-      <drawSize>1.4</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>14</damageAmountBase>
-      <speed>120</speed>
-      <explosionRadius>2.4</explosionRadius>
-      <arcHeightFactor>0.4</arcHeightFactor>
-      <soundExplode>Explosion_Rocket</soundExplode>
-      <armorPenetrationBase>0.75</armorPenetrationBase>
-      <screenShakeFactor>0.1</screenShakeFactor>
-    </projectile>
-  </ThingDef>
-  <AbilityDef>
-    <defName>WULA_WM_Panzer_Autocannon_Ability</defName>
-    <label>PRr-34"石英"</label>
-    <description>发射大威力的火箭弹轰炸目标区域，这种火箭可以有效杀伤软目标，并对仍然活着的敌人造成巨大的震撼效果。</description>
-    <iconPath>Wula/Projectile/WULA_Mortar_Shell</iconPath>
-    <writeCombatLog>True</writeCombatLog>
-    <showPsycastEffects>False</showPsycastEffects>
-    <cooldownTicksRange>3600</cooldownTicksRange>
-    <verbProperties>
-      <verbClass>Verb_CastAbility</verbClass>
-      <range>26</range>
-      <warmupTime>1</warmupTime>
-      <muzzleFlashScale>9</muzzleFlashScale>
-      <beamTargetsGround>true</beamTargetsGround>
-      <soundAiming>HellsphereCannon_Aiming</soundAiming>
-      <ai_IsWeapon>true</ai_IsWeapon>
-      <soundCast>Shot_HellsphereCannonGun</soundCast>
-      
-      <aimingLineMote>Mote_HellsphereCannon_Aim</aimingLineMote>
-      <aimingChargeMote>Mote_HellsphereCannon_Charge</aimingChargeMote>
-      <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
-      <aimingLineMoteFixedLength>3.9</aimingLineMoteFixedLength>
-      <aimingTargetMote>Mote_HellsphereCannon_Target</aimingTargetMote>
-      
-      <targetParams>
-        <canTargetLocations>true</canTargetLocations>
-        <canTargetSelf>false</canTargetSelf>
-        <canTargetPawns>true</canTargetPawns>
-        <canTargetBuildings>true</canTargetBuildings>
-        <canTargetPlants>true</canTargetPlants>
-      </targetParams>
-    </verbProperties>
-    <comps>
-      <li Class="CompProperties_AbilityLaunchProjectile">
-        <projectileDef>Bullet_WULA_WM_Panzer_Autocannon_Ability</projectileDef>
-        <psychic>false</psychic>
-        <screenShakeIntensity>1</screenShakeIntensity>
-      </li>
-    </comps>
-  </AbilityDef>
   <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_WM_Panzer_Autocannon_Ability</defName>
-    <label>石英非制导火箭</label>
-    <thingClass>Projectile_Explosive</thingClass>
+    <defName>Bullet_WULA_Heavy_Infantry_PowerArmor_Mortar</defName>
+    <label>铬铁迫击炮弹</label>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Mortar_Shell</texPath>
+      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>Mote</shaderType>
-      <drawSize>(2, 2)</drawSize>
+      <drawSize>(1,2)</drawSize>
     </graphicData>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
+        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
+      </li>
+    </modExtensions>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
     <projectile>
-      <damageDef>BombSuper</damageDef>
-      <damageAmountBase>120</damageAmountBase>
-      <speed>41</speed>
-      <explosionRadius>6.9</explosionRadius>
-      <stoppingPower>15</stoppingPower>
-      <explosionChanceToStartFire>1</explosionChanceToStartFire>
-      <explosionDamageFalloff>true</explosionDamageFalloff>
-      <explosionEffect>GiantExplosion</explosionEffect>
-      <flyOverhead>false</flyOverhead>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+      <speed>45</speed>
+      <explosionRadius>3.5</explosionRadius>
+      <armorPenetrationBase>0.1</armorPenetrationBase>
+      <flyOverhead>true</flyOverhead>
       <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
-      <soundExplode>Explosion_GiantBomb</soundExplode>
+      <soundExplode>MortarBomb_Explode</soundExplode>
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
-      <!-- <preExplosionSpawnSingleThingDef>CraterMedium</preExplosionSpawnSingleThingDef> -->
     </projectile>
   </ThingDef>
 

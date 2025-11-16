@@ -1,5 +1,117 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <!-- 战车 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_AI_Heavy_Panzer_Cleanzone</defName>
+    <label>HAp-6"战车"</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送大型战争机械。\n\n战车是乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
+    <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Heavy_Panzer_Incoming</uiIconPath>
+    <uiIconScale>1.33</uiIconScale>
+    <uiIconOffset>(0, -0.1)</uiIconOffset>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_AI_Heavy_Panzer</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <costList Inherit="False">
+      <WULA_Alloy>300</WULA_Alloy>
+      <WULA_Charge_Cube>18</WULA_Charge_Cube>
+      <ComponentSpacer>2</ComponentSpacer>
+      <Uranium>50</Uranium>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>Wula_AI_Heavy_Panzer_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(3,3)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Wula_AI_Heavy_Panzer_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Wula_AI_Heavy_Panzer_Incoming</defName>
+    <label>HAp-6"战车"（空投中）</label>
+    <size>(1,1)</size>
+    <thingClass>WulaFallenEmpire.Skyfaller_PawnSpawner</thingClass>
+    <graphicData>
+      <texPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Heavy_Panzer_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(7,7)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(7, 7)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <!-- <spawnThing></spawnThing> -->
+      <explosionRadius>6</explosionRadius>
+      <explosionDamage>WULA_Mech_EMP_Drop</explosionDamage>
+      <explosionDamageFactor>0</explosionDamageFactor>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
+        <pawnKind>Wula_AI_Heavy_Panzer</pawnKind>
+        <faction>PlayerColony</faction>
+        <spawnDrafted>false</spawnDrafted>
+        <spawnHostile>false</spawnHostile>
+      </li>
+    </comps>
+  </ThingDef>
+
   <!-- 陆行舰 -->
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Mech_Mobile_Factory_Cleanzone</defName>
@@ -40,13 +152,15 @@
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
+    <costList Inherit="False">
+      <WULA_Alloy>500</WULA_Alloy>
+      <WULA_Dark_Matter_Item>25</WULA_Dark_Matter_Item>
+      <WULA_Neutronium>50</WULA_Neutronium>
+      <Uranium>200</Uranium>
+    </costList>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
-    <costList>
-      <Steel>50</Steel>
-      <ComponentIndustrial>1</ComponentIndustrial>
-    </costList>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>

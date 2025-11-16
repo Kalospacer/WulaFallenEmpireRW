@@ -212,13 +212,13 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_DarkEnergy_Generators_Technology</defName>
-    <researchViewX>5.00</researchViewX>
+    <researchViewX>9.00</researchViewX>
     <researchViewY>3.80</researchViewY>
     <label>暗物质发电空投许可</label>
     <description>允许殖民地申请空投暗物质发电机，一种输出功率极为恐怖却非常消耗资源的发电机。</description>
     <baseCost>600</baseCost>
     <prerequisites>
-      <li>WULA_Colony_License_LV2_Technology</li>
+      <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   
@@ -260,12 +260,29 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>Wula_AI_Heavy_Panzer_Technology</defName>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>5.60</researchViewY>
+    <label>战车空投许可</label>
+    <description>允许殖民地申请空投HAp-6"战车"，乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方。</description>
+    <baseCost>800</baseCost>
+    <hiddenPrerequisites>
+      <li>WULA_Synth_Productor_Technology</li>
+    </hiddenPrerequisites>
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Mech_Mobile_Factory_Technology</defName>
     <researchViewX>9.00</researchViewX>
     <researchViewY>5.60</researchViewY>
     <label>陆行舰空投许可</label>
     <description>允许殖民地申请空投MFm-2"陆行舰"，乌拉帝国的大型战争机械，一座插满火炮和战地生产设施的移动堡垒。</description>
     <baseCost>800</baseCost>
+    <hiddenPrerequisites>
+      <li>Wula_AI_Heavy_Panzer_Technology</li>
+    </hiddenPrerequisites>
     <prerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
@@ -515,20 +532,6 @@
     </hiddenPrerequisites>  
     <prerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Charge_Cube_Technology</defName>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>1.50</researchViewY>
-    <label>能源核心加工许可</label>
-    <description>获取构建能源核心的知识，用以在脱离充电站的情况下为机械乌拉补充能量。</description>
-    <baseCost>800</baseCost>
-    <hiddenPrerequisites>
-      <li>WULA_Synth_Addons_Technology</li>
-    </hiddenPrerequisites>  
-    <prerequisites>
-      <li>WULA_Colony_License_LV2_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
 

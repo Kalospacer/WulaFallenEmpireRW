@@ -47,31 +47,6 @@
   </HediffDef>
   <!-- 能源炉 -->
   <ThingDef ParentName="BodyPartProstheticMakeableBase">
-    <defName>WULA_Energy_Furnace_Base</defName>
-    <label>中央能源炉（基础）</label>
-    <description>机械乌拉的核心部件之一，负责提供永不衰竭的澎湃机械动力，并代替各种内脏执行内循环的任务。</description>
-    <!-- <descriptionHyperlinks><RecipeDef>InstallFieldHand</RecipeDef></descriptionHyperlinks> -->
-    <!-- <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags> -->
-    <graphicData>
-      <texPath>Things/Item/Health/HealthItem</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <costList>
-      <Steel>40</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
-    </costList>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Colony_License_LV1_Technology</researchPrerequisite>
-      
-      <recipeUsers>
-        <li>WULA_Cube_Productor_Cleanzone</li>
-      </recipeUsers>
-    </recipeMaker>
-    <!-- <techHediffsTags>
-      <li>FieldHand</li>
-    </techHediffsTags> -->
-  </ThingDef>
-  <ThingDef ParentName="BodyPartProstheticMakeableBase">
     <defName>WULA_Energy_Furnace_Overdrive</defName>
     <label>中央能源炉-超载组件</label>
     <description>安装于能源炉的特殊改件，除了获得常驻的移动速度外，还可以短时间超载机体，获得力量上的爆发性增益。</description>
@@ -715,28 +690,6 @@
   </RecipeDef>
 
   <!-- 天线 -->
-  <ThingDef ParentName="BodyPartProstheticMakeableBase">
-    <defName>WULA_Addons_Antenna_Base</defName>
-    <label>上行链路天线</label>
-    <description>机械乌拉的核心部件之一，除了接收来自乌拉帝国人工智能网络“演算圆环”的信号外，还能兼职控制其他低级机械体。</description>
-    <!-- <descriptionHyperlinks><RecipeDef>InstallFieldHand</RecipeDef></descriptionHyperlinks> -->
-    <!-- <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags> -->
-    <graphicData>
-      <texPath>Things/Item/Health/HealthItem</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <costList>
-      <Steel>30</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
-    </costList>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Colony_License_LV1_Technology</researchPrerequisite>
-      
-      <recipeUsers>
-        <li>WULA_Cube_Productor_Cleanzone</li>
-      </recipeUsers>
-    </recipeMaker>
-  </ThingDef>
   <ThingDef ParentName="MechanitorImplantCraftableBase">
     <defName>WULA_Addons_Antenna_Expansion</defName>
     <label>上行链路天线-扩容插件</label>

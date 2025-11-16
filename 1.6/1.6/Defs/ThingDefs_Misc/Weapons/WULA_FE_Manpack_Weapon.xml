@@ -123,8 +123,7 @@
       <li>Metallic</li>
     </stuffCategories>
     <costList Inherit="False">
-      <Steel>80</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <WULA_Alloy>40</WULA_Alloy>
     </costList>
     <tools>
       <li>
@@ -223,9 +222,8 @@
       <li>Metallic</li>
     </stuffCategories>
     <costList Inherit="False">
-      <Steel>90</Steel>
-      <Plasteel>25</Plasteel>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <WULA_Alloy>120</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
     </costList>
     <statBases>
       <WorkToMake>20000</WorkToMake>
@@ -316,10 +314,9 @@
       <Mass>20</Mass>
     </statBases>
     <costList Inherit="False">
-      <Steel>40</Steel>
+      <WULA_Neutronium>12</WULA_Neutronium>
+      <WULA_Dark_Matter_Item>12</WULA_Dark_Matter_Item>
       <Uranium>80</Uranium>
-      <Plasteel>20</Plasteel>
-      <ComponentIndustrial>4</ComponentIndustrial>
     </costList>
     <tools>
       <li>
@@ -512,8 +509,8 @@
       </li>
     </verbs>
     <costList Inherit="False">
-      <Steel>60</Steel>
-      <ComponentIndustrial>8</ComponentIndustrial>
+      <WULA_Alloy>40</WULA_Alloy>
+      <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <weaponTags>
       <li>Wula_Weapon_Init</li>
@@ -625,7 +622,8 @@
       <RangedWeapon_Cooldown>1.4</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
-      <Steel>120</Steel>
+      <WULA_Alloy>80</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
       <ComponentIndustrial>6</ComponentIndustrial>
     </costList>
     <verbs>
@@ -705,8 +703,9 @@
       <RangedWeapon_Cooldown>0.8</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
-      <Steel>120</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <WULA_Alloy>60</WULA_Alloy>
+      <WULA_Charge_Cube>4</WULA_Charge_Cube>
+      <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <verbs>
       <li>
@@ -783,9 +782,9 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <costList Inherit="False">
-      <Steel>300</Steel>
-      <Plasteel>80</Plasteel>
-      <ComponentSpacer>8</ComponentSpacer>
+      <WULA_Alloy>200</WULA_Alloy>
+      <WULA_Charge_Cube>12</WULA_Charge_Cube>
+      <WULA_Dark_Matter_Item>4</WULA_Dark_Matter_Item>
     </costList>
     <statBases>
       <WorkToMake>40000</WorkToMake>
@@ -961,9 +960,9 @@
       </li>
     </verbs>
     <costList Inherit="False">
-      <Steel>60</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
-      <Plasteel>20</Plasteel>
+      <WULA_Alloy>70</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
+      <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <weaponTags>
       <li>Wula_Ranged_Weapon_T2</li>
@@ -1043,9 +1042,9 @@
       <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
-      <Steel>120</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-      <Plasteel>20</Plasteel>
+      <WULA_Alloy>70</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
+      <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
     <verbs>
@@ -1130,8 +1129,9 @@
       <RangedWeapon_Cooldown>2.0</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
-      <Steel>120</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <WULA_Alloy>70</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
+      <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <recipeMaker>
       <recipeUsers Inherit="False">
@@ -1258,9 +1258,9 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <costList Inherit="False">
-      <Steel>350</Steel>
-      <Plasteel>200</Plasteel>
-      <ComponentSpacer>8</ComponentSpacer>
+      <WULA_Alloy>250</WULA_Alloy>
+      <WULA_Charge_Cube>12</WULA_Charge_Cube>
+      <WULA_Dark_Matter_Item>8</WULA_Dark_Matter_Item>
     </costList>
     <statBases>
       <WorkToMake>40000</WorkToMake>
@@ -1372,9 +1372,9 @@
       <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
-      <Steel>500</Steel>
-      <Plasteel>300</Plasteel>
-      <ComponentSpacer>12</ComponentSpacer>
+      <WULA_Alloy>250</WULA_Alloy>
+      <WULA_Charge_Cube>12</WULA_Charge_Cube>
+      <WULA_Dark_Matter_Item>8</WULA_Dark_Matter_Item>
     </costList>
     <verbs>
       <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
@@ -1618,8 +1618,9 @@
       <li>Metallic</li>
     </stuffCategories>
     <costList Inherit="False">
-      <Plasteel>150</Plasteel>
-      <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
+      <WULA_Alloy>100</WULA_Alloy>
+      <WULA_Dark_Matter_Item>4</WULA_Dark_Matter_Item>
+      <WULA_Neutronium>4</WULA_Neutronium>
     </costList>
     <statBases>
       <WorkToMake>20000</WorkToMake>
@@ -1742,8 +1743,7 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <costList Inherit="False">
-      <Steel>30</Steel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <WULA_Alloy>20</WULA_Alloy>
     </costList>
     <tickerType>Normal</tickerType>
     <thingCategories>
@@ -1887,8 +1887,8 @@
       </li>
     </verbs>
     <costList Inherit="False">
-      <Steel>200</Steel>
-      <ComponentIndustrial>12</ComponentIndustrial>
+      <WULA_Alloy>150</WULA_Alloy>
+      <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
     <weaponTags>
       <li>Wula_Ranged_Weapon_T2</li>
@@ -2018,9 +2018,9 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <costList Inherit="False">
-      <Steel>380</Steel>
-      <Plasteel>60</Plasteel>
-      <ComponentSpacer>8</ComponentSpacer>
+      <WULA_Alloy>200</WULA_Alloy>
+      <WULA_Charge_Cube>12</WULA_Charge_Cube>
+      <WULA_Dark_Matter_Item>4</WULA_Dark_Matter_Item>
     </costList>
     <statBases>
       <WorkToMake>40000</WorkToMake>

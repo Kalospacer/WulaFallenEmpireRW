@@ -30,7 +30,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_WeaponArmor_Productor_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
   <RecipeDef>
@@ -62,7 +62,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_WeaponArmor_Productor_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
 
@@ -159,7 +159,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Synth_Charge_Cube_Technology</li>
+      <li>WULA_Colony_License_LV2_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
   <RecipeDef>
@@ -207,7 +207,7 @@
     <displayPriority>100</displayPriority>
     
     <researchPrerequisites>
-      <li>WULA_Synth_Charge_Cube_Technology</li>
+      <li>WULA_Colony_License_LV2_Technology</li>
     </researchPrerequisites>
   </RecipeDef>
   <RecipeDef>
@@ -263,7 +263,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>Make_WULA_Charge_Cube</li>
+            <li>WULA_Charge_Cube</li>
           </thingDefs>
         </filter>
         <count>5</count>
@@ -350,6 +350,24 @@
     <defName>WULA_Build_Mech_WULA_Cat</defName>
     <label>建造CAt-11"猫猫"</label>
     <description>建造一台CAt-11"猫猫"。</description>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>80</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
     <products>
       <Mech_WULA_Cat>1</Mech_WULA_Cat>
     </products>
@@ -362,6 +380,24 @@
     <defName>WULA_Build_Mech_WULA_Cat_Constructor</defName>
     <label>建造CAt-86"猫猫劳工"</label>
     <description>建造一台CAt-86"猫猫劳工"。</description>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>80</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
     <products>
       <Mech_WULA_Cat_Constructor>1</Mech_WULA_Cat_Constructor>
     </products>
@@ -374,6 +410,24 @@
     <defName>WULA_Build_Mech_WULA_Cat_Assault</defName>
     <label>建造CAt-46"猫猫冲锋队"</label>
     <description>建造一台CAt-46"猫猫冲锋队"。</description>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>80</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
     <products>
       <Mech_WULA_Cat_Assault>1</Mech_WULA_Cat_Assault>
     </products>

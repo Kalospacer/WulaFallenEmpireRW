@@ -289,9 +289,9 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
-    <costList>
-      <Steel>300</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
+    <costList Inherit="False">
+      <WULA_Alloy>100</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
     </costList>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
@@ -392,10 +392,9 @@
       <Beauty>0</Beauty>
       <ShootingAccuracyTurret>1.00</ShootingAccuracyTurret>
     </statBases>
-    <costList>
-      <Steel>200</Steel>
-      <Plasteel>30</Plasteel>
-      <ComponentIndustrial>5</ComponentIndustrial>
+    <costList Inherit="False">
+      <WULA_Alloy>100</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
     </costList>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
@@ -564,9 +563,9 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
-    <costList>
-      <Steel>300</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
+    <costList Inherit="False">
+      <WULA_Alloy>100</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
     </costList>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
@@ -667,10 +666,9 @@
       <Beauty>0</Beauty>
       <ShootingAccuracyTurret>1.00</ShootingAccuracyTurret>
     </statBases>
-    <costList>
-      <Steel>200</Steel>
-      <Plasteel>30</Plasteel>
-      <ComponentIndustrial>5</ComponentIndustrial>
+    <costList Inherit="False">
+      <WULA_Alloy>100</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
     </costList>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>

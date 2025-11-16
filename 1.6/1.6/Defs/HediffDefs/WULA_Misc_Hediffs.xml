@@ -176,38 +176,6 @@
     </stages>
   </HediffDef>
 
-  <HediffDef ParentName="ImplantHediffBase">
-    <defName>WULA_Heavy_Infantry_PowerArmor_PowerFist</defName>
-    <label>动力拳</label>
-    <labelNoun>动力拳</labelNoun>
-    <description>一个由外骨骼和加压线圈组成的拳套，内置于乌拉帝国重装装甲的夹层中，可以击碎任何胆敢靠近的敌军的头颅。这套武备是由神经系统直接驱动的——无论盔甲穿戴者是否还拥有生物学意义上的“手”。</description>
-    <comps>
-      <li Class="HediffCompProperties_VerbGiver">
-        <tools>
-          <li>
-            <label>动力拳</label>
-            <capacities>
-              <li>Poke</li>
-            </capacities>
-            <power>25</power>
-            <cooldownTime>2.2</cooldownTime>
-            <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
-            <surpriseAttack>
-              <extraMeleeDamages>
-                <li>
-                  <def>Stun</def>
-                  <amount>12</amount>
-                </li>
-              </extraMeleeDamages>
-            </surpriseAttack>
-            <!-- <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
-            <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss> -->
-          </li>
-        </tools>
-      </li>
-      <li Class="HediffCompProperties_RemoveIfApparelDropped" />
-    </comps>
-  </HediffDef>
 
   <HediffDef>
     <defName>WULA_Shutdown</defName>

@@ -554,7 +554,6 @@
       <li>ManipulationLimbSegment</li>
       <li>TalkingSource</li>
     </tags>
-    <spawnThingOnRemoved>WULA_Energy_Furnace_Base</spawnThingOnRemoved>
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_Addons_Antenna_Bodypart</defName>

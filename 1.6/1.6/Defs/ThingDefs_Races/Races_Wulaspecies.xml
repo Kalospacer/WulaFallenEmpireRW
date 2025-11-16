@@ -723,8 +723,8 @@
     <!-- 按理来说，原版写在这里的costlist和recipemaker是无效的，然而全局生产组件读取的是thing上面的属性 -->
     <!-- 但是对应pawn仍需要定义一个专门的recipe，否则产物数量会异常 -->
     <costList Inherit="False">
-      <Steel>5</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <WULA_Alloy>120</WULA_Alloy>
+      <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Productor_Technology</researchPrerequisite>
@@ -973,6 +973,105 @@
   </ThingDef>
 
   <!-- 大型机械族 -->
+  <ThingDef Name="Wula_AI_Heavy_Panzer" ParentName="WULA_BaseMechanoid">
+    <defName>Wula_AI_Heavy_Panzer</defName> <!-- 修改了defName以避免冲突 -->
+    <label>HAp-6"战车"</label>
+    <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
+    <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Heavy_Panzer_Icon</uiIconPath>
+    <statBases>
+      <BandwidthCost>1</BandwidthCost>
+      <MoveSpeed>2</MoveSpeed>
+      <EnergyShieldEnergyMax>2</EnergyShieldEnergyMax>
+      <StaggerDurationFactor>0</StaggerDurationFactor>
+
+      <MaxFlightTime>9999</MaxFlightTime>
+      <FlightCooldown>0</FlightCooldown>
+    </statBases>
+    <costList Inherit="False">
+      <WULA_Alloy>300</WULA_Alloy>
+      <WULA_Charge_Cube>18</WULA_Charge_Cube>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <race>
+      <body>Mech_Warqueen</body>
+      <baseBodySize>30</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
+          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <baseHealthScale>25</baseHealthScale>
+
+      <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
+      <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
+    </race>
+    <tools>
+      <li>
+        <label>碾压</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>360</power>
+        <cooldownTime>8</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>0</ID>
+        <turretDef>Wula_AI_Heavy_Panzer_Turret_Weapon</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(7, 7)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="CompProperties_Shield">
+        <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
+        <minDrawSize>4.2</minDrawSize>
+        <maxDrawSize>4.4</maxDrawSize>
+        <energyLossPerDamage>0.02</energyLossPerDamage>
+        <energyOnReset>4.0</energyOnReset>
+        <blocksRangedWeapons>false</blocksRangedWeapons>
+      </li>
+      <!-- 飞行组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_PawnFlight">        
+
+        <!-- 飞行触发条件：仅在征召时飞行 -->
+        <flightCondition>Drafted</flightCondition>
+
+        <!-- 链接到我们刚刚创建的 AnimationDef -->
+        <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
+        <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
+        <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
+      </li>
+    </comps>
+  </ThingDef>
   <ThingDef Name="Wula_Mech_Mobile_Factory" ParentName="WULA_BaseMechanoid">
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
     <label>MFm-2"陆行舰"</label>

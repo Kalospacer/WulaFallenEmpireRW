@@ -598,19 +598,21 @@
       <ArmorRating_Sharp>1.5</ArmorRating_Sharp>
       <ArmorRating_Blunt>1.5</ArmorRating_Blunt>
       <ArmorRating_Heat>2.0</ArmorRating_Heat>
-      <EquipDelay>40</EquipDelay>
+      <EquipDelay>10</EquipDelay>
       <!-- <EnergyShieldEnergyMax>0.25</EnergyShieldEnergyMax> -->
     </statBases>
     <equippedStatOffsets>
-      <WorkSpeedGlobal>-0.2</WorkSpeedGlobal>
       <IncomingDamageFactor>-0.25</IncomingDamageFactor>
       <StaggerDurationFactor>-2</StaggerDurationFactor>
 			<CarryingCapacity>250</CarryingCapacity>
-			<MoveSpeed>-2</MoveSpeed>
+			<MoveSpeed>-1</MoveSpeed>
     </equippedStatOffsets>
-    <costStuffCount>350</costStuffCount>
+    <costStuffCount>0</costStuffCount>
     <costList Inherit="False">
-      <ComponentSpacer>4</ComponentSpacer>
+      <WULA_Alloy>180</WULA_Alloy>
+      <WULA_Dark_Matter_Item>4</WULA_Dark_Matter_Item>
+      <WULA_Neutronium>12</WULA_Neutronium>
+      <Uranium>120</Uranium>
     </costList>
     <apparel>
       <tags>
@@ -621,19 +623,9 @@
       <wornGraphicPath>Wula/Apparel/WULA_Heavy_Infantry_PowerArmor</wornGraphicPath>
     </apparel>
     <comps>
-      <li Class="CompProperties_ApparelReloadable">
-        <maxCharges>30</maxCharges>
-        <ammoDef>Steel</ammoDef>
-        <ammoCountPerCharge>2</ammoCountPerCharge>
-        <baseReloadTicks>360</baseReloadTicks>
-        <soundReload>Standard_Reload</soundReload>
-        <hotKey>Misc4</hotKey>
-        <chargeNoun>炮弹</chargeNoun>
-        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
-      </li>
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
         <!-- 基础功能 -->
-        <radius>1.25</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <radius>1.5</radius>          <!-- 护盾半径，决定了拦截范围 -->
         <hitPoints>200</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
         <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
 
@@ -657,57 +649,25 @@
 
       </li>
       <li Class="CompProperties_CauseHediff_Apparel">
-        <hediff>WULA_Heavy_Infantry_PowerArmor_PowerFist</hediff>
+        <hediff>WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff</hediff>
         <part>Torso</part>
       </li>
     </comps>
-    <verbs>
-      <li>
-        <verbClass>Verb_LaunchProjectileStaticPsychic</verbClass>
-        <label>ILm-60"铬铁"迫击炮</label>
-        <defaultProjectile>Bullet_WULA_Heavy_Infantry_PowerArmor</defaultProjectile>
-        <warmupTime>1.25</warmupTime>
-        <range>120</range>
-        <minRange>8</minRange>
-        <onlyManualCast>true</onlyManualCast>
-        <hasStandardCommand>true</hasStandardCommand>
-        <forcedMissRadius>2</forcedMissRadius>
-        <targetable>true</targetable>
-        <violent>true</violent>
-        <requireLineOfSight>false</requireLineOfSight>
-        <targetParams>
-          <canTargetPawns>true</canTargetPawns>
-          <canTargetBuildings>true</canTargetBuildings>
-          <canTargetLocations>true</canTargetLocations>
-        </targetParams>
-        <soundCast>Mortar_LaunchA</soundCast>
-        <canGoWild>false</canGoWild>
-        <explosionRadiusRingColor>(0.8, 0.8, 0.4, 1)</explosionRadiusRingColor><!-- Keep in sync with PlaceWorker_GlowRadius.RingColor -->
+  </ThingDef>
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff</defName>
+    <label>ILm-60"铬铁"迫击炮</label>
+    <labelNoun>ILm-60"铬铁"迫击炮</labelNoun>
+    <description>一具双联装轻型迫击炮，通过背挂式武器附件的形式外挂在乌拉帝国重装装甲上，可以自行分析敌方的运动并进行开火——只要装甲穿着者不处于近战状态即可。</description>
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_TopTurret">
+        <turretDef>WULA_Heavy_Infantry_PowerArmor_Mortar</turretDef>
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
       </li>
-    </verbs>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_Heavy_Infantry_PowerArmor</defName>
-    <label>铬铁迫击炮弹</label>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Mortar_Shell</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-    </graphicData>
-    <thingClass>Projectile_Explosive</thingClass>
-    <projectile>
-      <damageDef>Bomb</damageDef>
-      <damageAmountBase>20</damageAmountBase>
-      <speed>45</speed>
-      <explosionRadius>3.5</explosionRadius>
-      <armorPenetrationBase>0.1</armorPenetrationBase>
-      <flyOverhead>true</flyOverhead>
-      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
-      <soundExplode>MortarBomb_Explode</soundExplode>
-      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
-      <soundAmbient>MortarRound_Ambient</soundAmbient>
-    </projectile>
-  </ThingDef>
+      <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+    </comps>
+  </HediffDef>
   <ThingDef ParentName="WULA_ApparelHelmetBase">
     <defName>WULA_Heavy_Infantry_Helmet</defName>
     <label>乌拉帝国重装头盔</label>
@@ -745,9 +705,10 @@
       </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Heavy_Infantry_Helmet</wornGraphicPath>
     </apparel>
-    <costStuffCount>100</costStuffCount>
+    <costStuffCount>0</costStuffCount>
     <costList Inherit="False">
-      <ComponentSpacer>1</ComponentSpacer>
+      <WULA_Neutronium>2</WULA_Neutronium>
+      <Uranium>20</Uranium>
     </costList>
   </ThingDef>
 
@@ -779,7 +740,9 @@
 			<MoveSpeed>-0.5</MoveSpeed>
       <ShootingAccuracyPawn>5</ShootingAccuracyPawn>
     </equippedStatOffsets>
-    <costStuffCount>100</costStuffCount>
+    <costList Inherit="False">
+      <WULA_Alloy>50</WULA_Alloy>
+    </costList>
     <apparel>
       <tags>
         <li>Wula_Armor_Super_Heavy</li>
@@ -793,135 +756,6 @@
       </bodyPartGroups>
       <wornGraphicPath>Wula/Apparel/WULA_Shield_Base</wornGraphicPath>
     </apparel>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ApparelShieldBase">
-    <defName>WULA_Shield_Prismatic</defName>
-    <label>乌拉帝国棱形盾</label>
-    <description>乌拉帝国骑士军团所偏好的一种盾牌，覆盖面积小护甲低，但是轻便灵活可以提供大量的近战闪避能力，配置了个人护盾和可以近距离击倒敌军的梭镖发射装置。</description>
-    <thingCategories>
-      <li>ApparelNoble</li>
-    </thingCategories>
-    <recipeMaker>
-      <researchPrerequisite>WULA_Synth_Weapon_Shield_Technology</researchPrerequisite>
-      <skillRequirements>
-        <Crafting>7</Crafting>
-      </skillRequirements>
-    </recipeMaker>
-    <graphicData>
-      <texPath>Wula/Apparel/WULA_Shield_Prismatic</texPath>
-    </graphicData>
-    <statBases>
-      <WorkToMake>20000</WorkToMake>
-      <MaxHitPoints>500</MaxHitPoints>
-      <Mass>5</Mass>
-      <Flammability>0</Flammability>
-      <ArmorRating_Sharp>0.3</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.3</ArmorRating_Blunt>
-      <ArmorRating_Heat>0.3</ArmorRating_Heat>
-      <EquipDelay>2</EquipDelay>
-    </statBases>
-    <equippedStatOffsets>
-			<MoveSpeed>-0.2</MoveSpeed>
-			<MeleeDodgeChance>0.2</MeleeDodgeChance>	
-			<!-- <MoveSpeed>-0.5</MoveSpeed> -->
-      <!-- <IncomingDamageFactor>-0.2</IncomingDamageFactor> -->
-      <!-- <StaggerDurationFactor>-2</StaggerDurationFactor> -->
-			<!-- <CarryingCapacity>60</CarryingCapacity> -->
-    </equippedStatOffsets>
-    <costStuffCount>50</costStuffCount>
-    <costList Inherit="False">
-      <ComponentIndustrial>4</ComponentIndustrial>
-    </costList>
-    <apparel>
-      <tags>
-        <li>RoyalTier5</li>
-        <li>Royal</li>
-        <li>Wula_Armor_Heavy</li>
-      </tags>
-      <bodyPartGroups>
-        <li>Arms</li>
-        <li>Torso</li>
-        <li>Neck</li>
-        <li>Shoulders</li>
-      </bodyPartGroups>
-      <wornGraphicPath>Wula/Apparel/WULA_Shield_Prismatic</wornGraphicPath>
-    </apparel>
-    <comps>
-      <li Class="CompProperties_ApparelReloadable">
-        <maxCharges>2</maxCharges>
-        <ammoDef>Steel</ammoDef>
-        <ammoCountPerCharge>5</ammoCountPerCharge>
-        <baseReloadTicks>60</baseReloadTicks>
-        <soundReload>Standard_Reload</soundReload>
-        <hotKey>Misc4</hotKey>
-        <chargeNoun>梭镖</chargeNoun>
-        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
-        
-        <!-- 基础功能 -->
-        <radius>1.27</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>150</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
-        <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
-
-        <!-- 拦截类型 -->
-        <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
-        <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
-        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
-
-        <!-- 视觉与音效 -->
-        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
-        <soundInterceptEffecter>Interceptor_BlockedProjectile</soundInterceptEffecter> <!-- 成功拦截时的音效 -->
-        <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
-        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
-
-        <!-- EMP 效果 -->
-        <isImmuneToEMP>false</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
-        <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
-
-        <!-- 被动恢复 -->
-        <rechargeHitPointsIntervalTicks>60</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
-
-      </li>
-    </comps>
-    <verbs>
-      <li>
-        <verbClass>Verb_LaunchProjectileStaticPsychic</verbClass>
-        <label>梭镖发射装置</label>
-        <defaultProjectile>Bullet_WULA_Shield_Prismatic</defaultProjectile>
-        <warmupTime>0.1</warmupTime>
-        <range>5.5</range>
-        <burstShotCount>1</burstShotCount>
-        <onlyManualCast>true</onlyManualCast>
-        <hasStandardCommand>true</hasStandardCommand>
-        <targetable>true</targetable>
-        <violent>true</violent>
-        <targetParams>
-          <canTargetPawns>true</canTargetPawns>
-          <canTargetBuildings>true</canTargetBuildings>
-          <canTargetLocations>False</canTargetLocations>
-        </targetParams>
-        <soundCast>RocketswarmLauncher_Fire</soundCast>
-        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
-        <canGoWild>false</canGoWild>
-        <!-- <explosionRadiusRingColor>(0.8, 0.8, 0.4, 1)</explosionRadiusRingColor> -->
-      </li>
-    </verbs>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_Shield_Prismatic</defName>
-    <label>梭镖</label>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_StarDrift_Shotgun_Spear</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>35</damageAmountBase>
-      <stoppingPower>15</stoppingPower>
-      <armorPenetrationBase>0.65</armorPenetrationBase>
-      <speed>55</speed>
-    </projectile>
   </ThingDef>
 
 	<ApparelLayerDef>
