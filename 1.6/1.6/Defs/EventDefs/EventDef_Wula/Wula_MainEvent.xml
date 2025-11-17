@@ -13,7 +13,7 @@
     </descriptions>
     <options>
       <li>
-        <label>请求协助</label>
+        <label>再见</label>
         <useCustomColors>true</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
@@ -23,24 +23,6 @@
           <li>
             <effects>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-              <li Class="WulaFallenEmpire.Effect_TriggerRaid">
-                <letterLabel>增援</letterLabel>
-                <letterText>乌拉帝国 行星封锁机关的一支分队正在接近。</letterText>
-                <points>10000</points>
-                <faction>Wula_PIA_Legion_Faction</faction>
-                <raidStrategy>ImmediateAttack</raidStrategy>
-                <raidArrivalMode>EdgeDrop</raidArrivalMode>
-                <groupKind>Combat</groupKind>
-                <pawnGroupMakers>
-                  <li>
-                    <kindDef>Combat</kindDef>
-                    <commonality>100</commonality>
-                    <options>
-                      <Wula_PawnKind>10</Wula_PawnKind>
-                    </options>
-                  </li>
-                </pawnGroupMakers>
-              </li>
             </effects>
           </li>
         </optionEffects>
