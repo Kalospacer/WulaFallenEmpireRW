@@ -1053,8 +1053,8 @@
       </li>
       <li Class="CompProperties_Shield">
         <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
-        <minDrawSize>4.2</minDrawSize>
-        <maxDrawSize>4.4</maxDrawSize>
+        <minDrawSize>5.2</minDrawSize>
+        <maxDrawSize>5.4</maxDrawSize>
         <energyLossPerDamage>0.02</energyLossPerDamage>
         <energyOnReset>4.0</energyOnReset>
         <blocksRangedWeapons>false</blocksRangedWeapons>

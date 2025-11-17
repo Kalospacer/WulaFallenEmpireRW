@@ -20,14 +20,6 @@
   <AircraftLaunched>已获得 {0} {1}</AircraftLaunched>
   <HangarDamaged>机库已损坏</HangarDamaged>
   
-  <!-- Aircraft Strike Messages -->
-  <AircraftManagerNotFound>战机管理器未找到！</AircraftManagerNotFound>
-  <AircraftStrikeInitiated>空中打击已启动：{0}</AircraftStrikeInitiated>
-  <AircraftStrikeSuccess>空中打击：成功使用 {0} 只 {1}</AircraftStrikeSuccess>
-  <NoAvailableAircraft>没有可用的战机：{0}</NoAvailableAircraft>
-  <AircraftStrikeFailed>空中打击：{1} 没有可用的 {0}</AircraftStrikeFailed>
-  <NoAircraftForStrike>没有可用的 {0}</NoAircraftForStrike>
-  
   <!-- Mouse Overlay Text -->
   <AvailableAircraft>{0}：{1}</AvailableAircraft>
   <CooldownAircraft>冷却中：{0}</CooldownAircraft>
@@ -70,4 +62,28 @@
   <AircraftCooldownEnded>{0} 准备好再次进行打击</AircraftCooldownEnded>
   <NoAircraftStatus>没有可用的战机</NoAircraftStatus>
   <AircraftStatusLine>{0}：{1}/{2}（冷却中：{3}）</AircraftStatusLine>
+
+  <WULA_DestroyFlyOver>已净空航道，航道上的舰队正在回到高空轨道</WULA_DestroyFlyOver>
+  
+  <!-- Aircraft Strike Ability -->
+  <WULA_AircraftManagerNotFound>战机管理器未找到</WULA_AircraftManagerNotFound>
+  <WULA_AircraftStrikeInitiated>{0}空袭已启动</WULA_AircraftStrikeInitiated>
+  <WULA_AircraftStrikeSuccess>使用了{0}架{1}执行空袭</WULA_AircraftStrikeSuccess>
+  <WULA_NoAvailableAircraft>没有可用的{0}</WULA_NoAvailableAircraft>
+  <WULA_AircraftStrikeFailed>无法为派系{1}使用{0}</WULA_AircraftStrikeFailed>
+  <WULA_UnknownFaction>未知派系</WULA_UnknownFaction>
+  <WULA_AircraftSystemNotReady>战机系统未就绪</WULA_AircraftSystemNotReady>
+  <WULA_NoAvailableAircraftType>没有可用的{0}</WULA_NoAvailableAircraftType>
+  <WULA_AircraftInsufficient>{0}数量不足 ({1}/{2})</WULA_AircraftInsufficient>
+  <WULA_AircraftOnCooldown>{0}正在冷却中</WULA_AircraftOnCooldown>
+  <WULA_AvailableAircraft>可用战机: {0}</WULA_AvailableAircraft>
+  <WULA_CooldownAircraft>冷却中: {0}</WULA_CooldownAircraft>
+  <WULA_CostPerUse>每次消耗: {0}</WULA_CostPerUse>
+  <WULA_NoAircraftForStrike>没有可用的战机执行空袭</WULA_NoAircraftForStrike>
+  <WULA_AircraftStatus>战机状态:</WULA_AircraftStatus>
+  <WULA_TotalAircraft>• 总数: {0}</WULA_TotalAircraft>
+  <WULA_ReadyAircraft>• 可用: {0}</WULA_ReadyAircraft>
+  <WULA_CooldownAircraftCount>• 冷却中: {0}</WULA_CooldownAircraftCount>
+  <WULA_AircraftRequirement>需要 {0} x{1}</WULA_AircraftRequirement>
+  <WULA_CooldownTime>冷却时间: {0} 小时</WULA_CooldownTime>
 </LanguageData>

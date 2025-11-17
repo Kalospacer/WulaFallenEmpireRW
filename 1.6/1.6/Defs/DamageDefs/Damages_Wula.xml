@@ -337,4 +337,21 @@
       </li>
     </children>
   </EffecterDef>
+
+  <DamageDef ParentName="Bullet">
+    <defName>Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon</defName>
+    <label>贯杀炮切割束</label>
+    <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
+    <soundExplosion>Explosion_Vaporize</soundExplosion>
+  </DamageDef>
+
+  
+  <DamageDef ParentName="Bomb">
+    <defName>WULA_GiantBomb</defName>
+    <label>大型爆炸</label>
+    <defaultDamage>150</defaultDamage>
+    <defaultStoppingPower>2.0</defaultStoppingPower>
+    <defaultArmorPenetration>1.30</defaultArmorPenetration>
+    <explosionCenterEffecter>GiantExplosion</explosionCenterEffecter>
+  </DamageDef>
 </Defs>

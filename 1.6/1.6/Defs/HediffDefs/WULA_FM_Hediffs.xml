@@ -102,7 +102,9 @@
         <abilityDefs>
           <li>WULA_CallMotherShip</li>
           <li>WULA_CallBattleShip</li>
+          <li>WULA_CallAircraftCarrier</li>
           <li>WULA_CallConstructionShip</li>
+          <li>WULA_ClearFlightPath</li>
         </abilityDefs>
       </li>
     </comps>

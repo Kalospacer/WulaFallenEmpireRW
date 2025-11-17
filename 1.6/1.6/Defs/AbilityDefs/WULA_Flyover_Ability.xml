@@ -188,7 +188,35 @@
       </li>
     </comps>
   </AbilityDef>
-  
+  <AbilityDef>
+    <defName>WULA_ClearFlightPath</defName>
+    <label>航道净空</label>
+    <description>使近地轨道上的舰队离开，以使得其他乌拉帝国舰队可以入场</description>
+    <iconPath>Wula/UI/Abilities/WULA_CallConstructionShip</iconPath>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>true</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+      <warmupTime>2</warmupTime>
+      <range>-1</range>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_DestroyFlyOverByFacilities" />
+    </comps>
+  </AbilityDef>
+
   <!-- 飞行器 -->
   <AbilityDef>
     <defName>WULA_Spawn_Fighter_Drone_Laser</defName>

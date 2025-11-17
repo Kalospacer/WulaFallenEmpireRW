@@ -197,28 +197,6 @@ namespace WulaFallenEmpire
                 return Mathf.Clamp01(currentFadeInTime / fadeInDuration);
             }
         }
-
-        // 修改后的淡出透明度属性
-        public float FadeOutAlpha
-        {
-            get
-            {
-                if (!useFadeOut || !fadeOutStarted) return 1f;
-                if (fadeOutCompleted) return 0f;
-                return Mathf.Clamp01(1f - (currentFadeOutTime / fadeOutDuration));
-            }
-        }
-
-        // 修改后的总体透明度属性
-        public float OverallAlpha
-        {
-            get
-            {
-                if (!useFadeEffects) return 1f;
-                return FadeInAlpha * FadeOutAlpha;
-            }
-        }
-
         // 新增：计算剩余飞行时间（秒）
         public float RemainingFlightTime
         {
@@ -226,6 +204,151 @@ namespace WulaFallenEmpire
             {
                 float remainingProgress = 1f - currentProgress;
                 return remainingProgress / (flightSpeed * 0.001f) * (1f / 60f);
+            }
+        }
+        // 修改后的紧急销毁方法 - 急速加速版本
+        public void EmergencyDestroy()
+        {
+            if (Destroyed || hasCompleted) return;
+            // 计算剩余进度
+            float remainingProgress = 1f - currentProgress;
+
+            // 计算需要的速度：确保在1秒内完成剩余进度
+            // 每帧增加 flightSpeed * 0.001，1秒60帧，所以需要：remainingProgress = flightSpeed * 0.001 * 60
+            // 因此：flightSpeed = remainingProgress / (0.001 * 60) = remainingProgress / 0.06
+            float requiredSpeed = remainingProgress / 0.06f;
+
+            // 设置新的飞行速度，确保至少是当前速度的2倍
+            flightSpeed = Mathf.Max(requiredSpeed, flightSpeed * 2f);
+
+            // 标记为紧急销毁状态
+            hasCompleted = false; // 确保可以继续飞行
+
+            Log.Message($"FlyOver emergency destroy: accelerating to complete in 1 second. " +
+                       $"Current progress: {currentProgress:F2}, Required speed: {requiredSpeed:F2}, " +
+                       $"Actual speed: {flightSpeed:F2}");
+        }
+        // 修改后的淡出透明度属性 - 紧急销毁时强制启用淡出
+        public float FadeOutAlpha
+        {
+            get
+            {
+                // 如果已经开始了淡出（包括紧急销毁），就应用淡出效果
+                if (!fadeOutStarted) return 1f;
+                if (fadeOutCompleted) return 0f;
+                return Mathf.Clamp01(1f - (currentFadeOutTime / fadeOutDuration));
+            }
+        }
+        // 修改后的总体透明度属性 - 紧急销毁时强制计算淡出
+        public float OverallAlpha
+        {
+            get
+            {
+                if (!useFadeEffects && !fadeOutStarted) return 1f;
+                return FadeInAlpha * FadeOutAlpha;
+            }
+        }
+        // 修改后的 Tick 方法，优化紧急销毁逻辑
+        protected override void Tick()
+        {
+            base.Tick();
+            if (!hasStarted || hasCompleted)
+                return;
+
+            // 更新进场动画
+            if (useApproachAnimation && !approachCompleted)
+            {
+                currentApproachTime += 1f / 60f;
+                if (currentApproachTime >= approachDuration)
+                {
+                    approachCompleted = true;
+                    currentApproachTime = approachDuration;
+                }
+            }
+
+            // 更新淡入效果（仅在启用时）
+            if (useFadeIn && !fadeInCompleted)
+            {
+                currentFadeInTime += 1f / 60f;
+                if (currentFadeInTime >= fadeInDuration)
+                {
+                    fadeInCompleted = true;
+                    currentFadeInTime = fadeInDuration;
+                }
+            }
+
+            // 更新飞行进度
+            currentProgress += flightSpeed * 0.001f;
+
+            // 检查是否应该开始淡出（仅在启用时且未紧急销毁）
+            if (useFadeOut && !fadeOutStarted && currentProgress >= fadeOutStartProgress)
+            {
+                StartFadeOut();
+            }
+
+            // 更新淡出效果（仅在启用时）
+            if (useFadeOut && fadeOutStarted && !fadeOutCompleted)
+            {
+                currentFadeOutTime += 1f / 60f;
+                if (currentFadeOutTime >= fadeOutDuration)
+                {
+                    fadeOutCompleted = true;
+                    currentFadeOutTime = fadeOutDuration;
+                }
+            }
+
+            // 更新当前位置
+            UpdatePosition();
+
+            // 维持飞行音效
+            UpdateFlightSound();
+
+            // 检查是否到达终点
+            if (currentProgress >= 1f)
+            {
+                CompleteFlyOver();
+                return; // 立即返回，避免后续处理
+            }
+
+            // 生成飞行轨迹特效
+            CreateFlightEffects();
+        }
+        // 修改后的 CompleteFlyOver 方法，添加紧急销毁处理
+        private void CompleteFlyOver()
+        {
+            if (hasCompleted) return;
+            hasCompleted = true;
+            currentProgress = 1f;
+
+            // 生成内容物（如果需要）
+            if (spawnContentsOnImpact && innerContainer.Any)
+            {
+                SpawnContents();
+            }
+
+            // 播放完成音效
+            if (def.skyfaller?.impactSound != null)
+            {
+                def.skyfaller.impactSound.PlayOneShot(
+                    SoundInfo.InMap(new TargetInfo(endPosition, base.Map)));
+            }
+
+            Log.Message($"FlyOver completed at {endPosition}");
+
+            // 立即销毁
+            Destroy();
+        }
+
+        // 修改后的 UpdatePosition 方法，添加安全检查
+        private void UpdatePosition()
+        {
+            if (hasCompleted) return;
+
+            Vector3 currentWorldPos = Vector3.Lerp(startPosition.ToVector3(), endPosition.ToVector3(), currentProgress);
+            IntVec3 newPos = currentWorldPos.ToIntVec3();
+            if (newPos != base.Position && newPos.InBounds(base.Map))
+            {
+                base.Position = newPos;
             }
         }
 
@@ -337,63 +460,6 @@ namespace WulaFallenEmpire
                 }
             }
         }
-        protected override void Tick()
-        {
-            base.Tick();
-            if (!hasStarted || hasCompleted)
-                return;
-            // 更新进场动画
-            if (useApproachAnimation && !approachCompleted)
-            {
-                currentApproachTime += 1f / 60f;
-                if (currentApproachTime >= approachDuration)
-                {
-                    approachCompleted = true;
-                    currentApproachTime = approachDuration;
-                    Log.Message("FlyOver approach animation completed");
-                }
-            }
-            // 更新淡入效果（仅在启用时）
-            if (useFadeIn && !fadeInCompleted)
-            {
-                currentFadeInTime += 1f / 60f;
-                if (currentFadeInTime >= fadeInDuration)
-                {
-                    fadeInCompleted = true;
-                    currentFadeInTime = fadeInDuration;
-                }
-            }
-            // 更新飞行进度
-            currentProgress += flightSpeed * 0.001f;
-            // 检查是否应该开始淡出（仅在启用时）
-            if (useFadeOut && !fadeOutStarted && currentProgress >= fadeOutStartProgress)
-            {
-                StartFadeOut();
-            }
-            // 更新淡出效果（仅在启用时）
-            if (useFadeOut && fadeOutStarted && !fadeOutCompleted)
-            {
-                currentFadeOutTime += 1f / 60f;
-                if (currentFadeOutTime >= fadeOutDuration)
-                {
-                    fadeOutCompleted = true;
-                    currentFadeOutTime = fadeOutDuration;
-                    Log.Message("FlyOver fade out completed");
-                }
-            }
-            // 更新当前位置
-            UpdatePosition();
-            // 维持飞行音效（在淡出时逐渐降低音量）
-            UpdateFlightSound();
-            // 检查是否到达终点
-            if (currentProgress >= 1f)
-            {
-                CompleteFlyOver();
-            }
-            // 生成飞行轨迹特效（在淡出时减少特效）
-            CreateFlightEffects();
-        }
-
         // 新增：开始淡出效果
         private void StartFadeOut()
         {
@@ -405,67 +471,19 @@ namespace WulaFallenEmpire
             Log.Message($"FlyOver started fade out at progress {currentProgress:F2}, duration: {fadeOutDuration:F2}s, remaining time: {RemainingFlightTime:F2}s");
         }
 
-        private void UpdatePosition()
-        {
-            Vector3 currentWorldPos = Vector3.Lerp(startPosition.ToVector3(), endPosition.ToVector3(), currentProgress);
-            IntVec3 newPos = currentWorldPos.ToIntVec3();
-
-            if (newPos != base.Position && newPos.InBounds(base.Map))
-            {
-                base.Position = newPos;
-            }
-        }
-
-        // 修改后的音效更新方法
+        // 修改后的 UpdateFlightSound 方法，添加紧急销毁时的音效处理
         private void UpdateFlightSound()
         {
             if (flightSoundPlaying != null)
             {
-                if (useFadeOut && fadeOutStarted)
+                // 紧急销毁时提高音效音量或频率
+                if (flightSoundPlaying != null && flightSoundPlaying.externalParams != null)
                 {
-                    // 淡出时逐渐降低音效音量
-                    flightSoundPlaying.externalParams["VolumeFactor"] = FadeOutAlpha;
+                    // 可以根据需要调整紧急销毁时的音效参数
+                    flightSoundPlaying.externalParams["VolumeFactor"] = 1f; // 保持最大音量
                 }
                 flightSoundPlaying?.Maintain();
             }
-        }
-
-        private void CompleteFlyOver()
-        {
-            hasCompleted = true;
-            currentProgress = 1f;
-
-            // 生成内容物（如果需要）
-            if (spawnContentsOnImpact && innerContainer.Any)
-            {
-                SpawnContents();
-            }
-
-            // 播放完成音效
-            if (def.skyfaller?.impactSound != null)
-            {
-                def.skyfaller.impactSound.PlayOneShot(
-                    SoundInfo.InMap(new TargetInfo(endPosition, base.Map)));
-            }
-
-            Log.Message($"FlyOver completed at {endPosition}");
-
-            // 销毁自身
-            Destroy();
-        }
-
-        // 修改后的紧急销毁方法
-        public void EmergencyDestroy()
-        {
-            if (useFadeOut && !fadeOutStarted)
-            {
-                // 如果还没有开始淡出，使用默认淡出时间
-                fadeOutStarted = true;
-                fadeOutDuration = defaultFadeOutDuration;
-                Log.Message($"FlyOver emergency destroy with default fade out: {defaultFadeOutDuration}s");
-            }
-            // 设置标记，下一帧会处理淡出
-            hasCompleted = true;
         }
 
         private void SpawnContents()
@@ -480,19 +498,21 @@ namespace WulaFallenEmpire
             innerContainer.Clear();
         }
 
-        // 修改后的特效生成方法
+        // 修改后的 CreateFlightEffects 方法，添加紧急销毁时的特效增强
         private void CreateFlightEffects()
         {
             // 在飞行轨迹上生成粒子效果
-            if (Rand.MTBEventOccurs(0.5f, 1f, 1f) && def.skyfaller?.motesPerCell > 0 && !fadeOutCompleted)
+            if (Rand.MTBEventOccurs(0.5f, 1f, 1f) && def.skyfaller?.motesPerCell > 0)
             {
                 Vector3 effectPos = DrawPos;
                 effectPos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-                // 淡出时减少粒子效果强度
-                float effectIntensity = (useFadeOut && fadeOutStarted) ? FadeOutAlpha : 1f;
+
+                // 紧急销毁时增强粒子效果
+                float effectIntensity = 1f;
                 FleckMaker.ThrowSmoke(effectPos, base.Map, 1f * effectIntensity);
-                // 可选：根据速度生成更多效果
-                if (flightSpeed > 2f && !(useFadeOut && fadeOutStarted))
+
+                // 紧急销毁时生成更多效果
+                if (flightSpeed > 2f)
                 {
                     FleckMaker.ThrowAirPuffUp(effectPos, base.Map);
                 }

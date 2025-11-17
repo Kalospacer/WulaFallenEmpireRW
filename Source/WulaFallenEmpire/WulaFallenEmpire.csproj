@@ -127,6 +127,7 @@
     <Compile Include="Flyover\WULA_AircraftHangar\CompAircraftHangar.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\WorldComponent_AircraftManager.cs" />
     <Compile Include="Flyover\WULA_BlockedByFlyOverFacility\CompAbilityEffect_BlockedByFlyOverFacility.cs" />
+    <Compile Include="Flyover\WULA_DestroyFlyOverByFacilities\CompProperties_DestroyFlyOverByFacilities.cs" />
     <Compile Include="Flyover\WULA_FlyOverDropPod\CompProperties_FlyOverDropPod.cs" />
     <Compile Include="Flyover\WULA_FlyOverEscort\CompFlyOverEscort.cs" />
     <Compile Include="Flyover\WULA_FlyOverEscort\CompProperties_FlyOverEscort.cs" />

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <IncidentDef ParentName="GiveQuestBase">
+  <IncidentDef>
     <defName>WULA_GiveQuest_Intro_Spy</defName>
+    <category>GiveQuest</category>
     <label>SPY</label>
-    <questScriptDef>WULA_Intro_Spy</questScriptDef> <!-- 通向具体的questScrip -->
-    <baseChance>0</baseChance> <!-- given by a special storyteller comp -->
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <questScriptDef>WULA_Intro_Spy</questScriptDef>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <baseChance>0</baseChance>
+    <requireColonistsPresent>True</requireColonistsPresent>
   </IncidentDef>
   
   <QuestScriptDef>
