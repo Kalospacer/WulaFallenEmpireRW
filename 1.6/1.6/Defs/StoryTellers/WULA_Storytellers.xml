@@ -180,6 +180,17 @@
         <offDays>8</offDays>
         <numIncidentsRange>1</numIncidentsRange>
       </li>
+
+      <li Class="WulaFallenEmpire.StorytellerComp_SingleOnceFixed_FactionFilter">
+        <incident>WULA_GiveQuest_Intro_Spy</incident>
+        <fireAfterDaysPassed>6</fireAfterDaysPassed>
+        <excludedFactionTypes>
+          <li>WULA_Awakened_Synth</li>
+        </excludedFactionTypes>
+        <!-- <allowedFactionTypes>
+          <li>WULA_Awakened_Synth</li>
+        </allowedFactionTypes> -->
+      </li>
     </comps>
   </StorytellerDef>
 </Defs>
