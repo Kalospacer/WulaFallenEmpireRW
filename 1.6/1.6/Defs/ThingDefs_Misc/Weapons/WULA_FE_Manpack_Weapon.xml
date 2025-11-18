@@ -110,7 +110,7 @@
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
     <weaponTags>
-      <li>Wula_Melee_Weapon_T2</li>
+      <li>Wula_Melee_Weapon_T1</li>
     </weaponTags>
     <equippedAngleOffset>-65</equippedAngleOffset>
     <techLevel>Spacer</techLevel>

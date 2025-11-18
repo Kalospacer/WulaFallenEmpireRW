@@ -1318,66 +1318,6 @@
     </recipeUsers>
   </RecipeDef>
 
-  <!-- 抽魂 -->
-  <HediffDef ParentName="ImplantHediffBase">
-    <defName>WULA_Extract_Soul_Wedge_Hediff</defName>
-    <hediffClass>HediffWithComps</hediffClass>
-    <label>灵魂抽离</label>
-    <description>该生物的灵魂被人为的分离了。</description>
-    <descriptionShort>该生物的灵魂被人为的分离了，在这种状态下，目标不稳定的灵魂每过一段时间都可能导致目标无法行动、陷入昏迷甚至是直接死亡——这种症状没有固定的治愈时间，但是每天都将有一定几率自动消失，届时可再次开展提取手术。</descriptionShort>
-    <!-- <initialSeverity>0.5</initialSeverity> -->
-    <minSeverity>0.01</minSeverity>
-    <maxSeverity>1</maxSeverity>
-    <alwaysShowSeverity>true</alwaysShowSeverity>
-    <isBad>true</isBad>
-    <duplicationAllowed>true</duplicationAllowed>
-    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>    <!-- true -->
-    <defaultInstallPart>Brain</defaultInstallPart>
-    <comps>
-      <li Class="HediffCompProperties_ChanceToRemove">
-        <intervalTicks>60000</intervalTicks>
-        <chance>0.5</chance>
-      </li>
-      <li Class="HediffCompProperties_RandomizeStageWithInterval">
-        <ticksToRandomize>60000</ticksToRandomize>
-        <notifyMessage>{PAWN_labelShort} 的灵魂状态从 {1} 转变为 {2}.</notifyMessage>
-      </li>
-      <li Class="HediffCompProperties_DisappearsOnDeath"/>
-    </comps>
-    <stages>
-      <li>
-        <label>残缺</label>
-        <minSeverity>0.01</minSeverity>
-        <capMods>
-          <li>
-            <capacity>Consciousness</capacity>
-            <setMax>0.5</setMax>
-          </li>
-        </capMods>
-      </li>
-      <li>
-        <label>破碎</label>
-        <minSeverity>0.3</minSeverity>
-        <capMods>
-          <li>
-            <capacity>Consciousness</capacity>
-            <setMax>0.1</setMax>
-          </li>
-        </capMods>
-      </li>
-      <li>
-        <label>弥散</label>
-        <minSeverity>0.9</minSeverity>
-        <capMods>
-          <li>
-            <capacity>Consciousness</capacity>
-            <setMax>0</setMax>
-          </li>
-        </capMods>
-      </li>
-    </stages>
-  </HediffDef>
-
   <!-- 关机 -->
   <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
     <defName>WULA_Shutdown_Synth</defName>
@@ -1466,4 +1406,66 @@
       </li>
     </stages>
   </HediffDef>
+
+  <!-- 特殊-传送器 -->
+  <HediffDef>
+    <defName>WULA_AutoJumpdrive_Hediff</defName>
+    <label>微型传送装置</label>
+    <description>安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间或死亡时将其回收</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <initialSeverity>0.0</initialSeverity>
+    <isBad>true</isBad>
+    <spawnThingOnRemoved>WULA_AutoJumpdrive</spawnThingOnRemoved>
+    <comps>
+      <li Class="HediffCompProperties_DissolveGearOnDeath">
+        <fleck>AcidCloud</fleck>
+        <moteCount>6</moteCount>
+        <moteOffsetRange>0.25~0.75</moteOffsetRange>
+        <filth>Filth_Slime</filth>
+        <sound>DeathAcidifier</sound>
+        <injuryCreatedOnDeath>ChemicalBurn</injuryCreatedOnDeath>
+        <injuryCount>3~6</injuryCount>
+      </li>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>10000</disappearsAfterTicks>        <!-- 2/3 RimWorld days -->
+      </li>
+      <li Class="WulaFallenEmpire.HediffCompProperties_DisappearWithEffect">
+          <disappearsAfterTicks>15000</disappearsAfterTicks>
+          <showRemainingTime>true</showRemainingTime>
+          <fleckDef>PsycastAreaEffect</fleckDef>
+          <fleckScale>2.5</fleckScale>
+          <dropEquipment>false</dropEquipment>
+          <destroyCorpse>true</destroyCorpse>
+          <playSound>true</playSound>
+          <messageOnDisappear>{0} 通过传送离开了殖民地</messageOnDisappear>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>微弱</label>
+        <minSeverity>0</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+  <ThingDef ParentName="BodyPartBase">
+    <defName>WULA_AutoJumpdrive</defName>
+    <label>微型传送装置</label>
+    <description>安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间或死亡时将其回收。</description>
+    <statBases>
+      <Mass>0.3</Mass>
+      <WorkToMake>1</WorkToMake>
+    </statBases>
+    <techHediffsTags>
+      <li>WULA_AutoJumpdrive</li>
+    </techHediffsTags>
+    <costList>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <recipeUsers Inherit="False" IsNull="True"/>
+    </recipeMaker>
+  </ThingDef>
 </Defs>

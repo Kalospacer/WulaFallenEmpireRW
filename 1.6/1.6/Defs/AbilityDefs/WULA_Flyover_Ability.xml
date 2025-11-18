@@ -220,7 +220,7 @@
   <AbilityDef>
     <defName>WULA_Spawn_BattleShip_Artillery</defName>
     <label>呼叫全域封锁舰队</label>
-    <description>申请沿指定航道发起全域封锁，一整只乌拉帝国舰队将在大量战机编队的掩护下沿着航道行进，并使用所有的可用武器进行轰炸，以彻底粉碎一切抵抗。</description>
+    <description>申请沿指定航道发起全域封锁，一整只乌拉帝国舰队将在大量战机编队的掩护下沿着航道行进，并使用舰炮进行轰炸，以彻底粉碎一切抵抗。\n\n轰炸的范围几乎覆盖整张地图，炮击会尽可能避免击中殖民地的人员和资产，但是巨大的轰炸范围使得底下的一切都难逃厄运——尽可能不要在自己的殖民地上空呼叫。</description>
     <iconPath>Wula/UI/Abilities/WULA_Spawn_Fighter_Drone_Laser</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -238,18 +238,18 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <!-- <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Light_Fighter_Drone_Technology</requiredResearch>
-      </li> -->
-      <!-- <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
-        <requiredAircraftType>WULA_Fighter_Drone_Entity</requiredAircraftType>
-        <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>WULA_MotherShip_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>15000</aircraftCooldownTicks> 
         <aircraftsPerUse>1</aircraftsPerUse>
-      </li> -->
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
         <flyOverDef>WULA_MotherShip_Planet_Interdiction</flyOverDef>
         <flyOverType>GroundStrafing</flyOverType>
-        <flightSpeed>0.005</flightSpeed>
+        <flightSpeed>0.02</flightSpeed>
         <altitude>20</altitude>
         <playFlyOverSound>true</playFlyOverSound>
         <approachType>Perpendicular</approachType>

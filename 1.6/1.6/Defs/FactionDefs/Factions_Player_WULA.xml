@@ -78,7 +78,7 @@
     <canUseAvoidGrid>false</canUseAvoidGrid>
     <techLevel>Ultra</techLevel>
     <earliestRaidDays>999999</earliestRaidDays> <!-- 通过事件发动袭击，不走常规袭击 -->
-    <permanentEnemy>true</permanentEnemy>
+    <permanentEnemy>false</permanentEnemy>
     <hostileToFactionlessHumanlikes>true</hostileToFactionlessHumanlikes>
     <maxPawnCostPerTotalPointsCurve>
       <points>
@@ -94,7 +94,7 @@
         <kindDef>Combat</kindDef>
         <commonality>30</commonality>
         <options>
-          <Wula_PawnKind>10</Wula_PawnKind>
+          <Mech_WULA_Cat_Assault>10</Mech_WULA_Cat_Assault>
         </options>
       </li>
     </pawnGroupMakers>

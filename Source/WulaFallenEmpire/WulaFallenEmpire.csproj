@@ -160,6 +160,7 @@
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_CaravanFormingUtility_AllSendablePawns.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_Pawn_ThreatDisabled.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_UncontrolledMechDrawPulse.cs" />
+    <Compile Include="HediffComp\HediffCompProperties_DisappearWithEffect .cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
     <Compile Include="HediffComp\HediffCompProperties_SwitchableHediff.cs" />
     <Compile Include="HediffComp\WULA_HediffDamgeShield\DRMDamageShield.cs" />
