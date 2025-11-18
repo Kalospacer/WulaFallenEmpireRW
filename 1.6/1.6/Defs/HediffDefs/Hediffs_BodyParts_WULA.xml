@@ -1408,64 +1408,65 @@
   </HediffDef>
 
   <!-- 特殊-传送器 -->
-  <HediffDef>
-    <defName>WULA_AutoJumpdrive_Hediff</defName>
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>WULA_AutoJumpdrive</defName>
     <label>微型传送装置</label>
     <description>安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间或死亡时将其回收</description>
-    <hediffClass>HediffWithComps</hediffClass>
-    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
-    <maxSeverity>1.0</maxSeverity>
-    <initialSeverity>0.0</initialSeverity>
-    <isBad>true</isBad>
     <spawnThingOnRemoved>WULA_AutoJumpdrive</spawnThingOnRemoved>
     <comps>
-      <li Class="HediffCompProperties_DissolveGearOnDeath">
-        <fleck>AcidCloud</fleck>
-        <moteCount>6</moteCount>
-        <moteOffsetRange>0.25~0.75</moteOffsetRange>
-        <filth>Filth_Slime</filth>
-        <sound>DeathAcidifier</sound>
-        <injuryCreatedOnDeath>ChemicalBurn</injuryCreatedOnDeath>
-        <injuryCount>3~6</injuryCount>
-      </li>
-      <li Class="HediffCompProperties_Disappears">
-        <disappearsAfterTicks>10000</disappearsAfterTicks>        <!-- 2/3 RimWorld days -->
-      </li>
       <li Class="WulaFallenEmpire.HediffCompProperties_DisappearWithEffect">
-          <disappearsAfterTicks>15000</disappearsAfterTicks>
-          <showRemainingTime>true</showRemainingTime>
-          <fleckDef>PsycastAreaEffect</fleckDef>
-          <fleckScale>2.5</fleckScale>
-          <dropEquipment>false</dropEquipment>
-          <destroyCorpse>true</destroyCorpse>
-          <playSound>true</playSound>
-          <messageOnDisappear>{0} 通过传送离开了殖民地</messageOnDisappear>
+        <disappearsAfterTicks>15000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+        <fleckDef>PsycastAreaEffect</fleckDef>
+        <fleckScale>2.5</fleckScale>
+        <dropEquipment>false</dropEquipment>
+        <destroyCorpse>true</destroyCorpse>
+        <playSound>true</playSound>
+        <messageOnDisappear>{0} 通过传送离开了殖民地</messageOnDisappear>
       </li>
     </comps>
-    <stages>
-      <li>
-        <label>微弱</label>
-        <minSeverity>0</minSeverity>
-      </li>
-    </stages>
   </HediffDef>
   <ThingDef ParentName="BodyPartBase">
     <defName>WULA_AutoJumpdrive</defName>
-    <label>微型传送装置</label>
-    <description>安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间或死亡时将其回收。</description>
+    <label>death acidifier</label>
+    <description>A chest implant for preventing enemy use of captured equipment. Upon the user's death, it releases powerful chemicals that dissolve gear in contact with the user's body. It doesn't damage others.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Things/Item/Health/HealthItem</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.80</drawSize>
+      <color>(189,169,118)</color>
+    </graphicData>
     <statBases>
-      <Mass>0.3</Mass>
-      <WorkToMake>1</WorkToMake>
+      <MarketValue>400</MarketValue>
     </statBases>
-    <techHediffsTags>
-      <li>WULA_AutoJumpdrive</li>
-    </techHediffsTags>
-    <costList>
-      <ComponentIndustrial>1</ComponentIndustrial>
-    </costList>
-    <recipeMaker>
-      <soundWorking>Recipe_Smith</soundWorking>
-      <recipeUsers Inherit="False" IsNull="True"/>
-    </recipeMaker>
+    <thingCategories>
+      <li>BodyPartsBionic</li>
+    </thingCategories>
   </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>Install_WULA_AutoJumpdrive</defName>
+    <label>install death acidifier</label>
+    <description>Install a death acidifier.</description>
+    <jobString>Installing death acidifier.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WULA_AutoJumpdrive</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WULA_AutoJumpdrive</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>WULA_AutoJumpdrive</addsHediff>
+  </RecipeDef>
 </Defs>

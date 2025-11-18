@@ -20,7 +20,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    // HediffComp 实现
+    // HediffComp 实现 - 只处理计时器到期
     public class HediffComp_DisappearWithEffect : HediffComp
     {
         public HediffCompProperties_DisappearWithEffect Props => 
@@ -54,21 +54,6 @@ namespace WulaFallenEmpire
                     TriggerDisappearEffect();
                 }
             }
-            // 如果 pawn 已经死亡，立即触发效果
-            else if (Pawn.Dead)
-            {
-                TriggerDisappearEffect();
-            }
-        }
-
-        // 处理 pawn 死亡事件 - 修复参数问题
-        public override void Notify_PawnDied(DamageInfo? dinfo, Hediff culprit = null)
-        {
-            base.Notify_PawnDied(dinfo, culprit);
-            if (!triggered)
-            {
-                TriggerDisappearEffect();
-            }
         }
 
         // 触发消失效果的核心方法
@@ -85,22 +70,22 @@ namespace WulaFallenEmpire
                 IntVec3 position = Pawn.Position;
                 Map map = Pawn.Map;
 
-                // 1. 清除所有装备
-                ClearAllEquipment(map);
-
-                // 2. 播放特效
+                // 1. 播放特效
                 PlayFleckEffect(position, map);
 
-                // 3. 播放音效
+                // 2. 播放音效
                 PlaySoundEffect(position, map);
 
-                // 4. 发送消失消息（如果配置了）
+                // 3. 发送消失消息（如果配置了）
                 SendDisappearMessage();
 
-                // 5. 删除 pawn
+                // 4. 清除装备
+                ClearAllEquipment();
+
+                // 5. 暴力删除 pawn
                 DestroyPawn();
 
-                Log.Message($"[DisappearWithEffect] Pawn {Pawn.LabelCap} disappeared at {position}");
+                Log.Message($"[DisappearWithEffect] Pawn {Pawn.LabelCap} destroyed at {position}");
             }
             catch (System.Exception ex)
             {
@@ -108,69 +93,56 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 清除所有装备 - 修复参数问题
-        private void ClearAllEquipment(Map map)
+        // 清除所有装备
+        private void ClearAllEquipment()
         {
-            if (Pawn.equipment == null && Pawn.apparel == null && Pawn.inventory == null)
-                return;
-
-            // 清除装备（武器）
+            // 销毁装备（武器）
             if (Pawn.equipment != null)
             {
-                var allEquipment = Pawn.equipment.AllEquipmentListForReading.ListFullCopy();
-                foreach (var thing in allEquipment)
+                if (Props.dropEquipment)
                 {
-                    if (Props.dropEquipment)
+                    // 掉落所有装备
+                    var allEquipment = Pawn.equipment.AllEquipmentListForReading.ListFullCopy();
+                    foreach (var thing in allEquipment)
                     {
-                        // 掉落装备 - 修复类型转换问题
                         ThingWithComps droppedWeapon;
                         Pawn.equipment.TryDropEquipment(thing, out droppedWeapon, Pawn.Position, true);
                     }
-                    else
-                    {
-                        // 直接销毁装备
-                        thing.Destroy(DestroyMode.Vanish);
-                    }
+                }
+                else
+                {
+                    // 直接销毁所有装备
+                    Pawn.equipment.DestroyAllEquipment();
                 }
             }
 
-            // 清除 apparel（服装）
+            // 销毁 apparel（服装）
             if (Pawn.apparel != null)
             {
-                var wornApparel = Pawn.apparel.WornApparel.ListFullCopy();
-                foreach (var apparel in wornApparel)
+                if (Props.dropEquipment)
                 {
-                    if (Props.dropEquipment)
+                    // 掉落所有服装
+                    var wornApparel = Pawn.apparel.WornApparel.ListFullCopy();
+                    foreach (var apparel in wornApparel)
                     {
-                        // 掉落服装
                         Apparel droppedApparel;
                         Pawn.apparel.TryDrop(apparel, out droppedApparel, Pawn.Position, true);
                     }
-                    else
-                    {
-                        // 直接销毁服装
-                        apparel.Destroy(DestroyMode.Vanish);
-                    }
+                }
+                else
+                {
+                    // 直接销毁所有服装
+                    Pawn.apparel.DestroyAll();
                 }
             }
 
-            // 清除 inventory（物品栏）
-            if (Pawn.inventory != null)
+            // 销毁 inventory（物品栏）
+            if (Pawn.inventory != null && !Props.dropEquipment)
             {
                 var innerContainer = Pawn.inventory.innerContainer.InnerListForReading.ListFullCopy();
                 foreach (var thing in innerContainer)
                 {
-                    if (Props.dropEquipment)
-                    {
-                        // 掉落物品
-                        Thing droppedThing;
-                        Pawn.inventory.innerContainer.TryDrop(thing, Pawn.Position, map, ThingPlaceMode.Near, out droppedThing);
-                    }
-                    else
-                    {
-                        // 直接销毁物品
-                        thing.Destroy(DestroyMode.Vanish);
-                    }
+                    thing.Destroy(DestroyMode.Vanish);
                 }
             }
         }
@@ -194,7 +166,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 播放音效 - 修复音效播放问题
+        // 播放音效
         private void PlaySoundEffect(IntVec3 position, Map map)
         {
             if (!Props.playSound) return;
@@ -232,19 +204,18 @@ namespace WulaFallenEmpire
         // 删除 pawn
         private void DestroyPawn()
         {
-            if (Pawn.Dead && Props.destroyCorpse)
+            if (Pawn.Destroyed) return;
+
+            try
             {
-                // 如果是尸体，直接销毁
-                Pawn.Destroy();
+                // 直接调用 Destroy，绕过所有死亡逻辑
+                Pawn.Destroy(DestroyMode.Vanish);
+                
+                Log.Message($"[DisappearWithEffect] Pawn {Pawn.LabelCap} destroyed");
             }
-            else if (!Pawn.Dead)
+            catch (System.Exception ex)
             {
-                // 如果是活着的 pawn，先杀死再销毁
-                Pawn.Kill(null, this.parent);
-                if (Props.destroyCorpse)
-                {
-                    Pawn.Destroy();
-                }
+                Log.Error($"[DisappearWithEffect] Error destroying pawn: {ex}");
             }
         }
 

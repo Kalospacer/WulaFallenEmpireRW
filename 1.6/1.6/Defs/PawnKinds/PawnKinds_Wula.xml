@@ -303,24 +303,31 @@
     <initialWillRange>10~20</initialWillRange>
     <initialResistanceRange>10~20</initialResistanceRange>
     <itemQuality>Poor</itemQuality>
+    <minApparelQuality>Poor</minApparelQuality>
+    <maxApparelQuality>Poor</maxApparelQuality>
     <isFighter>true</isFighter>
     <apparelTags>
       <li>Wula_Armor_Super_Heavy</li>
     </apparelTags>
     <weaponTags>
       <li>Wula_Melee_Weapon_T1</li>
-      <li>Wula_Melee_Weapon_T3</li>
+      <li>Wula_Melee_Weapon_T2</li>
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
-    <abilities>
-    </abilities>
+    <apparelRequired>
+      <li>WULA_Heavy_Infantry_PowerArmor</li>
+      <li>WULA_Heavy_Infantry_Helmet</li>
+    </apparelRequired>
     <weaponMoney>3000~8000</weaponMoney>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
     <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <techHediffsChance>1</techHediffsChance>
     <apparelMoney>999999~999999</apparelMoney>
-    <techHediffsMoney>1000~2000</techHediffsMoney>
-    <techHediffsTags>
+    <techHediffsMoney>999999~999999</techHediffsMoney>
+    <techHediffsRequired>
       <li>WULA_AutoJumpdrive</li>
-    </techHediffsTags>
+      <li>DeathAcidifier</li>
+    </techHediffsRequired>
 
     <backstoryFiltersOverride>
       <li>

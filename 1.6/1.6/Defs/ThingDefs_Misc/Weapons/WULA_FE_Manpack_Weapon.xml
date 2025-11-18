@@ -66,6 +66,7 @@
   <!-- 近战 -->
   <ThingDef Name="WULA_ExperienceCore_Weapon_Melee" ParentName="BaseMeleeWeapon_Blunt_Quality" Abstract="True">
     <comps>
+      <li Class="CompProperties_Biocodable"/>
       <li Class="WulaFallenEmpire.CompProperties_ProductionCategory">
         <category>Weapon</category>
       </li>
@@ -432,6 +433,7 @@
   <!-- 射弹武器 -->
   <ThingDef Name="WULA_ExperienceCore_Weapon_Ranged" ParentName="BaseHumanMakeableGun" Abstract="True">
     <comps>
+      <li Class="CompProperties_Biocodable"/>
       <li Class="WulaFallenEmpire.CompProperties_ProductionCategory">
         <category>Weapon</category>
       </li>

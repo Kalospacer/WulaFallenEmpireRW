@@ -337,4 +337,6 @@
   <WULA_FlyOverCooldown.BombardmentFacilityReady>武器阵列：就绪</WULA_FlyOverCooldown.BombardmentFacilityReady>
 
   <SkyfallerPawnLanded>战争机械已部署</SkyfallerPawnLanded>
+
+  <DisappearWithEffect_TimeRemaining>剩余时间: {0}</DisappearWithEffect_TimeRemaining>
 </LanguageData>
