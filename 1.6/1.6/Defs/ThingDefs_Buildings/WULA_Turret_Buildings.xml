@@ -750,7 +750,7 @@
         <!-- 基础射线参数 -->
         <hasStandardCommand>true</hasStandardCommand>
         <range>52</range>
-        <burstShotCount>32</burstShotCount>
+        <burstShotCount>99999</burstShotCount>
         <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
         <beamDamageDef>WULA_RW_Handle_Cannon_Burn</beamDamageDef>
         <beamTotalDamage>1</beamTotalDamage>

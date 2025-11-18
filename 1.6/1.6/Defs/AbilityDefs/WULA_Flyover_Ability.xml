@@ -217,6 +217,56 @@
     </comps>
   </AbilityDef>
 
+  <AbilityDef>
+    <defName>WULA_Spawn_BattleShip_Artillery</defName>
+    <label>呼叫全域封锁舰队</label>
+    <description>申请沿指定航道发起全域封锁，一整只乌拉帝国舰队将在大量战机编队的掩护下沿着航道行进，并使用所有的可用武器进行轰炸，以彻底粉碎一切抵抗。</description>
+    <iconPath>Wula/UI/Abilities/WULA_Spawn_Fighter_Drone_Laser</iconPath>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>0</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Light_Fighter_Drone_Technology</requiredResearch>
+      </li> -->
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>WULA_Fighter_Drone_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>5000</aircraftCooldownTicks> 
+        <aircraftsPerUse>1</aircraftsPerUse>
+      </li> -->
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_MotherShip_Planet_Interdiction</flyOverDef>
+        <flyOverType>GroundStrafing</flyOverType>
+        <flightSpeed>0.005</flightSpeed>
+        <altitude>20</altitude>
+        <playFlyOverSound>true</playFlyOverSound>
+        <approachType>Perpendicular</approachType>
+
+        <!-- 只传递信号，不传递具体参数 -->
+        <enableSectorSurveillance>true</enableSectorSurveillance>
+
+        <!-- 可视化 -->
+        <showStrafePreview>false</showStrafePreview>
+
+        <!-- 预览配置 -->
+        <showSectorPreview>true</showSectorPreview>
+        <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      </li>
+    </comps>
+  </AbilityDef>
+
   <!-- 飞行器 -->
   <AbilityDef>
     <defName>WULA_Spawn_Fighter_Drone_Laser</defName>

@@ -181,17 +181,22 @@
         <numIncidentsRange>1</numIncidentsRange>
       </li>
 
-      <!-- Odyssey grav engine quest -->
-      <li Class="StorytellerCompProperties_ImportantQuest">
+      <!-- 乌拉族初始任务 -->
+      <li Class="WulaFallenEmpire.StorytellerCompProperties_ImportantQuestWithFactionFilter">
         <fireAfterDaysPassed>1</fireAfterDaysPassed>
-        <questIncident MayRequire="Ludeon.RimWorld.Odyssey">WULA_GiveQuest_Intro_Spy</questIncident>
-        <questDef MayRequire="Ludeon.RimWorld.Odyssey">WULA_Intro_Spy</questDef>
+        <questIncident>WULA_GiveQuest_Intro_Spy</questIncident>
+        <questDef>WULA_Intro_Spy</questDef>
+        <useFactionFilter>true</useFactionFilter> <!-- 添加这一行 -->
+        <defaultBehavior>Allow</defaultBehavior> <!-- 明确指定默认行为 -->
+        <factionTypeBlacklist>
+          <li>WULA_Awakened_Synth</li>
+        </factionTypeBlacklist>
+        <!-- <factionTypeWhitelist>
+          <li>Empire</li>
+        </factionTypeWhitelist> -->
         <allowedTargetTags>
           <li>Map_PlayerHome</li>
         </allowedTargetTags>
-        <enableIfAnyModActive>
-          <li>Ludeon.RimWorld.Odyssey</li>
-        </enableIfAnyModActive>
       </li>
     </comps>
   </StorytellerDef>

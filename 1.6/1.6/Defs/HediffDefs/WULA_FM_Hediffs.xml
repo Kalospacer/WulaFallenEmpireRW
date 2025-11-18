@@ -105,6 +105,7 @@
           <li>WULA_CallAircraftCarrier</li>
           <li>WULA_CallConstructionShip</li>
           <li>WULA_ClearFlightPath</li>
+          <li>WULA_Spawn_BattleShip_Artillery</li>
         </abilityDefs>
       </li>
     </comps>
