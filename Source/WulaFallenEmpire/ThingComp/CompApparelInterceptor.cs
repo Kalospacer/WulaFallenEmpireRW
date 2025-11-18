@@ -61,36 +61,54 @@ namespace WulaFallenEmpire
         public int currentHitPoints = -1;
         private int ticksToReset;
         private int activatedTick = -999999;
-
-        // 视觉效果变量
+        private bool initialized = false; // 添加初始化标志
+                                          // 视觉效果变量
         private float lastInterceptAngle;
         private bool drawInterceptCone;
-
         // 静态资源
         private static readonly Material ForceFieldMat = MaterialPool.MatFrom("Other/ForceField", ShaderDatabase.MoteGlow);
         private static readonly Material ForceFieldConeMat = MaterialPool.MatFrom("Other/ForceFieldCone", ShaderDatabase.MoteGlow);
         private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
         private static readonly Color InactiveColor = new Color(0.2f, 0.2f, 0.2f);
-
         // 属性
         public CompProperties_ApparelInterceptor Props => (CompProperties_ApparelInterceptor)props;
         private Pawn PawnOwner => (parent as Apparel)?.Wearer;
+        // 修复：确保组件完全初始化的方法
+        private void EnsureInitialized()
+        {
+            if (initialized) return;
 
+            if (stunner == null)
+                stunner = new StunHandler(parent);
+
+            if (currentHitPoints == -1)
+                currentHitPoints = Props.startupDelay > 0 ? 0 : HitPointsMax;
+
+            initialized = true;
+        }
+        // 修复：安全的 Active 属性
         public bool Active
         {
             get
             {
+                EnsureInitialized();
                 if (PawnOwner == null || !PawnOwner.Spawned) return false;
-                if (OnCooldown || Charging || stunner.Stunned || shutDown || currentHitPoints <= 0) return false;
-                if (Props.activated && Find.TickManager.TicksGame > activatedTick + Props.activeDuration) return false;
+
+                // 修复：添加额外的 null 检查
+                if (stunner == null || OnCooldown || Charging || (stunner != null && stunner.Stunned) || shutDown || currentHitPoints <= 0)
+                    return false;
+
+                if (Props.activated && Find.TickManager.TicksGame > activatedTick + Props.activeDuration)
+                    return false;
+
                 return true;
             }
         }
-
         protected bool ShouldDisplay
         {
             get
             {
+                EnsureInitialized();
                 if (PawnOwner == null || !PawnOwner.Spawned || PawnOwner.Dead || PawnOwner.Downed || !Active)
                 {
                     return false;
@@ -106,29 +124,22 @@ namespace WulaFallenEmpire
                 return false;
             }
         }
-
         public bool OnCooldown => ticksToReset > 0;
         public bool Charging => startedChargingTick >= 0 && Find.TickManager.TicksGame < startedChargingTick + Props.startupDelay;
         public int CooldownTicksLeft => ticksToReset;
         public int ChargingTicksLeft => (startedChargingTick < 0) ? 0 : Mathf.Max(startedChargingTick + Props.startupDelay - Find.TickManager.TicksGame, 0);
         public int HitPointsMax => Props.hitPoints;
         protected virtual int HitPointsPerInterval => 1;
-
         public override void PostPostMake()
         {
             base.PostPostMake();
-            stunner = new StunHandler(parent);
+            EnsureInitialized();
+
             if (Props.startupDelay > 0)
             {
                 startedChargingTick = Find.TickManager.TicksGame;
-                currentHitPoints = 0;
-            }
-            else
-            {
-                currentHitPoints = HitPointsMax;
             }
         }
-
         public override void PostExposeData()
         {
             base.PostExposeData();
@@ -138,186 +149,228 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref currentHitPoints, "currentHitPoints", -1);
             Scribe_Values.Look(ref ticksToReset, "ticksToReset", 0);
             Scribe_Values.Look(ref activatedTick, "activatedTick", -999999);
+            Scribe_Values.Look(ref initialized, "initialized", false);
             Scribe_Deep.Look(ref stunner, "stunner", parent);
-
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                if (stunner == null) stunner = new StunHandler(parent);
-                if (currentHitPoints == -1) currentHitPoints = HitPointsMax;
+                // 强制重新初始化
+                initialized = false;
+                EnsureInitialized();
             }
         }
-
+        // 在 CompApparelInterceptor 类中修改 TryIntercept 方法
         public bool TryIntercept(Projectile projectile, Vector3 lastExactPos, Vector3 newExactPos)
         {
-            if (PawnOwner == null || !PawnOwner.Spawned || !Active)
+            try
             {
-                return false;
-            }
-
-            if (!GenGeo.IntersectLineCircleOutline(PawnOwner.Position.ToVector2(), Props.radius, lastExactPos.ToVector2(), newExactPos.ToVector2()))
-            {
-                return false;
-            }
-
-            if (!InterceptsProjectile(Props, projectile))
-            {
-                return false;
-            }
-
-            bool isHostile = (projectile.Launcher != null && projectile.Launcher.HostileTo(PawnOwner)) || (projectile.Launcher == null && Props.interceptNonHostileProjectiles);
-            if (!isHostile)
-            {
-                return false;
-            }
-
-            // --- Interception Success ---
-            lastInterceptAngle = projectile.ExactPosition.AngleToFlat(PawnOwner.TrueCenter());
-            lastInterceptTicks = Find.TickManager.TicksGame;
-            drawInterceptCone = true;
-            if (Props.soundInterceptEffecter != null) Props.soundInterceptEffecter.Spawn(PawnOwner.Position, PawnOwner.Map).Cleanup();
-
-            if (projectile.DamageDef == DamageDefOf.EMP && !Props.isImmuneToEMP)
-            {
-                BreakShieldEmp(new DamageInfo(projectile.DamageDef, projectile.DamageAmount, instigator: projectile.Launcher));
-            }
-            else if (HitPointsMax > 0)
-            {
-                currentHitPoints -= projectile.DamageAmount;
-                if (currentHitPoints <= 0)
+                EnsureInitialized();
+                // 更严格的防御性检查
+                if (PawnOwner == null || !PawnOwner.Spawned || PawnOwner.Dead || PawnOwner.Downed)
+                    return false;
+                if (projectile == null || projectile.Destroyed || !projectile.Spawned)
+                    return false;
+                if (!Active)
+                    return false;
+                // 检查地图匹配
+                if (PawnOwner.Map == null || projectile.Map == null || PawnOwner.Map != projectile.Map)
+                    return false;
+                // 检查位置有效性
+                Vector2 pawnPos = PawnOwner.Position.ToVector2();
+                Vector2 lastPos = lastExactPos.ToVector2();
+                Vector2 newPos = newExactPos.ToVector2();
+                if (!GenGeo.IntersectLineCircleOutline(pawnPos, Props.radius, lastPos, newPos))
+                    return false;
+                if (!InterceptsProjectile(Props, projectile))
+                    return false;
+                bool isHostile = (projectile.Launcher != null && projectile.Launcher.HostileTo(PawnOwner)) ||
+                                (projectile.Launcher == null && Props.interceptNonHostileProjectiles);
+                if (!isHostile)
+                    return false;
+                // --- Interception Success ---
+                try
                 {
-                    BreakShieldHitpoints(new DamageInfo(projectile.DamageDef, projectile.DamageAmount, instigator: projectile.Launcher));
+                    lastInterceptAngle = projectile.ExactPosition.AngleToFlat(PawnOwner.TrueCenter());
+                    lastInterceptTicks = Find.TickManager.TicksGame;
+                    drawInterceptCone = true;
+                    if (Props.soundInterceptEffecter != null && PawnOwner.Map != null)
+                    {
+                        var effecter = Props.soundInterceptEffecter.Spawn(PawnOwner.Position, PawnOwner.Map);
+                        if (effecter != null)
+                            effecter.Cleanup();
+                    }
+                    // 处理伤害
+                    if (projectile.DamageDef == DamageDefOf.EMP && !Props.isImmuneToEMP)
+                    {
+                        BreakShieldEmp(new DamageInfo(projectile.DamageDef, projectile.DamageAmount, instigator: projectile.Launcher));
+                    }
+                    else if (HitPointsMax > 0)
+                    {
+                        currentHitPoints = Mathf.Max(0, currentHitPoints - projectile.DamageAmount);
+                        if (currentHitPoints <= 0)
+                        {
+                            BreakShieldHitpoints(new DamageInfo(projectile.DamageDef, projectile.DamageAmount, instigator: projectile.Launcher));
+                        }
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning($"[CompApparelInterceptor] Error during interception effects: {ex.Message}");
+                    return true; // 即使效果出错，仍然返回拦截成功
                 }
             }
-            return true;
+            catch (Exception ex)
+            {
+                Log.Warning($"[CompApparelInterceptor] Critical error in TryIntercept: {ex.Message}");
+                return false;
+            }
         }
-
         public override void CompTick()
         {
-            base.CompTick();
-            if (PawnOwner == null || !PawnOwner.Spawned) return;
+            try
+            {
+                base.CompTick();
+                EnsureInitialized();
 
-            stunner.StunHandlerTick();
-
-            if (OnCooldown)
-            {
-                ticksToReset--;
-                if (ticksToReset <= 0) Reset();
+                if (PawnOwner == null || !PawnOwner.Spawned) return;
+                // 防御性检查
+                if (stunner != null)
+                    stunner.StunHandlerTick();
+                if (OnCooldown)
+                {
+                    ticksToReset--;
+                    if (ticksToReset <= 0) Reset();
+                }
+                else if (Charging)
+                {
+                    // Charging logic handled by property
+                }
+                else if (currentHitPoints < HitPointsMax && parent.IsHashIntervalTick(Props.rechargeHitPointsIntervalTicks))
+                {
+                    currentHitPoints = Mathf.Clamp(currentHitPoints + HitPointsPerInterval, 0, HitPointsMax);
+                }
+                if (Props.activeSound != null)
+                {
+                    if (Active && (sustainer == null || sustainer.Ended))
+                        sustainer = Props.activeSound.TrySpawnSustainer(SoundInfo.InMap(parent));
+                    sustainer?.Maintain();
+                    if (!Active && sustainer != null && !sustainer.Ended)
+                        sustainer.End();
+                }
             }
-            else if (Charging)
+            catch (System.Exception ex)
             {
-                // Charging logic handled by property
-            }
-            else if (currentHitPoints < HitPointsMax && parent.IsHashIntervalTick(Props.rechargeHitPointsIntervalTicks))
-            {
-                currentHitPoints = Mathf.Clamp(currentHitPoints + HitPointsPerInterval, 0, HitPointsMax);
-            }
-
-            if (Props.activeSound != null)
-            {
-                if (Active && (sustainer == null || sustainer.Ended)) sustainer = Props.activeSound.TrySpawnSustainer(SoundInfo.InMap(parent));
-                sustainer?.Maintain();
-                if (!Active && sustainer != null && !sustainer.Ended) sustainer.End();
+                Log.Warning($"[CompApparelInterceptor] Error in CompTick: {ex.Message}");
             }
         }
-
         public void Reset()
         {
-            if (PawnOwner.Spawned) Props.reactivateEffect?.Spawn(PawnOwner.Position, PawnOwner.Map).Cleanup();
+            if (PawnOwner != null && PawnOwner.Spawned && PawnOwner.Map != null)
+                Props.reactivateEffect?.Spawn(PawnOwner.Position, PawnOwner.Map).Cleanup();
+
             currentHitPoints = HitPointsMax;
             ticksToReset = 0;
         }
-
         private void BreakShieldHitpoints(DamageInfo dinfo)
         {
-            if (PawnOwner.Spawned)
+            if (PawnOwner != null && PawnOwner.Spawned && PawnOwner.MapHeld != null)
             {
-                if (Props.soundBreakEffecter != null) Props.soundBreakEffecter.SpawnAttached(PawnOwner, PawnOwner.MapHeld, Props.radius).Cleanup();
+                if (Props.soundBreakEffecter != null)
+                    Props.soundBreakEffecter.SpawnAttached(PawnOwner, PawnOwner.MapHeld, Props.radius).Cleanup();
             }
             currentHitPoints = 0;
             ticksToReset = Props.rechargeDelay;
         }
-
         private void BreakShieldEmp(DamageInfo dinfo)
         {
             BreakShieldHitpoints(dinfo);
-            if (Props.disarmedByEmpForTicks > 0) stunner.Notify_DamageApplied(new DamageInfo(DamageDefOf.EMP, (float)Props.disarmedByEmpForTicks / 30f));
+            if (Props.disarmedByEmpForTicks > 0 && stunner != null)
+                stunner.Notify_DamageApplied(new DamageInfo(DamageDefOf.EMP, (float)Props.disarmedByEmpForTicks / 30f));
         }
-
         public static bool InterceptsProjectile(CompProperties_ApparelInterceptor props, Projectile projectile)
         {
-            if (projectile.def.projectile.flyOverhead) return props.interceptAirProjectiles;
+            if (projectile == null || projectile.def == null || projectile.def.projectile == null)
+                return false;
+
+            if (projectile.def.projectile.flyOverhead)
+                return props.interceptAirProjectiles;
             return props.interceptGroundProjectiles;
         }
-
         // --- DRAWING LOGIC ---
         public override void CompDrawWornExtras()
         {
-            base.CompDrawWornExtras();
-            if (PawnOwner == null || !PawnOwner.Spawned || !ShouldDisplay) return;
-
-            Vector3 drawPos = PawnOwner.Drawer.DrawPos;
-            drawPos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-
-            float alpha = GetCurrentAlpha();
-            if (alpha > 0f)
+            try
             {
-                Color color = Props.color;
-                color.a *= alpha;
-                MatPropertyBlock.SetColor(ShaderPropertyIDs.Color, color);
-                Matrix4x4 matrix = default(Matrix4x4);
-                matrix.SetTRS(drawPos, Quaternion.identity, new Vector3(Props.radius * 2f * 1.1601562f, 1f, Props.radius * 2f * 1.1601562f));
-                Graphics.DrawMesh(MeshPool.plane10, matrix, ForceFieldMat, 0, null, 0, MatPropertyBlock);
+                base.CompDrawWornExtras();
+                EnsureInitialized();
+
+                if (PawnOwner == null || !PawnOwner.Spawned || !ShouldDisplay) return;
+                Vector3 drawPos = PawnOwner.Drawer?.DrawPos ?? PawnOwner.Position.ToVector3Shifted();
+                drawPos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+                float alpha = GetCurrentAlpha();
+                if (alpha > 0f)
+                {
+                    Color color = Props.color;
+                    color.a *= alpha;
+                    MatPropertyBlock.SetColor(ShaderPropertyIDs.Color, color);
+                    Matrix4x4 matrix = default(Matrix4x4);
+                    matrix.SetTRS(drawPos, Quaternion.identity, new Vector3(Props.radius * 2f * 1.1601562f, 1f, Props.radius * 2f * 1.1601562f));
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, ForceFieldMat, 0, null, 0, MatPropertyBlock);
+                }
+                float coneAlpha = GetCurrentConeAlpha_RecentlyIntercepted();
+                if (coneAlpha > 0f)
+                {
+                    Color color = Props.color;
+                    color.a *= coneAlpha;
+                    MatPropertyBlock.SetColor(ShaderPropertyIDs.Color, color);
+                    Matrix4x4 matrix = default(Matrix4x4);
+                    matrix.SetTRS(drawPos, Quaternion.Euler(0f, lastInterceptAngle - 90f, 0f), new Vector3(Props.radius * 2f, 1f, Props.radius * 2f));
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, ForceFieldConeMat, 0, null, 0, MatPropertyBlock);
+                }
             }
-
-            float coneAlpha = GetCurrentConeAlpha_RecentlyIntercepted();
-            if (coneAlpha > 0f)
+            catch (System.Exception ex)
             {
-                Color color = Props.color;
-                color.a *= coneAlpha;
-                MatPropertyBlock.SetColor(ShaderPropertyIDs.Color, color);
-                Matrix4x4 matrix = default(Matrix4x4);
-                matrix.SetTRS(drawPos, Quaternion.Euler(0f, lastInterceptAngle - 90f, 0f), new Vector3(Props.radius * 2f, 1f, Props.radius * 2f));
-                Graphics.DrawMesh(MeshPool.plane10, matrix, ForceFieldConeMat, 0, null, 0, MatPropertyBlock);
+                Log.Warning($"[CompApparelInterceptor] Error in CompDrawWornExtras: {ex.Message}");
             }
         }
-
         private float GetCurrentAlpha()
         {
             float idleAlpha = Mathf.Lerp(0.3f, 0.6f, (Mathf.Sin((float)Gen.HashCombineInt(parent.thingIDNumber, 35990913) + Time.realtimeSinceStartup * 2f) + 1f) / 2f);
             float interceptAlpha = Mathf.Clamp01(1f - (float)(Find.TickManager.TicksGame - lastInterceptTicks) / 40f);
             return Mathf.Max(idleAlpha, interceptAlpha);
         }
-
         private float GetCurrentConeAlpha_RecentlyIntercepted()
         {
             if (!drawInterceptCone) return 0f;
             return Mathf.Clamp01(1f - (float)(Find.TickManager.TicksGame - lastInterceptTicks) / 40f) * 0.82f;
         }
-
         // --- GIZMO ---
         public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
         {
+            EnsureInitialized();
+
             if (PawnOwner != null && Find.Selector.SingleSelectedThing == PawnOwner)
             {
                 yield return new Gizmo_EnergyShieldStatus { shield = this };
             }
         }
-
         public override string CompInspectStringExtra()
         {
+            EnsureInitialized();
+
             StringBuilder sb = new StringBuilder();
             if (OnCooldown)
             {
                 sb.Append("Cooldown: " + CooldownTicksLeft.ToStringTicksToPeriod());
             }
-            else if (stunner.Stunned)
+            else if (stunner != null && stunner.Stunned)
             {
                 sb.Append("EMP Shutdown: " + stunner.StunTicksLeft.ToStringTicksToPeriod());
             }
             return sb.ToString();
         }
     }
-
     [StaticConstructorOnStartup]
     public class Gizmo_EnergyShieldStatus : Gizmo
     {

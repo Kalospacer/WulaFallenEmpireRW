@@ -157,8 +157,7 @@ namespace WulaFallenEmpire
                 Messages.Message("WULA_DataPackCompMissing".Translate(), parent, MessageTypeDefOf.RejectInput);
             }
         }
-
-        // 吸收数据包方法 - 现在会吸收所有附近的数据包并处理溢出
+        // 吸收数据包方法 - 修复版本
         private void AbsorbDataPack()
         {
             if (Props.dataPackDef == null)
@@ -166,7 +165,6 @@ namespace WulaFallenEmpire
                 Messages.Message("WULA_NoDataPackDef".Translate(), parent, MessageTypeDefOf.RejectInput);
                 return;
             }
-
             // 查找附近的所有数据包
             List<Thing> dataPacks = FindNearbyDataPacks();
             if (dataPacks.Count == 0)
@@ -174,96 +172,134 @@ namespace WulaFallenEmpire
                 Messages.Message("WULA_NoDataPackNearby".Translate(), parent, MessageTypeDefOf.RejectInput);
                 return;
             }
-
             // 计算总可吸收经验
-            float totalExperienceToAbsorb = 0f;
+            float totalExperienceAvailable = 0f;
             foreach (Thing dataPack in dataPacks)
             {
                 CompExperienceDataPack dataPackComp = dataPack.TryGetComp<CompExperienceDataPack>();
                 if (dataPackComp != null && dataPackComp.storedExperience > 0)
                 {
-                    totalExperienceToAbsorb += dataPackComp.storedExperience;
+                    totalExperienceAvailable += dataPackComp.storedExperience;
                 }
             }
-
-            if (totalExperienceToAbsorb <= 0)
+            if (totalExperienceAvailable <= 0)
             {
                 Messages.Message("WULA_DataPackEmpty".Translate(), parent, MessageTypeDefOf.RejectInput);
                 return;
             }
-
-            // 计算实际可吸收的经验（不超过最大阈值）
-            float actualExperienceToAbsorb;
-            float overflowFromAbsorption = 0f;
-
-            if (HasReachedMaxQuality)
+            // 计算实际需要的经验（如果未达到最大品质）
+            float experienceNeeded = 0f;
+            if (!HasReachedMaxQuality)
             {
-                // 如果已经达到最大品质，所有吸收的经验都算作溢出
-                actualExperienceToAbsorb = 0f;
-                overflowFromAbsorption = totalExperienceToAbsorb;
+                experienceNeeded = MaxExperienceThreshold - currentExperience;
             }
-            else
-            {
-                float remainingToMax = MaxExperienceThreshold - currentExperience;
-                if (totalExperienceToAbsorb <= remainingToMax)
-                {
-                    // 可以完全吸收
-                    actualExperienceToAbsorb = totalExperienceToAbsorb;
-                    overflowFromAbsorption = 0f;
-                }
-                else
-                {
-                    // 只能吸收部分，其余溢出
-                    actualExperienceToAbsorb = remainingToMax;
-                    overflowFromAbsorption = totalExperienceToAbsorb - remainingToMax;
-                }
-            }
+            // 实际吸收的经验量（不超过需要的经验）
+            float actualExperienceToAbsorb = Mathf.Min(totalExperienceAvailable, experienceNeeded);
 
-            // 应用吸收
-            currentExperience += actualExperienceToAbsorb;
-            overflowExperience += overflowFromAbsorption;
-
-            // 销毁所有被吸收的数据包
-            foreach (Thing dataPack in dataPacks)
-            {
-                dataPack.Destroy();
-            }
-
-            // 检查升级
+            // 剩余的经验（留在数据包中）
+            float remainingExperience = totalExperienceAvailable - actualExperienceToAbsorb;
+            // 应用吸收的经验
             if (actualExperienceToAbsorb > 0)
             {
-                CheckForQualityUpgrade();
+                currentExperience += actualExperienceToAbsorb;
+                CheckForQualityUpgrade(); // 检查升级
             }
+            // 处理剩余的经验 - 更新数据包而不是创建新的
+            ProcessRemainingExperience(dataPacks, remainingExperience);
+            // 发送消息 - 修复阵营检查
+            SendAbsorptionMessage(actualExperienceToAbsorb, remainingExperience);
 
-            // 处理溢出经验 - 如果吸收后有溢出，自动创建一个新的数据包
-            if (overflowFromAbsorption > 0)
+            Log.Message($"[ExperienceCore] {parent.Label} absorbed {actualExperienceToAbsorb} experience, remaining: {remainingExperience}, current: {currentExperience}");
+        }
+        // 处理剩余的经验 - 更新现有数据包
+        private void ProcessRemainingExperience(List<Thing> dataPacks, float remainingExperience)
+        {
+            if (remainingExperience <= 0)
             {
-                CreateOverflowDataPack(overflowFromAbsorption);
+                // 没有剩余经验，销毁所有数据包
+                foreach (Thing dataPack in dataPacks)
+                {
+                    dataPack.Destroy();
+                }
+                return;
             }
+            // 有剩余经验，找到第一个数据包来存储剩余经验
+            bool foundDataPackForRemaining = false;
 
-            // 发送消息
+            foreach (Thing dataPack in dataPacks)
+            {
+                CompExperienceDataPack dataPackComp = dataPack.TryGetComp<CompExperienceDataPack>();
+                if (dataPackComp != null)
+                {
+                    if (!foundDataPackForRemaining)
+                    {
+                        // 使用第一个数据包存储剩余经验
+                        dataPackComp.storedExperience = remainingExperience;
+                        dataPackComp.sourceWeaponLabel = parent.Label + " (Remaining)";
+                        foundDataPackForRemaining = true;
+                    }
+                    else
+                    {
+                        // 销毁其他数据包
+                        dataPack.Destroy();
+                    }
+                }
+            }
+        }
+        // 发送吸收消息 - 修复阵营检查
+        private void SendAbsorptionMessage(float absorbedExperience, float remainingExperience)
+        {
+            // 检查是否应该显示消息给玩家
+            bool shouldShowMessage = ShouldShowMessageToPlayer();
+
+            if (!shouldShowMessage) return;
             string messageText;
-            if (actualExperienceToAbsorb > 0 && overflowFromAbsorption > 0)
+            if (absorbedExperience > 0 && remainingExperience > 0)
             {
                 messageText = "WULA_DataPackPartiallyAbsorbed".Translate(
-                    actualExperienceToAbsorb.ToString("F0"), 
-                    overflowFromAbsorption.ToString("F0")
+                    absorbedExperience.ToString("F0"),
+                    remainingExperience.ToString("F0")
                 );
             }
-            else if (actualExperienceToAbsorb > 0)
+            else if (absorbedExperience > 0)
             {
-                messageText = "WULA_DataPackAbsorbed".Translate(actualExperienceToAbsorb.ToString("F0"));
+                messageText = "WULA_DataPackAbsorbed".Translate(absorbedExperience.ToString("F0"));
             }
             else
             {
-                messageText = "WULA_DataPackOverflowOnly".Translate(overflowFromAbsorption.ToString("F0"));
+                messageText = "WULA_NoExperienceAbsorbed".Translate(remainingExperience.ToString("F0"));
             }
-            
-            Messages.Message(messageText, parent, MessageTypeDefOf.PositiveEvent);
-            
-            Log.Message($"[ExperienceCore] {parent.Label} absorbed {actualExperienceToAbsorb} experience, overflow: {overflowFromAbsorption}, total: {currentExperience}, overflow total: {overflowExperience}");
-        }
 
+            Messages.Message(messageText, parent, MessageTypeDefOf.PositiveEvent);
+        }
+        // 检查是否应该显示消息给玩家
+        private bool ShouldShowMessageToPlayer()
+        {
+            // 如果武器被装备，检查装备者的阵营
+            if (equippedPawn != null)
+            {
+                // 只有玩家阵营或者与玩家结盟的阵营才显示消息
+                return equippedPawn.Faction == Faction.OfPlayer ||
+                       (equippedPawn.Faction != null && equippedPawn.Faction.PlayerRelationKind == FactionRelationKind.Ally);
+            }
+
+            // 如果武器没有被装备，检查武器的持有者（比如在库存中）
+            Pawn holder = parent.ParentHolder as Pawn;
+            if (holder != null)
+            {
+                return holder.Faction == Faction.OfPlayer ||
+                       (holder.Faction != null && holder.Faction.PlayerRelationKind == FactionRelationKind.Ally);
+            }
+
+            // 如果武器在地上，检查地图是否为玩家地图
+            if (parent.Map != null)
+            {
+                return parent.Map.IsPlayerHome;
+            }
+
+            // 默认不显示
+            return false;
+        }
         // 创建溢出数据包
         private void CreateOverflowDataPack(float overflowAmount)
         {
@@ -443,13 +479,12 @@ namespace WulaFallenEmpire
                 nextThreshold = NextThreshold; // 获取下一个阈值
             }
         }
-
         private void UpgradeQuality(ExperienceThreshold threshold)
         {
             var oldQuality = currentQuality;
             currentQuality = threshold.quality;
             currentThresholdIndex++; // 移动到下一个阈值
-            
+
             // 更新武器的品质组件
             var qualityComp = parent.TryGetComp<CompQuality>();
             if (qualityComp != null)
@@ -462,23 +497,25 @@ namespace WulaFallenEmpire
                 Log.Error($"[ExperienceCore] ERROR: {parent.Label} has no CompQuality component!");
                 return;
             }
-            
-            // 发送升级消息
-            string messageText;
-            if (!threshold.messageKey.NullOrEmpty())
+
+            // 发送升级消息 - 添加阵营检查
+            if (ShouldShowMessageToPlayer())
             {
-                messageText = threshold.messageKey.Translate(parent.Label, threshold.quality.GetLabel());
+                string messageText;
+                if (!threshold.messageKey.NullOrEmpty())
+                {
+                    messageText = threshold.messageKey.Translate(parent.Label, threshold.quality.GetLabel());
+                }
+                else
+                {
+                    messageText = "WULA_WeaponUpgraded".Translate(parent.Label, threshold.quality.GetLabel());
+                }
+
+                Messages.Message(messageText, parent, MessageTypeDefOf.PositiveEvent);
             }
-            else
-            {
-                messageText = "WULA_WeaponUpgraded".Translate(parent.Label, threshold.quality.GetLabel());
-            }
-            
-            Messages.Message(messageText, parent, MessageTypeDefOf.PositiveEvent);
-            
+
             Log.Message($"[ExperienceCore] {parent.Label} upgraded from {oldQuality} to {threshold.quality} at {currentExperience} experience");
         }
-
         public override string CompInspectStringExtra()
         {
             if (!Props.showExperienceInfo)

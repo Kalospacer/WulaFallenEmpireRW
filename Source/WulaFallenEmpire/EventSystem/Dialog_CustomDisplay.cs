@@ -342,25 +342,22 @@ namespace WulaFallenEmpire
                 }
             }
         }
-
-        // 绘制单个选项
+        // 绘制单个选项 - 增强版本（修复版本）
         private void DrawSingleOption(Rect rect, EventOption option)
         {
             string reason;
             bool conditionsMet = AreConditionsMet(option.conditions, out reason);
-
             // 水平居中选项
             float optionWidth = Mathf.Min(rect.width, Config.optionSize.x * (rect.width / Config.windowSize.x));
             float optionX = rect.x + (rect.width - optionWidth) / 2;
             Rect optionRect = new Rect(optionX, rect.y, optionWidth, rect.height);
-
             if (conditionsMet)
             {
-                // 保存原始颜色状态
+                // 保存原始状态
                 Color originalColor = GUI.color;
                 GameFont originalFont = Text.Font;
                 Color originalTextColor = GUI.contentColor;
-
+                TextAnchor originalAnchor = Text.Anchor;
                 try
                 {
                     // 应用自定义颜色
@@ -368,6 +365,8 @@ namespace WulaFallenEmpire
                     {
                         ApplyOptionColors(option, optionRect);
                     }
+                    // 设置文本居中
+                    Text.Anchor = TextAnchor.MiddleCenter;
 
                     if (Widgets.ButtonText(optionRect, option.label))
                     {
@@ -376,44 +375,57 @@ namespace WulaFallenEmpire
                 }
                 finally
                 {
-                    // 恢复原始颜色状态
+                    // 恢复原始状态
                     GUI.color = originalColor;
                     Text.Font = originalFont;
                     GUI.contentColor = originalTextColor;
+                    Text.Anchor = originalAnchor;
                 }
             }
             else
             {
-                // 禁用状态的选项
+                // 禁用状态的选项 - 修复版本
                 Color originalColor = GUI.color;
                 GameFont originalFont = Text.Font;
                 Color originalTextColor = GUI.contentColor;
-
+                TextAnchor originalAnchor = Text.Anchor;
                 try
                 {
-                    // 应用禁用状态的自定义颜色
-                    if (option.useCustomColors && option.disabledColor.HasValue)
+                    // 设置禁用状态的颜色
+                    GUI.color = new Color(0.85f, 0.85f, 0.85f, 1f);
+                    GUI.contentColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+                    Text.Font = GameFont.Small;
+                    // 修复：使用正确的 DrawBoxSolid 方法
+                    Widgets.DrawBoxSolid(optionRect, new Color(0.2f, 0.2f, 0.2f, 0.3f));
+                    Widgets.DrawBox(optionRect);
+                    // 设置文本居中
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    // 绘制居中的文本
+                    Rect textRect = optionRect.ContractedBy(4f);
+                    Widgets.Label(textRect, option.label);
+                    // 可选：在文本上添加删除线效果
+                    if (Config.drawBorders)
                     {
-                        GUI.color = option.disabledColor.Value;
+                        // 修复：使用正确的 DrawLine 方法
+                        Widgets.DrawLine(
+                            new Vector2(textRect.x, textRect.center.y),
+                            new Vector2(textRect.xMax, textRect.center.y),
+                            Color.gray,
+                            1f
+                        );
                     }
-                    if (option.useCustomColors && option.textDisabledColor.HasValue)
-                    {
-                        GUI.contentColor = option.textDisabledColor.Value;
-                    }
-
-                    Widgets.ButtonText(optionRect, option.label, false, true, false);
                     TooltipHandler.TipRegion(optionRect, GetDisabledReason(option, reason));
                 }
                 finally
                 {
-                    // 恢复原始颜色状态
+                    // 恢复原始状态
                     GUI.color = originalColor;
                     Text.Font = originalFont;
                     GUI.contentColor = originalTextColor;
+                    Text.Anchor = originalAnchor;
                 }
             }
         }
-
         // 应用选项颜色
         private void ApplyOptionColors(EventOption option, Rect rect)
         {
