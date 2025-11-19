@@ -11,19 +11,19 @@ namespace WulaFallenEmpire
         // 输入参数
         public SlateRef<ThingDef> resourceDef;
         public SlateRef<int> requiredCount;
-        public SlateRef<int> retryDelayTicks = 60; // 默认60 ticks (1秒)
-        public SlateRef<string> successSignal;
-        public SlateRef<string> failSignal;
-        public SlateRef<bool> deductOnSuccess = true;
-        public SlateRef<bool> useInputStorage = true; // true=输入存储, false=输出存储
-
-        // 保护参数不被序列化
+        public SlateRef<int> retryDelayTicks = 60;
+        
         [NoTranslate]
-        private string debugInfo;
+        public SlateRef<string> successSignal;
+        
+        [NoTranslate]
+        public SlateRef<string> failSignal;
+        
+        public SlateRef<bool> deductOnSuccess = true;
+        public SlateRef<bool> useInputStorage = true;
 
         protected override bool TestRunInt(Slate slate)
         {
-            // 测试模式下只检查参数是否有效
             if (resourceDef == null || resourceDef.GetValue(slate) == null)
             {
                 Log.Error("QuestNode_CheckGlobalResource: resourceDef is null");
@@ -36,7 +36,6 @@ namespace WulaFallenEmpire
                 return false;
             }
 
-            // 测试全局存储组件是否存在
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null)
             {
@@ -55,13 +54,13 @@ namespace WulaFallenEmpire
             ThingDef actualResourceDef = resourceDef.GetValue(slate);
             int actualRequiredCount = requiredCount.GetValue(slate);
             int actualRetryDelay = retryDelayTicks.GetValue(slate);
-            string actualSuccessSignal = successSignal.GetValue(slate);
-            string actualFailSignal = failSignal.GetValue(slate);
+            string actualSuccessSignal = QuestGenUtility.HardcodedSignalWithQuestID(successSignal.GetValue(slate));
+            string actualFailSignal = QuestGenUtility.HardcodedSignalWithQuestID(failSignal.GetValue(slate));
             bool actualDeductOnSuccess = deductOnSuccess.GetValue(slate);
             bool actualUseInputStorage = useInputStorage.GetValue(slate);
 
             // 创建调试信息
-            debugInfo = $"Checking {actualRequiredCount} {actualResourceDef?.defName ?? "NULL"} in {(actualUseInputStorage ? "Input" : "Output")} Storage with retry delay {actualRetryDelay}";
+            string debugInfo = $"Checking {actualRequiredCount} {actualResourceDef?.defName ?? "NULL"} in {(actualUseInputStorage ? "Input" : "Output")} Storage with retry delay {actualRetryDelay}";
 
             // 添加任务部分
             QuestPart_GlobalResourceCheck part = new QuestPart_GlobalResourceCheck
@@ -73,7 +72,9 @@ namespace WulaFallenEmpire
                 failSignal = actualFailSignal,
                 deductOnSuccess = actualDeductOnSuccess,
                 useInputStorage = actualUseInputStorage,
-                debugInfo = debugInfo
+                debugInfo = debugInfo,
+                // 关键：设置激活信号为任务接受信号
+                inSignalEnable = QuestGenUtility.HardcodedSignalWithQuestID(quest.InitiateSignal)
             };
 
             quest.AddPart(part);

@@ -127,8 +127,6 @@ namespace WulaFallenEmpire
                     }
                 }
 
-                Log.Message($"[FactoryFacility Check] Found {allFlyOvers.Count} FlyOvers on map");
-
                 foreach (var thing in allFlyOvers)
                 {
                     if (thing is FlyOver flyOver && !flyOver.Destroyed)
@@ -137,23 +135,16 @@ namespace WulaFallenEmpire
                         var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
                         if (facilitiesComp == null)
                         {
-                            Log.Warning($"[FactoryFacility Check] FlyOver at {flyOver.Position} has no CompFlyOverFacilities");
                             continue;
                         }
                         
                         if (facilitiesComp.HasFacility("FactoryFacility"))
                         {
-                            Log.Message($"[FactoryFacility Check] Found valid FlyOver at {flyOver.Position} with FactoryFacility");
                             return true;
-                        }
-                        else
-                        {
-                            Log.Message($"[FactoryFacility Check] FlyOver at {flyOver.Position} missing FactoryFacility. Has: {string.Join(", ", facilitiesComp.GetActiveFacilities())}");
                         }
                     }
                 }
 
-                Log.Message("[FactoryFacility Check] No FlyOver with FactoryFacility found");
                 return false;
             }
             catch (System.Exception ex)
@@ -333,8 +324,6 @@ namespace WulaFallenEmpire
                 // 如果是Pawn，需要特殊处理
                 if (thingDef.race != null)
                 {
-                    Log.Message($"[Airdrop] Processing {remainingCount} pawns of type {thingDef.defName}");
-
                     // 对于Pawn，每个单独生成
                     for (int i = 0; i < remainingCount; i++)
                     {
@@ -352,7 +341,6 @@ namespace WulaFallenEmpire
                                     pawn.drafter = new Pawn_DraftController(pawn);
 
                                     allItems.Add(pawn);
-                                    Log.Message($"[Airdrop] Successfully generated pawn: {pawn.Label}");
                                 }
                                 else
                                 {
@@ -405,10 +393,8 @@ namespace WulaFallenEmpire
             }
             if (allItems.Count == 0)
             {
-                Log.Message("[Airdrop] No items to distribute");
                 return podContents;
             }
-            Log.Message($"[Airdrop] Total items to distribute: {allItems.Count}");
             // 平均分配物品到空投舱
             int currentPod = 0;
             foreach (Thing item in allItems)
@@ -453,13 +439,11 @@ namespace WulaFallenEmpire
                     {
                         // 金属类 -> 玻璃钢
                         selectedStuff = ThingDefOf.Plasteel;
-                        Log.Message($"[Material Rule] {thingDef.defName} requires metallic, using Plasteel");
                     }
                     else if (fabricCategory != null)
                     {
                         // 布革类 -> 超织物
                         selectedStuff = ThingDefOf_WULA.Hyperweave;
-                        Log.Message($"[Material Rule] {thingDef.defName} requires fabric/leather, using Hyperweave");
                     }
 
                     // 创建带有指定材质的物品
@@ -493,7 +477,6 @@ namespace WulaFallenEmpire
                 Log.Error($"[Airdrop] Work table has no faction");
                 return null;
             }
-            Log.Message($"[Airdrop] Work table faction: {workTableFaction.def.defName}");
             // 获取该种族的所有PawnKindDef
             var availableKinds = DefDatabase<PawnKindDef>.AllDefs
                 .Where(kind => kind.race == pawnType)
@@ -503,7 +486,6 @@ namespace WulaFallenEmpire
                 Log.Error($"[Airdrop] No PawnKindDef found for race: {pawnType.defName}");
                 return null;
             }
-            Log.Message($"[Airdrop] Found {availableKinds.Count} PawnKindDefs for {pawnType.defName}");
             // 最高优先级：与工作台派系完全相同的PawnKind
             var matchingFactionKinds = availableKinds
                 .Where(kind => kind.defaultFactionDef != null &&
@@ -512,7 +494,6 @@ namespace WulaFallenEmpire
             if (matchingFactionKinds.Count > 0)
             {
                 var selected = matchingFactionKinds.RandomElement();
-                Log.Message($"[Airdrop] Selected matching faction PawnKind: {selected.defName} (faction: {workTableFaction.def.defName})");
                 return selected;
             }
             // 次高优先级：玩家派系的PawnKind（如果工作台是玩家派系）
@@ -526,7 +507,6 @@ namespace WulaFallenEmpire
                 if (playerFactionKinds.Count > 0)
                 {
                     var selected = playerFactionKinds.RandomElement();
-                    Log.Message($"[Airdrop] Selected player faction PawnKind: {selected.defName}");
                     return selected;
                 }
             }

@@ -339,4 +339,9 @@
   <SkyfallerPawnLanded>战争机械已部署</SkyfallerPawnLanded>
 
   <DisappearWithEffect_TimeRemaining>剩余时间: {0}</DisappearWithEffect_TimeRemaining>
+
+  <WULA_TaxCollection.Waiting>什一税征收：等待激活...</WULA_TaxCollection.Waiting>
+  <WULA_TaxCollection.Status>什一税征收：{0} {1} {2}</WULA_TaxCollection.Status>
+  <WULA_TaxCollection.Status.Succeeded>- 征收已完成</WULA_TaxCollection.Status.Succeeded>
+  <WULA_TaxCollection.Status.Failed>- 逾期</WULA_TaxCollection.Status.Failed>
 </LanguageData>

@@ -270,4 +270,31 @@
       </li>
     </modExtensions> -->
   </ThingDef>
+
+  
+  <ThingDef ParentName="ResourceBase">
+    <defName>WULA_Tex_Voucher</defName>
+    <label>税金缴纳凭证</label>
+    <description>这是乌拉帝国颁发的凭证，包含了一系列秘钥和电子身份信息，证明这个殖民地的公民是按时交税的模范公民。\n\n呃，她们该不会是在电子储存器上盖了个红印章吧？</description>
+    <graphicData>
+      <texPath>Wula/Item/WULA_Tex_Voucher</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tradeability>None</tradeability>
+    <genericMarketSellable>false</genericMarketSellable>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Metal_Drop</soundDrop>
+    <useHitPoints>true</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MarketValue>1</MarketValue>
+      <Mass>0.01</Mass>
+      <MaxHitPoints>50</MaxHitPoints>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <burnableByRecipe>false</burnableByRecipe>
+    <smeltable>false</smeltable>
+  </ThingDef>
 </Defs>

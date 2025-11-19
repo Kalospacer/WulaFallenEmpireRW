@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<LanguageData>
-
-  <WULA_LaunchToGlobalStorage>发射到全局存储</WULA_LaunchToGlobalStorage>
-  <WULA_LaunchToGlobalStorageDesc>将此输送舱中的所有物品直接发送到全局存储网络中。此操作将消耗燃料并销毁输送舱。</WULA_LaunchToGlobalStorageDesc>
-  <WULA_ItemsSentToGlobalStorage>已将 {0} 发送到全局存储。</WULA_ItemsSentToGlobalStorage>
-  <WULA_NoItemsToSendToGlobalStorage>输送舱是空的，没有什么可以发送的。</WULA_NoItemsToSendToGlobalStorage>
-
-</LanguageData>

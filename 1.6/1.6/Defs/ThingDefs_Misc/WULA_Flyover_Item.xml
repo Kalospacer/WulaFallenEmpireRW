@@ -790,7 +790,7 @@
         <minSafeDistanceFromMain>60</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
         
         <!-- 飞行配置 -->
-        <escortSpeedMultiplier>30</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortSpeedMultiplier>10</escortSpeedMultiplier> <!-- 比主舰稍快 -->
         <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
         <mirrorMovement>false</mirrorMovement>
         

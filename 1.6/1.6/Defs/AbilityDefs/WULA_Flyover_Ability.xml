@@ -238,9 +238,6 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
-        <requiredResearch>WULA_Light_Fighter_Drone_Technology</requiredResearch>
-      </li>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
         <requiredAircraftType>WULA_MotherShip_Entity</requiredAircraftType>
         <aircraftCooldownTicks>15000</aircraftCooldownTicks> 
