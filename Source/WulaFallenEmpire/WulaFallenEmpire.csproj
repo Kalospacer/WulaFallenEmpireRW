@@ -208,6 +208,8 @@
     <Compile Include="Pawn\WULA_Maintenance\Need_Maintenance.cs" />
     <Compile Include="Pawn\WULA_Maintenance\WorkGiver_DoMaintenance.cs" />
     <Compile Include="Placeworker\CompProperties_CustomRadius.cs" />
+    <Compile Include="QuestNodes\QuestNode_CheckGlobalResource.cs" />
+    <Compile Include="QuestNodes\QuestPart_GlobalResourceCheck.cs" />
     <Compile Include="Stat\StatWorker_Energy.cs" />
     <Compile Include="Stat\StatWorker_Maintenance.cs" />
     <Compile Include="Stat\StatWorker_NanoRepair.cs" />

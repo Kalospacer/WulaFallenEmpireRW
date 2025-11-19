@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <!-- 初始任务 -->
   <IncidentDef>
     <defName>WULA_GiveQuest_Intro_Spy</defName>
     <category>GiveQuest</category>
@@ -12,23 +13,19 @@
     <baseChance>0</baseChance>
     <requireColonistsPresent>True</requireColonistsPresent>
   </IncidentDef>
-  
   <QuestScriptDef>
     <defName>WULA_Intro_Spy</defName>
-    <defaultChallengeRating>1</defaultChallengeRating> <!-- 挑战等级（星级） -->
-    <expireDaysRange>2</expireDaysRange> <!-- 过期时间 -->
-    <isRootSpecial>true</isRootSpecial> <!-- 特殊任务 -->
-    <defaultCharity>false</defaultCharity> <!-- 是否仁善 -->
-     <!-- 仁善想法 -->
+    <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
+    <expireDaysRange>2</expireDaysRange>    <!-- 过期时间 -->
+    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
+    <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <!-- 仁善想法 -->
     <!-- <successHistoryEvent MayRequire="Ludeon.RimWorld.Ideology">CharityFulfilled_IntroWimp</successHistoryEvent>
     <failedOrExpiredHistoryEvent MayRequire="Ludeon.RimWorld.Ideology">CharityRefused_IntroWimp</failedOrExpiredHistoryEvent> -->
     <!-- 命名规则 -->
     <questNameRules>
       <rulesStrings>
-        <li>questName->[QuestName]</li>
-
-        <!-- Pieces -->
-        <li>QuestName->hunted</li>
+        <li>questName->WULA_Intro_Spy_questName</li>
       </rulesStrings>
     </questNameRules>
     <questDescriptionRules>
@@ -36,7 +33,7 @@
         <li>QuestHospitalityCommon</li>
       </include>
       <rulesStrings>
-        <li>questDescription->[asker_nameFull], a [asker_royalTitleInCurrentFaction] of [asker_faction_name] is calling from nearby. [asker_possessive] guards were killed in an ambush. [asker_pronoun] escaped, but is now being followed by (*Threat)a manhunting [animalKindDef_label](/Threat).\n\n[asker_nameDef] wants you to keep [asker_objective] safe at [map_definite] for a few hours until [asker_possessive] shuttle can come pick [asker_objective] up.\n[asker_pronoun] will bestow [royalFavorReward] [asker_faction_royalFavorLabel] on whoever accepts this quest. This is enough [asker_faction_royalFavorLabel] to receive the royal title of Novice, and all benefits that come with it - including the first level of psychic powers.</li>
+        <li>questDescription->WULA_Intro_Spy_questDescription</li>
       </rulesStrings>
     </questDescriptionRules>
 
@@ -45,20 +42,6 @@
       <nodes>
         <li Class="WulaFallenEmpire.QuestNode_Root_EventLetter">
           <eventDefName>Wula_Intro_Spy_UI_1</eventDefName>
-        </li>
-        <li Class="QuestNode_ResolveQuestName">
-          <rules>
-            <rulesStrings>
-              <li>questName->掩护帝国密探</li>
-            </rulesStrings>
-          </rules>
-        </li>
-        <li Class="QuestNode_ResolveQuestDescription">
-          <rules>
-            <rulesStrings>
-              <li>questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个请求。一位乌拉帝国密探已经暴露，正在遭受未知派系追杀——密探手无寸铁且携带重要信息，殖民地需要掩护它直到乌拉帝国的穿梭机抵达并将其接走。袭击不会太剧烈，密探已经甩掉了大部分敌人。</li>
-            </rulesStrings>
-          </rules>
         </li>
 
         <li Class="QuestNode_SubScript">
@@ -99,11 +82,11 @@
         <!-- 生成pawn -->
         <li Class="QuestNode_GeneratePawn">
           <kindDef>Wula_PawnKind</kindDef>
-          <storeAs>asker</storeAs> <!--  特殊的字段，供后续调用 -->
+          <storeAs>asker</storeAs>          <!--  特殊的字段，供后续调用 -->
           <faction>Wula_PIA_Legion_Faction</faction>
           <biocodeWeaponChance>1</biocodeWeaponChance>
           <biocodeApparelChance>1</biocodeApparelChance>
-          <allowPregnant>false</allowPregnant> <!--  允许怀孕？ -->
+          <allowPregnant>false</allowPregnant>          <!--  允许怀孕？ -->
         </li>
         <!-- pawn抵达 -->
         <li Class="QuestNode_PawnsArrive">
@@ -130,7 +113,7 @@
           <delayTicks>1800</delayTicks>
           <!-- 判断条件：是否允许暴力行为（游戏设置） -->
           <node Class="QuestNode_ViolentQuestsAllowed">
-            <!-- 允许暴力则生成狂暴动物袭击 -->
+            <!-- 允许暴力则生成袭击 -->
             <node Class="QuestNode_SubScript">
               <def>Util_Raid</def>
               <prefix>raid</prefix>
@@ -141,39 +124,26 @@
                 <enemyFaction>$enemyFaction</enemyFaction>
                 <walkInSpot>$walkInSpot</walkInSpot>
                 <customLetterLabel TKey="LetterLabelChasing">{BASELABEL} chasing [../asker_nameDef]</customLetterLabel>
-                <customLetterText TKey="LetterTextChasing">{BASETEXT}
-                \nThe [enemyFaction_pawnsPlural] have come to get [../asker_nameDef].</customLetterText>
+                <customLetterText TKey="LetterTextChasing">{BASETEXT}\nThe [enemyFaction_pawnsPlural] have come to get [../asker_nameDef].</customLetterText>
               </parms>
             </node>
             <!-- 不允许暴力则生成温和动物 -->
             <elseNode Class="QuestNode_Sequence">
-              <nodes>
-                <li Class="QuestNode_GetAnimalKindByPoints" />
-                <li Class="QuestNode_GeneratePawn">
-                  <kindDef>$animalKindDef</kindDef>
-                  <storeAs>peacefulAnimal</storeAs>
-                </li>
-                <li Class="QuestNode_PawnsArrive">
-                  <pawns>$peacefulAnimal</pawns>
-                  <customLetterLabel TKey="LetterLabelAnimalArrived">[animalKindDef_label] arrived</customLetterLabel>
-                  <customLetterText TKey="LetterTextAnimalArrived">The [animalKindDef_label] that [asker_nameDef] was fleeing has arrived.\n\nIt turned out to be quite gentle and not aggressive at all.</customLetterText>
-                </li>
-              </nodes>
             </elseNode>
           </node>
         </li>
         <!-- 穿梭机延迟抵达 -->
         <li Class="QuestNode_ShuttleDelay">
           <delayTicks>7500</delayTicks>
-          <lodgers>$asker</lodgers> <!-- 必须装载人员 -->
+          <lodgers>$asker</lodgers>          <!-- 必须装载人员 -->
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_SubScript">
                 <def>Util_TransportShip_Pickup</def>
                 <parms>
-                  <leaveDelayTicks>45000</leaveDelayTicks> <!-- 强制起飞时间 -->
-                  <requiredPawns>$asker</requiredPawns> <!-- 起飞需求的人员 -->
-                  <leaveImmediatelyWhenSatisfied>true</leaveImmediatelyWhenSatisfied> <!--装载后立刻离开 -->
+                  <leaveDelayTicks>45000</leaveDelayTicks>                  <!-- 强制起飞时间 -->
+                  <requiredPawns>$asker</requiredPawns>                  <!-- 起飞需求的人员 -->
+                  <leaveImmediatelyWhenSatisfied>true</leaveImmediatelyWhenSatisfied>                  <!--装载后立刻离开 -->
                 </parms>
               </li>
               <!-- 选中指定对象时显示自定义的检查信息 -->
@@ -637,4 +607,83 @@
       </li>
     </options>
   </WulaFallenEmpire.EventDef>
+
+  <!-- 纳税 -->
+  <IncidentDef>
+    <defName>WULA_GiveQuest_Base_Tex</defName>
+    <category>GiveQuest</category>
+    <label>纳税</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <questScriptDef>WULA_Base_Tex_Quest</questScriptDef>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <baseChance>0</baseChance>
+    <requireColonistsPresent>True</requireColonistsPresent>
+  </IncidentDef>
+  <QuestScriptDef>
+    <defName>WULA_Base_Tex_Quest</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <autoAccept>true</autoAccept>
+    <sendAvailableLetter>false</sendAvailableLetter>
+    <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
+    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
+    <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <!-- 命名规则 -->
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->WULA_Base_Tex_Quest_questName</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
+      <rulesStrings>
+        <li>questDescription->WULA_Intro_Spy_questDescription</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <!-- 运行规则 -->
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <!-- 设置钢铁需求 -->
+        <li Class="QuestNode_Set">
+          <name>taxAmount</name>
+          <value>100</value>
+        </li>
+        <li Class="QuestNode_Set">
+          <name>taxInterval</name>
+          <value>250</value> <!-- 较短的测试间隔 -->
+        </li>
+        <!-- 检查全局资源 -->
+        <li Class="WulaFallenEmpire.QuestNode_CheckGlobalResource">
+          <resourceDef>Steel</resourceDef>
+          <requiredCount>$taxAmount</requiredCount>
+          <retryDelayTicks>$taxInterval</retryDelayTicks>
+          <successSignal>TaxPaymentSuccess</successSignal>
+          <failSignal>TaxPaymentFailed</failSignal>
+          <deductOnSuccess>true</deductOnSuccess>
+          <useInputStorage>true</useInputStorage>
+        </li>
+        <!-- 支付成功处理 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>TaxPaymentSuccess</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label>纳税完成</label>
+                <text>已成功从全局储存中扣除100钢铁作为税款。</text>
+                <letterDef>PositiveEvent</letterDef>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Success</outcome>
+                <sendStandardLetter>false</sendStandardLetter>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
 </Defs>

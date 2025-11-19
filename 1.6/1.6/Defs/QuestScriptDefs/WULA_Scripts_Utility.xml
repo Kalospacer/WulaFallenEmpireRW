@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- 全局资源检查工具 -->
+  <QuestScriptDef>
+    <defName>Util_Wula_GlobalResourceCheck</defName>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <!-- 检查全局资源 -->
+        <li Class="WulaFallenEmpire.QuestNode_CheckGlobalResource">
+          <resourceDef>$resourceDef</resourceDef>
+          <requiredCount>$requiredCount</requiredCount>
+          <retryDelayTicks>$retryDelayTicks</retryDelayTicks>
+          <successSignal>$successSignal</successSignal>
+          <failSignal>$failSignal</failSignal>
+          <deductOnSuccess>$deductOnSuccess</deductOnSuccess>
+          <useInputStorage>$useInputStorage</useInputStorage>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

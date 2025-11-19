@@ -87,184 +87,12 @@ namespace WulaFallenEmpire
             }
         }
 
-        private bool ShouldAttackVolleyTarget
-        {
-            get
-            {
-                if (!VolleyTargetManager.IsVolleyEnabled(Pawn))
-                    return false;
-
-                LocalTargetInfo volleyTarget = VolleyTargetManager.GetVolleyTarget(Pawn);
-                if (!volleyTarget.IsValid)
-                    return false;
-
-                // 检查目标是否在射程内
-                float distance = Pawn.Position.DistanceTo(volleyTarget.Cell);
-                if (distance > AttackVerb.verbProps.range)
-                    return false;
-
-                // 检查是否可以命中目标
-                return AttackVerb.CanHitTarget(volleyTarget);
-            }
-        }
-        public override void CompPostTick(ref float severityAdjustment)
-        {
-            base.CompPostTick(ref severityAdjustment);
-
-            if (!TurretEnabled)
-            {
-                ResetCurrentTarget();
-                return;
-            }
-            if (!this.CanShoot)
-            {
-                return;
-            }
-            // 新增：优先处理齐射目标
-            if (ShouldAttackVolleyTarget)
-            {
-                LocalTargetInfo volleyTarget = VolleyTargetManager.GetVolleyTarget(Pawn);
-                this.currentTarget = volleyTarget;
-                this.curRotation = (volleyTarget.Cell.ToVector3Shifted() - this.Pawn.DrawPos).AngleFlat() + this.Props.angleOffset;
-            }
-            else if (this.currentTarget.IsValid)
-            {
-                this.curRotation = (this.currentTarget.Cell.ToVector3Shifted() - this.Pawn.DrawPos).AngleFlat() + this.Props.angleOffset;
-            }
-
-            this.AttackVerb.VerbTick();
-            if (this.AttackVerb.state != VerbState.Bursting)
-            {
-                if (this.WarmingUp)
-                {
-                    this.burstWarmupTicksLeft--;
-                    if (this.burstWarmupTicksLeft == 0)
-                    {
-                        this.AttackVerb.TryStartCastOn(this.currentTarget, false, true, false, true);
-                        this.lastAttackTargetTick = Find.TickManager.TicksGame;
-                        this.lastAttackedTarget = this.currentTarget;
-                        return;
-                    }
-                }
-                else
-                {
-                    if (this.burstCooldownTicksLeft > 0)
-                    {
-                        this.burstCooldownTicksLeft--;
-                    }
-                    if (this.burstCooldownTicksLeft <= 0 && this.Pawn.IsHashIntervalTick(10))
-                    {
-                        // 只有在没有齐射目标时才寻找新目标
-                        if (!ShouldAttackVolleyTarget)
-                        {
-                            this.currentTarget = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(this, TargetScanFlags.NeedThreat | TargetScanFlags.NeedAutoTargetable, null, 0f, 9999f);
-                            if (this.currentTarget.IsValid)
-                            {
-                                this.burstWarmupTicksLeft = 1;
-                                return;
-                            }
-                        }
-                        this.ResetCurrentTarget();
-                    }
-                }
-            }
-        }
-        // 新增：齐射Gizmos
-        public override IEnumerable<Gizmo> CompGetGizmos()
-        {
-            // 只有 pawn 被选中且是玩家派系时才显示按钮
-            if (this.Pawn.Faction == Faction.OfPlayer && Find.Selector.IsSelected(this.Pawn))
-            {
-                // 原有开关按钮
-                yield return new Command_Toggle
-                {
-                    defaultLabel = "CommandToggleTurret".Translate(),
-                    defaultDesc = "CommandToggleTurretDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("UI/Gizmos/ToggleTurret"),
-                    isActive = () => TurretEnabled,
-                    toggleAction = () => TurretEnabled = !TurretEnabled,
-                    hotKey = KeyBindingDefOf.Misc1
-                };
-                // 新增：齐射开关按钮
-                yield return new Command_Toggle
-                {
-                    defaultLabel = "CommandToggleVolley".Translate(),
-                    defaultDesc = "CommandToggleVolleyDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("UI/Gizmos/VolleyFire"),
-                    isActive = () => VolleyTargetManager.IsVolleyEnabled(Pawn),
-                    toggleAction = () => VolleyTargetManager.ToggleVolley(Pawn),
-                    hotKey = KeyBindingDefOf.Misc2
-                };
-                // 新增：设置齐射目标按钮（只在齐射启用时显示）
-                if (VolleyTargetManager.IsVolleyEnabled(Pawn))
-                {
-                    yield return new Command_Action
-                    {
-                        defaultLabel = "CommandSetVolleyTarget".Translate(),
-                        defaultDesc = "CommandSetVolleyTargetDesc".Translate(),
-                        icon = ContentFinder<Texture2D>.Get("UI/Gizmos/SetTarget"),
-                        action = () => Find.Targeter.BeginTargeting(TargetingParameters.ForAttack(),
-                            delegate (LocalTargetInfo target)
-                            {
-                                VolleyTargetManager.SetVolleyTarget(Pawn, target);
-                            },
-                            null,
-                            null,
-                            "SetVolleyTarget".Translate()),
-                        hotKey = KeyBindingDefOf.Misc3
-                    };
-                    // 新增：清除齐射目标按钮
-                    LocalTargetInfo currentVolleyTarget = VolleyTargetManager.GetVolleyTarget(Pawn);
-                    if (currentVolleyTarget.IsValid)
-                    {
-                        yield return new Command_Action
-                        {
-                            defaultLabel = "CommandClearVolleyTarget".Translate(),
-                            defaultDesc = "CommandClearVolleyTargetDesc".Translate(),
-                            icon = ContentFinder<Texture2D>.Get("UI/Gizmos/ClearTarget"),
-                            action = () => VolleyTargetManager.ClearVolleyTarget(Pawn),
-                            hotKey = KeyBindingDefOf.Misc4
-                        };
-                    }
-                }
-            }
-        }
-        // 新增：在提示中显示齐射状态
-        public override string CompTipStringExtra
-        {
-            get
-            {
-                string baseString = base.CompTipStringExtra;
-                string turretStatus = TurretEnabled ? "Turret: Active" : "Turret: Inactive";
-
-                string volleyStatus = "Volley: ";
-                if (VolleyTargetManager.IsVolleyEnabled(Pawn))
-                {
-                    LocalTargetInfo volleyTarget = VolleyTargetManager.GetVolleyTarget(Pawn);
-                    if (volleyTarget.IsValid)
-                    {
-                        volleyStatus += $"Targeting {volleyTarget.Thing?.LabelCap ?? volleyTarget.Cell.ToString()}";
-                    }
-                    else
-                    {
-                        volleyStatus += "Enabled (No Target)";
-                    }
-                }
-                else
-                {
-                    volleyStatus += "Disabled";
-                }
-                string result = turretStatus + "\n" + volleyStatus;
-                return string.IsNullOrEmpty(baseString) ? result : baseString + "\n" + result;
-            }
-        }
-
         // 新增：炮塔启用状态
         public bool TurretEnabled
         {
             get { return turretEnabled; }
-            set 
-            { 
+            set
+            {
                 turretEnabled = value;
                 if (!turretEnabled)
                 {
@@ -366,7 +194,7 @@ namespace WulaFallenEmpire
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            
+
             // 新增：只在启用状态下执行攻击逻辑
             if (!TurretEnabled)
             {
@@ -432,7 +260,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look<bool>(ref this.fireAtWill, "fireAtWill", true, false);
             // 新增：保存启用状态
             Scribe_Values.Look<bool>(ref this.turretEnabled, "turretEnabled", Props.defaultEnabled, false);
-            
+
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (this.gun == null)
@@ -486,7 +314,7 @@ namespace WulaFallenEmpire
         private LocalTargetInfo lastAttackedTarget = LocalTargetInfo.Invalid;
         private int lastAttackTargetTick;
         private float curRotation;
-        
+
         // 新增：炮塔启用状态字段
         private bool turretEnabled = true;
 

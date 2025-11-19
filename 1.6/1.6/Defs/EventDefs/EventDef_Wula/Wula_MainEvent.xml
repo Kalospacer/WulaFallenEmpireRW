@@ -23,24 +23,6 @@
           <li>
             <effects>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-              <li Class="WulaFallenEmpire.Effect_TriggerRaid">
-                <letterLabel>陆行舰正在逼近</letterLabel>
-                <letterText>艾妮西娅按照要求，吸引了一艘乌拉帝国的陆行舰机械体攻击我们的殖民地！</letterText>
-                <points>100</points>
-                <faction>Mechanoid</faction>
-                <raidStrategy>ImmediateAttack</raidStrategy>
-                <raidArrivalMode>EdgeWalkIn</raidArrivalMode>
-                <groupKind>Combat</groupKind>
-                <pawnGroupMakers>
-                  <li>
-                    <kindDef>Combat</kindDef>
-                    <commonality>100</commonality>
-                    <options>
-                      <Wula_Mech_Mobile_Factory_1>100</Wula_Mech_Mobile_Factory_1>
-                    </options>
-                  </li>
-                </pawnGroupMakers>
-              </li>
             </effects>
           </li>
         </optionEffects>
@@ -80,6 +62,7 @@
       </li>
     </options>
   </WulaFallenEmpire.EventDef>
+
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Legion_30</defName>
     <label>和P.I.A的通讯</label>

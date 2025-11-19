@@ -197,6 +197,7 @@ namespace WulaFallenEmpire
                 return Mathf.Clamp01(currentFadeInTime / fadeInDuration);
             }
         }
+
         // 新增：计算剩余飞行时间（秒）
         public float RemainingFlightTime
         {
@@ -206,16 +207,16 @@ namespace WulaFallenEmpire
                 return remainingProgress / (flightSpeed * 0.001f) * (1f / 60f);
             }
         }
+
         // 修改后的紧急销毁方法 - 急速加速版本
         public void EmergencyDestroy()
         {
             if (Destroyed || hasCompleted) return;
+            
             // 计算剩余进度
             float remainingProgress = 1f - currentProgress;
 
             // 计算需要的速度：确保在1秒内完成剩余进度
-            // 每帧增加 flightSpeed * 0.001，1秒60帧，所以需要：remainingProgress = flightSpeed * 0.001 * 60
-            // 因此：flightSpeed = remainingProgress / (0.001 * 60) = remainingProgress / 0.06
             float requiredSpeed = remainingProgress / 0.06f;
 
             // 设置新的飞行速度，确保至少是当前速度的2倍
@@ -223,11 +224,8 @@ namespace WulaFallenEmpire
 
             // 标记为紧急销毁状态
             hasCompleted = false; // 确保可以继续飞行
-
-            Log.Message($"FlyOver emergency destroy: accelerating to complete in 1 second. " +
-                       $"Current progress: {currentProgress:F2}, Required speed: {requiredSpeed:F2}, " +
-                       $"Actual speed: {flightSpeed:F2}");
         }
+
         // 修改后的淡出透明度属性 - 紧急销毁时强制启用淡出
         public float FadeOutAlpha
         {
@@ -239,6 +237,7 @@ namespace WulaFallenEmpire
                 return Mathf.Clamp01(1f - (currentFadeOutTime / fadeOutDuration));
             }
         }
+
         // 修改后的总体透明度属性 - 紧急销毁时强制计算淡出
         public float OverallAlpha
         {
@@ -248,6 +247,7 @@ namespace WulaFallenEmpire
                 return FadeInAlpha * FadeOutAlpha;
             }
         }
+
         // 修改后的 Tick 方法，优化紧急销毁逻辑
         protected override void Tick()
         {
@@ -313,6 +313,7 @@ namespace WulaFallenEmpire
             // 生成飞行轨迹特效
             CreateFlightEffects();
         }
+
         // 修改后的 CompleteFlyOver 方法，添加紧急销毁处理
         private void CompleteFlyOver()
         {
@@ -332,8 +333,6 @@ namespace WulaFallenEmpire
                 def.skyfaller.impactSound.PlayOneShot(
                     SoundInfo.InMap(new TargetInfo(endPosition, base.Map)));
             }
-
-            Log.Message($"FlyOver completed at {endPosition}");
 
             // 立即销毁
             Destroy();
@@ -375,6 +374,7 @@ namespace WulaFallenEmpire
         {
             innerContainer = new ThingOwner<Thing>(this);
         }
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -390,6 +390,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref fadeInDuration, "fadeInDuration", 1.5f);
             Scribe_Values.Look(ref currentFadeInTime, "currentFadeInTime", 0f);
             Scribe_Values.Look(ref fadeInCompleted, "fadeInCompleted", false);
+            
             // 淡出效果数据保存
             Scribe_Values.Look(ref fadeOutDuration, "fadeOutDuration", 0f);
             Scribe_Values.Look(ref currentFadeOutTime, "currentFadeOutTime", 0f);
@@ -397,12 +398,14 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref fadeOutCompleted, "fadeOutCompleted", false);
             Scribe_Values.Look(ref fadeOutStartProgress, "fadeOutStartProgress", 0.7f);
             Scribe_Values.Look(ref defaultFadeOutDuration, "defaultFadeOutDuration", 1.5f);
+            
             // 进场动画数据保存
             Scribe_Values.Look(ref approachDuration, "approachDuration", 1.0f);
             Scribe_Values.Look(ref currentApproachTime, "currentApproachTime", 0f);
             Scribe_Values.Look(ref approachCompleted, "approachCompleted", false);
             Scribe_Values.Look(ref approachOffsetDistance, "approachOffsetDistance", 3f);
             Scribe_Values.Look(ref useApproachAnimation, "useApproachAnimation", true);
+            
             // 新增：淡入淡出开关保存
             Scribe_Values.Look(ref useFadeEffects, "useFadeEffects", true);
             Scribe_Values.Look(ref useFadeIn, "useFadeIn", true);
@@ -410,16 +413,17 @@ namespace WulaFallenEmpire
             Scribe_References.Look(ref caster, "caster");
             Scribe_References.Look(ref faction, "faction");
         }
+
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-            Log.Message($"FlyOver Spawned - Start: {startPosition}, End: {endPosition}, Speed: {flightSpeed}, Altitude: {altitude}");
+            
             if (!respawningAfterLoad)
             {
-                Log.Message($"FlyOver Direction - Vector: {MovementDirection}, Rotation: {ExactRotation.eulerAngles}");
                 // 设置初始位置
                 base.Position = startPosition;
                 hasStarted = true;
+                
                 // 从 ModExtension 加载配置
                 var extension = def.GetModExtension<FlyOverShadowExtension>();
                 if (extension != null)
@@ -438,28 +442,30 @@ namespace WulaFallenEmpire
                     defaultFadeOutDuration = extension.defaultFadeOutDuration;
                     fadeOutStartProgress = extension.fadeOutStartProgress;
                 }
+                
                 // 重置淡入状态
                 currentFadeInTime = 0f;
                 fadeInCompleted = !useFadeIn; // 如果不使用淡入，直接标记为完成
-                                              // 重置淡出状态
+                                              
+                // 重置淡出状态
                 currentFadeOutTime = 0f;
                 fadeOutStarted = false;
                 fadeOutCompleted = false;
                 fadeOutDuration = 0f;
+                
                 // 重置进场动画状态
                 currentApproachTime = 0f;
                 approachCompleted = !useApproachAnimation; // 如果不使用进场动画，直接标记为完成
-                Log.Message($"FlyOver fade effects: {useFadeEffects}, fadeIn: {useFadeIn}, fadeOut: {useFadeOut}");
-                Log.Message($"FlyOver approach animation: {useApproachAnimation}, duration: {approachDuration}s, offset: {approachOffsetDistance}");
+
                 // 开始飞行音效
                 if (playFlyOverSound && def.skyfaller?.floatingSound != null)
                 {
                     flightSoundPlaying = def.skyfaller.floatingSound.TrySpawnSustainer(
                         SoundInfo.InMap(new TargetInfo(startPosition, map), MaintenanceType.PerTick));
-                    Log.Message("FlyOver sound started");
                 }
             }
         }
+
         // 新增：开始淡出效果
         private void StartFadeOut()
         {
@@ -467,8 +473,6 @@ namespace WulaFallenEmpire
 
             // 基于剩余距离动态计算淡出持续时间
             fadeOutDuration = CalculateDynamicFadeOutDuration();
-
-            Log.Message($"FlyOver started fade out at progress {currentProgress:F2}, duration: {fadeOutDuration:F2}s, remaining time: {RemainingFlightTime:F2}s");
         }
 
         // 修改后的 UpdateFlightSound 方法，添加紧急销毁时的音效处理
@@ -567,6 +571,7 @@ namespace WulaFallenEmpire
             }
             fadePropertyBlock.SetColor(ShaderPropertyIDs.Color,
                 new Color(graphic.Color.r, graphic.Color.g, graphic.Color.b, graphic.Color.a * alpha));
+            
             // 应用伴飞缩放
             Vector3 scale = Vector3.one;
             if (def.graphicData != null)
@@ -577,6 +582,7 @@ namespace WulaFallenEmpire
             {
                 scale = new Vector3(escortScale, 1f, escortScale);
             }
+            
             Vector3 highPos = drawPos;
             highPos.y = AltitudeLayer.MetaOverlays.AltitudeFor();
             Matrix4x4 matrix2 = Matrix4x4.TRS(highPos, ExactRotation, scale);
@@ -664,27 +670,24 @@ namespace WulaFallenEmpire
             flyOver.useApproachAnimation = useApproachAnimation;
             flyOver.approachDuration = approachDuration;
             flyOver.approachOffsetDistance = approachOffsetDistance;
+            
             // 淡入淡出参数 - 新增
             if (useFadeEffects.HasValue) flyOver.useFadeEffects = useFadeEffects.Value;
             if (useFadeIn.HasValue) flyOver.useFadeIn = useFadeIn.Value;
             if (useFadeOut.HasValue) flyOver.useFadeOut = useFadeOut.Value;
+            
             // 简化派系设置
             if (casterPawn != null && casterPawn.Faction != null)
             {
                 flyOver.faction = casterPawn.Faction;
-                Log.Message($"FlyOver faction set to: {casterPawn.Faction.Name}");
             }
-            else
-            {
-                Log.Warning($"FlyOver: Cannot set faction - casterPawn: {casterPawn?.Label ?? "NULL"}, casterFaction: {casterPawn?.Faction?.Name ?? "NULL"}");
-            }
+
             if (contents != null)
             {
                 flyOver.innerContainer.TryAddRangeOrTransfer(contents);
             }
+            
             GenSpawn.Spawn(flyOver, start, map);
-            Log.Message($"FlyOver created: {flyOver} from {start} to {end} at altitude {height}, " +
-                       $"FadeEffects: {flyOver.useFadeEffects}, FadeIn: {flyOver.useFadeIn}, FadeOut: {flyOver.useFadeOut}");
             return flyOver;
         }
     }
@@ -709,10 +712,12 @@ namespace WulaFallenEmpire
         public float fadeOutDistanceFactor = 0.01f;
 
         public float ActuallyHeight = 150f;
+        
         // 进场动画配置
         public bool useApproachAnimation = true;
         public float approachDuration = 1.0f;
         public float approachOffsetDistance = 3f;
+        
         // 新增：淡入淡出开关
         public bool useFadeEffects = true; // 是否启用淡入淡出效果
         public bool useFadeIn = true;      // 是否启用淡入效果

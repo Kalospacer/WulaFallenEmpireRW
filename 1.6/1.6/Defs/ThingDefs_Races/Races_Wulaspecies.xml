@@ -976,7 +976,7 @@
   <ThingDef Name="Wula_AI_Heavy_Panzer" ParentName="WULA_BaseMechanoid">
     <defName>Wula_AI_Heavy_Panzer</defName> <!-- 修改了defName以避免冲突 -->
     <label>HAp-6"战车"</label>
-    <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
+    <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用破坏力巨大的自动炮和车体臼炮打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
     <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Heavy_Panzer_Icon</uiIconPath>
     <statBases>
       <BandwidthCost>1</BandwidthCost>
@@ -1519,10 +1519,10 @@
     <comps Inherit="False">
       <!--加上这个组件的机械体可以更换武器-->
       <li Class="WulaFallenEmpire.CompProperties_MechWeapon" />
-      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_CanBeDormant">
+        <compClass>CompMechanoid</compClass>
+      </li>
       <li Class="CompProperties_WakeUpDormant">
-        <wakeUpOnDamage>true</wakeUpOnDamage>
-        <wakeUpCheckRadius>30</wakeUpCheckRadius>
         <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
       </li>
 
