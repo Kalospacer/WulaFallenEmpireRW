@@ -11,10 +11,11 @@ namespace WulaFallenEmpire
 {
     public class CompProperties_ApparelInterceptor : CompProperties
     {
-        public float radius = 3f;
+        public float radius = 3f; // 仅用于视觉效果
         public int startupDelay = 0;
         public int rechargeDelay = 3200;
         public int hitPoints = 100;
+        public int maxBounces = 3;
 
         public bool interceptGroundProjectiles = false;
         public bool interceptNonHostileProjectiles = false;
@@ -61,19 +62,180 @@ namespace WulaFallenEmpire
         public int currentHitPoints = -1;
         private int ticksToReset;
         private int activatedTick = -999999;
-        private bool initialized = false; // 添加初始化标志
-                                          // 视觉效果变量
+        private bool initialized = false;
+        
+        // 视觉效果变量
         private float lastInterceptAngle;
         private bool drawInterceptCone;
+        
         // 静态资源
         private static readonly Material ForceFieldMat = MaterialPool.MatFrom("Other/ForceField", ShaderDatabase.MoteGlow);
         private static readonly Material ForceFieldConeMat = MaterialPool.MatFrom("Other/ForceFieldCone", ShaderDatabase.MoteGlow);
         private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
         private static readonly Color InactiveColor = new Color(0.2f, 0.2f, 0.2f);
+        
         // 属性
         public CompProperties_ApparelInterceptor Props => (CompProperties_ApparelInterceptor)props;
-        private Pawn PawnOwner => (parent as Apparel)?.Wearer;
-        // 修复：确保组件完全初始化的方法
+        public Pawn PawnOwner => (parent as Apparel)?.Wearer;
+
+        // 主要拦截方法
+        public bool TryInterceptProjectile(Projectile projectile, Thing hitThing)
+        {
+            try
+            {
+                EnsureInitialized();
+                
+                // 基础检查
+                if (PawnOwner == null || !PawnOwner.Spawned || PawnOwner.Dead || PawnOwner.Downed)
+                    return false;
+                    
+                if (projectile == null || projectile.Destroyed || !projectile.Spawned)
+                    return false;
+                    
+                if (!Active)
+                    return false;
+                    
+                // 检查地图匹配
+                if (PawnOwner.Map == null || projectile.Map == null || PawnOwner.Map != projectile.Map)
+                    return false;
+                    
+                // 关键检查：抛射体是否要击中这个护盾的穿戴者？
+                if (hitThing != PawnOwner)
+                    return false;
+                    
+                // 检查抛射体类型
+                if (!InterceptsProjectile(Props, projectile))
+                    return false;
+                    
+                // 检查敌对关系
+                bool isHostile = (projectile.Launcher != null && projectile.Launcher.HostileTo(PawnOwner)) ||
+                                (projectile.Launcher == null && Props.interceptNonHostileProjectiles);
+                if (!isHostile)
+                    return false;
+
+                // --- 拦截成功 ---
+                InterceptSuccess(projectile);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"[CompApparelInterceptor] Error in TryInterceptProjectile: {ex.Message}");
+                return false;
+            }
+        }
+
+        private void InterceptSuccess(Projectile projectile)
+        {
+            try
+            {
+                // 记录拦截角度用于视觉效果
+                lastInterceptAngle = projectile.ExactPosition.AngleToFlat(PawnOwner.TrueCenter());
+                lastInterceptTicks = Find.TickManager.TicksGame;
+                drawInterceptCone = true;
+
+                // 播放拦截效果
+                if (Props.soundInterceptEffecter != null && PawnOwner.Map != null)
+                {
+                    var effecter = Props.soundInterceptEffecter.Spawn(PawnOwner.Position, PawnOwner.Map);
+                    if (effecter != null)
+                        effecter.Cleanup();
+                }
+
+                // 处理伤害类型
+                if (projectile.DamageDef == DamageDefOf.EMP && !Props.isImmuneToEMP)
+                {
+                    BreakShieldEmp(new DamageInfo(projectile.DamageDef, projectile.DamageAmount, instigator: projectile.Launcher));
+                }
+                else
+                {
+                    // 固定减少1点护盾量
+                    currentHitPoints = Mathf.Max(0, currentHitPoints - 1);
+                    if (currentHitPoints <= 0)
+                    {
+                        BreakShieldHitpoints(new DamageInfo(projectile.DamageDef, 1, instigator: projectile.Launcher));
+                    }
+                }
+
+                // 反弹抛射体
+                BounceProjectile(projectile);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"[CompApparelInterceptor] Error during interception effects: {ex.Message}");
+            }
+        }
+
+        private void BounceProjectile(Projectile projectile)
+        {
+            try
+            {
+                if (projectile == null || projectile.Destroyed)
+                    return;
+
+                // 计算反弹方向
+                Vector3 bounceDirection = CalculateBounceDirection(projectile);
+
+                // 使用 Traverse 修改抛射体方向
+                var traverse = Traverse.Create(projectile);
+
+                // 修改目的地 - 随机弹射
+                Vector3 newDestination = projectile.ExactPosition + bounceDirection * 30f;
+                traverse.Field("destination").SetValue(newDestination);
+
+                // 重置起点为当前位置
+                traverse.Field("origin").SetValue(projectile.ExactPosition);
+
+                // 重新计算飞行时间
+                float distance = (newDestination - projectile.ExactPosition).MagnitudeHorizontal();
+                int newTicks = Mathf.CeilToInt(distance / projectile.def.projectile.SpeedTilesPerTick);
+                traverse.Field("ticksToImpact").SetValue(newTicks);
+
+                // 播放反弹效果
+                PlayBounceEffect(projectile);
+
+                Log.Message($"[Interceptor] Projectile bounced towards {bounceDirection}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in BounceProjectile: {ex}");
+            }
+        }
+
+        private Vector3 CalculateBounceDirection(Projectile projectile)
+        {
+            // 如果有发射者，尝试弹向发射者
+            if (projectile.Launcher != null && projectile.Launcher.Spawned)
+            {
+                try
+                {
+                    Vector3 toLauncher = (projectile.Launcher.Position.ToVector3() - projectile.ExactPosition).normalized;
+                    return toLauncher;
+                }
+                catch
+                {
+                    // 如果计算失败，使用随机方向
+                }
+            }
+
+            // 随机弹射方向
+            float angle = Rand.Range(0f, 360f);
+            return Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
+        }
+
+        private void PlayBounceEffect(Projectile projectile)
+        {
+            // 播放自定义反弹效果
+            if (Props.soundInterceptEffecter != null)
+            {
+                var effecter = Props.soundInterceptEffecter.Spawn(projectile.Position, projectile.Map);
+                effecter?.Cleanup();
+            }
+
+            // 添加视觉特效
+            FleckMaker.Static(projectile.ExactPosition, projectile.Map, FleckDefOf.ShotFlash, 1.5f);
+        }
+
+        // 其余现有方法保持不变...
         private void EnsureInitialized()
         {
             if (initialized) return;
@@ -86,7 +248,7 @@ namespace WulaFallenEmpire
 
             initialized = true;
         }
-        // 修复：安全的 Active 属性
+
         public bool Active
         {
             get
@@ -94,7 +256,6 @@ namespace WulaFallenEmpire
                 EnsureInitialized();
                 if (PawnOwner == null || !PawnOwner.Spawned) return false;
 
-                // 修复：添加额外的 null 检查
                 if (stunner == null || OnCooldown || Charging || (stunner != null && stunner.Stunned) || shutDown || currentHitPoints <= 0)
                     return false;
 
@@ -104,32 +265,15 @@ namespace WulaFallenEmpire
                 return true;
             }
         }
-        protected bool ShouldDisplay
-        {
-            get
-            {
-                EnsureInitialized();
-                if (PawnOwner == null || !PawnOwner.Spawned || PawnOwner.Dead || PawnOwner.Downed || !Active)
-                {
-                    return false;
-                }
-                if (PawnOwner.Drafted || PawnOwner.InAggroMentalState || (PawnOwner.Faction != null && PawnOwner.Faction.HostileTo(Faction.OfPlayer) && !PawnOwner.IsPrisoner))
-                {
-                    return true;
-                }
-                if (Find.Selector.IsSelected(PawnOwner))
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
+
+        // ... 其余现有属性和方法保持不变
         public bool OnCooldown => ticksToReset > 0;
         public bool Charging => startedChargingTick >= 0 && Find.TickManager.TicksGame < startedChargingTick + Props.startupDelay;
         public int CooldownTicksLeft => ticksToReset;
         public int ChargingTicksLeft => (startedChargingTick < 0) ? 0 : Mathf.Max(startedChargingTick + Props.startupDelay - Find.TickManager.TicksGame, 0);
         public int HitPointsMax => Props.hitPoints;
         protected virtual int HitPointsPerInterval => 1;
+
         public override void PostPostMake()
         {
             base.PostPostMake();
@@ -140,6 +284,7 @@ namespace WulaFallenEmpire
                 startedChargingTick = Find.TickManager.TicksGame;
             }
         }
+
         public override void PostExposeData()
         {
             base.PostExposeData();
@@ -153,79 +298,11 @@ namespace WulaFallenEmpire
             Scribe_Deep.Look(ref stunner, "stunner", parent);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                // 强制重新初始化
                 initialized = false;
                 EnsureInitialized();
             }
         }
-        // 在 CompApparelInterceptor 类中修改 TryIntercept 方法
-        public bool TryIntercept(Projectile projectile, Vector3 lastExactPos, Vector3 newExactPos)
-        {
-            try
-            {
-                EnsureInitialized();
-                // 更严格的防御性检查
-                if (PawnOwner == null || !PawnOwner.Spawned || PawnOwner.Dead || PawnOwner.Downed)
-                    return false;
-                if (projectile == null || projectile.Destroyed || !projectile.Spawned)
-                    return false;
-                if (!Active)
-                    return false;
-                // 检查地图匹配
-                if (PawnOwner.Map == null || projectile.Map == null || PawnOwner.Map != projectile.Map)
-                    return false;
-                // 检查位置有效性
-                Vector2 pawnPos = PawnOwner.Position.ToVector2();
-                Vector2 lastPos = lastExactPos.ToVector2();
-                Vector2 newPos = newExactPos.ToVector2();
-                if (!GenGeo.IntersectLineCircleOutline(pawnPos, Props.radius, lastPos, newPos))
-                    return false;
-                if (!InterceptsProjectile(Props, projectile))
-                    return false;
-                bool isHostile = (projectile.Launcher != null && projectile.Launcher.HostileTo(PawnOwner)) ||
-                                (projectile.Launcher == null && Props.interceptNonHostileProjectiles);
-                if (!isHostile)
-                    return false;
-                // --- Interception Success ---
-                try
-                {
-                    lastInterceptAngle = projectile.ExactPosition.AngleToFlat(PawnOwner.TrueCenter());
-                    lastInterceptTicks = Find.TickManager.TicksGame;
-                    drawInterceptCone = true;
-                    if (Props.soundInterceptEffecter != null && PawnOwner.Map != null)
-                    {
-                        var effecter = Props.soundInterceptEffecter.Spawn(PawnOwner.Position, PawnOwner.Map);
-                        if (effecter != null)
-                            effecter.Cleanup();
-                    }
-                    // 处理伤害
-                    if (projectile.DamageDef == DamageDefOf.EMP && !Props.isImmuneToEMP)
-                    {
-                        BreakShieldEmp(new DamageInfo(projectile.DamageDef, projectile.DamageAmount, instigator: projectile.Launcher));
-                    }
-                    else if (HitPointsMax > 0)
-                    {
-                        currentHitPoints = Mathf.Max(0, currentHitPoints - projectile.DamageAmount);
-                        if (currentHitPoints <= 0)
-                        {
-                            BreakShieldHitpoints(new DamageInfo(projectile.DamageDef, projectile.DamageAmount, instigator: projectile.Launcher));
-                        }
-                    }
 
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    Log.Warning($"[CompApparelInterceptor] Error during interception effects: {ex.Message}");
-                    return true; // 即使效果出错，仍然返回拦截成功
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Warning($"[CompApparelInterceptor] Critical error in TryIntercept: {ex.Message}");
-                return false;
-            }
-        }
         public override void CompTick()
         {
             try
@@ -234,9 +311,10 @@ namespace WulaFallenEmpire
                 EnsureInitialized();
 
                 if (PawnOwner == null || !PawnOwner.Spawned) return;
-                // 防御性检查
+                
                 if (stunner != null)
                     stunner.StunHandlerTick();
+                    
                 if (OnCooldown)
                 {
                     ticksToReset--;
@@ -250,6 +328,7 @@ namespace WulaFallenEmpire
                 {
                     currentHitPoints = Mathf.Clamp(currentHitPoints + HitPointsPerInterval, 0, HitPointsMax);
                 }
+                
                 if (Props.activeSound != null)
                 {
                     if (Active && (sustainer == null || sustainer.Ended))
@@ -264,6 +343,7 @@ namespace WulaFallenEmpire
                 Log.Warning($"[CompApparelInterceptor] Error in CompTick: {ex.Message}");
             }
         }
+
         public void Reset()
         {
             if (PawnOwner != null && PawnOwner.Spawned && PawnOwner.Map != null)
@@ -272,6 +352,7 @@ namespace WulaFallenEmpire
             currentHitPoints = HitPointsMax;
             ticksToReset = 0;
         }
+
         private void BreakShieldHitpoints(DamageInfo dinfo)
         {
             if (PawnOwner != null && PawnOwner.Spawned && PawnOwner.MapHeld != null)
@@ -282,12 +363,14 @@ namespace WulaFallenEmpire
             currentHitPoints = 0;
             ticksToReset = Props.rechargeDelay;
         }
+
         private void BreakShieldEmp(DamageInfo dinfo)
         {
             BreakShieldHitpoints(dinfo);
             if (Props.disarmedByEmpForTicks > 0 && stunner != null)
                 stunner.Notify_DamageApplied(new DamageInfo(DamageDefOf.EMP, (float)Props.disarmedByEmpForTicks / 30f));
         }
+
         public static bool InterceptsProjectile(CompProperties_ApparelInterceptor props, Projectile projectile)
         {
             if (projectile == null || projectile.def == null || projectile.def.projectile == null)
@@ -297,7 +380,27 @@ namespace WulaFallenEmpire
                 return props.interceptAirProjectiles;
             return props.interceptGroundProjectiles;
         }
-        // --- DRAWING LOGIC ---
+
+        // 视觉效果相关方法保持不变...
+        protected bool ShouldDisplay
+        {
+            get
+            {
+                EnsureInitialized();
+                if (PawnOwner == null || !PawnOwner.Spawned || PawnOwner.Dead || PawnOwner.Downed || !Active)
+                    return false;
+                    
+                if (PawnOwner.Drafted || PawnOwner.InAggroMentalState || 
+                    (PawnOwner.Faction != null && PawnOwner.Faction.HostileTo(Faction.OfPlayer) && !PawnOwner.IsPrisoner))
+                    return true;
+                    
+                if (Find.Selector.IsSelected(PawnOwner))
+                    return true;
+                    
+                return false;
+            }
+        }
+
         public override void CompDrawWornExtras()
         {
             try
@@ -306,8 +409,10 @@ namespace WulaFallenEmpire
                 EnsureInitialized();
 
                 if (PawnOwner == null || !PawnOwner.Spawned || !ShouldDisplay) return;
+                
                 Vector3 drawPos = PawnOwner.Drawer?.DrawPos ?? PawnOwner.Position.ToVector3Shifted();
                 drawPos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+                
                 float alpha = GetCurrentAlpha();
                 if (alpha > 0f)
                 {
@@ -318,6 +423,7 @@ namespace WulaFallenEmpire
                     matrix.SetTRS(drawPos, Quaternion.identity, new Vector3(Props.radius * 2f * 1.1601562f, 1f, Props.radius * 2f * 1.1601562f));
                     Graphics.DrawMesh(MeshPool.plane10, matrix, ForceFieldMat, 0, null, 0, MatPropertyBlock);
                 }
+                
                 float coneAlpha = GetCurrentConeAlpha_RecentlyIntercepted();
                 if (coneAlpha > 0f)
                 {
@@ -334,18 +440,21 @@ namespace WulaFallenEmpire
                 Log.Warning($"[CompApparelInterceptor] Error in CompDrawWornExtras: {ex.Message}");
             }
         }
+
         private float GetCurrentAlpha()
         {
             float idleAlpha = Mathf.Lerp(0.3f, 0.6f, (Mathf.Sin((float)Gen.HashCombineInt(parent.thingIDNumber, 35990913) + Time.realtimeSinceStartup * 2f) + 1f) / 2f);
             float interceptAlpha = Mathf.Clamp01(1f - (float)(Find.TickManager.TicksGame - lastInterceptTicks) / 40f);
             return Mathf.Max(idleAlpha, interceptAlpha);
         }
+
         private float GetCurrentConeAlpha_RecentlyIntercepted()
         {
             if (!drawInterceptCone) return 0f;
             return Mathf.Clamp01(1f - (float)(Find.TickManager.TicksGame - lastInterceptTicks) / 40f) * 0.82f;
         }
-        // --- GIZMO ---
+
+        // Gizmo 相关保持不变...
         public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
         {
             EnsureInitialized();
@@ -355,6 +464,7 @@ namespace WulaFallenEmpire
                 yield return new Gizmo_EnergyShieldStatus { shield = this };
             }
         }
+
         public override string CompInspectStringExtra()
         {
             EnsureInitialized();
@@ -371,6 +481,8 @@ namespace WulaFallenEmpire
             return sb.ToString();
         }
     }
+
+    // Gizmo 类保持不变...
     [StaticConstructorOnStartup]
     public class Gizmo_EnergyShieldStatus : Gizmo
     {

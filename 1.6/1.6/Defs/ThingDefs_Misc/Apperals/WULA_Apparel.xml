@@ -503,16 +503,16 @@
     </apparel>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_ApparelInterceptor">
-        
         <!-- 基础功能 -->
-        <radius>1.25</radius>          <!-- 护盾半径，决定了拦截范围 -->
-        <hitPoints>150</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
+        <radius>1</radius>          <!-- 护盾半径，决定了拦截范围 -->
+        <hitPoints>50</hitPoints>      <!-- 护盾的生命值，每次拦截会消耗 -->
         <rechargeDelay>2800</rechargeDelay> <!-- 护盾破裂后的冷却时间 (ticks) -->
+        <maxBounces>3</maxBounces>
 
         <!-- 拦截类型 -->
         <interceptGroundProjectiles>true</interceptGroundProjectiles> <!-- 是否拦截地面弹丸 (如子弹) -->
-        <interceptAirProjectiles>false</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
-        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
+        <interceptAirProjectiles>true</interceptAirProjectiles>     <!-- 是否拦截空中弹丸 (如炮弹) -->
+        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles> <!-- 是否拦截非敌对弹丸 -->
 
         <!-- 视觉与音效 -->
         <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
@@ -520,13 +520,14 @@
         <soundBreakEffecter>Shield_Break</soundBreakEffecter>                     <!-- 护盾破裂时的音效 -->
         <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect> <!-- 护盾冷却结束后恢复的特效 -->
 
+        <drawWithNoSelection>false</drawWithNoSelection>
+
         <!-- EMP 效果 -->
         <isImmuneToEMP>false</isImmuneToEMP> <!-- 是否免疫EMP伤害 -->
         <disarmedByEmpForTicks>600</disarmedByEmpForTicks> <!-- 被EMP击中后，额外的眩晕/瘫痪时间 (ticks) -->
 
         <!-- 被动恢复 -->
         <rechargeHitPointsIntervalTicks>60</rechargeHitPointsIntervalTicks> <!-- 未破盾时，每隔多少ticks恢复1点生命值 -->
-
       </li>
     </comps>
   </ThingDef>

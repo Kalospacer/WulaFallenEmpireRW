@@ -7,45 +7,42 @@ using Verse;
 
 namespace WulaFallenEmpire.HarmonyPatches
 {
-    [HarmonyPatch(typeof(Projectile), "CheckForFreeInterceptBetween")]
-    public static class Projectile_CheckForFreeInterceptBetween_Patch
+    [HarmonyPatch(typeof(Projectile), "Impact")]
+    public static class Projectile_Impact_Patch
     {
-        public static bool Prefix(Projectile __instance, Vector3 lastExactPos, Vector3 newExactPos)
+        private static Dictionary<Projectile, int> bounceCount = new Dictionary<Projectile, int>();
+
+        [HarmonyPrefix]
+        public static bool Prefix(Projectile __instance, Thing hitThing)
         {
             try
             {
-                if (__instance == null || __instance.Map == null || __instance.Destroyed || !__instance.Spawned)
+                if (__instance.Destroyed || !__instance.Spawned || hitThing == null)
                     return true;
 
-                var map = __instance.Map;
-                var pawns = map.mapPawns?.AllPawnsSpawned;
-                if (pawns == null) return true;
-
-                foreach (Pawn pawn in pawns)
+                // 检查抛射体是否击中了穿戴护盾的 pawn
+                if (hitThing is Pawn hitPawn)
                 {
-                    if (pawn == null || !pawn.Spawned || pawn.Dead || pawn.Downed || pawn.apparel == null)
-                        continue;
-
-                    foreach (Apparel apparel in pawn.apparel.WornApparel)
+                    // 获取 pawn 身上的所有拦截护盾
+                    var interceptors = GetInterceptorsOnPawn(hitPawn);
+                    
+                    foreach (var interceptor in interceptors)
                     {
-                        if (apparel?.TryGetComp<CompApparelInterceptor>() is CompApparelInterceptor interceptor)
+                        if (interceptor.TryInterceptProjectile(__instance, hitThing))
                         {
-                            try
+                            // 记录反弹次数
+                            int currentBounces = bounceCount.TryGetValue(__instance, 0) + 1;
+                            bounceCount[__instance] = currentBounces;
+
+                            // 检查最大反弹次数
+                            if (currentBounces >= interceptor.Props.maxBounces)
                             {
-                                if (interceptor.TryIntercept(__instance, lastExactPos, newExactPos))
-                                {
-                                    // 简单直接：立即销毁子弹
-                                    if (!__instance.Destroyed && __instance.Spawned)
-                                    {
-                                        __instance.Destroy(DestroyMode.Vanish);
-                                    }
-                                    return false;
-                                }
+                                __instance.Destroy();
+                                return false;
                             }
-                            catch (Exception ex)
-                            {
-                                Log.Warning($"[Interceptor] Error: {ex.Message}");
-                            }
+
+                            // 拦截成功，阻止原版 Impact 逻辑
+                            return false;
                         }
                     }
                 }
@@ -54,27 +51,49 @@ namespace WulaFallenEmpire.HarmonyPatches
             }
             catch (Exception ex)
             {
-                Log.Error($"[Interceptor] Critical error: {ex}");
+                Log.Error($"Error in Projectile_Impact_Patch: {ex}");
                 return true;
             }
         }
-    }
 
-    [HarmonyPatch(typeof(Projectile), "Tick")]
-    public static class Projectile_Tick_Patch
-    {
-        public static bool Prefix(Projectile __instance)
+        private static List<CompApparelInterceptor> GetInterceptorsOnPawn(Pawn pawn)
         {
-            return __instance != null && !__instance.Destroyed && __instance.Spawned;
+            var result = new List<CompApparelInterceptor>();
+            
+            if (pawn == null || pawn.apparel == null)
+                return result;
+
+            try
+            {
+                foreach (var apparel in pawn.apparel.WornApparel)
+                {
+                    var interceptor = apparel.GetComp<CompApparelInterceptor>();
+                    if (interceptor != null && interceptor.Active)
+                    {
+                        result.Add(interceptor);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in GetInterceptorsOnPawn: {ex}");
+            }
+
+            return result;
         }
-    }
 
-    [HarmonyPatch(typeof(Projectile), "TickInterval")]
-    public static class Projectile_TickInterval_Patch
-    {
-        public static bool Prefix(Projectile __instance, int delta)
+        // 清理反弹计数 - 修复：使用 Thing 的 Destroy 方法
+        [HarmonyPatch(typeof(Thing), "Destroy")]
+        public static class Thing_Destroy_Patch
         {
-            return __instance != null && !__instance.Destroyed && __instance.Spawned;
+            [HarmonyPostfix]
+            public static void Postfix(Thing __instance)
+            {
+                if (__instance is Projectile projectile)
+                {
+                    bounceCount.Remove(projectile);
+                }
+            }
         }
     }
 }
