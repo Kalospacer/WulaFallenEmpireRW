@@ -7,16 +7,17 @@ namespace WulaFallenEmpire
     {
         public float range;
         public float lineWidthEnd;
-        public EffecterDef effecterDef;
-        public bool canHitFilledCells;
         
-        // 新增：命中效果器
+        // 发射特效（在施法者位置）
+        public EffecterDef castEffecter;
+        public int castEffecterMaintainTicks = 60;
+        
+        // 命中特效（在目标位置）
         public EffecterDef hitEffecter;
+        public int hitEffecterMaintainTicks = 30;
         
-        // 新增：是否影响友方单位
+        public bool canHitFilledCells;
         public bool affectAllies = false;
-        
-        // 新增：是否影响施法者自己
         public bool affectCaster = false;
 
         public CompProperties_AbilityAreaDestruction()

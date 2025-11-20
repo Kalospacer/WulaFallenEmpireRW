@@ -60,8 +60,8 @@
     <cooldownTicksRange>600</cooldownTicksRange>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
-      <range>24</range>
-      <warmupTime>0</warmupTime>
+      <range>18</range>
+      <warmupTime>1</warmupTime>
       <soundCast>WarqueenWarUrchinsSpawned</soundCast>
 
       <ai_IsWeapon>true</ai_IsWeapon>
@@ -85,36 +85,16 @@
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AbilityAreaDestruction">
-        <range>12</range>
-        <lineWidthEnd>5</lineWidthEnd>
+        <range>18</range>
+        <lineWidthEnd>12</lineWidthEnd>
         <canHitFilledCells>true</canHitFilledCells>
         <affectAllies>false</affectAllies>
         <affectCaster>false</affectCaster>
-        <effecterDef>Fire_Spew</effecterDef>
-        <hitEffecter>Fire_SpewShort</hitEffecter>
+        <castEffecter>Fire_SpewShort</castEffecter>
+        <castEffecterMaintainTicks>60</castEffecterMaintainTicks>
+        <hitEffecter>Fire_Spew</hitEffecter>
+        <hitEffecterMaintainTicks>30</hitEffecterMaintainTicks>
       </li>
-      <li Class="CompProperties_AbilityEffecterOnCaster">
-        <effecterDef>Fire_Spew</effecterDef>
-        <maintainTicks>20</maintainTicks> <!-- Long enough for the "2nd wave" to spawn -->
-      </li>
-      <!-- <li Class="CompProperties_AbilityFleckOnTarget">
-        <fleckDef>PsycastPsychicEffect</fleckDef>
-      </li> -->
-      <li Class="CompProperties_AbilityEffecterOnTarget">
-        <effecterDef>Fire_SpewShort</effecterDef>
-      </li>
-      <!-- <li Class="CompProperties_AbilityEffecterOnTarget">
-        <effecterDef>Skip_Exit</effecterDef>
-        <maintainForTicks>60</maintainForTicks>
-      </li>
-      <li Class="CompProperties_AbilityFleckOnTarget">
-        <fleckDefs>
-          <li>PsycastSkipInnerExit</li>
-          <li>PsycastSkipOuterRingExit</li>
-        </fleckDefs>
-        <sound>Psycast_Skip_Exit</sound>
-        <preCastTicks>5</preCastTicks>
-      </li> -->
     </comps>
   </AbilityDef>
 </Defs>
