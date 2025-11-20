@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <AbilityDef>
+    <defName>Wula_Mech_Mobile_Factory_Produce</defName>
+    <label>生产战争机器</label>
+    <description>立刻生产10台CRm-51"兵蚁"，快速组织一道近战阵线。</description>
+    <iconPath>Wula/UI/Abilities/Wula_Mech_Mobile_Factory_Produce</iconPath>
+    <cooldownTicksRange>5000</cooldownTicksRange>
+    <charges>5</charges>
+    <cooldownPerCharge>true</cooldownPerCharge>
+    <aiCanUse>true</aiCanUse>
+    <displayOrder>300</displayOrder>
+    <disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>24</range>
+      <warmupTime>0</warmupTime>
+      <soundCast>WarqueenWarUrchinsSpawned</soundCast>
+      <violent>false</violent>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityLaunchMultiProjectile">
+        <projectileDef>Wula_Mech_Mobile_Factory_Produce_Proj</projectileDef>
+        <numProjectiles>10</numProjectiles>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>Wula_Mech_Mobile_Factory_Produce_Proj</defName>
+    <label>CRm-51"兵蚁"</label>
+    <thingClass>Projectile_SpawnsPawnZeroAge</thingClass>
+    <graphicData>
+      <texPath>Wula/Things/WULA_Mech_Flyer/WULA_Mech_Flyer_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <speed>41</speed>
+      <spawnsPawnKind>WULA_Mech_Flyer</spawnsPawnKind>
+      <tryAdjacentFreeSpaces>true</tryAdjacentFreeSpaces>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>1</damageAmountBase>
+    </projectile>
+  </ThingDef>
+
+  <AbilityDef>
+    <defName>WULA_PsiCrusher</defName>
+    <label>灵能粉碎</label>
+    <description>释放纯净的灵能能量，直接摧毁面前扇形区域内的所有目标。</description>
+    <iconPath>UI/Abilities/FireSpew</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>False</showPsycastEffects>
+    <aiCanUse>true</aiCanUse>
+    <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
+    <ai_IsIncendiary>true</ai_IsIncendiary>
+    <cooldownTicksRange>600</cooldownTicksRange>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>24</range>
+      <warmupTime>0</warmupTime>
+      <soundCast>WarqueenWarUrchinsSpawned</soundCast>
+
+      <ai_IsWeapon>true</ai_IsWeapon>
+      <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
+
+      <requireLineOfSight>false</requireLineOfSight>
+      
+      <aimingLineMote>Mote_HellsphereCannon_Aim</aimingLineMote>
+      <aimingChargeMote>Mote_HellsphereCannon_Charge</aimingChargeMote>
+      <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+      <aimingLineMoteFixedLength>32</aimingLineMoteFixedLength>
+      <aimingTargetMote>Mote_HellsphereCannon_Target</aimingTargetMote>
+
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetPawns>true</canTargetPawns>
+        <canTargetBuildings>true</canTargetBuildings>
+        <canTargetPlants>true</canTargetPlants>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityAreaDestruction">
+        <range>12</range>
+        <lineWidthEnd>5</lineWidthEnd>
+        <canHitFilledCells>true</canHitFilledCells>
+        <affectAllies>false</affectAllies>
+        <affectCaster>false</affectCaster>
+        <effecterDef>Fire_Spew</effecterDef>
+        <hitEffecter>Fire_SpewShort</hitEffecter>
+      </li>
+    </comps>
+  </AbilityDef>
+</Defs>

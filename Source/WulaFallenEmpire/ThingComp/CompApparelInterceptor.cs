@@ -2,6 +2,7 @@ using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -11,11 +12,12 @@ namespace WulaFallenEmpire
 {
     public class CompProperties_ApparelInterceptor : CompProperties
     {
-        public float radius = 3f; // 仅用于视觉效果
+        public float radius = 3f;
         public int startupDelay = 0;
         public int rechargeDelay = 3200;
         public int hitPoints = 100;
         public int maxBounces = 3;
+        public float bounceRange = 15f; // 反弹射程
 
         public bool interceptGroundProjectiles = false;
         public bool interceptNonHostileProjectiles = false;
@@ -77,6 +79,267 @@ namespace WulaFallenEmpire
         // 属性
         public CompProperties_ApparelInterceptor Props => (CompProperties_ApparelInterceptor)props;
         public Pawn PawnOwner => (parent as Apparel)?.Wearer;
+
+
+        private void BounceProjectileNew(Projectile originalProjectile)
+        {
+            try
+            {
+                if (originalProjectile == null || originalProjectile.Destroyed)
+                    return;
+                // 计算反弹方向 - 朝穿戴者前方发射
+                Vector3 bounceDirection = CalculateForwardBounceDirection();
+
+                // 计算新目标位置
+                Vector3 newDestination = PawnOwner.Position.ToVector3Shifted() + bounceDirection * Props.bounceRange;
+                IntVec3 targetCell = newDestination.ToIntVec3();
+                // 创建新的抛射体
+                Projectile newProjectile = (Projectile)ThingMaker.MakeThing(originalProjectile.def, null);
+
+                // 使用 Traverse 复制字段
+                CopyProjectileFieldsUsingTraverse(newProjectile, originalProjectile);
+                // 生成新抛射体
+                GenSpawn.Spawn(newProjectile, PawnOwner.Position, PawnOwner.Map);
+
+                // 使用 Traverse 调用 Launch 方法
+                LaunchProjectileUsingTraverse(newProjectile, targetCell, originalProjectile);
+                // 销毁原抛射体
+                originalProjectile.Destroy(DestroyMode.Vanish);
+                // 播放反弹效果
+                PlayBounceEffect(originalProjectile);
+                Log.Message($"[Interceptor] Projectile bounced forward to {targetCell}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in BounceProjectileNew: {ex}");
+            }
+        }
+        // 使用 Traverse 复制字段
+        private void CopyProjectileFieldsUsingTraverse(Projectile newProjectile, Projectile originalProjectile)
+        {
+            try
+            {
+                Traverse newTraverse = Traverse.Create(newProjectile);
+                Traverse originalTraverse = Traverse.Create(originalProjectile);
+                // 复制所有重要字段
+                newTraverse.Field("launcher").SetValue(originalTraverse.Field("launcher").GetValue());
+                newTraverse.Field("equipment").SetValue(originalTraverse.Field("equipment").GetValue());
+                newTraverse.Field("equipmentDef").SetValue(originalTraverse.Field("equipmentDef").GetValue());
+                newTraverse.Field("damageDefOverride").SetValue(originalTraverse.Field("damageDefOverride").GetValue());
+                newTraverse.Field("targetCoverDef").SetValue(originalTraverse.Field("targetCoverDef").GetValue());
+
+                // 复制额外伤害列表
+                List<ExtraDamage> originalExtraDamages = originalTraverse.Field("extraDamages").GetValue<List<ExtraDamage>>();
+                if (originalExtraDamages != null)
+                {
+                    newTraverse.Field("extraDamages").SetValue(new List<ExtraDamage>(originalExtraDamages));
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"Error copying projectile fields with Traverse: {ex}");
+            }
+        }
+        // 使用 Traverse 调用 Launch 方法
+        private void LaunchProjectileUsingTraverse(Projectile projectile, IntVec3 targetCell, Projectile originalProjectile)
+        {
+            try
+            {
+                Traverse projectileTraverse = Traverse.Create(projectile);
+                Traverse originalTraverse = Traverse.Create(originalProjectile);
+                // 获取 Launch 方法
+                var launchMethod = projectileTraverse.Method("Launch", new object[]
+                {
+                    PawnOwner, // 发射者
+                    PawnOwner.Position.ToVector3Shifted(), // 发射位置
+                    new LocalTargetInfo(targetCell), // 目标位置
+                    new LocalTargetInfo(targetCell), // 预期目标
+                    originalProjectile.HitFlags, // 命中标志
+                    originalTraverse.Field("preventFriendlyFire").GetValue<bool>(), // 防止友军伤害
+                    originalTraverse.Field("equipment").GetValue<Thing>(), // 装备
+                    originalTraverse.Field("targetCoverDef").GetValue<ThingDef>() // 目标覆盖定义
+                });
+                if (launchMethod.MethodExists())
+                {
+                    launchMethod.GetValue();
+                }
+                else
+                {
+                    Log.Error("Launch method not found using Traverse");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error launching projectile with Traverse: {ex}");
+            }
+        }
+        // 使用反射设置抛射体字段
+        private void SetProjectileFields(Projectile newProjectile, Projectile originalProjectile)
+        {
+            try
+            {
+                // 获取 Projectile 类型
+                Type projectileType = typeof(Projectile);
+
+                // 设置发射者
+                FieldInfo launcherField = projectileType.GetField("launcher", BindingFlags.Instance | BindingFlags.NonPublic);
+                launcherField?.SetValue(newProjectile, originalProjectile.Launcher);
+
+                // 设置装备
+                FieldInfo equipmentField = projectileType.GetField("equipment", BindingFlags.Instance | BindingFlags.NonPublic);
+                equipmentField?.SetValue(newProjectile, GetEquipment(originalProjectile));
+
+                // 设置装备定义
+                FieldInfo equipmentDefField = projectileType.GetField("equipmentDef", BindingFlags.Instance | BindingFlags.NonPublic);
+                equipmentDefField?.SetValue(newProjectile, GetEquipmentDef(originalProjectile));
+
+                // 设置伤害定义覆盖
+                FieldInfo damageDefOverrideField = projectileType.GetField("damageDefOverride", BindingFlags.Instance | BindingFlags.NonPublic);
+                damageDefOverrideField?.SetValue(newProjectile, GetDamageDefOverride(originalProjectile));
+
+                // 设置额外伤害
+                FieldInfo extraDamagesField = projectileType.GetField("extraDamages", BindingFlags.Instance | BindingFlags.NonPublic);
+                if (extraDamagesField != null)
+                {
+                    List<ExtraDamage> originalExtraDamages = (List<ExtraDamage>)extraDamagesField.GetValue(originalProjectile);
+                    if (originalExtraDamages != null)
+                    {
+                        List<ExtraDamage> newExtraDamages = new List<ExtraDamage>(originalExtraDamages);
+                        extraDamagesField.SetValue(newProjectile, newExtraDamages);
+                    }
+                }
+
+                // 设置目标覆盖定义
+                FieldInfo targetCoverDefField = projectileType.GetField("targetCoverDef", BindingFlags.Instance | BindingFlags.NonPublic);
+                targetCoverDefField?.SetValue(newProjectile, GetTargetCoverDef(originalProjectile));
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"Error setting projectile fields: {ex}");
+            }
+        }
+        // 使用反射调用 Launch 方法
+        private void LaunchProjectile(Projectile projectile, IntVec3 targetCell, Projectile originalProjectile)
+        {
+            try
+            {
+                Type projectileType = typeof(Projectile);
+
+                // 获取 Launch 方法
+                MethodInfo launchMethod = projectileType.GetMethod("Launch", new Type[]
+                {
+                    typeof(Thing),
+                    typeof(Vector3),
+                    typeof(LocalTargetInfo),
+                    typeof(LocalTargetInfo),
+                    typeof(ProjectileHitFlags),
+                    typeof(bool),
+                    typeof(Thing),
+                    typeof(ThingDef)
+                });
+                if (launchMethod != null)
+                {
+                    // 获取原抛射体的命中标志
+                    ProjectileHitFlags hitFlags = GetHitFlags(originalProjectile);
+
+                    // 获取防止友军伤害设置
+                    bool preventFriendlyFire = GetPreventFriendlyFire(originalProjectile);
+
+                    // 调用 Launch 方法
+                    launchMethod.Invoke(projectile, new object[]
+                    {
+                        PawnOwner, // 发射者改为护盾穿戴者
+                        PawnOwner.Position.ToVector3Shifted(), // 发射位置
+                        new LocalTargetInfo(targetCell), // 目标位置
+                        new LocalTargetInfo(targetCell), // 预期目标
+                        hitFlags,
+                        preventFriendlyFire,
+                        GetEquipment(originalProjectile), // 装备
+                        GetTargetCoverDef(originalProjectile) // 目标覆盖定义
+                    });
+                }
+                else
+                {
+                    Log.Error("Could not find Launch method on Projectile");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error launching projectile: {ex}");
+            }
+        }
+        // 使用反射获取私有字段值
+        private Thing GetEquipment(Projectile projectile)
+        {
+            try
+            {
+                FieldInfo equipmentField = typeof(Projectile).GetField("equipment", BindingFlags.Instance | BindingFlags.NonPublic);
+                return (Thing)equipmentField?.GetValue(projectile);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private ThingDef GetEquipmentDef(Projectile projectile)
+        {
+            try
+            {
+                FieldInfo equipmentDefField = typeof(Projectile).GetField("equipmentDef", BindingFlags.Instance | BindingFlags.NonPublic);
+                return (ThingDef)equipmentDefField?.GetValue(projectile);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private DamageDef GetDamageDefOverride(Projectile projectile)
+        {
+            try
+            {
+                FieldInfo damageDefOverrideField = typeof(Projectile).GetField("damageDefOverride", BindingFlags.Instance | BindingFlags.NonPublic);
+                return (DamageDef)damageDefOverrideField?.GetValue(projectile);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private ThingDef GetTargetCoverDef(Projectile projectile)
+        {
+            try
+            {
+                FieldInfo targetCoverDefField = typeof(Projectile).GetField("targetCoverDef", BindingFlags.Instance | BindingFlags.NonPublic);
+                return (ThingDef)targetCoverDefField?.GetValue(projectile);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private ProjectileHitFlags GetHitFlags(Projectile projectile)
+        {
+            try
+            {
+                return projectile.HitFlags;
+            }
+            catch
+            {
+                return ProjectileHitFlags.All;
+            }
+        }
+        private bool GetPreventFriendlyFire(Projectile projectile)
+        {
+            try
+            {
+                FieldInfo preventFriendlyFireField = typeof(Projectile).GetField("preventFriendlyFire", BindingFlags.Instance | BindingFlags.NonPublic);
+                return preventFriendlyFireField != null && (bool)preventFriendlyFireField.GetValue(projectile);
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         // 主要拦截方法
         public bool TryInterceptProjectile(Projectile projectile, Thing hitThing)
@@ -156,8 +419,8 @@ namespace WulaFallenEmpire
                     }
                 }
 
-                // 反弹抛射体
-                BounceProjectile(projectile);
+                // 反弹抛射体 - 新方法：销毁原抛射体并创建新的
+                BounceProjectileNew(projectile);
             }
             catch (Exception ex)
             {
@@ -165,61 +428,17 @@ namespace WulaFallenEmpire
             }
         }
 
-        private void BounceProjectile(Projectile projectile)
+        private Vector3 CalculateForwardBounceDirection()
         {
-            try
-            {
-                if (projectile == null || projectile.Destroyed)
-                    return;
-
-                // 计算反弹方向
-                Vector3 bounceDirection = CalculateBounceDirection(projectile);
-
-                // 使用 Traverse 修改抛射体方向
-                var traverse = Traverse.Create(projectile);
-
-                // 修改目的地 - 随机弹射
-                Vector3 newDestination = projectile.ExactPosition + bounceDirection * 30f;
-                traverse.Field("destination").SetValue(newDestination);
-
-                // 重置起点为当前位置
-                traverse.Field("origin").SetValue(projectile.ExactPosition);
-
-                // 重新计算飞行时间
-                float distance = (newDestination - projectile.ExactPosition).MagnitudeHorizontal();
-                int newTicks = Mathf.CeilToInt(distance / projectile.def.projectile.SpeedTilesPerTick);
-                traverse.Field("ticksToImpact").SetValue(newTicks);
-
-                // 播放反弹效果
-                PlayBounceEffect(projectile);
-
-                Log.Message($"[Interceptor] Projectile bounced towards {bounceDirection}");
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Error in BounceProjectile: {ex}");
-            }
-        }
-
-        private Vector3 CalculateBounceDirection(Projectile projectile)
-        {
-            // 如果有发射者，尝试弹向发射者
-            if (projectile.Launcher != null && projectile.Launcher.Spawned)
-            {
-                try
-                {
-                    Vector3 toLauncher = (projectile.Launcher.Position.ToVector3() - projectile.ExactPosition).normalized;
-                    return toLauncher;
-                }
-                catch
-                {
-                    // 如果计算失败，使用随机方向
-                }
-            }
-
-            // 随机弹射方向
-            float angle = Rand.Range(0f, 360f);
-            return Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
+            // 获取穿戴者的朝向
+            float pawnRotation = PawnOwner.Rotation.AsAngle;
+            
+            // 添加一些随机偏移，使反弹更自然
+            float randomOffset = Rand.Range(-30f, 30f);
+            float finalAngle = pawnRotation + randomOffset;
+            
+            // 转换为方向向量
+            return Quaternion.AngleAxis(finalAngle, Vector3.up) * Vector3.forward;
         }
 
         private void PlayBounceEffect(Projectile projectile)

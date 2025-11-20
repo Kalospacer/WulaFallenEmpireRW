@@ -82,7 +82,7 @@ namespace WulaFallenEmpire.HarmonyPatches
             return result;
         }
 
-        // 清理反弹计数 - 修复：使用 Thing 的 Destroy 方法
+        // 清理反弹计数
         [HarmonyPatch(typeof(Thing), "Destroy")]
         public static class Thing_Destroy_Patch
         {
