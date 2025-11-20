@@ -49,18 +49,19 @@
 
   <AbilityDef>
     <defName>WULA_PsiCrusher</defName>
-    <label>灵能粉碎</label>
-    <description>释放纯净的灵能能量，直接摧毁面前扇形区域内的所有目标。</description>
+    <label>乌拉帝国术式：灵能粉碎</label>
+    <description>释放纯净的灵能能量，直接解构面前扇形区域内的所有目标，无论是建筑物还是活物都难逃毁灭。这种术式需要的灵能难以估量，只有搭载大量封闭灵能回路的灵能泰坦可以连续使用。</description>
     <iconPath>UI/Abilities/FireSpew</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <aiCanUse>true</aiCanUse>
     <cooldownTicksRange>600</cooldownTicksRange>
+    <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <range>18</range>
       <warmupTime>1</warmupTime>
-      <soundCast>WarqueenWarUrchinsSpawned</soundCast>
+      <soundCast>WULA_PsiCrusher_Sound</soundCast>
 
       <ai_IsWeapon>false</ai_IsWeapon>
       <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
@@ -126,7 +127,7 @@
       <li>
         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
         <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
-        <burstCount>1</burstCount>
+        <burstCount>3~5</burstCount>
         <spawnLocType>OnSource</spawnLocType>
         <absoluteAngle>true</absoluteAngle>
         <rotation>0~0</rotation>
@@ -192,4 +193,114 @@
       <rotateTowardsMoveDirection>true</rotateTowardsMoveDirection>
     </mote>
   </ThingDef>
+  <AbilityDef>
+    <defName>Wula_Psi_Explosive_Shock</defName>
+    <label>乌拉帝国术式：灵能尖啸</label>
+    <description>以灵能能量发出非人尖啸，使得周围的人员感觉到撕心裂肺的痛苦。这不会造成永久的伤害，但是很可能放倒那些无法承受此番痛苦的生灵。</description>
+    <iconPath>UI/Abilities/FireSpew</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>True</showPsycastEffects>
+    <cooldownTicksRange>1200</cooldownTicksRange>
+    <targetRequired>False</targetRequired>
+    <aiCanUse>true</aiCanUse>
+    <statBases>
+      <Ability_EffectRadius>12</Ability_EffectRadius>
+    </statBases>
+    <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <defaultProjectile>Bullet_FleshmelterBolt</defaultProjectile>
+      <range>12</range>
+      <drawAimPie>true</drawAimPie>
+      <warmupTime>1</warmupTime>
+      <soundCast>WULA_Psi_Explosive_Shock_Sound</soundCast>
+      <ai_IsWeapon>false</ai_IsWeapon>
+      <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
+      <!-- <targetable>false</targetable> -->
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityGiveHediffPsychic">
+        <compClass>CompAbilityEffect_GiveHediffPsychic</compClass>
+        <durationSecondsOverride>2000~4000</durationSecondsOverride> <!-- 2 to 4 days -->
+        <replaceExisting>true</replaceExisting>
+        <hediffDef>Wula_Psi_Explosive_Shock_Hediff</hediffDef>
+        <onlyBrain>true</onlyBrain>
+        <ignoreSelf>true</ignoreSelf>
+        <severity>0</severity>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+      <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>AgonyPulseExplosion</effecterDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <HediffDef>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defName>Wula_Psi_Explosive_Shock_Hediff</defName>
+    <label>灵能尖啸</label>
+    <description>震耳欲聋、撕心裂肺的灵能尖啸所带来的极度痛苦，不会造成永久的伤害，但是需要时间缓解</description>
+    <initialSeverity>0.001</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_SeverityPerSecond">
+        <severityPerSecondRange>0.01</severityPerSecondRange> <!-- 10 to 15 seconds -->
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <minSeverity>0</minSeverity>
+        <painOffset>2</painOffset>
+        <label>撕裂</label>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <painOffset>0.5</painOffset>
+        <label>恢复</label>
+      </li>
+    </stages>
+  </HediffDef>
+  <AbilityDef>
+    <defName>Wula_Psi_LightningBombardment</defName>
+    <label>乌拉帝国术式：化三风暴</label>
+    <description>以庞大的灵能能量形成一场非自然风暴，持续轰击目标区域，风暴的轰击会产生范围性灵能爆燃，对建筑物有额外的伤害。</description>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Explosive_Ability</iconPath>
+    <cooldownTicksRange>900</cooldownTicksRange>
+    <sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <charges>3</charges>
+    <cooldownPerCharge>true</cooldownPerCharge>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <label>释放化三风暴</label>
+      <drawAimPie>true</drawAimPie>
+      <warmupTime>0.25</warmupTime>
+      <range>35.9</range>
+      <minRange>4</minRange>
+      <targetParams>
+        <canTargetPawns>True</canTargetPawns>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityDRM_LightningBombardment">
+        <impactAreaRadius>9</impactAreaRadius>
+        <explosionRadiusRange>3~4</explosionRadiusRange>
+        <bombIntervalTicks>25</bombIntervalTicks>
+        <explosionCount>20</explosionCount>
+
+        <damageDef>Wula_Psi_Bomb</damageDef>
+        <damageAmount>30</damageAmount>
+        <armorPenetration>3</armorPenetration>
+      </li>
+    </comps>
+  </AbilityDef>
 </Defs>

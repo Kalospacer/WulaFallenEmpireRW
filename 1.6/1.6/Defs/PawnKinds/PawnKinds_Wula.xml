@@ -233,13 +233,13 @@
   </PawnKindDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_Psi_Titan</defName>
-    <label>PAt-52"灵能泰坦"</label>
+    <label>PAt-6"灵能泰坦"</label>
     <race>Wula_Psi_Titan</race>
     <defaultFactionType>PlayerColony</defaultFactionType>
     <allowInMechClusters>false</allowInMechClusters>
     <canMeleeAttack>false</canMeleeAttack>
     <isGoodBreacher>true</isGoodBreacher>
-    <combatPower>1000</combatPower>
+    <combatPower>500</combatPower>
 
     <isBoss>true</isBoss>
     <maxPerGroup>1</maxPerGroup>
@@ -261,12 +261,17 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
-    <weaponMoney>0</weaponMoney>
+    <weaponMoney>99999~99999</weaponMoney>
+    <weaponTags>
+      <li>Wula_Psi_Titan_Main_Weapon</li>
+    </weaponTags>
 
     <controlGroupPortraitZoom>0.4</controlGroupPortraitZoom>
 
     <abilities>
       <li>WULA_PsiCrusher</li>
+      <li>Wula_Psi_Explosive_Shock</li>
+      <li>Wula_Psi_LightningBombardment</li>
     </abilities>
   </PawnKindDef>
 

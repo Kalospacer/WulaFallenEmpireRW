@@ -117,4 +117,38 @@
       </li>
     </subSounds>
   </SoundDef>
+  <SoundDef>
+    <defName>WULA_PsiCrusher_Sound</defName>
+    <context>MapOnly</context>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Folder">
+            <clipFolderPath>Pawn/Revenant/Death</clipFolderPath>
+          </li>
+        </grains>
+        <volumeRange>70~85</volumeRange>
+        <pitchRange>0.9311764~1.068824</pitchRange>
+        <!-- <distRange>0~70</distRange> -->
+        <sustainLoop>False</sustainLoop>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>WULA_Psi_Explosive_Shock_Sound</defName>
+    <context>MapOnly</context>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Folder">
+            <clipFolderPath>Pawn/Ghoul/Death</clipFolderPath>
+          </li>
+        </grains>
+        <volumeRange>70~85</volumeRange>
+        <pitchRange>0.9311764~1.068824</pitchRange>
+        <!-- <distRange>0~70</distRange> -->
+        <sustainLoop>False</sustainLoop>
+      </li>
+    </subSounds>
+  </SoundDef>
 </Defs>

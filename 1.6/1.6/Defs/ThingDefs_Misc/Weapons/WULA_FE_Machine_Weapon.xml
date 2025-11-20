@@ -492,4 +492,100 @@
       </li>
     </modExtensions>
   </ThingDef>
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Wula_Psi_Titan_Beam</defName>
+    <label>KLb-15 "方解石"</label>
+    <description>灵能战争机械PAt-6"灵能泰坦"上装备的特殊熔融光束，威力不算特别大，但是不至于让其在失去所有武装后无计可施。</description>
+    <techLevel>Archotech</techLevel>
+    <tradeability>None</tradeability>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <uiIconScale>0.5</uiIconScale>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <Mass>200</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>1</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
+    </statBases>
+    <smeltable>false</smeltable>
+    <recipeMaker Inherit="False" IsNull="True" />
+    <costList Inherit="False">
+      <Steel>3000</Steel>
+      <ComponentIndustrial>600</ComponentIndustrial>
+      <Plasteel>300</Plasteel>
+      <Uranium>100</Uranium>
+    </costList>
+    <verbs>
+      <li Class="WulaFallenEmpire.VerbPropertiesExplosiveBeam">
+        <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
+
+        <!-- 基础射线参数 -->
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>0</warmupTime>
+        <range>17</range>
+        <burstShotCount>32</burstShotCount>
+        <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+        <beamDamageDef>WULA_RW_Handle_Cannon_Burn</beamDamageDef>
+        <beamTotalDamage>1</beamTotalDamage>
+
+        <!-- 消除射线偏移的参数 -->
+        <beamFullWidthRange>1000</beamFullWidthRange>
+        <beamWidth>-1</beamWidth>
+        <beamMaxDeviation>0</beamMaxDeviation>
+        <beamCurvature>0</beamCurvature>
+        <beamStartOffset>0</beamStartOffset>
+
+        <!-- 视觉和音效 -->
+        <muzzleFlashScale>0</muzzleFlashScale>
+        <soundCastBeam>WULA_RW_Beam_Shootingsound</soundCastBeam>
+        <beamMoteDef>Mote_WULA_RW_Handle_Cannon_Beam</beamMoteDef>
+        <beamEndEffecterDef>GraserBeam_End</beamEndEffecterDef>
+
+        <screenShakeFactor>0</screenShakeFactor>
+
+        <!-- 火焰效果 -->
+        <beamChanceToStartFire>1</beamChanceToStartFire>
+        <beamChanceToAttachFire>0</beamChanceToAttachFire>
+        <beamFireSizeRange>0</beamFireSizeRange>
+
+        <!-- 其他射线属性 -->
+        <beamStartOffset>0.8</beamStartOffset>
+        <beamHitsNeighborCells>true</beamHitsNeighborCells>
+        <beamLineFleckChanceCurve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.65, 0.4)</li>
+            <li>(1, 0.75)</li>
+          </points>
+        </beamLineFleckChanceCurve>
+
+        <!-- 攻击目标设置 -->
+        <targetParams>
+          <canTargetLocations>false</canTargetLocations>
+        </targetParams>
+
+        <!-- 每发都爆炸 -->
+        <enableExplosion>false</enableExplosion>
+        <explosionShotInterval>1</explosionShotInterval>
+        <explosionRadius>0</explosionRadius>
+        <explosionDamageDef>Burn</explosionDamageDef>
+        <explosionDamage>1</explosionDamage>
+        <!-- <explosionSound>Explosion_Stun</explosionSound> -->
+        <chanceToStartFire>1</chanceToStartFire>
+
+        <aimingChargeMote>Mote_WULA_Beam_Charge</aimingChargeMote>
+        <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>Wula_Psi_Titan_Main_Weapon</li>
+    </weaponTags>
+  </ThingDef>
 </Defs>
