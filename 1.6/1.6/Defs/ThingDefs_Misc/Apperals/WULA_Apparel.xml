@@ -598,8 +598,8 @@
     </apparel>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AreaShield">
-        <radius>3</radius>
-        <baseHitPoints>50</baseHitPoints>
+        <radius>5</radius>
+        <baseHitPoints>100</baseHitPoints>
         <rechargeDelay>2400</rechargeDelay>
         <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
         
@@ -609,7 +609,7 @@
         <breakEffecter>Shield_Break</breakEffecter>
         <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
         
-        <color>(0.9, 0.2, 0.2, 0.2)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
         
         <!-- 拦截设置 -->
         <interceptGroundProjectiles>true</interceptGroundProjectiles>

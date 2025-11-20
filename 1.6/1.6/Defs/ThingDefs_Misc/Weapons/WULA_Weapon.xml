@@ -48,7 +48,7 @@
     <graphicData>
       <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1,2)</drawSize>
+      <drawSize>(1.5,2)</drawSize>
     </graphicData>
     <modExtensions>
       <li Class="WulaFallenEmpire.TrackingBulletDef">

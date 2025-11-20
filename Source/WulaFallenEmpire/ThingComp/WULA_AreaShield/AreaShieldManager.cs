@@ -14,46 +14,45 @@ namespace WulaFallenEmpire
 
         public static IEnumerable<ThingComp_AreaShield> GetActiveShieldsForMap(Map map)
         {
+            if (map == null)
+                yield break;
             if (Find.TickManager.TicksGame - lastUpdateTick > UPDATE_INTERVAL_TICKS)
             {
                 UpdateShieldCache();
                 lastUpdateTick = Find.TickManager.TicksGame;
             }
-
             if (activeShieldsByMap.TryGetValue(map, out var shields))
             {
                 foreach (var shield in shields)
                 {
-                    if (shield?.Active == true)
+                    if (shield?.parent != null && !shield.parent.Destroyed && shield?.Active == true)
                         yield return shield;
                 }
             }
         }
-
         private static void UpdateShieldCache()
         {
             activeShieldsByMap.Clear();
-
             foreach (var map in Find.Maps)
             {
+                if (map == null) continue;
                 var shieldSet = new HashSet<ThingComp_AreaShield>();
-                
                 foreach (var pawn in map.mapPawns.AllPawnsSpawned)
                 {
-                    if (pawn.apparel != null)
+                    if (pawn?.apparel == null || pawn.Destroyed)
+                        continue;
+                    foreach (var apparel in pawn.apparel.WornApparel)
                     {
-                        foreach (var apparel in pawn.apparel.WornApparel)
+                        if (apparel == null || apparel.Destroyed)
+                            continue;
+                        var shield = apparel.TryGetComp<ThingComp_AreaShield>();
+                        // 修改：只有立定且激活的护盾才加入缓存
+                        if (shield != null && shield.Active && !shield.IsWearerMoving)
                         {
-                            // 同时支持普通护盾和反弹护盾
-                            var shield = apparel.TryGetComp<ThingComp_AreaShield>();
-                            if (shield != null && shield.Active)
-                            {
-                                shieldSet.Add(shield);
-                            }
+                            shieldSet.Add(shield);
                         }
                     }
                 }
-                
                 activeShieldsByMap[map] = shieldSet;
             }
         }

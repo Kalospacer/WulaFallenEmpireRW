@@ -25,14 +25,28 @@ namespace WulaFallenEmpire
         public bool IsOnCooldown => ticksToReset > 0;
         public int HitPointsMax => Props.baseHitPoints;
 
-        private StunHandler stunner;
         private bool initialized = false;
+        private StunHandler stunner;
 
+        // 新增：移动状态检测
+        public bool IsWearerMoving
+        {
+            get
+            {
+                if (Wearer == null || !Wearer.Spawned) return false;
+                return Wearer.pather.Moving;
+            }
+        }
+
+        // 修改Active属性：只有在立定时才激活
         public bool Active
         {
             get
             {
                 if (Wearer == null || !Wearer.Spawned || Wearer.Dead || Wearer.Downed || IsOnCooldown)
+                    return false;
+                // 新增：只有在立定时才激活
+                if (IsWearerMoving)
                     return false;
                 return true;
             }
@@ -110,38 +124,51 @@ namespace WulaFallenEmpire
 
         public bool TryIntercept(Projectile projectile, Vector3 lastExactPos, Vector3 newExactPos)
         {
-            if (!Active) return false;
-            if (currentHitPoints <= 0) return false;
-
-            if (!GenGeo.IntersectLineCircleOutline(Wearer.Position.ToVector2(), Props.radius, lastExactPos.ToVector2(), newExactPos.ToVector2()))
-            {
+            // 增强安全检查
+            if (!Active || projectile == null || projectile.Destroyed || Wearer == null || Wearer.Map == null)
                 return false;
-            }
 
-            if (projectile.def.projectile.flyOverhead && !Props.interceptAirProjectiles) return false;
-            if (!projectile.def.projectile.flyOverhead && !Props.interceptGroundProjectiles) return false;
-            if (projectile.Launcher != null && !projectile.Launcher.HostileTo(Wearer.Faction) && !Props.interceptNonHostileProjectiles) return false;
-            
-            lastInterceptTicks = Find.TickManager.TicksGame;
-            
-            // 记录拦截角度用于视觉效果
-            lastInterceptAngle = projectile.ExactPosition.AngleToFlat(Wearer.TrueCenter());
-            drawInterceptCone = true;
-            
-            // 尝试反射
-            if (Props.canReflect && TryReflectProjectile(projectile, lastExactPos, newExactPos))
+            if (currentHitPoints <= 0)
+                return false;
+            try
             {
-                // 反射成功，播放反射特效
-                Props.reflectEffecter?.Spawn(projectile.ExactPosition.ToIntVec3(), Wearer.Map).Cleanup();
-                ApplyCosts(Props.reflectCost);
-                return false; // 不销毁原抛射体，让它继续飞行（我们会在反射中销毁它）
+                if (!GenGeo.IntersectLineCircleOutline(Wearer.Position.ToVector2(), Props.radius, lastExactPos.ToVector2(), newExactPos.ToVector2()))
+                {
+                    return false;
+                }
+                if (projectile.def.projectile.flyOverhead && !Props.interceptAirProjectiles)
+                    return false;
+                if (!projectile.def.projectile.flyOverhead && !Props.interceptGroundProjectiles)
+                    return false;
+                if (projectile.Launcher != null && !projectile.Launcher.HostileTo(Wearer.Faction) && !Props.interceptNonHostileProjectiles)
+                    return false;
+
+                lastInterceptTicks = Find.TickManager.TicksGame;
+
+                // 记录拦截角度用于视觉效果
+                lastInterceptAngle = projectile.ExactPosition.AngleToFlat(Wearer.TrueCenter());
+                drawInterceptCone = true;
+
+                // 尝试反射
+                if (Props.canReflect && TryReflectProjectile(projectile, lastExactPos, newExactPos))
+                {
+                    // 反射成功，播放反射特效
+                    Props.reflectEffecter?.Spawn(projectile.ExactPosition.ToIntVec3(), Wearer.Map).Cleanup();
+                    ApplyCosts(Props.reflectCost);
+                    return false; // 不销毁原抛射体，让它继续飞行（我们会在反射中销毁它）
+                }
+                else
+                {
+                    // 普通拦截，播放拦截特效
+                    Props.interceptEffecter?.Spawn(projectile.ExactPosition.ToIntVec3(), Wearer.Map).Cleanup();
+                    ApplyCosts();
+                    return true; // 销毁抛射体
+                }
             }
-            else
+            catch (System.Exception ex)
             {
-                // 普通拦截，播放拦截特效
-                Props.interceptEffecter?.Spawn(projectile.ExactPosition.ToIntVec3(), Wearer.Map).Cleanup();
-                ApplyCosts();
-                return true; // 销毁抛射体
+                Log.Warning($"Error in TryIntercept: {ex}");
+                return false;
             }
         }
 
@@ -150,79 +177,87 @@ namespace WulaFallenEmpire
         /// </summary>
         private bool TryReflectProjectile(Projectile originalProjectile, Vector3 lastExactPos, Vector3 newExactPos)
         {
-            if (!Props.canReflect) return false;
-            
-            // 检查反射概率
-            if (Rand.Value > Props.reflectChance) return false;
+            if (!Props.canReflect || originalProjectile == null || originalProjectile.Destroyed)
+                return false;
 
+            // 检查反射概率
+            if (Rand.Value > Props.reflectChance)
+                return false;
             try
             {
                 // 计算入射方向
                 Vector3 incomingDirection = (newExactPos - lastExactPos).normalized;
-                
+
                 // 计算法线方向（从护盾中心到碰撞点）
                 Vector3 normal = (newExactPos - Wearer.DrawPos).normalized;
-                
+
                 // 计算反射方向（镜面反射）
                 Vector3 reflectDirection = Vector3.Reflect(incomingDirection, normal);
-                
+
                 // 添加随机角度偏移
                 float randomAngle = Rand.Range(-Props.reflectAngleRange, Props.reflectAngleRange);
                 reflectDirection = Quaternion.Euler(0, randomAngle, 0) * reflectDirection;
-                
+
                 // 创建新的反射抛射体
-                CreateReflectedProjectile(originalProjectile, reflectDirection, newExactPos);
-                
-                return true;
+                return CreateReflectedProjectile(originalProjectile, reflectDirection, newExactPos);
             }
             catch (System.Exception ex)
             {
                 Log.Warning($"Error reflecting projectile: {ex}");
             }
-            
+
             return false;
         }
-
+        
         /// <summary>
         /// 创建反射后的新抛射体
         /// </summary>
-        private void CreateReflectedProjectile(Projectile originalProjectile, Vector3 reflectDirection, Vector3 collisionPoint)
+        private bool CreateReflectedProjectile(Projectile originalProjectile, Vector3 reflectDirection, Vector3 collisionPoint)
         {
             try
             {
+                if (originalProjectile == null || originalProjectile.Destroyed || Wearer == null || Wearer.Map == null)
+                    return false;
                 // 计算新的发射位置（护盾位置附近）
                 Vector3 spawnPosition = GetReflectSpawnPosition(collisionPoint);
-                
+                // 确保位置在地图内
+                IntVec3 spawnCell = spawnPosition.ToIntVec3();
+                if (!spawnCell.InBounds(Wearer.Map))
+                {
+                    spawnCell = Wearer.Position;
+                }
                 // 计算新的目标位置
-                Vector3 targetPosition = spawnPosition + reflectDirection * 30f; // 足够远的距离
-                
+                Vector3 targetPosition = spawnCell.ToVector3Shifted() + reflectDirection * 30f;
+                IntVec3 targetCell = targetPosition.ToIntVec3();
                 // 创建新的抛射体
-                Projectile newProjectile = (Projectile)GenSpawn.Spawn(originalProjectile.def, spawnPosition.ToIntVec3(), Wearer.Map);
-                
-                // 设置发射者为原抛射体的发射者
-                Thing launcher = originalProjectile.Launcher ?? Wearer;
-                
+                Projectile newProjectile = (Projectile)GenSpawn.Spawn(originalProjectile.def, spawnCell, Wearer.Map);
+                if (newProjectile == null)
+                {
+                    Log.Warning("Failed to spawn reflected projectile");
+                    return false;
+                }
+                // 设置发射者为装备穿戴者
+                Thing launcher = Wearer;
                 // 发射新抛射体
                 newProjectile.Launch(
                     launcher,
-                    spawnPosition,
-                    new LocalTargetInfo(targetPosition.ToIntVec3()),
-                    new LocalTargetInfo(targetPosition.ToIntVec3()),
+                    spawnCell.ToVector3Shifted(),
+                    new LocalTargetInfo(targetCell),
+                    new LocalTargetInfo(targetCell),
                     ProjectileHitFlags.All,
                     false
                 );
-                
                 // 复制重要的属性
                 CopyProjectileProperties(originalProjectile, newProjectile);
-                
-                // 销毁原抛射体
-                originalProjectile.Destroy(DestroyMode.Vanish);
-                
-                Log.Message($"反射抛射体: 从 {spawnPosition} 向 {targetPosition} 发射");
+                // 使用延迟销毁而不是立即销毁
+                ReflectedProjectileManager.MarkForDelayedDestroy(originalProjectile);
+                Log.Message($"反射抛射体: 由 {Wearer?.LabelShort} 从 {spawnCell} 向 {targetCell} 发射");
+                return true;
             }
             catch (System.Exception ex)
             {
                 Log.Warning($"Error creating reflected projectile: {ex}");
+                return false;
             }
         }
 
@@ -231,21 +266,17 @@ namespace WulaFallenEmpire
         /// </summary>
         private Vector3 GetReflectSpawnPosition(Vector3 collisionPoint)
         {
+            if (Wearer == null)
+                return collisionPoint;
+
             // 计算从护盾中心到碰撞点的方向
             Vector3 directionFromCenter = (collisionPoint - Wearer.DrawPos).normalized;
-            
+
             // 在护盾边界上生成（稍微向内一点避免立即再次碰撞）
             float spawnDistance = Props.radius * 0.9f;
             Vector3 spawnPosition = Wearer.DrawPos + directionFromCenter * spawnDistance;
-            
-            // 确保位置在地图内
-            IntVec3 spawnCell = spawnPosition.ToIntVec3();
-            if (!spawnCell.InBounds(Wearer.Map))
-            {
-                spawnCell = Wearer.Position;
-            }
-            
-            return spawnCell.ToVector3Shifted();
+
+            return spawnPosition;
         }
 
         /// <summary>
@@ -314,12 +345,13 @@ namespace WulaFallenEmpire
             AreaShieldManager.NotifyShieldStateChanged(this);
         }
 
-        // 护盾绘制方法
+        // 护盾绘制方法 - 只有在立定时才绘制
         public override void CompDrawWornExtras()
         {
             base.CompDrawWornExtras();
             
-            if (!Active || Wearer?.Map == null || !ShouldDisplay) 
+            // 修改：移动时不绘制护盾
+            if (!Active || Wearer?.Map == null || !ShouldDisplay || IsWearerMoving) 
                 return;
 
             Vector3 drawPos = Wearer.Drawer?.DrawPos ?? Wearer.Position.ToVector3Shifted();

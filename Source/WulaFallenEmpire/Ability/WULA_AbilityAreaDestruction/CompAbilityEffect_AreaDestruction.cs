@@ -21,8 +21,8 @@ namespace WulaFallenEmpire
             Map map = parent.pawn.MapHeld;
             if (map == null) return;
 
-            // 播放发射特效（在施法者位置）
-            PlayCastEffecter(map);
+            // 播放发射特效（在施法者位置）- 在释放瞬间播放
+            //PlayCastEffecter(target, map);
 
             // 获取扇形区域内的所有单元格
             List<IntVec3> affectedCells = AffectedCells(target);
@@ -61,26 +61,26 @@ namespace WulaFallenEmpire
             }
         }
 
-        private void PlayCastEffecter(Map map)
+        private void PlayCastEffecter(LocalTargetInfo target, Map map)
         {
             try
             {
                 if (Props.castEffecter == null) return;
                 
-                // 使用与 CompAbilityEffect_EffecterOnCaster 相同的方法
-                Effecter effecter = Props.castEffecter.Spawn(Pawn, map);
+                // 在释放瞬间创建效果器，确保正确的方向
+                Effecter effecter = Props.castEffecter.Spawn(Pawn.Position, target.Cell, map);
                 
                 if (Props.castEffecterMaintainTicks > 0)
                 {
                     // 使用与参考代码相同的方法来维持效果器
-                    map.effecterMaintainer.AddEffecterToMaintain(effecter, new TargetInfo(Pawn), Pawn, Props.castEffecterMaintainTicks);
+                    parent.AddEffecterToMaintain(effecter, Pawn.Position, target.Cell, Props.castEffecterMaintainTicks, map);
                 }
                 else
                 {
                     effecter.Cleanup();
                 }
                 
-                Log.Message($"[AreaDestruction] Played cast effecter on caster at {Pawn.Position}");
+                Log.Message($"[AreaDestruction] Played cast effecter from {Pawn.Position} to {target.Cell}");
             }
             catch (System.Exception ex)
             {
@@ -95,32 +95,54 @@ namespace WulaFallenEmpire
                 if (Props.hitEffecter == null) return;
                 if (target == null || target.Destroyed) return;
                 
-                // 使用与 CompAbilityEffect_EffecterOnTarget 相同的方法
-                Effecter effecter;
-                if (target is Pawn pawnTarget)
-                {
-                    effecter = Props.hitEffecter.Spawn(pawnTarget, map);
-                }
-                else
-                {
-                    effecter = Props.hitEffecter.Spawn(target.Position, map);
-                }
+                // 计算冲击波方向：从施法者到目标的向量
+                Vector3 directionFromCaster = (target.Position.ToVector3Shifted() - Pawn.Position.ToVector3Shifted()).normalized;
+                
+                // 计算反向位置：目标位置 + 反向向量 * 距离
+                // 这样特效会从目标位置向施法者的反方向播放
+                IntVec3 reversePosition = target.Position + new IntVec3(
+                    Mathf.RoundToInt(-directionFromCaster.x * 2f),
+                    0,
+                    Mathf.RoundToInt(-directionFromCaster.z * 2f)
+                );
+                
+                // 确保反向位置在地图范围内
+                reversePosition = reversePosition.ClampInsideMap(map);
+                
+                // 使用两个位置参数来设置效果器方向
+                // 从目标位置到反向位置，这样特效会向施法者反方向播放
+                Effecter effecter = Props.hitEffecter.Spawn(target.Position, reversePosition, map);
                 
                 if (Props.hitEffecterMaintainTicks > 0)
                 {
-                    // 使用与参考代码相同的方法来维持效果器
-                    parent.AddEffecterToMaintain(effecter, target.Position, Props.hitEffecterMaintainTicks);
+                    // 维持效果器
+                    parent.AddEffecterToMaintain(effecter, target.Position, reversePosition, Props.hitEffecterMaintainTicks, map);
                 }
                 else
                 {
                     effecter.Cleanup();
                 }
                 
-                Log.Message($"[AreaDestruction] Played hit effecter on {target.Label} at {target.Position}");
+                Log.Message($"[AreaDestruction] Played hit effecter on {target.Label} at {target.Position} with reverse direction to {reversePosition}");
             }
             catch (System.Exception ex)
             {
                 Log.Warning($"[AreaDestruction] Error playing hit effecter on {target?.Label}: {ex.Message}");
+            }
+        }
+
+        public override IEnumerable<PreCastAction> GetPreCastActions()
+        {
+            if (Props.castEffecter != null)
+            {
+                yield return new PreCastAction
+                {
+                    action = delegate (LocalTargetInfo a, LocalTargetInfo b)
+                    {
+                        parent.AddEffecterToMaintain(Props.castEffecter.Spawn(parent.pawn.Position, a.Cell, parent.pawn.Map), Pawn.Position, a.Cell, 17, Pawn.MapHeld);
+                    },
+                    ticksAwayFromCast = 17
+                };
             }
         }
 
@@ -252,12 +274,6 @@ namespace WulaFallenEmpire
                 pawn.health.forceDowned = true;
                 pawn.health.CheckForStateChange(null, null);
             }
-        }
-
-        public override IEnumerable<PreCastAction> GetPreCastActions()
-        {
-            // 这里不再预先创建效果器，改为在Apply中创建
-            yield break;
         }
 
         public override void DrawEffectPreview(LocalTargetInfo target)

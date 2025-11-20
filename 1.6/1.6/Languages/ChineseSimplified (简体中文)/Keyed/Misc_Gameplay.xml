@@ -346,15 +346,5 @@
   <WULA_TaxCollection.Status.Failed>- 逾期</WULA_TaxCollection.Status.Failed>
 
   <!-- 区域护盾Gizmo文本 -->
-  <AreaShield_Cooldown>冷却中</AreaShield_Cooldown>
-  <AreaShield_Inactive>未激活</AreaShield_Inactive>
-  <AreaShield_Yes>是</AreaShield_Yes>
-  <AreaShield_No>否</AreaShield_No>
-  
-  <AreaShield_Tooltip_Basic>区域护盾状态：\n最大生命值：{0}\n保护半径：{1}格\n破碎冷却：{3}秒</AreaShield_Tooltip_Basic>
-  
-  <AreaShield_Tooltip_Intercept>拦截设置：\n- 地面投射物：{0}\n- 空中投射物：{1}\n- 非敌对投射物：{2}</AreaShield_Tooltip_Intercept>
-  
-  <AreaShield_CooldownRemaining>冷却剩余时间：{0}秒</AreaShield_CooldownRemaining>
-  <AreaShield_InactiveReason>护盾未激活：\n- 装备未被穿戴\n- 穿戴者死亡或倒下\n- 护盾已破碎</AreaShield_InactiveReason>
+  <ShieldOfflineByMoving>未激活-移动中</ShieldOfflineByMoving>
 </LanguageData>

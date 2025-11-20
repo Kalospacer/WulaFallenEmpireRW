@@ -55,8 +55,6 @@
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <aiCanUse>true</aiCanUse>
-    <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
-    <ai_IsIncendiary>true</ai_IsIncendiary>
     <cooldownTicksRange>600</cooldownTicksRange>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
@@ -64,7 +62,7 @@
       <warmupTime>1</warmupTime>
       <soundCast>WarqueenWarUrchinsSpawned</soundCast>
 
-      <ai_IsWeapon>true</ai_IsWeapon>
+      <ai_IsWeapon>false</ai_IsWeapon>
       <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
 
       <requireLineOfSight>false</requireLineOfSight>
@@ -86,15 +84,112 @@
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AbilityAreaDestruction">
         <range>18</range>
-        <lineWidthEnd>12</lineWidthEnd>
+        <lineWidthEnd>18</lineWidthEnd>
         <canHitFilledCells>true</canHitFilledCells>
         <affectAllies>false</affectAllies>
         <affectCaster>false</affectCaster>
-        <castEffecter>Fire_SpewShort</castEffecter>
-        <castEffecterMaintainTicks>60</castEffecterMaintainTicks>
-        <hitEffecter>Fire_Spew</hitEffecter>
-        <hitEffecterMaintainTicks>30</hitEffecterMaintainTicks>
+        <castEffecter>WULA_AreaDestruction_Shockwave</castEffecter>
+        <hitEffecter>WULA_AreaDestruction_Hit</hitEffecter>
       </li>
     </comps>
   </AbilityDef>
+  <EffecterDef>
+    <defName>WULA_AreaDestruction_Hit</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
+        <burstCount>1~4</burstCount>
+        <scale>0.4~0.8</scale>
+        <speed>20~40</speed>
+        <angle>135~225</angle>
+        <positionRadius>0.01</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
+        <burstCount>2~3</burstCount>
+        <scale>0.4~0.8</scale>
+        <speed>10~20</speed>
+        <angle>135~225</angle>
+        <positionRadius>0.01</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+    <offsetTowardsTarget>0.25~0.25</offsetTowardsTarget>
+    <positionRadius>0.1</positionRadius>
+  </EffecterDef>
+  <EffecterDef>
+    <defName>WULA_AreaDestruction_Shockwave</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>WULA_AreaDestruction_Mainwave</moteDef>
+        <burstCount>1</burstCount>
+        <scale>1</scale>
+        <speed>20</speed>
+        <angle>0</angle>
+        <positionRadius>0.01</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>FlashMechBand</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_RedFlashStrong</moteDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <scale>24</scale>
+      </li>
+    </children>
+  </EffecterDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>WULA_Mote_ChargeLanceShot</defName>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <drawSize>(0.75,1.5)</drawSize>
+      <shaderType>MoteGlow</shaderType>
+      <color>(0.6,0.1,0.6,1)</color>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.2</fadeInTime>
+      <solidTime>0.4</solidTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <growthRate>-0.8</growthRate>
+      <rotateTowardsMoveDirection>true</rotateTowardsMoveDirection>
+    </mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>WULA_AreaDestruction_Mainwave</defName>
+    <graphicData>
+      <texPath>Wula/Mote/WULA_AreaDestruction_Mainwave</texPath>
+      <drawSize>(15,15)</drawSize>
+      <shaderType>MoteGlow</shaderType>
+      <color>(0.6,0.1,0.6,0.5)</color>
+    </graphicData>
+    <altitudeLayer>Floor</altitudeLayer>
+    <mote>
+      <fadeInTime>0.2</fadeInTime>
+      <solidTime>0.4</solidTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <growthRate>0.25</growthRate>
+      <rotateTowardsMoveDirection>true</rotateTowardsMoveDirection>
+    </mote>
+  </ThingDef>
 </Defs>
