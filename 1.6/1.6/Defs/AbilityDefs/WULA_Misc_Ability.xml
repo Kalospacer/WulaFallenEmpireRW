@@ -93,6 +93,28 @@
         <effecterDef>Fire_Spew</effecterDef>
         <hitEffecter>Fire_SpewShort</hitEffecter>
       </li>
+      <li Class="CompProperties_AbilityEffecterOnCaster">
+        <effecterDef>Fire_Spew</effecterDef>
+        <maintainTicks>20</maintainTicks> <!-- Long enough for the "2nd wave" to spawn -->
+      </li>
+      <!-- <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li> -->
+      <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>Fire_SpewShort</effecterDef>
+      </li>
+      <!-- <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>Skip_Exit</effecterDef>
+        <maintainForTicks>60</maintainForTicks>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDefs>
+          <li>PsycastSkipInnerExit</li>
+          <li>PsycastSkipOuterRingExit</li>
+        </fleckDefs>
+        <sound>Psycast_Skip_Exit</sound>
+        <preCastTicks>5</preCastTicks>
+      </li> -->
     </comps>
   </AbilityDef>
 </Defs>

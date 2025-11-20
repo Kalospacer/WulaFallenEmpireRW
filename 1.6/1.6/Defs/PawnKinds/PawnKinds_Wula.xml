@@ -232,45 +232,6 @@
     <techHediffsMoney>9999~9999</techHediffsMoney>
   </PawnKindDef>
 
-  <PawnKindDef ParentName="HeavyMechanoidKind">
-    <defName>Wula_Psi_Titan</defName> <!-- 修改了defName以避免冲突 -->
-    <label>PAt-6"灵能泰坦"</label>
-    <race>Wula_Psi_Titan</race>
-    <combatPower>1000</combatPower>
-    <allowInMechClusters>false</allowInMechClusters>
-    <defaultFactionType>PlayerColony</defaultFactionType>
-    <canMeleeAttack>false</canMeleeAttack>
-    <isGoodBreacher>true</isGoodBreacher>
-
-		<flyingAnimationFramePathPrefix>Wula/Things/Wula_Mech_Mobile_Factory/Flying/Wula_Mech_Mobile_Factory_Flying_</flyingAnimationFramePathPrefix>
-    <flyingAnimationDrawSize>1</flyingAnimationDrawSize>
-		<flyingAnimationFrameCount>1</flyingAnimationFrameCount>
-		<flyingAnimationTicksPerFrame>2</flyingAnimationTicksPerFrame>
-		<flyingAnimationInheritColors>false</flyingAnimationInheritColors>
-
-    <lifeStages>
-      <li>
-        <bodyGraphicData>
-          <texPath>Wula/Things/Wula_Psi_Titan/Bodies/Naked_Thin</texPath>
-          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
-          <shaderType>CutoutWithOverlay</shaderType>
-          <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>9</drawSize>
-          <shadowData>
-            <volume>(1.4, 1.8, 1.4)</volume>
-          </shadowData>
-        </bodyGraphicData>
-      </li>
-    </lifeStages>
-    <weaponMoney>99999~99999</weaponMoney>
-
-    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
-
-    <abilities>
-      <li>Wula_Mech_Mobile_Factory_Produce</li>
-    </abilities>
-  </PawnKindDef>
-
   <!-- 战斗类乌拉 -->
   <PawnKindDef>
     <defName>Wula_PIA_Heavy_Unit</defName>

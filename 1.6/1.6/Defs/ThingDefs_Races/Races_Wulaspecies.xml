@@ -1445,69 +1445,6 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef Name="Wula_Mech_Mobile_Factory" ParentName="WULA_BaseMechanoid">
-    <defName>Wula_Psi_Titan</defName> <!-- 修改了defName以避免冲突 -->
-    <label>PAt-6"灵能泰坦"</label>
-    <description>骇人之物</description>
-    <statBases>
-      <BandwidthCost>1</BandwidthCost>
-      <MoveSpeed>1</MoveSpeed>
-      <EnergyShieldEnergyMax>35</EnergyShieldEnergyMax>
-
-      <MaxFlightTime>9999</MaxFlightTime>
-      <FlightCooldown>0</FlightCooldown>
-    </statBases>
-    <race>
-      <body>Mech_Warqueen</body>
-      <baseBodySize>30</baseBodySize>
-      <lifeStageAges>
-        <li>
-          <def>MechanoidFullyFormed</def>
-          <minAge>0</minAge>
-          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
-          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
-          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
-        </li>
-      </lifeStageAges>
-      <baseHealthScale>25</baseHealthScale>
-
-      <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
-      <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
-    </race>
-    <tools>
-      <li>
-        <label>碾压</label>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>360</power>
-        <cooldownTime>8</cooldownTime>
-        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
-        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
-      </li>
-    </tools>
-    <comps>
-      <li Class="CompProperties_Shield">
-        <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
-        <minDrawSize>8.2</minDrawSize>
-        <maxDrawSize>8.4</maxDrawSize>
-        <energyLossPerDamage>0.01</energyLossPerDamage>
-        <energyOnReset>4.0</energyOnReset>
-        <blocksRangedWeapons>false</blocksRangedWeapons>
-      </li>
-      <!-- 飞行组件 -->
-      <li Class="WulaFallenEmpire.CompProperties_PawnFlight">        
-
-        <!-- 飞行触发条件：仅在征召时飞行 -->
-        <flightCondition>Drafted</flightCondition>
-
-        <!-- 链接到我们刚刚创建的 AnimationDef -->
-        <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
-        <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
-        <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
-      </li>
-    </comps>
-  </ThingDef>
 
   <!-- 特殊单位 -->
   <ThingDef ParentName="BaseMechanoidWalker">
