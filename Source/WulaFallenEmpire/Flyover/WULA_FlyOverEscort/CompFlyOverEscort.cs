@@ -34,9 +34,6 @@ namespace WulaFallenEmpire
             {
                 ticksUntilNextSpawn = Props.spawnIntervalTicks;
             }
-            
-            Log.Message($"FlyOver Escort initialized: {Props.spawnIntervalTicks} ticks interval, max {Props.maxEscorts} escorts");
-            Log.Message($"Safe distances - From Main: {Props.minSafeDistanceFromMain}, Between Escorts: {Props.minSafeDistanceBetweenEscorts}");
         }
 
         public override void CompTick()
@@ -50,7 +47,6 @@ namespace WulaFallenEmpire
             if (!hasInitialized && mainFlyOver.hasStarted)
             {
                 hasInitialized = true;
-                Log.Message($"FlyOver Escort: Main FlyOver started at {mainFlyOver.startPosition}");
             }
 
             // 清理已销毁的伴飞
@@ -136,14 +132,11 @@ namespace WulaFallenEmpire
                         escortDataByID[escortID] = visualData;
                         
                         successfulSpawns++;
-                        
-                        Log.Message($"Spawned escort #{successfulSpawns} for FlyOver at {mainFlyOver.DrawPos}, scale: {visualData.scale:F2}, maskAlpha: {visualData.heightMaskAlpha:F2}");
                     }
                     else
                     {
                         // 不安全，销毁这个伴飞
                         escort.Destroy();
-                        Log.Message($"Escort spawn attempt {attempt + 1}: Position too close to existing escort, trying again");
                     }
                 }
                 
@@ -169,7 +162,6 @@ namespace WulaFallenEmpire
                 float distToMain = Vector3.Distance(newPos, mainFlyOver.DrawPos);
                 if (distToMain < Props.minSafeDistanceFromMain)
                 {
-                    Log.Message($"Escort too close to main FlyOver: {distToMain:F1} < {Props.minSafeDistanceFromMain}");
                     return false;
                 }
             }
@@ -185,7 +177,6 @@ namespace WulaFallenEmpire
                     float distToEscort = Vector3.Distance(newPos, existingEscort.DrawPos);
                     if (distToEscort < Props.minSafeDistanceBetweenEscorts)
                     {
-                        Log.Message($"Escort too close to existing escort: {distToEscort:F1} < {Props.minSafeDistanceBetweenEscorts}");
                         return false;
                     }
                 }
@@ -251,8 +242,6 @@ namespace WulaFallenEmpire
 
                 // 设置伴飞属性 - 现在传入 visualData
                 SetupEscortProperties(escort, mainFlyOver, visualData);
-
-                Log.Message($"Created escort: {escortStart} -> {escortEnd}, speed: {escortSpeed}, altitude: {escortAltitude}");
 
                 return escort;
             }
@@ -371,8 +360,6 @@ namespace WulaFallenEmpire
             {
                 escort.playFlyOverSound = false;
             }
-            
-            Log.Message($"Set escort properties: scale={visualData.scale:F2}, isEscort={escort.isEscort}");
         }
 
         private void UpdateEscortPositions(FlyOver mainFlyOver)
@@ -532,8 +519,6 @@ namespace WulaFallenEmpire
                         escortDataByID[escortIDs[i]] = escortDataList[i];
                     }
                 }
-                
-                Log.Message($"Loaded escort visual data: {escortDataByID.Count} entries");
             }
             else if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -560,8 +545,6 @@ namespace WulaFallenEmpire
                         
                         // 重新设置伴飞的缩放
                         escort.escortScale = visualData.scale;
-                        
-                        Log.Message($"Rebuilt visual data for escort {escortID}: scale={visualData.scale:F2}");
                     }
                     else
                     {
@@ -569,13 +552,9 @@ namespace WulaFallenEmpire
                         var newVisualData = GenerateEscortVisualData();
                         escortVisualData[escort] = newVisualData;
                         escort.escortScale = newVisualData.scale;
-                        
-                        Log.Message($"Regenerated visual data for escort {escortID}: scale={newVisualData.scale:F2}");
                     }
                 }
             }
-            
-            Log.Message($"Rebuilt escort visual data: {escortVisualData.Count} escorts");
         }
 
         // 公共方法：强制生成伴飞

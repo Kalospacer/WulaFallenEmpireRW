@@ -239,6 +239,8 @@
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompProperties_CustomUniqueWeapon.cs" />
     <Compile Include="ThingComp\WULA_MechRepairKit\CompUseEffect_FixAllHealthConditions.cs" />
     <Compile Include="ThingComp\WULA_MechRepairKit\Recipe_AdministerWulaMechRepairKit.cs" />
+    <Compile Include="ThingComp\WULA_PeriodicGameCondition\CompPeriodicGameCondition.cs" />
+    <Compile Include="ThingComp\WULA_PeriodicGameCondition\CompProperties_PeriodicGameCondition.cs" />
     <Compile Include="ThingComp\WULA_PersonaCore\CompExperienceCore.cs" />
     <Compile Include="ThingComp\WULA_PersonaCore\CompExperienceDataPack.cs" />
     <Compile Include="ThingComp\WULA_PersonaCore\CompProperties_ExperienceCore.cs" />
