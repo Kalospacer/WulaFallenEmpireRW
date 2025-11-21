@@ -295,6 +295,7 @@
     <Compile Include="Projectiles\Projectile_ExplosiveWithTrail.cs" />
     <Compile Include="Projectiles\BulletWithTrail.cs" />
     <Compile Include="Projectiles\Projectile_NorthArcTrail.cs" />
+    <Compile Include="Projectiles\NorthArcModExtension.cs" />
     <Compile Include="HarmonyPatches\Patch_DropCellFinder_SkyfallerCanLandAt.cs" />
     <Compile Include="HarmonyPatches\MechWeapon\FloatMenuProvider_Mech.cs" />
     <Compile Include="HarmonyPatches\MechWeapon\Patch_MissingWeapon.cs" />

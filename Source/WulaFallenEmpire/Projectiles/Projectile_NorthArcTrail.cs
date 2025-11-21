@@ -8,9 +8,11 @@ namespace WulaFallenEmpire
     public class Projectile_NorthArcTrail : Projectile_Explosive
     {
         // --- 弹道部分变量 ---
-        // 定义向北偏移的高度（格数），建议在XML中通过 <projectile> 参数无法直接传参时硬编码或扩展 ThingDef
-        // 这里为了方便，设定默认值为 10，你可以根据需要修改
-        public float northOffsetDistance = 10f; 
+        // 通过ModExtension配置的向北偏移高度
+        public float northOffsetDistance = 0f;
+        
+        private Vector3 exactPositionInt; // 用于存储我们自己计算的位置
+        private float curveSteepness = 1f;
 
         private Vector3 originPos;
         private Vector3 destinationPos;
@@ -42,6 +44,9 @@ namespace WulaFallenEmpire
             }
         }
 
+        public override Vector3 ExactPosition => exactPositionInt; // 重写属性，让游戏获取我们计算的位置
+        public override Quaternion ExactRotation => Quaternion.LookRotation(GetCurrentDirection()); // 弹头朝向当前移动方向
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -52,7 +57,9 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref ticksFlying, "ticksFlying", 0);
             Scribe_Values.Look(ref totalTicks, "totalTicks", 0);
             Scribe_Values.Look(ref initialized, "initialized", false);
-            Scribe_Values.Look(ref northOffsetDistance, "northOffsetDistance", 10f);
+            Scribe_Values.Look(ref northOffsetDistance, "northOffsetDistance", 0f);
+            Scribe_Values.Look(ref exactPositionInt, "exactPositionInt", Vector3.zero);
+            Scribe_Values.Look(ref curveSteepness, "curveSteepness", 1f);
 
             // 保存尾迹数据
             Scribe_Values.Look(ref Fleck_MakeFleckTick, "Fleck_MakeFleckTick", 0);
@@ -62,6 +69,19 @@ namespace WulaFallenEmpire
         public override void Launch(Thing launcher, Vector3 origin, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget, ProjectileHitFlags hitFlags, bool preventFriendlyFire = false, Thing equipment = null, ThingDef targetCoverDef = null)
         {
             base.Launch(launcher, origin, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
+
+            // 获取北向偏移配置
+            NorthArcModExtension arcExtension = def.GetModExtension<NorthArcModExtension>();
+            if (arcExtension != null)
+            {
+                northOffsetDistance = arcExtension.northOffsetDistance;
+                curveSteepness = arcExtension.curveSteepness;
+            }
+            else
+            {
+                // 如果没有配置，则使用默认值，或者从 projectile.arcHeightFactor 获取参考值
+                northOffsetDistance = def.projectile.arcHeightFactor * 3; // 将arcHeightFactor转换为北向偏移距离
+            }
 
             // --- 初始化弹道 ---
             originPos = origin;
@@ -86,6 +106,9 @@ namespace WulaFallenEmpire
             bezierControlPoint = 2f * apexPoint - midPoint;
 
             initialized = true;
+            
+            // 初始化我们自己的位置
+            exactPositionInt = origin;
 
             // --- 初始化尾迹 ---
             lastTickPosition = origin;
@@ -93,8 +116,14 @@ namespace WulaFallenEmpire
 
         protected override void Tick()
         {
-            // 注意：这里不直接调用 base.Tick() 的物理位移部分，因为我们要自己控制位置
-            // 但我们需要 Projectile_Explosive 的倒计时逻辑，所以我们在方法末尾调用 TickInterval
+            // 首先调用base.Tick()，让它处理组件更新(比如拖尾特效)和ticksToImpact
+            base.Tick();
+
+            // 如果base.Tick()已经处理了撞击，我们就不再继续
+            if (this.Destroyed)
+            {
+                return;
+            }
 
             if (!initialized)
             {
@@ -104,7 +133,7 @@ namespace WulaFallenEmpire
 
             ticksFlying++;
 
-            // 1. 计算当前帧的新位置 (贝塞尔曲线 + 高度)
+            // 1. 计算当前帧的新位置 (贝塞尔曲线)
             float t = (float)ticksFlying / (float)totalTicks;
             if (t > 1f) t = 1f;
 
@@ -115,10 +144,17 @@ namespace WulaFallenEmpire
             float arcHeight = def.projectile.arcHeightFactor * GenMath.InverseParabola(t);
             nextPos.y = arcHeight;
 
-            // 设置物体确切位置
-            this.Position = nextPos.ToIntVec3();
+            // 检查边界
+            if (!nextPos.ToIntVec3().InBounds(base.Map))
+            {
+                this.Destroy();
+                return;
+            }
 
-            // 2. 处理拖尾特效 (合并的代码)
+            // 更新我们自己的位置
+            exactPositionInt = nextPos;
+            
+            // 2. 处理拖尾特效
             // 只有当这一帧移动了，且配置了 DefModExtension 时才生成
             if (TrackingDef != null && TrackingDef.tailFleckDef != null)
             {
@@ -134,7 +170,7 @@ namespace WulaFallenEmpire
 
                     Map map = base.Map;
                     // 只有当在地图内时才生成
-                    if (map != null) 
+                    if (map != null)
                     {
                         int count = TrackingDef.fleckMakeFleckNum.RandomInRange;
                         Vector3 currentPosition = this.ExactPosition;
@@ -162,25 +198,41 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 3. 更新旋转角度 (Visual) 和 记录上一帧位置
-            if (lastTickPosition != nextPos)
-            {
-                 if ((nextPos - lastTickPosition).MagnitudeHorizontalSquared() > 0.001f)
-                 {
-                     this.Rotation = Rot4.FromAngleFlat((nextPos - lastTickPosition).AngleFlat());
-                 }
-            }
+            // 3. 更新上一帧位置
             lastTickPosition = nextPos;
 
             // 4. 判定到达目标或倒计时爆炸
             if (ticksFlying >= totalTicks)
             {
-                Impact(null); 
+                Impact(null);
                 return;
             }
+        }
+        
+        // 计算当前位置的切线方向
+        private Vector3 GetCurrentDirection()
+        {
+            if (!initialized || totalTicks <= 0)
+            {
+                return destinationPos - originPos;
+            }
 
-            // 5. 处理 Projectile_Explosive 的内部倒计时 (如果 ticksToDetonation 被设置了)
-            base.TickInterval(1);
+            float t = (float)ticksFlying / (float)totalTicks;
+            if (t > 1f) t = 1f;
+
+            // 计算贝塞尔曲线的导数（切线向量）
+            // 对于二次贝塞尔曲线 B(t) = (1-t)²P₀ + 2(1-t)tP₁ + t²P₂
+            // 导数 B'(t) = 2(1-t)(P₁-P₀) + 2t(P₂-P₁)
+            float u = 1 - t;
+            Vector3 tangent = 2 * u * (bezierControlPoint - originPos) + 2 * t * (destinationPos - bezierControlPoint);
+            
+            // 如果切线向量为零，则使用默认方向
+            if (tangent.MagnitudeHorizontalSquared() < 0.0001f)
+            {
+                return (destinationPos - originPos).normalized;
+            }
+            
+            return tangent.normalized;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)

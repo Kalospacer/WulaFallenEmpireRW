@@ -271,9 +271,14 @@
       <soundAmbient>MortarRound_Ambient</soundAmbient>
       <stoppingPower>5</stoppingPower>
       <flyOverhead>true</flyOverhead>
-      <arcHeightFactor>150</arcHeightFactor>
+      <arcHeightFactor>2</arcHeightFactor>
     </projectile>
     <modExtensions>
+      <li Class="WulaFallenEmpire.NorthArcModExtension">
+        <northOffsetDistance>100</northOffsetDistance>
+        <curveSteepness>1.0</curveSteepness>
+        <useArcTrajectory>true</useArcTrajectory>
+      </li>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
         <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>
         <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
