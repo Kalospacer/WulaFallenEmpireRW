@@ -49,8 +49,8 @@
 
   <AbilityDef>
     <defName>WULA_PsiCrusher</defName>
-    <label>乌拉帝国术式：灵能粉碎</label>
-    <description>释放纯净的灵能能量，直接解构面前扇形区域内的所有目标，无论是建筑物还是活物都难逃毁灭。这种术式需要的灵能难以估量，只有搭载大量封闭灵能回路的灵能泰坦可以连续使用。</description>
+    <label>乌拉帝国术式：灵能尖啸</label>
+    <description>以灵能能量发出非人尖啸，直接解构面前扇形区域内的所有目标，无论是建筑物还是活物都难逃毁灭。这种术式需要的灵能难以估量，只有搭载大量封闭灵能回路的灵能泰坦可以连续使用。</description>
     <iconPath>UI/Abilities/FireSpew</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -72,7 +72,6 @@
       <aimingChargeMote>Mote_HellsphereCannon_Charge</aimingChargeMote>
       <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
       <aimingLineMoteFixedLength>32</aimingLineMoteFixedLength>
-      <aimingTargetMote>Mote_HellsphereCannon_Target</aimingTargetMote>
 
       <targetParams>
         <canTargetLocations>true</canTargetLocations>
@@ -99,8 +98,29 @@
     <children>
       <li>
         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <positionRadius>0.1</positionRadius>
+        <moteDef>WULA_Mote_halo</moteDef>
+        <burstCount>1~1</burstCount>
+        <speed>0.4~0.8</speed>
+        <scale>0.05~0.05</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <color>(255,255,255)</color>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <positionRadius>0.02</positionRadius>
+        <moteDef>WULA_Mote_halo</moteDef>
+        <burstCount>1~1</burstCount>
+        <speed>0.3~0.4</speed>
+        <rotationRate>5~10</rotationRate>
+        <scale>0.1~0.2</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <color>(255,255,255)</color>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
         <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
-        <burstCount>1~4</burstCount>
+        <burstCount>6~12</burstCount>
         <scale>0.4~0.8</scale>
         <speed>20~40</speed>
         <angle>135~225</angle>
@@ -110,7 +130,7 @@
       <li>
         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
         <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
-        <burstCount>2~3</burstCount>
+        <burstCount>5~9</burstCount>
         <scale>0.4~0.8</scale>
         <speed>10~20</speed>
         <angle>135~225</angle>
@@ -160,6 +180,36 @@
     </children>
   </EffecterDef>
   <ThingDef ParentName="MoteBase">
+    <defName>WULA_Mote_halo</defName>
+    <graphicData>
+      <texPath>Wula/Mote/halo</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <solidTime>0</solidTime>
+      <fadeOutTime>0.1</fadeOutTime>
+      <growthRate>40</growthRate>
+      <rotateTowardsMoveDirection>true</rotateTowardsMoveDirection>
+    </mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>WULA_Mote_fire</defName>
+    <graphicData>
+      <texPath>Wula/Mote/fire</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <solidTime>0</solidTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <growthRate>8</growthRate>
+      <rotateTowardsMoveDirection>true</rotateTowardsMoveDirection>
+    </mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
     <defName>WULA_Mote_ChargeLanceShot</defName>
     <graphicData>
       <texPath>Things/Projectile/ChargeLanceShot</texPath>
@@ -194,113 +244,210 @@
     </mote>
   </ThingDef>
   <AbilityDef>
-    <defName>Wula_Psi_Explosive_Shock</defName>
-    <label>乌拉帝国术式：灵能尖啸</label>
-    <description>以灵能能量发出非人尖啸，使得周围的人员感觉到撕心裂肺的痛苦。这不会造成永久的伤害，但是很可能放倒那些无法承受此番痛苦的生灵。</description>
-    <iconPath>UI/Abilities/FireSpew</iconPath>
+    <defName>WULA_Psi_Skip</defName>
+    <label>乌拉帝国术式：灵能跃迁</label>
+    <description>使用灵能撕开一个连接自身、虚境和目的地的单向通道，随后以极短的时间穿过整个通道，以瞬间移动到目标地点</description>
+    <iconPath>UI/Abilities/Skip</iconPath>
     <writeCombatLog>True</writeCombatLog>
-    <showPsycastEffects>True</showPsycastEffects>
-    <cooldownTicksRange>1200</cooldownTicksRange>
-    <targetRequired>False</targetRequired>
-    <aiCanUse>true</aiCanUse>
-    <statBases>
-      <Ability_EffectRadius>12</Ability_EffectRadius>
-    </statBases>
+    <showPsycastEffects>False</showPsycastEffects>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <cooldownTicksRange>600</cooldownTicksRange>
     <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
-      <defaultProjectile>Bullet_FleshmelterBolt</defaultProjectile>
-      <range>12</range>
-      <drawAimPie>true</drawAimPie>
       <warmupTime>1</warmupTime>
-      <soundCast>WULA_Psi_Explosive_Shock_Sound</soundCast>
-      <ai_IsWeapon>false</ai_IsWeapon>
-      <ai_ProjectileLaunchingIgnoresMeleeThreats>true</ai_ProjectileLaunchingIgnoresMeleeThreats>
-      <!-- <targetable>false</targetable> -->
+      <range>65</range>
+      <soundCast>WULA_Psi_Skip_Sound</soundCast>
       <targetParams>
-        <canTargetSelf>true</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
       </targetParams>
     </verbProperties>
     <comps>
-      <li Class="CompProperties_AbilityGiveHediffPsychic">
-        <compClass>CompAbilityEffect_GiveHediffPsychic</compClass>
-        <durationSecondsOverride>2000~4000</durationSecondsOverride> <!-- 2 to 4 days -->
-        <replaceExisting>true</replaceExisting>
-        <hediffDef>Wula_Psi_Explosive_Shock_Hediff</hediffDef>
-        <onlyBrain>true</onlyBrain>
-        <ignoreSelf>true</ignoreSelf>
-        <severity>0</severity>
-      </li>
-      <li Class="CompProperties_AbilityFleckOnTarget">
-        <fleckDef>PsycastPsychicEffect</fleckDef>
-      </li>
-      <li Class="CompProperties_AbilityEffecterOnTarget">
-        <effecterDef>AgonyPulseExplosion</effecterDef>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityTeleportSelf">
+        <range>65</range>
+        <stunTicks>
+          <min>10</min>
+          <max>15</max>
+        </stunTicks>
+        <maxBodySize>100</maxBodySize>
+        <destClamorType>Impact</destClamorType>
+        <destClamorRadius>3</destClamorRadius>
+        <requireLineOfSight>false</requireLineOfSight>
+        <canTeleportToFogged>false</canTeleportToFogged>
+        <canTeleportToRoofed>true</canTeleportToRoofed>
+
+        
+        <customEntryEffecter>WULA_Psi_Skip_Entry</customEntryEffecter>
+        <customExitEffecter>WULA_Psi_Skip_Exit</customExitEffecter>
+        <!-- <customEntryFleck>WULA_GiantTeleportFlash</customEntryFleck>
+        <customExitFleck>WULA_GiantTeleportRings</customExitFleck> -->
       </li>
     </comps>
   </AbilityDef>
-  <HediffDef>
-    <hediffClass>HediffWithComps</hediffClass>
-    <defName>Wula_Psi_Explosive_Shock_Hediff</defName>
-    <label>灵能尖啸</label>
-    <description>震耳欲聋、撕心裂肺的灵能尖啸所带来的极度痛苦，不会造成永久的伤害，但是需要时间缓解</description>
-    <initialSeverity>0.001</initialSeverity>
-    <maxSeverity>1</maxSeverity>
-    <comps>
-      <li Class="HediffCompProperties_Disappears">
-        <showRemainingTime>true</showRemainingTime>
-      </li>
-      <li Class="HediffCompProperties_SeverityPerSecond">
-        <severityPerSecondRange>0.01</severityPerSecondRange> <!-- 10 to 15 seconds -->
-      </li>
-    </comps>
-    <stages>
+  <EffecterDef>
+    <defName>WULA_Psi_Skip_Entry</defName>
+    <maintainTicks>180</maintainTicks>
+    <children>
       <li>
-        <minSeverity>0</minSeverity>
-        <painOffset>2</painOffset>
-        <label>撕裂</label>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <fleckDef>PlainFlash</fleckDef>
+        <burstCount>1~1</burstCount>
+        <scale>17.0~17.0</scale>
+        <spawnLocType>OnSource</spawnLocType>
       </li>
       <li>
-        <minSeverity>0.5</minSeverity>
-        <painOffset>0.5</painOffset>
-        <label>恢复</label>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <fleckDef>PsycastSkipInnerEntry</fleckDef>
+        <initialDelayTicks>11</initialDelayTicks>
+        <burstCount>1~1</burstCount>
+        <scale>6~6</scale>
+        <rotation>0~0</rotation>
+        <spawnLocType>OnSource</spawnLocType>
       </li>
-    </stages>
-  </HediffDef>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <fleckDef>PsycastSkipOuterRingEntry</fleckDef>
+        <initialDelayTicks>11</initialDelayTicks>
+        <burstCount>1~1</burstCount>
+        <scale>6~6</scale>
+        <rotation>0~0</rotation>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <positionRadius>1.3</positionRadius>
+        <fleckDef>ElectricalSpark</fleckDef>
+        <burstCount>7~9</burstCount>
+        <scale>17.5</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <positionRadius>1.3</positionRadius>
+        <initialDelayTicks>5</initialDelayTicks>
+        <fleckDef>ElectricalSpark</fleckDef>
+        <burstCount>5~7</burstCount>
+        <scale>17.5</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <positionRadius>1.3</positionRadius>
+        <initialDelayTicks>10</initialDelayTicks>
+        <fleckDef>ElectricalSpark</fleckDef>
+        <burstCount>3~7</burstCount>
+        <scale>12</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  <EffecterDef>
+    <defName>WULA_Psi_Skip_Exit</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <fleckDef>PsycastSkipFlashExit</fleckDef>
+        <initialDelayTicks>12</initialDelayTicks>
+        <burstCount>1~1</burstCount>
+        <scale>6~6</scale>
+        <rotation>0~0</rotation>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <fleckDef>PlainFlash</fleckDef>
+        <initialDelayTicks>14</initialDelayTicks>
+        <burstCount>1~1</burstCount>
+        <scale>17.0~17.0</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <positionRadius>1.3</positionRadius>
+        <initialDelayTicks>16</initialDelayTicks>
+        <fleckDef>ElectricalSpark</fleckDef>
+        <burstCount>7~9</burstCount>
+        <scale>12</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <positionRadius>1.3</positionRadius>
+        <initialDelayTicks>24</initialDelayTicks>
+        <fleckDef>ElectricalSpark</fleckDef>
+        <burstCount>5~7</burstCount>
+        <scale>12</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
+        <positionRadius>1.3</positionRadius>
+        <initialDelayTicks>32</initialDelayTicks>
+        <fleckDef>ElectricalSpark</fleckDef>
+        <burstCount>3~7</burstCount>
+        <scale>10</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
   <AbilityDef>
-    <defName>Wula_Psi_LightningBombardment</defName>
-    <label>乌拉帝国术式：化三风暴</label>
-    <description>以庞大的灵能能量形成一场非自然风暴，持续轰击目标区域，风暴的轰击会产生范围性灵能爆燃，对建筑物有额外的伤害。</description>
-    <iconPath>Wula/UI/Abilities/WULA_MW_Scepter_Of_Explosive_Ability</iconPath>
-    <cooldownTicksRange>900</cooldownTicksRange>
-    <sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
-    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
-    <charges>3</charges>
-    <cooldownPerCharge>true</cooldownPerCharge>
+    <defName>WULA_Psi_Black_Hole</defName>
+    <label>乌拉帝国术式：虚境阴影</label>
+    <description>撕开虚境的裂口，在目标地点召唤一道虚境阴影，它泄露的庞大灵能会持续伤害范围内的敌方单位和建筑，即使是心灵失聪的目标也不能完全免疫这种超现实伤害——对于高心灵敏感度的单位这种伤害则更加致命。</description>
+    <iconPath>UI/Abilities/FireSpew</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>False</showPsycastEffects>
     <aiCanUse>true</aiCanUse>
+    <cooldownTicksRange>600</cooldownTicksRange>
+    <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
+    <statBases>
+      <Ability_EffectRadius>8</Ability_EffectRadius>
+      <Ability_Duration>600</Ability_Duration>
+    </statBases>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
-      <label>释放化三风暴</label>
-      <drawAimPie>true</drawAimPie>
-      <warmupTime>0.25</warmupTime>
-      <range>35.9</range>
-      <minRange>4</minRange>
+      <warmupTime>1</warmupTime>
+      <range>36</range>
+      <requireLineOfSight>false</requireLineOfSight>
       <targetParams>
-        <canTargetPawns>True</canTargetPawns>
         <canTargetLocations>True</canTargetLocations>
       </targetParams>
     </verbProperties>
     <comps>
-      <li Class="WulaFallenEmpire.CompProperties_AbilityDRM_LightningBombardment">
-        <impactAreaRadius>9</impactAreaRadius>
-        <explosionRadiusRange>3~4</explosionRadiusRange>
-        <bombIntervalTicks>25</bombIntervalTicks>
-        <explosionCount>20</explosionCount>
-
-        <damageDef>Wula_Psi_Bomb</damageDef>
-        <damageAmount>30</damageAmount>
-        <armorPenetration>3</armorPenetration>
+      <li Class="CompProperties_AbilitySpawn">
+        <thingDef>WULA_Black_Hole_Entity</thingDef>
+        <allowOnBuildings>false</allowOnBuildings>
       </li>
     </comps>
   </AbilityDef>
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WULA_Black_Hole_Entity</defName>
+    <label>虚境阴影</label>
+    <thingClass>ThingWithComps</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+    <category>PsychicEmitter</category>
+    <altitudeLayer>MoteOverheadLow</altitudeLayer>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>5</drawSize>
+    </graphicData>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
+        <radius>8</radius>
+        <damageIntervalTicks>30</damageIntervalTicks>
+        <damageDef>Wula_Psi_Damage</damageDef>
+        <damageAmount>5</damageAmount>
+        <scaleWithPsychicSensitivity>true</scaleWithPsychicSensitivity>
+        <minDamageFactor>0.5</minDamageFactor>
+        <maxDamageFactor>5</maxDamageFactor>
+        <affectFriendly>false</affectFriendly>
+        <affectHostile>true</affectHostile>
+        <affectBuildings>true</affectBuildings>
+      </li>
+    </comps>
+  </ThingDef>
 </Defs>

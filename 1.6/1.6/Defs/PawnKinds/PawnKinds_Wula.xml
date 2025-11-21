@@ -270,8 +270,8 @@
 
     <abilities>
       <li>WULA_PsiCrusher</li>
-      <li>Wula_Psi_Explosive_Shock</li>
-      <li>Wula_Psi_LightningBombardment</li>
+      <li>WULA_Psi_Skip</li>
+      <li>WULA_Psi_Black_Hole</li>
     </abilities>
   </PawnKindDef>
 

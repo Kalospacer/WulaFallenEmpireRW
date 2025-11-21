@@ -135,7 +135,7 @@
     </subSounds>
   </SoundDef>
   <SoundDef>
-    <defName>WULA_Psi_Explosive_Shock_Sound</defName>
+    <defName>WULA_Psi_Skip_Sound</defName>
     <context>MapOnly</context>
     <subSounds>
       <li>
