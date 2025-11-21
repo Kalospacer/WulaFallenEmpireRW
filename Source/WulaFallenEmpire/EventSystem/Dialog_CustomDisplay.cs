@@ -55,14 +55,14 @@ namespace WulaFallenEmpire
             {
                 if (def.descriptionMode == DescriptionSelectionMode.Random)
                 {
-                    selectedDescription = def.descriptions.RandomElement();
+                    selectedDescription = def.descriptions.RandomElement().Translate();
                 }
-                else 
+                else
                 {
                     string indexVarName = $"_seq_desc_index_{def.defName}";
                     int currentIndex = eventVarManager.GetVariable<int>(indexVarName, 0);
 
-                    selectedDescription = def.descriptions[currentIndex];
+                    selectedDescription = def.descriptions[currentIndex].Translate();
 
                     int nextIndex = (currentIndex + 1) % def.descriptions.Count;
                     eventVarManager.SetVariable(indexVarName, nextIndex);
@@ -118,7 +118,7 @@ namespace WulaFallenEmpire
                     string reason;
                     if (AreConditionsMet(condDesc.conditions, out reason))
                     {
-                        selectedDescription += "\n\n" + condDesc.text;
+                        selectedDescription += "\n\n" + condDesc.text.Translate();
                     }
                 }
             }
@@ -179,7 +179,7 @@ namespace WulaFallenEmpire
                 
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Text.Font = Config.labelFont;
-                Widgets.Label(labelRect, def.label);
+                Widgets.Label(labelRect, def.label.Translate());
                 Text.Font = GameFont.Small;
                 Text.Anchor = TextAnchor.UpperLeft;
                 
@@ -201,7 +201,7 @@ namespace WulaFallenEmpire
                 
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Text.Font = GameFont.Medium;
-                Widgets.Label(nameRect, def.characterName);
+                Widgets.Label(nameRect, def.characterName.Translate());
                 Text.Font = GameFont.Small;
                 Text.Anchor = TextAnchor.UpperLeft;
                 
@@ -368,7 +368,7 @@ namespace WulaFallenEmpire
                     // 设置文本居中
                     Text.Anchor = TextAnchor.MiddleCenter;
 
-                    if (Widgets.ButtonText(optionRect, option.label))
+                    if (Widgets.ButtonText(optionRect, option.label.Translate()))
                     {
                         HandleAction(option.optionEffects);
                     }
@@ -402,7 +402,7 @@ namespace WulaFallenEmpire
                     Text.Anchor = TextAnchor.MiddleCenter;
                     // 绘制居中的文本
                     Rect textRect = optionRect.ContractedBy(4f);
-                    Widgets.Label(textRect, option.label);
+                    Widgets.Label(textRect, option.label.Translate());
                     // 可选：在文本上添加删除线效果
                     if (Config.drawBorders)
                     {
@@ -414,7 +414,7 @@ namespace WulaFallenEmpire
                             1f
                         );
                     }
-                    TooltipHandler.TipRegion(optionRect, GetDisabledReason(option, reason));
+                    TooltipHandler.TipRegion(optionRect, GetDisabledReason(option, reason).Translate());
                 }
                 finally
                 {
@@ -495,7 +495,7 @@ namespace WulaFallenEmpire
         {
             if (!option.disabledReason.NullOrEmpty())
             {
-                return option.disabledReason;
+                return option.disabledReason.Translate();
             }
             return reason;
         }

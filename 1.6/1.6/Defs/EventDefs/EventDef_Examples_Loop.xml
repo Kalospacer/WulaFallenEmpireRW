@@ -5,8 +5,8 @@
     <defName>WULA_Example_Loop</defName>
     <characterName>循环大师</characterName>
     <description>这是一个演示循环效果列表功能的事件。
-
-首先，设置一个循环次数，然后看看会发生什么！</description>
+    
+ 首先，设置一个循环次数，然后看看会发生什么！</description>
     <options>
       <li>
         <label>设置循环次数为 3</label>

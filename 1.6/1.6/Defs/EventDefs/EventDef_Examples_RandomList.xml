@@ -5,8 +5,8 @@
     <defName>WULA_Example_RandomList</defName>
     <characterName>系统管理员</characterName>
     <description>这是一个演示随机效果列表功能的事件。
-
-点击下面的选项，你会看到一条固定消息，然后会随机获得一件物品。</description>
+    
+ 点击下面的选项，你会看到一条固定消息，然后会随机获得一件物品。</description>
     <options>
       <li>
         <label>试一试！</label>

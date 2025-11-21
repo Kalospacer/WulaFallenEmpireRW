@@ -47,7 +47,7 @@ namespace WulaFallenEmpire
                         Find.LetterStack.RemoveLetter(this);
                     };
 
-                    var diaOption = new DiaOption(currentOption.label)
+                    var diaOption = new DiaOption(currentOption.label.Translate())
                     {
                         action = choiceAction,
                         resolveTree = true

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+ <!-- Wula_Test_VariableEvent -->
+  <Wula_Test_VariableEvent.label>变量测试事件</Wula_Test_VariableEvent.label>
+  <Wula_Test_VariableEvent.characterName>测试员</Wula_Test_VariableEvent.characterName>
+  <Wula_Test_VariableEvent.description.0>变量 testNumber 的当前值为 {testNumber}。点击下面的按钮来改变它。</Wula_Test_VariableEvent.description.0>
+  <Wula_Test_VariableEvent.option.0.label>将 testNumber 增加50并重新打开</Wula_Test_VariableEvent.option.0.label>
+ <Wula_Test_VariableEvent.option.1.label>关闭</Wula_Test_VariableEvent.option.1.label>
+</LanguageData>
