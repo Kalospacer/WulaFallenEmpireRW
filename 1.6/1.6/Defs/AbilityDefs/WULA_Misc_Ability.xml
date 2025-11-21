@@ -405,6 +405,7 @@
       <Ability_Duration>600</Ability_Duration>
     </statBases>
     <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
       <warmupTime>1</warmupTime>
       <range>36</range>
       <requireLineOfSight>false</requireLineOfSight>
@@ -413,24 +414,9 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnAligned">
+      <li Class="CompProperties_AbilitySpawn">
         <thingDef>WULA_Black_Hole_Entity</thingDef>
-        <alignFaction>true</alignFaction>
         <allowOnBuildings>false</allowOnBuildings>
-      </li>
-      <li Class="CompProperties_AbilityEffecterOnTarget">
-        <effecterDef>Skip_Exit</effecterDef>
-        <maintainForTicks>60</maintainForTicks>
-        <scale>0.42</scale>
-      </li>
-      <li Class="CompProperties_AbilityFleckOnTarget">
-        <fleckDefs>
-          <li>PsycastSkipInnerExit</li>
-          <li>PsycastSkipOuterRingExit</li>
-        </fleckDefs>
-        <scale>0.42</scale>
-        <sound>Psycast_Skip_Exit</sound>
-        <preCastTicks>5</preCastTicks>
       </li>
     </comps>
   </AbilityDef>
@@ -445,16 +431,14 @@
     <altitudeLayer>MoteOverheadLow</altitudeLayer>
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
-      <drawSize>2</drawSize>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>5</drawSize>
     </graphicData>
     <comps>
-      <li Class="CompProperties_Effecter">
-        <effecterDef>WULA_Black_Hole_Effecter</effecterDef>
-      </li>
       <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
         <radius>8</radius>
-        <damageIntervalTicks>30</damageTicks>
+        <damageIntervalTicks>30</damageIntervalTicks>
         <damageDef>Wula_Psi_Damage</damageDef>
         <damageAmount>5</damageAmount>
         <scaleWithPsychicSensitivity>true</scaleWithPsychicSensitivity>
@@ -466,36 +450,4 @@
       </li>
     </comps>
   </ThingDef>
-  <EffecterDef>
-    <defName>WULA_Black_Hole_Effecter</defName>
-    <maintainTicks>600</maintainTicks>
-    <children>
-      <li>
-        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
-        <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
-        <burstCount>3~5</burstCount>
-        <spawnLocType>OnSource</spawnLocType>
-        <absoluteAngle>true</absoluteAngle>
-        <rotation>0~0</rotation>
-      </li>
-      <li>
-        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
-        <fleckDef>PsycastSkipInnerEntry</fleckDef>
-        <initialDelayTicks>11</initialDelayTicks>
-        <burstCount>1~1</burstCount>
-        <scale>4~4</scale>
-        <rotation>0~0</rotation>
-        <spawnLocType>OnSource</spawnLocType>
-      </li>
-      <li>
-        <subEffecterClass>SubEffecter_SprayerTriggeredDelayed</subEffecterClass>
-        <fleckDef>PsycastSkipOuterRingEntry</fleckDef>
-        <initialDelayTicks>11</initialDelayTicks>
-        <burstCount>1~1</burstCount>
-        <scale>4~4</scale>
-        <rotation>0~0</rotation>
-        <spawnLocType>OnSource</spawnLocType>
-      </li>
-    </children>
-  </EffecterDef>
 </Defs>
