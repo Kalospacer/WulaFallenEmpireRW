@@ -115,7 +115,7 @@
                       <invert>true</invert>
                       <subNodes>
                         <li Class="JobGiver_AIFightEnemies">
-                          <targetAcquireRadius>65</targetAcquireRadius>
+                          <targetAcquireRadius>500</targetAcquireRadius>
                           <targetKeepRadius>72</targetKeepRadius>
                         </li>
                         <li Class="ThinkNode_Tagger">

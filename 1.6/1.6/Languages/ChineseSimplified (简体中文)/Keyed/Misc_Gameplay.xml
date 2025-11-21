@@ -347,4 +347,9 @@
 
   <!-- 区域护盾Gizmo文本 -->
   <ShieldOfflineByMoving>未激活-移动中</ShieldOfflineByMoving>
+
+  <ToggleAreaDamage>切换区域伤害</ToggleAreaDamage>
+  <ToggleAreaDamageDesc>启用或禁用区域伤害效果</ToggleAreaDamageDesc>
+  <AreaDamageEnabled>区域伤害：已启用</AreaDamageEnabled>
+  <AreaDamageDisabled>区域伤害：已禁用</AreaDamageDisabled>
 </LanguageData>

@@ -33,6 +33,12 @@ namespace WulaFallenEmpire
         // 特殊效果
         public bool showDamageNumbers = false;       // 显示伤害数值（调试用）
 
+        // 新增：开关设置
+        public bool startEnabled = true;             // 初始是否启用
+        public string toggleLabel = "Toggle Area Damage"; // 开关标签
+        public string toggleDescription = "Enable or disable the area damage effect"; // 开关描述
+        public string toggleIconPath;                // 开关图标路径
+
         public CompProperties_AreaDamage()
         {
             compClass = typeof(CompAreaDamage);

@@ -45,18 +45,15 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_Heavy_Infantry_PowerArmor_Mortar</defName>
     <label>铬铁迫击炮弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <drawerType>RealtimeOnly</drawerType>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
+      <texPath>Wula/Projectile/WULA_Mortar_Shell</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.5,2)</drawSize>
+      <drawSize>(2,1.75)</drawSize>
     </graphicData>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
-        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
-      </li>
-    </modExtensions>
-    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
     <projectile>
       <damageDef>Bomb</damageDef>
       <damageAmountBase>20</damageAmountBase>
@@ -69,6 +66,22 @@
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
     </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.NorthArcModExtension">
+        <northOffsetDistance>10</northOffsetDistance>
+        <curveSteepness>1.0</curveSteepness>
+        <useArcTrajectory>true</useArcTrajectory>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
+        <fleckMakeFleckTickMax>5</fleckMakeFleckTickMax>
+        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
+        <fleckScale>0.5~1.0</fleckScale>
+        <fleckSpeed>0.1~0.3</fleckSpeed>
+        <fleckAngle>-30~30</fleckAngle>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <!-- 狼蛛装备 -->

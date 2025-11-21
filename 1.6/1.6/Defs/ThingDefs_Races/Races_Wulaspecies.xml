@@ -1008,7 +1008,7 @@
           <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
         </li>
       </lifeStageAges>
-      <baseHealthScale>25</baseHealthScale>
+      <baseHealthScale>10</baseHealthScale>
 
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
@@ -1073,6 +1073,22 @@
         <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
         <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
         <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
+        <radius>1.5</radius>
+        <damageIntervalTicks>30</damageIntervalTicks>
+        <damageDef>Crush</damageDef>
+        <damageAmount>3</damageAmount>
+        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
+        <affectFriendly>false</affectFriendly>
+        <affectNeutral>false</affectNeutral>
+        <affectHostile>true</affectHostile>
+        <affectBuildings>false</affectBuildings>
+        <ignoreFactionRelations>false</ignoreFactionRelations>
+        <startEnabled>false</startEnabled>
+        <toggleLabel>碾压伤害</toggleLabel>
+        <toggleDescription>HAp-6"战车"可以将舰身稍微下沉一些并创造低压区，以碾压靠近的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
+        <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
       </li>
     </comps>
   </ThingDef>
@@ -1342,7 +1358,7 @@
         <blocksRangedWeapons>false</blocksRangedWeapons>
       </li>
       <!-- 飞行组件 -->
-      <li Class="WulaFallenEmpire.CompProperties_PawnFlight">        
+      <li Class="WulaFallenEmpire.CompProperties_PawnFlight">
 
         <!-- 飞行触发条件：仅在征召时飞行 -->
         <flightCondition>Drafted</flightCondition>
@@ -1361,7 +1377,12 @@
         <affectFriendly>false</affectFriendly>
         <affectNeutral>false</affectNeutral>
         <affectHostile>true</affectHostile>
-        <ignoreFactionRelations>true</ignoreFactionRelations>
+        <affectBuildings>false</affectBuildings>
+        <ignoreFactionRelations>false</ignoreFactionRelations>
+        <startEnabled>false</startEnabled>
+        <toggleLabel>碾压伤害</toggleLabel>
+        <toggleDescription>MFm-2"陆行舰"可以将舰身稍微下沉一些并创造低压区，以碾压靠近的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
+        <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
       </li>
     </comps>
   </ThingDef>
@@ -1459,7 +1480,7 @@
   <ThingDef ParentName="WULA_BaseMechanoid">
     <defName>Wula_Psi_Titan</defName>
     <label>PAt-6"灵能泰坦"</label>
-    <description>由乌拉帝国国教所主持开发的重型灵能机械体，以短距离折跃优雅地穿梭于炮火间，并用灵能盾抵挡敌方射弹侵袭。该机体不仅镌刻了破坏力强大的星光追猎术式用以发起远距离跟踪打击，还拥有一系列改变战局的灵能能力。\n\n但是在近身搏斗中，灵能泰坦是一个可笑的对手，并且它的秘文纹路很容易遭到外力破坏，它的本体无法吸收太多伤害！</description>
+    <description>由乌拉帝国国教所主持开发的重型灵能机械体，以折跃优雅地穿梭于炮火间，并用强大的护盾抵挡敌方射弹侵袭。该机体的内部镌刻了无数的术式环路，这使其就像一个行走的灵能发射器，可以驱使各种强大的灵能能力。</description>
     <uiIconPath>Wula/Things/Wula_Psi_Titan/Wula_Psi_Titan_Icon</uiIconPath>
     <statBases>
       <BandwidthCost>1</BandwidthCost>
@@ -1481,7 +1502,7 @@
           <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
         </li>
       </lifeStageAges>
-      <baseHealthScale>25</baseHealthScale>
+      <baseHealthScale>50</baseHealthScale>
 
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
@@ -1517,6 +1538,21 @@
         <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
         <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
         <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
+        <radius>4</radius>
+        <damageIntervalTicks>30</damageIntervalTicks>
+        <damageDef>Wula_Psi_Damage</damageDef>
+        <damageAmount>4</damageAmount>
+        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
+        <affectFriendly>false</affectFriendly>
+        <affectNeutral>false</affectNeutral>
+        <affectHostile>true</affectHostile>
+        <affectBuildings>false</affectBuildings>
+        <ignoreFactionRelations>false</ignoreFactionRelations>
+        <toggleLabel>灼烧区域</toggleLabel>
+        <toggleDescription>PAt-6"灵能泰坦"从灵能环路中释放的巨大的能量，靠近它的敌军会被辐射出来的灵能伤害并点燃——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
+        <toggleIconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</toggleIconPath>
       </li>
     </comps>
   </ThingDef>

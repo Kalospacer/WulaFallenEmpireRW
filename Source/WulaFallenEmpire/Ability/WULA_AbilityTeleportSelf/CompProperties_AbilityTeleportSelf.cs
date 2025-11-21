@@ -25,6 +25,10 @@ namespace WulaFallenEmpire
         public FleckDef customExitFleck;
         public float effectScale = 1.0f; // 效果缩放比例
 
+        // 新增：位置调整设置
+        public int maxPositionAdjustRadius = 15; // 最大位置调整半径
+        public bool allowPositionAdjustment = true; // 是否允许自动调整位置
+
         public CompProperties_AbilityTeleportSelf()
         {
             compClass = typeof(CompAbilityEffect_TeleportSelf);

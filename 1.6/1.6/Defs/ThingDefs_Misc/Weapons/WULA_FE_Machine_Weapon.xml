@@ -240,12 +240,15 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_LR_Mobile_Factory_Turret</defName>
     <label>晶丛炮弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <drawerType>RealtimeOnly</drawerType>
     <graphicData>
       <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(2,3)</drawSize>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
     <projectile>
       <damageDef>WULA_GiantBomb</damageDef>
       <damageAmountBase>45</damageAmountBase>
@@ -260,9 +263,19 @@
       <stoppingPower>10</stoppingPower>
     </projectile>
     <modExtensions>
+      <li Class="WulaFallenEmpire.NorthArcModExtension">
+        <northOffsetDistance>18</northOffsetDistance>
+        <curveSteepness>1.0</curveSteepness>
+        <useArcTrajectory>true</useArcTrajectory>
+      </li>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
         <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
-        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
+        <fleckMakeFleckTickMax>5</fleckMakeFleckTickMax>
+        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
+        <fleckScale>0.5~1.0</fleckScale>
+        <fleckSpeed>0.1~0.3</fleckSpeed>
+        <fleckAngle>-30~30</fleckAngle>
       </li>
     </modExtensions>
   </ThingDef>
@@ -466,12 +479,15 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_AI_Heavy_Panzer_Main_Weapon</defName>
     <label>月长石炮弹</label>
+    <drawerType>RealtimeOnly</drawerType>
     <graphicData>
       <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(2,2)</drawSize>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
     <projectile>
       <damageDef>WULA_GiantBomb</damageDef>
       <damageAmountBase>65</damageAmountBase>
@@ -486,9 +502,19 @@
       <stoppingPower>10</stoppingPower>
     </projectile>
     <modExtensions>
+      <li Class="WulaFallenEmpire.NorthArcModExtension">
+        <northOffsetDistance>5</northOffsetDistance>
+        <curveSteepness>1.0</curveSteepness>
+        <useArcTrajectory>true</useArcTrajectory>
+      </li>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
         <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
-        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
+        <fleckMakeFleckTickMax>5</fleckMakeFleckTickMax>
+        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
+        <fleckScale>0.5~1.0</fleckScale>
+        <fleckSpeed>0.1~0.3</fleckSpeed>
+        <fleckAngle>-30~30</fleckAngle>
       </li>
     </modExtensions>
   </ThingDef>
@@ -496,7 +522,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Wula_Psi_Titan_Beam</defName>
     <label>KLb-15 "方解石"</label>
-    <description>灵能战争机械PAt-6"灵能泰坦"上装备的特殊熔融光束，威力不算特别大，但是不至于让其在失去所有武装后无计可施。</description>
+    <description>灵能战争机械PAt-6"灵能泰坦"用于标记目标的武器，没有伤害敌人的能力。</description>
     <techLevel>Archotech</techLevel>
     <tradeability>None</tradeability>
     <graphicData>
@@ -512,7 +538,7 @@
       <AccuracyShort>1</AccuracyShort>
       <AccuracyMedium>1</AccuracyMedium>
       <AccuracyLong>1</AccuracyLong>
-      <RangedWeapon_Cooldown>0</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
     </statBases>
     <smeltable>false</smeltable>
     <recipeMaker Inherit="False" IsNull="True" />
@@ -527,13 +553,15 @@
         <verbClass>WulaFallenEmpire.Verb_ShootBeamExplosive</verbClass>
 
         <!-- 基础射线参数 -->
-        <hasStandardCommand>true</hasStandardCommand>
+        <hasStandardCommand>false</hasStandardCommand>
         <warmupTime>0</warmupTime>
-        <range>17</range>
-        <burstShotCount>32</burstShotCount>
+        <range>500</range>
+        <burstShotCount>0</burstShotCount>
         <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
         <beamDamageDef>WULA_RW_Handle_Cannon_Burn</beamDamageDef>
-        <beamTotalDamage>1</beamTotalDamage>
+        <beamTotalDamage>0</beamTotalDamage>
+
+        <requireLineOfSight>false</requireLineOfSight>
 
         <!-- 消除射线偏移的参数 -->
         <beamFullWidthRange>1000</beamFullWidthRange>

@@ -126,7 +126,7 @@
     <defName>Wula_AI_Heavy_Panzer</defName> <!-- 修改了defName以避免冲突 -->
     <label>HAp-6"战车"</label>
     <race>Wula_AI_Heavy_Panzer</race>
-    <combatPower>1000</combatPower>
+    <combatPower>500</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
     <defaultFactionType>PlayerColony</defaultFactionType>
     <canMeleeAttack>false</canMeleeAttack>
@@ -164,11 +164,14 @@
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
     <label>MFm-2"陆行舰"</label>
     <race>Wula_Mech_Mobile_Factory</race>
-    <combatPower>1000</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
     <defaultFactionType>PlayerColony</defaultFactionType>
     <canMeleeAttack>false</canMeleeAttack>
     <isGoodBreacher>true</isGoodBreacher>
+    <combatPower>500</combatPower>
+
+    <isBoss>true</isBoss>
+    <maxPerGroup>1</maxPerGroup>
 
 		<flyingAnimationFramePathPrefix>Wula/Things/Wula_Mech_Mobile_Factory/Flying/Wula_Mech_Mobile_Factory_Flying_</flyingAnimationFramePathPrefix>
     <flyingAnimationDrawSize>1</flyingAnimationDrawSize>
@@ -269,8 +272,8 @@
     <controlGroupPortraitZoom>0.4</controlGroupPortraitZoom>
 
     <abilities>
-      <li>WULA_PsiCrusher</li>
       <li>WULA_Psi_Skip</li>
+      <li>WULA_PsiCrusher</li>
       <li>WULA_Psi_Black_Hole</li>
     </abilities>
   </PawnKindDef>

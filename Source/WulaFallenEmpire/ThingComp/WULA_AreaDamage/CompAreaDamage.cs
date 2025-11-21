@@ -8,20 +8,23 @@ namespace WulaFallenEmpire
     public class CompAreaDamage : ThingComp
     {
         private int ticksUntilNextDamage;
+        private bool enabled;
         
         public CompProperties_AreaDamage Props => (CompProperties_AreaDamage)props;
+        public bool Enabled => enabled;
 
         public override void Initialize(CompProperties props)
         {
             base.Initialize(props);
             ticksUntilNextDamage = Props.damageIntervalTicks;
+            enabled = Props.startEnabled;
         }
 
         public override void CompTick()
         {
             base.CompTick();
             
-            if (!parent.Spawned)
+            if (!parent.Spawned || !enabled)
                 return;
 
             ticksUntilNextDamage--;
@@ -30,6 +33,16 @@ namespace WulaFallenEmpire
                 DoAreaDamage();
                 ticksUntilNextDamage = Props.damageIntervalTicks;
             }
+        }
+
+        public void Toggle()
+        {
+            enabled = !enabled;
+        }
+
+        public void SetEnabled(bool newState)
+        {
+            enabled = newState;
         }
 
         private void DoAreaDamage()
@@ -227,6 +240,50 @@ namespace WulaFallenEmpire
         {
             base.PostExposeData();
             Scribe_Values.Look(ref ticksUntilNextDamage, "ticksUntilNextDamage", Props.damageIntervalTicks);
+            Scribe_Values.Look(ref enabled, "enabled", Props.startEnabled);
+        }
+
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            // 只有拥有者可以操作开关
+            if (parent.Faction != null && parent.Faction != Faction.OfPlayer && !parent.Faction.IsPlayer)
+                yield break;
+
+            // 创建切换开关的 Gizmo
+            Command_Toggle toggleCommand = new Command_Toggle
+            {
+                defaultLabel = Props.toggleLabel.Translate(),
+                defaultDesc = Props.toggleDescription.Translate(),
+                icon = LoadToggleIcon(),
+                isActive = () => enabled,
+                toggleAction = () => Toggle()
+            };
+
+            yield return toggleCommand;
+        }
+
+        private Texture2D LoadToggleIcon()
+        {
+            if (!string.IsNullOrEmpty(Props.toggleIconPath))
+            {
+                return ContentFinder<Texture2D>.Get(Props.toggleIconPath, false);
+            }
+            
+            // 默认图标
+            return TexCommand.DesirePower;
+        }
+
+        public override string CompInspectStringExtra()
+        {
+            string baseString = base.CompInspectStringExtra();
+            string statusText = enabled ? 
+                "AreaDamageEnabled".Translate() : 
+                "AreaDamageDisabled".Translate();
+            
+            if (string.IsNullOrEmpty(baseString))
+                return statusText;
+            else
+                return baseString + "\n" + statusText;
         }
     }
 }

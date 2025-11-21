@@ -55,7 +55,7 @@
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <aiCanUse>true</aiCanUse>
-    <cooldownTicksRange>600</cooldownTicksRange>
+    <cooldownTicksRange>300</cooldownTicksRange>
     <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
@@ -84,9 +84,9 @@
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AbilityAreaDestruction">
         <range>18</range>
-        <lineWidthEnd>18</lineWidthEnd>
+        <lineWidthEnd>36</lineWidthEnd>
         <canHitFilledCells>true</canHitFilledCells>
-        <affectAllies>false</affectAllies>
+        <affectAllies>true</affectAllies>
         <affectCaster>false</affectCaster>
         <castEffecter>WULA_AreaDestruction_Shockwave</castEffecter>
         <hitEffecter>WULA_AreaDestruction_Hit</hitEffecter>
@@ -251,20 +251,22 @@
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
-    <cooldownTicksRange>600</cooldownTicksRange>
+    <cooldownTicksRange>200</cooldownTicksRange>
     <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
+    <aiCanUse>true</aiCanUse>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <warmupTime>1</warmupTime>
-      <range>65</range>
+      <range>500</range>
       <soundCast>WULA_Psi_Skip_Sound</soundCast>
+      <requireLineOfSight>false</requireLineOfSight>
       <targetParams>
         <canTargetLocations>true</canTargetLocations>
       </targetParams>
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AbilityTeleportSelf">
-        <range>65</range>
+        <range>500</range>
         <stunTicks>
           <min>10</min>
           <max>15</max>
@@ -393,7 +395,7 @@
   <AbilityDef>
     <defName>WULA_Psi_Black_Hole</defName>
     <label>乌拉帝国术式：虚境阴影</label>
-    <description>撕开虚境的裂口，在目标地点召唤一道虚境阴影，它泄露的庞大灵能会持续伤害范围内的敌方单位和建筑，即使是心灵失聪的目标也不能完全免疫这种超现实伤害——对于高心灵敏感度的单位这种伤害则更加致命。</description>
+    <description>撕开虚境的裂口，在目标地点召唤一道虚境阴影，它泄露的庞大灵能会持续伤害范围内的敌方单位和建筑，并让物品快速损坏，即使是心灵失聪的目标也不能完全免疫这种超现实伤害——对于高心灵敏感度的单位这种伤害则更加致命。</description>
     <iconPath>UI/Abilities/FireSpew</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -431,16 +433,27 @@
     <altitudeLayer>MoteOverheadLow</altitudeLayer>
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <shaderType>MoteGlow</shaderType>
-      <drawSize>5</drawSize>
+      <drawSize>(7,4)</drawSize>
+      <color>(255,255,255,150)</color>
     </graphicData>
     <comps>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>600</lifespanTicks>
+      </li>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>WULA_Black_Hole_Entity_Attached</effecterDef>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>12</glowRadius>
+        <glowColor>(192,94,56,1)</glowColor>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
         <radius>8</radius>
         <damageIntervalTicks>30</damageIntervalTicks>
         <damageDef>Wula_Psi_Damage</damageDef>
-        <damageAmount>5</damageAmount>
+        <damageAmount>25</damageAmount>
         <scaleWithPsychicSensitivity>true</scaleWithPsychicSensitivity>
         <minDamageFactor>0.5</minDamageFactor>
         <maxDamageFactor>5</maxDamageFactor>
@@ -449,4 +462,178 @@
       </li>
     </comps>
   </ThingDef>
+  <EffecterDef>
+    <defName>WULA_Black_Hole_Entity_Attached</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <burstCount>1</burstCount>
+        <chancePerTick>1</chancePerTick>
+        <chancePeriodTicks>20</chancePeriodTicks>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <fleckDef>WULA_Black_Hole_Entity_Attached_Inner</fleckDef>
+        <positionRadius>0</positionRadius>
+        <positionRadiusMin>0</positionRadiusMin>
+        <scale>3</scale>
+        <speed>0</speed>
+        <rotation>0</rotation>
+      </li>
+
+
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <burstCount>1</burstCount>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <moteDef>VoidNodeCore_DustA</moteDef>
+        <positionRadius>0</positionRadius>
+        <positionRadiusMin>0</positionRadiusMin>
+        <scale>.9</scale>
+        <speed>0</speed>
+        <rotation>60</rotation>
+        <rotationRate>200</rotationRate>
+        <angle>0~0</angle>
+        <spawnLocType>OnTarget</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <burstCount>1</burstCount>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <moteDef>VoidNodeCore_DustB</moteDef>
+        <positionRadius>0</positionRadius>
+        <positionRadiusMin>0</positionRadiusMin>
+        <scale>1.05</scale>
+        <speed>0</speed>
+        <rotation>0</rotation>
+        <rotationRate>100</rotationRate>
+        <angle>0~0</angle>
+        <spawnLocType>OnTarget</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <burstCount>1</burstCount>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <ticksBetweenMotes>30</ticksBetweenMotes>
+        <fleckDef>VoidNodeCore_DebrisBit</fleckDef>
+        <scale>.8~1.2</scale>
+        <positionRadius>5</positionRadius>
+        <positionRadiusMin>3</positionRadiusMin>
+        <speed>-10~10</speed>
+        <rotation>0</rotation>
+        <rotationRate>-2000~2000</rotationRate>
+        <angle>0~0</angle>
+        <orbitOrigin>true</orbitOrigin>
+        <orbitSpeed>-5~-1</orbitSpeed>
+        <orbitSnapStrength>.8</orbitSnapStrength>
+        <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+        <spawnLocType>OnTarget</spawnLocType>
+      </li>
+      <li> 
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <burstCount>3</burstCount>
+        <ticksBetweenMotes>30</ticksBetweenMotes>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <fleckDef>VoidNodeCore_DebrisBit</fleckDef>
+        <scale>.8~1.2</scale>
+        <positionRadius>6</positionRadius>
+        <positionRadiusMin>5</positionRadiusMin>
+        <speed>-10~10</speed>
+        <rotation>0</rotation>
+        <rotationRate>-2000~2000</rotationRate>
+        <angle>0~0</angle>
+        <orbitOrigin>true</orbitOrigin>
+        <orbitSpeed>-6~-1</orbitSpeed>
+        <orbitSnapStrength>.8</orbitSnapStrength>
+        <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+        <spawnLocType>OnTarget</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <burstCount>1</burstCount>
+        <chancePerTick>.03</chancePerTick>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <fleckDef>EnergyCrackle</fleckDef>
+        <soundDef>Zap_Quiet</soundDef>
+        <positionRadius>2.7</positionRadius>
+        <positionRadiusMin>0</positionRadiusMin>
+        <scale>.35</scale>
+        <speed>.001</speed>
+        <rotation>0</rotation>
+        <rotateTowardsTargetCenter>true</rotateTowardsTargetCenter>
+        <rotationRate>0</rotationRate>
+        <angle>0~0</angle>
+        <spawnLocType>OnTarget</spawnLocType>
+        <orbitOrigin>true</orbitOrigin>
+        <orbitSnapStrength>1.0</orbitSnapStrength>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <burstCount>1</burstCount>
+        <chancePerTick>.05</chancePerTick>
+        <chancePeriodTicks>20</chancePeriodTicks>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <fleckDef>VoidNodeLowLightningRing</fleckDef>
+        <positionRadius>0</positionRadius>
+        <positionRadiusMin>0</positionRadiusMin>
+        <scale>1</scale>
+        <speed>0</speed>
+        <rotation>0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <burstCount>1</burstCount>
+        <chancePerTick>.05</chancePerTick>
+        <chancePeriodTicks>100</chancePeriodTicks>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <fleckDef>VoidNodeHighLightningRing</fleckDef>
+        <positionRadius>0</positionRadius>
+        <positionRadiusMin>0</positionRadiusMin>
+        <scale>1</scale>
+        <rotation>0~360</rotation>
+        <speed>0</speed>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <burstCount>1</burstCount>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <moteDef>VoidNodeDistortion</moteDef>
+        <positionRadius>0</positionRadius>
+        <positionRadiusMin>0</positionRadiusMin>
+        <scale>1</scale>
+        <rotation>0</rotation>
+        <speed>0</speed>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <burstCount>1</burstCount>
+        <chancePerTick>.01</chancePerTick>
+        <chancePeriodTicks>50</chancePeriodTicks>
+        <positionOffset>(0, 0, 0)</positionOffset>
+        <fleckDef>VoidNodeLowestGroundFlashes</fleckDef>
+        <positionRadius>0</positionRadius>
+        <positionRadiusMin>0</positionRadiusMin>
+        <scale>.5~1</scale>
+        <speed>0</speed>
+        <rotation>0~360</rotation>
+      </li>
+    </children>
+  </EffecterDef>
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>WULA_Black_Hole_Entity_Attached_Inner</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>1</solidTime>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MotePsychicSkipInner</shaderType>
+      <texPath>Things/Mote/SkipInnerDimension</texPath>
+      <shaderParameters>
+        <_innerRingSize>0.65</_innerRingSize>
+      </shaderParameters>
+      <drawSize>3.4</drawSize>
+      <shaderParameters>
+        <_inTime>0.0</_inTime>
+        <_solidTime>1</_solidTime>
+        <_outTime>0.0</_outTime>
+      </shaderParameters>
+    </graphicData>
+  </FleckDef>
 </Defs>

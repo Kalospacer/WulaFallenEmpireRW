@@ -318,6 +318,17 @@
       <li>WULA_Colony_License_LV2_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Turret_Base_Mortar_Technology</defName>
+    <researchViewX>10.00</researchViewX>
+    <researchViewY>0.90</researchViewY>
+    <label>自动迫击炮许可</label>
+    <description>允许殖民地申请空投自动迫击炮台，可以发射远距离的高爆迫击炮弹打击地图上出现的任何敌军。</description>
+    <baseCost>3500</baseCost>
+    <prerequisites>
+      <li>WULA_Synth_Armor_2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
 
   <!-- 武器 -->
   <ResearchProjectDef ParentName="WULAtechBase">

@@ -21,6 +21,9 @@ namespace WulaFallenEmpire
             Map map = parent.pawn.MapHeld;
             if (map == null) return;
 
+            // 新增：在施法前清除与施法者重合的物体
+            ClearOverlappingObjects(map);
+
             // 获取扇形区域内的所有单元格
             List<IntVec3> affectedCells = AffectedCells(target);
             
@@ -62,6 +65,80 @@ namespace WulaFallenEmpire
             }
         }
 
+        /// <summary>
+        /// 新增：清除与施法者重合的所有物体
+        /// </summary>
+        private void ClearOverlappingObjects(Map map)
+        {
+            try
+            {
+                IntVec3 casterPos = Pawn.Position;
+                
+                // 获取施法者位置的所有物体
+                List<Thing> thingsAtCasterPos = casterPos.GetThingList(map);
+                
+                foreach (Thing thing in thingsAtCasterPos)
+                {
+                    // 跳过施法者自己（除非设置影响施法者）
+                    if (thing == Pawn && !Props.affectCaster)
+                        continue;
+                        
+                    // 跳过已经销毁的物体
+                    if (thing.Destroyed)
+                        continue;
+                        
+                    // 只处理建筑和Pawn
+                    if (thing is Building || thing is Pawn)
+                    {
+                        // 检查是否应该影响这个物体
+                        if (ShouldAffectThing(thing))
+                        {
+                            // 播放清除特效
+                            PlayClearEffecter(thing, map);
+                            
+                            // 处理目标
+                            ProcessTarget(thing);
+                            
+                            Log.Message($"[AreaDestruction] Cleared overlapping object: {thing.Label} at {casterPos}");
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Log.Warning($"[AreaDestruction] Error clearing overlapping objects: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 新增：播放清除重合物体的特效
+        /// </summary>
+        private void PlayClearEffecter(Thing target, Map map)
+        {
+            try
+            {
+                if (Props.clearEffecter == null) return;
+                if (target == null || target.Destroyed) return;
+                
+                // 在目标位置播放清除特效
+                Effecter effecter = Props.clearEffecter.Spawn(target.Position, map);
+                
+                if (Props.clearEffecterMaintainTicks > 0)
+                {
+                    // 维持效果器
+                    parent.AddEffecterToMaintain(effecter, target.Position, Props.clearEffecterMaintainTicks, map);
+                }
+                else
+                {
+                    effecter.Cleanup();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Log.Warning($"[AreaDestruction] Error playing clear effecter: {ex.Message}");
+            }
+        }
+
         private void PlayHitEffecter(Thing target, Map map)
         {
             try
@@ -94,9 +171,6 @@ namespace WulaFallenEmpire
                 {
                     effecter.Cleanup();
                 }
-                
-                // 可选：记录日志用于调试
-                // Log.Message($"[AreaDestruction] Played hit effecter on {target.Label} at {target.Position}");
             }
             catch (System.Exception ex)
             {
@@ -209,9 +283,6 @@ namespace WulaFallenEmpire
                 {
                     // 检查pawn是否还"活着"（没有核心部位缺失时可能还能存活）
                     CheckPawnViability(targetPawn);
-                    
-                    // 可选：记录日志用于调试
-                    // Log.Message($"[AreaDestruction] Destroyed {partsDestroyed} body parts on {pawnInfo}");
                 }
             }
             catch (System.Exception ex)

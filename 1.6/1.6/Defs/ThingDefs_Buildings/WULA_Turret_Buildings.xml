@@ -4,7 +4,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Cat_Bunker_Cleanzone</defName>
     <label>乌拉猫猫地堡</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\n乌拉猫猫地堡是集生产和防御为一体的坚实建筑，3只乌拉猫猫自律机械体会和地堡一起空降。地堡可供乌拉猫猫更换工作类型，并允许乌拉猫猫进驻使用内部武器击败来犯敌军。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉猫猫地堡是集生产和防御为一体的坚实建筑，3只乌拉猫猫自律机械体会和地堡一起空降。地堡可供乌拉猫猫更换工作类型，并允许乌拉猫猫进驻使用内部武器击败来犯敌军。</description>
     <uiIconPath>Wula/Building/WULA_Cat_Bunker_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -33,6 +33,7 @@
     <canOverlapZones>false</canOverlapZones>
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites Inherit="False">
       <li>WULA_Bunker_Drop_Technology</li>
     </researchPrerequisites>
@@ -142,6 +143,7 @@
     <hasInteractionCell>false</hasInteractionCell>
     <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
       <MaxHitPoints>500</MaxHitPoints>
       <WorkToBuild>1</WorkToBuild>
@@ -250,7 +252,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Base_ATGun_Turret_Cleanzone</defName>
     <label>ATt-6"金红石"反战车炮塔</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\nATt-6"金红石"反战车炮塔是一种需要通电才能运转的中型防御炮塔，依靠澎湃的电磁动力发射高穿透性的炮弹。这种炮台的射速不是很高，但是穿甲能力很强，且会造成小范围溅射伤害。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nATt-6"金红石"反战车炮塔是一种需要通电才能运转的中型防御炮塔，依靠澎湃的电磁动力发射高穿透性的炮弹。这种炮台的射速不是很高，但是穿甲能力很强，且会造成小范围溅射伤害。</description>
     <uiIconPath>Wula/Building/Wula_Base_ATGun_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -277,6 +279,7 @@
     <canOverlapZones>false</canOverlapZones>
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites Inherit="False">
       <li>WULA_Turret_Base_AT_Technology</li>
     </researchPrerequisites>
@@ -402,6 +405,7 @@
     <pathCost>50</pathCost>
     <fillPercent>0.5</fillPercent>
     <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <building>
       <combatPower>640</combatPower>
       <!--<buildingTags>
@@ -524,7 +528,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Base_Laser_Turret_Cleanzone</defName>
     <label>MLt-1"棱晶"激光炮塔</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放建筑。建造好的信标可以收起或移至他处，但是必须要有母舰或者工程舰在上空才能投送建筑。\n\nMLt-1"棱晶"激光炮塔是一种需要通电才能运转的中型防御炮塔，能够以高能激光束持续照射一个目标将其气化。装载在炮塔上的激光武器不需要预热，因此对付多个目标的效果要优于手持光束武器。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nMLt-1"棱晶"激光炮塔是一种需要通电才能运转的中型防御炮塔，能够以高能激光束持续照射一个目标将其气化。装载在炮塔上的激光武器不需要预热，因此对付多个目标的效果要优于手持光束武器。</description>
     <uiIconPath>Wula/Building/Wula_Base_Laser_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -563,6 +567,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <costList Inherit="False">
       <WULA_Alloy>100</WULA_Alloy>
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
@@ -658,6 +663,7 @@
     <stealable>false</stealable>
     <rotatable>false</rotatable>
     <size>(3,3)</size>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
       <MaxHitPoints>1500</MaxHitPoints>
       <Flammability>0</Flammability>
@@ -804,5 +810,278 @@
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
       </li>
     </verbs>
+  </ThingDef>
+
+  <!-- 迫击炮塔 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Base_Mortar_Turret_Cleanzone</defName>
+    <label>RTt-8"深渊"迫击炮塔</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nRTt-8"深渊"迫击炮塔是一种需要通电才能运转的中型防御炮塔，在远距离上连续发射高爆迫击炮弹。高爆迫击炮弹虽然弹速很慢但是可以跨越地形，适合对付仍在集结的敌群和阵地。</description>
+    <uiIconPath>Wula/Building/Wula_Base_Mortar_Turret</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_Base_Mortar_Turret</ThingDef>
+      <ThingDef>Wula_Base_Mortar_Turret_Weapon</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Turret_Base_Mortar_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(3,3)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <costList Inherit="False">
+      <WULA_Alloy>100</WULA_Alloy>
+      <WULA_Charge_Cube>6</WULA_Charge_Cube>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Wula_Base_Mortar_Turret_Incoming</skyfallerDef> <!-- 迫击炮塔空投类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+ </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Wula_Base_Mortar_Turret_Incoming</defName>
+    <label>RTt-8"深渊"迫击炮塔（空投中）</label>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Base_Mortar_Turret_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(3,3.75)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>Wula_Base_Mortar_Turret</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Base_Mortar_Turret</defName>
+    <label>RTt-8"深渊"迫击炮塔</label>
+    <description>RTt-8"深渊"迫击炮塔是一种需要通电才能运转的中型防御炮塔，在远距离上连续发射高爆迫击炮弹。高爆迫击炮弹虽然弹速很慢但是可以跨越地形，适合对付仍在集结的敌群和阵地。</description>
+    <thingClass>WulaFallenEmpire.Building_TurretGunHasSpeed</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExt_HasSpeedTurret">
+        <speed>0.2</speed>        <!-- 旋转速度 (度/Tick)。迫击炮旋转较慢。 -->
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Turret_Component</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <!-- <drawOffset>(0,0,-0.16)</drawOffset> -->
+      <damageData>
+        <rect>(0.3,0.3,1.4,1.4)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.5,0.35,0.75)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <receivesSignals>true</receivesSignals>
+    <uiIconPath>Wula/Building/Wula_Base_Mortar_Turret</uiIconPath>
+    <uiIconScale>1.0</uiIconScale>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3200</WorkToBuild>
+      <Mass>80</Mass>
+      <Beauty>0</Beauty>
+      <ShootingAccuracyTurret>0.80</ShootingAccuracyTurret>
+    </statBases>
+    <costList Inherit="False">
+      <WULA_Alloy>150</WULA_Alloy>
+      <WULA_Charge_Cube>12</WULA_Charge_Cube>
+    </costList>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <building>
+      <combatPower>450</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Wula_Base_Mortar_Turret_Weapon</turretGunDef>
+      <turretBurstCooldownTime>4</turretBurstCooldownTime>
+      <turretTopOffset>(-0.04, 0)</turretTopOffset>
+      <turretTopDrawSize>5.0</turretTopDrawSize>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_Initiatable" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+      <li Class="CompProperties_Stunnable">
+        <affectedDamageDefs>
+          <li>EMP</li>
+        </affectedDamageDefs>
+      </li>
+      <li Class="CompProperties_AmbientSound">
+        <sound>MechTurretBig_Call</sound>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>200</basePowerConsumption> <!-- 电力消耗较低 -->
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(252,240,120,0)</glowColor> <!-- 黄色光晕 -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
+    </comps>
+ </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Wula_Base_Mortar_Turret_Weapon</defName>
+    <label>RTt-8"深渊"</label>
+    <description>迫击炮塔，可以从远距离上对敌方集群造成巨大伤害。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Base_Mortar_Turret_Weapon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <uiIconScale>0.33</uiIconScale>
+    <statBases>
+      <Mass>150</Mass>
+      <AccuracyTouch>0.3</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.4</AccuracyMedium>
+      <AccuracyLong>0.3</AccuracyLong>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_WM_Mortar_Turret</defaultProjectile>
+        <minRange>10</minRange>
+        <range>500</range>
+        <requireLineOfSight>false</requireLineOfSight>
+        <warmupTime>2.5</warmupTime>
+        <isMortar>true</isMortar>
+        <defaultCooldownTime>5</defaultCooldownTime>
+        <burstShotCount>1</burstShotCount>
+        <forcedMissRadius>5</forcedMissRadius>
+        <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>18</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_WM_Mortar_Turret</defName>
+    <label>深渊迫击炮弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Mortar_Shell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.5,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>30</damageAmountBase>
+      <speed>40</speed>
+      <armorPenetrationBase>0.8</armorPenetrationBase>
+      <explosionRadius>5.0</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <stoppingPower>5</stoppingPower>
+      <flyOverhead>true</flyOverhead>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.NorthArcModExtension">
+        <northOffsetDistance>18</northOffsetDistance>
+        <curveSteepness>1.0</curveSteepness>
+        <useArcTrajectory>true</useArcTrajectory>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
+        <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
+        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
+        <fleckScale>0.5~1.0</fleckScale>
+        <fleckSpeed>0.1~0.3</fleckSpeed>
+        <fleckAngle>-30~30</fleckAngle>
+      </li>
+    </modExtensions>
   </ThingDef>
 </Defs>

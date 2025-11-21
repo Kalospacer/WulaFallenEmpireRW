@@ -12,6 +12,10 @@ namespace WulaFallenEmpire
         public EffecterDef castEffecter;
         public int castEffecterMaintainTicks = 60;
         
+        // 清除特效（用于清除重合物体）
+        public EffecterDef clearEffecter;
+        public int clearEffecterMaintainTicks = 30;
+        
         // 命中特效（在目标位置）
         public EffecterDef hitEffecter;
         public int hitEffecterMaintainTicks = 30;
