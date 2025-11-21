@@ -64,45 +64,74 @@ namespace WulaFallenEmpire
 
         private bool IsValidTarget(Thing thing)
         {
-            // 检查是否有生命值
-            if (thing.def.useHitPoints == false || thing.HitPoints <= 0)
-                return false;
-
-            // 检查物体类型过滤
-            if (thing is Building && !Props.affectBuildings)
-                return false;
-            if (thing is Pawn && !Props.affectPawns)
-                return false;
-            if (thing is Plant && !Props.affectPlants)
-                return false;
-
-            // 检查阵营关系（如果是生物）
+            // 检查是否为 Pawn（Pawn 有独立的健康系统）
             if (thing is Pawn pawn)
             {
                 Faction targetFaction = pawn.Faction;
                 Faction parentFaction = parent.Faction;
+
+                if (pawn.Dead || pawn.Downed)
+                    return false;
                 
-                if (targetFaction == null)
+                // 检查是否影响生物
+                if (!Props.affectPawns)
+                    return false;
+
+                // 如果父物体没有派系，则只检查目标派系
+                if (parentFaction == null)
                 {
-                    if (!Props.affectNeutral)
+                    if (targetFaction == null && !Props.affectNeutral)
                         return false;
-                }
-                else if (targetFaction == parentFaction)
-                {
-                    if (!Props.affectFriendly)
+                    if (targetFaction != null && targetFaction.IsPlayer && !Props.affectFriendly)
                         return false;
-                }
-                else if (targetFaction.HostileTo(parentFaction))
-                {
-                    if (!Props.affectHostile)
+                    if (targetFaction != null && !targetFaction.IsPlayer && !Props.affectHostile)
                         return false;
                 }
                 else
                 {
-                    if (!Props.affectNeutral)
-                        return false;
+                    // 正常阵营关系检查
+                    if (targetFaction == null)
+                    {
+                        if (!Props.affectNeutral)
+                            return false;
+                    }
+                    else if (targetFaction == parentFaction)
+                    {
+                        if (!Props.affectFriendly)
+                            return false;
+                    }
+                    else if (targetFaction.HostileTo(parentFaction))
+                    {
+                        if (!Props.affectHostile)
+                            return false;
+                    }
+                    else
+                    {
+                        if (!Props.affectNeutral)
+                            return false;
+                    }
                 }
             }
+            else
+            {
+                // 对于非 Pawn 物体，检查生命值系统
+                if (thing.def.useHitPoints == false || thing.HitPoints <= 0)
+                    return false;
+
+                // 检查物体类型过滤
+                if (thing is Building && !Props.affectBuildings)
+                    return false;
+                if (thing is Plant && !Props.affectPlants)
+                    return false;
+            }
+
+            // 如果设置为影响所有物体，跳过后续检查
+            if (Props.affectEverything)
+                return true;
+
+            // 如果忽略阵营关系，跳过阵营检查
+            if (Props.ignoreFactionRelations)
+                return true;
 
             return true;
         }
@@ -119,7 +148,7 @@ namespace WulaFallenEmpire
             DamageInfo damageInfo = new DamageInfo(
                 Props.damageDef,
                 finalDamageAmount,
-                armorPenetration: 0f,
+                armorPenetration: Props.armorPenetration,
                 instigator: parent,
                 hitPart: null,
                 weapon: null,
@@ -128,6 +157,9 @@ namespace WulaFallenEmpire
 
             // 应用伤害
             target.TakeDamage(damageInfo);
+
+            // 特殊效果处理
+            HandleSpecialEffects(target, damageInfo);
         }
 
         /// <summary>
@@ -172,35 +204,29 @@ namespace WulaFallenEmpire
             }
 
             // 返回心灵敏感度作为伤害倍率
-            // 例如：敏感度0.5 = 0.5倍伤害，敏感度1.5 = 1.5倍伤害
             return psychicSensitivity;
+        }
+
+        /// <summary>
+        /// 处理特殊效果（如伤害类型特定的效果）
+        /// </summary>
+        private void HandleSpecialEffects(Thing target, DamageInfo damageInfo)
+        {
+            // 如果是 Pawn，可以添加额外的效果
+            if (target is Pawn pawn)
+            {
+                // 显示伤害数值（调试用）
+                if (Props.showDamageNumbers)
+                {
+                    MoteMaker.ThrowText(target.DrawPos, target.Map, damageInfo.Amount.ToString());
+                }
+            }
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref ticksUntilNextDamage, "ticksUntilNextDamage", Props.damageIntervalTicks);
-        }
-
-        /// <summary>
-        /// 调试方法：显示伤害计算信息
-        /// </summary>
-        public string GetDamageDebugInfo(Thing target)
-        {
-            if (target is Pawn pawn)
-            {
-                float psychicSensitivity = pawn.GetStatValue(StatDefOf.PsychicSensitivity);
-                float damageFactor = CalculatePsychicSensitivityFactor(pawn);
-                int finalDamage = CalculateFinalDamage(target);
-                
-                return $"目标: {pawn.Label}\n" +
-                       $"心灵敏感度: {psychicSensitivity:F2}\n" +
-                       $"伤害倍率: {damageFactor:F2}\n" +
-                       $"基础伤害: {Props.damageAmount}\n" +
-                       $"最终伤害: {finalDamage}";
-            }
-            
-            return $"目标: {target.Label}\n基础伤害: {Props.damageAmount}";
         }
     }
 }

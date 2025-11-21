@@ -246,7 +246,7 @@
   <AbilityDef>
     <defName>WULA_Psi_Skip</defName>
     <label>乌拉帝国术式：灵能跃迁</label>
-    <description>使用灵能撕开一个连接自身、虚境和目的地的单向通道，随后以极短的时间穿过整个通道，以瞬间移动到目标地点</description>
+    <description>使用灵能撕开一个连接自身、虚境和目的地的单向通道，随后以极短的时间穿过整个通道，以瞬间移动到目标地点。</description>
     <iconPath>UI/Abilities/Skip</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -401,7 +401,6 @@
     <cooldownTicksRange>600</cooldownTicksRange>
     <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
     <statBases>
-      <Ability_EffectRadius>8</Ability_EffectRadius>
       <Ability_Duration>600</Ability_Duration>
     </statBases>
     <verbProperties>
@@ -414,9 +413,10 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <li Class="CompProperties_AbilitySpawn">
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnAligned">
         <thingDef>WULA_Black_Hole_Entity</thingDef>
         <allowOnBuildings>false</allowOnBuildings>
+        <alignFaction>false</alignFaction>
       </li>
     </comps>
   </AbilityDef>
@@ -444,9 +444,8 @@
         <scaleWithPsychicSensitivity>true</scaleWithPsychicSensitivity>
         <minDamageFactor>0.5</minDamageFactor>
         <maxDamageFactor>5</maxDamageFactor>
-        <affectFriendly>false</affectFriendly>
-        <affectHostile>true</affectHostile>
-        <affectBuildings>true</affectBuildings>
+        <affectEverything>true</affectEverything>
+        <ignoreFactionRelations>true</ignoreFactionRelations>
       </li>
     </comps>
   </ThingDef>

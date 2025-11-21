@@ -1352,6 +1352,17 @@
         <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
         <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
+        <radius>3.5</radius>
+        <damageIntervalTicks>30</damageIntervalTicks>
+        <damageDef>Crush</damageDef>
+        <damageAmount>4</damageAmount>
+        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
+        <affectFriendly>false</affectFriendly>
+        <affectNeutral>false</affectNeutral>
+        <affectHostile>true</affectHostile>
+        <ignoreFactionRelations>true</ignoreFactionRelations>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef Name="WULA_Mech_Flyer" ParentName="BaseMechanoidWalker">

@@ -9,6 +9,7 @@ namespace WulaFallenEmpire
         public int damageIntervalTicks = 60;         // B: 伤害间隔（帧数）
         public DamageDef damageDef;                   // C: 伤害类型
         public int damageAmount = 10;                // 基础伤害量
+        public float armorPenetration = 0f;          // 护甲穿透
         
         // 伤害缩放设置
         public bool scaleWithPsychicSensitivity = false; // 是否随心灵敏感度缩放
@@ -24,6 +25,13 @@ namespace WulaFallenEmpire
         public bool affectBuildings = true;          // 是否影响建筑
         public bool affectPawns = true;              // 是否影响生物
         public bool affectPlants = false;            // 是否影响植物
+        
+        // 特殊设置
+        public bool ignoreFactionRelations = false;  // 忽略所有阵营关系检查（用于无派系实体）
+        public bool affectEverything = false;        // 影响范围内所有有生命值的物体
+        
+        // 特殊效果
+        public bool showDamageNumbers = false;       // 显示伤害数值（调试用）
 
         public CompProperties_AreaDamage()
         {
