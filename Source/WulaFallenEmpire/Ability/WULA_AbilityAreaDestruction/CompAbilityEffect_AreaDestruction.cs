@@ -21,9 +21,6 @@ namespace WulaFallenEmpire
             Map map = parent.pawn.MapHeld;
             if (map == null) return;
 
-            // 播放发射特效（在施法者位置）- 在释放瞬间播放
-            //PlayCastEffecter(target, map);
-
             // 获取扇形区域内的所有单元格
             List<IntVec3> affectedCells = AffectedCells(target);
             
@@ -56,35 +53,12 @@ namespace WulaFallenEmpire
             // 为每个受影响的目标播放命中效果器并处理效果
             foreach (Thing affectedThing in affectedTargets)
             {
-                PlayHitEffecter(affectedThing, map);
+                // 只对建筑和Pawn播放命中特效
+                if (affectedThing is Building || affectedThing is Pawn)
+                {
+                    PlayHitEffecter(affectedThing, map);
+                }
                 ProcessTarget(affectedThing);
-            }
-        }
-
-        private void PlayCastEffecter(LocalTargetInfo target, Map map)
-        {
-            try
-            {
-                if (Props.castEffecter == null) return;
-                
-                // 在释放瞬间创建效果器，确保正确的方向
-                Effecter effecter = Props.castEffecter.Spawn(Pawn.Position, target.Cell, map);
-                
-                if (Props.castEffecterMaintainTicks > 0)
-                {
-                    // 使用与参考代码相同的方法来维持效果器
-                    parent.AddEffecterToMaintain(effecter, Pawn.Position, target.Cell, Props.castEffecterMaintainTicks, map);
-                }
-                else
-                {
-                    effecter.Cleanup();
-                }
-                
-                Log.Message($"[AreaDestruction] Played cast effecter from {Pawn.Position} to {target.Cell}");
-            }
-            catch (System.Exception ex)
-            {
-                Log.Warning($"[AreaDestruction] Error playing cast effecter: {ex.Message}");
             }
         }
 
@@ -99,7 +73,6 @@ namespace WulaFallenEmpire
                 Vector3 directionFromCaster = (target.Position.ToVector3Shifted() - Pawn.Position.ToVector3Shifted()).normalized;
                 
                 // 计算反向位置：目标位置 + 反向向量 * 距离
-                // 这样特效会从目标位置向施法者的反方向播放
                 IntVec3 reversePosition = target.Position + new IntVec3(
                     Mathf.RoundToInt(-directionFromCaster.x * 2f),
                     0,
@@ -110,7 +83,6 @@ namespace WulaFallenEmpire
                 reversePosition = reversePosition.ClampInsideMap(map);
                 
                 // 使用两个位置参数来设置效果器方向
-                // 从目标位置到反向位置，这样特效会向施法者反方向播放
                 Effecter effecter = Props.hitEffecter.Spawn(target.Position, reversePosition, map);
                 
                 if (Props.hitEffecterMaintainTicks > 0)
@@ -123,7 +95,8 @@ namespace WulaFallenEmpire
                     effecter.Cleanup();
                 }
                 
-                Log.Message($"[AreaDestruction] Played hit effecter on {target.Label} at {target.Position} with reverse direction to {reversePosition}");
+                // 可选：记录日志用于调试
+                // Log.Message($"[AreaDestruction] Played hit effecter on {target.Label} at {target.Position}");
             }
             catch (System.Exception ex)
             {
@@ -156,10 +129,15 @@ namespace WulaFallenEmpire
             {
                 DestroyAllBodyParts(targetPawn);
             }
+            // 其他类型的物体（如物品、植物等）不进行处理
         }
 
         private bool ShouldAffectThing(Thing thing)
         {
+            // 只影响建筑和Pawn
+            if (!(thing is Building) && !(thing is Pawn))
+                return false;
+                
             // 检查是否影响施法者自己
             if (thing == Pawn && !Props.affectCaster)
                 return false;
@@ -190,7 +168,8 @@ namespace WulaFallenEmpire
                 // 直接销毁建筑
                 building.Destroy(DestroyMode.Vanish);
                 
-                Log.Message($"[AreaDestruction] Destroyed building: {buildingInfo}");
+                // 可选：记录日志用于调试
+                // Log.Message($"[AreaDestruction] Destroyed building: {buildingInfo}");
             }
             catch (System.Exception ex)
             {
@@ -213,7 +192,7 @@ namespace WulaFallenEmpire
                 int partsDestroyed = 0;
                 foreach (var bodyPartRecord in bodyPartRecords)
                 {
-                    // 跳过核心部位以避免立即死亡（可选，根据需求调整）
+                    // 跳过核心部位以避免立即死亡
                     if (IsCoreBodyPart(bodyPartRecord)) continue;
                     
                     // 检查该部位是否已经缺失
@@ -231,7 +210,8 @@ namespace WulaFallenEmpire
                     // 检查pawn是否还"活着"（没有核心部位缺失时可能还能存活）
                     CheckPawnViability(targetPawn);
                     
-                    Log.Message($"[AreaDestruction] Destroyed {partsDestroyed} body parts on {pawnInfo}");
+                    // 可选：记录日志用于调试
+                    // Log.Message($"[AreaDestruction] Destroyed {partsDestroyed} body parts on {pawnInfo}");
                 }
             }
             catch (System.Exception ex)
@@ -290,7 +270,7 @@ namespace WulaFallenEmpire
                     List<Thing> thingList = cell.GetThingList(Pawn.Map);
                     for (int i = 0; i < thingList.Count; i++)
                     {
-                        if (thingList[i].Faction == Pawn.Faction)
+                        if (thingList[i] is Pawn pawn && pawn.Faction == Pawn.Faction)
                         {
                             return false;
                         }

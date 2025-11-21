@@ -88,6 +88,10 @@
     <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLance.cs" />
     <Compile Include="Ability\WULA_AbilityEnergyLance\EnergyLanceExtension.cs" />
     <Compile Include="Ability\WULA_AbilityCallSkyfaller\CompAbilityEffect_CallSkyfaller.cs" />
+    <Compile Include="Ability\WULA_AbilitySpawnAligned\CompAbilityEffect_SpawnAligned.cs" />
+    <Compile Include="Ability\WULA_AbilitySpawnAligned\CompProperties_AbilitySpawnAligned.cs" />
+    <Compile Include="Ability\WULA_AbilityTeleportSelf\CompAbilityEffect_TeleportSelf.cs" />
+    <Compile Include="Ability\WULA_AbilityTeleportSelf\CompProperties_AbilityTeleportSelf.cs" />
     <Compile Include="BuildingComp\Building_ExtraGraphics.cs" />
     <Compile Include="BuildingComp\Building_MapObserver.cs" />
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompBuildingBombardment.cs" />
@@ -224,6 +228,8 @@
     <Compile Include="ThingComp\CompUseEffect_PassionTrainer.cs" />
     <Compile Include="ThingComp\CompUseEffect_WulaSkillTrainer.cs" />
     <Compile Include="ThingComp\Comp_WeaponRenderDynamic.cs" />
+    <Compile Include="ThingComp\WULA_AreaDamage\CompAreaDamage.cs" />
+    <Compile Include="ThingComp\WULA_AreaDamage\CompProperties_AreaDamage.cs" />
     <Compile Include="ThingComp\WULA_AreaShield\AreaShieldManager.cs" />
     <Compile Include="ThingComp\WULA_AreaShield\CompProperties_AreaShield.cs" />
     <Compile Include="ThingComp\WULA_AreaShield\Gizmo_AreaShieldStatus.cs" />
