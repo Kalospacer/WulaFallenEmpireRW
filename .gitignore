@@ -39,3 +39,7 @@ MCP/mcpserver.log
 MCP/local_rag/
 Data
 MCP/python-sdk
+package-lock.json
+package.json
+dark-server/dark-server.js
+node_modules/
