@@ -13,7 +13,7 @@ namespace WulaFallenEmpire
         public RecipeDef recipe;
         public int targetCount = 1;
         public int currentCount = 0;
-        public bool paused = true;
+        public bool paused = false;
         
         // 生产状态
         public ProductionState state = ProductionState.Gathering;
@@ -50,7 +50,7 @@ namespace WulaFallenEmpire
             Scribe_Defs.Look(ref recipe, "recipe");
             Scribe_Values.Look(ref targetCount, "targetCount", 1);
             Scribe_Values.Look(ref currentCount, "currentCount", 0);
-            Scribe_Values.Look(ref paused, "paused", true);
+            Scribe_Values.Look(ref paused, "paused", false);
             Scribe_Values.Look(ref _progress, "progress", 0f);
             Scribe_Values.Look(ref state, "state", ProductionState.Gathering);
 

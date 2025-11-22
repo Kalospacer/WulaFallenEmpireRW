@@ -483,8 +483,13 @@ namespace WulaFallenEmpire
             else if (order.state == GlobalProductionOrder.ProductionState.Gathering)
             {
                 string statusText = "WULA_GatheringMaterials".Translate();
-                if (order.paused) statusText = $"[||] {statusText}";
+                if (order.paused)
+                {
+                    GUI.color = Color.yellow;
+                    statusText = "WULA_Paused".Translate() + ": " + statusText;
+                }
                 Widgets.Label(statusRect, statusText);
+                GUI.color = Color.white;
             }
             else
             {
@@ -497,10 +502,12 @@ namespace WulaFallenEmpire
 
                 if (order.paused && order.state != GlobalProductionOrder.ProductionState.Completed)
                 {
-                    statusText = $"[||] {statusText}";
+                    GUI.color = Color.yellow;
+                    statusText = "WULA_Paused".Translate() + ": " + statusText;
                 }
 
                 Widgets.Label(statusRect, statusText);
+                GUI.color = Color.white;
             }
 
             // 控制按钮区域

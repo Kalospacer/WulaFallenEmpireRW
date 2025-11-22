@@ -39,6 +39,7 @@
   <WULA_Unknown>未知</WULA_Unknown>
   <WULA_Delete>删除</WULA_Delete>
   <WULA_Pause>暂停</WULA_Pause>
+  <WULA_Paused>已暂停</WULA_Paused>
   <WULA_Resume>恢复</WULA_Resume>
   <WULA_InsufficientResources>资源不足</WULA_InsufficientResources>
   <WULA_FixedIngredients>固定原料</WULA_FixedIngredients>
