@@ -8,9 +8,10 @@ using UnityEngine;
 
 namespace WulaFallenEmpire
 {
-    public class Building_GlobalWorkTable : Building_WorkTable
+    public class Building_GlobalWorkTable : Building_WorkTable, IThingHolder
     {
         public GlobalProductionOrderStack globalOrderStack;
+        public ThingOwner innerContainer; // 用于存储待上传的原材料
         
         private CompPowerTrader powerComp;
         private CompBreakdownable breakdownableComp;
@@ -27,12 +28,14 @@ namespace WulaFallenEmpire
         public Building_GlobalWorkTable()
         {
             globalOrderStack = new GlobalProductionOrderStack(this);
+            innerContainer = new ThingOwner<Thing>(this, false);
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Deep.Look(ref globalOrderStack, "globalOrderStack", this);
+            Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
         }
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -524,6 +527,17 @@ namespace WulaFallenEmpire
             var selectedKind = availableKinds.RandomElement();
             Log.Message($"[Airdrop] Selected fallback PawnKind: {selectedKind.defName}");
             return selectedKind;
+        }
+
+        // IThingHolder 实现
+        public void GetChildHolders(List<IThingHolder> outChildren)
+        {
+            ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, GetDirectlyHeldThings());
+        }
+
+        public ThingOwner GetDirectlyHeldThings()
+        {
+            return innerContainer;
         }
 
         // 修改 CreateDropPod 方法

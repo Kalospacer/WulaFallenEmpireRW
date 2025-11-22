@@ -480,21 +480,34 @@ namespace WulaFallenEmpire
                 Widgets.Label(progressRect, $"{order.progress:P0}");
                 Text.Anchor = TextAnchor.UpperLeft;
             }
+            else if (order.state == GlobalProductionOrder.ProductionState.Gathering)
+            {
+                string statusText = "WULA_GatheringMaterials".Translate();
+                if (order.paused)
+                {
+                    GUI.color = Color.yellow;
+                    statusText = "WULA_Paused".Translate() + ": " + statusText;
+                }
+                Widgets.Label(statusRect, statusText);
+                GUI.color = Color.white;
+            }
             else
             {
                 string statusText = order.state switch
                 {
-                    GlobalProductionOrder.ProductionState.Waiting => "WULA_WaitingForResources".Translate(),
+                    GlobalProductionOrder.ProductionState.Gathering => "WULA_WaitingForResources".Translate(),
                     GlobalProductionOrder.ProductionState.Completed => "WULA_Completed".Translate(),
                     _ => "WULA_Unknown".Translate()
                 };
 
                 if (order.paused && order.state != GlobalProductionOrder.ProductionState.Completed)
                 {
-                    statusText = $"[||] {statusText}";
+                    GUI.color = Color.yellow;
+                    statusText = "WULA_Paused".Translate() + ": " + statusText;
                 }
 
                 Widgets.Label(statusRect, statusText);
+                GUI.color = Color.white;
             }
 
             // 控制按钮区域
@@ -549,7 +562,7 @@ namespace WulaFallenEmpire
 
             // 资源检查提示
             if (!order.HasEnoughResources() &&
-                order.state == GlobalProductionOrder.ProductionState.Waiting &&
+                order.state == GlobalProductionOrder.ProductionState.Gathering &&
                 !order.paused)
             {
                 TooltipHandler.TipRegion(rect, "WULA_InsufficientResources".Translate());
@@ -616,7 +629,7 @@ namespace WulaFallenEmpire
                 return;
 
             // 尝试消耗资源（如果可能）
-            bool resourcesConsumed = order.ConsumeResources();
+            bool resourcesConsumed = order.TryDeductResources();
 
             if (!resourcesConsumed)
             {

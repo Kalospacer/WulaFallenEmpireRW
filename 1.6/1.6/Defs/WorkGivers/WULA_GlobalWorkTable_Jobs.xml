@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WorkGiverDef>
+    <defName>WULA_DoGlobalBills</defName>
+    <label>haul materials to global work table</label>
+    <giverClass>WulaFallenEmpire.WorkGiver_GlobalWorkTable</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>150</priorityInType>
+    <verb>haul</verb>
+    <gerund>hauling</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+
+  <JobDef>
+    <defName>WULA_HaulToGlobalWorkTable</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_GlobalWorkTable</driverClass>
+    <reportString>hauling materials to global work table.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

@@ -13,15 +13,15 @@ namespace WulaFallenEmpire
         public RecipeDef recipe;
         public int targetCount = 1;
         public int currentCount = 0;
-        public bool paused = true;
+        public bool paused = false;
         
         // 生产状态
-        public ProductionState state = ProductionState.Waiting;
+        public ProductionState state = ProductionState.Gathering;
         
         public enum ProductionState
         {
-            Waiting,    // 等待资源
-            Producing,  // 生产中
+            Gathering,  // 准备材料（小人搬运中）
+            Producing,  // 生产中（云端倒计时）
             Completed   // 完成
         }
 
@@ -50,9 +50,9 @@ namespace WulaFallenEmpire
             Scribe_Defs.Look(ref recipe, "recipe");
             Scribe_Values.Look(ref targetCount, "targetCount", 1);
             Scribe_Values.Look(ref currentCount, "currentCount", 0);
-            Scribe_Values.Look(ref paused, "paused", true);
+            Scribe_Values.Look(ref paused, "paused", false);
             Scribe_Values.Look(ref _progress, "progress", 0f);
-            Scribe_Values.Look(ref state, "state", ProductionState.Waiting);
+            Scribe_Values.Look(ref state, "state", ProductionState.Gathering);
 
             // 修复：加载后验证数据
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -63,7 +63,7 @@ namespace WulaFallenEmpire
         }
 
         // 新增：获取产物的成本列表
-        private Dictionary<ThingDef, int> GetProductCostList()
+        public Dictionary<ThingDef, int> GetProductCostList()
         {
             var costDict = new Dictionary<ThingDef, int>();
             
@@ -126,29 +126,28 @@ namespace WulaFallenEmpire
             return true;
         }
 
-        // 修复：ConsumeResources 方法，使用产物的costList
-        public bool ConsumeResources()
+        // 修复：TryDeductResources 方法，尝试扣除资源
+        public bool TryDeductResources()
         {
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null) return false;
 
-            // 首先消耗产物的costList（对于武器等物品）
+            // 检查资源是否足够
+            if (!HasEnoughResources()) return false;
+
+            // 扣除资源
             var productCostList = GetProductCostList();
             if (productCostList.Count > 0)
             {
                 foreach (var kvp in productCostList)
                 {
-                    if (!globalStorage.RemoveFromInputStorage(kvp.Key, kvp.Value))
-                        return false;
+                    globalStorage.RemoveFromInputStorage(kvp.Key, kvp.Value);
                 }
                 return true;
             }
             
-            // 如果没有costList，则消耗配方的ingredients（对于加工类配方）
             foreach (var ingredient in recipe.ingredients)
             {
-                bool consumedThisIngredient = false;
-                
                 foreach (var thingDef in ingredient.filter.AllowedThingDefs)
                 {
                     int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
@@ -156,16 +155,10 @@ namespace WulaFallenEmpire
                     
                     if (availableCount >= requiredCount)
                     {
-                        if (globalStorage.RemoveFromInputStorage(thingDef, requiredCount))
-                        {
-                            consumedThisIngredient = true;
-                            break;
-                        }
+                        globalStorage.RemoveFromInputStorage(thingDef, requiredCount);
+                        break; // 只扣除一种满足条件的材料
                     }
                 }
-                
-                if (!consumedThisIngredient)
-                    return false;
             }
             
             return true;
@@ -258,20 +251,18 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            if (HasEnoughResources())
+            // 自动状态切换逻辑（仅用于从Gathering切换到Producing）
+            // 注意：现在资源的扣除是显式的，所以这里只检查是否可以开始
+            if (state == ProductionState.Gathering && !paused)
             {
-                if (state == ProductionState.Waiting && !paused)
+                if (HasEnoughResources())
                 {
-                    state = ProductionState.Producing;
-                    progress = 0f;
-                }
-            }
-            else
-            {
-                if (state == ProductionState.Producing)
-                {
-                    state = ProductionState.Waiting;
-                    progress = 0f;
+                    // 尝试扣除资源并开始生产
+                    if (TryDeductResources())
+                    {
+                        state = ProductionState.Producing;
+                        progress = 0f;
+                    }
                 }
             }
         }
