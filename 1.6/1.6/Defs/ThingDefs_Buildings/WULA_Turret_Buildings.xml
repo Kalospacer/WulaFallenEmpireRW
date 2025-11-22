@@ -961,7 +961,6 @@
     <hasTooltip>true</hasTooltip>
     <building>
       <combatPower>450</combatPower>
-      <ai_combatDangerous>true</ai_combatDangerous>
       <turretGunDef>Wula_Base_Mortar_Turret_Weapon</turretGunDef>
       <turretBurstCooldownTime>4</turretBurstCooldownTime>
       <turretTopOffset>(-0.04, 0)</turretTopOffset>
@@ -1024,16 +1023,18 @@
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
         <defaultProjectile>Bullet_WULA_WM_Mortar_Turret</defaultProjectile>
+        <ai_AvoidFriendlyFireRadius>5</ai_AvoidFriendlyFireRadius>
         <minRange>10</minRange>
-        <range>500</range>
+        <range>300</range>
         <requireLineOfSight>false</requireLineOfSight>
         <warmupTime>2.5</warmupTime>
         <isMortar>true</isMortar>
         <defaultCooldownTime>5</defaultCooldownTime>
         <burstShotCount>1</burstShotCount>
         <forcedMissRadius>5</forcedMissRadius>
+        <forcedMissRadiusClassicMortars>13</forcedMissRadiusClassicMortars>
         <soundCast>RocketswarmLauncher_Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>18</muzzleFlashScale>

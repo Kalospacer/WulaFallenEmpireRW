@@ -88,6 +88,9 @@
       <renderSkipFlags>
         <li>None</li>
       </renderSkipFlags>
+      <bodyPartGroups>
+        <li>FullHead</li>
+      </bodyPartGroups>
       <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
       <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
       <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
@@ -456,39 +459,25 @@
   </ThingDef>
 
   <ThingDef ParentName="WULA_ApparelArmorBase">
-    <defName>WULA_Knight_PowerArmor</defName>
-    <label>乌拉帝国骑士军团甲</label>
-    <description>乌拉帝国骑士所穿戴的动力甲，虽然看起来很薄但是实际上防御力相当强大，能够以能量护盾抵挡射弹，还有一只挂载了KRc-7"熔岩"火炮的副肢提供补充火力。</description>
-    <thingCategories>
-      <li>ApparelNoble</li>
-    </thingCategories>
+    <defName>WULA_Assault_Troop_PowerArmor</defName>
+    <label>乌拉帝国冲锋队装甲</label>
+    <description>乌拉帝国冲锋队所着的半仪式半防护的装甲，考虑到这些冲锋队实际上大部分时间都在干宪兵的活，这种装甲倒也够用。它除了采用轻便的复合材料保护躯干外，还附带了防御立场发生器，可以支起一面反射射弹的区域盾。</description>
     <recipeMaker>
       <researchPrerequisite>WULA_Synth_Armor_1_Technology</researchPrerequisite>
-      <skillRequirements>
-        <Crafting>10</Crafting>
-      </skillRequirements>
     </recipeMaker>
     <graphicData>
-      <texPath>Wula/Apparel/WULA_Knight_PowerArmor</texPath>
+      <texPath>Wula/Apparel/WULA_Assault_Troop_PowerArmor</texPath>
     </graphicData>
     <statBases>
       <WorkToMake>60000</WorkToMake>
       <MaxHitPoints>1000</MaxHitPoints>
-      <Mass>20</Mass>
+      <Mass>10</Mass>
       <Flammability>0</Flammability>
-      <ArmorRating_Sharp>1.2</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1.2</ArmorRating_Blunt>
-      <ArmorRating_Heat>2.0</ArmorRating_Heat>
-      <EquipDelay>35</EquipDelay>
-      <EnergyShieldEnergyMax>0.5</EnergyShieldEnergyMax>
+      <ArmorRating_Sharp>0.7</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.7</ArmorRating_Blunt>
+      <ArmorRating_Heat>1</ArmorRating_Heat>
+      <EquipDelay>3</EquipDelay>
     </statBases>
-    <equippedStatOffsets>
-			<MoveSpeed>-0.25</MoveSpeed>
-      <WorkSpeedGlobal>-0.2</WorkSpeedGlobal>
-      <IncomingDamageFactor>-0.25</IncomingDamageFactor>
-      <StaggerDurationFactor>-2</StaggerDurationFactor>
-			<CarryingCapacity>120</CarryingCapacity>
-    </equippedStatOffsets>
     <costStuffCount>250</costStuffCount>
     <costList Inherit="False">
       <ComponentSpacer>8</ComponentSpacer>
@@ -499,49 +488,64 @@
         <li>RoyalTier5</li>
         <li>Royal</li>
       </tags>
-      <wornGraphicPath>Wula/Apparel/WULA_Knight_PowerArmor</wornGraphicPath>
+      <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_PowerArmor</wornGraphicPath>
     </apparel>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AreaShield">
+        <radius>5</radius>
+        <baseHitPoints>20</baseHitPoints>
+        <rechargeDelay>2400</rechargeDelay>
+        <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
+        
+        <!-- 效果器配置 -->
+        <absorbEffecter>Interceptor_BlockedProjectile</absorbEffecter>
+        <interceptEffecter>Interceptor_BlockedProjectile</interceptEffecter>
+        <breakEffecter>Shield_Break</breakEffecter>
+        <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
+        
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        
+        <!-- 拦截设置 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+      
+        <!-- 反射设置 -->
+        <canReflect>true</canReflect>
+        <reflectChance>0.3</reflectChance>
+        <reflectAngleRange>30</reflectAngleRange>
+        <reflectCost>0</reflectCost>
+        <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="WULA_ApparelHelmetBase">
-    <defName>WULA_Knight_Helmet</defName>
-    <label>乌拉帝国骑士头盔</label>
-    <description>与乌拉帝国骑士的动力甲配套的头盔，能够辅助穿戴者的瞄准。</description>
-    <thingCategories>
-      <li>HeadgearNoble</li>
-    </thingCategories>
+    <defName>WULA_Assault_Troop_Helmet</defName>
+    <label>乌拉帝国冲锋队帽子</label>
+    <description>与乌拉帝国冲锋队所着的半仪式半防护的装甲配套的帽子，话说回来这真的有防御力吗。</description>
     <recipeMaker>
-      <skillRequirements>
-        <Crafting>10</Crafting>
-      </skillRequirements>
       <researchPrerequisite>WULA_Synth_Armor_1_Technology</researchPrerequisite>
     </recipeMaker>
     <graphicData>
-      <texPath>Wula/Apparel/WULA_Knight_Helmet</texPath>
+      <texPath>Wula/Apparel/WULA_Assault_Troop_Helmet</texPath>
     </graphicData>
     <statBases>
       <WorkToMake>20000</WorkToMake>
       <MaxHitPoints>1000</MaxHitPoints>
-      <Mass>3</Mass>
+      <Mass>1</Mass>
       <Flammability>0</Flammability>
-      <ArmorRating_Sharp>1</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1</ArmorRating_Blunt>
-      <ArmorRating_Heat>2.0</ArmorRating_Heat>
-      <EquipDelay>15</EquipDelay>
+      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.7</ArmorRating_Heat>
+      <EquipDelay>1</EquipDelay>
     </statBases>
-    <equippedStatOffsets>
-      <IncomingDamageFactor>-0.075</IncomingDamageFactor>
-      <AimingDelayFactor>-0.25</AimingDelayFactor>
-      <ShootingAccuracyPawn>2</ShootingAccuracyPawn>
-    </equippedStatOffsets>
     <apparel>
       <tags>
         <li>Wula_Armor_Heavy</li>
         <li>RoyalTier5</li>
         <li>Royal</li>
       </tags>
-      <wornGraphicPath>Wula/Apparel/WULA_Knight_Helmet</wornGraphicPath>
+      <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_Helmet</wornGraphicPath>
     </apparel>
     <costStuffCount>50</costStuffCount>
     <costList Inherit="False">
@@ -551,7 +555,7 @@
   <ThingDef ParentName="WULA_ApparelArmorBase">
     <defName>WULA_Heavy_Infantry_PowerArmor</defName>
     <label>乌拉帝国重装装甲</label>
-    <description>乌拉帝国重步兵所穿戴的动力甲，在乌拉帝国常规装备库中属于最重型那一档——行动缓慢，防御力强大，拥有厚重的立场盾，自带额外的动力拳武器，并且背挂两门ILm-60"铬铁"迫击炮用于轰炸敌军。</description>
+    <description>乌拉帝国重步兵所穿戴的动力甲，在乌拉帝国常规装备库中属于最重型那一档——行动缓慢，防御力强大，拥有厚重的立场盾，并且背挂两门ILm-60"铬铁"迫击炮用于轰炸敌军。</description>
     <thingCategories>
       <li>ApparelNoble</li>
     </thingCategories>
@@ -599,7 +603,7 @@
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AreaShield">
         <radius>5</radius>
-        <baseHitPoints>100</baseHitPoints>
+        <baseHitPoints>50</baseHitPoints>
         <rechargeDelay>2400</rechargeDelay>
         <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
         
@@ -618,9 +622,9 @@
       
         <!-- 反射设置 -->
         <canReflect>true</canReflect>
-        <reflectChance>1</reflectChance>
+        <reflectChance>0.5</reflectChance>
         <reflectAngleRange>30</reflectAngleRange>
-        <reflectCost>1</reflectCost>
+        <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
       </li>
       <li Class="CompProperties_CauseHediff_Apparel">

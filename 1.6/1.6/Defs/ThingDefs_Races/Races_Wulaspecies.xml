@@ -234,7 +234,7 @@
 	<AlienRace.ThingDef_AlienRace Name="Race_Wula_Machine" ParentName="Wula_Human_Base">
 		<defName>WulaSpecies</defName>
 		<label>机械乌拉</label>
-		<description>诞生于乌拉帝国的机械生命体，是对这个帝国的统治者精妙的仿制。作为机械生命，乌拉帝国合成人比常规的人类要坚韧的多——她们不害怕极端气候、真空和毒气侵袭，也不需要常规意义上的食物。\n\n然而，她们也有自己的缺陷——她们移动速度较慢、害怕EMP攻击、不擅长采矿和建造，并且如时钟发条的精密的身体难以连续承受高额伤害，必须定期返回维修舱检修。</description>
+		<description>诞生于乌拉帝国的机械生命体，是对这个帝国的统治者精妙的仿制。作为机械生命，乌拉帝国合成人比常规的人类要坚韧的多——她们不害怕极端气候、真空和毒气侵袭，也不需要常规意义上的食物。\n\n然而，她们也有自己的缺陷——她们移动速度较慢、害怕EMP攻击、并且如时钟发条的精密的身体难以连续承受高额伤害，必须定期返回维修舱检修。</description>
 
     <alienRace>
       <!-- 核心设置 -->
@@ -631,16 +631,16 @@
       <!-- 社交效果，机械乌拉社交的影响很小 -->
       <SocialImpact>0.25</SocialImpact>
       <!-- 挖矿速度 -->
-      <MiningSpeed>0.25</MiningSpeed>
+      <MiningSpeed>1</MiningSpeed>
       <!-- 采矿效率 -->
-      <MiningYield>0.5</MiningYield>
+      <MiningYield>1</MiningYield>
       <!-- 种植速度 -->
       <PlantWorkSpeed>1</PlantWorkSpeed>
       <!-- 狩猎隐蔽 -->
       <HuntingStealth>1</HuntingStealth>
       <!-- 建造速度 -->
-      <ConstructionSpeed>0.25</ConstructionSpeed>
-      <ConstructSuccessChance>0.5</ConstructSuccessChance>
+      <ConstructionSpeed>1</ConstructionSpeed>
+      <ConstructSuccessChance>1</ConstructSuccessChance>
       <!-- 研究速度 -->
       <ResearchSpeed>1</ResearchSpeed>
     </statBases>

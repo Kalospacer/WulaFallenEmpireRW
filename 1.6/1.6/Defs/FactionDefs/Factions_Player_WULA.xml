@@ -17,6 +17,7 @@
     <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
     <allowedCultures><li>Astropolitan</li></allowedCultures>
     <factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+    <canUseAvoidGrid>false</canUseAvoidGrid>
     <startingResearchTags>
       <li>ClassicStart</li>
     </startingResearchTags>
