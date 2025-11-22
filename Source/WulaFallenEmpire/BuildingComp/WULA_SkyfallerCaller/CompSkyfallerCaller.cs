@@ -7,22 +7,6 @@ using Verse.AI;
 
 namespace WulaFallenEmpire
 {
-    public class CompProperties_SkyfallerCaller : CompProperties
-    {
-        public ThingDef skyfallerDef;
-        public bool destroyBuilding = true;
-        public int delayTicks = 0;
-        // 删除 requiredFlyOverType 字段
-        public bool allowThinRoof = true; // 允许砸穿薄屋顶
-        public bool allowThickRoof = false; // 是否允许在厚岩顶下空投
-        // 删除 requiredFlyOverLabel 字段
-        
-        public CompProperties_SkyfallerCaller()
-        {
-            compClass = typeof(CompSkyfallerCaller);
-        }
-    }
-
     public class CompSkyfallerCaller : ThingComp
     {
         private CompProperties_SkyfallerCaller Props => (CompProperties_SkyfallerCaller)props;
@@ -41,6 +25,10 @@ namespace WulaFallenEmpire
         {
             get
             {
+                // 如果不需要 FlyOver，直接返回 true
+                if (!Props.requireFlyOver)
+                    return true;
+
                 if (parent?.Map == null) return false;
                 
                 try
@@ -173,7 +161,7 @@ namespace WulaFallenEmpire
             if (!CanCallSkyfaller)
             {
                 // 显示相应的错误消息
-                if (!HasRequiredFlyOver)
+                if (!HasRequiredFlyOver && Props.requireFlyOver) // 只在需要 FlyOver 时才显示此消息
                 {
                     Messages.Message("WULA_NoBuildingDropperFlyOver".Translate(), parent, MessageTypeDefOf.RejectInput);
                 }
@@ -284,7 +272,8 @@ namespace WulaFallenEmpire
         {
             string desc = "WULA_CallSkyfallerDesc".Translate();
             
-            if (!HasRequiredFlyOver)
+            // 只在需要 FlyOver 时显示相关描述
+            if (Props.requireFlyOver && !HasRequiredFlyOver)
             {
                 desc += $"\n{"WULA_RequiresBuildingDropperFlyOver".Translate()}";
             }
@@ -311,7 +300,8 @@ namespace WulaFallenEmpire
 
         private string GetDisabledReason()
         {
-            if (!HasRequiredFlyOver)
+            // 只在需要 FlyOver 时检查并显示相关原因
+            if (Props.requireFlyOver && !HasRequiredFlyOver)
             {
                 return "WULA_NoBuildingDropperFlyOver".Translate();
             }
@@ -354,8 +344,8 @@ namespace WulaFallenEmpire
             {
                 string status = "WULA_ReadyToCallSkyfaller".Translate();
                 
-                // 添加条件信息
-                if (!HasRequiredFlyOver)
+                // 只在需要 FlyOver 时显示相关条件信息
+                if (Props.requireFlyOver && !HasRequiredFlyOver)
                 {
                     status += $"\n{"WULA_MissingBuildingDropperFlyOver".Translate()}";
                 }

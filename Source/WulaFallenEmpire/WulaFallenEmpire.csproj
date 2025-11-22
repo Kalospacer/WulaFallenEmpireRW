@@ -112,6 +112,7 @@
     <Compile Include="BuildingComp\WULA_Shuttle\Dialog_ArmedShuttleTransfer.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\GenStep_WulaPocketSpaceSmall.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\PocketSpaceThingHolder.cs" />
+    <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompProperties_SkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompSkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompProperties_StorageTurret.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompStorageTurret.cs" />
