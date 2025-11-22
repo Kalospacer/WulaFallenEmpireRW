@@ -480,11 +480,17 @@ namespace WulaFallenEmpire
                 Widgets.Label(progressRect, $"{order.progress:P0}");
                 Text.Anchor = TextAnchor.UpperLeft;
             }
+            else if (order.state == GlobalProductionOrder.ProductionState.Gathering)
+            {
+                string statusText = "WULA_GatheringMaterials".Translate();
+                if (order.paused) statusText = $"[||] {statusText}";
+                Widgets.Label(statusRect, statusText);
+            }
             else
             {
                 string statusText = order.state switch
                 {
-                    GlobalProductionOrder.ProductionState.Waiting => "WULA_WaitingForResources".Translate(),
+                    GlobalProductionOrder.ProductionState.Gathering => "WULA_WaitingForResources".Translate(),
                     GlobalProductionOrder.ProductionState.Completed => "WULA_Completed".Translate(),
                     _ => "WULA_Unknown".Translate()
                 };
@@ -549,7 +555,7 @@ namespace WulaFallenEmpire
 
             // 资源检查提示
             if (!order.HasEnoughResources() &&
-                order.state == GlobalProductionOrder.ProductionState.Waiting &&
+                order.state == GlobalProductionOrder.ProductionState.Gathering &&
                 !order.paused)
             {
                 TooltipHandler.TipRegion(rect, "WULA_InsufficientResources".Translate());

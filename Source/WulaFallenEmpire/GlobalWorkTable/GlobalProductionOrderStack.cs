@@ -72,7 +72,7 @@ namespace WulaFallenEmpire
                 {
                     ProcessProducingOrder(order, i);
                 }
-                else if (order.state == GlobalProductionOrder.ProductionState.Waiting && !order.paused)
+                else if (order.state == GlobalProductionOrder.ProductionState.Gathering && !order.paused)
                 {
                     ProcessWaitingOrder(order);
                 }
@@ -88,7 +88,7 @@ namespace WulaFallenEmpire
             if (workAmount <= 0)
             {
                 Log.Error($"Invalid workAmount ({workAmount}) for recipe {order.recipe.defName}");
-                order.state = GlobalProductionOrder.ProductionState.Waiting;
+                order.state = GlobalProductionOrder.ProductionState.Gathering;
                 order.progress = 0f;
                 return;
             }
@@ -194,7 +194,7 @@ namespace WulaFallenEmpire
             else
             {
                 // 修复：资源不足，回到等待状态
-                order.state = GlobalProductionOrder.ProductionState.Waiting;
+                order.state = GlobalProductionOrder.ProductionState.Gathering;
                 order.progress = 0f;
                 Log.Message($"[WARNING] Failed to consume resources for {order.recipe.defName}, resetting");
             }

@@ -16,12 +16,12 @@ namespace WulaFallenEmpire
         public bool paused = true;
         
         // 生产状态
-        public ProductionState state = ProductionState.Waiting;
+        public ProductionState state = ProductionState.Gathering;
         
         public enum ProductionState
         {
-            Waiting,    // 等待资源
-            Producing,  // 生产中
+            Gathering,  // 准备材料（小人搬运中）
+            Producing,  // 生产中（云端倒计时）
             Completed   // 完成
         }
 
@@ -52,7 +52,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref currentCount, "currentCount", 0);
             Scribe_Values.Look(ref paused, "paused", true);
             Scribe_Values.Look(ref _progress, "progress", 0f);
-            Scribe_Values.Look(ref state, "state", ProductionState.Waiting);
+            Scribe_Values.Look(ref state, "state", ProductionState.Gathering);
 
             // 修复：加载后验证数据
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -63,7 +63,7 @@ namespace WulaFallenEmpire
         }
 
         // 新增：获取产物的成本列表
-        private Dictionary<ThingDef, int> GetProductCostList()
+        public Dictionary<ThingDef, int> GetProductCostList()
         {
             var costDict = new Dictionary<ThingDef, int>();
             
@@ -260,7 +260,7 @@ namespace WulaFallenEmpire
 
             if (HasEnoughResources())
             {
-                if (state == ProductionState.Waiting && !paused)
+                if (state == ProductionState.Gathering && !paused)
                 {
                     state = ProductionState.Producing;
                     progress = 0f;
@@ -270,7 +270,7 @@ namespace WulaFallenEmpire
             {
                 if (state == ProductionState.Producing)
                 {
-                    state = ProductionState.Waiting;
+                    state = ProductionState.Gathering;
                     progress = 0f;
                 }
             }
