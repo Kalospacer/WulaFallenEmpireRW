@@ -389,7 +389,7 @@
         <defaultProjectile>Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon</defaultProjectile>
         <warmupTime>0</warmupTime>
         <minRange>5.9</minRange>
-        <range>60</range>
+        <range>50</range>
         <defaultCooldownTime>3</defaultCooldownTime>
         <burstShotCount>6</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
@@ -428,7 +428,7 @@
       </li>
     </modExtensions>
   </ThingDef>
-  <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
+  <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Wula_AI_Heavy_Panzer_Main_Weapon</defName>
     <label>SDm-2"月长石"</label>
     <description>HAp-6"战车"车体正面的突击炮，射程很短并且只能在静止状态开火，但是威力巨大，专门用于对付坚固的工事和成片的人群。</description>
@@ -510,6 +510,87 @@
       <li Class="WulaFallenEmpire.TrackingBulletDef">
         <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
         <fleckMakeFleckTickMax>5</fleckMakeFleckTickMax>
+        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
+        <fleckScale>0.5~1.0</fleckScale>
+        <fleckSpeed>0.1~0.3</fleckSpeed>
+        <fleckAngle>-30~30</fleckAngle>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Wula_AI_Rocket_Panzer_Turret_Weapon</defName>
+    <label>FRt-1"火欧泊"</label>
+    <description>HRp-3"喷火战车"的炮塔，可以一次性发射大量的火箭弹。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_WM_Panzer_Rocket_Turret</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <uiIconScale>0.33</uiIconScale>
+    <statBases>
+      <Mass>150</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>2</AccuracyShort>
+      <AccuracyMedium>2</AccuracyMedium>
+      <AccuracyLong>2</AccuracyLong>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_Wula_AI_Rocket_Panzer_Turret_Weapon</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <minRange>12</minRange>
+        <range>79</range>
+        <defaultCooldownTime>12</defaultCooldownTime>
+        <burstShotCount>12</burstShotCount>
+        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+        <requireLineOfSight>true</requireLineOfSight>
+        <forcedMissRadius>8</forcedMissRadius>
+        <soundCast>WULA_RW_Rocket_Shootingsound</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>18</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Wula_AI_Rocket_Panzer_Turret_Weapon</defName>
+    <label>火欧泊火箭弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,3)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Flame</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <speed>60</speed>
+      <explosionRadius>6</explosionRadius>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_Rocket</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <stoppingPower>10</stoppingPower>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.NorthArcModExtension">
+        <northOffsetDistance>6</northOffsetDistance>
+        <curveSteepness>1.0</curveSteepness>
+        <useArcTrajectory>true</useArcTrajectory>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
+        <fleckMakeFleckTickMax>2</fleckMakeFleckTickMax>
         <fleckDelayTicks>1</fleckDelayTicks>
         <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
         <fleckScale>0.5~1.0</fleckScale>

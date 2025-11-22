@@ -455,28 +455,17 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Clothes_2_Technology</defName>
+    <defName>WULA_Synth_Weapon_Shield_Technology</defName>
     <researchViewX>5.00</researchViewX>
     <researchViewY>2.70</researchViewY>
-    <label>高级衣物加工许可</label>
-    <description>允许从作业通讯台提交生产高级乌拉帝国衣服的订单。</description>
+    <label>护盾加工许可</label>
+    <description>允许从作业通讯台提交各种手持护盾的订单。</description>
     <baseCost>1200</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Synth_Clothes_1_Technology</li>
     </hiddenPrerequisites>  
     <prerequisites>
       <li>WULA_Colony_License_LV2_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Weapon_Shield_Technology</defName>
-    <researchViewX>7.00</researchViewX>
-    <researchViewY>2.10</researchViewY>
-    <label>护盾加工许可</label>
-    <description>允许从作业通讯台提交各种手持护盾的订单。</description>
-    <baseCost>800</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Clothes_2_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -487,7 +476,7 @@
     <description>允许从作业通讯台提交生产基础乌拉帝国装甲的订单。</description>
     <baseCost>1200</baseCost>
     <prerequisites>
-      <li>WULA_Synth_Clothes_2_Technology</li>
+      <li>WULA_Synth_Weapon_Shield_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">

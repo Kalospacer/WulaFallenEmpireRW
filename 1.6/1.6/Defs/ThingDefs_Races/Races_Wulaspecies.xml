@@ -977,7 +977,7 @@
   </ThingDef>
 
   <!-- 大型机械族 -->
-  <ThingDef Name="Wula_AI_Heavy_Panzer" ParentName="WULA_BaseMechanoid">
+  <ThingDef ParentName="WULA_BaseMechanoid">
     <defName>Wula_AI_Heavy_Panzer</defName> <!-- 修改了defName以避免冲突 -->
     <label>HAp-6"战车"</label>
     <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用破坏力巨大的自动炮和车体臼炮打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
@@ -1092,7 +1092,114 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef Name="Wula_Mech_Mobile_Factory" ParentName="WULA_BaseMechanoid">
+  <ThingDef ParentName="WULA_BaseMechanoid">
+    <defName>Wula_AI_Rocket_Panzer</defName> <!-- 修改了defName以避免冲突 -->
+    <label>HRp-3"喷火战车"</label>
+    <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有车体臼炮和两具可以发射大量燃烧火箭弹的转轮导弹巢，但是未像其姊妹型号那样装备护盾。</description>
+    <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Rocket_Panzer_Icon</uiIconPath>
+    <statBases>
+      <BandwidthCost>1</BandwidthCost>
+      <MoveSpeed>2</MoveSpeed>
+      <EnergyShieldEnergyMax>2</EnergyShieldEnergyMax>
+      <StaggerDurationFactor>0</StaggerDurationFactor>
+
+      <MaxFlightTime>9999</MaxFlightTime>
+      <FlightCooldown>0</FlightCooldown>
+    </statBases>
+    <costList Inherit="False">
+      <WULA_Alloy>300</WULA_Alloy>
+      <WULA_Charge_Cube>18</WULA_Charge_Cube>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <race>
+      <body>Mech_Warqueen</body>
+      <baseBodySize>30</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
+          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <baseHealthScale>10</baseHealthScale>
+
+      <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
+      <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
+    </race>
+    <tools>
+      <li>
+        <label>碾压</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>360</power>
+        <cooldownTime>8</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>0</ID>
+        <turretDef>Wula_AI_Rocket_Panzer_Turret_Weapon</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(7, 7)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <!-- 飞行组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_PawnFlight">        
+
+        <!-- 飞行触发条件：仅在征召时飞行 -->
+        <flightCondition>Drafted</flightCondition>
+
+        <!-- 链接到我们刚刚创建的 AnimationDef -->
+        <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
+        <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
+        <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
+        <radius>1.5</radius>
+        <damageIntervalTicks>30</damageIntervalTicks>
+        <damageDef>Crush</damageDef>
+        <damageAmount>3</damageAmount>
+        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
+        <affectFriendly>false</affectFriendly>
+        <affectNeutral>false</affectNeutral>
+        <affectHostile>true</affectHostile>
+        <affectBuildings>false</affectBuildings>
+        <ignoreFactionRelations>false</ignoreFactionRelations>
+        <startEnabled>false</startEnabled>
+        <toggleLabel>碾压伤害</toggleLabel>
+        <toggleDescription>HRp-3"喷火战车"可以将舰身稍微下沉一些并创造低压区，以碾压靠近的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
+        <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WULA_BaseMechanoid">
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
     <label>MFm-2"陆行舰"</label>
     <description>乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的要塞和顽强的抵抗。</description>
@@ -1386,7 +1493,7 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef Name="WULA_Mech_Flyer" ParentName="BaseMechanoidWalker">
+  <ThingDef ParentName="BaseMechanoidWalker">
     <defName>WULA_Mech_Flyer</defName>
     <label>CRm-51"兵蚁"</label>
     <description>乌拉帝国的自律机械部队，它们通常由更高一级的机械作战节点自行制造，可以在靠近敌人后用装备的磁力射线从敌人身上窃取武器。</description>
