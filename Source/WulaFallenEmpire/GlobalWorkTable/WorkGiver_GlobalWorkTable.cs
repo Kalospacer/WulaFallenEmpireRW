@@ -15,13 +15,13 @@ namespace WulaFallenEmpire
         {
             if (!(t is Building_GlobalWorkTable table) || !table.Spawned || table.IsForbidden(pawn))
             {
-                // Log.Message($"[WULA_DEBUG] HasJobOnThing: Target invalid or forbidden. {t}");
+                if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Target invalid or forbidden. {t}");
                 return false;
             }
 
             if (!pawn.CanReserve(table, 1, -1, null, forced))
             {
-                // Log.Message($"[WULA_DEBUG] HasJobOnThing: Cannot reserve table.");
+                if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Cannot reserve table.");
                 return false;
             }
 
@@ -29,14 +29,21 @@ namespace WulaFallenEmpire
             var order = table.globalOrderStack.orders.FirstOrDefault(o => o.state == GlobalProductionOrder.ProductionState.Gathering && !o.paused);
             if (order == null)
             {
-                // Log.Message($"[WULA_DEBUG] HasJobOnThing: No gathering order found.");
+                if (forced)
+                {
+                    Log.Message($"[WULA_DEBUG] HasJobOnThing: No gathering order found. Total orders: {table.globalOrderStack.orders.Count}");
+                    foreach (var o in table.globalOrderStack.orders)
+                    {
+                        Log.Message($"  - Order: {o.Label}, State: {o.state}, Paused: {o.paused}");
+                    }
+                }
                 return false;
             }
 
             // 检查是否已经有足够的材料在容器中或云端
             if (order.HasEnoughResources())
             {
-                // Log.Message($"[WULA_DEBUG] HasJobOnThing: Order has enough resources.");
+                if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Order has enough resources.");
                 return false;
             }
 
@@ -78,7 +85,7 @@ namespace WulaFallenEmpire
             // 获取所需材料清单
             var neededMaterials = GetNeededMaterials(order, table, globalStorage);
             
-            // Log.Message($"[WULA_DEBUG] Needed materials for {order.Label}: {string.Join(", ", neededMaterials.Select(k => $"{k.Key.defName} x{k.Value}"))}");
+            Log.Message($"[WULA_DEBUG] Needed materials for {order.Label}: {string.Join(", ", neededMaterials.Select(k => $"{k.Key.defName} x{k.Value}"))}");
 
             foreach (var kvp in neededMaterials)
             {
@@ -105,7 +112,7 @@ namespace WulaFallenEmpire
                     }
                 }
                 
-                // Log.Message($"[WULA_DEBUG] Found {currentCount}/{countNeeded} of {def.defName}");
+                Log.Message($"[WULA_DEBUG] Found {currentCount}/{countNeeded} of {def.defName}");
             }
 
             return result.Count > 0 ? result : null;
