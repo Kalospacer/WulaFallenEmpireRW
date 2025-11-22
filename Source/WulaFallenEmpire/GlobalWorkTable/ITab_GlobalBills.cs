@@ -629,7 +629,7 @@ namespace WulaFallenEmpire
                 return;
 
             // 尝试消耗资源（如果可能）
-            bool resourcesConsumed = order.ConsumeResources();
+            bool resourcesConsumed = order.TryDeductResources();
 
             if (!resourcesConsumed)
             {

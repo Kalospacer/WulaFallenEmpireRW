@@ -77,7 +77,7 @@ namespace WulaFallenEmpire
 
             if (allSatisfied)
             {
-                // 消耗容器中的材料并上传到云端
+                // 1. 消耗容器中的材料并上传到云端
                 foreach (var kvp in costList)
                 {
                     int needed = kvp.Value;
@@ -100,9 +100,19 @@ namespace WulaFallenEmpire
                     }
                 }
                 
-                // 切换状态
-                order.state = GlobalProductionOrder.ProductionState.Producing;
-                Messages.Message("WULA_OrderStarted".Translate(order.Label), table, MessageTypeDefOf.PositiveEvent);
+                // 2. 立即尝试扣除资源并开始生产
+                // 这会从云端扣除刚刚上传的资源，防止其他订单抢占
+                if (order.TryDeductResources())
+                {
+                    order.state = GlobalProductionOrder.ProductionState.Producing;
+                    order.progress = 0f;
+                    Messages.Message("WULA_OrderStarted".Translate(order.Label), table, MessageTypeDefOf.PositiveEvent);
+                }
+                else
+                {
+                    // 理论上不应该发生，因为前面检查了 allSatisfied
+                    Log.Error($"[WULA] Failed to deduct resources for {order.Label} immediately after upload.");
+                }
             }
         }
     }

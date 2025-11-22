@@ -172,31 +172,28 @@ namespace WulaFallenEmpire
         
         private void CompleteProduction(GlobalProductionOrder order, int index)
         {
-            // 修复：生产完成，消耗资源
-            if (order.ConsumeResources())
+            // 生产完成（资源已经在开始生产时扣除）
+            order.Produce();
+            
+            Log.Message($"[SUCCESS] Produced {order.recipe.products[0].thingDef.defName}, " +
+                       $"count: {order.currentCount}/{order.targetCount}");
+            
+            // 重置进度
+            order.progress = 0f;
+            
+            // 检查是否完成所有目标数量
+            if (order.currentCount >= order.targetCount)
             {
-                order.Produce();
-                order.UpdateState();
-                
-                Log.Message($"[SUCCESS] Produced {order.recipe.products[0].thingDef.defName}, " +
-                           $"count: {order.currentCount}/{order.targetCount}");
-                
-                // 重置进度
-                order.progress = 0f;
-                
-                // 如果订单完成，移除它
-                if (order.state == GlobalProductionOrder.ProductionState.Completed)
-                {
-                    orders.RemoveAt(index);
-                    Log.Message($"[COMPLETE] Order {order.recipe.defName} completed and removed");
-                }
+                order.state = GlobalProductionOrder.ProductionState.Completed;
+                orders.RemoveAt(index);
+                Log.Message($"[COMPLETE] Order {order.recipe.defName} completed and removed");
             }
             else
             {
-                // 修复：资源不足，回到等待状态
+                // 如果还有剩余数量，回到Gathering状态准备下一轮
                 order.state = GlobalProductionOrder.ProductionState.Gathering;
-                order.progress = 0f;
-                Log.Message($"[WARNING] Failed to consume resources for {order.recipe.defName}, resetting");
+                // UpdateState 会自动检查资源并尝试开始下一轮
+                order.UpdateState();
             }
         }
         
