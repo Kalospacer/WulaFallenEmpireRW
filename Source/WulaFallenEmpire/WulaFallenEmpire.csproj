@@ -158,6 +158,8 @@
     <Compile Include="GlobalWorkTable\GlobalStorageWorldComponent.cs" />
     <Compile Include="GlobalWorkTable\GlobalWorkTableAirdropExtension.cs" />
     <Compile Include="GlobalWorkTable\ITab_GlobalBills.cs" />
+    <Compile Include="GlobalWorkTable\WorkGiver_GlobalWorkTable.cs" />
+    <Compile Include="GlobalWorkTable\JobDriver_GlobalWorkTable.cs" />
     <Compile Include="GlobalWorkTable\CompLaunchable_ToGlobalStorage.cs" />
     <Compile Include="GlobalWorkTable\CompProperties_Launchable_ToGlobalStorage.cs" />
     <Compile Include="HarmonyPatches\Hediff_Mechlink_PostAdd_Patch.cs" />
