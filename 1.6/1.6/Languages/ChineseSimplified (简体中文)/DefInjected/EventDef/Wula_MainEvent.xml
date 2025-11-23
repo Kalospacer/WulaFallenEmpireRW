@@ -5,10 +5,10 @@
   <Wula_UI_Legion_1.characterName>「军团」,P.I.A</Wula_UI_Legion_1.characterName>
   <Wula_UI_Legion_1.description>这里是乌拉帝国行星封锁机关P.I.A，通讯信号良好，等待输入。</Wula_UI_Legion_1.description>
   <Wula_UI_Legion_1.description>那句话怎么说来着？天下无敌，天上来敌。</Wula_UI_Legion_1.description>
- <Wula_UI_Legion_1.description>早在这些生物的祖先还在有机汤里面翻滚时，我们就已经是这个银河系的霸主了——以前如此，今后也会如此。</Wula_UI_Legion_1.description>
- <Wula_UI_Legion_1.description>一般来说，我们并不喜欢暴力和流血冲突，如果这些星系的原住民能更配合点就好了。</Wula_UI_Legion_1.description>
+  <Wula_UI_Legion_1.description>早在这些生物的祖先还在有机汤里面翻滚时，我们就已经是这个银河系的霸主了——以前如此，今后也会如此。</Wula_UI_Legion_1.description>
+  <Wula_UI_Legion_1.description>一般来说，我们并不喜欢暴力和流血冲突，如果这些星系的原住民能更配合点就好了。</Wula_UI_Legion_1.description>
   <Wula_UI_Legion_1.option.0.label>我想问些事情</Wula_UI_Legion_1.option.0.label>
- <Wula_UI_Legion_1.option.1.label>我们要申请支援！</Wula_UI_Legion_1.option.1.label>
+  <Wula_UI_Legion_1.option.1.label>我们要申请支援！</Wula_UI_Legion_1.option.1.label>
   <Wula_UI_Legion_1.option.2.label>再见</Wula_UI_Legion_1.option.2.label>
 
   <!-- Wula_UI_Legion_30 -->
@@ -46,7 +46,7 @@
   <Wula_UI_Anisia_33.characterName>「军团」,P.I.A</Wula_UI_Anisia_33.characterName>
   <Wula_UI_Anisia_33.description>遇到麻烦了？我可以把手上的特遣队丢下去，你们记得找好掩体。</Wula_UI_Anisia_33.description>
   <Wula_UI_Anisia_33.option.0.label>再不来我们要死完啦</Wula_UI_Anisia_33.option.0.label>
- <Wula_UI_Anisia_33.option.0.disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</Wula_UI_Anisia_33.option.0.disabledReason>
+  <Wula_UI_Anisia_33.option.0.disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</Wula_UI_Anisia_33.option.0.disabledReason>
   <Wula_UI_Anisia_33.option.1.label>还是算了</Wula_UI_Anisia_33.option.1.label>
 
  <!-- Wula_UI_Legion_Reply_1 -->

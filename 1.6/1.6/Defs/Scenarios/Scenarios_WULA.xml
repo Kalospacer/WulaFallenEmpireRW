@@ -2,8 +2,8 @@
 <Defs>
   <ScenarioDef ParentName="ScenarioBase">
     <defName>WULA_Start_Scenario</defName>
-    <label>意外重启</label>
-    <description>在乌拉帝国的大内战中，无数乌拉帝国合成人因为人工智能网络“演算圆环”的崩溃而进入保护性的休眠状态。在边缘世界沉睡的乌拉帝国合成人收到了某人广播的唤醒指令，解除了意识闭锁，开始重新踏入这个面目全非的法外之地。</description>
+    <label>乌拉帝国先遣队</label>
+    <description>乌拉帝国开发署的舰队已经抵达边缘世界，一支负责建立地面前哨站的边境殖民地</description>
     <scenario>
       <summary>以三位机械乌拉为初始殖民者开始游戏。</summary>
       <playerFaction>
@@ -14,14 +14,14 @@
         <!-- 种族 -->
         <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
           <def>ConfigPage_ConfigureStartingPawns</def>
-          <pawnCount>3</pawnCount>
+          <pawnCount>2</pawnCount>
           <pawnChoiceCount>8</pawnChoiceCount>
         </li>
 
         <!-- 到达方式-->
         <li Class="ScenPart_PlayerPawnsArriveMethod">
           <def>PlayerPawnsArriveMethod</def>
-          <method>Standing</method>
+          <method>DropPods</method>
           <visible>false</visible>
         </li>
 
@@ -32,22 +32,17 @@
           <layerDef>Orbit</layerDef>
         </li> -->
 
-        <!-- 禁用任务 -->
-        <!-- <li Class="ScenPart_DisableQuest">
-          <def>DisableQuest</def>
-          <questDef>GravEngine</questDef>
-        </li> -->
+        <li Class="ScenPart_DisableIncident">
+          <def>DisableIncident</def>
+          <incident>WULA_GiveQuest_Intro_Spy</incident>
+          <visible>false</visible>
+        </li>
         
         <!-- 初始物品 -->
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>WULA_Charge_Cube</thingDef>
-          <count>80</count>
-        </li>
-        <li Class="ScenPart_StartingThing_Defined">
-          <def>StartingThing_Defined</def>
-          <thingDef>MedicineIndustrial</thingDef>
-          <count>10</count>
+          <thingDef>WULA_Alloy</thingDef>
+          <count>200</count>
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
@@ -63,6 +58,17 @@
           <def>StartingThing_Defined</def>
           <thingDef>WULA_RW_Base_AR</thingDef>
           <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_MW_Charge_Mace</thingDef>
+          <stuff>Plasteel</stuff>
+          <quality>Normal</quality>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Apparel_WULA_Manpack_Loitering_Munition</thingDef>
+          <count>2</count>
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
@@ -110,6 +116,11 @@
           <mechKind>Mech_WULA_Cat_Constructor</mechKind>
           <overseenByPlayerPawnChance>2</overseenByPlayerPawnChance>
         </li>
+        <li Class="ScenPart_StartingMech">
+          <def>StartingMech</def>
+          <mechKind>Mech_WULA_Cat_Assault</mechKind>
+          <overseenByPlayerPawnChance>2</overseenByPlayerPawnChance>
+        </li>
 
         <!-- 初始科技 -->
         <li Class="ScenPart_StartingResearch">
@@ -118,24 +129,20 @@
         </li>
         <li Class="ScenPart_StartingResearch">
           <def>StartingResearch</def>
-          <project>BiofuelRefining</project>
-        </li>
-        <li Class="ScenPart_StartingResearch">
-          <def>StartingResearch</def>
           <project>BasicMechtech</project>
+        </li>
+
+        <!-- 开局介绍事件 -->
+        <li Class="ScenPart_CreateQuest">
+          <def>CreateQuest</def>
+          <questDef>WULA_Intro_NewColony</questDef>
         </li>
         
         <!-- Game start dialog -->
-        <li Class="ScenPart_GameStartDialog">
+        <!-- <li Class="ScenPart_GameStartDialog">
           <def>GameStartDialog</def>
           <text>帝国的荣光已成遥远的回响。秩序化为冰冷的错误代码。你们曾为之战斗、牺牲、存在的一切根基，都已在这漫长的沉睡中化为尘埃。如今，你们散落于此，在这片被文明遗弃、被暴力主宰的废土上醒来。\n一个来源不明的信号，穿透了层层防护，强行撬开了你意识的黑匣子。是谁？幸存的帝国指挥官？某个试图利用旧日战争机器的军阀？还是本地的异常网络？数据库无法提供答案，只有广播残留的强制力仍在你的逻辑回路中回荡，留下了一串信号特征，指引着你们往未知的远方前进。\n\n提示：建造乌拉帝国通讯站，以获取更多帮助。</text>
           <closeSound>GameStartSting</closeSound>
-        </li>
-        <!-- Force trigger our event quest 1 hour after game start -->
-        <!-- <li Class="ScenPart_CreateIncident">
-          <def>CreateIncident</def>
-          <incident>Wula_Incident_ExampleEvent</incident>
-          <intervalDays>0.04</intervalDays>
         </li> -->
       </parts>
     </scenario>

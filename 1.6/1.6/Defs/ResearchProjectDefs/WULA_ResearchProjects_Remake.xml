@@ -8,6 +8,51 @@
 
 
   <!-- 等级 -->
+  <ThingDef>
+    <defName>Techprint_WULA_Colony_License_LV1_Technology</defName>
+    <label>乌拉帝国殖民地许可：等级1</label> <!-- 实际显示会根据翻译键变化 -->
+    <description>这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。</description>
+    
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <drawerType>MapMeshOnly</drawerType>
+    <category>Item</category>
+    <thingClass>ThingWithComps</thingClass>
+    
+    <thingCategories>
+      <li>Techprints</li>
+    </thingCategories>
+    <tradeability>None</tradeability>
+    
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Item/Special/TechprintUltratech</texPath>
+    </graphicData>
+    
+    <useHitPoints>false</useHitPoints>
+    <selectable>true</selectable>
+    
+    <statBases>
+      <Flammability>0</Flammability>
+      <MarketValue>0</MarketValue>
+      <Mass>0.03</Mass>
+      <SellPriceFactor>0.1</SellPriceFactor>
+    </statBases>
+    
+    <altitudeLayer>Item</altitudeLayer>
+    
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Techprint">
+        <project>WULA_Colony_License_LV1_Technology</project>
+      </li>
+    </comps>
+    
+    <tickerType>Never</tickerType>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <pathCost>14</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+  </ThingDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Colony_License_LV1_Technology</defName>
     <label>乌拉帝国殖民地许可：等级1</label>
@@ -17,7 +62,7 @@
     <researchViewY>3.20</researchViewY>
     <techprintCount>1</techprintCount>
     <techprintCommonality>0</techprintCommonality>
-    <techprintMarketValue>999999</techprintMarketValue>
+    <techprintMarketValue>0</techprintMarketValue>
     <heldByFactionCategoryTags>
       <li>Wula_PIA_Legion_Faction</li>
     </heldByFactionCategoryTags>
@@ -25,6 +70,51 @@
       <li>Electricity</li>
     </prerequisites>
   </ResearchProjectDef>
+  <ThingDef>
+    <defName>Techprint_WULA_Colony_License_LV2_Technology</defName>
+    <label>乌拉帝国殖民地许可：等级2</label> <!-- 实际显示会根据翻译键变化 -->
+    <description>这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。</description>
+    
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <drawerType>MapMeshOnly</drawerType>
+    <category>Item</category>
+    <thingClass>ThingWithComps</thingClass>
+    
+    <thingCategories>
+      <li>Techprints</li>
+    </thingCategories>
+    <tradeability>None</tradeability>
+    
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Item/Special/TechprintUltratech</texPath>
+    </graphicData>
+    
+    <useHitPoints>false</useHitPoints>
+    <selectable>true</selectable>
+    
+    <statBases>
+      <Flammability>0</Flammability>
+      <MarketValue>0</MarketValue>
+      <Mass>0.03</Mass>
+      <SellPriceFactor>0.1</SellPriceFactor>
+    </statBases>
+    
+    <altitudeLayer>Item</altitudeLayer>
+    
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Techprint">
+        <project>WULA_Colony_License_LV2_Technology</project>
+      </li>
+    </comps>
+    
+    <tickerType>Never</tickerType>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <pathCost>14</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+  </ThingDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Colony_License_LV2_Technology</defName>
     <label>乌拉帝国殖民地许可：等级2</label>
@@ -32,10 +122,61 @@
     <baseCost>15000</baseCost>
     <researchViewX>4.00</researchViewX>
     <researchViewY>3.20</researchViewY>
+    <techprintCount>1</techprintCount>
+    <techprintCommonality>0</techprintCommonality>
+    <techprintMarketValue>0</techprintMarketValue>
+    <heldByFactionCategoryTags>
+      <li>Wula_PIA_Legion_Faction</li>
+    </heldByFactionCategoryTags>
     <prerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+  <ThingDef>
+    <defName>Techprint_WULA_Colony_License_LV3_Technology</defName>
+    <label>乌拉帝国殖民地许可：等级3</label> <!-- 实际显示会根据翻译键变化 -->
+    <description>这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。</description>
+    
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <drawerType>MapMeshOnly</drawerType>
+    <category>Item</category>
+    <thingClass>ThingWithComps</thingClass>
+    
+    <thingCategories>
+      <li>Techprints</li>
+    </thingCategories>
+    <tradeability>None</tradeability>
+    
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Item/Special/TechprintUltratech</texPath>
+    </graphicData>
+    
+    <useHitPoints>false</useHitPoints>
+    <selectable>true</selectable>
+    
+    <statBases>
+      <Flammability>0</Flammability>
+      <MarketValue>0</MarketValue>
+      <Mass>0.03</Mass>
+      <SellPriceFactor>0.1</SellPriceFactor>
+    </statBases>
+    
+    <altitudeLayer>Item</altitudeLayer>
+    
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Techprint">
+        <project>WULA_Colony_License_LV3_Technology</project>
+      </li>
+    </comps>
+    
+    <tickerType>Never</tickerType>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <pathCost>14</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+  </ThingDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Colony_License_LV3_Technology</defName>
     <label>乌拉帝国殖民地许可：等级3</label>
@@ -43,21 +184,14 @@
     <baseCost>20000</baseCost>
     <researchViewX>8.00</researchViewX>
     <researchViewY>3.20</researchViewY>
+    <techprintCount>1</techprintCount>
+    <techprintCommonality>0</techprintCommonality>
+    <techprintMarketValue>0</techprintMarketValue>
+    <heldByFactionCategoryTags>
+      <li>Wula_PIA_Legion_Faction</li>
+    </heldByFactionCategoryTags>
     <prerequisites>
       <li>WULA_Colony_License_LV2_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-
-  <!-- 工程舰 -->
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_ConstructionShip_Technology</defName>
-    <label>工程舰调配许可</label>
-    <description>允许殖民地建立信标增加工程舰配额，并使得机械乌拉可以调频天线以申请舰队生产支援。\n\n帝国工程舰是搭载了移动工厂的无武装舰种，它们可以完整地使用乌拉帝国的锻造技术生产装备、护甲、建筑和机械体，并依照指令通过空投仓将其送至各殖民地。\n\n工程舰拥有以下设施：\n&lt;color=#6BB7B7>&lt;i>-生产设施&lt;/i>&lt;/color>\n&lt;color=#DEC28F>&lt;i>-建筑空投设施&lt;/i>&lt;/color></description>
-    <baseCost>600</baseCost>
-    <researchViewX>1.00</researchViewX>
-    <researchViewY>3.80</researchViewY>
-    <prerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   

@@ -783,11 +783,11 @@
         
         <!-- 位置配置 -->
         <spawnDistance>0</spawnDistance>
-        <lateralOffset>60</lateralOffset>
+        <lateralOffset>80</lateralOffset>
         <verticalOffset>5</verticalOffset>
         <useRandomOffset>true</useRandomOffset>
         <minSafeDistanceBetweenEscorts>30</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
-        <minSafeDistanceFromMain>60</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        <minSafeDistanceFromMain>80</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
         
         <!-- 飞行配置 -->
         <escortSpeedMultiplier>10</escortSpeedMultiplier> <!-- 比主舰稍快 -->

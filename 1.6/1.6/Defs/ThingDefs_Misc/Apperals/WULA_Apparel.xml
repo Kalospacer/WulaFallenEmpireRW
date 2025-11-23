@@ -393,6 +393,9 @@
       <researchPrerequisite>WULA_Synth_Clothes_1_Technology</researchPrerequisite>
     </recipeMaker>
     <apparel>
+      <tags>
+        <li>Wula_Apparel_Init</li>
+      </tags>
       <bodyPartGroups>
         <li>Torso</li>
         <li>Neck</li>
@@ -432,6 +435,9 @@
       <researchPrerequisite>WULA_Synth_Clothes_1_Technology</researchPrerequisite>
     </recipeMaker>
     <apparel>
+      <tags>
+        <li>Wula_Apparel_Init</li>
+      </tags>
       <bodyPartGroups>
         <li>UpperHead</li>
       </bodyPartGroups>

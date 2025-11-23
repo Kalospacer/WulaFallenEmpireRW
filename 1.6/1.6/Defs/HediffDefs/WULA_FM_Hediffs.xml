@@ -50,12 +50,11 @@
       <li Class="WulaFallenEmpire.HediffCompProperties_SwitchableHediff">
         <!-- 可自定义的标签和描述 -->
         <switchLabel>调频切换</switchLabel>
-        <switchDesc>在舰队、火炮和战舰呼叫频率中进行切换，以呼叫不同的支援</switchDesc>
+        <switchDesc>在火炮和战机呼叫频率中进行切换，以呼叫不同的支援</switchDesc>
         <statusLabel>频道：{0}</statusLabel>
         <statusDesc>查看当前频率的详细信息</statusDesc>
         <availableHediffs>
           <li>Wula_FM_Switc_None</li>
-          <li>Wula_FM_Switc_Fleet</li>
           <li>Wula_FM_Switc_Artillery</li>
           <li>Wula_FM_Switc_Aircraft</li>
         </availableHediffs>
@@ -83,7 +82,7 @@
     <comps>
     </comps>
   </HediffDef>
-  <HediffDef>
+  <!-- <HediffDef>
     <defName>Wula_FM_Switc_Fleet</defName>
     <label>调频（舰队）</label>
     <description>允许乌拉帝国的合成人呼叫舰队，舰队会为地面上的乌拉帝国殖民地提供支援，但是支援的具体类型需要调频到其他频道进行呼叫。</description>
@@ -105,15 +104,14 @@
           <li>WULA_CallAircraftCarrier</li>
           <li>WULA_CallConstructionShip</li>
           <li>WULA_ClearFlightPath</li>
-          <li>WULA_Spawn_BattleShip_Artillery</li>
         </abilityDefs>
       </li>
     </comps>
-  </HediffDef>
+  </HediffDef> -->
   <HediffDef>
     <defName>Wula_FM_Switc_Artillery</defName>
     <label>调频（火炮）</label>
-    <description>允许乌拉帝国的合成人呼叫轨道火力支援，包含一系列精准度较差但是覆盖范围广的轰炸能力，一般由拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>的战舰提供。</description>
+    <description>允许乌拉帝国的合成人呼叫轨道火力支援，包含一系列精准度较差但是覆盖范围广的轰炸能力，一般需要有战舰部署在轨道上才能启动。</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
@@ -127,6 +125,7 @@
     <comps>
       <li Class="HediffCompProperties_GiveAbility">
         <abilityDefs>
+          <li>WULA_CallBattleShip</li>
           <li>WULA_Firepower_Minigun_Strafe</li>
           <li>WULA_Firepower_Cannon_Salvo</li>
           <li>WULA_Firepower_Cannon_Surveillance</li>
@@ -134,6 +133,7 @@
           <li>WULA_Firepower_EnergyLance_Surveillance</li>
           <li>WULA_Firepower_Primary_Cannon_Strafe</li>
           <li>WULA_Firepower_Primary_Cannon_EMP_Surveillance</li>
+          <li>WULA_Spawn_BattleShip_Artillery</li>
         </abilityDefs>
       </li>
     </comps>
@@ -141,7 +141,7 @@
   <HediffDef>
     <defName>Wula_FM_Switc_Aircraft</defName>
     <label>调频（战机）</label>
-    <description>允许乌拉帝国的合成人呼叫空中火力，包含一系列精准迅速的近地密接支援，一般由拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>的战舰提供。</description>
+    <description>允许乌拉帝国的合成人呼叫空中火力，包含一系列精准迅速的近地密接支援，每一艘战机会独立计算袭击冷却。</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
