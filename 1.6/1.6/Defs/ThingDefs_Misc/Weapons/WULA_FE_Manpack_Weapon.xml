@@ -943,7 +943,7 @@
       <AccuracyShort>0.75</AccuracyShort>
       <AccuracyMedium>0.65</AccuracyMedium>
       <AccuracyLong>0.45</AccuracyLong>
-      <RangedWeapon_Cooldown>0.25</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
     </statBases>
     <verbs>
       <li>
@@ -1030,10 +1030,6 @@
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
-    <weaponClasses>
-      <li>LongShots</li>
-      <li>RangedHeavy</li>
-    </weaponClasses>
     <statBases>
       <WorkToMake>1300</WorkToMake>
       <Mass>3.5</Mass>
@@ -1041,7 +1037,7 @@
       <AccuracyShort>0.72</AccuracyShort>
       <AccuracyMedium>0.65</AccuracyMedium>
       <AccuracyLong>0.6</AccuracyLong>
-      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>70</WULA_Alloy>
@@ -1054,14 +1050,14 @@
         <verbClass>WulaFallenEmpire.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Penetrating_Beam</defaultProjectile>
-        <warmupTime>2.0</warmupTime>
+        <warmupTime>3.0</warmupTime>
         <range>28</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
         <soundCast>Shot_BeamRepeater</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
-        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
+        <aimingChargeMote>Mote_WULA_Beam_Charge</aimingChargeMote>
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
       </li>
     </verbs>
@@ -1077,6 +1073,10 @@
       <li Class="WulaFallenEmpire.CompProperties_Switch">
         <changeTo>WULA_RW_Penetrating_Beam_Rifle_Ranged</changeTo>
         <abilityDef>WULA_RW_Penetrating_Beam_RifleSwitchAbility</abilityDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_GiveHediffOnShot">
+        <hediffDef>WULA_Beam_Weapon_Aiming_Hediff</hediffDef>
+        <severityToAdd>1</severityToAdd>
       </li>
     </comps>
   </ThingDef>
@@ -1102,8 +1102,8 @@
     </graphicData>
     <projectile>
       <damageDef>BeamBypassShields</damageDef>
-      <damageAmountBase>6</damageAmountBase>
-      <armorPenetrationBase>0.8</armorPenetrationBase>
+      <damageAmountBase>2</damageAmountBase>
+      <armorPenetrationBase>0.4</armorPenetrationBase>
       <stoppingPower>1</stoppingPower>
     </projectile>
   </ThingDef>
@@ -1117,10 +1117,6 @@
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
-    <weaponClasses>
-      <li>LongShots</li>
-      <li>RangedHeavy</li>
-    </weaponClasses>
     <statBases>
       <WorkToMake>1300</WorkToMake>
       <Mass>3.5</Mass>
@@ -1128,7 +1124,7 @@
       <AccuracyShort>0.8</AccuracyShort>
       <AccuracyMedium>0.9</AccuracyMedium>
       <AccuracyLong>0.8</AccuracyLong>
-      <RangedWeapon_Cooldown>2.0</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>70</WULA_Alloy>
@@ -1148,13 +1144,13 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Penetrating_Beam_Ranged</defaultProjectile>
         <warmupTime>3.0</warmupTime>
-        <range>38</range>
+        <range>32</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
         <soundCast>Shot_BeamRepeater</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
-        <aimingChargeMote>Mote_BeamRepeater_Charge</aimingChargeMote>
+        <aimingChargeMote>Mote_WULA_Beam_Charge</aimingChargeMote>
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
       </li>
     </verbs>
@@ -1170,6 +1166,10 @@
       <li Class="WulaFallenEmpire.CompProperties_Switch">
         <changeTo>WULA_RW_Penetrating_Beam_Rifle</changeTo>
         <abilityDef>WULA_RW_Penetrating_Beam_RifleSwitchAbility</abilityDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_GiveHediffOnShot">
+        <hediffDef>WULA_Beam_Weapon_Aiming_Hediff</hediffDef>
+        <severityToAdd>1</severityToAdd>
       </li>
     </comps>
     <!--加上这个就行-->
@@ -1196,7 +1196,7 @@
     </graphicData>
     <projectile>
       <damageDef>BeamBypassShields</damageDef>
-      <damageAmountBase>8</damageAmountBase>
+      <damageAmountBase>3</damageAmountBase>
       <armorPenetrationBase>0.8</armorPenetrationBase>
       <stoppingPower>1</stoppingPower>
     </projectile>
@@ -1725,7 +1725,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>Apparel_WULA_Manpack_Loitering_Munition</defName>
     <label>MPl_8"蛭石"</label>
-    <description>派发给乌拉帝国突击队的一次性巡飞弹发射器，装有温压炸药，能对大量软目标造成范围性的伤害——而且不需要占用编制，允许突击队携带其他武器。</description>
+    <description>派发给乌拉帝国突击队的一次性火箭弹发射器，装有温压炸药，能对大量软目标造成范围性的伤害——而且不需要占用编制，允许突击队携带其他武器。</description>
     <graphicData>
       <texPath>Wula/Apparel/WULA_Manpack_Loitering_Munition</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -1818,17 +1818,25 @@
     <thingClass>WulaFallenEmpire.Projectile_ExplosiveTrackingBullet</thingClass>
     <projectile>
       <speed>25</speed>
-      <damageDef>Bomb</damageDef>
-      <damageAmountBase>60</damageAmountBase>
+      <damageDef>Flame</damageDef>
+      <explosionRadius>7</explosionRadius>
+      <damageAmountBase>20</damageAmountBase>
       <armorPenetrationBase>0.25</armorPenetrationBase>
       <stoppingPower>10</stoppingPower>
     </projectile>
     <modExtensions>
       <li Class="WulaFallenEmpire.ExplosiveTrackingBulletDef">
-        <explosionRadius>4.5</explosionRadius>
-        <damageDef>Bomb</damageDef>
+        <explosionRadius>7</explosionRadius>
+        <damageDef>Flame</damageDef>
       </li>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
+        <fleckMakeFleckTickMax>2</fleckMakeFleckTickMax>
+        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
+        <fleckScale>0.5~1.0</fleckScale>
+        <fleckSpeed>0.1~0.3</fleckSpeed>
+        <fleckAngle>-30~30</fleckAngle>
         <homingSpeed>0.75</homingSpeed>
         <initRotateAngle>0</initRotateAngle>
         <destroyTicksAfterLosingTrack>
@@ -2067,11 +2075,14 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Auto_GL</defName>
     <label>角砾岩榴弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <drawerType>RealtimeOnly</drawerType>
     <graphicData>
       <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
     <projectile>
       <damageDef>Bomb</damageDef>
       <damageAmountBase>8</damageAmountBase>
@@ -2086,9 +2097,19 @@
       <stoppingPower>10</stoppingPower>
     </projectile>
     <modExtensions>
+      <li Class="WulaFallenEmpire.NorthArcModExtension">
+        <northOffsetDistance>6</northOffsetDistance>
+        <curveSteepness>1.0</curveSteepness>
+        <useArcTrajectory>true</useArcTrajectory>
+      </li>
       <li Class="WulaFallenEmpire.TrackingBulletDef">
         <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
-        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
+        <fleckMakeFleckTickMax>2</fleckMakeFleckTickMax>
+        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
+        <fleckScale>0.5~1.0</fleckScale>
+        <fleckSpeed>0.1~0.3</fleckSpeed>
+        <fleckAngle>-30~30</fleckAngle>
       </li>
     </modExtensions>
   </ThingDef>

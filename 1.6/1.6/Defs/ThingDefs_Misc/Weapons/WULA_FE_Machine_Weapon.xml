@@ -245,9 +245,9 @@
     <neverMultiSelect>True</neverMultiSelect>
     <drawerType>RealtimeOnly</drawerType>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
+      <texPath>Wula/Projectile/WULA_Huge_Shrapnel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2,3)</drawSize>
+      <drawSize>(2.5,2.5)</drawSize>
     </graphicData>
     <projectile>
       <damageDef>WULA_GiantBomb</damageDef>
@@ -565,22 +565,22 @@
     <neverMultiSelect>True</neverMultiSelect>
     <drawerType>RealtimeOnly</drawerType>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
+      <texPath>Wula/Projectile/WULA_Rocket</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2,3)</drawSize>
+      <drawSize>(2,2.5)</drawSize>
     </graphicData>
     <projectile>
       <damageDef>Flame</damageDef>
-      <damageAmountBase>10</damageAmountBase>
+      <damageAmountBase>20</damageAmountBase>
       <speed>60</speed>
-      <explosionRadius>6</explosionRadius>
+      <explosionRadius>3.9</explosionRadius>
       <armorPenetrationBase>1.5</armorPenetrationBase>
       <flyOverhead>true</flyOverhead>
       <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
       <soundExplode>Explosion_Rocket</soundExplode>
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
-      <stoppingPower>10</stoppingPower>
+      <stoppingPower>2</stoppingPower>
     </projectile>
     <modExtensions>
       <li Class="WulaFallenEmpire.NorthArcModExtension">

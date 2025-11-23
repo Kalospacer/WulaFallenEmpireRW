@@ -576,7 +576,7 @@
       <ArmorRating_Sharp>1.5</ArmorRating_Sharp>
       <ArmorRating_Blunt>1.5</ArmorRating_Blunt>
       <ArmorRating_Heat>2.0</ArmorRating_Heat>
-      <EquipDelay>10</EquipDelay>
+      <EquipDelay>2</EquipDelay>
       <!-- <EnergyShieldEnergyMax>0.25</EnergyShieldEnergyMax> -->
     </statBases>
     <equippedStatOffsets>
@@ -707,12 +707,12 @@
     <statBases>
       <WorkToMake>5000</WorkToMake>
       <MaxHitPoints>1000</MaxHitPoints>
-      <Mass>10</Mass>
+      <Mass>5</Mass>
       <Flammability>0</Flammability>
-      <ArmorRating_Sharp>0.6</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.6</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
       <ArmorRating_Heat>0.2</ArmorRating_Heat>
-      <EquipDelay>3</EquipDelay>
+      <EquipDelay>0.1</EquipDelay>
       <!-- <EnergyShieldEnergyMax>4.0</EnergyShieldEnergyMax> -->
     </statBases>
     <equippedStatOffsets>
@@ -734,6 +734,21 @@
         <li>Legs</li>
       </bodyPartGroups>
       <wornGraphicPath>Wula/Apparel/WULA_Shield_Base</wornGraphicPath>
+      <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+        <north>
+          <!-- <scale>(0.7,0.7)</scale> -->
+        </north>
+        <south>
+          <offset>(0,0)</offset>
+        </south>
+        <east>
+          <offset>(-0.1,0)</offset>
+        </east>
+        <west>
+          <offset>(0.1,0)</offset>
+        </west>
+      </wornGraphicData>
     </apparel>
   </ThingDef>
 
