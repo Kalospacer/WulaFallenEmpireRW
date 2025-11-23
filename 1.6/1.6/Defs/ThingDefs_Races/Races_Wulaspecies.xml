@@ -888,6 +888,10 @@
       <lifeStageAges>
         <li>
           <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Lifter_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Lifter_Death</soundDeath>
+          <soundCall>Pawn_Mech_Lifter_Call</soundCall>
         </li>
       </lifeStageAges>
       <deathAction Class="DeathActionProperties_Vanish">
@@ -1003,9 +1007,7 @@
         <li>
           <def>MechanoidFullyFormed</def>
           <minAge>0</minAge>
-          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
-          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
-          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+          <soundCall>Pawn_Wula_AI_Heavy_Panzer_Call</soundCall>
         </li>
       </lifeStageAges>
       <baseHealthScale>10</baseHealthScale>
@@ -1118,9 +1120,7 @@
         <li>
           <def>MechanoidFullyFormed</def>
           <minAge>0</minAge>
-          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
-          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
-          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+          <soundCall>Pawn_Wula_AI_Heavy_Panzer_Call</soundCall>
         </li>
       </lifeStageAges>
       <baseHealthScale>10</baseHealthScale>
@@ -1218,9 +1218,7 @@
         <li>
           <def>MechanoidFullyFormed</def>
           <minAge>0</minAge>
-          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
-          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
-          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+          <soundCall>Pawn_Wula_Mech_Mobile_Factory_Call</soundCall>
         </li>
       </lifeStageAges>
       <baseHealthScale>25</baseHealthScale>
@@ -1520,9 +1518,10 @@
         <li>
           <def>MechanoidFullyFormed</def>
           <minAge>0</minAge>
-          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
-          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
-          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+          <soundWounded>Pawn_Goose_Wounded</soundWounded>
+          <soundDeath>Pawn_Goose_Death</soundDeath>
+          <soundCall>Pawn_Goose_Call</soundCall>
+          <soundAngry>Pawn_Goose_Angry</soundAngry>
         </li>
       </lifeStageAges>
       <thinkTreeConstant>WULA_Mech_Flyer_Constant</thinkTreeConstant>
@@ -1604,9 +1603,7 @@
         <li>
           <def>MechanoidFullyFormed</def>
           <minAge>0</minAge>
-          <soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
-          <soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
-          <soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+          <soundCall>Pawn_Wula_Mech_Mobile_Factory_Call</soundCall>
         </li>
       </lifeStageAges>
       <baseHealthScale>50</baseHealthScale>

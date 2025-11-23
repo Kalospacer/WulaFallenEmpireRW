@@ -400,10 +400,10 @@
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <aiCanUse>true</aiCanUse>
-    <cooldownTicksRange>600</cooldownTicksRange>
+    <cooldownTicksRange>900</cooldownTicksRange>
     <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
     <statBases>
-      <Ability_Duration>600</Ability_Duration>
+      <Ability_Duration>900</Ability_Duration>
     </statBases>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
@@ -440,7 +440,7 @@
     </graphicData>
     <comps>
       <li Class="CompProperties_Lifespan">
-        <lifespanTicks>600</lifespanTicks>
+        <lifespanTicks>900</lifespanTicks>
       </li>
       <li Class="CompProperties_Effecter">
         <effecterDef>WULA_Black_Hole_Entity_Attached</effecterDef>
@@ -465,6 +465,10 @@
   <EffecterDef>
     <defName>WULA_Black_Hole_Entity_Attached</defName>
     <children>
+      <li>
+        <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+        <soundDef>WULA_Black_Hole_Entity_Attached_Sound</soundDef>
+      </li>
       <li>
         <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
         <burstCount>1</burstCount>

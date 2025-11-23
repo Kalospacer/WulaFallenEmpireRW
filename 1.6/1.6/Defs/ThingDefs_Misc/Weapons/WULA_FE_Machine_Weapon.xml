@@ -228,7 +228,7 @@
         <range>120</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
-        <soundCast>Shot_TurretSniper</soundCast>
+        <soundCast>WULA_MW_Artillery_Shootingsound</soundCast>
         <muzzleFlashScale>12</muzzleFlashScale>
         <forcedMissRadius>6</forcedMissRadius>
         <targetParams>
