@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <!-- 扩展原版机械体表格，添加我们的自定义列 -->
+  <!-- 
   <PawnTableDef>
     <defName>Mechs</defName>
     <columns>
@@ -14,6 +14,7 @@
       <li>WorkPriority</li>
     </columns>
   </PawnTableDef>
+  -->
 
   <PawnColumnDef>
     <defName>WULA_DroneWorkMode</defName>

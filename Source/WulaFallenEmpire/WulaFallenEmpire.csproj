@@ -181,6 +181,7 @@
     <Compile Include="Pawn\Comp_PawnRenderExtra.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompAutoMechCarrier.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompProperties_AutoMechCarrier.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MainTabWindow_Mechs_Pawns.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\PawnProductionEntry.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\DroneWorkModeDef.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\DroneGizmo.cs" />

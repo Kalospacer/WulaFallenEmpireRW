@@ -84,7 +84,7 @@ namespace WulaFallenEmpire
         public static DroneWorkModeDef Recharge;
         public static DroneWorkModeDef Shutdown;
         public static DroneWorkModeDef AutoFight;
-        public static PawnTableDef WULA_AutonomousMechs;
+        // public static PawnTableDef WULA_AutonomousMechs;
 
         static WulaDefOf()
         {
