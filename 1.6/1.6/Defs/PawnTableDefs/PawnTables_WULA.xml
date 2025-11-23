@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <!-- 
-  <PawnTableDef>
-    <defName>Mechs</defName>
-    <columns>
-      <li>Label</li>
-      <li>WULA_DroneWorkMode</li>
-      <li>WULA_DroneEnergy</li>
-      <li>ControlGroup</li>
-      <li>Overseer</li>
-      <li>AllowedArea</li>
-      <li>WorkPriority</li>
-    </columns>
-  </PawnTableDef>
-  -->
-
+  <!-- 定义我们的自定义列 -->
   <PawnColumnDef>
     <defName>WULA_DroneWorkMode</defName>
     <label>工作模式</label>
