@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
+  <WULA_Intro_NewColony.questNameRules.rulesStrings>
+    <li>questName->新殖民地</li>
+  </WULA_Intro_NewColony.questNameRules.rulesStrings>
+  <WULA_Intro_NewColony.questDescriptionRules.rulesStrings>
+    <li>questDescription->乌拉帝国的先遣队已经抵达地表，舰队给她们发来了第一条通讯。</li>
+  </WULA_Intro_NewColony.questDescriptionRules.rulesStrings>
+
   <WULA_Intro_Spy.questNameRules.rulesStrings>
     <li>questName->掩护帝国密探</li>
   </WULA_Intro_Spy.questNameRules.rulesStrings>

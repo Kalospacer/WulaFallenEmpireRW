@@ -106,7 +106,7 @@
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
         <pawnKind>Wula_AI_Heavy_Panzer</pawnKind>
         <faction>PlayerColony</faction>
-        <spawnDrafted>false</spawnDrafted>
+        <spawnDrafted>true</spawnDrafted>
         <spawnHostile>false</spawnHostile>
       </li>
     </comps>
@@ -218,7 +218,7 @@
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
         <pawnKind>Wula_AI_Rocket_Panzer</pawnKind>
         <faction>PlayerColony</faction>
-        <spawnDrafted>false</spawnDrafted>
+        <spawnDrafted>true</spawnDrafted>
         <spawnHostile>false</spawnHostile>
       </li>
     </comps>
@@ -329,7 +329,7 @@
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
         <pawnKind>Wula_Mech_Mobile_Factory</pawnKind>
         <faction>PlayerColony</faction>
-        <spawnDrafted>false</spawnDrafted>
+        <spawnDrafted>true</spawnDrafted>
         <spawnHostile>false</spawnHostile>
       </li>
     </comps>

@@ -116,7 +116,7 @@
     <equippedAngleOffset>-65</equippedAngleOffset>
     <techLevel>Spacer</techLevel>
     <statBases>
-      <WorkToMake>20000</WorkToMake>
+      <WorkToMake>1000</WorkToMake>
       <Mass>5</Mass>
     </statBases>
     <costStuffCount>0</costStuffCount>
@@ -227,7 +227,7 @@
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
     </costList>
     <statBases>
-      <WorkToMake>20000</WorkToMake>
+      <WorkToMake>2500</WorkToMake>
       <Mass>2.5</Mass>
     </statBases>
     <tools Inherit="False">
@@ -311,7 +311,7 @@
     </stuffCategories>
     <statBases>
       <!-- <MarketValue>441</MarketValue> -->
-      <WorkToMake>20000</WorkToMake>
+      <WorkToMake>4000</WorkToMake>
       <Mass>20</Mass>
     </statBases>
     <costList Inherit="False">
@@ -615,7 +615,7 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
-      <WorkToMake>25000</WorkToMake>
+      <WorkToMake>2000</WorkToMake>
       <Mass>3.5</Mass>
       <AccuracyTouch>1</AccuracyTouch>
       <AccuracyShort>0.9</AccuracyShort>
@@ -696,7 +696,7 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
-      <WorkToMake>1300</WorkToMake>
+      <WorkToMake>2000</WorkToMake>
       <Mass>3.5</Mass>
       <AccuracyTouch>0.3</AccuracyTouch>
       <AccuracyShort>0.7</AccuracyShort>
@@ -789,7 +789,7 @@
       <WULA_Dark_Matter_Item>4</WULA_Dark_Matter_Item>
     </costList>
     <statBases>
-      <WorkToMake>40000</WorkToMake>
+      <WorkToMake>4000</WorkToMake>
       <Mass>20</Mass>
       <AccuracyTouch>0.85</AccuracyTouch>
       <AccuracyShort>0.85</AccuracyShort>
@@ -936,7 +936,7 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
-      <WorkToMake>1300</WorkToMake>
+      <WorkToMake>1500</WorkToMake>
       <!-- <MarketValue>370</MarketValue> -->
       <Mass>3.5</Mass>
       <AccuracyTouch>0.75</AccuracyTouch>
@@ -1031,7 +1031,7 @@
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
-      <WorkToMake>1300</WorkToMake>
+      <WorkToMake>2200</WorkToMake>
       <Mass>3.5</Mass>
       <AccuracyTouch>0.65</AccuracyTouch>
       <AccuracyShort>0.72</AccuracyShort>
@@ -1265,7 +1265,7 @@
       <WULA_Dark_Matter_Item>8</WULA_Dark_Matter_Item>
     </costList>
     <statBases>
-      <WorkToMake>40000</WorkToMake>
+      <WorkToMake>3500</WorkToMake>
       <Mass>4.5</Mass>
       <AccuracyTouch>0.5</AccuracyTouch>
       <AccuracyShort>0.5</AccuracyShort>
@@ -1365,7 +1365,7 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
-      <WorkToMake>50000</WorkToMake>
+      <WorkToMake>5000</WorkToMake>
       <Mass>10</Mass>
       <AccuracyTouch>0.03</AccuracyTouch>
       <AccuracyShort>0.03</AccuracyShort>
@@ -1625,7 +1625,7 @@
       <WULA_Neutronium>4</WULA_Neutronium>
     </costList>
     <statBases>
-      <WorkToMake>20000</WorkToMake>
+      <WorkToMake>4000</WorkToMake>
       <Mass>10</Mass>
       <AccuracyTouch>1</AccuracyTouch>
       <AccuracyShort>1</AccuracyShort>
@@ -1732,7 +1732,7 @@
     </graphicData>
     <techLevel>Spacer</techLevel>
     <statBases>
-      <WorkToMake>1000</WorkToMake>
+      <WorkToMake>300</WorkToMake>
       <Mass>1</Mass>
       <EquipDelay>1</EquipDelay>
       <MaxHitPoints>150</MaxHitPoints>
@@ -1868,7 +1868,7 @@
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
-      <WorkToMake>2500</WorkToMake>
+      <WorkToMake>2000</WorkToMake>
       <!-- <MarketValue>370</MarketValue> -->
       <Mass>8</Mass>
       <AccuracyTouch>1</AccuracyTouch>
@@ -2033,7 +2033,7 @@
       <WULA_Dark_Matter_Item>4</WULA_Dark_Matter_Item>
     </costList>
     <statBases>
-      <WorkToMake>40000</WorkToMake>
+      <WorkToMake>5000</WorkToMake>
       <Mass>10</Mass>
       <AccuracyTouch>0.5</AccuracyTouch>
       <AccuracyShort>0.5</AccuracyShort>

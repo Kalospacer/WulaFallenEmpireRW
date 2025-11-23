@@ -261,6 +261,7 @@
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
       <stoppingPower>10</stoppingPower>
+      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
     </projectile>
     <modExtensions>
       <li Class="WulaFallenEmpire.NorthArcModExtension">
@@ -500,6 +501,7 @@
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
       <stoppingPower>10</stoppingPower>
+      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
     </projectile>
     <modExtensions>
       <li Class="WulaFallenEmpire.NorthArcModExtension">
@@ -581,6 +583,7 @@
       <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
       <soundAmbient>MortarRound_Ambient</soundAmbient>
       <stoppingPower>2</stoppingPower>
+      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
     </projectile>
     <modExtensions>
       <li Class="WulaFallenEmpire.NorthArcModExtension">

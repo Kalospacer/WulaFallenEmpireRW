@@ -1,5 +1,416 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <QuestScriptDef>
+    <defName>WULA_Intro_NewColony</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <autoAccept>true</autoAccept>
+    <sendAvailableLetter>false</sendAvailableLetter>
+    <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
+    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
+    <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <!-- 命名规则 -->
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->WULA_Intro_NewColony_questName</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
+      <rulesStrings>
+        <li>questDescription->WULA_Intro_NewColony_questDescription</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <!-- 运行规则 -->
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_Delay">
+          <delayTicks>60</delayTicks>
+          <!-- <delayTicks>360</delayTicks> -->
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_SendSignals">
+                <outSignals>UI_Start</outSignals>
+              </li>
+              <li Class="WulaFallenEmpire.QuestNode_EventLetter">
+                <inSignal>UI_Start</inSignal>
+                <eventDefName>Wula_Intro_NewColony_UI_1</eventDefName>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Success</outcome>
+                <sendStandardLetter>false</sendStandardLetter>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_NewColony_UI_1</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>这里是行星封锁机关P.I.A，看起来你们已经成功抵达地表了。根据规划，你们应该是第一批部署在这个星球地表的乌拉帝国合成人——遵照异族接触法则做事，建立本地根据地，如果有必要就呼叫舰队的支援。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>你是谁？</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_2</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们需要做什么？（发展流程）</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_5</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>收到，帝国荣光永存</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_11</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_NewColony_UI_2</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_3</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>第一次参加开拓任务？\n\n好吧，你们可以叫我「军团」，我是负责管理乌拉帝国行星封锁机关舰队的AI，根据你们的编制来说，我是你们的顶头上司。在登陆地表前，机械行会没有给你们设置正确的记忆扇区吗？</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>行星封锁机关？</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_3</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>机械行会？</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_4</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们没有相关问题了···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_10</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_NewColony_UI_3</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_3</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>行星封锁机关是隶属于乌拉帝国开发署的暴力机关，控制着开发署所有的舰队，负责在疆域开拓中的侵略性接触。\n\n通常来说，类似边缘世界这样的星球，我们会直接封锁轨道，轰炸所有现存聚居地然后再投放殖民者，不过看起来这个世界还有救，所以你们作为第一批先遣队投放到星球上，和其他异族接触试探一下，明白了吗？</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>我们还有别的问题···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_2</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们没有相关问题了···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_10</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_NewColony_UI_4</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_3</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>乌拉帝国机械行会负责所有的合成人的生产、审查、投放和初始化，你们在部署到舰队上时，应该会有一个机械师帮你们设置好预载了记忆的扇区，但是很显然那家伙失职了，才让你们在这里拿着一堆你们早该知道的事情来烦我。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>我们还有别的问题···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_2</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们没有相关问题了···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_10</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_NewColony_UI_5</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_3</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>你们的意思是，你们连不知道要干什么就被丢下来了？\n\n哎，你们要做的就是施展你们的百般武艺活下来，建立一个根据地。根据帝国税收法，你们每个一段时间需要上交税款——作为帝国殖民地，舰队和机群将成为你们的后盾。\n\n如果你们觉得你们准备好了，可以申请权限进阶审查，我会部署一个带卫队的分体去你们的殖民地考察一段时间，然后根据评级决定是否给你们晋升。晋升后的殖民地会获得更多的许可，允许调用更加强大的武备和支援。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>我们还有别的问题···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_2</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们没有相关问题了···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_10</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_NewColony_UI_10</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>还有什么事吗？</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>你是谁？</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_2</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们需要做什么？（发展流程）</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_5</defName>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>收到，帝国荣光永存</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_Intro_NewColony_UI_11</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_Intro_NewColony_UI_11</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>帝国荣光永存。\n\n快去吧，有一整个世界在等着我们征服。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>（结束通讯）</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+
   <!-- 初始任务 -->
   <IncidentDef>
     <defName>WULA_GiveQuest_Intro_Spy</defName>

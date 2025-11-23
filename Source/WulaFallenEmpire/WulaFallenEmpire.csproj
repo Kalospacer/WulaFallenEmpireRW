@@ -163,6 +163,7 @@
     <Compile Include="GlobalWorkTable\CompLaunchable_ToGlobalStorage.cs" />
     <Compile Include="GlobalWorkTable\CompProperties_Launchable_ToGlobalStorage.cs" />
     <Compile Include="HarmonyPatches\Hediff_Mechlink_PostAdd_Patch.cs" />
+    <Compile Include="HarmonyPatches\Patch_ThingDefGenerator_Techprints_ImpliedTechprintDefs.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_FloatMenuOptionProvider_SelectedPawnValid.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_IsColonyMechPlayerControlled.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MechanitorUtility_CanDraftMech.cs" />

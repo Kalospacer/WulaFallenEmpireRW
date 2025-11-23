@@ -114,47 +114,49 @@ namespace WulaFallenEmpire
         // 新增：检查是否有拥有FactoryFacility设施的飞行器
         private bool HasFactoryFacilityFlyOver()
         {
-            Map map = Map;
-            if (map == null) return false;
+            // 系统禁用，但是保留代码
+            return true;
+            //Map map = Map;
+            //if (map == null) return false;
 
-            try
-            {
-                // 检查所有FlyOver类型的物体
-                var allFlyOvers = new List<Thing>();
-                var dynamicObjects = map.dynamicDrawManager.DrawThings;
-                foreach (var thing in dynamicObjects)
-                {
-                    if (thing is FlyOver)
-                    {
-                        allFlyOvers.Add(thing);
-                    }
-                }
+            //try
+            //{
+            //    // 检查所有FlyOver类型的物体
+            //    var allFlyOvers = new List<Thing>();
+            //    var dynamicObjects = map.dynamicDrawManager.DrawThings;
+            //    foreach (var thing in dynamicObjects)
+            //    {
+            //        if (thing is FlyOver)
+            //        {
+            //            allFlyOvers.Add(thing);
+            //        }
+            //    }
 
-                foreach (var thing in allFlyOvers)
-                {
-                    if (thing is FlyOver flyOver && !flyOver.Destroyed)
-                    {
-                        // 检查设施
-                        var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
-                        if (facilitiesComp == null)
-                        {
-                            continue;
-                        }
+            //    foreach (var thing in allFlyOvers)
+            //    {
+            //        if (thing is FlyOver flyOver && !flyOver.Destroyed)
+            //        {
+            //            // 检查设施
+            //            var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
+            //            if (facilitiesComp == null)
+            //            {
+            //                continue;
+            //            }
                         
-                        if (facilitiesComp.HasFacility("FactoryFacility"))
-                        {
-                            return true;
-                        }
-                    }
-                }
+            //            if (facilitiesComp.HasFacility("FactoryFacility"))
+            //            {
+            //                return true;
+            //            }
+            //        }
+            //    }
 
-                return false;
-            }
-            catch (System.Exception ex)
-            {
-                Log.Error($"[FactoryFacility Check] Error in HasFactoryFacilityFlyOver: {ex}");
-                return false;
-            }
+            //    return false;
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    Log.Error($"[FactoryFacility Check] Error in HasFactoryFacilityFlyOver: {ex}");
+            //    return false;
+            //}
         }
 
         // 新增：开始空投目标选择

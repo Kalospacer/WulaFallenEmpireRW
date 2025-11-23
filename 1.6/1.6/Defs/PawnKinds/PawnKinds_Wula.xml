@@ -32,7 +32,7 @@
     <abilities>
     </abilities>
     <weaponMoney>0</weaponMoney>
-    <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
     <apparelMoney>1000~2000</apparelMoney>
 
     <backstoryFiltersOverride>
