@@ -337,6 +337,9 @@
       <texPath>Wula/Apparel/WULA_Bodystocking</texPath>
     </graphicData>
     <apparel>
+      <tags>
+        <li>Wula_Legion_Apparel</li>
+      </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Bodystocking</wornGraphicPath>
     </apparel>
   </ThingDef>
@@ -381,6 +384,39 @@
     </apparel>
   </ThingDef>
 
+  <ThingDef ParentName="WULA_ApparelCivilHatBase">
+		<defName>WULA_Eggplant_Hat</defName>
+		<label>茄子帽</label>
+		<description>这也是帽子吗——茄子柄有了，那茄子在哪呢？</description>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Eggplant_Hat</texPath>
+    </graphicData>
+    <recipeMaker>
+      <researchPrerequisite>WULA_Synth_Clothes_1_Technology</researchPrerequisite>
+    </recipeMaker>
+    <apparel>
+      <bodyPartGroups>
+        <li>UpperHead</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Middle</li>
+      </layers>
+      <wornGraphicPath>Wula/Apparel/WULA_Eggplant_Hat</wornGraphicPath>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+    </apparel>
+    <costList Inherit="False">
+      <Cloth>20</Cloth>
+    </costList>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToMake>500</WorkToMake>
+      <EquipDelay>2</EquipDelay>
+      <Mass>0.1</Mass>
+      <StuffEffectMultiplierArmor>0</StuffEffectMultiplierArmor>
+    </statBases>
+  </ThingDef>
   <!-- 女仆装 -->
   <ThingDef ParentName="WULA_ApparelCivilBase">
 		<defName>WULA_Maid_Uniform</defName>
@@ -462,6 +498,44 @@
     <equippedStatOffsets>
       <WorkSpeedGlobal>0.05</WorkSpeedGlobal>
     </equippedStatOffsets>
+  </ThingDef>
+  <!-- 上司衣服 -->
+  <ThingDef ParentName="WULA_ApparelCivilBase">
+		<defName>WULA_Legion_Cloth</defName>
+		<label>乌拉帝国指挥官制服</label>
+		<description>由乌拉帝国指挥官所穿的鎏金四溢的华服。\n\n你还想听什么介绍？你觉得这个东西你有足够的身份穿吗？</description>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Legion_Cloth</texPath>
+    </graphicData>
+    <apparel>
+      <tags Inherit="False">
+        <li>Wula_Legion_Apparel</li>
+      </tags>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Middle</li>
+      </layers>
+      <wornGraphicPath>Wula/Apparel/WULA_Legion_Cloth</wornGraphicPath>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+    </apparel>
+    <costList Inherit="False">
+      <Cloth>300</Cloth>
+      <Gold>100</Gold>
+    </costList>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <WorkToMake>12000</WorkToMake>
+      <EquipDelay>1</EquipDelay>
+      <StuffEffectMultiplierArmor>1</StuffEffectMultiplierArmor>
+    </statBases>
   </ThingDef>
 
   <ThingDef ParentName="WULA_ApparelArmorBase">
@@ -677,7 +751,7 @@
       <ArmorRating_Sharp>1.5</ArmorRating_Sharp>
       <ArmorRating_Blunt>1.5</ArmorRating_Blunt>
       <ArmorRating_Heat>2.0</ArmorRating_Heat>
-      <EquipDelay>15</EquipDelay>
+      <EquipDelay>5</EquipDelay>
     </statBases>
     <equippedStatOffsets>
       <IncomingDamageFactor>-0.1</IncomingDamageFactor>

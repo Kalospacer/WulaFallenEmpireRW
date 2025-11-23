@@ -23,6 +23,7 @@ namespace WulaFallenEmpire
     {
         public static JobDef WULA_EnterMaintenancePod;
         public static JobDef WULA_HaulToMaintenancePod;
+        public static JobDef WULA_InspectBuilding;
 
         static JobDefOf_WULA()
         {

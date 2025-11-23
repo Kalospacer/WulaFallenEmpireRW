@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
-  <WULA_Intro_NewColony.questNameRules.rulesStrings>
-    <li>questName->新殖民地</li>
-  </WULA_Intro_NewColony.questNameRules.rulesStrings>
-  <WULA_Intro_NewColony.questDescriptionRules.rulesStrings>
-    <li>questDescription->乌拉帝国的先遣队已经抵达地表，舰队给她们发来了第一条通讯。</li>
-  </WULA_Intro_NewColony.questDescriptionRules.rulesStrings>
-
   <WULA_Intro_Spy.questNameRules.rulesStrings>
     <li>questName->掩护帝国密探</li>
   </WULA_Intro_Spy.questNameRules.rulesStrings>
@@ -62,11 +55,4 @@
   <WULA_Intro_Spy.LetterLabelQuestFailed.slateRef>任务失败：[resolvedQuestName]</WULA_Intro_Spy.LetterLabelQuestFailed.slateRef>
   <!-- EN: The shuttle sent to collect [asker_nameDef] has departed without [asker_objective]. [asker_pronoun] will now leave on foot. [failLetterEndingCommon] -->
   <WULA_Intro_Spy.LetterTextQuestFailed.slateRef>前来迎接[asker_nameDef]的穿梭机在离开时因为一些原因落下了[asker_objective]。[asker_pronoun]现在只能走回去了。[failLetterEndingCommon]</WULA_Intro_Spy.LetterTextQuestFailed.slateRef>
-
-  <WULA_Base_Tex_Quest.questNameRules.rulesStrings>
-    <li>questName->什一税税收</li>
-  </WULA_Base_Tex_Quest.questNameRules.rulesStrings>
-  <WULA_Base_Tex_Quest.questDescriptionRules.rulesStrings>
-    <li>questDescription->唯死亡和税收不可避免——按时上交什一税是乌拉帝国殖民地的光荣义务。\n\n乌拉帝国的什一税会从殖民地储存在舰队中的资产里面扣除，你可以建造&lt;color=#6BB7B7>&lt;i>乌拉帝国物资输送舱&lt;/i>&lt;/color>来将物资输送到位于轨道上的舰队。\n\n乌拉帝国对积极纳税的殖民地会给予更多关照——但是如果拖延，则每延期一天都会惹其不快，最后甚至有可能被定性为叛国！</li>
-  </WULA_Base_Tex_Quest.questDescriptionRules.rulesStrings>
 </LanguageData>

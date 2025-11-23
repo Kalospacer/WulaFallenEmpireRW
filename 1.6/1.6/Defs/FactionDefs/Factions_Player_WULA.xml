@@ -40,6 +40,12 @@
     <basicMemberKind>Wula_PawnKind</basicMemberKind>
     <pawnSingular>乌拉帝国合成人</pawnSingular>
     <pawnsPlural>乌拉帝国合成人</pawnsPlural>
+    <generateNewLeaderFromMapMembersOnly>true</generateNewLeaderFromMapMembersOnly>
+    <leaderTitle>总控</leaderTitle>
+    <leaderForceGenerateNewPawn>true</leaderForceGenerateNewPawn>
+    <fixedLeaderKinds>
+      <li>WULA_Legion_PawnKind</li>
+    </fixedLeaderKinds>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <factionNameMaker>NamerFaction_Wula_PIA_Legion_Faction</factionNameMaker>
     <factionIconPath>Wula/World/WorldObjects/Expanding/Wula_PIA_Legion_Faction</factionIconPath>

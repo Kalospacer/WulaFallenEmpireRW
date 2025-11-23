@@ -1040,6 +1040,21 @@
     </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
+  <AlienRace.AlienBackstoryDef>
+    <defName>WULA_Adult_Backstory_Legion</defName>
+    <slot>Adulthood</slot>
+    <title>「军团」分体</title>
+    <titleShort>「军团」分体</titleShort>
+    <description>[PAWN_nameDef]实际上没有自主心智，它直接链接乌拉帝国行星封锁机关的超级AI「军团」，作为其在外活动时的耳目。</description>
+    <workDisables>AllWork</workDisables>
+    <bodyTypeGlobal>Thin</bodyTypeGlobal>
+    <bodyTypeFemale>Thin</bodyTypeFemale>
+    <bodyTypeMale>Thin</bodyTypeMale>
+    <spawnCategories>
+      <li>Wula_Backstory_Categories_Legion</li>
+    </spawnCategories>
+  </AlienRace.AlienBackstoryDef>
+
   <!-- 乌拉反常网络固定背景 -->
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory999</defName>

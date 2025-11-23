@@ -34,4 +34,15 @@
     <driverClass>WulaFallenEmpire.JobDriver_RecycleMechanoid</driverClass>
     <reportString>正在准备进入猫猫地堡。</reportString>
   </JobDef>
+
+  <!-- 考察工作定义 -->
+  <JobDef>
+    <defName>WULA_InspectBuilding</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_InspectBuilding</driverClass>
+    <reportString>正在考察TargetA.</reportString>
+    <playerInterruptible>true</playerInterruptible>
+    <checkOverrideOnDamage>Always</checkOverrideOnDamage>
+    <alwaysShowWeapon>false</alwaysShowWeapon>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
 </Defs>

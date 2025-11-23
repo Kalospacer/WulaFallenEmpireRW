@@ -257,9 +257,6 @@
     <weaponTags>
       <li>Wula_Melee_Weapon_T2</li>
     </weaponTags>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
     <comps>
 			<li Class="WulaFallenEmpire.CompProperties_WeaponRenderDynamic">
 				<TexturePath>Wula/Weapon/WULA_MW_ChainSword/WULA_MW_ChainSword_Anim</TexturePath>
@@ -969,9 +966,6 @@
     <weaponTags>
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
-    <thingSetMakerTags>
-      <li>RewardStandardQualitySuper</li>
-    </thingSetMakerTags>
     <modExtensions>
       <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
         <offsets>

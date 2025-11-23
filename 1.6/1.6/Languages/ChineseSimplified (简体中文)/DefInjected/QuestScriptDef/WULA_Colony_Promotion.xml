@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <WULA_Colony_Promotion.questNameRules.rulesStrings>
+    <li>questName->殖民地考察</li>
+  </WULA_Colony_Promotion.questNameRules.rulesStrings>
+  <WULA_Colony_Promotion.questDescriptionRules.rulesStrings>
+    <li>questDescription->殖民地已经承接了视察任务。\n\n行星封锁机关的总控AI已经派遣了自己的一个分体和护卫队抵达殖民地。考察持续12天，她会检查殖民地方方面面的运转情况，你需要确保其心情始终高于25%。考察完成后，她和卫队会搭乘穿梭机离开，如果一切顺利你们将获得殖民地晋升的机会，以解锁更多的许可科技。\n\n小心，附近的敌对派系已经知道了殖民地来了一个大人物，这些劫掠者会尝试袭击殖民地并抓住这个分体，你可能需要面对大量袭击！</li>
+  </WULA_Colony_Promotion.questDescriptionRules.rulesStrings>
+  <WULA_Colony_Promotion.LetterLabelFactionBecameHostile.slateRef>任务失败：[resolvedQuestName]</WULA_Colony_Promotion.LetterLabelFactionBecameHostile.slateRef>
+  <!-- EN: [faction_name] became hostile to you.  -->
+  <WULA_Colony_Promotion.LetterTextFactionBecameHostile.slateRef>[faction_name]开始敌视你。</WULA_Colony_Promotion.LetterTextFactionBecameHostile.slateRef>
+  <!-- EN: Shuttle destroyed -->
+  <WULA_Colony_Promotion.LetterLabelShuttleDestroyed.slateRef>穿梭机被破坏</WULA_Colony_Promotion.LetterLabelShuttleDestroyed.slateRef>
+  <!-- EN: The shuttle sent to drop off [pawnsLabelDef] has been destroyed. You have failed the quest '[resolvedQuestName]'.\n\nYour relations with [asker_faction_name] have changed by [goodwillChangeOnShuttleDestroyed]. -->
+  <WULA_Colony_Promotion.LetterTextShuttleDestroyed.slateRef>被派遣来运输[asker_nameDef]的穿梭机已被破坏。</WULA_Colony_Promotion.LetterTextShuttleDestroyed.slateRef>
+  <!-- EN: [asker_faction_leaderTitle] arrived -->
+  <WULA_Colony_Promotion.LetterLabelAskerArrived.slateRef>[asker_nameDef]已抵达</WULA_Colony_Promotion.LetterLabelAskerArrived.slateRef>
+  <!-- EN: The [asker_faction_leaderTitle] of [asker_faction_name], has arrived.\n\nProtect him and satisfy his royal needs until the shuttle arrives in [shuttleDelayTicks_duration].\n\nAll of you can accompany the [asker_faction_leaderTitle] on the shuttle and travel to the Imperial flotilla to begin a new life. -->
+  <WULA_Colony_Promotion.LetterTextAskerArrived.slateRef>[asker_nameDef]的分体和她的卫队已经抵达殖民地。\n\n你必须在穿梭机抵达前[shuttleDelayTicks_duration]内为[asker_objective]提供护卫并且满足[asker_possessive]各种需求。</WULA_Colony_Promotion.LetterTextAskerArrived.slateRef>
+  <!-- EN: Guest died: {SUBJECT_definite} -->
+  <WULA_Colony_Promotion.LetterLabelGuestDied.slateRef>宾客{SUBJECT_definite}死亡。</WULA_Colony_Promotion.LetterLabelGuestDied.slateRef>
+  <!-- EN: {SUBJECT_definite}, who you were charged to protect, has died. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.LetterTextGuestDied.slateRef>需要你护卫的{SUBJECT_definite}已经死亡。[failLetterEndingCommon]</WULA_Colony_Promotion.LetterTextGuestDied.slateRef>
+    <!-- EN: Should depart on shuttle -->
+  <WULA_Colony_Promotion.InspectStringDepartShuttle.slateRef>应该乘坐穿梭机离开</WULA_Colony_Promotion.InspectStringDepartShuttle.slateRef>
+  <!-- EN: Shuttle arrived -->
+  <WULA_Colony_Promotion.LetterLabelShuttleArrived.slateRef>穿梭机已抵达</WULA_Colony_Promotion.LetterLabelShuttleArrived.slateRef>
+  <!-- EN: The shuttle has arrived to collect the [asker_faction_leaderTitle].\n\nAll of you can accompany the [asker_faction_leaderTitle] on the shuttle and travel to the Imperial flotilla to begin a new life. -->
+  <WULA_Colony_Promotion.LetterTextShuttleArrived.slateRef>穿梭机已经前来迎接[asker_nameDef]。</WULA_Colony_Promotion.LetterTextShuttleArrived.slateRef>
+    <!-- EN: {SUBJECT_bestRoyalTitle} unhappy -->
+  <WULA_Colony_Promotion.LetterLabelSubjectUnhappy.slateRef>{SUBJECT_bestRoyalTitle}情绪低落</WULA_Colony_Promotion.LetterLabelSubjectUnhappy.slateRef>
+  <!-- EN: {SUBJECT_definite}, who you were charged to protect and keep happy, has been below the minimum mood of [lodgersMoodThreshold] too long. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.LetterTextSubjectUnhappy.slateRef>需要你护卫和满足需求的{SUBJECT_definite}，其情绪值已经长时间低于最低限度[lodgersMoodThreshold]。[failLetterEndingCommon]</WULA_Colony_Promotion.LetterTextSubjectUnhappy.slateRef>
+  <!-- EN: Guest captured: {SUBJECT_definite} -->
+  <WULA_Colony_Promotion.LetterLabelGuestCaptured.slateRef>宾客{SUBJECT_definite}被俘。</WULA_Colony_Promotion.LetterLabelGuestCaptured.slateRef>
+  <!-- EN: {SUBJECT_definite}, who you were charged to protect, has been arrested. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.LetterTextGuestCaptured.slateRef>需要你护卫的{SUBJECT_definite}已经被俘虏。[failLetterEndingCommon]</WULA_Colony_Promotion.LetterTextGuestCaptured.slateRef>
+  <!-- EN: Unauthorized surgery: {SUBJECT_definite} -->
+  <WULA_Colony_Promotion.LetterLabelUnauthorizedSurgery.slateRef>未授权手术：{SUBJECT_definite}</WULA_Colony_Promotion.LetterLabelUnauthorizedSurgery.slateRef>
+  <!-- EN: Unauthorized, violating surgery has been performed on {SUBJECT_definite}, who you were charged to protect. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.LetterTextUnauthorizedSurgery.slateRef>需要你护卫的{SUBJECT_definite}接受了一场未授权的多余手术。[failLetterEndingCommon]</WULA_Colony_Promotion.LetterTextUnauthorizedSurgery.slateRef>
+  <!-- EN: Xenogerm absorbed: {SUBJECT_definite} -->
+  <WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.label.slateRef>异种胚芽被吸收</WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.label.slateRef>
+  <!-- EN: {SUBJECT_definite}, who you were charged to protect, has had {SUBJECT_possessive} xenogerm forcibly absorbed. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.text.slateRef>指定由你保护的{SUBJECT_definite}在你的殖民地被吸收了异种胚芽。[failLetterEndingCommon]</WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.text.slateRef>
+  <!-- EN: Guest lost: {SUBJECT_definite} -->
+  <WULA_Colony_Promotion.LetterLabelGuestLost.slateRef>宾客失踪：{SUBJECT_definite}</WULA_Colony_Promotion.LetterLabelGuestLost.slateRef>
+  <!-- EN: {SUBJECT_definite}, who you were charged to protect, has left the assigned settlement. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.LetterTextGuestLost.slateRef>需要你护卫的{SUBJECT_definite}失踪在你的殖民地。[failLetterEndingCommon]</WULA_Colony_Promotion.LetterTextGuestLost.slateRef>
+  <!-- EN: Shuttle destroyed -->
+  <WULA_Colony_Promotion.LetterLabelShuttleDestroyed.slateRef>穿梭机已被毁</WULA_Colony_Promotion.LetterLabelShuttleDestroyed.slateRef>
+  <!-- EN: The shuttle sent to collect the [asker_faction_leaderTitle] has been destroyed. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.LetterTextShuttleDestroyed.slateRef>前来迎接[asker_faction_leaderTitle]的穿梭机被摧毁了。[failLetterEndingCommon]</WULA_Colony_Promotion.LetterTextShuttleDestroyed.slateRef>
+  <!-- EN: Guest lost: {SUBJECT_definite} -->
+  <WULA_Colony_Promotion.LetterLabelLodgerRanWild.slateRef>宾客失踪：{SUBJECT_definite}</WULA_Colony_Promotion.LetterLabelLodgerRanWild.slateRef>
+  <!-- EN: {SUBJECT_definite}, who you were charged to protect, has run wild. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.LetterTextLodgerRanWild.slateRef>需要你护卫的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]</WULA_Colony_Promotion.LetterTextLodgerRanWild.slateRef>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <WULA_Colony_Promotion.LetterLabelShuttleSentUnsatisfied.slateRef>任务失败：[resolvedQuestName]</WULA_Colony_Promotion.LetterLabelShuttleSentUnsatisfied.slateRef>
+  <!-- EN: The shuttle sent to collect the [asker_faction_leaderTitle] has departed without [asker_objective]. [asker_pronoun] will now leave on foot. [failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.LetterTextShuttleSentUnsatisfied.slateRef>前来迎接[asker_faction_leaderTitle]的穿梭机没有接到[asker_objective]。[asker_pronoun]现在只能走回去。[failLetterEndingCommon]</WULA_Colony_Promotion.LetterTextShuttleSentUnsatisfied.slateRef>
+</LanguageData>

@@ -29,8 +29,6 @@
     <apparelTags>
       <li>Wula_Apparel_Init</li>
     </apparelTags>
-    <abilities>
-    </abilities>
     <weaponMoney>0</weaponMoney>
     <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
     <apparelMoney>1000~2000</apparelMoney>
@@ -363,6 +361,101 @@
     <techHediffsMoney>999999~999999</techHediffsMoney>
     <techHediffsRequired>
       <li>WULA_AutoJumpdrive</li>
+      <li>DeathAcidifier</li>
+    </techHediffsRequired>
+
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+
+  <!-- 上司 -->
+  <PawnKindDef>
+    <defName>WULA_Legion_PawnKind</defName>
+    <label>「军团」</label>
+    <race>WulaSpecies</race>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.1</drawSize>
+          <shadowData>
+            <volume>(0.2, 0.3, 0.2)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <combatPower>0</combatPower>
+    <factionLeader>true</factionLeader>
+    <minGenerationAge>18</minGenerationAge>
+		<maxGenerationAge>20</maxGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <initialWillRange>10~20</initialWillRange>
+    <initialResistanceRange>10~20</initialResistanceRange>
+    <defaultFactionDef>Wula_PIA_Legion_Faction</defaultFactionDef>
+    <isFighter>false</isFighter>
+    <apparelTags Inherit="False">
+      <li>Wula_Legion_Apparel</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T2</li>
+    </weaponTags>
+    <weaponMoney>3000~8000</weaponMoney>
+    <weaponMoney>0</weaponMoney>
+    <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
+    <apparelMoney>99999~99999</apparelMoney>
+  </PawnKindDef>
+  <PawnKindDef>
+    <defName>Wula_PIA_Legion_Escort_Unit</defName>
+    <label>重装卫队</label>
+    <race>WulaSpecies</race>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.1</drawSize>
+          <shadowData>
+            <volume>(0.2, 0.3, 0.2)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <minGenerationAge>18</minGenerationAge>
+		<maxGenerationAge>20</maxGenerationAge>
+    <combatPower>500</combatPower>
+    <initialWillRange>10~20</initialWillRange>
+    <initialResistanceRange>10~20</initialResistanceRange>
+    <itemQuality>Poor</itemQuality>
+    <minApparelQuality>Poor</minApparelQuality>
+    <maxApparelQuality>Poor</maxApparelQuality>
+    <isFighter>true</isFighter>
+    <apparelTags>
+      <li>Wula_Armor_Super_Heavy</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T2</li>
+    </weaponTags>
+    <apparelRequired>
+      <li>WULA_Heavy_Infantry_PowerArmor</li>
+      <li>WULA_Heavy_Infantry_Helmet</li>
+    </apparelRequired>
+    <weaponMoney>3000~8000</weaponMoney>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <techHediffsChance>1</techHediffsChance>
+    <apparelMoney>999999~999999</apparelMoney>
+    <techHediffsMoney>999999~999999</techHediffsMoney>
+    <techHediffsRequired>
       <li>DeathAcidifier</li>
     </techHediffsRequired>
 
