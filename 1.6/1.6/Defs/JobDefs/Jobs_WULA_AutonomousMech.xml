@@ -4,7 +4,7 @@
   <JobDef>
     <defName>WULA_DroneSelfShutdown</defName>
     <driverClass>WulaFallenEmpire.JobDriver_DroneSelfShutdown</driverClass>
-    <reportString>self-shutting down.</reportString>
+    <reportString>关机自休眠.</reportString>
     <casualInterruptible>false</casualInterruptible>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>

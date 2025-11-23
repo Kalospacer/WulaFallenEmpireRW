@@ -94,7 +94,11 @@
  <WULA_Autonomous_Drafted>自主控制</WULA_Autonomous_Drafted>
   <WULA_Autonomous_Mode>自主模式: {0}</WULA_Autonomous_Mode>
   <WULA_LowEnergySwitchToRecharge>{0} 能量低，自动切换到充电模式</WULA_LowEnergySwitchToRecharge>
- <WULA_FullyChargedSwitchToWork>{0} 已充满电，自动切换到工作模式</WULA_FullyChargedSwitchToWork>
+  <WULA_FullyChargedSwitchToWork>{0} 已充满电，自动切换到工作模式</WULA_FullyChargedSwitchToWork>
   <WULA_CriticalEnergyLevels>{0} 能量临界！</WULA_CriticalEnergyLevels>
+
+  <WULA_AutonomousMech>自主机械体</WULA_AutonomousMech>
+  <WULA_WorkMode_AutoFight>自动战斗</WULA_WorkMode_AutoFight>
+  <WULA_WorkMode_AutoFight_Desc>切换到自动战斗模式 - 机械将自动寻找并攻击敌人</WULA_WorkMode_AutoFight_Desc>
 
 </LanguageData>

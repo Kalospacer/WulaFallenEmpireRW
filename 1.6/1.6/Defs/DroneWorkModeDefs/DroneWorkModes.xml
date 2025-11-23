@@ -3,33 +3,33 @@
 
   <WulaFallenEmpire.DroneWorkModeDef>
     <defName>Work</defName>
-    <label>work</label>
-    <description>The drone will work normally.</description>
-    <iconPath>UI/Commands/Attack</iconPath>
+    <label>工作</label>
+    <description>机械将执行分配的工作.</description>
+    <iconPath>UI/Icons/WorkMode/Work</iconPath>
     <uiOrder>10</uiOrder>
   </WulaFallenEmpire.DroneWorkModeDef>
 
   <WulaFallenEmpire.DroneWorkModeDef>
     <defName>Recharge</defName>
-    <label>recharge</label>
-    <description>The drone will seek a charger to recharge.</description>
-    <iconPath>UI/Commands/DesirePower</iconPath>
+    <label>充电</label>
+    <description>机械将寻找充电站并充电.</description>
+    <iconPath>UI/Icons/WorkMode/Recharge</iconPath>
     <uiOrder>20</uiOrder>
   </WulaFallenEmpire.DroneWorkModeDef>
 
   <WulaFallenEmpire.DroneWorkModeDef>
     <defName>Shutdown</defName>
-    <label>shutdown</label>
-    <description>The drone will find a safe spot to self-shutdown.</description>
-    <iconPath>UI/Commands/ToggleVent</iconPath>
+    <label>休眠</label>
+    <description>机械将立即进入休眠状态.</description>
+    <iconPath>UI/Icons/WorkMode/SelfShutdown</iconPath>
     <uiOrder>30</uiOrder>
   </WulaFallenEmpire.DroneWorkModeDef>
 
   <WulaFallenEmpire.DroneWorkModeDef>
     <defName>AutoFight</defName>
-    <label>auto fight</label>
-    <description>The drone will automatically seek and attack enemies.</description>
-    <iconPath>UI/Commands/Attack</iconPath>
+    <label>自动战斗</label>
+    <description>机械将自动寻找并攻击敌人.</description>
+    <iconPath>UI/Icons/WorkMode/Escort</iconPath>
     <uiOrder>40</uiOrder>
   </WulaFallenEmpire.DroneWorkModeDef>
 

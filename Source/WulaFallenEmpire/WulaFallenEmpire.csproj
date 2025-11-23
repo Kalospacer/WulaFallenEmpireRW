@@ -190,7 +190,6 @@
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalWorkMode_Drone.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalLowEnergy_Drone.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MechanitorUtility_EverControllable.cs" />
-    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MainTabWindow_Mechs_Pawns.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\CompAutonomousMech.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalAutonomousWorkMode.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalNeedRecharge.cs" />

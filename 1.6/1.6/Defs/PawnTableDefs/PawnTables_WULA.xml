@@ -17,15 +17,17 @@
 
   <PawnColumnDef>
     <defName>WULA_DroneWorkMode</defName>
+    <label>工作模式</label>
     <workerClass>WulaFallenEmpire.PawnColumnWorker_DroneWorkMode</workerClass>
     <sortable>true</sortable>
-    <headerIcon>UI/Commands/Attack</headerIcon>
+    <headerIcon>UI/Icons/WorkMode/Work</headerIcon>
     <headerTip>Work Mode</headerTip>
     <width>24</width>
   </PawnColumnDef>
 
   <PawnColumnDef>
     <defName>WULA_DroneEnergy</defName>
+    <label>能量</label>
     <workerClass>WulaFallenEmpire.PawnColumnWorker_DroneEnergy</workerClass>
     <sortable>true</sortable>
     <headerTip>Energy</headerTip>
