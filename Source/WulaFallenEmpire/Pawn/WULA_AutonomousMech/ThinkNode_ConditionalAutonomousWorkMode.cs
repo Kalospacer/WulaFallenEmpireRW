@@ -6,7 +6,7 @@ namespace WulaFallenEmpire
 {
     public class ThinkNode_ConditionalAutonomousWorkMode : ThinkNode_Conditional
     {
-        public AutonomousWorkMode requiredMode = AutonomousWorkMode.Work;
+        public DroneWorkModeDef requiredMode;
         
         protected override bool Satisfied(Pawn pawn)
         {

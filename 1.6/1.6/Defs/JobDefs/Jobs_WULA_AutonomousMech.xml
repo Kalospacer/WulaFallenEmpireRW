@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <JobDef>
+    <defName>WULA_DroneSelfShutdown</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_DroneSelfShutdown</driverClass>
+    <reportString>self-shutting down.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

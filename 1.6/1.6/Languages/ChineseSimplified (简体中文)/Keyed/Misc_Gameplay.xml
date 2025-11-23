@@ -148,57 +148,6 @@
   <WULA_MaintenanceRepairedDamage>修复了 {0} 的结构损伤</WULA_MaintenanceRepairedDamage>
   <WULA_DaysSinceMaintenance>距上次维护</WULA_DaysSinceMaintenance>
 
-  <!-- Global Production System -->
-  <WULA_GlobalBillsTab>舰队生产</WULA_GlobalBillsTab>
-  <WULA_GlobalProduction>舰队生产订单</WULA_GlobalProduction>
-  <WULA_AddProductionOrder>添加生产订单</WULA_AddProductionOrder>
-  <WULA_Resume>恢复</WULA_Resume>
-  <WULA_Pause>暂停</WULA_Pause>
-  <WULA_Delete>删除</WULA_Delete>
-  <WULA_WaitingForResources>等待资源</WULA_WaitingForResources>
-  <WULA_Completed>完成</WULA_Completed>
-  <WULA_Unknown>未知</WULA_Unknown>
-  <WULA_InsufficientResources>帝国舰队存储的资源不足</WULA_InsufficientResources>
-  <WULA_NoAvailableRecipes>无可用配方</WULA_NoAvailableRecipes>
-  <!-- 添加到您的语言文件中 -->
-  <WULA_RequiredIngredients>可用配方</WULA_RequiredIngredients>
-  <WULA_Products>产物</WULA_Products>
-  <WULA_WorkAmount>工作量</WULA_WorkAmount>
-
-  <!-- 中文翻译 -->
-  <WULA_ViewStorage>查看存储</WULA_ViewStorage>
-  <WULA_InputStorage>输入存储（原材料）</WULA_InputStorage>
-  <WULA_OutputStorage>输出存储（产品）</WULA_OutputStorage>
-  <WULA_NoGlobalStorage>未找到全局存储组件</WULA_NoGlobalStorage> 
-  <WULA_NoItems>无物品</WULA_NoItems>
-  <WULA_StorageStats>存储统计</WULA_StorageStats>
-  <WULA_InputItems>种输入物品</WULA_InputItems>
-  <WULA_OutputItems>种输出物品</WULA_OutputItems>
-  
-  <!-- 中文翻译 -->
-  <WULA_AirdropProducts>空投成品</WULA_AirdropProducts>
-  <WULA_AirdropProductsDesc>将乌拉帝国母舰和工程舰上完成加工的所有物品通过空投舱投放到指定区域</WULA_AirdropProductsDesc>
-  <WULA_CannotAirdrop>无法执行空投：工作台未就绪</WULA_CannotAirdrop>
-  <WULA_NoProductsToAirdrop>没有可空投的物品</WULA_NoProductsToAirdrop>
-  <WULA_AirdropTargetTooFar>目标距离超出最大空投范围（{0}）</WULA_AirdropTargetTooFar>
-  <WULA_NoValidDropSpots>没有有效的空投落点。请选择另一个位置</WULA_NoValidDropSpots>
-  <WULA_FailedToDistributeItems>无法分配物品到空投舱</WULA_FailedToDistributeItems>
-  <WULA_AirdropSuccessful>成功空投了{0}个空投舱</WULA_AirdropSuccessful>
-  <WULA_NoFactoryFlyOver>需要拥有-生产设施-的战舰部署在殖民地轨道上才能空投</WULA_NoFactoryFlyOver>
-  <WULA_NoFactoryFlyOverDesc>当前地图上没有拥有-生产设施-的战舰部署在殖民地轨道上，无法进行空投</WULA_NoFactoryFlyOverDesc>
-
-  
-  <WULA_LaunchToGlobalStorage>发射到乌拉帝国舰队</WULA_LaunchToGlobalStorage>
-  <WULA_LaunchToGlobalStorageDesc>将物品发送到乌拉帝国舰队，以便其使用这些材料进行加工。\n\n如果装备、武器和尸体被送到乌拉帝国舰队，则它们会在下一次成品空投被扔回来，其他的物资若被乌拉帝国舰队接收则一概不退。</WULA_LaunchToGlobalStorageDesc>
-  <WULA_NoItemsToSendToGlobalStorage>没有物品可以发送到全局存储</WULA_NoItemsToSendToGlobalStorage>
-  <!-- CompLaunchable_ToGlobalStorage.cs 新增翻译 -->
-  <WULA_ItemsSentToBothStorages>{0}件物资被舰队接收，{1}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToBothStorages>
-  <WULA_ItemsSentToInputStorage>{0}件物资被舰队接收</WULA_ItemsSentToInputStorage>
-  <WULA_ItemsSentToOutputStorage>{0}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToOutputStorage>
-  <WULA_InputStorageItems>输入存储: {0}</WULA_InputStorageItems>
-  <WULA_OutputStorageItems>输出存储: {0}</WULA_OutputStorageItems>
-  <WULA_LaunchCancelledDueToForbiddenItems>舰队拒绝接收物资——里面包含了殖民者、动物、尸体或有毒垃圾</WULA_LaunchCancelledDueToForbiddenItems>
-
   <WULA_ChooseStuff>材质</WULA_ChooseStuff>
   <WULA_ChooseStuffTooltip>为此武器选择材质</WULA_ChooseStuffTooltip>
   <WULA_CurrentStuff>当前材质：{0}</WULA_CurrentStuff>

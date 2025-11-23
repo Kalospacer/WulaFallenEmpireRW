@@ -3,6 +3,7 @@ using Verse;
 
 namespace WulaFallenEmpire
 {
+    
     [DefOf]
     public static class ThingDefOf_WULA
     {
@@ -75,4 +76,18 @@ namespace WulaFallenEmpire
         }
     }
 
+    [DefOf]
+    public static class WulaDefOf
+    {
+        public static JobDef WULA_DroneSelfShutdown;
+        public static DroneWorkModeDef Work;
+        public static DroneWorkModeDef Recharge;
+        public static DroneWorkModeDef Shutdown;
+        public static DroneWorkModeDef AutoFight;
+
+        static WulaDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(WulaDefOf));
+        }
+    }
 }

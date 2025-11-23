@@ -6,10 +6,10 @@
   <WULA_MaintenancePod_State_Idle>空闲</WULA_MaintenancePod_State_Idle>
   <WULA_MaintenancePod_State_Running>运行中</WULA_MaintenancePod_State_Running>
   <WULA_MaintenancePod_StoredComponents>储存的零部件</WULA_MaintenancePod_StoredComponents>
-  <WULA_MaintenancePod_Enter>进入维护</WULA_MaintenancePod_Enter>
+ <WULA_MaintenancePod_Enter>进入维护</WULA_MaintenancePod_Enter>
   <WULA_MaintenancePod_EnterDesc>命令一个需要维护的殖民者进入维护舱。</WULA_MaintenancePod_EnterDesc>
   <WULA_MaintenancePod_NotEnoughComponents>需要 {0} 零部件</WULA_MaintenancePod_NotEnoughComponents>
-  <WULA_MaintenancePod_NoOneNeeds>没有殖民者需要维护。</WULA_MaintenancePod_NoOneNeeds>
+ <WULA_MaintenancePod_NoOneNeeds>没有殖民者需要维护。</WULA_MaintenancePod_NoOneNeeds>
   <WULA_MaintenancePod_CancelDesc>中止维护并弹出殖民者。</WULA_MaintenancePod_CancelDesc>
   <WULA_MaintenanceComplete>{PAWN_nameDef} 的维护已完成。</WULA_MaintenanceComplete>
   <WULA_MaintenanceCanceled>维护已取消。</WULA_MaintenanceCanceled>
@@ -17,56 +17,84 @@
   <WULA_MaintenanceNoEffect>{PAWN_nameDef} 的维护已完成，但{PAWN_nameDef} 没有可修复的受损部位。</WULA_MaintenanceNoEffect>
   <WULA_NoComponentsToHaul>没有可用的零部件来搬运。</WULA_NoComponentsToHaul>
 
-  <WULA_MessageGainedDamageShieldCharges>{0} 获得了 {1} 层伤害护盾！</WULA_MessageGainedDamageShieldCharges>
+ <WULA_MessageGainedDamageShieldCharges>{0} 获得了 {1} 层伤害护盾！</WULA_MessageGainedDamageShieldCharges>
   <WULA_CannotUseOnDeadPawn>无法对已死亡的Pawn使用。</WULA_CannotUseOnDeadPawn>
   <WULA_DamageShieldMaxChargesReached>伤害护盾已达到最大层数。</WULA_DamageShieldMaxChargesReached>
   <WULA_DamageShieldChargesDescription>使用：增加 {0} 层伤害护盾</WULA_DamageShieldChargesDescription>
 
   <WULA_AutonomousMechsSection>自律机械体</WULA_AutonomousMechsSection>
 
-  <!-- Global Work Table -->
-  <WULA_GatheringMaterials>准备材料中</WULA_GatheringMaterials>
-  <WULA_OrderStarted>订单 {0} 已开始生产</WULA_OrderStarted>
-  <WULA_Uploading>上传中</WULA_Uploading>
-  <WULA_GlobalBillsTab>全球订单</WULA_GlobalBillsTab>
-  <WULA_GlobalProduction>全球生产</WULA_GlobalProduction>
-  <WULA_Equipment>装备</WULA_Equipment>
-  <WULA_Weapon>武器</WULA_Weapon>
-  <WULA_Mechanoid>机械体</WULA_Mechanoid>
-  <WULA_AddOrder>添加订单</WULA_AddOrder>
+  <!-- Global Production System -->
+  <WULA_GlobalBillsTab>舰队生产</WULA_GlobalBillsTab>
+  <WULA_GlobalProduction>舰队生产订单</WULA_GlobalProduction>
+ <WULA_AddProductionOrder>添加生产订单</WULA_AddProductionOrder>
+  <WULA_Resume>恢复</WULA_Resume>
+  <WULA_Pause>暂停</WULA_Pause>
+  <WULA_Delete>删除</WULA_Delete>
   <WULA_WaitingForResources>等待资源</WULA_WaitingForResources>
   <WULA_Completed>完成</WULA_Completed>
   <WULA_Unknown>未知</WULA_Unknown>
-  <WULA_Delete>删除</WULA_Delete>
-  <WULA_Pause>暂停</WULA_Pause>
-  <WULA_Paused>已暂停</WULA_Paused>
-  <WULA_Resume>恢复</WULA_Resume>
-  <WULA_InsufficientResources>资源不足</WULA_InsufficientResources>
-  <WULA_FixedIngredients>固定原料</WULA_FixedIngredients>
+  <WULA_InsufficientResources>帝国舰队存储的资源不足</WULA_InsufficientResources>
+  <WULA_NoAvailableRecipes>无可用配方</WULA_NoAvailableRecipes>
+  <!-- 添加到您的语言文件中 -->
+  <WULA_RequiredIngredients>可用配方</WULA_RequiredIngredients>
   <WULA_Products>产物</WULA_Products>
   <WULA_WorkAmount>工作量</WULA_WorkAmount>
-  <WULA_GlobalStorage>全球存储</WULA_GlobalStorage>
-  <WULA_InputStorage>输入存储</WULA_InputStorage>
-  <WULA_OutputStorage>输出存储</WULA_OutputStorage>
+
+  <!-- 中文翻译 -->
+  <WULA_ViewStorage>查看存储</WULA_ViewStorage>
+  <WULA_InputStorage>输入存储（原材料）</WULA_InputStorage>
+  <WULA_OutputStorage>输出存储（产品）</WULA_OutputStorage>
+  <WULA_NoGlobalStorage>未找到全局存储组件</WULA_NoGlobalStorage> 
   <WULA_NoItems>无物品</WULA_NoItems>
-  <WULA_NoGlobalStorage>未找到全球存储组件</WULA_NoGlobalStorage>
-  <WULA_AirdropProducts>空投产物</WULA_AirdropProducts>
-  <WULA_AirdropProductsDesc>将云端存储的产物空投到指定位置。</WULA_AirdropProductsDesc>
-  <WULA_SelectDropLocation>选择空投位置</WULA_SelectDropLocation>
-  <WULA_ConfirmAirdrop>确认空投</WULA_ConfirmAirdrop>
-  <WULA_ConfirmAirdropDesc>将消耗 {0} 个空投舱，空投 {1} 个物品。</WULA_ConfirmAirdropDesc>
-  <WULA_NoOutputItems>没有可空投的产物。</WULA_NoOutputItems>
-  <WULA_NoFactoryFlyOver>没有工厂设施飞船。</WULA_NoFactoryFlyOver>
-  <WULA_FailedToDistributeItems>无法分配物品到空投舱。</WULA_FailedToDistributeItems>
-  <WULA_AirdropSuccessful>成功发射了 {0} 个空投舱。</WULA_AirdropSuccessful>
-  <WULA_LaunchToGlobalStorage>发射到全球存储</WULA_LaunchToGlobalStorage>
-  <WULA_LaunchToGlobalStorageDesc>将发射舱内的物品发送到全球存储。</WULA_LaunchToGlobalStorageDesc>
-  <WULA_NoItemsToSendToGlobalStorage>没有物品可发送。</WULA_NoItemsToSendToGlobalStorage>
-  <WULA_LaunchCancelledDueToForbiddenItems>发射取消：包含禁止物品 {0}</WULA_LaunchCancelledDueToForbiddenItems>
-  <WULA_ItemsSentToBothStorages>已发送 {0} 个物品到输入存储，{1} 个物品到输出存储。</WULA_ItemsSentToBothStorages>
-  <WULA_InputStorageItems>输入物品</WULA_InputStorageItems>
-  <WULA_OutputStorageItems>输出物品</WULA_OutputStorageItems>
-  <WULA_ItemsSentToInputStorage>已发送 {0} 个物品到输入存储。</WULA_ItemsSentToInputStorage>
-  <WULA_ItemsSentToOutputStorage>已发送 {0} 个物品到输出存储。</WULA_ItemsSentToOutputStorage>
-  <WULA_NoItemsProcessed>没有处理任何物品。</WULA_NoItemsProcessed>
+  <WULA_StorageStats>存储统计</WULA_StorageStats>
+  <WULA_InputItems>种输入物品</WULA_InputItems>
+  <WULA_OutputItems>种输出物品</WULA_OutputItems>
+  
+  <!-- 中文翻译 -->
+  <WULA_AirdropProducts>空投成品</WULA_AirdropProducts>
+  <WULA_AirdropProductsDesc>将乌拉帝国母舰和工程舰上完成加工的所有物品通过空投舱投放到指定区域</WULA_AirdropProductsDesc>
+  <WULA_CannotAirdrop>无法执行空投：工作台未就绪</WULA_CannotAirdrop>
+  <WULA_NoProductsToAirdrop>没有可空投的物品</WULA_NoProductsToAirdrop>
+  <WULA_AirdropTargetTooFar>目标距离超出最大空投范围（{0}）</WULA_AirdropTargetTooFar>
+  <WULA_NoValidDropSpots>没有有效的空投落点。请选择另一个位置</WULA_NoValidDropSpots>
+  <WULA_FailedToDistributeItems>无法分配物品到空投舱</WULA_FailedToDistributeItems>
+ <WULA_AirdropSuccessful>成功空投了{0}个空投舱</WULA_AirdropSuccessful>
+  <WULA_NoFactoryFlyOver>需要拥有-生产设施-的战舰部署在殖民地轨道上才能空投</WULA_NoFactoryFlyOver>
+  <WULA_NoFactoryFlyOverDesc>当前地图上没有拥有-生产设施-的战舰部署在殖民地轨道上，无法进行空投</WULA_NoFactoryFlyOverDesc>
+
+  
+  <WULA_LaunchToGlobalStorage>发射到乌拉帝国舰队</WULA_LaunchToGlobalStorage>
+  <WULA_LaunchToGlobalStorageDesc>将物品发送到乌拉帝国舰队，以便其使用这些材料进行加工。\n\n如果装备、武器和尸体被送到乌拉帝国舰队，则它们会在下一次成品空投被扔回来，其他的物资若被乌拉帝国舰队接收则一概不退。</WULA_LaunchToGlobalStorageDesc>
+ <WULA_NoItemsToSendToGlobalStorage>没有物品可以发送到全局存储</WULA_NoItemsToSendToGlobalStorage>
+  <!-- CompLaunchable_ToGlobalStorage.cs 新增翻译 -->
+ <WULA_ItemsSentToBothStorages>{0}件物资被舰队接收，{1}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToBothStorages>
+  <WULA_ItemsSentToInputStorage>{0}件物资被舰队接收</WULA_ItemsSentToInputStorage>
+  <WULA_ItemsSentToOutputStorage>{0}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToOutputStorage>
+  <WULA_InputStorageItems>输入存储: {0}</WULA_InputStorageItems>
+  <WULA_OutputStorageItems>输出存储: {0}</WULA_OutputStorageItems>
+  <WULA_LaunchCancelledDueToForbiddenItems>舰队拒绝接收物资——里面包含了殖民者、动物、尸体或有毒垃圾</WULA_LaunchCancelledDueToForbiddenItems>
+
+  <!-- 自主机械能量系统 -->
+  <WULA_EnergyInfo> [能量: {0}]</WULA_EnergyInfo>
+  <WULA_CurrentEnergy>当前能量: {0}</WULA_CurrentEnergy>
+  <WULA_EnergyLow> [低能量!]</WULA_EnergyLow>
+  <WULA_EnergyCritical> [临界能量!]</WULA_EnergyCritical>
+  <WULA_Switch_Mech_WorkMode>切换机械工作模式</WULA_Switch_Mech_WorkMode>
+  <WULA_Mech_WorkMode>机械模式: {0}</WULA_Mech_WorkMode>
+  <WULA_WorkMode_Work>工作</WULA_WorkMode_Work>
+  <WULA_WorkMode_Recharge>充电</WULA_WorkMode_Recharge>
+  <WULA_WorkMode_Shutdown>关机</WULA_WorkMode_Shutdown>
+  <WULA_WorkMode_Unknown>未知</WULA_WorkMode_Unknown>
+  <WULA_WorkMode_Work_Desc>切换到工作模式 - 机械将执行分配的工作</WULA_WorkMode_Work_Desc>
+  <WULA_WorkMode_Recharge_Desc>切换到充电模式 - 机械将寻找充电站并充电</WULA_WorkMode_Recharge_Desc>
+  <WULA_WorkMode_Shutdown_Desc>切换到关机模式 - 机械将立即进入休眠状态</WULA_WorkMode_Shutdown_Desc>
+  <WULA_SwitchedToMode>{0} 已切换到 {1} 模式</WULA_SwitchedToMode>
+  <WULA_EnergyInfoShort>(能量: {0})</WULA_EnergyInfoShort>
+ <WULA_Autonomous_Drafted>自主控制</WULA_Autonomous_Drafted>
+  <WULA_Autonomous_Mode>自主模式: {0}</WULA_Autonomous_Mode>
+  <WULA_LowEnergySwitchToRecharge>{0} 能量低，自动切换到充电模式</WULA_LowEnergySwitchToRecharge>
+ <WULA_FullyChargedSwitchToWork>{0} 已充满电，自动切换到工作模式</WULA_FullyChargedSwitchToWork>
+  <WULA_CriticalEnergyLevels>{0} 能量临界！</WULA_CriticalEnergyLevels>
+
 </LanguageData>

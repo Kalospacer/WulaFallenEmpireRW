@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -30,14 +31,6 @@ namespace WulaFallenEmpire
         }
     }
 
-    // 新增：自主工作模式枚举
-    public enum AutonomousWorkMode
-    {
-        Work,       // 工作模式：通过 thinktree 寻找工作
-        Recharge,   // 充电模式：优先充电，完成后休眠
-        Shutdown    // 关机模式：立即休眠
-    }
-
     public class CompProperties_AutonomousMech : CompProperties
     {
         public bool enableAutonomousDrafting = true;
@@ -49,6 +42,8 @@ namespace WulaFallenEmpire
         public float lowEnergyThreshold = 0.3f;      // 低能量阈值
         public float criticalEnergyThreshold = 0.1f; // 临界能量阈值
         public float rechargeCompleteThreshold = 0.9f; // 充电完成阈值
+
+        public DroneWorkModeDef initialWorkMode;
 
         public CompProperties_AutonomousMech()
         {
@@ -62,7 +57,7 @@ namespace WulaFallenEmpire
 
         public Pawn MechPawn => parent as Pawn;
 
-        private AutonomousWorkMode currentWorkMode = AutonomousWorkMode.Work;
+        private DroneWorkModeDef currentWorkMode;
         private bool wasLowEnergy = false; // 记录上次是否处于低能量状态
 
         public bool CanBeAutonomous
@@ -147,7 +142,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        public AutonomousWorkMode CurrentWorkMode => currentWorkMode;
+        public DroneWorkModeDef CurrentWorkMode => currentWorkMode;
 
         // 新增：能量状态检查方法
         public float GetEnergyLevel()
@@ -163,6 +158,11 @@ namespace WulaFallenEmpire
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
+
+            if (currentWorkMode == null)
+            {
+                currentWorkMode = Props.initialWorkMode ?? WulaDefOf.Work;
+            }
 
             // 确保使用独立战斗系统
             InitializeAutonomousCombat();
@@ -208,10 +208,10 @@ namespace WulaFallenEmpire
                 if (isLowEnergyNow)
                 {
                     // 进入低能量状态
-                    if (currentWorkMode == AutonomousWorkMode.Work)
+                    if (currentWorkMode == WulaDefOf.Work)
                     {
                         // 自动切换到充电模式
-                        SetWorkMode(AutonomousWorkMode.Recharge);
+                        SetWorkMode(WulaDefOf.Recharge);
                         Messages.Message("WULA_LowEnergySwitchToRecharge".Translate(MechPawn.LabelCap),
                             MechPawn, MessageTypeDefOf.CautionInput);
                     }
@@ -219,10 +219,10 @@ namespace WulaFallenEmpire
                 else
                 {
                     // 恢复能量状态
-                    if (currentWorkMode == AutonomousWorkMode.Recharge && IsFullyCharged)
+                    if (currentWorkMode == WulaDefOf.Recharge && IsFullyCharged)
                     {
                         // 充满电后自动切换回工作模式
-                        SetWorkMode(AutonomousWorkMode.Work);
+                        SetWorkMode(WulaDefOf.Work);
                         Messages.Message("WULA_FullyChargedSwitchToWork".Translate(MechPawn.LabelCap),
                             MechPawn, MessageTypeDefOf.PositiveEvent);
                     }
@@ -232,12 +232,12 @@ namespace WulaFallenEmpire
             }
 
             // 临界能量警告
-            if (IsCriticalEnergy && currentWorkMode != AutonomousWorkMode.Recharge && currentWorkMode != AutonomousWorkMode.Shutdown)
+            if (IsCriticalEnergy && currentWorkMode != WulaDefOf.Recharge && currentWorkMode != WulaDefOf.Shutdown)
             {
                 Messages.Message("WULA_CriticalEnergyLevels".Translate(MechPawn.LabelCap),
                     MechPawn, MessageTypeDefOf.ThreatBig);
                 // 强制切换到充电模式
-                SetWorkMode(AutonomousWorkMode.Recharge);
+                SetWorkMode(WulaDefOf.Recharge);
             }
         }
 
@@ -249,77 +249,11 @@ namespace WulaFallenEmpire
             // 工作模式切换按钮
             if (CanWorkAutonomously)
             {
-                string energyInfo = "WULA_EnergyInfo".Translate(GetEnergyLevel().ToStringPercent());
-                yield return new Command_Action
-                {
-                    defaultLabel = "WULA_Mech_WorkMode".Translate(GetCurrentWorkModeDisplay()) + energyInfo,
-                    defaultDesc = GetWorkModeDescription(),
-                    icon = GetWorkModeIcon(),
-                    action = () => ShowWorkModeMenu()
-                };
+                yield return new DroneGizmo(this);
             }
         }
 
-        // 修改：返回包含能量信息的描述
-        private string GetWorkModeDescription()
-        {
-            string baseDesc = "WULA_Switch_Mech_WorkMode".Translate();
-            string energyInfo = "WULA_CurrentEnergy".Translate(GetEnergyLevel().ToStringPercent());
-
-            if (IsLowEnergy)
-                energyInfo += "WULA_EnergyLow".Translate();
-            if (IsCriticalEnergy)
-                energyInfo += "WULA_EnergyCritical".Translate();
-
-            return baseDesc + "\n" + energyInfo;
-        }
-
-        // 新增：根据能量状态返回不同的图标
-        private UnityEngine.Texture2D GetWorkModeIcon()
-        {
-            if (IsCriticalEnergy)
-                return TexCommand.DesirePower;
-            else if (IsLowEnergy)
-                return TexCommand.ToggleVent;
-            else
-                return TexCommand.Attack;
-        }
-
-        private string GetCurrentWorkModeDisplay()
-        {
-            switch (currentWorkMode)
-            {
-                case AutonomousWorkMode.Work:
-                    return "WULA_WorkMode_Work".Translate();
-                case AutonomousWorkMode.Recharge:
-                    return "WULA_WorkMode_Recharge".Translate();
-                case AutonomousWorkMode.Shutdown:
-                    return "WULA_WorkMode_Shutdown".Translate();
-                default:
-                    return "WULA_WorkMode_Unknown".Translate();
-            }
-        }
-
-        private void ShowWorkModeMenu()
-        {
-            List<FloatMenuOption> list = new List<FloatMenuOption>();
-
-            // 工作模式
-            list.Add(new FloatMenuOption("WULA_WorkMode_Work_Desc".Translate(),
-                () => SetWorkMode(AutonomousWorkMode.Work)));
-
-            // 充电模式
-            list.Add(new FloatMenuOption("WULA_WorkMode_Recharge_Desc".Translate(),
-                () => SetWorkMode(AutonomousWorkMode.Recharge)));
-
-            // 休眠模式
-            list.Add(new FloatMenuOption("WULA_WorkMode_Shutdown_Desc".Translate(),
-                () => SetWorkMode(AutonomousWorkMode.Shutdown)));
-
-            Find.WindowStack.Add(new FloatMenu(list));
-        }
-
-        private void SetWorkMode(AutonomousWorkMode mode)
+        public void SetWorkMode(DroneWorkModeDef mode)
         {
             currentWorkMode = mode;
 
@@ -329,8 +263,7 @@ namespace WulaFallenEmpire
                 MechPawn.jobs.StopAll();
             }
 
-            string modeName = GetCurrentWorkModeDisplay();
-            Messages.Message("WULA_SwitchedToMode".Translate(MechPawn.LabelCap, modeName),
+            Messages.Message("WULA_SwitchedToMode".Translate(MechPawn.LabelCap, mode.label),
                 MechPawn, MessageTypeDefOf.NeutralEvent);
         }
 
@@ -352,13 +285,13 @@ namespace WulaFallenEmpire
             if (MechPawn.Drafted)
                 return "WULA_Autonomous_Drafted".Translate() + energyInfo;
             else
-                return "WULA_Autonomous_Mode".Translate(GetCurrentWorkModeDisplay()) + energyInfo;
+                return "WULA_Autonomous_Mode".Translate(currentWorkMode?.label ?? "Unknown") + energyInfo;
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref currentWorkMode, "currentWorkMode", AutonomousWorkMode.Work);
+            Scribe_Defs.Look(ref currentWorkMode, "currentWorkMode");
             Scribe_Values.Look(ref wasLowEnergy, "wasLowEnergy", false);
         }
     }

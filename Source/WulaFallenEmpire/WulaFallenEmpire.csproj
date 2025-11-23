@@ -170,6 +170,7 @@
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_CaravanFormingUtility_AllSendablePawns.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_Pawn_ThreatDisabled.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_UncontrolledMechDrawPulse.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_Alert_MechLacksOverseer.cs" />
     <Compile Include="HediffComp\HediffCompProperties_DisappearWithEffect.cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
     <Compile Include="HediffComp\HediffCompProperties_SwitchableHediff.cs" />
@@ -180,6 +181,16 @@
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompAutoMechCarrier.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompProperties_AutoMechCarrier.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\PawnProductionEntry.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\DroneWorkModeDef.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\DroneGizmo.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\PawnColumnWorker_DroneWorkMode.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\PawnColumnWorker_DroneEnergy.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\JobDriver_DroneSelfShutdown.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\JobGiver_DroneSelfShutdown.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalWorkMode_Drone.cs" />
+    <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalLowEnergy_Drone.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MechanitorUtility_EverControllable.cs" />
+    <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MainTabWindow_Mechs_Pawns.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\CompAutonomousMech.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalAutonomousWorkMode.cs" />
     <Compile Include="Pawn\WULA_AutonomousMech\ThinkNode_ConditionalNeedRecharge.cs" />
