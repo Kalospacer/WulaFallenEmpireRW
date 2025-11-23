@@ -6,7 +6,6 @@
     <heldByFactionCategoryTags Inherit="False" />
   </ResearchProjectDef>
 
-
   <!-- 等级 -->
   <ThingDef>
     <defName>Techprint_WULA_Colony_License_LV1_Technology</defName>
@@ -195,6 +194,18 @@
     </prerequisites>
   </ResearchProjectDef>
   
+  <!-- 舰队许可 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Aircraft_Carrier_Technology</defName>
+    <label>舰队调配许可</label>
+    <description>允许殖民地建立信标增加航空舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援，包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器支援的航空舰。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>3.80</researchViewY>
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
   <!-- 飞行器 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Light_Fighter_Drone_Technology</defName>
@@ -222,17 +233,6 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Aircraft_Carrier_Technology</defName>
-    <label>航空舰调配许可</label>
-    <description>允许殖民地建立信标增加航空舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援。\n\n乌拉帝国的轻型航空舰没有什么武装，但是能够装载大量的战机以支援地面战斗。\n\n此战舰携带以下设施：\n&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color></description>
-    <baseCost>600</baseCost>
-    <researchViewX>6.00</researchViewX>
-    <researchViewY>4.40</researchViewY>
-    <prerequisites>
-      <li>WULA_Striker_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Bomber_Technology</defName>
     <label>轰炸机调配许可</label>
     <description>允许殖民地建立信标增加轰炸机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的轰炸机是可以进入大气层的最大的飞行载具，除了投掷功能性的烟雾弹外，也能投下大量炸弹或是发射一枚暗物质导弹夷平帝国之敌。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
@@ -251,7 +251,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Firepower_Minigun_Technology</defName>
     <label>链炮打击许可</label>
-    <description>允许殖民地申请来自武器阵列的链炮进行近地支援打击。\n\n链炮是一种射速非常快的大口径机炮，得益于乌拉帝国优秀的材料学，其弹头在穿越大气层后依然保有对轻甲目标的强大杀伤力。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
+    <description>允许殖民地申请来自战舰武器阵列的链炮进行近地支援打击。\n\n链炮是一种射速非常快的大口径机炮，得益于乌拉帝国优秀的材料学，其弹头在穿越大气层后依然保有对轻甲目标的强大杀伤力。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
     <baseCost>600</baseCost>
     <researchViewX>1.00</researchViewX>
     <researchViewY>5.00</researchViewY>
@@ -260,25 +260,14 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Battleship_Technology</defName>
-    <label>巡洋舰调配许可</label>
-    <description>允许殖民地建立信标增加巡洋舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援。\n\n乌拉帝国边缘开发署的巡洋舰是近地支援舰队的基础作战单位，它们的体积虽然不如战列巡洋舰那样庞大，但是依然搭载了让地面武装望尘莫及的庞大火炮阵列，可以对地面发起骇人的轰炸。\n\n巡洋舰拥有以下设施：\n&lt;color=#BD2F31>&lt;i>-武器阵列&lt;/i>&lt;/color></description>
-    <baseCost>600</baseCost>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>5.00</researchViewY>
-    <prerequisites>
-      <li>WULA_Firepower_Minigun_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Firepower_Cannon_Technology</defName>
     <label>副炮打击许可</label>
-    <description>允许殖民地申请来自武器阵列的轻型舰炮进行近地支援打击。\n\n乌拉帝国的轻型舰炮是用于在太空战中对付中小型舰船的速射炮——当然，对地面目标同样有效。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
+    <description>允许殖民地申请来自战舰武器阵列的轻型舰炮进行近地支援打击。\n\n乌拉帝国的轻型舰炮是用于在太空战中对付中小型舰船的速射炮——当然，对地面目标同样有效。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
     <baseCost>600</baseCost>
     <researchViewX>5.00</researchViewX>
     <researchViewY>5.00</researchViewY>
     <hiddenPrerequisites>
-      <li>WULA_Battleship_Technology</li>
+      <li>WULA_Firepower_Minigun_Technology</li>
     </hiddenPrerequisites>  
     <prerequisites>
       <li>WULA_Colony_License_LV2_Technology</li>
@@ -287,7 +276,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Firepower_EnergyLance_Technology</defName>
     <label>光矛打击许可</label>
-    <description>允许殖民地申请来自武器阵列的光矛进行近地支援打击。\n\n暗物质光矛是乌拉帝国舰队现役的主战装备之一，杀伤力来源是近乎纯净的能量，无论何种装甲防御在其面前都是螳臂当车。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
+    <description>允许殖民地申请来自战舰武器阵列的光矛进行近地支援打击。\n\n暗物质光矛是乌拉帝国舰队现役的主战装备之一，杀伤力来源是近乎纯净的能量，无论何种装甲防御在其面前都是螳臂当车。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
     <baseCost>600</baseCost>
     <researchViewX>9.00</researchViewX>
     <researchViewY>5.00</researchViewY>
@@ -301,7 +290,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Firepower_Primary_Cannon_Technology</defName>
     <label>主炮打击许可</label>
-    <description>允许殖民地申请来自武器阵列的主炮进行近地支援打击。\n\n乌拉帝国战舰的主炮被安装在轴线上，充当舰队战中的定音锤。如果把那些足以击碎舰队龙骨的炮弹射到地上的话···\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
+    <description>允许殖民地申请来自战舰武器阵列的主炮进行近地支援打击。\n\n乌拉帝国战舰的主炮被安装在轴线上，充当舰队战中的定音锤。如果把那些足以击碎舰队龙骨的炮弹射到地上的话···\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
     <baseCost>600</baseCost>
     <researchViewX>10.00</researchViewX>
     <researchViewY>5.00</researchViewY>
@@ -668,204 +657,4 @@
       <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
-
-  <!-- <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Adv_WorkTable_Technology</defName>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>3.20</researchViewY>
-    <label>高级编织体套件</label>
-    <description>开发功能性更强的工作台，以支持后续的高级设备构建。</description>
-    <baseCost>1000</baseCost>
-    <prerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-      <li>MicroelectronicsBasics</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Dark_Matter_Technology</defName>
-    <researchViewX>8.00</researchViewX>
-    <researchViewY>3.20</researchViewY>
-    <label>暗物质基础套件</label>
-    <description>允许制造封装暗物质和相关的基础设施。</description>
-    <baseCost>4000</baseCost>
-    <prerequisites>
-      <li>WULA_Adv_WorkTable_Technology</li>
-      <li>AdvancedFabrication</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Neutronium_Technology</defName>
-    <researchViewX>9.00</researchViewX>
-    <researchViewY>3.20</researchViewY>
-    <label>零素压缩套件</label>
-    <description>允许以暗物质进行零素压缩，以获得这种强大的材料。</description>
-    <baseCost>4000</baseCost>
-    <prerequisites>
-      <li>WULA_Dark_Matter_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Clothes_2_Technology</defName>
-    <researchViewX>4.50</researchViewX>
-    <researchViewY>2.60</researchViewY>
-    <label>复杂衣物套件</label>
-    <description>开发能够被乌拉帝国合成人穿着的具有功能性的衣物。</description>
-    <baseCost>1200</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Clothes_Technology</li>
-      <li>WULA_Adv_WorkTable_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Clothes_3_Technology</defName>
-    <researchViewX>8.00</researchViewX>
-    <researchViewY>1.80</researchViewY>
-    <label>皇家衣物套件</label>
-    <description>开发能够被乌拉帝国合成人穿着的昂贵的衣物，这类装备包含更多的加成，并且可以满足贵族的穿衣需求。</description>
-    <baseCost>2400</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Clothes_2_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Armor_Technology</defName>
-    <researchViewX>7.00</researchViewX>
-    <researchViewY>2.50</researchViewY>
-    <label>装甲套件</label>
-    <description>开发能够被乌拉帝国合成人穿着的装甲，这类装备可以为乌拉帝国合成人提供保护。</description>
-    <baseCost>2400</baseCost>
-    <prerequisites>
-      <li>FlakArmor</li>
-      <li>WULA_Synth_Clothes_2_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Armor_2_Technology</defName>
-    <researchViewX>8.00</researchViewX>
-    <researchViewY>2.50</researchViewY>
-    <label>皇家装甲套件</label>
-    <description>开发能够被乌拉帝国合成人穿着的重型装甲，这类装备可以提供大量保护的同时兼具其他的功能性。</description>
-    <baseCost>3200</baseCost>
-    <prerequisites>
-      <li>PoweredArmor</li>
-      <li>WULA_Synth_Armor_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef> -->
-  
-  <!-- <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Psi_Technology</defName>
-    <researchViewX>4.50</researchViewX>
-    <researchViewY>3.90</researchViewY>
-    <label>灵能基础套件</label>
-    <description>开发能够供从俘虏身上获取魂锲的能力。</description>
-    <baseCost>1200</baseCost>
-    <prerequisites>
-      <li>WULA_Adv_WorkTable_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Machine_Productor_Technology</defName>
-    <label>机械体构建套件</label>
-    <description>获取构建乌拉帝国机械体的设施，以支持后续的机械体开发。</description>
-    <baseCost>800</baseCost>
-    <researchViewX>1.00</researchViewX>
-    <researchViewY>5.50</researchViewY>
-    <prerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Machine_Productor_1_Technology</defName>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>5.50</researchViewY>
-    <label>辅兵部署套件</label>
-    <description>获取构建简单乌拉帝国机械体的知识，这些机械体本身战斗力不强但是可以辅助生产和战斗。</description>
-    <baseCost>1200</baseCost>
-    <prerequisites>
-      <li>StandardMechtech</li>
-      <li>WULA_Synth_Productor_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase"  MayRequire="Ludeon.RimWorld.Odyssey">
-    <defName>Wula_AI_Engineer_Mother_Technology</defName>
-    <label>开拓单元套件</label>
-    <description>获取乌拉帝国机械体PMu-7"西比尔卡"和其变种PMu-7A"斯托洛维耶"的生产权限，一种可以在战场上生产源源不断的临时单位并部署低角护盾掩护友军的辅助型机械体。</description>
-    <baseCost>2400</baseCost>
-    <researchViewX>8.00</researchViewX>
-    <researchViewY>4.80</researchViewY>
-    <prerequisites>
-      <li>HighMechtech</li>
-      <li>WULA_Machine_Productor_1_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Mech_WULA_Cat_DM_Technology</defName>
-    <label>暗物质猫猫套件</label>
-    <description>获取乌拉帝国机械体CAt-96"暗物质猫猫"的生产权限，一种搭载了暗物质引擎的劳工型机械体，无需充电，但是死亡时会产生湮灭爆炸。</description>
-    <baseCost>2000</baseCost>
-    <researchViewX>9.00</researchViewX>
-    <researchViewY>5.50</researchViewY>
-    <prerequisites>
-      <li>HighMechtech</li>
-      <li>WULA_Machine_Productor_1_Technology</li>
-      <li>WULA_Dark_Matter_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_AI_Machine_Panzer_Technology</defName>
-    <researchViewX>10.00</researchViewX>
-    <researchViewY>4.80</researchViewY>
-    <label>基础战车部署套件</label>
-    <description>获取乌拉帝国机械体SMp-38"萨克森"和其变种SMp-38A"斯佩萨特"的生产权限，一种携带突击区域护盾和强大火力武备的战车型机械体。</description>
-    <baseCost>3600</baseCost>
-    <prerequisites>
-      <li>HighMechtech</li>
-      <li>WULA_Mech_WULA_Cat_DM_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Alpha_Wolf_Technology</defName>
-    <researchViewX>11.00</researchViewX>
-    <researchViewY>4.80</researchViewY>
-    <label>狼蛛机甲部署套件</label>
-    <description>获取乌拉帝国机械体SNm-6"狼蛛"和其变种SNm-82"螳螂"的生产权限，一种拥有个体护盾，并根据装备的武器能在近战或远程轰炸中发挥恐怖实力的四足机械体。</description>
-    <baseCost>3600</baseCost>
-    <prerequisites>
-      <li>HighMechtech</li>
-      <li>WULA_Mech_WULA_Cat_DM_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Repair_All_Technology</defName>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>3.90</researchViewY>
-    <label>维修套件</label>
-    <description>获取构建修理包并使用其修复乌拉帝国合成人的必须知识。</description>
-    <baseCost>600</baseCost>
-    <prerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_New_Synth_Skill_Technology</defName>
-    <label>数据下载套件</label>
-    <description>开发用于从上行链路下载各种预设技能包的套件，以增加殖民地的技能等级。</description>
-    <baseCost>400</baseCost>
-    <researchViewX>2.00</researchViewX>
-    <researchViewY>4.70</researchViewY>
-    <prerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_New_Synth_Skill_2_Technology</defName>
-    <label>人格微调套件</label>
-    <description>开发用于从上行链路下载新人格和兴趣调整数据包的套件，以进一步调整合成人的发展定位。</description>
-    <baseCost>600</baseCost>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>4.70</researchViewY>
-    <prerequisites>
-      <li>WULA_New_Synth_Skill_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef> -->
 </Defs>

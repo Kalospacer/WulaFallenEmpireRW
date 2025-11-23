@@ -82,32 +82,6 @@
     <comps>
     </comps>
   </HediffDef>
-  <!-- <HediffDef>
-    <defName>Wula_FM_Switc_Fleet</defName>
-    <label>调频（舰队）</label>
-    <description>允许乌拉帝国的合成人呼叫舰队，舰队会为地面上的乌拉帝国殖民地提供支援，但是支援的具体类型需要调频到其他频道进行呼叫。</description>
-    <hediffClass>Hediff_High</hediffClass>
-    <everCurableByItem>false</everCurableByItem>
-    <duplicationAllowed>false</duplicationAllowed>
-    <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
-    <isBad>false</isBad>
-    <stages>
-      <li>
-        <becomeVisible>false</becomeVisible>
-      </li>
-    </stages>
-    <comps>
-      <li Class="HediffCompProperties_GiveAbility">
-        <abilityDefs>
-          <li>WULA_CallMotherShip</li>
-          <li>WULA_CallBattleShip</li>
-          <li>WULA_CallAircraftCarrier</li>
-          <li>WULA_CallConstructionShip</li>
-          <li>WULA_ClearFlightPath</li>
-        </abilityDefs>
-      </li>
-    </comps>
-  </HediffDef> -->
   <HediffDef>
     <defName>Wula_FM_Switc_Artillery</defName>
     <label>调频（火炮）</label>
@@ -125,7 +99,9 @@
     <comps>
       <li Class="HediffCompProperties_GiveAbility">
         <abilityDefs>
-          <li>WULA_CallBattleShip</li>
+          <li>WULA_CallMotherShip</li>
+          <li>WULA_CallFleet</li>
+          <li>WULA_ClearFlightPath</li>
           <li>WULA_Firepower_Minigun_Strafe</li>
           <li>WULA_Firepower_Cannon_Salvo</li>
           <li>WULA_Firepower_Cannon_Surveillance</li>
@@ -155,6 +131,9 @@
     <comps>
       <li Class="HediffCompProperties_GiveAbility">
         <abilityDefs>
+          <li>WULA_CallMotherShip</li>
+          <li>WULA_CallFleet</li>
+          <li>WULA_ClearFlightPath</li>
           <li>WULA_Spawn_Fighter_Drone_Laser</li>
           <li>WULA_Spawn_Fighter_Drone_Bomb</li>
           <li>WULA_Spawn_Striker_Missile</li>
