@@ -72,6 +72,11 @@
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
+          <thingDef>WULA_Charging_Station_Synth</thingDef>
+          <count>2</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
           <thingDef>WULA_Fake_Mothership_Beacon_Building</thingDef>
           <count>1</count>
         </li>

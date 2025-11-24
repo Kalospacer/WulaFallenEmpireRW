@@ -1031,7 +1031,7 @@
     <rotatable>false</rotatable>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites Inherit="False">
-      <li>WULA_Synth_Maintain_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
@@ -1131,9 +1131,6 @@
     </costList>
     <uiOrder>2010</uiOrder>
     <fillPercent>0.5</fillPercent>
-    <researchPrerequisites Inherit="False">
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </researchPrerequisites>
     <stuffCategories Inherit="False" IsNull="True" />
     <building>
       <paintable>false</paintable>
