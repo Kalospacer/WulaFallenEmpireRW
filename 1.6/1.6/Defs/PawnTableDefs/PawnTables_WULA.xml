@@ -4,7 +4,7 @@
   <!-- 定义我们的自定义列 -->
   <PawnColumnDef>
     <defName>WULA_DroneWorkMode</defName>
-    <label>工作模式</label>
+    <label>自律模式</label>
     <workerClass>WulaFallenEmpire.PawnColumnWorker_DroneWorkMode</workerClass>
     <sortable>true</sortable>
     <headerIcon>UI/Icons/WorkMode/Work</headerIcon>
