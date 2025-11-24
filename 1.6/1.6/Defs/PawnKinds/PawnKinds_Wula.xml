@@ -449,6 +449,7 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
     <combatPower>0</combatPower>
     <factionLeader>true</factionLeader>
     <minGenerationAge>18</minGenerationAge>

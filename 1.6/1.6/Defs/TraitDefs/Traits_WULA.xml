@@ -162,6 +162,7 @@
   </TraitDef>
   <TraitDef>
     <defName>WULA_Trait_Broken_Personality</defName>
+    <commonality>0</commonality>
     <degreeDatas>
       <li>
         <label>破碎人格</label>
