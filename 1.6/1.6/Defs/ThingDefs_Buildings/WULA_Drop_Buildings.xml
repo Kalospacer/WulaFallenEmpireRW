@@ -568,7 +568,7 @@
       </li>
       <li Class="CompProperties_Flickable"/>
       <li Class="CompProperties_Refuelable">
-        <fuelCapacity>20.0</fuelCapacity>
+        <fuelCapacity>3</fuelCapacity>
         <fuelFilter>
           <thingDefs>
             <li>ComponentIndustrial</li>
@@ -577,7 +577,9 @@
         <fuelLabel>零部件</fuelLabel>
         <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
         <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
-        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <targetFuelLevelConfigurable>false</targetFuelLevelConfigurable>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <initialConfigurableTargetFuelLevel>3</initialConfigurableTargetFuelLevel>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MaintenancePod">
         <enterSound>BiosculpterPod_Enter</enterSound>
@@ -727,6 +729,10 @@
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>true</blockLight>
     <castEdgeShadows>false</castEdgeShadows>
     <fillPercent>0.5</fillPercent>
     <useHitPoints>True</useHitPoints>
@@ -745,7 +751,6 @@
     </recipes>
     <size>(3,3)</size>
     <uiOrder>2120</uiOrder>
-    <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
     <surfaceType>Item</surfaceType>

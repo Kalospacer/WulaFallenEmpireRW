@@ -330,9 +330,9 @@
               <onDays>1.0</onDays>
               <offDays>0.5</offDays>
               <minSpacingDays>0.04</minSpacingDays>
-              <numIncidentsRange>1~2</numIncidentsRange>
-              <currentThreatPointsFactor>1.75</currentThreatPointsFactor>
-              <minThreatPoints>1000</minThreatPoints>
+              <numIncidentsRange>1~1.5</numIncidentsRange>
+              <currentThreatPointsFactor>1.1</currentThreatPointsFactor>
+              <minThreatPoints>500</minThreatPoints>
             </parms>
           </node>          
         </li>
