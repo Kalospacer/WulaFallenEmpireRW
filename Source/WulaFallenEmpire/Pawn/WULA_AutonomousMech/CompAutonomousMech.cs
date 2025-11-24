@@ -38,7 +38,7 @@ namespace WulaFallenEmpire
         public bool requirePowerForAutonomy = true;
         public bool suppressUncontrolledWarning = true;
 
-        // 新增：能量管理设置
+        // 保留能量管理设置供 ThinkNode 使用
         public float lowEnergyThreshold = 0.3f;      // 低能量阈值
         public float criticalEnergyThreshold = 0.1f; // 临界能量阈值
         public float rechargeCompleteThreshold = 0.9f; // 充电完成阈值
@@ -58,7 +58,6 @@ namespace WulaFallenEmpire
         public Pawn MechPawn => parent as Pawn;
 
         private DroneWorkModeDef currentWorkMode;
-        private bool wasLowEnergy = false; // 记录上次是否处于低能量状态
 
         public bool CanBeAutonomous
         {
@@ -104,6 +103,7 @@ namespace WulaFallenEmpire
                 return CanBeAutonomous;
             }
         }
+        
         public bool IsInCombatMode
         {
             get
@@ -190,56 +190,12 @@ namespace WulaFallenEmpire
             // 每60 tick检查一次能量状态
             if (MechPawn != null && MechPawn.IsColonyMech && Find.TickManager.TicksGame % 60 == 0)
             {
-                CheckEnergyStatus();
+                // 删除了自动切换模式的 CheckEnergyStatus 调用
                 EnsureWorkSettings();
             }
         }
 
-        // 新增：能量状态检查
-        private void CheckEnergyStatus()
-        {
-            if (!CanWorkAutonomously)
-                return;
-            bool isLowEnergyNow = IsLowEnergy;
-
-            // 如果能量状态发生变化
-            if (isLowEnergyNow != wasLowEnergy)
-            {
-                if (isLowEnergyNow)
-                {
-                    // 进入低能量状态
-                    if (currentWorkMode == WulaDefOf.Work)
-                    {
-                        // 自动切换到充电模式
-                        SetWorkMode(WulaDefOf.Recharge);
-                        Messages.Message("WULA_LowEnergySwitchToRecharge".Translate(MechPawn.LabelCap),
-                            MechPawn, MessageTypeDefOf.CautionInput);
-                    }
-                }
-                else
-                {
-                    // 恢复能量状态
-                    if (currentWorkMode == WulaDefOf.Recharge && IsFullyCharged)
-                    {
-                        // 充满电后自动切换回工作模式
-                        SetWorkMode(WulaDefOf.Work);
-                        Messages.Message("WULA_FullyChargedSwitchToWork".Translate(MechPawn.LabelCap),
-                            MechPawn, MessageTypeDefOf.PositiveEvent);
-                    }
-                }
-
-                wasLowEnergy = isLowEnergyNow;
-            }
-
-            // 临界能量警告
-            if (IsCriticalEnergy && currentWorkMode != WulaDefOf.Recharge && currentWorkMode != WulaDefOf.Shutdown)
-            {
-                Messages.Message("WULA_CriticalEnergyLevels".Translate(MechPawn.LabelCap),
-                    MechPawn, MessageTypeDefOf.ThreatBig);
-                // 强制切换到充电模式
-                SetWorkMode(WulaDefOf.Recharge);
-            }
-        }
+        // 删除了整个 CheckEnergyStatus 方法，因为充电逻辑在 ThinkNode 中处理
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
@@ -292,7 +248,7 @@ namespace WulaFallenEmpire
         {
             base.PostExposeData();
             Scribe_Defs.Look(ref currentWorkMode, "currentWorkMode");
-            Scribe_Values.Look(ref wasLowEnergy, "wasLowEnergy", false);
+            // 删除了 wasLowEnergy 的序列化
         }
     }
 }

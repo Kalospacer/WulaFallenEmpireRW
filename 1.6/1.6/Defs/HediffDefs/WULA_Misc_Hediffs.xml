@@ -47,9 +47,7 @@
       </li>
     </stages>
     <comps>
-      <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceDamage">
-        <damageToMaintenanceFactor>0.0025</damageToMaintenanceFactor> <!-- 1点伤害 = 0.25%维护度减少 -->
-      </li>
+      <li Class="WulaFallenEmpire.HediffCompProperties_MaintenanceDamage"/>
     </comps>
   </HediffDef>
   <HediffDef>

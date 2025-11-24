@@ -829,9 +829,6 @@
     <placeWorkers>
       <li>PlaceWorker_NotUnderRoof</li>
     </placeWorkers>
-    <researchPrerequisites>
-      <li>TransportPod</li>
-    </researchPrerequisites>
     <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
     <uiIconScale>0.65</uiIconScale>
   </ThingDef>

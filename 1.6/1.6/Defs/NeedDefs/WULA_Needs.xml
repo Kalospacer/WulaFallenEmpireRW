@@ -40,9 +40,10 @@
         <minorBreakdownThreshold>0.5</minorBreakdownThreshold>
         <majorBreakdownThreshold>0.2</majorBreakdownThreshold>
         <criticalFailureThreshold>0.05</criticalFailureThreshold>
-        <severityPerDayBeforeThreshold>0.05</severityPerDayBeforeThreshold> <!-- 严重退化前的速率 -->
-        <severityPerDayAfterThreshold>0.1</severityPerDayAfterThreshold> <!-- 严重退化前的速率 -->
-        <thresholdDays>5</thresholdDays> <!-- 严重退化预期天数 -->
+        <severityPerDayBeforeThreshold>0.01</severityPerDayBeforeThreshold> <!-- 严重退化前的速率 -->
+        <severityPerDayAfterThreshold>0.05</severityPerDayAfterThreshold> <!-- 严重退化前的速率 -->
+        <thresholdDays>50</thresholdDays> <!-- 严重退化预期天数 -->
+        <damageToMaintenanceFactor>0.001</damageToMaintenanceFactor>
         <minorBreakdownHediff>WULA_Maintenance_MinorBreakdown</minorBreakdownHediff>
         <majorBreakdownHediff>WULA_Maintenance_MajorBreakdown</majorBreakdownHediff>
         <criticalFailureHediff>WULA_Maintenance_CriticalFailuren</criticalFailureHediff>

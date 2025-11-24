@@ -24,7 +24,7 @@
     
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Things/Item/Special/TechprintUltratech</texPath>
+      <texPath>Wula/Item/WULA_Techprint</texPath>
     </graphicData>
     
     <useHitPoints>false</useHitPoints>
@@ -86,7 +86,7 @@
     
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Things/Item/Special/TechprintUltratech</texPath>
+      <texPath>Wula/Item/WULA_Techprint</texPath>
     </graphicData>
     
     <useHitPoints>false</useHitPoints>
@@ -148,7 +148,7 @@
     
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Things/Item/Special/TechprintUltratech</texPath>
+      <texPath>Wula/Item/WULA_Techprint</texPath>
     </graphicData>
     
     <useHitPoints>false</useHitPoints>

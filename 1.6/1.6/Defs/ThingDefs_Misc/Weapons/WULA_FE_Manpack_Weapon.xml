@@ -110,7 +110,7 @@
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Melee_Weapon_T1</li>
     </weaponTags>
     <equippedAngleOffset>-65</equippedAngleOffset>
@@ -254,7 +254,7 @@
       <displayPriority>450</displayPriority>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Melee_Weapon_T2</li>
     </weaponTags>
     <comps>
@@ -297,7 +297,7 @@
       <drawSize>1.5</drawSize>
     </graphicData>
     <equippedAngleOffset>-65</equippedAngleOffset>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Melee_Weapon_T3</li>
     </weaponTags>
     <uiIconScale>0.8</uiIconScale>
@@ -422,7 +422,7 @@
     <recipeMaker>
       <recipeUsers Inherit="False" />
     </recipeMaker>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Constructor_Cat_Weapon</li>
     </weaponTags>
   </ThingDef>
@@ -511,7 +511,7 @@
       <WULA_Alloy>40</WULA_Alloy>
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T1</li>
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
@@ -595,7 +595,7 @@
     <label>DCs-7"黑曜石"</label>
     <description>乌拉帝国配发的近距离霰弹枪，以威力巨大的梭镖破甲弹为核心，专注于在短距离上的快速反应战斗和持续性压制能力</description>
     <techLevel>Ultra</techLevel>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <!-- <techLevel>Spacer</techLevel> -->
@@ -720,7 +720,7 @@
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
     </verbs>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <comps>
@@ -762,7 +762,7 @@
     <label>FLm-78"萤石"</label>
     <description>一般由乌拉帝国跳帮组或骑士军团携带的自动炮，在拥有长射程的同时火力也非常凶猛，会造成区域性的爆炸效果以控制集群敌军。它同时下挂了一具长射程的EMP榴弹发射器，可以用于控制机械族的集群冲击。</description>
     <techLevel>Ultra</techLevel>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T3</li>
     </weaponTags>
     <!-- <techLevel>Spacer</techLevel> -->
@@ -964,7 +964,7 @@
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T1</li>
     </weaponTags>
     <modExtensions>
@@ -1056,7 +1056,7 @@
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
       </li>
     </verbs>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <comps>
@@ -1149,7 +1149,7 @@
         <aimingChargeMoteOffset>1.07</aimingChargeMoteOffset>
       </li>
     </verbs>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Weapon_Init</li>
     </weaponTags>
     <comps>
@@ -1238,7 +1238,7 @@
     <label>FLm-43"榍石"</label>
     <description>乌拉帝国的通用机枪，负责在班组中提供如暴雨倾泻的高速连射光束流，产生的高温熔烧穿透效果极好，可以贯穿融化一条线上所有敌人。由于其光束武器的性质，在开始连射前有一段很长时间的预热，非常需要保护。</description>
     <techLevel>Ultra</techLevel>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T3</li>
     </weaponTags>
     <!-- <techLevel>Spacer</techLevel> -->
@@ -1342,7 +1342,7 @@
     <label>KRc-7"熔岩"</label>
     <description>由乌拉帝国跳帮组或骑士军团携带的手持光束炮，需要很长的时间进行瞄准，但是可以射出在远距离上击穿单体强大光束流。</description>
     <techLevel>Ultra</techLevel>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_Wall_Destoryer</li>
     </weaponTags>
     <graphicData>
@@ -1598,7 +1598,7 @@
     <defName>WULA_MW_Lance</defName>
     <label>CMl-28"铳枪"</label>
     <description>乌拉帝国骑士所喜爱的远近合一的重型近战武器，采用高强度纳米碳纤维复合材料内芯，外层覆盖着带有散热格栅和能量导流槽的记忆合金装甲板，既可以在近战中刺穿对手，也可以从远距离上发射光束融化敌军装甲。</description>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <!-- <li>Spear</li> -->
     </weaponTags>
     <equippedAngleOffset>50</equippedAngleOffset>
@@ -1898,7 +1898,7 @@
       <WULA_Alloy>150</WULA_Alloy>
       <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T2</li>
     </weaponTags>
     <comps>
@@ -2014,7 +2014,7 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.45</drawSize>
     </graphicData>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T3</li>
     </weaponTags>
     <uiIconScale>0.8</uiIconScale>
