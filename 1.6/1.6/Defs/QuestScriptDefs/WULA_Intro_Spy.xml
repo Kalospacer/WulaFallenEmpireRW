@@ -417,7 +417,7 @@
     <options>
       <li>
         <label>你们是谁？</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -435,7 +435,7 @@
       </li>
       <li>
         <label>我们能得到什么好处？</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -453,7 +453,7 @@
       </li>
       <li>
         <label>好的，我们会留意的</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -479,7 +479,7 @@
     <options>
       <li>
         <label>还有别的事情···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -508,7 +508,7 @@
     <options>
       <li>
         <label>还有别的事情···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -537,7 +537,7 @@
     <options>
       <li>
         <label>我们好像还不知道你的名字？</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -594,7 +594,7 @@
     <options>
       <li>
         <label>好的，奖励我们就收下了</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>

@@ -27,6 +27,190 @@ namespace WulaFallenEmpire
             }
         }
 
+        // 新增：自定义按钮样式设置
+        private static readonly Color CustomButtonNormalColor = new Color(0.5f, 0.2f, 0.2f, 1f);
+        private static readonly Color CustomButtonHoverColor = new Color(0.6f, 0.3f, 0.3f, 1f);
+        private static readonly Color CustomButtonDisabledColor = new Color(0.15f, 0.15f, 0.15f, 0.6f);
+
+        private static readonly Color CustomButtonTextNormalColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+        private static readonly Color CustomButtonTextHoverColor = new Color(1f, 1f, 1f, 1f);
+        private static readonly Color CustomButtonTextDisabledColor = new Color(0.6f, 0.6f, 0.6f, 1f);
+        // 绘制单个选项 - 使用自定义样式
+        private void DrawSingleOption(Rect rect, EventOption option)
+        {
+            string reason;
+            bool conditionsMet = AreConditionsMet(option.conditions, out reason);
+
+            // 水平居中选项
+            float optionWidth = Mathf.Min(rect.width, Config.optionSize.x * (rect.width / Config.windowSize.x));
+            float optionX = rect.x + (rect.width - optionWidth) / 2;
+            Rect optionRect = new Rect(optionX, rect.y, optionWidth, rect.height);
+            // 保存原始状态
+            Color originalColor = GUI.color;
+            GameFont originalFont = Text.Font;
+            Color originalTextColor = GUI.contentColor;
+            TextAnchor originalAnchor = Text.Anchor;
+            try
+            {
+                // 设置文本居中
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Text.Font = GameFont.Small;
+                if (conditionsMet)
+                {
+                    // 启用状态的选项 - 使用自定义样式
+                    if (option.useCustomColors)
+                    {
+                        // 使用选项自定义颜色
+                        DrawCustomButtonWithColors(optionRect, option.label.Translate(), option);
+                    }
+                    else
+                    {
+                        // 使用默认自定义颜色
+                        DrawCustomButton(optionRect, option.label.Translate(), isEnabled: true);
+                    }
+                    // 添加点击处理
+                    if (Widgets.ButtonInvisible(optionRect))
+                    {
+                        HandleAction(option.optionEffects);
+                    }
+                }
+                else
+                {
+                    // 禁用状态的选项 - 使用自定义禁用样式
+                    if (option.useCustomColors && option.disabledColor.HasValue)
+                    {
+                        // 使用选项自定义禁用颜色
+                        DrawCustomButtonWithColors(optionRect, option.label.Translate(), option, isEnabled: false);
+                    }
+                    else
+                    {
+                        // 使用默认自定义禁用颜色
+                        DrawCustomButton(optionRect, option.label.Translate(), isEnabled: false);
+                    }
+                    // 添加禁用提示
+                    TooltipHandler.TipRegion(optionRect, GetDisabledReason(option, reason).Translate());
+                }
+            }
+            finally
+            {
+                // 恢复原始状态
+                GUI.color = originalColor;
+                Text.Font = originalFont;
+                GUI.contentColor = originalTextColor;
+                Text.Anchor = originalAnchor;
+            }
+        }
+        /// <summary>
+        /// 绘制自定义按钮（基础版本）
+        /// </summary>
+        private void DrawCustomButton(Rect rect, string label, bool isEnabled = true)
+        {
+            bool isMouseOver = Mouse.IsOver(rect);
+
+            // 确定按钮状态颜色
+            Color buttonColor, textColor;
+
+            if (!isEnabled)
+            {
+                // 禁用状态
+                buttonColor = CustomButtonDisabledColor;
+                textColor = CustomButtonTextDisabledColor;
+            }
+            else if (isMouseOver)
+            {
+                // 悬停状态
+                buttonColor = CustomButtonHoverColor;
+                textColor = CustomButtonTextHoverColor;
+            }
+            else
+            {
+                // 正常状态
+                buttonColor = CustomButtonNormalColor;
+                textColor = CustomButtonTextNormalColor;
+            }
+            // 绘制按钮背景
+            GUI.color = buttonColor;
+            Widgets.DrawBoxSolid(rect, buttonColor);
+
+            // 绘制边框
+            if (isEnabled)
+            {
+                Widgets.DrawBox(rect, 1);
+            }
+            else
+            {
+                // 禁用状态的边框更细更暗
+                Widgets.DrawBox(rect, 1);
+            }
+            // 绘制文本
+            GUI.color = textColor;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(rect.ContractedBy(4f), label);
+
+            // 如果是禁用状态，添加删除线效果
+            if (!isEnabled)
+            {
+                GUI.color = new Color(0.6f, 0.6f, 0.6f, 0.8f);
+                Widgets.DrawLine(
+                    new Vector2(rect.x + 10f, rect.center.y),
+                    new Vector2(rect.xMax - 10f, rect.center.y),
+                    GUI.color,
+                    1f
+                );
+            }
+        }
+        /// <summary>
+        /// 绘制自定义按钮（使用选项自定义颜色）
+        /// </summary>
+        private void DrawCustomButtonWithColors(Rect rect, string label, EventOption option, bool isEnabled = true)
+        {
+            bool isMouseOver = Mouse.IsOver(rect);
+
+            // 确定按钮状态颜色
+            Color buttonColor, textColor;
+
+            if (!isEnabled)
+            {
+                // 禁用状态
+                buttonColor = option.disabledColor ?? CustomButtonDisabledColor;
+                textColor = option.textDisabledColor ?? CustomButtonTextDisabledColor;
+            }
+            else if (isMouseOver)
+            {
+                // 悬停状态
+                buttonColor = option.hoverColor ?? CustomButtonHoverColor;
+                textColor = option.textHoverColor ?? CustomButtonTextHoverColor;
+            }
+            else
+            {
+                // 正常状态
+                buttonColor = option.normalColor ?? CustomButtonNormalColor;
+                textColor = option.textColor ?? CustomButtonTextNormalColor;
+            }
+            // 绘制按钮背景
+            GUI.color = buttonColor;
+            Widgets.DrawBoxSolid(rect, buttonColor);
+
+            // 绘制边框
+            Widgets.DrawBox(rect);
+            // 绘制文本
+            GUI.color = textColor;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(rect.ContractedBy(4f), label);
+
+            // 如果是禁用状态，添加删除线效果
+            if (!isEnabled)
+            {
+                GUI.color = new Color(0.6f, 0.6f, 0.6f, 0.8f);
+                Widgets.DrawLine(
+                    new Vector2(rect.x + 10f, rect.center.y),
+                    new Vector2(rect.xMax - 10f, rect.center.y),
+                    GUI.color,
+                    1f
+                );
+            }
+        }
+
         // 使用配置的窗口尺寸
         public override Vector2 InitialSize
         {
@@ -339,90 +523,6 @@ namespace WulaFallenEmpire
                 {
                     DrawSingleOption(new Rect(optionsInnerRect.x, currentY, optionsInnerRect.width, scaledOptionSize.y), option);
                     currentY += scaledOptionSize.y + scaledOptionSpacing;
-                }
-            }
-        }
-        // 绘制单个选项 - 增强版本（修复版本）
-        private void DrawSingleOption(Rect rect, EventOption option)
-        {
-            string reason;
-            bool conditionsMet = AreConditionsMet(option.conditions, out reason);
-            // 水平居中选项
-            float optionWidth = Mathf.Min(rect.width, Config.optionSize.x * (rect.width / Config.windowSize.x));
-            float optionX = rect.x + (rect.width - optionWidth) / 2;
-            Rect optionRect = new Rect(optionX, rect.y, optionWidth, rect.height);
-            if (conditionsMet)
-            {
-                // 保存原始状态
-                Color originalColor = GUI.color;
-                GameFont originalFont = Text.Font;
-                Color originalTextColor = GUI.contentColor;
-                TextAnchor originalAnchor = Text.Anchor;
-                try
-                {
-                    // 应用自定义颜色
-                    if (option.useCustomColors)
-                    {
-                        ApplyOptionColors(option, optionRect);
-                    }
-                    // 设置文本居中
-                    Text.Anchor = TextAnchor.MiddleCenter;
-
-                    if (Widgets.ButtonText(optionRect, option.label.Translate()))
-                    {
-                        HandleAction(option.optionEffects);
-                    }
-                }
-                finally
-                {
-                    // 恢复原始状态
-                    GUI.color = originalColor;
-                    Text.Font = originalFont;
-                    GUI.contentColor = originalTextColor;
-                    Text.Anchor = originalAnchor;
-                }
-            }
-            else
-            {
-                // 禁用状态的选项 - 修复版本
-                Color originalColor = GUI.color;
-                GameFont originalFont = Text.Font;
-                Color originalTextColor = GUI.contentColor;
-                TextAnchor originalAnchor = Text.Anchor;
-                try
-                {
-                    // 设置禁用状态的颜色
-                    GUI.color = new Color(0.85f, 0.85f, 0.85f, 1f);
-                    GUI.contentColor = new Color(0.85f, 0.85f, 0.85f, 1f);
-                    Text.Font = GameFont.Small;
-                    // 修复：使用正确的 DrawBoxSolid 方法
-                    Widgets.DrawBoxSolid(optionRect, new Color(0.2f, 0.2f, 0.2f, 0.3f));
-                    Widgets.DrawBox(optionRect);
-                    // 设置文本居中
-                    Text.Anchor = TextAnchor.MiddleCenter;
-                    // 绘制居中的文本
-                    Rect textRect = optionRect.ContractedBy(4f);
-                    Widgets.Label(textRect, option.label.Translate());
-                    // 可选：在文本上添加删除线效果
-                    if (Config.drawBorders)
-                    {
-                        // 修复：使用正确的 DrawLine 方法
-                        Widgets.DrawLine(
-                            new Vector2(textRect.x, textRect.center.y),
-                            new Vector2(textRect.xMax, textRect.center.y),
-                            Color.gray,
-                            1f
-                        );
-                    }
-                    TooltipHandler.TipRegion(optionRect, GetDisabledReason(option, reason).Translate());
-                }
-                finally
-                {
-                    // 恢复原始状态
-                    GUI.color = originalColor;
-                    Text.Font = originalFont;
-                    GUI.contentColor = originalTextColor;
-                    Text.Anchor = originalAnchor;
                 }
             }
         }

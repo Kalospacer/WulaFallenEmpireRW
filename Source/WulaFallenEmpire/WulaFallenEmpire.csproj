@@ -125,6 +125,7 @@
     <Compile Include="EventSystem\Effect\EffectBase.cs" />
     <Compile Include="EventSystem\Effect\Effect_CallSkyfaller.cs" />
     <Compile Include="EventSystem\EventDef.cs" />
+    <Compile Include="EventSystem\EventUIButtonConfigDef.cs" />
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
     <Compile Include="EventSystem\EventVariableManager.cs" />
     <Compile Include="EventSystem\QuestNode\QuestNode_EventLetter.cs" />

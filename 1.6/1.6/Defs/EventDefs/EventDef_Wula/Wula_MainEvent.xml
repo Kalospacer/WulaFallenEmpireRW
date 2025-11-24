@@ -11,14 +11,28 @@
       <li>早在这些生物的祖先还在有机汤里面翻滚时，我们就已经是这个银河系的霸主了——以前如此，今后也会如此。</li>
       <li>一般来说，我们并不喜欢暴力和流血冲突，如果这些星系的原住民能更配合点就好了。</li>
     </descriptions>
+    <immediateEffects>
+      <li>
+        <effects>
+          <!-- 获取好感 -->
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_Goodwill_To_PIA</name>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
+            <factionDef>Wula_PIA_Legion_Faction</factionDef>
+            <variableName>Wula_Goodwill_To_PIA</variableName>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
     <options>
       <li>
-        <label>我想问些事情</label>
-        <useCustomColors>true</useCustomColors>
-        <normalColor>(255,255,255,255)</normalColor>
+        <label>我想问些事情···</label>
+        <!-- <useCustomColors>false</useCustomColors>
+        <normalColor>(130,49,47,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
-        <textColor>(255,255,255,255)</textColor>
-        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <textColor>(171,87,85,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor> -->
         <optionEffects>
           <li>
             <effects>
@@ -28,8 +42,16 @@
         </optionEffects>
       </li>
       <li>
-        <label>我们要申请支援！</label>
-        <useCustomColors>true</useCustomColors>
+        <label>我们要申请支援···</label>
+        <disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</disabledReason>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>-75</value>
+          </li>
+        </conditions>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -46,8 +68,15 @@
         </optionEffects>
       </li>
       <li>
-        <label>我们想要接受晋级审查</label>
-        <useCustomColors>true</useCustomColors>
+        <label>我们想要接受晋级审查···</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableLessThanOrEqual">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -65,7 +94,7 @@
       </li>
       <li>
         <label>再见</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -109,6 +138,11 @@
             <value>0</value>
             <type>Int</type>
           </li>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>1</value>
+            <type>Int</type>
+          </li>
 
           <!-- 获取好感 -->
           <li Class="WulaFallenEmpire.Effect_ClearVariable">
@@ -144,7 +178,7 @@
         </optionEffects>
       </li>
       <li>
-        <label>我们需要一只新的机械乌拉</label>
+        <label>我们需要人手增援</label>
         <disabledReason>你们不会自己去造吗？</disabledReason>
         <hideWhenDisabled>false</hideWhenDisabled>
         <conditions>
@@ -187,7 +221,7 @@
       </li>
       <li>
         <label>还有其他事情···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -213,20 +247,6 @@
     <descriptions>
       <li>原来是来要钱的嘛···我可以给你们调拨一轮紧急资金，但是这是有限的，并且仅能作殖民地发展之用。\n\n话说回来，你们真的缺钱吗，我怎么有点不信？</li>
     </descriptions>
-    <immediateEffects>
-      <li>
-        <effects>
-          <!-- 获取好感 -->
-          <li Class="WulaFallenEmpire.Effect_ClearVariable">
-            <name>Wula_Goodwill_To_PIA</name>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
-            <factionDef>Wula_PIA_Legion_Faction</factionDef>
-            <variableName>Wula_Goodwill_To_PIA</variableName>
-          </li>
-        </effects>
-      </li>
-    </immediateEffects>
     <options>
       <li>
         <label>对的对的，我们是真穷！</label>
@@ -260,6 +280,85 @@
         </optionEffects>
       </li>
       <li>
+        <label>其实比起钱我们更需要零部件···</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_31A</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>还是算了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Legion_31A</defName>
+    <label>和P.I.A的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_5</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>很具体的要求，看起来你们是遇到了一点零件大危机？我空投一些给你们吧，但是要记住免费的零部件可不会老是从天上掉下来。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>是的，我们被卡脖子了</label>
+        <disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</disabledReason>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>-75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_GiveThing">
+                <thingDef>ComponentIndustrial</thingDef>
+                <count>30</count>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_GiveThing">
+                <thingDef>ComponentSpacer</thingDef>
+                <count>4</count>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>Wula_Has_Receive_Silver_From_PIA</name>
+                <value>1</value>
+                <operation>Add</operation>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_ShowMessage">
+                <message>P.I.A的紧急物资已经空投（30零部件4高级零部件）</message>
+                <messageTypeDef>PositiveEvent</messageTypeDef>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
         <label>还是算了</label>
         <optionEffects>
           <li>
@@ -282,20 +381,6 @@
     <descriptions>
       <li>唔，现在我手上确实有一台乌拉帝国合成人还没有分配殖民地，你们需要的话可以划拨给你们。但是下次你们得记得自己造——造合成人的材料是要花项目资金的。</li>
     </descriptions>
-    <immediateEffects>
-      <li>
-        <effects>
-          <!-- 获取好感 -->
-          <li Class="WulaFallenEmpire.Effect_ClearVariable">
-            <name>Wula_Goodwill_To_PIA</name>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
-            <factionDef>Wula_PIA_Legion_Faction</factionDef>
-            <variableName>Wula_Goodwill_To_PIA</variableName>
-          </li>
-        </effects>
-      </li>
-    </immediateEffects>
     <options>
       <li>
         <label>我们欣然接受</label>
@@ -316,6 +401,88 @@
                 <joinPlayerFaction>true</joinPlayerFaction>
                 <letterLabel>机械乌拉加入殖民地</letterLabel>
                 <letterText>一台乌拉帝国合成人受命加入了殖民地。</letterText>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>Wula_Has_Receive_MechWula_From_PIA</name>
+                <value>1</value>
+                <operation>Add</operation>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们想要的是一些机械乌拉猫猫···</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_32A</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>还是算了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Legion_32A</defName>
+    <label>和P.I.A的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_5</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>缺廉价劳动力吗？那我把手边的乌拉猫猫都扔下去吧，应该有十来只，够你们用的了。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>这正是我们想要的</label>
+        <disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</disabledReason>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>-75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_SpawnPawn">
+                <kindDef>Mech_WULA_Cat_Constructor</kindDef>
+                <count>3</count>
+                <joinPlayerFaction>true</joinPlayerFaction>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_SpawnPawn">
+                <kindDef>Mech_WULA_Cat_Assault</kindDef>
+                <count>3</count>
+                <joinPlayerFaction>true</joinPlayerFaction>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_SpawnPawn">
+                <kindDef>Mech_WULA_Cat</kindDef>
+                <count>3</count>
+                <joinPlayerFaction>true</joinPlayerFaction>
               </li>
               <li Class="WulaFallenEmpire.Effect_ModifyVariable">
                 <name>Wula_Has_Receive_MechWula_From_PIA</name>
@@ -350,20 +517,6 @@
     <descriptions>
       <li>遇到麻烦了？我可以把手上的特遣队丢下去，你们记得找好掩体。</li>
     </descriptions>
-    <immediateEffects>
-      <li>
-        <effects>
-          <!-- 获取好感 -->
-          <li Class="WulaFallenEmpire.Effect_ClearVariable">
-            <name>Wula_Goodwill_To_PIA</name>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_CheckFactionGoodwill">
-            <factionDef>Wula_PIA_Legion_Faction</factionDef>
-            <variableName>Wula_Goodwill_To_PIA</variableName>
-          </li>
-        </effects>
-      </li>
-    </immediateEffects>
     <options>
       <li>
         <label>再不来我们要死完啦</label>
@@ -405,6 +558,89 @@
         </optionEffects>
       </li>
       <li>
+        <label>有没有更重型的部队···</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_33A</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>还是算了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Legion_33A</defName>
+    <label>和P.I.A的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>你们要申请重装部队支援？倒也可以，她们的人数比冲锋队少很多，但是都是精锐部队——小心别被她们的迫击炮炸到。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>这正是我们想要的</label>
+        <disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</disabledReason>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>-75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>Wula_Has_Receive_Reinforcement_From_PIA</name>
+                <value>1</value>
+                <operation>Add</operation>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_TriggerRaid">
+                <points>4000</points>
+                <faction>Wula_PIA_Legion_Faction</faction>
+                <raidStrategy>ImmediateAttackFriendly</raidStrategy>
+                <raidArrivalMode>EdgeDropGroups</raidArrivalMode>
+                <groupKind>Combat</groupKind>
+                <pawnGroupMakers>
+                  <li>
+                    <kindDef>Combat</kindDef>
+                    <commonality>100</commonality>
+                    <options>
+                      <Wula_PIA_Heavy_Unit>1</Wula_PIA_Heavy_Unit>
+                    </options>
+                  </li>
+                </pawnGroupMakers>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
         <label>还是算了</label>
         <optionEffects>
           <li>
@@ -433,7 +669,7 @@
     <options>
       <li>
         <label>好的</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>

@@ -59,7 +59,7 @@
     <options>
       <li>
         <label>你是谁？</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -77,7 +77,7 @@
       </li>
       <li>
         <label>我们需要做什么？（发展流程）</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -95,7 +95,7 @@
       </li>
       <li>
         <label>收到，帝国荣光永存</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -124,7 +124,7 @@
     <options>
       <li>
         <label>行星封锁机关？</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -142,7 +142,7 @@
       </li>
       <li>
         <label>机械行会？</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -160,7 +160,7 @@
       </li>
       <li>
         <label>我们没有相关问题了···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -189,7 +189,7 @@
     <options>
       <li>
         <label>我们还有别的问题···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -207,7 +207,7 @@
       </li>
       <li>
         <label>我们没有相关问题了···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -236,7 +236,7 @@
     <options>
       <li>
         <label>我们还有别的问题···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -254,7 +254,7 @@
       </li>
       <li>
         <label>我们没有相关问题了···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -283,7 +283,7 @@
     <options>
       <li>
         <label>我们还有别的问题···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -301,7 +301,7 @@
       </li>
       <li>
         <label>我们没有相关问题了···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -330,7 +330,7 @@
     <options>
       <li>
         <label>你是谁？</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -348,7 +348,7 @@
       </li>
       <li>
         <label>我们需要做什么？（发展流程）</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -366,7 +366,7 @@
       </li>
       <li>
         <label>收到，帝国荣光永存</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -395,7 +395,7 @@
     <options>
       <li>
         <label>（结束通讯）</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>

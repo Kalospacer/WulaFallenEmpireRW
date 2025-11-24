@@ -11,7 +11,7 @@
     <options>
       <li>
         <label>我们准备好了</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -29,7 +29,7 @@
       </li>
       <li>
         <label>现在不是太合适···</label>
-        <useCustomColors>true</useCustomColors>
+        <useCustomColors>false</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
         <hoverColor>(157,201,185,195)</hoverColor>
         <textColor>(255,255,255,255)</textColor>
@@ -491,6 +491,10 @@
               <li Class="QuestNode_AddItemsReward">
                 <items>$promotionReward</items>
               </li>
+              <li Class="WulaFallenEmpire.QuestNode_EventLetter">
+                <inSignal>pickupShipThing.SentSatisfied</inSignal>
+                <eventDefName>WULA_GiveQuest_Colony_Promotion_UI_2</eventDefName>
+              </li>
               <li Class="QuestNode_End">
                 <outcome>Success</outcome>
                 <sendStandardLetter>true</sendStandardLetter>
@@ -539,4 +543,51 @@
       </options>
     </root>
   </ThingSetMakerDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_GiveQuest_Colony_Promotion_UI_2</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>看起来你们的殖民地还不错，井井有条并且符合帝国法典和章程——你们值得一个更高位的许可，稍后我会通过运输舱把晋升许可寄给你们。\n\n此外，我也将你们的支援系统重置了，你们可以再次申请之前申请过的支援，并且新的支援也会开放给你们。继续发展你们的殖民地，我就能帮你们申请更高级的权限。\n\n帝国荣光永存。</li>
+    </descriptions>
+    <immediateEffects>
+      <li>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_Has_Receive_Reinforcement_From_PIA</name>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_Has_Receive_MechWula_From_PIA</name>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_Has_Receive_Silver_From_PIA</name>
+          </li>
+          <!-- 在进入任务前，一定会点开mainevent，姑且认为该var不会为空 -->
+          <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>1</value>
+            <operation>Add</operation>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
+    <options>
+      <li>
+        <label>帝国荣光永存</label>
+        <useCustomColors>false</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
 </Defs>
