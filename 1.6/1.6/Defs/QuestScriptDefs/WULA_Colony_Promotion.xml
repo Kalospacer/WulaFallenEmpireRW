@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- 初始任务 -->
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_GiveQuest_Colony_Promotion_UI_1</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>晋级审查是一件大事情——你们确定你们已经准备好了吗？\n\n我和你们重申一下流程吧，我会派遣自己的一个分体和护卫队在你们殖民地考察12天，你要照顾我的分体和卫队的起居。如果一切顺利，考察完成之后你们将获得殖民地晋升的机会，舰队会为你们开放更多的许可科技。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>我们准备好了</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_AddQuest">
+                <quest>WULA_Colony_Promotion</quest>
+              </li>
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>现在不是太合适···</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
   <IncidentDef>
     <defName>WULA_GiveQuest_Colony_Promotion</defName>
     <category>GiveQuest</category>
@@ -35,6 +81,18 @@
     <root Class="QuestNode_Sequence">
       <nodes>
         <li Class="QuestNode_GetMap" />
+
+        <!-- 生成物品奖励 -->
+        <li Class="QuestNode_GenerateThingSet">
+          <thingSetMaker>WULA_Colony_Promotion_Reward</thingSetMaker>
+          <storeAs>promotionReward</storeAs>
+        </li>
+        <!-- 产生超链接 -->
+        <li Class="WulaFallenEmpire.QuestNode_Hyperlinks">
+          <factionDefs>
+            <li>Wula_PIA_Legion_Faction</li>
+          </factionDefs>
+        </li>
 
         <!-- End if map removed -->
         <li Class="QuestNode_End">
@@ -428,9 +486,16 @@
         <!-- Shuttle sent away -->
         <li Class="QuestNode_Signal">
           <inSignal>pickupShipThing.SentSatisfied</inSignal>
-          <node Class="QuestNode_End">
-            <outcome>Success</outcome>
-            <sendStandardLetter>true</sendStandardLetter>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_AddItemsReward">
+                <items>$promotionReward</items>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Success</outcome>
+                <sendStandardLetter>true</sendStandardLetter>
+              </li>
+            </nodes>
           </node>
         </li>
         <li Class="QuestNode_Signal">
@@ -454,4 +519,24 @@
       </nodes>
     </root>
   </QuestScriptDef>
+  <ThingSetMakerDef>
+    <defName>WULA_Colony_Promotion_Reward</defName>
+    <root Class="ThingSetMaker_RandomOption">
+      <options>
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Techprint_WULA_Colony_License_LV2_Technology</li>
+                </thingDefs>
+              </filter>
+              <countRange>1</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+      </options>
+    </root>
+  </ThingSetMakerDef>
 </Defs>

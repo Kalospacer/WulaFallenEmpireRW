@@ -46,6 +46,24 @@
         </optionEffects>
       </li>
       <li>
+        <label>我们想要接受晋级审查</label>
+        <useCustomColors>true</useCustomColors>
+        <normalColor>(255,255,255,255)</normalColor>
+        <hoverColor>(157,201,185,195)</hoverColor>
+        <textColor>(255,255,255,255)</textColor>
+        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_GiveQuest_Colony_Promotion_UI_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
         <label>再见</label>
         <useCustomColors>true</useCustomColors>
         <normalColor>(255,255,255,255)</normalColor>
@@ -376,7 +394,7 @@
                     <kindDef>Combat</kindDef>
                     <commonality>100</commonality>
                     <options>
-                      <Wula_PIA_Heavy_Unit>1</Wula_PIA_Heavy_Unit>
+                      <Wula_PIA_Light_Unit>1</Wula_PIA_Light_Unit>
                     </options>
                   </li>
                 </pawnGroupMakers>

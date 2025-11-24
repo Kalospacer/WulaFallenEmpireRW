@@ -512,7 +512,7 @@
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <weaponTags>
-      <li>Wula_Weapon_Init</li>
+      <li>Wula_Ranged_Weapon_T1</li>
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
     <comps>
@@ -547,6 +547,7 @@
     <showPsycastEffects>False</showPsycastEffects>
     <hotKey>Misc11</hotKey>
     <showOnCharacterCard>false</showOnCharacterCard>
+    <aiCanUse>true</aiCanUse>
     <cooldownTicksRange>12800</cooldownTicksRange>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
@@ -964,7 +965,7 @@
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <weaponTags>
-      <li>Wula_Ranged_Weapon_T2</li>
+      <li>Wula_Ranged_Weapon_T1</li>
     </weaponTags>
     <modExtensions>
       <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
@@ -1746,6 +1747,9 @@
       <li>ApparelUtility</li>
     </thingCategories>
     <apparel>
+      <tags>
+        <li>WULA_Manpack_Loitering_Munition</li>
+      </tags>
       <countsAsClothingForNudity>false</countsAsClothingForNudity>
       <scoreOffset>4</scoreOffset>
       <careIfWornByCorpse>false</careIfWornByCorpse>

@@ -62,7 +62,7 @@
         </li>
         <li Class="QuestNode_Set">
           <name>taxInterval</name>
-          <value>250</value> <!-- 较短的测试间隔 -->
+          <value>600</value> <!-- 较短的测试间隔 -->
         </li>
 
         <li Class="QuestNode_Multiply">

@@ -564,9 +564,7 @@
     </costList>
     <apparel>
       <tags>
-        <li>Wula_Armor_Heavy</li>
-        <li>RoyalTier5</li>
-        <li>Royal</li>
+        <li>Wula_Armor_Light</li>
       </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_PowerArmor</wornGraphicPath>
     </apparel>
@@ -621,9 +619,7 @@
     </statBases>
     <apparel>
       <tags>
-        <li>Wula_Armor_Heavy</li>
-        <li>RoyalTier5</li>
-        <li>Royal</li>
+        <li>Wula_Armor_Light</li>
       </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_Helmet</wornGraphicPath>
     </apparel>
@@ -804,7 +800,7 @@
     </costList>
     <apparel>
       <tags>
-        <li>Wula_Armor_Super_Heavy</li>
+        <li>Wula_Armor_Shield</li>
       </tags>
       <bodyPartGroups>
         <li>Torso</li>

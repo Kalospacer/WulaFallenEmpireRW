@@ -449,7 +449,6 @@ namespace WulaFallenEmpire
     public class Effect_AddQuest : EffectBase
     {
         public QuestScriptDef quest;
-
         public override void Execute(Window dialog = null)
         {
             if (quest == null)
@@ -457,11 +456,23 @@ namespace WulaFallenEmpire
                 Log.Error("[WulaFallenEmpire] Effect_AddQuest has a null quest Def.");
                 return;
             }
+            // 使用标准的任务生成方法，而不是创建raw quest
+            Quest newQuest = QuestUtility.GenerateQuestAndMakeAvailable(quest, 0);
 
-            Quest newQuest = Quest.MakeRaw();
-            newQuest.root = quest;
-            newQuest.id = Find.UniqueIDsManager.GetNextQuestID();
-            Find.QuestManager.Add(newQuest);
+            if (newQuest != null)
+            {
+                Log.Message($"[WulaFallenEmpire] Successfully added quest: {quest.defName}");
+
+                // 如果不是自动接受的任务，发送可用信件
+                if (!newQuest.root.autoAccept)
+                {
+                    QuestUtility.SendLetterQuestAvailable(newQuest);
+                }
+            }
+            else
+            {
+                Log.Error($"[WulaFallenEmpire] Failed to generate quest: {quest.defName}");
+            }
         }
     }
 

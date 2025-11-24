@@ -378,6 +378,22 @@
           <insertTag>Humanlike_PreMain</insertTag>
         </li>
         
+        <!-- 添加军团成员的考察工作，优先级较低 -->
+        <!-- Idle wild man -->
+        <li Class="ThinkNode_ConditionalPawnKind">
+          <pawnKind>WULA_Legion_PawnKind</pawnKind>
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Misc</tagToGive>
+              <subNodes>
+                <li Class="WulaFallenEmpire.JobGiver_InspectBuilding">
+                  <priority>15.0</priority>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        
         <!-- Main colonist behavior core -->
         <li Class="ThinkNode_ConditionalColonist">
           <subNodes>
@@ -401,22 +417,6 @@
         <!-- Insertion hook for modders -->
         <li Class="ThinkNode_SubtreesByTag">
           <insertTag>Humanlike_PostMain</insertTag>
-        </li>
-        
-        <!-- 添加军团成员的考察工作，优先级较低 -->
-        <!-- Idle wild man -->
-        <li Class="ThinkNode_ConditionalPawnKind">
-          <pawnKind>WULA_Legion_PawnKind</pawnKind>
-          <subNodes>
-            <li Class="ThinkNode_Tagger">
-              <tagToGive>Misc</tagToGive>
-              <subNodes>
-                <li Class="WulaFallenEmpire.JobGiver_InspectBuilding">
-                  <priority>4.0</priority>
-                </li>
-              </subNodes>
-            </li>
-          </subNodes>
         </li>
 
         <!-- Idle colonist -->
