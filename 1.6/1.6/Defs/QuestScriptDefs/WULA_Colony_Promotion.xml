@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <WulaFallenEmpire.EventDef>
-    <defName>WULA_GiveQuest_Colony_Promotion_UI_1</defName>
+    <defName>WULA_Colony_Promotion_UI_1</defName>
     <label>未知通讯</label>
     <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
     <characterName>「军团」,P.I.A</characterName>
@@ -12,17 +12,24 @@
       <li>
         <label>我们准备好了</label>
         <useCustomColors>false</useCustomColors>
-        <normalColor>(255,255,255,255)</normalColor>
-        <hoverColor>(157,201,185,195)</hoverColor>
-        <textColor>(255,255,255,255)</textColor>
-        <textHoverColor>(255,255,255,255)</textHoverColor>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <disabledReason>我记得我已经送了一个分体去你们殖民地了？在30天内，我不会再派出审查队。</disabledReason>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_FlagNotExists">
+            <flagName>WULA_Colony_Promotion_Lock</flagName>
+          </li>
+        </conditions>
         <optionEffects>
           <li>
             <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+              <li Class="WulaFallenEmpire.Effect_SetTimedFlag">
+                <flagName>WULA_Colony_Promotion_Lock</flagName>
+                <durationTicks>1800000</durationTicks>
+              </li>
               <li Class="WulaFallenEmpire.Effect_AddQuest">
                 <quest>WULA_Colony_Promotion</quest>
               </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
           </li>
         </optionEffects>
@@ -30,10 +37,6 @@
       <li>
         <label>现在不是太合适···</label>
         <useCustomColors>false</useCustomColors>
-        <normalColor>(255,255,255,255)</normalColor>
-        <hoverColor>(157,201,185,195)</hoverColor>
-        <textColor>(255,255,255,255)</textColor>
-        <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>
           <li>
             <effects>
@@ -328,9 +331,9 @@
             <parms>
               <allowedThreats>Raids</allowedThreats>
               <onDays>1.0</onDays>
-              <offDays>0.5</offDays>
+              <offDays>1.5</offDays>
               <minSpacingDays>0.04</minSpacingDays>
-              <numIncidentsRange>1~1.5</numIncidentsRange>
+              <numIncidentsRange>1~1</numIncidentsRange>
               <currentThreatPointsFactor>1.1</currentThreatPointsFactor>
               <minThreatPoints>500</minThreatPoints>
             </parms>
@@ -375,7 +378,7 @@
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
-                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
                 <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
                 <goodwillChangeReason>QuestPawnArrested</goodwillChangeReason>
               </li>
@@ -395,7 +398,7 @@
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
-                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
                 <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
                 <goodwillChangeReason>PerformedHarmfulSurgery</goodwillChangeReason>
               </li>
@@ -415,7 +418,7 @@
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
-                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
                 <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
                 <goodwillChangeReason>XenogermAbsorbed</goodwillChangeReason>
               </li>
@@ -435,7 +438,7 @@
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
-                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
                 <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
                 <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
               </li>
@@ -455,7 +458,7 @@
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
-                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
                 <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
                 <goodwillChangeReason>ShuttleDestroyed</goodwillChangeReason>
               </li>
@@ -475,7 +478,7 @@
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
-                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
                 <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
                 <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
               </li>
@@ -493,7 +496,7 @@
               </li>
               <li Class="WulaFallenEmpire.QuestNode_EventLetter">
                 <inSignal>pickupShipThing.SentSatisfied</inSignal>
-                <eventDefName>WULA_GiveQuest_Colony_Promotion_UI_2</eventDefName>
+                <eventDefName>WULA_Colony_Promotion_UI_2</eventDefName>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Success</outcome>
@@ -513,7 +516,7 @@
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
-                <goodwillChangeAmount>-5</goodwillChangeAmount>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
                 <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
                 <goodwillChangeReason>MemberMissedShuttle</goodwillChangeReason>
               </li>
@@ -544,7 +547,7 @@
     </root>
   </ThingSetMakerDef>
   <WulaFallenEmpire.EventDef>
-    <defName>WULA_GiveQuest_Colony_Promotion_UI_2</defName>
+    <defName>WULA_Colony_Promotion_UI_2</defName>
     <label>未知通讯</label>
     <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
     <characterName>「军团」,P.I.A</characterName>
@@ -576,10 +579,6 @@
       <li>
         <label>帝国荣光永存</label>
         <useCustomColors>false</useCustomColors>
-        <normalColor>(255,255,255,255)</normalColor>
-        <hoverColor>(157,201,185,195)</hoverColor>
-        <textColor>(255,255,255,255)</textColor>
-        <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>
           <li>
             <effects>

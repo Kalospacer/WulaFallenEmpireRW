@@ -100,7 +100,7 @@
     <defName>WULA_ClearFlightPath</defName>
     <label>航道净空</label>
     <description>使近地轨道上的舰队离开，以使得其他乌拉帝国舰队可以入场</description>
-    <iconPath>Wula/UI/Abilities/WULA_CallConstructionShip</iconPath>
+    <iconPath>Wula/UI/Abilities/WULA_ClearFlightPath</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
@@ -918,8 +918,8 @@
         <bombardmentWidth>35</bombardmentWidth>
         <bombardmentLength>70</bombardmentLength>
         <targetSelectionChance>0.1</targetSelectionChance>
-        <minTargetCells>16</minTargetCells>
-        <maxTargetCells>16</maxTargetCells>
+        <minTargetCells>8</minTargetCells>
+        <maxTargetCells>8</maxTargetCells>
         <warmupTicks>240</warmupTicks>
         <rowDelayTicks>30</rowDelayTicks>
         <impactDelayTicks>2</impactDelayTicks>

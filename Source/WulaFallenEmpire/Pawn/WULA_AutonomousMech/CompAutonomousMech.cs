@@ -207,6 +207,112 @@ namespace WulaFallenEmpire
             {
                 yield return new DroneGizmo(this);
             }
+
+            // 更换武器按钮（仅当有装备武器时显示）
+            if (MechPawn.equipment?.Primary != null)
+            {
+                yield return CreateWeaponSwitchGizmo();
+            }
+        }
+
+        /// <summary>
+        /// 创建更换武器的Gizmo
+        /// </summary>
+        private Gizmo CreateWeaponSwitchGizmo()
+        {
+            Command_Action switchWeaponCommand = new Command_Action
+            {
+                defaultLabel = "WULA_SwitchWeapon".Translate(),
+                defaultDesc = "WULA_SwitchWeapon_Desc".Translate(),
+                icon = ContentFinder<Texture2D>.Get("Wula/UI/Abilities/WULA_WeaponSwitchAbility", false) ?? BaseContent.BadTex,
+                action = SwitchWeapon
+            };
+
+            return switchWeaponCommand;
+        }
+
+        /// <summary>
+        /// 更换武器逻辑
+        /// </summary>
+        private void SwitchWeapon()
+        {
+            if (MechPawn == null || MechPawn.Destroyed || !MechPawn.Spawned)
+                return;
+
+            try
+            {
+                // 1. 扔掉当前武器
+                ThingWithComps currentWeapon = MechPawn.equipment?.Primary;
+                if (currentWeapon != null)
+                {
+                    // 将武器扔在地上
+                    MechPawn.equipment.TryDropEquipment(currentWeapon, out ThingWithComps droppedWeapon, MechPawn.Position, true);
+                    
+                    if (Prefs.DevMode)
+                    {
+                        Log.Message($"[CompAutonomousMech] {MechPawn.LabelCap} dropped weapon: {currentWeapon.LabelCap}");
+                    }
+                }
+
+                // 2. 从PawnKind允许的武器中生成新武器
+                ThingDef newWeaponDef = GetRandomWeaponFromPawnKind();
+                if (newWeaponDef != null)
+                {
+                    // 生成新武器
+                    Thing newWeapon = ThingMaker.MakeThing(newWeaponDef);
+                    if (newWeapon is ThingWithComps newWeaponWithComps)
+                    {
+                        // 使用 AddEquipment 方法装备新武器
+                        MechPawn.equipment.AddEquipment(newWeaponWithComps);
+                        
+                        Messages.Message("WULA_WeaponSwitched".Translate(MechPawn.LabelCap, newWeaponDef.LabelCap), 
+                            MechPawn, MessageTypeDefOf.PositiveEvent);
+                        
+                        if (Prefs.DevMode)
+                        {
+                            Log.Message($"[CompAutonomousMech] {MechPawn.LabelCap} equipped new weapon: {newWeaponDef.LabelCap}");
+                        }
+                    }
+                }
+                else
+                {
+                    Messages.Message("WULA_NoWeaponAvailable".Translate(MechPawn.LabelCap), 
+                        MechPawn, MessageTypeDefOf.NegativeEvent);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[CompAutonomousMech] Error switching weapon for {MechPawn?.LabelCap}: {ex}");
+            }
+        }
+
+        /// <summary>
+        /// 从PawnKind允许的武器中随机获取一个武器定义
+        /// </summary>
+        private ThingDef GetRandomWeaponFromPawnKind()
+        {
+            if (MechPawn.kindDef?.weaponTags == null || MechPawn.kindDef.weaponTags.Count == 0)
+                return null;
+
+            // 收集所有匹配的武器
+            List<ThingDef> availableWeapons = new List<ThingDef>();
+            
+            foreach (string weaponTag in MechPawn.kindDef.weaponTags)
+            {
+                foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                {
+                    if (thingDef.IsWeapon && thingDef.weaponTags != null && thingDef.weaponTags.Contains(weaponTag))
+                    {
+                        availableWeapons.Add(thingDef);
+                    }
+                }
+            }
+
+            if (availableWeapons.Count == 0)
+                return null;
+
+            // 随机选择一个武器
+            return availableWeapons.RandomElement();
         }
 
         public void SetWorkMode(DroneWorkModeDef mode)

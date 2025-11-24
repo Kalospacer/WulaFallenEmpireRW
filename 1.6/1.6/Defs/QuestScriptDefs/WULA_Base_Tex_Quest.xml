@@ -210,10 +210,6 @@
       <li>
         <label>下次一定</label>
         <useCustomColors>false</useCustomColors>
-        <normalColor>(255,255,255,255)</normalColor>
-        <hoverColor>(157,201,185,195)</hoverColor>
-        <textColor>(255,255,255,255)</textColor>
-        <textHoverColor>(255,255,255,255)</textHoverColor>
         <optionEffects>
           <li>
             <effects>

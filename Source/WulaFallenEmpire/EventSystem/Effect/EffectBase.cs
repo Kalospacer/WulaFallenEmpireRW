@@ -68,7 +68,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        private bool AreConditionsMet(List<Condition> conditions, out string reason)
+        private bool AreConditionsMet(List<ConditionBase> conditions, out string reason)
         {
             reason = "";
             if (conditions.NullOrEmpty())

@@ -3,12 +3,12 @@ using RimWorld;
 
 namespace WulaFallenEmpire
 {
-    public abstract class Condition
+    public abstract class ConditionBase
     {
         public abstract bool IsMet(out string reason);
     }
 
-    public class Condition_VariableEquals : Condition
+    public class Condition_VariableEquals : ConditionBase
     {
         public string name;
         public string value;
@@ -75,7 +75,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    public abstract class Condition_CompareVariable : Condition
+    public abstract class Condition_CompareVariable : ConditionBase
     {
         public string name;
         public float value;
@@ -145,7 +145,7 @@ namespace WulaFallenEmpire
         protected override string GetOperatorString() => "<=";
     }
 
-    public class Condition_VariableNotEqual : Condition
+    public class Condition_VariableNotEqual : ConditionBase
     {
         public string name;
         public string value;
@@ -213,7 +213,7 @@ namespace WulaFallenEmpire
         }
     }
     
-    public class Condition_FactionExists : Condition
+    public class Condition_FactionExists : ConditionBase
     {
         public FactionDef factionDef;
 

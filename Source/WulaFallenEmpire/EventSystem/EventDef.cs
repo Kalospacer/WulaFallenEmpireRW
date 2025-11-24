@@ -71,7 +71,7 @@ namespace WulaFallenEmpire
     {
         [MustTranslate]
         public string label;
-        public List<Condition> conditions;
+        public List<ConditionBase> conditions;
         [MustTranslate]
         public string disabledReason;
         public bool hideWhenDisabled = true;
@@ -102,7 +102,7 @@ namespace WulaFallenEmpire
 
     public class ConditionalEffects
     {
-        public List<Condition> conditions;
+        public List<ConditionBase> conditions;
         public List<EffectBase> effects;
         public List<EffectBase> randomlistEffects;
         public List<LoopEffects> loopEffects;
@@ -164,7 +164,7 @@ namespace WulaFallenEmpire
 
     public class ConditionalDescription
     {
-        public List<Condition> conditions;
+        public List<ConditionBase> conditions;
         [MustTranslate]
         public string text;
     }
