@@ -301,4 +301,9 @@
   <ToggleAreaDamageDesc>启用或禁用区域伤害效果</ToggleAreaDamageDesc>
   <AreaDamageEnabled>区域伤害：已启用</AreaDamageEnabled>
   <AreaDamageDisabled>区域伤害：已禁用</AreaDamageDisabled>
+
+  <WULA_SwitchWeapon>更换武器</WULA_SwitchWeapon>
+  <WULA_SwitchWeapon_Desc>扔掉当前武器，并装备该单位的初始武器</WULA_SwitchWeapon_Desc>
+  <WULA_WeaponSwitched>{0} 更换了武器为 {1}</WULA_WeaponSwitched>
+  <WULA_NoWeaponAvailable>{0} 没有可用的武器类型</WULA_NoWeaponAvailable>
 </LanguageData>

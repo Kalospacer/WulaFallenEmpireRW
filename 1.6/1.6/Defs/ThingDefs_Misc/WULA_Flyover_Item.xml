@@ -252,8 +252,8 @@
       <!-- 入场信封信息 -->
       <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
         <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
-        <letterLabel>帝国航空舰已抵达</letterLabel>
-        <letterText>一艘帝国航空舰响应请求抵达殖民地上空！</letterText>
+        <letterLabel>帝国攻击舰队已抵达</letterLabel>
+        <letterText>帝国攻击舰队响应请求抵达殖民地上空！</letterText>
         <letterDef>PositiveEvent</letterDef>
         <onlySendOnce>true</onlySendOnce>
         <requireOnMap>true</requireOnMap>
@@ -510,10 +510,10 @@
       </li>
     </comps>
   </ThingDef> 
-  <!-- 工程舰(弃用) -->
+  <!-- 拒止舰 -->
   <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_ConstructionShip</defName>
-    <label>乌拉帝国工程舰</label>
+    <label>乌拉帝国拒止舰</label>
     <thingClass>WulaFallenEmpire.FlyOver</thingClass>
     <tickerType>Normal</tickerType>
     <drawerType>RealtimeOnly</drawerType>
@@ -559,12 +559,100 @@
       <!-- 入场信封信息 -->
       <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
         <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
-        <letterLabel>帝国工程舰已抵达</letterLabel>
-        <letterText>一艘帝国工程舰响应请求抵达殖民地上空！</letterText>
+        <letterLabel>帝国拒止舰已抵达</letterLabel>
+        <letterText>帝国拒止舰队响应请求抵达殖民地上空！</letterText>
         <letterDef>PositiveEvent</letterDef>
         <onlySendOnce>true</onlySendOnce>
         <requireOnMap>true</requireOnMap>
         <destroyAfterSending>false</destroyAfterSending> <!-- 发送后销毁flyover -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Striker_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>1000</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>20</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>100</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>25</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Bomber_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>1350</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>10</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>130</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>15</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_FlyOverFacilities">
         <availableFacilities>
@@ -768,58 +856,8 @@
     <altitudeLayer>MetaOverlays</altitudeLayer>
     <comps>
       <!-- 入场信封信息 -->
-      <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
-        <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
-        <letterLabel>全域封锁</letterLabel>
-        <letterText>全域封锁舰队已抵达，请自行寻找掩护！</letterText>
-        <letterDef>PositiveEvent</letterDef>
-        <onlySendOnce>true</onlySendOnce>
-        <requireOnMap>true</requireOnMap>
-        <destroyAfterSending>false</destroyAfterSending> <!-- 发送后销毁flyover -->
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
-        <escortFlyOverDef>WULA_Striker_Escort</escortFlyOverDef>
-        
-        <!-- 生成配置 -->
-        <spawnIntervalTicks>1000</spawnIntervalTicks> <!-- 5秒 -->
-        <maxEscorts>30</maxEscorts>
-        <spawnCount>2</spawnCount>
-        
-        <!-- 位置配置 -->
-        <spawnDistance>0</spawnDistance>
-        <lateralOffset>100</lateralOffset>
-        <verticalOffset>5</verticalOffset>
-        <useRandomOffset>true</useRandomOffset>
-        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
-        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
-        
-        <!-- 飞行配置 -->
-        <escortSpeedMultiplier>50</escortSpeedMultiplier> <!-- 比主舰稍快 -->
-        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
-        <mirrorMovement>false</mirrorMovement>
-        
-        <!-- 行为配置 -->
-        <spawnOnStart>true</spawnOnStart>
-        <destroyWithParent>false</destroyWithParent>
-        <continuousSpawning>true</continuousSpawning>
-        
-        <!-- 外观配置 -->
-        <useParentRotation>true</useParentRotation>
-      
-        <!-- 缩放区间配置 -->
-        <escortScaleRange>
-          <min>0.3</min>
-          <max>0.6</max>
-        </escortScaleRange>
-        
-        <!-- 高度遮罩配置 -->
-        <useHeightMask>true</useHeightMask>
-        <heightMaskAlphaRange>
-          <min>0.6</min>
-          <max>0.8</max>
-        </heightMaskAlphaRange>
-        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
-        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      <li Class="WulaFallenEmpire.CompProperties_PlaySoundOnSpawn">
+        <sound>WULA_MotherShip_Planet_Interdiction_IncomingSound</sound>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
         <escortFlyOverDef>WULA_BattleShip_Planet_Interdiction</escortFlyOverDef>
@@ -831,7 +869,7 @@
         
         <!-- 位置配置 -->
         <spawnDistance>0</spawnDistance>
-        <lateralOffset>80</lateralOffset>
+        <lateralOffset>70</lateralOffset>
         <verticalOffset>5</verticalOffset>
         <useRandomOffset>true</useRandomOffset>
         <minSafeDistanceBetweenEscorts>30</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
@@ -864,6 +902,17 @@
         </heightMaskAlphaRange>
         <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
         <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_ShipArtillery">
+        <ticksBetweenAttacks>300</ticksBetweenAttacks>
+        <attackDurationTicks>300</attackDurationTicks>
+        <attackRadius>65</attackRadius>
+        <skyfallerDef>WULA_Firepower_Cannon_Salvo_Skyfaller</skyfallerDef>
+        <shellsPerVolley>12</shellsPerVolley>
+        
+        <!-- 新增派系甄别配置 -->
+        <useFactionDiscrimination>true</useFactionDiscrimination>
+        <useMicroTracking>true</useMicroTracking>
       </li>
     </comps>
   </ThingDef> 
@@ -912,6 +961,50 @@
     <alwaysHaulable>false</alwaysHaulable>
     <altitudeLayer>MetaOverlays</altitudeLayer>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Striker_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>1000</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>30</maxEscorts>
+        <spawnCount>2</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>100</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>10</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_ShipArtillery">
         <ticksBetweenAttacks>300</ticksBetweenAttacks>
         <attackDurationTicks>300</attackDurationTicks>
@@ -1455,20 +1548,25 @@
       <cameraShake>1</cameraShake>
       <rotationCurve>
         <points>
-          <li>(0,180)</li>
-          <li>(1, 181)</li>
+          <li>(0,150)</li>
+          <li>(1, 151)</li>
         </points>
       </rotationCurve>
       <angleCurve>
         <points>
-          <li>(0,0)</li>
-          <li>(1, 1)</li>
+          <li>(0,-30)</li>
+          <li>(1, -31)</li>
         </points>
       </angleCurve>
       <explosionRadius>4</explosionRadius>
       <explosionDamage>WULA_Firepower_Minigun_Strafe_Damage</explosionDamage>
       <explosionDamageFactor>1</explosionDamageFactor>
     </skyfaller>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PlaySoundOnSpawn">
+        <sound>WULA_Firepower_Minigun_Fire_sound</sound>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="SkyfallerBase">
     <defName>WULA_Firepower_Cannon_Salvo_Skyfaller</defName>
@@ -1493,20 +1591,25 @@
       <cameraShake>1</cameraShake>
       <rotationCurve>
         <points>
-          <li>(0,180)</li>
-          <li>(1, 181)</li>
+          <li>(0,150)</li>
+          <li>(1, 151)</li>
         </points>
       </rotationCurve>
       <angleCurve>
         <points>
-          <li>(0,0)</li>
-          <li>(1, 1)</li>
+          <li>(0,-30)</li>
+          <li>(1, -31)</li>
         </points>
       </angleCurve>
       <explosionRadius>6</explosionRadius>
-      <explosionDamage>Bomb</explosionDamage>
-      <explosionDamageFactor>0.85</explosionDamageFactor>
+      <explosionDamage>WULA_GiantBomb</explosionDamage>
+      <explosionDamageFactor>0.28</explosionDamageFactor>
     </skyfaller>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PlaySoundOnSpawn">
+        <sound>WULA_Firepower_Cannon_Fire_sound</sound>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="SkyfallerBase">
     <defName>WULA_Firepower_Cannon_Surveillance_Skyfaller</defName>
@@ -1898,14 +2001,14 @@
       <cameraShake>1</cameraShake>
       <rotationCurve>
         <points>
-          <li>(0,180)</li>
-          <li>(1, 181)</li>
+          <li>(0,150)</li>
+          <li>(1, 151)</li>
         </points>
       </rotationCurve>
       <angleCurve>
         <points>
-          <li>(0,0)</li>
-          <li>(1, 1)</li>
+          <li>(0,-30)</li>
+          <li>(1, -31)</li>
         </points>
       </angleCurve>
       <explosionRadius>35</explosionRadius>
@@ -1913,6 +2016,11 @@
       <explosionDamageFactor>1</explosionDamageFactor>
       <spawnThing>CraterLarge</spawnThing>
     </skyfaller>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PlaySoundOnSpawn">
+        <sound>WULA_Firepower_Primary_Cannon_Fire_sound</sound>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="MoteBase">
     <defName>WULA_DarkMatterBomb_FlashStrong</defName>
@@ -2048,19 +2156,185 @@
       <cameraShake>1</cameraShake>
       <rotationCurve>
         <points>
-          <li>(0,180)</li>
-          <li>(1, 181)</li>
+          <li>(0,150)</li>
+          <li>(1, 151)</li>
         </points>
       </rotationCurve>
       <angleCurve>
         <points>
-          <li>(0,0)</li>
-          <li>(1, 1)</li>
+          <li>(0,-30)</li>
+          <li>(1, -31)</li>
         </points>
       </angleCurve>
       <explosionRadius>35</explosionRadius>
       <explosionDamage>EMP</explosionDamage>
       <explosionDamageFactor>10</explosionDamageFactor>
     </skyfaller>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PlaySoundOnSpawn">
+        <sound>WULA_Firepower_Primary_Cannon_Fire_sound</sound>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Support_Shield_Projection_Skyfaller</defName>
+    <label>拒止护盾（落地中）</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <!-- <impactSound>Explosion_Vaporize</impactSound> -->
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>0</motesPerCell>
+      <cameraShake>0</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Support_Shield</spawnThing>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Support_Shield</defName>
+    <label>全反射拒止护盾</label>
+    <description>一面大型护盾，反射所有的敌方射弹，己方的开火不受影响。</description>
+    <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_A</uiIconPath>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,3)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/WULA_Support_Shield_Building</texturePath>
+            <scale>(24,24)</scale>
+            <drawOrder>2</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>
+            <hoverIntensity>0</hoverIntensity>
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>3600</lifespanTicks>
+      </li>
+      <!-- 护盾无法在此绘制 -->
+      <li Class="WulaFallenEmpire.CompProperties_AreaShield">
+        <radius>12</radius>
+        <baseHitPoints>150000</baseHitPoints>
+        <rechargeDelay>2400</rechargeDelay>
+        <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
+        
+        <!-- 效果器配置 -->
+        <absorbEffecter>Interceptor_BlockedProjectile</absorbEffecter>
+        <interceptEffecter>Interceptor_BlockedProjectile</interceptEffecter>
+        <breakEffecter>Shield_Break</breakEffecter>
+        <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
+        
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        
+        <!-- 拦截设置 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+      
+        <!-- 反射设置 -->
+        <canReflect>true</canReflect>
+        <reflectChance>1</reflectChance>
+        <reflectAngleRange>30</reflectAngleRange>
+        <reflectCost>0</reflectCost>
+        <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
+      </li>
+    </comps>
   </ThingDef>
 </Defs>

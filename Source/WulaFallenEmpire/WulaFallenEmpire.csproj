@@ -117,13 +117,15 @@
     <Compile Include="BuildingComp\WULA_StorageTurret\CompProperties_StorageTurret.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompStorageTurret.cs" />
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />
-    <Compile Include="EventSystem\Condition.cs" />
+    <Compile Include="EventSystem\Condition\ConditionBase.cs" />
+    <Compile Include="EventSystem\Condition\Condition_FlagExists.cs" />
     <Compile Include="EventSystem\DebugActions.cs" />
     <Compile Include="EventSystem\DelayedActionManager.cs" />
     <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
     <Compile Include="EventSystem\Dialog_ManageEventVariables.cs" />
     <Compile Include="EventSystem\Effect\EffectBase.cs" />
     <Compile Include="EventSystem\Effect\Effect_CallSkyfaller.cs" />
+    <Compile Include="EventSystem\Effect\Effect_SetTimedFlag.cs" />
     <Compile Include="EventSystem\EventDef.cs" />
     <Compile Include="EventSystem\EventUIButtonConfigDef.cs" />
     <Compile Include="EventSystem\EventUIConfigDef.cs" />
@@ -266,6 +268,8 @@
     <Compile Include="ThingComp\WULA_PersonaCore\CompExperienceCore.cs" />
     <Compile Include="ThingComp\WULA_PersonaCore\CompExperienceDataPack.cs" />
     <Compile Include="ThingComp\WULA_PersonaCore\CompProperties_ExperienceCore.cs" />
+    <Compile Include="ThingComp\WULA_PlaySoundOnSpawn\CompPlaySoundOnSpawn.cs" />
+    <Compile Include="ThingComp\WULA_PlaySoundOnSpawn\CompProperties_PlaySoundOnSpawn.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\CompWulaRitualSpot.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\PsychicRitualDef_AddHediff.cs" />
     <Compile Include="ThingComp\WULA_PsychicRitual\PsychicRitualDef_Wula.cs" />

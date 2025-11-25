@@ -996,7 +996,7 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>400</basePowerConsumption>
+        <basePowerConsumption>100</basePowerConsumption>
       </li>
     </comps>
   </ThingDef>

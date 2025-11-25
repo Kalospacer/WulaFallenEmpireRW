@@ -396,6 +396,8 @@
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
+    <destroyOnDrop>true</destroyOnDrop>
+    <tradeability>None</tradeability>
     <equippedAngleOffset>-65</equippedAngleOffset>
     <techLevel>Spacer</techLevel>
     <smeltable>false</smeltable>
@@ -500,8 +502,8 @@
         <defaultProjectile>Bullet_WULA_RW_Base_AR</defaultProjectile>
         <warmupTime>1</warmupTime>
         <range>25</range>
-        <burstShotCount>3</burstShotCount>
-        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
+        <burstShotCount>5</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
         <soundCast>Shot_AssaultRifle</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>7</muzzleFlashScale>
@@ -513,7 +515,6 @@
     </costList>
     <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T1</li>
-      <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
     <comps>
       <li Class="CompProperties_EquippableAbilityReloadable">
@@ -521,6 +522,59 @@
         <chargeNoun>眩光弹</chargeNoun>
       </li>
     </comps>
+  </ThingDef>
+  <!-- 给猫猫的特殊武器，扔在地上会消失、没有人格核心、没有闪光弹 -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <destroyOnDrop>true</destroyOnDrop>
+    <defName>WULA_RW_Base_AR_For_Cat</defName>
+    <label>DLa-1"页岩"</label>
+    <description>乌拉帝国的基础突击步枪，仍然使用可靠的导气式结构驱动自动射击构件，是一种便宜但好用的武器，通常派发给殖民地作自卫武器之用。</description>
+    <tickerType>Normal</tickerType>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Base_AR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <tradeability>None</tradeability>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_WeaponArmor_Productor</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_1_Base_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>1300</WorkToMake>
+      <!-- <MarketValue>370</MarketValue> -->
+      <Mass>3.5</Mass>
+      <AccuracyTouch>0.75</AccuracyTouch>
+      <AccuracyShort>0.75</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Base_AR</defaultProjectile>
+        <warmupTime>1</warmupTime>
+        <range>25</range>
+        <burstShotCount>5</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>7</muzzleFlashScale>
+      </li>
+    </verbs>
+    <costList Inherit="False">
+      <WULA_Alloy>40</WULA_Alloy>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <weaponTags Inherit="False">
+      <li>Wula_Assault_Cat_Weapon</li>
+    </weaponTags>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Base_AR</defName>
@@ -2195,7 +2249,7 @@
     <defName>WULA_MW_Cheat_Weapon_Ability</defName>
     <label>放逐之门</label>
     <description>使得目标立刻被放逐——无视一切保护措施，将其从存档中永远擦除。</description>
-    <iconPath>Wula/UI/Abilities/WULA_RW_Auto_GL_Smoke_Ability</iconPath>
+    <iconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <hotKey>Misc11</hotKey>

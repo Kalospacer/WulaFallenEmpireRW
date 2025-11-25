@@ -10,7 +10,8 @@ namespace WulaFallenEmpire
         public ThingComp_AreaShield shield;
         private static readonly Texture2D FullShieldBarTex = SolidColorMaterials.NewSolidColorMaterial(new Color(0.2f, 0.8f, 0.85f), ShaderDatabase.MetaOverlay).mainTexture as Texture2D;
         private static readonly Texture2D EmptyShieldBarTex = SolidColorMaterials.NewSolidColorMaterial(new Color(0.2f, 0.2f, 0.24f), ShaderDatabase.MetaOverlay).mainTexture as Texture2D;
-        // 新增：移动状态的颜色
+        
+        // 新增：移动状态的颜色（仅对装备有效）
         private static readonly Texture2D MovingShieldBarTex = SolidColorMaterials.NewSolidColorMaterial(new Color(0.5f, 0.5f, 0.5f), ShaderDatabase.MetaOverlay).mainTexture as Texture2D;
 
         public override float GetWidth(float maxWidth) => 140f;
@@ -39,11 +40,11 @@ namespace WulaFallenEmpire
                 barTex = EmptyShieldBarTex;
                 statusText = "ShieldOnCooldown".Translate();
             }
-            else if (shield.IsWearerMoving)
+            else if (shield.IsEquipment && shield.IsHolderMoving)
             {
-                // 移动时显示灰色状态条和"移动中"文本
+                // 移动时显示灰色状态条和"移动中"文本（仅对装备有效）
                 barTex = MovingShieldBarTex;
-                statusText = "ShieldOfflineByMoving".Translate(); // 你可以根据需要修改这个文本
+                statusText = "ShieldOfflineByMoving".Translate();
             }
             else
             {

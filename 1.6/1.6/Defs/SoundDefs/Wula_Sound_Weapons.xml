@@ -204,6 +204,76 @@
     </subSounds>
   </SoundDef>
 
+  
+  <SoundDef>
+    <defName>WULA_Firepower_Minigun_Fire_sound</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/WULA_Basttleship_Shootingsound_S</clipPath>
+          </li>
+        </grains>
+        <volumeRange>35</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+        <onCamera>True</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>WULA_Firepower_Cannon_Fire_sound</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/WULA_Basttleship_Shootingsound_M</clipPath>
+          </li>
+        </grains>
+        <volumeRange>45</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+        <onCamera>True</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>WULA_Firepower_Primary_Cannon_Fire_sound</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/WULA_Basttleship_Shootingsound_L</clipPath>
+          </li>
+        </grains>
+        <volumeRange>55</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+        <onCamera>True</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>WULA_MotherShip_Planet_Interdiction_IncomingSound</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/WULA_MotherShip_Planet_Interdiction_IncomingSound</clipPath>
+          </li>
+        </grains>
+        <volumeRange>55</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+        <onCamera>True</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
   <!-- 单位 -->
   <SoundDef>
     <defName>Pawn_Wula_AI_Heavy_Panzer_Call</defName>  
