@@ -2297,6 +2297,7 @@
         <initialSeverity>0.5</initialSeverity>
         <onlyPawnsInSameFaction>true</onlyPawnsInSameFaction>
         <checkIntervalTicks>120</checkIntervalTicks>
+        <hediffDurationTicks>125</hediffDurationTicks>
         <allowedRaces>
           <li>WulaSpecies</li>
         </allowedRaces>
@@ -2356,6 +2357,45 @@
         <reflectAngleRange>30</reflectAngleRange>
         <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WULA_Holographic_Flag_Skyfaller">
+    <defName>WULA_Support_AreaTeleporter_Skyfaller</defName>
+    <label>P.I.A全息旗帜附区域传送器（落地中）</label>
+    <skyfaller>
+      <spawnThing>WULA_Support_AreaTeleporter</spawnThing>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef ParentName="WULA_Holographic_Flag_Building">
+    <defName>WULA_Support_AreaTeleporter</defName>
+    <label>P.I.A全息旗帜附区域传送器</label>
+    <description>乌拉帝国行星封锁机关的全息旗帜，除了宣誓主权外，也能激励附近的乌拉星人更加凶狠地战斗。这面旗帜的底座附带了一个区域传送器，可以使得机械乌拉在旗帜区域内传送。\n\n在工作一段时间后，该系统将自行烧毁。</description>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>20</radius> <!-- 半径大小 -->
+        <color>(1, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>传送范围</label>
+        <description>区域传送器提供的传送范围</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>3600</lifespanTicks>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaTeleporter">
+        <teleportRadius>20</teleportRadius>
+        <stunTicks>60</stunTicks>
+        
+        <allowedRaces>
+          <li>WulaSpecies</li>
+        </allowedRaces>
+        <onlyPawnsInSameFaction>true</onlyPawnsInSameFaction>
+        
+        <entryEffecter>Skip_Entry</entryEffecter>
+        <exitEffecter>Skip_Exit</exitEffecter>
+        <teleportSound>Psycast_Skip_Entry</teleportSound>
       </li>
     </comps>
   </ThingDef>

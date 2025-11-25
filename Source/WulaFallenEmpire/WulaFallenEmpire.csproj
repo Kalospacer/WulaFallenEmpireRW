@@ -259,6 +259,9 @@
     <Compile Include="ThingComp\WULA_AreaShield\Gizmo_AreaShieldStatus.cs" />
     <Compile Include="ThingComp\WULA_AreaShield\Harmony_AreaShieldInterceptor.cs" />
     <Compile Include="ThingComp\WULA_AreaShield\ThingComp_AreaShield.cs" />
+    <Compile Include="ThingComp\WULA_AreaTeleporter\CompProperties_AreaTeleporter.cs" />
+    <Compile Include="ThingComp\WULA_AreaTeleporter\Patch_Pawn_JobTracker_StartJob.cs" />
+    <Compile Include="ThingComp\WULA_AreaTeleporter\ThingComp_AreaTeleporter.cs" />
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompCustomUniqueWeapon.cs" />
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompProperties_CustomUniqueWeapon.cs" />
     <Compile Include="ThingComp\WULA_GiveHediffsInRange\CompGiveHediffsInRange.cs" />

@@ -1031,9 +1031,9 @@
 
   <!-- 支援 -->
   <AbilityDef>
-    <defName>WULA_Support_Shield_Projection</defName>
-    <label>护盾投射</label>
-    <description>以启动拒止舰的止戈立场，在指定地点投射一面球形护盾，阻挡并反射所有的外来射弹。</description>
+    <defName>WULA_Support_Holographic_Flag</defName>
+    <label>空投旗帜</label>
+    <description>从拒止舰队上扔一面全息旗帜到指定地点，激励附近的乌拉星人更英勇地战斗。</description>
     <iconPath>Wula/UI/Abilities/WULA_Firepower_Minigun_Strafe</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -1051,14 +1051,83 @@
       </targetParams>
     </verbProperties>
     <comps>
-      <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
-        <globalCooldownTicks>1000</globalCooldownTicks>
-        <requiredFacility>BombardmentFacility</requiredFacility>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityCallSkyfaller">
+        <delayTicks>0</delayTicks>
+        <skyfallerDef>WULA_Holographic_Flag_Building_Skyfaller</skyfallerDef>
+        <previewRadius>15</previewRadius>
+        <previewColor>(1,1,1,0.5)</previewColor>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <requiredFacility>FactoryFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>支援设施&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
+      </li>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Firepower_Minigun_Technology</requiredResearch>
+      </li> -->
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_Support_Shield_Projection</defName>
+    <label>护盾投射</label>
+    <description>从拒止舰队上扔一面附拒止护盾的全息旗帜到指定地点，激励附近的乌拉星人更英勇地战斗。拒止护盾可以反射所有的敌方射弹，己方的开火不受影响。\n\n在工作一段时间后，该系统将自行烧毁。</description>
+    <iconPath>Wula/UI/Abilities/WULA_Firepower_Minigun_Strafe</iconPath>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
       <li Class="WulaFallenEmpire.CompProperties_AbilityCallSkyfaller">
         <delayTicks>0</delayTicks>
         <skyfallerDef>WULA_Support_Shield_Projection_Skyfaller</skyfallerDef>
         <previewRadius>12</previewRadius>
+        <previewColor>(0.6,0.8,0.8,0.5)</previewColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <!-- <flyOverDef></flyOverDef> -->
+        <requiredFacility>FactoryFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>支援设施&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
+      </li>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Firepower_Minigun_Technology</requiredResearch>
+      </li> -->
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_Support_AreaTeleporter</defName>
+    <label>区域传送器</label>
+    <description>从拒止舰队上扔一面附拒止护盾的全息旗帜到指定地点，激励附近的乌拉星人更英勇地战斗。拒止护盾可以反射所有的敌方射弹，己方的开火不受影响。\n\n在工作一段时间后，该系统将自行烧毁。</description>
+    <iconPath>Wula/UI/Abilities/WULA_Firepower_Minigun_Strafe</iconPath>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityCallSkyfaller">
+        <delayTicks>0</delayTicks>
+        <skyfallerDef>WULA_Support_AreaTeleporter_Skyfaller</skyfallerDef>
+        <previewRadius>20</previewRadius>
         <previewColor>(0.6,0.8,0.8,0.5)</previewColor>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">

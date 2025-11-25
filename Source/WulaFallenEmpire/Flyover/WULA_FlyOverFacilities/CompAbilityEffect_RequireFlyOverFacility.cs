@@ -107,7 +107,6 @@ namespace WulaFallenEmpire
                         var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
                         if (facilitiesComp == null)
                         {
-                            Log.Warning($"[RequireFlyOverFacility] FlyOver at {flyOver.Position} has no CompFlyOverFacilities");
                             continue;
                         }
                         

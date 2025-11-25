@@ -197,13 +197,14 @@ namespace WulaFallenEmpire
                 Hediff newHediff = HediffMaker.MakeHediff(Props.hediff, pawn);
                 newHediff.Severity = Props.initialSeverity;
                 
-                // 设置持续时间（如果有）
+                // 正确设置持续时间
                 if (Props.hediffDurationTicks > 0)
                 {
-                    var comp = newHediff.TryGetComp<HediffComp_Disappears>();
-                    if (comp != null)
+                    var disappearComp = newHediff.TryGetComp<HediffComp_Disappears>();
+                    if (disappearComp != null)
                     {
-                        comp.ticksToDisappear = Props.hediffDurationTicks;
+                        // 使用 SetDuration 方法正确设置持续时间
+                        disappearComp.SetDuration(Props.hediffDurationTicks);
                     }
                 }
                 
@@ -250,11 +251,11 @@ namespace WulaFallenEmpire
         {
             if (Props.hediffDurationTicks > 0)
             {
-                var comp = hediff.TryGetComp<HediffComp_Disappears>();
-                if (comp != null)
+                var disappearComp = hediff.TryGetComp<HediffComp_Disappears>();
+                if (disappearComp != null)
                 {
-                    // 重置持续时间，让效果持续
-                    comp.ticksToDisappear = Props.hediffDurationTicks;
+                    // 使用 SetDuration 方法重置持续时间，让效果持续
+                    disappearComp.SetDuration(Props.hediffDurationTicks);
                 }
             }
         }
