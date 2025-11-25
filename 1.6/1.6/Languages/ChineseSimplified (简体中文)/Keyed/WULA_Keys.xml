@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- CompSkyfallerCaller -->
+  <WULA_ToggleAutoCallSkyfaller>切换自动召唤</WULA_ToggleAutoCallSkyfaller>
+  <WULA_ToggleAutoCallSkyfallerDesc>启用或禁用所有信标的自动空投功能。启用后，信标在建造完成后会立即自动呼叫空投。</WULA_ToggleAutoCallSkyfallerDesc>
+  <WULA_AutoCallEnabled>自动空投已启用。</WULA_AutoCallEnabled>
+  <WULA_AutoCallDisabled>自动空投已禁用。</WULA_AutoCallDisabled>
+
+</LanguageData>
