@@ -636,10 +636,10 @@
       <Steel>5</Steel>
     </costList>
     <statBases>
-      <MaxHitPoints>600</MaxHitPoints>
+      <MaxHitPoints>50</MaxHitPoints>
       <Flammability>0.5</Flammability>
       <WorkToBuild>1000</WorkToBuild>
-      <Mass>125</Mass>
+      <Mass>5</Mass>
       <Comfort>0.65</Comfort>
     </statBases>
     <tickerType>Normal</tickerType>
@@ -728,7 +728,6 @@
       <MaxHitPoints>50</MaxHitPoints>
       <Flammability>1.0</Flammability>
       <WorkToBuild>330</WorkToBuild>
-      <MaxHitPoints>35</MaxHitPoints>
       <Mass>2</Mass>
     </statBases>
     <uiOrder>2991</uiOrder>

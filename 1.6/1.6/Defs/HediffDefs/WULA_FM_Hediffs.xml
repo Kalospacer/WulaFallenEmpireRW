@@ -167,6 +167,7 @@
           <li>WULA_CallMotherShip</li>
           <li>WULA_CallConstructionShip</li>
           <li>WULA_ClearFlightPath</li>
+          <li>WULA_Support_Shield_Projection</li>
         </abilityDefs>
       </li>
     </comps>

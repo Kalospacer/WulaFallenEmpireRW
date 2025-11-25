@@ -2176,4 +2176,165 @@
       </li>
     </comps>
   </ThingDef>
+
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Support_Shield_Projection_Skyfaller</defName>
+    <label>拒止护盾（落地中）</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <!-- <impactSound>Explosion_Vaporize</impactSound> -->
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>0</motesPerCell>
+      <cameraShake>0</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Support_Shield</spawnThing>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Support_Shield</defName>
+    <label>全反射拒止护盾</label>
+    <description>一面大型护盾，反射所有的敌方射弹，己方的开火不受影响。</description>
+    <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_A</uiIconPath>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,3)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/WULA_Support_Shield_Building</texturePath>
+            <scale>(24,24)</scale>
+            <drawOrder>2</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>
+            <hoverIntensity>0</hoverIntensity>
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>3600</lifespanTicks>
+      </li>
+      <!-- 护盾无法在此绘制 -->
+      <li Class="WulaFallenEmpire.CompProperties_AreaShield">
+        <radius>12</radius>
+        <baseHitPoints>150000</baseHitPoints>
+        <rechargeDelay>2400</rechargeDelay>
+        <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
+        
+        <!-- 效果器配置 -->
+        <absorbEffecter>Interceptor_BlockedProjectile</absorbEffecter>
+        <interceptEffecter>Interceptor_BlockedProjectile</interceptEffecter>
+        <breakEffecter>Shield_Break</breakEffecter>
+        <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
+        
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        
+        <!-- 拦截设置 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+      
+        <!-- 反射设置 -->
+        <canReflect>true</canReflect>
+        <reflectChance>1</reflectChance>
+        <reflectAngleRange>30</reflectAngleRange>
+        <reflectCost>0</reflectCost>
+        <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
+      </li>
+    </comps>
+  </ThingDef>
 </Defs>

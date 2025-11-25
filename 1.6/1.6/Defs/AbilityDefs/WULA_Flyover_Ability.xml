@@ -173,6 +173,7 @@
     </comps>
   </AbilityDef>
 
+  <!-- 全域封锁 -->
   <AbilityDef>
     <defName>WULA_Spawn_BattleShip_Artillery</defName>
     <label>呼叫全域封锁舰队</label>
@@ -899,7 +900,7 @@
   <AbilityDef>
     <defName>WULA_Firepower_EnergyLance_Surveillance</defName>
     <label>光矛监视</label>
-    <description>指挥战舰侧弦的副炮，监视一个区域1小时，对任何进入范围的敌对目标进行炮击。</description>
+    <description>指挥战舰侧弦的光矛阵列，监视一个区域1小时，对任何进入范围的敌对目标进行持续照射。</description>
     <iconPath>Wula/UI/Abilities/WULA_Firepower_EnergyLance_Surveillance</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -1025,6 +1026,49 @@
       <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Firepower_Primary_Cannon_Technology</requiredResearch>
       </li>
+    </comps>
+  </AbilityDef>
+
+  <!-- 支援 -->
+  <AbilityDef>
+    <defName>WULA_Support_Shield_Projection</defName>
+    <label>护盾投射</label>
+    <description>以启动拒止舰的止戈立场，在指定地点投射一面球形护盾，阻挡并反射所有的外来射弹。</description>
+    <iconPath>Wula/UI/Abilities/WULA_Firepower_Minigun_Strafe</iconPath>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <range>120</range>
+      <targetable>true</targetable>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
+        <globalCooldownTicks>1000</globalCooldownTicks>
+        <requiredFacility>BombardmentFacility</requiredFacility>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityCallSkyfaller">
+        <delayTicks>0</delayTicks>
+        <skyfallerDef>WULA_Support_Shield_Projection_Skyfaller</skyfallerDef>
+        <previewRadius>12</previewRadius>
+        <previewColor>(0.6,0.8,0.8,0.5)</previewColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_RequireFlyOverFacility">
+        <!-- <flyOverDef></flyOverDef> -->
+        <requiredFacility>FactoryFacility</requiredFacility>
+        <facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>支援设施&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</facilityNotFoundMessage>
+      </li>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
+        <requiredResearch>WULA_Firepower_Minigun_Technology</requiredResearch>
+      </li> -->
     </comps>
   </AbilityDef>
 </Defs>
