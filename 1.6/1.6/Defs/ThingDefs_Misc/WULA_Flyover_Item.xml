@@ -2177,12 +2177,12 @@
     </comps>
   </ThingDef>
 
-  <ThingDef ParentName="SkyfallerBase">
-    <defName>WULA_Support_Shield_Projection_Skyfaller</defName>
-    <label>拒止护盾（落地中）</label>
+  <ThingDef Name="WULA_Holographic_Flag_Skyfaller" ParentName="SkyfallerBase">
+    <defName>WULA_Holographic_Flag_Building_Skyfaller</defName>
+    <label>P.I.A全息旗帜（落地中）</label>
     <size>(1,1)</size>
     <graphicData>
-      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>(1,1)</drawSize>
@@ -2196,23 +2196,28 @@
       <shadowSize>(0, 0)</shadowSize>
       <anticipationSound>DropPod_Fall</anticipationSound>
       <anticipationSoundTicks>100</anticipationSoundTicks>
-      <!-- <impactSound>Explosion_Vaporize</impactSound> -->
+      <impactSound>Explosion_Vaporize</impactSound>
       <moteSpawnTime>0.05</moteSpawnTime>
-      <motesPerCell>0</motesPerCell>
-      <cameraShake>0</cameraShake>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
       <angleCurve>
         <points>
           <li>(0,0)</li>
           <li>(1, 1)</li>
         </points>
       </angleCurve>
-      <spawnThing>WULA_Support_Shield</spawnThing>
+      <spawnThing>WULA_Holographic_Flag_Building</spawnThing>
     </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
   </ThingDef>
-  <ThingDef ParentName="BuildingBase">
-    <defName>WULA_Support_Shield</defName>
-    <label>全反射拒止护盾</label>
-    <description>一面大型护盾，反射所有的敌方射弹，己方的开火不受影响。</description>
+  <ThingDef Name="WULA_Holographic_Flag_Building" ParentName="BuildingBase">
+    <defName>WULA_Holographic_Flag_Building</defName>
+    <label>P.I.A全息旗帜</label>
+    <description>乌拉帝国行星封锁机关的全息旗帜，除了宣誓主权外，也能激励附近的乌拉星人更加凶狠地战斗。</description>
     <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
 		<altitudeLayer>BuildingOnTop</altitudeLayer>
@@ -2222,24 +2227,23 @@
     <fillPercent>1</fillPercent>
     <size>(1,1)</size>
     <drawHighlight>true</drawHighlight>
+    <tradeability>None</tradeability>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_A</uiIconPath>
     <rotatable>false</rotatable>
     <graphicData>
       <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
       <drawSize>(1,1)</drawSize>
     </graphicData>
     <costList>
-      <Steel>5</Steel>
+      <Steel>1</Steel>
     </costList>
     <statBases>
-      <MaxHitPoints>100</MaxHitPoints>
+      <MaxHitPoints>50</MaxHitPoints>
       <Flammability>0.5</Flammability>
       <WorkToBuild>1000</WorkToBuild>
-      <Mass>125</Mass>
-      <Comfort>0.65</Comfort>
+      <Mass>5</Mass>
     </statBases>
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>
@@ -2283,19 +2287,23 @@
             <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
             <hoverPhase>0</hoverPhase>
           </li>
-          <li>
-            <texturePath>Wula/Building/WULA_Support_Shield_Building</texturePath>
-            <scale>(24,24)</scale>
-            <drawOrder>2</drawOrder>
-            <offset>(0,1,0)</offset>
-            <hoverSpeed>0</hoverSpeed>
-            <hoverIntensity>0</hoverIntensity>
-            <hoverPhase>0</hoverPhase>
-          </li>
         </graphicLayers>
       </li>
     </modExtensions>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_GiveHediffsInRange">
+        <range>15</range>
+        <hediff>Wula_Holographic_Flag_Hediff</hediff>
+        <initialSeverity>0.5</initialSeverity>
+        <onlyPawnsInSameFaction>true</onlyPawnsInSameFaction>
+        <checkIntervalTicks>120</checkIntervalTicks>
+        <allowedRaces>
+          <li>WulaSpecies</li>
+        </allowedRaces>
+        <affectAllies>true</affectAllies>
+        <affectEnemies>false</affectEnemies>
+        <affectNeutrals>false</affectNeutrals>
+      </li>
       <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
         <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
         <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
@@ -2305,6 +2313,20 @@
         <glowRadius>3</glowRadius>
         <glowColor>(120,240,252,0)</glowColor>
       </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WULA_Holographic_Flag_Skyfaller">
+    <defName>WULA_Support_Shield_Projection_Skyfaller</defName>
+    <label>P.I.A全息旗帜附拒止护盾（落地中）</label>
+    <skyfaller>
+      <spawnThing>WULA_Support_Shield</spawnThing>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef ParentName="WULA_Holographic_Flag_Building">
+    <defName>WULA_Support_Shield</defName>
+    <label>P.I.A全息旗帜附拒止护盾</label>
+    <description>乌拉帝国行星封锁机关的全息旗帜，除了宣誓主权外，也能激励附近的乌拉星人更加凶狠地战斗。这面旗帜的底座附带了一个大型拒止护盾，可以反射所有的敌方射弹，己方的开火不受影响。\n\n在工作一段时间后，该系统将自行烧毁。</description>
+    <comps>
       <li Class="CompProperties_Lifespan">
         <lifespanTicks>3600</lifespanTicks>
       </li>

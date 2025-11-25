@@ -40,10 +40,6 @@ namespace WulaFallenEmpire
             
             if (validFlyOvers.Count == 0)
             {
-                if (throwMessages)
-                {
-                    Messages.Message(Props.facilityNotFoundMessage, parent.pawn, MessageTypeDefOf.RejectInput);
-                }
                 return false;
             }
 
@@ -87,7 +83,6 @@ namespace WulaFallenEmpire
                 {
                     // 如果指定了特定的 FlyOver 定义，只检查该定义的物体
                     allFlyOvers = parent.pawn.Map.listerThings.ThingsOfDef(Props.flyOverDef);
-                    Log.Message($"[RequireFlyOverFacility] Checking specific FlyOverDef: {Props.flyOverDef.defName}, found: {allFlyOvers.Count}");
                 }
                 else
                 {
@@ -102,7 +97,6 @@ namespace WulaFallenEmpire
                             allFlyOvers.Add(thing);
                         }
                     }
-                    Log.Message($"[RequireFlyOverFacility] Checking all FlyOver types, found: {allFlyOvers.Count}");
                 }
                 
                 foreach (var thing in allFlyOvers)
@@ -119,12 +113,10 @@ namespace WulaFallenEmpire
                         
                         if (!facilitiesComp.HasFacility(Props.requiredFacility))
                         {
-                            Log.Message($"[RequireFlyOverFacility] FlyOver at {flyOver.Position} missing facility: {Props.requiredFacility}. Has: {string.Join(", ", facilitiesComp.GetActiveFacilities())}");
                             continue;
                         }
                         
                         validFlyOvers.Add(flyOver);
-                        Log.Message($"[RequireFlyOverFacility] Found valid FlyOver at {flyOver.Position} with facility: {Props.requiredFacility}");
                     }
                 }
                 
@@ -144,7 +136,6 @@ namespace WulaFallenEmpire
             var selectedFlyOver = availableFlyOvers.FirstOrDefault();
             if (selectedFlyOver != null)
             {
-                Log.Message($"[RequireFlyOverFacility] Skill executed using FlyOver at {selectedFlyOver.Position} with facility: {Props.requiredFacility}");
             }
         }
 

@@ -292,4 +292,33 @@
     </stages>
     <isBad>false</isBad>
   </HediffDef>
+  <HediffDef>
+    <defName>Wula_Holographic_Flag_Hediff</defName>
+    <label>在旌旗下战斗</label>
+    <description>帝皇在注视我！</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.52, 1, 0.95)</defaultLabelColor>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>120</disappearsAfterTicks>
+        <showRemainingTime>false</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+    </comps>
+    <stages>
+      <li>
+        <minSeverity>0</minSeverity>
+        <statOffsets>
+          <MentalBreakThreshold>-0.01</MentalBreakThreshold>
+        </statOffsets>
+        <statFactors>
+          <AimingDelayFactor>0.9</AimingDelayFactor>
+          <ShootingAccuracyPawn>1</ShootingAccuracyPawn>
+          <MeleeDamageFactor>1.1</MeleeDamageFactor>
+          <MeleeCooldownFactor>0.9</MeleeCooldownFactor>
+        </statFactors>
+      </li>
+    </stages>
+    <isBad>false</isBad>
+  </HediffDef>
 </Defs>

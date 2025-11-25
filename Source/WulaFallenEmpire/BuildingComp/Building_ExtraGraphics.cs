@@ -58,17 +58,20 @@ namespace WulaFallenEmpire
             
             return graphic;
         }
-
-        // 完全重写 DrawAt 方法，实现自定义渲染系统
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
             // 不调用基类的 DrawAt，完全自定义渲染
-            
+
             // 更新悬浮动画
             UpdateHoverAnimation();
-
             // 绘制所有配置的图形层
             DrawGraphicLayers(drawLoc, flip);
+            // 新增：绘制护盾
+            var shieldComp = this.GetComp<ThingComp_AreaShield>();
+            if (shieldComp != null)
+            {
+                shieldComp.PostDraw();
+            }
         }
 
         // 绘制所有图形层
