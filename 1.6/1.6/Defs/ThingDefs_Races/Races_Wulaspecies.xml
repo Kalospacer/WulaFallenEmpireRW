@@ -1454,13 +1454,32 @@
           </li>
         </renderNodeProperties>
       </li>
-      <li Class="CompProperties_Shield">
-        <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
-        <minDrawSize>8.2</minDrawSize>
-        <maxDrawSize>8.4</maxDrawSize>
-        <energyLossPerDamage>0.01</energyLossPerDamage>
-        <energyOnReset>4.0</energyOnReset>
-        <blocksRangedWeapons>false</blocksRangedWeapons>
+      <!-- 护盾无法在此绘制 -->
+      <li Class="WulaFallenEmpire.CompProperties_AreaShield">
+        <radius>9</radius>
+        <baseHitPoints>300</baseHitPoints>
+        <rechargeDelay>2400</rechargeDelay>
+        <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
+        
+        <!-- 效果器配置 -->
+        <absorbEffecter>Interceptor_BlockedProjectile</absorbEffecter>
+        <interceptEffecter>Interceptor_BlockedProjectile</interceptEffecter>
+        <breakEffecter>Shield_Break</breakEffecter>
+        <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
+        
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        
+        <!-- 拦截设置 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+      
+        <!-- 反射设置 -->
+        <canReflect>true</canReflect>
+        <reflectChance>0.6</reflectChance>
+        <reflectAngleRange>30</reflectAngleRange>
+        <reflectCost>0</reflectCost>
+        <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
       </li>
       <!-- 飞行组件 -->
       <li Class="WulaFallenEmpire.CompProperties_PawnFlight">
@@ -1624,13 +1643,32 @@
       </li>
     </tools>
     <comps>
-      <li Class="CompProperties_Shield">
-        <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
-        <minDrawSize>11.2</minDrawSize>
-        <maxDrawSize>11.4</maxDrawSize>
-        <energyLossPerDamage>0.01</energyLossPerDamage>
-        <energyOnReset>4.0</energyOnReset>
-        <blocksRangedWeapons>false</blocksRangedWeapons>
+      <!-- 护盾无法在此绘制 -->
+      <li Class="WulaFallenEmpire.CompProperties_AreaShield">
+        <radius>9</radius>
+        <baseHitPoints>500</baseHitPoints>
+        <rechargeDelay>2400</rechargeDelay>
+        <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
+        
+        <!-- 效果器配置 -->
+        <absorbEffecter>Interceptor_BlockedProjectile</absorbEffecter>
+        <interceptEffecter>Interceptor_BlockedProjectile</interceptEffecter>
+        <breakEffecter>Shield_Break</breakEffecter>
+        <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
+        
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        
+        <!-- 拦截设置 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+      
+        <!-- 反射设置 -->
+        <canReflect>true</canReflect>
+        <reflectChance>0.75</reflectChance>
+        <reflectAngleRange>30</reflectAngleRange>
+        <reflectCost>0</reflectCost>
+        <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
       </li>
       <!-- 飞行组件 -->
       <li Class="WulaFallenEmpire.CompProperties_PawnFlight">
