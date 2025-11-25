@@ -57,6 +57,7 @@
           <li>Wula_FM_Switc_None</li>
           <li>Wula_FM_Switc_Artillery</li>
           <li>Wula_FM_Switc_Aircraft</li>
+          <li>Wula_FM_Switc_Construction</li>
         </availableHediffs>
         <defaultHediffIndex>0</defaultHediffIndex>
         <gizmoIconPath>Wula/UI/Commands/WULA_Antenna_Switch</gizmoIconPath>
@@ -85,7 +86,7 @@
   <HediffDef>
     <defName>Wula_FM_Switc_Artillery</defName>
     <label>调频（火炮）</label>
-    <description>允许乌拉帝国的合成人呼叫轨道火力支援，包含一系列精准度较差但是覆盖范围广的轰炸能力，一般需要有战舰部署在轨道上才能启动。</description>
+    <description>允许乌拉帝国的合成人呼叫轨道炮击，包含一系列精准度较差但是覆盖范围广的轰炸能力，一般需要有攻击型战舰部署在轨道上才能启动。</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
@@ -117,7 +118,7 @@
   <HediffDef>
     <defName>Wula_FM_Switc_Aircraft</defName>
     <label>调频（战机）</label>
-    <description>允许乌拉帝国的合成人呼叫空中火力，包含一系列精准迅速的近地密接支援，每一艘战机会独立计算袭击冷却。</description>
+    <description>允许乌拉帝国的合成人呼叫空中火力，包含一系列精准迅速的近地密接支援，每一艘战机会独立计算袭击冷却，一般需要有攻击型战舰部署在轨道上才能启动。</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
@@ -142,6 +143,30 @@
           <li>WULA_Spawn_Bomber_BaseBomb</li>
           <li>WULA_Spawn_Bomber_Smoke</li>
           <li>WULA_Spawn_Bomber_DarkMatterBomb</li>
+        </abilityDefs>
+      </li>
+    </comps>
+  </HediffDef>
+  <HediffDef>
+    <defName>Wula_FM_Switc_Construction</defName>
+    <label>调频（支援）</label>
+    <description>允许乌拉帝国的合成人呼叫舰队支援，包含一系列防御性能力和生产加速能力，一般需要有拒止舰队部署在轨道上才能启动。</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <everCurableByItem>false</everCurableByItem>
+    <duplicationAllowed>false</duplicationAllowed>
+    <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <becomeVisible>false</becomeVisible>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_GiveAbility">
+        <abilityDefs>
+          <li>WULA_CallMotherShip</li>
+          <li>WULA_CallConstructionShip</li>
+          <li>WULA_ClearFlightPath</li>
         </abilityDefs>
       </li>
     </comps>

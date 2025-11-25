@@ -252,8 +252,8 @@
       <!-- 入场信封信息 -->
       <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
         <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
-        <letterLabel>帝国航空舰已抵达</letterLabel>
-        <letterText>一艘帝国航空舰响应请求抵达殖民地上空！</letterText>
+        <letterLabel>帝国攻击舰队已抵达</letterLabel>
+        <letterText>帝国攻击舰队响应请求抵达殖民地上空！</letterText>
         <letterDef>PositiveEvent</letterDef>
         <onlySendOnce>true</onlySendOnce>
         <requireOnMap>true</requireOnMap>
@@ -510,10 +510,10 @@
       </li>
     </comps>
   </ThingDef> 
-  <!-- 工程舰(弃用) -->
+  <!-- 拒止舰 -->
   <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_ConstructionShip</defName>
-    <label>乌拉帝国工程舰</label>
+    <label>乌拉帝国拒止舰</label>
     <thingClass>WulaFallenEmpire.FlyOver</thingClass>
     <tickerType>Normal</tickerType>
     <drawerType>RealtimeOnly</drawerType>
@@ -559,12 +559,100 @@
       <!-- 入场信封信息 -->
       <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
         <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
-        <letterLabel>帝国工程舰已抵达</letterLabel>
-        <letterText>一艘帝国工程舰响应请求抵达殖民地上空！</letterText>
+        <letterLabel>帝国拒止舰已抵达</letterLabel>
+        <letterText>帝国拒止舰队响应请求抵达殖民地上空！</letterText>
         <letterDef>PositiveEvent</letterDef>
         <onlySendOnce>true</onlySendOnce>
         <requireOnMap>true</requireOnMap>
         <destroyAfterSending>false</destroyAfterSending> <!-- 发送后销毁flyover -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Striker_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>1000</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>20</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>100</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>25</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FlyOverEscort">
+        <escortFlyOverDef>WULA_Bomber_Escort</escortFlyOverDef>
+        
+        <!-- 生成配置 -->
+        <spawnIntervalTicks>1350</spawnIntervalTicks> <!-- 5秒 -->
+        <maxEscorts>10</maxEscorts>
+        <spawnCount>1</spawnCount>
+        
+        <!-- 位置配置 -->
+        <spawnDistance>0</spawnDistance>
+        <lateralOffset>130</lateralOffset>
+        <verticalOffset>5</verticalOffset>
+        <useRandomOffset>true</useRandomOffset>
+        <minSafeDistanceBetweenEscorts>10</minSafeDistanceBetweenEscorts> <!-- 伴飞物之间的距离 -->
+        <minSafeDistanceFromMain>70</minSafeDistanceFromMain> <!-- 与主飞行物的距离检查 -->
+        
+        <!-- 飞行配置 -->
+        <escortSpeedMultiplier>15</escortSpeedMultiplier> <!-- 比主舰稍快 -->
+        <escortAltitudeOffset>10</escortAltitudeOffset> <!-- 比主舰稍高 -->
+        <mirrorMovement>false</mirrorMovement>
+        
+        <!-- 行为配置 -->
+        <spawnOnStart>true</spawnOnStart>
+        <destroyWithParent>false</destroyWithParent>
+        <continuousSpawning>true</continuousSpawning>
+        
+        <!-- 外观配置 -->
+        <useParentRotation>true</useParentRotation>
+      
+        <!-- 缩放区间配置 -->
+        <escortScaleRange>
+          <min>0.3</min>
+          <max>0.6</max>
+        </escortScaleRange>
+        
+        <!-- 高度遮罩配置 -->
+        <useHeightMask>true</useHeightMask>
+        <heightMaskAlphaRange>
+          <min>0.6</min>
+          <max>0.8</max>
+        </heightMaskAlphaRange>
+        <heightMaskColor>(0.7,0.85,1.0,1.0)</heightMaskColor>
+        <heightMaskScaleMultiplier>1.3</heightMaskScaleMultiplier>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_FlyOverFacilities">
         <availableFacilities>

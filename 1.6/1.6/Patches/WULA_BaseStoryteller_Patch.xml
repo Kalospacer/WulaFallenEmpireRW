@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+  <!-- 乌拉族初始任务 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/StorytellerDef[@Name="BaseStoryteller"]/comps</xpath>
+    <value>
+      <li Class="WulaFallenEmpire.StorytellerCompProperties_ImportantQuestWithFactionFilter">
+        <fireAfterDaysPassed>1</fireAfterDaysPassed>
+        <questIncident>WULA_GiveQuest_Intro_Spy</questIncident>
+        <questDef>WULA_Intro_Spy</questDef>
+        <useFactionFilter>true</useFactionFilter>
+        <defaultBehavior>Allow</defaultBehavior>
+        <factionTypeBlacklist>
+          <li>WULA_Awakened_Synth</li>
+        </factionTypeBlacklist>
+        <allowedTargetTags>
+          <li>Map_PlayerHome</li>
+        </allowedTargetTags>
+      </li>
+    </value>
+  </Operation>
+
+  <!-- 乌拉族税收任务 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/StorytellerDef[@Name="BaseStoryteller"]/comps</xpath>
+    <value>
+      <li Class="WulaFallenEmpire.StorytellerCompProperties_SimpleTechnologyTrigger">
+        <technology>WULA_Colony_License_LV1_Technology</technology>
+        <incident>WULA_GiveQuest_Base_Tex</incident>
+        <questDef>WULA_Base_Tex_Quest</questDef>
+        
+        <!-- 时间配置 -->
+        <fireAfterDaysPassed>0</fireAfterDaysPassed>
+        <checkIntervalDays>15</checkIntervalDays>
+        
+        <!-- 可选配置 -->
+        <preventDuplicateQuests>false</preventDuplicateQuests>
+        <debugLogging>false</debugLogging>
+
+        <requiredFaction>Wula_PIA_Legion_Faction</requiredFaction>
+      </li>
+    </value>
+  </Operation>
+</Patch>

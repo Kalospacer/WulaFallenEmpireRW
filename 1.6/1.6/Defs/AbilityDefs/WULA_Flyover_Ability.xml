@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <!-- 基础单位-战舰编队 -->
+  <!-- 母舰编队 -->
+  <AbilityDef>
+    <defName>WULA_CallMotherShip</defName>
+    <label>呼叫帝国母舰编队</label>
+    <description>发送增援请求，呼叫乌拉帝国母舰舰队前往殖民地的高空轨道,包含4艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器、炮击和轨道支援的母舰。</description>
+    <iconPath>Wula/UI/Abilities/WULA_CallMotherShip</iconPath>
+    <cooldownTicksRange>1</cooldownTicksRange>
+    <hotKey>Misc12</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>true</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+      <warmupTime>5</warmupTime>
+      <range>-1</range>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
+        <requiredAircraftType>WULA_MotherShip_Entity</requiredAircraftType>
+        <aircraftCooldownTicks>640000</aircraftCooldownTicks> 
+        <aircraftsPerUse>1</aircraftsPerUse>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
+        <flyOverDef>WULA_MotherShip</flyOverDef>
+        <flyOverType>Standard</flyOverType>
+        <flightSpeed>0.01</flightSpeed>
+        <altitude>20</altitude>
+        <startPosition>MapEdge</startPosition>
+        <endPosition>OppositeMapEdge</endPosition>
+        <playFlyOverSound>true</playFlyOverSound>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_BlockedByFlyOverFacility">
+          <blockedMessage>航道堵塞：已经有一艘大型舰船在殖民地上空</blockedMessage>
+          <!-- 可选：指定特定的FlyOver定义 -->
+          <!-- <specificFlyOverDef>ARA_HiveShip</specificFlyOverDef> -->
+          <!-- 可选：指定特定的设施名称 -->
+          <!-- <requiredFacility>BombardmentFacility</requiredFacility> -->
+      </li>
+    </comps>
+  </AbilityDef>
+  <!-- 战舰编队 -->
   <AbilityDef>
     <defName>WULA_CallFleet</defName>
-    <label>帝国舰队请求</label>
-    <description>发送增援请求，呼叫乌拉帝国舰队前往殖民地的高空轨道,包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器支援的航空舰。</description>
+    <label>呼叫帝国巡洋舰编队</label>
+    <description>发送增援请求，呼叫乌拉帝国舰队前往殖民地的高空轨道,包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器的航空舰。</description>
     <iconPath>Wula/UI/Abilities/WULA_CallBattleShip</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -48,12 +96,12 @@
       </li>
     </comps>
   </AbilityDef>
-  <!-- 母舰编队 -->
+  <!-- 防御编队 -->
   <AbilityDef>
-    <defName>WULA_CallMotherShip</defName>
-    <label>呼叫帝国母舰</label>
-    <description>发送增援请求，呼叫乌拉帝国母舰舰队前往殖民地的高空轨道,包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器和炮击支援的母舰。</description>
-    <iconPath>Wula/UI/Abilities/WULA_CallMotherShip</iconPath>
+    <defName>WULA_CallConstructionShip</defName>
+    <label>呼叫帝国拒止舰编队</label>
+    <description>发送增援请求，呼叫乌拉帝国拒止舰队前往殖民地的高空轨道，包含1艘可以提供轨道支援的拒止舰。</description>
+    <iconPath>Wula/UI/Abilities/WULA_CallConstructionShip</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
@@ -74,12 +122,12 @@
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AircraftStrike">
-        <requiredAircraftType>WULA_MotherShip_Entity</requiredAircraftType>
+        <requiredAircraftType>WULA_ConstructionShip_Entity</requiredAircraftType>
         <aircraftCooldownTicks>640000</aircraftCooldownTicks> 
         <aircraftsPerUse>1</aircraftsPerUse>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
-        <flyOverDef>WULA_MotherShip</flyOverDef>
+        <flyOverDef>WULA_ConstructionShip</flyOverDef>
         <flyOverType>Standard</flyOverType>
         <flightSpeed>0.01</flightSpeed>
         <altitude>20</altitude>
