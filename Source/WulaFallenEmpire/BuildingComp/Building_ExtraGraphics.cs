@@ -12,7 +12,7 @@ namespace WulaFallenEmpire
         // 通过 ModExtension 配置的图形数据
         private ExtraGraphicsExtension modExtension;
         
-        // 图形缓存
+        // 图形缓存 - 现在包含Shader信息
         private Dictionary<string, Graphic> graphicsCache = new Dictionary<string, Graphic>();
         
         // 动画状态 - 每个图层的独立浮动
@@ -41,16 +41,16 @@ namespace WulaFallenEmpire
         // 重写 Graphic 属性返回 null，完全自定义渲染
         public override Graphic Graphic => null;
 
-        // 获取缓存的图形
-        private Graphic GetCachedGraphic(string texturePath, Vector2 scale, Color color)
+        // 获取缓存的图形 - 修改后支持自定义Shader
+        private Graphic GetCachedGraphic(string texturePath, Vector2 scale, Color color, Shader shader)
         {
-            string cacheKey = $"{texturePath}_{scale.x}_{scale.y}_{color}";
+            string cacheKey = $"{texturePath}_{scale.x}_{scale.y}_{color}_{shader?.name ?? "null"}";
             
             if (!graphicsCache.TryGetValue(cacheKey, out Graphic graphic))
             {
                 graphic = GraphicDatabase.Get<Graphic_Single>(
                     texturePath, 
-                    ShaderDatabase.TransparentPostLight, 
+                    shader ?? ShaderDatabase.TransparentPostLight, // 使用传入的Shader，如果为null则使用默认
                     scale, 
                     color);
                 graphicsCache[cacheKey] = graphic;
@@ -58,6 +58,66 @@ namespace WulaFallenEmpire
             
             return graphic;
         }
+
+        // 根据Shader名称获取Shader - 修正版本
+        private Shader GetShaderByName(string shaderName)
+        {
+            if (string.IsNullOrEmpty(shaderName))
+                return ShaderDatabase.TransparentPostLight;
+
+            // 使用switch语句匹配实际可用的Shader
+            switch (shaderName.ToLower())
+            {
+                case "transparent":
+                    return ShaderDatabase.Transparent;
+                case "transparentpostlight":
+                    return ShaderDatabase.TransparentPostLight;
+                case "transparentplant":
+                    return ShaderDatabase.TransparentPlant;
+                case "cutout":
+                    return ShaderDatabase.Cutout;
+                case "cutoutcomplex":
+                    return ShaderDatabase.CutoutComplex;
+                case "cutoutflying":
+                    return ShaderDatabase.CutoutFlying;
+                case "cutoutflying01":
+                    return ShaderDatabase.CutoutFlying01;
+                case "terrainfade":
+                    return ShaderDatabase.TerrainFade;
+                case "terrainfaderough":
+                    return ShaderDatabase.TerrainFadeRough;
+                case "mote":
+                    return ShaderDatabase.Mote;
+                case "moteglow":
+                    return ShaderDatabase.MoteGlow;
+                case "motepulse":
+                    return ShaderDatabase.MotePulse;
+                case "moteglowpulse":
+                    return ShaderDatabase.MoteGlowPulse;
+                case "motewater":
+                    return ShaderDatabase.MoteWater;
+                case "moteglowdistorted":
+                    return ShaderDatabase.MoteGlowDistorted;
+                case "solidcolor":
+                    return ShaderDatabase.SolidColor;
+                case "vertexcolor":
+                    return ShaderDatabase.VertexColor;
+                case "invisible":
+                    return ShaderDatabase.Invisible;
+                case "silhouette":
+                    return ShaderDatabase.Silhouette;
+                case "worldterrain":
+                    return ShaderDatabase.WorldTerrain;
+                case "worldocean":
+                    return ShaderDatabase.WorldOcean;
+                case "metaoverlay":
+                    return ShaderDatabase.MetaOverlay;
+                default:
+                    Log.Warning($"Building_ExtraGraphics: Shader '{shaderName}' not found, using TransparentPostLight as fallback");
+                    return ShaderDatabase.TransparentPostLight;
+            }
+        }
+
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
             // 不调用基类的 DrawAt，完全自定义渲染
@@ -101,8 +161,11 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // 获取图形
-            Graphic graphic = GetCachedGraphic(layer.texturePath, layer.scale, layer.color);
+            // 获取Shader
+            Shader shader = GetShaderByName(layer.shaderName);
+
+            // 获取图形（现在传入Shader）
+            Graphic graphic = GetCachedGraphic(layer.texturePath, layer.scale, layer.color, shader);
 
             // 计算图层浮动偏移
             float hoverOffset = 0f;
@@ -187,7 +250,7 @@ namespace WulaFallenEmpire
         }
     }
 
-    // 单个图形层的配置数据
+    // 单个图形层的配置数据 - 添加shaderName字段
     public class GraphicLayerData
     {
         // 基础配置
@@ -195,6 +258,7 @@ namespace WulaFallenEmpire
         public Vector2 scale = Vector2.one;          // 缩放比例
         public Color color = Color.white;            // 颜色
         public int drawOrder = 0;                    // 绘制顺序（数字小的先绘制）
+        public string shaderName = "TransparentPostLight"; // Shader名称（新增）
         
         // 位置配置 - 使用环世界坐标系
         // X: 左右偏移, Y: 图层深度, Z: 上下偏移

@@ -287,6 +287,118 @@
     <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
   </ManeuverDef>
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Melee">
+    <defName>WULA_MW_Twohanded_ChainBroadsword</defName>
+    <label>CBs-25"地狱牙"</label>
+    <description>一把需要双手才能拿起的巨型链锯刀，这种恐怖的近战武器一击就可以造成大量伤口，甚至将对手劈成两段。它的刀头装备了一台微型相位引擎，可以挥出斩裂空间的一刀，然后瞬间移动到目标面前。</description>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_MW_Twohanded_ChainBroadsword/WULA_MW_Twohanded_ChainBroadsword</texPath>
+      <shaderType>CutoutComplex</shaderType>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.5</drawSize>
+    </graphicData>
+    <equippedAngleOffset>25</equippedAngleOffset>
+    <weaponTags Inherit="False">
+      <li>Wula_Melee_Weapon_T3</li>
+    </weaponTags>
+    <uiIconScale>0.8</uiIconScale>
+    <techLevel>Spacer</techLevel>
+    <costStuffCount>0</costStuffCount>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <statBases>
+      <!-- <MarketValue>441</MarketValue> -->
+      <WorkToMake>4000</WorkToMake>
+      <Mass>20</Mass>
+    </statBases>
+    <costList Inherit="False">
+      <WULA_Neutronium>12</WULA_Neutronium>
+      <WULA_Dark_Matter_Item>12</WULA_Dark_Matter_Item>
+      <Plasteel>80</Plasteel>
+    </costList>
+    <tools Inherit="False">
+      <li>
+        <label>链锯</label>
+        <capacities>
+          <li>WULA_MW_ChainSword_MultiStrike</li>
+        </capacities>
+        <armorPenetration>1.75</armorPenetration>
+        <power>35</power>
+        <cooldownTime>2</cooldownTime>
+        <soundMeleeHit>WULA_MW_ChainSword_Hit</soundMeleeHit>
+        <soundMeleeMiss>WULA_MW_ChainSword_Hit</soundMeleeMiss>
+      </li>
+    </tools>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WULA_WeaponArmor_Productor</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_3_Melee_Technology</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>7</Crafting>
+      </skillRequirements>
+      <displayPriority>450</displayPriority>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <comps>
+			<li Class="WulaFallenEmpire.CompProperties_WeaponRenderDynamic">
+				<TexturePath>Wula/Weapon/WULA_MW_Twohanded_ChainBroadsword/WULA_MW_Twohanded_ChainBroadsword_Anim</TexturePath>
+				<totalFrames>8</totalFrames>
+				<ticksPerFrame>8</ticksPerFrame>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MultiStrike">
+        <strikeCount>8~12</strikeCount>
+        <damageMultiplierPerStrike>0.2</damageMultiplierPerStrike>
+      </li>
+      <li Class="CompProperties_EquippableAbilityReloadable">
+        <abilityDef>WULA_MW_Twohanded_ChainBroadsword_Ability</abilityDef>
+        <chargeNoun>传送核心</chargeNoun>
+      </li>
+    </comps>
+  </ThingDef>
+  <AbilityDef>
+    <defName>WULA_MW_Twohanded_ChainBroadsword_Ability</defName>
+    <label>短距离跃迁</label>
+    <description>使用CBs-25"地狱牙"刀头的相位引擎立刻折跃至一个新的位置——这种折跃引擎只能折跃小型目标，如果持刀者体型大于1则无法发起传送。</description>
+    <iconPath>UI/Abilities/Skip</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>False</showPsycastEffects>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <cooldownTicksRange>200</cooldownTicksRange>
+    <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>1</warmupTime>
+      <range>30</range>
+      <soundCast>WULA_Psi_Skip_Sound</soundCast>
+      <requireLineOfSight>false</requireLineOfSight>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityTeleportSelf">
+        <range>30</range>
+        <stunTicks>
+          <min>0</min>
+          <max>0</max>
+        </stunTicks>
+        <maxBodySize>1</maxBodySize>
+        <destClamorType>Impact</destClamorType>
+        <destClamorRadius>3</destClamorRadius>
+        <requireLineOfSight>false</requireLineOfSight>
+        <canTeleportToFogged>false</canTeleportToFogged>
+        <canTeleportToRoofed>true</canTeleportToRoofed>
+
+        <customEntryEffecter>Skip_Entry</customEntryEffecter>
+        <customExitEffecter>Skip_Exit</customExitEffecter>
+        <!-- <customEntryFleck>WULA_GiantTeleportFlash</customEntryFleck>
+        <customExitFleck>WULA_GiantTeleportRings</customExitFleck> -->
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="WULA_ExperienceCore_Weapon_Melee">
     <defName>WULA_MW_Breaker_Bar</defName>
     <label>PMb-97"破墙槌"</label>
     <description>一种沉重的破墙设备，通常由装备外骨骼的乌拉帝国士兵携带，可以通过加压挥出势大力沉的一击，连续击倒多名敌人。</description>
@@ -368,6 +480,10 @@
 					<max>1</max>
 				</numTraitsRange>
 			</li>
+      <li Class="CompProperties_EquippableAbilityReloadable">
+        <abilityDef>WULA_MW_Breaker_Bar_Ability</abilityDef>
+        <chargeNoun>助推器</chargeNoun>
+      </li>
     </comps>
   </ThingDef>
   <ToolCapacityDef>
@@ -387,6 +503,45 @@
     <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
     <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
   </ManeuverDef>
+  <AbilityDef ParentName="AbilityTouchBase">
+    <defName>WULA_MW_Breaker_Bar_Ability</defName>
+    <label>全功率上挑</label>
+    <description>将PMb-97"破墙槌"的锤头加到最大压强，随后挥出向上的一击，以突破严密的人墙。即使敌人侥幸存活，也会眩晕并被砸飞出一段距离。</description>
+    <iconPath>UI/Abilities/UnnaturalHealing</iconPath>
+    <cooldownTicksRange>300</cooldownTicksRange> <!-- 6 days -->
+    <showPsycastEffects>false</showPsycastEffects>
+    <stunTargetWhileCasting>true</stunTargetWhileCasting>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbilityTouch</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <range>-1</range>
+      <warmupTime>0.5</warmupTime>
+      <soundCast>WULA_MW_Breaker_Bar_Hit</soundCast>
+      <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetPawns>true</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_StunKnockback">
+        <damageDef>Demolish</damageDef>
+        <damageAmount>80</damageAmount>
+        <armorPenetration>2</armorPenetration>
+        <stunTicks>300</stunTicks>
+        <maxKnockbackDistance>8</maxKnockbackDistance>
+        <requireLineOfSight>true</requireLineOfSight>
+        <canKnockbackIntoWalls>false</canKnockbackIntoWalls>
+        <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
+        <!-- <flightEffecterDef>JumpFlight</flightEffecterDef> -->
+        <landingSound>PawnFlyer_Land</landingSound>
+        <!-- <impactEffecter>DamageEffect_Bullet</impactEffecter> -->
+        <!-- <impactSound>WULA_MW_Breaker_Bar_Hit</impactSound> -->
+      </li>
+    </comps>
+    <jobDef>WULA_CastAbilityOnThingMelee_WithWeapon</jobDef>
+  </AbilityDef>
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>WULA_MW_Constructor_Hammer</defName>
     <label>HAm-1"装修锤"</label>
@@ -1154,6 +1309,10 @@
     <defName>Bullet_WULA_RW_Penetrating_Beam</defName>
     <label>穿透光束</label>
     <thingClass>WulaFallenEmpire.Projectile_WulaPenetratingBeam</thingClass>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
         <maxHits>2</maxHits>        <!-- -1 for infinite hits -->
@@ -1247,6 +1406,10 @@
     <defName>Bullet_WULA_RW_Penetrating_Beam_Ranged</defName>
     <label>穿透光束</label>
     <thingClass>WulaFallenEmpire.Projectile_WulaPenetratingBeam</thingClass>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_BeamPierce_Extension">
         <maxHits>2</maxHits>        <!-- -1 for infinite hits -->

@@ -198,10 +198,21 @@
   <!-- 舰队许可 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Aircraft_Carrier_Technology</defName>
-    <label>舰队调配许可</label>
-    <description>允许殖民地建立信标增加航空舰配额，并使得机械乌拉可以调频天线以申请舰队空中支援，包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器支援的航空舰。</description>
+    <label>攻击舰队调配许可</label>
+    <description>允许殖民地建立信标增加攻击舰队配额，并使得机械乌拉可以调频天线以申请舰队空中支援，包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器支援的航空舰。</description>
     <baseCost>600</baseCost>
-    <researchViewX>5.00</researchViewX>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>4.40</researchViewY>
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_ConstructionShip_Technology</defName>
+    <label>拒止舰队调配许可</label>
+    <description>允许殖民地建立信标增加拒止舰队配额，并使得机械乌拉可以调频天线以申请舰队空中支援，包含1艘可以提供轨道支援的拒止舰。</description>
+    <baseCost>600</baseCost>
+    <researchViewX>6.00</researchViewX>
     <researchViewY>3.80</researchViewY>
     <prerequisites>
       <li>WULA_Colony_License_LV2_Technology</li>
@@ -336,8 +347,8 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_DarkEnergy_Generators_Technology</defName>
-    <researchViewX>9.00</researchViewX>
-    <researchViewY>3.80</researchViewY>
+    <researchViewX>10.00</researchViewX>
+    <researchViewY>2.70</researchViewY>
     <label>暗物质发电空投许可</label>
     <description>允许殖民地申请空投暗物质发电机，一种输出功率极为恐怖却非常消耗资源的发电机。</description>
     <baseCost>600</baseCost>

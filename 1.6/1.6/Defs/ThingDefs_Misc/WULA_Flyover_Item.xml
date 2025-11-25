@@ -2184,7 +2184,7 @@
     <graphicData>
       <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
+      <shaderType>MoteGlow</shaderType>
       <drawSize>(1,1)</drawSize>
       <damageData>
         <enabled>false</enabled>
@@ -2220,7 +2220,7 @@
     <description>乌拉帝国行星封锁机关的全息旗帜，除了宣誓主权外，也能激励附近的乌拉星人更加凶狠地战斗。</description>
     <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
-		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<altitudeLayer>Building</altitudeLayer>
     <pathCost>50</pathCost>
     <blockWind>true</blockWind>
     <passability>PassThroughOnly</passability>
@@ -2271,15 +2271,17 @@
         <graphicLayers>
           <li>
             <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <shaderName>MoteGlow</shaderName>
             <scale>(3,3)</scale>
             <drawOrder>0</drawOrder>
-            <offset>(0,1,3)</offset>
+            <offset>(0,1,2)</offset>
             <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
             <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
             <hoverPhase>0</hoverPhase>
           </li>
           <li>
             <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
             <scale>(1,1)</scale>
             <drawOrder>1</drawOrder>
             <offset>(0,1,0)</offset>
@@ -2327,6 +2329,37 @@
     <defName>WULA_Support_Shield</defName>
     <label>P.I.A全息旗帜附拒止护盾</label>
     <description>乌拉帝国行星封锁机关的全息旗帜，除了宣誓主权外，也能激励附近的乌拉星人更加凶狠地战斗。这面旗帜的底座附带了一个大型拒止护盾，可以反射所有的敌方射弹，己方的开火不受影响。\n\n在工作一段时间后，该系统将自行烧毁。</description>
+    
+    <modExtensions Inherit="False">
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_B</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    
     <comps>
       <li Class="CompProperties_Lifespan">
         <lifespanTicks>3600</lifespanTicks>
@@ -2371,6 +2404,37 @@
     <defName>WULA_Support_AreaTeleporter</defName>
     <label>P.I.A全息旗帜附区域传送器</label>
     <description>乌拉帝国行星封锁机关的全息旗帜，除了宣誓主权外，也能激励附近的乌拉星人更加凶狠地战斗。这面旗帜的底座附带了一个区域传送器，可以使得机械乌拉在旗帜区域内传送。\n\n在工作一段时间后，该系统将自行烧毁。</description>
+    
+    <modExtensions Inherit="False">
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_C</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
         <radius>20</radius> <!-- 半径大小 -->

@@ -373,7 +373,7 @@
   </PawnKindDef>
   <PawnKindDef>
     <defName>Wula_PIA_Heavy_Unit</defName>
-    <label>军团重装步兵</label>
+    <label>军团步兵</label>
     <race>WulaSpecies</race>
     <lifeStages>
       <li>
@@ -411,6 +411,119 @@
       <li>WULA_Heavy_Infantry_Helmet</li>
     </apparelRequired>
     <weaponMoney>3000~8000</weaponMoney>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <techHediffsChance>1</techHediffsChance>
+    <apparelMoney>999999~999999</apparelMoney>
+    <techHediffsMoney>999999~999999</techHediffsMoney>
+    <techHediffsRequired>
+      <li>WULA_AutoJumpdrive</li>
+      <li>DeathAcidifier</li>
+    </techHediffsRequired>
+
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+  <PawnKindDef>
+    <defName>Wula_PIA_Heavy_Unit_Melee</defName>
+    <label>军团破阵步兵</label>
+    <race>WulaSpecies</race>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1</drawSize>
+          <shadowData>
+            <volume>(0.2, 0.3, 0.2)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <minGenerationAge>18</minGenerationAge>
+		<maxGenerationAge>20</maxGenerationAge>
+    <combatPower>500</combatPower>
+    <initialWillRange>10~20</initialWillRange>
+    <initialResistanceRange>10~20</initialResistanceRange>
+    <itemQuality>Poor</itemQuality>
+    <minApparelQuality>Poor</minApparelQuality>
+    <maxApparelQuality>Poor</maxApparelQuality>
+    <isFighter>true</isFighter>
+    <apparelTags>
+      <li>Wula_Armor_Super_Heavy</li>
+      <li>Wula_Armor_Shield</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Melee_Weapon_T3</li>
+    </weaponTags>
+    <apparelRequired>
+      <li>WULA_Heavy_Infantry_PowerArmor</li>
+      <li>WULA_Heavy_Infantry_Helmet</li>
+    </apparelRequired>
+    <weaponMoney>90000~350000</weaponMoney>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <techHediffsChance>1</techHediffsChance>
+    <apparelMoney>999999~999999</apparelMoney>
+    <techHediffsMoney>999999~999999</techHediffsMoney>
+    <techHediffsRequired>
+      <li>WULA_AutoJumpdrive</li>
+      <li>DeathAcidifier</li>
+    </techHediffsRequired>
+
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>Wula_Backstory_Categories</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+  </PawnKindDef>
+  <PawnKindDef>
+    <defName>Wula_PIA_Heavy_Unit_Range</defName>
+    <label>军团重装步兵</label>
+    <race>WulaSpecies</race>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1</drawSize>
+          <shadowData>
+            <volume>(0.2, 0.3, 0.2)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <minGenerationAge>18</minGenerationAge>
+		<maxGenerationAge>20</maxGenerationAge>
+    <combatPower>500</combatPower>
+    <initialWillRange>10~20</initialWillRange>
+    <initialResistanceRange>10~20</initialResistanceRange>
+    <itemQuality>Poor</itemQuality>
+    <minApparelQuality>Poor</minApparelQuality>
+    <maxApparelQuality>Poor</maxApparelQuality>
+    <isFighter>true</isFighter>
+    <apparelTags>
+      <li>Wula_Armor_Super_Heavy</li>
+    </apparelTags>
+    <weaponTags>
+      <li>Wula_Ranged_Weapon_T3</li>
+    </weaponTags>
+    <apparelRequired>
+      <li>WULA_Heavy_Infantry_PowerArmor</li>
+      <li>WULA_Heavy_Infantry_Helmet</li>
+    </apparelRequired>
+    <weaponMoney>90000~350000</weaponMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
     <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
     <techHediffsChance>1</techHediffsChance>

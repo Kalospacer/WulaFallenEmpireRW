@@ -1,0 +1,11 @@
+{
+  "TextureModID": "tourswen.wulafallenempirev2test",
+  "ItemDefName": "WULA_MW_Breaker_Bar",
+  "ItemType": "ThingDef",
+  "ItemTypeNamespace": "Verse",
+  "OffY": 0.0545980521,
+  "ScaleX": 1.5,
+  "ScaleY": 1.5,
+  "BladeStart": -0.428160578,
+  "MeleeWeaponType": 1
+}

@@ -1,0 +1,13 @@
+{
+  "TextureModID": "tourswen.wulafallenempirev2test",
+  "ItemDefName": "WULA_MW_Twohanded_ChainBroadsword",
+  "ItemType": "ThingDef",
+  "ItemTypeNamespace": "Verse",
+  "OffX": 0.08908081,
+  "OffY": 0.244253218,
+  "ScaleX": 1.5,
+  "ScaleY": 1.5,
+  "BladeStart": -0.502873361,
+  "BladeEnd": 0.807471454,
+  "MeleeWeaponType": 6
+}

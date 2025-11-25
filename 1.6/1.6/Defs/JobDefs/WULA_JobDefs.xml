@@ -45,4 +45,14 @@
     <alwaysShowWeapon>false</alwaysShowWeapon>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
+
+  <JobDef>
+    <defName>WULA_CastAbilityOnThingMelee_WithWeapon</defName>
+    <driverClass>JobDriver_CastAbilityMelee</driverClass>
+    <casualInterruptible>false</casualInterruptible>
+    <collideWithPawns>true</collideWithPawns>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <tryStartFlying>true</tryStartFlying>
+    <overrideFlyChance>1</overrideFlyChance>
+  </JobDef>
 </Defs>

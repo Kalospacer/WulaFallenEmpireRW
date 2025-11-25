@@ -1,0 +1,11 @@
+{
+  "TextureModID": "tourswen.wulafallenempirev2test",
+  "ItemDefName": "WULA_MW_Charge_Mace",
+  "ItemType": "ThingDef",
+  "ItemTypeNamespace": "Verse",
+  "OffY": 0.0201152936,
+  "HandsMode": 1,
+  "BladeStart": -0.318965524,
+  "BladeEnd": 0.336206883,
+  "MeleeWeaponType": 40
+}
