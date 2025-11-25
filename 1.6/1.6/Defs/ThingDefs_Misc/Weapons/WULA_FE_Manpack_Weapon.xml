@@ -582,8 +582,6 @@
     <weaponTags Inherit="False">
       <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
-    <comps Inherit="False">
-    </comps>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Base_AR</defName>
