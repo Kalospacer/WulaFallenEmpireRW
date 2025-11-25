@@ -13,20 +13,7 @@
 			"path": "../../../../Data"
 		},
 		{
-			"name": "AlienRace",
-			"path": "../../../../../../../../Users/Kalo/Downloads/AlienRaces/Source/AlienRace/AlienRace"
-		},
-		{
-			"path": "../../../../../../workshop/content/294100/3565275325/Source/SRALib/SRALib"
-		},
-		{
-			"path": "../../../../../../workshop/content/294100/3575567766"
-		},
-		{
-			"path": "../../../../../../../../Users/Kalo/Downloads/MechsuitFramework-main"
-		},
-		{
-			"path": "../../../../../../workshop/content/294100/3226701491/1.6/Assemblies/BM_PowerArmor"
+			"path": "../../../../dll1.6"
 		}
 	],
 	"settings": {}
