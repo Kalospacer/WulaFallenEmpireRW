@@ -54,6 +54,7 @@ class SymbolIndex:
     """
     def __init__(self):
         self.symbol_map = {}  # symbol_id -> file_path
+        self.translation_map = defaultdict(list) # translation_text -> [symbol_id]
         self.files_cache = [] # 所有文件路径列表
         self.is_initialized = False
         self._lock = threading.Lock()
@@ -77,19 +78,26 @@ class SymbolIndex:
             else:
                 logging.warning(f"Source root not found: {RIMWORLD_SOURCE_ROOT}")
 
-            # 2. 扫描 XML Defs
-            # 扫描 Data 目录下的所有子目录
+            # 2. 扫描 XML Defs 和 语言文件
             if os.path.exists(RIMWORLD_DATA_ROOT):
                 for root, _, files in os.walk(RIMWORLD_DATA_ROOT):
                     for file in files:
                         if file.endswith('.xml'):
                             full_path = os.path.join(root, file)
                             self.files_cache.append(full_path)
-                            # 快速解析 XML 找 defName
-                            try:
-                                self._scan_xml_defs(full_path)
-                            except Exception as e:
-                                logging.warning(f"解析 XML 失败 {full_path}: {e}")
+                            
+                            # 判断是 Def 定义还是翻译文件
+                            # 简单判断：路径包含 "Languages" 且包含 "DefInjected"
+                            if "Languages" in full_path and "DefInjected" in full_path:
+                                try:
+                                    self._scan_translations(full_path)
+                                except Exception as e:
+                                    logging.warning(f"解析翻译失败 {full_path}: {e}")
+                            else:
+                                try:
+                                    self._scan_xml_defs(full_path)
+                                except Exception as e:
+                                    logging.warning(f"解析 XML 失败 {full_path}: {e}")
             else:
                 logging.warning(f"Data root not found: {RIMWORLD_DATA_ROOT}")
 
@@ -105,18 +113,51 @@ class SymbolIndex:
         for name in def_names:
             self.symbol_map[f"xml:{name}"] = path
 
+    def _scan_translations(self, path):
+        content = read_file_content(path)
+        if not content: return
+
+        # 提取 <DefName.Field>Translation</DefName.Field>
+        # 示例: <Gun_AssaultRifle.label>突击步枪</Gun_AssaultRifle.label>
+        matches = re.findall(r'<([\w\.]+)>([^<]+)</', content)
+        for key, text in matches:
+            if '.' in key:
+                # 尝试提取 DefName
+                # Key 可能是 ThingDef.Gun_AssaultRifle.label 或 Gun_AssaultRifle.label
+                parts = key.split('.')
+                # 启发式：通常 DefName 是倒数第二个（如果有DefType）或第一个
+                # 这里简单处理：如果是两段，取第一段；三段取第二段
+                def_name = parts[0]
+                if len(parts) >= 3: # e.g. ThingDef.Gun_AssaultRifle.label
+                    def_name = parts[1]
+                
+                symbol_id = f"xml:{def_name}"
+                self.translation_map[text.strip()].append(symbol_id)
+
     def search_symbols(self, keyword: str, kind: str = None) -> List[Tuple[str, str]]:
-        """简单的关键词匹配"""
+        """关键词匹配，支持翻译反查"""
         results = []
         kw_lower = keyword.lower()
+        
+        # 1. 搜索翻译索引
+        found_via_translation = set()
+        for trans_text, symbols in self.translation_map.items():
+            if kw_lower in trans_text.lower():
+                for sym in symbols:
+                    if sym in self.symbol_map: # 确保该 Def 确实存在
+                        found_via_translation.add(sym)
+                        results.append((sym, self.symbol_map[sym]))
+
+        # 2. 搜索原始符号
         for sym, path in self.symbol_map.items():
+            if sym in found_via_translation: continue # 避免重复
+            
             if kind == 'csharp' and sym.startswith('xml:'): continue
             if kind == 'xml' and not sym.startswith('xml:'): continue
             
             if kw_lower in sym.lower():
                 results.append((sym, path))
-            # 移除硬限制，以便后续排序能找到最佳结果
-            # if len(results) > 200: break
+            
         return results
 
 # 全局索引实例
@@ -126,7 +167,8 @@ global_index = SymbolIndex()
 
 def read_file_content(path: str) -> str:
     """健壮的文件读取"""
-    encodings = ['utf-8', 'utf-8-sig', 'gbk', 'latin-1']
+    # 优先尝试 utf-8-sig 以去除 BOM
+    encodings = ['utf-8-sig', 'utf-8', 'gbk', 'latin-1']
     for enc in encodings:
         try:
             with open(path, 'r', encoding=enc) as f:
@@ -141,28 +183,44 @@ def extract_xml_fragment(file_path: str, def_name: str) -> str:
     """提取 XML 中特定的 Def 块"""
     content = read_file_content(file_path)
     try:
-        # 尝试正则匹配整个 Def 块
-        # 假设 Def 格式为 <DefType defName="NAME">...</DefType> 或 <DefType><defName>NAME</defName>...</DefType>
-        
-        # 策略 1: 查找 <defName>NAME</defName>，然后向上找最近的 <DefType>
-        pattern = r"<(\w+)\s*(?:Name=\"[^\"]*\")?>\s*<defName>" + re.escape(def_name) + r"</defName>"
+        # 策略：先找到 <defName>NAME</defName>，然后向后搜索最近的父级标签
+        pattern = r"<defName>" + re.escape(def_name) + r"</defName>"
         match = re.search(pattern, content)
         
-        if not match:
-             # 策略 2: 查找 defName="NAME"
-             pattern = r"<(\w+)\s+[^>]*defName=\"" + re.escape(def_name) + r"\""
-             match = re.search(pattern, content)
-
         if match:
-            tag_name = match.group(1)
-            # 找到开始位置
-            start_pos = match.start()
-            # 寻找对应的结束标签 </Tag>
-            # 这是一个简化的查找，不支持嵌套同名标签，但在 RimWorld Defs 中通常足够
-            end_tag = f"</{tag_name}>"
-            end_pos = content.find(end_tag, start_pos)
-            if end_pos != -1:
-                return content[start_pos:end_pos + len(end_tag)]
+            def_start = match.start()
+            def_end = match.end()
+            
+            # 向前搜索最近的开始标签 <TagName
+            cursor = def_start
+            while cursor >= 0:
+                lt_pos = content.rfind('<', 0, cursor)
+                if lt_pos == -1: break
+                
+                # 跳过结束标签 </... 和注释 <!-- ...
+                char_after = content[lt_pos+1] if lt_pos+1 < len(content) else ''
+                if char_after == '/' or char_after == '!' or char_after == '?':
+                    cursor = lt_pos
+                    continue
+                
+                # 找到了一个开始标签，提取标签名
+                tag_match = re.match(r'<([\w]+)', content[lt_pos:])
+                if tag_match:
+                    tag_name = tag_match.group(1)
+                    
+                    # 验证这不是一个子字段（RimWorld Defs 通常是扁平的，DefName 是直接子节点）
+                    # 但为了保险，我们假设这就是 Def 的开始
+                    
+                    # 向后搜索对应的结束标签 </TagName>
+                    close_tag = f"</{tag_name}>"
+                    close_pos = content.find(close_tag, def_end)
+                    
+                    if close_pos != -1:
+                        return content[lt_pos : close_pos + len(close_tag)]
+                
+                # 如果找到了开始标签但没匹配上（逻辑上不应该发生，除非XML结构很怪），停止搜索
+                break
+
     except Exception as e:
         logging.error(f"Error extracting XML fragment: {e}")
     
