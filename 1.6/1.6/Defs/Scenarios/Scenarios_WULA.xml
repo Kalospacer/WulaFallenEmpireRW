@@ -139,6 +139,10 @@
         </li>
         <li Class="ScenPart_StartingResearch">
           <def>StartingResearch</def>
+          <project>WULA_Structure_Technology</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
           <project>BasicMechtech</project>
         </li>
 
