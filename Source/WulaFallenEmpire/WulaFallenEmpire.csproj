@@ -116,6 +116,7 @@
     <Compile Include="BuildingComp\WULA_Shuttle\PocketSpaceThingHolder.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompProperties_SkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompSkyfallerCaller.cs" />
+    <Compile Include="BuildingComp\WULA_SkyfallerCaller\WulaSkyfallerWorldComponent.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompProperties_StorageTurret.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompStorageTurret.cs" />
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />

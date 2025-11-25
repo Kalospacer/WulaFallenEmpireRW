@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -10,6 +11,19 @@ namespace WulaFallenEmpire
     public class CompSkyfallerCaller : ThingComp
     {
         private CompProperties_SkyfallerCaller Props => (CompProperties_SkyfallerCaller)props;
+
+        private WulaSkyfallerWorldComponent _worldComponent;
+        private WulaSkyfallerWorldComponent WorldComp
+        {
+            get
+            {
+                if (_worldComponent == null)
+                {
+                    _worldComponent = Find.World.GetComponent<WulaSkyfallerWorldComponent>();
+                }
+                return _worldComponent;
+            }
+        }
         
         private bool used = false;
         private int callTick = -1;
@@ -138,6 +152,15 @@ namespace WulaFallenEmpire
             }
         }
 
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            if (!respawningAfterLoad && Props.canAutoCall && WorldComp.AutoCallSkyfaller && CanCallSkyfaller)
+            {
+                CallSkyfaller(true);
+            }
+        }
+
         public override void PostExposeData()
         {
             base.PostExposeData();
@@ -156,7 +179,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        public void CallSkyfaller()
+        public void CallSkyfaller(bool isAutoCall = false)
         {
             if (!CanCallSkyfaller)
             {
@@ -183,15 +206,16 @@ namespace WulaFallenEmpire
             
             calling = true;
             used = true;
-            callTick = Find.TickManager.TicksGame + Props.delayTicks;
+            int delay = isAutoCall ? Props.autoCallDelayTicks : Props.delayTicks;
+            callTick = Find.TickManager.TicksGame + delay;
 
-            if (Props.delayTicks <= 0)
+            if (delay <= 0)
             {
                 ExecuteSkyfallerCall();
             }
             else
             {
-                Messages.Message("WULA_SkyfallerIncoming".Translate(Props.delayTicks.ToStringTicksToPeriod()), parent, MessageTypeDefOf.ThreatBig);
+                Messages.Message("WULA_SkyfallerIncoming".Translate(delay.ToStringTicksToPeriod()), parent, MessageTypeDefOf.ThreatBig);
             }
         }
 
@@ -253,19 +277,42 @@ namespace WulaFallenEmpire
             foreach (var gizmo in base.CompGetGizmosExtra())
                 yield return gizmo;
 
-            if (!CanCall)
-                yield break;
-
-            Command_Action callCommand = new Command_Action
+            if (CanCall)
             {
-                defaultLabel = "WULA_CallSkyfaller".Translate(),
-                defaultDesc = GetCallDescription(),
-                icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_DropBuilding"),
-                action = CallSkyfaller,
-                disabledReason = GetDisabledReason()
-            };
+                Command_Action callCommand = new Command_Action
+                {
+                    defaultLabel = "WULA_CallSkyfaller".Translate(),
+                    defaultDesc = GetCallDescription(),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_DropBuilding"),
+                    action = () => CallSkyfaller(false),
+                    disabledReason = GetDisabledReason()
+                };
+                yield return callCommand;
+            }
 
-            yield return callCommand;
+            if (Props.canAutoCall)
+            {
+                Command_Toggle toggleAutoCall = new Command_Toggle
+                {
+                    defaultLabel = "WULA_ToggleAutoCallSkyfaller".Translate(),
+                    defaultDesc = "WULA_ToggleAutoCallSkyfallerDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_DropBuilding"),
+                    isActive = () => WorldComp.AutoCallSkyfaller,
+                    toggleAction = () =>
+                    {
+                        WorldComp.AutoCallSkyfaller = !WorldComp.AutoCallSkyfaller;
+                        if (WorldComp.AutoCallSkyfaller)
+                        {
+                            Messages.Message("WULA_AutoCallEnabled".Translate(), MessageTypeDefOf.PositiveEvent);
+                        }
+                        else
+                        {
+                            Messages.Message("WULA_AutoCallDisabled".Translate(), MessageTypeDefOf.NegativeEvent);
+                        }
+                    }
+                };
+                yield return toggleAutoCall;
+            }
         }
 
         private string GetCallDescription()

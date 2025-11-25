@@ -8,6 +8,9 @@ namespace WulaFallenEmpire
         public ThingDef skyfallerDef;
         public bool destroyBuilding = true;
         public int delayTicks = 0;
+
+        public bool canAutoCall = true; // 默认启用自动召唤
+        public int autoCallDelayTicks = 600; // 默认10秒
         
         // 新增：是否需要 FlyOver 作为前提条件
         public bool requireFlyOver = false; // 默认不需要 FlyOver
