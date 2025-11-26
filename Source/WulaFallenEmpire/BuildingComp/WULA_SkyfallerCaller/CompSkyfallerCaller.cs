@@ -416,30 +416,6 @@ namespace WulaFallenEmpire
                 }
                 yield return callCommand;
             }
-
-            if (Props.canAutoCall)
-            {
-                Command_Toggle toggleAutoCall = new Command_Toggle
-                {
-                    defaultLabel = "WULA_ToggleAutoCallSkyfaller".Translate(),
-                    defaultDesc = "WULA_ToggleAutoCallSkyfallerDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_DropBuilding"),
-                    isActive = () => WorldComp.AutoCallSkyfaller,
-                    toggleAction = () =>
-                    {
-                        WorldComp.AutoCallSkyfaller = !WorldComp.AutoCallSkyfaller;
-                        if (WorldComp.AutoCallSkyfaller)
-                        {
-                            Messages.Message("WULA_AutoCallEnabled".Translate(), MessageTypeDefOf.PositiveEvent);
-                        }
-                        else
-                        {
-                            Messages.Message("WULA_AutoCallDisabled".Translate(), MessageTypeDefOf.NegativeEvent);
-                        }
-                    }
-                };
-                yield return toggleAutoCall;
-            }
         }
 
         private string GetCallDescription()

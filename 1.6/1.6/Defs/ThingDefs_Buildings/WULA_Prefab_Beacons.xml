@@ -5,17 +5,17 @@
         <defName>WULA_Prefab_Incoming</defName>
         <label>乌拉帝国建筑（空投中）</label>
         <thingClass>WulaFallenEmpire.Skyfaller_PrefabSpawner</thingClass>
-        <size>(1,1)</size>
+        <size>(13,13)</size>
         <graphicData>
             <texPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</texPath>
             <graphicClass>Graphic_Single</graphicClass>
             <shaderType>CutoutFlying</shaderType>
-            <drawSize>(1,1)</drawSize>
+            <drawSize>(13,13)</drawSize>
         </graphicData>
         <skyfaller>
             <movementType>Accelerate</movementType>
             <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
-            <shadowSize>(1, 1)</shadowSize>
+            <shadowSize>(13, 13)</shadowSize>
             <anticipationSound>DropPod_Fall</anticipationSound>
             <anticipationSoundTicks>100</anticipationSoundTicks>
             <impactSound>Explosion_Vaporize</impactSound>
@@ -36,19 +36,19 @@
         </comps>
     </ThingDef>
 
-    <!-- 墙和门 -->
-    <ThingDef ParentName="Wall">
+    <ThingDef ParentName="BuildingBase">
         <defName>WULA_Prefab_Cleanzone_NewColonyBase_Beacon</defName>
         <label>乌拉预制件空投信标-小型前哨站</label>
         <description>一个用于呼叫建筑的信标，用于快速建造一个小型前哨站。</description>
         <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
-        <minifiedDef>MinifiedThing</minifiedDef>
         <tickerType>Normal</tickerType>
         <graphicData>
-            <texPath>Wula/Building/Linked/WulaWall/WulaWall_Atlas</texPath>
+            <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
             <graphicClass>Graphic_Multi</graphicClass>
-            <drawSize>(1,1)</drawSize>
-            <color>(73,185,254,155)</color>
+            <drawSize>(13,13)</drawSize>
+            <damageData>
+                <enabled>false</enabled>
+            </damageData>
         </graphicData>
         <rotatable>false</rotatable>
         <neverMultiSelect>false</neverMultiSelect>
@@ -71,7 +71,7 @@
             <Mass>1</Mass>
             <Flammability>0</Flammability>
         </statBases>
-        <size>(1,1)</size>
+        <size>(13,13)</size>
         <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
         <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
         <stuffCategories Inherit="False"/>

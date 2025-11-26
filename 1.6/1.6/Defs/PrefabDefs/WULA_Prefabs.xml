@@ -116,7 +116,7 @@
         <terrain>
             <WulaFloor>
                 <rects>
-                    <li>(0,0,13,13)</li>
+                    <li>(0,0,12,12)</li>
                 </rects>
             </WulaFloor>
         </terrain>
