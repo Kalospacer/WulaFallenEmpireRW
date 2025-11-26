@@ -270,11 +270,11 @@
     <Compile Include="ThingComp\WULA_AreaTeleporter\ThingComp_AreaTeleporter.cs" />
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompCustomUniqueWeapon.cs" />
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompProperties_CustomUniqueWeapon.cs" />
-    <Compile Include="ThingComp\WULA_DamageReceiver\CompDamageReceiver.cs" />
-    <Compile Include="ThingComp\WULA_DamageReceiver\CompDamageTransfer.cs" />
-    <Compile Include="ThingComp\WULA_DamageReceiver\CompProperties_DamageReceiver.cs" />
-    <Compile Include="ThingComp\WULA_DamageReceiver\CompProperties_DamageTransfer.cs" />
-    <Compile Include="ThingComp\WULA_DamageReceiver\Patch_Pawn_DamageTransfer.cs" />
+    <Compile Include="ThingComp\WULA_DamageTransaction\CompDamageInterceptor.cs" />
+    <Compile Include="ThingComp\WULA_DamageTransaction\CompDamageRelay.cs" />
+    <Compile Include="ThingComp\WULA_DamageTransaction\CompProperties_DamageInterceptor.cs" />
+    <Compile Include="ThingComp\WULA_DamageTransaction\CompProperties_DamageRelay.cs" />
+    <Compile Include="ThingComp\WULA_DamageTransaction\Patch_Pawn_PreApplyDamage.cs" />
     <Compile Include="ThingComp\WULA_GiveHediffsInRange\CompGiveHediffsInRange.cs" />
     <Compile Include="ThingComp\WULA_GiveHediffsInRange\CompProperties_GiveHediffsInRange.cs" />
     <Compile Include="ThingComp\WULA_MechRepairKit\CompUseEffect_FixAllHealthConditions.cs" />

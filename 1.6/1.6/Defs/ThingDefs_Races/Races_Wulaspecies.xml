@@ -1672,13 +1672,12 @@
         <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_DamageTransfer">
-        <damageTransferRatio>0.75</damageTransferRatio>
-        <maxTransferRange>25</maxTransferRange>
-        <requireLineOfSight>false</requireLineOfSight>
+      <li Class="WulaFallenEmpire.CompProperties_DamageInterceptor">
+        <damageTransferRatio>1</damageTransferRatio>
+        <targetBuildingDefName>WULA_Sky_Lock</targetBuildingDefName>
         <healthThreshold>
-          <min>0.1</min>
-          <max>0.9</max>
+          <min>0</min>
+          <max>1</max>
         </healthThreshold>
       </li>
       <!-- 飞行组件 -->

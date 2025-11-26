@@ -53,6 +53,7 @@
       <WULA_Alloy>4</WULA_Alloy>
     </costList>
     <building>
+      <isInert>false</isInert>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
       <isAirtight>false</isAirtight>
       <isStuffableAirtight>false</isStuffableAirtight>
