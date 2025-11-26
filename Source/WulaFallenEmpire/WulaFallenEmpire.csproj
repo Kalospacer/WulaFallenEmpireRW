@@ -92,8 +92,8 @@
     <Compile Include="Ability\WULA_AbilitySpawnAligned\CompProperties_AbilitySpawnAligned.cs" />
     <Compile Include="Ability\WULA_AbilityTeleportSelf\CompAbilityEffect_TeleportSelf.cs" />
     <Compile Include="Ability\WULA_AbilityTeleportSelf\CompProperties_AbilityTeleportSelf.cs" />
-    <Compile Include="Ability\WULA_StunKnockback\CompAbilityEffect_StunKnockback.cs" />
-    <Compile Include="Ability\WULA_StunKnockback\CompProperties_StunKnockback.cs" />
+    <Compile Include="Ability\WULA_AbilityStunKnockback\CompAbilityEffect_StunKnockback.cs" />
+    <Compile Include="Ability\WULA_AbilityStunKnockback\CompProperties_StunKnockback.cs" />
     <Compile Include="BuildingComp\Building_ExtraGraphics.cs" />
     <Compile Include="BuildingComp\Building_MapObserver.cs" />
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompBuildingBombardment.cs" />
@@ -270,6 +270,11 @@
     <Compile Include="ThingComp\WULA_AreaTeleporter\ThingComp_AreaTeleporter.cs" />
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompCustomUniqueWeapon.cs" />
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompProperties_CustomUniqueWeapon.cs" />
+    <Compile Include="ThingComp\WULA_DamageReceiver\CompDamageReceiver.cs" />
+    <Compile Include="ThingComp\WULA_DamageReceiver\CompDamageTransfer.cs" />
+    <Compile Include="ThingComp\WULA_DamageReceiver\CompProperties_DamageReceiver.cs" />
+    <Compile Include="ThingComp\WULA_DamageReceiver\CompProperties_DamageTransfer.cs" />
+    <Compile Include="ThingComp\WULA_DamageReceiver\Patch_Pawn_DamageTransfer.cs" />
     <Compile Include="ThingComp\WULA_GiveHediffsInRange\CompGiveHediffsInRange.cs" />
     <Compile Include="ThingComp\WULA_GiveHediffsInRange\CompProperties_GiveHediffsInRange.cs" />
     <Compile Include="ThingComp\WULA_MechRepairKit\CompUseEffect_FixAllHealthConditions.cs" />

@@ -57,7 +57,7 @@
           <li>Wula_FM_Switc_None</li>
           <li>Wula_FM_Switc_Artillery</li>
           <li>Wula_FM_Switc_Aircraft</li>
-          <li>Wula_FM_Switc_Construction</li>
+          <!-- <li>Wula_FM_Switc_Construction</li> -->
         </availableHediffs>
         <defaultHediffIndex>0</defaultHediffIndex>
         <gizmoIconPath>Wula/UI/Commands/WULA_Antenna_Switch</gizmoIconPath>
