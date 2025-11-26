@@ -1646,7 +1646,6 @@
       </li>
     </tools>
     <comps>
-      <!-- 护盾无法在此绘制 -->
       <li Class="WulaFallenEmpire.CompProperties_AreaShield">
         <radius>9</radius>
         <baseHitPoints>500</baseHitPoints>
@@ -1672,6 +1671,15 @@
         <reflectAngleRange>30</reflectAngleRange>
         <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_DamageTransfer">
+        <damageTransferRatio>0.75</damageTransferRatio>
+        <maxTransferRange>25</maxTransferRange>
+        <requireLineOfSight>false</requireLineOfSight>
+        <healthThreshold>
+          <min>0.1</min>
+          <max>0.9</max>
+        </healthThreshold>
       </li>
       <!-- 飞行组件 -->
       <li Class="WulaFallenEmpire.CompProperties_PawnFlight">
