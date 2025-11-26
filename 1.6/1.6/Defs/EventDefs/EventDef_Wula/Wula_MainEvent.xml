@@ -614,7 +614,7 @@
                     <kindDef>Combat</kindDef>
                     <commonality>100</commonality>
                     <options>
-                      <Wula_PIA_Heavy_Unit_Melee>1</Wula_PIA_Heavy_Unit_Melee>
+                      <Wula_PIA_Heavy_Unit>1</Wula_PIA_Heavy_Unit>
                     </options>
                   </li>
                 </pawnGroupMakers>

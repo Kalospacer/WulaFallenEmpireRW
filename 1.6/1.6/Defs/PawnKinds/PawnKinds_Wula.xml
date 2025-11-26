@@ -32,6 +32,7 @@
     <weaponMoney>0</weaponMoney>
     <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
     <apparelMoney>1000~2000</apparelMoney>
+    <apparelIgnorePollution MayRequire="Ludeon.RimWorld.Biotech">true</apparelIgnorePollution>
 
     <backstoryFiltersOverride>
       <li>
@@ -431,7 +432,7 @@
   </PawnKindDef>
   <PawnKindDef>
     <defName>Wula_PIA_Heavy_Unit_Melee</defName>
-    <label>军团破阵步兵</label>
+    <label>野心冠军勇士</label>
     <race>WulaSpecies</race>
     <lifeStages>
       <li>
@@ -452,13 +453,15 @@
     <combatPower>500</combatPower>
     <initialWillRange>10~20</initialWillRange>
     <initialResistanceRange>10~20</initialResistanceRange>
-    <itemQuality>Poor</itemQuality>
-    <minApparelQuality>Poor</minApparelQuality>
-    <maxApparelQuality>Poor</maxApparelQuality>
+    <itemQuality>Legendary</itemQuality>
+    <minApparelQuality>Legendary</minApparelQuality>
+    <maxApparelQuality>Legendary</maxApparelQuality>
+    <apparelIgnorePollution MayRequire="Ludeon.RimWorld.Biotech">true</apparelIgnorePollution>
+    <ignoreFactionApparelStuffRequirements>true</ignoreFactionApparelStuffRequirements>
     <isFighter>true</isFighter>
+    <weaponStuffOverride>Plasteel</weaponStuffOverride>
     <apparelTags>
       <li>Wula_Armor_Super_Heavy</li>
-      <li>Wula_Armor_Shield</li>
     </apparelTags>
     <weaponTags>
       <li>Wula_Melee_Weapon_T3</li>
@@ -467,7 +470,7 @@
       <li>WULA_Heavy_Infantry_PowerArmor</li>
       <li>WULA_Heavy_Infantry_Helmet</li>
     </apparelRequired>
-    <weaponMoney>90000~350000</weaponMoney>
+    <weaponMoney>999999~999999</weaponMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
     <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
     <techHediffsChance>1</techHediffsChance>
@@ -477,6 +480,10 @@
       <li>WULA_AutoJumpdrive</li>
       <li>DeathAcidifier</li>
     </techHediffsRequired>
+    <techHediffsTags>
+      <li>Advanced</li>
+      <li>ImplantEmpireCommon</li>
+    </techHediffsTags>
 
     <backstoryFiltersOverride>
       <li>
@@ -488,7 +495,7 @@
   </PawnKindDef>
   <PawnKindDef>
     <defName>Wula_PIA_Heavy_Unit_Range</defName>
-    <label>军团重装步兵</label>
+    <label>帝国百战军锋</label>
     <race>WulaSpecies</race>
     <lifeStages>
       <li>
@@ -509,12 +516,13 @@
     <combatPower>500</combatPower>
     <initialWillRange>10~20</initialWillRange>
     <initialResistanceRange>10~20</initialResistanceRange>
-    <itemQuality>Poor</itemQuality>
-    <minApparelQuality>Poor</minApparelQuality>
-    <maxApparelQuality>Poor</maxApparelQuality>
+    <itemQuality>Legendary</itemQuality>
+    <minApparelQuality>Legendary</minApparelQuality>
+    <maxApparelQuality>Legendary</maxApparelQuality>
     <isFighter>true</isFighter>
     <apparelTags>
       <li>Wula_Armor_Super_Heavy</li>
+      <li>Wula_Armor_Shield</li>
     </apparelTags>
     <weaponTags>
       <li>Wula_Ranged_Weapon_T3</li>
@@ -523,7 +531,7 @@
       <li>WULA_Heavy_Infantry_PowerArmor</li>
       <li>WULA_Heavy_Infantry_Helmet</li>
     </apparelRequired>
-    <weaponMoney>90000~350000</weaponMoney>
+    <weaponMoney>999999~999999</weaponMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
     <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
     <techHediffsChance>1</techHediffsChance>
@@ -533,6 +541,10 @@
       <li>WULA_AutoJumpdrive</li>
       <li>DeathAcidifier</li>
     </techHediffsRequired>
+    <techHediffsTags>
+      <li>Advanced</li>
+      <li>ImplantEmpireCommon</li>
+    </techHediffsTags>
 
     <backstoryFiltersOverride>
       <li>

@@ -2256,7 +2256,7 @@
     <drawerType>RealtimeOnly</drawerType>
     <repairEffect>ConstructMetal</repairEffect>
     <forceDebugSpawnable>true</forceDebugSpawnable>
-    <designationCategory>WULA_Buildings</designationCategory>
+    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
     <building>
       <expandHomeArea>false</expandHomeArea>
       <destroySound>BuildingDestroyed_Metal_Big</destroySound>
@@ -2364,7 +2364,6 @@
       <li Class="CompProperties_Lifespan">
         <lifespanTicks>3600</lifespanTicks>
       </li>
-      <!-- 护盾无法在此绘制 -->
       <li Class="WulaFallenEmpire.CompProperties_AreaShield">
         <radius>12</radius>
         <baseHitPoints>150000</baseHitPoints>
