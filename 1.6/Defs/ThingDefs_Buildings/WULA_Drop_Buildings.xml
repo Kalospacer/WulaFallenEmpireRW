@@ -1,0 +1,13 @@
+  &lt;!-- Prefab Spawner Skyfaller --&gt;
+  &lt;ThingDef ParentName="SkyfallerBase"&gt;
+    &lt;defName&gt;WULA_Skyfaller_PrefabSpawner&lt;/defName&gt;
+    &lt;label&gt;prefab cargo pod&lt;/label&gt;
+    &lt;thingClass&gt;WulaFallenEmpire.Skyfaller_PrefabSpawner&lt;/thingClass&gt;
+    &lt;skyfaller&gt;
+      &lt;shadowSize&gt;(6, 6)&lt;/shadowSize&gt;
+      &lt;explosionRadius&gt;5&lt;/explosionRadius&gt;
+      &lt;explosionDamage&gt;Bomb&lt;/explosionDamage&gt;
+      &lt;impactSound&gt;DropPod_Impact&lt;/impactSound&gt;
+      &lt;shake&gt;Medium&lt;/shake&gt;
+    &lt;/skyfaller&gt;
+  &lt;/ThingDef&gt;

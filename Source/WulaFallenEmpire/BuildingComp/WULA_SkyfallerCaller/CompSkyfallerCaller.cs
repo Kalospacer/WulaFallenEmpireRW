@@ -10,7 +10,7 @@ namespace WulaFallenEmpire
 {
     public class CompSkyfallerCaller : ThingComp
     {
-        private CompProperties_SkyfallerCaller Props => (CompProperties_SkyfallerCaller)props;
+        protected CompProperties_SkyfallerCaller Props => (CompProperties_SkyfallerCaller)props;
 
         private WulaSkyfallerWorldComponent _worldComponent;
         private WulaSkyfallerWorldComponent WorldComp
@@ -89,83 +89,29 @@ namespace WulaFallenEmpire
                 }
                 catch (System.Exception ex)
                 {
-                    Log.Error($"[SkyfallerCaller] Error in HasRequiredFlyOver: {ex}");
+                    Log.Error($"[SkyfallerCaller] Exception while checking for FlyOver: {ex}");
                     return false;
                 }
             }
         }
 
-        // 检查屋顶条件
-        public bool CheckRoofConditions
+        private bool CheckRoofConditions
         {
             get
             {
-                if (parent?.Map == null) return false;
+                if (parent?.Map == null) return true;
                 
-                IntVec3 targetPos = parent.Position;
-                RoofDef roof = targetPos.GetRoof(parent.Map);
+                RoofDef roof = parent.Position.GetRoof(parent.Map);
+                if (roof == null) return true;
                 
-                if (roof == null)
-                {
-                    Log.Message($"[SkyfallerCaller] No roof at target position, skyfaller allowed");
-                    return true; // 没有屋顶，允许空投
-                }
+                if (roof.isThickRoof && !Props.allowThickRoof) return false;
+                if (!roof.isThickRoof && !Props.allowThinRoof) return false;
                 
-                if (roof.isThickRoof)
-                {
-                    Log.Message($"[SkyfallerCaller] Thick roof detected at target position: {roof.defName}");
-                    return Props.allowThickRoof; // 厚岩顶，根据配置决定
-                }
-                else
-                {
-                    Log.Message($"[SkyfallerCaller] Thin roof detected at target position: {roof.defName}");
-                    return Props.allowThinRoof; // 薄屋顶，根据配置决定
-                }
-            }
-        }
-
-        // 检查所有召唤条件
-        public bool CanCallSkyfaller
-        {
-            get
-            {
-                if (!CanCall)
-                {
-                    Log.Message($"[SkyfallerCaller] Cannot call: already used or calling");
-                    return false;
-                }
-                
-                if (!HasRequiredFlyOver)
-                {
-                    Log.Message($"[SkyfallerCaller] Cannot call: missing required FlyOver with BuildingdropperFacility");
-                    return false;
-                }
-                
-                if (!CheckRoofConditions)
-                {
-                    Log.Message($"[SkyfallerCaller] Cannot call: roof conditions not met");
-                    return false;
-                }
-
-                if (!HasEnoughMaterials())
-                {
-                    Log.Message($"[SkyfallerCaller] Cannot call: insufficient materials");
-                    return false;
-                }
-                
-                Log.Message($"[SkyfallerCaller] All conditions met for skyfaller call");
                 return true;
             }
         }
 
-        public override void PostSpawnSetup(bool respawningAfterLoad)
-        {
-            base.PostSpawnSetup(respawningAfterLoad);
-            if (!respawningAfterLoad && Props.canAutoCall && WorldComp.AutoCallSkyfaller && CanCallSkyfaller)
-            {
-                CallSkyfaller(true);
-            }
-        }
+        public bool CanCallSkyfaller => CanCall && HasRequiredFlyOver && CheckRoofConditions;
 
         public override void PostExposeData()
         {
@@ -178,7 +124,6 @@ namespace WulaFallenEmpire
         public override void CompTick()
         {
             base.CompTick();
-            
             if (calling && callTick >= 0 && Find.TickManager.TicksGame >= callTick)
             {
                 ExecuteSkyfallerCall();
@@ -225,7 +170,14 @@ namespace WulaFallenEmpire
             }
         }
 
-        private void ExecuteSkyfallerCall()
+        protected void ResetCall()
+        {
+            calling = false;
+            used = false;
+            callTick = -1;
+        }
+
+        protected virtual void ExecuteSkyfallerCall()
         {
             Log.Message($"[SkyfallerCaller] Executing skyfaller call at {parent.Position}");
             
@@ -238,9 +190,7 @@ namespace WulaFallenEmpire
             if (!HasEnoughMaterials())
             {
                 Log.Message($"[SkyfallerCaller] Aborting skyfaller call due to insufficient materials.");
-                calling = false;
-                used = false;
-                callTick = -1;
+                ResetCall();
                 return;
             }
 
@@ -289,7 +239,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        private List<ThingDefCountClass> CostList
+        protected virtual List<ThingDefCountClass> CostList
         {
             get
             {
@@ -301,8 +251,10 @@ namespace WulaFallenEmpire
             }
         }
 
-        private bool HasEnoughMaterials()
+        protected bool HasEnoughMaterials()
         {
+            if (DebugSettings.godMode) return true;
+
             var costList = CostList;
             if (costList.NullOrEmpty())
             {
@@ -349,8 +301,10 @@ namespace WulaFallenEmpire
             return true;
         }
 
-        private void ConsumeMaterials()
+        protected void ConsumeMaterials()
         {
+            if (DebugSettings.godMode) return;
+
             var costList = CostList;
             if (costList.NullOrEmpty())
             {

@@ -85,6 +85,11 @@
           <thingDef>WULA_Fake_Mothership_Beacon_Building</thingDef>
           <count>1</count>
         </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_Prefab_Cleanzone_NewColonyBase_Beacon</thingDef>
+          <count>1</count>
+        </li>
 
         <!-- 附近的物品 -->
         <li Class="ScenPart_ScatterThingsNearPlayerStart">
