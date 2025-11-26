@@ -146,6 +146,12 @@ namespace WulaFallenEmpire
                     Log.Message($"[SkyfallerCaller] Cannot call: roof conditions not met");
                     return false;
                 }
+
+                if (!HasEnoughMaterials())
+                {
+                    Log.Message($"[SkyfallerCaller] Cannot call: insufficient materials");
+                    return false;
+                }
                 
                 Log.Message($"[SkyfallerCaller] All conditions met for skyfaller call");
                 return true;
@@ -229,6 +235,17 @@ namespace WulaFallenEmpire
                 return;
             }
 
+            if (!HasEnoughMaterials())
+            {
+                Log.Message($"[SkyfallerCaller] Aborting skyfaller call due to insufficient materials.");
+                calling = false;
+                used = false;
+                callTick = -1;
+                return;
+            }
+
+            ConsumeMaterials();
+            
             // 检查屋顶并处理
             HandleRoofDestruction();
 
@@ -272,21 +289,177 @@ namespace WulaFallenEmpire
             }
         }
 
+        private List<ThingDefCountClass> CostList
+        {
+            get
+            {
+                if (parent.def?.costList.NullOrEmpty() ?? true)
+                {
+                    return null;
+                }
+                return parent.def.costList;
+            }
+        }
+
+        private bool HasEnoughMaterials()
+        {
+            var costList = CostList;
+            if (costList.NullOrEmpty())
+            {
+                return true;
+            }
+
+            var availableThings = new List<Thing>();
+            if (parent.Map == null) return false;
+
+            foreach (Building_OrbitalTradeBeacon beacon in Building_OrbitalTradeBeacon.AllPowered(parent.Map))
+            {
+                foreach (IntVec3 cell in beacon.TradeableCells)
+                {
+                    List<Thing> thingList = parent.Map.thingGrid.ThingsListAt(cell);
+                    for (int i = 0; i < thingList.Count; i++)
+                    {
+                        Thing thing = thingList[i];
+                        if (thing.def.EverHaulable)
+                        {
+                            availableThings.Add(thing);
+                        }
+                    }
+                }
+            }
+    
+            availableThings = availableThings.Distinct().ToList();
+
+            foreach (var cost in costList)
+            {
+                int count = 0;
+                foreach (var thing in availableThings)
+                {
+                    if (thing.def == cost.thingDef)
+                    {
+                        count += thing.stackCount;
+                    }
+                }
+                if (count < cost.count)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void ConsumeMaterials()
+        {
+            var costList = CostList;
+            if (costList.NullOrEmpty())
+            {
+                return;
+            }
+
+            var tradeableThings = new List<Thing>();
+            if (parent.Map == null) return;
+
+            foreach (Building_OrbitalTradeBeacon beacon in Building_OrbitalTradeBeacon.AllPowered(parent.Map))
+            {
+                foreach (IntVec3 cell in beacon.TradeableCells)
+                {
+                    List<Thing> thingList = parent.Map.thingGrid.ThingsListAt(cell);
+                    for (int i = 0; i < thingList.Count; i++)
+                    {
+                        Thing thing = thingList[i];
+                        if (thing.def.EverHaulable)
+                        {
+                            tradeableThings.Add(thing);
+                        }
+                    }
+                }
+            }
+    
+            tradeableThings = tradeableThings.Distinct().ToList();
+
+            foreach (var cost in costList)
+            {
+                int remaining = cost.count;
+                for (int i = tradeableThings.Count - 1; i >= 0; i--)
+                {
+                    var thing = tradeableThings[i];
+                    if (thing.def == cost.thingDef)
+                    {
+                        if (thing.stackCount > remaining)
+                        {
+                            thing.SplitOff(remaining);
+                            remaining = 0;
+                        }
+                        else
+                        {
+                            remaining -= thing.stackCount;
+                            thing.Destroy();
+                        }
+                        if (remaining <= 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private string GetCostString()
+        {
+            var costList = CostList;
+            if (costList.NullOrEmpty())
+            {
+                return "";
+            }
+            var sb = new System.Text.StringBuilder();
+            foreach (var cost in costList)
+            {
+                sb.AppendLine($"  - {cost.thingDef.LabelCap}: {cost.count}");
+            }
+            return sb.ToString();
+        }
+
+        private void CancelCall()
+        {
+            calling = false;
+            used = false;
+            callTick = -1;
+            Messages.Message("WULA_SkyfallerCallCancelled".Translate(), parent, MessageTypeDefOf.NeutralEvent);
+        }
+
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             foreach (var gizmo in base.CompGetGizmosExtra())
                 yield return gizmo;
 
+            if (calling)
+            {
+                Command_Action cancelCommand = new Command_Action
+                {
+                    defaultLabel = "WULA_CancelSkyfaller".Translate(),
+                    defaultDesc = "WULA_CancelSkyfallerDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel"),
+                    action = CancelCall
+                };
+                yield return cancelCommand;
+            }
+            
             if (CanCall)
             {
+                string reason = GetDisabledReason();
                 Command_Action callCommand = new Command_Action
                 {
                     defaultLabel = "WULA_CallSkyfaller".Translate(),
                     defaultDesc = GetCallDescription(),
                     icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_DropBuilding"),
                     action = () => CallSkyfaller(false),
-                    disabledReason = GetDisabledReason()
+                    disabledReason = reason
                 };
+                if (!string.IsNullOrEmpty(reason))
+                {
+                    callCommand.Disable(reason);
+                }
                 yield return callCommand;
             }
 
@@ -317,15 +490,14 @@ namespace WulaFallenEmpire
 
         private string GetCallDescription()
         {
-            string desc = "WULA_CallSkyfallerDesc".Translate();
-            
-            // 只在需要 FlyOver 时显示相关描述
+            var sb = new System.Text.StringBuilder();
+            sb.Append("WULA_CallSkyfallerDesc".Translate());
+
             if (Props.requireFlyOver && !HasRequiredFlyOver)
             {
-                desc += $"\n{"WULA_RequiresBuildingDropperFlyOver".Translate()}";
+                sb.AppendLine().Append("WULA_RequiresBuildingDropperFlyOver".Translate());
             }
-            
-            // 添加 null 检查
+
             if (parent?.Map != null)
             {
                 RoofDef roof = parent.Position.GetRoof(parent.Map);
@@ -333,16 +505,23 @@ namespace WulaFallenEmpire
                 {
                     if (roof.isThickRoof && !Props.allowThickRoof)
                     {
-                        desc += $"\n{"WULA_ThickRoofBlockingDesc".Translate()}";
+                        sb.AppendLine().Append("WULA_ThickRoofBlockingDesc".Translate());
                     }
                     else if (!roof.isThickRoof && !Props.allowThinRoof)
                     {
-                        desc += $"\n{"WULA_RoofBlockingDesc".Translate()}";
+                        sb.AppendLine().Append("WULA_RoofBlockingDesc".Translate());
                     }
                 }
             }
-            
-            return desc;
+
+            string costString = GetCostString();
+            if (!string.IsNullOrEmpty(costString))
+            {
+                sb.AppendLine().AppendLine().Append("WULA_RequiredMaterials".Translate());
+                sb.Append(costString);
+            }
+
+            return sb.ToString();
         }
 
         private string GetDisabledReason()
@@ -369,55 +548,73 @@ namespace WulaFallenEmpire
                     }
                 }
             }
+
+            if (!HasEnoughMaterials())
+            {
+                return "WULA_InsufficientMaterials".Translate();
+            }
             
             return null;
         }
 
         public override string CompInspectStringExtra()
         {
-            // 添加 null 检查，防止在小型化建筑上出现异常
             if (parent?.Map == null)
+            {
                 return base.CompInspectStringExtra();
+            }
+
+            var sb = new System.Text.StringBuilder();
 
             if (calling)
             {
                 int ticksLeft = callTick - Find.TickManager.TicksGame;
                 if (ticksLeft > 0)
                 {
-                    return "WULA_SkyfallerArrivingIn".Translate(ticksLeft.ToStringTicksToPeriod());
+                    sb.Append("WULA_SkyfallerArrivingIn".Translate(ticksLeft.ToStringTicksToPeriod()));
                 }
             }
             else if (!used)
             {
-                string status = "WULA_ReadyToCallSkyfaller".Translate();
-                
-                // 只在需要 FlyOver 时显示相关条件信息
+                sb.Append("WULA_ReadyToCallSkyfaller".Translate());
+
                 if (Props.requireFlyOver && !HasRequiredFlyOver)
                 {
-                    status += $"\n{"WULA_MissingBuildingDropperFlyOver".Translate()}";
+                    sb.AppendLine().Append("WULA_MissingBuildingDropperFlyOver".Translate());
                 }
-                
-                // 添加 null 检查
-                if (parent?.Map != null)
+
+                RoofDef roof = parent.Position.GetRoof(parent.Map);
+                if (roof != null)
                 {
-                    RoofDef roof = parent.Position.GetRoof(parent.Map);
-                    if (roof != null)
+                    if (roof.isThickRoof && !Props.allowThickRoof)
                     {
-                        if (roof.isThickRoof && !Props.allowThickRoof)
-                        {
-                            status += $"\n{"WULA_BlockedByThickRoof".Translate()}";
-                        }
-                        else if (!roof.isThickRoof && !Props.allowThinRoof)
-                        {
-                            status += $"\n{"WULA_BlockedByRoof".Translate()}";
-                        }
+                        sb.AppendLine().Append("WULA_BlockedByThickRoof".Translate());
+                    }
+                    else if (!roof.isThickRoof && !Props.allowThinRoof)
+                    {
+                        sb.AppendLine().Append("WULA_BlockedByRoof".Translate());
                     }
                 }
-                
-                return status;
+
+                string costString = GetCostString();
+                if (!string.IsNullOrEmpty(costString))
+                {
+                    sb.AppendLine().AppendLine("WULA_RequiredMaterials".Translate());
+                    sb.Append(costString);
+                }
             }
-            
-            return base.CompInspectStringExtra();
+
+            string baseInspectString = base.CompInspectStringExtra();
+            if (!string.IsNullOrEmpty(baseInspectString))
+            {
+                if (sb.Length > 0)
+                {
+                    sb.AppendLine();
+                }
+                sb.Append(baseInspectString);
+            }
+
+            return sb.Length > 0 ? sb.ToString().TrimEnd() : null;
         }
     }
 }

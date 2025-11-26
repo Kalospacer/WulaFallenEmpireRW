@@ -114,4 +114,13 @@
   <WULA_GatheringMaterials>正在收集材料</WULA_GatheringMaterials>
   <WULA_Paused>已暂停</WULA_Paused>
 
+  <!-- CompSkyfallerCaller new keys -->
+  <WULA_RequiredMaterials>所需材料：</WULA_RequiredMaterials>
+  <WULA_InsufficientMaterials>轨道信标范围内材料不足</WULA_InsufficientMaterials>
+
+  <!-- Cancel Skyfaller -->
+  <WULA_CancelSkyfaller>取消呼叫</WULA_CancelSkyfaller>
+  <WULA_CancelSkyfallerDesc>中止正在进行的空投呼叫。</WULA_CancelSkyfallerDesc>
+  <WULA_SkyfallerCallCancelled>空投呼叫已取消。</WULA_SkyfallerCallCancelled>
+
 </LanguageData>

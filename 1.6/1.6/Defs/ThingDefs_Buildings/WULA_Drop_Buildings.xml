@@ -37,7 +37,7 @@
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -195,7 +195,7 @@
       <MarketValue>1</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <Flammability>0</Flammability>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
     </statBases>
     <costList>
       <WULA_Alloy>10</WULA_Alloy>
@@ -439,7 +439,7 @@
     </placeWorkers>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -639,7 +639,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -869,7 +869,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -1037,7 +1037,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -1197,7 +1197,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -1371,7 +1371,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
