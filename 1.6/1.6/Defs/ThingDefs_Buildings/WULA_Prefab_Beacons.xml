@@ -44,12 +44,6 @@
         <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
         <minifiedDef>MinifiedThing</minifiedDef>
         <tickerType>Normal</tickerType>
-        <descriptionHyperlinks>
-            <ThingDef>WulaWall</ThingDef>
-        </descriptionHyperlinks>
-        <thingCategories Inherit="False">
-            <li>BuildingsMisc</li>
-        </thingCategories>
         <graphicData>
             <texPath>Wula/Building/Linked/WulaWall/WulaWall_Atlas</texPath>
             <graphicClass>Graphic_Multi</graphicClass>
@@ -93,7 +87,6 @@
             <isAirtight>false</isAirtight>
             <isStuffableAirtight>false</isStuffableAirtight>
         </building>
-        <designationCategory>WULA_Buildings</designationCategory>
         <comps>
             <li Class="WulaFallenEmpire.CompProperties_PrefabSkyfallerCaller">
                 <prefabDefName>WULA_NewColonyBase</prefabDefName>

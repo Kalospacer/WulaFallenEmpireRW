@@ -113,5 +113,12 @@
                 <stuff>WULA_Alloy</stuff>
             </Shelf>
         </things>
+        <terrain>
+            <WulaFloor>
+                <rects>
+                    <li>(0,0,13,13)</li>
+                </rects>
+            </WulaFloor>
+        </terrain>
     </PrefabDef>
 </Defs>
