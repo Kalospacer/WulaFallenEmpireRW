@@ -627,45 +627,4 @@
       <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
-
-  <!-- 植入物 -->
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Addons_Technology</defName>
-    <researchViewX>3.00</researchViewX>
-    <researchViewY>1.50</researchViewY>
-    <label>基础植入物加工许可</label>
-    <description>获取构建乌拉帝国合成人基础植入物的技术，用以增强乌拉帝国合成人的机体性能。</description>
-    <baseCost>800</baseCost>
-    <prerequisites>
-      <li>WULA_Synth_Productor_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Antenna_Technology</defName>
-    <researchViewX>5.00</researchViewX>
-    <researchViewY>1.50</researchViewY>
-    <label>蜂群节点加工许可</label>
-    <description>获取特殊构型的机械乌拉天线，使得这些经过天线改装的乌拉可以胜任指挥任务。</description>
-    <baseCost>1000</baseCost>
-    <hiddenPrerequisites>
-      <li>WULA_Synth_Addons_Technology</li>
-    </hiddenPrerequisites>  
-    <prerequisites>
-      <li>WULA_Colony_License_LV2_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Synth_Addons_2_Technology</defName>
-    <label>高级植入物加工许可</label>
-    <description>获取构建乌拉帝国合成人进阶植入物的技术，用以增强乌拉帝国合成人的机体性能。</description>
-    <baseCost>3600</baseCost>
-    <researchViewX>9.00</researchViewX>
-    <researchViewY>1.50</researchViewY>
-    <hiddenPrerequisites>
-      <li>WULA_Synth_Antenna_Technology</li>
-    </hiddenPrerequisites>  
-    <prerequisites>
-      <li>WULA_Colony_License_LV3_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
 </Defs>

@@ -1614,6 +1614,9 @@
 
       <MaxFlightTime>9999</MaxFlightTime>
       <FlightCooldown>0</FlightCooldown>
+      
+      <!-- 心灵敏感，很低 -->
+      <PsychicSensitivity>0.25</PsychicSensitivity>
     </statBases>
     <race>
       <body>Mech_Warqueen</body>

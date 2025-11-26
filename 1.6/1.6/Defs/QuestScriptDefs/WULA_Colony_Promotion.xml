@@ -299,7 +299,7 @@
               </li>
               <li Class="QuestNode_InspectString">
                 <targets>$lodgers</targets>
-                <inspectString TKey="InspectStringDepartShuttle">Should depart on shuttle</inspectString>
+                <inspectString TKey="InspectStringDepartShuttle">应该乘坐穿梭机离开</inspectString>
               </li>
               <li Class="QuestNode_Letter">
                 <label TKey="LetterLabelShuttleArrived">Shuttle arrived</label>

@@ -434,7 +434,7 @@
         <capacities>
           <li>WULA_MW_Breaker_Bar_Demolish</li>
         </capacities>
-        <power>35</power>
+        <power>45</power>
         <cooldownTime>3</cooldownTime>
         <armorPenetration>2</armorPenetration>
         <soundMeleeHit>WULA_MW_Breaker_Bar_Hit</soundMeleeHit>
@@ -467,9 +467,9 @@
       <li Class="WulaFallenEmpire.CompProperties_Cleave">
         <cleaveAngle>90</cleaveAngle>
         <cleaveRange>2.5</cleaveRange>
-        <cleaveDamageFactor>0.5</cleaveDamageFactor>
+        <cleaveDamageFactor>0.8</cleaveDamageFactor>
         <damageDowned>false</damageDowned>
-        <explosionDamageDef>Blunt</explosionDamageDef>
+        <explosionDamageDef>Demolish</explosionDamageDef>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_CustomUniqueWeapon" MayRequire="Ludeon.RimWorld.Odyssey">
 				<forcedTraits>
@@ -505,8 +505,8 @@
   </ManeuverDef>
   <AbilityDef ParentName="AbilityTouchBase">
     <defName>WULA_MW_Breaker_Bar_Ability</defName>
-    <label>全功率上挑</label>
-    <description>将PMb-97"破墙槌"的锤头加到最大压强，随后挥出向上的一击，以突破严密的人墙。即使敌人侥幸存活，也会眩晕并被砸飞出一段距离。</description>
+    <label>破阵重击</label>
+    <description>将PMb-97"破墙槌"的锤头加到最大压强，随后挥出必中的一击，以突破严密的人墙——即使敌人侥幸存活，也会头晕目眩并被砸飞出一段距离。</description>
     <iconPath>UI/Abilities/UnnaturalHealing</iconPath>
     <cooldownTicksRange>300</cooldownTicksRange> <!-- 6 days -->
     <showPsycastEffects>false</showPsycastEffects>
@@ -516,7 +516,7 @@
       <verbClass>Verb_CastAbilityTouch</verbClass>
       <drawAimPie>false</drawAimPie>
       <range>-1</range>
-      <warmupTime>0.5</warmupTime>
+      <warmupTime>1</warmupTime>
       <soundCast>WULA_MW_Breaker_Bar_Hit</soundCast>
       <targetParams>
         <canTargetLocations>false</canTargetLocations>
@@ -527,7 +527,7 @@
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_StunKnockback">
         <damageDef>Demolish</damageDef>
-        <damageAmount>80</damageAmount>
+        <damageAmount>60</damageAmount>
         <armorPenetration>2</armorPenetration>
         <stunTicks>300</stunTicks>
         <maxKnockbackDistance>8</maxKnockbackDistance>

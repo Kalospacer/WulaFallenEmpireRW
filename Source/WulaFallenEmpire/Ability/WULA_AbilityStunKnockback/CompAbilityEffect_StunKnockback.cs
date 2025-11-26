@@ -215,7 +215,7 @@ namespace WulaFallenEmpire
                 Props.landingSound,
                 false, // 不携带物品
                 null,  // 不覆盖起始位置
-                null, // 传递Ability对象而不是CompAbilityEffect
+                parent, // 传递Ability对象而不是CompAbilityEffect
                 new LocalTargetInfo(destination)
             );
 

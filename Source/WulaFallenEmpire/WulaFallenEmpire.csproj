@@ -92,8 +92,8 @@
     <Compile Include="Ability\WULA_AbilitySpawnAligned\CompProperties_AbilitySpawnAligned.cs" />
     <Compile Include="Ability\WULA_AbilityTeleportSelf\CompAbilityEffect_TeleportSelf.cs" />
     <Compile Include="Ability\WULA_AbilityTeleportSelf\CompProperties_AbilityTeleportSelf.cs" />
-    <Compile Include="Ability\WULA_StunKnockback\CompAbilityEffect_StunKnockback.cs" />
-    <Compile Include="Ability\WULA_StunKnockback\CompProperties_StunKnockback.cs" />
+    <Compile Include="Ability\WULA_AbilityStunKnockback\CompAbilityEffect_StunKnockback.cs" />
+    <Compile Include="Ability\WULA_AbilityStunKnockback\CompProperties_StunKnockback.cs" />
     <Compile Include="BuildingComp\Building_ExtraGraphics.cs" />
     <Compile Include="BuildingComp\Building_MapObserver.cs" />
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompBuildingBombardment.cs" />
