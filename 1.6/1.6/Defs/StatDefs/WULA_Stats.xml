@@ -92,7 +92,7 @@
     <label>维护伤害</label>
     <description>乌拉帝国合成人因为伤害导致维护度损失的程度。数值越高，受到伤害时损失越多维护度。</description>
     <category>WULA_Synth</category>
-    <defaultBaseValue>0.0025</defaultBaseValue>
+    <defaultBaseValue>0.005</defaultBaseValue>
     <toStringStyle>PercentZero</toStringStyle>
     <showOnMechanoids>true</showOnMechanoids>
     <showOnDrones>true</showOnDrones>

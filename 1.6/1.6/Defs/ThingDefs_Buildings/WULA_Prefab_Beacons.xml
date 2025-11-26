@@ -39,9 +39,9 @@
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
     <stuffCategories Inherit="False" />
-    <researchPrerequisites Inherit="False">
+    <!-- <researchPrerequisites Inherit="False">
       <li>WULA_Structure_Technology</li>
-    </researchPrerequisites>
+    </researchPrerequisites> -->
     <costStuffCount>0</costStuffCount>
     <costList>
       <WULA_Alloy>4</WULA_Alloy>
