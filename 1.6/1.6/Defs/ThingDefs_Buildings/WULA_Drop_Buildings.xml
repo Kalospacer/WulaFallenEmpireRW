@@ -1336,7 +1336,7 @@
     </comps>
   </ThingDef>
 
-  <!-- 发电机 -->
+  <!-- 暗物质发电机 -->
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_DarkEnergy_Generators_Cleanzone</defName>
     <label>暗物质发电机</label>
@@ -1460,11 +1460,11 @@
         <offset>(-0.03,0,-0.1)</offset>
       </shadowData>
     </graphicData>
-    <passability>PassThroughOnly</passability>
-    <fillPercent>0</fillPercent>
-    <pathCost>50</pathCost>
     <rotatable>false</rotatable>
+    <passability>Impassable</passability>
     <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
     <castEdgeShadows>false</castEdgeShadows>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
@@ -1533,7 +1533,204 @@
         <overrideExistingFaction>false</overrideExistingFaction>
       </li>
     </comps>
-    <designationCategory>WULA_Buildings</designationCategory>
   </ThingDef>
 
+  <!-- 聚变发电机 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Fusion_Generators_Cleanzone</defName>
+    <label>聚变发电机</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n一台依靠重核聚变进行发电的简易发电机，发电量不算太高但是发电材料很好找，只需要往里面填入石头就能发电。</description>
+    <uiIconPath>Wula/Building/Wula_Fusion_Generators</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_Fusion_Generators</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_DarkEnergy_Generators_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(3,3)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <costList>
+      <WULA_Alloy>40</WULA_Alloy>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>7.9</radius> <!-- 半径大小 -->
+        <color>(0.5, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>供电半径</label>
+        <description>在不接电线的情况下，该建筑可提供的最大供电半径，可作为野战状态下的阵地构建参考。</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Wula_Fusion_Generators_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Wula_Fusion_Generators_Incoming</defName>
+    <label>聚变发电机（空投中）</label>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Fusion_Generators_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(3, 3)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>Wula_Fusion_Generators</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Fusion_Generators</defName>
+    <label>聚变发电机</label>
+    <description>一台依靠重核聚变进行发电的简易发电机，发电量不算太高但是发电材料很好找，只需要往里面填入石头就能发电。</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Fusion_Generators</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <shadowData>
+        <volume>(1.93,1,1.69)</volume>
+        <offset>(-0.03,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
+    <castEdgeShadows>false</castEdgeShadows>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>-20</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>false</canOverlapZones>
+    <size>(3,3)</size>
+    <building>
+      <isAirtight>false</isAirtight>
+      <isStuffableAirtight>false</isStuffableAirtight>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <costList>
+      <WULA_Alloy>40</WULA_Alloy>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>7.9</radius> <!-- 半径大小 -->
+        <color>(0.5, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>供电半径</label>
+        <description>在不接电线的情况下，该建筑可提供的最大供电半径，可作为野战状态下的阵地构建参考。</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-1500</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+        <soundAmbientProducingPower>ChemfuelFiredGenerator_Ambience</soundAmbientProducingPower>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>石块</fuelLabel>
+        <fuelGizmoLabel>石块</fuelGizmoLabel>
+        <outOfFuelMessage>需要填入石块</outOfFuelMessage>
+        <fuelConsumptionRate>3</fuelConsumptionRate>
+        <fuelCapacity>30.0</fuelCapacity>
+        <fuelFilter>
+          <categories>
+            <li>StoneChunks</li>
+          </categories>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <canEjectFuel>true</canEjectFuel>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Stunnable">
+        <useLargeEMPEffecter>true</useLargeEMPEffecter>
+        <affectedDamageDefs>
+          <li>EMP</li>
+        </affectedDamageDefs>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+    </comps>
+  </ThingDef>
 </Defs>

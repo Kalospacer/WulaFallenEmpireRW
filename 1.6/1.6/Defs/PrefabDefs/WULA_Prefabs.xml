@@ -1,124 +1,151 @@
 <Defs>
-    <PrefabDef>
-        <defName>WULA_NewColonyBase</defName>        <!-- rename -->
-        <size>(13,13)</size>
-        <things>
-            <SimpleResearchBench>
-                <position>(10, 0, 10)</position>
-                <stuff>WULA_Alloy</stuff>
-            </SimpleResearchBench>
-            <Battery>
-                <position>(3, 0, 1)</position>
-                <relativeRotation>Clockwise</relativeRotation>
-            </Battery>
-            <Table1x2c>
-                <position>(6, 0, 10)</position>
-                <relativeRotation>Clockwise</relativeRotation>
-                <stuff>WULA_Alloy</stuff>
-                <quality>Normal</quality>
-            </Table1x2c>
-            <WULA_OrbitalTradeBeacon>
-                <position>(1, 0, 10)</position>
-            </WULA_OrbitalTradeBeacon>
-            <WULA_Charging_Station_Synth>
-                <positions>
-                    <li>(11, 0, 1)</li>
-                    <li>(11, 0, 3)</li>
-                </positions>
-                <relativeRotation>Counterclockwise</relativeRotation>
-                <quality>Normal</quality>
-            </WULA_Charging_Station_Synth>
-            <ChessTable>
-                <position>(6, 0, 11)</position>
-                <stuff>WULA_Alloy</stuff>
-                <quality>Normal</quality>
-            </ChessTable>
-            <WulaDoor>
-                <rects>
-                    <li>(6,0,6,0)</li>
-                    <li>(4,3,4,3)</li>
-                    <li>(4,9,4,9)</li>
-                </rects>
-            </WulaDoor>
-            <WULA_MaintenancePod>
-                <position>(2, 0, 6)</position>
-                <relativeRotation>Counterclockwise</relativeRotation>
-            </WULA_MaintenancePod>
-            <Stool>
-                <rects>
-                    <li>(6,9,6,9)</li>
-                    <li>(7,11,7,11)</li>
-                </rects>
-                <stuff>WULA_Alloy</stuff>
-                <quality>Normal</quality>
-            </Stool>
-            <WULA_Wall_Flag_Building>
-                <rects>
-                    <li>(3,8,3,8)</li>
-                    <li>(5,8,5,8)</li>
-                </rects>
-            </WULA_Wall_Flag_Building>
-            <Heater>
-                <position>(11, 0, 5)</position>
-            </Heater>
-            <DiningChair>
-                <position>(10, 0, 9)</position>
-                <stuff>WULA_Alloy</stuff>
-                <quality>Normal</quality>
-            </DiningChair>
-            <WULA_Machine_Recharger>
-                <position>(6, 0, 6)</position>
-            </WULA_Machine_Recharger>
-            <WULA_Cube_Productor>
-                <position>(7, 0, 9)</position>
-            </WULA_Cube_Productor>
-            <ChemfuelPoweredGenerator>
-                <position>(1, 0, 1)</position>
-            </ChemfuelPoweredGenerator>
-            <WallLamp>
-                <rects>
-                    <li>(3,1,3,1)</li>
-                    <li>(9,1,9,1)</li>
-                </rects>
-                <relativeRotation>Opposite</relativeRotation>
-            </WallLamp>
-            <WallLamp>
-                <rects>
-                    <li>(3,11,3,11)</li>
-                    <li>(9,11,9,11)</li>
-                </rects>
-            </WallLamp>
-            <WulaWall>
-                <rects>
-                    <li>(0,0,5,0)</li>
-                    <li>(7,0,12,0)</li>
-                    <li>(0,1,0,12)</li>
-                    <li>(5,1,5,3)</li>
-                    <li>(12,1,12,12)</li>
-                    <li>(10,2,11,2)</li>
-                    <li>(1,3,3,3)</li>
-                    <li>(9,4,11,4)</li>
-                    <li>(1,9,3,9)</li>
-                    <li>(5,9,5,12)</li>
-                    <li>(1,12,4,12)</li>
-                    <li>(6,12,11,12)</li>
-                </rects>
-            </WulaWall>
-            <Shelf>
-                <positions>
-                    <li>(2, 0, 11)</li>
-                    <li>(4, 0, 11)</li>
-                </positions>
-                <relativeRotation>Opposite</relativeRotation>
-                <stuff>WULA_Alloy</stuff>
-            </Shelf>
-        </things>
-        <terrain>
-            <WulaFloor>
-                <rects>
-                    <li>(0,0,12,12)</li>
-                </rects>
-            </WulaFloor>
-        </terrain>
-    </PrefabDef>
+<PrefabDef>
+  <defName>NewPrefab</defName> <!-- rename -->
+  <size>(13,14)</size>
+</PrefabDef>
+
+  <PrefabDef>
+    <defName>WULA_NewColonyBase</defName> <!-- rename -->
+    <size>(13,14)</size>
+    <things>
+      <SimpleResearchBench>
+        <position>(10, 0, 11)</position>
+        <stuff>WULA_Alloy</stuff>
+      </SimpleResearchBench>
+      <Battery>
+        <position>(4, 0, 2)</position>
+      </Battery>
+      <Table1x2c>
+        <position>(6, 0, 11)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+      </Table1x2c>
+      <WULA_OrbitalTradeBeacon>
+        <position>(1, 0, 11)</position>
+      </WULA_OrbitalTradeBeacon>
+      <WULA_Charging_Station_Synth>
+        <positions>
+          <li>(11, 0, 2)</li>
+          <li>(11, 0, 4)</li>
+        </positions>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <quality>Normal</quality>
+      </WULA_Charging_Station_Synth>
+      <ChessTable>
+        <position>(10, 0, 8)</position>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+      </ChessTable>
+      <WulaDoor>
+        <rects>
+          <li>(6,1,6,1)</li>
+          <li>(4,5,4,5)</li>
+          <li>(4,9,4,9)</li>
+        </rects>
+      </WulaDoor>
+      <WULA_MaintenancePod>
+        <position>(2, 0, 7)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WULA_MaintenancePod>
+      <Stool>
+        <rects>
+          <li>(10,6,10,6)</li>
+          <li>(9,8,9,8)</li>
+          <li>(11,8,11,8)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+      </Stool>
+      <Stool>
+        <rects>
+          <li>(6,10,6,10)</li>
+          <li>(6,12,6,12)</li>
+        </rects>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+      </Stool>
+      <WULA_Wall_Flag_Building>
+        <rects>
+          <li>(5,0,5,0)</li>
+          <li>(7,0,7,0)</li>
+        </rects>
+      </WULA_Wall_Flag_Building>
+      <WULA_Wall_Flag_Building>
+        <rects>
+          <li>(6,5,6,5)</li>
+          <li>(6,9,6,9)</li>
+        </rects>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WULA_Wall_Flag_Building>
+      <Heater>
+        <position>(9, 0, 3)</position>
+      </Heater>
+      <Wula_Fusion_Generators>
+        <position>(2, 0, 3)</position>
+      </Wula_Fusion_Generators>
+      <DiningChair>
+        <position>(10, 0, 10)</position>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+      </DiningChair>
+      <WULA_Machine_Recharger>
+        <position>(6, 0, 7)</position>
+      </WULA_Machine_Recharger>
+      <WULA_Cube_Productor>
+        <position>(11, 0, 6)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WULA_Cube_Productor>
+      <WallLamp>
+        <position>(9, 0, 2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(3,12,3,12)</li>
+          <li>(9,12,9,12)</li>
+        </rects>
+      </WallLamp>
+      <ShelfSmall>
+        <position>(3, 0, 10)</position>
+        <stuff>WULA_Alloy</stuff>
+      </ShelfSmall>
+      <WulaWall>
+        <rects>
+          <li>(0,1,5,1)</li>
+          <li>(7,1,12,1)</li>
+          <li>(0,2,0,13)</li>
+          <li>(5,2,5,5)</li>
+          <li>(12,2,12,13)</li>
+          <li>(10,3,11,3)</li>
+          <li>(1,5,3,5)</li>
+          <li>(9,5,11,5)</li>
+          <li>(1,9,3,9)</li>
+          <li>(5,9,5,13)</li>
+          <li>(1,13,4,13)</li>
+          <li>(6,13,11,13)</li>
+        </rects>
+      </WulaWall>
+      <Shelf>
+        <position>(1, 0, 10)</position>
+        <stuff>WULA_Alloy</stuff>
+      </Shelf>
+      <Shelf>
+        <positions>
+          <li>(2, 0, 12)</li>
+          <li>(4, 0, 12)</li>
+        </positions>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+      </Shelf>
+    </things>
+    <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(0,1,12,12)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
+  </PrefabDef>
 </Defs>
