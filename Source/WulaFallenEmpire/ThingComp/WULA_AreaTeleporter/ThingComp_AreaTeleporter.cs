@@ -509,14 +509,14 @@ namespace WulaFallenEmpire
                 try
                 {
                     // 绘制当前传送器范围
-                    GenDraw.DrawRadiusRing(parent.Position, Props.teleportRadius, Color.blue);
+                    GenDraw.DrawRadiusRing(parent.Position, Props.teleportRadius, new Color(0.3f, 0.7f, 1, 0.3f));
                     
                     // 绘制网络范围（所有传送器的范围）
                     foreach (var teleporter in GetNetworkTeleporters())
                     {
                         if (teleporter != this && teleporter.parent.Spawned)
                         {
-                            GenDraw.DrawRadiusRing(teleporter.parent.Position, teleporter.Props.teleportRadius, new Color(0, 0, 1, 0.3f));
+                            GenDraw.DrawRadiusRing(teleporter.parent.Position, teleporter.Props.teleportRadius, new Color(0.3f, 0.7f, 1, 0.3f));
                         }
                     }
                 }

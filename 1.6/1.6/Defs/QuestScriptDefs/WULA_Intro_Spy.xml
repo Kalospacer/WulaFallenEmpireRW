@@ -125,8 +125,8 @@
                 <points>$points</points>
                 <enemyFaction>$enemyFaction</enemyFaction>
                 <walkInSpot>$walkInSpot</walkInSpot>
-                <customLetterLabel TKey="LetterLabelChasing">{BASELABEL} chasing [../asker_nameDef]</customLetterLabel>
-                <customLetterText TKey="LetterTextChasing">{BASETEXT}\nThe [enemyFaction_pawnsPlural] have come to get [../asker_nameDef].</customLetterText>
+                <customLetterLabel TKey="LetterLabelChasing">{BASELABEL} 追捕[../asker_nameDef]</customLetterLabel>
+                <customLetterText TKey="LetterTextChasing">{BASETEXT}\n\n[enemyFaction_pawnsPlural]来此追捕[../asker_nameDef]。</customLetterText>
               </parms>
             </node>
             <!-- 不允许暴力则生成温和动物 -->
@@ -151,12 +151,12 @@
               <!-- 选中指定对象时显示自定义的检查信息 -->
               <li Class="QuestNode_InspectString">
                 <targets>$asker</targets>
-                <inspectString TKey="InspectStringDepartShuttle">Should depart on shuttle</inspectString>
+                <inspectString TKey="InspectStringDepartShuttle">应该乘坐穿梭机出发</inspectString>
               </li>
               <!-- 信封 -->
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelShuttleArrived">Shuttle arrived</label>
-                <text TKey="LetterTextShuttleArrived">The shuttle has arrived to collect [asker_nameDef].</text>
+                <label TKey="LetterLabelShuttleArrived">穿梭机已抵达</label>
+                <text TKey="LetterTextShuttleArrived">前来迎接[asker_nameDef]的穿梭机已抵达。</text>
                 <lookTargets>$pickupShipThing</lookTargets>
               </li>
             </nodes>
@@ -191,9 +191,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelGuestDied">Guest died: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelGuestDied">宾客已死亡：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextGuestDied">{SUBJECT_definite}, who you were charged to protect, has died. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextGuestDied">需要你小心保护的{SUBJECT_definite}已经死亡。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -210,7 +210,7 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelGuestDied">Guest left behind: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelGuestDied">宾客被遗弃：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
                 <text TKey="LetterTextGuestDied">{SUBJECT_definite}, who you were charged to protect, has been left behind. [failLetterEndingCommon]</text>
               </li>
@@ -229,9 +229,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelUnauthorizedSurgery">Unauthorized surgery: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelUnauthorizedSurgery">未授权手术：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextUnauthorizedSurgery">Unauthorized, violating surgery has been performed on {SUBJECT_definite}, who you were charged to protect. Because of this violation, [asker_pronoun] will now attempt to leave. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextUnauthorizedSurgery">需要你小心保护的{SUBJECT_definite}接受了一次未授权的额外手术。因为你违规在先，[asker_pronoun]将要离开此处。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -248,9 +248,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label>Xenogerm absorbed: {SUBJECT_definite}</label>
+                <label>异种胚芽被吸收：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text>{SUBJECT_definite}, who you were charged to protect, has had {SUBJECT_possessive} xenogerm forcibly absorbed. Because of this violation, {SUBJECT_pronoun} will now attempt to leave. [failLetterEndingCommon]</text>
+                <text>指定由你保护的{SUBJECT_definite}在你的殖民地被吸收了异种胚芽。这是一种侵犯行为，{SUBJECT_pronoun}现在将会直接离开[failLetterEndingCommon]。</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -267,9 +267,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelCaptured">Captured: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelCaptured">已被俘：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextCaptured">{SUBJECT_definite}, who you were charged to host, has been arrested. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextCaptured">需要你小心保护的{SUBJECT_definite}已被俘虏。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -286,9 +286,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelGuestLost">Guest lost: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelGuestLost">宾客失踪：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextGuestLost">{SUBJECT_definite}, who you were charged to protect, has left the designated settlement. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextGuestLost">需要你小心保护的{SUBJECT_definite}在你的殖民地失踪了。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -305,9 +305,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelLodgerRanWild">Guest lost: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelLodgerRanWild">宾客失踪：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextLodgerRanWild">{SUBJECT_definite}, who you were charged to protect, has run wild. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextLodgerRanWild">需要你小心保护的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -324,9 +324,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelShuttleDestroyed">Shuttle destroyed</label>
+                <label TKey="LetterLabelShuttleDestroyed">穿梭机被毁</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextShuttleDestroyed">The shuttle sent to collect [asker_nameDef] has been destroyed. [asker_pronoun] will now leave on foot. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextShuttleDestroyed">前来迎接[asker_nameDef]的穿梭机已被毁。[asker_pronoun]现在只能走回去了。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -343,9 +343,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelShuttleDestroyed">Shuttle left behind</label>
+                <label TKey="LetterLabelShuttleDestroyed">穿梭机被遗弃</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextShuttleDestroyed">The shuttle sent to collect [asker_nameDef] has been left behind. [asker_pronoun] will now leave on foot.</text>
+                <text TKey="LetterTextShuttleDestroyed">前来迎接[asker_nameDef]的穿梭机已被遗弃。[asker_pronoun]现在只能走回去了。</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -390,9 +390,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+                <label TKey="LetterLabelQuestFailed">任务失败：[resolvedQuestName]</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextQuestFailed">The shuttle sent to collect [asker_nameDef] has departed without [asker_objective]. [asker_pronoun] will now leave on foot. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextQuestFailed">前来迎接[asker_nameDef]的穿梭机在离开时因为一些原因落下了[asker_objective]。[asker_pronoun]现在只能走回去了。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>

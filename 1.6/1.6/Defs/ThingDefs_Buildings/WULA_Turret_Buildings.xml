@@ -135,11 +135,12 @@
       </shadowData>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
     <castEdgeShadows>false</castEdgeShadows>
-    <fillPercent>0.5</fillPercent>
     <canOverlapZones>false</canOverlapZones>
-    <pathCost>42</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
     <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
@@ -217,7 +218,7 @@
         <requiredCapacity>6</requiredCapacity>
         <gizmoLabel>转换为BUk-1"地堡猫猫"</gizmoLabel>
         <gizmoDesc>让地堡中的两只乌拉猫猫继续操纵地堡中的机枪，剩下的乌拉猫猫抬着地堡移动——虽然很难相信但是事实就是这样的。</gizmoDesc>
-        <gizmoIconPath>Wula/UI/Commands/WULA_TransformToPawn</gizmoIconPath>
+        <gizmoIconPath>Wula/UI/Commands/WULA_BunkerCat</gizmoIconPath>
       </li>
     </comps>
   </ThingDef>
@@ -406,9 +407,10 @@
     </costList>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
-    <passability>PassThroughOnly</passability>
-    <pathCost>50</pathCost>
-    <fillPercent>0.5</fillPercent>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
     <hasTooltip>true</hasTooltip>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <building>
@@ -683,9 +685,10 @@
     </costList>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
-    <passability>PassThroughOnly</passability>
-    <pathCost>50</pathCost>
-    <fillPercent>0.5</fillPercent>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
     <hasTooltip>true</hasTooltip>
     <building>
       <combatPower>640</combatPower>
@@ -960,9 +963,10 @@
     </costList>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
-    <passability>PassThroughOnly</passability>
-    <pathCost>50</pathCost>
-    <fillPercent>0.5</fillPercent>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
     <hasTooltip>true</hasTooltip>
     <building>
       <combatPower>450</combatPower>
@@ -1089,5 +1093,293 @@
         <fleckAngle>-30~30</fleckAngle>
       </li>
     </modExtensions>
+  </ThingDef>
+
+  <!-- 旗帜 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Wall_Flag_Building</defName>
+    <label>P.I.A旗帜</label>
+    <description>乌拉帝国行星封锁机关的旗帜，没什么用但是可以宣示乌拉帝国的主权。</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <passability>PassThroughOnly</passability>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <selectable>true</selectable>
+    <fillPercent>0.20</fillPercent>
+    <pathCost>14</pathCost>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_B_north</uiIconPath>
+    <noRightClickDraftAttack>true</noRightClickDraftAttack>
+    <rotatable>true</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_B</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(0.7,0.75)</drawSize>
+      <drawOffsetNorth>(0,0,0.7)</drawOffsetNorth>
+      <drawOffsetSouth>(0,0,-0.7)</drawOffsetSouth>
+      <drawOffsetWest>(-0.6,0,0.1)</drawOffsetWest>
+      <drawOffsetEast>(0.6,0,0.1)</drawOffsetEast>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <WorkToBuild>330</WorkToBuild>
+      <Mass>2</Mass>
+    </statBases>
+    <uiOrder>2991</uiOrder>
+    <passability>Standable</passability>
+    <terrainAffordanceNeeded IsNull="True" />
+    <pathCost>0</pathCost>
+    <overrideMinifiedRot>North</overrideMinifiedRot>
+    <minifiedDrawOffset>(0, 0, 0.2)</minifiedDrawOffset>
+    <building>
+      <isEdifice>false</isEdifice>
+      <isAttachment>true</isAttachment>
+    </building>
+    <placeWorkers>
+      <li>Placeworker_AttachedToWall</li>
+    </placeWorkers>
+  </ThingDef>
+  <ThingDef Name="WULA_Holographic_Flag_Skyfaller" ParentName="SkyfallerBase">
+    <defName>WULA_Holographic_Flag_Building_Skyfaller</defName>
+    <label>P.I.A全息旗帜（落地中）</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(0, 0)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Holographic_Flag_Building</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef Name="WULA_Holographic_Flag_Building" ParentName="BuildingBase">
+    <defName>WULA_Holographic_Flag_Building</defName>
+    <label>P.I.A全息旗帜</label>
+    <description>乌拉帝国行星封锁机关的全息旗帜投影，能激励附近的乌拉星人更加凶狠地战斗。这台投影仪的底座附带了一个拒止护盾，可以反射大部分的敌方射弹，己方的开火不受影响。</description>
+    <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+		<altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <tradeability>None</tradeability>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_A</uiIconPath>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <costList>
+      <WULA_Alloy>4</WULA_Alloy>
+    </costList>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>5</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AreaShield">
+        <radius>12</radius>
+        <baseHitPoints>200</baseHitPoints>
+        <rechargeDelay>2400</rechargeDelay>
+        <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
+        
+        <!-- 效果器配置 -->
+        <absorbEffecter>Interceptor_BlockedProjectile</absorbEffecter>
+        <interceptEffecter>Interceptor_BlockedProjectile</interceptEffecter>
+        <breakEffecter>Shield_Break</breakEffecter>
+        <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
+        
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        
+        <!-- 拦截设置 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+      
+        <!-- 反射设置 -->
+        <canReflect>true</canReflect>
+        <reflectChance>0.5</reflectChance>
+        <reflectAngleRange>30</reflectAngleRange>
+        <reflectCost>0</reflectCost>
+        <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_GiveHediffsInRange">
+        <range>15</range>
+        <hediff>Wula_Holographic_Flag_Hediff</hediff>
+        <initialSeverity>0.5</initialSeverity>
+        <onlyPawnsInSameFaction>true</onlyPawnsInSameFaction>
+        <checkIntervalTicks>120</checkIntervalTicks>
+        <hediffDurationTicks>125</hediffDurationTicks>
+        <allowedRaces>
+          <li>WulaSpecies</li>
+        </allowedRaces>
+        <affectAllies>true</affectAllies>
+        <affectEnemies>false</affectEnemies>
+        <affectNeutrals>false</affectNeutrals>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WULA_Holographic_Flag_Skyfaller">
+    <defName>WULA_Support_AreaTeleporter_Skyfaller</defName>
+    <label>P.I.A全息旗帜附区域传送器（落地中）</label>
+    <skyfaller>
+      <spawnThing>WULA_Support_AreaTeleporter</spawnThing>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef ParentName="WULA_Holographic_Flag_Building">
+    <defName>WULA_Support_AreaTeleporter</defName>
+    <label>P.I.A全息旗帜附区域传送器</label>
+    <description>乌拉帝国行星封锁机关的全息旗帜，除了宣誓主权外，也能激励附近的乌拉星人更加凶狠地战斗。这面旗帜的底座附带了一个区域传送器，可以使得机械乌拉在旗帜区域内传送。\n\n在工作一段时间后，该系统将自行烧毁。</description>
+    
+    <modExtensions Inherit="False">
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_C</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>20</radius> <!-- 半径大小 -->
+        <color>(1, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>传送范围</label>
+        <description>区域传送器提供的传送范围</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>3600</lifespanTicks>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaTeleporter">
+        <teleportRadius>20</teleportRadius>
+        <stunTicks>60</stunTicks>
+        
+        <allowedRaces>
+          <li>WulaSpecies</li>
+        </allowedRaces>
+        <onlyPawnsInSameFaction>true</onlyPawnsInSameFaction>
+        
+        <entryEffecter>Skip_Entry</entryEffecter>
+        <exitEffecter>Skip_Exit</exitEffecter>
+        <teleportSound>Psycast_Skip_Entry</teleportSound>
+      </li>
+    </comps>
   </ThingDef>
 </Defs>

@@ -10,12 +10,16 @@ namespace WulaFallenEmpire
     [StaticConstructorOnStartup]
     public class ThingComp_AreaShield : ThingComp
     {
+        // 现有的字段保持不变...
         private int lastInterceptTicks = -999999;
         public int ticksToReset = 0;
         public int currentHitPoints;
         private bool wasNotAtFullHp = false;
         private bool wasActiveLastCheck = false;
 
+        // 新增：绘制控制字段
+        private bool drawShield = true;
+        
         // 视觉效果变量
         private float lastInterceptAngle;
         private bool drawInterceptCone;
@@ -43,30 +47,51 @@ namespace WulaFallenEmpire
         private const float TextureActualRingSizeFactor = 1.1601562f;
         private static readonly Color InactiveColor = new Color(0.2f, 0.2f, 0.2f);
 
-        // 护盾绘制方法 - 参考原版实现
+
+        // 新增：检查是否应该显示绘制控制按钮
+        public bool ShouldShowDrawToggleGizmo
+        {
+            get
+            {
+                // 条件1：装备且穿戴在己方pawn身上
+                if (IsEquipment && Wearer != null && Wearer.Faction == Faction.OfPlayer)
+                    return true;
+                
+                // 条件2：固定物品且属于己方派系
+                if (IsStandalone && parent.Faction == Faction.OfPlayer)
+                    return true;
+                
+                return false;
+            }
+        }
+
+        // 护盾绘制方法 - 修改：添加绘制控制检查
         public override void CompDrawWornExtras()
         {
             base.CompDrawWornExtras();
 
-            if (!IsEquipment) return; // 只有装备使用这个方法
+            if (!IsEquipment || !drawShield) return; // 新增绘制控制检查
 
             DrawShield();
         }
+        
         public override void PostDraw()
         {
             base.PostDraw();
 
-            if (IsEquipment) return; // 装备使用 CompDrawWornExtras
+            if (IsEquipment || !drawShield) return; // 新增绘制控制检查
 
             DrawShield();
         }
+
         /// <summary>
-        /// 统一的护盾绘制方法 - 参考原版实现
+        /// 统一的护盾绘制方法 - 修改：添加绘制控制检查
         /// </summary>
         private void DrawShield()
         {
-            if (!Active || Holder?.Map == null || Holder.Destroyed)
+            if (!drawShield || !Active || Holder?.Map == null || Holder.Destroyed) // 新增绘制控制检查
                 return;
+                
             Vector3 drawPos = GetHolderDrawPos();
             drawPos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
             float currentAlpha = GetCurrentAlpha();
@@ -96,9 +121,8 @@ namespace WulaFallenEmpire
                 Graphics.DrawMesh(MeshPool.plane10, matrix, ForceFieldConeMat, 0, null, 0, MatPropertyBlock);
             }
         }
-        /// <summary>
-        /// 获取当前透明度 - 参考原版的多状态叠加
-        /// </summary>
+
+        // 现有的其他方法保持不变...
         private float GetCurrentAlpha()
         {
             // 多个透明度来源叠加，取最大值
@@ -113,9 +137,7 @@ namespace WulaFallenEmpire
                 0.1f // 最小透明度
             );
         }
-        /// <summary>
-        /// 空闲状态透明度
-        /// </summary>
+
         private float GetCurrentAlpha_Idle()
         {
             if (!Active) return 0f;
@@ -144,9 +166,7 @@ namespace WulaFallenEmpire
 
             return 0f;
         }
-        /// <summary>
-        /// 被选中状态透明度 - 参考原版实现
-        /// </summary>
+
         private float GetCurrentAlpha_Selected()
         {
             // 如果被选中，显示更高的透明度
@@ -158,17 +178,13 @@ namespace WulaFallenEmpire
 
             return 0f;
         }
-        /// <summary>
-        /// 最近拦截状态透明度
-        /// </summary>
+
         private float GetCurrentAlpha_RecentlyIntercepted()
         {
             int ticksSinceIntercept = Find.TickManager.TicksGame - lastInterceptTicks;
             return Mathf.Clamp01(1f - (float)ticksSinceIntercept / 40f) * 0.3f;
         }
-        /// <summary>
-        /// 拦截锥形透明度
-        /// </summary>
+
         private float GetCurrentConeAlpha()
         {
             if (!drawInterceptCone) return 0f;
@@ -176,9 +192,7 @@ namespace WulaFallenEmpire
             int ticksSinceIntercept = Find.TickManager.TicksGame - lastInterceptTicks;
             return Mathf.Clamp01(1f - (float)ticksSinceIntercept / 40f) * 0.82f;
         }
-        /// <summary>
-        /// 获取持有者绘制位置（回退机制）
-        /// </summary>
+
         private Vector3 GetHolderDrawPos()
         {
             if (Holder is Pawn pawn)
@@ -224,6 +238,7 @@ namespace WulaFallenEmpire
         {
             base.PostPostMake();
             currentHitPoints = HitPointsMax;
+            drawShield = true; // 默认启用绘制
         }
 
         public override void PostExposeData()
@@ -232,6 +247,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref lastInterceptTicks, "lastInterceptTicks", -999999);
             Scribe_Values.Look(ref ticksToReset, "ticksToReset", 0);
             Scribe_Values.Look(ref currentHitPoints, "currentHitPoints", 0);
+            Scribe_Values.Look(ref drawShield, "drawShield", true); // 新增：保存绘制状态
         }
 
         public override void CompTick()
@@ -273,6 +289,56 @@ namespace WulaFallenEmpire
             }
         }
 
+        // 新增：绘制控制Gizmo
+        private Gizmo CreateDrawToggleGizmo()
+        {
+            Command_Toggle toggle = new Command_Toggle
+            {
+                defaultLabel = drawShield ? "WULA_HideAreaShieldLabel".Translate() : "WULA_ShowAreaShieldLabel".Translate(),
+                defaultDesc = drawShield ? "WULA_HideAreaShieldDesc".Translate() : "WULA_ShowAreaShieldDesc".Translate(),
+                icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_HideAreaShield"),
+                isActive = () => drawShield,
+                toggleAction = () => drawShield = !drawShield
+            };
+
+            return toggle;
+        }
+
+        public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
+        {
+            EnsureInitialized();
+
+            // 原有的状态显示Gizmo
+            if (IsEquipment && Wearer != null && Find.Selector.SingleSelectedThing == Wearer)
+            {
+                yield return new Gizmo_AreaShieldStatus { shield = this };
+                
+                // 新增：绘制控制按钮（只在符合条件的装备上显示）
+                if (ShouldShowDrawToggleGizmo)
+                {
+                    yield return CreateDrawToggleGizmo();
+                }
+            }
+        }
+
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            EnsureInitialized();
+
+            // 原有的状态显示Gizmo
+            if (IsStandalone && Find.Selector.SingleSelectedThing == parent)
+            {
+                yield return new Gizmo_AreaShieldStatus { shield = this };
+                
+                // 新增：绘制控制按钮（只在符合条件的固定物品上显示）
+                if (ShouldShowDrawToggleGizmo)
+                {
+                    yield return CreateDrawToggleGizmo();
+                }
+            }
+        }
+
+        // 现有的其他方法保持不变...
         private void ApplyCosts(int cost = 1)
         {
             currentHitPoints -= cost;
@@ -566,6 +632,7 @@ namespace WulaFallenEmpire
                 return false;
             }
         }
+        
         private void EnsureInitialized()
         {
             if (initialized) return;
@@ -577,27 +644,6 @@ namespace WulaFallenEmpire
                 currentHitPoints = Props.startupDelay > 0 ? 0 : HitPointsMax;
 
             initialized = true;
-        }
-
-        public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
-        {
-            EnsureInitialized();
-
-            if (IsEquipment && Wearer != null && Find.Selector.SingleSelectedThing == Wearer)
-            {
-                yield return new Gizmo_AreaShieldStatus { shield = this };
-            }
-        }
-
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            EnsureInitialized();
-
-            // 固定物品也显示护盾状态
-            if (IsStandalone && Find.Selector.SingleSelectedThing == parent)
-            {
-                yield return new Gizmo_AreaShieldStatus { shield = this };
-            }
         }
 
         public override void Notify_Equipped(Pawn pawn)

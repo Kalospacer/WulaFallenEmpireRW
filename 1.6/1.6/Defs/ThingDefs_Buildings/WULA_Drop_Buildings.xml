@@ -521,10 +521,10 @@
     <drawGUIOverlay>true</drawGUIOverlay>
     <!-- <defaultPlacingRot>South</defaultPlacingRot> -->
     <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
-    <pathCost>42</pathCost>
+    <passability>Impassable</passability>
     <blockWind>true</blockWind>
-    <fillPercent>0.5</fillPercent>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
     <canOverlapZones>false</canOverlapZones>
     <statBases>
       <MaxHitPoints>250</MaxHitPoints>
@@ -1283,7 +1283,6 @@
       <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
-    <fillPercent>0.5</fillPercent>
     <useHitPoints>True</useHitPoints>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
@@ -1293,8 +1292,10 @@
     </statBases>
     <size>(1,1)</size>
     <uiOrder>2120</uiOrder>
-    <passability>PassThroughOnly</passability>
-    <pathCost>50</pathCost>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
     <hasInteractionCell>True</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
@@ -1359,11 +1360,12 @@
       </damageData>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
     <castEdgeShadows>false</castEdgeShadows>
-    <fillPercent>0.5</fillPercent>
     <canOverlapZones>false</canOverlapZones>
-    <pathCost>0</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>

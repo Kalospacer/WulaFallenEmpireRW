@@ -126,6 +126,7 @@
     <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\CompProperties_TransformIntoBuilding.cs" />
     <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\CompTransformAtFullCapacity.cs" />
     <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\CompTransformIntoBuilding.cs" />
+    <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\TransformValidationUtility.cs" />
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />
     <Compile Include="EventSystem\Condition\ConditionBase.cs" />
     <Compile Include="EventSystem\Condition\Condition_FlagExists.cs" />

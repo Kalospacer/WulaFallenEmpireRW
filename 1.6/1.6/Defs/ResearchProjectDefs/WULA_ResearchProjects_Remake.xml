@@ -202,7 +202,7 @@
     <description>允许殖民地建立信标增加攻击舰队配额，并使得机械乌拉可以调频天线以申请舰队空中支援，包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器支援的航空舰。</description>
     <baseCost>600</baseCost>
     <researchViewX>1.00</researchViewX>
-    <researchViewY>4.40</researchViewY>
+    <researchViewY>5.60</researchViewY>
     <prerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>

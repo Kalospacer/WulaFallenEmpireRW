@@ -1055,6 +1055,25 @@
     </spawnCategories>
   </AlienRace.AlienBackstoryDef>
 
+  <AlienRace.AlienBackstoryDef>
+    <defName>WULA_Adult_Backstory_Legion_Escort</defName>
+    <slot>Adulthood</slot>
+    <title>断爪卫队</title>
+    <titleShort>断爪卫队</titleShort>
+    <description>[PAWN_nameDef]是断爪卫队的一员，该卫队是乌拉帝国行星封锁机关总控AI「军团」的心腹和黑手套，负责和其分体出席各种场合。</description>
+    <workDisables>AllWork</workDisables>
+    <bodyTypeGlobal>Thin</bodyTypeGlobal>
+    <bodyTypeFemale>Thin</bodyTypeFemale>
+    <bodyTypeMale>Thin</bodyTypeMale>
+    <skillGains>
+      <Melee>999</Melee>
+      <Shooting>999</Shooting>
+    </skillGains>
+    <spawnCategories>
+      <li>Wula_Backstory_Categories_Legion_Escort</li>
+    </spawnCategories>
+  </AlienRace.AlienBackstoryDef>
+
   <!-- 乌拉反常网络固定背景 -->
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory999</defName>

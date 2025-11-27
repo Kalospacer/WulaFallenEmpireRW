@@ -616,6 +616,10 @@
     <weaponMoney>0</weaponMoney>
     <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
     <apparelMoney>99999~99999</apparelMoney>
+    <techHediffsRequired>
+      <li>WULA_AutoJumpdrive_Week</li>
+      <li>DeathAcidifier</li>
+    </techHediffsRequired>
   </PawnKindDef>
   <PawnKindDef>
     <defName>Wula_PIA_Legion_Escort_Unit</defName>
@@ -664,6 +668,7 @@
     <apparelMoney>999999~999999</apparelMoney>
     <techHediffsMoney>999999~999999</techHediffsMoney>
     <techHediffsRequired>
+      <li>WULA_AutoJumpdrive_Week</li>
       <li>DeathAcidifier</li>
     </techHediffsRequired>
     <techHediffsTags>
@@ -671,12 +676,11 @@
       <li>ImplantEmpireCommon</li>
     </techHediffsTags>
 
-    <backstoryFiltersOverride>
-      <li>
-        <categories>
-          <li>Wula_Backstory_Categories</li>
-        </categories>
-      </li>
-    </backstoryFiltersOverride>
+    <fixedChildBackstories>
+      <li>WULA_Child_Backstory03</li>
+    </fixedChildBackstories>
+		<fixedAdultBackstories>
+			<li>WULA_Adult_Backstory_Legion_Escort</li>
+		</fixedAdultBackstories>
   </PawnKindDef>
 </Defs>

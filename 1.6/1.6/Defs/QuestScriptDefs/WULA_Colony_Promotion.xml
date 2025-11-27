@@ -133,8 +133,8 @@
 
         <li Class="QuestNode_Letter">
           <inSignal>faction.BecameHostileToPlayer</inSignal>
-          <label TKey="LetterLabelFactionBecameHostile">LetterLabelFactionBecameHostile</label>
-          <text TKey="LetterTextFactionBecameHostile">LetterTextFactionBecameHostile</text>
+          <label TKey="LetterLabelFactionBecameHostile">任务失败：[resolvedQuestName]</label>
+          <text TKey="LetterTextFactionBecameHostile">[faction_name]开始敌视你。</text>
         </li>
         <li Class="QuestNode_End">
           <inSignal>faction.BecameHostileToPlayer</inSignal>
@@ -237,9 +237,9 @@
                   <node Class="QuestNode_Sequence">
                     <nodes>
                       <li Class="QuestNode_Letter">
-                        <label TKey="LetterLabelShuttleDestroyed">Shuttle destroyed</label>
+                        <label TKey="LetterLabelShuttleDestroyed">穿梭机被破坏</label>
                         <letterDef>NegativeEvent</letterDef>
-                        <text TKey="LetterTextShuttleDestroyed">The shuttle sent to drop off [pawnsLabelDef] has been destroyed. You have failed the quest '[resolvedQuestName]'.\n\nYour relations with [asker_faction_name] have changed by [goodwillChangeOnShuttleDestroyed].</text>
+                        <text TKey="LetterTextShuttleDestroyed">被派遣来运输[asker_nameDef]的穿梭机已被破坏。</text>
                       </li>
                       <li Class="QuestNode_End">
                         <outcome>Fail</outcome>
@@ -262,9 +262,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelGuestDied">Guest died: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelGuestDied">宾客{SUBJECT_definite}死亡</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextGuestDied">{SUBJECT_definite}, who you were charged to protect, has died. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextGuestDied">需要你护卫的{SUBJECT_definite}已经死亡。[failLetterEndingCommon]</text>
                 <signalListenMode>OngoingOrNotYetAccepted</signalListenMode>
               </li>
               <li Class="QuestNode_End">
@@ -302,8 +302,8 @@
                 <inspectString TKey="InspectStringDepartShuttle">应该乘坐穿梭机离开</inspectString>
               </li>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelShuttleArrived">Shuttle arrived</label>
-                <text TKey="LetterTextShuttleArrived">The shuttle has arrived to collect the [asker_faction_leaderTitle].\n\nAll of you can accompany the [asker_faction_leaderTitle] on the shuttle and travel to the Imperial flotilla to begin a new life.</text>
+                <label TKey="LetterLabelShuttleArrived">穿梭机已抵达</label>
+                <text TKey="LetterTextShuttleArrived">穿梭机已经前来迎接[asker_nameDef]。</text>
                 <lookTargets>$pickupShipThing</lookTargets>
               </li>
 
@@ -355,9 +355,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelSubjectUnhappy">{SUBJECT_bestRoyalTitle} unhappy</label>
+                <label TKey="LetterLabelSubjectUnhappy">{SUBJECT_bestRoyalTitle}情绪低落</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextSubjectUnhappy">{SUBJECT_definite}, who you were charged to protect and keep happy, has been below the minimum mood of [lodgersMoodThreshold] too long. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextSubjectUnhappy">需要你护卫和满足需求的{SUBJECT_definite}，其情绪值已经长时间低于最低限度[lodgersMoodThreshold]。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -372,9 +372,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelGuestCaptured">Guest captured: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelGuestCaptured">宾客{SUBJECT_definite}被俘</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextGuestCaptured">{SUBJECT_definite}, who you were charged to protect, has been arrested. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextGuestCaptured">需要你护卫的{SUBJECT_definite}已经被俘虏。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -392,9 +392,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelUnauthorizedSurgery">Unauthorized surgery: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelUnauthorizedSurgery">未授权手术：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextUnauthorizedSurgery">Unauthorized, violating surgery has been performed on {SUBJECT_definite}, who you were charged to protect. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextUnauthorizedSurgery">需要你护卫的{SUBJECT_definite}接受了一场未授权的多余手术。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -412,9 +412,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label>Xenogerm absorbed: {SUBJECT_definite}</label>
+                <label>异种胚芽被吸收</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text>{SUBJECT_definite}, who you were charged to protect, has had {SUBJECT_possessive} xenogerm forcibly absorbed. [failLetterEndingCommon]</text>
+                <text>指定由你保护的{SUBJECT_definite}在你的殖民地被吸收了异种胚芽。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -432,9 +432,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelGuestLost">Guest lost: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelGuestLost">宾客失踪：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextGuestLost">{SUBJECT_definite}, who you were charged to protect, has left the assigned settlement. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextGuestLost">需要你护卫的{SUBJECT_definite}失踪在你的殖民地。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -452,9 +452,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelShuttleDestroyed">Shuttle destroyed</label>
+                <label TKey="LetterLabelShuttleDestroyed">穿梭机已被毁</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextShuttleDestroyed">The shuttle sent to collect the [asker_faction_leaderTitle] has been destroyed. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextShuttleDestroyed">前来迎接[asker_faction_leaderTitle]的穿梭机被摧毁了。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -472,9 +472,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelLodgerRanWild">Guest lost: {SUBJECT_definite}</label>
+                <label TKey="LetterLabelLodgerRanWild">宾客失踪：{SUBJECT_definite}</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextLodgerRanWild">{SUBJECT_definite}, who you were charged to protect, has run wild. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextLodgerRanWild">需要你护卫的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>
@@ -510,9 +510,9 @@
           <node Class="QuestNode_Sequence">
             <nodes>
               <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelShuttleSentUnsatisfied">Quest failed: [resolvedQuestName]</label>
+                <label TKey="LetterLabelShuttleSentUnsatisfied">任务失败：[resolvedQuestName]</label>
                 <letterDef>NegativeEvent</letterDef>
-                <text TKey="LetterTextShuttleSentUnsatisfied">The shuttle sent to collect the [asker_faction_leaderTitle] has departed without [asker_objective]. [asker_pronoun] will now leave on foot. [failLetterEndingCommon]</text>
+                <text TKey="LetterTextShuttleSentUnsatisfied">前来迎接[asker_faction_leaderTitle]的穿梭机没有接到[asker_objective]。[asker_pronoun]现在只能走回去。[failLetterEndingCommon]</text>
               </li>
               <li Class="QuestNode_End">
                 <outcome>Fail</outcome>

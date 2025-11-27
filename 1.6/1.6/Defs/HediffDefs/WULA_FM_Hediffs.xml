@@ -147,31 +147,4 @@
       </li>
     </comps>
   </HediffDef>
-  <HediffDef>
-    <defName>Wula_FM_Switc_Construction</defName>
-    <label>调频（支援）</label>
-    <description>允许乌拉帝国的合成人呼叫舰队支援，包含一系列防御性能力和生产加速能力，一般需要有拒止舰队部署在轨道上才能启动。</description>
-    <hediffClass>Hediff_High</hediffClass>
-    <everCurableByItem>false</everCurableByItem>
-    <duplicationAllowed>false</duplicationAllowed>
-    <keepOnBodyPartRestoration>True</keepOnBodyPartRestoration>
-    <isBad>false</isBad>
-    <stages>
-      <li>
-        <becomeVisible>false</becomeVisible>
-      </li>
-    </stages>
-    <comps>
-      <li Class="HediffCompProperties_GiveAbility">
-        <abilityDefs>
-          <li>WULA_CallMotherShip</li>
-          <li>WULA_CallConstructionShip</li>
-          <li>WULA_ClearFlightPath</li>
-          <li>WULA_Support_Holographic_Flag</li>
-          <li>WULA_Support_Shield_Projection</li>
-          <li>WULA_Support_AreaTeleporter</li>
-        </abilityDefs>
-      </li>
-    </comps>
-  </HediffDef>
 </Defs>

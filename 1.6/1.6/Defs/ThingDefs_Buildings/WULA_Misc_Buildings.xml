@@ -665,58 +665,6 @@
     <thingClass>Thing</thingClass>
   </ThingDef>
 
-  <!-- 装饰品 -->
-  <ThingDef ParentName="BuildingBase">
-    <defName>WULA_Wall_Flag_Building</defName>
-    <label>P.I.A旗帜</label>
-    <description>乌拉帝国行星封锁机关的旗帜，没什么用但是可以宣示乌拉帝国的主权。</description>
-    <thingClass>Building</thingClass>
-    <category>Building</category>
-    <passability>PassThroughOnly</passability>
-    <designationCategory>WULA_Buildings</designationCategory>
-    <selectable>true</selectable>
-    <fillPercent>0.20</fillPercent>
-    <pathCost>14</pathCost>
-    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
-    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
-    <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_B_north</uiIconPath>
-    <noRightClickDraftAttack>true</noRightClickDraftAttack>
-    <rotatable>true</rotatable>
-    <graphicData>
-      <texPath>Wula/Building/Flag/WULA_Flag_Building_B</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(0.7,0.75)</drawSize>
-      <drawOffsetNorth>(0,0,0.7)</drawOffsetNorth>
-      <drawOffsetSouth>(0,0,-0.7)</drawOffsetSouth>
-      <drawOffsetWest>(-0.6,0,0.1)</drawOffsetWest>
-      <drawOffsetEast>(0.6,0,0.1)</drawOffsetEast>
-      <damageData>
-        <enabled>false</enabled>
-      </damageData>
-    </graphicData>
-    <altitudeLayer>BuildingOnTop</altitudeLayer>
-    <statBases>
-      <MaxHitPoints>50</MaxHitPoints>
-      <Flammability>1.0</Flammability>
-      <WorkToBuild>330</WorkToBuild>
-      <Mass>2</Mass>
-    </statBases>
-    <uiOrder>2991</uiOrder>
-    <passability>Standable</passability>
-    <terrainAffordanceNeeded IsNull="True" />
-    <pathCost>0</pathCost>
-    <overrideMinifiedRot>North</overrideMinifiedRot>
-    <minifiedDrawOffset>(0, 0, 0.2)</minifiedDrawOffset>
-    <building>
-      <isEdifice>false</isEdifice>
-      <isAttachment>true</isAttachment>
-    </building>
-    <placeWorkers>
-      <li>Placeworker_AttachedToWall</li>
-    </placeWorkers>
-  </ThingDef>
-
-  <!-- 装饰品 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Sky_Lock</defName>
     <label>天锁</label>

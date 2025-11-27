@@ -1132,7 +1132,7 @@
         <targetBuildingDef>WULA_Cat_Bunker</targetBuildingDef>
         <gizmoLabel>部署为乌拉猫猫地堡</gizmoLabel>
         <gizmoDesc>乌拉猫猫们把地堡扔在地上然后钻进去，重新转变为建筑。每一次转变为建筑后，都会有24小时的冷却时间，在此期间不允许重新变为BUk-1"地堡猫猫"。</gizmoDesc>
-        <gizmoIconPath>Wula/UI/Commands/WULA_TransformToBuilding</gizmoIconPath>
+        <gizmoIconPath>Wula/UI/Commands/WULA_BunkerCat</gizmoIconPath>
       </li>
     </comps>
   </AlienRace.ThingDef_AlienRace>
@@ -1698,6 +1698,21 @@
         <toggleLabel>碾压伤害</toggleLabel>
         <toggleDescription>MFm-2"陆行舰"可以将舰身稍微下沉一些并创造低压区，以碾压靠近的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
         <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
+      </li>
+
+      
+      <li Class="WulaFallenEmpire.CompProperties_AreaTeleporter">
+        <teleportRadius>20</teleportRadius>
+        <stunTicks>60</stunTicks>
+        
+        <allowedRaces>
+          <li>WulaSpecies</li>
+        </allowedRaces>
+        <onlyPawnsInSameFaction>true</onlyPawnsInSameFaction>
+        
+        <entryEffecter>Skip_Entry</entryEffecter>
+        <exitEffecter>Skip_Exit</exitEffecter>
+        <teleportSound>Psycast_Skip_Entry</teleportSound>
       </li>
     </comps>
   </AlienRace.ThingDef_AlienRace>

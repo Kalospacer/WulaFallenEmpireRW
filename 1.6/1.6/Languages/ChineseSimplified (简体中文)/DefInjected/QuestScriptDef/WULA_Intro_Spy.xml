@@ -6,30 +6,5 @@
   <WULA_Intro_Spy.questDescriptionRules.rulesStrings>
     <li>questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个请求。一位乌拉帝国密探已经暴露，正在遭受其他派系追杀——密探手无寸铁且携带重要信息，殖民地需要掩护它直到乌拉帝国的穿梭机抵达并将其接走。虽然对方未透露更多信息，不过她指明袭击不会太剧烈，密探已经甩掉了大部分敌人。</li>
   </WULA_Intro_Spy.questDescriptionRules.rulesStrings>
-  <WULA_Intro_Spy.LetterLabelChasing.slateRef>{BASELABEL} 追捕[../asker_nameDef]</WULA_Intro_Spy.LetterLabelChasing.slateRef>
-  <WULA_Intro_Spy.LetterTextChasing.slateRef>{BASETEXT}\n\n[enemyFaction_pawnsPlural]来此追捕[../asker_nameDef]。</WULA_Intro_Spy.LetterTextChasing.slateRef>
-  
-  <WULA_Intro_Spy.InspectStringDepartShuttle.slateRef>应该乘坐穿梭机出发</WULA_Intro_Spy.InspectStringDepartShuttle.slateRef>
-  <WULA_Intro_Spy.LetterLabelShuttleArrived.slateRef>穿梭机已抵达</WULA_Intro_Spy.LetterLabelShuttleArrived.slateRef>
-  <WULA_Intro_Spy.LetterTextShuttleArrived.slateRef>前来迎接[asker_nameDef]的穿梭机已抵达。</WULA_Intro_Spy.LetterTextShuttleArrived.slateRef>
-  <WULA_Intro_Spy.LetterLabelGuestDied.slateRef>宾客已死亡：{SUBJECT_definite}</WULA_Intro_Spy.LetterLabelGuestDied.slateRef>
-  <WULA_Intro_Spy.LetterTextGuestDied.slateRef>需要你小心保护的{SUBJECT_definite}已经死亡。[failLetterEndingCommon]</WULA_Intro_Spy.LetterTextGuestDied.slateRef>
-  <WULA_Intro_Spy.root.nodes.askerLeftBehind.node.nodes.Letter.label.slateRef>宾客被遗弃：{SUBJECT_definite}</WULA_Intro_Spy.root.nodes.askerLeftBehind.node.nodes.Letter.label.slateRef>
-  <WULA_Intro_Spy.root.nodes.askerLeftBehind.node.nodes.Letter.text.slateRef>需要你小心保护的{SUBJECT_definite}被遗弃。[failLetterEndingCommon]</WULA_Intro_Spy.root.nodes.askerLeftBehind.node.nodes.Letter.text.slateRef>
-  <WULA_Intro_Spy.LetterLabelUnauthorizedSurgery.slateRef>未授权手术：{SUBJECT_definite}</WULA_Intro_Spy.LetterLabelUnauthorizedSurgery.slateRef>
-  <WULA_Intro_Spy.LetterTextUnauthorizedSurgery.slateRef>需要你小心保护的{SUBJECT_definite}接受了一次未授权的额外手术。因为你违规在先，[asker_pronoun]将要离开此处。[failLetterEndingCommon]</WULA_Intro_Spy.LetterTextUnauthorizedSurgery.slateRef>
-  <WULA_Intro_Spy.root.nodes.askerXenogermAbsorbed.node.nodes.Letter.label.slateRef>异种胚芽被吸收：{SUBJECT_definite}</WULA_Intro_Spy.root.nodes.askerXenogermAbsorbed.node.nodes.Letter.label.slateRef>
-  <WULA_Intro_Spy.root.nodes.askerXenogermAbsorbed.node.nodes.Letter.text.slateRef>指定由你保护的{SUBJECT_definite}在你的殖民地被吸收了异种胚芽。这是一种侵犯行为，{SUBJECT_pronoun}现在将会直接离开[failLetterEndingCommon]。</WULA_Intro_Spy.root.nodes.askerXenogermAbsorbed.node.nodes.Letter.text.slateRef>
-  <WULA_Intro_Spy.LetterLabelCaptured.slateRef>已被俘：{SUBJECT_definite}</WULA_Intro_Spy.LetterLabelCaptured.slateRef>
-  <WULA_Intro_Spy.LetterTextCaptured.slateRef>需要你小心保护的{SUBJECT_definite}已被俘虏。[failLetterEndingCommon]</WULA_Intro_Spy.LetterTextCaptured.slateRef>
-  <WULA_Intro_Spy.LetterLabelGuestLost.slateRef>宾客失踪：{SUBJECT_definite}</WULA_Intro_Spy.LetterLabelGuestLost.slateRef>
-  <WULA_Intro_Spy.LetterTextGuestLost.slateRef>需要你小心保护的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]</WULA_Intro_Spy.LetterTextGuestLost.slateRef>
-  <WULA_Intro_Spy.LetterLabelLodgerRanWild.slateRef>宾客失踪：{SUBJECT_definite}</WULA_Intro_Spy.LetterLabelLodgerRanWild.slateRef>
-  <WULA_Intro_Spy.LetterTextLodgerRanWild.slateRef>需要你小心保护的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]</WULA_Intro_Spy.LetterTextLodgerRanWild.slateRef>
-  <WULA_Intro_Spy.LetterLabelShuttleDestroyed.slateRef>穿梭机被毁</WULA_Intro_Spy.LetterLabelShuttleDestroyed.slateRef>
-  <WULA_Intro_Spy.LetterTextShuttleDestroyed.slateRef>前来迎接[asker_nameDef]的穿梭机已被毁。[asker_pronoun]现在只能走回去了。[failLetterEndingCommon]</WULA_Intro_Spy.LetterTextShuttleDestroyed.slateRef>
-  <WULA_Intro_Spy.root.nodes.pickupShipThingLeftBehind.node.nodes.Letter.label.slateRef>穿梭机被遗弃</WULA_Intro_Spy.root.nodes.pickupShipThingLeftBehind.node.nodes.Letter.label.slateRef>
-  <WULA_Intro_Spy.root.nodes.pickupShipThingLeftBehind.node.nodes.Letter.text.slateRef>前来迎接[asker_nameDef]的穿梭机已被遗弃。[asker_pronoun]现在只能走回去了。</WULA_Intro_Spy.root.nodes.pickupShipThingLeftBehind.node.nodes.Letter.text.slateRef>
-  <WULA_Intro_Spy.LetterLabelQuestFailed.slateRef>任务失败：[resolvedQuestName]</WULA_Intro_Spy.LetterLabelQuestFailed.slateRef>
-  <WULA_Intro_Spy.LetterTextQuestFailed.slateRef>前来迎接[asker_nameDef]的穿梭机在离开时因为一些原因落下了[asker_objective]。[asker_pronoun]现在只能走回去了。[failLetterEndingCommon]</WULA_Intro_Spy.LetterTextQuestFailed.slateRef>
+
 </LanguageData>
