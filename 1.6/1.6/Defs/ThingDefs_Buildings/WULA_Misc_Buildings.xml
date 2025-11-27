@@ -211,10 +211,10 @@
     <thingClass>Building</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
-    <designationCategory>WULA_Buildings</designationCategory>
+    <!-- <designationCategory>WULA_Buildings</designationCategory>
     <researchPrerequisites Inherit="False">
       <li>WULA_ConstructionShip_Technology</li>
-    </researchPrerequisites>
+    </researchPrerequisites> -->
     <pathCost>50</pathCost>
     <blockWind>true</blockWind>
     <passability>PassThroughOnly</passability>

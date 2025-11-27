@@ -215,7 +215,6 @@
       <li Class="WulaFallenEmpire.CompProperties_TransformAtFullCapacity">
         <targetPawnKind>WULA_Mobile_Bunker</targetPawnKind>
         <requiredCapacity>6</requiredCapacity>
-        <cooldownHours>0</cooldownHours>
         <gizmoLabel>转换为BUk-1"地堡猫猫"</gizmoLabel>
         <gizmoDesc>让地堡中的两只乌拉猫猫继续操纵地堡中的机枪，剩下的乌拉猫猫抬着地堡移动——虽然很难相信但是事实就是这样的。</gizmoDesc>
         <gizmoIconPath>Wula/UI/Commands/WULA_TransformToPawn</gizmoIconPath>
