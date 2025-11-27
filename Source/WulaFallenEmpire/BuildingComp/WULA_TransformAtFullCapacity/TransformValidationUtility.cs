@@ -42,8 +42,8 @@ namespace WulaFallenEmpire
             if (!IsWithinMapBounds(buildingDef, center, map, out failReason))
                 return false;
 
-            // 4. 检查地形affordance
-            if (!HasValidTerrainAffordance(buildingDef, center, map, out failReason))
+            // 4. 检查地形是否可建造
+            if (!HasBuildableTerrain(buildingDef, center, map, out failReason))
                 return false;
 
             // 5. 检查其他建筑挤占（排除要忽略的物体）
@@ -54,7 +54,7 @@ namespace WulaFallenEmpire
             if (!MeetsSpecialPlacementConditions(buildingDef, center, map, out failReason))
                 return false;
 
-            // 7. 使用RimWorld原生的放置检查（最终验证）
+            // 7. 使用RimWorld原生的放置检查（最终验证）- 移除派系限制
             if (!GenConstruct.CanPlaceBlueprintAt(buildingDef, center, Rot4.North, map, false, null, null, null))
             {
                 failReason = "该位置不符合建筑放置要求";
@@ -90,18 +90,10 @@ namespace WulaFallenEmpire
         }
 
         /// <summary>
-        /// 检查地形affordance
+        /// 检查地形是否可建造 - 重新设计的逻辑
         /// </summary>
-        private static bool HasValidTerrainAffordance(ThingDef buildingDef, IntVec3 center, Map map, out string failReason)
+        private static bool HasBuildableTerrain(ThingDef buildingDef, IntVec3 center, Map map, out string failReason)
         {
-            TerrainAffordanceDef requiredAffordance = buildingDef.terrainAffordanceNeeded;
-            if (requiredAffordance == null)
-            {
-                // 如果没有指定affordance要求，则跳过检查
-                failReason = null;
-                return true;
-            }
-
             CellRect occupiedRect = GenAdj.OccupiedRect(center, Rot4.North, buildingDef.Size);
             
             foreach (IntVec3 cell in occupiedRect)
@@ -110,15 +102,46 @@ namespace WulaFallenEmpire
                     continue;
 
                 TerrainDef terrain = map.terrainGrid.TerrainAt(cell);
-                if (terrain == null || !terrain.affordances.Contains(requiredAffordance))
+                if (terrain == null)
                 {
-                    failReason = $"地形 {terrain?.LabelCap ?? "未知"} 不支持放置 {buildingDef.LabelCap}";
+                    failReason = "未知地形";
+                    return false;
+                }
+
+                // 检查是否在水体上
+                if (terrain.IsWater)
+                {
+                    failReason = $"无法在水体 ({terrain.LabelCap}) 上放置建筑";
+                    return false;
+                }
+
+                // 检查affordance - 使用更宽松的逻辑
+                if (!HasValidAffordance(buildingDef, terrain))
+                {
+                    failReason = $"地形 {terrain.LabelCap} 不支持放置 {buildingDef.LabelCap}";
                     return false;
                 }
             }
 
             failReason = null;
             return true;
+        }
+
+        /// <summary>
+        /// 检查affordance兼容性 - 重新设计的逻辑
+        /// </summary>
+        private static bool HasValidAffordance(ThingDef buildingDef, TerrainDef terrain)
+        {
+            // 如果建筑没有指定affordance要求，则跳过检查
+            if (buildingDef.terrainAffordanceNeeded == null)
+                return true;
+
+            // 如果地形没有affordances列表，则检查失败
+            if (terrain.affordances == null || terrain.affordances.Count == 0)
+                return false;
+
+            // 检查地形是否提供建筑所需的affordance
+            return terrain.affordances.Contains(buildingDef.terrainAffordanceNeeded);
         }
 
         /// <summary>
@@ -181,27 +204,6 @@ namespace WulaFallenEmpire
         private static bool MeetsSpecialPlacementConditions(ThingDef buildingDef, IntVec3 center, Map map, out string failReason)
         {
             CellRect occupiedRect = GenAdj.OccupiedRect(center, Rot4.North, buildingDef.Size);
-
-            // 检查是否在水体上
-            foreach (IntVec3 cell in occupiedRect)
-            {
-                if (!cell.InBounds(map))
-                    continue;
-
-                TerrainDef terrain = map.terrainGrid.TerrainAt(cell);
-                if (terrain != null && (terrain.IsWater || terrain.defName.Contains("Water")))
-                {
-                    failReason = "无法在水体上放置建筑";
-                    return false;
-                }
-
-                // 检查是否在不可建造的地形上
-                if (terrain != null && !terrain.BuildableByPlayer)
-                {
-                    failReason = $"地形 {terrain.LabelCap} 不可建造";
-                    return false;
-                }
-            }
 
             failReason = null;
             return true;

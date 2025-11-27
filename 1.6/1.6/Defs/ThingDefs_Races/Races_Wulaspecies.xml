@@ -1052,10 +1052,6 @@
       </li>
     </tools>
     <comps>
-      <li Class="CompProperties_Glower">
-        <glowRadius>6</glowRadius>
-        <glowColor>(120,240,252,0)</glowColor>
-      </li>
       <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
 		    <ID>0</ID>
         <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
