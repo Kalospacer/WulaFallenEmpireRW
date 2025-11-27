@@ -9,73 +9,29 @@ namespace WulaFallenEmpire
 {
     public class Building_MechanoidRecycler : Building
     {
-        // 翻译键定义
-        public static class TranslationKeys
-        {
-            // 消息文本
-            public const string NoRecyclableMechanoidsNearby = "WULA_NoRecyclableMechanoidsNearby";
-            public const string RecyclerStorageFull = "WULA_RecyclerStorageFull";
-            public const string CalledMechanoidsForRecycling = "WULA_CalledMechanoidsForRecycling";
-            public const string MechanoidRecycled = "WULA_MechanoidRecycled";
-            public const string NoMechanoidsAvailableForConversion = "WULA_NoMechanoidsAvailableForConversion";
-            public const string NotEnoughStoredMechanoids = "WULA_NotEnoughStoredMechanoids";
-            public const string ConvertingMechanoids = "WULA_ConvertingMechanoids";
-            
-            // Gizmo 文本
-            public const string RecycleNearbyMechanoids = "WULA_RecycleNearbyMechanoids";
-            public const string RecycleNearbyMechanoidsDesc = "WULA_RecycleNearbyMechanoidsDesc";
-            public const string RecycleNearbyMechanoidsDisabled = "WULA_RecycleNearbyMechanoidsDisabled";
-            public const string ConvertMechanoids = "WULA_ConvertMechanoids";
-            public const string ConvertMechanoidsDesc = "WULA_ConvertMechanoidsDesc";
-            public const string ConvertMechanoidsDisabled = "WULA_ConvertMechanoidsDisabled";
-            
-            // 检查字符串
-            public const string StoredInfo = "WULA_StoredInfo";
-        }
-        
         public CompProperties_MechanoidRecycler Props => def.GetCompProperties<CompProperties_MechanoidRecycler>();
         
-        // 存储的机械族列表
-        public List<Pawn> storedMechanoids = new List<Pawn>();
+        // 改为存储计数而不是Pawn实例
+        private int storedMechanoidCount = 0;
+        private int spawnTick; // 建筑生成的时间点
         
-        // 生成队列
+        // 生成队列（存储Pawn生成请求）
         private Queue<PawnGenerationRequest> spawnQueue = new Queue<PawnGenerationRequest>();
-        
-        // 是否已经生成初始单位
         private bool initialUnitsSpawned = false;
         
-        public int StoredCount => storedMechanoids.Count;
+        public int StoredCount => storedMechanoidCount;
         public int MaxStorage => Props.maxStorageCapacity;
+        public bool IsCooldownActive => Find.TickManager.TicksGame - spawnTick < 24 * 2500; // 24小时冷却
         
-        
-        // 生成初始单位
+        // 生成初始单位（改为计数）
         private void SpawnInitialUnits()
         {
-            if (initialUnitsSpawned || Props.initialUnits == null || Props.initialUnits.Count == 0)
+            if (initialUnitsSpawned || Props.initialUnits == null)
                 return;
                 
             foreach (var initialUnit in Props.initialUnits)
             {
-                if (storedMechanoids.Count >= MaxStorage)
-                    break;
-                    
-                // 生成初始机械族
-                PawnGenerationRequest request = new PawnGenerationRequest(
-                    initialUnit.pawnKindDef,
-                    Faction, // 使用当前建筑的派系
-                    PawnGenerationContext.NonPlayer,
-                    -1,
-                    forceGenerateNewPawn: true,
-                    allowDead: false,
-                    allowDowned: false,
-                    canGeneratePawnRelations: false,
-                    mustBeCapableOfViolence: true
-                );
-                
-                Pawn initialMech = PawnGenerator.GeneratePawn(request);
-                storedMechanoids.Add(initialMech);
-                
-                Log.Message($"Mechanoid Recycler spawned initial unit: {initialMech.LabelCap} for faction: {Faction.Name}");
+                storedMechanoidCount += initialUnit.count;
             }
             
             initialUnitsSpawned = true;
@@ -84,118 +40,48 @@ namespace WulaFallenEmpire
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
+            spawnTick = Find.TickManager.TicksGame;
             
-            // 如果不是从存档加载，生成初始单位
             if (!respawningAfterLoad)
             {
                 SpawnInitialUnits();
             }
         }
         
-        // 回收附近机械族
-        public void RecycleNearbyMechanoids()
+        // 回收机械族（改为增加计数）
+        public void AcceptMechanoid(Pawn mech)
         {
-            if (!CanRecycleNow())
-                return;
-                
-            List<Pawn> nearbyMechs = FindNearbyRecyclableMechanoids();
-            
-            if (nearbyMechs.Count == 0)
+            if (storedMechanoidCount >= Props.maxStorageCapacity)
             {
-                Messages.Message(TranslationKeys.NoRecyclableMechanoidsNearby.Translate(), MessageTypeDefOf.RejectInput);
+                Messages.Message("回收器已满", MessageTypeDefOf.RejectInput);
                 return;
             }
             
-            int assignedCount = 0;
-            foreach (Pawn mech in nearbyMechs)
-            {
-                if (StartRecycleJob(mech))
-                {
-                    assignedCount++;
-                }
-            }
+            storedMechanoidCount++;
+            mech.Destroy(); // 直接销毁，不存储实例
             
-            Messages.Message(TranslationKeys.CalledMechanoidsForRecycling.Translate(assignedCount), MessageTypeDefOf.PositiveEvent);
+            Messages.Message($"机械族 {mech.LabelCap} 已回收 (当前: {storedMechanoidCount}/{Props.maxStorageCapacity})", 
+                MessageTypeDefOf.PositiveEvent);
+            
+            // 通知转换组件存储更新
+            var transformComp = this.TryGetComp<CompTransformAtFullCapacity>();
+            transformComp?.NotifyStorageUpdated();
         }
         
-        private bool CanRecycleNow()
+        // 消耗机械族计数
+        public bool ConsumeMechanoids(int count)
         {
-            if (storedMechanoids.Count >= Props.maxStorageCapacity)
-            {
+            if (storedMechanoidCount < count)
                 return false;
-            }
+                
+            storedMechanoidCount -= count;
             return true;
         }
         
-        private List<Pawn> FindNearbyRecyclableMechanoids()
+        // 设置机械族计数（用于转换恢复）
+        public void SetMechanoidCount(int count)
         {
-            List<Pawn> result = new List<Pawn>();
-            CellRect searchRect = CellRect.CenteredOn(Position, Props.recycleRange);
-            
-            foreach (Pawn pawn in Map.mapPawns.AllPawnsSpawned)
-            {
-                if (searchRect.Contains(pawn.Position) && 
-                    IsRecyclableMechanoid(pawn) && 
-                    !storedMechanoids.Contains(pawn) &&
-                    !IsAlreadyGoingToRecycler(pawn) && // 检查是否已经在前往回收器
-                    pawn.CanReach(this, PathEndMode.InteractionCell, Danger.Some))
-                {
-                    result.Add(pawn);
-                }
-            }
-            
-            return result;
-        }
-        
-        private bool IsRecyclableMechanoid(Pawn pawn)
-        {
-            return pawn.RaceProps.IsMechanoid && 
-                   Props.recyclableRaces.Contains(pawn.def) &&
-                   !pawn.Downed && 
-                   pawn.Faction == Faction; // 使用当前建筑的派系
-        }
-        
-        // 检查机械族是否已经在前往此回收器
-        private bool IsAlreadyGoingToRecycler(Pawn mech)
-        {
-            // 检查当前工作是否是前往此回收器
-            Job curJob = mech.CurJob;
-            if (curJob != null && curJob.def == Props.recycleJobDef && curJob.targetA.Thing == this)
-                return true;
-                
-            return false;
-        }
-        
-        private bool StartRecycleJob(Pawn mech)
-        {
-            // 防止重复分配
-            if (IsAlreadyGoingToRecycler(mech))
-                return false;
-                
-            Job job = JobMaker.MakeJob(Props.recycleJobDef, this);
-            if (mech.jobs.TryTakeOrderedJob(job))
-            {
-                return true;
-            }
-            return false;
-        }
-        
-        // 机械族进入建筑
-        public void AcceptMechanoid(Pawn mech)
-        {
-            if (storedMechanoids.Contains(mech))
-                return;
-                
-            if (storedMechanoids.Count >= Props.maxStorageCapacity)
-            {
-                Messages.Message(TranslationKeys.RecyclerStorageFull.Translate(), MessageTypeDefOf.RejectInput);
-                return;
-            }
-            
-            storedMechanoids.Add(mech);
-            mech.DeSpawn();
-            
-            Messages.Message(TranslationKeys.MechanoidRecycled.Translate(mech.LabelCap), MessageTypeDefOf.PositiveEvent);
+            storedMechanoidCount = Mathf.Clamp(count, 0, Props.maxStorageCapacity);
         }
         
         protected override void Tick()
@@ -212,9 +98,9 @@ namespace WulaFallenEmpire
         // 打开生成界面
         public void OpenSpawnInterface()
         {
-            if (storedMechanoids.Count == 0)
+            if (storedMechanoidCount == 0)
             {
-                Messages.Message(TranslationKeys.NoMechanoidsAvailableForConversion.Translate(), MessageTypeDefOf.RejectInput);
+                Messages.Message("没有可用的机械族进行转换", MessageTypeDefOf.RejectInput);
                 return;
             }
             
@@ -223,7 +109,7 @@ namespace WulaFallenEmpire
             foreach (PawnKindDef kindDef in Props.spawnablePawnKinds)
             {
                 kindOptions.Add(new FloatMenuOption(
-                    kindDef.LabelCap,
+                    $"{kindDef.LabelCap}",
                     () => TrySpawnMechanoids(kindDef, 1)
                 ));
             }
@@ -233,27 +119,17 @@ namespace WulaFallenEmpire
         
         private void TrySpawnMechanoids(PawnKindDef kindDef, int count)
         {
-            if (storedMechanoids.Count < count)
+            if (!ConsumeMechanoids(count))
             {
-                Messages.Message(TranslationKeys.NotEnoughStoredMechanoids.Translate(), MessageTypeDefOf.RejectInput);
+                Messages.Message("机械族数量不足", MessageTypeDefOf.RejectInput);
                 return;
             }
             
-            // 消耗存储的机械族并生成
             for (int i = 0; i < count; i++)
             {
-                if (storedMechanoids.Count > 0)
-                {
-                    Pawn consumedMech = storedMechanoids[0];
-                    storedMechanoids.RemoveAt(0);
-                    
-                    if (consumedMech.Spawned)
-                        consumedMech.Destroy();
-                }
-                
                 PawnGenerationRequest request = new PawnGenerationRequest(
                     kindDef,
-                    Faction, // 使用当前建筑的派系
+                    Faction,
                     PawnGenerationContext.NonPlayer,
                     -1,
                     forceGenerateNewPawn: true,
@@ -267,7 +143,7 @@ namespace WulaFallenEmpire
             }
             
             TrySpawnFromQueue();
-            Messages.Message(TranslationKeys.ConvertingMechanoids.Translate(count, kindDef.LabelCap), MessageTypeDefOf.PositiveEvent);
+            Messages.Message($"正在转换 {count} 个机械族为 {kindDef.LabelCap}", MessageTypeDefOf.PositiveEvent);
         }
         
         private void TrySpawnFromQueue()
@@ -318,15 +194,15 @@ namespace WulaFallenEmpire
             // 回收附近机械族按钮
             Command_Action recycleCommand = new Command_Action
             {
-                defaultLabel = TranslationKeys.RecycleNearbyMechanoids.Translate(),
-                defaultDesc = TranslationKeys.RecycleNearbyMechanoidsDesc.Translate(Props.recycleRange),
+                defaultLabel = "回收附近机械族",
+                defaultDesc = $"命令附近 {Props.recycleRange} 格内的机械族前来回收",
                 icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_RecycleNearbyMechanoids"),
                 action = RecycleNearbyMechanoids
             };
             
-            if (!CanRecycleNow())
+            if (storedMechanoidCount >= Props.maxStorageCapacity)
             {
-                recycleCommand.Disable(TranslationKeys.RecycleNearbyMechanoidsDisabled.Translate());
+                recycleCommand.Disable("储存器已满");
             }
             
             yield return recycleCommand;
@@ -334,18 +210,96 @@ namespace WulaFallenEmpire
             // 生成机械族按钮
             Command_Action spawnCommand = new Command_Action
             {
-                defaultLabel = TranslationKeys.ConvertMechanoids.Translate(),
-                defaultDesc = TranslationKeys.ConvertMechanoidsDesc.Translate(storedMechanoids.Count, Props.maxStorageCapacity),
+                defaultLabel = "转换机械族",
+                defaultDesc = $"将储存的机械族转换为其他单位 (当前: {storedMechanoidCount}/{Props.maxStorageCapacity})",
                 icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_ConvertMechanoids"),
                 action = OpenSpawnInterface
             };
             
-            if (storedMechanoids.Count == 0)
+            if (storedMechanoidCount == 0)
             {
-                spawnCommand.Disable(TranslationKeys.ConvertMechanoidsDisabled.Translate());
+                spawnCommand.Disable("没有可用的机械族");
             }
             
             yield return spawnCommand;
+        }
+        
+        // 回收附近机械族
+        public void RecycleNearbyMechanoids()
+        {
+            if (storedMechanoidCount >= Props.maxStorageCapacity)
+            {
+                Messages.Message("储存器已满", MessageTypeDefOf.RejectInput);
+                return;
+            }
+                
+            List<Pawn> nearbyMechs = FindNearbyRecyclableMechanoids();
+            
+            if (nearbyMechs.Count == 0)
+            {
+                Messages.Message("附近没有可回收的机械族", MessageTypeDefOf.RejectInput);
+                return;
+            }
+            
+            int assignedCount = 0;
+            foreach (Pawn mech in nearbyMechs)
+            {
+                if (StartRecycleJob(mech))
+                {
+                    assignedCount++;
+                }
+            }
+            
+            Messages.Message($"已命令 {assignedCount} 个机械族前来回收", MessageTypeDefOf.PositiveEvent);
+        }
+        
+        private List<Pawn> FindNearbyRecyclableMechanoids()
+        {
+            List<Pawn> result = new List<Pawn>();
+            CellRect searchRect = CellRect.CenteredOn(Position, Props.recycleRange);
+            
+            foreach (Pawn pawn in Map.mapPawns.AllPawnsSpawned)
+            {
+                if (searchRect.Contains(pawn.Position) && 
+                    IsRecyclableMechanoid(pawn) && 
+                    !IsAlreadyGoingToRecycler(pawn) &&
+                    pawn.CanReach(this, PathEndMode.InteractionCell, Danger.Some))
+                {
+                    result.Add(pawn);
+                }
+            }
+            
+            return result;
+        }
+        
+        private bool IsRecyclableMechanoid(Pawn pawn)
+        {
+            return pawn.RaceProps.IsMechanoid && 
+                   Props.recyclableRaces.Contains(pawn.def) &&
+                   !pawn.Downed && 
+                   pawn.Faction == Faction;
+        }
+        
+        private bool IsAlreadyGoingToRecycler(Pawn mech)
+        {
+            Job curJob = mech.CurJob;
+            if (curJob != null && curJob.def == Props.recycleJobDef && curJob.targetA.Thing == this)
+                return true;
+                
+            return false;
+        }
+        
+        private bool StartRecycleJob(Pawn mech)
+        {
+            if (IsAlreadyGoingToRecycler(mech))
+                return false;
+                
+            Job job = JobMaker.MakeJob(Props.recycleJobDef, this);
+            if (mech.jobs.TryTakeOrderedJob(job))
+            {
+                return true;
+            }
+            return false;
         }
 
         public override string GetInspectString()
@@ -358,27 +312,39 @@ namespace WulaFallenEmpire
                 stringBuilder.Append(baseString);
             }
 
-            string storedInfo = TranslationKeys.StoredInfo.Translate(storedMechanoids.Count, Props.maxStorageCapacity);
+            string storedInfo = $"储存机械族: {storedMechanoidCount}/{Props.maxStorageCapacity}";
             
             if (stringBuilder.Length > 0)
                 stringBuilder.AppendLine();
             stringBuilder.Append(storedInfo);
+            
+            // 显示冷却状态
+            if (IsCooldownActive)
+            {
+                stringBuilder.AppendLine();
+                stringBuilder.Append($"转换冷却: {GetRemainingCooldownHours():F1} 小时");
+            }
 
             return stringBuilder.ToString();
+        }
+        
+        public float GetRemainingCooldownHours()
+        {
+            int remainingTicks = (24 * 2500) - (Find.TickManager.TicksGame - spawnTick);
+            return Mathf.Max(0, remainingTicks / 2500f);
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
             
-            Scribe_Collections.Look(ref storedMechanoids, "storedMechanoids", LookMode.Reference);
-            Scribe_Collections.Look(ref spawnQueue, "spawnQueue", LookMode.Deep);
+            Scribe_Values.Look(ref storedMechanoidCount, "storedMechanoidCount", 0);
+            Scribe_Values.Look(ref spawnTick, "spawnTick", 0);
             Scribe_Values.Look(ref initialUnitsSpawned, "initialUnitsSpawned", false);
+            Scribe_Collections.Look(ref spawnQueue, "spawnQueue", LookMode.Deep);
             
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                storedMechanoids?.RemoveAll(pawn => pawn == null);
-                
                 if (spawnQueue == null)
                     spawnQueue = new Queue<PawnGenerationRequest>();
             }

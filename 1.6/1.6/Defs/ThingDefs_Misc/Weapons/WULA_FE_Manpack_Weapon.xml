@@ -299,6 +299,7 @@
     <equippedAngleOffset>25</equippedAngleOffset>
     <weaponTags Inherit="False">
       <li>Wula_Melee_Weapon_T3</li>
+      <li>WULA_MW_Twohanded_ChainBroadsword</li>
     </weaponTags>
     <uiIconScale>0.8</uiIconScale>
     <techLevel>Spacer</techLevel>
@@ -622,24 +623,20 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef Name="WULA_RW_Base_AR" ParentName="WULA_ExperienceCore_Weapon_Ranged">
+  <ThingDef Name="WULA_RW_Base_AR" ParentName="BaseHumanMakeableGun">
     <defName>WULA_RW_Base_AR</defName>
     <label>DLa-1"页岩"</label>
     <description>乌拉帝国的基础突击步枪，仍然使用可靠的导气式结构驱动自动射击构件，是一种便宜但好用的武器，通常派发给殖民地作自卫武器之用。它下挂了一个眩光弹发射器，可以发射一枚眩光弹击晕区域内的敌人。</description>
     <tickerType>Normal</tickerType>
     <techLevel>Spacer</techLevel>
+    <destroyOnDrop>true</destroyOnDrop>
+    <tradeability>None</tradeability>
     <graphicData>
       <texPath>Wula/Weapon/WULA_RW_Base_AR</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_WeaponArmor_Productor</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_1_Base_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
+    <recipeMaker Inherit="False" IsNull="True"/>
     <statBases>
       <WorkToMake>1300</WorkToMake>
       <!-- <MarketValue>370</MarketValue> -->
@@ -669,7 +666,7 @@
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <weaponTags Inherit="False">
-      <li>Wula_Ranged_Weapon_T1</li>
+      <li>Wula_Assault_Cat_Weapon</li>
     </weaponTags>
     <comps>
       <li Class="CompProperties_EquippableAbilityReloadable">
@@ -684,59 +681,6 @@
         </offsets>
       </li>
     </modExtensions>
-  </ThingDef>
-  <!-- 给猫猫的特殊武器，扔在地上会消失、没有人格核心、没有闪光弹 -->
-  <ThingDef ParentName="WULA_RW_Base_AR">
-    <destroyOnDrop>true</destroyOnDrop>
-    <defName>WULA_RW_Base_AR_For_Cat</defName>
-    <label>DLa-2"页岩"</label>
-    <description>乌拉帝国的基础突击步枪，仍然使用可靠的导气式结构驱动自动射击构件，是一种便宜但好用的武器，通常派发给殖民地作自卫武器之用。</description>
-    <tickerType>Normal</tickerType>
-    <techLevel>Spacer</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Base_AR</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <soundInteract>Interact_Rifle</soundInteract>
-    <tradeability>None</tradeability>
-    <recipeMaker>
-      <recipeUsers Inherit="False">
-        <li>WULA_WeaponArmor_Productor</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_1_Base_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <statBases>
-      <WorkToMake>1300</WorkToMake>
-      <!-- <MarketValue>370</MarketValue> -->
-      <Mass>3.5</Mass>
-      <AccuracyTouch>0.75</AccuracyTouch>
-      <AccuracyShort>0.75</AccuracyShort>
-      <AccuracyMedium>0.65</AccuracyMedium>
-      <AccuracyLong>0.45</AccuracyLong>
-      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
-    </statBases>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Base_AR</defaultProjectile>
-        <warmupTime>1</warmupTime>
-        <range>25</range>
-        <burstShotCount>5</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>7</muzzleFlashScale>
-      </li>
-    </verbs>
-    <costList Inherit="False">
-      <WULA_Alloy>40</WULA_Alloy>
-      <ComponentIndustrial>2</ComponentIndustrial>
-    </costList>
-    <weaponTags Inherit="False">
-      <li>Wula_Assault_Cat_Weapon</li>
-    </weaponTags>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_Base_AR</defName>
@@ -804,6 +748,96 @@
       <damageAmountBase>8</damageAmountBase>
       <!-- Use default damage from explosion def -->
       <explosionDelay>30</explosionDelay>
+    </projectile>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
+    <defName>WULA_RW_Fractal_RF</defName>
+    <label>SLr-14"蓝锥"</label>
+    <description>乌拉帝国的磁轨狙击枪，通过引导强大的动能发射钢针，射速较慢，但是在击中目标后仍能继续飞行，对路径上的多个敌人造成伤害。</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_Fractal_RF/WULA_RW_Fractal_RF</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <!-- <uiIconScale>0.85</uiIconScale> -->
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <!-- <WorkToMake>60000</WorkToMake> -->
+      <recipeUsers Inherit="False">
+        <li>WULA_WeaponArmor_Productor</li>
+      </recipeUsers>
+      <researchPrerequisite>WULA_Synth_Weapon_1_Base_Technology</researchPrerequisite>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    </recipeMaker>
+    <statBases>
+      <WorkToMake>1200</WorkToMake>
+      <Mass>3.5</Mass>
+      <AccuracyTouch>0.3</AccuracyTouch>
+      <AccuracyShort>0.7</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <WULA_Alloy>60</WULA_Alloy>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>WulaFallenEmpire.Verb_ShootWithOffset</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_Fractal_RF</defaultProjectile>
+        <warmupTime>1.25</warmupTime>
+        <range>55</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>WULA_RW_Railgun_Shootingsound</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags Inherit="False">
+      <li>Wula_Ranged_Weapon_T1</li>
+    </weaponTags>
+    <comps>
+			<li Class="WulaFallenEmpire.CompProperties_WeaponRenderDynamic">
+				<TexturePath>Wula/Weapon/WULA_RW_Fractal_RF/WULA_RW_Fractal_RF_Anim</TexturePath>
+				<totalFrames>8</totalFrames>
+				<ticksPerFrame>8</ticksPerFrame>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
+        <offsets>
+          <li>(0, -1.0)</li>
+        </offsets>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_Fractal_RF</defName>
+    <label>蓝锥钢针弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
+        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>        <!-- 拖尾特效定义 -->
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>25</damageAmountBase>
+      <speed>230</speed>
+      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <stoppingPower>5</stoppingPower>
     </projectile>
   </ThingDef>
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
@@ -891,101 +925,6 @@
         <pelletCount>3</pelletCount>
       </li>
     </modExtensions>
-  </ThingDef>
-  <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
-    <defName>WULA_RW_Fractal_RF</defName>
-    <label>SLr-14"蓝锥"</label>
-    <description>乌拉帝国的磁轨狙击枪，通过引导强大的动能发射钢针，射速较慢，但是在击中目标后仍能继续飞行，对路径上的多个敌人造成伤害。</description>
-    <techLevel>Spacer</techLevel>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_RW_Fractal_RF/WULA_RW_Fractal_RF</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>1.4</drawSize>
-    </graphicData>
-    <!-- <uiIconScale>0.85</uiIconScale> -->
-    <soundInteract>Interact_Rifle</soundInteract>
-    <weaponClasses>
-      <li>LongShots</li>
-      <li>RangedHeavy</li>
-    </weaponClasses>
-    <recipeMaker>
-      <!-- <WorkToMake>60000</WorkToMake> -->
-      <recipeUsers Inherit="False">
-        <li>WULA_WeaponArmor_Productor</li>
-      </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Bullet_Technology</researchPrerequisite>
-      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-    </recipeMaker>
-    <statBases>
-      <WorkToMake>2000</WorkToMake>
-      <Mass>3.5</Mass>
-      <AccuracyTouch>0.3</AccuracyTouch>
-      <AccuracyShort>0.7</AccuracyShort>
-      <AccuracyMedium>1</AccuracyMedium>
-      <AccuracyLong>1</AccuracyLong>
-      <RangedWeapon_Cooldown>0.8</RangedWeapon_Cooldown>
-    </statBases>
-    <costList Inherit="False">
-      <WULA_Alloy>60</WULA_Alloy>
-      <WULA_Charge_Cube>4</WULA_Charge_Cube>
-      <ComponentIndustrial>2</ComponentIndustrial>
-    </costList>
-    <verbs>
-      <li>
-        <verbClass>WulaFallenEmpire.Verb_ShootWithOffset</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_RW_Fractal_RF</defaultProjectile>
-        <warmupTime>4</warmupTime>
-        <range>85</range>
-        <burstShotCount>1</burstShotCount>
-        <soundCast>WULA_RW_Railgun_Shootingsound</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-      </li>
-    </verbs>
-    <weaponTags Inherit="False">
-      <li>Wula_Ranged_Weapon_T2</li>
-    </weaponTags>
-    <comps>
-			<li Class="WulaFallenEmpire.CompProperties_WeaponRenderDynamic">
-				<TexturePath>Wula/Weapon/WULA_RW_Fractal_RF/WULA_RW_Fractal_RF_Anim</TexturePath>
-				<totalFrames>8</totalFrames>
-				<ticksPerFrame>8</ticksPerFrame>
-      </li>
-    </comps>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
-        <offsets>
-          <li>(0, -1.0)</li>
-        </offsets>
-      </li>
-    </modExtensions>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_RW_Fractal_RF</defName>
-    <label>蓝锥钢针弹</label>
-    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
-        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
-        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
-        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
-        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>        <!-- 拖尾特效定义 -->
-      </li>
-    </modExtensions>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>TransparentPostLight</shaderType>
-      <drawSize>1.4</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>25</damageAmountBase>
-      <speed>230</speed>
-      <armorPenetrationBase>0.5</armorPenetrationBase>
-      <stoppingPower>5</stoppingPower>
-    </projectile>
   </ThingDef>
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
     <defName>WULA_RW_AutoCannon</defName>
@@ -1160,11 +1099,11 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_2_Laser_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_1_Base_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
-      <WorkToMake>1500</WorkToMake>
+      <WorkToMake>1000</WorkToMake>
       <!-- <MarketValue>370</MarketValue> -->
       <Mass>3.5</Mass>
       <AccuracyTouch>0.75</AccuracyTouch>
@@ -1179,7 +1118,7 @@
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Penetrating_Rifle</defaultProjectile>
         <warmupTime>3</warmupTime>
-        <range>20</range>
+        <range>26</range>
         <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
         <soundCast>Shot_BeamRepeater</soundCast>
@@ -1191,7 +1130,6 @@
     </verbs>
     <costList Inherit="False">
       <WULA_Alloy>70</WULA_Alloy>
-      <WULA_Charge_Cube>6</WULA_Charge_Cube>
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <weaponTags Inherit="False">
@@ -2048,7 +1986,7 @@
       <speed>25</speed>
       <damageDef>Flame</damageDef>
       <explosionRadius>7</explosionRadius>
-      <damageAmountBase>20</damageAmountBase>
+      <damageAmountBase>50</damageAmountBase>
       <armorPenetrationBase>0.25</armorPenetrationBase>
       <stoppingPower>10</stoppingPower>
     </projectile>
@@ -2129,7 +2067,7 @@
       <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
     <weaponTags Inherit="False">
-      <li>Wula_Ranged_Weapon_T2</li>
+      <li>Wula_Ranged_Weapon_T1</li>
     </weaponTags>
     <comps>
       <li Class="CompProperties_EquippableAbilityReloadable">

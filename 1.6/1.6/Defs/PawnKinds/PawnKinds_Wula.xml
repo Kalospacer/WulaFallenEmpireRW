@@ -197,6 +197,32 @@
   </PawnKindDef>
 
   <PawnKindDef ParentName="HeavyMechanoidKind">
+    <defName>WULA_Mobile_Bunker</defName> <!-- 修改了defName以避免冲突 -->
+    <label>BUk-1"地堡猫猫"</label>
+    <race>WULA_Mobile_Bunker</race>
+    <allowInMechClusters>false</allowInMechClusters>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <canMeleeAttack>false</canMeleeAttack>
+    <combatPower>200</combatPower>
+
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/WULA_Mobile_Bunker/Bodies/Naked_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3.8</drawSize>
+          <shadowData>
+            <volume>(1.4, 1.8, 1.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+
+    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+  </PawnKindDef>
+  <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
     <label>MFm-2"陆行舰"</label>
     <race>Wula_Mech_Mobile_Factory</race>
@@ -593,7 +619,7 @@
   </PawnKindDef>
   <PawnKindDef>
     <defName>Wula_PIA_Legion_Escort_Unit</defName>
-    <label>帝国冲锋队</label>
+    <label>断爪卫队</label>
     <race>WulaSpecies</race>
     <lifeStages>
       <li>
@@ -614,23 +640,24 @@
     <combatPower>500</combatPower>
     <initialWillRange>10~20</initialWillRange>
     <initialResistanceRange>10~20</initialResistanceRange>
-    <itemQuality>Poor</itemQuality>
-    <minApparelQuality>Poor</minApparelQuality>
-    <maxApparelQuality>Poor</maxApparelQuality>
+    <itemQuality>Legendary</itemQuality>
+    <minApparelQuality>Legendary</minApparelQuality>
+    <maxApparelQuality>Legendary</maxApparelQuality>
+    <apparelIgnorePollution MayRequire="Ludeon.RimWorld.Biotech">true</apparelIgnorePollution>
+    <ignoreFactionApparelStuffRequirements>true</ignoreFactionApparelStuffRequirements>
     <isFighter>true</isFighter>
+    <weaponStuffOverride>Plasteel</weaponStuffOverride>
     <apparelTags>
-      <li>Wula_Armor_Light</li>
-      <li>Wula_Armor_Shield</li>
-      <li>WULA_Manpack_Loitering_Munition</li>
+      <li>Wula_Armor_Super_Heavy</li>
     </apparelTags>
     <weaponTags>
-      <li>Wula_Melee_Weapon_T2</li>
+      <li>WULA_MW_Twohanded_ChainBroadsword</li>
     </weaponTags>
     <apparelRequired>
-      <li>WULA_Assault_Troop_PowerArmor</li>
-      <li>WULA_Assault_Troop_Helmet</li>
+      <li>WULA_Heavy_Infantry_PowerArmor</li>
+      <li>WULA_Heavy_Infantry_Helmet</li>
     </apparelRequired>
-    <weaponMoney>3000~8000</weaponMoney>
+    <weaponMoney>999999~999999</weaponMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
     <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
     <techHediffsChance>1</techHediffsChance>
@@ -639,6 +666,10 @@
     <techHediffsRequired>
       <li>DeathAcidifier</li>
     </techHediffsRequired>
+    <techHediffsTags>
+      <li>Advanced</li>
+      <li>ImplantEmpireCommon</li>
+    </techHediffsTags>
 
     <backstoryFiltersOverride>
       <li>

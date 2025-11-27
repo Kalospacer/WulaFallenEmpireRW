@@ -122,6 +122,10 @@
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\WulaSkyfallerWorldComponent.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompProperties_StorageTurret.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompStorageTurret.cs" />
+    <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\CompProperties_TransformAtFullCapacity.cs" />
+    <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\CompProperties_TransformIntoBuilding.cs" />
+    <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\CompTransformAtFullCapacity.cs" />
+    <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\CompTransformIntoBuilding.cs" />
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />
     <Compile Include="EventSystem\Condition\ConditionBase.cs" />
     <Compile Include="EventSystem\Condition\Condition_FlagExists.cs" />

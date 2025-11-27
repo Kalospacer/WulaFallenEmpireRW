@@ -3,7 +3,7 @@
   <ScenarioDef ParentName="ScenarioBase">
     <defName>WULA_Start_Scenario</defName>
     <label>乌拉帝国先遣队</label>
-    <description>乌拉帝国开发署的舰队已经抵达边缘世界，一支负责建立地面前哨站的边境殖民地</description>
+    <description>乌拉帝国开发署的舰队已经抵达边缘世界，一支负责建立地面前哨站的先遣队被部署到星球上。</description>
     <scenario>
       <summary>以三位机械乌拉为初始殖民者开始游戏。</summary>
       <playerFaction>
@@ -56,8 +56,19 @@
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>WULA_RW_Base_AR</thingDef>
+          <thingDef>WULA_RW_Beam_Base_AR</thingDef>
           <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_RW_Fractal_RF</thingDef>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_MW_Charge_Mace</thingDef>
+          <stuff>Plasteel</stuff>
+          <quality>Normal</quality>
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>

@@ -1210,9 +1210,9 @@
         <projectileDef>Bullet_WULA_Striker_A_Missile</projectileDef>
         <sectorAngle>60</sectorAngle>      <!-- 扇形角度 -->
         <sectorRange>85</sectorRange>      <!-- 射程 -->
-        <shotCount>2</shotCount>           <!-- 发射次数 -->
+        <shotCount>4</shotCount>           <!-- 发射次数 -->
         <shotInterval>0.3</shotInterval>   <!-- 发射间隔 -->
-        <maxProjectiles>24</maxProjectiles><!-- 最大射弹数量限制-->
+        <maxProjectiles>48</maxProjectiles><!-- 最大射弹数量限制-->
     
         <!-- 横向偏移配置（左右） -->
         <lateralOffsetDistance>13</lateralOffsetDistance>
@@ -1560,7 +1560,7 @@
       </angleCurve>
       <explosionRadius>4</explosionRadius>
       <explosionDamage>WULA_Firepower_Minigun_Strafe_Damage</explosionDamage>
-      <explosionDamageFactor>1</explosionDamageFactor>
+      <explosionDamageFactor>2</explosionDamageFactor>
     </skyfaller>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_PlaySoundOnSpawn">
