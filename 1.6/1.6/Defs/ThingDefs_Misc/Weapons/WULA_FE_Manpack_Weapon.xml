@@ -324,7 +324,7 @@
           <li>WULA_MW_ChainSword_MultiStrike</li>
         </capacities>
         <armorPenetration>1.75</armorPenetration>
-        <power>35</power>
+        <power>30</power>
         <cooldownTime>2</cooldownTime>
         <soundMeleeHit>WULA_MW_ChainSword_Hit</soundMeleeHit>
         <soundMeleeMiss>WULA_MW_ChainSword_Hit</soundMeleeMiss>
@@ -351,17 +351,19 @@
         <strikeCount>8~12</strikeCount>
         <damageMultiplierPerStrike>0.2</damageMultiplierPerStrike>
       </li>
-      <li Class="CompProperties_EquippableAbilityReloadable">
-        <abilityDef>WULA_MW_Twohanded_ChainBroadsword_Ability</abilityDef>
-        <chargeNoun>传送核心</chargeNoun>
+      <li Class="WulaFallenEmpire.CompProperties_EquippableAbilities">
+        <abilityDefs>
+          <li>WULA_MW_Twohanded_ChainBroadsword_Second_Ability</li>
+          <li>WULA_MW_Twohanded_ChainBroadsword_Ability</li>
+        </abilityDefs>
       </li>
     </comps>
   </ThingDef>
   <AbilityDef>
     <defName>WULA_MW_Twohanded_ChainBroadsword_Ability</defName>
     <label>短距离跃迁</label>
-    <description>使用CBs-25"地狱牙"刀头的相位引擎立刻折跃至一个新的位置——这种折跃引擎只能折跃小型目标，如果持刀者体型大于1则无法发起传送。</description>
-    <iconPath>UI/Abilities/Skip</iconPath>
+    <description>使用CBs-25"地狱牙"刀头的相位引擎立刻折跃至一个新的位置——这种折跃引擎只能折跃小型目标，如果持刀者体型大于3则无法发起传送。</description>
+    <iconPath>Wula/UI/Abilities/WULA_TeleportSelf</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
@@ -385,7 +387,7 @@
           <min>0</min>
           <max>0</max>
         </stunTicks>
-        <maxBodySize>1</maxBodySize>
+        <maxBodySize>3</maxBodySize>
         <destClamorType>Impact</destClamorType>
         <destClamorRadius>3</destClamorRadius>
         <requireLineOfSight>false</requireLineOfSight>
@@ -396,6 +398,45 @@
         <customExitEffecter>Skip_Exit</customExitEffecter>
         <!-- <customEntryFleck>WULA_GiantTeleportFlash</customEntryFleck>
         <customExitFleck>WULA_GiantTeleportRings</customExitFleck> -->
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>WULA_MW_Twohanded_ChainBroadsword_Second_Ability</defName>
+    <label>空间删除</label>
+    <description>使用CBs-25"地狱牙"刀头的相位引擎将目标拉近到施法者身边——这种折跃引擎只能折跃小型目标，如果持刀者体型大于3则无法发起传送。</description>
+    <iconPath>Wula/UI/Abilities/WULA_PullTarget</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <showPsycastEffects>False</showPsycastEffects>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <cooldownTicksRange>200</cooldownTicksRange>
+    <warmupEffecter>HoraxianSpellLight_Warmup</warmupEffecter>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>1</warmupTime>
+      <range>30</range>
+      <soundCast>WULA_Psi_Skip_Sound</soundCast>
+      <requireLineOfSight>false</requireLineOfSight>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityPullTarget">
+        <range>30</range>
+        <maxTargetBodySize>3</maxTargetBodySize>
+        <minRange>1.75</minRange> <!-- 最小距离1格 -->
+        <stunTicks>
+          <min>15</min>
+          <max>15</max>
+        </stunTicks>
+        <pullDestinationSearchRadius>3</pullDestinationSearchRadius>
+        <destClamorType>Impact</destClamorType>
+        <destClamorRadius>3</destClamorRadius>
+        <canPullHostile>true</canPullHostile>
+        <canPullNeutral>true</canPullNeutral>
+        <canPullFriendly>true</canPullFriendly>
       </li>
     </comps>
   </AbilityDef>
@@ -508,7 +549,7 @@
     <defName>WULA_MW_Breaker_Bar_Ability</defName>
     <label>破阵重击</label>
     <description>将PMb-97"破墙槌"的锤头加到最大压强，随后挥出必中的一击，以突破严密的人墙——即使敌人侥幸存活，也会头晕目眩并被砸飞出一段距离。</description>
-    <iconPath>UI/Abilities/UnnaturalHealing</iconPath>
+    <iconPath>Wula/UI/Abilities/WULA_MW_Breaker_Bar_Ability</iconPath>
     <cooldownTicksRange>300</cooldownTicksRange> <!-- 6 days -->
     <showPsycastEffects>false</showPsycastEffects>
     <stunTargetWhileCasting>true</stunTargetWhileCasting>
@@ -1030,7 +1071,7 @@
     <defName>WULA_RW_EMP_RF_EMP_Ability</defName>
     <label>发射EMP榴弹</label>
     <description>使用FLm-78"萤石"下挂的榴弹发射器发射一枚EMP榴弹以击破护盾和控制机械族，这种重型榴弹发射器发射距离较远，但是需要一点时间架设开火。</description>
-    <iconPath>Wula/UI/Abilities/WULA_RW_Auto_GL_Smoke_Ability</iconPath>
+    <iconPath>Wula/UI/Abilities/WULA_RW_EMP_RF_EMP_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <hotKey>Misc11</hotKey>

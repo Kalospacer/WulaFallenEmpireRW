@@ -331,9 +331,9 @@
             <parms>
               <allowedThreats>Raids</allowedThreats>
               <onDays>1.0</onDays>
-              <offDays>1.5</offDays>
+              <offDays>0.25</offDays>
               <minSpacingDays>0.04</minSpacingDays>
-              <numIncidentsRange>1~1</numIncidentsRange>
+              <numIncidentsRange>1~2</numIncidentsRange>
               <currentThreatPointsFactor>1.1</currentThreatPointsFactor>
               <minThreatPoints>500</minThreatPoints>
             </parms>

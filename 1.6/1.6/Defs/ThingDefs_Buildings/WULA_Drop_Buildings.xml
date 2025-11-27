@@ -1618,7 +1618,7 @@
       <texPath>Wula/Building/Wula_Fusion_Generators_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
-      <drawSize>(3,3)</drawSize>
+      <drawSize>(3.5,3.5)</drawSize>
     </graphicData>
     <skyfaller>
       <movementType>Accelerate</movementType>
@@ -1654,7 +1654,8 @@
     <graphicData>
       <texPath>Wula/Building/Wula_Fusion_Generators</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(3,3)</drawSize>
+      <drawSize>(3.5,3.5)</drawSize>
+      <drawOffset>(0, 0, 0.3)</drawOffset>
       <shadowData>
         <volume>(1.93,1,1.69)</volume>
         <offset>(-0.03,0,-0.1)</offset>

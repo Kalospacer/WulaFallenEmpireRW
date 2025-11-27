@@ -83,11 +83,6 @@
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>WULA_Charge_Cube</thingDef>
-          <count>10</count>
-        </li>
-        <li Class="ScenPart_StartingThing_Defined">
-          <def>StartingThing_Defined</def>
           <thingDef>WULA_Fake_Mothership_Beacon_Building</thingDef>
           <count>1</count>
         </li>

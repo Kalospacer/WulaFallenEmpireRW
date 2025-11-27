@@ -51,7 +51,7 @@
     <defName>WULA_PsiCrusher</defName>
     <label>乌拉帝国术式：灵能尖啸</label>
     <description>以灵能能量发出非人尖啸，直接解构面前扇形区域内的所有目标，无论是建筑物还是活物都难逃毁灭。这种术式需要的灵能难以估量，只有搭载大量封闭灵能回路的灵能泰坦可以连续使用。</description>
-    <iconPath>UI/Abilities/FireSpew</iconPath>
+    <iconPath>Wula/UI/Abilities/WULA_PsiCrusher</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <aiCanUse>true</aiCanUse>
@@ -247,7 +247,7 @@
     <defName>WULA_Psi_Skip</defName>
     <label>乌拉帝国术式：灵能跃迁</label>
     <description>使用灵能撕开一个连接自身、虚境和目的地的单向通道，随后以极短的时间穿过整个通道，以瞬间移动到目标地点。</description>
-    <iconPath>UI/Abilities/Skip</iconPath>
+    <iconPath>Wula/UI/Abilities/WULA_TeleportSelf</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
@@ -396,7 +396,7 @@
     <defName>WULA_Psi_Black_Hole</defName>
     <label>乌拉帝国术式：虚境阴影</label>
     <description>撕开虚境的裂口，在目标地点召唤一道虚境阴影，它泄露的庞大灵能会持续伤害范围内的敌方单位和建筑，并让物品快速损坏，即使是心灵失聪的目标也不能完全免疫这种超现实伤害——对于高心灵敏感度的单位这种伤害则更加致命。</description>
-    <iconPath>UI/Abilities/FireSpew</iconPath>
+    <iconPath>Wula/UI/Abilities/WULA_Psi_Black_Hole</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
     <aiCanUse>true</aiCanUse>

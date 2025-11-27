@@ -9,8 +9,7 @@ namespace WulaFallenEmpire
     {
         private CompProperties_TransformAtFullCapacity Props => (CompProperties_TransformAtFullCapacity)props;
         
-        // 存储转换前的计数，用于恢复
-        private int storedCountAtTransform = 0;
+        // 移除存储计数的字段，不再进行数量传递
         
         public Building_MechanoidRecycler Recycler => parent as Building_MechanoidRecycler;
         public bool IsCooldownActive => Recycler?.IsCooldownActive ?? false;
@@ -24,7 +23,7 @@ namespace WulaFallenEmpire
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref storedCountAtTransform, "storedCountAtTransform", 0);
+            // 移除存储计数的保存
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -33,7 +32,7 @@ namespace WulaFallenEmpire
             {
                 Command_Action command = new Command_Action
                 {
-                    defaultLabel = Props.gizmoLabel,
+                    defaultLabel = Props.gizmoLabel.Translate(),
                     defaultDesc = GetGizmoDescription(),
                     icon = GetGizmoIcon(),
                     action = TransformToPawn
@@ -42,11 +41,11 @@ namespace WulaFallenEmpire
                 // 禁用条件
                 if (IsCooldownActive)
                 {
-                    command.Disable($"建筑刚部署，需要等待 {Recycler.GetRemainingCooldownHours():F1} 小时后才能转换");
+                    command.Disable("WULA_BuildingCooldown".Translate(Recycler.GetRemainingCooldownHours().ToString("F1")));
                 }
                 else if (!IsAtFullCapacity)
                 {
-                    command.Disable($"需要储存 {Props.requiredCapacity} 个机械族，当前: {Recycler.StoredCount}/{Props.requiredCapacity}");
+                    command.Disable("WULA_NeedMoreMechs".Translate(Props.requiredCapacity, Recycler.StoredCount, Props.requiredCapacity));
                 }
 
                 yield return command;
@@ -55,12 +54,13 @@ namespace WulaFallenEmpire
 
         private string GetGizmoDescription()
         {
-            string desc = Props.gizmoDesc;
+            string desc = Props.gizmoDesc.Translate();
             if (IsCooldownActive)
             {
-                desc += $"\n\n冷却时间剩余: {Recycler.GetRemainingCooldownHours():F1} 小时";
+                desc += "\n\n" + "WULA_CooldownRemaining".Translate(Recycler.GetRemainingCooldownHours().ToString("F1"));
             }
-            desc += $"\n目标单位: {Props.targetPawnKind.LabelCap}";
+            desc += "\n" + "WULA_TargetUnit".Translate(Props.targetPawnKind.LabelCap);
+            desc += "\n" + "WULA_MechsRequired".Translate(Props.requiredCapacity);
             return desc;
         }
 
@@ -92,13 +92,10 @@ namespace WulaFallenEmpire
             IntVec3 position = parent.Position;
             Faction faction = parent.Faction;
 
-            // 存储当前的机械族计数（用于恢复）
-            storedCountAtTransform = Recycler.StoredCount;
-
             // 消耗存储的机械族
             if (!Recycler.ConsumeMechanoids(Props.requiredCapacity))
             {
-                Messages.Message("机械族数量不足", MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_NotEnoughMechs".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
 
@@ -117,11 +114,12 @@ namespace WulaFallenEmpire
 
             Pawn newPawn = PawnGenerator.GeneratePawn(request);
             
-            // 添加转换组件并设置恢复数据
+            // 添加转换组件，只传递建筑定义，不传递数量
             var transformComp = newPawn.GetComp<CompTransformIntoBuilding>();
             if (transformComp != null)
             {
-                transformComp.SetRestoreData(parent.def, storedCountAtTransform);
+                // 只设置建筑定义，不设置恢复数量
+                transformComp.SetRestoreData(parent.def);
             }
             else
             {
@@ -135,7 +133,8 @@ namespace WulaFallenEmpire
                 transformComp.props = compProps;
                 newPawn.AllComps.Add(transformComp);
                 transformComp.Initialize(compProps);
-                transformComp.SetRestoreData(parent.def, storedCountAtTransform);
+                // 只设置建筑定义，不设置恢复数量
+                transformComp.SetRestoreData(parent.def);
             }
 
             // 移除建筑
@@ -150,7 +149,7 @@ namespace WulaFallenEmpire
                 Find.Selector.Select(newPawn);
             }
 
-            Messages.Message($"{parent.Label} 已转换为 {newPawn.LabelCap}", MessageTypeDefOf.PositiveEvent);
+            Messages.Message("WULA_BuildingTransformedToPawn".Translate(parent.Label, newPawn.LabelCap), MessageTypeDefOf.PositiveEvent);
             
             // 播放转换效果
             PlayTransformEffects(position, map);

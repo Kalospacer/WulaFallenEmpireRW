@@ -97,7 +97,7 @@ namespace WulaFallenEmpire
             // 如果无法找到有效位置，取消传送
             if (!CanTeleportTo(finalTargetCell, map))
             {
-                Messages.Message("TeleportFailedNoValidLocation".Translate(), caster, MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_TeleportFailedNoValidLocation".Translate(), caster, MessageTypeDefOf.RejectInput);
                 return;
             }
 
@@ -218,7 +218,7 @@ namespace WulaFallenEmpire
             {
                 if (showMessages)
                 {
-                    Messages.Message("CannotTeleportToLocation".Translate(), 
+                    Messages.Message("WULA_CannotTeleportToLocation".Translate(), 
                         new LookTargets(target.Cell, parent.pawn.Map), 
                         MessageTypeDefOf.RejectInput);
                 }
@@ -294,7 +294,7 @@ namespace WulaFallenEmpire
         {
             if (!CanHitTarget(target))
             {
-                return "CannotTeleportToLocation".Translate();
+                return "WULA_CannotTeleportToLocation".Translate();
             }
             return base.ExtraLabelMouseAttachment(target);
         }

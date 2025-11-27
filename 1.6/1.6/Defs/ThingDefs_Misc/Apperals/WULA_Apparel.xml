@@ -751,6 +751,8 @@
     </statBases>
     <equippedStatOffsets>
       <IncomingDamageFactor>-0.1</IncomingDamageFactor>
+      <ToxicResistance>1</ToxicResistance>
+      <ToxicEnvironmentResistance MayRequire="Ludeon.RimWorld.Biotech">1</ToxicEnvironmentResistance>
     </equippedStatOffsets>
     <apparel>
       <tags>
@@ -765,6 +767,134 @@
       <WULA_Neutronium>2</WULA_Neutronium>
       <Uranium>20</Uranium>
     </costList>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelHelmetBase">
+    <defName>WULA_Heavy_Infantry_Helmet_Nomask</defName>
+    <label>乌拉帝国重装头盔（无面罩）</label>
+    <description>与乌拉帝国重装装甲配套的头盔，防御力强大。这个版本不配发面罩，因为军需处终于想起来了机械乌拉是不会中毒的。</description>
+    <thingCategories>
+      <li>HeadgearNoble</li>
+    </thingCategories>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>10</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>WULA_Synth_Armor_2_Technology</researchPrerequisite>
+    </recipeMaker>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Heavy_Infantry_Helmet_Nomask</texPath>
+    </graphicData>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>1.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.5</ArmorRating_Blunt>
+      <ArmorRating_Heat>2.0</ArmorRating_Heat>
+      <EquipDelay>5</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <IncomingDamageFactor>-0.1</IncomingDamageFactor>
+    </equippedStatOffsets>
+    <apparel>
+      <tags>
+        <li>WULA_Heavy_Infantry_Helmet_Nomask</li>
+        <li>RoyalTier5</li>
+        <li>Royal</li>
+      </tags>
+      <wornGraphicPath>Wula/Apparel/WULA_Heavy_Infantry_Helmet_Nomask</wornGraphicPath>
+    </apparel>
+    <costStuffCount>0</costStuffCount>
+    <costList Inherit="False">
+      <WULA_Neutronium>2</WULA_Neutronium>
+      <Uranium>15</Uranium>
+    </costList>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelArmorBase">
+    <defName>WULA_Champion_Warrior_Armor</defName>
+    <label>乌拉帝国冠军甲胄</label>
+    <description>为乌拉帝国的野心冠军勇士提供的护甲，它比起那些重型护甲要轻便不少。此外，它装备了稀有的双层全反射盾，外部射弹根本无法穿透其护盾，这使得对手只能进入护盾范围内与其近身搏斗。</description>
+    <thingCategories>
+      <li>ApparelNoble</li>
+    </thingCategories>
+    <recipeMaker Inherit="False"/>
+    <useHitPoints>false</useHitPoints>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Champion_Warrior_Armor</texPath>
+    </graphicData>
+    <statBases>
+      <WorkToMake>50000</WorkToMake>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>1.3</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.3</ArmorRating_Blunt>
+      <ArmorRating_Heat>1.5</ArmorRating_Heat>
+      <EquipDelay>1</EquipDelay>
+      <MaxHitPoints>-1</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+
+      <EnergyShieldEnergyMax>3</EnergyShieldEnergyMax>
+    </statBases>
+    <equippedStatOffsets>
+      <IncomingDamageFactor>-0.8</IncomingDamageFactor>
+      <StaggerDurationFactor>-2</StaggerDurationFactor>
+			<CarryingCapacity>250</CarryingCapacity>
+			<MoveSpeed>1</MoveSpeed>
+      <Flammability>-2</Flammability>
+    </equippedStatOffsets>
+    <costStuffCount>0</costStuffCount>
+    <costList Inherit="False">
+      <WULA_Alloy>300</WULA_Alloy>
+      <WULA_Dark_Matter_Item>25</WULA_Dark_Matter_Item>
+      <WULA_Neutronium>25</WULA_Neutronium>
+      <Uranium>200</Uranium>
+    </costList>
+    <apparel>
+      <tags>
+        <li>WULA_Champion_Warrior_Armor</li>
+        <li>RoyalTier5</li>
+        <li>Royal</li>
+      </tags>
+      <wornGraphicPath>Wula/Apparel/WULA_Champion_Warrior_Armor</wornGraphicPath>
+    </apparel>
+    <comps>
+      <li Class="CompProperties_Shield">
+        <startingTicksToReset>1000</startingTicksToReset><!-- 10 mins -->
+        <minDrawSize>2.5</minDrawSize>
+        <maxDrawSize>2.8</maxDrawSize>
+        <energyLossPerDamage>0.01</energyLossPerDamage>
+        <energyOnReset>4.0</energyOnReset>
+        <blocksRangedWeapons>false</blocksRangedWeapons>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaShield">
+        <radius>6</radius>
+        <baseHitPoints>1</baseHitPoints>
+        <rechargeDelay>1</rechargeDelay>
+        <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
+        
+        <!-- 效果器配置 -->
+        <absorbEffecter>Interceptor_BlockedProjectile</absorbEffecter>
+        <interceptEffecter>Interceptor_BlockedProjectile</interceptEffecter>
+        <breakEffecter>Shield_Break</breakEffecter>
+        <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
+        
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        
+        <!-- 拦截设置 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+      
+        <!-- 反射设置 -->
+        <canReflect>true</canReflect>
+        <reflectChance>1</reflectChance>
+        <reflectAngleRange>30</reflectAngleRange>
+        <reflectCost>0</reflectCost>
+        <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
+      </li>
+    </comps>
   </ThingDef>
 
   <ThingDef ParentName="WULA_ApparelShieldBase">

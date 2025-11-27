@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- 保持这个pawnkind是无派系以供空投系统调取，其他的乌拉pawnkind必须有默认派系 -->
   <PawnKindDef>
     <defName>Wula_PawnKind</defName>
     <label>机械乌拉</label>
@@ -55,7 +56,7 @@
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>1</drawSize>
+          <drawSize>1.2</drawSize>
         </bodyGraphicData>
       </li>
     </lifeStages>
@@ -68,7 +69,7 @@
           <maskPath>Wula/Things/WULA_Attack_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>1</drawSize>
+          <drawSize>1.2</drawSize>
         </bodyGraphicData>
       </li>
     </lifeStages>
@@ -95,7 +96,7 @@
           <maskPath>Wula/Things/WULA_Constructor_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>1</drawSize>
+          <drawSize>1.2</drawSize>
         </bodyGraphicData>
       </li>
     </lifeStages>
@@ -112,7 +113,7 @@
           <maskPath>Wula/Things/WULA_Assault_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>1</drawSize>
+          <drawSize>1.2</drawSize>
         </bodyGraphicData>
       </li>
     </lifeStages>
@@ -212,7 +213,7 @@
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>3.8</drawSize>
+          <drawSize>3.4</drawSize>
           <shadowData>
             <volume>(1.4, 1.8, 1.4)</volume>
           </shadowData>
@@ -345,6 +346,7 @@
     <defName>Wula_PIA_Light_Unit</defName>
     <label>帝国冲锋队</label>
     <race>WulaSpecies</race>
+    <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -370,6 +372,7 @@
     <isFighter>true</isFighter>
     <apparelTags>
       <li>Wula_Armor_Light</li>
+      <li>Wula_Inner</li>
     </apparelTags>
     <weaponTags>
       <li>Wula_Melee_Weapon_T1</li>
@@ -402,6 +405,7 @@
     <defName>Wula_PIA_Heavy_Unit</defName>
     <label>军团步兵</label>
     <race>WulaSpecies</race>
+    <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -427,6 +431,7 @@
     <isFighter>true</isFighter>
     <apparelTags>
       <li>Wula_Armor_Super_Heavy</li>
+      <li>Wula_Inner</li>
     </apparelTags>
     <weaponTags>
       <li>Wula_Melee_Weapon_T1</li>
@@ -460,6 +465,7 @@
     <defName>Wula_PIA_Heavy_Unit_Melee</defName>
     <label>野心冠军勇士</label>
     <race>WulaSpecies</race>
+    <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -477,8 +483,8 @@
     <minGenerationAge>18</minGenerationAge>
 		<maxGenerationAge>20</maxGenerationAge>
     <combatPower>500</combatPower>
-    <initialWillRange>10~20</initialWillRange>
-    <initialResistanceRange>10~20</initialResistanceRange>
+    <initialWillRange>99~99</initialWillRange>
+    <initialResistanceRange>99~99</initialResistanceRange>
     <itemQuality>Legendary</itemQuality>
     <minApparelQuality>Legendary</minApparelQuality>
     <maxApparelQuality>Legendary</maxApparelQuality>
@@ -488,13 +494,14 @@
     <weaponStuffOverride>Plasteel</weaponStuffOverride>
     <apparelTags>
       <li>Wula_Armor_Super_Heavy</li>
+      <li>Wula_Inner</li>
     </apparelTags>
     <weaponTags>
       <li>Wula_Melee_Weapon_T3</li>
     </weaponTags>
     <apparelRequired>
       <li>WULA_Heavy_Infantry_PowerArmor</li>
-      <li>WULA_Heavy_Infantry_Helmet</li>
+      <li>WULA_Heavy_Infantry_Helmet_Nomask</li>
     </apparelRequired>
     <weaponMoney>999999~999999</weaponMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
@@ -523,6 +530,7 @@
     <defName>Wula_PIA_Heavy_Unit_Range</defName>
     <label>帝国百战军锋</label>
     <race>WulaSpecies</race>
+    <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -540,8 +548,8 @@
     <minGenerationAge>18</minGenerationAge>
 		<maxGenerationAge>20</maxGenerationAge>
     <combatPower>500</combatPower>
-    <initialWillRange>10~20</initialWillRange>
-    <initialResistanceRange>10~20</initialResistanceRange>
+    <initialWillRange>99~99</initialWillRange>
+    <initialResistanceRange>99~99</initialResistanceRange>
     <itemQuality>Legendary</itemQuality>
     <minApparelQuality>Legendary</minApparelQuality>
     <maxApparelQuality>Legendary</maxApparelQuality>
@@ -549,6 +557,7 @@
     <apparelTags>
       <li>Wula_Armor_Super_Heavy</li>
       <li>Wula_Armor_Shield</li>
+      <li>Wula_Inner</li>
     </apparelTags>
     <weaponTags>
       <li>Wula_Ranged_Weapon_T3</li>
@@ -586,6 +595,7 @@
     <defName>WULA_Legion_PawnKind</defName>
     <label>「军团」</label>
     <race>WulaSpecies</race>
+    <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -600,6 +610,7 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
+
     <forceDeathOnDowned>true</forceDeathOnDowned>
     <combatPower>0</combatPower>
     <factionLeader>true</factionLeader>
@@ -625,6 +636,7 @@
     <defName>Wula_PIA_Legion_Escort_Unit</defName>
     <label>断爪卫队</label>
     <race>WulaSpecies</race>
+    <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -639,11 +651,15 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
+    
+    <isBoss>true</isBoss>
+    <maxPerGroup>1</maxPerGroup>
+    
     <minGenerationAge>18</minGenerationAge>
 		<maxGenerationAge>20</maxGenerationAge>
     <combatPower>500</combatPower>
-    <initialWillRange>10~20</initialWillRange>
-    <initialResistanceRange>10~20</initialResistanceRange>
+    <initialWillRange>99~99</initialWillRange>
+    <initialResistanceRange>99~99</initialResistanceRange>
     <itemQuality>Legendary</itemQuality>
     <minApparelQuality>Legendary</minApparelQuality>
     <maxApparelQuality>Legendary</maxApparelQuality>
@@ -652,14 +668,14 @@
     <isFighter>true</isFighter>
     <weaponStuffOverride>Plasteel</weaponStuffOverride>
     <apparelTags>
-      <li>Wula_Armor_Super_Heavy</li>
+      <li>Wula_Legion_Apparel</li>
     </apparelTags>
     <weaponTags>
       <li>WULA_MW_Twohanded_ChainBroadsword</li>
     </weaponTags>
     <apparelRequired>
-      <li>WULA_Heavy_Infantry_PowerArmor</li>
-      <li>WULA_Heavy_Infantry_Helmet</li>
+      <li>WULA_Heavy_Infantry_Helmet_Nomask</li>
+      <li>WULA_Champion_Warrior_Armor</li>
     </apparelRequired>
     <weaponMoney>999999~999999</weaponMoney>
     <biocodeWeaponChance>1</biocodeWeaponChance>
@@ -682,5 +698,9 @@
 		<fixedAdultBackstories>
 			<li>WULA_Adult_Backstory_Legion_Escort</li>
 		</fixedAdultBackstories>
+
+    <forcedTraits>
+      <li>WULA_Trait_Broken_Personality</li>
+    </forcedTraits>
   </PawnKindDef>
 </Defs>

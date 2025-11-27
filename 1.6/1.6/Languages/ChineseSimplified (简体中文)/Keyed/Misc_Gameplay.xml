@@ -57,24 +57,6 @@
   <WULA_NanoRepair_DisabledMsg>{0}的纳米修复系统已禁用</WULA_NanoRepair_DisabledMsg>
   <WULA_NanoRepair_Disabled>纳米修复: 已禁用</WULA_NanoRepair_Disabled>
 
-  <!-- 消息文本 -->
-  <WULA_NoRecyclableMechanoidsNearby>附近没有可回收的乌拉猫猫。</WULA_NoRecyclableMechanoidsNearby>
-  <WULA_RecyclerStorageFull>地堡已满。</WULA_RecyclerStorageFull>
-  <WULA_CalledMechanoidsForRecycling>已调用 {0} 个乌拉猫猫回到地堡。</WULA_CalledMechanoidsForRecycling>
-  <WULA_MechanoidRecycled>已回收 {0}。</WULA_MechanoidRecycled>
-  <WULA_NoMechanoidsAvailableForConversion>没有可转换的乌拉猫猫。</WULA_NoMechanoidsAvailableForConversion>
-  <WULA_NotEnoughStoredMechanoids>地堡内的的乌拉猫猫不足。</WULA_NotEnoughStoredMechanoids>
-  <WULA_ConvertingMechanoids>正在将地堡内的{0}个乌拉猫猫转换为{1}。</WULA_ConvertingMechanoids>
-  <!-- Gizmo 文本 -->
-  <WULA_RecycleNearbyMechanoids>呼叫乌拉猫猫进驻</WULA_RecycleNearbyMechanoids>
-  <WULA_RecycleNearbyMechanoidsDesc>呼叫{0}格内的乌拉猫猫前来报到，以便转换为其他类型的猫猫，或是使用地堡内武器抵御敌军。</WULA_RecycleNearbyMechanoidsDesc>
-  <WULA_RecycleNearbyMechanoidsDisabled>地堡存储已满。</WULA_RecycleNearbyMechanoidsDisabled>
-  <WULA_ConvertMechanoids>释放乌拉猫猫</WULA_ConvertMechanoids>
-  <WULA_ConvertMechanoidsDesc>将地堡内的乌拉猫猫释放出来，它们可以在离开前重新选择装备以转变类型。\n容量：{0}/{1}</WULA_ConvertMechanoidsDesc>
-  <WULA_ConvertMechanoidsDisabled>地堡内没有乌拉猫猫待命。</WULA_ConvertMechanoidsDisabled>
-  <!-- 检查字符串 -->
-  <WULA_StoredInfo>容量：{0}/{1}</WULA_StoredInfo>
-
   <WULA_CallSkyfaller>召唤空投建筑</WULA_CallSkyfaller>
   <WULA_CallSkyfallerDesc>从乌拉帝国的舰队呼叫对应的建筑空投到此处</WULA_CallSkyfallerDesc>
   <WULA_SkyfallerIncoming>空投建筑将在 {0} 后到达</WULA_SkyfallerIncoming>
@@ -311,4 +293,54 @@
   <WULA_ShowAreaShieldLabel>显示区域反射盾</WULA_ShowAreaShieldLabel>
   <WULA_HideAreaShieldDesc>隐藏该单位的区域反射盾，这不会影响其实际功能，仅影响视觉效果</WULA_HideAreaShieldDesc>
   <WULA_ShowAreaShieldDesc>显示该单位的区域反射盾，这不会影响其实际功能，仅影响视觉效果</WULA_ShowAreaShieldDesc>
+  
+  <!-- Building_MechanoidRecycler.cs -->
+  <WULA_RecyclerFull>地堡已满。</WULA_RecyclerFull>
+  <WULA_MechRecycled>已回收 {0}。 (当前: {1}/{2})</WULA_MechRecycled>
+  <WULA_NoMechsToConvert>没有可转换的乌拉猫猫。</WULA_NoMechsToConvert>
+  <WULA_NotEnoughMechs>地堡内的的乌拉猫猫不足。</WULA_NotEnoughMechs>
+  <WULA_ConvertingMechs>正在将地堡内的{0}个乌拉猫猫转换为{1}。</WULA_ConvertingMechs>
+  <WULA_RecycleNearbyMechs>呼叫乌拉猫猫进驻</WULA_RecycleNearbyMechs>
+  <WULA_RecycleNearbyMechsDesc>呼叫{0}格内的乌拉猫猫前来报到，以便转换为其他类型的猫猫，或是使用地堡内武器抵御敌军。</WULA_RecycleNearbyMechsDesc>
+  <WULA_StorageFull>地堡存储已满。</WULA_StorageFull>
+  <WULA_ConvertMechs>释放乌拉猫猫</WULA_ConvertMechs>
+  <WULA_ConvertMechsDesc>将地堡内的乌拉猫猫释放出来，它们可以在离开前重新选择装备以转变类型。\n容量：{0}/{1}</WULA_ConvertMechsDesc>
+  <WULA_NoAvailableMechs>地堡内没有乌拉猫猫待命。</WULA_NoAvailableMechs>
+  <WULA_NoNearbyRecyclableMechs>附近没有可回收的乌拉猫猫。</WULA_NoNearbyRecyclableMechs>
+  <WULA_MechsOrderedToRecycle>已调用 {0} 个乌拉猫猫回到地堡。</WULA_MechsOrderedToRecycle>
+  <WULA_StoredMechs>容量: {0}/{1}</WULA_StoredMechs>
+  <WULA_TransformCooldown>转换冷却: {0} 小时</WULA_TransformCooldown>
+  
+  <!-- CompTransformAtFullCapacity.cs -->
+  <WULA_BuildingCooldown>建筑刚部署，需要等待 {0} 小时后才能转换</WULA_BuildingCooldown>
+  <WULA_NeedMoreMechs>需要进驻 {0} 个乌拉猫猫，当前: {1}/{2}</WULA_NeedMoreMechs>
+  <WULA_CooldownRemaining>冷却时间剩余: {0} 小时</WULA_CooldownRemaining>
+  <WULA_TargetUnit>目标单位: {0}</WULA_TargetUnit>
+  <WULA_MechsRequired>需要乌拉猫猫: {0} 个</WULA_MechsRequired>
+  <WULA_BuildingTransformedToPawn>{0} 已转换为 {1}</WULA_BuildingTransformedToPawn>
+  
+  <!-- CompTransformIntoBuilding.cs -->
+  <WULA_UnitNotSpawned>单位未生成或已销毁</WULA_UnitNotSpawned>
+  <WULA_CannotDetermineBuildingType>无法确定目标建筑类型</WULA_CannotDetermineBuildingType>
+  <WULA_NoSuitablePositionFound>周围没有找到合适的放置位置</WULA_NoSuitablePositionFound>
+  <WULA_DeployingAtNearbyPosition>将在附近位置 {0} 部署建筑</WULA_DeployingAtNearbyPosition>
+  <WULA_CannotDeployBuilding>无法部署建筑: {0}</WULA_CannotDeployBuilding>
+  <WULA_PawnDeployedAsBuilding>{0} 已部署为 {1}</WULA_PawnDeployedAsBuilding>
+  <WULA_WillRestoreTo>将恢复为: {0}</WULA_WillRestoreTo>
+  <WULA_MaxStorageCapacity>最大存储容量: {0} 个乌拉猫猫</WULA_MaxStorageCapacity>
+  <WULA_PositionValid>✓ 当前位置可以放置建筑</WULA_PositionValid>
+  <WULA_PositionInvalid>✗ {0}</WULA_PositionInvalid>
+
+  <WULA_TeleportFailedNoValidLocation>传送后无有效落脚位置，已取消传送。</WULA_TeleportFailedNoValidLocation>
+  <WULA_CannotTeleportToLocation>无效传送位置</WULA_CannotTeleportToLocation>
+
+  <!-- CompAbilityEffect_PullTarget.cs -->
+  <WULA_InvalidPullTarget>无法拉取该目标</WULA_InvalidPullTarget>
+  <WULA_TargetTooLarge>{0} 体型过大，无法拉取（最大体型：{1}）</WULA_TargetTooLarge>
+  <WULA_PullFailedNoValidLocation>拉取失败：找不到合适的落地位置</WULA_PullFailedNoValidLocation>
+  <WULA_MustTargetPawn>必须选择一个生物作为目标</WULA_MustTargetPawn>
+  <WULA_TargetOutOfRange>目标超出范围（最大范围：{0}）</WULA_TargetOutOfRange>
+  <WULA_TargetTooClose>目标距离过近（最小距离：{0}格）</WULA_TargetTooClose>
+  <WULA_NoLineOfSight>没有视线到目标</WULA_NoLineOfSight>
+  <WULA_CannotPullTarget>无法拉取该目标</WULA_CannotPullTarget>
 </LanguageData>

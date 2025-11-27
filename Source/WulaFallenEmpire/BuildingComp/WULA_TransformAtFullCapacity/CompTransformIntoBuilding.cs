@@ -11,9 +11,8 @@ namespace WulaFallenEmpire
         private CompProperties_TransformIntoBuilding Props => (CompProperties_TransformIntoBuilding)props;
         private Pawn Pawn => (Pawn)parent;
         
-        // 恢复数据
+        // 恢复数据 - 只存储建筑定义，不存储数量
         private ThingDef restoreBuildingDef;
-        private int restoreMechanoidCount;
 
         // 缓存校验结果
         private bool? lastValidationResult = null;
@@ -29,14 +28,13 @@ namespace WulaFallenEmpire
         {
             base.PostExposeData();
             Scribe_Defs.Look(ref restoreBuildingDef, "restoreBuildingDef");
-            Scribe_Values.Look(ref restoreMechanoidCount, "restoreMechanoidCount", 0);
+            // 移除存储数量的保存
         }
 
-        // 设置恢复数据
-        public void SetRestoreData(ThingDef buildingDef, int mechanoidCount)
+        // 设置恢复数据 - 只设置建筑定义
+        public void SetRestoreData(ThingDef buildingDef)
         {
             restoreBuildingDef = buildingDef;
-            restoreMechanoidCount = mechanoidCount;
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -45,7 +43,7 @@ namespace WulaFallenEmpire
             {
                 Command_Action command = new Command_Action
                 {
-                    defaultLabel = Props.gizmoLabel,
+                    defaultLabel = Props.gizmoLabel.Translate(),
                     defaultDesc = GetGizmoDescription(),
                     icon = GetGizmoIcon(),
                     action = TransformToBuilding
@@ -67,18 +65,20 @@ namespace WulaFallenEmpire
         private string GetGizmoDescription()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(Props.gizmoDesc);
+            sb.Append(Props.gizmoDesc.Translate());
 
             if (restoreBuildingDef != null)
             {
                 sb.AppendLine();
                 sb.AppendLine();
-                sb.Append($"将恢复为: {restoreBuildingDef.LabelCap}");
+                sb.Append("WULA_WillRestoreTo".Translate(restoreBuildingDef.LabelCap));
                 
-                if (restoreMechanoidCount > 0)
+                // 显示目标建筑的最大存储容量
+                var recyclerProps = restoreBuildingDef.GetCompProperties<CompProperties_MechanoidRecycler>();
+                if (recyclerProps != null)
                 {
                     sb.AppendLine();
-                    sb.Append($"恢复机械族储存: {restoreMechanoidCount}");
+                    sb.Append("WULA_MaxStorageCapacity".Translate(recyclerProps.maxStorageCapacity));
                 }
             }
 
@@ -90,11 +90,11 @@ namespace WulaFallenEmpire
             sb.AppendLine();
             if (isValid)
             {
-                sb.Append("<color=green>✓ 当前位置可以放置建筑</color>");
+                sb.Append("WULA_PositionValid".Translate());
             }
             else
             {
-                sb.Append($"<color=red>✗ {failReason}</color>");
+                sb.Append("WULA_PositionInvalid".Translate(failReason));
             }
 
             return sb.ToString();
@@ -118,7 +118,7 @@ namespace WulaFallenEmpire
 
             if (parent == null || !parent.Spawned)
             {
-                failReason = "单位未生成或已销毁";
+                failReason = "WULA_UnitNotSpawned".Translate();
                 return false;
             }
 
@@ -126,7 +126,7 @@ namespace WulaFallenEmpire
             ThingDef buildingDef = restoreBuildingDef ?? Props.targetBuildingDef;
             if (buildingDef == null)
             {
-                failReason = "无法确定目标建筑类型";
+                failReason = "WULA_CannotDetermineBuildingType".Translate();
                 return false;
             }
 
@@ -166,7 +166,7 @@ namespace WulaFallenEmpire
             ThingDef buildingDef = restoreBuildingDef ?? Props.targetBuildingDef;
             if (buildingDef == null)
             {
-                failReason = "无法确定目标建筑类型";
+                failReason = "WULA_CannotDetermineBuildingType".Translate();
                 return false;
             }
 
@@ -185,7 +185,7 @@ namespace WulaFallenEmpire
                 }
             }
 
-            failReason = "周围没有找到合适的放置位置";
+            failReason = "WULA_NoSuitablePositionFound".Translate();
             return false;
         }
 
@@ -202,7 +202,7 @@ namespace WulaFallenEmpire
             ThingDef buildingDef = restoreBuildingDef ?? Props.targetBuildingDef;
             if (buildingDef == null)
             {
-                Messages.Message("无法确定目标建筑类型", MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_CannotDetermineBuildingType".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
 
@@ -215,11 +215,11 @@ namespace WulaFallenEmpire
                 if (TryFindNearbyValidPosition(out alternativePosition, out failReason))
                 {
                     desiredPosition = alternativePosition;
-                    Messages.Message($"将在附近位置 {desiredPosition} 部署建筑", MessageTypeDefOf.NeutralEvent);
+                    Messages.Message("WULA_DeployingAtNearbyPosition".Translate(desiredPosition), MessageTypeDefOf.NeutralEvent);
                 }
                 else
                 {
-                    Messages.Message($"无法部署建筑: {failReason}", MessageTypeDefOf.RejectInput);
+                    Messages.Message("WULA_CannotDeployBuilding".Translate(failReason), MessageTypeDefOf.RejectInput);
                     return;
                 }
             }
@@ -231,12 +231,8 @@ namespace WulaFallenEmpire
             Building newBuilding = (Building)GenSpawn.Spawn(buildingDef, desiredPosition, map, WipeMode.Vanish);
             newBuilding.SetFaction(faction);
 
-            // 恢复机械族计数
-            var recycler = newBuilding as Building_MechanoidRecycler;
-            if (recycler != null && restoreMechanoidCount > 0)
-            {
-                recycler.SetMechanoidCount(restoreMechanoidCount);
-            }
+            // 不再恢复机械族计数，新建筑为空状态
+            // 如果需要，可以在这里设置初始状态，但不再传递之前的数量
 
             // 添加建筑转换组件
             var transformComp = newBuilding.TryGetComp<CompTransformAtFullCapacity>();
@@ -260,7 +256,7 @@ namespace WulaFallenEmpire
                 Find.Selector.Select(newBuilding);
             }
 
-            Messages.Message($"{Pawn.LabelCap} 已部署为 {newBuilding.Label}", MessageTypeDefOf.PositiveEvent);
+            Messages.Message("WULA_PawnDeployedAsBuilding".Translate(Pawn.LabelCap, newBuilding.Label), MessageTypeDefOf.PositiveEvent);
             
             // 播放转换效果
             PlayTransformEffects(desiredPosition, map);

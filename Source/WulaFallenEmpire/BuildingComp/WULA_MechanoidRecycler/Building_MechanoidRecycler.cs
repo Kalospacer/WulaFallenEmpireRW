@@ -53,14 +53,14 @@ namespace WulaFallenEmpire
         {
             if (storedMechanoidCount >= Props.maxStorageCapacity)
             {
-                Messages.Message("回收器已满", MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_RecyclerFull".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
             
             storedMechanoidCount++;
             mech.Destroy(); // 直接销毁，不存储实例
             
-            Messages.Message($"机械族 {mech.LabelCap} 已回收 (当前: {storedMechanoidCount}/{Props.maxStorageCapacity})", 
+            Messages.Message("WULA_MechRecycled".Translate(mech.LabelCap, storedMechanoidCount, Props.maxStorageCapacity), 
                 MessageTypeDefOf.PositiveEvent);
             
             // 通知转换组件存储更新
@@ -100,7 +100,7 @@ namespace WulaFallenEmpire
         {
             if (storedMechanoidCount == 0)
             {
-                Messages.Message("没有可用的机械族进行转换", MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_NoMechsToConvert".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
             
@@ -121,7 +121,7 @@ namespace WulaFallenEmpire
         {
             if (!ConsumeMechanoids(count))
             {
-                Messages.Message("机械族数量不足", MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_NotEnoughMechs".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
             
@@ -143,7 +143,7 @@ namespace WulaFallenEmpire
             }
             
             TrySpawnFromQueue();
-            Messages.Message($"正在转换 {count} 个机械族为 {kindDef.LabelCap}", MessageTypeDefOf.PositiveEvent);
+            Messages.Message("WULA_ConvertingMechs".Translate(count, kindDef.LabelCap), MessageTypeDefOf.PositiveEvent);
         }
         
         private void TrySpawnFromQueue()
@@ -194,15 +194,15 @@ namespace WulaFallenEmpire
             // 回收附近机械族按钮
             Command_Action recycleCommand = new Command_Action
             {
-                defaultLabel = "回收附近机械族",
-                defaultDesc = $"命令附近 {Props.recycleRange} 格内的机械族前来回收",
+                defaultLabel = "WULA_RecycleNearbyMechs".Translate(),
+                defaultDesc = "WULA_RecycleNearbyMechsDesc".Translate(Props.recycleRange),
                 icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_RecycleNearbyMechanoids"),
                 action = RecycleNearbyMechanoids
             };
             
             if (storedMechanoidCount >= Props.maxStorageCapacity)
             {
-                recycleCommand.Disable("储存器已满");
+                recycleCommand.Disable("WULA_StorageFull".Translate());
             }
             
             yield return recycleCommand;
@@ -210,15 +210,15 @@ namespace WulaFallenEmpire
             // 生成机械族按钮
             Command_Action spawnCommand = new Command_Action
             {
-                defaultLabel = "转换机械族",
-                defaultDesc = $"将储存的机械族转换为其他单位 (当前: {storedMechanoidCount}/{Props.maxStorageCapacity})",
+                defaultLabel = "WULA_ConvertMechs".Translate(),
+                defaultDesc = "WULA_ConvertMechsDesc".Translate(storedMechanoidCount, Props.maxStorageCapacity),
                 icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_ConvertMechanoids"),
                 action = OpenSpawnInterface
             };
             
             if (storedMechanoidCount == 0)
             {
-                spawnCommand.Disable("没有可用的机械族");
+                spawnCommand.Disable("WULA_NoAvailableMechs".Translate());
             }
             
             yield return spawnCommand;
@@ -229,7 +229,7 @@ namespace WulaFallenEmpire
         {
             if (storedMechanoidCount >= Props.maxStorageCapacity)
             {
-                Messages.Message("储存器已满", MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_StorageFull".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
                 
@@ -237,7 +237,7 @@ namespace WulaFallenEmpire
             
             if (nearbyMechs.Count == 0)
             {
-                Messages.Message("附近没有可回收的机械族", MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_NoNearbyRecyclableMechs".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
             
@@ -250,7 +250,7 @@ namespace WulaFallenEmpire
                 }
             }
             
-            Messages.Message($"已命令 {assignedCount} 个机械族前来回收", MessageTypeDefOf.PositiveEvent);
+            Messages.Message("WULA_MechsOrderedToRecycle".Translate(assignedCount), MessageTypeDefOf.PositiveEvent);
         }
         
         private List<Pawn> FindNearbyRecyclableMechanoids()
@@ -312,7 +312,7 @@ namespace WulaFallenEmpire
                 stringBuilder.Append(baseString);
             }
 
-            string storedInfo = $"储存机械族: {storedMechanoidCount}/{Props.maxStorageCapacity}";
+            string storedInfo = "WULA_StoredMechs".Translate(storedMechanoidCount, Props.maxStorageCapacity);
             
             if (stringBuilder.Length > 0)
                 stringBuilder.AppendLine();
@@ -322,7 +322,7 @@ namespace WulaFallenEmpire
             if (IsCooldownActive)
             {
                 stringBuilder.AppendLine();
-                stringBuilder.Append($"转换冷却: {GetRemainingCooldownHours():F1} 小时");
+                stringBuilder.Append("WULA_TransformCooldown".Translate(GetRemainingCooldownHours().ToString("F1")));
             }
 
             return stringBuilder.ToString();
