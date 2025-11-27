@@ -208,11 +208,8 @@ namespace WulaFallenEmpire
                 yield return new DroneGizmo(this);
             }
 
-            // 更换武器按钮（仅当有装备武器时显示）
-            if (MechPawn.equipment?.Primary != null)
-            {
-                yield return CreateWeaponSwitchGizmo();
-            }
+            // 更换武器按钮
+            yield return CreateWeaponSwitchGizmo();
         }
 
         /// <summary>

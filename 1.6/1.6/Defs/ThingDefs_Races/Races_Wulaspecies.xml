@@ -660,6 +660,7 @@
       <specificMeatDef>Steel</specificMeatDef>
 			<!-- 身体类型 -->
 			<body>WULA_Machine_Body</body>
+      <baseBodySize>0.9</baseBodySize>
       <!-- 年龄阶段 -->
       <!-- <lifeExpectancy>5000</lifeExpectancy> -->
       <lifeStageWorkSettings MayRequire="Ludeon.RimWorld.Biotech">
@@ -885,6 +886,8 @@
       <WastepacksPerRecharge MayRequire="Ludeon.RimWorld.Biotech">0</WastepacksPerRecharge>
     </statBases>
     <race>
+      <baseBodySize>0.5</baseBodySize>
+      <baseHealthScale>1.5</baseHealthScale>
       <lifeStageAges>
         <li>
           <def>MechanoidFullyFormed</def>
@@ -917,12 +920,20 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="Mech_WULA_Cat_Base">
+  <AlienRace.ThingDef_AlienRace ParentName="Mech_WULA_Cat_Base">
     <defName>Mech_WULA_Cat</defName>
     <label>CAt-11"猫猫"</label>
-    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作，因为似猫的外形受到乌拉星人欢迎。</description>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行包括搬运、烹饪、种植收割、清理、急救和灭火一类的简单工作，因为似猫的外形受到乌拉星人欢迎。\n\n\n这种机械族可以在非征召状态下拾取地上的武器以供使用。</description>
     <uiIconPath>Wula/Things/WULA_Cat/WULA_Cat_Thin_south</uiIconPath>
 
+    <alienRace>
+      <raceRestriction>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
     <statBases>
       <MoveSpeed>6</MoveSpeed>
       <FoodPoisonChance>0.001</FoodPoisonChance>
@@ -944,12 +955,21 @@
         <li>Firefighter</li>
       </mechEnabledWorkTypes>
     </race>
-  </ThingDef>
-  <ThingDef ParentName="Mech_WULA_Cat_Base">
+  </AlienRace.ThingDef_AlienRace>
+  <AlienRace.ThingDef_AlienRace ParentName="Mech_WULA_Cat_Base">
     <defName>Mech_WULA_Cat_Constructor</defName>
     <label>CAt-86"猫猫劳工"</label>
-    <description>乌拉帝国的一种小型自律机械体，无需监管者，只能执行建造和开采任务，可以跳起来用手上的HAm-1"装修锤"锤烂敌人的膝盖。</description>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，只能执行建造和开采任务，可以跳起来用手上的HAm-1"装修锤"锤烂敌人的膝盖。\n\n\n这种机械族可以在非征召状态下拾取地上的武器以供使用。</description>
     <uiIconPath>Wula/Things/WULA_Constructor_Cat/WULA_Cat_Thin_south</uiIconPath>
+
+    <alienRace>
+      <raceRestriction>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
     <race>
       <mechEnabledWorkTypes Inherit="False">
         <li>Mining</li>
@@ -959,12 +979,21 @@
     <statBases>
       <WorkSpeedGlobal>2</WorkSpeedGlobal>
     </statBases>
-  </ThingDef>
-  <ThingDef ParentName="Mech_WULA_Cat_Base">
+  </AlienRace.ThingDef_AlienRace>
+  <AlienRace.ThingDef_AlienRace ParentName="Mech_WULA_Cat_Base">
     <defName>Mech_WULA_Cat_Assault</defName>
     <label>CAt-46"猫猫冲锋队"</label>
-    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行搬运、狩猎和割除任务，身着轻甲，装备了一把DLa-1"页岩"，可以给敌方造成不小的麻烦。</description>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者，可以执行搬运、狩猎和割除任务，身着轻甲，装备了一把DLa-1"页岩"，可以给敌方造成不小的麻烦。\n\n\n这种机械族可以在非征召状态下拾取地上的武器以供使用。</description>
     <uiIconPath>Wula/Things/WULA_Assault_Cat/WULA_Cat_Thin_south</uiIconPath>
+
+    <alienRace>
+      <raceRestriction>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
     <race>
       <mechEnabledWorkTypes Inherit="False">
         <li>Hunting</li>
@@ -973,19 +1002,157 @@
       </mechEnabledWorkTypes>
     </race>
     <statBases>
-      <ArmorRating_Sharp>0.25</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
       <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
       <MoveSpeed>4</MoveSpeed>
     </statBases>
-  </ThingDef>
+  </AlienRace.ThingDef_AlienRace>
 
   <!-- 大型机械族 -->
-  <ThingDef ParentName="WULA_BaseMechanoid">
+  <AlienRace.ThingDef_AlienRace ParentName="WULA_BaseMechanoid">
+    <defName>WULA_Mobile_Bunker</defName> <!-- 修改了defName以避免冲突 -->
+    <label>BUk-1"地堡猫猫"</label>
+    <description>四只猫猫在抬着地堡移动，虽然很难相信但是事实就是这样的。在地堡的射击窗里还有另外的两只乌拉猫猫，它们会操纵地堡的机枪向外射击。\n\n猫猫可以放下地堡，然后一股脑地钻进去，这会让地堡重新变为建筑。</description>
+    <alienRace>
+      <raceRestriction>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+        <onlyUseRaceRestrictedWeapons>true</onlyUseRaceRestrictedWeapons>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
+    <statBases>
+      <BandwidthCost>1</BandwidthCost>
+      <MoveSpeed>3</MoveSpeed>
+    </statBases>
+    <race>
+      <body>Mech_Warqueen</body>
+      <baseBodySize>5</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundCall>Pawn_Wula_Mech_Mobile_Factory_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <baseHealthScale>2</baseHealthScale>
+    </race>
+    <tools Inherit="False">
+      <li>
+        <label>碾压</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>360</power>
+        <cooldownTime>8</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>0</ID>
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(2, 2)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1, 0, -1.45)</offset>
+                <flip>true</flip>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>90</rotationOffset>
+                <layer>-5</layer>
+                <offset>(3.25, 0, -1)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1.5, 0, -1.45)</offset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-3.25, 0, -1)</offset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>1</ID>
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(2, 2)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(1, 0, -1.45)</offset>
+                <layer>-5</layer>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(3.25, 0, -1)</offset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+                <offset>(-1.6, 0, -1.45)</offset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+                <offset>(-3.25, 0, -1)</offset>
+                <layer>-5</layer>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <!-- 转换回建筑组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_TransformIntoBuilding">
+        <targetBuildingDef>WULA_Cat_Bunker</targetBuildingDef>
+        <gizmoLabel>部署为乌拉猫猫地堡</gizmoLabel>
+        <gizmoDesc>乌拉猫猫们把地堡扔在地上然后钻进去，重新转变为建筑。每一次转变为建筑后，都会有24小时的冷却时间，在此期间不允许重新变为BUk-1"地堡猫猫"。</gizmoDesc>
+        <gizmoIconPath>Wula/UI/Commands/WULA_TransformToBuilding</gizmoIconPath>
+      </li>
+    </comps>
+  </AlienRace.ThingDef_AlienRace>
+  <AlienRace.ThingDef_AlienRace ParentName="WULA_BaseMechanoid">
     <defName>Wula_AI_Heavy_Panzer</defName> <!-- 修改了defName以避免冲突 -->
     <label>HAp-6"战车"</label>
     <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用破坏力巨大的自动炮和车体臼炮打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
     <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Heavy_Panzer_Icon</uiIconPath>
+    <alienRace>
+      <raceRestriction>
+        <weaponList>
+          <li>Wula_AI_Heavy_Panzer_Main_Weapon</li>
+        </weaponList>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+        <onlyUseRaceRestrictedWeapons>true</onlyUseRaceRestrictedWeapons>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
     <statBases>
       <BandwidthCost>1</BandwidthCost>
       <MoveSpeed>2</MoveSpeed>
@@ -1001,8 +1168,8 @@
       <ComponentSpacer>2</ComponentSpacer>
     </costList>
     <race>
-      <body>Mech_Warqueen</body>
-      <baseBodySize>30</baseBodySize>
+      <body>WULA_AI_Heavy_Panzer_Body</body>
+      <baseBodySize>20</baseBodySize>
       <lifeStageAges>
         <li>
           <def>MechanoidFullyFormed</def>
@@ -1015,7 +1182,7 @@
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
-    <tools>
+    <tools Inherit="False">
       <li>
         <label>碾压</label>
         <capacities>
@@ -1093,12 +1260,24 @@
         <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
       </li>
     </comps>
-  </ThingDef>
-  <ThingDef ParentName="WULA_BaseMechanoid">
+  </AlienRace.ThingDef_AlienRace>
+  <AlienRace.ThingDef_AlienRace ParentName="WULA_BaseMechanoid">
     <defName>Wula_AI_Rocket_Panzer</defName> <!-- 修改了defName以避免冲突 -->
     <label>HRp-3"喷火战车"</label>
     <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有车体臼炮和两具可以发射大量燃烧火箭弹的转轮导弹巢，但是未像其姊妹型号那样装备护盾。</description>
     <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Rocket_Panzer_Icon</uiIconPath>
+    <alienRace>
+      <raceRestriction>
+        <weaponList>
+          <li>Wula_AI_Heavy_Panzer_Main_Weapon</li>
+        </weaponList>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+        <onlyUseRaceRestrictedWeapons>true</onlyUseRaceRestrictedWeapons>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
     <statBases>
       <BandwidthCost>1</BandwidthCost>
       <MoveSpeed>2</MoveSpeed>
@@ -1114,8 +1293,8 @@
       <ComponentSpacer>2</ComponentSpacer>
     </costList>
     <race>
-      <body>Mech_Warqueen</body>
-      <baseBodySize>30</baseBodySize>
+      <body>WULA_AI_Heavy_Panzer_Body</body>
+      <baseBodySize>20</baseBodySize>
       <lifeStageAges>
         <li>
           <def>MechanoidFullyFormed</def>
@@ -1128,7 +1307,7 @@
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
-    <tools>
+    <tools Inherit="False">
       <li>
         <label>碾压</label>
         <capacities>
@@ -1198,11 +1377,23 @@
         <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
       </li>
     </comps>
-  </ThingDef>
-  <ThingDef ParentName="WULA_BaseMechanoid">
+  </AlienRace.ThingDef_AlienRace>
+  <AlienRace.ThingDef_AlienRace ParentName="WULA_BaseMechanoid">
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
     <label>MFm-2"陆行舰"</label>
     <description>乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的要塞和顽强的抵抗。</description>
+    <alienRace>
+      <raceRestriction>
+        <weaponList>
+          <li>WULA_RW_Unlimit_Penetrating_Beam_Cannon</li>
+        </weaponList>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+        <onlyUseRaceRestrictedWeapons>true</onlyUseRaceRestrictedWeapons>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
     <statBases>
       <BandwidthCost>1</BandwidthCost>
       <MoveSpeed>1</MoveSpeed>
@@ -1213,7 +1404,7 @@
     </statBases>
     <race>
       <body>Mech_Warqueen</body>
-      <baseBodySize>30</baseBodySize>
+      <baseBodySize>50</baseBodySize>
       <lifeStageAges>
         <li>
           <def>MechanoidFullyFormed</def>
@@ -1226,7 +1417,7 @@
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
-    <tools>
+    <tools Inherit="False">
       <li>
         <label>碾压</label>
         <capacities>
@@ -1509,7 +1700,7 @@
         <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
       </li>
     </comps>
-  </ThingDef>
+  </AlienRace.ThingDef_AlienRace>
   <ThingDef ParentName="BaseMechanoidWalker">
     <defName>WULA_Mech_Flyer</defName>
     <label>CRm-51"兵蚁"</label>
@@ -1602,11 +1793,23 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="WULA_BaseMechanoid">
+  <AlienRace.ThingDef_AlienRace ParentName="WULA_BaseMechanoid">
     <defName>Wula_Psi_Titan</defName>
     <label>PAt-6"灵能泰坦"</label>
     <description>由乌拉帝国国教所主持开发的重型灵能机械体，以折跃优雅地穿梭于炮火间，并用强大的护盾抵挡敌方射弹侵袭。该机体的内部镌刻了无数的术式环路，这使其就像一个行走的灵能发射器，可以驱使各种强大的灵能能力。</description>
     <uiIconPath>Wula/Things/Wula_Psi_Titan/Wula_Psi_Titan_Icon</uiIconPath>
+    <alienRace>
+      <raceRestriction>
+        <weaponList>
+          <li>Wula_Psi_Titan_Beam</li>
+        </weaponList>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+        <onlyUseRaceRestrictedWeapons>true</onlyUseRaceRestrictedWeapons>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
     <statBases>
       <BandwidthCost>1</BandwidthCost>
       <MoveSpeed>1</MoveSpeed>
@@ -1620,7 +1823,7 @@
     </statBases>
     <race>
       <body>Mech_Warqueen</body>
-      <baseBodySize>30</baseBodySize>
+      <baseBodySize>50</baseBodySize>
       <lifeStageAges>
         <li>
           <def>MechanoidFullyFormed</def>
@@ -1633,7 +1836,7 @@
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
-    <tools>
+    <tools Inherit="False">
       <li>
         <label>碾压</label>
         <capacities>
@@ -1707,7 +1910,7 @@
         <toggleIconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</toggleIconPath>
       </li>
     </comps>
-  </ThingDef>
+  </AlienRace.ThingDef_AlienRace>
 
   <!-- 特殊单位 -->
   <ThingDef ParentName="BaseMechanoidWalker">

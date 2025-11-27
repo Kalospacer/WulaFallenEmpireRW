@@ -573,7 +573,7 @@
     </graphicData>
     <projectile>
       <damageDef>Flame</damageDef>
-      <damageAmountBase>20</damageAmountBase>
+      <damageAmountBase>35</damageAmountBase>
       <speed>60</speed>
       <explosionRadius>3.9</explosionRadius>
       <armorPenetrationBase>1.5</armorPenetrationBase>

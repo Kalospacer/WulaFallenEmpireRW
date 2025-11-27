@@ -59,7 +59,7 @@
     </placeWorkers>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
-        <radius>21</radius> <!-- 半径大小 -->
+        <radius>28</radius> <!-- 半径大小 -->
         <color>(1, 1, 1)</color> <!-- 绿色圆圈 -->
         <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
         <showInGUI>true</showInGUI>
@@ -212,6 +212,14 @@
         <maxTurrets>6</maxTurrets>
         <turretSpacing>1.5</turretSpacing>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_TransformAtFullCapacity">
+        <targetPawnKind>WULA_Mobile_Bunker</targetPawnKind>
+        <requiredCapacity>6</requiredCapacity>
+        <cooldownHours>0</cooldownHours>
+        <gizmoLabel>转换为BUk-1"地堡猫猫"</gizmoLabel>
+        <gizmoDesc>让地堡中的两只乌拉猫猫继续操纵地堡中的机枪，剩下的乌拉猫猫抬着地堡移动——虽然很难相信但是事实就是这样的。</gizmoDesc>
+        <gizmoIconPath>Wula/UI/Commands/WULA_TransformToPawn</gizmoIconPath>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">
@@ -223,11 +231,10 @@
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <statBases>
-      <AccuracyTouch>0.5</AccuracyTouch>
-      <AccuracyShort>0.3</AccuracyShort>
-      <AccuracyMedium>0.25</AccuracyMedium>
-      <AccuracyLong>0.12</AccuracyLong>
-      <RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
+      <AccuracyTouch>0.8</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.35</AccuracyMedium>
+      <AccuracyLong>0.25</AccuracyLong>
       <DeteriorationRate>0</DeteriorationRate>
       <Mass>5</Mass>
       <Flammability>0</Flammability>
@@ -236,14 +243,13 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <defaultProjectile>Bullet_WULA_RW_Base_AR</defaultProjectile>
-        <warmupTime>0</warmupTime>
-        <range>21</range>
-        <ticksBetweenBurstShots>32</ticksBetweenBurstShots>
-        <burstShotCount>2</burstShotCount>
+        <range>28</range>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>12</burstShotCount>
         <soundCast>Shot_AssaultRifle</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
-        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <defaultCooldownTime>4</defaultCooldownTime>
       </li>
     </verbs>
   </ThingDef>

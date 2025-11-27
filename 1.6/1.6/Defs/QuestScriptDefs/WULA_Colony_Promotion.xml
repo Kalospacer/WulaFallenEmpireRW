@@ -155,7 +155,7 @@
 
         <!-- Get or generate guards -->
         <li Class="QuestNode_LoopCount">
-          <loopCount>2</loopCount>
+          <loopCount>1</loopCount>
           <node Class="QuestNode_GeneratePawn">
             <faction>Wula_PIA_Legion_Faction</faction>
             <kindDef>Wula_PIA_Legion_Escort_Unit</kindDef>
@@ -281,7 +281,7 @@
         <!-- Shuttle -->
         <li Class="QuestNode_Set">
           <name>shuttleDelayTicks</name>
-          <value>720000</value>
+          <value>360000</value>
         </li>
         <li Class="QuestNode_ShuttleDelay">
           <delayTicks>$shuttleDelayTicks</delayTicks>
