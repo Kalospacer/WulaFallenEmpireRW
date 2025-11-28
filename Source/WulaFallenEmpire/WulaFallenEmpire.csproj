@@ -124,6 +124,8 @@
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompProperties_PrefabSkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\Skyfaller_PrefabSpawner.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\WulaSkyfallerWorldComponent.cs" />
+    <Compile Include="BuildingComp\WULA_SkyfallerCaller\WULA_SkyfallerFactioncs\CompProperties_SkyfallerFaction.cs" />
+    <Compile Include="BuildingComp\WULA_SkyfallerCaller\WULA_SkyfallerFactioncs\CompSkyfallerFaction.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompProperties_StorageTurret.cs" />
     <Compile Include="BuildingComp\WULA_StorageTurret\CompStorageTurret.cs" />
     <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\CompProperties_TransformAtFullCapacity.cs" />

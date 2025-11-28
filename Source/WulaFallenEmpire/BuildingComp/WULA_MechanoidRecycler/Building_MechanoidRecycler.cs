@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using LudeonTK;
 
 namespace WulaFallenEmpire
 {
@@ -222,6 +223,23 @@ namespace WulaFallenEmpire
             }
             
             yield return spawnCommand;
+            
+            // 开发模式按钮：立即结束冷却
+            if (Prefs.DevMode && IsCooldownActive)
+            {
+                Command_Action devCommand = new Command_Action
+                {
+                    defaultLabel = "Dev: 立即结束冷却",
+                    defaultDesc = "立即结束转换冷却时间",
+                    action = () =>
+                    {
+                        // 将生成时间设置为足够早，使冷却立即结束
+                        spawnTick = Find.TickManager.TicksGame - (24 * 2500 + 1);
+                        Messages.Message("转换冷却已立即结束", MessageTypeDefOf.SilentInput);
+                    }
+                };
+                yield return devCommand;
+            }
         }
         
         // 回收附近机械族
@@ -332,6 +350,22 @@ namespace WulaFallenEmpire
         {
             int remainingTicks = (24 * 2500) - (Find.TickManager.TicksGame - spawnTick);
             return Mathf.Max(0, remainingTicks / 2500f);
+        }
+
+        // 开发模式方法：立即结束冷却
+        [DebugAction("机械族回收器", "立即结束冷却", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.Playing)]
+        public static void DevEndCooldown()
+        {
+            Building_MechanoidRecycler selectedRecycler = Find.Selector.SingleSelectedThing as Building_MechanoidRecycler;
+            if (selectedRecycler != null)
+            {
+                selectedRecycler.spawnTick = Find.TickManager.TicksGame - (24 * 2500 + 1);
+                Messages.Message("转换冷却已立即结束", MessageTypeDefOf.SilentInput);
+            }
+            else
+            {
+                Messages.Message("请先选择一个机械族回收器", MessageTypeDefOf.RejectInput);
+            }
         }
 
         public override void ExposeData()

@@ -1,8 +1,8 @@
 <Defs>
-<PrefabDef>
-  <defName>NewPrefab</defName> <!-- rename -->
-  <size>(13,14)</size>
-</PrefabDef>
+  <PrefabDef>
+    <defName>NewPrefab</defName> <!-- rename -->
+    <size>(13,14)</size>
+  </PrefabDef>
 
   <PrefabDef>
     <defName>WULA_NewColonyBase</defName> <!-- rename -->

@@ -335,9 +335,20 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>Wula_Fusion_Generators_Technology</defName>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>3.80</researchViewY>
+    <label>聚变发电空投许可</label>
+    <description>允许殖民地申请空投聚变发电机，一种输出功率不高但是维护极其容易的发电机。</description>
+    <baseCost>600</baseCost>
+    <prerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_DarkEnergy_Generators_Technology</defName>
-    <researchViewX>10.00</researchViewX>
-    <researchViewY>2.70</researchViewY>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>3.80</researchViewY>
     <label>暗物质发电空投许可</label>
     <description>允许殖民地申请空投暗物质发电机，一种输出功率极为恐怖却非常消耗资源的发电机。</description>
     <baseCost>600</baseCost>
@@ -388,7 +399,21 @@
     <researchViewX>5.00</researchViewX>
     <researchViewY>5.60</researchViewY>
     <label>战车空投许可</label>
-    <description>允许殖民地申请空投HAp-6"战车"，乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方。</description>
+    <description>允许殖民地申请空投HAp-6"战车"，乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮、火箭弹和臼炮打击敌方。</description>
+    <baseCost>800</baseCost>
+    <hiddenPrerequisites>
+      <li>WULA_Synth_Productor_Technology</li>
+    </hiddenPrerequisites>
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>Wula_Mech_Mobile_Shield_Technology</defName>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>5.60</researchViewY>
+    <label>放射盾空投许可</label>
+    <description>允许殖民地申请空投MSm-8"放射盾"，乌拉帝国的中型战争机械，一种多足机械体，拥有密不透风的反射盾的同时，还可以灼烧那些企图进入护盾区域内的宵小之辈。</description>
     <baseCost>800</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Synth_Productor_Technology</li>

@@ -283,6 +283,25 @@
   </EffecterDef>
   
   <DamageDef ParentName="StunBase">
+    <defName>WULA_Mech_Drop</defName>
+    <label>EMP</label>
+    <externalViolenceForMechanoids>true</externalViolenceForMechanoids>
+    <deathMessage>{0} has been EMPed to death.</deathMessage>
+    <harmsHealth>false</harmsHealth>
+    <impactSoundType>Electric</impactSoundType>
+    <defaultDamage>50</defaultDamage>
+    <explosionSnowMeltAmount>0</explosionSnowMeltAmount>
+    <!-- <explosionCellFleck>BlastEMP</explosionCellFleck> -->
+    <!-- <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge>
+    <explosionInteriorFleck>ElectricalSpark</explosionInteriorFleck> -->
+    <soundExplosion>Explosion_Vaporize</soundExplosion>
+    <combatLogRules>Damage_EMP</combatLogRules>
+    <causeStun>true</causeStun>
+    <stunResistStat MayRequireAnyOf="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Anomaly">EMPResistance</stunResistStat>
+    <stunAdaptationTicks>2200</stunAdaptationTicks>
+    <explosionCenterEffecter>GiantExplosion</explosionCenterEffecter>
+  </DamageDef>
+  <DamageDef ParentName="StunBase">
     <defName>WULA_Mech_EMP_Drop</defName>
     <label>EMP</label>
     <externalViolenceForMechanoids>true</externalViolenceForMechanoids>

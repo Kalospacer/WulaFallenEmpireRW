@@ -196,6 +196,31 @@
       <li>Wula_AI_Heavy_Panzer_Weapon</li>
     </weaponTags>
   </PawnKindDef>
+  <PawnKindDef ParentName="HeavyMechanoidKind">
+    <defName>Wula_Mech_Mobile_Shield</defName> <!-- 修改了defName以避免冲突 -->
+    <label>MSm-8"放射盾"</label>
+    <race>Wula_Mech_Mobile_Shield</race>
+    <combatPower>500</combatPower>
+    <allowInMechClusters>false</allowInMechClusters>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <canMeleeAttack>false</canMeleeAttack>
+
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/WULA_Mobile_Shield/Bodies/Naked_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>5</drawSize>
+          <shadowData>
+            <volume>(1.4, 1.8, 1.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+  </PawnKindDef>
 
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>WULA_Mobile_Bunker</defName> <!-- 修改了defName以避免冲突 -->

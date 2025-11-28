@@ -43,7 +43,7 @@
     </statBases>
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <stuffCategories Inherit="False"/>
     <researchPrerequisites Inherit="False">
       <li>WULA_Structure_Technology</li>
@@ -57,6 +57,7 @@
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
       <isAirtight>false</isAirtight>
       <isStuffableAirtight>false</isStuffableAirtight>
+      <isPlaceOverableWall>false</isPlaceOverableWall>
     </building>
     <designationCategory>WULA_Buildings</designationCategory>
     <comps>
@@ -446,7 +447,7 @@
     </statBases>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <researchPrerequisites Inherit="False">
       <li>WULA_Synth_Maintain_Technology</li>
     </researchPrerequisites>
@@ -645,7 +646,7 @@
       <Flammability>0</Flammability>
     </statBases>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList>
       <WULA_Alloy>40</WULA_Alloy>
       <ComponentIndustrial>2</ComponentIndustrial>
@@ -876,7 +877,7 @@
     </statBases>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList>
       <WULA_Alloy>20</WULA_Alloy>
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -1044,7 +1045,7 @@
     </statBases>
     <size>(1,2)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList>
       <WULA_Alloy>30</WULA_Alloy>
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -1204,7 +1205,7 @@
     </statBases>
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList>
       <Steel>50</Steel>
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -1380,7 +1381,7 @@
     </statBases>
     <size>(5,5)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList>
       <WULA_Alloy>50</WULA_Alloy>
       <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
@@ -1569,7 +1570,7 @@
     <rotatable>false</rotatable>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites Inherit="False">
-      <li>WULA_DarkEnergy_Generators_Technology</li>
+      <li>Wula_Fusion_Generators_Technology</li>
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
@@ -1579,7 +1580,7 @@
     </statBases>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList>
       <WULA_Alloy>40</WULA_Alloy>
       <ComponentIndustrial>2</ComponentIndustrial>

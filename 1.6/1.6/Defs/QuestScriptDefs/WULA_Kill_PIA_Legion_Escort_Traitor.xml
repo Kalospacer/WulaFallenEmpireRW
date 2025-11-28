@@ -17,9 +17,9 @@
     <rootSelectionWeight>0</rootSelectionWeight>
     <autoAccept>true</autoAccept>
     <sendAvailableLetter>false</sendAvailableLetter>
-    <defaultChallengeRating>4</defaultChallengeRating>    <!-- 挑战等级（星级） -->
-    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
-    <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <defaultChallengeRating>4</defaultChallengeRating>
+    <isRootSpecial>true</isRootSpecial>
+    <defaultCharity>false</defaultCharity>
     <!-- 命名规则 -->
     <questNameRules>
       <rulesStrings>
@@ -59,7 +59,7 @@
 
         <!-- 受到伤害后，断爪立刻敌对 -->
         <li Class="QuestNode_SetFaction">
-          <inSignal>Traitor.0.TookDamageFromPlayer</inSignal>
+          <inSignal>Traitor.0.TookDamage</inSignal>
           <faction>AncientsHostile</faction>
         </li>
 
@@ -67,6 +67,9 @@
         <li Class="QuestNode_Signal">
           <inSignal>Traitor.0.Killed</inSignal>
           <!-- 等待特定信号再打开窗口 -->
+        </li>
+        <li Class="QuestNode_Signal">
+          <inSignal>Traitor.0.FinallyHostile</inSignal>
           <node Class="QuestNode_End">
             <outcome>Success</outcome>
             <sendStandardLetter>true</sendStandardLetter>

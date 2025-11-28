@@ -114,12 +114,12 @@ namespace WulaFallenEmpire
 
             Pawn newPawn = PawnGenerator.GeneratePawn(request);
             
-            // 添加转换组件，只传递建筑定义，不传递数量
+            // 关键修改：传递当前的机械族数量（6个）
             var transformComp = newPawn.GetComp<CompTransformIntoBuilding>();
             if (transformComp != null)
             {
-                // 只设置建筑定义，不设置恢复数量
-                transformComp.SetRestoreData(parent.def);
+                // 传递建筑定义和机械族数量
+                transformComp.SetRestoreData(parent.def, Props.requiredCapacity);
             }
             else
             {
@@ -133,8 +133,8 @@ namespace WulaFallenEmpire
                 transformComp.props = compProps;
                 newPawn.AllComps.Add(transformComp);
                 transformComp.Initialize(compProps);
-                // 只设置建筑定义，不设置恢复数量
-                transformComp.SetRestoreData(parent.def);
+                // 传递建筑定义和机械族数量
+                transformComp.SetRestoreData(parent.def, Props.requiredCapacity);
             }
 
             // 移除建筑
@@ -149,7 +149,8 @@ namespace WulaFallenEmpire
                 Find.Selector.Select(newPawn);
             }
 
-            Messages.Message("WULA_BuildingTransformedToPawn".Translate(parent.Label, newPawn.LabelCap), MessageTypeDefOf.PositiveEvent);
+            Messages.Message("WULA_BuildingTransformedToPawn".Translate(parent.Label, newPawn.LabelCap, Props.requiredCapacity), 
+                MessageTypeDefOf.PositiveEvent);
             
             // 播放转换效果
             PlayTransformEffects(position, map);

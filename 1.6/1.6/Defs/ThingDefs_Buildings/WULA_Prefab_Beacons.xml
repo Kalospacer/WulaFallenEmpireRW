@@ -96,6 +96,9 @@
       <li Class="CompProperties_Effecter">
         <effecterDef>Smoke_Joint</effecterDef>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerFaction">
+        <!-- 不设置 factionDef，默认使用玩家派系 -->
+      </li>
     </comps>
   </ThingDef>
 </Defs>
