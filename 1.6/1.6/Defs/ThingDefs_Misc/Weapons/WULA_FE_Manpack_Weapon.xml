@@ -289,7 +289,7 @@
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Melee">
     <defName>WULA_MW_Twohanded_ChainBroadsword</defName>
     <label>CBs-25"地狱牙"</label>
-    <description>一把需要双手才能拿起的巨型链锯刀，这种恐怖的近战武器一击就可以造成大量伤口，甚至将对手劈成两段。它的刀头装备了一台微型相位引擎，可以挥出斩裂空间的一刀，然后瞬间移动到目标面前。</description>
+    <description>一把需要双手才能拿起的巨型链锯刀，这种恐怖的近战武器一击就可以造成大量伤口，甚至将对手劈成两段。它的刀头装备了一台微型相位引擎，可以挥出斩裂空间的一刀，然后瞬间移动到目标面前，或是让对手移动到持刀者面前。</description>
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Twohanded_ChainBroadsword/WULA_MW_Twohanded_ChainBroadsword</texPath>
       <shaderType>CutoutComplex</shaderType>
@@ -404,7 +404,7 @@
   <AbilityDef>
     <defName>WULA_MW_Twohanded_ChainBroadsword_Second_Ability</defName>
     <label>空间删除</label>
-    <description>使用CBs-25"地狱牙"刀头的相位引擎将目标拉近到施法者身边——这种折跃引擎只能折跃小型目标，如果持刀者体型大于3则无法发起传送。</description>
+    <description>使用CBs-25"地狱牙"刀头的相位引擎将目标拉近到施法者身边——这种折跃引擎只能折跃小型目标，如果目标体型大于3则无法拉近。</description>
     <iconPath>Wula/UI/Abilities/WULA_PullTarget</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>

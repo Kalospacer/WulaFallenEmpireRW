@@ -180,6 +180,7 @@
     <Compile Include="GlobalWorkTable\JobDriver_GlobalWorkTable.cs" />
     <Compile Include="GlobalWorkTable\CompLaunchable_ToGlobalStorage.cs" />
     <Compile Include="GlobalWorkTable\CompProperties_Launchable_ToGlobalStorage.cs" />
+    <Compile Include="HarmonyPatches\Faction_ShouldHaveLeader_Patch.cs" />
     <Compile Include="HarmonyPatches\Hediff_Mechlink_PostAdd_Patch.cs" />
     <Compile Include="HarmonyPatches\Patch_ThingDefGenerator_Techprints_ImpliedTechprintDefs.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_FloatMenuOptionProvider_SelectedPawnValid.cs" />
@@ -275,7 +276,7 @@
     <Compile Include="ThingComp\WULA_AreaShield\Harmony_AreaShieldInterceptor.cs" />
     <Compile Include="ThingComp\WULA_AreaShield\ThingComp_AreaShield.cs" />
     <Compile Include="ThingComp\WULA_AreaTeleporter\CompProperties_AreaTeleporter.cs" />
-    <Compile Include="ThingComp\WULA_AreaTeleporter\Patch_Pawn_JobTracker_StartJob.cs" />
+    <Compile Include="HarmonyPatches\Patch_Pawn_JobTracker_StartJob.cs" />
     <Compile Include="ThingComp\WULA_AreaTeleporter\ThingComp_AreaTeleporter.cs" />
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompCustomUniqueWeapon.cs" />
     <Compile Include="ThingComp\WULA_CustomUniqueWeapon\CompProperties_CustomUniqueWeapon.cs" />
@@ -283,7 +284,7 @@
     <Compile Include="ThingComp\WULA_DamageTransaction\CompDamageRelay.cs" />
     <Compile Include="ThingComp\WULA_DamageTransaction\CompProperties_DamageInterceptor.cs" />
     <Compile Include="ThingComp\WULA_DamageTransaction\CompProperties_DamageRelay.cs" />
-    <Compile Include="ThingComp\WULA_DamageTransaction\Patch_Pawn_PreApplyDamage.cs" />
+    <Compile Include="HarmonyPatches\Patch_Pawn_PreApplyDamage.cs" />
     <Compile Include="ThingComp\WULA_GiveHediffsInRange\CompGiveHediffsInRange.cs" />
     <Compile Include="ThingComp\WULA_GiveHediffsInRange\CompProperties_GiveHediffsInRange.cs" />
     <Compile Include="ThingComp\WULA_MechRepairKit\CompUseEffect_FixAllHealthConditions.cs" />

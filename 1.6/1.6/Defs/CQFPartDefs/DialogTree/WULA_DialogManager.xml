@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestEditor_Library.DialogManagerDef>
+    <defName>WULA_PIA_Legion_Escort_Traitor_DialogManager</defName>
+    <trees>
+      <li>
+        <tree>WULA_PIA_Legion_Escort_Traitor_DialogMain</tree>
+        <conditions />
+      </li>
+    </trees>
+  </QuestEditor_Library.DialogManagerDef>
+</Defs>

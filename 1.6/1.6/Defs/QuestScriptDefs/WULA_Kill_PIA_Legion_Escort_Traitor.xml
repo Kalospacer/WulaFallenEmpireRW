@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <IncidentDef>
+    <defName>WULA_GiveQuest_Kill_PIA_Legion_Escort_Traitor</defName>
+    <category>GiveQuest</category>
+    <label>帝国的叛徒</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <questScriptDef>WULA_Kill_PIA_Legion_Escort_Traitor</questScriptDef>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <baseChance>0</baseChance>
+    <requireColonistsPresent>True</requireColonistsPresent>
+  </IncidentDef>
+  <QuestScriptDef>
+    <defName>WULA_Kill_PIA_Legion_Escort_Traitor</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <autoAccept>true</autoAccept>
+    <sendAvailableLetter>false</sendAvailableLetter>
+    <defaultChallengeRating>4</defaultChallengeRating>    <!-- 挑战等级（星级） -->
+    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
+    <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <!-- 命名规则 -->
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->WULA_Base_Tex_Quest_questName</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
+      <rulesStrings>
+        <li>questDescription->WULA_Intro_Spy_questDescription</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestEditor_Library.QuestNode_RandomCustomMap">
+          <datas>
+            <li>
+              <key>Wula_PIA_Legion_Escort_Traitor_Map</key>
+              <value>1</value>
+            </li>
+          </datas>
+          <buffer>5</buffer>
+          <bufferMin>10</bufferMin>
+          <siteIconPath>Things/Building/Natural/Hive/HiveC</siteIconPath>
+          <expandingIconPath>Things/Building/Natural/Hive/HiveC</expandingIconPath>
+          <storeAs>LostOutpost</storeAs>
+          <!-- <faction>Wula_PIA_Legion_Faction</faction> -->
+          <distance>
+            <min>5</min>
+            <max>10</max>
+          </distance>
+          <blacklist />
+        </li>
+        <!-- 穿梭机成功离开后任务完成信号 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>Traitor.FinallyHostile</inSignal>
+          <!-- 等待特定信号再打开窗口 -->
+          <node Class="QuestNode_End">
+            <outcome>Success</outcome>
+            <sendStandardLetter>true</sendStandardLetter>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

@@ -466,6 +466,7 @@
     <label>野心冠军勇士</label>
     <race>WulaSpecies</race>
     <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -531,6 +532,7 @@
     <label>帝国百战军锋</label>
     <race>WulaSpecies</race>
     <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -637,6 +639,7 @@
     <label>断爪卫队</label>
     <race>WulaSpecies</race>
     <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
     <lifeStages>
       <li>
         <bodyGraphicData>
@@ -702,5 +705,74 @@
     <forcedTraits>
       <li>WULA_Trait_Broken_Personality</li>
     </forcedTraits>
+  </PawnKindDef>
+
+  <!-- 叛徒 -->
+  <PawnKindDef>
+    <defName>Wula_PIA_Legion_Escort_Traitor</defName>
+    <label>断爪卫队的叛徒</label>
+    <race>WulaSpecies</race>
+    <defaultFactionType>Wula_PIA_Legion_Faction</defaultFactionType>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1</drawSize>
+          <shadowData>
+            <volume>(0.2, 0.3, 0.2)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    
+    <isBoss>true</isBoss>
+    <maxPerGroup>1</maxPerGroup>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
+    
+    <minGenerationAge>18</minGenerationAge>
+		<maxGenerationAge>20</maxGenerationAge>
+    <combatPower>500</combatPower>
+    <initialWillRange>99~99</initialWillRange>
+    <initialResistanceRange>99~99</initialResistanceRange>
+    <itemQuality>Legendary</itemQuality>
+    <minApparelQuality>Legendary</minApparelQuality>
+    <maxApparelQuality>Legendary</maxApparelQuality>
+    <apparelIgnorePollution MayRequire="Ludeon.RimWorld.Biotech">true</apparelIgnorePollution>
+    <ignoreFactionApparelStuffRequirements>true</ignoreFactionApparelStuffRequirements>
+    <isFighter>true</isFighter>
+    <weaponStuffOverride>Plasteel</weaponStuffOverride>
+    <apparelTags>
+      <li>Wula_Legion_Apparel</li>
+    </apparelTags>
+    <weaponTags>
+      <li>WULA_MW_Twohanded_ChainBroadsword</li>
+    </weaponTags>
+    <apparelRequired>
+      <li>WULA_Heavy_Infantry_Helmet_Nomask</li>
+      <li>WULA_Champion_Warrior_Armor</li>
+    </apparelRequired>
+    <weaponMoney>999999~999999</weaponMoney>
+    <biocodeWeaponChance>1</biocodeWeaponChance>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <techHediffsChance>1</techHediffsChance>
+    <apparelMoney>999999~999999</apparelMoney>
+    <techHediffsMoney>999999~999999</techHediffsMoney>
+    <techHediffsRequired>
+      <li>DeathAcidifier</li>
+    </techHediffsRequired>
+    <techHediffsTags>
+      <li>Advanced</li>
+      <li>ImplantEmpireCommon</li>
+    </techHediffsTags>
+
+    <fixedChildBackstories>
+      <li>WULA_Child_Backstory03</li>
+    </fixedChildBackstories>
+		<fixedAdultBackstories>
+			<li>WULA_Adult_Backstory_Legion_Escort</li>
+		</fixedAdultBackstories>
   </PawnKindDef>
 </Defs>
