@@ -23,7 +23,7 @@
     <!-- 命名规则 -->
     <questNameRules>
       <rulesStrings>
-        <li>questName->WULA_Base_Tex_Quest_questName</li>
+        <li>questName->WULA_Kill_PIA_Legion_Escort_Traitor_questName</li>
       </rulesStrings>
     </questNameRules>
     <questDescriptionRules>
@@ -31,7 +31,7 @@
         <li>QuestHospitalityCommon</li>
       </include>
       <rulesStrings>
-        <li>questDescription->WULA_Intro_Spy_questDescription</li>
+        <li>questDescription->WULA_Kill_PIA_Legion_Escort_Traitor_questDescription</li>
       </rulesStrings>
     </questDescriptionRules>
 
@@ -56,9 +56,16 @@
           </distance>
           <blacklist />
         </li>
+
+        <!-- 受到伤害后，断爪立刻敌对 -->
+        <li Class="QuestNode_SetFaction">
+          <inSignal>Traitor.0.TookDamageFromPlayer</inSignal>
+          <faction>AncientsHostile</faction>
+        </li>
+
         <!-- 穿梭机成功离开后任务完成信号 -->
         <li Class="QuestNode_Signal">
-          <inSignal>Traitor.FinallyHostile</inSignal>
+          <inSignal>Traitor.0.Killed</inSignal>
           <!-- 等待特定信号再打开窗口 -->
           <node Class="QuestNode_End">
             <outcome>Success</outcome>
