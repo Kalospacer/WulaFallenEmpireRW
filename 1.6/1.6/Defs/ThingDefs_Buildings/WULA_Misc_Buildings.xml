@@ -701,7 +701,7 @@
       <WULA_Alloy>5000</WULA_Alloy>
     </costList>
     <castEdgeShadows>true</castEdgeShadows>
-    <designationCategory>WULA_Buildings</designationCategory>
+    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>
     <rotatable>true</rotatable>

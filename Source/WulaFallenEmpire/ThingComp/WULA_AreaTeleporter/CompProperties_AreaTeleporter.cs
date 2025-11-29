@@ -23,10 +23,10 @@ namespace WulaFallenEmpire
         public bool affectPrisoners = false;
         public bool affectSlaves = false;
         
-        // 传送设置 - 移除冷却时间
-        public int checkIntervalTicks = 30; // 检查间隔
-        public int stunTicks = 30; // 传送后眩晕时间
-        public int maxPositionAdjustRadius = 5; // 最大位置调整半径
+        // 传送设置
+        public int checkIntervalTicks = 30;
+        public int stunTicks = 30;
+        public int maxPositionAdjustRadius = 5;
         
         // 效果设置
         public EffecterDef entryEffecter;
@@ -38,6 +38,14 @@ namespace WulaFallenEmpire
         // 到达时的喧嚣效果
         public ClamorDef destClamorType;
         public float destClamorRadius = 2f;
+
+        // 新增：科技需求
+        public ResearchProjectDef requiredResearch;
+        public bool requireResearchToUse = false;
+
+        // 新增：开关控制
+        public bool canBeToggled = true;
+        public bool defaultEnabled = true;
 
         public CompProperties_AreaTeleporter()
         {

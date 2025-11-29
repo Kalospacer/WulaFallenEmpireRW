@@ -528,7 +528,7 @@
     </apparel>
     <costList Inherit="False">
       <Cloth>300</Cloth>
-      <Gold>100</Gold>
+      <Gold>10</Gold>
     </costList>
     <statBases>
       <MaxHitPoints>500</MaxHitPoints>
@@ -558,9 +558,10 @@
       <ArmorRating_Heat>1</ArmorRating_Heat>
       <EquipDelay>3</EquipDelay>
     </statBases>
-    <costStuffCount>250</costStuffCount>
+    <costStuffCount>0</costStuffCount>
     <costList Inherit="False">
-      <ComponentSpacer>8</ComponentSpacer>
+      <WULA_Alloy>100</WULA_Alloy>
+      <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
     <apparel>
       <tags>
@@ -623,9 +624,10 @@
       </tags>
       <wornGraphicPath>Wula/Apparel/WULA_Assault_Troop_Helmet</wornGraphicPath>
     </apparel>
-    <costStuffCount>50</costStuffCount>
+    <costStuffCount>0</costStuffCount>
     <costList Inherit="False">
-      <ComponentSpacer>1</ComponentSpacer>
+      <WULA_Alloy>30</WULA_Alloy>
+      <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
   </ThingDef>
   <ThingDef ParentName="WULA_ApparelArmorBase">

@@ -43,7 +43,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -155,7 +155,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -230,7 +230,7 @@
     <label>MSm-8"放射盾"</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。建造好的信标可以收起或移至他处。\n\n放射盾是乌拉帝国的中型战争机械，常被用于镇压异族聚居地的暴动。它形状非常奇怪，根本分不出头在哪，但是不要因此小瞧这个机械体——它能释放强大的立场盾，在很大一片区域内反射大量炮火，并且机体放射出来的辐射会严重地杀伤进入反射盾范围内的敌人。在相关许可开放后，它甚至可以支持机械乌拉使用其内置的相位场进行区域传送。</description>
     <uiIconPath>Wula/Things/WULA_Mobile_Shield/WULA_Mobile_Shield_Incoming</uiIconPath>
-    <uiIconScale>1.33</uiIconScale>
+    <uiIconScale>1</uiIconScale>
     <uiIconOffset>(0, -0.1)</uiIconOffset>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -267,7 +267,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -372,7 +372,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>

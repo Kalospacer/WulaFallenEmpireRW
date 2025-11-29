@@ -116,7 +116,7 @@
 
   <!-- CompSkyfallerCaller new keys -->
   <WULA_RequiredMaterials>所需材料：</WULA_RequiredMaterials>
-  <WULA_InsufficientMaterials>轨道信标范围内材料不足</WULA_InsufficientMaterials>
+  <WULA_InsufficientMaterials>-乌拉轨道输送信标-范围内材料不足。你需要建造乌拉轨道输送信标，并在其信号范围内放置足够的材料，建造时这些材料会被自动提交给帝国舰队。</WULA_InsufficientMaterials>
 
   <!-- Cancel Skyfaller -->
   <WULA_CancelSkyfaller>取消呼叫</WULA_CancelSkyfaller>

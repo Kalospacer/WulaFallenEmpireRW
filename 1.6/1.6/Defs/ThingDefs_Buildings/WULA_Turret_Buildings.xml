@@ -147,7 +147,7 @@
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
       <MaxHitPoints>500</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>20</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -291,7 +291,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -567,7 +567,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -856,7 +856,7 @@
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
-      <WorkToBuild>1</WorkToBuild>
+      <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>

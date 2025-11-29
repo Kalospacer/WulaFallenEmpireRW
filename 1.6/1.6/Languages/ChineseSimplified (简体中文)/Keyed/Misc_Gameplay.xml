@@ -343,4 +343,12 @@
   <WULA_TargetTooClose>目标距离过近（最小距离：{0}格）</WULA_TargetTooClose>
   <WULA_NoLineOfSight>没有视线到目标</WULA_NoLineOfSight>
   <WULA_CannotPullTarget>无法拉取该目标</WULA_CannotPullTarget>
+
+  <!-- Area Teleporter Strings -->
+  <WULA_TeleporterEnabled>传送器已启用</WULA_TeleporterEnabled>
+  <WULA_TeleporterDisabled>传送器已禁用</WULA_TeleporterDisabled>
+  <WULA_TeleporterEnable>启用传送器</WULA_TeleporterEnable>
+  <WULA_TeleporterEnableDesc>启用区域传送功能，允许机械乌拉在其覆盖范围内以传送代替常规移动。</WULA_TeleporterEnableDesc>
+  <WULA_TeleporterDisable>禁用传送器</WULA_TeleporterDisable>
+  <WULA_TeleporterDisableDesc>禁用区域传送功能，在其附近的机械乌拉使用常规移动而非传送。</WULA_TeleporterDisableDesc>
 </LanguageData>

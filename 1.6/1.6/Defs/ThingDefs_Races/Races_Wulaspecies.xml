@@ -1446,8 +1446,8 @@
       <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
         <radius>15</radius>
         <damageIntervalTicks>30</damageIntervalTicks>
-        <damageDef>Wula_Dark_Matter_Beam</damageDef>
-        <damageAmount>15</damageAmount>
+        <damageDef>Flame</damageDef>
+        <damageAmount>8</damageAmount>
         <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
         <affectFriendly>false</affectFriendly>
         <affectNeutral>false</affectNeutral>
@@ -1456,12 +1456,12 @@
         <ignoreFactionRelations>false</ignoreFactionRelations>
         <startEnabled>false</startEnabled>
         <toggleLabel>热辐射</toggleLabel>
-        <toggleDescription>MSm-8"放射盾"可以打开外壳，蒸发胆敢靠近其的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
+        <toggleDescription>MSm-8"放射盾"可以打开外壳，蒸发胆敢进入反射立场内的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
         <toggleIconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</toggleIconPath>
       </li>
       <!-- 区域传送组件 -->
       <li Class="WulaFallenEmpire.CompProperties_AreaTeleporter">
-        <teleportRadius>20</teleportRadius>
+        <teleportRadius>15</teleportRadius>
         <stunTicks>60</stunTicks>
         
         <allowedRaces>
@@ -1472,6 +1472,9 @@
         <entryEffecter>Skip_Entry</entryEffecter>
         <exitEffecter>Skip_Exit</exitEffecter>
         <teleportSound>Psycast_Skip_Entry</teleportSound>
+
+        <requireResearchToUse>true</requireResearchToUse>
+        <requiredResearch>Wula_Mech_Mobile_Shield_Teleporter_Technology</requiredResearch>
       </li>
     </comps>
   </AlienRace.ThingDef_AlienRace>

@@ -25,13 +25,25 @@ namespace WulaFallenEmpire
         // 硬编码的工作排除表
         private static readonly HashSet<JobDef> ExcludedJobs = new HashSet<JobDef>
         {
-            JobDefOf.GotoWander  // 排除闲逛工作
+            JobDefOf.GotoWander
         };
 
+        // 新增：开关状态
+        private bool enabled = true;
+
+        // 新增：初始化时设置默认状态
         public override void Initialize(CompProperties props)
         {
             base.Initialize(props);
+            enabled = Props.defaultEnabled;
             RegisterToNetwork();
+        }
+
+        // 新增：保存和加载开关状态
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_Values.Look(ref enabled, "teleporterEnabled", Props.defaultEnabled);
         }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
@@ -53,11 +65,45 @@ namespace WulaFallenEmpire
         }
 
         /// <summary>
+        /// 检查是否满足科技需求
+        /// </summary>
+        public bool HasRequiredResearch
+        {
+            get
+            {
+                // 如果没有设置科技需求，或者不要求科技，则返回true
+                if (Props.requiredResearch == null || !Props.requireResearchToUse)
+                    return true;
+                
+                // 检查科技是否已完成
+                return Props.requiredResearch.IsFinished;
+            }
+        }
+
+        /// <summary>
+        /// 检查是否应该显示传送器功能
+        /// </summary>
+        public bool ShouldDisplayFunctionality
+        {
+            get
+            {
+                // 如果拥有者是玩家，检查科技需求
+                if (parent.Faction == Faction.OfPlayer)
+                {
+                    return HasRequiredResearch;
+                }
+                
+                // 非玩家派系总是显示
+                return true;
+            }
+        }
+
+        /// <summary>
         /// 注册到网络
         /// </summary>
         private void RegisterToNetwork()
         {
-            if (parent?.Map == null) return;
+            if (parent?.Map == null || !enabled || !ShouldDisplayFunctionality) return;
 
             var map = parent.Map;
             if (!teleporterNetworks.ContainsKey(map))
@@ -105,11 +151,12 @@ namespace WulaFallenEmpire
         /// </summary>
         private bool IsPositionInNetworkRange(IntVec3 position)
         {
-            if (parent?.Map == null) return false;
+            if (parent?.Map == null || !enabled || !ShouldDisplayFunctionality) return false;
 
             foreach (var teleporter in GetNetworkTeleporters())
             {
                 if (teleporter.parent?.Spawned == true && 
+                    teleporter.enabled && teleporter.ShouldDisplayFunctionality &&
                     position.DistanceTo(teleporter.parent.Position) <= teleporter.Props.teleportRadius)
                 {
                     return true;
@@ -123,7 +170,7 @@ namespace WulaFallenEmpire
         /// </summary>
         private IntVec3 FindSafePositionInNetwork(IntVec3 preferredPosition, Pawn pawn)
         {
-            if (parent?.Map == null) return IntVec3.Invalid;
+            if (parent?.Map == null || !enabled || !ShouldDisplayFunctionality) return IntVec3.Invalid;
 
             var map = parent.Map;
             
@@ -146,7 +193,8 @@ namespace WulaFallenEmpire
             // 在整个网络范围内搜索安全位置
             foreach (var teleporter in GetNetworkTeleporters())
             {
-                if (teleporter.parent?.Spawned != true) continue;
+                if (teleporter.parent?.Spawned != true || !teleporter.enabled || !teleporter.ShouldDisplayFunctionality) 
+                    continue;
 
                 var teleporterPos = teleporter.parent.Position;
                 var searchRadius = teleporter.Props.teleportRadius;
@@ -171,7 +219,7 @@ namespace WulaFallenEmpire
         {
             base.CompTick();
             
-            if (parent == null || !parent.Spawned || parent.Map == null)
+            if (parent == null || !parent.Spawned || parent.Map == null || !enabled || !ShouldDisplayFunctionality)
                 return;
                 
             // 使用间隔检查优化性能
@@ -499,10 +547,60 @@ namespace WulaFallenEmpire
             effecters.Clear();
         }
 
+        // 新增：切换开关状态
+        private void ToggleEnabled()
+        {
+            bool oldEnabled = enabled;
+            enabled = !enabled;
+            
+            if (oldEnabled != enabled)
+            {
+                if (enabled)
+                {
+                    RegisterToNetwork();
+                    Messages.Message("WULA_TeleporterEnabled".Translate(parent.Label), parent, MessageTypeDefOf.PositiveEvent);
+                }
+                else
+                {
+                    UnregisterFromNetwork();
+                    Messages.Message("WULA_TeleporterDisabled".Translate(parent.Label), parent, MessageTypeDefOf.NegativeEvent);
+                }
+                
+                // 清理效果
+                CleanupAllEffects();
+            }
+        }
+
+        // 新增：获取Gizmos
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (var gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+
+            // 只有满足科技需求时才显示开关按钮
+            if (ShouldDisplayFunctionality && Props.canBeToggled)
+            {
+                yield return new Command_Toggle
+                {
+                    defaultLabel = enabled ? "WULA_TeleporterDisable".Translate() : "WULA_TeleporterEnable".Translate(),
+                    defaultDesc = enabled ? "WULA_TeleporterDisableDesc".Translate() : "WULA_TeleporterEnableDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("UI/Commands/Teleport"),
+                    isActive = () => enabled,
+                    toggleAction = ToggleEnabled
+                };
+            }
+        }
+
         // 调试方法：显示传送范围
         public override void PostDraw()
         {
             base.PostDraw();
+            
+            // 只有满足科技需求且启用时才绘制范围
+            if (!ShouldDisplayFunctionality || !enabled)
+                return;
             
             if (Find.Selector.IsSelected(parent))
             {
@@ -514,7 +612,7 @@ namespace WulaFallenEmpire
                     // 绘制网络范围（所有传送器的范围）
                     foreach (var teleporter in GetNetworkTeleporters())
                     {
-                        if (teleporter != this && teleporter.parent.Spawned)
+                        if (teleporter != this && teleporter.parent.Spawned && teleporter.enabled && teleporter.ShouldDisplayFunctionality)
                         {
                             GenDraw.DrawRadiusRing(teleporter.parent.Position, teleporter.Props.teleportRadius, new Color(0.3f, 0.7f, 1, 0.3f));
                         }
