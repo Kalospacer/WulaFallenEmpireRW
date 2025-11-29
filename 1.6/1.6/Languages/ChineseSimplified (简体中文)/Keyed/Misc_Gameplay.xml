@@ -351,4 +351,23 @@
   <WULA_TeleporterEnableDesc>启用区域传送功能，允许机械乌拉在其覆盖范围内以传送代替常规移动。</WULA_TeleporterEnableDesc>
   <WULA_TeleporterDisable>禁用传送器</WULA_TeleporterDisable>
   <WULA_TeleporterDisableDesc>禁用区域传送功能，在其附近的机械乌拉使用常规移动而非传送。</WULA_TeleporterDisableDesc>
+
+  <!-- Value Converter Strings -->
+  <WULA_ConvertToSilver>向舰队贩卖物资</WULA_ConvertToSilver>
+  <WULA_ConvertToSilverDesc>将输送舱发射到乌拉帝国舰队，所有物品的价值按照 {0} 的比率转换为白银储存在舰队物资中</WULA_ConvertToSilverDesc>
+  <WULA_CannotConvert>无法贩卖：包含禁止物品或容器为空</WULA_CannotConvert>
+  <WULA_NoItemsToConvert>没有可贩卖的物品</WULA_NoItemsToConvert>
+  <WULA_NoValuableItems>没有有价值的物品</WULA_NoValuableItems>
+  <WULA_ConversionValueTooLow>贩卖价值过低</WULA_ConversionValueTooLow>
+  <WULA_ConversionCancelledDueToForbiddenItems>贩卖取消：包含禁止物品：{0}</WULA_ConversionCancelledDueToForbiddenItems>
+  <WULA_ValueConverted>成功将价值 {0} 的物品转换为 {1} 白银</WULA_ValueConverted>
+  <WULA_ValueConvertedWithLoss>成功将价值 {0} 的物品转换为 {1} 白银（转换率：{2}）</WULA_ValueConvertedWithLoss>
+  <WULA_ValueConvertedWithBonus>成功将价值 {0} 的物品转换为 {1} 白银（奖励率：{2}）</WULA_ValueConvertedWithBonus>
+  <WULA_CurrentValueInContainer>容器内物品总价值：{0}</WULA_CurrentValueInContainer>
+  <WULA_PotentialSilver>可转换白银：{0}</WULA_PotentialSilver>
+  <WULA_ConversionRate>转换率：{0}</WULA_ConversionRate>
+  <WULA_ConversionEfficiency>转换效率：{0}</WULA_ConversionEfficiency>
+  <WULA_ConversionEfficiencyLoss>（有损耗）</WULA_ConversionEfficiencyLoss>
+  <WULA_ConversionEfficiencyBonus>（有加成）</WULA_ConversionEfficiencyBonus>
+  <WULA_ConversionEfficiencyNormal>（等值转换）</WULA_ConversionEfficiencyNormal>
 </LanguageData>

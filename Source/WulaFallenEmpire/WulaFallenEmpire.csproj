@@ -171,8 +171,10 @@
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompAbilityEffect_SpawnFlyOver.cs" />
     <Compile Include="Flyover\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
     <Compile Include="GlobalWorkTable\Building_GlobalWorkTable.cs" />
-    <Compile Include="GlobalWorkTable\CompProperties_GarbageShield.cs" />
+    <Compile Include="GlobalWorkTable\WULA_Launchable_ToGlobalStorage\CompProperties_GarbageShield.cs" />
     <Compile Include="GlobalWorkTable\CompProperties_ProductionCategory.cs" />
+    <Compile Include="GlobalWorkTable\WULA_ValueConverter\CompProperties_ValueConverter.cs" />
+    <Compile Include="GlobalWorkTable\WULA_ValueConverter\CompValueConverter.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrder.cs" />
     <Compile Include="GlobalWorkTable\GlobalProductionOrderStack.cs" />
     <Compile Include="GlobalWorkTable\GlobalStorageWorldComponent.cs" />
@@ -180,8 +182,8 @@
     <Compile Include="GlobalWorkTable\ITab_GlobalBills.cs" />
     <Compile Include="GlobalWorkTable\WorkGiver_GlobalWorkTable.cs" />
     <Compile Include="GlobalWorkTable\JobDriver_GlobalWorkTable.cs" />
-    <Compile Include="GlobalWorkTable\CompLaunchable_ToGlobalStorage.cs" />
-    <Compile Include="GlobalWorkTable\CompProperties_Launchable_ToGlobalStorage.cs" />
+    <Compile Include="GlobalWorkTable\WULA_Launchable_ToGlobalStorage\CompLaunchable_ToGlobalStorage.cs" />
+    <Compile Include="GlobalWorkTable\WULA_Launchable_ToGlobalStorage\CompProperties_Launchable_ToGlobalStorage.cs" />
     <Compile Include="HarmonyPatches\Faction_ShouldHaveLeader_Patch.cs" />
     <Compile Include="HarmonyPatches\Hediff_Mechlink_PostAdd_Patch.cs" />
     <Compile Include="HarmonyPatches\Patch_ThingDefGenerator_Techprints_ImpliedTechprintDefs.cs" />

@@ -824,6 +824,12 @@
         <garbageShieldEnabled>true</garbageShieldEnabled>
         <garbageShieldUIEventDefName>Wula_UI_Legion_Reply_1</garbageShieldUIEventDefName>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_ValueConverter">
+        <conversionRate>0.8</conversionRate>
+        <destroyAfterConversion>true</destroyAfterConversion>
+        <garbageShieldEnabled>true</garbageShieldEnabled>
+        <garbageShieldUIEventDefName>Wula_UI_Legion_Reply_1</garbageShieldUIEventDefName>
+      </li>
     </comps>
     <inspectorTabs>
       <li>ITab_ContentsTransporter</li>
