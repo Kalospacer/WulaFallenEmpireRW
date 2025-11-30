@@ -526,6 +526,7 @@
       <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
       <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
     </apparel>
+    <recipeMaker Inherit="False" IsNull="True"/>
     <costList Inherit="False">
       <Cloth>300</Cloth>
       <Gold>10</Gold>
@@ -549,7 +550,7 @@
       <texPath>Wula/Apparel/WULA_Assault_Troop_PowerArmor</texPath>
     </graphicData>
     <statBases>
-      <WorkToMake>60000</WorkToMake>
+      <WorkToMake>1000</WorkToMake>
       <MaxHitPoints>1000</MaxHitPoints>
       <Mass>10</Mass>
       <Flammability>0</Flammability>
@@ -609,7 +610,7 @@
       <texPath>Wula/Apparel/WULA_Assault_Troop_Helmet</texPath>
     </graphicData>
     <statBases>
-      <WorkToMake>20000</WorkToMake>
+      <WorkToMake>2000</WorkToMake>
       <MaxHitPoints>1000</MaxHitPoints>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
@@ -647,7 +648,7 @@
       <texPath>Wula/Apparel/WULA_Heavy_Infantry_PowerArmor</texPath>
     </graphicData>
     <statBases>
-      <WorkToMake>50000</WorkToMake>
+      <WorkToMake>4000</WorkToMake>
       <MaxHitPoints>1000</MaxHitPoints>
       <Mass>20</Mass>
       <Flammability>0</Flammability>
@@ -742,7 +743,7 @@
       <texPath>Wula/Apparel/WULA_Heavy_Infantry_Helmet</texPath>
     </graphicData>
     <statBases>
-      <WorkToMake>20000</WorkToMake>
+      <WorkToMake>2000</WorkToMake>
       <MaxHitPoints>1000</MaxHitPoints>
       <Mass>5</Mass>
       <Flammability>0</Flammability>
@@ -787,7 +788,7 @@
       <texPath>Wula/Apparel/WULA_Heavy_Infantry_Helmet_Nomask</texPath>
     </graphicData>
     <statBases>
-      <WorkToMake>20000</WorkToMake>
+      <WorkToMake>2000</WorkToMake>
       <MaxHitPoints>1000</MaxHitPoints>
       <Mass>5</Mass>
       <Flammability>0</Flammability>

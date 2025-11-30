@@ -68,20 +68,6 @@ namespace WulaFallenEmpire
             }
         }
 
-        public override string ExtraLabelMouseAttachment(LocalTargetInfo target)
-        {
-            string baseInfo = "";
-            if (Props.enableGroundStrafing)
-            {
-                baseInfo = $"扫射区域: {Props.strafeWidth * 2 + 1}格宽度";
-            }
-            else if (Props.enableSectorSurveillance)
-            {
-                baseInfo = $"扇形监视: 约{Props.strafeWidth * 2 + 1}格宽度\n(具体参数在飞行物定义中)";
-            }
-            return baseInfo;
-        }
-
         public override bool Valid(LocalTargetInfo target, bool throwMessages = false)
         {
             if (!base.Valid(target, throwMessages))

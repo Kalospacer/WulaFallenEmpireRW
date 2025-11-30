@@ -6,6 +6,7 @@
     <description>一个用于呼叫建筑的信标，用于快速建造一个小型前哨站。</description>
     <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
     <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
     <graphicData>
       <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
@@ -14,6 +15,9 @@
         <enabled>false</enabled>
       </damageData>
     </graphicData>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
     <rotatable>false</rotatable>
     <neverMultiSelect>false</neverMultiSelect>
     <blockLight>false</blockLight>

@@ -77,7 +77,6 @@ namespace WulaFallenEmpire
                 
                 // 显示恢复的机械族数量
                 sb.AppendLine();
-                sb.Append("WULA_RestoreMechCount".Translate(restoreMechCount));
                 
                 // 显示目标建筑的最大存储容量
                 var recyclerProps = restoreBuildingDef.GetCompProperties<CompProperties_MechanoidRecycler>();
@@ -195,88 +194,6 @@ namespace WulaFallenEmpire
             return false;
         }
 
-        public void TransformToBuilding()
-        {
-            if (Pawn == null || !Pawn.Spawned)
-                return;
-
-            Map map = Pawn.Map;
-            IntVec3 desiredPosition = Pawn.Position;
-            Faction faction = Pawn.Faction;
-
-            // 确定要生成的建筑类型
-            ThingDef buildingDef = restoreBuildingDef ?? Props.targetBuildingDef;
-            if (buildingDef == null)
-            {
-                Messages.Message("WULA_CannotDetermineBuildingType".Translate(), MessageTypeDefOf.RejectInput);
-                return;
-            }
-
-            // 最终校验（排除被转换的Pawn本身）
-            string failReason;
-            if (!TransformValidationUtility.CanPlaceBuildingAt(buildingDef, desiredPosition, map, faction, Pawn, out failReason))
-            {
-                // 尝试寻找附近的位置
-                IntVec3 alternativePosition;
-                if (TryFindNearbyValidPosition(out alternativePosition, out failReason))
-                {
-                    desiredPosition = alternativePosition;
-                    Messages.Message("WULA_DeployingAtNearbyPosition".Translate(desiredPosition), MessageTypeDefOf.NeutralEvent);
-                }
-                else
-                {
-                    Messages.Message("WULA_CannotDeployBuilding".Translate(failReason), MessageTypeDefOf.RejectInput);
-                    return;
-                }
-            }
-
-            // 移除Pawn
-            Pawn.DeSpawn(DestroyMode.Vanish);
-
-            // 生成建筑
-            Building newBuilding = (Building)GenSpawn.Spawn(buildingDef, desiredPosition, map, WipeMode.Vanish);
-            newBuilding.SetFaction(faction);
-
-            // 关键修改：恢复机械族数量
-            var recycler = newBuilding as Building_MechanoidRecycler;
-            if (recycler != null)
-            {
-                recycler.SetMechanoidCount(restoreMechCount);
-            }
-
-            // 添加建筑转换组件
-            var transformComp = newBuilding.TryGetComp<CompTransformAtFullCapacity>();
-            if (transformComp == null)
-            {
-                // 动态添加组件
-                var compProps = new CompProperties_TransformAtFullCapacity
-                {
-                    targetPawnKind = Pawn.kindDef
-                };
-                transformComp = new CompTransformAtFullCapacity();
-                transformComp.parent = newBuilding;
-                transformComp.props = compProps;
-                newBuilding.AllComps.Add(transformComp);
-                transformComp.Initialize(compProps);
-            }
-
-            // 选中新生成的建筑
-            if (Find.Selector.IsSelected(Pawn))
-            {
-                Find.Selector.Select(newBuilding);
-            }
-
-            Messages.Message("WULA_PawnDeployedAsBuilding".Translate(Pawn.LabelCap, newBuilding.Label, restoreMechCount), 
-                MessageTypeDefOf.PositiveEvent);
-            
-            // 播放转换效果
-            PlayTransformEffects(desiredPosition, map);
-            
-            // 清除缓存
-            lastValidationResult = null;
-            lastValidationReason = null;
-        }
-
         private void PlayTransformEffects(IntVec3 position, Map map)
         {
             // 播放转换视觉效果
@@ -297,6 +214,81 @@ namespace WulaFallenEmpire
             {
                 lastValidationResult = null;
             }
+        }
+
+        public void TransformToBuilding()
+        {
+            if (Pawn == null || !Pawn.Spawned)
+                return;
+            Map map = Pawn.Map;
+            IntVec3 desiredPosition = Pawn.Position;
+            Faction faction = Pawn.Faction;
+            // 确定要生成的建筑类型
+            ThingDef buildingDef = restoreBuildingDef ?? Props.targetBuildingDef;
+            if (buildingDef == null)
+            {
+                Messages.Message("WULA_CannotDetermineBuildingType".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            // 最终校验（排除被转换的Pawn本身）
+            string failReason;
+            if (!TransformValidationUtility.CanPlaceBuildingAt(buildingDef, desiredPosition, map, faction, Pawn, out failReason))
+            {
+                // 尝试寻找附近的位置
+                IntVec3 alternativePosition;
+                if (TryFindNearbyValidPosition(out alternativePosition, out failReason))
+                {
+                    desiredPosition = alternativePosition;
+                    Messages.Message("WULA_DeployingAtNearbyPosition".Translate(desiredPosition), MessageTypeDefOf.NeutralEvent);
+                }
+                else
+                {
+                    Messages.Message("WULA_CannotDeployBuilding".Translate(failReason), MessageTypeDefOf.RejectInput);
+                    return;
+                }
+            }
+            // 移除Pawn
+            Pawn.DeSpawn(DestroyMode.Vanish);
+            // 生成建筑
+            Building newBuilding = (Building)GenSpawn.Spawn(buildingDef, desiredPosition, map, WipeMode.Vanish);
+            newBuilding.SetFaction(faction);
+            // 关键修改：恢复机械族数量
+            var recycler = newBuilding as Building_MechanoidRecycler;
+            if (recycler != null)
+            {
+                recycler.SetMechanoidCount(restoreMechCount);
+            }
+            // 添加建筑转换组件
+            var transformComp = newBuilding.TryGetComp<CompTransformAtFullCapacity>();
+            if (transformComp == null)
+            {
+                // 动态添加组件
+                var compProps = new CompProperties_TransformAtFullCapacity
+                {
+                    targetPawnKind = Pawn.kindDef
+                };
+                transformComp = new CompTransformAtFullCapacity();
+                transformComp.parent = newBuilding;
+                transformComp.props = compProps;
+                newBuilding.AllComps.Add(transformComp);
+                transformComp.Initialize(compProps);
+            }
+            // 选中新生成的建筑
+            if (Find.Selector.IsSelected(Pawn))
+            {
+                Find.Selector.Select(newBuilding);
+            }
+            Messages.Message("WULA_PawnDeployedAsBuilding".Translate(Pawn.LabelCap, newBuilding.Label, restoreMechCount),
+                MessageTypeDefOf.PositiveEvent);
+
+            // 播放转换效果
+            PlayTransformEffects(desiredPosition, map);
+
+            // 清除缓存
+            lastValidationResult = null;
+            lastValidationReason = null;
+
+            Log.Message($"[TransformSystem] Pawn -> Building transformation completed at {desiredPosition}. Path grid updated.");
         }
     }
 }

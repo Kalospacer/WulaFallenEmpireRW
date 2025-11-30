@@ -10,6 +10,7 @@
     <uiIconOffset>(0, -0.1)</uiIconOffset>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_AI_Heavy_Panzer</ThingDef>
     </descriptionHyperlinks>
@@ -39,9 +40,10 @@
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
     <researchPrerequisites Inherit="False">
-      <li>Wula_AI_Heavy_Panzer_Technology</li>
+      <li>WULA_AI_Heavy_Panzer_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -122,6 +124,7 @@
     <uiIconOffset>(0, -0.1)</uiIconOffset>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_AI_Rocket_Panzer</ThingDef>
     </descriptionHyperlinks>
@@ -151,9 +154,10 @@
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
     <researchPrerequisites Inherit="False">
-      <li>Wula_AI_Heavy_Panzer_Technology</li>
+      <li>WULA_AI_Heavy_Panzer_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -230,10 +234,10 @@
     <label>MSm-8"放射盾"</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。建造好的信标可以收起或移至他处。\n\n放射盾是乌拉帝国的中型战争机械，常被用于镇压异族聚居地的暴动。它形状非常奇怪，根本分不出头在哪，但是不要因此小瞧这个机械体——它能释放强大的立场盾，在很大一片区域内反射大量炮火，并且机体放射出来的辐射会严重地杀伤进入反射盾范围内的敌人。在相关许可开放后，它甚至可以支持机械乌拉使用其内置的相位场进行区域传送。</description>
     <uiIconPath>Wula/Things/WULA_Mobile_Shield/WULA_Mobile_Shield_Incoming</uiIconPath>
-    <uiIconScale>1</uiIconScale>
-    <uiIconOffset>(0, -0.1)</uiIconOffset>
+    <uiIconScale>0.9</uiIconScale>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_AI_Heavy_Panzer</ThingDef>
     </descriptionHyperlinks>
@@ -263,9 +267,10 @@
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
     <researchPrerequisites Inherit="False">
-      <li>Wula_AI_Heavy_Panzer_Technology</li>
+      <li>WULA_Mech_Mobile_Shield_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -344,6 +349,7 @@
     <uiIconPath>Wula/Things/Wula_Mech_Mobile_Factory/Wula_Mech_Mobile_Factory_Incoming</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_Mech_Mobile_Factory</ThingDef>
       <ThingDef>WULA_Mech_Flyer</ThingDef>
@@ -371,6 +377,7 @@
       <li>WULA_Mech_Mobile_Factory_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>

@@ -8,7 +8,7 @@
 
   <!-- 等级 -->
   <ThingDef>
-    <defName>Techprint_WULA_Colony_License_LV1_Technology</defName>
+    <defName>Techprint_SP_WULA_Colony_License_LV1_Technology</defName>
     <label>乌拉帝国殖民地许可：等级1</label> <!-- 实际显示会根据翻译键变化 -->
     <description>这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。</description>
     
@@ -70,7 +70,7 @@
     </prerequisites>
   </ResearchProjectDef>
   <ThingDef>
-    <defName>Techprint_WULA_Colony_License_LV2_Technology</defName>
+    <defName>Techprint_SP_WULA_Colony_License_LV2_Technology</defName>
     <label>乌拉帝国殖民地许可：等级2</label> <!-- 实际显示会根据翻译键变化 -->
     <description>这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。</description>
     
@@ -132,7 +132,7 @@
     </prerequisites>
   </ResearchProjectDef>
   <ThingDef>
-    <defName>Techprint_WULA_Colony_License_LV3_Technology</defName>
+    <defName>Techprint_SP_WULA_Colony_License_LV3_Technology</defName>
     <label>乌拉帝国殖民地许可：等级3</label> <!-- 实际显示会根据翻译键变化 -->
     <description>这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。</description>
     
@@ -395,7 +395,7 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>Wula_AI_Heavy_Panzer_Technology</defName>
+    <defName>WULA_AI_Heavy_Panzer_Technology</defName>
     <researchViewX>5.00</researchViewX>
     <researchViewY>5.60</researchViewY>
     <label>战车空投许可</label>
@@ -409,7 +409,7 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>Wula_Mech_Mobile_Shield_Technology</defName>
+    <defName>WULA_Mech_Mobile_Shield_Technology</defName>
     <researchViewX>6.00</researchViewX>
     <researchViewY>5.60</researchViewY>
     <label>放射盾空投许可</label>
@@ -423,14 +423,14 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>Wula_Mech_Mobile_Shield_Teleporter_Technology</defName>
+    <defName>WULA_Mech_Mobile_Shield_Teleporter_Technology</defName>
     <researchViewX>10.00</researchViewX>
     <researchViewY>5.60</researchViewY>
     <label>放射盾传送器许可</label>
     <description>允许殖民地使用MSm-8"放射盾"内置的传送器，机械乌拉在其覆盖范围内，处于征召状态下进行常规移动时，会以瞬间传送代替步行。</description>
     <baseCost>800</baseCost>
     <hiddenPrerequisites>
-      <li>Wula_Mech_Mobile_Shield_Technology</li>
+      <li>WULA_Mech_Mobile_Shield_Technology</li>
     </hiddenPrerequisites>
     <prerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>
@@ -444,7 +444,7 @@
     <description>允许殖民地申请空投MFm-2"陆行舰"，乌拉帝国的大型战争机械，一座插满火炮和战地生产设施的移动堡垒。</description>
     <baseCost>800</baseCost>
     <hiddenPrerequisites>
-      <li>Wula_AI_Heavy_Panzer_Technology</li>
+      <li>WULA_AI_Heavy_Panzer_Technology</li>
     </hiddenPrerequisites>
     <prerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>
@@ -490,6 +490,19 @@
     <baseCost>3500</baseCost>
     <prerequisites>
       <li>WULA_Synth_Armor_2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+
+  <!-- 植物 -->
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Plant_Eggplant_Technology</defName>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>3.80</researchViewY>
+    <label>钢茄种植许可</label>
+    <description>允许殖民地种植钢茄，一种可以产出钢铁的特殊作物。</description>
+    <baseCost>3500</baseCost>
+    <prerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
 

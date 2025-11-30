@@ -76,8 +76,6 @@ namespace WulaFallenEmpire
                 // 如果武器已经有品质，使用现有品质，否则设置为Normal
                 currentQuality = qualityComp.Quality;
                 initialized = true;
-                
-                Log.Message($"[ExperienceCore] Initialized {parent.Label} with quality: {currentQuality}");
             }
         }
 
@@ -149,8 +147,6 @@ namespace WulaFallenEmpire
                 ResetWeaponState(retainedExperience);
                 
                 Messages.Message("WULA_DataPackEjected".Translate(experienceToStore.ToString("F0")), parent, MessageTypeDefOf.PositiveEvent);
-                
-                Log.Message($"[ExperienceCore] Ejected data pack with {experienceToStore} experience, retained {retainedExperience}");
             }
             else
             {
@@ -208,8 +204,6 @@ namespace WulaFallenEmpire
             ProcessRemainingExperience(dataPacks, remainingExperience);
             // 发送消息 - 修复阵营检查
             SendAbsorptionMessage(actualExperienceToAbsorb, remainingExperience);
-
-            Log.Message($"[ExperienceCore] {parent.Label} absorbed {actualExperienceToAbsorb} experience, remaining: {remainingExperience}, current: {currentExperience}");
         }
         // 处理剩余的经验 - 更新现有数据包
         private void ProcessRemainingExperience(List<Thing> dataPacks, float remainingExperience)
@@ -346,8 +340,6 @@ namespace WulaFallenEmpire
                     }
                 }
             }
-            
-            Log.Message($"[ExperienceCore] Found {foundDataPacks.Count} data packs within {Props.absorbRadius} tiles");
             return foundDataPacks;
         }
 
@@ -377,8 +369,6 @@ namespace WulaFallenEmpire
             {
                 qualityComp.SetQuality(currentQuality, ArtGenerationContext.Outsider);
             }
-            
-            Log.Message($"[ExperienceCore] {parent.Label} reset from {oldTotalExperience} total experience to {currentExperience} + {overflowExperience} overflow");
         }
 
         public override void Notify_Equipped(Pawn pawn)
@@ -394,7 +384,6 @@ namespace WulaFallenEmpire
                 if (skill != null)
                 {
                     lastSkillExperience = skill.XpTotalEarned;
-                    Log.Message($"[ExperienceCore] {parent.Label} equipped by {pawn.Name}, tracking {Props.trackedSkill.defName}, starting experience: {lastSkillExperience}");
                 }
             }
         }
@@ -405,8 +394,6 @@ namespace WulaFallenEmpire
             
             equippedPawn = null;
             lastSkillExperience = 0f;
-            
-            Log.Message($"[ExperienceCore] {parent.Label} unequipped from {pawn.Name}");
         }
 
         public override void CompTick()
@@ -460,8 +447,6 @@ namespace WulaFallenEmpire
                     }
                 }
                 
-                Log.Message($"[ExperienceCore] {parent.Label} gained {actualGained:F1} experience (current: {currentExperience:F1}, overflow: {overflowExperience:F1})");
-                
                 // 检查品质升级
                 CheckForQualityUpgrade();
                 
@@ -490,7 +475,6 @@ namespace WulaFallenEmpire
             if (qualityComp != null)
             {
                 qualityComp.SetQuality(threshold.quality, ArtGenerationContext.Outsider);
-                Log.Message($"[ExperienceCore] SUCCESS: {parent.Label} quality updated to {threshold.quality}");
             }
             else
             {
@@ -513,8 +497,6 @@ namespace WulaFallenEmpire
 
                 Messages.Message(messageText, parent, MessageTypeDefOf.PositiveEvent);
             }
-
-            Log.Message($"[ExperienceCore] {parent.Label} upgraded from {oldQuality} to {threshold.quality} at {currentExperience} experience");
         }
         public override string CompInspectStringExtra()
         {
@@ -626,7 +608,6 @@ namespace WulaFallenEmpire
                 if (qualityComp != null && qualityComp.Quality != currentQuality)
                 {
                     qualityComp.SetQuality(currentQuality, ArtGenerationContext.Outsider);
-                    Log.Message($"[ExperienceCore] PostLoad: Updated {parent.Label} quality to {currentQuality}");
                 }
             }
         }

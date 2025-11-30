@@ -83,22 +83,34 @@ namespace WulaFallenEmpire
             }
         }
 
+        private void PlayTransformEffects(IntVec3 position, Map map)
+        {
+            //// 播放转换视觉效果
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    MoteMaker.ThrowSmoke(position.ToVector3Shifted() + new Vector3(0, 0, 0.5f), map, 1.5f);
+            //    MoteMaker.ThrowLightningGlow(position.ToVector3Shifted(), map, 2f);
+            //}
+            
+            //// 播放音效
+            //SoundDefOf.PsychicPulseGlobal.PlayOneShot(new TargetInfo(position, map));
+        }
+
         public void TransformToPawn()
         {
             if (Recycler == null || !parent.Spawned)
                 return;
-
             Map map = parent.Map;
             IntVec3 position = parent.Position;
             Faction faction = parent.Faction;
-
+            // 记录建筑定义用于后续更新
+            ThingDef buildingDef = parent.def;
             // 消耗存储的机械族
             if (!Recycler.ConsumeMechanoids(Props.requiredCapacity))
             {
                 Messages.Message("WULA_NotEnoughMechs".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
-
             // 生成目标Pawn
             PawnGenerationRequest request = new PawnGenerationRequest(
                 Props.targetPawnKind,
@@ -111,9 +123,8 @@ namespace WulaFallenEmpire
                 canGeneratePawnRelations: false,
                 mustBeCapableOfViolence: true
             );
-
             Pawn newPawn = PawnGenerator.GeneratePawn(request);
-            
+
             // 关键修改：传递当前的机械族数量（6个）
             var transformComp = newPawn.GetComp<CompTransformIntoBuilding>();
             if (transformComp != null)
@@ -136,37 +147,24 @@ namespace WulaFallenEmpire
                 // 传递建筑定义和机械族数量
                 transformComp.SetRestoreData(parent.def, Props.requiredCapacity);
             }
-
             // 移除建筑
             parent.DeSpawn(DestroyMode.Vanish);
-            
+
             // 生成Pawn
             GenSpawn.Spawn(newPawn, position, map, WipeMode.Vanish);
-            
+
             // 选中新生成的Pawn
             if (Find.Selector.IsSelected(parent))
             {
                 Find.Selector.Select(newPawn);
             }
-
-            Messages.Message("WULA_BuildingTransformedToPawn".Translate(parent.Label, newPawn.LabelCap, Props.requiredCapacity), 
+            Messages.Message("WULA_BuildingTransformedToPawn".Translate(parent.Label, newPawn.LabelCap, Props.requiredCapacity),
                 MessageTypeDefOf.PositiveEvent);
-            
+
             // 播放转换效果
             PlayTransformEffects(position, map);
-        }
 
-        private void PlayTransformEffects(IntVec3 position, Map map)
-        {
-            //// 播放转换视觉效果
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    MoteMaker.ThrowSmoke(position.ToVector3Shifted() + new Vector3(0, 0, 0.5f), map, 1.5f);
-            //    MoteMaker.ThrowLightningGlow(position.ToVector3Shifted(), map, 2f);
-            //}
-            
-            //// 播放音效
-            //SoundDefOf.PsychicPulseGlobal.PlayOneShot(new TargetInfo(position, map));
+            Log.Message($"[TransformSystem] Building -> Pawn transformation completed at {position}. Path grid updated.");
         }
     }
 }

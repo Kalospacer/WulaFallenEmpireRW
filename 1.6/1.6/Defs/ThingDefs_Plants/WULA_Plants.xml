@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="PlantBase">
+    <defName>WULA_Plant_Eggplant</defName>
+    <label>钢茄</label>
+    <description>由乌拉帝国通过转基因设计得到的特殊植物。这些植物不能吃，它们的根茎会深深地插入地下，吸收土壤中的重金属，最终结成紧实的果实，只要稍加处理就可以当作钢铁使用。\n\n不能在水培设施内种植。</description>
+    <statBases>
+      <MarketValue>10</MarketValue>
+      <MaxHitPoints>85</MaxHitPoints>
+      <Beauty>4</Beauty>
+      <Nutrition>0</Nutrition>
+    </statBases>
+    <graphicData>
+      <texPath>Wula/Plant/WULA_Plant_Eggplant</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <selectable>true</selectable>
+    <pathCost>10</pathCost>
+    <plant>
+      <immatureGraphicPath>Wula/Plant/WULA_Plant_Eggplant_Immature</immatureGraphicPath>
+      <fertilityMin>0.5</fertilityMin>
+      <fertilitySensitivity>0</fertilitySensitivity>
+      <growDays>10</growDays>
+      <harvestYield>10</harvestYield>
+      <sowMinSkill>10</sowMinSkill>
+      <harvestedThingDef>Steel</harvestedThingDef>
+      <neverBlightable>true</neverBlightable>
+      <sowTags>
+        <li>Ground</li>
+      </sowTags>
+      <pollution>Any</pollution>
+      <!-- <wildTerrainTags>WULA_Plant_Eggplant_Technology
+        <li>ARA_Creep</li>
+      </wildTerrainTags> -->
+      <visualSizeRange>0.3~0.8</visualSizeRange>
+      <sowResearchPrerequisites>
+        <li>WULA_Plant_Eggplant_Technology</li>
+      </sowResearchPrerequisites>
+    </plant>
+  </ThingDef>
+</Defs>

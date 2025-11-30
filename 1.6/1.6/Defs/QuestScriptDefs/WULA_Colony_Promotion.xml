@@ -536,7 +536,7 @@
             <fixedParams>
               <filter>
                 <thingDefs>
-                  <li>Techprint_WULA_Colony_License_LV2_Technology</li>
+                  <li>Techprint_SP_WULA_Colony_License_LV2_Technology</li>
                 </thingDefs>
               </filter>
               <countRange>1</countRange>

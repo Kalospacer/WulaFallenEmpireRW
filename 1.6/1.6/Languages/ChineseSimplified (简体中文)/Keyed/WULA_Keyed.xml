@@ -73,7 +73,7 @@
   <WULA_ItemsSentToOutputStorage>{0}件物资被舰队退回（随着下一次成品空投一起退回）</WULA_ItemsSentToOutputStorage>
   <WULA_InputStorageItems>输入存储: {0}</WULA_InputStorageItems>
   <WULA_OutputStorageItems>输出存储: {0}</WULA_OutputStorageItems>
-  <WULA_LaunchCancelledDueToForbiddenItems>舰队拒绝接收物资——里面包含了殖民者、动物、尸体或有毒垃圾</WULA_LaunchCancelledDueToForbiddenItems>
+  <WULA_LaunchCancelledDueToForbiddenItems>舰队拒绝接收物资——里面包含了不被允许的物品类型</WULA_LaunchCancelledDueToForbiddenItems>
 
   <!-- 自主机械能量系统 -->
   <WULA_EnergyInfo> [能量: {0}]</WULA_EnergyInfo>
@@ -91,7 +91,7 @@
   <WULA_WorkMode_Shutdown_Desc>切换到关机模式 - 机械将立即进入休眠状态</WULA_WorkMode_Shutdown_Desc>
   <WULA_SwitchedToMode>{0} 已切换到 {1} 模式</WULA_SwitchedToMode>
   <WULA_EnergyInfoShort>(能量: {0})</WULA_EnergyInfoShort>
- <WULA_Autonomous_Drafted>自主控制</WULA_Autonomous_Drafted>
+  <WULA_Autonomous_Drafted>自主控制</WULA_Autonomous_Drafted>
   <WULA_Autonomous_Mode>自主模式: {0}</WULA_Autonomous_Mode>
   <WULA_LowEnergySwitchToRecharge>{0} 能量低，自动切换到充电模式</WULA_LowEnergySwitchToRecharge>
   <WULA_FullyChargedSwitchToWork>{0} 已充满电，自动切换到工作模式</WULA_FullyChargedSwitchToWork>
@@ -113,14 +113,5 @@
   <WULA_SelectCategoryFirst>请先选择一个分类</WULA_SelectCategoryFirst>
   <WULA_GatheringMaterials>正在收集材料</WULA_GatheringMaterials>
   <WULA_Paused>已暂停</WULA_Paused>
-
-  <!-- CompSkyfallerCaller new keys -->
-  <WULA_RequiredMaterials>所需材料：</WULA_RequiredMaterials>
-  <WULA_InsufficientMaterials>-乌拉轨道输送信标-范围内材料不足。你需要建造乌拉轨道输送信标，并在其信号范围内放置足够的材料，建造时这些材料会被自动提交给帝国舰队。</WULA_InsufficientMaterials>
-
-  <!-- Cancel Skyfaller -->
-  <WULA_CancelSkyfaller>取消呼叫</WULA_CancelSkyfaller>
-  <WULA_CancelSkyfallerDesc>中止正在进行的空投呼叫。</WULA_CancelSkyfallerDesc>
-  <WULA_SkyfallerCallCancelled>空投呼叫已取消。</WULA_SkyfallerCallCancelled>
 
 </LanguageData>

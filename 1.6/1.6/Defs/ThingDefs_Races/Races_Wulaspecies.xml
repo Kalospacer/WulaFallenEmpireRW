@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <!-- human的克隆，防止其他mod修改human导致的不兼容 -->
-  <ThingDef Name="Wula_Human_Protect_Superclass" ParentName="BasePawn">
-    <defName>Human</defName>
+  <ThingDef Abstract="True" Name="Wula_Human_Protect_Superclass" ParentName="BasePawn">
+    <defName>Wula_Human</defName>
     <label>human</label>
     <description>A baseline human, mostly unmodified by gene engineering and mostly unchanged by evolutionary pressures on non-Earth planets.</description>
     <statBases>
@@ -661,6 +661,8 @@
 			<!-- 身体类型 -->
 			<body>WULA_Machine_Body</body>
       <baseBodySize>0.9</baseBodySize>
+      <canBecomeShambler>false</canBecomeShambler>
+      <hasUnnaturalCorpse>false</hasUnnaturalCorpse>
       <!-- 年龄阶段 -->
       <!-- <lifeExpectancy>5000</lifeExpectancy> -->
       <lifeStageWorkSettings MayRequire="Ludeon.RimWorld.Biotech">
@@ -712,7 +714,6 @@
           <!-- <soundCall>Pawn_Mech_Warqueen_Call</soundCall> -->
         </li>
       </lifeStageAges>
-      <canFlyInVacuum>true</canFlyInVacuum>
     </race>
 
     <butcherProducts>
@@ -1026,6 +1027,9 @@
     <statBases>
       <BandwidthCost>1</BandwidthCost>
       <MoveSpeed>3</MoveSpeed>
+      <ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.75</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.75</ArmorRating_Heat>
     </statBases>
     <race>
       <body>Mech_Warqueen</body>
@@ -1157,6 +1161,10 @@
 
       <MaxFlightTime>9999</MaxFlightTime>
       <FlightCooldown>0</FlightCooldown>
+
+      <ArmorRating_Sharp>1</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1</ArmorRating_Blunt>
+      <ArmorRating_Heat>2</ArmorRating_Heat>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -1282,6 +1290,10 @@
 
       <MaxFlightTime>9999</MaxFlightTime>
       <FlightCooldown>0</FlightCooldown>
+
+      <ArmorRating_Sharp>1</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1</ArmorRating_Blunt>
+      <ArmorRating_Heat>2</ArmorRating_Heat>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -1390,6 +1402,10 @@
     <statBases>
       <BandwidthCost>1</BandwidthCost>
       <MoveSpeed>3</MoveSpeed>
+
+      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+      <ArmorRating_Heat>2</ArmorRating_Heat>
     </statBases>
     <race>
       <body>Mech_Warqueen</body>
@@ -1474,7 +1490,7 @@
         <teleportSound>Psycast_Skip_Entry</teleportSound>
 
         <requireResearchToUse>true</requireResearchToUse>
-        <requiredResearch>Wula_Mech_Mobile_Shield_Teleporter_Technology</requiredResearch>
+        <requiredResearch>WULA_Mech_Mobile_Shield_Teleporter_Technology</requiredResearch>
       </li>
     </comps>
   </AlienRace.ThingDef_AlienRace>
@@ -1501,6 +1517,10 @@
 
       <MaxFlightTime>9999</MaxFlightTime>
       <FlightCooldown>0</FlightCooldown>
+
+      <ArmorRating_Sharp>1.75</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.75</ArmorRating_Blunt>
+      <ArmorRating_Heat>2</ArmorRating_Heat>
     </statBases>
     <race>
       <body>Mech_Warqueen</body>
@@ -1919,7 +1939,11 @@
       <FlightCooldown>0</FlightCooldown>
       
       <!-- 心灵敏感，很低 -->
-      <PsychicSensitivity>0.25</PsychicSensitivity>
+      <PsychicSensitivity>0</PsychicSensitivity>
+
+      <ArmorRating_Sharp>2</ArmorRating_Sharp>
+      <ArmorRating_Blunt>2</ArmorRating_Blunt>
+      <ArmorRating_Heat>2</ArmorRating_Heat>
     </statBases>
     <race>
       <body>Mech_Warqueen</body>

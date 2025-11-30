@@ -11,6 +11,9 @@ namespace WulaFallenEmpire
         public bool garbageShieldEnabled = false; // 通过XML配置启用/禁用
         public string garbageShieldUIEventDefName; // 垃圾屏蔽触发时弹出的UI事件defName
         
+        // 新增：配置是否检查不可交易物品
+        public bool checkNonTradableItems = false;
+        
         public CompProperties_GarbageShield()
         {
             this.compClass = typeof(CompGarbageShield);
@@ -30,7 +33,7 @@ namespace WulaFallenEmpire
             if (!GarbageShieldEnabled) return false;
 
             // 检查是否是殖民者
-            if (thing is Pawn pawn && pawn.IsColonist)
+            if (thing is Pawn pawn)
                 return true;
 
             // 检查是否是尸体
@@ -39,6 +42,10 @@ namespace WulaFallenEmpire
 
             // 检查是否是有毒垃圾
             if (IsToxicWaste(thing))
+                return true;
+
+            // 新增：检查不可交易物品（如果配置启用）
+            if (Props.checkNonTradableItems && IsNonTradableItem(thing))
                 return true;
 
             return false;
@@ -67,6 +74,13 @@ namespace WulaFallenEmpire
         {
             // 根据物品标签、类别或定义名称判断是否为有毒垃圾
             return thing.def == ThingDefOf.Wastepack;
+        }
+
+        // 新增：判断是否为不可交易物品
+        private bool IsNonTradableItem(Thing thing)
+        {
+            // 检查 tradeability 是否为 None
+            return thing.def.tradeability == Tradeability.None;
         }
 
         // 处理垃圾屏蔽触发并触发UI事件

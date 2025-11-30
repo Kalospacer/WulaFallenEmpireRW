@@ -22,6 +22,11 @@
             <factionDef>Wula_PIA_Legion_Faction</factionDef>
             <variableName>Wula_Goodwill_To_PIA</variableName>
           </li>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>1</value>
+            <type>Int</type>
+          </li>
         </effects>
       </li>
     </immediateEffects>
@@ -85,6 +90,27 @@
         </optionEffects>
       </li>
       <li>
+        <label>我们需要进一步提高殖民地权限···</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>2</value>
+          </li>
+        </conditions>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Recycle_PIA_Legion_File_UI_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
         <label>再见</label>
         <useCustomColors>false</useCustomColors>
         <optionEffects>
@@ -124,11 +150,6 @@
           <li Class="WulaFallenEmpire.Effect_SetVariable">
             <name>Wula_Has_Receive_Reinforcement_From_PIA</name>
             <value>0</value>
-            <type>Int</type>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_SetVariable">
-            <name>Wula_Reinforcement_From_PIA_Level</name>
-            <value>1</value>
             <type>Int</type>
           </li>
 
@@ -664,8 +685,29 @@
       </li>
     </options>
   </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Legion_Reply_2</defName>
+    <label>和P.I.A的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_5</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>不要往发射仓里面塞尸体、殖民者、生物、有毒垃圾和其他不能卖的东西，军械部不会收的</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>好的</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
 
-  
   <WulaFallenEmpire.EventDef>
     <defName>Wula_UI_Legion_Test1</defName>
     <label>和P.I.A的通讯</label>

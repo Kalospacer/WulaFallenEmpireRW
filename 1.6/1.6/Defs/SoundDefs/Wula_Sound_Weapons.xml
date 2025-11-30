@@ -208,7 +208,7 @@
   <SoundDef>
     <defName>WULA_Firepower_Minigun_Fire_sound</defName>
     <context>MapOnly</context>
-    <maxSimultaneous>2</maxSimultaneous>
+    <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains>
@@ -225,7 +225,7 @@
   <SoundDef>
     <defName>WULA_Firepower_Cannon_Fire_sound</defName>
     <context>MapOnly</context>
-    <maxSimultaneous>2</maxSimultaneous>
+    <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains>
@@ -242,7 +242,7 @@
   <SoundDef>
     <defName>WULA_Firepower_Primary_Cannon_Fire_sound</defName>
     <context>MapOnly</context>
-    <maxSimultaneous>2</maxSimultaneous>
+    <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains>

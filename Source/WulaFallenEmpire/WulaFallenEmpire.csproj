@@ -187,6 +187,8 @@
     <Compile Include="HarmonyPatches\Faction_ShouldHaveLeader_Patch.cs" />
     <Compile Include="HarmonyPatches\Hediff_Mechlink_PostAdd_Patch.cs" />
     <Compile Include="HarmonyPatches\Patch_ThingDefGenerator_Techprints_ImpliedTechprintDefs.cs" />
+    <Compile Include="HarmonyPatches\ScenPart_PlayerPawnsArriveMethod_Patch.cs" />
+    <Compile Include="HarmonyPatches\WulaSpeciesCorpsePatch.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_FloatMenuOptionProvider_SelectedPawnValid.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_IsColonyMechPlayerControlled.cs" />
     <Compile Include="HarmonyPatches\WULA_AutonomousMech\Patch_MechanitorUtility_CanDraftMech.cs" />
@@ -269,6 +271,7 @@
     <Compile Include="ThingComp\CompApparelInterceptor.cs" />
     <Compile Include="ThingComp\CompPsychicScaling.cs" />
     <Compile Include="ThingComp\CompUseEffect_AddDamageShieldCharges.cs" />
+    <Compile Include="ThingComp\CompUseEffect_OpenCustomUI.cs" />
     <Compile Include="ThingComp\CompUseEffect_PassionTrainer.cs" />
     <Compile Include="ThingComp\CompUseEffect_WulaSkillTrainer.cs" />
     <Compile Include="ThingComp\Comp_WeaponRenderDynamic.cs" />

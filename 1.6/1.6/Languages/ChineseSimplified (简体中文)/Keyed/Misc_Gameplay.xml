@@ -57,11 +57,6 @@
   <WULA_NanoRepair_DisabledMsg>{0}的纳米修复系统已禁用</WULA_NanoRepair_DisabledMsg>
   <WULA_NanoRepair_Disabled>纳米修复: 已禁用</WULA_NanoRepair_Disabled>
 
-  <WULA_CallSkyfaller>召唤空投建筑</WULA_CallSkyfaller>
-  <WULA_CallSkyfallerDesc>从乌拉帝国的舰队呼叫对应的建筑空投到此处</WULA_CallSkyfallerDesc>
-  <WULA_SkyfallerIncoming>空投建筑将在 {0} 后到达</WULA_SkyfallerIncoming>
-  <WULA_SkyfallerArrivingIn>空投建筑将在 {0} 后到达</WULA_SkyfallerArrivingIn>
-  <WULA_ReadyToCallSkyfaller>准备召唤空投建筑</WULA_ReadyToCallSkyfaller>
   <!-- FlyOver 相关翻译 -->
   <WULA_Flyover_BaseBuilder>可空投建筑</WULA_Flyover_BaseBuilder>
   <WULA_NoRequiredFlyOver>需要 {0} 在殖民地上空时才可以空投建筑</WULA_NoRequiredFlyOver>
@@ -78,6 +73,25 @@
   <WULA_NoBuildingDropperFlyOver>需要拥有-建筑空投设施-的战舰部署在殖民地轨道上才能空投</WULA_NoBuildingDropperFlyOver>
   <WULA_RequiresBuildingDropperFlyOver>需要拥有-建筑空投设施-的战舰部署在殖民地轨道上才能空投</WULA_RequiresBuildingDropperFlyOver>
   <WULA_MissingBuildingDropperFlyOver>没有拥有-建筑空投设施-的战舰部署在殖民地轨道上</WULA_MissingBuildingDropperFlyOver>
+
+  <!-- 新增的空投资源来源相关翻译 -->
+  <WULA_ReadyToCallSkyfaller>准备召唤空投建筑</WULA_ReadyToCallSkyfaller>
+  <WULA_CallSkyfaller>召唤空投建筑</WULA_CallSkyfaller>
+  <WULA_CallSkyfallerDesc>从乌拉帝国的舰队呼叫对应的建筑空投到此处。空投建筑需要消耗和其造价相等的资源。</WULA_CallSkyfallerDesc>
+  <WULA_SkyfallerIncomingFromGlobal>空投建筑正在运送，{0}后抵达。此次空投由于本地资源不足，消耗了乌拉帝国舰队上的储存资源。</WULA_SkyfallerIncomingFromGlobal>
+  <WULA_SkyfallerIncoming>空投建筑正在运送，{0}后抵达。</WULA_SkyfallerIncoming>
+  <WULA_SkyfallerArrivingInFromGlobal>空投建筑将在{0}后抵达，此次空投由于本地资源不足，消耗了乌拉帝国舰队上的储存资源。</WULA_SkyfallerArrivingInFromGlobal>
+  <WULA_SkyfallerArrivingIn>空投建筑将在{0}后抵达</WULA_SkyfallerArrivingIn>
+  <WULA_ResourcePriorityInfo>优先从&lt;color=#6BB7B7>&lt;i>乌拉轨道输送信标&lt;/i>&lt;/color>的信号范围内获取，如果没有足够资源则消耗乌拉帝国舰队上的储存资源。</WULA_ResourcePriorityInfo>
+
+  <!-- CompSkyfallerCaller new keys -->
+  <WULA_RequiredMaterials>所需材料：</WULA_RequiredMaterials>
+  <WULA_InsufficientMaterials>&lt;color=#6BB7B7>&lt;i>乌拉轨道输送信标&lt;/i>&lt;/color>范围内材料不足。你需要建造乌拉轨道输送信标，并在其信号范围内放置足够的材料，建造时这些材料会被自动提交给帝国舰队。\n\n除此之外，储存在乌拉帝国舰队的资源也会纳入考虑。</WULA_InsufficientMaterials>
+
+  <!-- Cancel Skyfaller -->
+  <WULA_CancelSkyfaller>取消呼叫</WULA_CancelSkyfaller>
+  <WULA_CancelSkyfallerDesc>中止正在进行的空投呼叫。</WULA_CancelSkyfallerDesc>
+  <WULA_SkyfallerCallCancelled>空投呼叫已取消。</WULA_SkyfallerCallCancelled>
 
   <!-- 维护舱状态 -->
   <WULA_MaintenancePod_Status>维护舱状态</WULA_MaintenancePod_Status>
@@ -271,9 +285,9 @@
 
   <DisappearWithEffect_TimeRemaining>剩余时间: {0}</DisappearWithEffect_TimeRemaining>
 
-  <WULA_TaxCollection.Waiting>什一税征收：等待激活...</WULA_TaxCollection.Waiting>
-  <WULA_TaxCollection.Status>什一税征收：{0} {1} {2}</WULA_TaxCollection.Status>
-  <WULA_TaxCollection.Status.Succeeded>- 征收已完成</WULA_TaxCollection.Status.Succeeded>
+  <WULA_TaxCollection.Waiting>征收：等待激活...</WULA_TaxCollection.Waiting>
+  <WULA_TaxCollection.Status>需要提交到乌拉帝国舰队的资源：{0} {1} {2}</WULA_TaxCollection.Status>
+  <WULA_TaxCollection.Status.Succeeded>- 已完成</WULA_TaxCollection.Status.Succeeded>
   <WULA_TaxCollection.Status.Failed>- 逾期</WULA_TaxCollection.Status.Failed>
 
   <!-- 区域护盾Gizmo文本 -->
@@ -370,4 +384,32 @@
   <WULA_ConversionEfficiencyLoss>（有损耗）</WULA_ConversionEfficiencyLoss>
   <WULA_ConversionEfficiencyBonus>（有加成）</WULA_ConversionEfficiencyBonus>
   <WULA_ConversionEfficiencyNormal>（等值转换）</WULA_ConversionEfficiencyNormal>
+
+   
+  <!-- 价值转换器翻译 -->
+  <WULA_ConvertToCurrency>向舰队贩卖物资</WULA_ConvertToCurrency>
+  <WULA_ConvertToCurrencyDesc>将输送舱发射到乌拉帝国舰队，所有物品的价值按照 {1}% 的比率转换为 {0} 储存在舰队物资中。</WULA_ConvertToCurrencyDesc>
+  <WULA_CurrentTotalValue>当前总价值：{0}</WULA_CurrentTotalValue>
+  <WULA_ConvertedValue>转换后价值：{0} {1}</WULA_ConvertedValue>
+  <WULA_ContainedItems>包含物品：</WULA_ContainedItems>
+  <WULA_ItemListEntry>  - {0} x{1}</WULA_ItemListEntry>
+  
+  <!-- 错误和状态消息 -->
+  <WULA_ConverterNotSpawned>转换器必须被放置在地图上才能使用。</WULA_ConverterNotSpawned>
+  <WULA_NoItemsToConvert>没有可贩卖的物品</WULA_NoItemsToConvert>
+  <WULA_ConvertedValueTooLow>贩卖后的价值太低，无法生成任何货币。</WULA_ConvertedValueTooLow>
+  <WULA_ConversionComplete>已将{0}件物品（总价值{1}）贩卖，得到 {2} {3}。</WULA_ConversionComplete>
+  <WULA_ConvertedItems>已贩卖物品：{0}</WULA_ConvertedItems>
+  <WULA_ConversionRatioApplied>转换率：{0}%</WULA_ConversionRatioApplied>
+  
+  <!-- 垃圾屏蔽相关（如果使用） -->
+  <WULA_LaunchCancelledDueToForbiddenItems>由于包含禁止物品，发射已取消：{0}</WULA_LaunchCancelledDueToForbiddenItems>
+
+  <WULA_TransferSilver>退钱！</WULA_TransferSilver>
+  <WULA_TransferSilverDesc>将储存在乌拉帝国舰队中的 {0} 白银索要回来，它们会随着下一次成品空投一起空投。</WULA_TransferSilverDesc>
+  <WULA_ConfirmTransferSilver>你确定要取出储存在乌拉帝国舰队的 {0} 白银?</WULA_ConfirmTransferSilver>
+  <WULA_NoSilverToTransfer>没有任何白银被存在乌拉帝国舰队</WULA_NoSilverToTransfer>
+  <WULA_SilverTransferred>已取出 {0} 白银，它们会随着下一次成品空投一起空投。</WULA_SilverTransferred>
+  <WULA_TransferFailed>无法取出白银</WULA_TransferFailed>
+  <WULA_TransferError>取出白银时发生错误</WULA_TransferError>
 </LanguageData>

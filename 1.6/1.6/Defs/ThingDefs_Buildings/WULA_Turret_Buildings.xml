@@ -8,6 +8,7 @@
     <uiIconPath>Wula/Building/WULA_Cat_Bunker_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>WULA_Cat_Bunker</ThingDef>
       <ThingDef>Mech_WULA_Cat</ThingDef>
@@ -38,6 +39,7 @@
       <li>WULA_Bunker_Drop_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -262,6 +264,7 @@
     <uiIconPath>Wula/Building/Wula_Base_ATGun_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_Base_ATGun_Turret</ThingDef>
       <ThingDef>Wula_Base_ATGun_Turret_Weapon</ThingDef>
@@ -290,6 +293,7 @@
       <li>WULA_Turret_Base_AT_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -407,10 +411,10 @@
     </costList>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
-    <passability>Impassable</passability>
-    <blockWind>true</blockWind>
-    <fillPercent>1</fillPercent>
-    <blockLight>false</blockLight>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
     <hasTooltip>true</hasTooltip>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <building>
@@ -539,6 +543,7 @@
     <uiIconPath>Wula/Building/Wula_Base_Laser_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_Base_Laser_Turret</ThingDef>
       <ThingDef>Wula_Base_Laser_Turret_Weapon</ThingDef>
@@ -566,6 +571,7 @@
       <li>WULA_Turret_Base_Laser_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -685,10 +691,10 @@
     </costList>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
-    <passability>Impassable</passability>
-    <blockWind>true</blockWind>
-    <fillPercent>1</fillPercent>
-    <blockLight>false</blockLight>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
     <hasTooltip>true</hasTooltip>
     <building>
       <combatPower>640</combatPower>
@@ -828,6 +834,7 @@
     <uiIconPath>Wula/Building/Wula_Base_Mortar_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_Base_Mortar_Turret</ThingDef>
       <ThingDef>Wula_Base_Mortar_Turret_Weapon</ThingDef>
@@ -845,7 +852,7 @@
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
-    <pathCost>0</pathCost>
+    <pathCost>40</pathCost>
     <castEdgeShadows>false</castEdgeShadows>
     <fillPercent>0.5</fillPercent>
     <canOverlapZones>false</canOverlapZones>
@@ -855,6 +862,7 @@
       <li>WULA_Turret_Base_Mortar_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>

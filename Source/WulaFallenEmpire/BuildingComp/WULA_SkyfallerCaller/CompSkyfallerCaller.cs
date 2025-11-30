@@ -24,10 +24,24 @@ namespace WulaFallenEmpire
                 return _worldComponent;
             }
         }
+
+        private GlobalStorageWorldComponent _globalStorage;
+        private GlobalStorageWorldComponent GlobalStorage
+        {
+            get
+            {
+                if (_globalStorage == null)
+                {
+                    _globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+                }
+                return _globalStorage;
+            }
+        }
         
         private bool used = false;
         private int callTick = -1;
         private bool calling = false;
+        private bool usedGlobalStorage = false; // 新增：标记是否使用了全局储存器
 
         public bool CanCall => !used && !calling;
 
@@ -119,6 +133,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref used, "used", false);
             Scribe_Values.Look(ref callTick, "callTick", -1);
             Scribe_Values.Look(ref calling, "calling", false);
+            Scribe_Values.Look(ref usedGlobalStorage, "usedGlobalStorage", false);
         }
 
         public override void CompTick()
@@ -166,7 +181,11 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Messages.Message("WULA_SkyfallerIncoming".Translate(delay.ToStringTicksToPeriod()), parent, MessageTypeDefOf.ThreatBig);
+                // 修改：根据资源来源显示不同的消息
+                string messageKey = usedGlobalStorage ? 
+                    "WULA_SkyfallerIncomingFromGlobal" : 
+                    "WULA_SkyfallerIncoming";
+                Messages.Message(messageKey.Translate(delay.ToStringTicksToPeriod()), parent, MessageTypeDefOf.ThreatBig);
             }
         }
 
@@ -175,6 +194,7 @@ namespace WulaFallenEmpire
             calling = false;
             used = false;
             callTick = -1;
+            usedGlobalStorage = false;
         }
 
         protected virtual void ExecuteSkyfallerCall()
@@ -187,14 +207,17 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            if (!HasEnoughMaterials())
+            // 修改：使用新的资源检查方法
+            var resourceCheck = CheckAndConsumeMaterials();
+            if (!resourceCheck.HasEnoughMaterials)
             {
                 Log.Message($"[SkyfallerCaller] Aborting skyfaller call due to insufficient materials.");
                 ResetCall();
                 return;
             }
 
-            ConsumeMaterials();
+            // 记录是否使用了全局储存器
+            usedGlobalStorage = resourceCheck.UsedGlobalStorage;
             
             // 检查屋顶并处理
             HandleRoofDestruction();
@@ -251,18 +274,106 @@ namespace WulaFallenEmpire
             }
         }
 
-        protected bool HasEnoughMaterials()
+        // 新增：资源检查结果结构
+        protected struct ResourceCheckResult
         {
-            if (DebugSettings.godMode) return true;
+            public bool HasEnoughMaterials;
+            public bool UsedGlobalStorage;
+            public Dictionary<ThingDef, int> BeaconMaterials;
+            public Dictionary<ThingDef, int> GlobalMaterials;
+        }
+
+        // 修改：新的资源检查方法，优先检查信标附近，然后检查全局储存器
+        protected ResourceCheckResult CheckAndConsumeMaterials()
+        {
+            var result = new ResourceCheckResult
+            {
+                HasEnoughMaterials = false,
+                UsedGlobalStorage = false,
+                BeaconMaterials = new Dictionary<ThingDef, int>(),
+                GlobalMaterials = new Dictionary<ThingDef, int>()
+            };
+
+            if (DebugSettings.godMode)
+            {
+                result.HasEnoughMaterials = true;
+                return result;
+            }
 
             var costList = CostList;
             if (costList.NullOrEmpty())
             {
-                return true;
+                result.HasEnoughMaterials = true;
+                return result;
             }
 
-            var availableThings = new List<Thing>();
-            if (parent.Map == null) return false;
+            if (parent.Map == null)
+            {
+                return result;
+            }
+
+            // 第一步：收集信标附近的可用物资
+            var beaconMaterials = CollectBeaconMaterials();
+            result.BeaconMaterials = beaconMaterials;
+
+            // 第二步：检查信标附近物资是否足够
+            bool beaconHasEnough = true;
+            foreach (var cost in costList)
+            {
+                int availableInBeacon = beaconMaterials.ContainsKey(cost.thingDef) ? beaconMaterials[cost.thingDef] : 0;
+                if (availableInBeacon < cost.count)
+                {
+                    beaconHasEnough = false;
+                    break;
+                }
+            }
+
+            // 第三步：如果信标附近物资足够，只消耗信标附近的
+            if (beaconHasEnough)
+            {
+                ConsumeBeaconMaterials(beaconMaterials, costList);
+                result.HasEnoughMaterials = true;
+                result.UsedGlobalStorage = false;
+                return result;
+            }
+
+            // 第四步：如果信标附近物资不足，检查全局储存器
+            var globalMaterials = CheckGlobalStorageMaterials();
+            result.GlobalMaterials = globalMaterials;
+
+            bool globalHasEnough = true;
+            foreach (var cost in costList)
+            {
+                int availableInBeacon = beaconMaterials.ContainsKey(cost.thingDef) ? beaconMaterials[cost.thingDef] : 0;
+                int availableInGlobal = globalMaterials.ContainsKey(cost.thingDef) ? globalMaterials[cost.thingDef] : 0;
+                
+                if (availableInBeacon + availableInGlobal < cost.count)
+                {
+                    globalHasEnough = false;
+                    break;
+                }
+            }
+
+            if (globalHasEnough)
+            {
+                // 先消耗信标附近的，不足部分从全局储存器扣除
+                ConsumeMixedMaterials(beaconMaterials, globalMaterials, costList);
+                result.HasEnoughMaterials = true;
+                result.UsedGlobalStorage = true;
+                return result;
+            }
+
+            // 两种来源加起来都不够
+            result.HasEnoughMaterials = false;
+            return result;
+        }
+
+        // 新增：收集信标附近的物资
+        private Dictionary<ThingDef, int> CollectBeaconMaterials()
+        {
+            var materials = new Dictionary<ThingDef, int>();
+            
+            if (parent.Map == null) return materials;
 
             foreach (Building_OrbitalTradeBeacon beacon in Building_OrbitalTradeBeacon.AllPowered(parent.Map))
             {
@@ -274,46 +385,49 @@ namespace WulaFallenEmpire
                         Thing thing = thingList[i];
                         if (thing.def.EverHaulable)
                         {
-                            availableThings.Add(thing);
+                            if (materials.ContainsKey(thing.def))
+                            {
+                                materials[thing.def] += thing.stackCount;
+                            }
+                            else
+                            {
+                                materials[thing.def] = thing.stackCount;
+                            }
                         }
                     }
                 }
             }
-    
-            availableThings = availableThings.Distinct().ToList();
+
+            return materials;
+        }
+
+        // 新增：检查全局储存器中的物资
+        private Dictionary<ThingDef, int> CheckGlobalStorageMaterials()
+        {
+            var materials = new Dictionary<ThingDef, int>();
+            
+            if (GlobalStorage == null) return materials;
+
+            var costList = CostList;
+            if (costList.NullOrEmpty()) return materials;
 
             foreach (var cost in costList)
             {
-                int count = 0;
-                foreach (var thing in availableThings)
+                int globalCount = GlobalStorage.GetInputStorageCount(cost.thingDef);
+                if (globalCount > 0)
                 {
-                    if (thing.def == cost.thingDef)
-                    {
-                        count += thing.stackCount;
-                    }
-                }
-                if (count < cost.count)
-                {
-                    return false;
+                    materials[cost.thingDef] = globalCount;
                 }
             }
 
-            return true;
+            return materials;
         }
 
-        protected void ConsumeMaterials()
+        // 新增：只消耗信标附近的物资
+        private void ConsumeBeaconMaterials(Dictionary<ThingDef, int> beaconMaterials, List<ThingDefCountClass> costList)
         {
-            if (DebugSettings.godMode) return;
-
-            var costList = CostList;
-            if (costList.NullOrEmpty())
-            {
-                return;
-            }
-
             var tradeableThings = new List<Thing>();
-            if (parent.Map == null) return;
-
+            
             foreach (Building_OrbitalTradeBeacon beacon in Building_OrbitalTradeBeacon.AllPowered(parent.Map))
             {
                 foreach (IntVec3 cell in beacon.TradeableCells)
@@ -329,13 +443,11 @@ namespace WulaFallenEmpire
                     }
                 }
             }
-    
-            tradeableThings = tradeableThings.Distinct().ToList();
 
             foreach (var cost in costList)
             {
                 int remaining = cost.count;
-                for (int i = tradeableThings.Count - 1; i >= 0; i--)
+                for (int i = tradeableThings.Count - 1; i >= 0 && remaining > 0; i--)
                 {
                     var thing = tradeableThings[i];
                     if (thing.def == cost.thingDef)
@@ -349,16 +461,123 @@ namespace WulaFallenEmpire
                         {
                             remaining -= thing.stackCount;
                             thing.Destroy();
-                        }
-                        if (remaining <= 0)
-                        {
-                            break;
+                            tradeableThings.RemoveAt(i);
                         }
                     }
                 }
             }
         }
 
+        // 新增：混合消耗信标和全局储存器的物资
+        private void ConsumeMixedMaterials(Dictionary<ThingDef, int> beaconMaterials, Dictionary<ThingDef, int> globalMaterials, List<ThingDefCountClass> costList)
+        {
+            // 先消耗信标附近的物资
+            var tradeableThings = new List<Thing>();
+            
+            foreach (Building_OrbitalTradeBeacon beacon in Building_OrbitalTradeBeacon.AllPowered(parent.Map))
+            {
+                foreach (IntVec3 cell in beacon.TradeableCells)
+                {
+                    List<Thing> thingList = parent.Map.thingGrid.ThingsListAt(cell);
+                    for (int i = 0; i < thingList.Count; i++)
+                    {
+                        Thing thing = thingList[i];
+                        if (thing.def.EverHaulable)
+                        {
+                            tradeableThings.Add(thing);
+                        }
+                    }
+                }
+            }
+
+            // 对每种所需材料进行处理
+            foreach (var cost in costList)
+            {
+                int remaining = cost.count;
+
+                // 第一步：消耗信标附近的物资
+                for (int i = tradeableThings.Count - 1; i >= 0 && remaining > 0; i--)
+                {
+                    var thing = tradeableThings[i];
+                    if (thing.def == cost.thingDef)
+                    {
+                        if (thing.stackCount > remaining)
+                        {
+                            thing.SplitOff(remaining);
+                            remaining = 0;
+                        }
+                        else
+                        {
+                            remaining -= thing.stackCount;
+                            thing.Destroy();
+                            tradeableThings.RemoveAt(i);
+                        }
+                    }
+                }
+
+                // 第二步：如果还有剩余，从全局储存器扣除
+                if (remaining > 0 && GlobalStorage != null)
+                {
+                    GlobalStorage.RemoveFromInputStorage(cost.thingDef, remaining);
+                }
+            }
+        }
+
+        // 保留原有的 HasEnoughMaterials 方法用于 Gizmo 显示
+        protected bool HasEnoughMaterials()
+        {
+            if (DebugSettings.godMode) return true;
+
+            var costList = CostList;
+            if (costList.NullOrEmpty())
+            {
+                return true;
+            }
+
+            // 第一步：检查信标附近物资
+            var beaconMaterials = CollectBeaconMaterials();
+            bool beaconHasEnough = true;
+            
+            foreach (var cost in costList)
+            {
+                int availableInBeacon = beaconMaterials.ContainsKey(cost.thingDef) ? beaconMaterials[cost.thingDef] : 0;
+                if (availableInBeacon < cost.count)
+                {
+                    beaconHasEnough = false;
+                    break;
+                }
+            }
+
+            if (beaconHasEnough) return true;
+
+            // 第二步：检查全局储存器（如果信标附近不够）
+            if (GlobalStorage == null) return false;
+
+            foreach (var cost in costList)
+            {
+                int availableInBeacon = beaconMaterials.ContainsKey(cost.thingDef) ? beaconMaterials[cost.thingDef] : 0;
+                int availableInGlobal = GlobalStorage.GetInputStorageCount(cost.thingDef);
+                
+                if (availableInBeacon + availableInGlobal < cost.count)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // 原有的 ConsumeMaterials 方法现在只用于 God Mode 情况
+        protected void ConsumeMaterials()
+        {
+            if (DebugSettings.godMode) return;
+
+            // 在非 God Mode 下，这个方法不应该被调用
+            // 实际的消耗在 CheckAndConsumeMaterials 中处理
+            Log.Warning("[SkyfallerCaller] ConsumeMaterials called in non-God mode, this shouldn't happen");
+        }
+
+        // 其余方法保持不变...
         private string GetCostString()
         {
             var costList = CostList;
@@ -379,6 +598,7 @@ namespace WulaFallenEmpire
             calling = false;
             used = false;
             callTick = -1;
+            usedGlobalStorage = false;
             Messages.Message("WULA_SkyfallerCallCancelled".Translate(), parent, MessageTypeDefOf.NeutralEvent);
         }
 
@@ -451,6 +671,9 @@ namespace WulaFallenEmpire
                 sb.Append(costString);
             }
 
+            // 新增：显示资源来源信息
+            sb.AppendLine().AppendLine().Append("WULA_ResourcePriorityInfo".Translate());
+
             return sb.ToString();
         }
 
@@ -501,7 +724,10 @@ namespace WulaFallenEmpire
                 int ticksLeft = callTick - Find.TickManager.TicksGame;
                 if (ticksLeft > 0)
                 {
-                    sb.Append("WULA_SkyfallerArrivingIn".Translate(ticksLeft.ToStringTicksToPeriod()));
+                    string messageKey = usedGlobalStorage ? 
+                        "WULA_SkyfallerArrivingInFromGlobal" : 
+                        "WULA_SkyfallerArrivingIn";
+                    sb.Append(messageKey.Translate(ticksLeft.ToStringTicksToPeriod()));
                 }
             }
             else if (!used)

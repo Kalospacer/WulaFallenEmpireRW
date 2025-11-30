@@ -76,19 +76,30 @@ namespace WulaFallenEmpire
         public GlobalWorkTableAirdropExtension AirdropExtension => 
             def.GetModExtension<GlobalWorkTableAirdropExtension>();
 
-        // 修改：添加空投命令到技能栏，添加工厂设施检查
+        // 修改：在 GetGizmos 方法中添加白银转移按钮
         public override IEnumerable<Gizmo> GetGizmos()
         {
             foreach (Gizmo g in base.GetGizmos())
             {
                 yield return g;
             }
-
-            // 只有在有输出物品且有工厂设施的飞行器时才显示空投按钮
+            // 白银转移按钮 - 检查输入端是否有白银
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            int silverAmount = globalStorage?.GetInputStorageCount(ThingDefOf.Silver) ?? 0;
+            bool hasSilver = silverAmount > 0;
+            if (hasSilver)
+            {
+                yield return new Command_Action
+                {
+                    action = TransferSilverToOutput,
+                    defaultLabel = "WULA_TransferSilver".Translate(),
+                    defaultDesc = "WULA_TransferSilverDesc".Translate(silverAmount),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_SilverTransfer"),
+                };
+            }
+            // 原有的空投按钮逻辑保持不变
             bool hasOutputItems = globalStorage != null && globalStorage.outputStorage.Any(kvp => kvp.Value > 0);
             bool hasFactoryFlyOver = HasFactoryFacilityFlyOver();
-
             if (hasOutputItems && hasFactoryFlyOver)
             {
                 yield return new Command_Action
@@ -108,6 +119,64 @@ namespace WulaFallenEmpire
                     defaultDesc = "WULA_NoFactoryFlyOverDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_AirdropProducts"),
                 };
+            }
+        }
+
+        // 新增：将输入端白银转移到输出端的方法
+        private void TransferSilverToOutput()
+        {
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            if (globalStorage == null)
+            {
+                Messages.Message("WULA_NoGlobalStorage".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            int silverAmount = globalStorage.GetInputStorageCount(ThingDefOf.Silver);
+
+            if (silverAmount <= 0)
+            {
+                Messages.Message("WULA_NoSilverToTransfer".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            // 确认对话框
+            Find.WindowStack.Add(new Dialog_MessageBox(
+                "WULA_ConfirmTransferSilver".Translate(silverAmount),
+                "Confirm".Translate(),
+                () => ExecuteSilverTransfer(globalStorage, silverAmount),
+                "Cancel".Translate(),
+                null,
+                "WULA_TransferSilver".Translate(),
+                false,
+                null,
+                null
+            ));
+        }
+        // 新增：执行白银转移
+        private void ExecuteSilverTransfer(GlobalStorageWorldComponent globalStorage, int silverAmount)
+        {
+            try
+            {
+                // 从输入端移除白银
+                if (globalStorage.RemoveFromInputStorage(ThingDefOf.Silver, silverAmount))
+                {
+                    // 添加到输出端
+                    globalStorage.AddToOutputStorage(ThingDefOf.Silver, silverAmount);
+
+                    // 显示成功消息
+                    Messages.Message("WULA_SilverTransferred".Translate(silverAmount), MessageTypeDefOf.PositiveEvent);
+
+                    Log.Message($"[WULA] Transferred {silverAmount} silver from input to output storage");
+                }
+                else
+                {
+                    Messages.Message("WULA_TransferFailed".Translate(), MessageTypeDefOf.RejectInput);
+                    Log.Error("[WULA] Failed to remove silver from input storage during transfer");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Messages.Message("WULA_TransferError".Translate(), MessageTypeDefOf.RejectInput);
+                Log.Error($"[WULA] Error during silver transfer: {ex}");
             }
         }
 
@@ -587,7 +656,7 @@ namespace WulaFallenEmpire
                 }
                 dropPodInfo.innerContainer = container;
                 // 生成空投舱
-                DropPodUtility.MakeDropPodAt(dropCell, Map, dropPodInfo);
+                DropPodUtility.MakeDropPodAt(dropCell, Map, dropPodInfo, Faction.OfPlayer);
 
                 Log.Message($"[Airdrop] Successfully created drop pod at {dropCell}");
                 return true;

@@ -23,6 +23,9 @@ namespace WulaFallenEmpire
         public int StoredCount => storedMechanoidCount;
         public int MaxStorage => Props.maxStorageCapacity;
         public bool IsCooldownActive => Find.TickManager.TicksGame - spawnTick < 24 * 2500; // 24小时冷却
+
+        // 新增：检查是否属于玩家派系
+        public bool IsPlayerFaction => this.Faction == Faction.OfPlayer;
         
         // 生成初始单位（改为计数）
         private void SpawnInitialUnits()
@@ -191,6 +194,10 @@ namespace WulaFallenEmpire
         {
             foreach (Gizmo g in base.GetGizmos())
                 yield return g;
+            
+            // 新增：只有玩家派系才能看到和使用这些按钮
+            if (!IsPlayerFaction)
+                yield break;
             
             // 回收附近机械族按钮
             Command_Action recycleCommand = new Command_Action

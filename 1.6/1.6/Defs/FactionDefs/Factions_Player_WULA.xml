@@ -31,6 +31,8 @@
         <li>Cloth</li>
       </thingDefs>
     </apparelStuffFilter>
+    <dropPodActive>WULA_DropPod_Active</dropPodActive>
+    <dropPodIncoming>WULA_DropPodIncoming</dropPodIncoming>
   </FactionDef>
 
   <FactionDef ParentName="FactionBase">
@@ -128,8 +130,8 @@
     <allowedArrivalTemperatureRange>-100~200</allowedArrivalTemperatureRange>
     <maxConfigurableAtWorldCreation>1</maxConfigurableAtWorldCreation>
     <configurationListOrderPriority>900</configurationListOrderPriority>
-    <dropPodActive>ActiveDropPodMechanoid</dropPodActive>
-    <dropPodIncoming>DropPodIncomingMechanoidRapid</dropPodIncoming>
+    <dropPodActive>WULA_DropPod_Active</dropPodActive>
+    <dropPodIncoming>WULA_DropPodIncoming</dropPodIncoming>
     <disallowedRaidAgeRestrictions>
       <li MayRequire="Ludeon.RimWorld.Biotech">Children</li>
     </disallowedRaidAgeRestrictions>

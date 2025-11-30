@@ -3,6 +3,7 @@ using UnityEngine;
 using Verse;
 using System.Collections.Generic;
 using HarmonyLib;
+using RimWorld.Planet;
 
 namespace WulaFallenEmpire
 {
@@ -67,6 +68,10 @@ namespace WulaFallenEmpire
         {
             if (!Props.showInGUI) yield break;
 
+            // 只对玩家所有的物体显示Gizmo
+            if (parent.Faction != Faction.OfPlayer)
+                yield break;
+
             // 创建切换 gizmo
             Command_Toggle toggleCommand = new Command_Toggle();
             toggleCommand.defaultLabel = Props.label;
@@ -98,6 +103,20 @@ namespace WulaFallenEmpire
         {
             return Props.color;
         }
+
+        // 检查是否应该绘制半径
+        public bool ShouldDrawRadius()
+        {
+            // 只绘制玩家所有的物体
+            if (parent.Faction != Faction.OfPlayer)
+                return false;
+
+            // 检查是否在地图视图中（不在世界地图）
+            if (Find.CurrentMap == null || WorldRendererUtility.WorldRendered)
+                return false;
+
+            return RadiusVisible;
+        }
     }
 
     // 自定义放置工作器
@@ -105,11 +124,15 @@ namespace WulaFallenEmpire
     {
         public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol, Thing thing = null)
         {
+            // 检查是否在地图视图中
+            if (Find.CurrentMap == null || WorldRendererUtility.WorldRendered)
+                return;
+
             // 如果已经有物体存在，则检查其组件的可见性设置
             if (thing != null)
             {
                 CompCustomRadius comp = thing.TryGetComp<CompCustomRadius>();
-                if (comp == null || !comp.RadiusVisible)
+                if (comp == null || !comp.ShouldDrawRadius())
                     return;
             }
 
@@ -178,15 +201,21 @@ namespace WulaFallenEmpire
         {
             try
             {
-                if (Find.CurrentMap == null) return;
+                // 检查是否在地图视图中（不在世界地图）
+                if (Find.CurrentMap == null || WorldRendererUtility.WorldRendered)
+                    return;
 
                 // 绘制所有带有自定义半径组件的已放置建筑
                 foreach (var thing in Find.CurrentMap.listerThings.AllThings)
                 {
+                    // 只绘制玩家所有的物体
+                    if (thing.Faction != Faction.OfPlayer)
+                        continue;
+
                     if (thing.Spawned && thing.def.HasComp(typeof(CompCustomRadius)))
                     {
                         CompCustomRadius comp = thing.TryGetComp<CompCustomRadius>();
-                        if (comp != null && comp.RadiusVisible)
+                        if (comp != null && comp.ShouldDrawRadius())
                         {
                             float effectiveRadius = comp.EffectiveRadius;
                             if (effectiveRadius > 0f)
@@ -236,14 +265,22 @@ namespace WulaFallenEmpire
         {
             try
             {
+                // 检查是否在地图视图中（不在世界地图）
+                if (Find.CurrentMap == null || WorldRendererUtility.WorldRendered)
+                    return;
+
                 if (Find.Selector == null) return;
 
                 foreach (object selected in Find.Selector.SelectedObjectsListForReading)
                 {
                     if (selected is Thing thing && thing.Spawned && thing.def.HasComp(typeof(CompCustomRadius)))
                     {
+                        // 只绘制玩家所有的物体
+                        if (thing.Faction != Faction.OfPlayer)
+                            continue;
+
                         CompCustomRadius comp = thing.TryGetComp<CompCustomRadius>();
-                        if (comp != null && comp.RadiusVisible)
+                        if (comp != null && comp.ShouldDrawRadius())
                         {
                             float effectiveRadius = comp.EffectiveRadius;
                             if (effectiveRadius > 0f)

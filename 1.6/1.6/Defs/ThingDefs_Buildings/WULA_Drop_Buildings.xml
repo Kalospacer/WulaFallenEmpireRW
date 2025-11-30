@@ -8,6 +8,7 @@
     <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>WulaWall</ThingDef>
     </descriptionHyperlinks>
@@ -36,6 +37,7 @@
     <canOverlapZones>false</canOverlapZones>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -188,13 +190,14 @@
     <fillPercent>1</fillPercent>
     <useHitPoints>true</useHitPoints>
     <rotatable>false</rotatable>
+    <tradeability>None</tradeability>
     <graphicData>
       <texPath>Wula/Building/Door/WulaAutodoor_Mover</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <color>(73,185,254,155)</color>
     </graphicData>
     <statBases>
-      <MarketValue>1</MarketValue>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <Flammability>0</Flammability>
       <WorkToBuild>0</WorkToBuild>
@@ -221,6 +224,7 @@
     <designationCategory>Structure</designationCategory>
     <drawerType>RealtimeOnly</drawerType>
     <designationCategory>WULA_Buildings</designationCategory>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <researchPrerequisites Inherit="False">
       <li>WULA_Structure_Technology</li>
     </researchPrerequisites>
@@ -436,12 +440,14 @@
     <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <hasInteractionCell>true</hasInteractionCell>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <tradeability>None</tradeability>
     <placeWorkers>
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
     </placeWorkers>
     <statBases>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
+      <MarketValue>0</MarketValue>
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
@@ -625,6 +631,7 @@
         <enabled>false</enabled>
       </damageData>
     </graphicData>
+    <tradeability>None</tradeability>
     <designationCategory>WULA_Buildings</designationCategory>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
@@ -640,6 +647,7 @@
       <li>WULA_WeaponArmor_Productor_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -779,15 +787,254 @@
 
   <!-- 输送舱 -->
   <ThingDef ParentName="BuildingBase">
+    <defName>WULA_TransportPod_Cleanzone</defName>
+    <label>乌拉帝国运输舱</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国运输舱是供乌拉帝国殖民地居民进行移动的运输舱，本质上是把殖民者和货物发射到乌拉帝国在轨道上的舰队，然后在另一个地方扔下来，所以它可以前往很远的地方。</description>
+    <uiIconPath>Wula/Building/WULA_DropPod/WULA_DropPod</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_TransportPod</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <tradeability>None</tradeability>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_WeaponArmor_Productor_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>WULA_TransportPod_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_TransportPod_Incoming</defName>
+    <label>乌拉帝国空投舱 (接近中)</label>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_DropPod/WULA_DropPod_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(5, 5)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_TransportPod</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_TransportPod</defName>
+    <label>乌拉帝国运输舱</label>
+    <description>供乌拉帝国殖民地居民进行移动的运输舱，本质上是把殖民者和货物发射到乌拉帝国在轨道上的舰队，然后在另一个地方扔下来，所以它可以前往很远的地方。</description>
+    <graphicData>
+      <texPath>Wula/Building/WULA_DropPod/WULA_DropPod</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <designationHotKey>Misc12</designationHotKey>
+    <fillPercent>0.5</fillPercent>
+    <uiOrder>2200</uiOrder>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>1600</WorkToBuild>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+    </placeWorkers>
+    <dropPodActive>WULA_DropPod_Active</dropPodActive>
+    <dropPodFaller>WULA_DropPodIncoming</dropPodFaller>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>500</massCapacity>
+        <restEffectiveness>0.8</restEffectiveness>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+        <!-- <max1PerGroup>true</max1PerGroup> -->
+      </li>
+      <li Class="CompProperties_Launchable_TransportPod">
+        <skyfallerLeaving>WULA_DropPodLeaving</skyfallerLeaving>
+        <requiresFuelingPort>false</requiresFuelingPort>
+        <fixedLaunchDistanceMax>400</fixedLaunchDistanceMax> <!-- 80% of full transport pod range -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
     <defName>WULA_GlobalStorageSenderPod</defName>
     <label>乌拉帝国物资输送舱</label>
     <description>一个一次性的物资输送装置，可以将装载的货物发射到乌拉帝国的舰队以供其使用。</description>
+    <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
     <graphicData>
-      <texPath>Things/Special/DropPod</texPath>
+      <texPath>Wula/Building/WULA_DropPod/WULA_GlobalStorageSenderPod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2,2)</drawSize>
+      <drawSize>(3,3)</drawSize>
     </graphicData>
-    <size>(1,1)</size>
+    <size>(3,3)</size>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <designationHotKey>Misc12</designationHotKey>
+    <fillPercent>0.5</fillPercent>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <uiOrder>2201</uiOrder> <!-- Slightly after the original -->
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <drawerType>RealtimeOnly</drawerType>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>1600</WorkToBuild>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_WeaponArmor_Productor_Technology</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+    </placeWorkers>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_DropPod_Flag_Sender</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(1.5,1.5)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,1.5)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/WULA_DropPod/WULA_DropPod</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>500</massCapacity>
+        <restEffectiveness>0.8</restEffectiveness>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_Launchable_ToGlobalStorage">
+        <skyfallerLeaving>WULA_DropPodLeaving</skyfallerLeaving>
+        <requiresFuelingPort>false</requiresFuelingPort>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_GarbageShield">
+        <garbageShieldEnabled>true</garbageShieldEnabled>
+        <garbageShieldUIEventDefName>Wula_UI_Legion_Reply_1</garbageShieldUIEventDefName>
+        <checkNonTradableItems>false</checkNonTradableItems>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_TradeSenderPod</defName>
+    <label>乌拉帝国物资回收舱</label>
+    <description>一个一次性的物资输送装置，用于将战利品等打包发送给乌拉帝国舰队以换取白银。这些白银会存储在舰队中，而不是直接发射到殖民地。</description>
+    <graphicData>
+      <texPath>Wula/Building/WULA_DropPod/WULA_TradeSenderPod</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
+    <size>(3,3)</size>
     <rotatable>false</rotatable>
     <tickerType>Normal</tickerType>
     <altitudeLayer>BuildingOnTop</altitudeLayer>
@@ -810,27 +1057,6 @@
     <researchPrerequisites Inherit="False">
       <li>WULA_WeaponArmor_Productor_Technology</li>
     </researchPrerequisites>
-    <comps>
-      <li Class="CompProperties_Transporter">
-        <massCapacity>500</massCapacity>
-        <restEffectiveness>0.8</restEffectiveness>
-        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_Launchable_ToGlobalStorage">
-        <skyfallerLeaving>DropPodLeaving</skyfallerLeaving>
-        <requiresFuelingPort>false</requiresFuelingPort>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_GarbageShield">
-        <garbageShieldEnabled>true</garbageShieldEnabled>
-        <garbageShieldUIEventDefName>Wula_UI_Legion_Reply_1</garbageShieldUIEventDefName>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_ValueConverter">
-        <conversionRate>0.8</conversionRate>
-        <destroyAfterConversion>true</destroyAfterConversion>
-        <garbageShieldEnabled>true</garbageShieldEnabled>
-        <garbageShieldUIEventDefName>Wula_UI_Legion_Reply_1</garbageShieldUIEventDefName>
-      </li>
-    </comps>
     <inspectorTabs>
       <li>ITab_ContentsTransporter</li>
     </inspectorTabs>
@@ -838,7 +1064,144 @@
       <li>PlaceWorker_NotUnderRoof</li>
     </placeWorkers>
     <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
-    <uiIconScale>0.65</uiIconScale>
+    <drawerType>RealtimeOnly</drawerType>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_DropPod_Flag_Trader</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(2,2)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,1.5)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/WULA_DropPod/WULA_DropPod</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>500</massCapacity>
+        <restEffectiveness>0.8</restEffectiveness>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_ValueConverter">
+        <skyfallerLeaving>WULA_DropPodLeaving</skyfallerLeaving>
+        <requiresFuelingPort>false</requiresFuelingPort>  
+        <targetCurrency>Silver</targetCurrency>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_GarbageShield">
+        <garbageShieldEnabled>true</garbageShieldEnabled>
+        <garbageShieldUIEventDefName>Wula_UI_Legion_Reply_2</garbageShieldUIEventDefName>
+        <checkNonTradableItems>true</checkNonTradableItems>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_DropPodLeaving</defName>
+    <label>乌拉帝国空投舱 (起飞中)</label>
+    <thingClass>FlyShipLeaving</thingClass>
+    <graphicData>
+      <texPath>Wula/Building/WULA_DropPod/WULA_DropPod_Leaving</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <reversed>true</reversed>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(3, 3)</shadowSize>
+      <anticipationSound>DropPod_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange><min>-40</min><max>-15</max></ticksToImpactRange>
+      <rotationCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </rotationCurve>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_DropPodIncoming</defName>
+    <label>乌拉帝国空投舱 (接近中)</label>
+    <thingClass>DropPodIncoming</thingClass>
+    <graphicData>
+      <texPath>Wula/Building/WULA_DropPod/WULA_DropPod_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(3, 3)</shadowSize>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <motesPerCell>0</motesPerCell>
+      <anticipationSound>DropPod_Fall_Mechanoid</anticipationSound>
+      <impactSound>DropPod_Impact</impactSound>
+      <cameraShake>1</cameraShake>
+      <rotationCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </rotationCurve>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+    </skyfaller>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_DropPod_Active</defName>
+    <label>乌拉帝国空投舱</label>
+    <category>Item</category>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <thingClass>ActiveTransporter</thingClass>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+    <tickerType>Normal</tickerType>
+    <soundOpen>DropPod_Open</soundOpen>
+    <graphicData>
+      <texPath>Wula/Building/WULA_DropPod/WULA_DropPod</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>3</drawSize>
+      <shadowData>
+        <volume>(0.8, 0.6, 0.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <blockWind>true</blockWind>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <selectable>true</selectable>
   </ThingDef>
 
   <!-- 充电器 -->
@@ -849,6 +1212,7 @@
     <uiIconPath>Wula/Building/WULA_Machine_Recharger</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>WULA_Machine_Recharger</ThingDef>
     </descriptionHyperlinks>
@@ -876,6 +1240,7 @@
       <li>WULA_Bunker_Drop_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -1017,6 +1382,7 @@
     <uiIconPath>Wula/Building/WULA_Charging_Station_Synth_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>WULA_Charging_Station_Synth</ThingDef>
     </descriptionHyperlinks>
@@ -1044,6 +1410,7 @@
       <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -1176,6 +1543,7 @@
     <uiIconPath>Wula/Building/WULA_Cube_Productor_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>WULA_Cube_Productor</ThingDef>
     </descriptionHyperlinks>
@@ -1204,6 +1572,7 @@
       <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -1352,6 +1721,7 @@
     <uiIconPath>Wula/Building/Wula_DarkEnergy_Generators</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_DarkEnergy_Generators</ThingDef>
     </descriptionHyperlinks>
@@ -1380,6 +1750,7 @@
       <li>WULA_DarkEnergy_Generators_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -1501,7 +1872,7 @@
         <showInGUI>true</showInGUI>
         <label>供电半径</label>
         <description>在不接电线的情况下，该建筑可提供的最大供电半径，可作为野战状态下的阵地构建参考。</description>
-        <defaultVisible>true</defaultVisible>
+        <defaultVisible>false</defaultVisible>
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerPlant</compClass>
@@ -1552,6 +1923,7 @@
     <uiIconPath>Wula/Building/Wula_Fusion_Generators</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
     <descriptionHyperlinks>
       <ThingDef>Wula_Fusion_Generators</ThingDef>
     </descriptionHyperlinks>
@@ -1579,6 +1951,7 @@
       <li>Wula_Fusion_Generators_Technology</li>
     </researchPrerequisites>
     <statBases>
+      <MarketValue>0</MarketValue>
       <MaxHitPoints>1</MaxHitPoints>
       <WorkToBuild>0</WorkToBuild>
       <Mass>1</Mass>
@@ -1701,7 +2074,7 @@
         <showInGUI>true</showInGUI>
         <label>供电半径</label>
         <description>在不接电线的情况下，该建筑可提供的最大供电半径，可作为野战状态下的阵地构建参考。</description>
-        <defaultVisible>true</defaultVisible>
+        <defaultVisible>false</defaultVisible>
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerPlant</compClass>
