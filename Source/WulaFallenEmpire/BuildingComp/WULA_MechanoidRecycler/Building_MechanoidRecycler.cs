@@ -359,8 +359,6 @@ namespace WulaFallenEmpire
             return Mathf.Max(0, remainingTicks / 2500f);
         }
 
-        // 开发模式方法：立即结束冷却
-        [DebugAction("机械族回收器", "立即结束冷却", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.Playing)]
         public static void DevEndCooldown()
         {
             Building_MechanoidRecycler selectedRecycler = Find.Selector.SingleSelectedThing as Building_MechanoidRecycler;

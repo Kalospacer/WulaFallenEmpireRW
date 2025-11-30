@@ -122,6 +122,7 @@
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompSkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompPrefabSkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompProperties_PrefabSkyfallerCaller.cs" />
+    <Compile Include="BuildingComp\WULA_SkyfallerCaller\DebugActions_PrefabSkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\Skyfaller_PrefabSpawner.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\WulaSkyfallerWorldComponent.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\WULA_SkyfallerFactioncs\CompProperties_SkyfallerFaction.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="QuestNodes\QuestNode_CheckGlobalResource.cs" />
     <Compile Include="QuestNodes\QuestNode_GeneratePawnWithCustomization.cs" />
     <Compile Include="QuestNodes\QuestNode_Hyperlinks.cs" />
+    <Compile Include="QuestNodes\QuestNode_SpawnPrefabSkyfallerCaller.cs" />
     <Compile Include="QuestNodes\QuestPart_GlobalResourceCheck.cs" />
     <Compile Include="Stat\StatWorker_Energy.cs" />
     <Compile Include="Stat\StatWorker_Maintenance.cs" />
@@ -269,6 +271,7 @@
     <Compile Include="Storyteller\WULA_SimpleTechnologyTrigger\StorytellerComp_SimpleTechnologyTrigger.cs" />
     <Compile Include="ThingComp\CompAndPatch_GiveHediffOnShot.cs" />
     <Compile Include="ThingComp\CompApparelInterceptor.cs" />
+    <Compile Include="ThingComp\CompProperties_DelayedDamageIfNotPlayer.cs" />
     <Compile Include="ThingComp\CompPsychicScaling.cs" />
     <Compile Include="ThingComp\CompUseEffect_AddDamageShieldCharges.cs" />
     <Compile Include="ThingComp\CompUseEffect_OpenCustomUI.cs" />

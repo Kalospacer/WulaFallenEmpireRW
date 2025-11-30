@@ -26,8 +26,6 @@
     <value>
       <li Class="WulaFallenEmpire.StorytellerCompProperties_SimpleTechnologyTrigger">
         <technology>WULA_Colony_License_LV1_Technology</technology>
-        <incident>WULA_GiveQuest_Base_Tex</incident>
-        <questDef>WULA_Base_Tex_Quest</questDef>
         
         <!-- 时间配置 -->
         <fireAfterDaysPassed>0</fireAfterDaysPassed>
@@ -37,7 +35,11 @@
         <preventDuplicateQuests>false</preventDuplicateQuests>
         <debugLogging>false</debugLogging>
 
+        <requireNonHostileRelation>false</requireNonHostileRelation>
         <requiredFaction>Wula_PIA_Legion_Faction</requiredFaction>
+
+        <incident>WULA_GiveQuest_Base_Tex</incident>
+        <incidentIfHostile>WULA_GiveQuest_Hostile_PIA_Attack_Quest</incidentIfHostile>
       </li>
     </value>
   </Operation>

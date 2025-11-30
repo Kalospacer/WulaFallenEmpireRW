@@ -669,7 +669,6 @@
     <defName>WULA_Sky_Lock</defName>
     <label>天锁</label>
     <description>天锁</description>
-    <thingClass>Building</thingClass>
     <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>MetaOverlays</altitudeLayer>

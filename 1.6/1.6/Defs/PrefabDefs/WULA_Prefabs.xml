@@ -148,4 +148,640 @@
       </WulaFloor>
     </terrain>
   </PrefabDef>
+
+  <PrefabDef>
+    <defName>WULA_Bunker_Drop_Zone_Prefeb</defName> <!-- rename -->
+    <size>(5,5)</size>
+    <things>
+      <WULA_Cat_Bunker>
+        <position>(2, 0, 2)</position>
+      </WULA_Cat_Bunker>
+      <Sandbags>
+        <rects>
+          <li>(0,0,1,0)</li>
+          <li>(3,0,4,0)</li>
+          <li>(0,1,0,1)</li>
+          <li>(4,1,4,1)</li>
+          <li>(0,3,0,4)</li>
+          <li>(4,3,4,4)</li>
+          <li>(1,4,1,4)</li>
+          <li>(3,4,3,4)</li>
+        </rects>
+        <stuff>Cloth</stuff>
+      </Sandbags>
+    </things>
+  </PrefabDef>
+  <PrefabDef>
+    <defName>WULA_Turret_Group_Drop_Zone_Prefeb</defName> <!-- rename -->
+    <size>(15,15)</size>
+    <things>
+      <Wula_Base_Laser_Turret>
+        <positions>
+          <li>(3, 0, 3)</li>
+          <li>(11, 0, 3)</li>
+          <li>(3, 0, 11)</li>
+          <li>(11, 0, 11)</li>
+        </positions>
+      </Wula_Base_Laser_Turret>
+      <Wula_Fusion_Generators>
+        <position>(7, 0, 7)</position>
+      </Wula_Fusion_Generators>
+      <WULA_Cat_Bunker>
+        <positions>
+          <li>(7, 0, 1)</li>
+          <li>(1, 0, 7)</li>
+          <li>(13, 0, 7)</li>
+          <li>(7, 0, 13)</li>
+        </positions>
+      </WULA_Cat_Bunker>
+      <FloodLight>
+        <rects>
+          <li>(7,3,7,3)</li>
+          <li>(3,7,3,7)</li>
+          <li>(11,7,11,7)</li>
+          <li>(7,11,7,11)</li>
+        </rects>
+      </FloodLight>
+      <WulaWall>
+        <rects>
+          <li>(5,5,9,5)</li>
+          <li>(5,6,5,9)</li>
+          <li>(9,6,9,9)</li>
+          <li>(6,9,8,9)</li>
+        </rects>
+      </WulaWall>
+      <Sandbags>
+        <rects>
+          <li>(1,1,5,1)</li>
+          <li>(9,1,13,1)</li>
+          <li>(1,2,1,5)</li>
+          <li>(5,2,5,2)</li>
+          <li>(9,2,9,2)</li>
+          <li>(13,2,13,5)</li>
+          <li>(2,5,2,5)</li>
+          <li>(12,5,12,5)</li>
+          <li>(1,9,2,9)</li>
+          <li>(12,9,13,9)</li>
+          <li>(1,10,1,13)</li>
+          <li>(13,10,13,13)</li>
+          <li>(5,12,5,13)</li>
+          <li>(9,12,9,13)</li>
+          <li>(2,13,4,13)</li>
+          <li>(10,13,12,13)</li>
+        </rects>
+        <stuff>Cloth</stuff>
+      </Sandbags>
+    </things>
+  </PrefabDef>
+  <PrefabDef>
+    <defName>WULA_Fortress_Drop_Zone_Prefeb</defName> <!-- rename -->
+    <size>(25,25)</size>
+    <things>
+      <WulaDoor>
+        <rects>
+          <li>(7,6,7,6)</li>
+          <li>(9,6,9,6)</li>
+          <li>(15,6,15,6)</li>
+          <li>(17,6,17,6)</li>
+          <li>(12,8,12,8)</li>
+          <li>(12,16,12,16)</li>
+          <li>(7,18,7,18)</li>
+          <li>(9,18,9,18)</li>
+          <li>(15,18,15,18)</li>
+          <li>(17,18,17,18)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WulaDoor>
+      <WulaDoor>
+        <rects>
+          <li>(6,7,6,7)</li>
+          <li>(18,7,18,7)</li>
+          <li>(6,9,6,9)</li>
+          <li>(18,9,18,9)</li>
+          <li>(8,12,8,12)</li>
+          <li>(16,12,16,12)</li>
+          <li>(6,15,6,15)</li>
+          <li>(18,15,18,15)</li>
+          <li>(6,17,6,17)</li>
+          <li>(18,17,18,17)</li>
+        </rects>
+      </WulaDoor>
+      <WULA_Wall_Flag_Building>
+        <rects>
+          <li>(10,6,10,6)</li>
+          <li>(14,6,14,6)</li>
+        </rects>
+      </WULA_Wall_Flag_Building>
+      <WULA_Wall_Flag_Building>
+        <rects>
+          <li>(6,10,6,10)</li>
+          <li>(6,14,6,14)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WULA_Wall_Flag_Building>
+      <WULA_Wall_Flag_Building>
+        <rects>
+          <li>(18,10,18,10)</li>
+          <li>(18,14,18,14)</li>
+        </rects>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WULA_Wall_Flag_Building>
+      <WULA_Wall_Flag_Building>
+        <rects>
+          <li>(10,18,10,18)</li>
+          <li>(14,18,14,18)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+      </WULA_Wall_Flag_Building>
+      <WULA_Cat_Bunker>
+        <positions>
+          <li>(5, 0, 1)</li>
+          <li>(19, 0, 1)</li>
+          <li>(1, 0, 5)</li>
+          <li>(23, 0, 5)</li>
+          <li>(1, 0, 19)</li>
+          <li>(23, 0, 19)</li>
+          <li>(19, 0, 23)</li>
+        </positions>
+      </WULA_Cat_Bunker>
+      <WULA_Cat_Bunker>
+        <position>(5, 0, 23)</position>
+        <hp>476</hp>
+      </WULA_Cat_Bunker>
+      <Wula_Base_Mortar_Turret>
+        <positions>
+          <li>(5, 0, 5)</li>
+          <li>(19, 0, 5)</li>
+          <li>(5, 0, 19)</li>
+          <li>(19, 0, 19)</li>
+        </positions>
+      </Wula_Base_Mortar_Turret>
+      <Wula_Base_ATGun_Turret>
+        <positions>
+          <li>(9, 0, 3)</li>
+          <li>(15, 0, 3)</li>
+          <li>(3, 0, 9)</li>
+          <li>(21, 0, 9)</li>
+          <li>(3, 0, 15)</li>
+          <li>(21, 0, 15)</li>
+          <li>(9, 0, 21)</li>
+          <li>(15, 0, 21)</li>
+        </positions>
+      </Wula_Base_ATGun_Turret>
+      <FloodLight>
+        <rects>
+          <li>(10,5,10,5)</li>
+          <li>(14,5,14,5)</li>
+          <li>(5,10,5,10)</li>
+          <li>(19,10,19,10)</li>
+          <li>(5,14,5,14)</li>
+          <li>(19,14,19,14)</li>
+          <li>(10,19,10,19)</li>
+          <li>(14,19,14,19)</li>
+        </rects>
+      </FloodLight>
+      <WulaWall>
+        <rects>
+          <li>(3,3,7,3)</li>
+          <li>(17,3,21,3)</li>
+          <li>(3,4,3,7)</li>
+          <li>(7,4,7,5)</li>
+          <li>(17,4,17,5)</li>
+          <li>(21,4,21,7)</li>
+          <li>(8,5,9,5)</li>
+          <li>(15,5,16,5)</li>
+          <li>(4,7,5,7)</li>
+          <li>(7,7,7,7)</li>
+          <li>(9,7,15,7)</li>
+          <li>(17,7,17,7)</li>
+          <li>(19,7,20,7)</li>
+          <li>(5,8,5,9)</li>
+          <li>(19,8,19,9)</li>
+          <li>(7,9,7,15)</li>
+          <li>(9,9,15,9)</li>
+          <li>(17,9,17,15)</li>
+          <li>(9,10,9,15)</li>
+          <li>(15,10,15,15)</li>
+          <li>(5,15,5,17)</li>
+          <li>(10,15,14,15)</li>
+          <li>(19,15,19,17)</li>
+          <li>(3,17,4,17)</li>
+          <li>(7,17,7,17)</li>
+          <li>(9,17,15,17)</li>
+          <li>(17,17,17,17)</li>
+          <li>(20,17,21,17)</li>
+          <li>(3,18,3,21)</li>
+          <li>(21,18,21,21)</li>
+          <li>(7,19,9,19)</li>
+          <li>(15,19,17,19)</li>
+          <li>(7,20,7,21)</li>
+          <li>(17,20,17,21)</li>
+          <li>(4,21,6,21)</li>
+          <li>(18,21,20,21)</li>
+        </rects>
+      </WulaWall>
+      <Wula_DarkEnergy_Generators>
+        <position>(12, 0, 12)</position>
+      </Wula_DarkEnergy_Generators>
+      <Sandbags>
+        <rects>
+          <li>(7,1,11,1)</li>
+          <li>(13,1,17,1)</li>
+          <li>(7,2,7,2)</li>
+          <li>(11,2,11,2)</li>
+          <li>(13,2,13,2)</li>
+          <li>(17,2,17,2)</li>
+          <li>(1,7,2,7)</li>
+          <li>(22,7,23,7)</li>
+          <li>(1,8,1,11)</li>
+          <li>(23,8,23,11)</li>
+          <li>(2,11,2,11)</li>
+          <li>(22,11,22,11)</li>
+          <li>(1,13,2,13)</li>
+          <li>(22,13,23,13)</li>
+          <li>(1,14,1,17)</li>
+          <li>(23,14,23,17)</li>
+          <li>(2,17,2,17)</li>
+          <li>(22,17,22,17)</li>
+          <li>(7,22,7,23)</li>
+          <li>(11,22,11,23)</li>
+          <li>(13,22,13,23)</li>
+          <li>(17,22,17,23)</li>
+          <li>(8,23,10,23)</li>
+          <li>(14,23,16,23)</li>
+        </rects>
+        <stuff>Cloth</stuff>
+      </Sandbags>
+    </things>
+    <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(3,3,7,7)</li>
+          <li>(17,3,21,7)</li>
+          <li>(8,5,9,19)</li>
+          <li>(15,5,16,19)</li>
+          <li>(10,7,14,17)</li>
+          <li>(5,8,7,9)</li>
+          <li>(17,8,19,9)</li>
+          <li>(7,10,7,21)</li>
+          <li>(17,10,17,21)</li>
+          <li>(5,15,6,21)</li>
+          <li>(18,15,19,21)</li>
+          <li>(3,17,4,21)</li>
+          <li>(20,17,21,21)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
+  </PrefabDef>
+
+  <PrefabDef>
+    <defName>WULA_Huge_Fortress_Drop_Zone_Prefeb</defName> <!-- rename -->
+    <size>(44,44)</size>
+    <things>
+      <Battery>
+        <positions>
+          <li>(14, 0, 12)</li>
+          <li>(15, 0, 12)</li>
+          <li>(16, 0, 12)</li>
+          <li>(14, 0, 32)</li>
+          <li>(15, 0, 32)</li>
+          <li>(16, 0, 32)</li>
+          <li>(27, 0, 32)</li>
+          <li>(28, 0, 32)</li>
+          <li>(29, 0, 32)</li>
+        </positions>
+        <relativeRotation>Opposite</relativeRotation>
+      </Battery>
+      <Battery>
+        <positions>
+          <li>(27, 0, 11)</li>
+          <li>(28, 0, 11)</li>
+          <li>(29, 0, 11)</li>
+        </positions>
+      </Battery>
+      <Battery>
+        <positions>
+          <li>(12, 0, 14)</li>
+          <li>(12, 0, 15)</li>
+          <li>(12, 0, 16)</li>
+        </positions>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </Battery>
+      <Battery>
+        <positions>
+          <li>(31, 0, 14)</li>
+          <li>(31, 0, 15)</li>
+          <li>(31, 0, 16)</li>
+          <li>(11, 0, 27)</li>
+          <li>(31, 0, 27)</li>
+          <li>(11, 0, 28)</li>
+          <li>(31, 0, 28)</li>
+          <li>(11, 0, 29)</li>
+          <li>(31, 0, 29)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+      </Battery>
+      <Wula_Base_Laser_Turret>
+        <positions>
+          <li>(16, 0, 8)</li>
+          <li>(27, 0, 8)</li>
+          <li>(8, 0, 16)</li>
+          <li>(35, 0, 16)</li>
+          <li>(8, 0, 27)</li>
+          <li>(35, 0, 27)</li>
+          <li>(16, 0, 35)</li>
+          <li>(27, 0, 35)</li>
+        </positions>
+      </Wula_Base_Laser_Turret>
+      <WulaDoor>
+        <rects>
+          <li>(12,11,12,11)</li>
+          <li>(31,11,31,11)</li>
+          <li>(20,12,20,12)</li>
+          <li>(23,12,23,12)</li>
+          <li>(15,14,15,14)</li>
+          <li>(28,14,28,14)</li>
+          <li>(13,17,13,17)</li>
+          <li>(30,17,30,17)</li>
+          <li>(21,19,22,19)</li>
+          <li>(21,24,22,24)</li>
+          <li>(13,26,13,26)</li>
+          <li>(30,26,30,26)</li>
+          <li>(15,29,15,29)</li>
+          <li>(28,29,28,29)</li>
+          <li>(20,31,20,31)</li>
+          <li>(23,31,23,31)</li>
+          <li>(12,32,12,32)</li>
+          <li>(31,32,31,32)</li>
+        </rects>
+      </WulaDoor>
+      <WulaDoor>
+        <rects>
+          <li>(11,12,11,12)</li>
+          <li>(32,12,32,12)</li>
+          <li>(17,13,17,13)</li>
+          <li>(26,13,26,13)</li>
+          <li>(14,15,14,15)</li>
+          <li>(29,15,29,15)</li>
+          <li>(12,20,12,20)</li>
+          <li>(31,20,31,20)</li>
+          <li>(19,21,19,22)</li>
+          <li>(24,21,24,22)</li>
+          <li>(12,23,12,23)</li>
+          <li>(31,23,31,23)</li>
+          <li>(14,28,14,28)</li>
+          <li>(29,28,29,28)</li>
+          <li>(17,30,17,30)</li>
+          <li>(26,30,26,30)</li>
+          <li>(11,31,11,31)</li>
+          <li>(32,31,32,31)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WulaDoor>
+      <WULA_Cat_Bunker>
+        <positions>
+          <li>(2, 0, 2)</li>
+          <li>(41, 0, 2)</li>
+          <li>(19, 0, 5)</li>
+          <li>(24, 0, 5)</li>
+          <li>(38, 0, 19)</li>
+          <li>(5, 0, 20)</li>
+          <li>(5, 0, 24)</li>
+          <li>(38, 0, 24)</li>
+          <li>(19, 0, 38)</li>
+          <li>(24, 0, 38)</li>
+          <li>(2, 0, 41)</li>
+          <li>(41, 0, 41)</li>
+        </positions>
+      </WULA_Cat_Bunker>
+      <Wula_Base_Mortar_Turret>
+        <positions>
+          <li>(8, 0, 8)</li>
+          <li>(12, 0, 8)</li>
+          <li>(31, 0, 8)</li>
+          <li>(35, 0, 8)</li>
+          <li>(8, 0, 12)</li>
+          <li>(35, 0, 12)</li>
+          <li>(8, 0, 31)</li>
+          <li>(35, 0, 31)</li>
+          <li>(8, 0, 35)</li>
+          <li>(12, 0, 35)</li>
+          <li>(31, 0, 35)</li>
+          <li>(35, 0, 35)</li>
+        </positions>
+      </Wula_Base_Mortar_Turret>
+      <FirefoamPopper>
+        <rects>
+          <li>(5,5,5,5)</li>
+          <li>(38,5,38,5)</li>
+          <li>(18,9,18,9)</li>
+          <li>(25,9,25,9)</li>
+          <li>(10,10,10,10)</li>
+          <li>(33,10,33,10)</li>
+          <li>(13,13,13,13)</li>
+          <li>(30,13,30,13)</li>
+          <li>(9,18,9,18)</li>
+          <li>(34,18,34,18)</li>
+          <li>(9,25,9,25)</li>
+          <li>(34,25,34,25)</li>
+          <li>(13,30,13,30)</li>
+          <li>(30,30,30,30)</li>
+          <li>(10,33,10,33)</li>
+          <li>(33,33,33,33)</li>
+          <li>(18,34,18,34)</li>
+          <li>(25,34,25,34)</li>
+          <li>(5,38,5,38)</li>
+          <li>(38,38,38,38)</li>
+        </rects>
+      </FirefoamPopper>
+      <Wula_Base_ATGun_Turret>
+        <positions>
+          <li>(8, 0, 3)</li>
+          <li>(12, 0, 3)</li>
+          <li>(31, 0, 3)</li>
+          <li>(35, 0, 3)</li>
+          <li>(3, 0, 8)</li>
+          <li>(40, 0, 8)</li>
+          <li>(3, 0, 12)</li>
+          <li>(40, 0, 12)</li>
+          <li>(3, 0, 31)</li>
+          <li>(40, 0, 31)</li>
+          <li>(3, 0, 35)</li>
+          <li>(40, 0, 35)</li>
+          <li>(8, 0, 40)</li>
+          <li>(12, 0, 40)</li>
+          <li>(31, 0, 40)</li>
+          <li>(35, 0, 40)</li>
+        </positions>
+      </Wula_Base_ATGun_Turret>
+      <WulaWall>
+        <rects>
+          <li>(6,6,14,6)</li>
+          <li>(29,6,37,6)</li>
+          <li>(6,7,6,14)</li>
+          <li>(14,7,14,10)</li>
+          <li>(29,7,29,10)</li>
+          <li>(37,7,37,14)</li>
+          <li>(13,10,13,11)</li>
+          <li>(15,10,17,10)</li>
+          <li>(26,10,28,10)</li>
+          <li>(30,10,30,11)</li>
+          <li>(11,11,11,11)</li>
+          <li>(17,11,17,12)</li>
+          <li>(26,11,26,12)</li>
+          <li>(32,11,32,11)</li>
+          <li>(18,12,19,12)</li>
+          <li>(21,12,22,12)</li>
+          <li>(24,12,25,12)</li>
+          <li>(10,13,11,13)</li>
+          <li>(32,13,33,13)</li>
+          <li>(7,14,10,14)</li>
+          <li>(14,14,14,14)</li>
+          <li>(16,14,20,14)</li>
+          <li>(23,14,27,14)</li>
+          <li>(29,14,29,14)</li>
+          <li>(33,14,36,14)</li>
+          <li>(10,15,10,17)</li>
+          <li>(20,15,20,20)</li>
+          <li>(23,15,23,20)</li>
+          <li>(33,15,33,17)</li>
+          <li>(14,16,14,20)</li>
+          <li>(29,16,29,20)</li>
+          <li>(11,17,12,17)</li>
+          <li>(31,17,32,17)</li>
+          <li>(12,18,12,19)</li>
+          <li>(31,18,31,19)</li>
+          <li>(15,20,19,20)</li>
+          <li>(24,20,28,20)</li>
+          <li>(12,21,12,22)</li>
+          <li>(31,21,31,22)</li>
+          <li>(14,23,20,23)</li>
+          <li>(23,23,29,23)</li>
+          <li>(12,24,12,26)</li>
+          <li>(14,24,14,27)</li>
+          <li>(20,24,20,29)</li>
+          <li>(23,24,23,29)</li>
+          <li>(29,24,29,27)</li>
+          <li>(31,24,31,26)</li>
+          <li>(10,26,11,26)</li>
+          <li>(32,26,33,26)</li>
+          <li>(10,27,10,30)</li>
+          <li>(33,27,33,30)</li>
+          <li>(6,29,9,29)</li>
+          <li>(14,29,14,29)</li>
+          <li>(16,29,19,29)</li>
+          <li>(24,29,27,29)</li>
+          <li>(29,29,29,29)</li>
+          <li>(34,29,37,29)</li>
+          <li>(6,30,6,37)</li>
+          <li>(11,30,11,30)</li>
+          <li>(32,30,32,30)</li>
+          <li>(37,30,37,37)</li>
+          <li>(17,31,19,31)</li>
+          <li>(21,31,22,31)</li>
+          <li>(24,31,26,31)</li>
+          <li>(11,32,11,32)</li>
+          <li>(13,32,13,33)</li>
+          <li>(17,32,17,33)</li>
+          <li>(26,32,26,33)</li>
+          <li>(30,32,30,33)</li>
+          <li>(32,32,32,32)</li>
+          <li>(14,33,16,33)</li>
+          <li>(27,33,29,33)</li>
+          <li>(14,34,14,37)</li>
+          <li>(29,34,29,37)</li>
+          <li>(7,37,13,37)</li>
+          <li>(30,37,36,37)</li>
+        </rects>
+      </WulaWall>
+      <Wula_DarkEnergy_Generators>
+        <positions>
+          <li>(17, 0, 17)</li>
+          <li>(26, 0, 17)</li>
+          <li>(17, 0, 26)</li>
+          <li>(26, 0, 26)</li>
+        </positions>
+      </Wula_DarkEnergy_Generators>
+      <Sandbags>
+        <rects>
+          <li>(0,0,3,0)</li>
+          <li>(40,0,43,0)</li>
+          <li>(0,1,0,3)</li>
+          <li>(6,1,14,1)</li>
+          <li>(29,1,37,1)</li>
+          <li>(43,1,43,3)</li>
+          <li>(6,2,6,3)</li>
+          <li>(14,2,14,3)</li>
+          <li>(29,2,29,3)</li>
+          <li>(37,2,37,3)</li>
+          <li>(17,3,20,3)</li>
+          <li>(23,3,26,3)</li>
+          <li>(17,4,17,6)</li>
+          <li>(26,4,26,6)</li>
+          <li>(1,6,3,6)</li>
+          <li>(15,6,16,6)</li>
+          <li>(27,6,28,6)</li>
+          <li>(40,6,42,6)</li>
+          <li>(1,7,1,14)</li>
+          <li>(42,7,42,14)</li>
+          <li>(2,14,3,14)</li>
+          <li>(40,14,41,14)</li>
+          <li>(6,15,6,18)</li>
+          <li>(37,15,37,17)</li>
+          <li>(38,17,40,17)</li>
+          <li>(3,18,5,18)</li>
+          <li>(40,18,40,20)</li>
+          <li>(3,19,3,21)</li>
+          <li>(3,23,3,26)</li>
+          <li>(40,23,40,26)</li>
+          <li>(4,26,6,26)</li>
+          <li>(37,26,39,26)</li>
+          <li>(6,27,6,28)</li>
+          <li>(37,27,37,28)</li>
+          <li>(1,29,3,29)</li>
+          <li>(40,29,42,29)</li>
+          <li>(1,30,1,37)</li>
+          <li>(42,30,42,37)</li>
+          <li>(2,37,3,37)</li>
+          <li>(15,37,17,37)</li>
+          <li>(26,37,28,37)</li>
+          <li>(40,37,41,37)</li>
+          <li>(17,38,17,40)</li>
+          <li>(26,38,26,40)</li>
+          <li>(0,40,0,43)</li>
+          <li>(6,40,6,42)</li>
+          <li>(14,40,14,42)</li>
+          <li>(18,40,20,40)</li>
+          <li>(23,40,25,40)</li>
+          <li>(29,40,29,42)</li>
+          <li>(37,40,37,42)</li>
+          <li>(43,40,43,43)</li>
+          <li>(7,42,13,42)</li>
+          <li>(30,42,36,42)</li>
+          <li>(1,43,3,43)</li>
+          <li>(40,43,42,43)</li>
+        </rects>
+        <stuff>Cloth</stuff>
+      </Sandbags>
+    </things>
+    <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(6,6,14,14)</li>
+          <li>(29,6,37,14)</li>
+          <li>(15,10,17,33)</li>
+          <li>(26,10,28,33)</li>
+          <li>(18,12,25,31)</li>
+          <li>(10,15,14,17)</li>
+          <li>(29,15,33,17)</li>
+          <li>(12,18,14,37)</li>
+          <li>(29,18,31,37)</li>
+          <li>(10,26,11,37)</li>
+          <li>(32,26,33,37)</li>
+          <li>(6,29,9,37)</li>
+          <li>(34,29,37,37)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
+  </PrefabDef>
 </Defs>

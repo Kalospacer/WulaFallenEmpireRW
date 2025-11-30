@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <IncidentDef>
+    <defName>WULA_GiveQuest_Hostile_PIA_Attack_Quest</defName>
+    <category>GiveQuest</category>
+    <label>要塞空投</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <questScriptDef>WULA_Hostile_PIA_Attack_Quest</questScriptDef>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <baseChance>0</baseChance>
+  </IncidentDef>
+  <QuestScriptDef>
+    <defName>WULA_Hostile_PIA_Attack_Quest</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <autoAccept>true</autoAccept>
+    <sendAvailableLetter>false</sendAvailableLetter>
+    <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
+    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
+    <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <!-- 命名规则 -->
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->WULA_Hostile_PIA_Attack_Quest_questName</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
+      <rulesStrings>
+        <li>questDescription->WULA_Hostile_PIA_Attack_Quest_questDescription</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <!-- 运行规则 -->
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <!-- 获取地图 -->
+        <li Class="QuestNode_GetMap" />
+
+        <!-- 随机 -->
+        <li Class="QuestNode_RandomNode">
+          <nodes>
+            <!-- 要塞空投 -->
+            <li Class="QuestNode_Sequence">
+              <nodes>
+                <li Class="QuestNode_ResolveQuestName">
+                  <rules>
+                    <rulesStrings>
+                      <li>questName->要塞空投</li>
+                    </rulesStrings>
+                  </rules>
+                </li>
+                <li Class="QuestNode_ResolveQuestDescription">
+                  <rules>
+                    <rulesStrings>
+                      <li>questDescription->乌拉帝国 行星封锁机关对殖民地发起了报复打击，她们往殖民地空投了整装的要塞！</li>
+                    </rulesStrings>
+                  </rules>
+                </li>
+                <li Class="QuestNode_Letter">
+                  <label>要塞空投</label>
+                  <letterDef>NegativeEvent</letterDef>
+                  <text>乌拉帝国 行星封锁机关对殖民地发起了报复打击，她们往殖民地空投了整装的要塞！</text>
+                </li>
+                <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                  <thingDef>WULA_Bunker_Drop_Zone_Beacon_Cleanzone</thingDef>
+                  <faction>Wula_PIA_Legion_Faction</faction>
+                  <spawnCount>1</spawnCount>
+                  <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                  <sendMessageOnFailure>false</sendMessageOnFailure>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>1000</value2>
+
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Bunker_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>4</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>2999</value2>
+
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>2</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>5999</value2>
+
+                  <!-- Lodgers arrive by shuttle -->        
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>1</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                      <li Class="QuestNode_Less">
+                        <value1>$prefabSpawnSuccessCount</value1>
+                        <value2>$prefabSpawnRequestedCount</value2>
+
+                        <node Class="QuestNode_Sequence">
+                          <nodes>
+                            <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
+                              <faction>Wula_PIA_Legion_Faction</faction>
+                              <spawnCount>3</spawnCount>
+                              <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                              <sendMessageOnFailure>false</sendMessageOnFailure>
+                            </li>
+                          </nodes>
+                        </node>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>7999</value2>
+
+                  <!-- Lodgers arrive by shuttle -->        
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>1</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                      <li Class="QuestNode_Less">
+                        <value1>$prefabSpawnSuccessCount</value1>
+                        <value2>$prefabSpawnRequestedCount</value2>
+
+                        <node Class="QuestNode_Sequence">
+                          <nodes>
+                            <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
+                              <faction>Wula_PIA_Legion_Faction</faction>
+                              <spawnCount>3</spawnCount>
+                              <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                              <sendMessageOnFailure>false</sendMessageOnFailure>
+                            </li>
+                          </nodes>
+                        </node>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>9999</value2>
+
+                  <!-- Lodgers arrive by shuttle -->        
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Huge_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>1</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                      <li Class="QuestNode_Less">
+                        <value1>$prefabSpawnSuccessCount</value1>
+                        <value2>$prefabSpawnRequestedCount</value2>
+
+                        <node Class="QuestNode_Sequence">
+                          <nodes>
+                            <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
+                              <faction>Wula_PIA_Legion_Faction</faction>
+                              <spawnCount>2</spawnCount>
+                              <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                              <sendMessageOnFailure>false</sendMessageOnFailure>
+                            </li>
+                          </nodes>
+                        </node>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>12999</value2>
+
+                  <!-- Lodgers arrive by shuttle -->        
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Bunker_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>4</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>1</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                      <li Class="QuestNode_Less">
+                        <value1>$prefabSpawnSuccessCount</value1>
+                        <value2>$prefabSpawnRequestedCount</value2>
+
+                        <node Class="QuestNode_Sequence">
+                          <nodes>
+                            <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
+                              <faction>Wula_PIA_Legion_Faction</faction>
+                              <spawnCount>3</spawnCount>
+                              <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                              <sendMessageOnFailure>false</sendMessageOnFailure>
+                            </li>
+                          </nodes>
+                        </node>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>15999</value2>
+
+                  <!-- Lodgers arrive by shuttle -->        
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Bunker_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>4</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
+                        <faction>Wula_PIA_Legion_Faction</faction>
+                        <spawnCount>1</spawnCount>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                      <li Class="QuestNode_Less">
+                        <value1>$prefabSpawnSuccessCount</value1>
+                        <value2>$prefabSpawnRequestedCount</value2>
+
+                        <node Class="QuestNode_Sequence">
+                          <nodes>
+                            <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
+                              <faction>Wula_PIA_Legion_Faction</faction>
+                              <spawnCount>3</spawnCount>
+                              <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                              <sendMessageOnFailure>false</sendMessageOnFailure>
+                            </li>
+                          </nodes>
+                        </node>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+              </nodes>
+            </li>
+          </nodes>
+        </li>
+        <li Class="QuestNode_End" />
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

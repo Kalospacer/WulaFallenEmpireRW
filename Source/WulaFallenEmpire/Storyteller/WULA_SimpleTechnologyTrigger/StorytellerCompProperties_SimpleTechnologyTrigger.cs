@@ -18,10 +18,13 @@ namespace WulaFallenEmpire
         public QuestScriptDef questDef;                 // 关联的任务定义（可选）
         public bool preventDuplicateQuests = true;      // 防止重复任务
 
-        // 派系关系校验 - 新增字段
+        // 派系关系校验
         public FactionDef requiredFaction;              // 必须存在的派系
         public bool requireNonHostileRelation = true;   // 是否要求非敌对关系（默认true）
         public bool requireFactionExists = true;        // 是否要求派系必须存在（默认true）
+        
+        // 敌对情况下的替代事件 - 新增字段
+        public IncidentDef incidentIfHostile;           // 当派系敌对且requireNonHostileRelation为false时触发的事件
 
         // 调试配置
         public bool debugLogging = false;               // 启用调试日志

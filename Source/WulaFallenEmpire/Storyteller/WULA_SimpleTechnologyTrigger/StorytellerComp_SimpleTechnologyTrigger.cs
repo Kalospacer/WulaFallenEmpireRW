@@ -12,7 +12,6 @@ namespace WulaFallenEmpire
         private StorytellerCompProperties_SimpleTechnologyTrigger SimpleProps => 
             (StorytellerCompProperties_SimpleTechnologyTrigger)props;
 
-        // 重新实现基类的私有属性
         private static int IntervalsPassed => Find.TickManager.TicksGame / 1000;
 
         public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
@@ -25,8 +24,13 @@ namespace WulaFallenEmpire
             if (!PassesIntervalCheck())
                 yield break;
 
-            // 检查派系关系条件 - 新增检查
-            if (!PassesRequiredFactionCheck())
+            // 检查派系关系条件
+            var factionCheckResult = PassesRequiredFactionCheck();
+            
+            // 根据派系关系结果决定触发哪个事件
+            IncidentDef incidentToTrigger = GetIncidentBasedOnFactionRelation(factionCheckResult);
+            
+            if (incidentToTrigger == null)
                 yield break;
 
             // 检查派系过滤条件
@@ -38,30 +42,59 @@ namespace WulaFallenEmpire
                 yield break;
 
             // 检查是否防止重复任务
-            if (SimpleProps.preventDuplicateQuests && HasActiveQuest())
+            if (SimpleProps.preventDuplicateQuests && HasActiveQuest(incidentToTrigger))
                 yield break;
 
             // 触发事件
-            IncidentDef techIncident = SimpleProps.incident;
-            if (techIncident.TargetAllowed(target))
+            if (incidentToTrigger.TargetAllowed(target))
             {
                 if (SimpleProps.debugLogging)
                 {
-                    Log.Message($"[SimpleTechnologyTrigger] Triggering incident {techIncident.defName} for technology {SimpleProps.technology.defName}");
+                    Log.Message($"[SimpleTechnologyTrigger] Triggering incident {incidentToTrigger.defName} for technology {SimpleProps.technology.defName}");
+                    Log.Message($"[SimpleTechnologyTrigger] Faction relation status: {factionCheckResult}");
                 }
 
-                yield return new FiringIncident(techIncident, this, GenerateParms(techIncident.category, target));
+                yield return new FiringIncident(incidentToTrigger, this, GenerateParms(incidentToTrigger.category, target));
             }
         }
 
         /// <summary>
-        /// 检查必需派系关系条件 - 新增方法
+        /// 根据派系关系状态决定触发哪个事件
         /// </summary>
-        private bool PassesRequiredFactionCheck()
+        private IncidentDef GetIncidentBasedOnFactionRelation(FactionRelationResult factionCheckResult)
+        {
+            switch (factionCheckResult.Status)
+            {
+                case FactionRelationStatus.Valid:
+                    return SimpleProps.incident;
+                
+                case FactionRelationStatus.HostileButAllowed:
+                    // 如果配置了敌对情况下的替代事件，则使用替代事件
+                    if (SimpleProps.incidentIfHostile != null)
+                    {
+                        if (SimpleProps.debugLogging)
+                        {
+                            Log.Message($"[SimpleTechnologyTrigger] Using hostile alternative incident: {SimpleProps.incidentIfHostile.defName}");
+                        }
+                        return SimpleProps.incidentIfHostile;
+                    }
+                    // 如果没有配置替代事件，则使用原事件
+                    return SimpleProps.incident;
+                
+                case FactionRelationStatus.Invalid:
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 检查必需派系关系条件
+        /// </summary>
+        private FactionRelationResult PassesRequiredFactionCheck()
         {
             // 如果没有配置必需派系，直接通过
             if (SimpleProps.requiredFaction == null)
-                return true;
+                return FactionRelationResult.Valid();
 
             // 查找派系
             Faction requiredFactionInstance = Find.FactionManager.FirstFactionOfDef(SimpleProps.requiredFaction);
@@ -75,21 +108,35 @@ namespace WulaFallenEmpire
                     {
                         Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} does not exist or is defeated");
                     }
-                    return false;
+                    return FactionRelationResult.Invalid("Faction does not exist or is defeated");
                 }
             }
 
             // 检查派系关系
-            if (SimpleProps.requireNonHostileRelation && requiredFactionInstance != null)
+            if (requiredFactionInstance != null)
             {
                 Faction playerFaction = Faction.OfPlayer;
-                if (requiredFactionInstance.HostileTo(playerFaction))
+                bool isHostile = requiredFactionInstance.HostileTo(playerFaction);
+
+                if (isHostile)
                 {
-                    if (SimpleProps.debugLogging)
+                    if (SimpleProps.requireNonHostileRelation)
                     {
-                        Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} is hostile to player");
+                        if (SimpleProps.debugLogging)
+                        {
+                            Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} is hostile to player and requireNonHostileRelation is true");
+                        }
+                        return FactionRelationResult.Invalid("Faction is hostile and requireNonHostileRelation is true");
                     }
-                    return false;
+                    else
+                    {
+                        // 不要求非敌对关系，但派系是敌对的 - 这是一个特殊状态
+                        if (SimpleProps.debugLogging)
+                        {
+                            Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} is hostile but requireNonHostileRelation is false - allowing with possible alternative");
+                        }
+                        return FactionRelationResult.HostileButAllowed();
+                    }
                 }
             }
 
@@ -98,7 +145,7 @@ namespace WulaFallenEmpire
                 Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} check passed");
             }
 
-            return true;
+            return FactionRelationResult.Valid();
         }
 
         /// <summary>
@@ -106,11 +153,9 @@ namespace WulaFallenEmpire
         /// </summary>
         private bool PassesIntervalCheck()
         {
-            // 简单的周期检查：每 X 天检查一次
             int currentInterval = IntervalsPassed;
             int checkInterval = (int)(SimpleProps.checkIntervalDays * 60);
             
-            // 如果检查间隔为0，则每个间隔都检查
             if (checkInterval <= 0)
                 return true;
 
@@ -128,7 +173,6 @@ namespace WulaFallenEmpire
                 return false;
             }
 
-            // 简单检查科技是否已研究完成
             bool hasTechnology = SimpleProps.technology.IsFinished;
 
             if (SimpleProps.debugLogging)
@@ -144,16 +188,13 @@ namespace WulaFallenEmpire
         /// </summary>
         private bool PassesFactionFilter(IIncidentTarget target)
         {
-            // 如果不启用派系过滤，直接通过
             if (!SimpleProps.useFactionFilter)
                 return true;
 
-            // 获取目标的派系
             Faction faction = GetTargetFaction(target);
             if (faction == null)
                 return false;
 
-            // 检查黑名单
             if (SimpleProps.factionTypeBlacklist != null && 
                 SimpleProps.factionTypeBlacklist.Contains(faction.def))
             {
@@ -164,7 +205,6 @@ namespace WulaFallenEmpire
                 return false;
             }
 
-            // 检查白名单
             if (SimpleProps.factionTypeWhitelist != null && 
                 SimpleProps.factionTypeWhitelist.Count > 0)
             {
@@ -173,14 +213,8 @@ namespace WulaFallenEmpire
                 switch (SimpleProps.defaultBehavior)
                 {
                     case FactionFilterDefaultBehavior.Allow:
-                        // 白名单模式：在白名单中或默认允许
-                        if (SimpleProps.debugLogging && !inWhitelist)
-                        {
-                            Log.Message($"[SimpleTechnologyTrigger] Faction {faction.def.defName} not in whitelist, but default behavior is Allow");
-                        }
                         return true;
                     case FactionFilterDefaultBehavior.Deny:
-                        // 白名单模式：只有在白名单中才允许
                         if (inWhitelist)
                         {
                             if (SimpleProps.debugLogging)
@@ -200,7 +234,6 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 如果没有设置白名单，根据默认行为决定
             switch (SimpleProps.defaultBehavior)
             {
                 case FactionFilterDefaultBehavior.Allow:
@@ -244,20 +277,23 @@ namespace WulaFallenEmpire
         /// <summary>
         /// 检查是否存在活跃的相同任务
         /// </summary>
-        private bool HasActiveQuest()
+        private bool HasActiveQuest(IncidentDef incident)
         {
-            if (SimpleProps.questDef == null)
-                return false;
-
-            bool hasActiveQuest = Find.QuestManager.QuestsListForReading.Any((Quest q) => 
-                q.root == SimpleProps.questDef && !q.Historical);
-
-            if (SimpleProps.debugLogging && hasActiveQuest)
+            // 如果配置了防止重复，检查是否有相同根源的任务
+            if (SimpleProps.preventDuplicateQuests && SimpleProps.questDef != null)
             {
-                Log.Message($"[SimpleTechnologyTrigger] Active quest {SimpleProps.questDef.defName} found, skipping trigger");
+                bool hasActiveQuest = Find.QuestManager.QuestsListForReading.Any((Quest q) => 
+                    q.root == SimpleProps.questDef && !q.Historical);
+
+                if (SimpleProps.debugLogging && hasActiveQuest)
+                {
+                    Log.Message($"[SimpleTechnologyTrigger] Active quest {SimpleProps.questDef.defName} found, skipping trigger");
+                }
+
+                return hasActiveQuest;
             }
 
-            return hasActiveQuest;
+            return false;
         }
 
         /// <summary>
@@ -267,13 +303,23 @@ namespace WulaFallenEmpire
         {
             StringBuilder status = new StringBuilder();
             status.AppendLine($"Simple Technology Trigger: {SimpleProps.technology?.defName ?? "NULL"}");
+            
+            var factionCheck = PassesRequiredFactionCheck();
+            status.AppendLine($"Faction Relation Status: {factionCheck.Status}");
+            if (!factionCheck.IsValid)
+            {
+                status.AppendLine($"Faction Relation Reason: {factionCheck.Reason}");
+            }
+            
             status.AppendLine($"Research Status: {(PassesTechnologyCheck() ? "✅ COMPLETED" : "❌ NOT COMPLETED")}");
             status.AppendLine($"Required Faction: {SimpleProps.requiredFaction?.defName ?? "NONE"}");
-            status.AppendLine($"Faction Relation: {(PassesRequiredFactionCheck() ? "✅ VALID" : "❌ INVALID")}");
+            status.AppendLine($"Hostile Alternative: {SimpleProps.incidentIfHostile?.defName ?? "NONE"}");
             status.AppendLine($"Check Interval: {SimpleProps.checkIntervalDays} days");
             status.AppendLine($"Current Interval: {IntervalsPassed}");
             status.AppendLine($"Next Check: {GetNextCheckInterval()} intervals");
-            status.AppendLine($"Can Trigger Now: {PassesIntervalCheck() && PassesTechnologyCheck() && PassesRequiredFactionCheck()}");
+            
+            bool canTrigger = PassesIntervalCheck() && PassesTechnologyCheck() && factionCheck.IsValid;
+            status.AppendLine($"Can Trigger Now: {canTrigger}");
 
             // 详细派系信息
             if (SimpleProps.requiredFaction != null)
@@ -304,5 +350,40 @@ namespace WulaFallenEmpire
             int currentInterval = IntervalsPassed;
             return ((currentInterval / checkInterval) + 1) * checkInterval;
         }
+    }
+
+    /// <summary>
+    /// 派系关系检查结果
+    /// </summary>
+    public struct FactionRelationResult
+    {
+        public FactionRelationStatus Status { get; }
+        public string Reason { get; }
+        public bool IsValid => Status == FactionRelationStatus.Valid || Status == FactionRelationStatus.HostileButAllowed;
+
+        public FactionRelationResult(FactionRelationStatus status, string reason = "")
+        {
+            Status = status;
+            Reason = reason;
+        }
+
+        public static FactionRelationResult Valid() => new FactionRelationResult(FactionRelationStatus.Valid);
+        public static FactionRelationResult HostileButAllowed() => new FactionRelationResult(FactionRelationStatus.HostileButAllowed);
+        public static FactionRelationResult Invalid(string reason) => new FactionRelationResult(FactionRelationStatus.Invalid, reason);
+
+        public override string ToString()
+        {
+            return $"{Status}{(string.IsNullOrEmpty(Reason) ? "" : $" ({Reason})")}";
+        }
+    }
+
+    /// <summary>
+    /// 派系关系状态枚举
+    /// </summary>
+    public enum FactionRelationStatus
+    {
+        Valid,              // 关系有效，可以触发原事件
+        HostileButAllowed,  // 关系敌对但允许，可以触发替代事件
+        Invalid             // 关系无效，不触发任何事件
     }
 }

@@ -41,9 +41,16 @@ namespace WulaFallenEmpire
         private bool used = false;
         private int callTick = -1;
         private bool calling = false;
-        private bool usedGlobalStorage = false; // 新增：标记是否使用了全局储存器
+        private bool usedGlobalStorage = false;
+        public bool autoCallScheduled = false; // 新增：标记是否已安排自动呼叫
 
         public bool CanCall => !used && !calling;
+
+        // 新增：检查建筑是否属于非玩家派系
+        public bool IsNonPlayerFaction => parent.Faction != null && parent.Faction != Faction.OfPlayer;
+
+        // 新增：检查是否应该自动呼叫
+        private bool ShouldAutoCall => IsNonPlayerFaction && Props.canAutoCall && !autoCallScheduled && !used;
 
         // 固定的显示标签
         public string RequiredFlyOverLabel => "建筑空投飞行器";
@@ -127,6 +134,22 @@ namespace WulaFallenEmpire
 
         public bool CanCallSkyfaller => CanCall && HasRequiredFlyOver && CheckRoofConditions;
 
+        // 新增：在建筑生成时检查是否需要自动呼叫
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            
+            if (!respawningAfterLoad && ShouldAutoCall)
+            {
+                // 安排自动呼叫
+                autoCallScheduled = true;
+                callTick = Find.TickManager.TicksGame + Props.autoCallDelayTicks;
+                calling = true;
+                
+                Log.Message($"[SkyfallerCaller] Scheduled auto-call for non-player building {parent.Label} at tick {callTick}");
+            }
+        }
+
         public override void PostExposeData()
         {
             base.PostExposeData();
@@ -134,23 +157,95 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref callTick, "callTick", -1);
             Scribe_Values.Look(ref calling, "calling", false);
             Scribe_Values.Look(ref usedGlobalStorage, "usedGlobalStorage", false);
+            Scribe_Values.Look(ref autoCallScheduled, "autoCallScheduled", false);
         }
 
         public override void CompTick()
         {
             base.CompTick();
+            
+            // 处理自动呼叫
             if (calling && callTick >= 0 && Find.TickManager.TicksGame >= callTick)
             {
-                ExecuteSkyfallerCall();
+                if (autoCallScheduled)
+                {
+                    // 执行自动呼叫
+                    ExecuteAutoSkyfallerCall();
+                }
+                else
+                {
+                    // 执行手动呼叫
+                    ExecuteSkyfallerCall();
+                }
+            }
+        }
+
+        // 新增：自动呼叫方法（非玩家派系专用）
+        protected virtual void ExecuteAutoSkyfallerCall()
+        {
+            try
+            {
+                Log.Message($"[SkyfallerCaller] Executing auto skyfaller call for non-player building at {parent.Position}");
+                
+                if (Props.skyfallerDef == null)
+                {
+                    Log.Error("[SkyfallerCaller] Skyfaller def is null!");
+                    ResetCall();
+                    return;
+                }
+
+                // 非玩家派系自动呼叫不需要资源检查
+                // 直接处理屋顶
+                HandleRoofDestruction();
+
+                // 创建Skyfaller
+                Skyfaller skyfaller = SkyfallerMaker.MakeSkyfaller(Props.skyfallerDef);
+                if (skyfaller == null)
+                {
+                    Log.Error("[SkyfallerCaller] Failed to create skyfaller!");
+                    ResetCall();
+                    return;
+                }
+
+                IntVec3 spawnPos = parent.Position;
+                Log.Message($"[SkyfallerCaller] Spawning auto skyfaller at {spawnPos}");
+                
+                GenSpawn.Spawn(skyfaller, spawnPos, parent.Map);
+                
+                if (Props.destroyBuilding)
+                {
+                    Log.Message($"[SkyfallerCaller] Destroying non-player building {parent.Label}");
+                    parent.Destroy(DestroyMode.Vanish);
+                }
+                
+                // 重置状态
+                ResetCall();
+                autoCallScheduled = false;
+                
+                // 显示自动呼叫消息
+                Messages.Message("WULA_AutoSkyfallerCalled".Translate(parent.Faction.Name), 
+                    MessageTypeDefOf.NeutralEvent);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[SkyfallerCaller] Error in ExecuteAutoSkyfallerCall: {ex}");
+                ResetCall();
             }
         }
 
         public void CallSkyfaller(bool isAutoCall = false)
         {
+            // 新增：非玩家派系不能手动呼叫
+            if (IsNonPlayerFaction && !isAutoCall)
+            {
+                Messages.Message("WULA_NonPlayerCannotCall".Translate(), parent, MessageTypeDefOf.RejectInput);
+                return;
+            }
+
             if (!CanCallSkyfaller)
             {
                 // 显示相应的错误消息
-                if (!HasRequiredFlyOver && Props.requireFlyOver) // 只在需要 FlyOver 时才显示此消息
+                if (!HasRequiredFlyOver && Props.requireFlyOver)
                 {
                     Messages.Message("WULA_NoBuildingDropperFlyOver".Translate(), parent, MessageTypeDefOf.RejectInput);
                 }
@@ -195,6 +290,7 @@ namespace WulaFallenEmpire
             used = false;
             callTick = -1;
             usedGlobalStorage = false;
+            autoCallScheduled = false;
         }
 
         protected virtual void ExecuteSkyfallerCall()
@@ -599,6 +695,7 @@ namespace WulaFallenEmpire
             used = false;
             callTick = -1;
             usedGlobalStorage = false;
+            autoCallScheduled = false;
             Messages.Message("WULA_SkyfallerCallCancelled".Translate(), parent, MessageTypeDefOf.NeutralEvent);
         }
 
@@ -606,6 +703,10 @@ namespace WulaFallenEmpire
         {
             foreach (var gizmo in base.CompGetGizmosExtra())
                 yield return gizmo;
+
+            // 新增：非玩家派系不显示呼叫按钮
+            if (IsNonPlayerFaction)
+                yield break;
 
             if (calling)
             {
@@ -679,6 +780,12 @@ namespace WulaFallenEmpire
 
         private string GetDisabledReason()
         {
+            // 新增：非玩家派系不能手动呼叫
+            if (IsNonPlayerFaction)
+            {
+                return "WULA_NonPlayerCannotCall".Translate();
+            }
+
             // 只在需要 FlyOver 时检查并显示相关原因
             if (Props.requireFlyOver && !HasRequiredFlyOver)
             {
@@ -719,7 +826,12 @@ namespace WulaFallenEmpire
 
             var sb = new System.Text.StringBuilder();
 
-            if (calling)
+            // 新增：显示自动呼叫状态
+            if (autoCallScheduled && calling)
+            {
+                int ticksLeft = callTick - Find.TickManager.TicksGame;
+            }
+            else if (calling)
             {
                 int ticksLeft = callTick - Find.TickManager.TicksGame;
                 if (ticksLeft > 0)
@@ -732,7 +844,15 @@ namespace WulaFallenEmpire
             }
             else if (!used)
             {
-                sb.Append("WULA_ReadyToCallSkyfaller".Translate());
+                // 新增：显示非玩家派系自动呼叫信息
+                if (IsNonPlayerFaction && Props.canAutoCall)
+                {
+                    sb.Append("WULA_AutoSkyfallerReady".Translate());
+                }
+                else
+                {
+                    sb.Append("WULA_ReadyToCallSkyfaller".Translate());
+                }
 
                 if (Props.requireFlyOver && !HasRequiredFlyOver)
                 {

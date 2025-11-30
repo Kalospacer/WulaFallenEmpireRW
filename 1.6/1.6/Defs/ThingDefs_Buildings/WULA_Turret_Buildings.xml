@@ -47,7 +47,7 @@
     </statBases>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList>
       <Steel>300</Steel>
       <ComponentIndustrial>3</ComponentIndustrial>
@@ -145,7 +145,6 @@
     <canOverlapZones>false</canOverlapZones>
     <hasInteractionCell>false</hasInteractionCell>
     <!-- <interactionCellOffset>(0,0,-2)</interactionCellOffset> -->
-    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
       <MaxHitPoints>500</MaxHitPoints>
@@ -155,11 +154,15 @@
     </statBases>
     <size>(3,3)</size>
     <costList>
-      <Steel>200</Steel>
+      <Steel>60</Steel>
     </costList>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
       <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+      <claimable>false</claimable>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>WULA_Cat_Bunker_TurretGun</turretGunDef>
+      <claimable>false</claimable>
     </building>
     <comps>
       <li Class="CompProperties_Glower">
@@ -301,7 +304,7 @@
     </statBases>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList Inherit="False">
       <WULA_Alloy>100</WULA_Alloy>
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
@@ -409,7 +412,6 @@
       <WULA_Alloy>100</WULA_Alloy>
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
     </costList>
-    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
     <passability>PassThroughOnly</passability>
     <pathCost>40</pathCost>
@@ -429,21 +431,33 @@
       <turretBurstCooldownTime>3</turretBurstCooldownTime>
       <turretTopOffset>(-0.04, 0)</turretTopOffset>
       <turretTopDrawSize>5.0</turretTopDrawSize>
+      <claimable>false</claimable>
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
       <li>PlaceWorker_ShowTurretRadius</li>
     </placeWorkers>
     <comps>
+      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
+      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
+        <damageDef>EMP</damageDef>
+        <damageAmount>50</damageAmount>
+        <armorPenetration>2</armorPenetration>
+        <destroyIfKilled>true</destroyIfKilled>
+      </li>
+      <li Class="CompProperties_Stunnable">
+        <affectedDamageDefs>
+          <li>Stun</li>
+          <li>EMP</li>
+        </affectedDamageDefs>
+        <adaptableDamageDefs>
+          <li>EMP</li>
+        </adaptableDamageDefs>
+      </li>
       <li Class="CompProperties_CanBeDormant" />
       <li Class="CompProperties_Initiatable" />
       <li Class="CompProperties_WakeUpDormant">
         <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
-      </li>
-      <li Class="CompProperties_Stunnable">
-        <affectedDamageDefs>
-          <li>EMP</li>
-        </affectedDamageDefs>
       </li>
       <li Class="CompProperties_AmbientSound">
         <sound>MechTurretBig_Call</sound>
@@ -455,7 +469,7 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>300</basePowerConsumption> <!-- This is now idle power -->
+        <basePowerConsumption>300</basePowerConsumption> <!-- 电力消耗较低 -->
       </li>
       <li Class="CompProperties_Glower">
         <glowRadius>6</glowRadius>
@@ -579,7 +593,7 @@
     </statBases>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <costList Inherit="False">
       <WULA_Alloy>100</WULA_Alloy>
@@ -689,7 +703,6 @@
       <WULA_Alloy>100</WULA_Alloy>
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
     </costList>
-    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
     <passability>PassThroughOnly</passability>
     <pathCost>40</pathCost>
@@ -708,21 +721,33 @@
       <turretBurstCooldownTime>0.01</turretBurstCooldownTime>
       <turretTopOffset>(-0.04, 0)</turretTopOffset>
       <turretTopDrawSize>5.0</turretTopDrawSize>
+      <claimable>false</claimable>
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
       <li>PlaceWorker_ShowTurretRadius</li>
     </placeWorkers>
     <comps>
+      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
+      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
+        <damageDef>EMP</damageDef>
+        <damageAmount>50</damageAmount>
+        <armorPenetration>2</armorPenetration>
+        <destroyIfKilled>true</destroyIfKilled>
+      </li>
+      <li Class="CompProperties_Stunnable">
+        <affectedDamageDefs>
+          <li>Stun</li>
+          <li>EMP</li>
+        </affectedDamageDefs>
+        <adaptableDamageDefs>
+          <li>EMP</li>
+        </adaptableDamageDefs>
+      </li>
       <li Class="CompProperties_CanBeDormant" />
       <li Class="CompProperties_Initiatable" />
       <li Class="CompProperties_WakeUpDormant">
         <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
-      </li>
-      <li Class="CompProperties_Stunnable">
-        <affectedDamageDefs>
-          <li>EMP</li>
-        </affectedDamageDefs>
       </li>
       <li Class="CompProperties_AmbientSound">
         <sound>MechTurretBig_Call</sound>
@@ -734,7 +759,7 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>500</basePowerConsumption> <!-- This is now idle power -->
+        <basePowerConsumption>300</basePowerConsumption> <!-- 电力消耗较低 -->
       </li>
       <li Class="CompProperties_Glower">
         <glowRadius>6</glowRadius>
@@ -870,7 +895,7 @@
     </statBases>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList Inherit="False">
       <WULA_Alloy>100</WULA_Alloy>
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
@@ -969,7 +994,6 @@
       <WULA_Alloy>150</WULA_Alloy>
       <WULA_Charge_Cube>12</WULA_Charge_Cube>
     </costList>
-    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <tickerType>Normal</tickerType>
     <passability>Impassable</passability>
     <blockWind>true</blockWind>
@@ -982,12 +1006,20 @@
       <turretBurstCooldownTime>4</turretBurstCooldownTime>
       <turretTopOffset>(-0.04, 0)</turretTopOffset>
       <turretTopDrawSize>5.0</turretTopDrawSize>
+      <claimable>false</claimable>
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
       <li>PlaceWorker_ShowTurretRadius</li>
     </placeWorkers>
     <comps>
+      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
+      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
+        <damageDef>EMP</damageDef>
+        <damageAmount>500</damageAmount>
+        <armorPenetration>2</armorPenetration>
+        <destroyIfKilled>true</destroyIfKilled>
+      </li>
       <li Class="CompProperties_CanBeDormant" />
       <li Class="CompProperties_Initiatable" />
       <li Class="CompProperties_WakeUpDormant">
@@ -995,8 +1027,12 @@
       </li>
       <li Class="CompProperties_Stunnable">
         <affectedDamageDefs>
+          <li>Stun</li>
           <li>EMP</li>
         </affectedDamageDefs>
+        <adaptableDamageDefs>
+          <li>EMP</li>
+        </adaptableDamageDefs>
       </li>
       <li Class="CompProperties_AmbientSound">
         <sound>MechTurretBig_Call</sound>
@@ -1008,7 +1044,7 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>200</basePowerConsumption> <!-- 电力消耗较低 -->
+        <basePowerConsumption>300</basePowerConsumption> <!-- 电力消耗较低 -->
       </li>
       <li Class="CompProperties_Glower">
         <glowRadius>6</glowRadius>
@@ -1115,7 +1151,6 @@
     <selectable>true</selectable>
     <fillPercent>0.20</fillPercent>
     <pathCost>14</pathCost>
-    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
     <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_B_north</uiIconPath>
     <noRightClickDraftAttack>true</noRightClickDraftAttack>

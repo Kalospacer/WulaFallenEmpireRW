@@ -16,6 +16,9 @@
     </graphicData>
     <selectable>true</selectable>
     <pathCost>10</pathCost>
+    <ingestible>
+      <preferability>NeverForNutrition</preferability>
+    </ingestible>
     <plant>
       <immatureGraphicPath>Wula/Plant/WULA_Plant_Eggplant_Immature</immatureGraphicPath>
       <fertilityMin>0.5</fertilityMin>

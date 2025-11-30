@@ -25,6 +25,11 @@
 			<displayName>Humanoid Alien Races 2.0</displayName>
 			<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=839005762</steamWorkshopUrl>
 		</li>	
+		<li>
+			<packageId>HaiLuan.CustomQuestFramework</packageId>
+			<displayName>Custom Quest Framework</displayName>
+			<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2978572782</steamWorkshopUrl>
+		</li>	
   </modDependencies>
   
   <loadAfter>
@@ -32,5 +37,6 @@
     <li>Ludeon.RimWorld</li>
     <li>Ludeon.RimWorld.Biotech</li>
     <li>erdelf.HumanoidAlienRaces</li>
+    <li>HaiLuan.CustomQuestFramework</li>
   </loadAfter>
 </ModMetaData>

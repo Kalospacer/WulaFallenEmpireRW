@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <!-- 墙和门 -->
-  <ThingDef ParentName="Wall">
+  <ThingDef Name="WulaWall_Cleanzone" ParentName="Wall">
     <defName>WulaWall_Cleanzone</defName>
     <label>乌拉帝国堡垒墙</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国用于建造堡垒的外壁相当厚实，能够抵御大量伤害，并且拥有气密性，可以用在飞船外壳上。</description>
@@ -72,7 +72,7 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="SkyfallerBase">
+  <ThingDef Name="WulaWall_Incoming" ParentName="SkyfallerBase">
     <defName>WulaWall_Incoming</defName>
     <label>乌拉帝国堡垒墙（空投中）</label>
     <size>(1,1)</size>
@@ -106,7 +106,7 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="Wall" Name="WulaWall">
+  <ThingDef Name="WulaWall" ParentName="Wall">
     <defName>WulaWall</defName>
     <label>乌拉帝国堡垒墙</label>
     <description>乌拉帝国堡垒外壁，相当厚实，能够抵御大量伤害，并且拥有气密性，可以用在飞船外壳上。</description>
@@ -177,7 +177,7 @@
 			</li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="DoorBase">
+  <ThingDef Name="WulaDoor_Cleanzone" ParentName="DoorBase">
     <defName>WulaDoor_Cleanzone</defName>
     <label>乌拉帝国大门</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国堡垒的大门不仅能够抵御大量爆炸和震荡伤害，还拥有无需通电即可运转的伺服系统来增加大门通过速度。</description>
@@ -254,7 +254,7 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="SkyfallerBase">
+  <ThingDef Name="WulaDoor_Incoming" ParentName="SkyfallerBase">
     <defName>WulaDoor_Incoming</defName>
     <label>乌拉帝国大门（空投中）</label>
     <size>(1,1)</size>
@@ -288,7 +288,7 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef ParentName="DoorBase">
+  <ThingDef Name="WulaDoor" ParentName="DoorBase">
     <defName>WulaDoor</defName>
     <label>乌拉帝国大门</label>
     <description>乌拉帝国堡垒的大门，不仅能够抵御大量爆炸和震荡伤害，还拥有无需通电即可运转的伺服系统来增加大门通过速度。</description>
@@ -970,7 +970,7 @@
       <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
     <researchPrerequisites Inherit="False">
-      <li>WULA_WeaponArmor_Productor_Technology</li>
+      <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
     <inspectorTabs>
       <li>ITab_ContentsTransporter</li>
@@ -1860,6 +1860,7 @@
       <isAirtight>false</isAirtight>
       <isStuffableAirtight>false</isStuffableAirtight>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+      <claimable>false</claimable>
     </building>
     <costList>
       <WULA_Alloy>50</WULA_Alloy>
@@ -2078,7 +2079,7 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerPlant</compClass>
-        <basePowerConsumption>-1500</basePowerConsumption>
+        <basePowerConsumption>-2000</basePowerConsumption>
         <transmitsPower>true</transmitsPower>
         <soundAmbientProducingPower>ChemfuelFiredGenerator_Ambience</soundAmbientProducingPower>
       </li>
