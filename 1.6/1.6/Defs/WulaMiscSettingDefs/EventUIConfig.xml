@@ -19,7 +19,7 @@
     <showOptions>true</showOptions>
     
     <!-- 游戏控制设置 -->
-    <pauseGameOnOpen>false</pauseGameOnOpen>
+    <pauseGameOnOpen>true</pauseGameOnOpen>
 
     <!-- 元素尺寸 -->
     <portraitSize>(600,400)</portraitSize>
