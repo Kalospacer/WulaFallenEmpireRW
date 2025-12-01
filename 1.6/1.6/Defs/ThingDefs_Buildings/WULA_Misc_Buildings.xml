@@ -776,4 +776,108 @@
       </li>
     </comps>
   </ThingDef>
+
+  <ThingDef ParentName="MechBuildingBase">
+    <defName>WULA_MechAssembler</defName>
+    <label>乌拉帝国自动装配场</label>
+    <description>乌拉帝国从本地机械族搞来的工厂，给它刷了个漆重新调整了装配线，用以生产乌拉帝国的机械体。\n\n反正不要钱。</description>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>500</WorkToBuild>
+    </statBases>
+    <castEdgeShadows>false</castEdgeShadows>
+    <graphicData>
+      <texPath>Wula/Building/WULA_MechAssembler</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <shadowData>
+        <volume>(2.8, 0.8, 2.8)</volume>
+      </shadowData>
+      <damageData>
+        <rect>(0.15, 0.15, 2.7, 2.7)</rect>
+      </damageData>
+    </graphicData>
+    <building>
+      <combatPower>250</combatPower> <!-- Can spawn 1 of any mech, this is a rough average -->
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <claimable>false</claimable>
+    </building>
+    <costList>
+      <Plasteel>20</Plasteel>
+    </costList>
+    <comps>
+      <li Class="CompProperties_SpawnerPawn">
+        <spawnablePawnKinds>
+          <li>Mech_WULA_Cat_Assault</li>
+          <li>Mech_WULA_Cat_Constructor</li>
+        </spawnablePawnKinds>
+        <chooseSingleTypeToSpawn>True</chooseSingleTypeToSpawn>
+        <spawnMessageKey>MessageMechanoidsAssembled</spawnMessageKey>
+        <pawnsLeftToSpawnKey>MessageMechanoidsLeftToAssemble</pawnsLeftToSpawnKey>
+        <noPawnsLeftToSpawnKey>ShutDown</noPawnsLeftToSpawnKey>
+        <nextSpawnInspectStringKey>MechAssemblyCompleteIn</nextSpawnInspectStringKey>
+        <nextSpawnInspectStringKeyDormant>MechAssemblyNextType</nextSpawnInspectStringKeyDormant>
+        <maxPawnsToSpawn>16</maxPawnsToSpawn>
+        <spawnSound>MechAssembler_Spawn</spawnSound>
+        <showNextSpawnInInspect>true</showNextSpawnInInspect>
+        <lordJob>LordJob_MechanoidsDefend</lordJob>
+        <pawnSpawnIntervalDays>0.1</pawnSpawnIntervalDays>
+        <shouldJoinParentLord>True</shouldJoinParentLord>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="MechBuildingBase">
+    <defName>WULA_MechAssembler_Huge</defName>
+    <label>乌拉帝国大型自动装配场</label>
+    <description>乌拉帝国从本地机械族搞来的工厂，给它刷了个漆重新调整了装配线，用以生产乌拉帝国的机械体。这个型号比其他的稍大一些，可能会组装更加难以对付的机械部队。\n\n反正不要钱。</description>
+    <size>(4,4)</size>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>500</WorkToBuild>
+    </statBases>
+    <castEdgeShadows>false</castEdgeShadows>
+    <graphicData>
+      <texPath>Wula/Building/WULA_MechAssembler</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(2.8, 0.8, 2.8)</volume>
+      </shadowData>
+      <damageData>
+        <rect>(0.15, 0.15, 2.7, 2.7)</rect>
+      </damageData>
+    </graphicData>
+    <building>
+      <combatPower>250</combatPower> <!-- Can spawn 1 of any mech, this is a rough average -->
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <claimable>false</claimable>
+    </building>
+    <costList>
+      <Plasteel>20</Plasteel>
+    </costList>
+    <comps>
+      <li Class="CompProperties_SpawnerPawn">
+        <spawnablePawnKinds>
+          <li>Wula_AI_Rocket_Panzer</li>
+          <li>Wula_AI_Heavy_Panzer</li>
+          <li>Wula_Mech_Mobile_Shield</li>
+        </spawnablePawnKinds>
+        <chooseSingleTypeToSpawn>True</chooseSingleTypeToSpawn>
+        <spawnMessageKey>MessageMechanoidsAssembled</spawnMessageKey>
+        <pawnsLeftToSpawnKey>MessageMechanoidsLeftToAssemble</pawnsLeftToSpawnKey>
+        <noPawnsLeftToSpawnKey>ShutDown</noPawnsLeftToSpawnKey>
+        <nextSpawnInspectStringKey>MechAssemblyCompleteIn</nextSpawnInspectStringKey>
+        <nextSpawnInspectStringKeyDormant>MechAssemblyNextType</nextSpawnInspectStringKeyDormant>
+        <maxPawnsToSpawn>4</maxPawnsToSpawn>
+        <spawnSound>MechAssembler_Spawn</spawnSound>
+        <showNextSpawnInInspect>true</showNextSpawnInInspect>
+        <lordJob>LordJob_MechanoidsDefend</lordJob>
+        <pawnSpawnIntervalDays>0.3</pawnSpawnIntervalDays>
+        <shouldJoinParentLord>True</shouldJoinParentLord>
+      </li>
+    </comps>
+  </ThingDef>
 </Defs>

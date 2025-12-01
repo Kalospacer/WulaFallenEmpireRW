@@ -4,7 +4,7 @@
     <defName>WULA_Intro_NewColony</defName>
     <rootSelectionWeight>0</rootSelectionWeight>
     <autoAccept>false</autoAccept>
-    <sendAvailableLetter>false</sendAvailableLetter>
+    <sendAvailableLetter>true</sendAvailableLetter>
     <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
     <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
     <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->

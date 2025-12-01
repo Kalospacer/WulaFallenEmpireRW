@@ -438,13 +438,6 @@
       <li>PlaceWorker_ShowTurretRadius</li>
     </placeWorkers>
     <comps>
-      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
-      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
-        <damageDef>EMP</damageDef>
-        <damageAmount>50</damageAmount>
-        <armorPenetration>2</armorPenetration>
-        <destroyIfKilled>true</destroyIfKilled>
-      </li>
       <li Class="CompProperties_Stunnable">
         <affectedDamageDefs>
           <li>Stun</li>
@@ -476,6 +469,13 @@
         <glowColor>(120,240,252,0)</glowColor>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
+      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
+      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
+        <damageDef>EMP</damageDef>
+        <damageAmount>50</damageAmount>
+        <armorPenetration>2</armorPenetration>
+        <destroyIfKilled>true</destroyIfKilled>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">
@@ -728,13 +728,6 @@
       <li>PlaceWorker_ShowTurretRadius</li>
     </placeWorkers>
     <comps>
-      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
-      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
-        <damageDef>EMP</damageDef>
-        <damageAmount>50</damageAmount>
-        <armorPenetration>2</armorPenetration>
-        <destroyIfKilled>true</destroyIfKilled>
-      </li>
       <li Class="CompProperties_Stunnable">
         <affectedDamageDefs>
           <li>Stun</li>
@@ -766,6 +759,13 @@
         <glowColor>(120,240,252,0)</glowColor>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
+      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
+      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
+        <damageDef>EMP</damageDef>
+        <damageAmount>50</damageAmount>
+        <armorPenetration>2</armorPenetration>
+        <destroyIfKilled>true</destroyIfKilled>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">
@@ -1013,13 +1013,6 @@
       <li>PlaceWorker_ShowTurretRadius</li>
     </placeWorkers>
     <comps>
-      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
-      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
-        <damageDef>EMP</damageDef>
-        <damageAmount>500</damageAmount>
-        <armorPenetration>2</armorPenetration>
-        <destroyIfKilled>true</destroyIfKilled>
-      </li>
       <li Class="CompProperties_CanBeDormant" />
       <li Class="CompProperties_Initiatable" />
       <li Class="CompProperties_WakeUpDormant">
@@ -1051,6 +1044,13 @@
         <glowColor>(252,240,120,0)</glowColor> <!-- 黄色光晕 -->
       </li>
       <li Class="WulaFallenEmpire.CompProperties_ForceTargetable" />
+      <!-- 特殊组件，会在非玩家派系的时候眩晕该炮塔 -->
+      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
+        <damageDef>EMP</damageDef>
+        <damageAmount>500</damageAmount>
+        <armorPenetration>2</armorPenetration>
+        <destroyIfKilled>true</destroyIfKilled>
+      </li>
     </comps>
  </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">

@@ -533,4 +533,373 @@
       </li>
     </comps>
   </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Progressive_Ship_Mid_Beacon_Cleanzone</defName>
+    <label>乌拉帝国中型突击护航舰</label>
+    <description>一艘乌拉帝国中型突击护航舰的降落区</description>
+    <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(56,25)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <rotatable>false</rotatable>
+    <neverMultiSelect>false</neverMultiSelect>
+    <blockLight>false</blockLight>
+    <holdsRoof>false</holdsRoof>
+    <coversFloor>false</coversFloor>
+    <blockWind>false</blockWind>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <fillPercent>0</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(56,25)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <stuffCategories Inherit="False" />
+    <!-- <researchPrerequisites Inherit="False">
+      <li>WULA_Structure_Technology</li>
+    </researchPrerequisites> -->
+    <costStuffCount>0</costStuffCount>
+    <costList>
+      <WULA_Alloy>4</WULA_Alloy>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <isAirtight>false</isAirtight>
+      <isStuffableAirtight>false</isStuffableAirtight>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PrefabSkyfallerCaller">
+        <prefabDefName>WULA_Progressive_Ship_Mid_Prefeb</prefabDefName>
+        <freePrefab>true</freePrefab>
+        <skyfallerDef>WULA_Progressive_Ship_Mid_Prefeb_Incoming</skyfallerDef>
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- Prefab Spawner Skyfaller -->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Progressive_Ship_Mid_Prefeb_Incoming</defName>
+    <label>乌拉帝国中型突击护航舰（下落中）</label>
+    <thingClass>WulaFallenEmpire.Skyfaller_PrefabSpawner</thingClass>
+    <size>(56,25)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Progressive_Ship_Mid_Prefeb_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(61,26)</drawSize>
+      <drawOffset>(-2.5,0,0)</drawOffset>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(56,25)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>0</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <speed>2.5</speed>
+      <rotationCurve>
+        <points>
+          <li>(0,30)</li>
+          <li>(0.5,5)</li>
+          <li>(0.9,0)</li>
+          <li>(0.95,0)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0.95,1.5)</li>
+          <li>(1,0)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0.6,0.6)</li>
+          <li>(0.95,0.1)</li>
+          <li>(0.99,0.01)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerFaction">
+        <factionDef>AncientsHostile</factionDef>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Progressive_Ship_Small_Beacon_Cleanzone</defName>
+    <label>乌拉帝国小型突击护航舰</label>
+    <description>一艘乌拉帝国小型突击护航舰的降落区</description>
+    <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(26,22)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <rotatable>false</rotatable>
+    <neverMultiSelect>false</neverMultiSelect>
+    <blockLight>false</blockLight>
+    <holdsRoof>false</holdsRoof>
+    <coversFloor>false</coversFloor>
+    <blockWind>false</blockWind>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <fillPercent>0</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(26,22)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <stuffCategories Inherit="False" />
+    <!-- <researchPrerequisites Inherit="False">
+      <li>WULA_Structure_Technology</li>
+    </researchPrerequisites> -->
+    <costStuffCount>0</costStuffCount>
+    <costList>
+      <WULA_Alloy>4</WULA_Alloy>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <isAirtight>false</isAirtight>
+      <isStuffableAirtight>false</isStuffableAirtight>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PrefabSkyfallerCaller">
+        <prefabDefName>WULA_Progressive_Ship_Small_Prefeb</prefabDefName>
+        <freePrefab>true</freePrefab>
+        <skyfallerDef>WULA_Progressive_Ship_Small_Prefeb_Incoming</skyfallerDef>
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- Prefab Spawner Skyfaller -->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Progressive_Ship_Small_Prefeb_Incoming</defName>
+    <label>乌拉帝国小型突击护航舰（下落中）</label>
+    <thingClass>WulaFallenEmpire.Skyfaller_PrefabSpawner</thingClass>
+    <size>(26,22)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Progressive_Ship_Small_Prefeb_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(29.5,22)</drawSize>
+      <drawOffset>(-1.5,0,0)</drawOffset>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(26,22)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>0</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <speed>2.5</speed>
+      <rotationCurve>
+        <points>
+          <li>(0,30)</li>
+          <li>(0.5,5)</li>
+          <li>(0.9,0)</li>
+          <li>(0.95,0)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0.95,1.5)</li>
+          <li>(1,0)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0.6,0.6)</li>
+          <li>(0.95,0.1)</li>
+          <li>(0.99,0.01)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerFaction">
+        <factionDef>AncientsHostile</factionDef>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Progressive_Ship_Mini_Beacon_Cleanzone</defName>
+    <label>乌拉帝国微型突击护航舰</label>
+    <description>一艘乌拉帝国微型突击护航舰的降落区</description>
+    <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(13,11)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <rotatable>false</rotatable>
+    <neverMultiSelect>false</neverMultiSelect>
+    <blockLight>false</blockLight>
+    <holdsRoof>false</holdsRoof>
+    <coversFloor>false</coversFloor>
+    <blockWind>false</blockWind>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <fillPercent>0</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(13,11)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <stuffCategories Inherit="False" />
+    <!-- <researchPrerequisites Inherit="False">
+      <li>WULA_Structure_Technology</li>
+    </researchPrerequisites> -->
+    <costStuffCount>0</costStuffCount>
+    <costList>
+      <WULA_Alloy>4</WULA_Alloy>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <isAirtight>false</isAirtight>
+      <isStuffableAirtight>false</isStuffableAirtight>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PrefabSkyfallerCaller">
+        <prefabDefName>WULA_Progressive_Ship_Mini_Prefeb</prefabDefName>
+        <freePrefab>true</freePrefab>
+        <skyfallerDef>WULA_Progressive_Ship_Mini_Prefeb_Incoming</skyfallerDef>
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- Prefab Spawner Skyfaller -->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Progressive_Ship_Mini_Prefeb_Incoming</defName>
+    <label>乌拉帝国微型突击护航舰（下落中）</label>
+    <thingClass>WulaFallenEmpire.Skyfaller_PrefabSpawner</thingClass>
+    <size>(13,11)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Progressive_Ship_Mini_Prefeb_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(14.75,11)</drawSize>
+      <drawOffset>(-1,0,0)</drawOffset>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(13,11)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>0</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <speed>2.5</speed>
+      <rotationCurve>
+        <points>
+          <li>(0,30)</li>
+          <li>(0.5,5)</li>
+          <li>(0.9,0)</li>
+          <li>(0.95,0)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0.95,1.5)</li>
+          <li>(1,0)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0.6,0.6)</li>
+          <li>(0.95,0.1)</li>
+          <li>(0.99,0.01)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerFaction">
+        <factionDef>AncientsHostile</factionDef>
+      </li>
+    </comps>
+  </ThingDef>
 </Defs>

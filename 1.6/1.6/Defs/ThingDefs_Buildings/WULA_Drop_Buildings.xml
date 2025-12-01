@@ -406,6 +406,162 @@
     </researchPrerequisites>
     <uiOrder>1138</uiOrder>
   </TerrainDef>
+  <ThingDef ParentName="Wall">
+    <defName>WulaShelter_Cleanzone</defName>
+    <label>乌拉帝国掩体</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n用于保护乌拉帝国战士的掩体，非常厚实并且抵抗爆炸，战士们可以越过这些掩体进行射击。</description>
+    <uiIconPath>Wula/Building/Linked/WulaShelter_MenuIcon</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <ThingDef>WulaShelter</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/Linked/WulaWall/WulaWall_Atlas</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <color>(73,185,254,155)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <neverMultiSelect>false</neverMultiSelect>
+    <blockLight>false</blockLight>
+    <holdsRoof>false</holdsRoof>
+    <coversFloor>false</coversFloor>
+    <blockWind>false</blockWind>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <fillPercent>0</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(1,1)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <stuffCategories Inherit="False"/>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Structure_Technology</li>
+    </researchPrerequisites>
+    <costStuffCount>0</costStuffCount>
+    <costList>
+      <WULA_Alloy>1</WULA_Alloy>
+    </costList>
+    <building>
+      <isInert>false</isInert>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <isAirtight>false</isAirtight>
+      <isStuffableAirtight>false</isStuffableAirtight>
+      <isPlaceOverableWall>false</isPlaceOverableWall>
+    </building>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>WulaShelter_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WulaShelter_Incoming</defName>
+    <label>乌拉帝国掩体（空投中）</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/Linked/WulaShelter_MenuIcon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(1, 1)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WulaShelter</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WulaShelter</defName>
+    <label>乌拉帝国掩体</label>
+    <description>用于保护乌拉帝国战士的掩体，非常厚实并且抵抗爆炸，战士们可以越过这些掩体进行射击。</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Wula/Building/Linked/WulaShelter/WulaShelter_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>CornerFiller</linkType>
+      <linkFlags>
+        <li>Custom10</li>
+      </linkFlags>
+    </graphicData>
+    <uiIconPath>Wula/Building/Linked/WulaShelter_MenuIcon</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>42</pathCost>
+    <pathCostIgnoreRepeat>true</pathCostIgnoreRepeat>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.75</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <uiOrder>0</uiOrder>
+    <statBases>
+      <MaxHitPoints>800</MaxHitPoints>
+      <Beauty>-10</Beauty>
+      <WorkToBuild>180</WorkToBuild>
+      <Flammability>0</Flammability>
+    </statBases>
+    <building>
+      <ai_chillDestination>false</ai_chillDestination>
+      <isInert>true</isInert>
+      <blueprintGraphicData>
+        <texPath>Wula/Building/WulaShelter_Blueprint</texPath>
+      </blueprintGraphicData>
+      <canLandGravshipOn>true</canLandGravshipOn>
+    </building>
+    <costList>
+      <WULA_Alloy>1</WULA_Alloy>
+    </costList>
+    <designationCategory Inherit="False"/>
+    <stuffCategories Inherit="False"/>
+    <costStuffCount>0</costStuffCount>
+    <filthLeaving>SandbagRubble</filthLeaving>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <designationHotKey>Misc1</designationHotKey>
+  </ThingDef>
   
   <!-- 维护舱 -->
   <ThingDef ParentName="BuildingBase">

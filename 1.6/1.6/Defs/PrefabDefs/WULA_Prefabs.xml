@@ -1,10 +1,5 @@
 <Defs>
   <PrefabDef>
-    <defName>NewPrefab</defName> <!-- rename -->
-    <size>(13,14)</size>
-  </PrefabDef>
-
-  <PrefabDef>
     <defName>WULA_NewColonyBase</defName> <!-- rename -->
     <size>(13,14)</size>
     <things>
@@ -156,7 +151,7 @@
       <WULA_Cat_Bunker>
         <position>(2, 0, 2)</position>
       </WULA_Cat_Bunker>
-      <Sandbags>
+      <WulaShelter>
         <rects>
           <li>(0,0,1,0)</li>
           <li>(3,0,4,0)</li>
@@ -167,8 +162,7 @@
           <li>(1,4,1,4)</li>
           <li>(3,4,3,4)</li>
         </rects>
-        <stuff>Cloth</stuff>
-      </Sandbags>
+      </WulaShelter>
     </things>
   </PrefabDef>
   <PrefabDef>
@@ -210,7 +204,7 @@
           <li>(6,9,8,9)</li>
         </rects>
       </WulaWall>
-      <Sandbags>
+      <WulaShelter>
         <rects>
           <li>(1,1,5,1)</li>
           <li>(9,1,13,1)</li>
@@ -229,8 +223,7 @@
           <li>(2,13,4,13)</li>
           <li>(10,13,12,13)</li>
         </rects>
-        <stuff>Cloth</stuff>
-      </Sandbags>
+      </WulaShelter>
     </things>
   </PrefabDef>
   <PrefabDef>
@@ -383,7 +376,7 @@
       <Wula_DarkEnergy_Generators>
         <position>(12, 0, 12)</position>
       </Wula_DarkEnergy_Generators>
-      <Sandbags>
+      <WulaShelter>
         <rects>
           <li>(7,1,11,1)</li>
           <li>(13,1,17,1)</li>
@@ -410,8 +403,7 @@
           <li>(8,23,10,23)</li>
           <li>(14,23,16,23)</li>
         </rects>
-        <stuff>Cloth</stuff>
-      </Sandbags>
+      </WulaShelter>
     </things>
     <terrain>
       <WulaFloor>
@@ -433,7 +425,6 @@
       </WulaFloor>
     </terrain>
   </PrefabDef>
-
   <PrefabDef>
     <defName>WULA_Huge_Fortress_Drop_Zone_Prefeb</defName> <!-- rename -->
     <size>(44,44)</size>
@@ -702,7 +693,7 @@
           <li>(26, 0, 26)</li>
         </positions>
       </Wula_DarkEnergy_Generators>
-      <Sandbags>
+      <WulaShelter>
         <rects>
           <li>(0,0,3,0)</li>
           <li>(40,0,43,0)</li>
@@ -761,8 +752,7 @@
           <li>(1,43,3,43)</li>
           <li>(40,43,42,43)</li>
         </rects>
-        <stuff>Cloth</stuff>
-      </Sandbags>
+      </WulaShelter>
     </things>
     <terrain>
       <WulaFloor>
@@ -780,6 +770,540 @@
           <li>(32,26,33,37)</li>
           <li>(6,29,9,37)</li>
           <li>(34,29,37,37)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
+  </PrefabDef>
+
+  <PrefabDef>
+    <defName>WULA_Progressive_Ship_Mid_Prefeb</defName> <!-- rename -->
+    <size>(56,25)</size>
+    <things>
+      <Wula_Base_Laser_Turret>
+        <positions>
+          <li>(8, 0, 1)</li>
+          <li>(26, 0, 2)</li>
+          <li>(33, 0, 2)</li>
+          <li>(26, 0, 22)</li>
+          <li>(33, 0, 22)</li>
+          <li>(8, 0, 23)</li>
+        </positions>
+      </Wula_Base_Laser_Turret>
+      <WULA_MechAssembler>
+        <positions>
+          <li>(38, 0, 5)</li>
+          <li>(41, 0, 5)</li>
+          <li>(44, 0, 5)</li>
+          <li>(6, 0, 6)</li>
+          <li>(19, 0, 12)</li>
+          <li>(23, 0, 12)</li>
+          <li>(6, 0, 18)</li>
+          <li>(38, 0, 19)</li>
+          <li>(41, 0, 19)</li>
+          <li>(44, 0, 19)</li>
+        </positions>
+      </WULA_MechAssembler>
+      <VacBarrier>
+        <rects>
+          <li>(19,9,19,9)</li>
+          <li>(44,10,44,10)</li>
+          <li>(44,14,44,14)</li>
+          <li>(19,15,19,15)</li>
+        </rects>
+      </VacBarrier>
+      <VacBarrier>
+        <position>(29, 0, 12)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </VacBarrier>
+      <WulaDoor>
+        <rects>
+          <li>(10,4,10,4)</li>
+          <li>(18,7,18,7)</li>
+          <li>(20,7,20,7)</li>
+          <li>(30,12,30,12)</li>
+          <li>(42,12,42,12)</li>
+          <li>(45,12,45,12)</li>
+          <li>(18,17,18,17)</li>
+          <li>(20,17,20,17)</li>
+          <li>(10,20,10,20)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WulaDoor>
+      <WulaDoor>
+        <rects>
+          <li>(28,10,28,10)</li>
+          <li>(13,11,13,11)</li>
+          <li>(13,13,13,13)</li>
+          <li>(28,14,28,14)</li>
+        </rects>
+      </WulaDoor>
+      <WULA_MechAssembler_Huge>
+        <positions>
+          <li>(34, 0, 6)</li>
+          <li>(48, 0, 6)</li>
+          <li>(34, 0, 17)</li>
+          <li>(48, 0, 17)</li>
+        </positions>
+      </WULA_MechAssembler_Huge>
+      <Wula_Fusion_Generators>
+        <positions>
+          <li>(12, 0, 3)</li>
+          <li>(12, 0, 21)</li>
+        </positions>
+      </Wula_Fusion_Generators>
+      <WallLamp>
+        <rects>
+          <li>(6,4,6,4)</li>
+          <li>(18,10,18,10)</li>
+          <li>(41,16,41,16)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(41,8,41,8)</li>
+          <li>(18,14,18,14)</li>
+          <li>(6,20,6,20)</li>
+        </rects>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(26,10,26,10)</li>
+          <li>(26,14,26,14)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WallLamp>
+      <Wula_Base_Mortar_Turret>
+        <positions>
+          <li>(26, 0, 6)</li>
+          <li>(30, 0, 6)</li>
+          <li>(26, 0, 18)</li>
+          <li>(30, 0, 18)</li>
+        </positions>
+      </Wula_Base_Mortar_Turret>
+      <Wula_Base_ATGun_Turret>
+        <positions>
+          <li>(1, 0, 3)</li>
+          <li>(54, 0, 7)</li>
+          <li>(5, 0, 12)</li>
+          <li>(54, 0, 17)</li>
+          <li>(1, 0, 21)</li>
+        </positions>
+      </Wula_Base_ATGun_Turret>
+      <WulaWall>
+        <rects>
+          <li>(2,1,6,1)</li>
+          <li>(10,1,14,1)</li>
+          <li>(28,1,31,1)</li>
+          <li>(3,2,3,5)</li>
+          <li>(6,2,6,3)</li>
+          <li>(10,2,10,3)</li>
+          <li>(14,2,14,5)</li>
+          <li>(28,2,28,4)</li>
+          <li>(31,2,31,4)</li>
+          <li>(35,2,37,2)</li>
+          <li>(7,3,9,3)</li>
+          <li>(35,3,35,4)</li>
+          <li>(37,3,49,3)</li>
+          <li>(23,4,27,4)</li>
+          <li>(32,4,34,4)</li>
+          <li>(49,4,51,4)</li>
+          <li>(2,5,2,5)</li>
+          <li>(4,5,4,8)</li>
+          <li>(10,5,13,5)</li>
+          <li>(15,5,16,5)</li>
+          <li>(23,5,23,7)</li>
+          <li>(32,5,32,9)</li>
+          <li>(51,5,53,5)</li>
+          <li>(10,6,10,11)</li>
+          <li>(16,6,16,11)</li>
+          <li>(18,6,20,6)</li>
+          <li>(52,6,52,9)</li>
+          <li>(22,7,22,9)</li>
+          <li>(2,8,3,8)</li>
+          <li>(5,8,5,10)</li>
+          <li>(18,8,18,9)</li>
+          <li>(20,8,20,9)</li>
+          <li>(27,8,31,8)</li>
+          <li>(17,9,17,9)</li>
+          <li>(21,9,21,9)</li>
+          <li>(27,9,27,10)</li>
+          <li>(33,9,41,9)</li>
+          <li>(46,9,51,9)</li>
+          <li>(53,9,53,9)</li>
+          <li>(6,10,7,10)</li>
+          <li>(29,10,29,11)</li>
+          <li>(41,10,43,10)</li>
+          <li>(45,10,46,10)</li>
+          <li>(7,11,7,14)</li>
+          <li>(11,11,12,11)</li>
+          <li>(14,11,15,11)</li>
+          <li>(30,11,30,11)</li>
+          <li>(42,11,42,11)</li>
+          <li>(45,11,45,11)</li>
+          <li>(10,13,12,13)</li>
+          <li>(14,13,16,13)</li>
+          <li>(29,13,30,13)</li>
+          <li>(42,13,42,14)</li>
+          <li>(45,13,45,14)</li>
+          <li>(5,14,6,14)</li>
+          <li>(10,14,10,19)</li>
+          <li>(16,14,16,19)</li>
+          <li>(27,14,27,16)</li>
+          <li>(29,14,29,14)</li>
+          <li>(41,14,41,15)</li>
+          <li>(43,14,43,14)</li>
+          <li>(46,14,46,15)</li>
+          <li>(5,15,5,16)</li>
+          <li>(17,15,18,15)</li>
+          <li>(20,15,22,15)</li>
+          <li>(32,15,40,15)</li>
+          <li>(47,15,53,15)</li>
+          <li>(2,16,4,16)</li>
+          <li>(18,16,18,16)</li>
+          <li>(20,16,20,16)</li>
+          <li>(22,16,22,17)</li>
+          <li>(28,16,32,16)</li>
+          <li>(52,16,52,19)</li>
+          <li>(4,17,4,19)</li>
+          <li>(23,17,23,20)</li>
+          <li>(32,17,32,20)</li>
+          <li>(18,18,20,18)</li>
+          <li>(2,19,3,19)</li>
+          <li>(11,19,15,19)</li>
+          <li>(51,19,51,20)</li>
+          <li>(53,19,53,19)</li>
+          <li>(3,20,3,23)</li>
+          <li>(14,20,14,23)</li>
+          <li>(24,20,28,20)</li>
+          <li>(31,20,31,23)</li>
+          <li>(33,20,35,20)</li>
+          <li>(49,20,50,20)</li>
+          <li>(6,21,10,21)</li>
+          <li>(28,21,28,23)</li>
+          <li>(35,21,35,22)</li>
+          <li>(37,21,49,21)</li>
+          <li>(6,22,6,23)</li>
+          <li>(10,22,10,23)</li>
+          <li>(36,22,37,22)</li>
+          <li>(2,23,2,23)</li>
+          <li>(4,23,5,23)</li>
+          <li>(11,23,13,23)</li>
+          <li>(29,23,30,23)</li>
+        </rects>
+      </WulaWall>
+      <Wula_DarkEnergy_Generators>
+        <positions>
+          <li>(13, 0, 8)</li>
+          <li>(13, 0, 16)</li>
+        </positions>
+      </Wula_DarkEnergy_Generators>
+      <LargeThruster>
+        <positions>
+          <li>(2, 0, 7)</li>
+          <li>(3, 0, 10)</li>
+          <li>(3, 0, 15)</li>
+          <li>(2, 0, 18)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+      </LargeThruster>
+    </things>
+    <terrain>
+      <Substructure>
+        <rects>
+          <li>(7,0,9,24)</li>
+          <li>(2,1,6,8)</li>
+          <li>(10,1,14,23)</li>
+          <li>(25,1,34,8)</li>
+          <li>(0,2,1,4)</li>
+          <li>(35,2,37,9)</li>
+          <li>(38,3,49,9)</li>
+          <li>(23,4,24,20)</li>
+          <li>(50,4,51,9)</li>
+          <li>(15,5,16,19)</li>
+          <li>(52,5,53,9)</li>
+          <li>(18,6,20,18)</li>
+          <li>(54,6,55,8)</li>
+          <li>(22,7,22,17)</li>
+          <li>(3,9,6,10)</li>
+          <li>(17,9,17,15)</li>
+          <li>(21,9,21,15)</li>
+          <li>(25,9,27,23)</li>
+          <li>(32,9,34,9)</li>
+          <li>(28,10,29,14)</li>
+          <li>(41,10,46,10)</li>
+          <li>(4,11,6,23)</li>
+          <li>(30,11,30,13)</li>
+          <li>(42,11,45,21)</li>
+          <li>(3,14,3,23)</li>
+          <li>(41,14,41,21)</li>
+          <li>(46,14,46,21)</li>
+          <li>(32,15,40,21)</li>
+          <li>(47,15,53,19)</li>
+          <li>(2,16,2,23)</li>
+          <li>(28,16,31,23)</li>
+          <li>(54,16,55,18)</li>
+          <li>(0,20,1,22)</li>
+          <li>(47,20,51,20)</li>
+          <li>(47,21,49,21)</li>
+          <li>(32,22,37,22)</li>
+          <li>(32,23,34,23)</li>
+        </rects>
+      </Substructure>
+      <WulaFloor>
+        <rects>
+          <li>(7,0,9,24)</li>
+          <li>(2,1,6,8)</li>
+          <li>(10,1,14,23)</li>
+          <li>(25,1,34,8)</li>
+          <li>(0,2,1,4)</li>
+          <li>(35,2,37,9)</li>
+          <li>(38,3,49,9)</li>
+          <li>(23,4,24,20)</li>
+          <li>(50,4,51,9)</li>
+          <li>(15,5,16,19)</li>
+          <li>(52,5,53,9)</li>
+          <li>(18,6,20,18)</li>
+          <li>(54,6,55,8)</li>
+          <li>(22,7,22,17)</li>
+          <li>(3,9,6,10)</li>
+          <li>(17,9,17,15)</li>
+          <li>(21,9,21,15)</li>
+          <li>(25,9,27,23)</li>
+          <li>(32,9,34,9)</li>
+          <li>(28,10,29,14)</li>
+          <li>(41,10,46,10)</li>
+          <li>(4,11,6,23)</li>
+          <li>(30,11,30,13)</li>
+          <li>(42,11,45,21)</li>
+          <li>(3,14,3,23)</li>
+          <li>(41,14,41,21)</li>
+          <li>(46,14,46,21)</li>
+          <li>(32,15,40,21)</li>
+          <li>(47,15,53,19)</li>
+          <li>(2,16,2,23)</li>
+          <li>(28,16,31,23)</li>
+          <li>(54,16,55,18)</li>
+          <li>(0,20,1,22)</li>
+          <li>(47,20,51,20)</li>
+          <li>(47,21,49,21)</li>
+          <li>(32,22,37,22)</li>
+          <li>(32,23,34,23)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
+  </PrefabDef>
+  <PrefabDef>
+    <defName>WULA_Progressive_Ship_Small_Prefeb</defName> <!-- rename -->
+    <size>(26,22)</size>
+    <things>
+      <Wula_Base_Laser_Turret>
+        <positions>
+          <li>(17, 0, 3)</li>
+          <li>(16, 0, 18)</li>
+        </positions>
+      </Wula_Base_Laser_Turret>
+      <WULA_MechAssembler>
+        <positions>
+          <li>(12, 0, 6)</li>
+          <li>(20, 0, 6)</li>
+          <li>(12, 0, 15)</li>
+          <li>(20, 0, 15)</li>
+        </positions>
+      </WULA_MechAssembler>
+      <WulaDoor>
+        <rects>
+          <li>(24,10,24,11)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WulaDoor>
+      <WULA_MechAssembler_Huge>
+        <position>(20, 0, 10)</position>
+      </WULA_MechAssembler_Huge>
+      <Wula_Fusion_Generators>
+        <positions>
+          <li>(5, 0, 8)</li>
+          <li>(8, 0, 8)</li>
+          <li>(5, 0, 13)</li>
+          <li>(8, 0, 13)</li>
+        </positions>
+      </Wula_Fusion_Generators>
+      <WULA_Cat_Bunker>
+        <positions>
+          <li>(6, 0, 1)</li>
+          <li>(9, 0, 1)</li>
+          <li>(1, 0, 9)</li>
+          <li>(1, 0, 12)</li>
+          <li>(6, 0, 20)</li>
+          <li>(9, 0, 20)</li>
+        </positions>
+      </WULA_Cat_Bunker>
+      <Wula_Base_Mortar_Turret>
+        <positions>
+          <li>(16, 0, 8)</li>
+          <li>(16, 0, 13)</li>
+        </positions>
+      </Wula_Base_Mortar_Turret>
+      <WulaWall>
+        <rects>
+          <li>(1,5,3,5)</li>
+          <li>(3,6,10,6)</li>
+          <li>(14,6,14,15)</li>
+          <li>(18,6,18,15)</li>
+          <li>(3,7,3,16)</li>
+          <li>(10,7,10,8)</li>
+          <li>(22,7,25,7)</li>
+          <li>(11,8,13,8)</li>
+          <li>(19,8,22,8)</li>
+          <li>(25,8,25,9)</li>
+          <li>(24,9,24,9)</li>
+          <li>(15,10,17,11)</li>
+          <li>(24,12,25,12)</li>
+          <li>(10,13,13,13)</li>
+          <li>(19,13,22,13)</li>
+          <li>(25,13,25,14)</li>
+          <li>(10,14,10,15)</li>
+          <li>(22,14,24,14)</li>
+          <li>(4,15,9,15)</li>
+          <li>(1,16,2,16)</li>
+        </rects>
+      </WulaWall>
+      <LargeThruster>
+        <positions>
+          <li>(1, 0, 7)</li>
+          <li>(1, 0, 15)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+      </LargeThruster>
+    </things>
+    <terrain>
+      <Substructure>
+        <rects>
+          <li>(5,0,10,2)</li>
+          <li>(11,1,15,3)</li>
+          <li>(16,2,18,4)</li>
+          <li>(4,3,7,4)</li>
+          <li>(2,4,3,17)</li>
+          <li>(1,5,1,16)</li>
+          <li>(4,5,5,18)</li>
+          <li>(11,5,13,16)</li>
+          <li>(19,5,21,16)</li>
+          <li>(6,6,10,15)</li>
+          <li>(14,6,14,15)</li>
+          <li>(18,6,18,15)</li>
+          <li>(15,7,17,14)</li>
+          <li>(22,7,25,9)</li>
+          <li>(0,8,0,13)</li>
+          <li>(22,10,24,14)</li>
+          <li>(25,12,25,14)</li>
+          <li>(6,17,7,21)</li>
+          <li>(15,17,17,19)</li>
+          <li>(10,18,14,20)</li>
+          <li>(5,19,5,21)</li>
+          <li>(8,19,9,21)</li>
+          <li>(10,21,10,21)</li>
+        </rects>
+      </Substructure>
+      <WulaFloor>
+        <rects>
+          <li>(5,0,10,2)</li>
+          <li>(11,1,15,3)</li>
+          <li>(16,2,18,4)</li>
+          <li>(4,3,7,4)</li>
+          <li>(2,4,3,17)</li>
+          <li>(1,5,1,16)</li>
+          <li>(4,5,5,18)</li>
+          <li>(11,5,13,16)</li>
+          <li>(19,5,21,16)</li>
+          <li>(6,6,10,15)</li>
+          <li>(14,6,14,15)</li>
+          <li>(18,6,18,15)</li>
+          <li>(15,7,17,14)</li>
+          <li>(22,7,25,9)</li>
+          <li>(0,8,0,13)</li>
+          <li>(22,10,24,14)</li>
+          <li>(25,12,25,14)</li>
+          <li>(6,17,7,21)</li>
+          <li>(15,17,17,19)</li>
+          <li>(10,18,14,20)</li>
+          <li>(5,19,5,21)</li>
+          <li>(8,19,9,21)</li>
+          <li>(10,21,10,21)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
+  </PrefabDef>
+  <PrefabDef>
+    <defName>WULA_Progressive_Ship_Mini_Prefeb</defName> <!-- rename -->
+    <size>(13,11)</size>
+    <things>
+      <WULA_MechAssembler>
+        <positions>
+          <li>(7, 0, 1)</li>
+          <li>(7, 0, 9)</li>
+        </positions>
+      </WULA_MechAssembler>
+      <WulaDoor>
+        <position>(11, 0, 5)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WulaDoor>
+      <WULA_Wall_Flag_Building>
+        <rects>
+          <li>(12,4,12,4)</li>
+          <li>(12,6,12,6)</li>
+        </rects>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WULA_Wall_Flag_Building>
+      <WULA_Cat_Bunker>
+        <positions>
+          <li>(10, 0, 1)</li>
+          <li>(1, 0, 2)</li>
+          <li>(1, 0, 8)</li>
+          <li>(10, 0, 9)</li>
+        </positions>
+      </WULA_Cat_Bunker>
+      <SmallThruster>
+        <position>(1, 0, 5)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </SmallThruster>
+      <WulaWall>
+        <rects>
+          <li>(9,3,11,3)</li>
+          <li>(1,4,9,4)</li>
+          <li>(11,4,11,4)</li>
+          <li>(1,6,9,6)</li>
+          <li>(11,6,11,7)</li>
+          <li>(9,7,10,7)</li>
+        </rects>
+      </WulaWall>
+    </things>
+    <terrain>
+      <Substructure>
+        <rects>
+          <li>(6,0,11,2)</li>
+          <li>(0,1,2,3)</li>
+          <li>(5,1,5,2)</li>
+          <li>(12,1,12,2)</li>
+          <li>(9,3,11,10)</li>
+          <li>(1,4,8,6)</li>
+          <li>(0,7,2,9)</li>
+          <li>(5,8,8,9)</li>
+          <li>(12,8,12,9)</li>
+          <li>(6,10,8,10)</li>
+        </rects>
+      </Substructure>
+      <WulaFloor>
+        <rects>
+          <li>(6,0,11,2)</li>
+          <li>(0,1,2,3)</li>
+          <li>(5,1,5,2)</li>
+          <li>(12,1,12,2)</li>
+          <li>(9,3,11,10)</li>
+          <li>(1,4,8,6)</li>
+          <li>(0,7,2,9)</li>
+          <li>(5,8,8,9)</li>
+          <li>(12,8,12,9)</li>
+          <li>(6,10,8,10)</li>
         </rects>
       </WulaFloor>
     </terrain>
