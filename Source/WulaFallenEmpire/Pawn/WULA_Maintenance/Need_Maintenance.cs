@@ -3,6 +3,7 @@ using RimWorld;
 using Verse;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace WulaFallenEmpire
 {
@@ -16,6 +17,10 @@ namespace WulaFallenEmpire
         // 新增：记录当前应用的 Hediff 状态
         private MaintenanceStatus currentAppliedStatus = MaintenanceStatus.Operational;
         private Hediff currentAppliedHediff = null;
+
+        // 新增：验证计数器
+        private int validationTickCounter = 0;
+        private const int VALIDATION_INTERVAL_TICKS = 250; // 每250 ticks验证一次
 
         // 当前维护状态
         public MaintenanceStatus Status
@@ -60,6 +65,7 @@ namespace WulaFallenEmpire
             daysSinceLastMaintenance = 0f;
             currentAppliedStatus = MaintenanceStatus.Operational;
             currentAppliedHediff = null;
+            validationTickCounter = 0;
         }
 
         public override void NeedInterval()
@@ -85,6 +91,136 @@ namespace WulaFallenEmpire
             
             // 检查状态变化
             CheckStatusChanges();
+            
+            // 新增：周期性验证 Hediff 状态
+            PerformHediffValidation();
+        }
+
+        // 新增：周期性 Hediff 验证
+        private void PerformHediffValidation()
+        {
+            validationTickCounter += 150; // NeedInterval 每次调用间隔150 ticks
+            
+            if (validationTickCounter >= VALIDATION_INTERVAL_TICKS)
+            {
+                validationTickCounter = 0;
+                ValidateHediffConsistency();
+            }
+        }
+
+        // 新增：验证 Hediff 一致性
+        private void ValidateHediffConsistency()
+        {
+            if (pawn.Dead || !pawn.Spawned)
+                return;
+
+            var expectedStatus = Status;
+            var actualHediffs = GetCurrentMaintenanceHediffs();
+            
+            // 情况1：没有 Hediff，但应该有
+            if (expectedStatus != MaintenanceStatus.Operational && actualHediffs.Count == 0)
+            {
+                Log.Warning($"[Maintenance] Validation: {pawn.Label} should have {expectedStatus} hediff but has none. Reapplying.");
+                UpdateHediffForStatus(expectedStatus);
+                return;
+            }
+            
+            // 情况2：有 Hediff，但不应该有
+            if (expectedStatus == MaintenanceStatus.Operational && actualHediffs.Count > 0)
+            {
+                Log.Warning($"[Maintenance] Validation: {pawn.Label} is operational but has maintenance hediffs. Removing all.");
+                RemoveAllMaintenanceHediffs();
+                currentAppliedStatus = MaintenanceStatus.Operational;
+                currentAppliedHediff = null;
+                return;
+            }
+            
+            // 情况3：有多个 Hediff
+            if (actualHediffs.Count > 1)
+            {
+                Log.Warning($"[Maintenance] Validation: {pawn.Label} has multiple maintenance hediffs ({actualHediffs.Count}). Cleaning up.");
+                CleanupMultipleHediffs(expectedStatus);
+                return;
+            }
+            
+            // 情况4：Hediff 类型不正确
+            if (actualHediffs.Count == 1 && expectedStatus != MaintenanceStatus.Operational)
+            {
+                var currentHediff = actualHediffs[0];
+                var expectedHediffDef = GetHediffDefForStatus(expectedStatus);
+                
+                if (currentHediff.def != expectedHediffDef)
+                {
+                    Log.Warning($"[Maintenance] Validation: {pawn.Label} has wrong hediff type. Expected {expectedHediffDef?.defName}, got {currentHediff.def.defName}. Correcting.");
+                    UpdateHediffForStatus(expectedStatus);
+                    return;
+                }
+                
+                // 更新当前应用的 Hediff 引用
+                if (currentAppliedHediff != currentHediff)
+                {
+                    currentAppliedHediff = currentHediff;
+                    Log.Message($"[Maintenance] Validation: Updated currentAppliedHediff reference for {pawn.Label}");
+                }
+            }
+            
+            // 情况5：状态记录不一致
+            if (currentAppliedStatus != expectedStatus)
+            {
+                Log.Warning($"[Maintenance] Validation: {pawn.Label} status mismatch. Recorded: {currentAppliedStatus}, Actual: {expectedStatus}. Synchronizing.");
+                currentAppliedStatus = expectedStatus;
+            }
+        }
+
+        // 新增：获取当前所有的维护 Hediff
+        private List<Hediff> GetCurrentMaintenanceHediffs()
+        {
+            var maintenanceHediffs = new List<Hediff>();
+            
+            if (Extension == null)
+                return maintenanceHediffs;
+
+            var allMaintenanceHediffDefs = new List<HediffDef>
+            {
+                Extension.minorBreakdownHediff,
+                Extension.majorBreakdownHediff,
+                Extension.criticalFailureHediff
+            }.Where(def => def != null).ToList();
+
+            foreach (var hediff in pawn.health.hediffSet.hediffs)
+            {
+                if (allMaintenanceHediffDefs.Contains(hediff.def))
+                {
+                    maintenanceHediffs.Add(hediff);
+                }
+            }
+
+            return maintenanceHediffs;
+        }
+
+        // 新增：移除所有维护 Hediff
+        private void RemoveAllMaintenanceHediffs()
+        {
+            var maintenanceHediffs = GetCurrentMaintenanceHediffs();
+            foreach (var hediff in maintenanceHediffs)
+            {
+                pawn.health.RemoveHediff(hediff);
+            }
+        }
+
+        // 新增：清理多个 Hediff
+        private void CleanupMultipleHediffs(MaintenanceStatus expectedStatus)
+        {
+            // 移除所有维护 Hediff
+            RemoveAllMaintenanceHediffs();
+            
+            // 重新应用正确的 Hediff
+            if (expectedStatus != MaintenanceStatus.Operational)
+            {
+                UpdateHediffForStatus(expectedStatus);
+            }
+            
+            currentAppliedStatus = expectedStatus;
         }
 
         // 修改 CalculateDegradationRate 方法以使用 StatDef
@@ -110,27 +246,22 @@ namespace WulaFallenEmpire
             // 只有当状态发生变化时才更新 Hediff
             if (newStatus != currentAppliedStatus)
             {
+                if (Prefs.DevMode)
+                {
+                    Log.Message($"[Maintenance] Status changed for {pawn.Label}: {currentAppliedStatus} -> {newStatus}");
+                }
+                
                 UpdateHediffForStatus(newStatus);
                 currentAppliedStatus = newStatus;
             }
-            
-            // 额外检查：确保当前 Hediff 仍然存在（可能被其他系统移除）
-            if (currentAppliedHediff != null && !pawn.health.hediffSet.hediffs.Contains(currentAppliedHediff))
-            {
-                // Hediff 被意外移除，重新应用
-                UpdateHediffForStatus(currentAppliedStatus);
-            }
         }
 
-        // 新增：智能更新 Hediff
+        // 修改：智能更新 Hediff
         private void UpdateHediffForStatus(MaintenanceStatus status)
         {
-            // 首先移除当前应用的 Hediff
-            if (currentAppliedHediff != null)
-            {
-                pawn.health.RemoveHediff(currentAppliedHediff);
-                currentAppliedHediff = null;
-            }
+            // 首先移除所有维护相关的 Hediff
+            RemoveAllMaintenanceHediffs();
+            currentAppliedHediff = null;
 
             // 根据新状态添加相应的 Hediff
             HediffDef hediffDefToAdd = GetHediffDefForStatus(status);
@@ -142,7 +273,7 @@ namespace WulaFallenEmpire
                 // 调试日志
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"Maintenance: Applied {hediffDefToAdd.defName} for status {status} to {pawn.Label}");
+                    Log.Message($"[Maintenance] Applied {hediffDefToAdd.defName} for status {status} to {pawn.Label}");
                 }
             }
             else if (status == MaintenanceStatus.Operational)
@@ -150,7 +281,7 @@ namespace WulaFallenEmpire
                 // 操作状态，不需要 Hediff
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"Maintenance: {pawn.Label} is operational, no hediff needed");
+                    Log.Message($"[Maintenance] {pawn.Label} is operational, no hediff needed");
                 }
             }
         }
@@ -181,13 +312,16 @@ namespace WulaFallenEmpire
             CurLevel = ClampNeedLevel(CurLevel);
             daysSinceLastMaintenance = 0f;
             
-            // 更新状态（会自动移除旧的 Hediff 并应用新的）
+            // 强制验证以确保状态正确
             var newStatus = Status;
             UpdateHediffForStatus(newStatus);
             currentAppliedStatus = newStatus;
             
             // 触发维护完成的效果
             OnMaintenancePerformed(maintenanceAmount);
+            
+            // 立即执行一次验证
+            ValidateHediffConsistency();
         }
 
         // 修改 ApplyDamagePenalty 方法以使用 StatDef
@@ -208,6 +342,9 @@ namespace WulaFallenEmpire
                 UpdateHediffForStatus(newStatus);
                 currentAppliedStatus = newStatus;
             }
+            
+            // 立即执行一次验证
+            ValidateHediffConsistency();
         }
 
         private void OnMaintenancePerformed(float amount)
@@ -240,21 +377,18 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref daysSinceLastMaintenance, "daysSinceLastMaintenance", 0f);
             Scribe_Values.Look(ref currentAppliedStatus, "currentAppliedStatus", MaintenanceStatus.Operational);
             Scribe_References.Look(ref currentAppliedHediff, "currentAppliedHediff");
+            Scribe_Values.Look(ref validationTickCounter, "validationTickCounter", 0);
             
             // 修复：加载后验证状态一致性
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                // 确保当前状态与实际 Hediff 一致
-                if (currentAppliedHediff != null && !pawn.health.hediffSet.hediffs.Contains(currentAppliedHediff))
+                // 延迟执行验证，确保所有组件都已加载
+                LongEventHandler.ExecuteWhenFinished(() =>
                 {
-                    // Hediff 丢失，重新应用
-                    UpdateHediffForStatus(currentAppliedStatus);
-                }
-                else if (currentAppliedHediff == null && currentAppliedStatus != MaintenanceStatus.Operational)
-                {
-                    // 应该有 Hediff 但没有，重新应用
-                    UpdateHediffForStatus(currentAppliedStatus);
-                }
+                    // 使用简单的延迟调用而不是 AddOnceOffAction
+                    Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame); // 强制触发一次更新
+                    ValidateHediffConsistency();
+                });
             }
         }
     }

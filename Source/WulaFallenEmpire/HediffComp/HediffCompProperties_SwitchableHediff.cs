@@ -85,8 +85,6 @@ namespace WulaFallenEmpire
                     
                     // 记录hediff的ID用于保存/恢复
                     activeHediffId = GetHediffId(activeHediff);
-                    
-                    Log.Message($"[SwitchableHediff] Applied {hediffDef.defName} to {Pawn.LabelShort}, ID: {activeHediffId}");
                 }
             }
         }
@@ -109,7 +107,6 @@ namespace WulaFallenEmpire
                 if (GetHediffId(hediff) == activeHediffId)
                 {
                     activeHediff = hediff;
-                    Log.Message($"[SwitchableHediff] Restored active hediff: {hediff.def.defName}, ID: {activeHediffId}");
                     return true;
                 }
             }
@@ -124,7 +121,6 @@ namespace WulaFallenEmpire
                     {
                         activeHediff = hediff;
                         activeHediffId = GetHediffId(hediff);
-                        Log.Message($"[SwitchableHediff] Found matching hediff by def: {hediff.def.defName}");
                         return true;
                     }
                 }
@@ -329,7 +325,6 @@ namespace WulaFallenEmpire
             // 加载后恢复状态
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                Log.Message($"[SwitchableHediff] PostLoadInit - currentHediffIndex: {currentHediffIndex}, activeHediffId: {activeHediffId}");
                 
                 if (currentHediffIndex == -1 && Props.availableHediffs.Count > 0)
                 {
@@ -342,13 +337,7 @@ namespace WulaFallenEmpire
                 // 尝试恢复已保存的hediff引用
                 if (!TryRestoreActiveHediff())
                 {
-                    // 如果恢复失败，重新应用当前选择的hediff
-                    Log.Message($"[SwitchableHediff] Failed to restore active hediff, reapplying...");
                     ApplySelectedHediff();
-                }
-                else
-                {
-                    Log.Message($"[SwitchableHediff] Successfully restored active hediff");
                 }
                 
                 // 验证状态一致性
@@ -364,7 +353,6 @@ namespace WulaFallenEmpire
             // 检查currentHediffIndex是否有效
             if (currentHediffIndex < 0 || currentHediffIndex >= Props.availableHediffs.Count)
             {
-                Log.Warning($"[SwitchableHediff] Invalid currentHediffIndex: {currentHediffIndex}");
                 hasConsistency = false;
             }
             
@@ -374,14 +362,12 @@ namespace WulaFallenEmpire
                 var expectedDef = Props.availableHediffs[currentHediffIndex];
                 if (activeHediff.def != expectedDef)
                 {
-                    Log.Warning($"[SwitchableHediff] Inconsistent state: activeHediff.def ({activeHediff.def.defName}) != expectedDef ({expectedDef.defName})");
                     hasConsistency = false;
                 }
             }
             
             if (!hasConsistency)
             {
-                Log.Message($"[SwitchableHediff] State inconsistency detected, attempting to repair...");
                 RepairState();
             }
         }
@@ -397,14 +383,11 @@ namespace WulaFallenEmpire
                     if (Props.availableHediffs[i] == activeHediff.def)
                     {
                         currentHediffIndex = i;
-                        Log.Message($"[SwitchableHediff] Repaired: set currentHediffIndex to {i} based on active hediff");
                         return;
                     }
                 }
             }
             
-            // 如果无法修复，重新应用当前选择的hediff
-            Log.Message($"[SwitchableHediff] Could not repair state, reapplying current selection");
             ApplySelectedHediff();
         }
         

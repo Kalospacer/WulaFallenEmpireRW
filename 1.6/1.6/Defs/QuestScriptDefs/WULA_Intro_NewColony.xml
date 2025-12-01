@@ -3,7 +3,7 @@
   <QuestScriptDef>
     <defName>WULA_Intro_NewColony</defName>
     <rootSelectionWeight>0</rootSelectionWeight>
-    <autoAccept>true</autoAccept>
+    <autoAccept>false</autoAccept>
     <sendAvailableLetter>false</sendAvailableLetter>
     <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
     <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->

@@ -2362,6 +2362,7 @@
     <label>由于原版实在是太难太难了，而其他各个受欢迎的MOD也太难太难了，您在苦苦支撑的过程中已经付出了无可指摘的努力，您的游戏理解完全正确，只是您的游戏遭遇太不公了。所以您不应该去寻求他人的指导或者做出任何改进，而是理应用一种合理的、不是作弊的、无可置疑正统的方式，轻松地享受成为边缘世界霸主的感觉。</label>
     <description>可以删除除了块堆和地板外所有东西的武器，拿去和其他超正义mod对打吧——你或许知道，这玩意不属于正常流程中应使用的东西。</description>
     <smeltable>false</smeltable>
+    <generateAllowChance>0</generateAllowChance>
     <graphicData>
       <texPath>Wula/Weapon/WULA_MW_Scepter_Of_CLoak</texPath>
       <graphicClass>Graphic_Single</graphicClass>
