@@ -5,7 +5,7 @@
     <label>乌拉帝国先遣队</label>
     <description>乌拉帝国开发署的舰队已经抵达边缘世界，一支负责建立地面前哨站的先遣队被部署到星球上。</description>
     <scenario>
-      <summary>以三位机械乌拉为初始殖民者开始游戏。</summary>
+      <summary>以2位机械乌拉为初始殖民者开始游戏，附带一个哨站信标以召唤小型预制前哨站。</summary>
       <playerFaction>
         <def>PlayerFaction</def>
         <factionDef>WULA_Awakened_Synth</factionDef>
