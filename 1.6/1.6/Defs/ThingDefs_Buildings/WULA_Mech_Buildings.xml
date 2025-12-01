@@ -30,6 +30,7 @@
       <WULA_Charge_Cube>18</WULA_Charge_Cube>
       <ComponentSpacer>2</ComponentSpacer>
       <Uranium>50</Uranium>
+      <WULA_Tex_Voucher>1</WULA_Tex_Voucher>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
@@ -144,6 +145,7 @@
       <WULA_Charge_Cube>18</WULA_Charge_Cube>
       <ComponentSpacer>2</ComponentSpacer>
       <Uranium>50</Uranium>
+      <WULA_Tex_Voucher>1</WULA_Tex_Voucher>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
@@ -257,6 +259,7 @@
       <WULA_Charge_Cube>18</WULA_Charge_Cube>
       <ComponentSpacer>2</ComponentSpacer>
       <Uranium>50</Uranium>
+      <WULA_Tex_Voucher>2</WULA_Tex_Voucher>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
@@ -388,6 +391,7 @@
       <WULA_Dark_Matter_Item>25</WULA_Dark_Matter_Item>
       <WULA_Neutronium>50</WULA_Neutronium>
       <Uranium>200</Uranium>
+      <WULA_Tex_Voucher>3</WULA_Tex_Voucher>
     </costList>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
