@@ -9,15 +9,72 @@ namespace WulaFallenEmpire
     {
         private CompProperties_PathCostUpdater Props => (CompProperties_PathCostUpdater)props;
         
+        // 记录是否需要更新路径成本
+        private bool needsPathUpdate = false;
+        
+        // 记录需要更新的区域
+        private CellRect updateRect;
+        
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
             
-            if (!respawningAfterLoad && parent.Spawned)
+            if (!respawningAfterLoad)
             {
-                // 建筑生成时更新路径
-                UpdatePathCosts();
+                MarkForPathUpdate();
             }
+        }
+        
+        public override void CompTick()
+        {
+            base.CompTick();
+            
+            // 每帧检查是否需要更新路径
+            if (needsPathUpdate && parent.Spawned)
+            {
+                UpdatePathCosts();
+                needsPathUpdate = false;
+            }
+        }
+        
+        /// <summary>
+        /// 标记需要更新路径成本
+        /// </summary>
+        public void MarkForPathUpdate()
+        {
+            if (!parent.Spawned)
+                return;
+                
+            needsPathUpdate = true;
+            
+            // 计算需要更新的区域
+            updateRect = parent.OccupiedRect();
+            
+            // 根据建筑大小决定扩展区域
+            int expandBy = CalculateExpandDistance();
+            updateRect = updateRect.ExpandedBy(expandBy);
+            updateRect = updateRect.ClipInsideMap(parent.Map);
+        }
+        
+        /// <summary>
+        /// 根据建筑大小计算需要扩展的距离
+        /// </summary>
+        private int CalculateExpandDistance()
+        {
+            if (Props == null || !Props.adaptiveExpansion)
+                return 1;
+                
+            // 根据建筑尺寸决定扩展距离
+            int size = parent.def.size.x * parent.def.size.z;
+            
+            if (size <= 1)      // 1x1 建筑
+                return 1;
+            else if (size <= 4) // 2x2 或 1x4 建筑
+                return 2;
+            else if (size <= 9) // 3x3 建筑
+                return 3;
+            else                // 大型建筑
+                return 4;
         }
         
         /// <summary>
@@ -30,25 +87,20 @@ namespace WulaFallenEmpire
                 
             Map map = parent.Map;
             
-            // 获取建筑占用的所有单元格
-            CellRect occupiedRect = parent.OccupiedRect();
-            
-            // 根据组件属性决定扩展范围
-            int expandBy = Props != null && Props.expandToAdjacent ? Props.expandDistance : 0;
-            CellRect updateRect = occupiedRect.ExpandedBy(expandBy).ClipInsideMap(map);
-            
-            // 更新指定区域内的路径成本
-            bool haveNotified = false;
-            foreach (IntVec3 cell in updateRect)
-            {
-                if (cell.InBounds(map))
-                {
-                    // 使用 Pathing 的正确方法
-                    map.pathing.RecalculatePerceivedPathCostAt(cell);
-                }
-            }
+            // 使用map.pathing来更新路径成本
+            // 根据Pathing.cs的RecalculatePerceivedPathCostUnderThing方法，我们可以直接调用它
+            map.pathing.RecalculatePerceivedPathCostUnderThing(parent);
             
             // 清理可达性缓存
+            ClearReachabilityCache(map);
+        }
+        
+        /// <summary>
+        /// 清理可达性缓存
+        /// </summary>
+        private void ClearReachabilityCache(Map map)
+        {
+            // 清理整个地图的可达性缓存
             map.reachability.ClearCache();
         }
         
@@ -57,7 +109,11 @@ namespace WulaFallenEmpire
         /// </summary>
         public void ForceImmediateUpdate()
         {
-            UpdatePathCosts();
+            if (parent.Spawned)
+            {
+                UpdatePathCosts();
+                needsPathUpdate = false;
+            }
         }
         
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -81,11 +137,8 @@ namespace WulaFallenEmpire
     
     public class CompProperties_PathCostUpdater : CompProperties
     {
-        // 是否扩展到相邻单元格
-        public bool expandToAdjacent = true;
-        
-        // 扩展距离
-        public int expandDistance = 1;
+        // 是否启用自适应扩展（根据建筑大小决定更新区域）
+        public bool adaptiveExpansion = true;
         
         public CompProperties_PathCostUpdater()
         {
