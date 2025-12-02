@@ -8,8 +8,6 @@ namespace WulaFallenEmpire
 {
     public class Designator_CallSkyfallerInArea : Designator
     {
-        private readonly new Texture2D icon;
-        
         // 记录已经处理过的建筑（避免重复）
         private HashSet<Thing> processedBuildings = new HashSet<Thing>();
         
@@ -17,7 +15,7 @@ namespace WulaFallenEmpire
         {
             defaultLabel = "WULA_Designator_CallSkyfallerInArea".Translate();
             defaultDesc = "WULA_Designator_CallSkyfallerInAreaDesc".Translate();
-            icon = ContentFinder<Texture2D>.Get("Wula/UI/Designators/WULA_AreaSkyfaller");
+            icon = ContentFinder<Texture2D>.Get("Wula/UI/Designators/Designator_CallSkyfallerInArea");
             soundDragSustain = SoundDefOf.Designate_DragStandard;
             soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
             useMouseIcon = true;
@@ -147,36 +145,7 @@ namespace WulaFallenEmpire
             if (comp == null)
                 return false;
             
-            if (!comp.CanCallSkyfaller)
-                return GetFailureReason(t, comp);
-            
             return true;
-        }
-
-        private string GetFailureReason(Thing building, CompSkyfallerCaller comp)
-        {
-            if (!comp.HasRequiredFlyOver && comp.Props.requireFlyOver)
-                return "WULA_NoBuildingDropperFlyOver".Translate();
-            
-            if (!comp.CheckRoofConditions)
-            {
-                var roof = building.Position.GetRoof(building.Map);
-                if (roof?.isThickRoof == true)
-                    return "WULA_ThickRoofBlocking".Translate();
-                else
-                    return "WULA_RoofBlocking".Translate();
-            }
-            
-            if (!comp.HasEnoughMaterials())
-                return "WULA_InsufficientMaterials".Translate();
-            
-            if (comp.used)
-                return "WULA_AlreadyUsed".Translate();
-            
-            if (comp.calling)
-                return "WULA_AlreadyCalling".Translate();
-            
-            return "WULA_CannotCallSkyfaller".Translate();
         }
 
         public override void DesignateThing(Thing t)

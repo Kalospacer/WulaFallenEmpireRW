@@ -5,7 +5,7 @@
     <defName>Wula_Sonar_Mine_Cleanzone</defName>
     <label>TAm-1"鹅卵石"感应地雷</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nTAm-1"鹅卵石"感应地雷是一种危险的地雷，它们通常由乌拉帝国的工程部队部署到战场上，拥有智能敌我识别能力，在检测到敌军活动时会将自身的战斗部直接向敌人的位置发射。</description>
-    <uiIconPath>Wula/Building/Wula_Base_ATGun_Turret</uiIconPath>
+    <uiIconPath>Wula/Building/Wula_Sonar_Mine</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
     <tradeability>None</tradeability>
@@ -33,7 +33,7 @@
     <rotatable>false</rotatable>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites Inherit="False">
-      <li>WULA_Turret_Base_AT_Technology</li>
+      <li>WULA_Bunker_Drop_Technology</li>
     </researchPrerequisites>
     <statBases>
       <MarketValue>0</MarketValue>
@@ -46,7 +46,7 @@
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <costList Inherit="False">
-      <WULA_Alloy>2</WULA_Alloy>
+      <WULA_Alloy>1</WULA_Alloy>
       <Chemfuel>5</Chemfuel>
     </costList>
     <building>
@@ -80,7 +80,7 @@
     <label>TAm-1"鹅卵石"感应地雷</label>
     <size>(1,1)</size>
     <graphicData>
-      <texPath>Wula/Building/Wula_Base_ATGun_Turret_Incoming</texPath>
+      <texPath>Wula/Building/Wula_Sonar_Mine_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
       <drawSize>(1,1)</drawSize>
@@ -109,17 +109,19 @@
       </li>
     </comps>
   </ThingDef>
-  <ThingDef  ParentName="BuildingBase">
+  <ThingDef ParentName="BuildingBase">
     <defName>Wula_Sonar_Mine</defName>
     <label>TAm-1"鹅卵石"感应地雷</label>
     <description>一种危险的地雷，它们通常由乌拉帝国的工程部队部署到战场上，拥有智能敌我识别能力，在检测到敌军活动时会将自身的战斗部直接向敌人的位置发射。</description>
     <graphicData>
-      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Wula/Building/Wula_Sonar_Mine</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
       <damageData>
-        <rect>(0.1,0,0.8,0.3)</rect>
+        <enabled>false</enabled>
       </damageData>
     </graphicData>
-    <uiIconOffset>(0,-0.14)</uiIconOffset>
+    <uiIconOffset>(0,0)</uiIconOffset>
     <altitudeLayer>Building</altitudeLayer>
     <rotatable>false</rotatable>
     <tickerType>Normal</tickerType>
@@ -128,7 +130,7 @@
     <size>(1,1)</size>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList Inherit="False">
-      <WULA_Alloy>2</WULA_Alloy>
+      <WULA_Alloy>1</WULA_Alloy>
       <Chemfuel>5</Chemfuel>
     </costList>
     <uiOrder>40</uiOrder>
@@ -153,6 +155,22 @@
       <li>PlaceWorker_NeverAdjacentTrap</li>
     </placeWorkers>
     <comps>
+      <li Class="CompProperties_Stunnable">
+        <affectedDamageDefs>
+          <li>Stun</li>
+          <li>EMP</li>
+        </affectedDamageDefs>
+        <adaptableDamageDefs>
+          <li>EMP</li>
+        </adaptableDamageDefs>
+      </li>
+      <!-- 特殊组件放在setter前可以无视setter设置眩晕炮塔 -->
+      <li Class="WulaFallenEmpire.CompProperties_DelayedDamageIfNotPlayer">
+        <damageDef>EMP</damageDef>
+        <damageAmount>10</damageAmount>
+        <armorPenetration>2</armorPenetration>
+        <destroyIfKilled>true</destroyIfKilled>
+      </li>
       <li Class="CompProperties_Explosive">
         <explosiveRadius>3.9</explosiveRadius>
         <explosiveDamageType>Bomb</explosiveDamageType>
@@ -168,7 +186,7 @@
       <li Class="WulaFallenEmpire.CompProperties_TrapLauncher">
         <detectionRadius>15</detectionRadius> <!-- 检测半径，单位：格 -->
         <scanIntervalTicks>60</scanIntervalTicks> <!-- 扫描间隔 -->
-        <projectileDef>Bullet_Wula_AI_Heavy_Panzer_Main_Weapon</projectileDef> <!-- 抛射体类型 -->
+        <projectileDef>Proj_Wula_Sonar_Mine</projectileDef> <!-- 抛射体类型 -->
         <requireLineOfSight>false</requireLineOfSight> <!-- 需要视线 -->
         <showDetectionRadius>true</showDetectionRadius> <!-- 显示检测范围 -->
         <burstCount>1</burstCount> <!-- 单次发射数量 -->
@@ -184,7 +202,54 @@
         <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
         <overrideExistingFaction>false</overrideExistingFaction>
       </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
     </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Proj_Wula_Sonar_Mine</defName>
+    <label>TAm-1"鹅卵石"感应地雷</label>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>60</damageAmountBase>
+      <speed>25</speed>
+      <explosionRadius>5</explosionRadius>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <stoppingPower>10</stoppingPower>
+      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+    </projectile>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.NorthArcModExtension">
+        <northOffsetDistance>5</northOffsetDistance>
+        <curveSteepness>1.0</curveSteepness>
+        <useArcTrajectory>true</useArcTrajectory>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
+        <fleckMakeFleckTickMax>5</fleckMakeFleckTickMax>
+        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
+        <fleckScale>0.5~1.0</fleckScale>
+        <fleckSpeed>0.1~0.3</fleckSpeed>
+        <fleckAngle>-30~30</fleckAngle>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <!-- 猫猫地堡 -->

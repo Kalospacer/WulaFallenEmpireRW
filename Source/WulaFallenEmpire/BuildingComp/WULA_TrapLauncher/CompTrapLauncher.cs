@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
-using static UnityEngine.GraphicsBuffer;
 
 namespace WulaFallenEmpire
 {
@@ -43,6 +42,19 @@ namespace WulaFallenEmpire
             
             if (!parent.Spawned || hasTriggered)
                 return;
+            
+            // 检查是否处于眩晕状态
+            if (IsStunned())
+            {
+                // 眩晕状态下暂停所有活动
+                if (isWarmingUp)
+                {
+                    // 如果正在预热，暂停预热
+                    // 不清除预热计数，恢复时会继续
+                    Log.Message($"[CompTrapLauncher] {parent.Label} is stunned, pausing warmup");
+                }
+                return;
+            }
                 
             // 预热计数
             if (isWarmingUp)
@@ -62,6 +74,20 @@ namespace WulaFallenEmpire
                 scanTickCounter = 0;
                 ScanForTargets();
             }
+        }
+        
+        /// <summary>
+        /// 检查是否处于眩晕状态
+        /// </summary>
+        private bool IsStunned()
+        {
+            // 尝试获取CompStunnable组件
+            var stunComp = parent.GetComp<CompStunnable>();
+            if (stunComp != null && stunComp.StunHandler != null)
+            {
+                return stunComp.StunHandler.Stunned;
+            }
+            return false;
         }
         
         /// <summary>
@@ -139,9 +165,6 @@ namespace WulaFallenEmpire
                         return false;
                 }
             }
-            
-            // 检查是否为机械体（如果设定）
-            // 这里可以根据需要添加更多过滤条件
             
             return true;
         }
@@ -225,12 +248,12 @@ namespace WulaFallenEmpire
                 // 发射
                 projectile.Launch(parent, parent.DrawPos, currentTarget, currentTarget, ProjectileHitFlags.IntendedTarget, false);
                 
-                // 连发延迟
+                burstCounter++;
+                
+                // 连发延迟（简化实现）
                 if (i < Props.burstCount - 1 && Props.burstDelay > 0)
                 {
-                    // 使用简单的延迟实现
-                    // 在实际游戏中，可能需要更复杂的实现
-                    // 这里我们简化处理
+                    // 在实际游戏中可能需要更复杂的实现
                 }
             }
             
@@ -362,9 +385,13 @@ namespace WulaFallenEmpire
             
             if (!hasTriggered && DebugSettings.ShowDevGizmos)
             {
+                // 检查眩晕状态显示
+                bool isStunned = IsStunned();
+                
                 // 调试：手动触发
                 Command_Action debugTrigger = new Command_Action();
-                debugTrigger.defaultLabel = "DEV: Trigger Trap";
+                debugTrigger.defaultLabel = $"DEV: Trigger Trap (Stunned: {isStunned})";
+                debugTrigger.disabledReason = "Cannot trigger while stunned";
                 debugTrigger.action = delegate
                 {
                     currentTarget = FindClosestHostilePawn();
@@ -388,6 +415,16 @@ namespace WulaFallenEmpire
                     SelfDestruct();
                 };
                 yield return debugDestruct;
+                
+                // 调试：显示眩晕状态
+                Command_Action debugStunStatus = new Command_Action();
+                debugStunStatus.defaultLabel = $"DEV: Stun Status - {(isStunned ? "STUNNED" : "ACTIVE")}";
+                debugStunStatus.action = delegate
+                {
+                    Messages.Message($"Trap Launcher Stun Status: {(isStunned ? "Stunned - Scanning Paused" : "Active - Scanning Normally")}", 
+                        parent, MessageTypeDefOf.NeutralEvent);
+                };
+                yield return debugStunStatus;
             }
         }
         
@@ -457,6 +494,26 @@ namespace WulaFallenEmpire
                     }
                 }
             }
+        }
+        
+        /// <summary>
+        /// 在检视字符串中添加眩晕状态信息
+        /// </summary>
+        public override string CompInspectStringExtra()
+        {
+            string baseString = base.CompInspectStringExtra();
+            
+            if (IsStunned())
+            {
+                string stunInfo = "WULA_TrapLauncherStunned".Translate();
+                if (!string.IsNullOrEmpty(baseString))
+                {
+                    return baseString + "\n" + stunInfo;
+                }
+                return stunInfo;
+            }
+            
+            return baseString;
         }
     }
 }
