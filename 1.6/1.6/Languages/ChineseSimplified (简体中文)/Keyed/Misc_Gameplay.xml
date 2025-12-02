@@ -412,4 +412,6 @@
   <WULA_SilverTransferred>已取出 {0} 白银，它们会随着下一次成品空投一起空投。</WULA_SilverTransferred>
   <WULA_TransferFailed>无法取出白银</WULA_TransferFailed>
   <WULA_TransferError>取出白银时发生错误</WULA_TransferError>
+
+  <WULA_TrapLauncherTriggered>感应地雷已启动！</WULA_TrapLauncherTriggered>
 </LanguageData>

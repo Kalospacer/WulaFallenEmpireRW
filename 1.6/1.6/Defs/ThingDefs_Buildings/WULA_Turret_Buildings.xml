@@ -1,5 +1,192 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <!-- 地雷 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_Sonar_Mine_Cleanzone</defName>
+    <label>TAm-1"鹅卵石"感应地雷</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nTAm-1"鹅卵石"感应地雷是一种危险的地雷，它们通常由乌拉帝国的工程部队部署到战场上，拥有智能敌我识别能力，在检测到敌军活动时会将自身的战斗部直接向敌人的位置发射。</description>
+    <uiIconPath>Wula/Building/Wula_Base_ATGun_Turret</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_Sonar_Mine</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Turret_Base_AT_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(1,1)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <costList Inherit="False">
+      <WULA_Alloy>2</WULA_Alloy>
+      <Chemfuel>5</Chemfuel>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>15</radius> <!-- 半径大小 -->
+        <color>(1, 1, 1)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>感应射程</label>
+        <description>在该建筑空降到指定地点时，地雷能够监测敌军动向的最大射程。</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Wula_Sonar_Mine_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Wula_Sonar_Mine_Incoming</defName>
+    <label>TAm-1"鹅卵石"感应地雷</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/Wula_Base_ATGun_Turret_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(1, 1)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>Wula_Sonar_Mine</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef  ParentName="BuildingBase">
+    <defName>Wula_Sonar_Mine</defName>
+    <label>TAm-1"鹅卵石"感应地雷</label>
+    <description>一种危险的地雷，它们通常由乌拉帝国的工程部队部署到战场上，拥有智能敌我识别能力，在检测到敌军活动时会将自身的战斗部直接向敌人的位置发射。</description>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <rect>(0.1,0,0.8,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <uiIconOffset>(0,-0.14)</uiIconOffset>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <stealable>false</stealable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <size>(1,1)</size>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <costList Inherit="False">
+      <WULA_Alloy>2</WULA_Alloy>
+      <Chemfuel>5</Chemfuel>
+    </costList>
+    <uiOrder>40</uiOrder>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <Mass>2</Mass>
+      <MaxHitPoints>40</MaxHitPoints>
+      <WorkToBuild>1400</WorkToBuild>
+      <Flammability>1</Flammability>
+      <Beauty>-4</Beauty>
+      <TrapSpringChance>0</TrapSpringChance>
+    </statBases>
+    <designationCategory>Security</designationCategory>
+    <building>
+      <isTrap>true</isTrap>
+      <expandHomeArea>false</expandHomeArea>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NeverAdjacentTrap</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <startWickHitPointsPercent>0.2</startWickHitPointsPercent>
+        <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+        <wickTicks>15</wickTicks>
+        <startWickOnDamageTaken>
+          <li>Bullet</li>
+          <li>Arrow</li>
+          <li>ArrowHighVelocity</li>
+        </startWickOnDamageTaken>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_TrapLauncher">
+        <detectionRadius>15</detectionRadius> <!-- 检测半径，单位：格 -->
+        <scanIntervalTicks>60</scanIntervalTicks> <!-- 扫描间隔 -->
+        <projectileDef>Bullet_Wula_AI_Heavy_Panzer_Main_Weapon</projectileDef> <!-- 抛射体类型 -->
+        <requireLineOfSight>false</requireLineOfSight> <!-- 需要视线 -->
+        <showDetectionRadius>true</showDetectionRadius> <!-- 显示检测范围 -->
+        <burstCount>1</burstCount> <!-- 单次发射数量 -->
+        <canRetarget>false</canRetarget> <!-- 发射后是否可以重新锁定 -->
+        
+        <!-- 音效定义 -->
+        <!-- <triggerSound>WULA_TrapTrigger</triggerSound>
+        <launchSound>WULA_ProjectileLaunch</launchSound>
+        <selfDestructSound>WULA_ExplosionSmall</selfDestructSound> -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+    </comps>
+  </ThingDef>
+
   <!-- 猫猫地堡 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Cat_Bunker_Cleanzone</defName>

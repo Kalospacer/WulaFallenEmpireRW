@@ -9,6 +9,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
     <tradeability>None</tradeability>
+    <replaceTags Inherit="False" IsNull="True" />
     <descriptionHyperlinks>
       <ThingDef>WulaWall</ThingDef>
     </descriptionHyperlinks>
@@ -153,10 +154,6 @@
       <li>
         <damageDef>Bomb</damageDef>
         <multiplier>0.01</multiplier>
-      </li>
-      <li>
-        <damageDef>Thump</damageDef>
-        <multiplier>0.1</multiplier>
       </li>
     </damageMultipliers>
     <comps Inherit="False">
@@ -347,13 +344,9 @@
         <allowNonPlayer>true</allowNonPlayer>
       </li>
     </comps>
-    <damageMultipliers>
+    <damageMultipliers Inherit="False">
       <li>
         <damageDef>Bomb</damageDef>
-        <multiplier>0.01</multiplier>
-      </li>
-      <li>
-        <damageDef>Thump</damageDef>
         <multiplier>0.01</multiplier>
       </li>
     </damageMultipliers>
@@ -561,6 +554,19 @@
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <staticSunShadowHeight>0.20</staticSunShadowHeight>
     <designationHotKey>Misc1</designationHotKey>
+    <damageMultipliers Inherit="False">
+      <li>
+        <damageDef>Bomb</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+    </damageMultipliers>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Mechanoid</factionDef>  不写默认玩家派系-->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+    </comps>
   </ThingDef>
   
   <!-- 维护舱 -->

@@ -27,7 +27,10 @@ namespace WulaFallenEmpire
 
         // 新增：绘制相关变量
         private float currentArcHeight;
-        private const float DRAW_ALTITUDE_OFFSET = 15f; // 增加绘制高度偏移
+        private const float DRAW_ALTITUDE_OFFSET = 0.5f; // 减少偏移量，避免裁剪问题
+        
+        // 新增：用于保存真实计算的位置（仅XZ平面）
+        private Vector3 horizontalPosition;
 
         public TrackingBulletDef TrackingDef
         {
@@ -45,7 +48,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 修改：重写绘制位置，确保在正确的高度
+        // 修改：简化ExactPosition计算
         public override Vector3 ExactPosition 
         { 
             get
@@ -53,14 +56,30 @@ namespace WulaFallenEmpire
                 if (!initialized)
                     return base.ExactPosition;
                     
-                // 返回计算的位置，但保持Y轴为绘制高度
-                Vector3 pos = exactPositionInt;
-                pos.y = def.Altitude + currentArcHeight + DRAW_ALTITUDE_OFFSET;
-                return pos;
+                // 返回水平位置，保持Y轴为定义的高度
+                // RimWorld使用Y轴作为高度层，不应该随意改变
+                return new Vector3(horizontalPosition.x, def.Altitude, horizontalPosition.z);
             }
         }
 
+        // 修改：重写ExactRotation以考虑高度变化
         public override Quaternion ExactRotation => Quaternion.LookRotation(GetCurrentDirection());
+
+        // 新增：获取带高度的位置（用于特效绘制）
+        public Vector3 PositionWithHeight
+        {
+            get
+            {
+                if (!initialized)
+                    return ExactPosition;
+                    
+                return new Vector3(
+                    horizontalPosition.x,
+                    def.Altitude + currentArcHeight * 0.3f, // 适当缩放高度
+                    horizontalPosition.z
+                );
+            }
+        }
 
         public override void ExposeData()
         {
@@ -75,6 +94,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref exactPositionInt, "exactPositionInt", Vector3.zero);
             Scribe_Values.Look(ref curveSteepness, "curveSteepness", 1f);
             Scribe_Values.Look(ref currentArcHeight, "currentArcHeight", 0f);
+            Scribe_Values.Look(ref horizontalPosition, "horizontalPosition", Vector3.zero);
 
             Scribe_Values.Look(ref Fleck_MakeFleckTick, "Fleck_MakeFleckTick", 0);
             Scribe_Values.Look(ref lastTickPosition, "lastTickPosition", Vector3.zero);
@@ -115,6 +135,7 @@ namespace WulaFallenEmpire
             bezierControlPoint = 2f * apexPoint - midPoint;
 
             initialized = true;
+            horizontalPosition = origin;
             exactPositionInt = origin;
             lastTickPosition = origin;
             currentArcHeight = 0f;
@@ -147,7 +168,7 @@ namespace WulaFallenEmpire
             
             // 垂直高度 (抛物线)
             currentArcHeight = def.projectile.arcHeightFactor * GenMath.InverseParabola(t);
-            nextPos.y = 0f; // 水平位置不包含高度
+            horizontalPosition = nextPos; // 保存水平位置
 
             if (!nextPos.ToIntVec3().InBounds(base.Map))
             {
@@ -172,7 +193,8 @@ namespace WulaFallenEmpire
                     if (map != null)
                     {
                         int count = TrackingDef.fleckMakeFleckNum.RandomInRange;
-                        Vector3 currentPosition = this.ExactPosition; // 使用重写后的ExactPosition
+                        // 使用带高度的位置生成尾迹
+                        Vector3 currentPosition = PositionWithHeight;
                         Vector3 previousPosition = lastTickPosition;
                         
                         if ((currentPosition - previousPosition).MagnitudeHorizontalSquared() > 0.0001f)
@@ -195,7 +217,7 @@ namespace WulaFallenEmpire
                 }
             }
 
-            lastTickPosition = ExactPosition; // 使用重写后的ExactPosition
+            lastTickPosition = PositionWithHeight;
 
             if (ticksFlying >= totalTicks)
             {
@@ -204,7 +226,7 @@ namespace WulaFallenEmpire
             }
         }
         
-        // 修改：重写绘制方法，确保正确绘制
+        // 修改：重写绘制方法
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
             if (!initialized)
@@ -213,13 +235,18 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // 使用我们计算的位置进行绘制
+            // 使用固定的绘制位置，但考虑高度偏移
             Vector3 finalDrawPos = ExactPosition;
             
+            // 调整绘制位置以考虑抛物线高度
+            // 但保持Y轴在合理范围内，避免被裁剪
+            float heightAdjustment = currentArcHeight * 0.2f; // 缩放高度影响
+            finalDrawPos.y += Mathf.Clamp(heightAdjustment, -0.5f, 2f);
+
             // 绘制阴影
             if (def.projectile.shadowSize > 0f)
             {
-                DrawShadow(finalDrawPos, currentArcHeight);
+                DrawShadow(finalDrawPos);
             }
 
             Quaternion rotation = ExactRotation;
@@ -232,7 +259,14 @@ namespace WulaFallenEmpire
             // 使用正确的绘制方法
             if (def.projectile.useGraphicClass)
             {
-                Graphic.Draw(finalDrawPos, base.Rotation, this, rotation.eulerAngles.y);
+                // 确保图形缩放合适
+                float scaleFactor = 1f + currentArcHeight * 0.1f; // 轻微缩放模拟远近
+                Matrix4x4 matrix = Matrix4x4.TRS(
+                    finalDrawPos, 
+                    rotation, 
+                    new Vector3(scaleFactor, 1f, scaleFactor)
+                );
+                Graphics.DrawMesh(MeshPool.GridPlane(def.graphicData.drawSize), matrix, DrawMat, 0);
             }
             else
             {
@@ -242,26 +276,32 @@ namespace WulaFallenEmpire
             Comps_PostDraw();
         }
 
-        // 修改：重写阴影绘制，使用正确的高度
-        private void DrawShadow(Vector3 drawLoc, float height)
+        // 修改：简化阴影绘制
+        private void DrawShadow(Vector3 drawLoc)
         {
+            if (def.projectile.shadowSize <= 0f)
+                return;
+
             Material shadowMat = MaterialPool.MatFrom("Things/Skyfaller/SkyfallerShadowCircle", ShaderDatabase.Transparent);
             if (shadowMat == null) return;
 
-            float shadowSize = def.projectile.shadowSize * Mathf.Lerp(1f, 0.6f, height / (def.projectile.arcHeightFactor + 1f));
+            // 根据当前高度调整阴影大小
+            float normalizedHeight = Mathf.Clamp01(currentArcHeight / (def.projectile.arcHeightFactor + 0.01f));
+            float shadowSize = def.projectile.shadowSize * Mathf.Lerp(1f, 0.4f, normalizedHeight);
+            
             Vector3 scale = new Vector3(shadowSize, 1f, shadowSize);
-            Vector3 shadowOffset = new Vector3(0f, -0.01f, 0f);
+            Vector3 shadowOffset = new Vector3(0f, -0.05f, 0f); // 稍微降低阴影位置
             
             Matrix4x4 matrix = Matrix4x4.TRS(drawLoc + shadowOffset, Quaternion.identity, scale);
             Graphics.DrawMesh(MeshPool.plane10, matrix, shadowMat, 0);
         }
 
-        // 计算当前位置的切线方向
+        // 计算当前位置的切线方向（考虑高度变化）
         private Vector3 GetCurrentDirection()
         {
             if (!initialized || totalTicks <= 0)
             {
-                return destinationPos - originPos;
+                return (destinationPos - originPos).normalized;
             }
 
             float t = (float)ticksFlying / (float)totalTicks;
@@ -275,12 +315,26 @@ namespace WulaFallenEmpire
                 return (destinationPos - originPos).normalized;
             }
             
-            return tangent.normalized;
+            // 添加轻微的上/下方向以模拟抛物线
+            float verticalComponent = GenMath.InverseParabola(t) * def.projectile.arcHeightFactor * 0.3f;
+            return (tangent.normalized + new Vector3(0, verticalComponent, 0)).normalized;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
             base.Impact(hitThing, blockedByShield);
+        }
+
+        // 新增：确保在保存时位置正确
+        public override void PostMapInit()
+        {
+            base.PostMapInit();
+            
+            // 确保位置数据有效
+            if (initialized && horizontalPosition == Vector3.zero)
+            {
+                horizontalPosition = originPos;
+            }
         }
     }
 }

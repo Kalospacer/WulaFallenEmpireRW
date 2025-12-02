@@ -10,7 +10,7 @@ namespace WulaFallenEmpire
 {
     public class CompSkyfallerCaller : ThingComp
     {
-        protected CompProperties_SkyfallerCaller Props => (CompProperties_SkyfallerCaller)props;
+        public CompProperties_SkyfallerCaller Props => (CompProperties_SkyfallerCaller)props;
 
         private WulaSkyfallerWorldComponent _worldComponent;
         private WulaSkyfallerWorldComponent WorldComp
@@ -38,9 +38,9 @@ namespace WulaFallenEmpire
             }
         }
         
-        private bool used = false;
+        public bool used = false;
         private int callTick = -1;
-        private bool calling = false;
+        public bool calling = false;
         private bool usedGlobalStorage = false;
         public bool autoCallScheduled = false; // 新增：标记是否已安排自动呼叫
 
@@ -116,7 +116,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        private bool CheckRoofConditions
+        public bool CheckRoofConditions
         {
             get
             {
@@ -620,7 +620,7 @@ namespace WulaFallenEmpire
         }
 
         // 保留原有的 HasEnoughMaterials 方法用于 Gizmo 显示
-        protected bool HasEnoughMaterials()
+        public bool HasEnoughMaterials()
         {
             if (DebugSettings.godMode) return true;
 

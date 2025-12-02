@@ -551,7 +551,7 @@
         <defaultCooldownTime>12</defaultCooldownTime>
         <burstShotCount>12</burstShotCount>
         <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
-        <requireLineOfSight>true</requireLineOfSight>
+        <requireLineOfSight>false</requireLineOfSight>
         <forcedMissRadius>8</forcedMissRadius>
         <soundCast>WULA_RW_Rocket_Shootingsound</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
