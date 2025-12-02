@@ -381,12 +381,10 @@
     <Compile Include="ThingComp\WULA_WeaponSwitch\CompAbilityEffect_GiveSwitchHediff.cs" />
     <Compile Include="ThingComp\WULA_WeaponSwitch\CompAbilityEffect_RemoveSwitchHediff.cs" />
     <Compile Include="ThingComp\WULA_WeaponSwitch\WeaponSwitch.cs" />
+    <Compile Include="Designator\Designator_CallSkyfallerInArea.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Verb\Verb_Excalibur\Thing_ExcaliburBeam.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Designator\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

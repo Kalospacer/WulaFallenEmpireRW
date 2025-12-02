@@ -24,8 +24,9 @@ namespace WulaFallenEmpire
             soundSucceeded = SoundDefOf.Designate_Claim;
             hotKey = KeyBindingDefOf.Misc12;
             tutorTag = "CallSkyfallerInArea";
-            draggableDimensions = 2;
         }
+
+        public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;
 
         public override AcceptanceReport CanDesignateCell(IntVec3 c)
         {
