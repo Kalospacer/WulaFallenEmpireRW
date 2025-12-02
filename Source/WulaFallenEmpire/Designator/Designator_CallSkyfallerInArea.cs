@@ -24,6 +24,7 @@ namespace WulaFallenEmpire
             soundSucceeded = SoundDefOf.Designate_Claim;
             hotKey = KeyBindingDefOf.Misc12;
             tutorTag = "CallSkyfallerInArea";
+            draggableDimensions = 2;
         }
 
         public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -39,7 +40,7 @@ namespace WulaFallenEmpire
             var things = Map.thingGrid.ThingsListAt(c);
             foreach (var thing in things)
             {
-                if (thing.def.category == ThingCategory.Building && 
+                if (thing.def.category == ThingCategory.Building &&
                     thing.Faction == Faction.OfPlayer &&
                     thing.TryGetComp<CompSkyfallerCaller>() != null)
                 {
@@ -48,8 +49,7 @@ namespace WulaFallenEmpire
             }
             
             // 即使单元格内没有符合条件的建筑，也允许选择（这样用户可以拖动区域）
-            // 但返回一个友好的提示
-            return "WULA_NoCallableBuildingsInCell".Translate();
+            return true;
         }
 
         public override void DesignateSingleCell(IntVec3 c)
