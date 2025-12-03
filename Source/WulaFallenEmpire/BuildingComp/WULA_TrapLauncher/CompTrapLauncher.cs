@@ -46,13 +46,6 @@ namespace WulaFallenEmpire
             // 检查是否处于眩晕状态
             if (IsStunned())
             {
-                // 眩晕状态下暂停所有活动
-                if (isWarmingUp)
-                {
-                    // 如果正在预热，暂停预热
-                    // 不清除预热计数，恢复时会继续
-                    Log.Message($"[CompTrapLauncher] {parent.Label} is stunned, pausing warmup");
-                }
                 return;
             }
                 
@@ -494,26 +487,6 @@ namespace WulaFallenEmpire
                     }
                 }
             }
-        }
-        
-        /// <summary>
-        /// 在检视字符串中添加眩晕状态信息
-        /// </summary>
-        public override string CompInspectStringExtra()
-        {
-            string baseString = base.CompInspectStringExtra();
-            
-            if (IsStunned())
-            {
-                string stunInfo = "WULA_TrapLauncherStunned".Translate();
-                if (!string.IsNullOrEmpty(baseString))
-                {
-                    return baseString + "\n" + stunInfo;
-                }
-                return stunInfo;
-            }
-            
-            return baseString;
         }
     }
 }

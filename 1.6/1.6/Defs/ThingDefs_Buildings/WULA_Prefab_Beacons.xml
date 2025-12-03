@@ -790,7 +790,7 @@
     <graphicData>
       <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(13,11)</drawSize>
+      <drawSize>(13,13)</drawSize>
       <damageData>
         <enabled>false</enabled>
       </damageData>
@@ -819,7 +819,7 @@
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
-    <size>(13,11)</size>
+    <size>(13,13)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
     <stuffCategories Inherit="False" />
@@ -852,18 +852,18 @@
     <defName>WULA_Progressive_Ship_Mini_Prefeb_Incoming</defName>
     <label>乌拉帝国微型突击护航舰（下落中）</label>
     <thingClass>WulaFallenEmpire.Skyfaller_PrefabSpawner</thingClass>
-    <size>(13,11)</size>
+    <size>(13,13)</size>
     <graphicData>
       <texPath>Wula/Building/WULA_Progressive_Ship_Mini_Prefeb_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
-      <drawSize>(14.75,11)</drawSize>
+      <drawSize>(14.85,13.35)</drawSize>
       <drawOffset>(-1,0,0)</drawOffset>
     </graphicData>
     <skyfaller>
       <movementType>Decelerate</movementType>
       <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
-      <shadowSize>(13,11)</shadowSize>
+      <shadowSize>(13,13)</shadowSize>
       <anticipationSound>DropPod_Fall</anticipationSound>
       <anticipationSoundTicks>100</anticipationSoundTicks>
       <impactSound>Explosion_Vaporize</impactSound>

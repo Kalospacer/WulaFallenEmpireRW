@@ -91,19 +91,44 @@ namespace WulaFallenEmpire
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Collections.Look(ref turrets, "turrets", LookMode.Deep);
             
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && turrets == null)
+            // 在保存和加载时重新建立 parent 引用
+            if (Scribe.mode == LoadSaveMode.Saving)
             {
-                turrets = new List<TurretInstance>();
+                Scribe_Collections.Look(ref turrets, "turrets", LookMode.Deep);
+            }
+            else if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                Scribe_Collections.Look(ref turrets, "turrets", LookMode.Deep);
+            }
+            
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                if (turrets == null)
+                {
+                    turrets = new List<TurretInstance>();
+                }
+                else
+                {
+                    // 重新建立 parent 引用
+                    for (int i = 0; i < turrets.Count; i++)
+                    {
+                        if (turrets[i] != null)
+                        {
+                            turrets[i].SetParent(this);
+                            turrets[i].SetIndex(i);
+                        }
+                    }
+                }
+                UpdateTurrets();
             }
         }
 
         // 单个炮塔实例类，实现 IAttackTargetSearcher 接口
         public class TurretInstance : IExposable, IAttackTargetSearcher
         {
-            private CompStorageTurret parent;
-            private int index;
+            private CompStorageTurret _parent;
+            private int _index;
             
             // 炮塔状态
             public Thing gun;
@@ -113,8 +138,12 @@ namespace WulaFallenEmpire
             public float curRotation;
             public Material turretMat;
             
+            // 安全访问器
+            public CompStorageTurret Parent => _parent;
+            public int Index => _index;
+            
             // IAttackTargetSearcher 接口实现
-            public Thing Thing => parent.parent;
+            public Thing Thing => _parent?.parent;
             public Verb CurrentEffectiveVerb => AttackVerb;
             public LocalTargetInfo LastAttackedTarget => LocalTargetInfo.Invalid;
             public int LastAttackTargetTick => -1;
@@ -126,7 +155,8 @@ namespace WulaFallenEmpire
             {
                 get
                 {
-                    var compEq = gun?.TryGetComp<CompEquippable>();
+                    if (gun == null) return null;
+                    var compEq = gun.TryGetComp<CompEquippable>();
                     return compEq?.PrimaryVerb;
                 }
             }
@@ -135,7 +165,10 @@ namespace WulaFallenEmpire
             {
                 get
                 {
-                    if (!parent.parent.Spawned || parent.parent.Destroyed)
+                    if (_parent == null || _parent.parent == null)
+                        return false;
+                    
+                    if (!_parent.parent.Spawned || _parent.parent.Destroyed)
                         return false;
                     
                     if (AttackVerb == null)
@@ -161,32 +194,48 @@ namespace WulaFallenEmpire
                 }
             }
             
+            // 无参构造函数用于序列化
             public TurretInstance() { }
             
             public TurretInstance(CompStorageTurret parent, int index)
             {
-                this.parent = parent;
-                this.index = index;
+                SetParent(parent);
+                SetIndex(index);
                 MakeGun();
+            }
+            
+            public void SetParent(CompStorageTurret parent)
+            {
+                _parent = parent;
+            }
+            
+            public void SetIndex(int index)
+            {
+                _index = index;
             }
             
             private void MakeGun()
             {
-                gun = ThingMaker.MakeThing(parent.Props.turretDef, null);
+                if (_parent == null || _parent.Props == null || _parent.Props.turretDef == null)
+                    return;
+                    
+                gun = ThingMaker.MakeThing(_parent.Props.turretDef, null);
                 UpdateGunVerbs();
             }
             
             private void UpdateGunVerbs()
             {
+                if (gun == null) return;
+                
                 var compEq = gun.TryGetComp<CompEquippable>();
                 if (compEq == null) return;
                 
                 foreach (var verb in compEq.AllVerbs)
                 {
-                    verb.caster = parent.parent;
+                    verb.caster = _parent?.parent;
                     verb.castCompleteCallback = () =>
                     {
-                        burstCooldownTicksLeft = AttackVerb.verbProps.defaultCooldownTime.SecondsToTicks();
+                        burstCooldownTicksLeft = AttackVerb?.verbProps?.defaultCooldownTime.SecondsToTicks() ?? 0;
                     };
                 }
             }
@@ -200,7 +249,7 @@ namespace WulaFallenEmpire
                 {
                     Vector3 targetPos = currentTarget.Cell.ToVector3Shifted();
                     Vector3 turretPos = GetTurretDrawPos();
-                    curRotation = (targetPos - turretPos).AngleFlat() + parent.Props.angleOffset;
+                    curRotation = (targetPos - turretPos).AngleFlat() + _parent.Props.angleOffset;
                 }
                 
                 AttackVerb.VerbTick();
@@ -222,7 +271,7 @@ namespace WulaFallenEmpire
                             burstCooldownTicksLeft--;
                         }
                         
-                        if (burstCooldownTicksLeft <= 0 && parent.parent.IsHashIntervalTick(10))
+                        if (burstCooldownTicksLeft <= 0 && _parent.parent.IsHashIntervalTick(10))
                         {
                             // 修复：将 this 作为 IAttackTargetSearcher 传递
                             currentTarget = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(
@@ -250,13 +299,18 @@ namespace WulaFallenEmpire
             
             public void DrawTurret()
             {
+                if (_parent == null || _parent.parent == null || !_parent.parent.Spawned)
+                    return;
+                    
                 Vector3 drawPos = GetTurretDrawPos();
                 float angle = curRotation;
                 
-                if (turretMat == null)
+                if (turretMat == null && _parent.Props?.turretDef?.graphicData?.texPath != null)
                 {
-                    turretMat = MaterialPool.MatFrom(parent.Props.turretDef.graphicData.texPath);
+                    turretMat = MaterialPool.MatFrom(_parent.Props.turretDef.graphicData.texPath);
                 }
+                
+                if (turretMat == null) return;
                 
                 Matrix4x4 matrix = default(Matrix4x4);
                 matrix.SetTRS(drawPos, Quaternion.AngleAxis(angle, Vector3.up), Vector3.one);
@@ -265,9 +319,12 @@ namespace WulaFallenEmpire
             
             private Vector3 GetTurretDrawPos()
             {
+                if (_parent == null || _parent.parent == null)
+                    return Vector3.zero;
+                
                 // 计算炮塔位置（围绕建筑排列）
-                float angle = 360f * index / parent.Props.maxTurrets;
-                float radius = parent.Props.turretSpacing;
+                float angle = 360f * _index / _parent.Props.maxTurrets;
+                float radius = _parent.Props.turretSpacing;
                 
                 Vector3 offset = new Vector3(
                     Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
@@ -275,7 +332,7 @@ namespace WulaFallenEmpire
                     Mathf.Sin(angle * Mathf.Deg2Rad) * radius
                 );
                 
-                return parent.parent.DrawPos + offset + new Vector3(0, 0.5f, 0);
+                return _parent.parent.DrawPos + offset + new Vector3(0, 0.5f, 0);
             }
             
             public void ExposeData()

@@ -572,7 +572,7 @@
       <drawSize>(2,2.5)</drawSize>
     </graphicData>
     <projectile>
-      <damageDef>Flame</damageDef>
+      <damageDef>Bomb</damageDef>
       <damageAmountBase>35</damageAmountBase>
       <speed>60</speed>
       <explosionRadius>3.9</explosionRadius>
