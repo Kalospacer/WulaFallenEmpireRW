@@ -826,7 +826,7 @@
     </costList>
     <verbs>
       <li>
-        <verbClass>WulaFallenEmpire.Verb_ShootBeyondTarge</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_ShootWithOffset</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Fractal_RF</defaultProjectile>
         <warmupTime>1.25</warmupTime>
@@ -835,6 +835,7 @@
         <soundCast>WULA_RW_Railgun_Shootingsound</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
+        <canGoWild>false</canGoWild>
       </li>
     </verbs>
     <weaponTags Inherit="False">
@@ -864,8 +865,9 @@
         <maxHits>-1</maxHits>        <!-- 无限穿透 -->
         <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
         <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
-        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>        <!-- 拖尾特效定义 -->
-        <!-- <hitEffecterDef>Bullet_WULA_RW_Fractal_RF_Hit</hitEffecterDef> -->
+        <tailFleckDef>WULA_GunTail_Lighting_Small</tailFleckDef>        <!-- 拖尾特效定义 -->
+        <fleckDelayTicks>0</fleckDelayTicks>
+        <impactEffecter>Bullet_WULA_RW_Fractal_RF_Hit</impactEffecter>
       </li>
     </modExtensions>
     <graphicData>
@@ -875,10 +877,10 @@
       <drawSize>1.4</drawSize>
     </graphicData>
     <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>25</damageAmountBase>
-      <speed>230</speed>
-      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <damageDef>WULA_Armour_Piercing_Projectile_2_Damage</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+      <speed>130</speed>
+      <armorPenetrationBase>1</armorPenetrationBase>
       <stoppingPower>5</stoppingPower>
     </projectile>
   </ThingDef>
@@ -908,7 +910,7 @@
       </li>
       <li>
         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
-        <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
+        <moteDef>WULA_RW_Fractal_RF_Spark_Mote</moteDef>
         <burstCount>6~12</burstCount>
         <scale>0.4~0.8</scale>
         <speed>20~40</speed>
@@ -918,7 +920,7 @@
       </li>
       <li>
         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
-        <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
+        <moteDef>WULA_RW_Fractal_RF_Spark_Mote</moteDef>
         <burstCount>5~9</burstCount>
         <scale>0.4~0.8</scale>
         <speed>10~20</speed>
@@ -930,6 +932,23 @@
     <offsetTowardsTarget>0.25~0.25</offsetTowardsTarget>
     <positionRadius>0.1</positionRadius>
   </EffecterDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>WULA_RW_Fractal_RF_Spark_Mote</defName>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <drawSize>(0.75,1.5)</drawSize>
+      <shaderType>MoteGlow</shaderType>
+      <color>(0.3,0.5,0.7,1)</color>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.2</fadeInTime>
+      <solidTime>0.4</solidTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <growthRate>-0.8</growthRate>
+      <rotateTowardsMoveDirection>true</rotateTowardsMoveDirection>
+    </mote>
+  </ThingDef>
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
     <defName>WULA_RW_StarDrift_SG</defName>
     <label>DCs-7"黑曜石"</label>
@@ -1019,7 +1038,7 @@
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
     <defName>WULA_RW_AutoCannon</defName>
     <label>FLm-78"萤石"</label>
-    <description>一般由乌拉帝国跳帮组或骑士军团携带的自动炮，在拥有长射程的同时火力也非常凶猛，会造成区域性的爆炸效果以控制集群敌军。它同时下挂了一具长射程的EMP榴弹发射器，可以用于控制机械族的集群冲击。</description>
+    <description>一般由乌拉帝国跳帮组或骑士军团携带的自动磁轨炮，在拥有长射程的同时火力也非常凶猛，能够穿透一大群敌军。它同时下挂了一具长射程的EMP榴弹发射器，可以用于控制机械族的集群冲击。</description>
     <techLevel>Ultra</techLevel>
     <weaponTags Inherit="False">
       <li>Wula_Ranged_Weapon_T3</li>
@@ -1061,12 +1080,12 @@
         <defaultProjectile>Bullet_WULA_RW_AutoCannon</defaultProjectile>
         <warmupTime>2</warmupTime>
         <range>32</range>
-        <forcedMissRadius>0.1</forcedMissRadius>
-        <burstShotCount>3</burstShotCount>
+        <burstShotCount>6</burstShotCount>
         <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
         <soundCast>Shot_ChargeRifle</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
+        <canGoWild>false</canGoWild>
         <targetParams>
           <canTargetPawns>true</canTargetPawns>
           <canTargetLocations>true</canTargetLocations>
@@ -1095,25 +1114,30 @@
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_RW_AutoCannon</defName>
-    <label>萤石自动炮子弹</label>
-    <thingClass>Projectile_Explosive</thingClass>
-    <tickerType>Normal</tickerType>
-    <neverMultiSelect>True</neverMultiSelect>
+    <label>萤石钢针弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
+        <tailFleckDef>WULA_GunTail_Lighting_Small</tailFleckDef>        <!-- 拖尾特效定义 -->
+        <fleckDelayTicks>0</fleckDelayTicks>
+        <impactEffecter>Bullet_WULA_RW_Fractal_RF_Hit</impactEffecter>
+      </li>
+    </modExtensions>
     <graphicData>
       <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>MoteGlow</shaderType>
-      <drawSize>2.5</drawSize>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>1</drawSize>
     </graphicData>
     <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>12</damageAmountBase>
-      <speed>90</speed>
-      <explosionRadius>1.2</explosionRadius>
-      <arcHeightFactor>0.4</arcHeightFactor>
-      <soundExplode>Explosion_Rocket</soundExplode>
-      <armorPenetrationBase>0.75</armorPenetrationBase>
-      <screenShakeFactor>0.1</screenShakeFactor>
+      <damageDef>WULA_Armour_Piercing_Projectile_1_Damage</damageDef>
+      <damageAmountBase>15</damageAmountBase>
+      <speed>130</speed>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
+      <stoppingPower>5</stoppingPower>
     </projectile>
   </ThingDef>
   <AbilityDef>

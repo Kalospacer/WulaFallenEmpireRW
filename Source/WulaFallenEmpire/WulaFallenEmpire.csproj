@@ -137,6 +137,8 @@
     <Compile Include="BuildingComp\WULA_TransformAtFullCapacity\TransformValidationUtility.cs" />
     <Compile Include="BuildingComp\WULA_TrapLauncher\CompProperties_TrapLauncher.cs" />
     <Compile Include="BuildingComp\WULA_TrapLauncher\CompTrapLauncher.cs" />
+    <Compile Include="Damage\DamageDef_ExtraDamageExtension.cs" />
+    <Compile Include="Damage\DamageWorker_ExtraDamage.cs" />
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />
     <Compile Include="EventSystem\Condition\ConditionBase.cs" />
     <Compile Include="EventSystem\Condition\Condition_FlagExists.cs" />
@@ -347,7 +349,6 @@
     <Compile Include="HediffComp\HediffComp_TimedExplosion.cs" />
     <Compile Include="Projectiles\Projectile_ConfigurableHellsphereCannon.cs" />
     <Compile Include="Verb\Verb_ShootBeamSplitAndChain.cs" />
-    <Compile Include="Verb\Verb_ShootBeyondTarget.cs" />
     <Compile Include="Verb\Verb_ShootShotgun.cs" />
     <Compile Include="Projectiles\Projectile_CruiseMissile.cs" />
     <Compile Include="Verb\Verb_ShootBeamExplosive\Verb_ShootBeamExplosive.cs" />
@@ -386,6 +387,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Verb\Verb_Excalibur\Thing_ExcaliburBeam.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Damage\202512031732.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

@@ -154,47 +154,47 @@
         <defaultProjectile>Bullet_Wula_MR_Mobile_Factory_Turret</defaultProjectile>
         <warmupTime>0</warmupTime>
         <range>32</range>
-        <defaultCooldownTime>3</defaultCooldownTime>
-        <forcedMissRadius>0.1</forcedMissRadius>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <soundCast>Shot_ChargeRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
+        <defaultCooldownTime>4</defaultCooldownTime>
+        <burstShotCount>1</burstShotCount>
+        <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
+        <soundCast>WULA_MW_Mass_Drivers_Shootingsound</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
         <targetParams>
           <canTargetPawns>true</canTargetPawns>
           <canTargetLocations>true</canTargetLocations>
           <canTargetBuildings>true</canTargetBuildings>
         </targetParams>
+        <canGoWild>false</canGoWild>
       </li>
     </verbs>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_MR_Mobile_Factory_Turret</defName>
-    <label>陨磷自动炮炮弹</label>
+    <label>陨磷钢针弹</label>
     <graphicData>
       <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
       <drawSize>2.5</drawSize>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>12</damageAmountBase>
-      <speed>90</speed>
-      <explosionRadius>1.2</explosionRadius>
-      <arcHeightFactor>0.4</arcHeightFactor>
-      <soundExplode>Explosion_Rocket</soundExplode>
-      <armorPenetrationBase>0.75</armorPenetrationBase>
-      <screenShakeFactor>0.1</screenShakeFactor>
-    </projectile>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
     <modExtensions>
-      <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>
-        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
+        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>        <!-- 拖尾特效定义 -->
+        <fleckDelayTicks>0</fleckDelayTicks>
+        <impactEffecter>Bullet_WULA_RW_Fractal_RF_Hit</impactEffecter>
       </li>
     </modExtensions>
+    <projectile>
+      <damageDef>WULA_Armour_Piercing_Projectile_3_Damage</damageDef>
+      <damageAmountBase>100</damageAmountBase>
+      <speed>120</speed>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
+    </projectile>
   </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_LR_Mobile_Factory_Turret</defName>
@@ -390,44 +390,45 @@
         <defaultProjectile>Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon</defaultProjectile>
         <warmupTime>0</warmupTime>
         <minRange>5.9</minRange>
-        <range>50</range>
-        <defaultCooldownTime>3</defaultCooldownTime>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <range>60</range>
+        <defaultCooldownTime>4</defaultCooldownTime>
+        <burstShotCount>1</burstShotCount>
+        <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
         <requireLineOfSight>true</requireLineOfSight>
-        <forcedMissRadius>0.1</forcedMissRadius>
-        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCast>WULA_MW_Mass_Drivers_Shootingsound</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>18</muzzleFlashScale>
+        <canGoWild>false</canGoWild>
       </li>
     </verbs>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon</defName>
-    <label>青金石自动炮炮弹</label>
+    <label>青金石钢针弹</label>
     <graphicData>
       <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
       <drawSize>2.5</drawSize>
     </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>12</damageAmountBase>
-      <speed>90</speed>
-      <explosionRadius>2.1</explosionRadius>
-      <arcHeightFactor>0</arcHeightFactor>
-      <soundExplode>Explosion_Rocket</soundExplode>
-      <armorPenetrationBase>1.5</armorPenetrationBase>
-      <screenShakeFactor>0.1</screenShakeFactor>
-    </projectile>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
     <modExtensions>
-      <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>
-        <fleckMakeFleckTickMax>1</fleckMakeFleckTickMax>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
+        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>        <!-- 拖尾特效定义 -->
+        <fleckDelayTicks>0</fleckDelayTicks>
+        <impactEffecter>Bullet_WULA_RW_Fractal_RF_Hit</impactEffecter>
       </li>
     </modExtensions>
+    <projectile>
+      <damageDef>WULA_Armour_Piercing_Projectile_3_Damage</damageDef>
+      <damageAmountBase>100</damageAmountBase>
+      <speed>120</speed>
+      <explosionRadius>1.2</explosionRadius>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
+    </projectile>
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Wula_AI_Heavy_Panzer_Main_Weapon</defName>

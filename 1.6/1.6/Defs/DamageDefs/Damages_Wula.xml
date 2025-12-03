@@ -60,7 +60,108 @@
     <defaultDamage>25</defaultDamage>
     <soundExplosion>Explosion_Bomb</soundExplosion>
   </DamageDef>
-  
+
+  <DamageDef ParentName="Bullet">
+    <defName>WULA_Armour_Piercing_Projectile_1_Damage</defName>
+    <label>穿甲钢针</label>
+    <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+    <defaultDamage>15</defaultDamage>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+        <extraLabel>穿透伤害</extraLabel>
+        <showExtraLog>true</showExtraLog>
+        
+        <extraDamages>
+          <li>
+            <damageDef>Bullet</damageDef>
+            <amount>15</amount>
+            <isPercentage>false</isPercentage>
+            <armorPenetration>0.5</armorPenetration>
+            <!-- <soundDef>EMP_Small</soundDef>
+            <fleckDef>ElectricArc</fleckDef> -->
+            <!-- <minTriggerDamage>5</minTriggerDamage> -->
+          </li>
+        </extraDamages>
+      </li>
+    </modExtensions>
+  </DamageDef>
+  <DamageDef ParentName="Bullet">
+    <defName>WULA_Armour_Piercing_Projectile_2_Damage</defName>
+    <label>穿甲钢针</label>
+    <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+    <defaultDamage>30</defaultDamage>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+        <extraLabel>穿透伤害</extraLabel>
+        <showExtraLog>true</showExtraLog>
+        
+        <extraDamages>
+          <li>
+            <damageDef>WULA_Armour_Piercing_Projectile_1_Damage</damageDef>
+            <amount>30</amount>
+            <isPercentage>false</isPercentage>
+            <armorPenetration>1</armorPenetration>
+            <!-- <soundDef>EMP_Small</soundDef>
+            <fleckDef>ElectricArc</fleckDef> -->
+            <!-- <minTriggerDamage>5</minTriggerDamage> -->
+          </li>
+        </extraDamages>
+      </li>
+    </modExtensions>
+  </DamageDef>
+  <DamageDef ParentName="Bullet">
+    <defName>WULA_Armour_Piercing_Projectile_3_Damage</defName>
+    <label>穿甲钢针</label>
+    <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+    <defaultDamage>50</defaultDamage>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+        <extraLabel>穿透伤害</extraLabel>
+        <showExtraLog>true</showExtraLog>
+        
+        <extraDamages>
+          <li>
+            <damageDef>WULA_Armour_Piercing_Projectile_2_Damage</damageDef>
+            <amount>50</amount>
+            <isPercentage>false</isPercentage>
+            <armorPenetration>1.5</armorPenetration>
+            <!-- <soundDef>EMP_Small</soundDef>
+            <fleckDef>ElectricArc</fleckDef> -->
+            <!-- <minTriggerDamage>5</minTriggerDamage> -->
+          </li>
+        </extraDamages>
+      </li>
+    </modExtensions>
+  </DamageDef>
+  <DamageDef ParentName="Bullet">
+    <defName>WULA_Armour_Piercing_Projectile_4_Damage</defName>
+    <label>穿甲钢针</label>
+    <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+    <defaultDamage>100</defaultDamage>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+        <extraLabel>穿透伤害</extraLabel>
+        <showExtraLog>true</showExtraLog>
+        
+        <extraDamages>
+          <li>
+            <damageDef>WULA_Armour_Piercing_Projectile_3_Damage</damageDef>
+            <amount>100</amount>
+            <isPercentage>false</isPercentage>
+            <armorPenetration>2</armorPenetration>
+            <!-- <soundDef>EMP_Small</soundDef>
+            <fleckDef>ElectricArc</fleckDef> -->
+            <!-- <minTriggerDamage>5</minTriggerDamage> -->
+          </li>
+        </extraDamages>
+      </li>
+    </modExtensions>
+  </DamageDef>
+    
   <DamageDef ParentName="Wula_Dark_Matter_Beam_DMG">
     <defName>Wula_Psi_Damage</defName>
     <ignoreShields>true</ignoreShields>

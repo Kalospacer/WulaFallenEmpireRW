@@ -235,16 +235,8 @@ namespace WulaFallenEmpire
                     return true;
                 case ConditionTarget.Pawn:
                     return target is Pawn;
-                case ConditionTarget.Animal:
-                    return target is Pawn pawn && pawn.RaceProps.Animal;
-                case ConditionTarget.Humanlike:
-                    return target is Pawn pawn && pawn.RaceProps.Humanlike;
-                case ConditionTarget.Mechanoid:
-                    return target is Pawn pawn && pawn.RaceProps.IsMechanoid;
                 case ConditionTarget.Building:
                     return target is Building;
-                case ConditionTarget.SpecificRaces:
-                    return target is Pawn pawn && specificRaces.Contains(pawn.def);
                 default:
                     return true;
             }
@@ -264,12 +256,6 @@ namespace WulaFallenEmpire
         {
             if (requiredTags == null || requiredTags.Count == 0)
                 return true;
-                
-            foreach (var tag in requiredTags)
-            {
-                if (target.def.HasTag(tag))
-                    return true;
-            }
             
             return false;
         }

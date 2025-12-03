@@ -19,18 +19,27 @@
     </graphicData>
   </FleckDef>
 
-  <FleckDef ParentName="FleckBase">
+  <FleckDef Name="WULA_GunTail_Lighting" ParentName="FleckBase">
     <defName>WULA_GunTail_Lighting</defName>
     <altitudeLayer>Projectile</altitudeLayer>
-    <fadeInTime>0.50</fadeInTime>
+    <!-- <fadeInTime>0.50</fadeInTime> -->
     <solidTime>1</solidTime>
     <fadeOutTime>1.2</fadeOutTime>
-    <growthRate>0.005</growthRate>
+    <growthRate>0.1</growthRate>
     <graphicData>
       <texPath>Wula/Mote/WULA_Lighting_Beam</texPath>
       <shaderType>MoteGlow</shaderType>
       <color>(113,165,225,255)</color>
-      <drawSize>(0.5,2)</drawSize>
+      <drawSize>(0.75,2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  <FleckDef ParentName="WULA_GunTail_Lighting">
+    <defName>WULA_GunTail_Lighting_Small</defName>
+    <solidTime>1</solidTime>
+    <fadeOutTime>0.25</fadeOutTime>
+    <growthRate>0.25</growthRate>
+    <graphicData>
+      <drawSize>(0.3,2)</drawSize>
     </graphicData>
   </FleckDef>
 
