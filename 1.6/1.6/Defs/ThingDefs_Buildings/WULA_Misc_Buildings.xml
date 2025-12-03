@@ -160,7 +160,7 @@
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>500</WULA_Alloy>
-      <WULA_Charge_Cube>25</WULA_Charge_Cube>
+      <WULA_Tex_Voucher>1</WULA_Tex_Voucher>
     </costList>
     <tickerType>Normal</tickerType>
     <canOverlapZones>true</canOverlapZones>

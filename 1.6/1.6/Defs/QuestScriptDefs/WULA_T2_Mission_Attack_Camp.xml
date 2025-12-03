@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <QuestScriptDef>
+    <defName>OpportunitySite_BanditCamp</defName>
+    <rootSelectionWeight>1.0</rootSelectionWeight>
+    <rootMinPoints>350</rootMinPoints>
+    <canGiveRoyalFavor>true</canGiveRoyalFavor>
+    <expireDaysRange>4~8</expireDaysRange>
+    <successHistoryEvent MayRequire="Ludeon.RimWorld.Ideology">Raided_BanditCamp</successHistoryEvent>
+    <everAcceptableInSpace>true</everAcceptableInSpace>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->The [bandit] [camp]</li>
+        <li>questName->[bandit] [camp]</li>
+        <li>questName->[asker_nameDef] and the [camp]</li>
+        <li>camp->Camp</li>
+        <li>camp->Outpost</li>
+        <li>camp->Lair</li>
+        <li>camp->Encampment</li>
+        <li>bandit->Bandit</li>
+        <li>bandit->Raider</li>
+        <li>bandit->Outlaw</li>
+        <li>bandit->Desperado</li>
+        <li>bandit->Fugitive</li>
+        <li>bandit->Marauder</li>
+        <li>bandit->Robber</li>
+        <li>bandit->Brigand</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[asker_nameFull], [asker_faction_leaderTitle] of [asker_faction_name], has sent us a message. Apparently, [siteFaction_pawnsPlural] based in a nearby camp have been raiding their caravans. The camp is controlled by [siteFaction_name].
+\n[asker_nameDef] is asking us to destroy the camp, which means eliminating all enemies and turrets. [asker_label] says that [sitePart0_description].</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+          <parms>
+            <pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+            <pointsFactorThreeStar>2</pointsFactorThreeStar>
+          </parms>
+        </li>
+        
+        <li Class="QuestNode_SubScript">
+          <def>Util_AdjustPointsForDistantFight</def>
+        </li>
+        
+        <li Class="QuestNode_GetMap">
+          <canBeSpace>true</canBeSpace>
+        </li>
+
+        <li Class="QuestNode_GetPawn">
+          <storeAs>asker</storeAs>
+          <mustBeFactionLeader>true</mustBeFactionLeader>
+          <allowPermanentEnemyFaction>false</allowPermanentEnemyFaction>
+          <hostileWeight>0.15</hostileWeight>
+        </li>
+
+        <li Class="QuestNode_GetSiteTile">
+          <storeAs>siteTile</storeAs>
+          <preferCloserTiles>true</preferCloserTiles>
+          <selectLandmarkChance>0.5</selectLandmarkChance>
+          <allowedLandmarks>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Oasis</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Lake</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">LakeWithIsland</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">LakeWithIslands</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Pond</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">DryLake</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">ToxicLake</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Wetland</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">HotSprings</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Archipelago</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">CoastalIsland</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Peninsula</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Bay</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Valley</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Cavern</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Chasm</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Cliffs</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Hollow</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">TerraformingScar</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">LavaLake</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Dunes</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientHeatVent</li>
+          </allowedLandmarks>
+        </li>
+
+        <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+          <storeAs>sitePartDefs</storeAs>
+          <storeFactionAs>siteFaction</storeFactionAs>
+          <sitePartsTags>
+            <li><tag>BanditCamp</tag></li>
+          </sitePartsTags>
+          <mustBeHostileToFactionOf>$asker</mustBeHostileToFactionOf>
+        </li>
+
+        <li Class="QuestNode_GetDefaultSitePartsParams">
+          <tile>$siteTile</tile>
+          <faction>$siteFaction</faction>
+          <sitePartDefs>$sitePartDefs</sitePartDefs>
+          <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+        </li>
+        
+        <li Class="QuestNode_GetSiteThreatPoints">
+          <storeAs>sitePoints</storeAs>
+          <sitePartsParams>$sitePartsParams</sitePartsParams>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_GetDefaultRewardValueFromPoints</def>
+          <parms>
+            <!-- Use the actual threat points generated (some site parts define a minimum threshold) -->
+            <points>$sitePoints</points>
+          </parms>
+        </li>
+
+        <!-- Inflate reward value. Since we're basing the reward value on the threat points generated, we need to do this
+             even though the threat points was deflated from the input points already. -->
+        <li Class="QuestNode_Multiply">
+            <value1>$rewardValue</value1>
+            <value2>1.75</value2>
+            <storeAs>rewardValue</storeAs>
+        </li>
+
+        <li Class="QuestNode_SubScript">
+          <def>Util_GenerateSite</def>
+        </li>
+        
+        <li Class="QuestNode_SpawnWorldObjects">
+          <worldObjects>$site</worldObjects>
+        </li>
+
+        <li Class="QuestNode_WorldObjectTimeout">
+          <worldObject>$site</worldObject>
+          <isQuestTimeout>true</isQuestTimeout>
+          <delayTicks>$(randInt(12,28)*60000)</delayTicks>
+          <inSignalDisable>site.MapGenerated</inSignalDisable>
+          <destroyOnCleanup>true</destroyOnCleanup>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestExpired">The bandit camp has packed up and moved on. The quest [resolvedQuestName] has expired.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <!-- If we enter and leave, the map is destroyed. Fail the quest. -->
+        <li Class="QuestNode_Signal">
+          <inSignal>site.Destroyed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestFailed">After being discovered, the bandit camp has dispersed. The quest [resolvedQuestName] has ended.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>site.AllEnemiesDefeated</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Notify_PlayerRaidedSomeone">
+                <getRaidersFromMapParent>$site</getRaidersFromMapParent>
+              </li>
+              <li Class="QuestNode_GiveRewards">
+                <parms>
+                  <allowGoodwill>true</allowGoodwill>
+                  <allowRoyalFavor>true</allowRoyalFavor>
+                  <chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal>
+                </parms>
+                <addCampLootReward>true</addCampLootReward>
+                <customLetterLabel TKey="LetterLabelPaymentArrived">Payment arrived</customLetterLabel>
+                <customLetterText TKey="LetterTextPaymentArrived">You have defeated the bandit camp!\n\nThe payment from [asker_faction_name] has arrived.</customLetterText>
+                <nodeIfChosenPawnSignalUsed Class="QuestNode_Letter">
+                  <letterDef>ChoosePawn</letterDef>
+                  <label TKey="LetterLabelFavorReceiver">[asker_faction_royalFavorLabel]</label>
+                  <text TKey="LetterTextFavorReceiver">These colonists participated in the victory for the quest [resolvedQuestName]. [asker_definite] wants to know who should receive the [royalFavorReward_amount] [asker_faction_royalFavorLabel] for this service.</text>
+                  <useColonistsOnMap>$site</useColonistsOnMap>
+                  <chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal>
+                </nodeIfChosenPawnSignalUsed>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>site.AllEnemiesDefeated</inSignal>
+          <outcome>Success</outcome>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+  
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_1</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_3</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>我现在没时间。\n\n这样吧，你们帮我做一件事，成功之后我就绕过程序给你们批复三级殖民地许可，如何？</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>要做什么？</label>
+        <useCustomColors>false</useCustomColors>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <disabledReason>我们还在追查保险箱下落，现在还不行</disabledReason>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_FlagNotExists">
+            <flagName>WULA_Recycle_PIA_Legion_File_Lock</flagName>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Recycle_PIA_Legion_File_UI_2</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>现在不是太合适···</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_2</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>我要你们，在5天内帮我回收一个东西。\n\n一个黑色的保险箱，现在正在一支敌对乌拉帝国叛军手中，里面有关于皇室的很重要的资料，你们必须确保这个保险箱的安全——如果它被打开了，就要杀死在场的所有人。\n\n里面的东西一定不能泄露。</li>
+    </descriptions>
+    <immediateEffects>
+      <li>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>WULA_Recycle_PIA_Legion_File_UI_7_Triggerd</name>
+            <value>0</value>
+            <type>Int</type>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
+    <options>
+      <li>
+        <label>叛军？我们可从来没听说过有叛军在这个星球上···</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Recycle_PIA_Legion_File_UI_3</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们准备好了，告诉我们位置吧</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_SetTimedFlag">
+                <flagName>WULA_Recycle_PIA_Legion_File_Lock</flagName>
+                <durationTicks>1800000</durationTicks>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_AddQuest">
+                <quest>WULA_Recycle_PIA_Legion_File</quest>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>现在不是太合适···</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_3</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_4</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>你们知道进步派吗？这些反贼的存在目前还不是很多人知道。\n\n她们是乌拉帝国内部的分裂势力，正在密谋推翻皇室。现在整个银河系的安全部门都在追查这些人的下落，她们对知识分子和底层的渗透相当严重——这次被夺走的盒子中就有关乎到皇室安全的机密，不能让进步派成功获得里面的内容。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>明白了···</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Recycle_PIA_Legion_File_UI_2</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <IncidentDef>
+    <defName>WULA_GiveQuest_Recycle_PIA_Legion_File</defName>
+    <category>GiveQuest</category>
+    <label>回收文件</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <questScriptDef>WULA_Recycle_PIA_Legion_File</questScriptDef>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <baseChance>0</baseChance>
+    <requireColonistsPresent>True</requireColonistsPresent>
+  </IncidentDef>
+  <QuestScriptDef>
+    <defName>WULA_Recycle_PIA_Legion_File</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <autoAccept>true</autoAccept>
+    <sendAvailableLetter>true</sendAvailableLetter>
+    <defaultChallengeRating>4</defaultChallengeRating>
+    <isRootSpecial>true</isRootSpecial>
+    <defaultCharity>false</defaultCharity>
+    <!-- 命名规则 -->
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->WULA_Recycle_PIA_Legion_File_questName</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
+      <rulesStrings>
+        <li>questDescription->WULA_Recycle_PIA_Legion_File_questDescription</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetMap" />
+        <!-- 生成物品奖励 -->
+        <li Class="QuestNode_GenerateThingSet">
+          <thingSetMaker>WULA_Recycle_PIA_Legion_File_Reward</thingSetMaker>
+          <storeAs>recycleReward</storeAs>
+        </li>
+
+        <!-- 产生超链接 -->
+        <li Class="WulaFallenEmpire.QuestNode_Hyperlinks">
+          <thingDefs>
+            <li>WULA_Safe_Box_For_Mission</li>
+          </thingDefs>
+        </li>
+        
+        <li Class="QuestEditor_Library.QuestNode_RandomCustomMap">
+          <datas>
+            <li>
+              <key>WULA_Hostile_Progressive_Outpost</key>
+              <value>1</value>
+            </li>
+          </datas>
+          <buffer>5</buffer>
+          <bufferMin>10</bufferMin>
+          <siteIconPath>Wula/World/WorldObjects/Expanding/WULA_Progressive_Faction</siteIconPath>
+          <expandingIconPath>Wula/World/WorldObjects/Expanding/WULA_Progressive_Faction</expandingIconPath>
+          <storeAs>ProgressiveOutpost</storeAs>
+          <!-- <faction>Wula_PIA_Legion_Faction</faction> -->
+          <distance>
+            <min>5</min>
+            <max>10</max>
+          </distance>
+          <blacklist />
+        </li>
+        
+        <li Class="WulaFallenEmpire.QuestNode_CheckGlobalResource">
+          <resourceDef>WULA_Safe_Box_For_Mission</resourceDef>
+          <requiredCount>1</requiredCount>
+          <retryDelayTicks>600</retryDelayTicks>
+          <successSignal>HandleSuccess</successSignal>
+          <failSignal>HandleFailed</failSignal>
+          <deductOnSuccess>true</deductOnSuccess>
+          <useInputStorage>true</useInputStorage>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>HandleSuccess</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="WulaFallenEmpire.QuestNode_EventLetter">
+                <inSignal>HandleSuccess</inSignal>
+                <eventDefName>WULA_Recycle_PIA_Legion_File_UI_10</eventDefName>
+              </li>
+              <li Class="QuestNode_AddItemsReward">
+                <items>$recycleReward</items>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Success</outcome>
+                <sendStandardLetter>true</sendStandardLetter>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        
+        <li Class="QuestNode_Delay">
+          <delayTicks>300000</delayTicks>
+          <!-- <delayTicks>360</delayTicks> -->
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_SendSignals">
+                <outSignals>Handle_Outtime</outSignals>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <!-- 超时结束 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>Handle_Outtime</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label>保险箱失踪</label>
+                <text>你的上司委托你去寻找的保险箱已经失去信号了，舰队需要一些时间才能重新追踪盒子</text>
+                <letterDef>NegativeEvent</letterDef>
+              </li>
+              <li Class="QuestNode_ChangeFactionGoodwill">
+                <faction>Wula_PIA_Legion_Faction</faction>
+                <change>-50</change>
+                <reason>WULA_Recycle_PIA_Legion_File_Handle_Outtime</reason>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+  <HistoryEventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_Handle_Outtime</defName>
+    <label>让重要机密流失</label>
+  </HistoryEventDef>
+  <ThingSetMakerDef>
+    <defName>WULA_Recycle_PIA_Legion_File_Reward</defName>
+    <root Class="ThingSetMaker_RandomOption">
+      <options>
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Techprint_SP_WULA_Colony_License_LV3_Technology</li>
+                </thingDefs>
+              </filter>
+              <countRange>1</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+      </options>
+    </root>
+  </ThingSetMakerDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_5</defName>
+    <label>未知通讯</label>
+    <!-- <portraitPath>Wula/Events/Portraits/WULA_Safe_Box_For_Mission</portraitPath> -->
+    <characterName>保险箱</characterName>
+    <descriptions>
+      <li>一个通体漆黑的保险箱静静地躺在地上，多层鎏金花雕和显眼的铁十字凤凰证明其曾属于身份显贵之人，信号追踪器则毫无疑问地指向它——这就是那个和皇室相关的保险箱。看起来，进步派的叛军使用编织体的切割束将其锁头破坏了，但是这个切割手法非常的粗糙，导致里面传来阵阵焦香，或许已经不剩什么了。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>打开看看</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Recycle_PIA_Legion_File_UI_6</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>收起来</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_6</defName>
+    <label>未知通讯</label>
+    <!-- <portraitPath>Wula/Events/Portraits/WULA_Safe_Box_For_Mission</portraitPath> -->
+    <characterName>保险箱</characterName>
+    <descriptions>
+      <li>里面已经一团乱麻，切割束确实暴力地扫过了整个保险箱内壁，半反射的内壁使得离子束在里面不断撞击，烧毁了绝大部分内容。\n\n在焦炭中，一个银色的人造物在熠熠生辉，似乎是一个经过特别加固的记录仪，记录了某些全息影像。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>播放内容</label>
+        <useCustomColors>true</useCustomColors>
+        <textColor>(111,223,255,225)</textColor>
+        <textHoverColor>(158,242,255,255)</textHoverColor>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Recycle_PIA_Legion_File_UI_7</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>当作没看见</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_7</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>（投影画面上根本不是什么皇室秘闻，而是你的上司和另一个人的通话）\n\n···我现在抽不开身，行星封锁机关的舰队要在这边对整片星区施加存在压力，以推进这片星区的殖民任务。皇宫那边的事情我听说了，现在国教教会秘不发丧，皇宫区的秩序短时间内应该不会出现大的波澜——如果皇宫区真的突生变化，我会带着舰队回去增援的。\n\n你们在搞的小把戏我已经知道了，你们想把皇家机械行会踢出局再顺手给她们扣顶高帽，但是现在皇家机械行会立场不明，最好不要轻举妄动。\n\n就这样了，乌拉帝国现在正处于暴风雨前的宁静，希望我们都还能在彼端相见。</li>
+    </descriptions>
+    <immediateEffects>
+      <li>
+        <effects>
+          <!-- 在进入任务前，一定会点开mainevent，姑且认为该var不会为空 -->
+          <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+            <name>WULA_Recycle_PIA_Legion_File_UI_7_Triggerd</name>
+            <value>1</value>
+            <operation>Add</operation>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
+    <options>
+      <li>
+        <label>关闭</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_10</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>不错，虽然已经被切割束烧的变形了，但是最终还是回收成功了。那么，看过这个保险箱的人都死了吗？</li>
+    </descriptions>
+    <immediateEffects>
+      <li>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_Has_Receive_Reinforcement_From_PIA</name>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_Has_Receive_MechWula_From_PIA</name>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_ClearVariable">
+            <name>Wula_Has_Receive_Silver_From_PIA</name>
+          </li>
+          <!-- 在进入任务前，一定会点开mainevent，姑且认为该var不会为空 -->
+          <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>1</value>
+            <operation>Add</operation>
+          </li>
+        </effects>
+      </li>
+    </immediateEffects>
+    <options>
+      <li>
+        <label>看过的人已经命丧黄泉了</label>
+        <useCustomColors>false</useCustomColors>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>WULA_Recycle_PIA_Legion_File_UI_7_Triggerd</name>
+            <value>0</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Recycle_PIA_Legion_File_UI_11</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>是的，我们遵守指示将叛军屠杀殆尽（避重就轻）</label>
+        <useCustomColors>false</useCustomColors>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>WULA_Recycle_PIA_Legion_File_UI_7_Triggerd</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Recycle_PIA_Legion_File_UI_12</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_11</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>好，看起来你们赶在她们把里面的内容取出来之前就杀了她们，干得不错。\n\n就像我之前承诺的那样，我会给你们的殖民地开一道绿灯，跳过繁琐的审查，将殖民地评级提升到三级，开放行星封锁机关的所有武器和建筑的使用权限。\n\n此外，我也将你们的支援系统重置了，你们可以再次申请之前申请过的支援，并且新的支援也会开放给你们。\n\n帝国荣光永存。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>帝国荣光永存</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Recycle_PIA_Legion_File_UI_12</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>是吗······\n\n那，就像我之前承诺的那样，我会给你们的殖民地开一道绿灯，跳过繁琐的审查，将殖民地评级提升到三级，开放行星封锁机关的所有武器和建筑的使用权限。\n\n此外，我也将你们的支援系统重置了，你们可以再次申请之前申请过的支援，并且新的支援也会开放给你们。\n\n帝国荣光永存。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>帝国荣光永存</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+
+  <QuestEditor_Library.CustomMapDataDef>
+    <defName>WULA_Hostile_Progressive_Outpost</defName>
+    <label>乌拉帝国进步派哨站</label>
+    <fogged>true</fogged>
+    <size>(42, 1, 42)</size>
+    <isPart>true</isPart>
+    <commonality>0</commonality>
+    <customThings>
+      <li Class="QuestEditor_Library.CustomThingData_LootBox">
+        <def>WULA_Hostile_Progressive_Outpost_LootBox</def>
+        <faction>WULA_Awakened_Synth</faction>
+        <customName>可疑的乌拉帝国编织体</customName>
+        <customDescription>这个原本用于生产材料的乌拉帝国编织体正在使用其高能切割刀切割一个质地坚硬的保险箱——但是保险箱纹丝不动。</customDescription>
+        <comps>
+          <li>
+            <compName>Open_WULA_Hostile_Progressive_Outpost_LootBox</compName>
+            <mode>Open</mode>
+            <actions>
+              <li Class="QuestEditor_Library.CQFAction_SentSignal">
+                <signal>BoxIsOpened</signal>
+              </li>
+            </actions>
+          </li>
+        </comps>
+        <position>(21,0,19)</position>
+        <lootBoxName>LootBox</lootBoxName>
+        <tickToOpen>100</tickToOpen>
+        <openReport>CQF_Open</openReport>
+        <destroyAfterOpening>false</destroyAfterOpening>
+        <loots>
+          <li>
+            <dataName>WULA_Safe_Box</dataName>
+            <chance>1</chance>
+            <message>你的殖民者停用了编织体，外壳滚烫的保险箱掉了出来</message>
+            <things>
+              <li Class="QuestEditor_Library.CQFThingDefCount">
+                <thing>WULA_Safe_Box_For_Mission</thing>
+              </li>
+            </things>
+          </li>
+        </loots>
+      </li>
+    </customThings>
+    <pawns>
+      <li>
+        <key>(25, 0, 20)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(22, 0, 17)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(25, 0, 23)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(19, 0, 17)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(22, 0, 26)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(16, 0, 20)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(16, 0, 23)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(19, 0, 26)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(25, 0, 11)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender_Cat</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(31, 0, 17)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender_Cat</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(16, 0, 11)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender_Cat</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(31, 0, 26)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender_Cat</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(25, 0, 32)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender_Cat</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(10, 0, 17)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender_Cat</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(16, 0, 32)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender_Cat</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(10, 0, 26)</key>
+        <value>
+          <li>
+            <dataName>WULA_Hostile_Defender_Cat</dataName>
+            <kind>WULA_Hostile_Progressive_Light_Unit</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>WULA_Defender_Group</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+    </pawns>
+    <roofRects>
+      <li>
+        <key>RoofConstructed</key>
+        <value>
+          <li>(12,13,29,30)</li>
+          <li>(17,10,24,12)</li>
+          <li>(9,18,11,25)</li>
+          <li>(30,18,32,25)</li>
+          <li>(17,31,24,33)</li>
+        </value>
+      </li>
+    </roofRects>
+    <terrainsRect>
+      <li>
+        <key>WulaFloor</key>
+        <value>
+          <li>(17,10,24,33)</li>
+          <li>(15,13,16,30)</li>
+          <li>(12,16,14,27)</li>
+          <li>(9,18,11,25)</li>
+          <li>(25,13,26,30)</li>
+          <li>(27,16,29,27)</li>
+          <li>(30,18,32,25)</li>
+        </value>
+      </li>
+    </terrainsRect>
+    <thingDatas>
+      <li>
+        <def>WULA_Machine_Recharger</def>
+        <faction>AncientsHostile</faction>
+        <position>(21,0,23)</position>
+      </li>
+      <li>
+        <def>WULA_Charging_Station_Synth</def>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(20,19,20,19)</li>
+          <li>(22,19,22,19)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WulaWall</def>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(17,10,24,10)</li>
+          <li>(15,13,19,13)</li>
+          <li>(12,16,15,16)</li>
+          <li>(9,18,10,18)</li>
+          <li>(17,11,17,11)</li>
+          <li>(15,14,15,15)</li>
+          <li>(12,17,12,20)</li>
+          <li>(9,19,9,25)</li>
+          <li>(19,14,19,16)</li>
+          <li>(13,20,15,20)</li>
+          <li>(22,13,26,13)</li>
+          <li>(12,23,15,23)</li>
+          <li>(22,14,22,16)</li>
+          <li>(19,18,22,18)</li>
+          <li>(17,20,17,23)</li>
+          <li>(24,11,24,11)</li>
+          <li>(12,24,12,27)</li>
+          <li>(10,25,10,25)</li>
+          <li>(26,14,26,16)</li>
+          <li>(13,27,15,27)</li>
+          <li>(24,20,24,23)</li>
+          <li>(27,16,29,16)</li>
+          <li>(19,25,22,25)</li>
+          <li>(15,28,15,30)</li>
+          <li>(26,20,29,20)</li>
+          <li>(19,27,19,30)</li>
+          <li>(29,17,29,19)</li>
+          <li>(16,30,18,30)</li>
+          <li>(26,23,29,23)</li>
+          <li>(22,27,22,30)</li>
+          <li>(31,18,32,18)</li>
+          <li>(17,32,17,33)</li>
+          <li>(32,19,32,25)</li>
+          <li>(26,27,29,27)</li>
+          <li>(18,33,24,33)</li>
+          <li>(29,24,29,26)</li>
+          <li>(23,30,26,30)</li>
+          <li>(26,28,26,29)</li>
+          <li>(31,25,31,25)</li>
+          <li>(24,32,24,32)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Table1x2c</def>
+        <stuff>WULA_Alloy</stuff>
+        <faction>AncientsHostile</faction>
+        <position>(18,0,21)</position>
+      </li>
+      <li>
+        <def>DiningChair</def>
+        <stuff>Uranium</stuff>
+        <faction>AncientsHostile</faction>
+        <position>(18,0,20)</position>
+      </li>
+      <li>
+        <def>DiningChair</def>
+        <stuff>Uranium</stuff>
+        <rotation>2</rotation>
+        <faction>AncientsHostile</faction>
+        <position>(18,0,23)</position>
+      </li>
+      <li>
+        <def>WULA_Wall_Flag_Building</def>
+        <rotation>3</rotation>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(25,20,25,20)</li>
+          <li>(25,23,25,23)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>HiddenConduit</def>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(19,17,19,17)</li>
+          <li>(16,20,16,20)</li>
+          <li>(22,17,22,17)</li>
+          <li>(16,23,16,23)</li>
+          <li>(25,20,25,20)</li>
+          <li>(19,26,19,26)</li>
+          <li>(25,23,25,23)</li>
+          <li>(22,26,22,26)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WULA_Wall_Flag_Building</def>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(19,17,19,17)</li>
+          <li>(22,17,22,17)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Sandbags</def>
+        <stuff>Cloth</stuff>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(7,8,10,8)</li>
+          <li>(7,9,7,11)</li>
+          <li>(17,17,17,18)</li>
+          <li>(16,18,16,18)</li>
+          <li>(24,17,24,18)</li>
+          <li>(16,25,17,25)</li>
+          <li>(25,18,25,18)</li>
+          <li>(17,26,17,26)</li>
+          <li>(31,8,34,8)</li>
+          <li>(7,32,7,35)</li>
+          <li>(24,25,25,25)</li>
+          <li>(34,9,34,11)</li>
+          <li>(24,26,24,26)</li>
+          <li>(8,35,10,35)</li>
+          <li>(34,32,34,35)</li>
+          <li>(31,35,33,35)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WULA_Wall_Flag_Building</def>
+        <rotation>2</rotation>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(19,26,19,26)</li>
+          <li>(22,26,22,26)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WULA_Wall_Flag_Building</def>
+        <rotation>1</rotation>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(16,20,16,20)</li>
+          <li>(16,23,16,23)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Wula_Fusion_Generators</def>
+        <faction>AncientsHostile</faction>
+        <storedEnergy>29.432827</storedEnergy>
+        <allRect>
+          <li>(17,15,17,15)</li>
+          <li>(14,18,14,18)</li>
+          <li>(24,15,24,15)</li>
+          <li>(14,25,14,25)</li>
+          <li>(27,18,27,18)</li>
+          <li>(17,28,17,28)</li>
+          <li>(27,25,27,25)</li>
+          <li>(24,28,24,28)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Turret_MiniTurret</def>
+        <stuff>Steel</stuff>
+        <faction>AncientsHostile</faction>
+        <storedEnergy>60</storedEnergy>
+        <allRect>
+          <li>(16,17,16,17)</li>
+          <li>(25,17,25,17)</li>
+          <li>(16,26,16,26)</li>
+          <li>(25,26,25,26)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Wula_Base_Laser_Turret</def>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(13,14,13,14)</li>
+          <li>(28,14,28,14)</li>
+          <li>(13,29,13,29)</li>
+          <li>(28,29,28,29)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>TrapIED_Incendiary</def>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(18,12,18,12)</li>
+          <li>(11,19,11,19)</li>
+          <li>(23,12,23,12)</li>
+          <li>(11,24,11,24)</li>
+          <li>(30,19,30,19)</li>
+          <li>(18,31,18,31)</li>
+          <li>(30,24,30,24)</li>
+          <li>(23,31,23,31)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WulaDoor</def>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(11,18,11,18)</li>
+          <li>(11,25,11,25)</li>
+          <li>(30,18,30,18)</li>
+          <li>(30,25,30,25)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WulaDoor</def>
+        <rotation>1</rotation>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(17,12,17,12)</li>
+          <li>(24,12,24,12)</li>
+          <li>(17,31,17,31)</li>
+          <li>(24,31,24,31)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WULA_Cat_Bunker</def>
+        <faction>AncientsHostile</faction>
+        <allRect>
+          <li>(9,10,9,10)</li>
+          <li>(32,10,32,10)</li>
+          <li>(9,33,9,33)</li>
+          <li>(32,33,32,33)</li>
+        </allRect>
+      </li>
+    </thingDatas>
+  </QuestEditor_Library.CustomMapDataDef>
+  <ThingDef ParentName="CustomThingBase">
+    <defName>WULA_Hostile_Progressive_Outpost_LootBox</defName>
+    <label>可疑的乌拉帝国编织体</label>
+    <description>这个原本用于生产材料的乌拉帝国编织体正在使用其高能切割刀切割一个质地坚硬的保险箱——但是保险箱纹丝不动。</description>
+    <thingClass>QuestEditor_Library.LootBox</thingClass>
+    <altitudeLayer>Building</altitudeLayer>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <useHitPoints>false</useHitPoints>
+    <tickerType>Normal</tickerType>
+    <category>Building</category>
+    <selectable>true</selectable>
+    <statBases>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Wula/Building/WULA_Cube_Productor</texPath>
+    </graphicData>
+    <building>
+      <expandHomeArea>true</expandHomeArea>
+      <claimable>false</claimable>
+    </building>
+  </ThingDef>
+  <ThingDef>
+    <defName>WULA_Safe_Box_For_Mission</defName>
+    <label>乌拉帝国保险箱</label>
+    <description>印有乌拉帝国凤凰标志的保险箱，是你的上司要求你回收的东西。因为编织仪的持续切割，多层合金锁貌似已经坏掉了。\n\n&lt;color=#BD2F31>&lt;i>不要偷看。&lt;/i>&lt;/color></description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <drawerType>MapMeshOnly</drawerType>
+    <useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <selectable>true</selectable>
+    <graphicData>
+      <texPath>Wula/Item/WULA_Safe_Box_For_Mission</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>1</stackLimit>
+    <statBases>
+      <Flammability>0</Flammability>
+      <Beauty>0</Beauty>
+      <DeteriorationRate>0</DeteriorationRate>
+      <MarketValue>8650000</MarketValue>
+      <Mass>0.3</Mass>
+      <WorkToMake>450</WorkToMake>
+    </statBases>
+    <altitudeLayer>Item</altitudeLayer>
+    <tickerType>Rare</tickerType>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <alwaysHaulable>true</alwaysHaulable>
+    <pathCost>14</pathCost>
+    <allowedArchonexusCount>200</allowedArchonexusCount>
+    <generateAllowChance>0</generateAllowChance>
+    <tradeability>None</tradeability>
+    <resourceReadoutPriority>Last</resourceReadoutPriority>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <uiIconForStackCount>1</uiIconForStackCount>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <!-- 基础可用性组件 -->
+      <li Class="CompProperties_Usable">
+        <useLabel>检查保险箱···</useLabel>
+        <useJob>UseItem</useJob>
+      </li>
+      <!-- 自定义UI效果组件 -->
+      <li Class="WulaFallenEmpire.CompProperties_UseEffect_OpenCustomUI">
+          <uiDefName>WULA_Recycle_PIA_Legion_File_UI_5</uiDefName>
+          <requireFactionPlayer>false</requireFactionPlayer>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

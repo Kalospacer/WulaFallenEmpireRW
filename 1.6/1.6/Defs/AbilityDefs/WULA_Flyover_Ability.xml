@@ -187,7 +187,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>0</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -235,7 +235,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>0</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -284,7 +284,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>0</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -341,7 +341,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -396,7 +396,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -462,7 +462,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -528,7 +528,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -594,7 +594,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -650,7 +650,7 @@
   <AbilityDef>
     <defName>WULA_Spawn_Bomber_DarkMatterBomb</defName>
     <label>轰炸机反物质冲击</label>
-    <description>指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下一枚反物质炸弹——记得躲远点。</description>
+    <description>指挥乌拉帝国的轰炸机，低速掠过战场，对目标地点发射一枚反物质导弹——记得躲远点。</description>
     <iconPath>Wula/UI/Abilities/WULA_Spawn_Bomber_DarkMatterBomb</iconPath>
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
@@ -660,7 +660,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -728,7 +728,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -777,7 +777,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -786,7 +786,7 @@
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
-        <globalCooldownTicks>1000</globalCooldownTicks>
+        <globalCooldownTicks>6000</globalCooldownTicks>
         <requiredFacility>BombardmentFacility</requiredFacility>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityCircularBombardment">
@@ -827,7 +827,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -836,7 +836,7 @@
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
-        <globalCooldownTicks>300</globalCooldownTicks>
+        <globalCooldownTicks>10000</globalCooldownTicks> <!-- 1 day -->
         <requiredFacility>BombardmentFacility</requiredFacility>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityCallSkyfaller">
@@ -868,7 +868,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -877,7 +877,7 @@
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
-        <globalCooldownTicks>1000</globalCooldownTicks>
+        <globalCooldownTicks>10000</globalCooldownTicks> <!-- 1 day -->
         <requiredFacility>BombardmentFacility</requiredFacility>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityEnergyLance">
@@ -910,7 +910,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -919,7 +919,7 @@
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
-        <globalCooldownTicks>300</globalCooldownTicks>
+        <globalCooldownTicks>30000</globalCooldownTicks> <!-- 1 day -->
         <requiredFacility>BombardmentFacility</requiredFacility>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityCallSkyfaller">
@@ -951,7 +951,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -960,7 +960,7 @@
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
-        <globalCooldownTicks>1000</globalCooldownTicks>
+        <globalCooldownTicks>60000</globalCooldownTicks> <!-- 1 day -->
         <requiredFacility>BombardmentFacility</requiredFacility>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityBombardment">
@@ -1000,7 +1000,7 @@
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
       <warmupTime>1</warmupTime>
-      <range>120</range>
+      <range>500</range>
       <targetable>true</targetable>
       <targetParams>
         <canTargetSelf>false</canTargetSelf>
@@ -1009,7 +1009,7 @@
     </verbProperties>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_GlobalFlyOverCooldown">
-        <globalCooldownTicks>300</globalCooldownTicks>
+        <globalCooldownTicks>60000</globalCooldownTicks> <!-- 1 day -->
         <requiredFacility>BombardmentFacility</requiredFacility>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityCallSkyfaller">

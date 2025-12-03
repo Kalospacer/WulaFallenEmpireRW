@@ -305,6 +305,26 @@
         </optionEffects>
       </li>
       <li>
+        <label>我们需要一些稀有矿物···</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>2</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_31B</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
         <label>还是算了</label>
         <optionEffects>
           <li>
@@ -356,6 +376,69 @@
               </li>
               <li Class="WulaFallenEmpire.Effect_ShowMessage">
                 <message>P.I.A的紧急物资已经空投（30零部件4高级零部件）</message>
+                <messageTypeDef>PositiveEvent</messageTypeDef>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>还是算了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Legion_31B</defName>
+    <label>和P.I.A的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_5</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>矿物？说实话舰队上是不怎么存矿物的，未加工的原材料非常占地方，不过如果你们真的需要我也不是不能批一些给你们。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>太好了，我们正缺材料呢</label>
+        <disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</disabledReason>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>-75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_GiveThing">
+                <thingDef>Plasteel</thingDef>
+                <count>200</count>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_GiveThing">
+                <thingDef>Gold</thingDef>
+                <count>100</count>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_GiveThing">
+                <thingDef>Uranium</thingDef>
+                <count>100</count>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>Wula_Has_Receive_Silver_From_PIA</name>
+                <value>1</value>
+                <operation>Add</operation>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_ShowMessage">
+                <message>P.I.A的紧急物资已经空投（200玻璃钢100黄金100铀）</message>
                 <messageTypeDef>PositiveEvent</messageTypeDef>
               </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
@@ -563,7 +646,7 @@
         </optionEffects>
       </li>
       <li>
-        <label>有没有更重型的部队···</label>
+        <label>有没有重装部队···</label>
         <hideWhenDisabled>true</hideWhenDisabled>
         <conditions>
           <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
@@ -576,6 +659,26 @@
             <effects>
               <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
                 <defName>Wula_UI_Legion_33A</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>我们需要终极火力···</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>2</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_33B</defName>
               </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
@@ -636,6 +739,70 @@
                     <commonality>100</commonality>
                     <options>
                       <Wula_PIA_Heavy_Unit>1</Wula_PIA_Heavy_Unit>
+                    </options>
+                  </li>
+                </pawnGroupMakers>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>还是算了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_UI_Legion_33B</defName>
+    <label>和P.I.A的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>那我把手上的最顶级的百战老兵部队派下去吧，无论你们遇到什么问题应该没有她们摆不平的。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>这正是我们想要的</label>
+        <disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</disabledReason>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>-75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>Wula_Has_Receive_Reinforcement_From_PIA</name>
+                <value>2</value>
+                <operation>Add</operation>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_TriggerRaid">
+                <points>4000</points>
+                <faction>Wula_PIA_Legion_Faction</faction>
+                <raidStrategy>ImmediateAttackFriendly</raidStrategy>
+                <raidArrivalMode>EdgeDropGroups</raidArrivalMode>
+                <groupKind>Combat</groupKind>
+                <pawnGroupMakers>
+                  <li>
+                    <kindDef>Combat</kindDef>
+                    <commonality>100</commonality>
+                    <options>
+                      <Wula_PIA_Heavy_Unit_Melee>1</Wula_PIA_Heavy_Unit_Melee>
+                      <Wula_PIA_Heavy_Unit_Range>1</Wula_PIA_Heavy_Unit_Range>
                     </options>
                   </li>
                 </pawnGroupMakers>

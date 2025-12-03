@@ -118,7 +118,7 @@
     <defName>WULA_Colony_License_LV2_Technology</defName>
     <label>乌拉帝国殖民地许可：等级2</label>
     <description>乌拉帝国的第二阶殖民地许可，代表此殖民地已经被乌拉帝国赋予更多特权，许可不会为殖民地带来什么好处，但是提升许可是继续研究乌拉帝国科技的重要条件。\n\n要获得许可，你需要建造&lt;color=#6BB7B7>&lt;i>乌拉帝国作业通讯台&lt;/i>&lt;/color>，指派一名殖民者联系乌拉帝国行星封锁机关的长官，并开启审查流程任务，任务完成后将给予此许可。</description>
-    <baseCost>1500</baseCost>
+    <baseCost>3000</baseCost>
     <researchViewX>4.00</researchViewX>
     <researchViewY>3.20</researchViewY>
     <techprintCount>1</techprintCount>
@@ -180,7 +180,7 @@
     <defName>WULA_Colony_License_LV3_Technology</defName>
     <label>乌拉帝国殖民地许可：等级3</label>
     <description>乌拉帝国的第一阶殖民地许可，代表此殖民地已经被乌拉帝国赋予更多特权，许可不会为殖民地带来什么好处，但是提升许可是继续研究乌拉帝国科技的重要条件。</description>
-    <baseCost>2000</baseCost>
+    <baseCost>5000</baseCost>
     <researchViewX>8.00</researchViewX>
     <researchViewY>3.20</researchViewY>
     <techprintCount>1</techprintCount>
@@ -200,7 +200,7 @@
     <defName>WULA_Aircraft_Carrier_Technology</defName>
     <label>攻击舰队调配许可</label>
     <description>允许殖民地建立信标增加攻击舰队配额，并使得机械乌拉可以调频天线以申请舰队空中支援，包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器支援的航空舰。</description>
-    <baseCost>600</baseCost>
+    <baseCost>1000</baseCost>
     <researchViewX>1.00</researchViewX>
     <researchViewY>5.60</researchViewY>
     <prerequisites>
@@ -212,7 +212,7 @@
     <defName>WULA_Light_Fighter_Drone_Technology</defName>
     <label>蜂群无人机许可</label>
     <description>允许殖民地自行组装和放飞蜂群无人机，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n蜂群无人机是一种轻型的智能无人机，通过乌拉帝国的大气层内电离网络输电运作，可以以较高的频率对敌方进行编队掠袭和投掷小型炸弹。\n\n和其他的航空器不同，蜂群无人机不依赖于机库，因此不需要携带机库的战舰到场即可呼叫支援。</description>
-    <baseCost>600</baseCost>
+    <baseCost>500</baseCost>
     <researchViewX>1.00</researchViewX>
     <researchViewY>4.40</researchViewY>
     <prerequisites>
@@ -223,7 +223,7 @@
     <defName>WULA_Striker_Technology</defName>
     <label>攻击机调配许可</label>
     <description>允许殖民地建立信标增加攻击机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的攻击机是强大的对地支援火力，挂载了大量导弹、EMP炸弹和强大的机炮，对敌方目标实施精准收割。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
-    <baseCost>600</baseCost>
+    <baseCost>2000</baseCost>
     <researchViewX>5.00</researchViewX>
     <researchViewY>4.40</researchViewY>
     <hiddenPrerequisites>
@@ -237,7 +237,7 @@
     <defName>WULA_Bomber_Technology</defName>
     <label>轰炸机调配许可</label>
     <description>允许殖民地建立信标增加轰炸机配额，并使得机械乌拉可以调频天线以申请航空器空中打击。\n\n乌拉帝国的轰炸机是可以进入大气层的最大的飞行载具，除了投掷功能性的烟雾弹外，也能投下大量炸弹或是发射一枚暗物质导弹夷平帝国之敌。\n\n空中打击依赖于战舰的&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫航空器支援。</description>
-    <baseCost>600</baseCost>
+    <baseCost>3000</baseCost>
     <researchViewX>9.00</researchViewX>
     <researchViewY>4.40</researchViewY>
     <hiddenPrerequisites>
@@ -253,7 +253,7 @@
     <defName>WULA_Firepower_Minigun_Technology</defName>
     <label>链炮打击许可</label>
     <description>允许殖民地申请来自战舰武器阵列的链炮进行近地支援打击。\n\n链炮是一种射速非常快的大口径机炮，得益于乌拉帝国优秀的材料学，其弹头在穿越大气层后依然保有对轻甲目标的强大杀伤力。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
-    <baseCost>600</baseCost>
+    <baseCost>500</baseCost>
     <researchViewX>1.00</researchViewX>
     <researchViewY>5.00</researchViewY>
     <prerequisites>
@@ -264,7 +264,7 @@
     <defName>WULA_Firepower_Cannon_Technology</defName>
     <label>副炮打击许可</label>
     <description>允许殖民地申请来自战舰武器阵列的轻型舰炮进行近地支援打击。\n\n乌拉帝国的轻型舰炮是用于在太空战中对付中小型舰船的速射炮——当然，对地面目标同样有效。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
-    <baseCost>600</baseCost>
+    <baseCost>1500</baseCost>
     <researchViewX>5.00</researchViewX>
     <researchViewY>5.00</researchViewY>
     <hiddenPrerequisites>
@@ -278,7 +278,7 @@
     <defName>WULA_Firepower_EnergyLance_Technology</defName>
     <label>光矛打击许可</label>
     <description>允许殖民地申请来自战舰武器阵列的光矛进行近地支援打击。\n\n暗物质光矛是乌拉帝国舰队现役的主战装备之一，杀伤力来源是近乎纯净的能量，无论何种装甲防御在其面前都是螳臂当车。\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
-    <baseCost>600</baseCost>
+    <baseCost>2500</baseCost>
     <researchViewX>9.00</researchViewX>
     <researchViewY>5.00</researchViewY>
     <hiddenPrerequisites>
@@ -292,7 +292,7 @@
     <defName>WULA_Firepower_Primary_Cannon_Technology</defName>
     <label>主炮打击许可</label>
     <description>允许殖民地申请来自战舰武器阵列的主炮进行近地支援打击。\n\n乌拉帝国战舰的主炮被安装在轴线上，充当舰队战中的定音锤。如果把那些足以击碎舰队龙骨的炮弹射到地上的话···\n\n轨道攻击依赖于战舰的&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>，只有携带此类设施的战舰出现在地图中时，才能呼叫轨道攻击。</description>
-    <baseCost>600</baseCost>
+    <baseCost>3000</baseCost>
     <researchViewX>10.00</researchViewX>
     <researchViewY>5.00</researchViewY>
     <prerequisites>
@@ -307,7 +307,7 @@
     <researchViewY>0.90</researchViewY>
     <label>作业通讯台空投许可</label>
     <description>允许殖民地申请空投作业通讯台和建造物资输送舱，可以向乌拉帝国舰队输送资源、提交生产订单和获取舰队生产的产品。</description>
-    <baseCost>600</baseCost>
+    <baseCost>400</baseCost>
     <prerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
@@ -318,7 +318,7 @@
     <researchViewY>2.70</researchViewY>
     <label>维护空投许可</label>
     <description>允许殖民地申请空投合成人维护舱和合成人充电站，以实现对机械乌拉的充电和周期性维护。</description>
-    <baseCost>600</baseCost>
+    <baseCost>400</baseCost>
     <prerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
@@ -340,7 +340,7 @@
     <researchViewY>3.80</researchViewY>
     <label>聚变发电空投许可</label>
     <description>允许殖民地申请空投聚变发电机，一种输出功率不高但是维护极其容易的发电机。</description>
-    <baseCost>600</baseCost>
+    <baseCost>1200</baseCost>
     <prerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
@@ -351,7 +351,7 @@
     <researchViewY>3.80</researchViewY>
     <label>暗物质发电空投许可</label>
     <description>允许殖民地申请空投暗物质发电机，一种输出功率极为恐怖却非常消耗资源的发电机。</description>
-    <baseCost>600</baseCost>
+    <baseCost>3000</baseCost>
     <prerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
@@ -364,7 +364,7 @@
     <researchViewY>2.10</researchViewY>
     <label>地堡空投许可</label>
     <description>允许殖民地申请空投乌拉猫猫地堡和机械族充电站，地堡是内含三只乌拉猫猫机械体的集防御和生产为一身的建筑。</description>
-    <baseCost>600</baseCost>
+    <baseCost>500</baseCost>
     <prerequisites>
       <li>BasicMechtech</li>
       <li>WULA_Colony_License_LV1_Technology</li>
@@ -389,7 +389,7 @@
     <researchViewY>2.10</researchViewY>
     <label>系统休眠套件</label>
     <description>获取关闭乌拉帝国合成人各系统的必须知识。</description>
-    <baseCost>800</baseCost>
+    <baseCost>500</baseCost>
     <prerequisites>
       <li>WULA_Synth_Productor_Technology</li>
     </prerequisites>
@@ -400,7 +400,7 @@
     <researchViewY>5.60</researchViewY>
     <label>战车空投许可</label>
     <description>允许殖民地申请空投HAp-6"战车"，乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮、火箭弹和臼炮打击敌方。</description>
-    <baseCost>800</baseCost>
+    <baseCost>2000</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Synth_Productor_Technology</li>
     </hiddenPrerequisites>
@@ -414,7 +414,7 @@
     <researchViewY>5.60</researchViewY>
     <label>放射盾空投许可</label>
     <description>允许殖民地申请空投MSm-8"放射盾"，乌拉帝国的中型战争机械，一种多足机械体，拥有密不透风的反射盾的同时，还可以灼烧那些企图进入护盾区域内的宵小之辈。</description>
-    <baseCost>800</baseCost>
+    <baseCost>2000</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Synth_Productor_Technology</li>
     </hiddenPrerequisites>
@@ -428,7 +428,7 @@
     <researchViewY>5.60</researchViewY>
     <label>放射盾传送器许可</label>
     <description>允许殖民地使用MSm-8"放射盾"内置的传送器，机械乌拉在其覆盖范围内，处于征召状态下进行常规移动时，会以瞬间传送代替步行。</description>
-    <baseCost>800</baseCost>
+    <baseCost>3000</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Mech_Mobile_Shield_Technology</li>
     </hiddenPrerequisites>
@@ -442,7 +442,7 @@
     <researchViewY>5.60</researchViewY>
     <label>陆行舰空投许可</label>
     <description>允许殖民地申请空投MFm-2"陆行舰"，乌拉帝国的大型战争机械，一座插满火炮和战地生产设施的移动堡垒。</description>
-    <baseCost>800</baseCost>
+    <baseCost>4000</baseCost>
     <hiddenPrerequisites>
       <li>WULA_AI_Heavy_Panzer_Technology</li>
     </hiddenPrerequisites>
@@ -457,7 +457,7 @@
     <researchViewY>0.90</researchViewY>
     <label>反战车磁轨炮许可</label>
     <description>允许殖民地申请空投反战车磁轨炮台，可以在远距离上击穿拥有厚重装甲的敌人。</description>
-    <baseCost>600</baseCost>
+    <baseCost>1500</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Bunker_Drop_Technology</li>
     </hiddenPrerequisites>
@@ -472,7 +472,7 @@
     <researchViewY>0.90</researchViewY>
     <label>涡轮激光炮许可</label>
     <description>允许殖民地申请空投激光炮台，可以持续定向烧灼敌军，最大限度地击伤对手并留存战利品和俘虏。</description>
-    <baseCost>600</baseCost>
+    <baseCost>1500</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Bunker_Drop_Technology</li>
     </hiddenPrerequisites>
@@ -487,7 +487,7 @@
     <researchViewY>0.90</researchViewY>
     <label>自动迫击炮许可</label>
     <description>允许殖民地申请空投自动迫击炮台，可以发射远距离的高爆迫击炮弹打击地图上出现的任何敌军。</description>
-    <baseCost>3500</baseCost>
+    <baseCost>3000</baseCost>
     <prerequisites>
       <li>WULA_Synth_Armor_2_Technology</li>
     </prerequisites>
@@ -500,7 +500,7 @@
     <researchViewY>3.80</researchViewY>
     <label>钢茄种植许可</label>
     <description>允许殖民地种植钢茄，一种可以产出钢铁的特殊作物。</description>
-    <baseCost>3500</baseCost>
+    <baseCost>1000</baseCost>
     <prerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
@@ -511,7 +511,7 @@
     <defName>WULA_Synth_Weapon_1_Base_Technology</defName>
     <label>基础武装加工许可</label>
     <description>允许从作业通讯台提交生产基础武器的订单，一些资源花费不是很多但是可以护殖民地周全的步枪和近战武器。</description>
-    <baseCost>1600</baseCost>
+    <baseCost>500</baseCost>
     <researchViewX>2.00</researchViewX>
     <researchViewY>0.90</researchViewY>
     <prerequisites>
@@ -522,7 +522,7 @@
     <defName>WULA_Synth_Weapon_1_Missile_Technology</defName>
     <label>导弹武装加工许可</label>
     <description>允许从作业通讯台提交生产发射追踪巡飞弹的乌拉帝国武备的订单，以对抗普通武器难以消灭的重甲敌军。</description>
-    <baseCost>1600</baseCost>
+    <baseCost>800</baseCost>
     <researchViewX>3.00</researchViewX>
     <researchViewY>0.20</researchViewY>
     <prerequisites>
@@ -533,7 +533,7 @@
     <defName>WULA_Synth_Weapon_2_Laser_Technology</defName>
     <label>镭射武装加工许可</label>
     <description>允许从作业通讯台提交生产基础能量武器的乌拉帝国武备的订单，这些武器需要较长的瞄准时间，但是瞄准之后可以连续开火。</description>
-    <baseCost>2400</baseCost>
+    <baseCost>1200</baseCost>
     <researchViewX>5.00</researchViewX>
     <researchViewY>0.90</researchViewY>
     <hiddenPrerequisites>
@@ -549,7 +549,7 @@
     <defName>WULA_Synth_Weapon_2_Bullet_Technology</defName>
     <label>磁轨武装加工许可</label>
     <description>允许从作业通讯台提交生产高级实弹武器的乌拉帝国武备的订单，这些武器的破坏力较强，但是其优劣射程区间都相当明显。</description>
-    <baseCost>2400</baseCost>
+    <baseCost>1200</baseCost>
     <researchViewX>5.00</researchViewX>
     <researchViewY>0.20</researchViewY>
     <hiddenPrerequisites>
@@ -563,7 +563,7 @@
     <defName>WULA_Synth_Weapon_3_Explosive_Technology</defName>
     <label>爆炸武装加工许可</label>
     <description>允许从作业通讯台提交生产爆炸武器的乌拉帝国武备的订单，这些武器能够造成区域性爆炸，拥有相当凶狠的火力。</description>
-    <baseCost>2400</baseCost>
+    <baseCost>2500</baseCost>
     <researchViewX>9.00</researchViewX>
     <researchViewY>0.20</researchViewY>
     <hiddenPrerequisites>
@@ -580,7 +580,7 @@
     <researchViewY>0.90</researchViewY>
     <label>熔炉武装加工许可</label>
     <description>允许从作业通讯台提交生产高级能量武器的乌拉帝国武备的订单，只要为其提供安稳的输出环境，它们就能展现其恐怖的攻坚能力。</description>
-    <baseCost>600</baseCost>
+    <baseCost>3000</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Synth_Weapon_2_Laser_Technology</li>
     </hiddenPrerequisites>  
@@ -592,7 +592,7 @@
     <defName>WULA_Synth_Weapon_2_Melee_Technology</defName>
     <label>链锯武装加工许可</label>
     <description>允许从作业通讯台提交生产链锯武器的乌拉帝国武备的订单，这种近战武器可以在一次命中时造成大量伤口。</description>
-    <baseCost>2400</baseCost>
+    <baseCost>1000</baseCost>
     <researchViewX>6.00</researchViewX> 
     <researchViewY>2.10</researchViewY> 
     <hiddenPrerequisites>
@@ -604,9 +604,9 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Synth_Weapon_3_Melee_Technology</defName>
-    <label>巨锤武装加工许可</label>
-    <description>允许从作业通讯台提交生产巨锤武器的乌拉帝国武备的订单，这种近战武器势大力沉，可以造成高额范围性伤害，为针对敌方重装部队而设计。</description>
-    <baseCost>2400</baseCost>
+    <label>巨武器武装加工许可</label>
+    <description>允许从作业通讯台提交生产巨型近战武器的乌拉帝国武备的订单，这种近战武器势大力沉，可以造成高额范围性伤害，为针对敌方重装部队而设计。</description>
+    <baseCost>2500</baseCost>
     <researchViewX>9.00</researchViewX>
     <researchViewY>2.10</researchViewY>
     <hiddenPrerequisites>
@@ -624,7 +624,7 @@
     <researchViewY>2.70</researchViewY>
     <label>简易衣物加工许可</label>
     <description>允许从作业通讯台提交生产简易乌拉帝国衣服的订单。</description>
-    <baseCost>1200</baseCost>
+    <baseCost>500</baseCost>
     <prerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </prerequisites>
@@ -635,7 +635,7 @@
     <researchViewY>2.70</researchViewY>
     <label>护盾加工许可</label>
     <description>允许从作业通讯台提交各种手持护盾的订单。</description>
-    <baseCost>1200</baseCost>
+    <baseCost>1000</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Synth_Clothes_1_Technology</li>
     </hiddenPrerequisites>  
@@ -649,7 +649,7 @@
     <researchViewY>2.70</researchViewY>
     <label>基础装甲加工许可</label>
     <description>允许从作业通讯台提交生产基础乌拉帝国装甲的订单。</description>
-    <baseCost>1200</baseCost>
+    <baseCost>1800</baseCost>
     <prerequisites>
       <li>WULA_Synth_Weapon_Shield_Technology</li>
     </prerequisites>
@@ -660,7 +660,7 @@
     <researchViewY>2.70</researchViewY>
     <label>高级装甲加工许可</label>
     <description>允许从作业通讯台提交生产高级乌拉帝国装甲的订单。</description>
-    <baseCost>1200</baseCost>
+    <baseCost>2500</baseCost>
     <hiddenPrerequisites>
       <li>WULA_Synth_Armor_1_Technology</li>
     </hiddenPrerequisites>  
