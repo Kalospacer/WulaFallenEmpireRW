@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <QuestScriptDef>
-    <defName>OpportunitySite_BanditCamp</defName>
-    <rootSelectionWeight>1.0</rootSelectionWeight>
-    <rootMinPoints>350</rootMinPoints>
-    <canGiveRoyalFavor>true</canGiveRoyalFavor>
-    <expireDaysRange>4~8</expireDaysRange>
-    <successHistoryEvent MayRequire="Ludeon.RimWorld.Ideology">Raided_BanditCamp</successHistoryEvent>
-    <everAcceptableInSpace>true</everAcceptableInSpace>
+    <defName>WULA_P_Mission_Attack_Camp</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <autoAccept>false</autoAccept>
+    <sendAvailableLetter>true</sendAvailableLetter>
+    <defaultChallengeRating>3</defaultChallengeRating>    <!-- 挑战等级（星级） -->
+    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
+    <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <!-- 命名规则 -->
     <questNameRules>
       <rulesStrings>
-        <li>questName->The [bandit] [camp]</li>
-        <li>questName->[bandit] [camp]</li>
-        <li>questName->[asker_nameDef] and the [camp]</li>
-        <li>camp->Camp</li>
-        <li>camp->Outpost</li>
-        <li>camp->Lair</li>
-        <li>camp->Encampment</li>
-        <li>bandit->Bandit</li>
-        <li>bandit->Raider</li>
-        <li>bandit->Outlaw</li>
-        <li>bandit->Desperado</li>
-        <li>bandit->Fugitive</li>
-        <li>bandit->Marauder</li>
-        <li>bandit->Robber</li>
-        <li>bandit->Brigand</li>
+        <li>questName->WULA_P_Mission_Attack_Camp_questName</li>
       </rulesStrings>
     </questNameRules>
     <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
       <rulesStrings>
-        <li>questDescription->[asker_nameFull], [asker_faction_leaderTitle] of [asker_faction_name], has sent us a message. Apparently, [siteFaction_pawnsPlural] based in a nearby camp have been raiding their caravans. The camp is controlled by [siteFaction_name].
-\n[asker_nameDef] is asking us to destroy the camp, which means eliminating all enemies and turrets. [asker_label] says that [sitePart0_description].</li>
+        <li>questDescription->WULA_P_Mission_Attack_Camp_questDescription</li>
       </rulesStrings>
     </questDescriptionRules>
     <root Class="QuestNode_Sequence">
       <nodes>
+        <!-- 挑战数据 -->
         <li Class="QuestNode_SubScript">
           <def>Util_RandomizePointsChallengeRating</def>
           <parms>
@@ -49,13 +39,6 @@
         
         <li Class="QuestNode_GetMap">
           <canBeSpace>true</canBeSpace>
-        </li>
-
-        <li Class="QuestNode_GetPawn">
-          <storeAs>asker</storeAs>
-          <mustBeFactionLeader>true</mustBeFactionLeader>
-          <allowPermanentEnemyFaction>false</allowPermanentEnemyFaction>
-          <hostileWeight>0.15</hostileWeight>
         </li>
 
         <li Class="QuestNode_GetSiteTile">

@@ -347,6 +347,7 @@
     <Compile Include="HediffComp\HediffComp_TimedExplosion.cs" />
     <Compile Include="Projectiles\Projectile_ConfigurableHellsphereCannon.cs" />
     <Compile Include="Verb\Verb_ShootBeamSplitAndChain.cs" />
+    <Compile Include="Verb\Verb_ShootBeyondTarget.cs" />
     <Compile Include="Verb\Verb_ShootShotgun.cs" />
     <Compile Include="Projectiles\Projectile_CruiseMissile.cs" />
     <Compile Include="Verb\Verb_ShootBeamExplosive\Verb_ShootBeamExplosive.cs" />

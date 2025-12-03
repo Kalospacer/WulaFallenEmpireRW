@@ -776,7 +776,16 @@
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_WM_Panzer_Turret</defName>
     <label>金红石穿甲弹</label>
-    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithTrail</thingClass>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
+        <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>        <!-- 拖尾特效定义 -->
+        <hitEffecterDef>Bullet_WULA_WM_Panzer_Turret_Hit</hitEffecterDef>
+      </li>
+    </modExtensions>
     <tickerType>Normal</tickerType>
     <neverMultiSelect>True</neverMultiSelect>
     <graphicData>
@@ -806,6 +815,54 @@
       </li>
     </modExtensions>
   </ThingDef>
+  <EffecterDef>
+    <defName>Bullet_WULA_WM_Panzer_Turret_Hit</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <positionRadius>0.1</positionRadius>
+        <moteDef>WULA_Mote_halo</moteDef>
+        <burstCount>1~1</burstCount>
+        <speed>0.4~0.8</speed>
+        <scale>0.05~0.05</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <color>(255,255,255)</color>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <positionRadius>0.02</positionRadius>
+        <moteDef>WULA_Mote_halo</moteDef>
+        <burstCount>1~1</burstCount>
+        <speed>0.3~0.4</speed>
+        <rotationRate>5~10</rotationRate>
+        <scale>0.1~0.2</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <color>(255,255,255)</color>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
+        <burstCount>6~12</burstCount>
+        <scale>0.4~0.8</scale>
+        <speed>20~40</speed>
+        <angle>135~225</angle>
+        <positionRadius>0.01</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
+        <burstCount>5~9</burstCount>
+        <scale>0.4~0.8</scale>
+        <speed>10~20</speed>
+        <angle>135~225</angle>
+        <positionRadius>0.01</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+    <offsetTowardsTarget>0.25~0.25</offsetTowardsTarget>
+    <positionRadius>0.1</positionRadius>
+  </EffecterDef>
 
   <!-- 激光炮 -->
   <ThingDef ParentName="BuildingBase">

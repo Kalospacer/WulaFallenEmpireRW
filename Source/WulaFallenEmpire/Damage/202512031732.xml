@@ -1,0 +1,147 @@
+<!-- 1. 基本额外伤害配置 -->
+<DamageDef>
+  <defName>Damage_WithExtraEffects</defName>
+  <label>带电击伤害</label>
+  <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+  
+  <modExtensions>
+    <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+      <extraLabel>电击效果</extraLabel>
+      <showExtraLog>true</showExtraLog>
+      
+      <extraDamages>
+        <li>
+          <damageDef>EMP</damageDef>
+          <amount>15</amount>
+          <isPercentage>false</isPercentage>
+          <armorPenetration>25</armorPenetration>
+          <soundDef>EMP_Small</soundDef>
+          <fleckDef>ElectricArc</fleckDef>
+          <minTriggerDamage>5</minTriggerDamage>
+          
+          <conditions>
+            <li>
+              <targetType>Mechanoid</targetType>
+              <healthPercentRange>0,1</healthPercentRange>
+            </li>
+          </conditions>
+        </li>
+      </extraDamages>
+    </li>
+  </modExtensions>
+</DamageDef>
+
+<!-- 2. 百分比额外伤害 -->
+<DamageDef>
+  <defName>Damage_WithBurn</defName>
+  <label>带燃烧伤害</label>
+  <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+  
+  <modExtensions>
+    <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+      <extraLabel>燃烧效果</extraLabel>
+      
+      <extraDamages>
+        <li>
+          <damageDef>Burn</damageDef>
+          <isPercentage>true</isPercentage>
+          <percentageMultiplier>0.3</percentageMultiplier>
+          <effecterDef>SparkHit</effecterDef>
+          <minTriggerDamage>10</minTriggerDamage>
+          
+          <conditions>
+            <li>
+              <targetType>Pawn</targetType>
+              <healthPercentRange>0.3,1</healthPercentRange>
+              <requiredTags>
+                <li>Flammable</li>
+              </requiredTags>
+            </li>
+          </conditions>
+        </li>
+      </extraDamages>
+    </li>
+  </modExtensions>
+</DamageDef>
+
+<!-- 3. 多种额外伤害 -->
+<DamageDef>
+  <defName>Damage_MultiEffect</defName>
+  <label>多重效果伤害</label>
+  <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+  
+  <modExtensions>
+    <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+      <extraLabel>组合效果</extraLabel>
+      
+      <extraDamages>
+        <!-- 对生物造成流血 -->
+        <li>
+          <damageDef>Cut</damageDef>
+          <amount>5</amount>
+          <isPercentage>false</isPercentage>
+          <targetBodyPart>Torso</targetBodyPart>
+          
+          <conditions>
+            <li>
+              <targetType>Animal</targetType>
+            </li>
+            <li>
+              <targetType>Humanlike</targetType>
+            </li>
+          </conditions>
+        </li>
+        
+        <!-- 对机械造成EMP -->
+        <li>
+          <damageDef>EMP</damageDef>
+          <isPercentage>true</isPercentage>
+          <percentageMultiplier>0.5</percentageMultiplier>
+          <canBeBlockedByArmor>false</canBeBlockedByArmor>
+          
+          <conditions>
+            <li>
+              <targetType>Mechanoid</targetType>
+            </li>
+          </conditions>
+        </li>
+        
+        <!-- 对建筑造成额外伤害 -->
+        <li>
+          <damageDef>Blunt</damageDef>
+          <amount>20</amount>
+          <isPercentage>false</isPercentage>
+          
+          <conditions>
+            <li>
+              <targetType>Building</targetType>
+            </li>
+          </conditions>
+        </li>
+      </extraDamages>
+    </li>
+  </modExtensions>
+</DamageDef>
+
+<!-- 4. 武器使用这个伤害类型 -->
+<ThingDef>
+  <defName>Gun_AdvancedRifle</defName>
+  <label>先进步枪</label>
+  
+  <verbs>
+    <li>
+      <verbClass>Verb_Shoot</verbClass>
+      <defaultProjectile>Bullet_Advanced</defaultProjectile>
+    </li>
+  </verbs>
+</ThingDef>
+
+<!-- 5. 抛射体定义 -->
+<ThingDef>
+  <defName>Bullet_Advanced</defName>
+  <label>先进子弹</label>
+  <projectile>
+    <damageDef>Damage_MultiEffect</damageDef>
+    <damageAmountBase>25</damageAmountBase>
+  </projectile>
+</ThingDef>

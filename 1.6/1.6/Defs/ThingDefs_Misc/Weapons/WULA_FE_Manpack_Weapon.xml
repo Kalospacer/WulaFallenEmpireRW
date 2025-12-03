@@ -818,7 +818,7 @@
       <AccuracyShort>0.7</AccuracyShort>
       <AccuracyMedium>1</AccuracyMedium>
       <AccuracyLong>1</AccuracyLong>
-      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>60</WULA_Alloy>
@@ -826,7 +826,7 @@
     </costList>
     <verbs>
       <li>
-        <verbClass>WulaFallenEmpire.Verb_ShootWithOffset</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_ShootBeyondTarge</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_WULA_RW_Fractal_RF</defaultProjectile>
         <warmupTime>1.25</warmupTime>
@@ -865,6 +865,7 @@
         <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
         <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
         <tailFleckDef>WULA_GunTail_Lighting</tailFleckDef>        <!-- 拖尾特效定义 -->
+        <!-- <hitEffecterDef>Bullet_WULA_RW_Fractal_RF_Hit</hitEffecterDef> -->
       </li>
     </modExtensions>
     <graphicData>
@@ -881,6 +882,54 @@
       <stoppingPower>5</stoppingPower>
     </projectile>
   </ThingDef>
+  <EffecterDef>
+    <defName>Bullet_WULA_RW_Fractal_RF_Hit</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <positionRadius>0.1</positionRadius>
+        <moteDef>WULA_Mote_halo</moteDef>
+        <burstCount>1~1</burstCount>
+        <speed>0.4~0.8</speed>
+        <scale>0.05~0.05</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <color>(255,255,255)</color>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <positionRadius>0.02</positionRadius>
+        <moteDef>WULA_Mote_halo</moteDef>
+        <burstCount>1~1</burstCount>
+        <speed>0.3~0.4</speed>
+        <rotationRate>5~10</rotationRate>
+        <scale>0.1~0.2</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <color>(255,255,255)</color>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
+        <burstCount>6~12</burstCount>
+        <scale>0.4~0.8</scale>
+        <speed>20~40</speed>
+        <angle>135~225</angle>
+        <positionRadius>0.01</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>WULA_Mote_ChargeLanceShot</moteDef>
+        <burstCount>5~9</burstCount>
+        <scale>0.4~0.8</scale>
+        <speed>10~20</speed>
+        <angle>135~225</angle>
+        <positionRadius>0.01</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+    <offsetTowardsTarget>0.25~0.25</offsetTowardsTarget>
+    <positionRadius>0.1</positionRadius>
+  </EffecterDef>
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
     <defName>WULA_RW_StarDrift_SG</defName>
     <label>DCs-7"黑曜石"</label>
