@@ -1,5 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <BodyPartDef>
+    <defName>WULA_Energy_Furnace_Bodypart</defName>
+    <label>中央能源炉</label>
+    <hitPoints>120</hitPoints>
+    <skinCovered>false</skinCovered>
+    <!-- <solid>true</solid> -->
+    <tags>
+      <li>BloodPumpingSource</li>
+      <li>BreathingSource</li>
+      <li>BloodFiltrationKidney</li>
+      <li>BloodFiltrationLiver</li>
+      <li>MetabolismSource</li>
+      <li>EatingSource</li>
+      <li>Spine</li>
+      <li>Pelvis</li>
+      <li>ManipulationLimbSegment</li>
+      <li>TalkingSource</li>
+    </tags>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_Addons_Antenna_Bodypart</defName>
+    <label>上行链路天线</label>
+    <hitPoints>30</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <!-- <solid>true</solid> -->
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+    <tags>
+      <li>ConsciousnessSource</li>
+    </tags>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_Skeleton_Bodypart</defName>
+    <label>合金骨架</label>
+    <hitPoints>30</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <solid>true</solid>
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+    <tags>
+      <li>ManipulationLimbSegment</li>
+    </tags>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_Panzer_Core_Bodypart</defName>
+    <label>核心发动机</label>
+    <hitPoints>150</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <!-- <solid>true</solid> -->
+    <bleedRate>0</bleedRate>
+    <tags>
+      <li>BreathingSource</li>
+      <li>EatingSource</li>
+      <li>Spine</li>
+      <li>Pelvis</li>
+    </tags>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_Outer_Armor_Bodypart</defName>
+    <label>外装甲板</label>
+    <hitPoints>350</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <solid>true</solid>
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_Panzer_OutBrust_Bodypart</defName>
+    <label>反推喷气孔</label>
+    <hitPoints>150</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <solid>true</solid>
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+    <tags>
+      <li>MovingLimbCore</li>
+    </tags>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_AI_Core_Bodypart</defName>
+    <label>自律核心</label>
+    <hitPoints>50</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <solid>true</solid>
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+    <tags>
+      <li>ConsciousnessSource</li>
+      <li>HearingSource</li>
+      <li>ManipulationLimbCore</li>
+    </tags>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_Mobile_Bunker_Bodypart</defName>
+    <label>地堡</label>
+    <hitPoints>250</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <!-- <solid>true</solid> -->
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+  </BodyPartDef>
+  <BodyPartDef>
+    <defName>WULA_Shield_Field_Maintainer_Bodypart</defName>
+    <label>反射盾发生器</label>
+    <hitPoints>50</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <solid>true</solid>
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+  </BodyPartDef>
+
   <BodyDef>
     <defName>WULA_Machine_Body</defName>
     <label>机械乌拉</label>
@@ -536,56 +655,10 @@
       </parts>
     </corePart>
   </BodyDef>
-  <BodyPartDef>
-    <defName>WULA_Energy_Furnace_Bodypart</defName>
-    <label>中央能源炉</label>
-    <hitPoints>120</hitPoints>
-    <skinCovered>false</skinCovered>
-    <!-- <solid>true</solid> -->
-    <tags>
-      <li>BloodPumpingSource</li>
-      <li>BreathingSource</li>
-      <li>BloodFiltrationKidney</li>
-      <li>BloodFiltrationLiver</li>
-      <li>MetabolismSource</li>
-      <li>EatingSource</li>
-      <li>Spine</li>
-      <li>Pelvis</li>
-      <li>ManipulationLimbSegment</li>
-      <li>TalkingSource</li>
-    </tags>
-  </BodyPartDef>
-  <BodyPartDef>
-    <defName>WULA_Addons_Antenna_Bodypart</defName>
-    <label>上行链路天线</label>
-    <hitPoints>30</hitPoints>
-    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
-    <skinCovered>false</skinCovered>
-    <!-- <solid>true</solid> -->
-    <bleedRate>0</bleedRate>
-    <destroyableByDamage>false</destroyableByDamage>
-    <tags>
-      <li>ConsciousnessSource</li>
-    </tags>
-  </BodyPartDef>
-  <BodyPartDef>
-    <defName>WULA_Skeleton_Bodypart</defName>
-    <label>合金骨架</label>
-    <hitPoints>30</hitPoints>
-    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
-    <skinCovered>false</skinCovered>
-    <solid>true</solid>
-    <bleedRate>0</bleedRate>
-    <destroyableByDamage>false</destroyableByDamage>
-    <tags>
-      <li>ManipulationLimbSegment</li>
-    </tags>
-  </BodyPartDef>
-
 
   <BodyDef>
-    <defName>Wula_AI_Engineer_Mother_Body</defName>
-    <label>开拓单元</label>
+    <defName>WULA_Mobile_Bunker_Body</defName>
+    <label>猫猫地堡</label>
     <corePart>
       <def>Torso</def>
       <height>Middle</height>
@@ -595,17 +668,16 @@
       </groups>
       <parts>
         <li>
-          <def>WULA_Outer_Armor_Bodypart</def>
-          <coverage>0.99</coverage>
-          <height>Top</height>
+          <def>WULA_Mobile_Bunker_Bodypart</def>
+          <coverage>0.025</coverage>
+          <depth>Outside</depth>
           <groups>
             <li>Torso</li>
           </groups>
           <parts>
             <li>
-              <def>WULA_Panzer_Core_Bodypart</def>
-              <coverage>0.025</coverage>
-              <depth>Inside</depth>
+              <def>SightSensor</def>
+              <coverage>0.13</coverage>
               <groups>
                 <li>Torso</li>
               </groups>
@@ -618,125 +690,57 @@
                 <li>Torso</li>
               </groups>
             </li>
-            <li>
-              <def>SightSensor</def>
-              <coverage>0.13</coverage>
-              <groups>
-                <li>Torso</li>
-              </groups>
-            </li>
-            <li>
-              <def>Leg</def>
-              <customLabel>第一机械足</customLabel>
-              <coverage>0.13</coverage>
-              <height>Bottom</height>
-              <groups>
-                <li>Legs</li>
-              </groups>
-            </li>
-            <li>
-              <def>Leg</def>
-              <customLabel>第二机械足</customLabel>
-              <coverage>0.13</coverage>
-              <height>Bottom</height>
-              <groups>
-                <li>Legs</li>
-              </groups>
-            </li>
-            <li>
-              <def>Leg</def>
-              <customLabel>第三机械足</customLabel>
-              <coverage>0.13</coverage>
-              <height>Bottom</height>
-              <groups>
-                <li>Legs</li>
-              </groups>
-            </li>
-            <li>
-              <def>Leg</def>
-              <customLabel>第四机械足</customLabel>
-              <coverage>0.13</coverage>
-              <height>Bottom</height>
-              <groups>
-                <li>Legs</li>
-              </groups>
-            </li>
-            <li>
-              <def>Leg</def>
-              <customLabel>第五机械足</customLabel>
-              <coverage>0.13</coverage>
-              <height>Bottom</height>
-              <groups>
-                <li>Legs</li>
-              </groups>
-            </li>
-            <li>
-              <def>Leg</def>
-              <customLabel>第六机械足</customLabel>
-              <coverage>0.13</coverage>
-              <height>Bottom</height>
-              <groups>
-                <li>Legs</li>
-              </groups>
-            </li>
           </parts>
+        </li>
+        <li>
+          <def>Leg</def>
+          <customLabel>抬碉堡的猫猫（其一）</customLabel>
+          <coverage>0.13</coverage>
+          <height>Bottom</height>
+          <groups>
+            <li>Legs</li>
+          </groups>
+        </li>
+        <li>
+          <def>Leg</def>
+          <customLabel>抬碉堡的猫猫（其二）</customLabel>
+          <coverage>0.13</coverage>
+          <height>Bottom</height>
+          <groups>
+            <li>Legs</li>
+          </groups>
+        </li>
+        <li>
+          <def>Leg</def>
+          <customLabel>抬碉堡的猫猫（其三）</customLabel>
+          <coverage>0.13</coverage>
+          <height>Bottom</height>
+          <groups>
+            <li>Legs</li>
+          </groups>
+        </li>
+        <li>
+          <def>Leg</def>
+          <customLabel>抬碉堡的猫猫（其四）</customLabel>
+          <coverage>0.13</coverage>
+          <height>Bottom</height>
+          <groups>
+            <li>Legs</li>
+          </groups>
+        </li>
+      </parts>
+      <parts>
+        <li>
+          <def>WULA_Outer_Armor_Bodypart</def>
+          <coverage>0.99</coverage>
+          <height>Top</height>
+          <groups>
+            <li>Torso</li>
+          </groups>
         </li>
       </parts>
     </corePart>
   </BodyDef>
-  <BodyPartDef>
-    <defName>WULA_Panzer_Core_Bodypart</defName>
-    <label>核心发动机</label>
-    <hitPoints>150</hitPoints>
-    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
-    <skinCovered>false</skinCovered>
-    <!-- <solid>true</solid> -->
-    <bleedRate>0</bleedRate>
-    <tags>
-      <li>BreathingSource</li>
-      <li>EatingSource</li>
-      <li>Spine</li>
-      <li>Pelvis</li>
-    </tags>
-  </BodyPartDef>
-  <BodyPartDef>
-    <defName>WULA_Outer_Armor_Bodypart</defName>
-    <label>外装甲板</label>
-    <hitPoints>350</hitPoints>
-    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
-    <skinCovered>false</skinCovered>
-    <solid>true</solid>
-    <bleedRate>0</bleedRate>
-    <destroyableByDamage>false</destroyableByDamage>
-  </BodyPartDef>
-  <BodyPartDef>
-    <defName>WULA_Panzer_OutBrust_Bodypart</defName>
-    <label>反推喷气孔</label>
-    <hitPoints>150</hitPoints>
-    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
-    <skinCovered>false</skinCovered>
-    <solid>true</solid>
-    <bleedRate>0</bleedRate>
-    <destroyableByDamage>false</destroyableByDamage>
-    <tags>
-      <li>MovingLimbCore</li>
-    </tags>
-  </BodyPartDef>
-  <BodyPartDef>
-    <defName>WULA_AI_Core_Bodypart</defName>
-    <label>自律核心</label>
-    <hitPoints>50</hitPoints>
-    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
-    <skinCovered>false</skinCovered>
-    <solid>true</solid>
-    <bleedRate>0</bleedRate>
-    <destroyableByDamage>false</destroyableByDamage>
-    <tags>
-      <li>ConsciousnessSource</li>
-      <li>HearingSource</li>
-      <li>ManipulationLimbCore</li>
-    </tags>
-  </BodyPartDef>
 
   <BodyDef>
     <defName>WULA_AI_Heavy_Panzer_Body</defName>
@@ -824,8 +828,8 @@
   </BodyDef>
 
   <BodyDef>
-    <defName>WULA_Alpha_Wolf_Body</defName>
-    <label>狼蛛机甲</label>
+    <defName>WULA_Mech_Mobile_Shield_Body</defName>
+    <label>放射盾</label>
     <corePart>
       <def>Torso</def>
       <height>Middle</height>
@@ -868,6 +872,13 @@
               </groups>
             </li>
             <li>
+              <def>WULA_Shield_Field_Maintainer_Bodypart</def>
+              <coverage>0.1</coverage>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
               <def>Leg</def>
               <customLabel>第一机械足</customLabel>
               <coverage>0.13</coverage>
@@ -901,6 +912,125 @@
               <height>Bottom</height>
               <groups>
                 <li>Legs</li>
+              </groups>
+            </li>
+            <li>
+              <def>Leg</def>
+              <customLabel>第五机械足</customLabel>
+              <coverage>0.13</coverage>
+              <height>Bottom</height>
+              <groups>
+                <li>Legs</li>
+              </groups>
+            </li>
+          </parts>
+        </li>
+      </parts>
+    </corePart>
+  </BodyDef>
+
+  <BodyDef>
+    <defName>WULA_Mech_Mobile_Factory_Body</defName>
+    <label>陆行舰</label>
+    <corePart>
+      <def>Torso</def>
+      <height>Middle</height>
+      <depth>Outside</depth>
+      <groups>
+        <li>Torso</li>
+      </groups>
+      <parts>
+        <!-- 脖子和头部 -->
+        <li>
+          <def>WULA_Outer_Armor_Bodypart</def>
+          <coverage>0.99</coverage>
+          <height>Top</height>
+          <groups>
+            <li>Torso</li>
+          </groups>
+          <parts>
+            <li>
+              <def>WULA_Panzer_Core_Bodypart</def>
+              <coverage>0.025</coverage>
+              <depth>Inside</depth>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>WULA_AI_Core_Bodypart</def>
+              <coverage>0.025</coverage>
+              <depth>Inside</depth>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>SightSensor</def>
+              <coverage>0.13</coverage>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>WULA_Shield_Field_Maintainer_Bodypart</def>
+              <coverage>0.1</coverage>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>WULA_Panzer_OutBrust_Bodypart</def>
+              <customLabel>第一反推喷气孔</customLabel>
+              <coverage>0.025</coverage>
+              <depth>Inside</depth>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>WULA_Panzer_OutBrust_Bodypart</def>
+              <customLabel>第二反推喷气孔</customLabel>
+              <coverage>0.025</coverage>
+              <depth>Inside</depth>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>WULA_Panzer_OutBrust_Bodypart</def>
+              <customLabel>第三反推喷气孔</customLabel>
+              <coverage>0.025</coverage>
+              <depth>Inside</depth>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>WULA_Panzer_OutBrust_Bodypart</def>
+              <customLabel>第四反推喷气孔</customLabel>
+              <coverage>0.025</coverage>
+              <depth>Inside</depth>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>WULA_Panzer_OutBrust_Bodypart</def>
+              <customLabel>第五反推喷气孔</customLabel>
+              <coverage>0.025</coverage>
+              <depth>Inside</depth>
+              <groups>
+                <li>Torso</li>
+              </groups>
+            </li>
+            <li>
+              <def>WULA_Panzer_OutBrust_Bodypart</def>
+              <customLabel>第六反推喷气孔</customLabel>
+              <coverage>0.025</coverage>
+              <depth>Inside</depth>
+              <groups>
+                <li>Torso</li>
               </groups>
             </li>
           </parts>

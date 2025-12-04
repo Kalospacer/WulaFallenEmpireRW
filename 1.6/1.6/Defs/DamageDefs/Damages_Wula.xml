@@ -464,7 +464,6 @@
     <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
     <soundExplosion>Explosion_Vaporize</soundExplosion>
   </DamageDef>
-
   
   <DamageDef ParentName="Bomb">
     <defName>WULA_GiantBomb</defName>

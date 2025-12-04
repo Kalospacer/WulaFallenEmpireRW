@@ -1034,7 +1034,7 @@
       <ArmorRating_Heat>0.75</ArmorRating_Heat>
     </statBases>
     <race>
-      <body>Mech_Warqueen</body>
+      <body>WULA_Mobile_Bunker_Body</body>
       <baseBodySize>5</baseBodySize>
       <lifeStageAges>
         <li>
@@ -1410,7 +1410,7 @@
       <ArmorRating_Heat>2</ArmorRating_Heat>
     </statBases>
     <race>
-      <body>Mech_Warqueen</body>
+      <body>WULA_Mech_Mobile_Shield_Body</body>
       <baseBodySize>50</baseBodySize>
       <lifeStageAges>
         <li>
@@ -1525,7 +1525,7 @@
       <ArmorRating_Heat>2</ArmorRating_Heat>
     </statBases>
     <race>
-      <body>Mech_Warqueen</body>
+      <body>WULA_Mech_Mobile_Factory_Body</body>
       <baseBodySize>50</baseBodySize>
       <lifeStageAges>
         <li>
@@ -1948,7 +1948,7 @@
       <ArmorRating_Heat>2</ArmorRating_Heat>
     </statBases>
     <race>
-      <body>Mech_Warqueen</body>
+      <body>WULA_Mech_Mobile_Factory_Body</body>
       <baseBodySize>50</baseBodySize>
       <lifeStageAges>
         <li>

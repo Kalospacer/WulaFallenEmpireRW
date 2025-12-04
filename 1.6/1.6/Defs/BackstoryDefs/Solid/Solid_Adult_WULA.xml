@@ -4,19 +4,9 @@
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory01</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：探险骑士</title>
-    <titleShort>人格-探险骑士</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国探险骑士的模拟记忆。\n\n探险骑士是帝国骑士团的中坚力量，她们人数众多，是见习骑士向上晋升迈过的第一道门槛，并代表着她们杀敌的技艺和信念已经得到认证。</description>
-    <skillGains>
-      <Shooting>7</Shooting>
-      <Melee>7</Melee>
-      <Animals>-7</Animals>
-      <Crafting>-5</Crafting>
-      <Intellectual>8</Intellectual>
-      <Social>3</Social>
-    </skillGains>
-    <workDisables>ManualDumb,Cooking,Mining</workDisables>
-    <requiredWorkTags>Violent</requiredWorkTags>
+    <title>素体</title>
+    <titleShort>素体</titleShort>
+    <description>[PAWN_nameDef]没有任何故事——[PAWN_pronoun]被产地的工厂星球打包发给了乌拉帝国开发署，这是[PAWN_pronoun]第一次部署到实际任务中。\n\n正因为如此，其大部分记忆体仍处于空置状态，[PAWN_pronoun]可以快速地进行学习，以塑造自己。</description>
     <spawnCategories>
       <li>Wula_Backstory_Categories</li>
     </spawnCategories>
@@ -32,24 +22,13 @@
     <passions>
       <Intellectual>2</Intellectual>
     </passions>
-    <disallowedTraits>
-      <!-- <WULA_Trait_Knight>1</WULA_Trait_Knight> -->
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory02</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：医院骑士</title>
-    <titleShort>人格-医院骑士</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国医院骑士的模拟记忆。\n\n医院骑士是帝国骑士团的一个较小的旁支，相比于打打杀杀，她们踏上了一条更加高尚的道途——以自己的力量从战场上抢救消逝的生命。</description>
+    <title>医疗兵</title>
+    <titleShort>医疗兵</titleShort>
+    <description>[PAWN_nameDef]是一名医疗兵，[PAWN_pronoun]踏上了一条更加高尚的道途——以自己的力量从战场上抢救消逝的生命。在服役的这些年间，[PAWN_pronoun]一手提着枪一手抱着急救设备，穿梭于战场上。[PAWN_pronoun]抢救了无数的乌拉帝国伤员，也击毙了无数图谋不轨的异族士兵，耀眼的行为让其成为了全团人的精神支柱。\n\n在加入多场足以载入帝国史册的战斗后，[PAWN_nameDef]迎来了自己的退役之日。但是[PAWN_possessive]征途尚未结束，[PAWN_pronoun]加入了一支边缘世界的拓荒队，决定继续用自己的技艺拯救同伴和对抗异族。</description>
     <skillGains>
       <Shooting>7</Shooting>
       <Melee>7</Melee>
@@ -67,33 +46,16 @@
     <bodyTypeGlobal>Thin</bodyTypeGlobal>
     <bodyTypeFemale>Thin</bodyTypeFemale>
     <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="1">WULA_Trait_Knight</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
     <passions>
       <Medicine>2</Medicine>
     </passions>
-    <disallowedTraits>
-      <!-- <WULA_Trait_Knight>1</WULA_Trait_Knight> -->
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory03</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：坚盾骑士</title>
-    <titleShort>人格-坚盾骑士</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国坚盾骑士的模拟记忆。\n\n坚盾骑士是帝国骑士团中戍守长城防线的将军，她们精于工事防御，并知道如何调度防线以防止敌舰队的定向突破。虽然目前长城防线已经被乌拉帝国的进步派攻陷，但是她们依然用自己的胆识和智谋在其他战场上发光发热。</description>
+    <title>城防军士兵</title>
+    <titleShort>城防军士兵</titleShort>
+    <description>[PAWN_nameDef]是一名退役的乌拉帝国骑士团辅助军，曾经则是戍守防线的城防军士兵。城防军士兵通常随着乌拉帝国骑士团的坚盾骑士们出征，并被部署到最需要军队固守的要塞节点上。[PAWN_pronoun]在南征北战中积累了丰富的战斗和工事修筑经验，但是也让她对寡淡的退役生活感到厌倦。为了重新寻求刺激，[PAWN_pronoun]加入了乌拉帝国的拓荒队，前往新的星区开始自己的第二人生。</description>
     <skillGains>
       <Shooting>7</Shooting>
       <Melee>7</Melee>
@@ -110,33 +72,16 @@
     <bodyTypeGlobal>Thin</bodyTypeGlobal>
     <bodyTypeFemale>Thin</bodyTypeFemale>
     <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="1">WULA_Trait_Knight</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
     <passions>
       <Construction>2</Construction>
     </passions>
-    <disallowedTraits>
-      <!-- <WULA_Trait_Knight>1</WULA_Trait_Knight> -->
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory04</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：荣耀骑士</title>
-    <titleShort>人格-荣耀骑士</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国荣耀骑士的模拟记忆。\n\n荣耀骑士是帝国骑士团中最顶层的骑士，她们通过了骑士圣典中规定的四大誓言之一的历练，并由骑士团长亲自授勋。这代表着她们的技艺已经炉火纯青，是无可挑剔的人中龙凤。</description>
+    <title>见习骑士</title>
+    <titleShort>见习骑士</titleShort>
+    <description>[PAWN_nameDef]是一名即将加入乌拉帝国骑士团的见习骑士。在某一个偶然的时刻，[PAWN_possessive]才能和技艺被骑士团的骑士们所发掘，得到了进入乌拉帝国骑士团的机会。[PAWN_pronoun]毫不犹豫选择了这个道路，并向骑士圣典宣誓，立志以其血起誓效忠皇帝。\n\n只不过，由于骑士团的制度，她还需要接受一系列的试炼才能正式进入骑士团，在堡垒的萧墙内是找不到这样的机会的，因此[PAWN_nameDef]加入了边缘世界的拓荒队，并准备在这个机遇之地大显身手。</description>
     <skillGains>
       <Shooting>10</Shooting>
       <Melee>10</Melee>
@@ -144,7 +89,7 @@
       <Intellectual>3</Intellectual>
       <Social>7</Social>
     </skillGains>
-    <workDisables>ManualDumb,Mining,PlantWork,Animals,Crafting,Cooking,Constructing</workDisables>
+    <workDisables>ManualDumb,Mining,PlantWork,Animals,Constructing</workDisables>
     <requiredWorkTags>Violent</requiredWorkTags>
     <spawnCategories>
       <li>Wula_Backstory_Categories</li>
@@ -154,7 +99,7 @@
     <bodyTypeMale>Thin</bodyTypeMale>
     <forcedTraitsChance>
       <li>
-        <defName Degree="2">WULA_Trait_Knight</defName>
+        <defName Degree="1">WULA_Trait_Knight</defName>
         <chance>100</chance>
       </li>
     </forcedTraitsChance>
@@ -162,24 +107,13 @@
       <Shooting>2</Shooting>
       <Melee>2</Melee>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <!-- <WULA_Trait_Knight>2</WULA_Trait_Knight> -->
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory05</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：赎罪骑士</title>
-    <titleShort>人格-赎罪骑士</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国赎罪骑士的模拟记忆。\n\n赎罪骑士是在乌拉帝国大内战后诞生的新骑士阶层，她们认为自己辜负了先帝，没有守护好皇室也没能守住江山，摒弃荣华富贵自我放逐，并踏入了无尽的赎罪远征之路。</description>
+    <title>赎罪骑士</title>
+    <titleShort>赎罪骑士</titleShort>
+    <description>[PAWN_nameDef]是一名乌拉帝国赎罪骑士，赎罪骑士虽然名义上是骑士，但是已经被乌拉帝国骑士团除名了。[PAWN_pronoun]犯下了无法弥补的错误，必须用终身的流浪远征向骑士团赎罪，如此方可在其咽气时，重新恢复身份并被允许葬于骑士团的坟墓。\n\n没有人知道[PAWN_nameDef]是怎么加入拓荒队的，[PAWN_pronoun]对自己的过错也只字不提。</description>
     <skillGains>
       <Shooting>8</Shooting>
       <Melee>8</Melee>
@@ -209,24 +143,13 @@
       <Animals>1</Animals>
       <Plants>1</Plants>
     </passions>
-    <disallowedTraits>
-      <!-- <WULA_Trait_Knight>1</WULA_Trait_Knight> -->
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory10</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：农奴</title>
-    <titleShort>人格-农奴</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国农奴的模拟记忆。\n\n农奴是效力于乌拉帝国骑士团的底层人，她们承担了社会中最苦最累的工作，并长期受到上层社会的欺压。通常来说，这个阶层不会出现乌拉星人——这个阶层是留给那些异族俘虏的，但是确实有一些被剥夺身份的罪人会沦落到此般田地。</description>
+    <title>农奴</title>
+    <titleShort>农奴</titleShort>
+    <description>农奴是乌拉帝国骑士团辖地中最底层的贱民。通常来说，拥有正式公民身份的合成人乌拉不会沦落至此，但是[PAWN_nameDef]是个例外。[PAWN_pronoun]似乎犯下过某种弥天大罪，被剥夺了公民身份贬为和奴隶同级。但是万幸的是，有一支支拓荒队比较缺人，没有人愿意来边缘世界这个无主之地。于是为了完成指标，骑士团将[PAWN_nameDef]赶去了拓荒队——至少不需要再受到上层姥爷的欺压了。</description>
     <skillGains>
       <Shooting>-10</Shooting>
       <Melee>-8</Melee>
@@ -252,24 +175,13 @@
       <Mining>2</Mining>
       <Plants>2</Plants>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory11</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：扈从</title>
-    <titleShort>人格-扈从</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国扈从的模拟记忆。\n\n扈从是乌拉帝国骑士团的基层，她们是拥有合法身份的非骑士人员，除了生活在骑士团森严堡垒内，过的和其他地方的乌拉星人没什么不同。</description>
+    <title>扈从</title>
+    <titleShort>扈从</titleShort>
+    <description>[PAWN_nameDef]是一名乌拉帝国的扈从——就像是那些骑士小说中所描述的那样，乌拉帝国骑士团的骑士们也有自己的扈从，扈从的职责就是照顾骑士们的起居，为其保养武器，协助传达指令甚至拿起枪辅助骑士们的战斗。\n\n在某一场战争中，[PAWN_possessive]主子战死疆场，为其安排后事之后，[PAWN_nameDef]突然找不到自己存在的意义了，似乎侍奉骑士姥爷就是[PAWN_pronoun]唯一会干的事情。[PAWN_pronoun]没有再找到适合效忠的骑士，在浑浑噩噩之中加入了乌拉帝国的拓荒队，希望在一个全新的星区证明自己存在的价值。</description>
     <skillGains>
       <Shooting>-5</Shooting>
       <Melee>-5</Melee>
@@ -296,24 +208,13 @@
       <Cooking>1</Cooking>
       <Crafting>1</Crafting>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory12</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：法务官</title>
-    <titleShort>人格-法务官</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国法务官的模拟记忆。\n\n法务官是乌拉帝国骑士团的特殊基层执法者，专门负责应对各种由奴隶引起的暴动、骚乱和反叛，并维护乌拉帝国的至上权威。</description>
+    <title>法务官</title>
+    <titleShort>法务官</titleShort>
+    <description>[PAWN_nameDef]曾经是乌拉帝国的法务官，法务官是隶属于乌拉帝国骑士团的辖地内特殊基层执法者，专门负责应对各种由奴隶引起的暴动、骚乱和反叛，并维护乌拉帝国的至上权威。[PAWN_possessive]电棍击倒过无数异族，逆反的奴隶见到[PAWN_pronoun]便失声颤抖——但是似乎在某一个时刻，[PAWN_pronoun]突然厌恶了这种生活。\n\n[PAWN_pronoun]离开了骑士团辖区，加入了前往新星区的拓荒队，似乎是要彻底和过去诀别。</description>
     <skillGains>
       <Shooting>5</Shooting>
       <Melee>2</Melee>
@@ -347,25 +248,14 @@
       <Social>1</Social>
       <Medicine>1</Medicine>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <!-- <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer> -->
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory100</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：花使</title>
-    <titleShort>人格-花使</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国花使的模拟记忆。\n\n花使是乌拉帝国观测站的植物塑性师，负责通过基因操纵和剪裁为帝国培养赏心悦目的景观和可口的食物。尽管在乌拉帝国的大内战中背离了皇室，但是她们依然传承着将美好与希望的种子撒满乌拉帝国每个殖民地的愿望。</description>
+    <title>花使</title>
+    <titleShort>花使</titleShort>
+    <description>[PAWN_nameDef]是一名乌拉帝国花使。花使是乌拉帝国的植物塑型师，负责通过基因操纵和剪裁为帝国培养赏心悦目的景观和可口的食物，传承着将美好与希望的种子撒满乌拉帝国每个殖民地的愿望。\n\n为了实地考察新的星区，[PAWN_nameDef]加入了一支刚刚成立的乌拉帝国拓荒队，以继续自己的修行之路。</description>
     <skillGains>
       <Construction>-5</Construction>
       <Mining>-5</Mining>
@@ -392,24 +282,13 @@
       <Artistic>2</Artistic>
       <Plants>2</Plants>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <!-- <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor> -->
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory101</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：繁育使</title>
-    <titleShort>人格-繁育使</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国繁育使的模拟记忆。\n\n繁育使是乌拉帝国观测站的动物塑性师，专职于以基因修剪和重构的手段创造和改良低智能物种。当然，她们时不时也会构造一些疯狂扭曲的造物，并将它们作为生物武器投放到战场上。</description>
+    <title>繁育使</title>
+    <titleShort>繁育使</titleShort>
+    <description>[PAWN_possessive]是一名乌拉帝国繁育使。繁育使是乌拉帝国的动物塑型师，专职于以基因修剪和重构的手段创造和改良低智能物种。当然，她们时不时也会构造一些疯狂扭曲的造物，并将它们作为生物武器投放到战场上。\n\n对于一个新的星区来说，这些生命形态各异的本地生物就是最好的试验者，[PAWN_nameDef]急不可耐地参与了对边缘世界的拓荒行动。以期寻找新的灵感。</description>
     <skillGains>
       <Construction>-5</Construction>
       <Mining>-5</Mining>
@@ -437,24 +316,13 @@
       <Intellectual>2</Intellectual>
       <Animals>2</Animals>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <!-- <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor> -->
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory102</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：传谕使</title>
-    <titleShort>人格-传谕使</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国传谕使的模拟记忆。\n\n传谕使是乌拉帝国观测站的外交官——她们的名字即象征着其身份：高贵、优雅、目中无人，她们只会代表乌拉帝国向低等文明传递意志，而不聆听任何请求，也不提供任何讨价还价的权力。</description>
+    <title>传谕使</title>
+    <titleShort>传谕使</titleShort>
+    <description>[PAWN_nameDef]曾经是乌拉帝国的传谕使，这些八面玲珑的外交人员是乌拉帝国对外的喉舌，她们的名字即象征着其身份：高贵、优雅、目中无人，她们只会代表乌拉帝国向低等文明传递意志，而不聆听任何请求，也不提供任何讨价还价的权力。\n\n在一次灾难性的外交事故中，[PAWN_nameDef]被判定为有损帝国威严，因此被剥夺了身份流放至边缘世界的拓荒队中。</description>
     <skillGains>
       <Shooting>-5</Shooting>
       <Melee>-5</Melee>
@@ -480,103 +348,14 @@
       <Social>2</Social>
       <Artistic>2</Artistic>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <!-- <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat> -->
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
-  </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Adult_Backstory103</defName>
-    <slot>Adulthood</slot>
-    <title>人格矩阵装载：送葬使</title>
-    <titleShort>人格-送葬使</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国送葬使的模拟记忆。\n\n送葬使是乌拉帝国观测站的战士，她们拥有驱使各种奇花异草和危险造物进行战斗的高手，懂得如何利用坚韧的生物兵器在消耗战中重创对手。</description>
-    <skillGains>
-      <Shooting>7</Shooting>
-      <Mining>-5</Mining>
-      <Medicine>5</Medicine>
-      <Artistic>4</Artistic>
-      <Social>-5</Social>
-    </skillGains>
-    <workDisables>Crafting,Constructing</workDisables>
-    <spawnCategories>
-      <li>Wula_Backstory_Categories</li>
-    </spawnCategories>
-    <bodyTypeGlobal>Thin</bodyTypeGlobal>
-    <bodyTypeFemale>Thin</bodyTypeFemale>
-    <bodyTypeMale>Thin</bodyTypeMale>
-    <passions>
-      <Shooting>2</Shooting>
-      <Medicine>2</Medicine>
-    </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
-  </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Adult_Backstory104</defName>
-    <slot>Adulthood</slot>
-    <title>人格矩阵装载：生物兵器</title>
-    <titleShort>人格-生物兵器</titleShort>
-    <description>[PAWN_possessive]人格矩阵下载了一个错误的数据包——可能是某个生物兵器的数据。\n\n实验体是被乌拉帝国改造过的生命，暴躁嗜血，无坚不摧，专为在前线突破坚固防线而设计。乌拉星人通常会以凶猛异形为基底进行改造，但是看起来有人把这类数据包上传到网络中然后被[PAWN_nameDef]错误地下载了。</description>
-    <skillGains>
-      <Melee>10</Melee>
-      <Mining>5</Mining>
-      <Construction>5</Construction>
-    </skillGains>
-    <workDisables>Crafting,Caring,Social,Artistic</workDisables>
-    <requiredWorkTags>Violent</requiredWorkTags>
-    <spawnCategories>
-      <li>Wula_Backstory_Categories</li>
-    </spawnCategories>
-    <bodyTypeGlobal>Thin</bodyTypeGlobal>
-    <bodyTypeFemale>Thin</bodyTypeFemale>
-    <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="0">Bloodlust</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
-    <passions>
-      <Melee>2</Melee>
-      <Mining>1</Mining>
-      <Construction>1</Construction>
-    </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory200</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：和谐侍者</title>
-    <titleShort>人格-和谐侍者</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国和谐侍者的模拟记忆。\n\n和谐侍者是乌拉帝国大教堂的教众之一，她们精于农耕，知道如何利用灵能催产作物，并在丰收之日为主献上最完美的贡品。</description>
+    <title>和谐侍者</title>
+    <titleShort>和谐侍者</titleShort>
+    <description>[PAWN_nameDef]是乌拉帝国国教教会的和谐侍者。和谐侍者精于农耕，知道如何利用灵能催产作物，并在丰收之日为主献上最完美的贡品。\n\n作为教众的一员，[PAWN_nameDef]理所应当地加入了对新世界的拓荒，这是国教宣扬其存在并同化当地信仰的大好机会。</description>
     <skillGains>
       <Melee>5</Melee>
       <Plants>8</Plants>
@@ -604,24 +383,13 @@
     <passions>
       <Plants>2</Plants>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory201</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：锻锤侍者</title>
-    <titleShort>人格-锻锤侍者</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国锻锤侍者的模拟记忆。\n\n锻锤侍者是乌拉帝国大教堂的教众之一，她们是铸造剑犁的好手，通过驱动灵能对物品进行塑性，她们可以将自己的信仰雕刻在精美的器具中。</description>
+    <title>锻锤侍者</title>
+    <titleShort>锻锤侍者</titleShort>
+    <description>[PAWN_nameDef]是乌拉帝国国教教会的锻锤侍者。锻锤侍者是是铸造剑犁的好手，通过驱动灵能对物品进行塑性，她们可以将自己的信仰雕刻在精美的器具中。\n\n作为教众的一员，[PAWN_nameDef]理所应当地加入了对新世界的拓荒，这是国教宣扬其存在并同化当地信仰的大好机会。</description>
     <skillGains>
       <Melee>5</Melee>
       <Crafting>8</Crafting>
@@ -649,24 +417,13 @@
     <passions>
       <Crafting>2</Crafting>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory202</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：圣堂武士</title>
-    <titleShort>人格-圣堂武士</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国圣堂武士的模拟记忆。\n\n圣堂武士是乌拉帝国大教堂的教众之一，她们是护教军的主体，深谙使用灵能战斗的搏杀技巧，以宿敌之血证心中的无限热忱。</description>
+    <title>护教军</title>
+    <titleShort>护教军</titleShort>
+    <description>[PAWN_nameDef]是隶属于乌拉帝国护教军的战士，深谙使用灵能战斗的搏杀技巧，以宿敌之血证心中的无限热忱。\n\n按理来说，[PAWN_nameDef]和[PAWN_pronoun]代表的护教军不应该出现在这里，因为这对教会来说已经属于长臂管辖——但是说不定这是个人行为呢？总之谁也不清楚教会为何会做出这样的安排。</description>
     <skillGains>
       <Melee>8</Melee>
       <Shooting>8</Shooting>
@@ -696,70 +453,13 @@
       <Melee>2</Melee>
       <Shooting>2</Shooting>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
-  </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Adult_Backstory203</defName>
-    <slot>Adulthood</slot>
-    <title>人格矩阵装载：奥秘学士</title>
-    <titleShort>人格-奥秘学士</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国奥秘学士的模拟记忆。\n\n奥秘学士是乌拉帝国大教堂的教众之一，她们负责用乌拉帝国的唯心理论体系论证世间一切事物，并从中寻找主的指引。</description>
-    <skillGains>
-      <Melee>3</Melee>
-      <Shooting>-5</Shooting>
-      <Medicine>5</Medicine>
-      <Animals>-10</Animals>
-      <Artistic>-10</Artistic>
-      <Intellectual>8</Intellectual>
-    </skillGains>
-    <workDisables>
-      <li>PlantWork</li>
-      <li>Mining</li>
-      <li>Crafting</li>
-    </workDisables>
-    <spawnCategories>
-      <li>Wula_Backstory_Categories</li>
-    </spawnCategories>
-    <bodyTypeGlobal>Thin</bodyTypeGlobal>
-    <bodyTypeFemale>Thin</bodyTypeFemale>
-    <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="0">WULA_Trait_Nun</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
-    <passions>
-      <Intellectual>2</Intellectual>
-    </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory204</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：福音侍者</title>
-    <titleShort>人格-福音侍者</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国福音侍者的模拟记忆。\n\n福音侍者是乌拉帝国大教堂的教众之一，她们维护着社会的安定，并致力于在异种间传播福音。</description>
+    <title>福音侍者</title>
+    <titleShort>福音侍者</titleShort>
+    <description>[PAWN_nameDef]是乌拉帝国国教教会的福音侍者。福音侍者是乌拉帝国大教堂的教众之一，也就是布道士，她们以宣讲维护着社会的安定，并致力于在异种间传播福音。\n\n作为教众的一员，[PAWN_nameDef]理所应当地加入了对新世界的拓荒，这是国教宣扬其存在并同化当地信仰的大好机会。</description>
     <skillGains>
       <Melee>-5</Melee>
       <Crafting>3</Crafting>
@@ -788,74 +488,14 @@
     <passions>
       <Social>2</Social>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <!-- <WULA_Trait_Nun>0</WULA_Trait_Nun> -->
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
   <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Adult_Backstory300</defName>
-    <slot>Adulthood</slot>
-    <title>人格矩阵装载：秘典卫队</title>
-    <titleShort>人格-秘典卫队</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国秘典卫队的模拟记忆。\n\n秘典卫队是乌拉帝国图书馆的正规军，她们操纵着天铸军团中那些神秘莫测的战争机械，以对抗入侵之敌并保护乌拉帝国的知识库免遭窃取或破坏。</description>
-    <skillGains>
-      <Melee>-10</Melee>
-      <Shooting>8</Shooting>
-      <Construction>5</Construction>
-      <Mining>-5</Mining>
-      <Plants>-5</Plants>
-      <Medicine>-10</Medicine>
-      <Animals>-10</Animals>
-      <Intellectual>5</Intellectual>
-    </skillGains>
-    <workDisables>
-      <li>Social</li>
-      <li>Artistic</li>
-      <li>ManualDumb</li>
-    </workDisables>
-    <spawnCategories>
-      <li>Wula_Backstory_Categories</li>
-    </spawnCategories>
-    <bodyTypeGlobal>Thin</bodyTypeGlobal>
-    <bodyTypeFemale>Thin</bodyTypeFemale>
-    <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="0">WULA_Trait_Researcher</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
-    <passions>
-      <Shooting>2</Shooting>
-      <Construction>1</Construction>
-    </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <!-- <WULA_Trait_Researcher>0</WULA_Trait_Researcher> -->
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
-  </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory301</defName>
     <slot>Adulthood</slot>
-    <title>人格矩阵装载：编目司书</title>
-    <titleShort>人格-编目司书</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国编目司书的模拟记忆。\n\n编目司书是乌拉帝国图书馆的档案管理员之一，为上千种各式语言所编写的时间跨度超过数百万年的留存资料进行书目撰写，是维系乌拉帝国知识库正常运转的齿轮。</description>
+    <title>编目司书</title>
+    <titleShort>编目司书</titleShort>
+    <description>[PAWN_nameDef]曾经是乌拉帝国的编目司书。编目司书是乌拉帝国图书馆的档案管理员之一，为上千种各式语言所编写的时间跨度超过数百万年的留存资料进行书目撰写，是维系乌拉帝国知识库正常运转的齿轮。\n\n为了寻找新的失落科技，[PAWN_nameDef]离开了生活环境优越的乌拉帝国世界，来到了这个偏远的星区。</description>
     <skillGains>
       <Construction>-10</Construction>
       <Mining>-5</Mining>
@@ -885,159 +525,6 @@
     <passions>
       <Intellectual>2</Intellectual>
     </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <!-- <WULA_Trait_Researcher>0</WULA_Trait_Researcher> -->
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
-  </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Adult_Backstory302</defName>
-    <slot>Adulthood</slot>
-    <title>人格矩阵装载：仲裁圣贤</title>
-    <titleShort>人格-仲裁圣贤</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国仲裁圣贤的模拟记忆。\n\n仲裁圣贤是专门负责持续校准乌拉帝国图书馆因果论武器“尽归尘土”与宇宙法则的同步，长期凝视高维伟力导致她们变得异于常人，她们洞悉世界最深处的奥秘，不再关注现实世界的浮华。</description>
-    <skillGains>
-      <Intellectual>30</Intellectual>
-    </skillGains>
-    <workDisables>
-      <li>Caring</li>
-      <li>Social</li>
-      <li>Artistic</li>
-      <li>Crafting</li>
-      <li>Animals</li>
-      <li>Firefighting</li>
-      <li>PlantWork</li>
-      <li>Mining</li>
-      <li>Hunting</li>
-      <li>Constructing</li>
-      <li>ManualDumb</li>
-      <li>Violent</li>
-    </workDisables>
-    <spawnCategories>
-      <li>Wula_Backstory_Categories</li>
-    </spawnCategories>
-    <bodyTypeGlobal>Thin</bodyTypeGlobal>
-    <bodyTypeFemale>Thin</bodyTypeFemale>
-    <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="0">WULA_Trait_Connector</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
-    <passions>
-      <Intellectual>2</Intellectual>
-    </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <!-- <WULA_Trait_Connector>0</WULA_Trait_Connector> -->
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
-  </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Adult_Backstory303</defName>
-    <slot>Adulthood</slot>
-    <title>人格矩阵装载：档案司卷</title>
-    <titleShort>人格-档案司卷</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国档案司卷的模拟记忆。\n\n档案司卷是乌拉帝国图书馆的档案管理员之一，负责从浩如烟海的知识库中寻找可以被转化为实际生产力的失落科技，并使其重见天日。她们也经常跟随科考舰队执行外勤任务，从宇宙各处回收被时间掩埋的资料。</description>
-    <skillGains>
-      <Construction>5</Construction>
-      <Mining>-5</Mining>
-      <Plants>-5</Plants>
-      <Medicine>-10</Medicine>
-      <Animals>-10</Animals>
-      <Crafting>8</Crafting>
-      <Intellectual>5</Intellectual>
-    </skillGains>
-    <workDisables>
-      <li>Social</li>
-      <li>Artistic</li>
-    </workDisables>
-    <spawnCategories>
-      <li>Wula_Backstory_Categories</li>
-    </spawnCategories>
-    <bodyTypeGlobal>Thin</bodyTypeGlobal>
-    <bodyTypeFemale>Thin</bodyTypeFemale>
-    <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="0">WULA_Trait_Researcher</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
-    <passions>
-      <Crafting>2</Crafting>
-    </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <!-- <WULA_Trait_Researcher>0</WULA_Trait_Researcher> -->
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality>
-    </disallowedTraits>
-  </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
-    <defName>WULA_Adult_Backstory304</defName>
-    <slot>Adulthood</slot>
-    <title>人格矩阵装载：伟业劳工</title>
-    <titleShort>人格-伟业劳工</titleShort>
-    <description>[PAWN_possessive]人格矩阵中装载了一个乌拉帝国伟业劳工的模拟记忆。\n\n伟业劳工是服侍于乌拉帝国图书馆、没有感情模拟模块的机械族——通常它们被禁止做成乌拉星人相仿的外貌，但是不知道为何，有人将相关数据上传到乌拉帝国合成人专用的上行链路之中。</description>
-    <skillGains>
-      <Construction>8</Construction>
-      <Plants>-10</Plants>
-      <Animals>-10</Animals>
-      <Crafting>8</Crafting>
-      <Medicine>-10</Medicine>
-    </skillGains>
-    <workDisables>
-      <li>Social</li>
-      <li>Artistic</li>
-      <li>Intellectual</li>
-    </workDisables>
-    <spawnCategories>
-      <li>Wula_Backstory_Categories</li>
-    </spawnCategories>
-    <bodyTypeGlobal>Thin</bodyTypeGlobal>
-    <bodyTypeFemale>Thin</bodyTypeFemale>
-    <bodyTypeMale>Thin</bodyTypeMale>
-    <forcedTraitsChance>
-      <li>
-        <defName Degree="0">WULA_Trait_Broken_Personality</defName>
-        <chance>100</chance>
-      </li>
-    </forcedTraitsChance>
-    <passions>
-      <Crafting>1</Crafting>
-      <Construction>1</Construction>
-    </passions>
-    <disallowedTraits>
-      <WULA_Trait_Knight>1</WULA_Trait_Knight>
-      <WULA_Trait_Knight>2</WULA_Trait_Knight>
-      <WULA_Trait_Legal_Officer>0</WULA_Trait_Legal_Officer>
-      <WULA_Trait_Sculptor>0</WULA_Trait_Sculptor>
-      <WULA_Trait_Diplomat>0</WULA_Trait_Diplomat>
-      <WULA_Trait_Nun>0</WULA_Trait_Nun>
-      <WULA_Trait_Researcher>0</WULA_Trait_Researcher>
-      <WULA_Trait_Connector>0</WULA_Trait_Connector>
-      <!-- <WULA_Trait_Broken_Personality>0</WULA_Trait_Broken_Personality> -->
-    </disallowedTraits>
   </AlienRace.AlienBackstoryDef>
 
   <AlienRace.AlienBackstoryDef>
@@ -1054,13 +541,12 @@
       <li>Wula_Backstory_Categories_Legion</li>
     </spawnCategories>
   </AlienRace.AlienBackstoryDef>
-
   <AlienRace.AlienBackstoryDef>
     <defName>WULA_Adult_Backstory_Legion_Escort</defName>
     <slot>Adulthood</slot>
     <title>断爪卫队</title>
     <titleShort>断爪卫队</titleShort>
-    <description>[PAWN_nameDef]是断爪卫队的一员，该卫队是乌拉帝国行星封锁机关总控AI「军团」的心腹和黑手套，负责和其分体出席各种场合。</description>
+    <description>[PAWN_nameDef]是断爪卫队的一员，该卫队是乌拉帝国行星封锁机关总控AI「军团」的亲卫队，沉默而致命，忠实地履行自己的义务，为上司完成各种棘手的任务。</description>
     <workDisables>AllWork</workDisables>
     <bodyTypeGlobal>Thin</bodyTypeGlobal>
     <bodyTypeFemale>Thin</bodyTypeFemale>
