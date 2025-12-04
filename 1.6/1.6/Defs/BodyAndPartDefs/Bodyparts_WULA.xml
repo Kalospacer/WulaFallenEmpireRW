@@ -99,12 +99,13 @@
     </tags>
   </BodyPartDef>
   <BodyPartDef>
-    <defName>WULA_Mobile_Bunker_Bodypart</defName>
+    <defName>WULA_Mobile_Bunker_Bodypart</defName> 
     <label>地堡</label>
     <hitPoints>250</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
     <!-- <solid>true</solid> -->
+    <frostbiteVulnerability>1</frostbiteVulnerability>
     <bleedRate>0</bleedRate>
     <destroyableByDamage>false</destroyableByDamage>
   </BodyPartDef>

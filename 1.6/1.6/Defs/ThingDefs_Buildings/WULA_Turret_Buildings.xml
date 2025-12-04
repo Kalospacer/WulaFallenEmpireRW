@@ -4,7 +4,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Sonar_Mine_Cleanzone</defName>
     <label>TAm-1"鹅卵石"感应地雷</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nTAm-1"鹅卵石"感应地雷是一种危险的地雷，它们通常由乌拉帝国的工程部队部署到战场上，拥有智能敌我识别能力，在检测到敌军活动时会将自身的战斗部直接向敌人的位置发射。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nTAm-1"鹅卵石"感应地雷是一种危险的地雷，它们通常由乌拉帝国的工程部队部署到战场上，拥有智能敌我识别能力，在检测到敌军活动时会将自身的战斗部直接向敌人的位置发射。</description>
     <uiIconPath>Wula/Building/Wula_Sonar_Mine</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -256,7 +256,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Cat_Bunker_Cleanzone</defName>
     <label>乌拉猫猫地堡</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉猫猫地堡是集生产和防御为一体的坚实建筑，3只乌拉猫猫自律机械体会和地堡一起空降。地堡可供乌拉猫猫更换工作类型，并允许乌拉猫猫进驻使用内部武器击败来犯敌军。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉猫猫地堡是集生产和防御为一体的坚实建筑，3只乌拉猫猫自律机械体会和地堡一起空降。地堡可供乌拉猫猫更换工作类型，并允许乌拉猫猫进驻使用内部武器击败来犯敌军。</description>
     <uiIconPath>Wula/Building/WULA_Cat_Bunker_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -518,7 +518,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Base_ATGun_Turret_Cleanzone</defName>
     <label>ATt-6"金红石"反战车炮塔</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nATt-6"金红石"反战车炮塔是一种需要通电才能运转的中型防御炮塔，依靠澎湃的电磁动力发射高穿透性的炮弹。这种炮台的射速不是很高，但是穿甲能力很强，且会造成小范围溅射伤害。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nATt-6"金红石"反战车炮塔是一种需要通电才能运转的中型防御炮塔，依靠澎湃的电磁动力发射高穿透性的炮弹。这种炮台的射速不是很高，但是穿甲能力很强，且会造成小范围溅射伤害。</description>
     <uiIconPath>Wula/Building/Wula_Base_ATGun_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -811,7 +811,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Base_Laser_Turret_Cleanzone</defName>
     <label>MLt-1"棱晶"激光炮塔</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nMLt-1"棱晶"激光炮塔是一种需要通电才能运转的中型防御炮塔，能够以高能激光束持续照射一个目标将其气化。装载在炮塔上的激光武器不需要预热，因此对付多个目标的效果要优于手持光束武器。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nMLt-1"棱晶"激光炮塔是一种需要通电才能运转的中型防御炮塔，能够以高能激光束持续照射一个目标将其气化。装载在炮塔上的激光武器不需要预热，因此对付多个目标的效果要优于手持光束武器。</description>
     <uiIconPath>Wula/Building/Wula_Base_Laser_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1116,7 +1116,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Base_Mortar_Turret_Cleanzone</defName>
     <label>RTt-8"深渊"迫击炮塔</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\nRTt-8"深渊"迫击炮塔是一种需要通电才能运转的中型防御炮塔，在远距离上连续发射高爆迫击炮弹。高爆迫击炮弹虽然弹速很慢但是可以跨越地形，适合对付仍在集结的敌群和阵地。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nRTt-8"深渊"迫击炮塔是一种需要通电才能运转的中型防御炮塔，在远距离上连续发射高爆迫击炮弹。高爆迫击炮弹虽然弹速很慢但是可以跨越地形，适合对付仍在集结的敌群和阵地。</description>
     <uiIconPath>Wula/Building/Wula_Base_Mortar_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>

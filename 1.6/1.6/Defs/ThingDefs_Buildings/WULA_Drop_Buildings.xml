@@ -4,7 +4,7 @@
   <ThingDef Name="WulaWall_Cleanzone" ParentName="Wall">
     <defName>WulaWall_Cleanzone</defName>
     <label>乌拉帝国堡垒墙</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国用于建造堡垒的外壁相当厚实，能够抵御大量伤害，并且拥有气密性，可以用在飞船外壳上。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉帝国用于建造堡垒的外壁相当厚实，能够抵御大量伤害，并且拥有气密性，可以用在飞船外壳上。</description>
     <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -117,7 +117,6 @@
       <texPath>Wula/Building/Linked/WulaWall/WulaWall_Atlas</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
-      <color>(0.5, 0.5, 0.5)</color>
     </graphicData>
     <statBases>
       <MarketValue>20</MarketValue>
@@ -177,7 +176,7 @@
   <ThingDef Name="WulaDoor_Cleanzone" ParentName="DoorBase">
     <defName>WulaDoor_Cleanzone</defName>
     <label>乌拉帝国大门</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国堡垒的大门不仅能够抵御大量爆炸和震荡伤害，还拥有无需通电即可运转的伺服系统来增加大门通过速度。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉帝国堡垒的大门不仅能够抵御大量爆炸和震荡伤害，还拥有无需通电即可运转的伺服系统来增加大门通过速度。</description>
     <descriptionHyperlinks>
       <ThingDef>WulaDoor</ThingDef>
     </descriptionHyperlinks>
@@ -402,7 +401,7 @@
   <ThingDef ParentName="Wall">
     <defName>WulaShelter_Cleanzone</defName>
     <label>乌拉帝国掩体</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n用于保护乌拉帝国战士的掩体，非常厚实并且抵抗爆炸，战士们可以越过这些掩体进行射击。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n用于保护乌拉帝国战士的掩体，非常厚实并且抵抗爆炸，战士们可以越过这些掩体进行射击。</description>
     <uiIconPath>Wula/Building/Linked/WulaShelter_MenuIcon</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -573,7 +572,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_MaintenancePod_Cleanzone</defName>
     <label>合成人维护舱</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n合成人维护舱是为乌拉帝国合成人设计的设施，机械乌拉需要定期进入其中进行身体机能的维护和校准，否则他们的身体会逐渐衰弱。维护需要消耗零部件，同时会修理所有的伤口。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n合成人维护舱是为乌拉帝国合成人设计的设施，机械乌拉需要定期进入其中进行身体机能的维护和校准，否则他们的身体会逐渐衰弱。维护需要消耗零部件，同时会修理所有的伤口。</description>
     <uiIconPath>Wula/Building/WULA_MaintenancePod</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -774,7 +773,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_WeaponArmor_Productor_Cleanzone</defName>
     <label>乌拉帝国作业通讯台</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国作业通讯台是用于联络乌拉帝国母舰和工程舰并下达武器、装备订单的特殊通讯台。这些武器装备的生产不需要殖民地参与，只需要使用乌拉帝国物资交换舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉帝国作业通讯台是用于联络乌拉帝国母舰和工程舰并下达武器、装备订单的特殊通讯台。这些武器装备的生产不需要殖民地参与，只需要使用乌拉帝国物资交换舱将材料发送给帝国舰队，然后根据材料数量下单即可。</description>
     <uiIconPath>Wula/Building/WULA_WeaponArmor_Productor</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -951,7 +950,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_TransportPod_Cleanzone</defName>
     <label>乌拉帝国运输舱</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国运输舱是供乌拉帝国殖民地居民进行移动的运输舱，本质上是把殖民者和货物发射到乌拉帝国在轨道上的舰队，然后在另一个地方扔下来，所以它可以前往很远的地方。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉帝国运输舱是供乌拉帝国殖民地居民进行移动的运输舱，本质上是把殖民者和货物发射到乌拉帝国在轨道上的舰队，然后在另一个地方扔下来，所以它可以前往很远的地方。</description>
     <uiIconPath>Wula/Building/WULA_DropPod/WULA_DropPod</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1370,7 +1369,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Machine_Recharger_Cleanzone</defName>
     <label>乌拉帝国地下维护站</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国地下维护站是能够储存大量电量并允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。由于其根基埋于地下，因此不会阻碍其他殖民者和机械体在其上面的移动。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉帝国地下维护站是能够储存大量电量并允许所有大小类型的乌拉帝国机械体进行充电的充电站，不支持合成人的充能。由于其根基埋于地下，因此不会阻碍其他殖民者和机械体在其上面的移动。</description>
     <uiIconPath>Wula/Building/WULA_Machine_Recharger</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1540,7 +1539,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Charging_Station_Synth_Cleanzone</defName>
     <label>合成人充电站</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n合成人充电站是一台供乌拉帝国合成人进行机体充能和改装的检修站，当机械乌拉需要充电时会优先前往此处充电。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n合成人充电站是一台供乌拉帝国合成人进行机体充能和改装的检修站，当机械乌拉需要充电时会优先前往此处充电。</description>
     <uiIconPath>Wula/Building/WULA_Charging_Station_Synth_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1701,7 +1700,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Cube_Productor_Cleanzone</defName>
     <label>乌拉帝国编织体</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n乌拉帝国编织体是一台简易的塑性构造体，只能生产一些材料，以本地加工的方式降低舰队的加工压力。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉帝国编织体是一台简易的塑性构造体，只能生产一些材料，以本地加工的方式降低舰队的加工压力。</description>
     <uiIconPath>Wula/Building/WULA_Cube_Productor_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1879,7 +1878,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_DarkEnergy_Generators_Cleanzone</defName>
     <label>暗物质发电机</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n一台使用暗物质湮灭反应提供能量的乌拉帝国发电机，需要消耗暗物质作为燃料且消耗速率很高，但是拥有普通发电机望尘莫及的发电能力。为了在野战环境下随炮塔群一起空投，这种发电机的装甲层设计的非常厚实。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n一台使用暗物质湮灭反应提供能量的乌拉帝国发电机，需要消耗暗物质作为燃料且消耗速率很高，但是拥有普通发电机望尘莫及的发电能力。为了在野战环境下随炮塔群一起空投，这种发电机的装甲层设计的非常厚实。</description>
     <uiIconPath>Wula/Building/Wula_DarkEnergy_Generators</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -2082,7 +2081,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Fusion_Generators_Cleanzone</defName>
     <label>聚变发电机</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑，建造好的信标可以收起或移至他处。\n\n一台依靠重核聚变进行发电的简易发电机，发电量不算太高但是发电材料很好找，只需要往里面填入石头就能发电。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n一台依靠重核聚变进行发电的简易发电机，发电量不算太高但是发电材料很好找，只需要往里面填入石头就能发电。</description>
     <uiIconPath>Wula/Building/Wula_Fusion_Generators</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>

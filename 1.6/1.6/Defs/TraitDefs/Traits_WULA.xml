@@ -24,7 +24,7 @@
     <degreeDatas>
       <li>
         <label>白纸一张</label>
-        <descriptionn>[PAWN_nameDef]其大部分记忆体仍处于空置状态，[PAWN_pronoun]可以快速地进行学习，以塑造自己</description>
+        <description>[PAWN_nameDef]其大部分记忆体仍处于空置状态，[PAWN_pronoun]可以快速地进行学习，以塑造自己</description>
         <degree>1</degree>
         <allowedMeditationFocusTypes><li>Dignified</li></allowedMeditationFocusTypes>
         <statOffsets>

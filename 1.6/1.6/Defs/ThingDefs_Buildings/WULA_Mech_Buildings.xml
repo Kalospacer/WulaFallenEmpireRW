@@ -4,7 +4,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_AI_Heavy_Panzer_Cleanzone</defName>
     <label>HAp-6"战车"</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。建造好的信标可以收起或移至他处。\n\n战车是乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n战车是乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
     <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Heavy_Panzer_Incoming</uiIconPath>
     <uiIconScale>1.33</uiIconScale>
     <uiIconOffset>(0, -0.1)</uiIconOffset>
@@ -119,7 +119,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_AI_Rocket_Panzer_Cleanzone</defName>
     <label>HRp-3"喷火战车"</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。建造好的信标可以收起或移至他处。\n\n喷火战车乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有车体臼炮和两具可以发射大量燃烧火箭弹的转轮导弹巢，但是未像其姊妹型号那样装备护盾。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n喷火战车乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有车体臼炮和两具可以发射大量燃烧火箭弹的转轮导弹巢，但是未像其姊妹型号那样装备护盾。</description>
     <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Rocket_Panzer_Incoming</uiIconPath>
     <uiIconScale>1.33</uiIconScale>
     <uiIconOffset>(0, -0.1)</uiIconOffset>
@@ -234,7 +234,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Mobile_Shield_Cleanzone</defName>
     <label>MSm-8"放射盾"</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。建造好的信标可以收起或移至他处。\n\n放射盾是乌拉帝国的中型战争机械，常被用于镇压异族聚居地的暴动。它形状非常奇怪，根本分不出头在哪，但是不要因此小瞧这个机械体——它能释放强大的立场盾，在很大一片区域内反射大量炮火，并且机体放射出来的辐射会严重地杀伤进入反射盾范围内的敌人。在相关许可开放后，它甚至可以支持机械乌拉使用其内置的相位场进行区域传送。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n放射盾是乌拉帝国的中型战争机械，常被用于镇压异族聚居地的暴动。它形状非常奇怪，根本分不出头在哪，但是不要因此小瞧这个机械体——它能释放强大的立场盾，在很大一片区域内反射大量炮火，并且机体放射出来的辐射会严重地杀伤进入反射盾范围内的敌人。在相关许可开放后，它甚至可以支持机械乌拉使用其内置的相位场进行区域传送。</description>
     <uiIconPath>Wula/Things/WULA_Mobile_Shield/WULA_Mobile_Shield_Incoming</uiIconPath>
     <uiIconScale>0.9</uiIconScale>
     <minifiedDef>MinifiedThing</minifiedDef>
@@ -348,7 +348,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Mech_Mobile_Factory_Cleanzone</defName>
     <label>MFm-2"陆行舰"</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。建造好的信标可以收起或移至他处。\n\n陆行舰是乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的堡垒和顽强的抵抗。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n陆行舰是乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的堡垒和顽强的抵抗。</description>
     <uiIconPath>Wula/Things/Wula_Mech_Mobile_Factory/Wula_Mech_Mobile_Factory_Incoming</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
