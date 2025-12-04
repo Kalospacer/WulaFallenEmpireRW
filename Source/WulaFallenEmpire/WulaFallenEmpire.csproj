@@ -267,7 +267,6 @@
     <Compile Include="QuestNodes\QuestNode_Hyperlinks.cs" />
     <Compile Include="QuestNodes\QuestNode_SpawnPrefabSkyfallerCaller.cs" />
     <Compile Include="QuestNodes\QuestPart_GlobalResourceCheck.cs" />
-    <Compile Include="SectionLayer_WulaHull.cs" />
     <Compile Include="Stat\StatWorker_Energy.cs" />
     <Compile Include="Stat\StatWorker_Maintenance.cs" />
     <Compile Include="Stat\StatWorker_NanoRepair.cs" />

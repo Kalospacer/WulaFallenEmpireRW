@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- <WulaFallenEmpire.WulaHullDef>
+  <WulaFallenEmpire.WulaHullDef>
     <defName>WulaHullConfig</defName>
     <label>乌拉船体斜角配置</label>
 
@@ -16,5 +16,5 @@
     <texPath_Diagonal_NE>Wula/Building/Linked/WulaWall/AngledWulaWall_Partial_northeast</texPath_Diagonal_NE>
     <texPath_Diagonal_SW>Wula/Building/Linked/WulaWall/AngledWulaWall_Partial_southwest</texPath_Diagonal_SW>
     <texPath_Diagonal_SE>Wula/Building/Linked/WulaWall/AngledWulaWall_Partial_southeast</texPath_Diagonal_SE>
-  </WulaFallenEmpire.WulaHullDef> -->
+  </WulaFallenEmpire.WulaHullDef>
 </Defs>
