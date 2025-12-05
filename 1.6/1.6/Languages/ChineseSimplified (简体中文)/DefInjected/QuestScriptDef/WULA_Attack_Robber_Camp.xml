@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <WULA_Attack_Robber_Camp.questNameRules.rulesStrings>
+    <li>questName->[bandit][camp]</li>
+    <li>questName->[bandit][camp]</li>
+    <li>questName->[asker_nameDef]与[camp]</li>
+    <li>camp->营地</li>
+    <li>camp->哨所</li>
+    <li>camp->窝点</li>
+    <li>camp->据点</li>
+    <li>bandit->土匪</li>
+    <li>bandit->劫掠者</li>
+    <li>bandit->逃犯</li>
+    <li>bandit->暴徒</li>
+    <li>bandit->亡命者</li>
+    <li>bandit->掠夺者</li>
+    <li>bandit->强盗</li>
+    <li>bandit->劫匪</li>
+  </WULA_Attack_Robber_Camp.questNameRules.rulesStrings>
+  <WULA_Attack_Robber_Camp.questDescriptionRules.rulesStrings>
+    <li>questDescription->[asker_faction_name]的[asker_faction_leaderTitle]，[asker_nameFull]，向我们发来了一条讯息。根据他们掌握的情报，一个属于[siteFaction_name]派系，由[siteFaction_pawnsPlural]建立的营地一直在袭击他们的远行队。\n\n[asker_nameDef]请求我们帮助他们摧毁这个营地，彻底消灭敌人的成员和炮塔。[asker_label]还提醒我们：\n\n[sitePart0_description]。</li>
+  </WULA_Attack_Robber_Camp.questDescriptionRules.rulesStrings>
+</LanguageData>
