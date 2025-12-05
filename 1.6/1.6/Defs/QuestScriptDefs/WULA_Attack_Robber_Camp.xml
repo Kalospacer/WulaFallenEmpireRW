@@ -5,25 +5,11 @@
     <rootSelectionWeight>0</rootSelectionWeight>
     <expireDaysRange>1</expireDaysRange>
     <sendAvailableLetter>true</sendAvailableLetter>
-    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
+    <isRootSpecial>true</isRootSpecial>   <!-- 特殊任务 --> 
 
     <questNameRules>
       <rulesStrings>
-        <li>questName->The [bandit] [camp]</li>
-        <li>questName->[bandit] [camp]</li>
-        <li>questName->[asker_nameDef] and the [camp]</li>
-        <li>camp->Camp</li>
-        <li>camp->Outpost</li>
-        <li>camp->Lair</li>
-        <li>camp->Encampment</li>
-        <li>bandit->Bandit</li>
-        <li>bandit->Raider</li>
-        <li>bandit->Outlaw</li>
-        <li>bandit->Desperado</li>
-        <li>bandit->Fugitive</li>
-        <li>bandit->Marauder</li>
-        <li>bandit->Robber</li>
-        <li>bandit->Brigand</li>
+        <li>questName->WULA_Attack_Robber_Camp_questName</li>
       </rulesStrings>
     </questNameRules>
     <questDescriptionRules>
@@ -46,107 +32,42 @@
         </li>
         
         <li Class="QuestNode_GetMap">
-          <canBeSpace>true</canBeSpace>
+          <canBeSpace>false</canBeSpace>
         </li>
 
-        <li Class="QuestNode_GetPawn">
-          <storeAs>asker</storeAs>
-          <mustBeFactionLeader>true</mustBeFactionLeader>
-          <allowPermanentEnemyFaction>false</allowPermanentEnemyFaction>
-          <hostileWeight>0.15</hostileWeight>
-        </li>
-
-        <li Class="QuestNode_GetSiteTile">
-          <storeAs>siteTile</storeAs>
-          <preferCloserTiles>true</preferCloserTiles>
-          <selectLandmarkChance>0.5</selectLandmarkChance>
-          <allowedLandmarks>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Oasis</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Lake</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">LakeWithIsland</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">LakeWithIslands</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Pond</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">DryLake</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">ToxicLake</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Wetland</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">HotSprings</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Archipelago</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">CoastalIsland</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Peninsula</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Bay</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Valley</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Cavern</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Chasm</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Cliffs</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Hollow</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">TerraformingScar</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">LavaLake</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">Dunes</li>
-            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientHeatVent</li>
-          </allowedLandmarks>
-        </li>
-
-        <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
-          <storeAs>sitePartDefs</storeAs>
-          <storeFactionAs>siteFaction</storeFactionAs>
-          <sitePartsTags>
-            <li><tag>BanditCamp</tag></li>
-          </sitePartsTags>
+        <li Class="QuestNode_GetFaction">
+          <storeAs>siteFaction</storeAs>
+          <allowEnemy>true</allowEnemy>
           <mustBeHostileToFactionOf>$asker</mustBeHostileToFactionOf>
+          <mustBePermanentEnemy>true</mustBePermanentEnemy>
         </li>
 
-        <li Class="QuestNode_GetDefaultSitePartsParams">
-          <tile>$siteTile</tile>
+        <li Class="QuestEditor_Library.QuestNode_RandomCustomMap">
+          <datas>
+            <li>
+              <key>WULA_Camp_Captured_By_Robber</key>
+              <value>1</value>
+            </li>
+          </datas>
+          <buffer>5</buffer>
+          <bufferMin>10</bufferMin>
+          <siteIconPath>Things/Building/Natural/Hive/HiveC</siteIconPath>
+          <expandingIconPath>Things/Building/Natural/Hive/HiveC</expandingIconPath>
+          <storeAs>site</storeAs>
           <faction>$siteFaction</faction>
-          <sitePartDefs>$sitePartDefs</sitePartDefs>
-          <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+          <distance>
+            <min>5</min>
+            <max>10</max>
+          </distance>
+          <blacklist />
         </li>
         
-        <li Class="QuestNode_GetSiteThreatPoints">
-          <storeAs>sitePoints</storeAs>
-          <sitePartsParams>$sitePartsParams</sitePartsParams>
-        </li>
         <li Class="QuestNode_SubScript">
           <def>Util_GetDefaultRewardValueFromPoints</def>
           <parms>
             <!-- Use the actual threat points generated (some site parts define a minimum threshold) -->
-            <points>$sitePoints</points>
+            <points>$points</points>
           </parms>
-        </li>
-
-        <!-- Inflate reward value. Since we're basing the reward value on the threat points generated, we need to do this
-             even though the threat points was deflated from the input points already. -->
-        <li Class="QuestNode_Multiply">
-            <value1>$rewardValue</value1>
-            <value2>1.75</value2>
-            <storeAs>rewardValue</storeAs>
-        </li>
-
-        <li Class="QuestNode_SubScript">
-          <def>Util_GenerateSite</def>
-        </li>
-        
-        <li Class="QuestNode_SpawnWorldObjects">
-          <worldObjects>$site</worldObjects>
-        </li>
-
-        <li Class="QuestNode_WorldObjectTimeout">
-          <worldObject>$site</worldObject>
-          <isQuestTimeout>true</isQuestTimeout>
-          <delayTicks>$(randInt(12,28)*60000)</delayTicks>
-          <inSignalDisable>site.MapGenerated</inSignalDisable>
-          <destroyOnCleanup>true</destroyOnCleanup>
-          <node Class="QuestNode_Sequence">
-            <nodes>
-              <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelQuestExpired">Quest expired: [resolvedQuestName]</label>
-                <text TKey="LetterTextQuestExpired">The bandit camp has packed up and moved on. The quest [resolvedQuestName] has expired.</text>
-              </li>
-              <li Class="QuestNode_End">
-                <outcome>Fail</outcome>
-              </li>
-            </nodes>
-          </node>
         </li>
 
         <!-- If we enter and leave, the map is destroyed. Fail the quest. -->
@@ -199,4 +120,138 @@
       </nodes>
     </root>
   </QuestScriptDef>
+  <QuestEditor_Library.CustomMapDataDef>
+    <defName>WULA_Camp_Captured_By_Robber</defName>
+    <label>被异族占据的哨站</label>
+    <size>(44, 1, 44)</size>
+    <isPart>true</isPart>
+    <commonality>0</commonality>
+    <pawns>
+      <li>
+        <key>(21, 0, 24)</key>
+        <value>
+          <li Class="QuestEditor_Library.PawnSpawnData_Faction">
+            <dataName>Robber</dataName>
+            <enableLord>true</enableLord>
+            <lordDataName>RobberGroup</lordDataName>
+            <faction>MapFaction</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+            <point>1000~2000</point>
+          </li>
+        </value>
+      </li>
+    </pawns>
+    <thingDatas>
+      <li>
+        <def>WULA_TransportPod</def>
+        <allRect>
+          <li>(24,20,24,20)</li>
+          <li>(24,23,24,23)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Brazier</def>
+        <stuff>Steel</stuff>
+        <position>(16,0,22)</position>
+      </li>
+      <li>
+        <def>Bedroll</def>
+        <stuff>Cloth</stuff>
+        <rotation>3</rotation>
+        <allRect>
+          <li>(23,14,23,16)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Wula_Fusion_Generators</def>
+        <storedEnergy>29.99023</storedEnergy>
+        <position>(30,0,27)</position>
+      </li>
+      <li>
+        <def>WULA_Wall_Flag_Building</def>
+        <allRect>
+          <li>(16,13,16,13)</li>
+          <li>(25,30,25,30)</li>
+          <li>(27,30,27,30)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WULA_Machine_Recharger</def>
+        <position>(14,0,16)</position>
+      </li>
+      <li>
+        <def>WulaWall</def>
+        <allRect>
+          <li>(12,14,16,14)</li>
+          <li>(12,15,12,18)</li>
+          <li>(11,18,11,18)</li>
+          <li>(10,20,10,21)</li>
+          <li>(9,21,9,27)</li>
+          <li>(20,12,22,12)</li>
+          <li>(22,13,23,13)</li>
+          <li>(25,13,29,13)</li>
+          <li>(10,27,11,27)</li>
+          <li>(11,28,11,29)</li>
+          <li>(12,29,12,29)</li>
+          <li>(29,14,30,14)</li>
+          <li>(30,15,31,16)</li>
+          <li>(14,32,14,35)</li>
+          <li>(31,17,31,21)</li>
+          <li>(33,16,35,16)</li>
+          <li>(15,35,21,35)</li>
+          <li>(35,17,35,18)</li>
+          <li>(21,33,24,33)</li>
+          <li>(24,31,25,31)</li>
+          <li>(21,34,21,34)</li>
+          <li>(24,32,24,32)</li>
+          <li>(36,18,37,18)</li>
+          <li>(32,25,34,25)</li>
+          <li>(27,31,27,32)</li>
+          <li>(32,26,32,29)</li>
+          <li>(37,19,37,22)</li>
+          <li>(34,24,34,24)</li>
+          <li>(31,29,31,32)</li>
+          <li>(28,32,30,32)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WulaDoor</def>
+        <allRect>
+          <li>(32,16,32,16)</li>
+          <li>(26,31,26,31)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Wula_Sonar_Mine</def>
+        <allRect>
+          <li>(10,22,10,22)</li>
+          <li>(28,14,28,14)</li>
+          <li>(30,31,30,31)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>Bedroll</def>
+        <stuff>Cloth</stuff>
+        <rotation>1</rotation>
+        <allRect>
+          <li>(10,24,10,26)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>WulaShelter</def>
+        <allRect>
+          <li>(12,6,15,6)</li>
+          <li>(9,10,12,10)</li>
+          <li>(12,7,12,9)</li>
+          <li>(7,32,7,36)</li>
+          <li>(34,9,38,9)</li>
+          <li>(8,36,10,36)</li>
+          <li>(38,10,38,12)</li>
+          <li>(35,35,38,35)</li>
+          <li>(38,32,38,34)</li>
+        </allRect>
+      </li>
+    </thingDatas>
+  </QuestEditor_Library.CustomMapDataDef>
 </Defs>

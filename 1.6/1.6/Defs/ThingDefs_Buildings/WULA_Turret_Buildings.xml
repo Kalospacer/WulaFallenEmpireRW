@@ -73,6 +73,14 @@
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
+        <buildingToSpawn>Wula_Sonar_Mine</buildingToSpawn>
+        <destroyBuilding>true</destroyBuilding>
+        <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
+        <spawnSound>VoidStructure_Emerge</spawnSound>
+        <inheritFaction>true</inheritFaction>
+        <requiredResearch>WULA_Building_Teleporter_Technology</requiredResearch>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="SkyfallerBase">
@@ -327,6 +335,14 @@
         <delayTicks>1</delayTicks>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
+        <buildingToSpawn>WULA_Cat_Bunker</buildingToSpawn>
+        <destroyBuilding>true</destroyBuilding>
+        <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
+        <spawnSound>VoidStructure_Emerge</spawnSound>
+        <inheritFaction>true</inheritFaction>
+        <requiredResearch>WULA_Building_Teleporter_Technology</requiredResearch>
       </li>
     </comps>
   </ThingDef>
@@ -587,6 +603,14 @@
         <delayTicks>1</delayTicks>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
+        <buildingToSpawn>Wula_Base_ATGun_Turret</buildingToSpawn>
+        <destroyBuilding>true</destroyBuilding>
+        <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
+        <spawnSound>VoidStructure_Emerge</spawnSound>
+        <inheritFaction>true</inheritFaction>
+        <requiredResearch>WULA_Building_Teleporter_Technology</requiredResearch>
       </li>
     </comps>
   </ThingDef>
@@ -880,6 +904,14 @@
         <delayTicks>1</delayTicks>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
+        <buildingToSpawn>Wula_Base_Laser_Turret</buildingToSpawn>
+        <destroyBuilding>true</destroyBuilding>
+        <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
+        <spawnSound>VoidStructure_Emerge</spawnSound>
+        <inheritFaction>true</inheritFaction>
+        <requiredResearch>WULA_Building_Teleporter_Technology</requiredResearch>
       </li>
     </comps>
   </ThingDef>
@@ -1175,6 +1207,14 @@
         <delayTicks>1</delayTicks>
         <allowThinRoof>true</allowThinRoof>
         <allowThickRoof>false</allowThickRoof>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
+        <buildingToSpawn>Wula_Base_Mortar_Turret</buildingToSpawn>
+        <destroyBuilding>true</destroyBuilding>
+        <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
+        <spawnSound>VoidStructure_Emerge</spawnSound>
+        <inheritFaction>true</inheritFaction>
+        <requiredResearch>WULA_Building_Teleporter_Technology</requiredResearch>
       </li>
     </comps>
  </ThingDef>

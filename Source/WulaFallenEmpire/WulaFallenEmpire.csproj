@@ -106,6 +106,8 @@
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompProperties_BuildingBombardment.cs" />
     <Compile Include="Ability\WULA_AbilityCallSkyfaller\MapComponent_SkyfallerDelayed.cs" />
     <Compile Include="BuildingComp\Building_TurretGunHasSpeed.cs" />
+    <Compile Include="BuildingComp\WULA_BuildingSpawner\CompBuildingSpawner.cs" />
+    <Compile Include="BuildingComp\WULA_BuildingSpawner\CompProperties_BuildingSpawner.cs" />
     <Compile Include="BuildingComp\WULA_EnergyLanceTurret\CompEnergyLanceTurret.cs" />
     <Compile Include="BuildingComp\WULA_EnergyLanceTurret\CompProperties_EnergyLanceTurret.cs" />
     <Compile Include="BuildingComp\WULA_InitialFaction\CompProperties_InitialFaction.cs" />
