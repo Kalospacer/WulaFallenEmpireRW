@@ -74,6 +74,30 @@
   <WULA_RequiresBuildingDropperFlyOver>需要拥有-建筑空投设施-的战舰部署在殖民地轨道上才能空投</WULA_RequiresBuildingDropperFlyOver>
   <WULA_MissingBuildingDropperFlyOver>没有拥有-建筑空投设施-的战舰部署在殖民地轨道上</WULA_MissingBuildingDropperFlyOver>
 
+  
+  <!-- 消息翻译 -->
+  <WULA_BuildingIncomingFromGlobal>从全局储存器中呼叫的建筑将在{0}后到达</WULA_BuildingIncomingFromGlobal>
+  <WULA_BuildingIncoming>呼叫的建筑将在{0}后到达</WULA_BuildingIncoming>
+  <WULA_MissingResearch>需要研究：{0}</WULA_MissingResearch>
+  <WULA_NoBuildingDropperFlyOver>需要建筑投放飞行器在区域上空</WULA_NoBuildingDropperFlyOver>
+  
+  <!-- 屋顶阻挡消息 -->
+  <WULA_RoofBlocking_thick>厚重的屋顶阻挡了建筑投放</WULA_RoofBlocking_thick>
+  <WULA_RoofBlocking_thin>屋顶阻挡了建筑投放</WULA_RoofBlocking_thin>
+  
+  <!-- 命令按钮 -->
+  <WULA_CancelBuilding>取消建筑呼叫</WULA_CancelBuilding>
+  <WULA_CancelBuildingDesc>取消正在呼叫的建筑投放</WULA_CancelBuildingDesc>
+  <WULA_TeleportBuilding>传送建筑</WULA_TeleportBuilding>
+  <WULA_TeleportBuildingDesc>使用乌拉帝国的传送网络，将{0}传送到指定位置——这是空投建筑的替代品，可以在厚岩顶下完成建造，并且响应速度更快。</WULA_TeleportBuildingDesc>
+  <WULA_NonPlayerCannotCall>非玩家派系无法手动呼叫建筑</WULA_NonPlayerCannotCall>
+  <WULA_RequiresResearch>需要研究：{0}</WULA_RequiresResearch>
+  <WULA_AutoBuildingArrivingIn>自动建筑将在{0}后到达</WULA_AutoBuildingArrivingIn>
+  <WULA_BuildingArrivingInFromGlobal>从全局储存器呼叫的建筑将在{0}后到达</WULA_BuildingArrivingInFromGlobal>
+  <WULA_BuildingArrivingIn>建筑将在{0}后到达</WULA_BuildingArrivingIn>
+  <WULA_AutoBuildingReady>自动建筑准备就绪</WULA_AutoBuildingReady>
+  <WULA_ReadyToCallBuilding>准备呼叫{0}</WULA_ReadyToCallBuilding>
+
   <!-- 新增的空投资源来源相关翻译 -->
   <WULA_ReadyToCallSkyfaller>准备召唤空投建筑</WULA_ReadyToCallSkyfaller>
   <WULA_CallSkyfaller>召唤空投建筑</WULA_CallSkyfaller>
@@ -418,5 +442,5 @@
   <WULA_Designator_CallSkyfallerInArea>区域空投</WULA_Designator_CallSkyfallerInArea>
   <WULA_Designator_CallSkyfallerInAreaDesc>标记一块区域，激活其中所有需要空投的乌拉帝国建筑和战争机械体。\n\n区域空投依然需要计算材料消耗，如果材料不足则不会进行空投。</WULA_Designator_CallSkyfallerInAreaDesc>
   <WULA_AreaCallInitiated>区域空投已下达</WULA_AreaCallInitiated>
-  <WULA_NoCallableBuildingsInArea>区域内没有可接受空投质量的乌拉帝国空投区</WULA_NoCallableBuildingsInArea>
+  <WULA_NoCallableBuildingsInArea>区域内没有可接受空投指令的乌拉帝国空投区</WULA_NoCallableBuildingsInArea>
 </LanguageData>

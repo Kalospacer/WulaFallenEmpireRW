@@ -79,8 +79,6 @@ namespace WulaFallenEmpire
                         }
                     }
 
-                    Log.Message($"[BuildingSpawner] Found {allFlyOvers.Count} FlyOvers on map");
-
                     foreach (var thing in allFlyOvers)
                     {
                         if (thing is FlyOver flyOver && !flyOver.Destroyed)
@@ -94,13 +92,11 @@ namespace WulaFallenEmpire
                             
                             if (facilitiesComp.HasFacility("BuildingdropperFacility"))
                             {
-                                Log.Message($"[BuildingSpawner] Found valid FlyOver at {flyOver.Position} with BuildingdropperFacility");
                                 return true;
                             }
                         }
                     }
 
-                    Log.Message("[BuildingSpawner] No FlyOver with BuildingdropperFacility found");
                     return false;
                 }
                 catch (System.Exception ex)
@@ -146,8 +142,6 @@ namespace WulaFallenEmpire
                 autoCallScheduled = true;
                 callTick = Find.TickManager.TicksGame + Props.autoCallDelayTicks;
                 calling = true;
-                
-                Log.Message($"[BuildingSpawner] Scheduled auto-call for non-player building {parent.Label} at tick {callTick}");
             }
         }
         
@@ -195,8 +189,6 @@ namespace WulaFallenEmpire
         {
             try
             {
-                Log.Message($"[BuildingSpawner] Executing auto building spawn for non-player building at {parent.Position}");
-                
                 if (Props.buildingToSpawn == null)
                 {
                     Log.Error("[BuildingSpawner] Building def is null!");
@@ -246,10 +238,6 @@ namespace WulaFallenEmpire
                 // 重置状态
                 ResetCall();
                 autoCallScheduled = false;
-                
-                // 显示消息
-                Messages.Message("WULA_AutoBuildingSpawned".Translate(Props.buildingToSpawn.label, parent.Faction.Name), 
-                    MessageTypeDefOf.NeutralEvent);
             }
             catch (System.Exception ex)
             {
@@ -264,7 +252,6 @@ namespace WulaFallenEmpire
             // 非玩家派系不能手动呼叫
             if (IsNonPlayerFaction && !isAutoCall)
             {
-                Messages.Message("WULA_NonPlayerCannotCall".Translate(), parent, MessageTypeDefOf.RejectInput);
                 return;
             }
             
@@ -273,8 +260,6 @@ namespace WulaFallenEmpire
                 ShowDisabledReason();
                 return;
             }
-            
-            Log.Message($"[BuildingSpawner] Starting building spawn from {parent.Label} at {parent.Position}");
             
             calling = true;
             used = true;
@@ -329,8 +314,6 @@ namespace WulaFallenEmpire
         // 执行建筑生成
         protected virtual void ExecuteBuildingSpawn()
         {
-            Log.Message($"[BuildingSpawner] Executing building spawn at {parent.Position}");
-            
             if (Props.buildingToSpawn == null)
             {
                 Log.Error("[BuildingSpawner] Building def is null!");
@@ -341,7 +324,6 @@ namespace WulaFallenEmpire
             var resourceCheck = CheckAndConsumeMaterials();
             if (!resourceCheck.HasEnoughMaterials)
             {
-                Log.Message($"[BuildingSpawner] Aborting building spawn due to insufficient materials.");
                 ResetCall();
                 return;
             }
@@ -426,7 +408,6 @@ namespace WulaFallenEmpire
             
             if (roof != null && !roof.isThickRoof && Props.allowThinRoof)
             {
-                Log.Message($"[BuildingSpawner] Destroying thin roof at {targetPos}");
                 parent.Map.roofGrid.SetRoof(targetPos, null);
                 
                 // 生成屋顶破坏效果
@@ -510,9 +491,6 @@ namespace WulaFallenEmpire
                     powerComp.PowerOn = true;
                 }
             }
-            
-            // 记录日志
-            Log.Message($"[BuildingSpawner] Successfully spawned {Props.buildingToSpawn.label} at {newBuilding.Position}");
         }
         
         // 资源管理（与SkyfallerCaller类似）
@@ -824,7 +802,6 @@ namespace WulaFallenEmpire
             callTick = -1;
             usedGlobalStorage = false;
             autoCallScheduled = false;
-            Messages.Message("WULA_BuildingCallCancelled".Translate(), parent, MessageTypeDefOf.NeutralEvent);
         }
         
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -853,9 +830,9 @@ namespace WulaFallenEmpire
                 string reason = GetDisabledReason();
                 Command_Action callCommand = new Command_Action
                 {
-                    defaultLabel = "WULA_CallBuilding".Translate(),
+                    defaultLabel = "WULA_TeleportBuilding".Translate(),
                     defaultDesc = GetCallDescription(),
-                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_SpawnBuilding"),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_TeleportBuilding"),
                     action = () => CallBuilding(false),
                     disabledReason = reason
                 };
@@ -904,7 +881,7 @@ namespace WulaFallenEmpire
         private string GetCallDescription()
         {
             var sb = new StringBuilder();
-            sb.Append("WULA_CallBuildingDesc".Translate(Props.buildingToSpawn.label));
+            sb.Append("WULA_TeleportBuildingDesc".Translate(Props.buildingToSpawn.label));
             
             if (Props.requiredResearch != null)
             {
@@ -932,117 +909,7 @@ namespace WulaFallenEmpire
                 }
             }
             
-            string costString = GetCostString();
-            if (!string.IsNullOrEmpty(costString))
-            {
-                sb.AppendLine().AppendLine().Append("WULA_RequiredMaterials".Translate());
-                sb.Append(costString);
-            }
-            
             return sb.ToString();
-        }
-        
-        // 获取成本字符串
-        private string GetCostString()
-        {
-            var costList = CostList;
-            if (costList.NullOrEmpty())
-            {
-                return "";
-            }
-            
-            var sb = new StringBuilder();
-            foreach (var cost in costList)
-            {
-                sb.AppendLine($"  - {cost.thingDef.LabelCap}: {cost.count}");
-            }
-            return sb.ToString();
-        }
-        
-        // 检查字符串
-        public override string CompInspectStringExtra()
-        {
-            if (parent?.Map == null)
-            {
-                return base.CompInspectStringExtra();
-            }
-            
-            var sb = new StringBuilder();
-            
-            // 显示自动呼叫状态
-            if (autoCallScheduled && calling)
-            {
-                int ticksLeft = callTick - Find.TickManager.TicksGame;
-                sb.Append("WULA_AutoBuildingArrivingIn".Translate(ticksLeft.ToStringTicksToPeriod()));
-            }
-            else if (calling)
-            {
-                int ticksLeft = callTick - Find.TickManager.TicksGame;
-                if (ticksLeft > 0)
-                {
-                    string messageKey = usedGlobalStorage ? 
-                        "WULA_BuildingArrivingInFromGlobal" : 
-                        "WULA_BuildingArrivingIn";
-                    sb.Append(messageKey.Translate(ticksLeft.ToStringTicksToPeriod()));
-                }
-            }
-            else if (!used)
-            {
-                if (IsNonPlayerFaction && Props.canAutoCall)
-                {
-                    sb.Append("WULA_AutoBuildingReady".Translate());
-                }
-                else
-                {
-                    sb.Append("WULA_ReadyToCallBuilding".Translate(Props.buildingToSpawn.label));
-                }
-                
-                // 显示科技需求
-                if (Props.requiredResearch != null && !HasRequiredResearch)
-                {
-                    sb.AppendLine().Append("WULA_MissingResearch".Translate(Props.requiredResearch.label));
-                }
-                
-                // 显示FlyOver需求
-                if (Props.requireFlyOver && !HasRequiredFlyOver)
-                {
-                    sb.AppendLine().Append("WULA_MissingBuildingDropperFlyOver".Translate());
-                }
-                
-                // 显示屋顶状态
-                RoofDef roof = parent.Position.GetRoof(parent.Map);
-                if (roof != null)
-                {
-                    if (roof.isThickRoof && !Props.allowThickRoof)
-                    {
-                        sb.AppendLine().Append("WULA_BlockedByThickRoof".Translate());
-                    }
-                    else if (!roof.isThickRoof && !Props.allowThinRoof)
-                    {
-                        sb.AppendLine().Append("WULA_BlockedByRoof".Translate());
-                    }
-                }
-                
-                // 显示成本
-                string costString = GetCostString();
-                if (!string.IsNullOrEmpty(costString))
-                {
-                    sb.AppendLine().AppendLine("WULA_RequiredMaterials".Translate());
-                    sb.Append(costString);
-                }
-            }
-            
-            string baseInspectString = base.CompInspectStringExtra();
-            if (!string.IsNullOrEmpty(baseInspectString))
-            {
-                if (sb.Length > 0)
-                {
-                    sb.AppendLine();
-                }
-                sb.Append(baseInspectString);
-            }
-            
-            return sb.Length > 0 ? sb.ToString().TrimEnd() : null;
         }
     }
 }

@@ -73,7 +73,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WulaWall</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -258,7 +258,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WulaDoor</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -429,7 +429,7 @@
       <li>BuildingsMisc</li>
     </thingCategories>
     <graphicData>
-      <texPath>Wula/Building/Linked/WulaWall/WulaWall_Atlas</texPath>
+      <texPath>Wula/Building/Linked/WulaShelter/WulaShelter_Atlas</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(1,1)</drawSize>
       <color>(73,185,254,155)</color>
@@ -485,7 +485,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WulaShelter</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -660,7 +660,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WULA_MaintenancePod</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -865,7 +865,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WULA_WeaponArmor_Productor</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -1468,7 +1468,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WULA_Machine_Recharger</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -1646,7 +1646,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WULA_Charging_Station_Synth</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -1819,7 +1819,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WULA_Cube_Productor</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -2014,7 +2014,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>Wula_DarkEnergy_Generators</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -2224,7 +2224,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>Wula_Fusion_Generators</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>

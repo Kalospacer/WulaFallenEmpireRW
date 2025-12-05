@@ -75,7 +75,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>Wula_Sonar_Mine</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -338,7 +338,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>WULA_Cat_Bunker</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -606,7 +606,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>Wula_Base_ATGun_Turret</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -907,7 +907,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>Wula_Base_Laser_Turret</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>
@@ -1210,7 +1210,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_BuildingSpawner">
         <buildingToSpawn>Wula_Base_Mortar_Turret</buildingToSpawn>
-        <destroyBuilding>true</destroyBuilding>
+        <destroyBuilding>false</destroyBuilding>
         <spawnEffecter>WULA_Psi_Skip_Entry</spawnEffecter>
         <spawnSound>VoidStructure_Emerge</spawnSound>
         <inheritFaction>true</inheritFaction>

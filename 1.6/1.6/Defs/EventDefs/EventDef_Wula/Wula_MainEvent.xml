@@ -1078,6 +1078,7 @@
     <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
     <characterName>「军团」,P.I.A</characterName>
     <descriptions>
+      <li>要找活吗？</li>
     </descriptions>
     <conditionalDescriptions>
       <li>

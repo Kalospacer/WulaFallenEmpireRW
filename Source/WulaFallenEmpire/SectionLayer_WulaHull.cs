@@ -164,12 +164,24 @@ namespace WulaFallenEmpire
         private static void AddQuad(LayerSubMesh sm, Vector3 c, float scale, float altitude, Color color)
         {
             int count = sm.verts.Count;
+
+            // 添加微小的UV偏移来避免单像素黑边
+            const float uvOffset = 0.001f;
+            Vector2[] adjustedUVs = new Vector2[]
+            {
+                new Vector2(uvOffset, uvOffset),
+                new Vector2(uvOffset, 1f - uvOffset),
+                new Vector2(1f - uvOffset, 1f - uvOffset),
+                new Vector2(1f - uvOffset, uvOffset)
+            };
+
             for (int i = 0; i < 4; i++)
             {
                 sm.verts.Add(new Vector3(c.x + UVs[i].x * scale, altitude, c.z + UVs[i].y * scale));
-                sm.uvs.Add(UVs[i % 4]);
+                sm.uvs.Add(adjustedUVs[i]); // 使用调整后的UV坐标
                 sm.colors.Add(color);
             }
+
             sm.tris.Add(count);
             sm.tris.Add(count + 1);
             sm.tris.Add(count + 2);
@@ -177,6 +189,7 @@ namespace WulaFallenEmpire
             sm.tris.Add(count + 2);
             sm.tris.Add(count + 3);
         }
+
 
         private static bool IsCornerIndoorMasked(IntVec3 c, CornerType cornerType, Map map)
         {
