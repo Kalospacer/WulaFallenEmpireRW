@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <QuestScriptDef>
+    <defName>WULA_Boss_Sky_Lock</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <expireDaysRange>1</expireDaysRange>
+    <autoAccept>true</autoAccept>
+    <sendAvailableLetter>false</sendAvailableLetter>
+    <defaultChallengeRating>4</defaultChallengeRating>    <!-- 挑战等级（星级） -->
+    <isRootSpecial>true</isRootSpecial>   <!-- 特殊任务 --> 
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->WULA_Boss_Sky_Lock_questName</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->WULA_Boss_Sky_Lock_questDescription</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetMap"/>
+
+        <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+          <thingDef>WULA_Sky_Lock</thingDef>
+          <faction>AncientsHostile</faction>
+          <spawnCount>4</spawnCount>
+          <sendMessageOnSuccess>false</sendMessageOnSuccess>
+          <sendMessageOnFailure>false</sendMessageOnFailure>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>
