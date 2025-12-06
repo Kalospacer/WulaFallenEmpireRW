@@ -38,7 +38,6 @@
         <li Class="QuestNode_GetFaction">
           <storeAs>siteFaction</storeAs>
           <allowEnemy>true</allowEnemy>
-          <mustBeHostileToFactionOf>$asker</mustBeHostileToFactionOf>
           <mustBePermanentEnemy>true</mustBePermanentEnemy>
         </li>
 
