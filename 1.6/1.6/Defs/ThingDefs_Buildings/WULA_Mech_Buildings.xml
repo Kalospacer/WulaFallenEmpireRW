@@ -458,12 +458,12 @@
     </comps>
   </ThingDef>
 
-  <!-- 陆行舰 -->
+  <!-- 灵能泰坦 -->
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Psi_Titan_Cleanzone</defName>
     <label>PAt-6"灵能泰坦"</label>
     <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n由乌拉帝国国教所主持开发的重型灵能机械体，以折跃优雅地穿梭于炮火间，并用强大的护盾抵挡敌方射弹侵袭。该机体的内部镌刻了无数的术式环路，这使其就像一个行走的灵能发射器，可以驱使各种强大的灵能能力。</description>
-    <uiIconPath>Wula/Things/Wula_Mech_Mobile_Factory/Wula_Mech_Mobile_Factory_Incoming</uiIconPath>
+    <uiIconPath>Wula/Things/Wula_Psi_Titan/Wula_Psi_Titan_Incoming</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
     <tradeability>None</tradeability>
@@ -516,7 +516,7 @@
     <placeWorkers>
       <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
     </placeWorkers>
-    <designationCategory>WULA_Buildings</designationCategory>
+    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
         <skyfallerDef>Wula_Psi_Titan_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
@@ -533,7 +533,7 @@
     <size>(1,1)</size>
     <thingClass>WulaFallenEmpire.Skyfaller_PawnSpawner</thingClass>
     <graphicData>
-      <texPath>Wula/Things/Wula_Mech_Mobile_Factory/Wula_Mech_Mobile_Factory_Incoming</texPath>
+      <texPath>Wula/Things/Wula_Psi_Titan/Wula_Psi_Titan_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
       <drawSize>(9,9)</drawSize>

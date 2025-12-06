@@ -46,6 +46,9 @@
           <!-- 可选：指定特定的设施名称 -->
           <!-- <requiredFacility>BombardmentFacility</requiredFacility> -->
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <!-- 战舰编队 -->
@@ -93,6 +96,9 @@
           <!-- <specificFlyOverDef>ARA_HiveShip</specificFlyOverDef> -->
           <!-- 可选：指定特定的设施名称 -->
           <!-- <requiredFacility>BombardmentFacility</requiredFacility> -->
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>
@@ -142,6 +148,9 @@
           <!-- 可选：指定特定的设施名称 -->
           <!-- <requiredFacility>BombardmentFacility</requiredFacility> -->
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -170,6 +179,9 @@
 
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_DestroyFlyOverByFacilities" />
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
 
@@ -217,6 +229,9 @@
         <!-- 预览配置 -->
         <showSectorPreview>true</showSectorPreview>
         <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>
@@ -268,6 +283,9 @@
         <!-- 预览配置 -->
         <showSectorPreview>true</showSectorPreview>
         <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>
@@ -326,6 +344,9 @@
         <!-- 预览配置 -->
         <showSectorPreview>false</showSectorPreview>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -380,6 +401,9 @@
         <!-- <flyOverDef></flyOverDef> -->
         <requiredFacility>HarborFacility</requiredFacility>
         <facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</facilityNotFoundMessage>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>
@@ -447,6 +471,9 @@
         <requiredFacility>HarborFacility</requiredFacility>
         <facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</facilityNotFoundMessage>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -512,6 +539,9 @@
         <!-- <flyOverDef></flyOverDef> -->
         <requiredFacility>HarborFacility</requiredFacility>
         <facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</facilityNotFoundMessage>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>
@@ -579,6 +609,9 @@
         <requiredFacility>HarborFacility</requiredFacility>
         <facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</facilityNotFoundMessage>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -644,6 +677,9 @@
         <!-- <flyOverDef></flyOverDef> -->
         <requiredFacility>HarborFacility</requiredFacility>
         <facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</facilityNotFoundMessage>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>
@@ -711,6 +747,9 @@
         <requiredFacility>HarborFacility</requiredFacility>
         <facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</facilityNotFoundMessage>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   
@@ -762,6 +801,9 @@
       <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Firepower_Minigun_Technology</requiredResearch>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -812,6 +854,9 @@
       <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Firepower_Cannon_Technology</requiredResearch>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -852,6 +897,9 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Firepower_Cannon_Technology</requiredResearch>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>
@@ -895,6 +943,9 @@
       <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Firepower_EnergyLance_Technology</requiredResearch>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -935,6 +986,9 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Firepower_EnergyLance_Technology</requiredResearch>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>
@@ -985,6 +1039,9 @@
       <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Firepower_Primary_Cannon_Technology</requiredResearch>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
+      </li>
     </comps>
   </AbilityDef>
   <AbilityDef>
@@ -1025,6 +1082,9 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityResearchPrereq">
         <requiredResearch>WULA_Firepower_Primary_Cannon_Technology</requiredResearch>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
+        <factionDef>Wula_PIA_Legion_Faction</factionDef>
       </li>
     </comps>
   </AbilityDef>

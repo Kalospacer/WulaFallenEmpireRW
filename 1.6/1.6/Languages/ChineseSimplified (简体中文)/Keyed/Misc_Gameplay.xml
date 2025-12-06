@@ -443,4 +443,6 @@
   <WULA_Designator_CallSkyfallerInAreaDesc>标记一块区域，激活其中所有需要空投的乌拉帝国建筑和战争机械体。\n\n区域空投依然需要计算材料消耗，如果材料不足则不会进行空投。</WULA_Designator_CallSkyfallerInAreaDesc>
   <WULA_AreaCallInitiated>区域空投已下达</WULA_AreaCallInitiated>
   <WULA_NoCallableBuildingsInArea>区域内没有可接受空投指令的乌拉帝国空投区</WULA_NoCallableBuildingsInArea>
+
+  <WULA_AbilityRequiresNonHostility>与{0}敌对时无法使用此能力</WULA_AbilityRequiresNonHostility>
 </LanguageData>

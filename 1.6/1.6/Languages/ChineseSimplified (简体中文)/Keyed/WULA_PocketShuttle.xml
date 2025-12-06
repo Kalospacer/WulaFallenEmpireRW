@@ -2,20 +2,20 @@
 <LanguageData>
 
   <!-- Building_ArmedShuttleWithPocket 相关文本 -->
-  <WULA.PocketSpace.Status>生活区状态</WULA.PocketSpace.Status>
+  <WULA.PocketSpace.Status>\n生活区状态</WULA.PocketSpace.Status>
   <WULA.PocketSpace.Ready>已就绪</WULA.PocketSpace.Ready>
   <WULA.PocketSpace.NotGenerated>未初始化</WULA.PocketSpace.NotGenerated>
   
   <!-- Gizmo 按钮文本 -->
   <WULA.PocketSpace.Initialize>初始化生活区</WULA.PocketSpace.Initialize>
-  <WULA.PocketSpace.InitializeDesc>初始化穿梭机的内部口袋空间。这将在穿梭机内部创建一个可供成员休息工作的生活区。</WULA.PocketSpace.InitializeDesc>
+  <WULA.PocketSpace.InitializeDesc>初始化穿梭机的生活区空间。这将在穿梭机内部创建一个可供成员休息工作的生活区。在这个空间内的殖民者无法参与穿梭机的驾驶。</WULA.PocketSpace.InitializeDesc>
   
   <WULA.PocketSpace.Enter>进入生活区</WULA.PocketSpace.Enter>
-  <WULA.PocketSpace.EnterDesc>进入穿梭机的内部口袋空间。选中的殖民者将被传送到内部空间。</WULA.PocketSpace.EnterDesc>
+  <WULA.PocketSpace.EnterDesc>进入穿梭机的生活区空间——选中的殖民者将被传送到生活区空间。在这个空间内的殖民者无法参与穿梭机的驾驶。</WULA.PocketSpace.EnterDesc>
   
   
   <WULA.PocketSpace.ViewMap>查看生活区</WULA.PocketSpace.ViewMap>
-  <WULA.PocketSpace.ViewMapDesc>切换视角到穿梭机的内部口袋空间。</WULA.PocketSpace.ViewMapDesc>
+  <WULA.PocketSpace.ViewMapDesc>切换视角到穿梭机的生活区空间。</WULA.PocketSpace.ViewMapDesc>
   
   
   <!-- 消息文本 -->

@@ -18,6 +18,8 @@ namespace WulaFallenEmpire
         public SlateRef<Map> map;
         public SlateRef<bool> sendMessageOnSuccess = true;
         public SlateRef<bool> sendMessageOnFailure = true;
+        public SlateRef<bool> allowThickRoof = false;
+        public SlateRef<bool> allowThinRoof = true;
 
         protected override bool TestRunInt(Slate slate)
         {
@@ -35,13 +37,6 @@ namespace WulaFallenEmpire
                 return false;
             }
 
-            var compProps = thingDef.GetValue(slate).comps?.OfType<CompProperties_PrefabSkyfallerCaller>().FirstOrDefault();
-            if (compProps == null)
-            {
-                Log.Warning($"[QuestNode] ThingDef {thingDef.GetValue(slate).defName} does not have CompProperties_PrefabSkyfallerCaller");
-                return false;
-            }
-
             return true;
         }
 
@@ -56,6 +51,8 @@ namespace WulaFallenEmpire
             Map targetMap = map.GetValue(slate) ?? Find.CurrentMap;
             bool doSendMessageOnSuccess = sendMessageOnSuccess.GetValue(slate);
             bool doSendMessageOnFailure = sendMessageOnFailure.GetValue(slate);
+            bool targetAllowThickRoof = allowThickRoof.GetValue(slate);
+            bool targetAllowThinRoof = allowThinRoof.GetValue(slate);
 
             if (targetThingDef == null)
             {
@@ -69,18 +66,10 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // 获取组件属性
-            var compProps = targetThingDef.comps?.OfType<CompProperties_PrefabSkyfallerCaller>().FirstOrDefault();
-            if (compProps == null)
-            {
-                Log.Error($"[QuestNode] ThingDef {targetThingDef.defName} does not have CompProperties_PrefabSkyfallerCaller");
-                return;
-            }
-
             Log.Message($"[QuestNode] Attempting to spawn {targetSpawnCount} {targetThingDef.defName} on map {targetMap}");
 
             // 执行生成
-            int successCount = SpawnThingsAtValidLocations(targetThingDef, targetFaction, targetSpawnCount, targetMap);
+            int successCount = SpawnThingsAtValidLocations(targetThingDef, targetFaction, targetSpawnCount, targetMap, targetAllowThickRoof, targetAllowThinRoof);
 
             // 发送结果消息
             if (successCount > 0)
@@ -108,23 +97,16 @@ namespace WulaFallenEmpire
         /// <summary>
         /// 在有效位置生成多个建筑
         /// </summary>
-        private int SpawnThingsAtValidLocations(ThingDef thingDef, Faction faction, int spawnCount, Map targetMap)
+        private int SpawnThingsAtValidLocations(ThingDef thingDef, Faction faction, int spawnCount, Map targetMap, bool allowThickRoof, bool allowThinRoof)
         {
             int successCount = 0;
             int attempts = 0;
             const int maxAttempts = 100; // 最大尝试次数
 
-            var compProps = thingDef.comps.OfType<CompProperties_PrefabSkyfallerCaller>().FirstOrDefault();
-            if (compProps == null)
-            {
-                Log.Error($"[QuestNode] Could not find CompProperties_PrefabSkyfallerCaller for {thingDef.defName}");
-                return 0;
-            }
-
             for (int i = 0; i < spawnCount && attempts < maxAttempts; i++)
             {
                 attempts++;
-                IntVec3 spawnPos = FindSpawnPositionForSkyfaller(targetMap, thingDef, compProps);
+                IntVec3 spawnPos = FindSpawnPositionForSkyfaller(targetMap, thingDef, allowThickRoof, allowThinRoof);
 
                 if (spawnPos.IsValid)
                 {
@@ -152,7 +134,7 @@ namespace WulaFallenEmpire
         /// <summary>
         /// 查找适合Skyfaller空投的位置
         /// </summary>
-        private IntVec3 FindSpawnPositionForSkyfaller(Map map, ThingDef thingDef, CompProperties_SkyfallerCaller compProps)
+        private IntVec3 FindSpawnPositionForSkyfaller(Map map, ThingDef thingDef, bool allowThickRoof, bool allowThinRoof)
         {
             var potentialCells = new List<IntVec3>();
 
@@ -160,7 +142,7 @@ namespace WulaFallenEmpire
             var baseCells = GetOpenAreaCellsNearBase(map, thingDef.Size);
             foreach (var cell in baseCells)
             {
-                if (IsValidForSkyfallerDrop(map, cell, thingDef, compProps))
+                if (IsValidForSkyfallerDrop(map, cell, thingDef, allowThickRoof, allowThinRoof))
                 {
                     potentialCells.Add(cell);
                 }
@@ -176,7 +158,7 @@ namespace WulaFallenEmpire
             var openAreas = FindOpenAreas(map, thingDef.Size, 500);
             foreach (var cell in openAreas)
             {
-                if (IsValidForSkyfallerDrop(map, cell, thingDef, compProps))
+                if (IsValidForSkyfallerDrop(map, cell, thingDef, allowThickRoof, allowThinRoof))
                 {
                     potentialCells.Add(cell);
                 }
@@ -197,7 +179,7 @@ namespace WulaFallenEmpire
                     Rand.Range(thingDef.Size.z, map.Size.z - thingDef.Size.z)
                 );
 
-                if (randomCell.InBounds(map) && IsValidForSkyfallerDrop(map, randomCell, thingDef, compProps))
+                if (randomCell.InBounds(map) && IsValidForSkyfallerDrop(map, randomCell, thingDef, allowThickRoof, allowThinRoof))
                 {
                     potentialCells.Add(randomCell);
                 }
@@ -216,7 +198,7 @@ namespace WulaFallenEmpire
         /// <summary>
         /// 基于Skyfaller实际行为的有效性检查
         /// </summary>
-        private bool IsValidForSkyfallerDrop(Map map, IntVec3 cell, ThingDef thingDef, CompProperties_SkyfallerCaller compProps)
+        private bool IsValidForSkyfallerDrop(Map map, IntVec3 cell, ThingDef thingDef, bool allowThickRoof, bool allowThinRoof)
         {
             // 1. 检查边界
             if (!cell.InBounds(map))
@@ -230,11 +212,11 @@ namespace WulaFallenEmpire
                 if (!occupiedCell.InBounds(map))
                     return false;
 
-                // 3. 检查厚岩顶 - 绝对不允许
+                // 3. 检查厚岩顶 - 绝对不允许（除非明确允许）
                 RoofDef roof = occupiedCell.GetRoof(map);
                 if (roof != null && roof.isThickRoof)
                 {
-                    if (!compProps.allowThickRoof)
+                    if (!allowThickRoof)
                         return false;
                 }
 
@@ -274,7 +256,7 @@ namespace WulaFallenEmpire
                 // 6. 检查薄岩顶和普通屋顶的条件
                 if (roof != null && !roof.isThickRoof)
                 {
-                    if (!compProps.allowThinRoof)
+                    if (!allowThinRoof)
                         return false;
                 }
             }

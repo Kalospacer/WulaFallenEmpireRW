@@ -436,6 +436,7 @@
     <description>HAp-6"战车"车体正面的突击炮，射程很短并且只能在静止状态开火，但是威力巨大，专门用于对付坚固的工事和成片的人群。</description>
     <tickerType>Normal</tickerType>
     <techLevel>Spacer</techLevel>
+    <tradeability>None</tradeability>
     <uiIconPath>Wula/Projectile/WULA_Shrapnel</uiIconPath>
     <graphicData>
       <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>

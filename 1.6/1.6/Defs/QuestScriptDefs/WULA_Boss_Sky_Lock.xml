@@ -5,7 +5,7 @@
     <rootSelectionWeight>0</rootSelectionWeight>
     <expireDaysRange>1</expireDaysRange>
     <autoAccept>true</autoAccept>
-    <sendAvailableLetter>false</sendAvailableLetter>
+    <sendAvailableLetter>true</sendAvailableLetter>
     <defaultChallengeRating>4</defaultChallengeRating>    <!-- 挑战等级（星级） -->
     <isRootSpecial>true</isRootSpecial>   <!-- 特殊任务 --> 
 
@@ -23,14 +23,373 @@
       <nodes>
         <li Class="QuestNode_GetMap"/>
 
-        <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
-          <thingDef>WULA_Sky_Lock</thingDef>
-          <faction>AncientsHostile</faction>
-          <spawnCount>4</spawnCount>
-          <sendMessageOnSuccess>false</sendMessageOnSuccess>
-          <sendMessageOnFailure>false</sendMessageOnFailure>
+        <!-- 产生超链接 -->
+        <li Class="WulaFallenEmpire.QuestNode_Hyperlinks">
+          <thingDefs>
+            <li>Wula_Psi_Titan</li>
+            <li>Wula_AI_Rocket_Panzer</li>
+            <li>Wula_AI_Heavy_Panzer</li>
+            <li>WULA_Sky_Lock</li>
+          </thingDefs>
+          <factionDefs>
+            <li>Wula_PIA_Legion_Faction</li>
+          </factionDefs>
+        </li>
+
+        <li Class="QuestEditor_Library.QuestNode_RandomCustomMap">
+          <datas>
+            <li>
+              <key>Wula_PsiTitan_Boss_Map</key>
+              <value>1</value>
+            </li>
+          </datas>
+          <buffer>5</buffer>
+          <bufferMin>10</bufferMin>
+          <siteIconPath>Things/Building/Natural/Hive/HiveC</siteIconPath>
+          <expandingIconPath>Things/Building/Natural/Hive/HiveC</expandingIconPath>
+          <storeAs>site</storeAs>
+          <overrideFaction>AncientsHostile</overrideFaction>
+          <disdestroyBecauseOfNoColonist>true</disdestroyBecauseOfNoColonist>
+          <distance>
+            <min>5</min>
+            <max>10</max>
+          </distance>
+          <blacklist />
+        </li>
+
+        <!-- 灵能泰坦被击毁··· -->
+        <li Class="QuestNode_Signal">
+          <inSignal>PsiTitan.0.Destroyed</inSignal>
+          <node Class="QuestNode_End">
+            <outcome>Success</outcome>
+            <sendStandardLetter>true</sendStandardLetter>
+          </node>
         </li>
       </nodes>
     </root>
   </QuestScriptDef>
+  <QuestEditor_Library.CustomMapDataDef>
+    <defName>Wula_PsiTitan_Boss_Map</defName>
+    <label>发现灵能泰坦的地区</label>
+    <fogged>true</fogged>
+    <size>(128, 1, 128)</size>
+    <isPart>true</isPart>
+    <commonality>0</commonality>
+    <faction>MapFaction</faction>
+    <pawns>
+      <li>
+        <key>(65, 0, 68)</key>
+        <value>
+          <li>
+            <dataName>PsiTitan</dataName>
+            <kind>Wula_Psi_Titan</kind>
+            <enableLord>true</enableLord>
+            <lordDataName>PsiTitanGroup</lordDataName>
+            <count>1</count>
+            <faction>AncientsHostile</faction>
+            <duty>DefendBase</duty>
+            <spawnType>MapGeneration</spawnType>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(19, 0, 16)</key>
+        <value>
+          <li Class="QuestEditor_Library.PawnSpawnData_Random">
+            <dataName>AIHeavyPanzer</dataName>
+            <count>1</count>
+            <spawnType>MapGeneration</spawnType>
+            <datas>
+              <li>
+                <dataName>AIPanzer</dataName>
+                <kind>Wula_AI_Heavy_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+              <li>
+                <dataName>AIPanzerRocket</dataName>
+                <kind>Wula_AI_Rocket_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+            </datas>
+          </li>
+          <li Class="QuestEditor_Library.PawnSpawnData_Random">
+            <dataName>AIHeavyPanzer</dataName>
+            <count>1</count>
+            <spawnType>MapGeneration</spawnType>
+            <datas>
+              <li>
+                <dataName>AIPanzer</dataName>
+                <kind>Wula_AI_Heavy_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+              <li>
+                <dataName>AIPanzerRocket</dataName>
+                <kind>Wula_AI_Rocket_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+            </datas>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(107, 0, 15)</key>
+        <value>
+          <li Class="QuestEditor_Library.PawnSpawnData_Random">
+            <dataName>AIHeavyPanzer</dataName>
+            <count>1</count>
+            <spawnType>MapGeneration</spawnType>
+            <datas>
+              <li>
+                <dataName>AIPanzer</dataName>
+                <kind>Wula_AI_Heavy_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+              <li>
+                <dataName>AIPanzerRocket</dataName>
+                <kind>Wula_AI_Rocket_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+            </datas>
+          </li>
+          <li Class="QuestEditor_Library.PawnSpawnData_Random">
+            <dataName>AIHeavyPanzer</dataName>
+            <count>1</count>
+            <spawnType>MapGeneration</spawnType>
+            <datas>
+              <li>
+                <dataName>AIPanzer</dataName>
+                <kind>Wula_AI_Heavy_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+              <li>
+                <dataName>AIPanzerRocket</dataName>
+                <kind>Wula_AI_Rocket_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+            </datas>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(102, 0, 112)</key>
+        <value>
+          <li Class="QuestEditor_Library.PawnSpawnData_Random">
+            <dataName>AIHeavyPanzer</dataName>
+            <count>1</count>
+            <spawnType>MapGeneration</spawnType>
+            <datas>
+              <li>
+                <dataName>AIPanzer</dataName>
+                <kind>Wula_AI_Heavy_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+              <li>
+                <dataName>AIPanzerRocket</dataName>
+                <kind>Wula_AI_Rocket_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+            </datas>
+          </li>
+          <li Class="QuestEditor_Library.PawnSpawnData_Random">
+            <dataName>AIHeavyPanzer</dataName>
+            <count>1</count>
+            <spawnType>MapGeneration</spawnType>
+            <datas>
+              <li>
+                <dataName>AIPanzer</dataName>
+                <kind>Wula_AI_Heavy_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+              <li>
+                <dataName>AIPanzerRocket</dataName>
+                <kind>Wula_AI_Rocket_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+            </datas>
+          </li>
+        </value>
+      </li>
+      <li>
+        <key>(12, 0, 115)</key>
+        <value>
+          <li Class="QuestEditor_Library.PawnSpawnData_Random">
+            <dataName>AIHeavyPanzer</dataName>
+            <count>1</count>
+            <spawnType>MapGeneration</spawnType>
+            <datas>
+              <li>
+                <dataName>AIPanzer</dataName>
+                <kind>Wula_AI_Heavy_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+              <li>
+                <dataName>AIPanzerRocket</dataName>
+                <kind>Wula_AI_Rocket_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+            </datas>
+          </li>
+          <li Class="QuestEditor_Library.PawnSpawnData_Random">
+            <dataName>AIHeavyPanzer</dataName>
+            <count>1</count>
+            <spawnType>MapGeneration</spawnType>
+            <datas>
+              <li>
+                <dataName>AIPanzer</dataName>
+                <kind>Wula_AI_Heavy_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+              <li>
+                <dataName>AIPanzerRocket</dataName>
+                <kind>Wula_AI_Rocket_Panzer</kind>
+                <enableLord>true</enableLord>
+                <lordDataName>PsiTitanGroup</lordDataName>
+                <count>1~2</count>
+                <faction>AncientsHostile</faction>
+                <duty>DefendBase</duty>
+                <spawnType>MapGeneration</spawnType>
+              </li>
+            </datas>
+          </li>
+        </value>
+      </li>
+    </pawns>
+    <thingDatas>
+      <li>
+        <def>WULA_Sky_Lock</def>
+        <faction>PlayerColony</faction>
+        <allRect>
+          <li>(11,11,11,11)</li>
+          <li>(116,7,116,7)</li>
+          <li>(3,124,3,124)</li>
+          <li>(107,118,107,118)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>AncientTunnelerHusk</def>
+        <faction>PlayerColony</faction>
+        <allRect>
+          <li>(38,49,38,49)</li>
+          <li>(70,44,70,44)</li>
+          <li>(94,35,94,35)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>AncientTank</def>
+        <faction>PlayerColony</faction>
+        <allRect>
+          <li>(27,24,27,24)</li>
+          <li>(26,83,26,83)</li>
+          <li>(87,74,87,74)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>AncientMiniWarwalkerRemains</def>
+        <faction>PlayerColony</faction>
+        <allRect>
+          <li>(84,28,84,28)</li>
+          <li>(94,52,94,52)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>ShipChunk</def>
+        <faction>PlayerColony</faction>
+        <allRect>
+          <li>(56,24,56,24)</li>
+          <li>(57,27,57,27)</li>
+          <li>(51,38,51,38)</li>
+          <li>(57,30,57,30)</li>
+          <li>(68,30,68,30)</li>
+          <li>(42,62,42,62)</li>
+          <li>(53,102,53,102)</li>
+          <li>(75,104,75,104)</li>
+          <li>(87,100,87,100)</li>
+          <li>(104,92,104,92)</li>
+        </allRect>
+      </li>
+      <li>
+        <def>AncientAPC</def>
+        <faction>PlayerColony</faction>
+        <allRect>
+          <li>(92,67,92,67)</li>
+          <li>(105,57,105,57)</li>
+        </allRect>
+      </li>
+    </thingDatas>
+  </QuestEditor_Library.CustomMapDataDef>
 </Defs>

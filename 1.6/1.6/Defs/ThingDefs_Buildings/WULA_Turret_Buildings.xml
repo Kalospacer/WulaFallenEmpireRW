@@ -1484,6 +1484,9 @@
     <pathCost>0</pathCost>
     <overrideMinifiedRot>North</overrideMinifiedRot>
     <minifiedDrawOffset>(0, 0, 0.2)</minifiedDrawOffset>
+    <researchPrerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </researchPrerequisites>
     <building>
       <isEdifice>false</isEdifice>
       <isAttachment>true</isAttachment>

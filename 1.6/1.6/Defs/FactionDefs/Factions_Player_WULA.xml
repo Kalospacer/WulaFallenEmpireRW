@@ -135,18 +135,6 @@
     <disallowedRaidAgeRestrictions>
       <li MayRequire="Ludeon.RimWorld.Biotech">Children</li>
     </disallowedRaidAgeRestrictions>
-    <permanentEnemyToEveryoneExcept>
-      <li>WULA_Awakened_Synth</li>
-      <li>OutlanderCivil</li>
-      <li>TribeCivil</li>
-      <li>PlayerTribe</li>
-      <li>PlayerColony</li>
-      <li>Ancients</li>
-      <li MayRequire="Ludeon.RimWorld.Ideology">Beggars</li>
-      <li MayRequire="Ludeon.RimWorld.Anomaly">ResearchExpedition</li>
-      <li MayRequire="Ludeon.RimWorld.Odyssey">GravshipCrew</li>
-      <li MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</li>
-    </permanentEnemyToEveryoneExcept>
     <backstoryCategories>
       <li>Wula_Backstory_Categories</li>
     </backstoryCategories>

@@ -1044,6 +1044,7 @@
         </li>
       </lifeStageAges>
       <baseHealthScale>2</baseHealthScale>
+      <mechWeightClass>Heavy</mechWeightClass>
     </race>
     <tools Inherit="False">
       <li>
@@ -1186,6 +1187,7 @@
       <baseHealthScale>10</baseHealthScale>
 
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
+      <mechWeightClass>Heavy</mechWeightClass>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
     <tools Inherit="False">
@@ -1315,6 +1317,7 @@
       <baseHealthScale>10</baseHealthScale>
 
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
+      <mechWeightClass>Heavy</mechWeightClass>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
     <tools Inherit="False">
@@ -1420,6 +1423,7 @@
         </li>
       </lifeStageAges>
       <baseHealthScale>5</baseHealthScale>
+      <mechWeightClass>Heavy</mechWeightClass>
     </race>
     <tools Inherit="False">
       <li>
@@ -1537,6 +1541,7 @@
       <baseHealthScale>25</baseHealthScale>
 
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
+      <mechWeightClass>Heavy</mechWeightClass>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
     <tools Inherit="False">
@@ -1960,6 +1965,7 @@
       <baseHealthScale>50</baseHealthScale>
 
       <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
+      <mechWeightClass>Heavy</mechWeightClass>
       <!-- <thinkTreeConstant>WarUrchinConstant</thinkTreeConstant> -->
     </race>
     <tools Inherit="False">

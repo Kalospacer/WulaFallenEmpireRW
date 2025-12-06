@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Ability\CompAbilityEffect_LaunchMultiProjectile.cs" />
     <Compile Include="Ability\CompAbilityEffect_ResearchPrereq.cs" />
+    <Compile Include="Ability\CompAbilityEffect_RequiresNonHostility.cs" />
     <Compile Include="Ability\WULA_AbilityAreaDestruction\CompAbilityEffect_AreaDestruction.cs" />
     <Compile Include="Ability\WULA_AbilityAreaDestruction\CompProperties_AbilityAreaDestruction.cs" />
     <Compile Include="Ability\WULA_AbilityBombardment\CompAbilityEffect_Bombardment.cs" />
@@ -359,6 +360,7 @@
     <Compile Include="Verb\MeleeAttack_Cleave\Verb_MeleeAttack_Cleave.cs" />
     <Compile Include="Verb\Verb_ShootShotgunWithOffset.cs" />
     <Compile Include="Verb\Verb_ShootWithOffset.cs" />
+    <Compile Include="WorkGiver\WorkGiver_DeepDrill_WulaConstructor.cs" />
     <Compile Include="WulaFallenEmpireMod.cs" />
     <Compile Include="WulaDefOf.cs" />
     <Compile Include="HediffComp\HediffComp_DamageResponse.cs" />

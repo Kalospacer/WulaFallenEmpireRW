@@ -21,13 +21,10 @@ namespace WulaFallenEmpire
         #region 静态图标定义（使用原版MapPortal的图标）
         
         /// <summary>查看口袋地图图标</summary>
-        private static readonly Texture2D ViewPocketMapTex = ContentFinder<Texture2D>.Get("UI/Commands/ViewCave");
-        
-        /// <summary>取消进入图标</summary>
-        private static readonly Texture2D CancelEnterTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
+        private static readonly Texture2D ViewPocketMapTex = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_View_ArmedShuttle_Pocket");
         
         /// <summary>默认进入图标</summary>
-        private static readonly Texture2D DefaultEnterTex = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter");
+        private static readonly Texture2D DefaultEnterTex = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_Enter_ArmedShuttle_Pocket");
         
         #endregion
         #region 口袋空间字段

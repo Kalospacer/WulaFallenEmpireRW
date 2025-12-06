@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_ArmedShuttleWithPocket_Cleanzone</defName>
+    <label>CVe-3"渡鸦"</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处派遣一艘穿梭机。\n\nCVe-3"渡鸦"是乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾，可以抵挡大部分射弹。</description>
+    <uiIconPath>Wula/Building/WULA_ArmedShuttle_Moving</uiIconPath>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(9,13)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <rotatable>false</rotatable>
+    <neverMultiSelect>false</neverMultiSelect>
+    <blockLight>false</blockLight>
+    <holdsRoof>false</holdsRoof>
+    <coversFloor>false</coversFloor>
+    <blockWind>false</blockWind>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <fillPercent>0</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(9,13)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <stuffCategories Inherit="False" />
+    <researchPrerequisites Inherit="False">
+      <li>WULA_ArmedShuttle_Technology</li>
+    </researchPrerequisites>
+    <costStuffCount>0</costStuffCount>
+    <costList>
+      <WULA_Alloy>500</WULA_Alloy>
+      <WULA_Neutronium>150</WULA_Neutronium>
+      <WULA_Dark_Matter_Item>25</WULA_Dark_Matter_Item>
+      <ShuttleEngine>4</ShuttleEngine>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <isAirtight>false</isAirtight>
+      <isStuffableAirtight>false</isStuffableAirtight>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PrefabSkyfallerCaller">
+        <prefabDefName>WULA_ArmedShuttleWithPocket_SP_Prefab</prefabDefName>
+        <freePrefab>true</freePrefab>
+        <skyfallerDef>WULA_ArmedShuttleWithPocket_Incoming</skyfallerDef>
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="ShuttleSkyfallerBase">
+    <defName>WULA_ArmedShuttleWithPocket_Incoming</defName>
+    <label>CVe-3"渡鸦" (接近中)</label>
+    <thingClass>WulaFallenEmpire.Skyfaller_PrefabSpawner</thingClass>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Wula/Building/WULA_ArmedShuttle_Moving</texPath>
+      <drawSize>(14,14)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
+    <size>(9,13)</size>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <anticipationSound>Shuttle_Landing</anticipationSound>
+      <anticipationSoundTicks>250</anticipationSoundTicks>
+      <ticksToImpactRange>200~250</ticksToImpactRange>
+      <shadowSize>(9,13)</shadowSize>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0.95,1.5)</li>
+          <li>(1,0)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0.6,0.6)</li>
+          <li>(0.95,0.1)</li>
+          <li>(0.99,0.01)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerFaction"/>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_ArmedShuttleWithPocket</defName>
+    <label>CVe-3"渡鸦"</label>
+    <description>乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾，可以抵挡大部分射弹。</description>
+    <thingClass>WulaFallenEmpire.Building_ArmedShuttleWithPocket</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <size>(9,13)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconScale>1</uiIconScale>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Wula/Building/WULA_ArmedShuttle</texPath>
+      <!-- <shaderType>CutoutComplex</shaderType> -->
+      <drawSize>(14,14)</drawSize>
+    </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>5000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1</WorkToBuild>
+      <Mass>12000</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <costList>
+      <WULA_Alloy>500</WULA_Alloy>
+      <WULA_Neutronium>150</WULA_Neutronium>
+      <WULA_Dark_Matter_Item>25</WULA_Dark_Matter_Item>
+      <ShuttleEngine>4</ShuttleEngine>
+    </costList>
+    <canOverlapZones>true</canOverlapZones>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <claimable>false</claimable>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+      <forcedCostLeavings>
+        <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
+        <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
+        <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
+        <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
+      </forcedCostLeavings>
+      <turretGunDef>WULA_Shuttle_Autocannon</turretGunDef>
+      <turretBurstCooldownTime>5.5</turretBurstCooldownTime>
+      <turretTopDrawSize>1.75</turretTopDrawSize>
+      <turretTopOffset>(0, 0.05)</turretTopOffset>
+    </building>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+      <li>ITab_Shells</li>
+    </inspectorTabs>
+    <researchPrerequisites>
+      <li>Shuttles</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_Shuttle">
+        <shipDef>Ship_ArmedShuttle</shipDef>
+      </li>
+      <li Class="CompProperties_Launchable">
+        <fuelPerTile>3</fuelPerTile>
+        <minFuelCost>50</minFuelCost>
+        <skyfallerLeaving>ArmedShuttleLeaving_WULA</skyfallerLeaving>
+        <worldObjectDef>PassengerShuttle</worldObjectDef>
+        <cooldownTicks>3750</cooldownTicks>        <!-- 1.5 hours -->
+        <fixedLaunchDistanceMax>62</fixedLaunchDistanceMax>
+        <cooldownEndedMessage>{0} is ready to launch again.</cooldownEndedMessage>
+      </li>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>5000</massCapacity>
+        <max1PerGroup>true</max1PerGroup>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+        <pawnLoadedSound>Shuttle_PawnLoaded</pawnLoadedSound>
+        <pawnExitSound>Shuttle_PawnExit</pawnExitSound>
+        <showMassInInspectString>true</showMassInInspectString>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>500</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>500</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelLabel>Chemfuel</fuelLabel>
+        <fuelGizmoLabel>Chemfuel</fuelGizmoLabel>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <canEjectFuel>true</canEjectFuel>
+      </li>
+      <li Class="CompProperties_AmbientSound">
+        <sound>ShuttleIdle_Ambience</sound>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaShield">
+        <radius>15</radius>
+        <baseHitPoints>300</baseHitPoints>
+        <rechargeDelay>2400</rechargeDelay>
+        <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
+        
+        <!-- 效果器配置 -->
+        <absorbEffecter>Interceptor_BlockedProjectile</absorbEffecter>
+        <interceptEffecter>Interceptor_BlockedProjectile</interceptEffecter>
+        <breakEffecter>Shield_Break</breakEffecter>
+        <reactivateEffecter>BulletShieldGenerator_Reactivate</reactivateEffecter>
+        
+        <color>(0.9, 0.2, 0.2, 0.5)</color> <!-- 护盾气泡的颜色 (RGBA) -->
+        
+        <!-- 拦截设置 -->
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>false</interceptNonHostileProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+      
+        <!-- 反射设置 -->
+        <canReflect>true</canReflect>
+        <reflectChance>0.85</reflectChance>
+        <reflectAngleRange>30</reflectAngleRange>
+        <reflectCost>0</reflectCost>
+        <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
+        <radius>15</radius>
+        <damageIntervalTicks>30</damageIntervalTicks>
+        <damageDef>Flame</damageDef>
+        <damageAmount>8</damageAmount>
+        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
+        <affectFriendly>false</affectFriendly>
+        <affectNeutral>false</affectNeutral>
+        <affectHostile>true</affectHostile>
+        <affectBuildings>false</affectBuildings>
+        <ignoreFactionRelations>false</ignoreFactionRelations>
+        <startEnabled>false</startEnabled>
+        <toggleLabel>热辐射</toggleLabel>
+        <toggleDescription>CVe-3"渡鸦"可以启动防御设施，蒸发胆敢进入反射立场内的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
+        <toggleIconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</toggleIconPath>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.PocketMapProperties">
+        <pocketMapGenerator>WULA_PocketSpace_Small</pocketMapGenerator>
+        <exitDef>WULA_PocketMapExit</exitDef>
+        <pocketMapSize>(25, 25)</pocketMapSize>
+        <allowDirectAccess>true</allowDirectAccess>
+      </li>
+    </modExtensions>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+    <uiOrder>2601</uiOrder>
+  </ThingDef>
+
+  <ThingDef ParentName="Wall">
+    <defName>WulaWall_Inner</defName>
+    <label>乌拉帝国内舱壁墙</label>
+    <description>乌拉帝国内舱壁墙，拥有预埋的管线，可以提供来自穿梭机的电力。</description>
+    <uiOrder>1800</uiOrder>
+    <uiIconPath>Wula/Building/Linked/WULA_Fortress_Wall_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Wula/Building/Linked/WulaWall/WulaWall_Atlas</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <statBases>
+      <MarketValue>20</MarketValue>
+      <Beauty>1</Beauty>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>0</Flammability>
+      <MeditationFocusStrength>0.22</MeditationFocusStrength>
+      <Cleanliness>0.1</Cleanliness>
+    </statBases>
+    <useHitPoints>false</useHitPoints>
+    <designationCategory Inherit="False"/>
+    <stuffCategories Inherit="False"/>
+    <costStuffCount>0</costStuffCount>
+    <costList>
+      <WULA_Alloy>4</WULA_Alloy>
+    </costList>
+    <building>
+      <isAirtight>true</isAirtight>
+      <deconstructible>false</deconstructible>
+    </building>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <categories>
+          <li>Metallic</li>
+        </categories>
+      </defaultIngredientFilter>
+    </recipeMaker>
+    <stuffCategories Inherit="False"/>
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <comps Inherit="False">
+      <li Class="CompProperties_MeditationFocus">
+        <statDef>MeditationFocusStrength</statDef>
+        <focusTypes>
+          <li>Minimal</li>
+        </focusTypes>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-500</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- 口袋空间退出点定义 -->
+  <ThingDef ParentName="PocketMapExit">
+    <defName>WULA_PocketMapExit</defName>
+    <label>运输机升降平台</label>
+    <description>用于在穿梭机内外运输人员和物品的升降平台.</description>
+    <thingClass>WulaFallenEmpire.Building_PocketMapExit</thingClass>
+    <size>(3,3)</size>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Wula/Building/WULA_PocketMapExit</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <interactionCellOffset>(0,0,0)</interactionCellOffset>
+    <passability>Standable</passability>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(140,160,184,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>UndercaveMapExitLightshafts</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGun">
+    <defName>WULA_Shuttle_Autocannon</defName>
+    <label>SRc-22"四叶"</label>
+    <description>由乌拉帝国的穿梭机所装备的自动炮，能够组织起高射速的弹幕压制杀伤大规模目标。</description>
+    <techLevel>Ultra</techLevel>
+    <relicChance>0</relicChance>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>2</drawSize>
+    </graphicData>
+    <uiIconScale>0.5</uiIconScale>
+    <tradeability>None</tradeability>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>150</Mass>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.5</AccuracyShort>
+      <AccuracyMedium>0.4</AccuracyMedium>
+      <AccuracyLong>0.35</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponTags>
+    </weaponTags>
+    <costList Inherit="False">
+      <Steel>500</Steel>
+      <Plasteel>150</Plasteel>
+      <ComponentSpacer>8</ComponentSpacer>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_Shuttle_Autocannon</defaultProjectile>
+        <warmupTime>0.25</warmupTime>
+        <range>24</range>
+        <burstShotCount>10</burstShotCount>
+        <forcedMissRadius>0.35</forcedMissRadius>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <soundCast>Shot_TurretSniper</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <targetParams>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetBuildings>true</canTargetBuildings>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_Shuttle_Autocannon</defName>
+    <label>四叶自动炮子弹</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red_Double</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <!-- <color>(61,199,157,202)</color> -->
+      <drawSize>(0.75,1)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>WULA_Shuttle_Autocannon_Bullet</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <speed>120</speed>
+      <explosionRadius>2.4</explosionRadius>
+      <arcHeightFactor>0.4</arcHeightFactor>
+      <soundExplode>Explosion_Rocket</soundExplode>
+      <armorPenetrationBase>0.75</armorPenetrationBase>
+      <screenShakeFactor>0.1</screenShakeFactor>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="ShuttleSkyfallerBase">
+    <defName>ArmedShuttleIncoming_WULA</defName>
+    <label>武装穿梭机 (接近中)</label>
+    <thingClass>WulaFallenEmpire.ArmedShuttleIncoming</thingClass>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Wula/Building/WULA_ArmedShuttle_Moving</texPath>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(6,6.25)</drawSize>
+      <drawOffset>(0, 8, 1.6)</drawOffset>
+    </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
+    <size>(8,12)</size>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <anticipationSound>Shuttle_Landing</anticipationSound>
+      <anticipationSoundTicks>250</anticipationSoundTicks>
+      <ticksToImpactRange>200~250</ticksToImpactRange>
+      <shadowSize>(9,13)</shadowSize>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0.95,1.5)</li>
+          <li>(1,0)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0.6,0.6)</li>
+          <li>(0.95,0.1)</li>
+          <li>(0.99,0.01)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+  </ThingDef>
+
+  <ThingDef ParentName="ShuttleSkyfallerBase">
+    <defName>ArmedShuttleLeaving_WULA</defName>
+    <label>武装穿梭机 (离开中)</label>
+    <thingClass>PassengerShuttleLeaving</thingClass>
+    <rotatable>true</rotatable>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Wula/Building/WULA_ArmedShuttle_Moving</texPath>
+      <drawSize>(14,14)</drawSize>
+    </graphicData>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <castEdgeShadows>False</castEdgeShadows>
+    <size>(8,12)</size>
+    <skyfaller>
+      <reversed>true</reversed>
+      <anticipationSound>Shuttle_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange>-40~-15</ticksToImpactRange>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <shadow>Things/Skyfaller/SkyfallerShadowRectangle</shadow>
+      <shadowSize>(8,12)</shadowSize>
+      <motesPerCell>1</motesPerCell>
+      <rotationCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(0.15,10)</li>
+          <li>(0.5,-5)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(0.08,2)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0,0.2)</li>
+          <li>(0.4,0.7)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+  </ThingDef>
+  <TransportShipDef>
+    <defName>Ship_ArmedShuttle</defName>
+    <label>CVe-3"渡鸦"</label>
+    <shipThing>WULA_ArmedShuttleWithPocket</shipThing>
+    <arrivingSkyfaller>ArmedShuttleIncoming_WULA</arrivingSkyfaller>
+    <leavingSkyfaller>ArmedShuttleLeaving_WULA</leavingSkyfaller>
+    <worldObject>Wula_ArmedShuttle_Object</worldObject>
+    <playerShuttle>true</playerShuttle>
+  </TransportShipDef>
+  <WorldObjectDef ParentName="ShuttleWorldObjectBase">
+    <defName>Wula_ArmedShuttle_Object</defName>
+    <label>CVe-3"渡鸦"</label>
+    <description>一台正在飞行的CVe-3"渡鸦"武装穿梭机。</description>
+    <expandingIconTexture>World/WorldObjects/Expanding/Wula_ArmedShuttle</expandingIconTexture>
+    <expandingIconDrawSize>1</expandingIconDrawSize>
+  </WorldObjectDef>
+</Defs>

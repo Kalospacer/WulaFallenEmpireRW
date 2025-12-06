@@ -53,7 +53,7 @@
           <siteIconPath>Things/Building/Natural/Hive/HiveC</siteIconPath>
           <expandingIconPath>Things/Building/Natural/Hive/HiveC</expandingIconPath>
           <storeAs>site</storeAs>
-          <faction>$siteFaction</faction>
+          <overrideFaction>$siteFaction</overrideFaction>
           <distance>
             <min>5</min>
             <max>10</max>
@@ -125,6 +125,7 @@
     <size>(44, 1, 44)</size>
     <isPart>true</isPart>
     <commonality>0</commonality>
+    <faction>MapFaction</faction>
     <pawns>
       <li>
         <key>(21, 0, 24)</key>

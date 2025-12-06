@@ -87,4 +87,18 @@
     <scanCells>true</scanCells>
     <directOrderable>true</directOrderable>
   </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>WULA_Cat_Drill</defName>
+    <label>钻探</label>
+    <giverClass>WulaFallenEmpire.WorkGiver_DeepDrill_WulaCatConstructor</giverClass>
+    <workType>Mining</workType>
+    <priorityInType>50</priorityInType>
+    <verb>钻探</verb>
+    <gerund>钻探中</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <canBeDoneByMechs>true</canBeDoneByMechs>
+  </WorkGiverDef>
 </Defs>
