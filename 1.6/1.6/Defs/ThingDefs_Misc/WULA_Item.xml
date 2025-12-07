@@ -15,7 +15,7 @@
     <useHitPoints>false</useHitPoints>
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
-      <MarketValue>2.5</MarketValue>
+      <MarketValue>5</MarketValue>
       <Mass>0.3</Mass>
       <StuffPower_Armor_Sharp>1</StuffPower_Armor_Sharp>
       <StuffPower_Armor_Blunt>0.55</StuffPower_Armor_Blunt>
@@ -73,7 +73,7 @@
     <useHitPoints>false</useHitPoints>
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
-      <MarketValue>1000</MarketValue>
+      <MarketValue>400</MarketValue>
       <Mass>0.01</Mass>
       <MaxHitPoints>50</MaxHitPoints>
     </statBases>
@@ -116,7 +116,7 @@
     <useHitPoints>false</useHitPoints>
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
-      <MarketValue>1</MarketValue>
+      <MarketValue>50</MarketValue>
       <Mass>1</Mass>
       <StuffPower_Armor_Sharp>3</StuffPower_Armor_Sharp>
       <StuffPower_Armor_Blunt>3</StuffPower_Armor_Blunt>
@@ -182,7 +182,7 @@
       <Flammability>0</Flammability>
       <Beauty>0</Beauty>
       <DeteriorationRate>0.01</DeteriorationRate>
-      <MarketValue>24</MarketValue>
+      <MarketValue>50</MarketValue>
       <Mass>0.3</Mass>
       <WorkToMake>450</WorkToMake>
     </statBases>
@@ -242,7 +242,7 @@
     <stackLimit>30</stackLimit>
     <statBases>
       <DeteriorationRate>0.01</DeteriorationRate>
-      <MarketValue>24</MarketValue>
+      <MarketValue>40</MarketValue>
       <Mass>0.3</Mass>
       <WorkToMake>450</WorkToMake>
     </statBases>
@@ -291,6 +291,30 @@
       <MarketValue>1</MarketValue>
       <Mass>0.01</Mass>
       <MaxHitPoints>50</MaxHitPoints>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <burnableByRecipe>false</burnableByRecipe>
+    <smeltable>false</smeltable>
+  </ThingDef>
+  <ThingDef ParentName="ResourceBase">
+    <defName>WULA_Psi_Titan_Core</defName>
+    <label>灵能回路核心</label>
+    <description>PAt-6"灵能泰坦"的灵能回路核心，每一台灵能泰坦都需要这个核心完成灵能回路的镌刻。它严格受到乌拉帝国国教教会的管制，殖民地无法轻易弄到。</description>
+    <graphicData>
+      <texPath>Wula/Item/WULA_Psi_Titan_Core</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tradeability>None</tradeability>
+    <genericMarketSellable>false</genericMarketSellable>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Metal_Drop</soundDrop>
+    <useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MarketValue>1</MarketValue>
+      <Mass>0.01</Mass>
     </statBases>
     <thingCategories>
       <li>ResourcesRaw</li>

@@ -40,12 +40,36 @@ namespace WulaFallenEmpire
         // 自动呼叫条件
         private bool ShouldAutoCall => IsNonPlayerFaction && Props.canAutoCall && !autoCallScheduled && !used;
         
-        // 科技检查
+        // 新增：检测是否在口袋地图中
+        public bool IsInPocketMap
+        {
+            get
+            {
+                if (parent?.Map == null)
+                    return false;
+                
+                // 检查地图的Parent是否为PocketMapParent
+                if (parent.Map.Parent is PocketMapParent)
+                    return true;
+                
+                // 额外的检查：通过地图的标签或特殊属性
+                if (parent.Map.uniqueID.ToString().Contains("PocketMap"))
+                    return true;
+                
+                return false;
+            }
+        }
+        
+        // 修改后的科技检查 - 在口袋地图中跳过检查
         public bool HasRequiredResearch
         {
             get
             {
                 if (Props.requiredResearch == null)
+                    return true;
+                    
+                // 如果在口袋地图中且配置为跳过检查
+                if (IsInPocketMap && Props.skipResearchCheckInPocketMap)
                     return true;
                     
                 if (IsNonPlayerFaction)
@@ -55,11 +79,15 @@ namespace WulaFallenEmpire
             }
         }
         
-        // FlyOver 检查
+        // 修改后的FlyOver检查 - 在口袋地图中跳过检查
         public bool HasRequiredFlyOver
         {
             get
             {
+                // 如果在口袋地图中且配置为跳过检查
+                if (IsInPocketMap && Props.skipFlyOverCheckInPocketMap)
+                    return true;
+                    
                 if (!Props.requireFlyOver)
                     return true;
 
@@ -107,11 +135,15 @@ namespace WulaFallenEmpire
             }
         }
         
-        // 屋顶检查
+        // 修改后的屋顶检查 - 在口袋地图中跳过检查
         public bool CheckRoofConditions
         {
             get
             {
+                // 如果在口袋地图中且配置为跳过检查
+                if (IsInPocketMap && Props.skipRoofCheckInPocketMap)
+                    return true;
+                    
                 if (parent?.Map == null) 
                     return true;
                 
@@ -279,7 +311,7 @@ namespace WulaFallenEmpire
             }
         }
         
-        // 显示禁用原因
+        // 显示禁用原因 - 修改为支持口袋地图
         private void ShowDisabledReason()
         {
             if (!HasRequiredResearch)
@@ -371,32 +403,90 @@ namespace WulaFallenEmpire
             calling = false;
             callTick = -1;
         }
-        
+
         // 检查位置是否可用
         private bool CanSpawnAtPosition(IntVec3 spawnPos)
         {
             if (parent?.Map == null)
+            {
+                Log.Warning($"[BuildingSpawner] Parent map is null for {parent?.LabelShort}");
                 return false;
-                
+            }
+
             // 检查是否在地图范围内
             if (!spawnPos.InBounds(parent.Map))
-                return false;
-                
-            // 检查是否有阻挡物
-            if (!Props.canReplaceExisting)
             {
-                List<Thing> thingsAtPos = spawnPos.GetThingList(parent.Map);
-                foreach (var thing in thingsAtPos)
+                Log.Warning($"[BuildingSpawner] Spawn position {spawnPos} is out of bounds for {parent?.LabelShort}");
+                return false;
+            }
+
+            // 获取建筑的大小和旋转
+            ThingDef buildingDef = Props.buildingToSpawn;
+            if (buildingDef == null)
+            {
+                Log.Error($"[BuildingSpawner] buildingToSpawn is null for {parent?.LabelShort}");
+                return false;
+            }
+
+            Rot4 rotation = Props.buildingRotation;
+            IntVec2 buildingSize = buildingDef.Size;
+
+            // 计算建筑占用的所有单元格
+            CellRect rect = GenAdj.OccupiedRect(spawnPos, rotation, buildingSize);
+
+            // 检查建筑是否完全在地图范围内
+            if (!rect.InBounds(parent.Map))
+            {
+                Log.Warning($"[BuildingSpawner] Building rect {rect} for {buildingDef.defName} is out of bounds. Size: {buildingSize}, Position: {spawnPos}");
+                return false;
+            }
+
+            // 如果是口袋地图，检查是否有足够的空间
+            if (IsInPocketMap)
+            {
+                // 口袋地图可能较小，检查边界
+                Map pocketMap = parent.Map;
+                int safeMargin = 2; // 安全边界
+
+                if (rect.minX < safeMargin || rect.minZ < safeMargin ||
+                    rect.maxX >= pocketMap.Size.x - safeMargin || rect.maxZ >= pocketMap.Size.z - safeMargin)
                 {
-                    // 跳过不可穿透的建筑和植物
-                    if (thing.def.passability == Traversability.Impassable)
-                        return false;
+                    Log.Warning($"[BuildingSpawner] Building {buildingDef.defName} too close to pocket map edge. Rect: {rect}, Map Size: {pocketMap.Size}");
+                    return false;
                 }
             }
-            
+
+            // 检查每个单元格是否可用
+            foreach (IntVec3 cell in rect)
+            {
+                if (!cell.InBounds(parent.Map))
+                {
+                    Log.Warning($"[BuildingSpawner] Cell {cell} is out of bounds for building {buildingDef.defName}");
+                    return false;
+                }
+
+                if (!Props.canReplaceExisting)
+                {
+                    List<Thing> thingsAtPos = cell.GetThingList(parent.Map);
+                    foreach (var thing in thingsAtPos)
+                    {
+                        // 跳过不可穿透的建筑和植物
+                        if (thing.def.passability == Traversability.Impassable)
+                        {
+                            // 跳过自己
+                            if (thing != parent)
+                            {
+                                Log.Warning($"[BuildingSpawner] Cell {cell} is blocked by {thing.def.defName} ({thing.LabelShort})");
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
             return true;
         }
-        
+
         // 处理屋顶破坏
         private void HandleRoofDestruction()
         {
@@ -406,6 +496,10 @@ namespace WulaFallenEmpire
             IntVec3 targetPos = parent.Position;
             RoofDef roof = targetPos.GetRoof(parent.Map);
             
+            // 如果在口袋地图中且配置为跳过屋顶检查，不破坏屋顶
+            if (IsInPocketMap && Props.skipRoofCheckInPocketMap)
+                return;
+                
             if (roof != null && !roof.isThickRoof && Props.allowThinRoof)
             {
                 parent.Map.roofGrid.SetRoof(targetPos, null);
@@ -844,7 +938,7 @@ namespace WulaFallenEmpire
             }
         }
         
-        // 获取禁用原因
+        // 获取禁用原因 - 修改为支持口袋地图
         private string GetDisabledReason()
         {
             if (IsNonPlayerFaction)
@@ -877,18 +971,18 @@ namespace WulaFallenEmpire
             return null;
         }
         
-        // 获取呼叫描述
+        // 获取呼叫描述 - 修改为支持口袋地图
         private string GetCallDescription()
         {
             var sb = new StringBuilder();
             sb.Append("WULA_TeleportBuildingDesc".Translate(Props.buildingToSpawn.label));
             
-            if (Props.requiredResearch != null)
+            if (Props.requiredResearch != null && !(IsInPocketMap && Props.skipResearchCheckInPocketMap))
             {
                 sb.AppendLine().Append("WULA_RequiresResearch".Translate(Props.requiredResearch.label));
             }
             
-            if (Props.requireFlyOver && !HasRequiredFlyOver)
+            if (Props.requireFlyOver && !HasRequiredFlyOver && !(IsInPocketMap && Props.skipFlyOverCheckInPocketMap))
             {
                 sb.AppendLine().Append("WULA_RequiresBuildingDropperFlyOver".Translate());
             }
@@ -896,7 +990,7 @@ namespace WulaFallenEmpire
             if (parent?.Map != null)
             {
                 RoofDef roof = parent.Position.GetRoof(parent.Map);
-                if (roof != null)
+                if (roof != null && !(IsInPocketMap && Props.skipRoofCheckInPocketMap))
                 {
                     if (roof.isThickRoof && !Props.allowThickRoof)
                     {
@@ -910,6 +1004,12 @@ namespace WulaFallenEmpire
             }
             
             return sb.ToString();
+        }
+        
+        // 新增：调试方法，显示口袋地图检测状态
+        public string GetPocketMapDebugInfo()
+        {
+            return $"IsInPocketMap: {IsInPocketMap}, Map.Parent: {parent?.Map?.Parent?.GetType()?.Name}";
         }
     }
 }

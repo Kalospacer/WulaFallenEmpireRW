@@ -506,6 +506,7 @@
       <WULA_Neutronium>50</WULA_Neutronium>
       <Uranium>300</Uranium>
       <WULA_Tex_Voucher>3</WULA_Tex_Voucher>
+      <WULA_Psi_Titan_Core>1</WULA_Psi_Titan_Core>
     </costList>
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
@@ -516,7 +517,7 @@
     <placeWorkers>
       <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
     </placeWorkers>
-    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
+    <designationCategory>WULA_Buildings</designationCategory>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
         <skyfallerDef>Wula_Psi_Titan_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
@@ -536,10 +537,10 @@
       <texPath>Wula/Things/Wula_Psi_Titan/Wula_Psi_Titan_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
-      <drawSize>(9,9)</drawSize>
+      <drawSize>(13,13)</drawSize>
     </graphicData>
     <skyfaller>
-      <movementType>Accelerate</movementType>
+      <movementType>Decelerate</movementType>
       <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
       <shadowSize>(6, 6)</shadowSize>
       <anticipationSound>DropPod_Fall</anticipationSound>
@@ -555,9 +556,9 @@
         </points>
       </angleCurve>
       <!-- <spawnThing></spawnThing> -->
-      <explosionRadius>15</explosionRadius>
+      <!-- <explosionRadius>15</explosionRadius>
       <explosionDamage>WULA_Mech_EMP_Drop</explosionDamage>
-      <explosionDamageFactor>0</explosionDamageFactor>
+      <explosionDamageFactor>0</explosionDamageFactor> -->
     </skyfaller>
     <comps>
       <li Class="CompProperties_Effecter">
@@ -565,8 +566,8 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
         <pawnKind>Wula_Psi_Titan</pawnKind>
-        <faction>AncientsHostile</faction>
-        <spawnDrafted>false</spawnDrafted>
+        <faction>PlayerColony</faction>
+        <spawnDrafted>true</spawnDrafted>
         <spawnHostile>false</spawnHostile>
       </li>
     </comps>

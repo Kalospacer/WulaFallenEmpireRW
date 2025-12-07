@@ -825,7 +825,7 @@
     <drawHighlight>true</drawHighlight>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <graphicData>
-      <texPath>Wula/Building/WULA_Fake_Fighter_Drone_Building</texPath>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>(3,3)</drawSize>

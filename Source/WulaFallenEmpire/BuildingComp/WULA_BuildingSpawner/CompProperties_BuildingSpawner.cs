@@ -45,6 +45,15 @@ namespace WulaFallenEmpire
         // 新增：建筑生成后的燃料量（如果适用）
         public FloatRange fuelRange = new FloatRange(1f, 1f);
         
+        // 新增：是否在口袋地图中跳过科技检查
+        public bool skipResearchCheckInPocketMap = true;
+        
+        // 新增：是否在口袋地图中跳过FlyOver检查
+        public bool skipFlyOverCheckInPocketMap = true;
+        
+        // 新增：是否在口袋地图中跳过屋顶检查
+        public bool skipRoofCheckInPocketMap = true;
+        
         public CompProperties_BuildingSpawner()
         {
             compClass = typeof(CompBuildingSpawner);

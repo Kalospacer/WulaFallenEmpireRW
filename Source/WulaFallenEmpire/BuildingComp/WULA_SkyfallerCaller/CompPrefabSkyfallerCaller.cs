@@ -89,8 +89,6 @@ namespace WulaFallenEmpire
         {
             if (!string.IsNullOrEmpty(PropsPrefab.prefabDefName))
             {
-                Log.Message($"[PrefabSkyfallerCaller] Executing auto skyfaller call for prefab at {parent.Position}");
-
                 // 非玩家派系自动呼叫不需要资源检查
                 HandleRoofDestruction();
 
@@ -112,7 +110,6 @@ namespace WulaFallenEmpire
             if (thing is Skyfaller_PrefabSpawner skyfaller)
             {
                 skyfaller.prefabDefName = PropsPrefab.prefabDefName;
-                Log.Message($"[PrefabSkyfallerCaller] Setting prefabDefName to: {PropsPrefab.prefabDefName}");
                 GenSpawn.Spawn(skyfaller, parent.Position, parent.Map);
             }
             else
@@ -150,22 +147,22 @@ namespace WulaFallenEmpire
         }
 
         // 新增：调试信息
-        public override string CompInspectStringExtra()
-        {
-            var baseString = base.CompInspectStringExtra();
+        //public override string CompInspectStringExtra()
+        //{
+        //    var baseString = base.CompInspectStringExtra();
             
-            if (!string.IsNullOrEmpty(PropsPrefab.prefabDefName))
-            {
-                var sb = new System.Text.StringBuilder();
-                if (!string.IsNullOrEmpty(baseString))
-                {
-                    sb.AppendLine(baseString);
-                }
-                sb.Append($"Prefab: {PropsPrefab.prefabDefName}");
-                return sb.ToString();
-            }
+        //    if (!string.IsNullOrEmpty(PropsPrefab.prefabDefName))
+        //    {
+        //        var sb = new System.Text.StringBuilder();
+        //        if (!string.IsNullOrEmpty(baseString))
+        //        {
+        //            sb.AppendLine(baseString);
+        //        }
+        //        sb.Append($"Prefab: {PropsPrefab.prefabDefName}");
+        //        return sb.ToString();
+        //    }
             
-            return baseString;
-        }
+        //    return baseString;
+        //}
     }
 }

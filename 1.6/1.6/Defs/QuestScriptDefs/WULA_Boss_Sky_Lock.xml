@@ -1,11 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Boss_Sky_Lock_UI_1</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_4</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>啊，这个啊。最近有一台灵能泰坦在我们的运输舰上失控了，杀了一船人，现在还在船上肆虐。这个事情原本是应该由国教教会过来回收，但是目前我还不想让她们知道这个事情——只能交给你们了。我可以控其他战舰撞击运输舰，把它推向你们殖民地附近，灵能泰坦大概率不会在这样的坠毁中受到什么伤害，你们得亲自派遣殖民者解决它。\n\n事成之后，我会用它的灵能回路帮你们搞一台专属于殖民地的灵能泰坦，你们就当这个机械体一开始就是配给给你们的，如何？</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>明白了，我们会处理这件事情</label>
+        <disabledReason>殖民地的表现让P.I.A相当不满意，这种特殊任务不会交给殖民地负责</disabledReason>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>-75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>WULA_Boss_Sky_Lock_Has_Start</name>
+                <value>1</value>
+                <operation>Add</operation>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_AddQuest">
+                <quest>WULA_Boss_Sky_Lock</quest>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>再思考看看···</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_50</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
   <QuestScriptDef>
     <defName>WULA_Boss_Sky_Lock</defName>
     <rootSelectionWeight>0</rootSelectionWeight>
-    <expireDaysRange>1</expireDaysRange>
     <autoAccept>true</autoAccept>
-    <sendAvailableLetter>true</sendAvailableLetter>
+    <sendAvailableLetter>false</sendAvailableLetter>
     <defaultChallengeRating>4</defaultChallengeRating>    <!-- 挑战等级（星级） -->
     <isRootSpecial>true</isRootSpecial>   <!-- 特殊任务 --> 
 
@@ -48,7 +98,7 @@
           <siteIconPath>Things/Building/Natural/Hive/HiveC</siteIconPath>
           <expandingIconPath>Things/Building/Natural/Hive/HiveC</expandingIconPath>
           <storeAs>site</storeAs>
-          <overrideFaction>AncientsHostile</overrideFaction>
+          <faction>AncientsHostile</faction>
           <disdestroyBecauseOfNoColonist>true</disdestroyBecauseOfNoColonist>
           <distance>
             <min>5</min>
@@ -57,17 +107,45 @@
           <blacklist />
         </li>
 
+        <li Class="QuestNode_Letter">
+          <label TKey="LetterLabelShuttleDestroyed">灵能泰坦抵达</label>
+          <letterDef>NegativeEvent</letterDef>
+          <text TKey="LetterTextShuttleDestroyed">在一艘巡洋舰向失控运输舰狠狠撞击后，碎裂的运输舰如流星般坠入边缘世界地表。不过灵能泰坦随后便在地表上被目击——地点已经标记出来了。</text>
+        </li>
+
         <!-- 灵能泰坦被击毁··· -->
         <li Class="QuestNode_Signal">
           <inSignal>PsiTitan.0.Destroyed</inSignal>
-          <node Class="QuestNode_End">
-            <outcome>Success</outcome>
-            <sendStandardLetter>true</sendStandardLetter>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelShuttleDestroyed">灵能泰坦已停机</label>
+                <letterDef>PositiveEvent</letterDef>
+                <text TKey="LetterTextShuttleDestroyed">灵能泰坦在殖民者的攻击下已经停止运转，其灵能回路核心已经暴露并掉落。\n\n记得回收灵能回路核心，这是建造新的灵能泰坦所需的材料。</text>
+              </li>
+              <li Class="QuestNode_ChangeFactionGoodwill">
+                <faction>Wula_PIA_Legion_Faction</faction>
+                <change>25</change>
+                <reason>WULA_Killed_Psititan</reason>
+              </li>
+              <li Class="WulaFallenEmpire.QuestNode_EventLetter">
+                <inSignal>PsiTitan.0.Destroyed</inSignal>
+                <eventDefName>WULA_Boss_Sky_Lock_UI_2</eventDefName>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Success</outcome>
+                <sendStandardLetter>true</sendStandardLetter>
+              </li>
+            </nodes>
           </node>
         </li>
       </nodes>
     </root>
   </QuestScriptDef>
+  <HistoryEventDef>
+    <defName>WULA_Killed_Psititan</defName>
+    <label>协助处理失控灵能泰坦</label>
+  </HistoryEventDef>
   <QuestEditor_Library.CustomMapDataDef>
     <defName>Wula_PsiTitan_Boss_Map</defName>
     <label>发现灵能泰坦的地区</label>
@@ -89,6 +167,11 @@
             <faction>AncientsHostile</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
+            <inventoryThings>
+              <li Class="QuestEditor_Library.CQFThingDefCount">
+                <thing>WULA_Psi_Titan_Core</thing>
+              </li>
+            </inventoryThings>
           </li>
         </value>
       </li>
@@ -332,7 +415,6 @@
     <thingDatas>
       <li>
         <def>WULA_Sky_Lock</def>
-        <faction>PlayerColony</faction>
         <allRect>
           <li>(11,11,11,11)</li>
           <li>(116,7,116,7)</li>
@@ -342,7 +424,6 @@
       </li>
       <li>
         <def>AncientTunnelerHusk</def>
-        <faction>PlayerColony</faction>
         <allRect>
           <li>(38,49,38,49)</li>
           <li>(70,44,70,44)</li>
@@ -351,7 +432,6 @@
       </li>
       <li>
         <def>AncientTank</def>
-        <faction>PlayerColony</faction>
         <allRect>
           <li>(27,24,27,24)</li>
           <li>(26,83,26,83)</li>
@@ -360,7 +440,6 @@
       </li>
       <li>
         <def>AncientMiniWarwalkerRemains</def>
-        <faction>PlayerColony</faction>
         <allRect>
           <li>(84,28,84,28)</li>
           <li>(94,52,94,52)</li>
@@ -368,7 +447,6 @@
       </li>
       <li>
         <def>ShipChunk</def>
-        <faction>PlayerColony</faction>
         <allRect>
           <li>(56,24,56,24)</li>
           <li>(57,27,57,27)</li>
@@ -384,7 +462,6 @@
       </li>
       <li>
         <def>AncientAPC</def>
-        <faction>PlayerColony</faction>
         <allRect>
           <li>(92,67,92,67)</li>
           <li>(105,57,105,57)</li>
@@ -392,4 +469,29 @@
       </li>
     </thingDatas>
   </QuestEditor_Library.CustomMapDataDef>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Boss_Sky_Lock_UI_2</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>完成的不错，记得把灵能回路核心带回来，这个东西是建造灵能泰坦必须的材料，不带回来的话你们这次就算白打工了。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>明白了</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_FinishResearch">
+                <research>WULA_Psi_Titan_Technology</research>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
 </Defs>

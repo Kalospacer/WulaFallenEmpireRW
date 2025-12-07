@@ -250,7 +250,7 @@
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_ArmedShuttle_Technology</defName>
     <label>武装穿梭机调配许可</label>
-    <description>允许殖民地呼叫一艘CVe-3"渡鸦"武装穿梭机，其拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾，可以抵挡大部分射弹。</description>
+    <description>允许殖民地呼叫一艘CVe-3"渡鸦"武装穿梭机，其拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。</description>
     <baseCost>3000</baseCost>
     <researchViewX>9.00</researchViewX>
     <researchViewY>6.20</researchViewY>
@@ -461,6 +461,20 @@
       <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Psi_Titan_Technology</defName>
+    <researchViewX>11.00</researchViewX>
+    <researchViewY>5.60</researchViewY>
+    <label>灵能泰坦空投许可</label>
+    <description>允许殖民地申请空投PAt-6"灵能泰坦"，乌拉帝国的大型灵能战争机械，可以驱使各种强大的灵能能力。\n\n其用于镌刻灵能回路的核心受到国教教会严格限制，无法通过常规手段获得。</description>
+    <baseCost>4000</baseCost>
+    <techprintCount>9999</techprintCount>
+    <techprintCommonality>0</techprintCommonality>
+    <techprintMarketValue>0</techprintMarketValue>
+    <heldByFactionCategoryTags>
+      <li>Wula_PIA_Legion_Faction</li>
+    </heldByFactionCategoryTags>
+  </ResearchProjectDef>
   <!-- 防御 -->
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Turret_Base_AT_Technology</defName>
@@ -500,6 +514,7 @@
     <description>允许殖民地申请空投自动迫击炮台，可以发射远距离的高爆迫击炮弹打击地图上出现的任何敌军。</description>
     <baseCost>3000</baseCost>
     <prerequisites>
+      <li>WULA_Synth_Weapon_3_Explosive_Technology</li>
       <li>WULA_Synth_Armor_2_Technology</li>
     </prerequisites>
   </ResearchProjectDef>

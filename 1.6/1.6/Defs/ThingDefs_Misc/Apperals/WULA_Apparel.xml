@@ -91,6 +91,9 @@
       <bodyPartGroups>
         <li>FullHead</li>
       </bodyPartGroups>
+      <layers>
+        <li>Overhead</li>
+      </layers>
       <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
       <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
       <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
@@ -536,6 +539,44 @@
       <WorkToMake>12000</WorkToMake>
       <EquipDelay>1</EquipDelay>
       <StuffEffectMultiplierArmor>1</StuffEffectMultiplierArmor>
+    </statBases>
+  </ThingDef>
+  <ThingDef ParentName="WULA_ApparelCivilBase">
+		<defName>WULA_Swimsuit</defName>
+		<label>乌拉帝国泳装</label>
+		<description>为乌拉帝国合成人特制的泳衣，适配了其球形关节防止滑落。\n\n可能有些人会和你说这是乌拉族最强大的防具，别信。</description>
+    <graphicData>
+      <texPath>Wula/Apparel/WULA_Swimsuit</texPath>
+    </graphicData>
+    <apparel>
+      <tags Inherit="False">
+        <li>WULA_Swimsuit</li>
+      </tags>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <layers>
+        <li>OnSkin</li>
+        <li>Middle</li>
+      </layers>
+      <wornGraphicPath>Wula/Apparel/WULA_Swimsuit</wornGraphicPath>
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+    </apparel>
+    <recipeMaker Inherit="False" IsNull="True"/>
+    <costList Inherit="False">
+      <Cloth>10</Cloth>
+    </costList>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToMake>1000</WorkToMake>
+      <EquipDelay>1</EquipDelay>
+      <StuffEffectMultiplierArmor>0.2</StuffEffectMultiplierArmor>
     </statBases>
   </ThingDef>
 

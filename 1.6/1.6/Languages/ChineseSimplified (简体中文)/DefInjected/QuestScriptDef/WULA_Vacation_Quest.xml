@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <WULA_Vacation_Quest.questNameRules.rulesStrings>
+    <li>questName->特殊任务：度假</li>
+  </WULA_Vacation_Quest.questNameRules.rulesStrings>
+  <WULA_Vacation_Quest.questDescriptionRules.rulesStrings>
+    <li>questDescription->行星封锁机关的总控AI在舰队上待得太闷了，想出来溜达一段时间。\n\n除非与乌拉帝国行星封锁机关敌对，否则看起来你的上司是要一直赖在殖民地了，你可以删除此任务，以免其占据任务列表。</li>
+  </WULA_Vacation_Quest.questDescriptionRules.rulesStrings>
+</LanguageData>

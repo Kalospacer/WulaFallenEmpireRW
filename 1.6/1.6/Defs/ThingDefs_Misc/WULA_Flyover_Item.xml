@@ -410,7 +410,7 @@
       <texPath>Wula/FlyoverThing/WULA_BattleShip_Shadow</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
-      <drawSize>(70,100)</drawSize>
+      <drawSize>(90,100)</drawSize>
       <color>(195,195,195,45)</color>
     </graphicData>
     <skyfaller>
