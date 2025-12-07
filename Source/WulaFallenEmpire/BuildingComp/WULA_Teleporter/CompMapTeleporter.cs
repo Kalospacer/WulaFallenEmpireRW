@@ -265,12 +265,19 @@ namespace WulaFallenEmpire
             return null;
         }
 
+        private struct ThingToTeleport
+        {
+            public Thing thing;
+            public IntVec3 relativePos;
+        }
+
         private void TeleportContents(Map targetMap, IntVec3 targetCenter)
         {
+            Map sourceMap = parent.Map;
             CellRect rect = CellRect.CenteredOn(parent.Position, Props.areaSize.x, Props.areaSize.z);
             IntVec3 center = parent.Position;
             
-            List<Thing> thingsToTeleport = new List<Thing>();
+            List<ThingToTeleport> thingsToTeleport = new List<ThingToTeleport>();
             List<Pair<IntVec3, TerrainDef>> terrainToTeleport = new List<Pair<IntVec3, TerrainDef>>();
 
             Log.Message($"[WULA] Collecting data from {rect.Area} cells around {center} with size {Props.areaSize}");
@@ -279,11 +286,11 @@ namespace WulaFallenEmpire
             HashSet<Thing> collectedThings = new HashSet<Thing>();
             foreach (IntVec3 cell in rect)
             {
-                if (!cell.InBounds(parent.Map)) continue;
+                if (!cell.InBounds(sourceMap)) continue;
 
-                terrainToTeleport.Add(new Pair<IntVec3, TerrainDef>(cell - center, cell.GetTerrain(parent.Map)));
+                terrainToTeleport.Add(new Pair<IntVec3, TerrainDef>(cell - center, cell.GetTerrain(sourceMap)));
 
-                List<Thing> thingList = parent.Map.thingGrid.ThingsListAt(cell);
+                List<Thing> thingList = sourceMap.thingGrid.ThingsListAt(cell);
                 for (int i = thingList.Count - 1; i >= 0; i--)
                 {
                     Thing t = thingList[i];
@@ -295,19 +302,19 @@ namespace WulaFallenEmpire
                         if (!t.def.destroyable) continue;
                         
                         collectedThings.Add(t);
-                        thingsToTeleport.Add(t);
+                        thingsToTeleport.Add(new ThingToTeleport { thing = t, relativePos = t.Position - center });
                     }
                 }
             }
             
             // 2. 准备传送 (PreSwapMap)
-            foreach (Thing t in thingsToTeleport) t.PreSwapMap();
+            foreach (var data in thingsToTeleport) data.thing.PreSwapMap();
             parent.PreSwapMap();
 
             // 3. 从源地图移除 (DeSpawn)
-            foreach (Thing t in thingsToTeleport)
+            foreach (var data in thingsToTeleport)
             {
-                if (t.Spawned) t.DeSpawn(DestroyMode.WillReplace);
+                if (data.thing.Spawned) data.thing.DeSpawn(DestroyMode.WillReplace);
             }
             if (parent.Spawned) parent.DeSpawn(DestroyMode.WillReplace);
 
@@ -326,25 +333,24 @@ namespace WulaFallenEmpire
                 if (pair.Second != null)
                 {
                     targetMap.terrainGrid.SetTerrain(newPos, pair.Second);
-                    parent.Map.terrainGrid.SetTerrain(center + pair.First, TerrainDefOf.Soil);
+                    sourceMap.terrainGrid.SetTerrain(center + pair.First, TerrainDefOf.Soil);
                 }
             }
 
             // 5. 放置到新地图 (Spawn)
-            foreach (Thing t in thingsToTeleport)
+            foreach (var data in thingsToTeleport)
             {
-                if (t.Destroyed) continue;
-                IntVec3 relativePos = t.Position - center;
-                IntVec3 newPos = targetCenter + relativePos;
+                if (data.thing.Destroyed) continue;
+                IntVec3 newPos = targetCenter + data.relativePos;
                 newPos = newPos.ClampInsideMap(targetMap);
-                GenSpawn.Spawn(t, newPos, targetMap, t.Rotation);
+                GenSpawn.Spawn(data.thing, newPos, targetMap, data.thing.Rotation);
             }
             GenSpawn.Spawn(parent, targetCenter, targetMap, parent.Rotation);
 
             // 6. 传送后处理 (PostSwapMap)
-            foreach (Thing t in thingsToTeleport)
+            foreach (var data in thingsToTeleport)
             {
-                if (!t.Destroyed) t.PostSwapMap();
+                if (!data.thing.Destroyed) data.thing.PostSwapMap();
             }
             parent.PostSwapMap();
 
