@@ -1,5 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_AreaTeleportBeacon</defName>
+    <label>乌拉区域传送信标</label>
+    <description>负责协调殖民地与轨道上的乌拉帝国舰队进行材料输送的信标，空投建筑会优先从信标覆盖区域吸纳资源完成空投。</description>
+    <thingClass>Building_OrbitalTradeBeacon</thingClass>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_OrbitalTradeBeacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shadowData>
+        <volume>(0.3, 0.2, 0.3)</volume>
+        <offset>(0,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>800</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Mass>5</Mass>
+    </statBases>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <fillPercent>0.15</fillPercent>
+    <costList>
+      <Steel>40</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MapTeleporter">
+        <radius>7</radius>
+        <warmupTicks>120</warmupTicks>
+        <requiredResearch>WULA_Colony_License_LV1_Technology</requiredResearch>
+      </li>
+    </comps>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <pathCost>14</pathCost>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <uiOrder>2100</uiOrder>
+    <rotatable>false</rotatable>
+    <placeWorkers>
+      <li>PlaceWorker_ShowTradeBeaconRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>WULA_Colony_License_LV1_Technology</li>
+    </researchPrerequisites>
+  </ThingDef>
+
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_OrbitalTradeBeacon</defName>
     <label>乌拉轨道输送信标</label>
