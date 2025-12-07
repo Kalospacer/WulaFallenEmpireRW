@@ -15,7 +15,7 @@
     <bodyTypeMale>Thin</bodyTypeMale>
     <forcedTraitsChance>
       <li>
-        <defName Degree="1">WULA_Trait_Knight</defName>
+        <defName Degree="1">WULA_Trait_WhitePaper</defName>
         <chance>100</chance>
       </li>
     </forcedTraitsChance>

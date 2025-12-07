@@ -871,7 +871,7 @@
       </li>
     </modExtensions>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_Needle_AT</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>1.4</drawSize>
@@ -1127,7 +1127,7 @@
       </li>
     </modExtensions>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_Needle_AT</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
       <drawSize>1</drawSize>

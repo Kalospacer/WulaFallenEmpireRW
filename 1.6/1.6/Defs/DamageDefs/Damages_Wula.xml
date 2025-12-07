@@ -161,6 +161,48 @@
       </li>
     </modExtensions>
   </DamageDef>
+
+  
+  <DamageDef ParentName="StunBase">
+    <defName>WULA_WM_Disturber_Turret_Damage</defName>
+    <label>等离子干扰</label>
+    <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+    <externalViolenceForMechanoids>true</externalViolenceForMechanoids>
+    <deathMessage>{0} 被等离子干扰而亡。</deathMessage>
+    <harmsHealth>true</harmsHealth>
+    <impactSoundType>Electric</impactSoundType>
+    <defaultDamage>50</defaultDamage>
+    <explosionSnowMeltAmount>0</explosionSnowMeltAmount>
+    <!-- <explosionCellFleck>BlastEMP</explosionCellFleck> -->
+    <!-- <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge>
+    <explosionInteriorFleck>ElectricalSpark</explosionInteriorFleck> -->
+    <soundExplosion>Explosion_Vaporize</soundExplosion>
+    <combatLogRules>Damage_EMP</combatLogRules>
+    <causeStun>true</causeStun>
+    <stunResistStat MayRequireAnyOf="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Anomaly">EMPResistance</stunResistStat>
+    <stunAdaptationTicks>2200</stunAdaptationTicks>
+    <explosionCenterEffecter>WULA_Mech_EMP_Drop_Shockwave</explosionCenterEffecter>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+        <extraLabel>穿透伤害</extraLabel>
+        <showExtraLog>true</showExtraLog>
+        
+        <extraDamages>
+          <li>
+            <damageDef>WULA_Armour_Piercing_Projectile_4_Damage</damageDef>
+            <amount>100</amount>
+            <isPercentage>false</isPercentage>
+            <armorPenetration>2</armorPenetration>
+            <!-- <soundDef>EMP_Small</soundDef>
+            <fleckDef>ElectricArc</fleckDef> -->
+            <!-- <minTriggerDamage>5</minTriggerDamage> -->
+          </li>
+        </extraDamages>
+      </li>
+    </modExtensions>
+  </DamageDef>
+
     
   <DamageDef ParentName="Wula_Dark_Matter_Beam_DMG">
     <defName>Wula_Psi_Damage</defName>
@@ -338,6 +380,87 @@
     <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
   </DamageDef>
 
+  <DamageDef ParentName="Bomb">
+    <defName>WULA_Disturber_Turret_Bomb</defName>
+    <label>等离子爆炸</label>
+    <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+    <defaultDamage>250</defaultDamage>
+    <defaultStoppingPower>2.0</defaultStoppingPower>
+    <defaultArmorPenetration>2</defaultArmorPenetration>
+    <explosionCellFleck>BlastEMP</explosionCellFleck>
+    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge>
+    <explosionCenterEffecter>WULA_Disturber_Turret_Bomb_Shockwave</explosionCenterEffecter>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+        <extraLabel>穿透伤害</extraLabel>
+        <showExtraLog>true</showExtraLog>
+        
+        <extraDamages>
+          <li>
+            <damageDef>EMP</damageDef>
+            <amount>60</amount>
+            <isPercentage>false</isPercentage>
+            <armorPenetration>2</armorPenetration>
+            <!-- <soundDef>EMP_Small</soundDef>
+            <fleckDef>ElectricArc</fleckDef> -->
+            <!-- <minTriggerDamage>5</minTriggerDamage> -->
+          </li>
+        </extraDamages>
+      </li>
+    </modExtensions>
+  </DamageDef>
+  <EffecterDef>
+    <defName>WULA_Disturber_Turret_Bomb_Shockwave</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_WULA_Disturber_Turret_Bomb_Shockwave</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>FlashMechBand</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_RedFlashStrong</moteDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <scale>24</scale>
+      </li>
+    </children>
+  </EffecterDef>
+  <FleckDef ParentName="FleckBase">
+    <defName>Fleck_WULA_Disturber_Turret_Bomb_Shockwave</defName>
+    <altitudeLayer>MoteOverheadLow</altitudeLayer>
+    <fadeInTime>0.04</fadeInTime>
+    <fadeOutTime>0.1</fadeOutTime>
+    <solidTime>0.8</solidTime>
+    <growthRate>1.5</growthRate>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <texPath>Things/Mote/Black</texPath>
+      <shaderType>MoteLargeDistortionWave</shaderType>
+      <color>(218,255,200,255)</color>
+      <shaderParameters>
+        <_DistortionTex>/Things/Mote/PsychicDistortionCurrents</_DistortionTex>
+        <_NoiseTex>/Things/Mote/PsycastNoise</_NoiseTex>
+        <_distortionIntensity>0.066</_distortionIntensity>
+        <_brightnessMultiplier>1.15</_brightnessMultiplier>
+      </shaderParameters>
+      <drawSize>15</drawSize>
+    </graphicData>
+  </FleckDef>
+  
   <DamageDef ParentName="Bomb">
     <defName>WULA_DarkMatterBomb</defName>
     <label>暗物质湮灭爆炸</label>
