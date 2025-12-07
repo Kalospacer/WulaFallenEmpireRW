@@ -79,28 +79,6 @@
         </optionEffects>
       </li>
       <li>
-        <label>有什么任务吗···</label>
-        <!-- <disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</disabledReason>
-        <conditions>
-          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
-            <name>Wula_Goodwill_To_PIA</name>
-            <value>-75</value>
-          </li>
-        </conditions> -->
-        <hideWhenDisabled>false</hideWhenDisabled>
-        <useCustomColors>false</useCustomColors>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
-                <defName>Wula_UI_Legion_50</defName>
-              </li>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
-      </li>
-      <li>
         <label>我们想要接受晋级审查···</label>
         <hideWhenDisabled>true</hideWhenDisabled>
         <conditions>
@@ -136,6 +114,33 @@
             <effects>
               <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
                 <defName>WULA_Recycle_PIA_Legion_File_UI_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>还有什么特殊任务吗···</label>
+        <!-- <disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</disabledReason>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>-75</value>
+          </li>
+        </conditions> -->
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableEquals">
+            <name>Wula_Reinforcement_From_PIA_Level</name>
+            <value>3</value>
+          </li>
+        </conditions>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_50</defName>
               </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
@@ -1078,9 +1083,9 @@
     <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
     <characterName>「军团」,P.I.A</characterName>
     <descriptions>
-      <li>要找活吗？</li>
+      <li>要找活吗？好吧，我手上有一些活，怎么说呢，不太好走乌拉帝国的标准审查流程，我的断爪卫队也不适合去做这些事情，确实需要有人帮我处理。\n\n你们挑个感兴趣的吧，我会把任务的需求发给你们。</li>
     </descriptions>
-    <conditionalDescriptions>
+    <!-- <conditionalDescriptions>
       <li>
         <conditions>
           <li Class="WulaFallenEmpire.Condition_VariableLessThanOrEqual">
@@ -1099,54 +1104,59 @@
         </conditions>
         <text>你们应该已经遇到了那些帝国的叛徒了？我们已经陆陆续续地发现了她们在这个星球活动的迹象，你们的任务很难避开她们，要做好打硬仗的准备。\n\n你们挑个感兴趣的类型吧，我会把任务的需求发给你们。</text>
       </li>
-    </conditionalDescriptions>
+    </conditionalDescriptions> -->
     <immediateEffects>
       <li>
         <effects>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>WULA_Boss_Sky_Lock_Has_Start</name>
+            <value>0</value>
+            <type>Int</type>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>WULA_Vacation_Quest_Has_Start</name>
+            <value>0</value>
+            <type>Int</type>
+          </li>
         </effects>
       </li>
     </immediateEffects>
     <options>
       <li>
-        <label>我们希望接受远征任务</label>
-        <!-- <useCustomColors>false</useCustomColors>
-        <normalColor>(130,49,47,255)</normalColor>
-        <hoverColor>(157,201,185,195)</hoverColor>
-        <textColor>(171,87,85,255)</textColor>
-        <textHoverColor>(255,255,255,255)</textHoverColor> -->
+        <label>···灵能泰坦？</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableNotEqual">
+            <name>WULA_Boss_Sky_Lock_Has_Start</name>
+            <value>1</value>
+          </li>
+        </conditions>
         <optionEffects>
           <li>
             <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Boss_Sky_Lock_UI_1</defName>
+              </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
           </li>
         </optionEffects>
       </li>
       <li>
-        <label>我们希望接受防守任务</label>
-        <!-- <useCustomColors>false</useCustomColors>
-        <normalColor>(130,49,47,255)</normalColor>
-        <hoverColor>(157,201,185,195)</hoverColor>
-        <textColor>(171,87,85,255)</textColor>
-        <textHoverColor>(255,255,255,255)</textHoverColor> -->
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
+        <label>···度假？</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableNotEqual">
+            <name>WULA_Vacation_Quest_Has_Start</name>
+            <value>1</value>
           </li>
-        </optionEffects>
-      </li>
-      <li>
-        <label>有没有什么特殊的任务···</label>
-        <!-- <useCustomColors>false</useCustomColors>
-        <normalColor>(130,49,47,255)</normalColor>
-        <hoverColor>(157,201,185,195)</hoverColor>
-        <textColor>(171,87,85,255)</textColor>
-        <textHoverColor>(255,255,255,255)</textHoverColor> -->
+        </conditions>
         <optionEffects>
           <li>
             <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Vacation_Quest_UI_1</defName>
+              </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
           </li>

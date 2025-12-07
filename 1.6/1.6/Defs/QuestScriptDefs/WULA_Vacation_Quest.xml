@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <WulaFallenEmpire.EventDef>
+    <defName>WULA_Vacation_Quest_UI_1</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_1</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>哎，感觉老是在舰队上有点烦闷，想下地走走。你们殖民地附近有海吗？我想去放个假。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>当然！</label>
+        <disabledReason>好感度不足，你至少要成为行星封锁机关的盟友才能接下此任务</disabledReason>
+        <hideWhenDisabled>false</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableGreaterThan">
+            <name>Wula_Goodwill_To_PIA</name>
+            <value>75</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_ModifyVariable">
+                <name>WULA_Vacation_Quest_Has_Start</name>
+                <value>1</value>
+                <operation>Add</operation>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_AddQuest">
+                <quest>WULA_Vacation_Quest</quest>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>等我们搬到海边再说吧···</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_50</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+  <QuestScriptDef>
+    <defName>WULA_Vacation_Quest</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <autoAccept>true</autoAccept>
+    <sendAvailableLetter>false</sendAvailableLetter>
+    <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
+    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
+    <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <!-- 命名规则 -->
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->WULA_Vacation_Quest_questName</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
+      <rulesStrings>
+        <li>questDescription->WULA_Vacation_Quest_questDescription</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <!-- 运行规则 -->
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetMap" />
+        <!-- 产生超链接 -->
+        <li Class="WulaFallenEmpire.QuestNode_Hyperlinks">
+          <factionDefs>
+            <li>Wula_PIA_Legion_Faction</li>
+          </factionDefs>
+        </li>
+
+        <!-- 生成带有自定义名字和背景故事的 Pawn -->
+        <li Class="WulaFallenEmpire.QuestNode_GeneratePawnWithCustomization">
+          <kindDef>WULA_Legion_Swimsuit_PawnKind</kindDef>
+          <faction>Wula_PIA_Legion_Faction</faction>
+          
+          <useCustomBackstories>true</useCustomBackstories>
+          <childhoodBackstory>WULA_Child_Backstory01</childhoodBackstory>
+          <adulthoodBackstory>WULA_Adult_Backstory_Legion</adulthoodBackstory>
+          
+          <storeAs>asker</storeAs>
+        </li>
+
+        <!-- End if faction became hostile -->
+        <li Class="QuestNode_GetFaction">
+          <storeAs>faction</storeAs>
+          <ofPawn>$asker</ofPawn>
+          <allowEnemy>false</allowEnemy>
+          <allowNeutral>true</allowNeutral>
+          <allowAlly>true</allowAlly>
+        </li>
+
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="LetterLabelFactionBecameHostile">任务失败：[resolvedQuestName]</label>
+          <text TKey="LetterTextFactionBecameHostile">[faction_name]开始敌视你。</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>InvalidPreAcceptance</outcome>
+          <signalListenMode>NotYetAcceptedOnly</signalListenMode>
+        </li>
+
+        <!-- Add the asker himself to the lodgers list -->
+        <!-- The Stellarch needs to be first, otherwise certain letters won't properly display his name. -->
+        <li Class="QuestNode_AddToList">
+          <name>lodgers</name>
+          <value>$asker</value>
+        </li>
+
+        <!-- Biocode asker's weapons (we took his reference manually, so we need to biocode his weapons manually) -->
+        <li Class="QuestNode_BiocodeWeapons">
+          <pawns>$asker</pawns>
+        </li>
+
+        <!-- Add a home faction to lodgers -->
+        <li Class="QuestNode_ExtraFaction">
+          <pawns>$lodgers</pawns>
+          <faction>Wula_PIA_Legion_Faction</faction>
+          <factionType>HomeFaction</factionType>
+          <inSignalsRemovePawn>
+            <li>lodgers.RanWild</li>
+            <li>lodgers.BecameMutant</li>
+          </inSignalsRemovePawn>
+        </li>
+
+        <!-- Lock their apparel -->
+        <li Class="QuestNode_SetAllApparelLocked">
+          <pawns>$lodgers</pawns>
+        </li>
+        
+        <!-- Allow asker to issue decrees -->
+        <li Class="QuestNode_AllowDecreesForLodger">
+          <lodger>$asker</lodger>
+        </li>
+        
+        <!-- Make everyone leave on cleanup -->
+        <li Class="QuestNode_LeaveOnCleanup">
+          <pawns>$lodgers</pawns>
+          <sendStandardLetter>false</sendStandardLetter>
+          <inSignalRemovePawn>lodgers.RanWild</inSignalRemovePawn>
+        </li>
+        
+        <!-- Lodgers arrive by shuttle -->        
+        <li Class="QuestNode_Sequence">
+          <nodes>
+            <!-- Join player or become a prisoner. -->
+            <li Class="QuestNode_JoinPlayer">
+              <pawns>$lodgers</pawns>
+              <joinPlayer>true</joinPlayer>
+              <makePrisoners>false</makePrisoners>
+            </li>
+            
+            <li Class="QuestNode_Sequence">
+              <nodes>
+                <!-- Pawns arrive by shuttle -->
+                <li Class="QuestNode_SubScript">
+                  <def>Util_TransportShip_DropOff</def>
+                  <parms>
+                    <contents>$lodgers</contents>
+                    <owningFaction>Wula_PIA_Legion_Faction</owningFaction>
+                  </parms>
+                </li>
+                <!-- Goodwill penalty -->
+                <li Class="QuestNode_Set">
+                  <name>goodwillChangeOnShuttleDestroyed</name>
+                  <value>-50</value>
+                </li>
+                <!-- Set pawnsLabelDef as a slate ref for the destruction letter. -->
+                <li Class="QuestNode_Set">
+                  <name>pawnsLabelDef</name>
+                  <value>[asker_nameDef]</value>
+                </li>
+                <!-- Shuttle destroyed -->
+                <li Class="QuestNode_Signal">
+                  <inSignal>dropoffShipThing.Destroyed</inSignal>
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="QuestNode_Letter">
+                        <label TKey="LetterLabelShuttleDestroyed">穿梭机被破坏</label>
+                        <letterDef>NegativeEvent</letterDef>
+                        <text TKey="LetterTextShuttleDestroyed">被派遣来运输[asker_nameDef]的穿梭机已被破坏。</text>
+                      </li>
+                      <li Class="QuestNode_End">
+                        <outcome>Fail</outcome>
+                        <goodwillChangeAmount>$goodwillChangeOnShuttleDestroyed</goodwillChangeAmount>
+                        <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                        <goodwillChangeReason>ShuttleDestroyed</goodwillChangeReason>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+              </nodes>
+            </li>
+          </nodes>
+        </li>
+
+        <!-- Asker died -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.Destroyed</inSignal>
+          <inSignalDisable>pickupShipThing.SentWithExtraColonists</inSignalDisable>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelGuestDied">宾客{SUBJECT_definite}死亡</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextGuestDied">需要你护卫的{SUBJECT_definite}已经死亡。[failLetterEndingCommon]</text>
+                <signalListenMode>OngoingOrNotYetAccepted</signalListenMode>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-25</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
+                <signalListenMode>OngoingOrNotYetAccepted</signalListenMode>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        
+        <!-- - - - - - - -  -->
+        <!-- End conditions -->
+        <!-- - - - - - - -  -->
+
+        <!-- Lodger arrested -->
+        <li Class="QuestNode_Signal">
+          <inSignal>lodgers.Arrested</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelGuestCaptured">宾客{SUBJECT_definite}被俘</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextGuestCaptured">需要你护卫的{SUBJECT_definite}已经被俘虏。[failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnArrested</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <!-- Lodger left map -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.LeftMap</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelGuestLost">宾客失踪：{SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextGuestLost">需要你护卫的{SUBJECT_definite}失踪在你的殖民地。[failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        
+        <!-- Asker ran wild -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.RanWild</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelLodgerRanWild">宾客失踪：{SUBJECT_definite}</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text TKey="LetterTextLodgerRanWild">需要你护卫的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+                <goodwillChangeAmount>-30</goodwillChangeAmount>
+                <goodwillChangeFactionOf>$asker</goodwillChangeFactionOf>
+                <goodwillChangeReason>QuestPawnLost</goodwillChangeReason>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

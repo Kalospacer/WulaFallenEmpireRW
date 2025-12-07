@@ -1954,7 +1954,7 @@
       <li>BuildingsMisc</li>
     </thingCategories>
     <graphicData>
-      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(5,5)</drawSize>
       <damageData>

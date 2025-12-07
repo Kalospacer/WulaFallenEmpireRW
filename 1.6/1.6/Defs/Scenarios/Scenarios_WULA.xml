@@ -167,4 +167,110 @@
       </parts>
     </scenario>
   </ScenarioDef>
+
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>WULA_ArmedShuttle_Start_Scenario</defName>
+    <label>乌拉帝国考察队</label>
+    <description>乌拉帝国开发署的舰队已经抵达边缘世界，一名专门负责考察当地生态的调查员和其穿梭机一起被部署到星球表面。</description>
+    <scenario>
+      <summary>以1位拥有精良装备的机械乌拉和其私人穿梭机开始游戏，但是开局资源较少。</summary>
+      <playerFaction>
+        <def>PlayerFaction</def>
+        <factionDef>WULA_Awakened_Synth</factionDef>
+      </playerFaction>
+      <parts>
+        <!-- 种族 -->
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
+          <def>ConfigPage_ConfigureStartingPawns</def>
+          <pawnCount>1</pawnCount>
+          <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+
+        <!-- 到达方式-->
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <method>DropPods</method>
+          <visible>false</visible>
+        </li>
+
+        <!-- 强制地图 -->
+        <!-- <li Class="ScenPart_ForcedMap">
+          <def>ForcedMap</def>
+          <mapGenerator>OrbitalRelay</mapGenerator>
+          <layerDef>Orbit</layerDef>
+        </li> -->
+
+        <li Class="ScenPart_DisableIncident">
+          <def>DisableIncident</def>
+          <incident>WULA_GiveQuest_Intro_Spy</incident>
+          <visible>false</visible>
+        </li>
+        
+        <!-- 初始物品 -->
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Chemfuel</thingDef>
+          <count>500</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_RW_Beam_Base_AR</thingDef>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_RW_Penetrating_Beam_Rifle_Ranged</thingDef>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_MW_ChainSword</thingDef>
+          <stuff>Plasteel</stuff>
+          <quality>Normal</quality>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Apparel_WULA_Manpack_Loitering_Munition</thingDef>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_Fake_Mothership_Beacon_Building</thingDef>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WULA_ArmedShuttleWithPocket_Cleanzone_Free</thingDef>
+          <count>1</count>
+        </li>
+
+        <!-- 初始科技 -->
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>WULA_Colony_License_LV1_Technology</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>WULA_Structure_Technology</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>BasicMechtech</project>
+        </li>
+
+        <!-- 开局介绍事件 -->
+        <li Class="ScenPart_CreateQuest">
+          <def>CreateQuest</def>
+          <questDef>WULA_Intro_NewColony</questDef>
+        </li>
+        
+        <!-- Game start dialog -->
+        <!-- <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <text>帝国的荣光已成遥远的回响。秩序化为冰冷的错误代码。你们曾为之战斗、牺牲、存在的一切根基，都已在这漫长的沉睡中化为尘埃。如今，你们散落于此，在这片被文明遗弃、被暴力主宰的废土上醒来。\n一个来源不明的信号，穿透了层层防护，强行撬开了你意识的黑匣子。是谁？幸存的帝国指挥官？某个试图利用旧日战争机器的军阀？还是本地的异常网络？数据库无法提供答案，只有广播残留的强制力仍在你的逻辑回路中回荡，留下了一串信号特征，指引着你们往未知的远方前进。\n\n提示：建造乌拉帝国通讯站，以获取更多帮助。</text>
+          <closeSound>GameStartSting</closeSound>
+        </li> -->
+      </parts>
+    </scenario>
+  </ScenarioDef>
 </Defs>

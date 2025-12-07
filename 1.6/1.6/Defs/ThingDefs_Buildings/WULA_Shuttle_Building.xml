@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <ThingDef ParentName="BuildingBase">
+    <defName>WULA_ArmedShuttleWithPocket_Cleanzone_Free</defName>
+    <label>CVe-3"渡鸦"</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处派遣一艘穿梭机。\n\nCVe-3"渡鸦"是乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。</description>
+    <uiIconPath>Wula/Building/WULA_ArmedShuttle_Moving</uiIconPath>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(9,13)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <rotatable>false</rotatable>
+    <neverMultiSelect>false</neverMultiSelect>
+    <blockLight>false</blockLight>
+    <holdsRoof>false</holdsRoof>
+    <coversFloor>false</coversFloor>
+    <blockWind>false</blockWind>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <staticSunShadowHeight Inherit="False" IsNull="True" />
+    <fillPercent>0</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(9,13)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <stuffCategories Inherit="False" />
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <isAirtight>false</isAirtight>
+      <isStuffableAirtight>false</isStuffableAirtight>
+    </building>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PrefabSkyfallerCaller">
+        <prefabDefName>WULA_ArmedShuttleWithPocket_SP_Prefab</prefabDefName>
+        <freePrefab>true</freePrefab>
+        <skyfallerDef>WULA_ArmedShuttleWithPocket_Incoming</skyfallerDef>
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
     <defName>WULA_ArmedShuttleWithPocket_Cleanzone</defName>
     <label>CVe-3"渡鸦"</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处派遣一艘穿梭机。\n\nCVe-3"渡鸦"是乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾，可以抵挡大部分射弹。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处派遣一艘穿梭机。\n\nCVe-3"渡鸦"是乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。</description>
     <uiIconPath>Wula/Building/WULA_ArmedShuttle_Moving</uiIconPath>
     <tickerType>Normal</tickerType>
     <minifiedDef>MinifiedThing</minifiedDef>
@@ -42,7 +102,7 @@
     </statBases>
     <size>(9,13)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
-    <resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <stuffCategories Inherit="False" />
     <researchPrerequisites Inherit="False">
       <li>WULA_ArmedShuttle_Technology</li>
@@ -62,7 +122,7 @@
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_PrefabSkyfallerCaller">
         <prefabDefName>WULA_ArmedShuttleWithPocket_SP_Prefab</prefabDefName>
-        <freePrefab>true</freePrefab>
+        <freePrefab>false</freePrefab>
         <skyfallerDef>WULA_ArmedShuttleWithPocket_Incoming</skyfallerDef>
         <destroyBuilding>true</destroyBuilding>
         <delayTicks>1</delayTicks>
@@ -120,7 +180,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_ArmedShuttleWithPocket</defName>
     <label>CVe-3"渡鸦"</label>
-    <description>乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾，可以抵挡大部分射弹。</description>
+    <description>乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。</description>
     <thingClass>WulaFallenEmpire.Building_ArmedShuttleWithPocket</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
@@ -176,10 +236,18 @@
         <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
         <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
       </forcedCostLeavings>
-      <turretGunDef>WULA_Shuttle_Autocannon</turretGunDef>
-      <turretBurstCooldownTime>5.5</turretBurstCooldownTime>
-      <turretTopDrawSize>1.75</turretTopDrawSize>
-      <turretTopOffset>(0, 0.05)</turretTopOffset>
+
+      <combatPower>1000</combatPower>
+      <!--<buildingTags>
+        <li>SRAClusterMember</li>
+        <li>SRAClusterCombatThreat</li>
+        <li>SRA_SmallCluster_SingleTurret</li>
+      </buildingTags>-->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Wula_Base_Laser_Turret_Weapon</turretGunDef>
+      <turretBurstCooldownTime>0.01</turretBurstCooldownTime>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+      <turretTopDrawSize>3</turretTopDrawSize>
     </building>
     <inspectorTabs>
       <li>ITab_ContentsTransporter</li>
@@ -232,7 +300,7 @@
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AreaShield">
         <radius>15</radius>
-        <baseHitPoints>300</baseHitPoints>
+        <baseHitPoints>30</baseHitPoints>
         <rechargeDelay>2400</rechargeDelay>
         <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
         
@@ -251,7 +319,7 @@
       
         <!-- 反射设置 -->
         <canReflect>true</canReflect>
-        <reflectChance>0.85</reflectChance>
+        <reflectChance>0.75</reflectChance>
         <reflectAngleRange>30</reflectAngleRange>
         <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
@@ -260,7 +328,7 @@
         <radius>15</radius>
         <damageIntervalTicks>30</damageIntervalTicks>
         <damageDef>Flame</damageDef>
-        <damageAmount>8</damageAmount>
+        <damageAmount>1</damageAmount>
         <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
         <affectFriendly>false</affectFriendly>
         <affectNeutral>false</affectNeutral>
@@ -271,6 +339,11 @@
         <toggleLabel>热辐射</toggleLabel>
         <toggleDescription>CVe-3"渡鸦"可以启动防御设施，蒸发胆敢进入反射立场内的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
         <toggleIconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</toggleIconPath>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-2000</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
       </li>
     </comps>
     <modExtensions>
@@ -454,8 +527,7 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Wula/Building/WULA_ArmedShuttle_Moving</texPath>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(6,6.25)</drawSize>
-      <drawOffset>(0, 8, 1.6)</drawOffset>
+      <drawSize>(14,14)</drawSize>
     </graphicData>
     <staticSunShadowHeight Inherit="False" IsNull="True" />
     <castEdgeShadows>False</castEdgeShadows>

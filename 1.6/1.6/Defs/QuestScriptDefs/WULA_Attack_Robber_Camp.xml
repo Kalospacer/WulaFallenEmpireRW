@@ -4,6 +4,7 @@
     <defName>WULA_Attack_Robber_Camp</defName>
     <rootSelectionWeight>0</rootSelectionWeight>
     <expireDaysRange>1</expireDaysRange>
+    <autoAccept>false</autoAccept>
     <sendAvailableLetter>true</sendAvailableLetter>
     <isRootSpecial>true</isRootSpecial>   <!-- 特殊任务 --> 
 

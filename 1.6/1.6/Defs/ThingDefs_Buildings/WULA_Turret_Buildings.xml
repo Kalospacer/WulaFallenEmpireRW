@@ -416,7 +416,7 @@
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <statBases>
       <MaxHitPoints>500</MaxHitPoints>
-      <WorkToBuild>0</WorkToBuild>
+      <WorkToBuild>1</WorkToBuild>
       <Mass>20</Mass>
       <Flammability>0</Flammability>
     </statBases>
