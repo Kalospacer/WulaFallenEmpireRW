@@ -113,5 +113,33 @@
   <WULA_SelectCategoryFirst>请先选择一个分类</WULA_SelectCategoryFirst>
   <WULA_GatheringMaterials>正在收集材料</WULA_GatheringMaterials>
   <WULA_Paused>已暂停</WULA_Paused>
+  <!-- Area Teleporter -->
+  <WULA_CancelTeleport>取消传送</WULA_CancelTeleport>
+  <WULA_CancelTeleportDesc>取消当前的传送预热。</WULA_CancelTeleportDesc>
+  <WULA_InitiateTeleport>启动传送</WULA_InitiateTeleport>
+  <WULA_InitiateTeleportDesc>启动区域传送程序，将信标周围的物体传送到指定位置。</WULA_InitiateTeleportDesc>
+  <WULA_RequiresResearch>需要研究：{0}</WULA_RequiresResearch>
+  <WULA_MissingResearch>缺少必要的研究：{0}</WULA_MissingResearch>
+  <WULA_TeleportFailed_MapGeneration>无法生成目标地图。</WULA_TeleportFailed_MapGeneration>
+  <WULA_TeleportWarmupStarted>传送预热已开始。</WULA_TeleportWarmupStarted>
+  <WULA_TeleportCancelled>传送已取消。</WULA_TeleportCancelled>
+  <WULA_TeleportFailed_InvalidTarget>无效的目标位置。</WULA_TeleportFailed_InvalidTarget>
+  <WULA_TeleportFailed_NoMap>无法获取目标地图。</WULA_TeleportFailed_NoMap>
+  <WULA_TeleportSuccessful>传送成功。</WULA_TeleportSuccessful>
+  <WULA_SelectArrivalPoint>选择降落点</WULA_SelectArrivalPoint>
+  <WULA_SelectArrivalPointDesc>选择传送到达的具体位置。</WULA_SelectArrivalPointDesc>
+  <WULA_OutOfBounds>超出地图边界。</WULA_OutOfBounds>
+  <WULA_InNoBuildArea>位于不可建造区域。</WULA_InNoBuildArea>
+  <WULA_BlockedByFog>目标位置被迷雾覆盖。</WULA_BlockedByFog>
+  <WULA_BlockedByIndestructible>被不可破坏的物体阻挡：{0}</WULA_BlockedByIndestructible>
+  <WULA_TerrainImpassable>目标地形不可通过。</WULA_TerrainImpassable>
+  <WULA_BlockedByThickRoof>被厚岩顶阻挡。</WULA_BlockedByThickRoof>
+  <WULA_MustSelectLandingSpot>必须选择一个降落点。</WULA_MustSelectLandingSpot>
+  <WULA_ConfirmTeleport>确认传送</WULA_ConfirmTeleport>
+  <WULA_ConfirmTeleportDesc>确认当前位置并开始传送。</WULA_ConfirmTeleportDesc>
+  <WULA_MoveMarker>移动标记</WULA_MoveMarker>
+  <WULA_MoveMarkerDesc>重新选择降落位置。</WULA_MoveMarkerDesc>
+  <WULA_GeneratedMapCleanedUp>由于传送取消，生成的临时地图已被清理。</WULA_GeneratedMapCleanedUp>
+  <WULA_InsufficientFuel>燃料不足。</WULA_InsufficientFuel>
 
 </LanguageData>

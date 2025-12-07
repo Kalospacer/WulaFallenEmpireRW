@@ -17,6 +17,7 @@ namespace WulaFallenEmpire
         private bool isWarmingUp = false;
         private int warmupTicksLeft = 0;
         private GlobalTargetInfo target;
+        private WULA_TeleportLandingMarker activeMarker;
         
         public override void PostExposeData()
         {
@@ -24,6 +25,13 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref isWarmingUp, "isWarmingUp", false);
             Scribe_Values.Look(ref warmupTicksLeft, "warmupTicksLeft", 0);
             Scribe_TargetInfo.Look(ref target, "target");
+            Scribe_References.Look(ref activeMarker, "activeMarker");
+        }
+
+        public override void PostDrawExtraSelectionOverlays()
+        {
+            base.PostDrawExtraSelectionOverlays();
+            GenDraw.DrawFieldEdges(CellRect.CenteredOn(parent.Position, Props.areaSize.x, Props.areaSize.z).Cells.ToList());
         }
 
         public override void CompTick()
@@ -32,14 +40,17 @@ namespace WulaFallenEmpire
             if (isWarmingUp)
             {
                 warmupTicksLeft--;
+                if (warmupTicksLeft % 60 == 0)
+                {
+                    Log.Message($"[WULA] Teleport warmup: {warmupTicksLeft} ticks left.");
+                    Props.warmupEffecter?.Spawn(parent, parent.Map).Cleanup();
+                }
+
                 if (warmupTicksLeft <= 0)
                 {
+                    Log.Message("[WULA] Warmup finished. Attempting teleport...");
                     TryTeleport();
                     isWarmingUp = false;
-                }
-                else if (warmupTicksLeft % 60 == 0)
-                {
-                    Props.warmupEffecter?.Spawn(parent, parent.Map).Cleanup();
                 }
             }
         }
@@ -55,6 +66,16 @@ namespace WulaFallenEmpire
                 yield break;
 
             if (isWarmingUp)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "WULA_CancelTeleport".Translate(),
+                    defaultDesc = "WULA_CancelTeleportDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel"),
+                    action = CancelTeleport
+                };
+            }
+            else if (activeMarker != null && !activeMarker.Destroyed)
             {
                 yield return new Command_Action
                 {
@@ -122,15 +143,44 @@ namespace WulaFallenEmpire
             this.target = targetInfo;
             
             MapParent mapParent = Find.WorldObjects.MapParentAt(targetInfo.Tile);
-            if (mapParent != null && mapParent.HasMap)
+            
+            if (mapParent == null)
             {
-                CameraJumper.TryJump(mapParent.Map.Center, mapParent.Map);
-                Find.DesignatorManager.Select(new Designator_TeleportArrival(this, mapParent.Map));
-                return true;
+                SettleUtility.AddNewHome(targetInfo.Tile, Faction.OfPlayer);
+                mapParent = Find.WorldObjects.MapParentAt(targetInfo.Tile);
+            }
+
+            if (mapParent != null)
+            {
+                if (!mapParent.HasMap)
+                {
+                    IntVec3 mapSize = Find.World.info.initialMapSize;
+                    GetOrGenerateMapUtility.GetOrGenerateMap(targetInfo.Tile, mapSize, null);
+                }
+
+                if (mapParent.HasMap)
+                {
+                    CameraJumper.TryJump(mapParent.Map.Center, mapParent.Map);
+                    
+                    if (activeMarker != null && !activeMarker.Destroyed)
+                    {
+                        activeMarker.Destroy();
+                    }
+
+                    activeMarker = (WULA_TeleportLandingMarker)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("WULA_TeleportLandingMarker"));
+                    activeMarker.sourceThing = parent;
+                    GenSpawn.Spawn(activeMarker, mapParent.Map.Center, mapParent.Map);
+                    
+                    Find.Selector.ClearSelection();
+                    Find.Selector.Select(activeMarker);
+                    Find.DesignatorManager.Select(new Designator_TeleportArrival(this, mapParent.Map, activeMarker));
+                    
+                    return true;
+                }
             }
             
-            StartWarmup();
-            return true;
+            Messages.Message("WULA_TeleportFailed_MapGeneration".Translate(), MessageTypeDefOf.RejectInput);
+            return false;
         }
 
         public void ConfirmArrival(IntVec3 cell, Map map)
@@ -151,13 +201,23 @@ namespace WulaFallenEmpire
         {
             isWarmingUp = false;
             warmupTicksLeft = 0;
+            
+            if (activeMarker != null && !activeMarker.Destroyed)
+            {
+                activeMarker.Destroy();
+                activeMarker = null;
+            }
+            
             Messages.Message("WULA_TeleportCancelled".Translate(), parent, MessageTypeDefOf.NeutralEvent);
         }
 
         private void TryTeleport()
         {
+            Log.Message($"[WULA] TryTeleport called. Target valid: {target.IsValid}, Tile: {target.Tile}, Cell: {target.Cell}");
+
             if (!target.IsValid)
             {
+                Messages.Message("WULA_TeleportFailed_InvalidTarget".Translate(), parent, MessageTypeDefOf.RejectInput);
                 CancelTeleport();
                 return;
             }
@@ -167,16 +227,18 @@ namespace WulaFallenEmpire
 
             if (targetMap == null)
             {
+                Log.Message($"[WULA] Target map is null. Generating map for tile {target.Tile}...");
                 targetMap = GetOrGenerateTargetMap(target.Tile);
                 if (targetMap == null)
                 {
-                    Log.Error("Failed to get or generate target map.");
+                    Messages.Message("WULA_TeleportFailed_NoMap".Translate(), parent, MessageTypeDefOf.RejectInput);
                     CancelTeleport();
                     return;
                 }
                 targetCell = targetMap.Center;
             }
 
+            Log.Message($"[WULA] Teleporting to map {targetMap.Index}, cell {targetCell}");
             TeleportContents(targetMap, targetCell);
         }
 
@@ -203,85 +265,90 @@ namespace WulaFallenEmpire
             return null;
         }
 
-        private struct CellData
-        {
-            public IntVec3 relativePos;
-            public TerrainDef terrain;
-            public List<Thing> things;
-        }
-
         private void TeleportContents(Map targetMap, IntVec3 targetCenter)
         {
-            IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(parent.Position, Props.radius, true);
-            List<CellData> dataToTeleport = new List<CellData>();
+            CellRect rect = CellRect.CenteredOn(parent.Position, Props.areaSize.x, Props.areaSize.z);
             IntVec3 center = parent.Position;
+            
+            List<Thing> thingsToTeleport = new List<Thing>();
+            List<Pair<IntVec3, TerrainDef>> terrainToTeleport = new List<Pair<IntVec3, TerrainDef>>();
+
+            Log.Message($"[WULA] Collecting data from {rect.Area} cells around {center} with size {Props.areaSize}");
 
             // 1. 收集数据
-            foreach (IntVec3 cell in cells)
+            HashSet<Thing> collectedThings = new HashSet<Thing>();
+            foreach (IntVec3 cell in rect)
             {
                 if (!cell.InBounds(parent.Map)) continue;
 
-                CellData data = new CellData
-                {
-                    relativePos = cell - center,
-                    terrain = cell.GetTerrain(parent.Map),
-                    things = new List<Thing>()
-                };
+                terrainToTeleport.Add(new Pair<IntVec3, TerrainDef>(cell - center, cell.GetTerrain(parent.Map)));
 
                 List<Thing> thingList = parent.Map.thingGrid.ThingsListAt(cell);
                 for (int i = thingList.Count - 1; i >= 0; i--)
                 {
                     Thing t = thingList[i];
-                    if (t.def.category == ThingCategory.Item || 
-                        t.def.category == ThingCategory.Pawn || 
-                        t.def.category == ThingCategory.Building)
+                    if (t != parent && !collectedThings.Contains(t) &&
+                        (t.def.category == ThingCategory.Item || 
+                         t.def.category == ThingCategory.Pawn || 
+                         t.def.category == ThingCategory.Building))
                     {
-                        if (t != parent && !t.def.destroyable) continue;
-                        if (t != parent) data.things.Add(t);
+                        if (!t.def.destroyable) continue;
+                        
+                        collectedThings.Add(t);
+                        thingsToTeleport.Add(t);
                     }
                 }
-                dataToTeleport.Add(data);
             }
             
-            // 2. 执行传送
-            foreach (CellData data in dataToTeleport)
+            // 2. 准备传送 (PreSwapMap)
+            foreach (Thing t in thingsToTeleport) t.PreSwapMap();
+            parent.PreSwapMap();
+
+            // 3. 从源地图移除 (DeSpawn)
+            foreach (Thing t in thingsToTeleport)
             {
-                IntVec3 newPos = targetCenter + data.relativePos;
+                if (t.Spawned) t.DeSpawn(DestroyMode.WillReplace);
+            }
+            if (parent.Spawned) parent.DeSpawn(DestroyMode.WillReplace);
+
+            // 4. 修改地形
+            foreach (var pair in terrainToTeleport)
+            {
+                IntVec3 newPos = targetCenter + pair.First;
                 newPos = newPos.ClampInsideMap(targetMap);
 
-                // 2.1 传送地形
-                if (data.terrain != null)
+                List<Thing> targetThings = targetMap.thingGrid.ThingsListAt(newPos);
+                for (int i = targetThings.Count - 1; i >= 0; i--)
                 {
-                    List<Thing> targetThings = targetMap.thingGrid.ThingsListAt(newPos);
-                    for (int i = targetThings.Count - 1; i >= 0; i--)
-                    {
-                        if (targetThings[i].def.destroyable) targetThings[i].Destroy();
-                    }
-
-                    targetMap.terrainGrid.SetTerrain(newPos, data.terrain);
-                    parent.Map.terrainGrid.SetTerrain(center + data.relativePos, TerrainDefOf.Soil);
+                    if (targetThings[i].def.destroyable) targetThings[i].Destroy();
                 }
 
-                // 2.2 传送物体
-                foreach (Thing t in data.things)
+                if (pair.Second != null)
                 {
-                    if (t.Destroyed) continue;
-
-                    if (t.Spawned) t.DeSpawn();
-                    GenSpawn.Spawn(t, newPos, targetMap, t.Rotation);
-                    
-                    if (t is Pawn p)
-                    {
-                        p.jobs.StopAll();
-                    }
+                    targetMap.terrainGrid.SetTerrain(newPos, pair.Second);
+                    parent.Map.terrainGrid.SetTerrain(center + pair.First, TerrainDefOf.Soil);
                 }
             }
 
-            // 3. 传送自身
-            if (parent.Spawned) parent.DeSpawn();
+            // 5. 放置到新地图 (Spawn)
+            foreach (Thing t in thingsToTeleport)
+            {
+                if (t.Destroyed) continue;
+                IntVec3 relativePos = t.Position - center;
+                IntVec3 newPos = targetCenter + relativePos;
+                newPos = newPos.ClampInsideMap(targetMap);
+                GenSpawn.Spawn(t, newPos, targetMap, t.Rotation);
+            }
             GenSpawn.Spawn(parent, targetCenter, targetMap, parent.Rotation);
 
-            // 4. 完成
+            // 6. 传送后处理 (PostSwapMap)
+            foreach (Thing t in thingsToTeleport)
+            {
+                if (!t.Destroyed) t.PostSwapMap();
+            }
+            parent.PostSwapMap();
+
+            // 7. 完成
             CameraJumper.TryJump(targetCenter, targetMap);
             Props.teleportSound?.PlayOneShot(new TargetInfo(targetCenter, targetMap, false));
             Messages.Message("WULA_TeleportSuccessful".Translate(), new TargetInfo(targetCenter, targetMap, false), MessageTypeDefOf.PositiveEvent);

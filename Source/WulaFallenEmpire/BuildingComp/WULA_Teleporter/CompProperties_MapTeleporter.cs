@@ -5,7 +5,7 @@ namespace WulaFallenEmpire
 {
     public class CompProperties_MapTeleporter : CompProperties
     {
-        public float radius = 5f;
+        public IntVec2 areaSize = new IntVec2(13, 13);
         public int warmupTicks = 120;
         public EffecterDef warmupEffecter;
         public SoundDef warmupSound;

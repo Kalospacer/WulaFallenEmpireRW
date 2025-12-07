@@ -5,7 +5,7 @@
     <defName>WULA_AreaTeleportBeacon</defName>
     <label>乌拉区域传送信标</label>
     <description>负责协调殖民地与轨道上的乌拉帝国舰队进行材料输送的信标，空投建筑会优先从信标覆盖区域吸纳资源完成空投。</description>
-    <thingClass>Building_OrbitalTradeBeacon</thingClass>
+    <thingClass>Building</thingClass>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>
     </thingCategories>
@@ -32,12 +32,13 @@
       <Steel>40</Steel>
       <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
+    <tickerType>Normal</tickerType>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_MapTeleporter">
-        <radius>7</radius>
+        <areaSize>(13, 13)</areaSize>
         <warmupTicks>120</warmupTicks>
         <requiredResearch>WULA_Colony_License_LV1_Technology</requiredResearch>
       </li>
@@ -1029,4 +1030,6 @@
       </li>
     </comps>
   </ThingDef>
+
+  
 </Defs>

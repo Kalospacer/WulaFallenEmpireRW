@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WULA_TeleportLandingMarker</defName>
+    <label>传送降落标记</label>
+    <description>用于标记传送降落位置。</description>
+    <thingClass>WulaFallenEmpire.WULA_TeleportLandingMarker</thingClass>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone_Plus</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(13,13)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <hasCustomRectForSelector>true</hasCustomRectForSelector>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+  </ThingDef>
+  
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Prefab_Cleanzone_NewColonyBase_Beacon</defName>
     <label>乌拉预制件空投信标-小型前哨站</label>
