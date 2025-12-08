@@ -3,19 +3,15 @@
   <FleckDef Name="WULA_GunTail_Plasma" ParentName="FleckBase">
     <defName>WULA_GunTail_Plasma</defName>
     <altitudeLayer>Projectile</altitudeLayer>
-    <solidTime>0.05</solidTime>
-    <fadeOutTime>0.1</fadeOutTime>
+    <fadeInTime>0.50</fadeInTime>
+    <solidTime>1</solidTime>
+    <fadeOutTime>1.2</fadeOutTime>
+    <growthRate>0.025</growthRate>
     <graphicData>
       <texPath>Wula/Mote/WULA_GunTail_Plasma</texPath>
       <shaderType>MoteGlow</shaderType>
-      <drawSize>1.25</drawSize>
-      <color>(218,255,200,155)</color>
-    </graphicData>
-  </FleckDef>
-  <FleckDef  ParentName="WULA_GunTail_Plasma">
-    <defName>WULA_GunTail_Plasma_Yellow</defName>
-    <graphicData>
-      <color>(242,160,69,155)</color>
+      <drawSize>4.25</drawSize>
+      <color>(179,127,67,155)</color>
     </graphicData>
   </FleckDef>
 
@@ -68,19 +64,6 @@
     <fadeOutTime>0.2</fadeOutTime>
   </FleckDef>
   
-  <FleckDef ParentName="FleckBase">
-    <defName>ElectricalSpark_WULA_Plasma_Explosive</defName>
-    <graphicData>
-      <texPath>Wula/Mote/ElectricalSpark_WULA_Plasma_Explosive</texPath>
-      <shaderType>MoteGlow</shaderType>
-      <!-- <color>(0.2, 0.8, 0.3 ,0.8)</color> -->
-    </graphicData>
-    <altitudeLayer>MoteOverhead</altitudeLayer>
-    <fadeInTime>0.04</fadeInTime>
-    <solidTime>0.08</solidTime>
-    <fadeOutTime>0.13</fadeOutTime>
-  </FleckDef>
-
   <FleckDef ParentName="FleckBase_Thrown">
     <defName>WULA_Smoke_Tail</defName>
     <graphicData>

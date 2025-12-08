@@ -16,6 +16,9 @@ namespace WulaFallenEmpire
         // 存储的炮塔列表
         private List<TurretInstance> turrets = new List<TurretInstance>();
 
+        // 标记是否已加载数据
+        private bool dataLoaded = false;
+
         // 获取当前机械族存储数量
         private int StoredMechanoidCount
         {
@@ -34,12 +37,25 @@ namespace WulaFallenEmpire
         public override void Initialize(CompProperties props)
         {
             base.Initialize(props);
-            UpdateTurrets();
+            
+            // 只有在没有加载过数据时才初始化新炮塔
+            if (!dataLoaded)
+            {
+                UpdateTurrets();
+            }
         }
 
         public override void CompTick()
         {
             base.CompTick();
+            
+            // 确保数据已加载
+            if (!dataLoaded)
+            {
+                dataLoaded = true;
+                InitializeTurretsAfterLoad();
+                return;
+            }
             
             // 更新炮塔数量
             if (Find.TickManager.TicksGame % 60 == 0)
@@ -57,6 +73,29 @@ namespace WulaFallenEmpire
             }
         }
 
+        // 加载后初始化炮塔
+        private void InitializeTurretsAfterLoad()
+        {
+            if (turrets == null)
+            {
+                turrets = new List<TurretInstance>();
+            }
+            
+            // 重新建立 parent 引用
+            for (int i = 0; i < turrets.Count; i++)
+            {
+                if (turrets[i] != null)
+                {
+                    turrets[i].SetParent(this);
+                    turrets[i].SetIndex(i);
+                    turrets[i].PostLoadInit();
+                }
+            }
+            
+            // 根据当前机械族数量调整炮塔数量
+            UpdateTurrets();
+        }
+
         private void UpdateTurrets()
         {
             int currentCount = Mathf.Min(StoredMechanoidCount, Props.maxTurrets);
@@ -70,7 +109,16 @@ namespace WulaFallenEmpire
             // 移除多余的炮塔
             while (turrets.Count > currentCount)
             {
-                turrets.RemoveAt(turrets.Count - 1);
+                // 注意：只移除未激活的炮塔
+                int lastIndex = turrets.Count - 1;
+                if (lastIndex >= StoredMechanoidCount)
+                {
+                    turrets.RemoveAt(lastIndex);
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
@@ -92,35 +140,13 @@ namespace WulaFallenEmpire
         {
             base.PostExposeData();
             
-            // 在保存和加载时重新建立 parent 引用
-            if (Scribe.mode == LoadSaveMode.Saving)
-            {
-                Scribe_Collections.Look(ref turrets, "turrets", LookMode.Deep);
-            }
-            else if (Scribe.mode == LoadSaveMode.LoadingVars)
-            {
-                Scribe_Collections.Look(ref turrets, "turrets", LookMode.Deep);
-            }
+            Scribe_Values.Look(ref dataLoaded, "dataLoaded", false);
+            Scribe_Collections.Look(ref turrets, "turrets", LookMode.Deep);
             
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                if (turrets == null)
-                {
-                    turrets = new List<TurretInstance>();
-                }
-                else
-                {
-                    // 重新建立 parent 引用
-                    for (int i = 0; i < turrets.Count; i++)
-                    {
-                        if (turrets[i] != null)
-                        {
-                            turrets[i].SetParent(this);
-                            turrets[i].SetIndex(i);
-                        }
-                    }
-                }
-                UpdateTurrets();
+                // 标记需要重新初始化
+                dataLoaded = false;
             }
         }
 
@@ -137,6 +163,9 @@ namespace WulaFallenEmpire
             public LocalTargetInfo currentTarget = LocalTargetInfo.Invalid;
             public float curRotation;
             public Material turretMat;
+            
+            // 标记是否已初始化
+            private bool initialized = false;
             
             // 安全访问器
             public CompStorageTurret Parent => _parent;
@@ -172,25 +201,16 @@ namespace WulaFallenEmpire
                         return false;
                     
                     if (AttackVerb == null)
+                    {
+                        // 尝试重新初始化
+                        if (!initialized)
+                        {
+                            PostLoadInit();
+                        }
                         return false;
-                    
-                    if (TurretDestroyed)
-                        return false;
+                    }
                     
                     return true;
-                }
-            }
-            
-            public bool TurretDestroyed
-            {
-                get
-                {
-                    var verbProps = AttackVerb?.verbProps;
-                    if (verbProps == null)
-                        return false;
-                    
-                    // 这里可以添加建筑炮塔的破坏检查逻辑
-                    return false;
                 }
             }
             
@@ -201,7 +221,7 @@ namespace WulaFallenEmpire
             {
                 SetParent(parent);
                 SetIndex(index);
-                MakeGun();
+                Initialize();
             }
             
             public void SetParent(CompStorageTurret parent)
@@ -214,13 +234,35 @@ namespace WulaFallenEmpire
                 _index = index;
             }
             
+            private void Initialize()
+            {
+                if (initialized) return;
+                
+                MakeGun();
+                UpdateGunVerbs();
+                initialized = true;
+            }
+            
+            // 加载后初始化
+            public void PostLoadInit()
+            {
+                if (initialized) return;
+                
+                if (gun == null)
+                {
+                    MakeGun();
+                }
+                
+                UpdateGunVerbs();
+                initialized = true;
+            }
+            
             private void MakeGun()
             {
                 if (_parent == null || _parent.Props == null || _parent.Props.turretDef == null)
                     return;
                     
                 gun = ThingMaker.MakeThing(_parent.Props.turretDef, null);
-                UpdateGunVerbs();
             }
             
             private void UpdateGunVerbs()
@@ -230,9 +272,17 @@ namespace WulaFallenEmpire
                 var compEq = gun.TryGetComp<CompEquippable>();
                 if (compEq == null) return;
                 
+                // 确保 parent 不为 null
+                if (_parent == null || _parent.parent == null)
+                {
+                    Log.Warning("[StorageTurret] Parent is null when updating gun verbs");
+                    return;
+                }
+                
                 foreach (var verb in compEq.AllVerbs)
                 {
-                    verb.caster = _parent?.parent;
+                    // 关键修复：设置正确的 caster
+                    verb.caster = _parent.parent;
                     verb.castCompleteCallback = () =>
                     {
                         burstCooldownTicksLeft = AttackVerb?.verbProps?.defaultCooldownTime.SecondsToTicks() ?? 0;
@@ -242,7 +292,14 @@ namespace WulaFallenEmpire
             
             public void TurretTick()
             {
-                if (!CanShoot) return;
+                if (!CanShoot || AttackVerb == null) return;
+                
+                // 确保动词已正确初始化
+                if (AttackVerb.caster == null)
+                {
+                    UpdateGunVerbs();
+                    return;
+                }
                 
                 // 更新炮塔旋转
                 if (currentTarget.IsValid)
@@ -342,18 +399,9 @@ namespace WulaFallenEmpire
                 Scribe_TargetInfo.Look(ref currentTarget, "currentTarget");
                 Scribe_Deep.Look(ref gun, "gun");
                 Scribe_Values.Look(ref curRotation, "curRotation", 0f);
+                Scribe_Values.Look(ref initialized, "initialized", false);
                 
-                if (Scribe.mode == LoadSaveMode.PostLoadInit)
-                {
-                    if (gun == null)
-                    {
-                        MakeGun();
-                    }
-                    else
-                    {
-                        UpdateGunVerbs();
-                    }
-                }
+                // 注意：不序列化 _parent 和 _index，它们在加载后重新设置
             }
         }
     }

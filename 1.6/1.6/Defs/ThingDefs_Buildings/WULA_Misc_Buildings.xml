@@ -1,60 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_AreaTeleportBeacon</defName>
-    <label>乌拉区域传送信标</label>
-    <description>负责协调殖民地与轨道上的乌拉帝国舰队进行材料输送的信标，空投建筑会优先从信标覆盖区域吸纳资源完成空投。</description>
-    <thingClass>Building</thingClass>
-    <thingCategories Inherit="False">
-      <li>BuildingsMisc</li>
-    </thingCategories>
+    <label>区域跃迁引擎</label>
+    <description>乌拉帝国的科技结晶之一，可以供整个区域继续传送的跃迁引擎，它会把区域内的地面、建筑、生物和散落材料等完整地移动到其他地图上。</description>
+    <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+		<altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <tradeability>None</tradeability>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_A</uiIconPath>
+    <rotatable>false</rotatable>
     <graphicData>
-      <texPath>Wula/Building/WULA_OrbitalTradeBeacon</texPath>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shadowData>
-        <volume>(0.3, 0.2, 0.3)</volume>
-        <offset>(0,0,-0.1)</offset>
-      </shadowData>
+      <drawSize>(1,1)</drawSize>
     </graphicData>
-    <altitudeLayer>Building</altitudeLayer>
-    <minifiedDef>MinifiedThing</minifiedDef>
+    <costList>
+      <WULA_Alloy>4</WULA_Alloy>
+    </costList>
     <statBases>
-      <MaxHitPoints>75</MaxHitPoints>
-      <WorkToBuild>800</WorkToBuild>
+      <MaxHitPoints>50</MaxHitPoints>
       <Flammability>0.5</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
       <Mass>5</Mass>
     </statBases>
-    <drawerType>MapMeshAndRealTime</drawerType>
-    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
-    <fillPercent>0.15</fillPercent>
-    <costList>
-      <Steel>40</Steel>
-      <ComponentIndustrial>1</ComponentIndustrial>
-    </costList>
     <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <researchPrerequisites>
+      <li>WULA_Building_Teleporter_Technology</li>
+    </researchPrerequisites>
     <building>
-      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
     </building>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalHoverSpeed>0</globalHoverSpeed>
+        <globalHoverIntensity>0</globalHoverIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(3,3)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
+            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
+            <hoverPhase>0</hoverPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_MapTeleporter">
         <areaSize>(13, 13)</areaSize>
         <warmupTicks>120</warmupTicks>
-        <requiredResearch>WULA_Colony_License_LV1_Technology</requiredResearch>
+        <requiredResearch>WULA_Building_Teleporter_Technology</requiredResearch>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
       </li>
     </comps>
-    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
-    <pathCost>14</pathCost>
-    <designationCategory>WULA_Buildings</designationCategory>
-    <uiOrder>2100</uiOrder>
-    <rotatable>false</rotatable>
-    <placeWorkers>
-      <li>PlaceWorker_ShowTradeBeaconRadius</li>
-    </placeWorkers>
-    <designationHotKey>Misc2</designationHotKey>
-    <researchPrerequisites>
-      <li>WULA_Colony_License_LV1_Technology</li>
-    </researchPrerequisites>
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
@@ -1030,6 +1067,4 @@
       </li>
     </comps>
   </ThingDef>
-
-  
 </Defs>

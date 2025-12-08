@@ -129,6 +129,22 @@
     </subSounds>
   </SoundDef>
   <SoundDef>
+    <defName>Wula_Disturber_Turret_Weapon_Explosive</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>99</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/Wula_Disturber_Turret_Weapon_Explosive</clipPath>
+          </li>
+        </grains>
+        <volumeRange>95</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
     <defName>WULA_RW_Beam_Shootingsound</defName>
     <sustain>true</sustain>
     <context>MapOnly</context>
@@ -146,6 +162,22 @@
         <pitchRange>0.99~1.01</pitchRange>
         <volumeRange>50</volumeRange>
         <sustainRelease>0.2</sustainRelease>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>Wula_Disturber_Turret_Weapon_Shootingsound</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/Wula_Disturber_Turret_Weapon_Shootingsound</clipPath>
+          </li>
+        </grains>
+        <volumeRange>65</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
       </li>
     </subSounds>
   </SoundDef>

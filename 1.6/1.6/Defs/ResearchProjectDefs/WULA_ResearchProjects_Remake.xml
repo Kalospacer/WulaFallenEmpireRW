@@ -518,6 +518,17 @@
       <li>WULA_Synth_Armor_2_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>Wula_Disturber_Turret_Technology</defName>
+    <researchViewX>11.00</researchViewX>
+    <researchViewY>0.90</researchViewY>
+    <label>中型舰炮许可</label>
+    <description>允许殖民地申请空投四联装舰炮，以毁灭性的等离子风暴连射毁灭一切帝国之敌。</description>
+    <baseCost>4500</baseCost>
+    <prerequisites>
+      <li>WULA_Turret_Base_Mortar_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
 
   <!-- 植物 -->
   <ResearchProjectDef ParentName="WULAtechBase">
@@ -701,7 +712,7 @@
     <researchViewX>10.00</researchViewX>
     <researchViewY>3.80</researchViewY>
     <label>建筑传送许可</label>
-    <description>允许通过传送将乌拉帝国的建筑直接传送到空投区，这使得建筑可以立刻部署到目标地点，且无视厚岩顶阻挡。</description>
+    <description>允许通过传送将乌拉帝国的建筑直接传送到空投区，这使得建筑可以立刻部署到目标地点，且无视厚岩顶阻挡。除此之外，也可以建造区域跃迁引擎，以移动整个基地。</description>
     <baseCost>2000</baseCost>
     <prerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>

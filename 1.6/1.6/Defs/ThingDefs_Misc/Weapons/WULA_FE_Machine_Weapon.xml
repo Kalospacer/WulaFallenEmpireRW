@@ -173,7 +173,7 @@
     <defName>Bullet_Wula_MR_Mobile_Factory_Turret</defName>
     <label>陨磷钢针弹</label>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_Needle_AT</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
       <drawSize>2.5</drawSize>
@@ -406,7 +406,7 @@
     <defName>Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon</defName>
     <label>青金石钢针弹</label>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red</texPath>
+      <texPath>Wula/Projectile/WULA_Bullet_Needle_AT</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
       <drawSize>2.5</drawSize>
