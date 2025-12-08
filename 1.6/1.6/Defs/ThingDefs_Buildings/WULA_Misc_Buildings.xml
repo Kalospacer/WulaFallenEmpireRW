@@ -23,7 +23,8 @@
       <drawSize>(1,1)</drawSize>
     </graphicData>
     <costList>
-      <WULA_Alloy>4</WULA_Alloy>
+      <WULA_Alloy>50</WULA_Alloy>
+      <WULA_Tex_Voucher>1</WULA_Tex_Voucher>
     </costList>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>

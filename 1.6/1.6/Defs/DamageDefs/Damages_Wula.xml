@@ -340,7 +340,7 @@
 
   <DamageDef ParentName="Bomb">
     <defName>WULA_Disturber_Turret_Bomb</defName>
-    <label>等离子爆炸</label>
+    <label>熔岩爆炸</label>
     <!-- <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass> -->
     <workerClass>WulaFallenEmpire.DamageWorker_ExplosionWithTerrain</workerClass>
     <defaultDamage>250</defaultDamage>
@@ -423,17 +423,26 @@
   <DamageDef ParentName="Bomb">
     <defName>WULA_DarkMatterBomb</defName>
     <label>暗物质湮灭爆炸</label>
+    <workerClass>WulaFallenEmpire.DamageWorker_ExplosionWithTerrain</workerClass>
     <defaultDamage>550</defaultDamage>
     <defaultStoppingPower>2.0</defaultStoppingPower>
     <defaultArmorPenetration>1.30</defaultArmorPenetration>
     <explosionCenterEffecter>WULA_DarkMatterBomb_Shockwave</explosionCenterEffecter>
+    <explosionCellFleck>BlastEMP</explosionCellFleck>
+    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDefExtension_TerrainCover">
+        <terrainToSpawn>CooledLava</terrainToSpawn>
+      </li>
+    </modExtensions>
   </DamageDef>
   <EffecterDef>
     <defName>WULA_DarkMatterBomb_Shockwave</defName>
     <children>
       <li>
         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
-        <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
+        <fleckDef>Fleck_WULA_DarkMatterBomb_Shockwave</fleckDef>
         <burstCount>1</burstCount>
         <spawnLocType>OnSource</spawnLocType>
         <absoluteAngle>true</absoluteAngle>
@@ -441,7 +450,7 @@
       </li>
       <li>
         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
-        <fleckDef>Fleck_BlastMechBandRedLine</fleckDef>
+        <fleckDef>Fleck_WULA_DarkMatterBomb_Line</fleckDef>
         <burstCount>1</burstCount>
         <spawnLocType>OnSource</spawnLocType>
         <absoluteAngle>true</absoluteAngle>
@@ -464,6 +473,54 @@
       </li>
     </children>
   </EffecterDef>
+  <FleckDef ParentName="FleckBase">
+    <defName>Fleck_WULA_DarkMatterBomb_Shockwave</defName>
+    <altitudeLayer>MoteOverheadLow</altitudeLayer>
+    <fadeInTime>0.04</fadeInTime>
+    <fadeOutTime>0.1</fadeOutTime>
+    <solidTime>0.8</solidTime>
+    <growthRate>1.5</growthRate>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <texPath>Things/Mote/Black</texPath>
+      <shaderType>MoteLargeDistortionWave</shaderType>
+      <color>(218,255,200,255)</color>
+      <shaderParameters>
+        <_DistortionTex>/Things/Mote/PsychicDistortionCurrents</_DistortionTex>
+        <_NoiseTex>/Things/Mote/PsycastNoise</_NoiseTex>
+        <_distortionIntensity>0.066</_distortionIntensity>
+        <_brightnessMultiplier>1.15</_brightnessMultiplier>
+      </shaderParameters>
+      <drawSize>35</drawSize>
+    </graphicData>
+  </FleckDef>
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_WULA_DarkMatterBomb_Line</defName>
+    <altitudeLayer>LightingOverlay</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.58</fadeOutTime>
+    <solidTime>0.5</solidTime>
+    <growthRate>11</growthRate>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Mote/RedLineGlow</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MoteMultiplyAddCircular</shaderType>
+      <shaderParameters>
+        <_DistortionTex>/Things/Mote/RadiationDistortion_A</_DistortionTex>
+        <_texAScale>0.5</_texAScale>
+        <_texBScale>2</_texBScale>
+        <_texAScrollSpeed>0</_texAScrollSpeed>
+        <_texBScrollSpeed>-0.4</_texBScrollSpeed>
+        <_Intensity>0.5</_Intensity>
+        <_InnerFadeAmount>0</_InnerFadeAmount>
+        <_DistortionIntensity>0.5</_DistortionIntensity>
+        <_TexAScaleDivisorPerProgress>1.5</_TexAScaleDivisorPerProgress>
+      </shaderParameters>
+      <drawSize>(4, 4)</drawSize>
+    </graphicData>
+  </FleckDef>
   
   <DamageDef ParentName="StunBase">
     <defName>WULA_Mech_Drop</defName>
@@ -553,6 +610,29 @@
     <defaultDamage>150</defaultDamage>
     <defaultStoppingPower>2.0</defaultStoppingPower>
     <defaultArmorPenetration>1.30</defaultArmorPenetration>
-    <explosionCenterEffecter>GiantExplosion</explosionCenterEffecter>
+    <explosionCenterEffecter>WULA_GiantBomb_Explosion</explosionCenterEffecter>
   </DamageDef>
+  <EffecterDef>
+    <defName>WULA_GiantBomb_Explosion</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_GiantExplosion</moteDef>
+        <scale>1~1</scale>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_GiantExplosionInner</moteDef>
+        <scale>5~5</scale>
+      </li>
+    </children>
+  </EffecterDef>
 </Defs>

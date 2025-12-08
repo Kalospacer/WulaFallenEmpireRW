@@ -1447,7 +1447,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Disturber_Turret_Cleanzone</defName>
     <label>HBt-1"磁石"火山炮</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nHBt-1"磁石"是一种需要通电才能运转的重型防御炮塔，以联装的方式装载了四门威力巨大的火山风暴炮，其射弹携带了强大的EMP效果和杀伤效果，可以在远距离上撕碎一切冲击阵地的敌军。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nHBt-1"磁石"是一种需要通电才能运转的重型防御炮塔，以联装的方式装载了四门威力巨大的火山风暴炮。在暗物质武器普及的乌拉帝国军队，火山炮族系被认为是一种落后野蛮的武备，但是从未有人质疑过其破坏力——天崩地裂、炽焰四涌，犹如四具炼狱的号角，可以在远距离上撕碎一切冲击阵地的敌军。</description>
     <uiIconPath>Wula/Building/Wula_Disturber_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1521,7 +1521,7 @@
  </ThingDef>
   <ThingDef ParentName="SkyfallerBase">
     <defName>Wula_Disturber_Turret_Incoming</defName>
-    <label>RTt-8"深渊"迫击炮塔（空投中）</label>
+    <label>HBt-1"磁石"火山炮（空投中）</label>
     <size>(5,5)</size>
     <graphicData>
       <texPath>Wula/Building/Wula_Disturber_Turret_Incoming</texPath>
@@ -1556,7 +1556,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Disturber_Turret</defName>
     <label>HBt-1"磁石"火山炮</label>
-    <description>HBt-1"磁石"是一种需要通电才能运转的重型防御炮塔，以联装的方式装载了四门威力巨大的火山风暴炮，其射弹携带了强大的EMP效果和杀伤效果，可以在远距离上撕碎一切冲击阵地的敌军。</description>
+    <description>HBt-1"磁石"是一种需要通电才能运转的重型防御炮塔，以联装的方式装载了四门威力巨大的火山风暴炮。在暗物质武器普及的乌拉帝国军队，火山炮族系被认为是一种落后野蛮的武备，但是从未有人质疑过其破坏力——天崩地裂、炽焰四涌，犹如四具炼狱的号角，可以在远距离上撕碎一切冲击阵地的敌军。</description>
     <thingClass>WulaFallenEmpire.Building_TurretGunHasSpeed</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <modExtensions>
@@ -1663,7 +1663,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_Disturber_Turret_Weapon</defName>
     <label>HBt-1"磁石"</label>
-    <description>乌拉帝国的火山炮之一，拥有气化敌军的能力。</description>
+    <description>乌拉帝国的四联装火山炮，在暗物质武器普及的乌拉帝国军队，火山炮族系被认为是一种落后野蛮的武备，但是从未有人质疑过其破坏力——天崩地裂、炽焰四涌，犹如四具炼狱的号角，可以在远距离上撕碎一切冲击阵地的敌军。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <techLevel>Ultra</techLevel>
@@ -1740,7 +1740,7 @@
     </projectile>
     <modExtensions>
       <li Class="WulaFallenEmpire.NorthArcModExtension">
-        <northOffsetDistance>4</northOffsetDistance>
+        <northOffsetDistance>12</northOffsetDistance>
         <curveSteepness>1.0</curveSteepness>
         <useArcTrajectory>true</useArcTrajectory>
       </li>
