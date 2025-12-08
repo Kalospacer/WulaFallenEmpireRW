@@ -161,48 +161,6 @@
       </li>
     </modExtensions>
   </DamageDef>
-
-  
-  <DamageDef ParentName="StunBase">
-    <defName>WULA_WM_Disturber_Turret_Damage</defName>
-    <label>等离子干扰</label>
-    <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
-    <externalViolenceForMechanoids>true</externalViolenceForMechanoids>
-    <deathMessage>{0} 被等离子干扰而亡。</deathMessage>
-    <harmsHealth>true</harmsHealth>
-    <impactSoundType>Electric</impactSoundType>
-    <defaultDamage>50</defaultDamage>
-    <explosionSnowMeltAmount>0</explosionSnowMeltAmount>
-    <!-- <explosionCellFleck>BlastEMP</explosionCellFleck> -->
-    <!-- <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge>
-    <explosionInteriorFleck>ElectricalSpark</explosionInteriorFleck> -->
-    <soundExplosion>Explosion_Vaporize</soundExplosion>
-    <combatLogRules>Damage_EMP</combatLogRules>
-    <causeStun>true</causeStun>
-    <stunResistStat MayRequireAnyOf="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Anomaly">EMPResistance</stunResistStat>
-    <stunAdaptationTicks>2200</stunAdaptationTicks>
-    <explosionCenterEffecter>WULA_Mech_EMP_Drop_Shockwave</explosionCenterEffecter>
-    
-    <modExtensions>
-      <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
-        <extraLabel>穿透伤害</extraLabel>
-        <showExtraLog>true</showExtraLog>
-        
-        <extraDamages>
-          <li>
-            <damageDef>WULA_Armour_Piercing_Projectile_4_Damage</damageDef>
-            <amount>100</amount>
-            <isPercentage>false</isPercentage>
-            <armorPenetration>2</armorPenetration>
-            <!-- <soundDef>EMP_Small</soundDef>
-            <fleckDef>ElectricArc</fleckDef> -->
-            <!-- <minTriggerDamage>5</minTriggerDamage> -->
-          </li>
-        </extraDamages>
-      </li>
-    </modExtensions>
-  </DamageDef>
-
     
   <DamageDef ParentName="Wula_Dark_Matter_Beam_DMG">
     <defName>Wula_Psi_Damage</defName>
@@ -383,7 +341,8 @@
   <DamageDef ParentName="Bomb">
     <defName>WULA_Disturber_Turret_Bomb</defName>
     <label>等离子爆炸</label>
-    <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass>
+    <!-- <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass> -->
+    <workerClass>WulaFallenEmpire.DamageWorker_ExplosionWithTerrain</workerClass>
     <defaultDamage>250</defaultDamage>
     <defaultStoppingPower>2.0</defaultStoppingPower>
     <defaultArmorPenetration>2</defaultArmorPenetration>
@@ -392,7 +351,10 @@
     <explosionCenterEffecter>WULA_Disturber_Turret_Bomb_Shockwave</explosionCenterEffecter>
     
     <modExtensions>
-      <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+      <li Class="WulaFallenEmpire.DamageDefExtension_TerrainCover">
+        <terrainToSpawn>LavaShallow</terrainToSpawn>
+      </li>
+      <!-- <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
         <extraLabel>穿透伤害</extraLabel>
         <showExtraLog>true</showExtraLog>
         
@@ -402,12 +364,9 @@
             <amount>60</amount>
             <isPercentage>false</isPercentage>
             <armorPenetration>2</armorPenetration>
-            <!-- <soundDef>EMP_Small</soundDef>
-            <fleckDef>ElectricArc</fleckDef> -->
-            <!-- <minTriggerDamage>5</minTriggerDamage> -->
           </li>
         </extraDamages>
-      </li>
+      </li> -->
     </modExtensions>
   </DamageDef>
   <EffecterDef>

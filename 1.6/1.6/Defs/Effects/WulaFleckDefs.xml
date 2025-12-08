@@ -6,18 +6,12 @@
     <fadeInTime>0.50</fadeInTime>
     <solidTime>1</solidTime>
     <fadeOutTime>1.2</fadeOutTime>
-    <growthRate>0.005</growthRate>
+    <growthRate>0.025</growthRate>
     <graphicData>
       <texPath>Wula/Mote/WULA_GunTail_Plasma</texPath>
       <shaderType>MoteGlow</shaderType>
-      <drawSize>3.25</drawSize>
-      <color>(218,255,200,155)</color>
-    </graphicData>
-  </FleckDef>
-  <FleckDef  ParentName="WULA_GunTail_Plasma">
-    <defName>WULA_GunTail_Plasma_Yellow</defName>
-    <graphicData>
-      <color>(242,160,69,155)</color>
+      <drawSize>4.25</drawSize>
+      <color>(179,127,67,155)</color>
     </graphicData>
   </FleckDef>
 

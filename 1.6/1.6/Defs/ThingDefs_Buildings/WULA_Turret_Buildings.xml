@@ -1446,8 +1446,8 @@
   <!-- 重型干扰塔 -->
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Disturber_Turret_Cleanzone</defName>
-    <label>HBt-1"磁石"舰炮</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nHBt-1"磁石"是一种需要通电才能运转的重型防御炮塔，以联装的方式装载了四门威力巨大的离子风暴炮，其射弹携带了强大的EMP效果和杀伤效果，可以在远距离上撕碎一切冲击阵地的敌军。</description>
+    <label>HBt-1"磁石"火山炮</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nHBt-1"磁石"是一种需要通电才能运转的重型防御炮塔，以联装的方式装载了四门威力巨大的火山风暴炮，其射弹携带了强大的EMP效果和杀伤效果，可以在远距离上撕碎一切冲击阵地的敌军。</description>
     <uiIconPath>Wula/Building/Wula_Disturber_Turret</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -1555,8 +1555,8 @@
   </ThingDef>
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_Disturber_Turret</defName>
-    <label>HBt-1"磁石"舰炮</label>
-    <description>HBt-1"磁石"是一种需要通电才能运转的重型防御炮塔，以联装的方式装载了四门威力巨大的离子风暴炮，其射弹携带了强大的EMP效果和杀伤效果，可以在远距离上撕碎一切冲击阵地的敌军。</description>
+    <label>HBt-1"磁石"火山炮</label>
+    <description>HBt-1"磁石"是一种需要通电才能运转的重型防御炮塔，以联装的方式装载了四门威力巨大的火山风暴炮，其射弹携带了强大的EMP效果和杀伤效果，可以在远距离上撕碎一切冲击阵地的敌军。</description>
     <thingClass>WulaFallenEmpire.Building_TurretGunHasSpeed</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <modExtensions>
@@ -1663,7 +1663,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_Disturber_Turret_Weapon</defName>
     <label>HBt-1"磁石"</label>
-    <description>中型舰炮，毁灭能力超群。</description>
+    <description>乌拉帝国的火山炮之一，拥有气化敌军的能力。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <techLevel>Ultra</techLevel>
@@ -1682,7 +1682,7 @@
     </statBases>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_ShootWithOffset</verbClass>
         <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
         <defaultProjectile>Bullet_WULA_WM_Disturber_Turret</defaultProjectile>
         <ai_AvoidFriendlyFireRadius>5</ai_AvoidFriendlyFireRadius>
@@ -1703,19 +1703,26 @@
         </targetParams>
       </li>
     </verbs>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
+        <offsets>
+          <li>(0, -2)</li>
+        </offsets>
+      </li>
+    </modExtensions>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_WULA_WM_Disturber_Turret</defName>
-    <label>磁石等离子炮弹</label>
+    <label>磁石火山炮弹</label>
     <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
     <tickerType>Normal</tickerType>
     <neverMultiSelect>True</neverMultiSelect>
     <graphicData>
-      <texPath>Wula/Projectile/WULA_Energy_2_Shell</texPath>
+      <texPath>Wula/Projectile/WULA_Energy_Shell</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>MoteGlow</shaderType>
       <drawSize>(2.5,3)</drawSize>
-      <color>(218,255,200,255)</color>
+      <color>(202,147,67,205)</color>
     </graphicData>
     <projectile>
       <damageDef>WULA_Disturber_Turret_Bomb</damageDef>
@@ -1740,7 +1747,7 @@
       <li Class="WulaFallenEmpire.TrackingBulletDef">
         <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
         <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
-        <fleckDelayTicks>1</fleckDelayTicks>
+        <fleckDelayTicks>9</fleckDelayTicks>
         <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
         <fleckScale>0.5~1.0</fleckScale>
         <fleckSpeed>0.1~0.3</fleckSpeed>
