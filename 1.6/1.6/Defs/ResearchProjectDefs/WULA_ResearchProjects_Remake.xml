@@ -522,12 +522,15 @@
     <defName>Wula_Disturber_Turret_Technology</defName>
     <researchViewX>11.00</researchViewX>
     <researchViewY>0.90</researchViewY>
-    <label>中型舰炮许可</label>
-    <description>允许殖民地申请空投四联装舰炮，以毁灭性的等离子风暴连射毁灭一切帝国之敌。</description>
+    <label>火山炮许可</label>
+    <description>允许殖民地申请空投四联装火山炮，以毁灭性的熔岩风暴抹去一切帝国之敌。\n\n这种武备对殖民地来说是过剩的，并不是所有的殖民地都有能力拿到这个许可···</description>
     <baseCost>4500</baseCost>
-    <prerequisites>
-      <li>WULA_Turret_Base_Mortar_Technology</li>
-    </prerequisites>
+    <techprintCount>9999</techprintCount>
+    <techprintCommonality>0</techprintCommonality>
+    <techprintMarketValue>0</techprintMarketValue>
+    <heldByFactionCategoryTags>
+      <li>Wula_PIA_Legion_Faction</li>
+    </heldByFactionCategoryTags>
   </ResearchProjectDef>
 
   <!-- 植物 -->

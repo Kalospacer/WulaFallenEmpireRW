@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <!-- <WulaFallenEmpire.EventDef>
+    <defName>WULA_Base_Tex_Quest_UI_1</defName>
+    <label>未知通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_4</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <descriptions>
+      <li>好吧，我知道你们在想什么。\n\n这样，我可以给你们额外申请一张纳税凭证，你们记得乖乖交税就行。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>我们已经准备好白银了</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_SetTimedFlag">
+                <flagName>WULA_Extra_Tex_Quest_Has_Start</flagName>
+                <durationTicks>900000</durationTicks>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_AddQuest">
+                <quest>WULA_Extra_Tex_Quest</quest>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>再思考看看···</label>
+        <useCustomColors>false</useCustomColors>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>Wula_UI_Legion_50</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef> -->
   <!-- 纳税 -->
   <IncidentDef>
     <defName>WULA_GiveQuest_Base_Tex</defName>
@@ -149,7 +191,7 @@
             <nodes>
               <li Class="WulaFallenEmpire.QuestNode_EventLetter">
                 <inSignal>Handle_Outtime</inSignal>
-                <eventDefName>WULA_Base_Tex_Quest_UI_1</eventDefName>
+                <eventDefName>WULA_Base_Tex_Quest_UI_2</eventDefName>
               </li>
               <li Class="QuestNode_Letter">
                 <label>未按时纳税</label>
@@ -199,7 +241,7 @@
     </root>
   </ThingSetMakerDef>
   <WulaFallenEmpire.EventDef>
-    <defName>WULA_Base_Tex_Quest_UI_1</defName>
+    <defName>WULA_Base_Tex_Quest_UI_2</defName>
     <label>和P.I.A的通讯</label>
     <portraitPath>Wula/Events/Portraits/WULA_Legion_6</portraitPath>
     <characterName>「军团」,P.I.A</characterName>

@@ -2011,7 +2011,7 @@
           <li>(1, -31)</li>
         </points>
       </angleCurve>
-      <explosionRadius>35</explosionRadius>
+      <explosionRadius>25</explosionRadius>
       <explosionDamage>WULA_DarkMatterBomb</explosionDamage>
       <explosionDamageFactor>1</explosionDamageFactor>
       <spawnThing>CraterLarge</spawnThing>

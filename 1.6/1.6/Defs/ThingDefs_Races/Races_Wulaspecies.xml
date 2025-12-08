@@ -1011,6 +1011,41 @@
       <MoveSpeed>4</MoveSpeed>
     </statBases>
   </AlienRace.ThingDef_AlienRace>
+  <AlienRace.ThingDef_AlienRace ParentName="Mech_WULA_Cat_Base">
+    <defName>Mech_WULA_Cat_Cloak_Sniper</defName>
+    <label>CAt-71"特战猫猫"</label>
+    <description>由乌拉帝国的进步派叛军改装的乌拉猫猫机械体，手持一把特殊的磁轨狙击枪，可以凭借光学迷彩和娇小身形隐藏在野外，随时准备给敌人一发冷枪。</description>
+    <uiIconPath>Wula/Things/WULA_Cloak_Sniper_Cat/WULA_Cat_Thin_south</uiIconPath>
+
+    <alienRace>
+      <raceRestriction>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
+    <statBases>
+      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+      <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
+      <MoveSpeed>6</MoveSpeed>
+    </statBases>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FighterInvisible">
+        <InvisibilityDef>WULA_Cat_Invisibility</InvisibilityDef>
+        <stealthCooldownTicks>120</stealthCooldownTicks>
+        <revealOnEnemyInSight>true</revealOnEnemyInSight>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_HediffGiver">
+        <hediffs>
+          <li>WULA_Cat_Invisibility</li>
+        </hediffs>
+        <addChance>1.0</addChance>
+        <allowDuplicates>false</allowDuplicates>
+      </li>
+    </comps>
+  </AlienRace.ThingDef_AlienRace>
 
   <!-- 大型机械族 -->
   <AlienRace.ThingDef_AlienRace ParentName="WULA_BaseMechanoid">

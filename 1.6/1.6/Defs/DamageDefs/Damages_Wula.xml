@@ -518,7 +518,7 @@
         <_DistortionIntensity>0.5</_DistortionIntensity>
         <_TexAScaleDivisorPerProgress>1.5</_TexAScaleDivisorPerProgress>
       </shaderParameters>
-      <drawSize>(4, 4)</drawSize>
+      <drawSize>(5, 5)</drawSize>
     </graphicData>
   </FleckDef>
   

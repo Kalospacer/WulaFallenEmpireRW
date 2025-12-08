@@ -217,6 +217,12 @@ namespace WulaFallenEmpire
         /// </summary>
         private Gizmo CreateWeaponSwitchGizmo()
         {
+            // 检查Pawn是否属于玩家派系
+            if (MechPawn?.Faction != Faction.OfPlayer)
+            {
+                return null; // 非玩家派系时不显示
+            }
+
             Command_Action switchWeaponCommand = new Command_Action
             {
                 defaultLabel = "WULA_SwitchWeapon".Translate(),
@@ -224,7 +230,6 @@ namespace WulaFallenEmpire
                 icon = ContentFinder<Texture2D>.Get("Wula/UI/Abilities/WULA_WeaponSwitchAbility", false) ?? BaseContent.BadTex,
                 action = SwitchWeapon
             };
-
             return switchWeaponCommand;
         }
 

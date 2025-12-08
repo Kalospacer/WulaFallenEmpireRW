@@ -322,4 +322,28 @@
     </stages>
     <isBad>false</isBad>
   </HediffDef>
+  
+  <HediffDef>
+    <defName>WULA_Cat_Invisibility</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>特战小子</label>
+    <description>这只乌拉猫猫经过了特殊改装，无法用肉眼目视到，只有在开枪时会短暂现身。</description>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <minSeverity>0.01</minSeverity>
+        <statFactors>
+          <ShootingAccuracyPawn>5000</ShootingAccuracyPawn>
+        </statFactors>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Invisibility">
+        <visibleToPlayer>false</visibleToPlayer>
+        <fadeDurationTicks>60</fadeDurationTicks>
+        <recoverFromDisruptedTicks>90</recoverFromDisruptedTicks>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+  </HediffDef>
 </Defs>

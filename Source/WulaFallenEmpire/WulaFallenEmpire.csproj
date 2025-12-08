@@ -269,6 +269,8 @@
     <Compile Include="Pawn\WULA_BrokenPersonality\MentalBreakWorker_BrokenPersonality.cs" />
     <Compile Include="Pawn\WULA_BrokenPersonality\MentalStateDefExtension_BrokenPersonality.cs" />
     <Compile Include="Pawn\WULA_BrokenPersonality\MentalState_BrokenPersonality.cs" />
+    <Compile Include="Pawn\WULA_Cat_Invisible\CompFighterInvisible.cs" />
+    <Compile Include="Pawn\WULA_Cat_Invisible\CompProperties_FighterInvisible.cs" />
     <Compile Include="Pawn\WULA_CompHediffGiver\CompHediffGiver.cs" />
     <Compile Include="Pawn\WULA_CompHediffGiver\CompProperties_HediffGiver.cs" />
     <Compile Include="Pawn\WULA_Energy\CompChargingBed.cs" />

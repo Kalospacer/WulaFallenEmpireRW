@@ -468,8 +468,7 @@
     <tickerType>Normal</tickerType>
     <tradeability>None</tradeability>
     <descriptionHyperlinks>
-      <ThingDef>Wula_Mech_Mobile_Factory</ThingDef>
-      <ThingDef>WULA_Mech_Flyer</ThingDef>
+      <ThingDef>Wula_Psi_Titan</ThingDef>
     </descriptionHyperlinks>
     <thingCategories Inherit="False">
       <li>BuildingsMisc</li>

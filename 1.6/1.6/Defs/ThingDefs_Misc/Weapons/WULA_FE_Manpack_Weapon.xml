@@ -1173,6 +1173,92 @@
       </li>
     </comps>
   </AbilityDef>
+  <ThingDef ParentName="WULA_ExperienceCore_Weapon_Ranged">
+    <defName>WULA_RW_SuperLongRange_RF</defName>
+    <label>SRr-3"鸣石"</label>
+    <description>乌拉帝国的重型磁轨狙击枪，射程比制式磁轨狙击枪远得多，虽然需要一些时间瞄准但是拥有堪比战车炮的破坏力。这种现役武器不会轻易下发给边缘世界这样的边陲星区······</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_RW_SuperLongRange_RF/WULA_RW_SuperLongRange_RF</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.5</drawSize>
+    </graphicData>
+    <!-- <uiIconScale>0.85</uiIconScale> -->
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponTags Inherit="False">
+      <li>WULA_RW_SuperLongRange_RF</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>1200</WorkToMake>
+      <Mass>3.5</Mass>
+      <AccuracyTouch>0.3</AccuracyTouch>
+      <AccuracyShort>0.7</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+    </statBases>
+    <costList Inherit="False">
+      <WULA_Alloy>300</WULA_Alloy>
+      <WULA_Charge_Cube>25</WULA_Charge_Cube>
+      <WULA_Dark_Matter_Item>12</WULA_Dark_Matter_Item>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>WulaFallenEmpire.Verb_ShootWithOffset</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_WULA_RW_SuperLongRange_RF</defaultProjectile>
+        <warmupTime>1.75</warmupTime>
+        <range>500</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>WULA_RW_Railgun_Shootingsound</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <canGoWild>false</canGoWild>
+      </li>
+    </verbs>
+    <comps>
+			<li Class="WulaFallenEmpire.CompProperties_WeaponRenderDynamic">
+				<TexturePath>Wula/Weapon/WULA_RW_SuperLongRange_RF/WULA_RW_SuperLongRange_RF_Anim</TexturePath>
+				<totalFrames>8</totalFrames>
+				<ticksPerFrame>8</ticksPerFrame>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
+        <offsets>
+          <li>(0, -1.0)</li>
+        </offsets>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_WULA_RW_SuperLongRange_RF</defName>
+    <label>鸣石钢针弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
+        <maxHits>-1</maxHits>        <!-- 无限穿透 -->
+        <damageFalloff>0</damageFalloff>        <!-- 无伤害衰减 -->
+        <preventFriendlyFire>true</preventFriendlyFire>        <!-- 是否阻止友方火力 -->
+        <tailFleckDef>WULA_GunTail_Lighting_Small</tailFleckDef>        <!-- 拖尾特效定义 -->
+        <fleckDelayTicks>0</fleckDelayTicks>
+        <impactEffecter>Bullet_WULA_RW_Fractal_RF_Hit</impactEffecter>
+      </li>
+    </modExtensions>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Bullet_Needle_AT</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>WULA_Armour_Piercing_Projectile_4_Damage</damageDef>
+      <damageAmountBase>150</damageAmountBase>
+      <speed>130</speed>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <stoppingPower>10</stoppingPower>
+    </projectile>
+  </ThingDef>
 
   <!-- 激光武器 -->
   <HediffDef>

@@ -1118,6 +1118,11 @@
             <value>0</value>
             <type>Int</type>
           </li>
+          <li Class="WulaFallenEmpire.Effect_SetVariable">
+            <name>WULA_Boss_Super_Fortress_Has_Start</name>
+            <value>0</value>
+            <type>Int</type>
+          </li>
         </effects>
       </li>
     </immediateEffects>
@@ -1136,6 +1141,26 @@
             <effects>
               <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
                 <defName>WULA_Boss_Sky_Lock_UI_1</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+      <li>
+        <label>···火山炮要塞？</label>
+        <hideWhenDisabled>true</hideWhenDisabled>
+        <conditions>
+          <li Class="WulaFallenEmpire.Condition_VariableNotEqual">
+            <name>WULA_Boss_Super_Fortress_Has_Start</name>
+            <value>1</value>
+          </li>
+        </conditions>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenCustomUI">
+                <defName>WULA_Boss_Super_Fortress_UI_1</defName>
               </li>
               <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>

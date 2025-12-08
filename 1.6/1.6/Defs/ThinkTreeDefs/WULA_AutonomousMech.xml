@@ -4,6 +4,16 @@
     <defName>WULA_AutonomousMech</defName>
     <thinkRoot Class="ThinkNode_Priority">
       <subNodes>
+        <li Class="ThinkNode_ConditionalPawnKind">
+          <pawnKind>Mech_WULA_Cat_Cloak_Sniper</pawnKind>
+          <subNodes>
+            <li Class="JobGiver_AIFightEnemies">
+              <targetAcquireRadius>500</targetAcquireRadius>
+              <targetKeepRadius>500</targetKeepRadius>
+            </li>
+          </subNodes>
+        </li>
+
         <!-- Despawned -->
         <li Class="ThinkNode_Subtree">
           <treeDef>Despawned</treeDef>

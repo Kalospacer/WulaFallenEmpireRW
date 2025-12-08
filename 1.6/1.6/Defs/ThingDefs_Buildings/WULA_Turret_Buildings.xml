@@ -486,13 +486,13 @@
         <maxTurrets>6</maxTurrets>
         <turretSpacing>1.5</turretSpacing>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_TransformAtFullCapacity">
+      <!-- <li Class="WulaFallenEmpire.CompProperties_TransformAtFullCapacity">
         <targetPawnKind>WULA_Mobile_Bunker</targetPawnKind>
         <requiredCapacity>6</requiredCapacity>
         <gizmoLabel>转换为BUk-1"地堡猫猫"</gizmoLabel>
         <gizmoDesc>让地堡中的两只乌拉猫猫继续操纵地堡中的机枪，剩下的乌拉猫猫抬着地堡移动——虽然很难相信但是事实就是这样的。</gizmoDesc>
         <gizmoIconPath>Wula/UI/Commands/WULA_BunkerCat</gizmoIconPath>
-      </li>
+      </li> -->
       <li Class="WulaFallenEmpire.CompProperties_PathCostUpdater">
         <adaptiveExpansion>true</adaptiveExpansion>
       </li>
@@ -1641,7 +1641,7 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>300</basePowerConsumption> <!-- 电力消耗较低 -->
+        <basePowerConsumption>1500</basePowerConsumption> <!-- 电力消耗较低 -->
       </li>
       <li Class="CompProperties_Glower">
         <glowRadius>6</glowRadius>
