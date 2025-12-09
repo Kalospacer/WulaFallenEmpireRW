@@ -1896,19 +1896,19 @@
     </building>
     <modExtensions>
       <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
-        <globalHoverSpeed>0</globalHoverSpeed>
-        <globalHoverIntensity>0</globalHoverIntensity>
+        <globalAnimationSpeed>0</globalAnimationSpeed>
+        <globalAnimationIntensity>0</globalAnimationIntensity>
 
         <graphicLayers>
           <li>
             <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
             <shaderName>MoteGlow</shaderName>
-            <scale>(3,3)</scale>
+            <scale>(1,1)</scale>
             <drawOrder>0</drawOrder>
             <offset>(0,1,2)</offset>
-            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
-            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
-            <hoverPhase>0</hoverPhase>
+            <animationSpeed>1.5</animationSpeed>  <!-- 比全局慢 -->
+            <animationIntensity>0.2</animationIntensity>  <!-- 比全局弱 -->
+            <animationPhase>0</animationPhase>
           </li>
           <li>
             <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
@@ -1916,9 +1916,9 @@
             <scale>(1,1)</scale>
             <drawOrder>1</drawOrder>
             <offset>(0,1,0)</offset>
-            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
-            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
-            <hoverPhase>0</hoverPhase>
+            <animationSpeed>0</animationSpeed>  <!-- 比全局慢 -->
+            <animationIntensity>0</animationIntensity>  <!-- 比全局弱 -->
+            <animationPhase>0</animationPhase>
           </li>
         </graphicLayers>
       </li>
@@ -1989,8 +1989,8 @@
     
     <modExtensions Inherit="False">
       <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
-        <globalHoverSpeed>0</globalHoverSpeed>
-        <globalHoverIntensity>0</globalHoverIntensity>
+        <globalAnimationSpeed>0</globalAnimationSpeed>
+        <globalAnimationIntensity>0</globalAnimationIntensity>
 
         <graphicLayers>
           <li>
@@ -1999,9 +1999,9 @@
             <scale>(3,3)</scale>
             <drawOrder>0</drawOrder>
             <offset>(0,1,2)</offset>
-            <hoverSpeed>1.5</hoverSpeed>  <!-- 比全局慢 -->
-            <hoverIntensity>0.2</hoverIntensity>  <!-- 比全局弱 -->
-            <hoverPhase>0</hoverPhase>
+            <animationSpeed>1.5</animationSpeed>  <!-- 比全局慢 -->
+            <animationIntensity>0.2</animationIntensity>  <!-- 比全局弱 -->
+            <animationPhase>0</animationPhase>
           </li>
           <li>
             <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
@@ -2009,9 +2009,9 @@
             <scale>(1,1)</scale>
             <drawOrder>1</drawOrder>
             <offset>(0,1,0)</offset>
-            <hoverSpeed>0</hoverSpeed>  <!-- 比全局慢 -->
-            <hoverIntensity>0</hoverIntensity>  <!-- 比全局弱 -->
-            <hoverPhase>0</hoverPhase>
+            <animationSpeed>0</animationSpeed>  <!-- 比全局慢 -->
+            <animationIntensity>0</animationIntensity>  <!-- 比全局弱 -->
+            <animationPhase>0</animationPhase>
           </li>
         </graphicLayers>
       </li>
