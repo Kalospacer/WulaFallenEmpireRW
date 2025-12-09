@@ -4,16 +4,6 @@
     <defName>WULA_AutonomousMech</defName>
     <thinkRoot Class="ThinkNode_Priority">
       <subNodes>
-        <li Class="ThinkNode_ConditionalPawnKind">
-          <pawnKind>Mech_WULA_Cat_Cloak_Sniper</pawnKind>
-          <subNodes>
-            <li Class="JobGiver_AIFightEnemies">
-              <targetAcquireRadius>500</targetAcquireRadius>
-              <targetKeepRadius>500</targetKeepRadius>
-            </li>
-          </subNodes>
-        </li>
-
         <!-- Despawned -->
         <li Class="ThinkNode_Subtree">
           <treeDef>Despawned</treeDef>
@@ -30,6 +20,21 @@
         <li Class="ThinkNode_Subtree">
           <treeDef>Downed</treeDef>
         </li>
+
+        <!-- 特战猫猫的思考树 -->
+        <li Class="ThinkNode_ConditionalPawnKind">
+          <pawnKind>Mech_WULA_Cat_Cloak_Sniper</pawnKind>
+          <subNodes>
+            <li Class="JobGiver_AIFightEnemies">
+              <targetAcquireRadius>500</targetAcquireRadius>
+              <targetKeepRadius>500</targetKeepRadius>
+            </li>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+
 
         <!-- 紧急能量状态：临界能量时立即寻找充电站 -->
         <li Class="WulaFallenEmpire.ThinkNode_ConditionalEmergencyRecharge">

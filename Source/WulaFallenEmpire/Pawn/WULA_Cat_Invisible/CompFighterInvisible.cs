@@ -20,6 +20,9 @@ namespace WulaFallenEmpire
         // 新增：记录最后一次检查敌人的时间
         private int lastEnemyCheckTick = -99999;
         
+        // 新增：记录最后一次发信的时间
+        private int lastLetterTick = -99999;
+        
         public HediffDef GetTargetInvisibilityDef()
         {
             return Props.InvisibilityDef;
@@ -49,6 +52,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref lastDetectedTick, "lastDetectedTick", 0);
             Scribe_Values.Look(ref lastRevealedTick, "lastRevealedTick", 0);
             Scribe_Values.Look(ref lastEnemyCheckTick, "lastEnemyCheckTick", 0);
+            Scribe_Values.Look(ref lastLetterTick, "lastLetterTick", 0);
         }
         
         public override void CompTick()
@@ -78,6 +82,9 @@ namespace WulaFallenEmpire
 
             Invisibility.BecomeVisible();
             lastDetectedTick = Find.TickManager.TicksGame;
+            
+            // 触发显现事件
+            TrySendLetter("attack");
         }
         
         /// <summary>
@@ -85,7 +92,6 @@ namespace WulaFallenEmpire
         /// </summary>
         private void CheckForEnemiesInSight()
         {
-            
             // 检查频率：每30 tick检查一次（约0.5秒）
             if (!Sightstealer.IsHashIntervalTick(30) || 
                 Find.TickManager.TicksGame <= lastEnemyCheckTick + 30)
@@ -94,12 +100,6 @@ namespace WulaFallenEmpire
             }
             
             lastEnemyCheckTick = Find.TickManager.TicksGame;
-            
-            // 如果配置为只在战斗状态时检查，且当前不在战斗状态，则跳过
-            if (Props.onlyCheckInCombat && !IsInCombatState())
-            {
-                return;
-            }
             
             // 检查视线内是否有敌人
             bool enemyInSight = false;
@@ -156,108 +156,110 @@ namespace WulaFallenEmpire
                 lastDetectedTick = Find.TickManager.TicksGame;
                 lastRevealedTick = Find.TickManager.TicksGame;
                 
-                // 可选：添加视觉或声音效果
-                if (Props.showRevealEffect)
+                // 触发显现事件
+                TrySendLetter("detected", enemiesInSight);
+            }
+        }
+        
+        /// <summary>
+        /// 尝试发送信件
+        /// </summary>
+        private void TrySendLetter(string cause, List<Pawn> enemies = null)
+        {
+            // 检查是否应该发送信件
+            if (!ShouldSendLetter())
+                return;
+            
+            // 发送信件
+            SendLetter(cause, enemies);
+        }
+        
+        /// <summary>
+        /// 检查是否应该发送信件
+        /// </summary>
+        private bool ShouldSendLetter()
+        {
+            // 如果配置为不发信，直接返回false
+            if (!Props.sendLetterOnReveal)
+                return false;
+            
+            // 检查发送间隔
+            int currentTick = Find.TickManager.TicksGame;
+            if (currentTick < lastLetterTick + Props.letterIntervalTicks)
+            {
+                // 还没到发送间隔
+                return false;
+            }
+            
+            // 检查Pawn是否非玩家控制
+            if (Sightstealer.Faction == Faction.OfPlayer)
+            {
+                // 玩家控制的Pawn，不发送信件
+                return false;
+            }
+            
+            return true;
+        }
+        
+        /// <summary>
+        /// 发送信件
+        /// </summary>
+        private void SendLetter(string cause, List<Pawn> enemies = null)
+        {
+            try
+            {
+                int currentTick = Find.TickManager.TicksGame;
+                
+                // 获取信件标题和内容
+                string title = Props.letterTitle;
+                string text = Props.letterText;
+                
+                // 如果标题或内容为空，使用默认值
+                if (string.IsNullOrEmpty(title))
+                    title = "隐身单位现身";
+                
+                if (string.IsNullOrEmpty(text))
                 {
-                    ShowRevealEffect(enemiesInSight);
+                    string enemyInfo = "";
+                    if (enemies != null && enemies.Count > 0)
+                    {
+                        if (enemies.Count == 1)
+                        {
+                            enemyInfo = $"被 {enemies[0].LabelCap} 发现";
+                        }
+                        else
+                        {
+                            enemyInfo = $"被 {enemies.Count} 个敌人发现";
+                        }
+                    }
+                    else if (cause == "attack")
+                    {
+                        enemyInfo = "发动了攻击";
+                    }
+                    
+                    text = $"{Sightstealer.LabelCap}（{Sightstealer.Faction?.Name ?? "未知派系"}）在 {Sightstealer.Map?.Parent?.LabelCap ?? "未知位置"} 现身了。\n\n{enemyInfo}\n位置：{Sightstealer.Position}";
                 }
                 
-                // 可选：发送消息
-                if (Props.sendRevealMessage && Sightstealer.Faction == Faction.OfPlayer)
-                {
-                    SendRevealMessage(enemiesInSight);
-                }
-            }
-        }
-        
-        /// <summary>
-        /// 检查是否处于战斗状态
-        /// </summary>
-        private bool IsInCombatState()
-        {
-            // 如果有当前工作且是战斗相关工作
-            if (Sightstealer.CurJob != null)
-            {
-                JobDef jobDef = Sightstealer.CurJob.def;
-                if (jobDef == JobDefOf.AttackMelee || 
-                    jobDef == JobDefOf.AttackStatic || 
-                    jobDef == JobDefOf.Wait_Combat ||
-                    jobDef == JobDefOf.Flee ||
-                    jobDef == JobDefOf.FleeAndCower)
-                {
-                    return true;
-                }
-            }
-            
-            // 如果有敌人目标
-            if (Sightstealer.mindState.enemyTarget != null)
-            {
-                return true;
-            }
-            
-            // 如果最近受到过伤害
-            if (Find.TickManager.TicksGame - Sightstealer.mindState.lastHarmTick < 300) // 最近5秒内受到伤害
-            {
-                return true;
-            }
-            
-            // 如果最近攻击过目标
-            if (Find.TickManager.TicksGame - Sightstealer.mindState.lastAttackTargetTick < 300)
-            {
-                return true;
-            }
-            
-            return false;
-        }
-        
-        /// <summary>
-        /// 显示解除隐身的效果
-        /// </summary>
-        private void ShowRevealEffect(List<Pawn> enemies)
-        {
-            if (Sightstealer.Map == null) return;
-            
-            // 创建一个闪光效果
-            FleckMaker.ThrowLightningGlow(Sightstealer.Position.ToVector3Shifted(), 
-                Sightstealer.Map, 2f);
-            
-            // 可选：播放声音
-            if (Props.revealSound != null)
-            {
-                Props.revealSound.PlayOneShot(new TargetInfo(Sightstealer.Position, Sightstealer.Map));
-            }
-        }
-        
-        /// <summary>
-        /// 发送解除隐身消息
-        /// </summary>
-        private void SendRevealMessage(List<Pawn> enemies)
-        {
-            if (enemies.Count == 0) return;
-            
-            string message;
-            if (enemies.Count == 1)
-            {
-                message = "WFE.RevealedBySingleEnemy".Translate(
-                    Sightstealer.LabelShort,
-                    enemies[0].LabelShort
+                // 发送信件
+                Letter letter = LetterMaker.MakeLetter(
+                    title,
+                    text,
+                    LetterDefOf.NeutralEvent,
+                    new LookTargets(Sightstealer)
                 );
+                
+                Find.LetterStack.ReceiveLetter(letter);
+                
+                // 更新最后发信时间
+                lastLetterTick = currentTick;
             }
-            else
+            catch (System.Exception ex)
             {
-                message = "WFE.RevealedByMultipleEnemies".Translate(
-                    Sightstealer.LabelShort,
-                    enemies.Count
-                );
+                Log.Error($"CompFighterInvisible: Error sending letter for {Sightstealer?.LabelCap}: {ex}");
             }
-            
-            Messages.Message(message, Sightstealer, MessageTypeDefOf.NeutralEvent);
         }
         
-        /// <summary>
-        /// 获取下次可以隐身的时间
-        /// </summary>
-        public int NextInvisibilityTick => lastDetectedTick + Props.stealthCooldownTicks;
+        // ... 其他方法保持不变 ...
         
         /// <summary>
         /// 手动触发解除隐身（供外部调用）
@@ -269,6 +271,11 @@ namespace WulaFallenEmpire
             Invisibility.BecomeVisible();
             lastDetectedTick = Find.TickManager.TicksGame;
             lastRevealedTick = Find.TickManager.TicksGame;
+            
+            // 尝试发送信件
+            TrySendLetter("manual");
         }
+        
+        // ... 其他方法保持不变 ...
     }
 }

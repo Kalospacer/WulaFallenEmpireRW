@@ -659,7 +659,7 @@
     </lifeStages>
     <minGenerationAge>18</minGenerationAge>
 		<maxGenerationAge>20</maxGenerationAge>
-    <combatPower>250</combatPower>
+    <combatPower>200</combatPower>
     <initialWillRange>10~20</initialWillRange>
     <initialResistanceRange>10~20</initialResistanceRange>
     <itemQuality>Poor</itemQuality>

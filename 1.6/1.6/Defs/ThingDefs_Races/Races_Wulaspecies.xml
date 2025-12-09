@@ -1031,11 +1031,28 @@
       <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
       <MoveSpeed>6</MoveSpeed>
     </statBases>
+
+    <tools Inherit="False">
+      <li>
+        <label>猫爪刀</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>30</power>
+        <cooldownTime>1.5</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_FighterInvisible">
         <InvisibilityDef>WULA_Cat_Invisibility</InvisibilityDef>
         <stealthCooldownTicks>120</stealthCooldownTicks>
         <revealOnEnemyInSight>true</revealOnEnemyInSight>
+        <sendLetterOnReveal>true</sendLetterOnReveal>
+        <letterTitle>狙！击！手！</letterTitle>
+        <letterText>附近有狙击手，快寻找掩体！</letterText>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_HediffGiver">
         <hediffs>
@@ -1043,6 +1060,15 @@
         </hediffs>
         <addChance>1.0</addChance>
         <allowDuplicates>false</allowDuplicates>
+      </li>
+      <li Class="CompProperties_Stunnable">
+        <affectedDamageDefs>
+          <li>Stun</li>
+          <li>EMP</li>
+        </affectedDamageDefs>
+        <adaptableDamageDefs>
+          <li>EMP</li>
+        </adaptableDamageDefs>
       </li>
     </comps>
   </AlienRace.ThingDef_AlienRace>

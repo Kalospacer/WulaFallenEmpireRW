@@ -43,4 +43,28 @@
       </li>
     </value>
   </Operation>
+
+  <!-- 乌拉族进步派袭击 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/StorytellerDef[@Name="BaseStoryteller"]/comps</xpath>
+    <value>
+      <li Class="WulaFallenEmpire.StorytellerCompProperties_SimpleTechnologyTrigger">
+        <technology>WULA_Colony_License_LV3_Technology</technology>
+        
+        <!-- 时间配置 -->
+        <fireAfterDaysPassed>0</fireAfterDaysPassed>
+        <checkIntervalDays>20</checkIntervalDays>
+        
+        <!-- 可选配置 -->
+        <preventDuplicateQuests>false</preventDuplicateQuests>
+        <debugLogging>false</debugLogging>
+
+        <requireNonHostileRelation>true</requireNonHostileRelation>
+        <requiredFaction>Wula_PIA_Legion_Faction</requiredFaction>
+
+        <incident>WULA_GiveQuest_Progressive_Ship_Attack_Quest</incident>
+        <incidentIfHostile>WULA_GiveQuest_Progressive_Ship_Attack_Quest</incidentIfHostile>
+      </li>
+    </value>
+  </Operation>
 </Patch>

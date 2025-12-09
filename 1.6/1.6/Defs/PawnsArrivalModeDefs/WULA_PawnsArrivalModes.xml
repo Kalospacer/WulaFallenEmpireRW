@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PawnsArrivalModeDef>
+    <defName>WULA_EdgeTeleport</defName>
+    <workerClass>WulaFallenEmpire.PawnsArrivalModeWorker_EdgeTeleport</workerClass>
+    <layerWhitelist>
+      <li>Surface</li>
+      <li MayRequire="Ludeon.RimWorld.Odyssey">Orbit</li>
+    </layerWhitelist>
+    <minSpaceSelectionWeight>0.1</minSpaceSelectionWeight>
+    <selectionWeightCurve> <!-- not usable in many strategies and by many factions, so this gets boosted -->
+      <points>
+        <li>(1, 0)</li>
+        <li>(999999, 0)</li>
+      </points>
+    </selectionWeightCurve>
+    <minTechLevel>Ultra</minTechLevel>
+    <textEnemy>一群来自 {1} 的 {0} 通过传送进入了地图！</textEnemy>
+    <textFriendly>一群来自 {1} 的 {0} 援军通过传送进入了地图！</textFriendly>
+    <textWillArrive>{0_pawnsPluralDef} 将通过传送进入地图</textWillArrive>
+  </PawnsArrivalModeDef>
+</Defs>

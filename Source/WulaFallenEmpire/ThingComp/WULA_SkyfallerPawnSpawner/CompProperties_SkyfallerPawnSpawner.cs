@@ -53,9 +53,6 @@ namespace WulaFallenEmpire
             {
                 pawn.drafter.Drafted = true;
             }
-
-            // 发送生成消息
-            Messages.Message("SkyfallerPawnLanded".Translate(pawn.LabelShortCap), pawn, MessageTypeDefOf.NeutralEvent);
         }
 
         private Faction GetFaction()

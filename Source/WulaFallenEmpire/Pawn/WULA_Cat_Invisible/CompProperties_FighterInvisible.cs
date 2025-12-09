@@ -46,24 +46,31 @@ namespace WulaFallenEmpire
         // 新增：是否忽略某些状态的敌人（如倒地、死亡等）
         public bool ignoreDownedEnemies = true;
         public bool ignoreSleepingEnemies = false;
-        
+
+
+        // 新增：简化发信配置
+        public bool sendLetterOnReveal = false;
+        public string letterTitle = "";
+        public string letterText = "";
+        public int letterIntervalTicks = 1200;
+
         public CompProperties_FighterInvisible()
         {
             compClass = typeof(CompFighterInvisible);
         }
-        
+
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef))
             {
                 yield return error;
             }
-            
+
             if (InvisibilityDef == null)
             {
                 yield return "InvisibilityDef is not defined for CompProperties_FighterInvisible";
             }
-            
+
             if (revealDetectionRadius <= 0)
             {
                 revealDetectionRadius = FirstDetectedRadius;

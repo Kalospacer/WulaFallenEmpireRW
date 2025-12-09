@@ -578,7 +578,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -593,7 +593,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -608,7 +608,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -623,7 +623,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -638,7 +638,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -653,7 +653,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -668,7 +668,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -683,7 +683,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -698,7 +698,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -713,7 +713,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -728,7 +728,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -743,7 +743,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -758,7 +758,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -773,7 +773,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -788,7 +788,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -803,7 +803,7 @@
             <enableLord>true</enableLord>
             <lordDataName>WULA_Defender_Group</lordDataName>
             <count>1</count>
-            <faction>AncientsHostile</faction>
+            <faction>Wula_Progressive_Faction</faction>
             <duty>DefendBase</duty>
             <spawnType>MapGeneration</spawnType>
           </li>
@@ -839,12 +839,12 @@
     <thingDatas>
       <li>
         <def>WULA_Machine_Recharger</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <position>(21,0,23)</position>
       </li>
       <li>
         <def>WULA_Charging_Station_Synth</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(20,19,20,19)</li>
           <li>(22,19,22,19)</li>
@@ -852,7 +852,7 @@
       </li>
       <li>
         <def>WulaWall</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(17,10,24,10)</li>
           <li>(15,13,19,13)</li>
@@ -899,26 +899,26 @@
       <li>
         <def>Table1x2c</def>
         <stuff>WULA_Alloy</stuff>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <position>(18,0,21)</position>
       </li>
       <li>
         <def>DiningChair</def>
         <stuff>Uranium</stuff>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <position>(18,0,20)</position>
       </li>
       <li>
         <def>DiningChair</def>
         <stuff>Uranium</stuff>
         <rotation>2</rotation>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <position>(18,0,23)</position>
       </li>
       <li>
         <def>WULA_Wall_Flag_Building</def>
         <rotation>3</rotation>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(25,20,25,20)</li>
           <li>(25,23,25,23)</li>
@@ -926,7 +926,7 @@
       </li>
       <li>
         <def>HiddenConduit</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(19,17,19,17)</li>
           <li>(16,20,16,20)</li>
@@ -940,7 +940,7 @@
       </li>
       <li>
         <def>WULA_Wall_Flag_Building</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(19,17,19,17)</li>
           <li>(22,17,22,17)</li>
@@ -949,7 +949,7 @@
       <li>
         <def>Sandbags</def>
         <stuff>Cloth</stuff>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(7,8,10,8)</li>
           <li>(7,9,7,11)</li>
@@ -972,7 +972,7 @@
       <li>
         <def>WULA_Wall_Flag_Building</def>
         <rotation>2</rotation>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(19,26,19,26)</li>
           <li>(22,26,22,26)</li>
@@ -981,7 +981,7 @@
       <li>
         <def>WULA_Wall_Flag_Building</def>
         <rotation>1</rotation>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(16,20,16,20)</li>
           <li>(16,23,16,23)</li>
@@ -989,7 +989,7 @@
       </li>
       <li>
         <def>Wula_Fusion_Generators</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <storedEnergy>29.432827</storedEnergy>
         <allRect>
           <li>(17,15,17,15)</li>
@@ -1005,7 +1005,7 @@
       <li>
         <def>Turret_MiniTurret</def>
         <stuff>Steel</stuff>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <storedEnergy>60</storedEnergy>
         <allRect>
           <li>(16,17,16,17)</li>
@@ -1016,7 +1016,7 @@
       </li>
       <li>
         <def>Wula_Base_Laser_Turret</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(13,14,13,14)</li>
           <li>(28,14,28,14)</li>
@@ -1026,7 +1026,7 @@
       </li>
       <li>
         <def>TrapIED_Incendiary</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(18,12,18,12)</li>
           <li>(11,19,11,19)</li>
@@ -1040,7 +1040,7 @@
       </li>
       <li>
         <def>WulaDoor</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(11,18,11,18)</li>
           <li>(11,25,11,25)</li>
@@ -1051,7 +1051,7 @@
       <li>
         <def>WulaDoor</def>
         <rotation>1</rotation>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(17,12,17,12)</li>
           <li>(24,12,24,12)</li>
@@ -1061,7 +1061,7 @@
       </li>
       <li>
         <def>WULA_Cat_Bunker</def>
-        <faction>AncientsHostile</faction>
+        <faction>Wula_Progressive_Faction</faction>
         <allRect>
           <li>(9,10,9,10)</li>
           <li>(32,10,32,10)</li>

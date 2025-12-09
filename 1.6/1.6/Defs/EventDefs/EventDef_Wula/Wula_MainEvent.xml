@@ -1269,7 +1269,7 @@
                 <points>4000</points>
                 <faction>Wula_PIA_Legion_Faction</faction>
                 <raidStrategy>ImmediateAttackFriendly</raidStrategy>
-                <raidArrivalMode>EdgeDropGroups</raidArrivalMode>
+                <raidArrivalMode>WULA_EdgeTeleport</raidArrivalMode>
                 <groupKind>Combat</groupKind>
                 <pawnGroupMakers>
                   <li>
@@ -1295,7 +1295,7 @@
                 <points>4000</points>
                 <faction>Wula_PIA_Legion_Faction</faction>
                 <raidStrategy>ImmediateAttackFriendly</raidStrategy>
-                <raidArrivalMode>EdgeDropGroups</raidArrivalMode>
+                <raidArrivalMode>WULA_EdgeTeleport</raidArrivalMode>
                 <groupKind>Combat</groupKind>
                 <pawnGroupMakers>
                   <li>
@@ -1321,7 +1321,7 @@
                 <points>1000</points>
                 <faction>Wula_PIA_Legion_Faction</faction>
                 <raidStrategy>ImmediateAttackFriendly</raidStrategy>
-                <raidArrivalMode>EdgeDropGroups</raidArrivalMode>
+                <raidArrivalMode>WULA_EdgeTeleport</raidArrivalMode>
                 <groupKind>Combat</groupKind>
                 <pawnGroupMakers>
                   <li>
@@ -1345,9 +1345,9 @@
             <effects>
               <li Class="WulaFallenEmpire.Effect_TriggerRaid">
                 <points>6000</points>
-                <faction>Empire</faction>
+                <faction>Wula_Progressive_Faction</faction>
                 <raidStrategy>ImmediateAttack</raidStrategy>
-                <raidArrivalMode>EdgeDropGroups</raidArrivalMode>
+                <raidArrivalMode>WULA_EdgeTeleport</raidArrivalMode>
                 <groupKind>Combat</groupKind>
                 <pawnGroupMakers>
                   <li>
@@ -1371,9 +1371,9 @@
             <effects>
               <li Class="WulaFallenEmpire.Effect_TriggerRaid">
                 <points>6000</points>
-                <faction>Empire</faction>
+                <faction>Wula_Progressive_Faction</faction>
                 <raidStrategy>ImmediateAttack</raidStrategy>
-                <raidArrivalMode>EdgeDropGroups</raidArrivalMode>
+                <raidArrivalMode>WULA_EdgeTeleport</raidArrivalMode>
                 <groupKind>Combat</groupKind>
                 <pawnGroupMakers>
                   <li>
@@ -1397,9 +1397,9 @@
             <effects>
               <li Class="WulaFallenEmpire.Effect_TriggerRaid">
                 <points>3000</points>
-                <faction>Empire</faction>
+                <faction>Wula_Progressive_Faction</faction>
                 <raidStrategy>ImmediateAttack</raidStrategy>
-                <raidArrivalMode>EdgeDropGroups</raidArrivalMode>
+                <raidArrivalMode>WULA_EdgeTeleport</raidArrivalMode>
                 <groupKind>Combat</groupKind>
                 <pawnGroupMakers>
                   <li>

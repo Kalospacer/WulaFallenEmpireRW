@@ -201,15 +201,22 @@ namespace WulaFallenEmpire
         {
             if (MechPawn == null || !CanBeAutonomous)
                 yield break;
-                
+
             // 工作模式切换按钮
             if (CanWorkAutonomously)
             {
-                yield return new DroneGizmo(this);
+                DroneGizmo droneGizmo = new DroneGizmo(this);
+                if (droneGizmo != null)
+                {
+                    yield return droneGizmo;
+                }
             }
-
-            // 更换武器按钮
-            yield return CreateWeaponSwitchGizmo();
+            // 更换武器按钮 - 确保不返回null
+            Gizmo weaponSwitchGizmo = CreateWeaponSwitchGizmo();
+            if (weaponSwitchGizmo != null)
+            {
+                yield return weaponSwitchGizmo;
+            }
         }
 
         /// <summary>
@@ -217,20 +224,43 @@ namespace WulaFallenEmpire
         /// </summary>
         private Gizmo CreateWeaponSwitchGizmo()
         {
-            // 检查Pawn是否属于玩家派系
-            if (MechPawn?.Faction != Faction.OfPlayer)
+            try
             {
-                return null; // 非玩家派系时不显示
+                // 检查Pawn是否属于玩家派系
+                if (MechPawn?.Faction != Faction.OfPlayer)
+                {
+                    return null; // 非玩家派系时不显示
+                }
+                // 检查Pawn是否有效
+                if (MechPawn == null || MechPawn.Dead || MechPawn.Destroyed)
+                {
+                    return null;
+                }
+                // 检查equipment是否有效
+                if (MechPawn.equipment == null)
+                {
+                    return null;
+                }
+                Command_Action switchWeaponCommand = new Command_Action
+                {
+                    defaultLabel = "WULA_SwitchWeapon".Translate(),
+                    defaultDesc = "WULA_SwitchWeapon_Desc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Abilities/WULA_WeaponSwitchAbility", false) ?? BaseContent.BadTex,
+                    action = SwitchWeapon,
+                };
+                // 确保Command不为null
+                if (switchWeaponCommand == null)
+                {
+                    Log.Error($"Failed to create weapon switch gizmo for {MechPawn?.LabelCap}");
+                    return null;
+                }
+                return switchWeaponCommand;
             }
-
-            Command_Action switchWeaponCommand = new Command_Action
+            catch (System.Exception ex)
             {
-                defaultLabel = "WULA_SwitchWeapon".Translate(),
-                defaultDesc = "WULA_SwitchWeapon_Desc".Translate(),
-                icon = ContentFinder<Texture2D>.Get("Wula/UI/Abilities/WULA_WeaponSwitchAbility", false) ?? BaseContent.BadTex,
-                action = SwitchWeapon
-            };
-            return switchWeaponCommand;
+                Log.Error($"Error creating weapon switch gizmo: {ex}");
+                return null;
+            }
         }
 
         /// <summary>

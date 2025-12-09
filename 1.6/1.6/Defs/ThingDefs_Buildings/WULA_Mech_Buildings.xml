@@ -571,4 +571,106 @@
       </li>
     </comps>
   </ThingDef>
+
+  <!-- 特战猫猫（非玩家用） -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Mech_WULA_Cat_Cloak_Sniper_Cleanzone</defName>
+    <label>奇怪的空投区</label>
+    <description>奇怪的空投区</description>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <costList Inherit="False">
+      <WULA_Alloy>4</WULA_Alloy>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(1,1)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Mech_WULA_Cat_Cloak_Sniper_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Mech_WULA_Cat_Cloak_Sniper_Incoming</defName>
+    <label>奇怪的空投舱（空投中）</label>
+    <size>(1,1)</size>
+    <thingClass>WulaFallenEmpire.Skyfaller_PawnSpawner</thingClass>
+    <graphicData>
+      <texPath>Wula/Building/WULA_DropPod/WULA_DropPod_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(1, 1)</shadowSize>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <motesPerCell>0</motesPerCell>
+      <anticipationSound>DropPod_Fall_Mechanoid</anticipationSound>
+      <impactSound>DropPod_Impact</impactSound>
+      <cameraShake>0.1</cameraShake>
+      <rotationCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </rotationCurve>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
+        <pawnKind>Mech_WULA_Cat_Cloak_Sniper</pawnKind>
+        <faction>Wula_Progressive_Faction</faction>
+        <spawnDrafted>false</spawnDrafted>
+        <spawnHostile>true</spawnHostile>
+      </li>
+    </comps>
+  </ThingDef>
 </Defs>

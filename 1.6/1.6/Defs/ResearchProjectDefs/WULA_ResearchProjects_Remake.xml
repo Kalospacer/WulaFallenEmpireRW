@@ -63,7 +63,7 @@
     <techprintCommonality>0</techprintCommonality>
     <techprintMarketValue>0</techprintMarketValue>
     <heldByFactionCategoryTags>
-      <li>Wula_PIA_Legion_Faction</li>
+      <li>WulaPIALegion</li>
     </heldByFactionCategoryTags>
     <prerequisites>
       <li>Electricity</li>
@@ -125,7 +125,7 @@
     <techprintCommonality>0</techprintCommonality>
     <techprintMarketValue>0</techprintMarketValue>
     <heldByFactionCategoryTags>
-      <li>Wula_PIA_Legion_Faction</li>
+      <li>WulaPIALegion</li>
     </heldByFactionCategoryTags>
     <prerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
@@ -187,7 +187,7 @@
     <techprintCommonality>0</techprintCommonality>
     <techprintMarketValue>0</techprintMarketValue>
     <heldByFactionCategoryTags>
-      <li>Wula_PIA_Legion_Faction</li>
+      <li>WulaPIALegion</li>
     </heldByFactionCategoryTags>
     <prerequisites>
       <li>Fabrication</li>
@@ -472,7 +472,7 @@
     <techprintCommonality>0</techprintCommonality>
     <techprintMarketValue>0</techprintMarketValue>
     <heldByFactionCategoryTags>
-      <li>Wula_PIA_Legion_Faction</li>
+      <li>WulaPIALegion</li>
     </heldByFactionCategoryTags>
   </ResearchProjectDef>
   <!-- 防御 -->
@@ -529,7 +529,7 @@
     <techprintCommonality>0</techprintCommonality>
     <techprintMarketValue>0</techprintMarketValue>
     <heldByFactionCategoryTags>
-      <li>Wula_PIA_Legion_Faction</li>
+      <li>WulaPIALegion</li>
     </heldByFactionCategoryTags>
   </ResearchProjectDef>
 

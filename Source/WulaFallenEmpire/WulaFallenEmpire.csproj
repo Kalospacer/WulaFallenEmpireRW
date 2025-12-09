@@ -250,6 +250,7 @@
     <Compile Include="HediffComp\WULA_HediffSpawner\Tools.cs" />
     <Compile Include="Job\JobDriver_InspectBuilding.cs" />
     <Compile Include="Job\JobGiver_InspectBuilding.cs" />
+    <Compile Include="PawnsArrivalMode\PawnsArrivalModeWorker_EdgeTeleport.cs" />
     <Compile Include="Pawn\Comp_MultiTurretGun.cs" />
     <Compile Include="Pawn\Comp_PawnRenderExtra.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompAutoMechCarrier.cs" />
