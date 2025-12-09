@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <IncidentDef>
+    <defName>WULA_GiveQuest_Intro_NewColony</defName>
+    <category>GiveQuest</category>
+    <label>乌拉帝国的新殖民地介绍</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <questScriptDef>WULA_Intro_NewColony</questScriptDef>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <baseChance>0</baseChance>
+  </IncidentDef>
   <QuestScriptDef>
     <defName>WULA_Intro_NewColony</defName>
     <rootSelectionWeight>0</rootSelectionWeight>
     <autoAccept>false</autoAccept>
     <sendAvailableLetter>true</sendAvailableLetter>
     <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
-    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
     <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
     <!-- 命名规则 -->
     <questNameRules>

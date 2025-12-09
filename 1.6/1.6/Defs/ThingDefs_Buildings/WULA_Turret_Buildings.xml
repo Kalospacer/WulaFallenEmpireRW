@@ -1756,6 +1756,727 @@
     </modExtensions>
   </ThingDef>
 
+  <!-- 钻机 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Combat_Excavator_Cleanzone</defName>
+    <label>DBm-6"战斗挖掘机"</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nDBm-6"战斗挖掘机"是乌拉帝国用于破坏阵地的挖掘机，从天而降部署在指定地点后，钻机将通过高速旋转的刀片引发若干次地震冲击波，随后将舱内单位一股脑放出。</description>
+    <uiIconPath>Wula/Building/WULA_Combat_Excavator_Icon</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Combat_Excavator</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Combat_Excavator_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(1,1)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <costList Inherit="False">
+      <WULA_Alloy>20</WULA_Alloy>
+      <ComponentIndustrial>1</ComponentIndustrial>
+      <WULA_Excavator_Blade>1</WULA_Excavator_Blade>
+    </costList>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>9</radius> <!-- 半径大小 -->
+        <color>(0.5, 0.25, 0.25)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>冲击半径</label>
+        <description>钻机降落后，地震波影响的最大范围</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>WULA_Combat_Excavator_Incoming</skyfallerDef> <!-- 迫击炮塔空投类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+ </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Combat_Excavator_Incoming</defName>
+    <label>DBm-6"战斗挖掘机"（空投中）</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Combat_Excavator_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Combat_Excavator</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Combat_Excavator</defName>
+    <label>DBm-6"战斗挖掘机"</label>
+    <description>乌拉帝国用于破坏阵地的挖掘机，从天而降部署在指定地点后，钻机将通过高速旋转的刀片引发若干次地震冲击波，随后将舱内单位一股脑放出。</description>
+    <!-- <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass> -->
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+		<altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <tradeability>None</tradeability>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconPath>Wula/Building/WULA_Combat_Excavator_Icon</uiIconPath>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Combat_Excavator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <costList>
+      <WULA_Alloy>20</WULA_Alloy>
+      <ComponentIndustrial>1</ComponentIndustrial>
+      <WULA_Excavator_Blade>1</WULA_Excavator_Blade>
+    </costList>
+    <statBases>
+      <MaxHitPoints>5000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>5</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <neverBuildable>true</neverBuildable>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+      <deconstructible>false</deconstructible>
+      <forcedCostLeavings>
+        <li>WULA_Excavator_Blade</li>
+      </forcedCostLeavings>
+    </building>
+    <damageMultipliers Inherit="False">
+      <li>
+        <damageDef>WULA_Combat_Excavator_Shoke_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+      <li>
+        <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+      <li>
+        <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+    </damageMultipliers>
+    <!-- <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalAnimationSpeed>0</globalAnimationSpeed>
+        <globalAnimationIntensity>0</globalAnimationIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <animationType>RotateY</animationType>
+            <animationSpeed>360</animationSpeed>
+            <animationIntensity>360</animationIntensity> 
+            <animationPhase>0</animationPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <animationSpeed>0</animationSpeed>
+            <animationIntensity>0</animationIntensity>
+            <animationPhase>0</animationPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions> -->
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Wula_Progressive_Faction</factionDef> -->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_PhaseCombatTower">
+        <warmupTicks>120</warmupTicks> <!-- 3秒启动期 -->
+        <explosionCooldownTicks>90</explosionCooldownTicks> <!-- 爆炸间隔1秒 -->
+        
+        <explosions>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+            <radius>6</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>50</damageAmount>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+            <radius>9</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>50</damageAmount>
+            <excludeRadius>0.9</excludeRadius>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_Damage</damageDef>
+            <radius>9</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>500</damageAmount>
+            <excludeRadius>0.9</excludeRadius>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+          <li>
+            <damageDef>Smoke</damageDef>
+            <radius>12</radius>
+            <postExplosionGasType>BlindSmoke</postExplosionGasType>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>0</damageAmount>
+            <explosionSound>Explosion_Smoke</explosionSound>
+          </li>
+        </explosions>
+        
+        <pawnKindDefs>
+          <li>Mech_WULA_Fire_Cat</li>
+        </pawnKindDefs>
+        
+        <spawnCount>12</spawnCount> <!-- 生成3个Pawn -->
+        <spawnIntervalTicks>30</spawnIntervalTicks> <!-- 每3秒生成一个 -->
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>9000</lifespanTicks>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Sow_Excavator_Cleanzone</defName>
+    <label>DSm-6"挖掘机"</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\nDSm-6"挖掘机"是一种通过空投部署的挖掘机，钻机可以通过高速震动将附近的土壤翻出，使得整片区域变得松软易于种植。这种设备的震波杀伤力极大，工作期间切勿靠近！</description>
+    <uiIconPath>Wula/Building/WULA_Sow_Excavator_Icon</uiIconPath>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <ThingDef>WULA_Combat_Excavator</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_Sow_Excavator_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(1,1)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <costList>
+      <WULA_Alloy>50</WULA_Alloy>
+      <ComponentIndustrial>2</ComponentIndustrial>
+      <WULA_Excavator_Blade>1</WULA_Excavator_Blade>
+    </costList>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_CustomRadius">
+        <radius>13</radius> <!-- 半径大小 -->
+        <color>(0.5, 0.6, 0.25)</color> <!-- 绿色圆圈 -->
+        <radiusOffset>0</radiusOffset> <!-- 半径偏移 -->
+        <showInGUI>true</showInGUI>
+        <label>冲击半径</label>
+        <description>钻机降落后，地震波影响的最大范围</description>
+        <defaultVisible>true</defaultVisible>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>WULA_Sow_Excavator_Incoming</skyfallerDef> <!-- 迫击炮塔空投类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+ </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Sow_Excavator_Incoming</defName>
+    <label>DSm-6"挖掘机"（空投中）</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Combat_Excavator_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Sow_Excavator</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Sow_Excavator</defName>
+    <label>DSm-6"挖掘机"</label>
+    <description>一种通过空投部署的挖掘机，钻机可以通过高速震动将附近的土壤翻出，使得整片区域变得松软易于种植。这种设备的震波杀伤力极大，工作期间切勿靠近！</description>
+    <!-- <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass> -->
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+		<altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <tradeability>None</tradeability>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconPath>Wula/Building/WULA_Sow_Excavator_Icon</uiIconPath>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Combat_Excavator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <costList>
+      <WULA_Alloy>50</WULA_Alloy>
+      <ComponentIndustrial>2</ComponentIndustrial>
+      <WULA_Excavator_Blade>1</WULA_Excavator_Blade>
+    </costList>
+    <statBases>
+      <MaxHitPoints>5000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>5</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
+    <building>
+      <neverBuildable>true</neverBuildable>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+      <deconstructible>false</deconstructible>
+      <forcedCostLeavings>
+        <li>WULA_Excavator_Blade</li>
+      </forcedCostLeavings>
+    </building>
+    <!-- <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalAnimationSpeed>0</globalAnimationSpeed>
+        <globalAnimationIntensity>0</globalAnimationIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <animationType>RotateY</animationType>
+            <animationSpeed>360</animationSpeed>
+            <animationIntensity>360</animationIntensity> 
+            <animationPhase>0</animationPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <animationSpeed>0</animationSpeed>
+            <animationIntensity>0</animationIntensity>
+            <animationPhase>0</animationPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions> -->
+    <damageMultipliers Inherit="False">
+      <li>
+        <damageDef>WULA_Combat_Excavator_Shoke_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+      <li>
+        <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+      <li>
+        <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+    </damageMultipliers>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <!-- <factionDef>Wula_Progressive_Faction</factionDef> -->
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_PhaseCombatTower">
+        <warmupTicks>120</warmupTicks> <!-- 3秒启动期 -->
+        <explosionCooldownTicks>90</explosionCooldownTicks> <!-- 爆炸间隔1秒 -->
+        
+        <explosions>
+          <li>
+            <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+            <radius>6</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>1</damageAmount>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+          <li>
+            <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+            <radius>9</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>1</damageAmount>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+          <li>
+            <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+            <radius>13</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>20</damageAmount>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+        </explosions>
+        
+        <spawnCount>0</spawnCount> <!-- 生成3个Pawn -->
+        <spawnIntervalTicks>30</spawnIntervalTicks> <!-- 每3秒生成一个 -->
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>9000</lifespanTicks>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- 钻机(AI) -->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>WULA_Combat_Excavator_Hostile_Incoming</defName>
+    <label>DBm-6"战斗挖掘机"（空投中）</label>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Combat_Excavator_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(2, 2)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <spawnThing>WULA_Combat_Excavator_Hostile</spawnThing>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Combat_Excavator_Hostile</defName>
+    <label>DBm-6"战斗挖掘机"</label>
+    <description>乌拉帝国用于破坏阵地的挖掘机，从天而降部署在指定地点后，钻机将通过高速旋转的刀片引发若干次地震冲击波，随后将舱内单位一股脑放出。</description>
+    <!-- <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass> -->
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+		<altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <tradeability>None</tradeability>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconPath>Wula/Building/WULA_Combat_Excavator_Icon</uiIconPath>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Combat_Excavator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <costList>
+      <WULA_Alloy>20</WULA_Alloy>
+      <ComponentIndustrial>1</ComponentIndustrial>
+      <WULA_Excavator_Blade>1</WULA_Excavator_Blade>
+    </costList>
+    <statBases>
+      <MaxHitPoints>5000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>5</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <neverBuildable>true</neverBuildable>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+      <deconstructible>false</deconstructible>
+      <forcedCostLeavings>
+        <li>WULA_Excavator_Blade</li>
+      </forcedCostLeavings>
+    </building>
+    <damageMultipliers Inherit="False">
+      <li>
+        <damageDef>WULA_Combat_Excavator_Shoke_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+      <li>
+        <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+      <li>
+        <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+        <multiplier>0.01</multiplier>
+      </li>
+    </damageMultipliers>
+    <!-- <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalAnimationSpeed>0</globalAnimationSpeed>
+        <globalAnimationIntensity>0</globalAnimationIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <animationType>RotateY</animationType>
+            <animationSpeed>360</animationSpeed>
+            <animationIntensity>360</animationIntensity> 
+            <animationPhase>0</animationPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <animationSpeed>0</animationSpeed>
+            <animationIntensity>0</animationIntensity>
+            <animationPhase>0</animationPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions> -->
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <factionDef>Wula_Progressive_Faction</factionDef>
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_PhaseCombatTower">
+        <warmupTicks>120</warmupTicks> <!-- 3秒启动期 -->
+        <explosionCooldownTicks>90</explosionCooldownTicks> <!-- 爆炸间隔1秒 -->
+        
+        <explosions>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+            <radius>5</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>10</damageAmount>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+            <radius>7</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>10</damageAmount>
+            <excludeRadius>0.9</excludeRadius>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_Damage</damageDef>
+            <radius>7</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>20</damageAmount>
+            <excludeRadius>0.9</excludeRadius>
+            <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
+          </li>
+          <li>
+            <damageDef>Smoke</damageDef>
+            <radius>12</radius>
+            <postExplosionGasType>BlindSmoke</postExplosionGasType>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>0</damageAmount>
+            <explosionSound>Explosion_Smoke</explosionSound>
+          </li>
+        </explosions>
+        
+        <pawnKindDefs>
+          <li>Mech_WULA_Fire_Cat</li>
+        </pawnKindDefs>
+        
+        <spawnCount>16</spawnCount> <!-- 生成3个Pawn -->
+        <spawnIntervalTicks>30</spawnIntervalTicks> <!-- 每3秒生成一个 -->
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>9000</lifespanTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
   <!-- 旗帜 -->
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Wall_Flag_Building</defName>

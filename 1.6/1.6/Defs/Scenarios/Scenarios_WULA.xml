@@ -153,9 +153,9 @@
         </li>
 
         <!-- 开局介绍事件 -->
-        <li Class="ScenPart_CreateQuest">
-          <def>CreateQuest</def>
-          <questDef>WULA_Intro_NewColony</questDef>
+        <li Class="ScenPart_CreateIncident">
+          <def>CreateIncident</def>
+          <incident>WULA_GiveQuest_Intro_NewColony</incident>
         </li>
         
         <!-- Game start dialog -->
@@ -259,9 +259,9 @@
         </li>
 
         <!-- 开局介绍事件 -->
-        <li Class="ScenPart_CreateQuest">
-          <def>CreateQuest</def>
-          <questDef>WULA_Intro_NewColony</questDef>
+        <li Class="ScenPart_CreateIncident">
+          <def>CreateIncident</def>
+          <incident>WULA_GiveQuest_Intro_NewColony</incident>
         </li>
         
         <!-- Game start dialog -->

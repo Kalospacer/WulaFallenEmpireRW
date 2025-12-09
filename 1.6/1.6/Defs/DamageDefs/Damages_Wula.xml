@@ -287,7 +287,7 @@
     <explosionCellFleck>Blast_WULA_Plasma_Explosive</explosionCellFleck>
     <explosionColorCenter>(0.2, 0.8, 0.3)</explosionColorCenter>
     <explosionColorEdge>(0.1, 0.9, 0.5)</explosionColorEdge>
-    <explosionInteriorFleck>ElectricalSpark_WULA_Plasma_Explosive</explosionInteriorFleck>
+    <!-- <explosionInteriorFleck>ElectricalSpark_WULA_Plasma_Explosive</explosionInteriorFleck> -->
     <soundExplosion>Explosion_EMP</soundExplosion>
     <combatLogRules>Damage_Bomb</combatLogRules>
   </DamageDef>
@@ -431,6 +431,8 @@
     <!-- <explosionCellFleck>BlastEMP</explosionCellFleck>
     <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge> -->
     <explosionCenterEffecter>WULA_Disturber_Turret_Bomb_Shockwave</explosionCenterEffecter>
+    <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
     
     <modExtensions>
       <li Class="WulaFallenEmpire.DamageDefExtension_TerrainCover">
@@ -462,10 +464,45 @@
     <!-- <explosionCellFleck>BlastEMP</explosionCellFleck>
     <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge> -->
     <explosionCenterEffecter>WULA_Disturber_Turret_Bomb_Shockwave</explosionCenterEffecter>
+    <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
     
     <modExtensions>
       <li Class="WulaFallenEmpire.DamageDefExtension_TerrainCover">
         <terrainToSpawn>CooledLava</terrainToSpawn>
+      </li>
+      <!-- <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
+        <extraLabel>穿透伤害</extraLabel>
+        <showExtraLog>true</showExtraLog>
+        
+        <extraDamages>
+          <li>
+            <damageDef>EMP</damageDef>
+            <amount>60</amount>
+            <isPercentage>false</isPercentage>
+            <armorPenetration>2</armorPenetration>
+          </li>
+        </extraDamages>
+      </li> -->
+    </modExtensions>
+  </DamageDef>
+  <DamageDef ParentName="Bomb">
+    <defName>WULA_Sow_Excavator_Shoke_Damage</defName>
+    <label>高能震波</label>
+    <!-- <workerClass>WulaFallenEmpire.DamageWorker_ExtraDamage</workerClass> -->
+    <workerClass>WulaFallenEmpire.DamageWorker_ExplosionWithTerrain</workerClass>
+    <defaultDamage>1</defaultDamage>
+    <defaultStoppingPower>10</defaultStoppingPower>
+    <defaultArmorPenetration>2</defaultArmorPenetration>
+    <!-- <explosionCellFleck>BlastEMP</explosionCellFleck>
+    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge> -->
+    <explosionCenterEffecter>WULA_Disturber_Turret_Bomb_Shockwave</explosionCenterEffecter>
+    <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDefExtension_TerrainCover">
+        <terrainToSpawn>SoilRich</terrainToSpawn>
       </li>
       <!-- <li Class="WulaFallenEmpire.DamageDef_ExtraDamageExtension">
         <extraLabel>穿透伤害</extraLabel>

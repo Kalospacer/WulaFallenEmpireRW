@@ -20,6 +20,18 @@ namespace WulaFallenEmpire
         public SlateRef<bool> sendMessageOnFailure = true;
         public SlateRef<bool> allowThickRoof = false;
         public SlateRef<bool> allowThinRoof = true;
+        
+        // 新增：是否启用分散算法
+        public SlateRef<bool> spreadOut = false;
+        
+        // 新增：最小间隔距离（以单元格为单位）
+        public SlateRef<int> minSpacing = 5;
+        
+        // 新增：是否只对小型目标使用分散算法
+        public SlateRef<bool> onlyForSmallTargets = true;
+        
+        // 新增：小型目标的定义（最大尺寸）
+        public SlateRef<int> smallTargetMaxSize = 3;
 
         protected override bool TestRunInt(Slate slate)
         {
@@ -53,6 +65,10 @@ namespace WulaFallenEmpire
             bool doSendMessageOnFailure = sendMessageOnFailure.GetValue(slate);
             bool targetAllowThickRoof = allowThickRoof.GetValue(slate);
             bool targetAllowThinRoof = allowThinRoof.GetValue(slate);
+            bool doSpreadOut = spreadOut.GetValue(slate);
+            int targetMinSpacing = minSpacing.GetValue(slate);
+            bool targetOnlyForSmallTargets = onlyForSmallTargets.GetValue(slate);
+            int targetSmallTargetMaxSize = smallTargetMaxSize.GetValue(slate);
 
             if (targetThingDef == null)
             {
@@ -66,36 +82,369 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            Log.Message($"[QuestNode] Attempting to spawn {targetSpawnCount} {targetThingDef.defName} on map {targetMap}");
+            // 创建QuestPart来延迟执行，等待信号
+            QuestPart_SpawnPrefabSkyfallerCaller questPart = new QuestPart_SpawnPrefabSkyfallerCaller
+            {
+                thingDef = targetThingDef,
+                faction = targetFaction,
+                spawnCount = targetSpawnCount,
+                map = targetMap,
+                sendMessageOnSuccess = doSendMessageOnSuccess,
+                sendMessageOnFailure = doSendMessageOnFailure,
+                allowThickRoof = targetAllowThickRoof,
+                allowThinRoof = targetAllowThinRoof,
+                spreadOut = doSpreadOut,
+                minSpacing = targetMinSpacing,
+                onlyForSmallTargets = targetOnlyForSmallTargets,
+                smallTargetMaxSize = targetSmallTargetMaxSize,
+                inSignal = QuestGenUtility.HardcodedSignalWithQuestID(inSignal.GetValue(slate))
+            };
 
-            // 执行生成
-            int successCount = SpawnThingsAtValidLocations(targetThingDef, targetFaction, targetSpawnCount, targetMap, targetAllowThickRoof, targetAllowThinRoof);
+            // 将QuestPart添加到Quest中
+            QuestGen.quest.AddPart(questPart);
+            
+            // 设置输出变量
+            QuestGen.slate.Set("prefabSpawnSuccessCount", questPart.successCount);
+            QuestGen.slate.Set("prefabSpawnRequestedCount", targetSpawnCount);
+        }
+    }
 
+    // 新增：QuestPart来管理延迟执行
+    public class QuestPart_SpawnPrefabSkyfallerCaller : QuestPart
+    {
+        public string inSignal;
+        public ThingDef thingDef;
+        public Faction faction;
+        public int spawnCount = 1;
+        public Map map;
+        public bool sendMessageOnSuccess = true;
+        public bool sendMessageOnFailure = true;
+        public bool allowThickRoof = false;
+        public bool allowThinRoof = true;
+        
+        // 新增：分散算法相关
+        public bool spreadOut = false;
+        public int minSpacing = 5;
+        public bool onlyForSmallTargets = true;
+        public int smallTargetMaxSize = 3;
+        
+        // 输出变量
+        public int successCount = 0;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref inSignal, "inSignal");
+            Scribe_Defs.Look(ref thingDef, "thingDef");
+            Scribe_References.Look(ref faction, "faction");
+            Scribe_Values.Look(ref spawnCount, "spawnCount", 1);
+            Scribe_References.Look(ref map, "map");
+            Scribe_Values.Look(ref sendMessageOnSuccess, "sendMessageOnSuccess", true);
+            Scribe_Values.Look(ref sendMessageOnFailure, "sendMessageOnFailure", true);
+            Scribe_Values.Look(ref allowThickRoof, "allowThickRoof", false);
+            Scribe_Values.Look(ref allowThinRoof, "allowThinRoof", true);
+            Scribe_Values.Look(ref spreadOut, "spreadOut", false);
+            Scribe_Values.Look(ref minSpacing, "minSpacing", 5);
+            Scribe_Values.Look(ref onlyForSmallTargets, "onlyForSmallTargets", true);
+            Scribe_Values.Look(ref smallTargetMaxSize, "smallTargetMaxSize", 3);
+            Scribe_Values.Look(ref successCount, "successCount", 0);
+        }
+
+        public override void Notify_QuestSignalReceived(Signal signal)
+        {
+            base.Notify_QuestSignalReceived(signal);
+            
+            // 检查是否是我们等待的信号
+            if (!(signal.tag == inSignal))
+            {
+                return;
+            }
+
+            if (thingDef == null)
+            {
+                Log.Error("[QuestPart] ThingDef is null");
+                return;
+            }
+
+            if (map == null)
+            {
+                Log.Error("[QuestPart] Map is null");
+                return;
+            }
+
+            Log.Message($"[QuestPart] Received signal {inSignal}, spawning {spawnCount} {thingDef.defName} on map {map}");
+
+            // 执行生成逻辑
+            successCount = ExecuteSpawnLogic();
+            
             // 发送结果消息
             if (successCount > 0)
             {
-                if (doSendMessageOnSuccess)
+                if (sendMessageOnSuccess)
                 {
-                    Messages.Message($"[Quest] Successfully spawned {successCount} {targetThingDef.label}", MessageTypeDefOf.PositiveEvent);
+                    Messages.Message($"[Quest] Successfully spawned {successCount} {thingDef.label}", MessageTypeDefOf.PositiveEvent);
                 }
-                Log.Message($"[QuestNode] Successfully spawned {successCount}/{targetSpawnCount} {targetThingDef.defName}");
+                Log.Message($"[QuestPart] Successfully spawned {successCount}/{spawnCount} {thingDef.defName}");
             }
             else
             {
-                if (doSendMessageOnFailure)
+                if (sendMessageOnFailure)
                 {
-                    Messages.Message($"[Quest] Failed to spawn any {targetThingDef.label}", MessageTypeDefOf.NegativeEvent);
+                    Messages.Message($"[Quest] Failed to spawn any {thingDef.label}", MessageTypeDefOf.NegativeEvent);
                 }
-                Log.Warning($"[QuestNode] Failed to spawn any {targetThingDef.defName}");
+                Log.Warning($"[QuestPart] Failed to spawn any {thingDef.defName}");
+            }
+        }
+
+        private int ExecuteSpawnLogic()
+        {
+            // 检查是否应该使用分散算法
+            bool useSpreadOutAlgorithm = spreadOut;
+            if (onlyForSmallTargets)
+            {
+                // 检查目标是否为小型目标
+                bool isSmallTarget = thingDef.Size.x <= smallTargetMaxSize && 
+                                     thingDef.Size.z <= smallTargetMaxSize;
+                useSpreadOutAlgorithm = useSpreadOutAlgorithm && isSmallTarget;
+                
+                if (spreadOut && !isSmallTarget)
+                {
+                    Log.Message($"[QuestPart] Target {thingDef.defName} is not considered small (size {thingDef.Size.x}x{thingDef.Size.z}), not using spread-out algorithm");
+                }
             }
 
-            // 将结果存储到Slate中，供后续节点使用
-            QuestGen.slate.Set("prefabSpawnSuccessCount", successCount);
-            QuestGen.slate.Set("prefabSpawnRequestedCount", targetSpawnCount);
+            // 执行生成
+            if (useSpreadOutAlgorithm)
+            {
+                return SpawnThingsWithSpacing(thingDef, faction, spawnCount, map, allowThickRoof, allowThinRoof, minSpacing);
+            }
+            else
+            {
+                return SpawnThingsAtValidLocations(thingDef, faction, spawnCount, map, allowThickRoof, allowThinRoof);
+            }
         }
 
         /// <summary>
-        /// 在有效位置生成多个建筑
+        /// 使用分散算法生成多个建筑
+        /// </summary>
+        private int SpawnThingsWithSpacing(ThingDef thingDef, Faction faction, int spawnCount, Map targetMap, bool allowThickRoof, bool allowThinRoof, int minSpacing)
+        {
+            Log.Message($"[QuestPart] Using spread-out algorithm with min spacing {minSpacing} cells");
+            
+            List<IntVec3> spawnedPositions = new List<IntVec3>();
+            int successCount = 0;
+            int attempts = 0;
+            const int maxTotalAttempts = 500; // 总的最大尝试次数
+            const int maxAttemptsPerThing = 100; // 每个建筑的最大尝试次数
+
+            // 生成一个所有可能位置的列表
+            List<IntVec3> allPossibleCells = GeneratePossibleCells(targetMap, thingDef, allowThickRoof, allowThinRoof, 1000);
+            
+            Log.Message($"[QuestPart] Found {allPossibleCells.Count} possible cells for {thingDef.defName}");
+            
+            // 如果没有足够的可能位置，直接使用原算法
+            if (allPossibleCells.Count < spawnCount)
+            {
+                Log.Warning($"[QuestPart] Not enough possible cells ({allPossibleCells.Count}) for {spawnCount} spawns, falling back to normal algorithm");
+                return SpawnThingsAtValidLocations(thingDef, faction, spawnCount, targetMap, allowThickRoof, allowThinRoof);
+            }
+
+            for (int i = 0; i < spawnCount && attempts < maxTotalAttempts; i++)
+            {
+                bool foundPosition = false;
+                int attemptsForThisThing = 0;
+                
+                // 尝试找到一个满足间距条件的位置
+                while (!foundPosition && attemptsForThisThing < maxAttemptsPerThing && attempts < maxTotalAttempts)
+                {
+                    attempts++;
+                    attemptsForThisThing++;
+                    
+                    // 从可能位置中随机选择一个
+                    IntVec3 candidatePos = allPossibleCells.RandomElement();
+                    
+                    // 检查是否满足间距条件
+                    bool meetsSpacing = true;
+                    foreach (var existingPos in spawnedPositions)
+                    {
+                        float distance = candidatePos.DistanceTo(existingPos);
+                        if (distance < minSpacing)
+                        {
+                            meetsSpacing = false;
+                            break;
+                        }
+                    }
+                    
+                    if (meetsSpacing)
+                    {
+                        // 创建并生成建筑
+                        Thing thing = ThingMaker.MakeThing(thingDef);
+                        
+                        if (faction != null)
+                        {
+                            thing.SetFaction(faction);
+                        }
+
+                        GenSpawn.Spawn(thing, candidatePos, targetMap);
+                        spawnedPositions.Add(candidatePos);
+                        successCount++;
+                        foundPosition = true;
+                        
+                        // 从可能位置列表中移除这个位置及其周围的位置（避免重复选择）
+                        allPossibleCells.RemoveAll(cell => cell.DistanceTo(candidatePos) < minSpacing / 2);
+                        
+                        Log.Message($"[QuestPart] Successfully spawned {thingDef.defName} at {candidatePos} (distance to nearest: {GetMinDistanceToOthers(candidatePos, spawnedPositions)})");
+                        break;
+                    }
+                }
+                
+                // 如果找不到满足间距条件的位置，放宽条件
+                if (!foundPosition)
+                {
+                    Log.Warning($"[QuestPart] Could not find position with required spacing for {thingDef.defName}, trying with reduced spacing");
+                    
+                    // 尝试使用减半的间距
+                    bool foundWithReducedSpacing = TrySpawnWithReducedSpacing(thingDef, faction, targetMap, spawnedPositions, allPossibleCells, minSpacing / 2, ref successCount, ref attempts);
+                    
+                    if (!foundWithReducedSpacing)
+                    {
+                        // 如果还找不到，尝试不使用间距条件
+                        Log.Warning($"[QuestPart] Still couldn't find position, falling back to no spacing requirement");
+                        foundWithReducedSpacing = TrySpawnWithReducedSpacing(thingDef, faction, targetMap, spawnedPositions, allPossibleCells, 0, ref successCount, ref attempts);
+                    }
+                    
+                    if (!foundWithReducedSpacing)
+                    {
+                        Log.Warning($"[QuestPart] Failed to spawn {thingDef.defName} after multiple attempts");
+                    }
+                }
+            }
+            
+            Log.Message($"[QuestPart] Spread-out algorithm completed: {successCount}/{spawnCount} spawned");
+            return successCount;
+        }
+        
+        /// <summary>
+        /// 尝试使用减小的间距生成建筑
+        /// </summary>
+        private bool TrySpawnWithReducedSpacing(ThingDef thingDef, Faction faction, Map targetMap, List<IntVec3> spawnedPositions, List<IntVec3> allPossibleCells, int reducedSpacing, ref int successCount, ref int attempts)
+        {
+            const int maxReducedAttempts = 50;
+            int attemptsForReduced = 0;
+            
+            while (attemptsForReduced < maxReducedAttempts && attempts < 500)
+            {
+                attempts++;
+                attemptsForReduced++;
+                
+                IntVec3 candidatePos = allPossibleCells.RandomElement();
+                
+                // 检查是否满足减小的间距条件
+                bool meetsSpacing = true;
+                foreach (var existingPos in spawnedPositions)
+                {
+                    float distance = candidatePos.DistanceTo(existingPos);
+                    if (distance < reducedSpacing)
+                    {
+                        meetsSpacing = false;
+                        break;
+                    }
+                }
+                
+                if (meetsSpacing)
+                {
+                    Thing thing = ThingMaker.MakeThing(thingDef);
+                    
+                    if (faction != null)
+                    {
+                        thing.SetFaction(faction);
+                    }
+
+                    GenSpawn.Spawn(thing, candidatePos, targetMap);
+                    spawnedPositions.Add(candidatePos);
+                    successCount++;
+                    
+                    // 从可能位置列表中移除这个位置及其周围的位置
+                    allPossibleCells.RemoveAll(cell => cell.DistanceTo(candidatePos) < reducedSpacing / 2);
+                    
+                    Log.Message($"[QuestPart] Successfully spawned {thingDef.defName} at {candidatePos} with reduced spacing {reducedSpacing}");
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        /// <summary>
+        /// 获取到其他位置的最小距离
+        /// </summary>
+        private float GetMinDistanceToOthers(IntVec3 position, List<IntVec3> otherPositions)
+        {
+            if (otherPositions.Count == 0) return float.MaxValue;
+            
+            float minDistance = float.MaxValue;
+            foreach (var otherPos in otherPositions)
+            {
+                if (otherPos == position) continue;
+                float distance = position.DistanceTo(otherPos);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                }
+            }
+            return minDistance;
+        }
+        
+        /// <summary>
+        /// 生成所有可能的位置列表
+        /// </summary>
+        private List<IntVec3> GeneratePossibleCells(Map map, ThingDef thingDef, bool allowThickRoof, bool allowThinRoof, int maxCellsToCheck)
+        {
+            List<IntVec3> possibleCells = new List<IntVec3>();
+            int cellsChecked = 0;
+            
+            // 方法1：随机采样
+            for (int i = 0; i < maxCellsToCheck && possibleCells.Count < maxCellsToCheck / 2; i++)
+            {
+                IntVec3 randomCell = new IntVec3(
+                    Rand.Range(thingDef.Size.x, map.Size.x - thingDef.Size.x),
+                    0,
+                    Rand.Range(thingDef.Size.z, map.Size.z - thingDef.Size.z)
+                );
+
+                if (randomCell.InBounds(map) && IsValidForSkyfallerDrop(map, randomCell, thingDef, allowThickRoof, allowThinRoof))
+                {
+                    possibleCells.Add(randomCell);
+                }
+                cellsChecked++;
+            }
+            
+            // 方法2：如果随机采样得到的数量不足，尝试使用网格采样
+            if (possibleCells.Count < maxCellsToCheck / 4)
+            {
+                int gridStep = Mathf.Max(3, Mathf.CeilToInt(Mathf.Sqrt(map.Size.x * map.Size.z / maxCellsToCheck)));
+                
+                for (int x = thingDef.Size.x; x < map.Size.x - thingDef.Size.x && possibleCells.Count < maxCellsToCheck; x += gridStep)
+                {
+                    for (int z = thingDef.Size.z; z < map.Size.z - thingDef.Size.z && possibleCells.Count < maxCellsToCheck; z += gridStep)
+                    {
+                        IntVec3 gridCell = new IntVec3(x, 0, z);
+                        
+                        if (gridCell.InBounds(map) && IsValidForSkyfallerDrop(map, gridCell, thingDef, allowThickRoof, allowThinRoof))
+                        {
+                            possibleCells.Add(gridCell);
+                        }
+                        cellsChecked++;
+                    }
+                }
+            }
+            
+            Log.Message($"[QuestPart] Generated {possibleCells.Count} possible cells after checking {cellsChecked} cells");
+            return possibleCells;
+        }
+
+        /// <summary>
+        /// 在有效位置生成多个建筑（原算法）
         /// </summary>
         private int SpawnThingsAtValidLocations(ThingDef thingDef, Faction faction, int spawnCount, Map targetMap, bool allowThickRoof, bool allowThinRoof)
         {
@@ -120,11 +469,11 @@ namespace WulaFallenEmpire
                     GenSpawn.Spawn(thing, spawnPos, targetMap);
                     successCount++;
 
-                    Log.Message($"[QuestNode] Successfully spawned {thingDef.defName} at {spawnPos} for faction {faction?.Name ?? "None"}");
+                    Log.Message($"[QuestPart] Successfully spawned {thingDef.defName} at {spawnPos} for faction {faction?.Name ?? "None"}");
                 }
                 else
                 {
-                    Log.Warning($"[QuestNode] Failed to find valid spawn position for {thingDef.defName} (attempt {attempts})");
+                    Log.Warning($"[QuestPart] Failed to find valid spawn position for {thingDef.defName} (attempt {attempts})");
                 }
             }
 
@@ -191,7 +540,7 @@ namespace WulaFallenEmpire
                 return potentialCells.RandomElement();
             }
 
-            Log.Warning($"[QuestNode] No valid positions found for {thingDef.defName} after exhaustive search");
+            Log.Warning($"[QuestPart] No valid positions found for {thingDef.defName} after exhaustive search");
             return IntVec3.Invalid;
         }
 

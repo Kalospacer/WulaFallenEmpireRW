@@ -293,7 +293,7 @@
       <MaxHitPoints>50</MaxHitPoints>
     </statBases>
     <thingCategories>
-      <li>ResourcesRaw</li>
+      <li>Items</li>
     </thingCategories>
     <burnableByRecipe>false</burnableByRecipe>
     <smeltable>false</smeltable>
@@ -317,7 +317,31 @@
       <Mass>0.01</Mass>
     </statBases>
     <thingCategories>
-      <li>ResourcesRaw</li>
+      <li>Items</li>
+    </thingCategories>
+    <burnableByRecipe>false</burnableByRecipe>
+    <smeltable>false</smeltable>
+  </ThingDef>
+  <ThingDef ParentName="ResourceBase">
+    <defName>WULA_Excavator_Blade</defName>
+    <label>挖掘机刀片</label>
+    <description>DSm-6"挖掘机"和DBm-6"战斗挖掘机"所使用的刀片，质地超乎想象地坚硬，即使是使用乌拉帝国舰队的设施也无法加工这种刀片，只能从其他工业星域运输过来。\n\n乌拉帝国的进步派叛军似乎往边缘世界运了不少这个玩意，难怪她们可以像不要钱一样扔钻机。</description>
+    <graphicData>
+      <texPath>Wula/Item/WULA_Excavator_Blade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tradeability>None</tradeability>
+    <genericMarketSellable>false</genericMarketSellable>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Metal_Drop</soundDrop>
+    <useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MarketValue>1</MarketValue>
+      <Mass>0.01</Mass>
+    </statBases>
+    <thingCategories>
+      <li>Items</li>
     </thingCategories>
     <burnableByRecipe>false</burnableByRecipe>
     <smeltable>false</smeltable>

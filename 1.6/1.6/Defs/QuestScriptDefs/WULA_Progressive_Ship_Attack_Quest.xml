@@ -43,6 +43,90 @@
         <!-- 随机 -->
         <li Class="QuestNode_RandomNode">
           <nodes>
+            <!-- 钻机空袭 -->
+            <li Class="QuestNode_Sequence">
+              <nodes>
+                <li Class="QuestNode_ResolveQuestName">
+                  <rules>
+                    <rulesStrings>
+                      <li>questName->挖掘机空袭</li>
+                    </rulesStrings>
+                  </rules>
+                </li>
+                <li Class="QuestNode_ResolveQuestDescription">
+                  <rules>
+                    <rulesStrings>
+                      <li>questDescription->乌拉帝国进步派叛军向殖民地发射了挖掘机集群！</li>
+                    </rulesStrings>
+                  </rules>
+                </li>
+                <li Class="QuestNode_Letter">
+                  <label>挖掘机空袭</label>
+                  <letterDef>NegativeEvent</letterDef>
+                  <text>乌拉帝国进步派叛军向殖民地发射了挖掘机集群！</text>
+                </li>
+                <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                  <thingDef>WULA_Combat_Excavator_Hostile_Incoming</thingDef>
+                  <spawnCount>1</spawnCount>
+                  <spreadOut>true</spreadOut>
+                  <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                  <sendMessageOnFailure>false</sendMessageOnFailure>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>2999</value2>
+       
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Combat_Excavator_Hostile_Incoming</thingDef>
+                        <spawnCount>1</spawnCount>
+                        <spreadOut>true</spreadOut>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>5999</value2>
+       
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Combat_Excavator_Hostile_Incoming</thingDef>
+                        <spawnCount>1</spawnCount>
+                        <spreadOut>true</spreadOut>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_Greater">
+                  <value1>$points</value1>
+                  <value2>9999</value2>
+       
+                  <node Class="QuestNode_Sequence">
+                    <nodes>
+                      <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <thingDef>WULA_Combat_Excavator_Hostile_Incoming</thingDef>
+                        <spawnCount>2</spawnCount>
+                        <spreadOut>true</spreadOut>
+                        <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                        <sendMessageOnFailure>false</sendMessageOnFailure>
+                      </li>
+                    </nodes>
+                  </node>
+                </li>
+                <li Class="QuestNode_ChangeFactionGoodwill">
+                  <faction>Wula_PIA_Legion_Faction</faction>
+                  <change>10</change>
+                  <reason>WULA_Attack_Progressive</reason>
+                </li>
+              </nodes>
+            </li>
             <!-- 游击队 -->
             <li Class="QuestNode_Sequence">
               <nodes>
@@ -60,6 +144,11 @@
                     </rulesStrings>
                   </rules>
                 </li>
+                <li Class="QuestNode_Letter">
+                  <label>游击队攻击</label>
+                  <letterDef>NegativeEvent</letterDef>
+                  <text>乌拉帝国进步派叛军的派出了一支游击队攻击殖民地！</text>
+                </li>
                 <li Class="QuestNode_RandomRaid">
                   <faction>Wula_Progressive_Faction</faction>
                   <useCurrentThreatPoints>true</useCurrentThreatPoints>
@@ -67,6 +156,11 @@
                   <arrivalMode>WULA_EdgeTeleport</arrivalMode>
                   <customLetterLabel TKey="LetterLabelChasing">乌拉帝国 进步派的游击队</customLetterLabel>
                   <customLetterText TKey="LetterTextChasing">一群乌拉帝国进步派的游击队正在攻击你的殖民地！</customLetterText>
+                </li>
+                <li Class="QuestNode_ChangeFactionGoodwill">
+                  <faction>Wula_PIA_Legion_Faction</faction>
+                  <change>10</change>
+                  <reason>WULA_Attack_Progressive</reason>
                 </li>
               </nodes>
             </li>
@@ -305,6 +399,11 @@
                     </nodes>
                   </node>
                 </li>
+                <li Class="QuestNode_ChangeFactionGoodwill">
+                  <faction>Wula_PIA_Legion_Faction</faction>
+                  <change>10</change>
+                  <reason>WULA_Attack_Progressive</reason>
+                </li>
               </nodes>
             </li>
             <!-- 猫猫特战 -->
@@ -326,6 +425,7 @@
                 </li>
                 <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
                   <thingDef>Mech_WULA_Cat_Cloak_Sniper_Incoming</thingDef>
+                  <spreadOut>true</spreadOut>
                   <spawnCount>1</spawnCount>
                   <sendMessageOnSuccess>false</sendMessageOnSuccess>
                   <sendMessageOnFailure>false</sendMessageOnFailure>
@@ -339,6 +439,7 @@
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
                         <thingDef>Mech_WULA_Cat_Cloak_Sniper_Incoming</thingDef>
                         <spawnCount>1</spawnCount>
+                        <spreadOut>true</spreadOut>
                         <sendMessageOnSuccess>false</sendMessageOnSuccess>
                         <sendMessageOnFailure>false</sendMessageOnFailure>
                       </li>
@@ -353,6 +454,7 @@
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
                         <thingDef>Mech_WULA_Cat_Cloak_Sniper_Incoming</thingDef>
+                        <spreadOut>true</spreadOut>
                         <spawnCount>1</spawnCount>
                         <sendMessageOnSuccess>false</sendMessageOnSuccess>
                         <sendMessageOnFailure>false</sendMessageOnFailure>
@@ -368,6 +470,7 @@
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
                         <thingDef>Mech_WULA_Cat_Cloak_Sniper_Incoming</thingDef>
+                        <spreadOut>true</spreadOut>
                         <spawnCount>2</spawnCount>
                         <sendMessageOnSuccess>false</sendMessageOnSuccess>
                         <sendMessageOnFailure>false</sendMessageOnFailure>
@@ -380,11 +483,6 @@
           </nodes>
         </li>
         
-        <li Class="QuestNode_ChangeFactionGoodwill">
-          <faction>Wula_PIA_Legion_Faction</faction>
-          <change>10</change>
-          <reason>WULA_Attack_Progressive</reason>
-        </li>
         <li Class="QuestNode_End" />
       </nodes>
     </root>

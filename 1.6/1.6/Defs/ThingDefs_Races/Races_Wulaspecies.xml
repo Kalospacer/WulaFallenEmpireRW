@@ -1072,6 +1072,35 @@
       </li>
     </comps>
   </AlienRace.ThingDef_AlienRace>
+  <AlienRace.ThingDef_AlienRace ParentName="Mech_WULA_Cat_Base">
+    <defName>Mech_WULA_Fire_Cat</defName>
+    <label>CAt-55"突击猫猫"</label>
+    <description>乌拉帝国的一种小型自律机械体，无需监管者。它们寿命有限，只会跟随某些自杀式袭击而出现。</description>
+    <uiIconPath>Wula/Things/WULA_Fire_Cat/WULA_Cat_Thin_south</uiIconPath>
+
+    <race>
+      <thinkTreeConstant>WULA_Mech_Flyer_Constant</thinkTreeConstant>
+    </race>
+    <alienRace>
+      <raceRestriction>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+      </raceRestriction>
+      <compatibility>
+        <isFlesh>false</isFlesh>
+      </compatibility>
+    </alienRace>
+    <statBases>
+      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+      <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
+      <MoveSpeed>4</MoveSpeed>
+    </statBases>
+    <comps Inherit="False">
+      <li Class="CompProperties_MechPowerCell">
+        <totalPowerTicks>10000</totalPowerTicks>
+      </li>
+    </comps>
+  </AlienRace.ThingDef_AlienRace>
 
   <!-- 大型机械族 -->
   <AlienRace.ThingDef_AlienRace ParentName="WULA_BaseMechanoid">
@@ -1095,7 +1124,7 @@
       <ArmorRating_Heat>0.75</ArmorRating_Heat>
     </statBases>
     <race>
-      <body>WULA_Mobile_Bunker_Body</body>
+      <!-- <body>WULA_Mobile_Bunker_Body</body> -->
       <baseBodySize>5</baseBodySize>
       <lifeStageAges>
         <li>

@@ -331,13 +331,37 @@
             <parms>
               <allowedThreats>Raids</allowedThreats>
               <onDays>1.0</onDays>
-              <offDays>0.25</offDays>
+              <offDays>1.25</offDays>
               <minSpacingDays>0.04</minSpacingDays>
               <numIncidentsRange>1~2</numIncidentsRange>
-              <currentThreatPointsFactor>1.1</currentThreatPointsFactor>
+              <currentThreatPointsFactor>2.5</currentThreatPointsFactor>
               <minThreatPoints>500</minThreatPoints>
             </parms>
           </node>          
+        </li>
+        <!-- 钻机空袭 -->
+        <li Class="QuestNode_Delay">
+          <delayTicks>300000</delayTicks>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label>挖掘机袭击</label>
+                <letterDef>NegativeEvent</letterDef>
+                <text>几个高速移动的黑点正在拖着浓浓的黑烟尾迹飞向殖民地······那是什么？</text>
+              </li>
+              <li Class="QuestNode_SendSignals">
+                <outSignals>wulaCombatExcavatorComing</outSignals>
+              </li>
+              <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                <inSignal>wulaCombatExcavatorComing</inSignal>
+                <thingDef>WULA_Combat_Excavator_Hostile_Incoming</thingDef>
+                <spawnCount>4</spawnCount>
+                <spreadOut>true</spreadOut>
+                <sendMessageOnSuccess>false</sendMessageOnSuccess>
+                <sendMessageOnFailure>false</sendMessageOnFailure>
+              </li>
+            </nodes>
+          </node>
         </li>
         
         <!-- - - - - - - -  -->
@@ -552,7 +576,7 @@
     <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
     <characterName>「军团」,P.I.A</characterName>
     <descriptions>
-      <li>看起来你们的殖民地还不错，井井有条并且符合帝国法典和章程——你们值得一个更高位的许可，稍后我会通过运输舱把晋升许可寄给你们。\n\n此外，我也将你们的支援系统重置了，你们可以再次申请之前申请过的支援，并且新的支援也会开放给你们。继续发展你们的殖民地，我就能帮你们申请更高级的权限。\n\n帝国荣光永存。</li>
+      <li>哎呀，看起来好像出了一些小意外，不过你们的殖民地很好地解决了问题，井井有条并且符合帝国法典和章程——你们值得一个更高位的许可，稍后我会通过运输舱把晋升许可寄给你们。\n\n此外，我也将你们的支援系统重置了，你们可以再次申请之前申请过的支援，并且新的支援也会开放给你们。继续发展你们的殖民地，我就能帮你们申请更高级的权限。\n\n帝国荣光永存。</li>
     </descriptions>
     <immediateEffects>
       <li>

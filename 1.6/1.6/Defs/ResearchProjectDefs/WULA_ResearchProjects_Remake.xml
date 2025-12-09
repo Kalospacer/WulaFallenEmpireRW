@@ -507,6 +507,20 @@
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Sow_Excavator_Technology</defName>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>1.50</researchViewY>
+    <label>挖掘机许可</label>
+    <description>允许殖民地申请空投挖掘机，一种一次性的工业设备，可以将附近的土壤变得适宜播种——当然也能杀人。</description>
+    <baseCost>1500</baseCost>
+    <hiddenPrerequisites>
+      <li>WULA_Bunker_Drop_Technology</li>
+    </hiddenPrerequisites>
+    <prerequisites>
+      <li>WULA_Colony_License_LV2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Turret_Base_Mortar_Technology</defName>
     <researchViewX>10.00</researchViewX>
     <researchViewY>0.90</researchViewY>
@@ -516,6 +530,17 @@
     <prerequisites>
       <li>WULA_Synth_Weapon_3_Explosive_Technology</li>
       <li>WULA_Synth_Armor_2_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Combat_Excavator_Technology</defName>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>1.50</researchViewY>
+    <label>战斗挖掘机许可</label>
+    <description>允许殖民地申请空投战斗挖掘机，一种一次性的工业设备，可以引发毁灭性的熔岩崩塌，攻击结束后会同步部署烟雾弹和机械体辅助进攻。</description>
+    <baseCost>3500</baseCost>
+    <prerequisites>
+      <li>WULA_Colony_License_LV3_Technology</li>
     </prerequisites>
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">

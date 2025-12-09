@@ -144,6 +144,31 @@
     </weaponTags>
     <weaponMoney>9999~9999</weaponMoney>
   </PawnKindDef>
+  <PawnKindDef ParentName="Mech_WULA_Cat_Soldier_PawnKind">
+    <defName>Mech_WULA_Fire_Cat</defName>
+    <label>CAt-55"突击猫猫"</label>
+    <race>Mech_WULA_Fire_Cat</race>
+    <combatPower>500</combatPower>
+    <defaultFactionType>AncientsHostile</defaultFactionType>
+    <destroyGearOnDrop>true</destroyGearOnDrop>
+    <forceDeathOnDowned>true</forceDeathOnDowned>
+    <forceNoDeathNotification>true</forceNoDeathNotification>
+    <lifeStages Inherit="False">
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/WULA_Fire_Cat/WULA_Cat_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Fire_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.2</drawSize>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponTags>
+      <li>Wula_Assault_Cat_Weapon</li>
+    </weaponTags>
+    <weaponMoney>9999~9999</weaponMoney>
+  </PawnKindDef>
 
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_AI_Heavy_Panzer</defName> <!-- 修改了defName以避免冲突 -->

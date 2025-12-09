@@ -253,9 +253,6 @@
       <li>ITab_ContentsTransporter</li>
       <li>ITab_Shells</li>
     </inspectorTabs>
-    <researchPrerequisites>
-      <li>Shuttles</li>
-    </researchPrerequisites>
     <comps>
       <li Class="CompProperties_Shuttle">
         <shipDef>Ship_ArmedShuttle</shipDef>
