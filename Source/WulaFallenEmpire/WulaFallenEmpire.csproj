@@ -114,6 +114,8 @@
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\CompProperties_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\JobDriver_RecycleMechanoid.cs" />
+    <Compile Include="BuildingComp\WULA_PhaseCombatTower\CompPhaseCombatTower.cs" />
+    <Compile Include="BuildingComp\WULA_PhaseCombatTower\CompProperties_PhaseCombatTower.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\ArmedShuttleIncoming.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\Building_ArmedShuttle.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\Building_ArmedShuttleWithPocket.cs" />

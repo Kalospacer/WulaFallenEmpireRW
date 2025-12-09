@@ -1663,6 +1663,7 @@
         <enabled>false</enabled>
       </damageData>
     </graphicData>
+    <terrainAffordanceNeeded Inherit="False" IsNull="True"/>
     <altitudeLayer>Building</altitudeLayer>
     <passability>Standable</passability>
     <castEdgeShadows>false</castEdgeShadows>
@@ -1862,6 +1863,7 @@
     <selectable>false</selectable>
     <useHitPoints>false</useHitPoints>
     <size>(1,1)</size>
+    <terrainAffordanceNeeded Inherit="False" IsNull="True"/>
     <graphicData>
       <texPath>Wula/Building/WULA_Surveillance_Building</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -2097,6 +2099,7 @@
     <pathCost>0</pathCost>
     <hasInteractionCell>false</hasInteractionCell>
     <rotatable>false</rotatable>
+    <terrainAffordanceNeeded Inherit="False" IsNull="True"/>
     <statBases>
       <WorkToBuild>1</WorkToBuild>
       <Mass>0</Mass>

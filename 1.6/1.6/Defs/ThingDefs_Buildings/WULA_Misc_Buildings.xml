@@ -1068,4 +1068,138 @@
       </li>
     </comps>
   </ThingDef>
+
+  <!-- 钻机 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WULA_Combat_Excavator</defName>
+    <label>战斗挖掘机</label>
+    <description>乌拉帝国用于发起游击战的隧道挖掘机，在指定地点部署后，钻机将通过高速旋转的刀片引发若干次地震冲击波，随后将单位一股脑放出。</description>
+    <thingClass>WulaFallenEmpire.Building_ExtraGraphics</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+		<altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <drawHighlight>true</drawHighlight>
+    <tradeability>None</tradeability>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconPath>Wula/Building/Flag/WULA_Flag_Building_A</uiIconPath>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Wula/Building/Flag/WULA_Flag_Building_Mount</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <costList>
+      <WULA_Alloy>4</WULA_Alloy>
+    </costList>
+    <statBases>
+      <MaxHitPoints>99999</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>5</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>true</canOverlapZones>
+    <hasInteractionCell>false</hasInteractionCell>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <!-- <designationCategory>WULA_Buildings</designationCategory> -->
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+    </building>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ExtraGraphicsExtension">
+        <globalAnimationSpeed>0</globalAnimationSpeed>
+        <globalAnimationIntensity>0</globalAnimationIntensity>
+
+        <graphicLayers>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_A</texturePath>
+            <shaderName>MoteGlow</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>0</drawOrder>
+            <offset>(0,1,2)</offset>
+            <animationType>RotateY</animationType>
+            <animationSpeed>360</animationSpeed>  <!-- 比全局慢 -->
+            <animationIntensity>360</animationIntensity>  <!-- 比全局弱 -->
+            <animationPhase>0</animationPhase>
+          </li>
+          <li>
+            <texturePath>Wula/Building/Flag/WULA_Flag_Building_Mount</texturePath>
+            <shaderName>Transparent</shaderName>
+            <scale>(1,1)</scale>
+            <drawOrder>1</drawOrder>
+            <offset>(0,1,0)</offset>
+            <animationSpeed>0</animationSpeed>  <!-- 比全局慢 -->
+            <animationIntensity>0</animationIntensity>  <!-- 比全局弱 -->
+            <animationPhase>0</animationPhase>
+          </li>
+        </graphicLayers>
+      </li>
+    </modExtensions>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_FactionSetter">
+        <factionDef>Wula_Progressive_Faction</factionDef>
+        <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
+        <overrideExistingFaction>false</overrideExistingFaction>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,240,252,0)</glowColor>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_PhaseCombatTower">
+        <warmupTicks>240</warmupTicks> <!-- 3秒启动期 -->
+        <explosionCooldownTicks>180</explosionCooldownTicks> <!-- 爆炸间隔1秒 -->
+        
+        <explosions>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+            <radius>6</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>5</damageAmount>
+          </li>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
+            <radius>9</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>5</damageAmount>
+          </li>
+          <li>
+            <damageDef>WULA_Combat_Excavator_Shoke_Damage</damageDef>
+            <radius>9</radius>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>5</damageAmount>
+          </li>
+          <li>
+            <damageDef>Smoke</damageDef>
+            <radius>12</radius>
+            <postExplosionGasType>BlindSmoke</postExplosionGasType>
+            <armorPenetration>2</armorPenetration>
+            <damageAmount>0</damageAmount>
+          </li>
+        </explosions>
+        
+        <pawnKindDefs>
+          <li>Mech_WULA_Cat_Constructor</li>
+          <li>Mech_WULA_Cat_Assault</li>
+        </pawnKindDefs>
+        
+        <spawnCount>3</spawnCount> <!-- 生成3个Pawn -->
+        <spawnIntervalTicks>180</spawnIntervalTicks> <!-- 每3秒生成一个 -->
+      </li>
+    </comps>
+  </ThingDef>
 </Defs>

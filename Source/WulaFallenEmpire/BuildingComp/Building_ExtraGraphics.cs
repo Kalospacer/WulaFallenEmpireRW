@@ -153,7 +153,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 绘制单个图形层 - 现在支持旋转动画
+        // 绘制单个图形层 - 现在支持三种旋转动画
         private void DrawGraphicLayer(Vector3 baseDrawPos, bool flip, GraphicLayerData layer)
         {
             if (string.IsNullOrEmpty(layer.texturePath))
@@ -183,7 +183,9 @@ namespace WulaFallenEmpire
                     }
                     break;
                     
-                case AnimationType.Rotate:
+                case AnimationType.RotateZ:
+                case AnimationType.RotateY:
+                case AnimationType.RotateX:
                     if (layer.enableAnimation && layerRotationAngles.ContainsKey(layerIndex))
                     {
                         rotationAngle = layerRotationAngles[layerIndex];
@@ -194,9 +196,13 @@ namespace WulaFallenEmpire
             // 最终绘制位置 = 基础位置 + 图层偏移 + 动画偏移
             Vector3 drawPos = baseDrawPos + layer.offset + animationOffset;
             
-            // 如果启用了旋转动画，使用矩阵变换绘制
-            if (layer.animationType == AnimationType.Rotate && layer.enableAnimation && rotationAngle != 0f)
+            // 如果启用了旋转动画，使用特殊方法绘制
+            if ((layer.animationType == AnimationType.RotateZ || 
+                 layer.animationType == AnimationType.RotateY ||
+                 layer.animationType == AnimationType.RotateX) && 
+                layer.enableAnimation)
             {
+                // 使用自定义旋转绘制方法
                 DrawWithRotation(graphic, drawPos, flip, rotationAngle, layer);
             }
             else
@@ -206,7 +212,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 使用矩阵变换绘制旋转图形
+        // 使用矩阵变换绘制旋转图形 - 支持三种旋转轴
         private void DrawWithRotation(Graphic graphic, Vector3 drawPos, bool flip, float rotationAngle, GraphicLayerData layer)
         {
             try
@@ -221,26 +227,48 @@ namespace WulaFallenEmpire
                     return;
                 }
                 
-                // 创建旋转矩阵
-                Quaternion rotation = Quaternion.Euler(0f, 0f, rotationAngle);
+                // 根据旋转类型创建不同的旋转矩阵
+                Quaternion rotation = Quaternion.identity;
+                
+                switch (layer.animationType)
+                {
+                    case AnimationType.RotateZ:
+                        // 绕Z轴旋转（2D平面旋转）
+                        rotation = Quaternion.Euler(0f, 0f, rotationAngle);
+                        break;
+                        
+                    case AnimationType.RotateY:
+                        // 绕Y轴旋转（3D旋转，类似旋转门）
+                        rotation = Quaternion.Euler(0f, rotationAngle, 0f);
+                        break;
+                        
+                    case AnimationType.RotateX:
+                        // 绕X轴旋转（3D旋转，类似翻跟斗）
+                        rotation = Quaternion.Euler(rotationAngle, 0f, 0f);
+                        break;
+                }
                 
                 // 如果图层有旋转中心偏移，需要调整位置
-                Vector3 pivotOffset = new Vector3(layer.pivotOffset.x, layer.pivotOffset.y, 0f);
+                Vector3 pivotOffset = new Vector3(layer.pivotOffset.x, 0, layer.pivotOffset.y);
                 
-                // 计算最终矩阵
+                // 最终绘制位置 = 基础位置 + 图层偏移 + 旋转中心偏移
+                Vector3 finalDrawPos = drawPos + pivotOffset;
+                
+                // 创建变换矩阵
+                // 注意：Graphic已经应用了缩放，所以这里使用Vector3.one
                 Matrix4x4 matrix = Matrix4x4.TRS(
-                    drawPos + pivotOffset, // 位置
-                    rotation,              // 旋转
-                    new Vector3(layer.scale.x, layer.scale.y, 1f) // 缩放
+                    finalDrawPos,     // 位置
+                    rotation,         // 旋转
+                    Vector3.one       // 缩放（已由Graphic处理）
                 );
                 
-                // 绘制网格
-                Graphics.DrawMesh(mesh, matrix, mat, 0);
+                // 使用RimWorld的绘制方法
+                GenDraw.DrawMeshNowOrLater(mesh, matrix, mat, false);
                 
-                // 如果需要，绘制第二面（双面渲染）
+                // 如果需要双面渲染，再绘制一次
                 if (layer.doubleSided)
                 {
-                    Graphics.DrawMesh(mesh, matrix, mat, 0, null, 0, null, UnityEngine.Rendering.ShadowCastingMode.Off, true);
+                    GenDraw.DrawMeshNowOrLater(mesh, matrix, mat, false);
                 }
             }
             catch (Exception ex)
@@ -268,6 +296,13 @@ namespace WulaFallenEmpire
                     if (!layerAnimationTimes.ContainsKey(i))
                     {
                         layerAnimationTimes[i] = layer.animationStartTime;
+                        // 为旋转动画初始化旋转角度
+                        if (layer.animationType == AnimationType.RotateZ || 
+                            layer.animationType == AnimationType.RotateY ||
+                            layer.animationType == AnimationType.RotateX)
+                        {
+                            layerRotationAngles[i] = 0f;
+                        }
                     }
                     
                     // 更新动画时间
@@ -285,22 +320,35 @@ namespace WulaFallenEmpire
                             layerHoverOffsets[i] = hoverOffset;
                             break;
                             
-                        case AnimationType.Rotate:
+                        case AnimationType.RotateZ:
+                        case AnimationType.RotateY:
+                        case AnimationType.RotateX:
                             // 计算该图层的旋转角度
                             float rotateSpeed = layer.animationSpeed > 0 ? layer.animationSpeed : ModExtension.globalAnimationSpeed;
-                            float maxAngle = layer.animationIntensity > 0 ? layer.animationIntensity : ModExtension.globalAnimationIntensity;
                             
-                            // 旋转角度（循环）
-                            float rotationAngle = (layerAnimationTimes[i] * rotateSpeed * 360f) % 360f;
+                            // 旋转角度计算：动画时间 × 旋转速度（度/秒）
+                            float rotationAngle = layerAnimationTimes[i] * rotateSpeed;
                             
-                            // 限制旋转角度范围（如果设置了最大角度）
-                            if (maxAngle > 0 && maxAngle < 360f)
+                            // 如果设置了动画强度且小于360，则限制旋转范围
+                            if (layer.animationIntensity > 0 && layer.animationIntensity < 360f)
                             {
-                                // 使用正弦波限制旋转角度范围
-                                rotationAngle = Mathf.Sin(layerAnimationTimes[i] * rotateSpeed) * maxAngle;
+                                // 使用正弦波创建来回旋转效果
+                                rotationAngle = Mathf.Sin(layerAnimationTimes[i] * rotateSpeed * Mathf.Deg2Rad) * layer.animationIntensity;
+                            }
+                            else if (layer.animationIntensity >= 360f)
+                            {
+                                // 完整旋转：取模确保在0-360度之间
+                                rotationAngle %= 360f;
                             }
                             
                             layerRotationAngles[i] = rotationAngle;
+                            
+                            // 调试输出
+                            if (DebugSettings.godMode && i == 0 && Find.TickManager.TicksGame % 60 == 0)
+                            {
+                                // 只在开发模式下，每60帧输出一次第一条图层的旋转信息
+                                Log.Message($"{layer.animationType} 图层 {i}: 角度={rotationAngle:F1}°, 时间={layerAnimationTimes[i]:F2}s, 速度={rotateSpeed}°/s");
+                            }
                             break;
                     }
                 }
@@ -315,14 +363,32 @@ namespace WulaFallenEmpire
             base.ExposeData();
             // 保存自定义状态（如果需要）
         }
+        
+        // 调试方法：手动触发旋转测试
+        public void TestRotation()
+        {
+            for (int i = 0; i < ModExtension.graphicLayers.Count; i++)
+            {
+                var layer = ModExtension.graphicLayers[i];
+                if (layer.animationType == AnimationType.RotateZ || 
+                    layer.animationType == AnimationType.RotateY ||
+                    layer.animationType == AnimationType.RotateX)
+                {
+                    layerRotationAngles[i] = 45f; // 设置为45度测试
+                    break;
+                }
+            }
+        }
     }
 
-    // 动画类型枚举
+    // 动画类型枚举 - 现在有五种动画类型
     public enum AnimationType
     {
         None,      // 无动画
         Hover,     // 上下浮动
-        Rotate     // 自旋转
+        RotateZ,   // 绕Z轴旋转（2D平面旋转）- 原来的Rotate
+        RotateY,   // 绕Y轴旋转（3D旋转，类似旋转门）- 新增
+        RotateX    // 绕X轴旋转（3D旋转，类似翻跟斗）- 新增
     }
 
     // 主要的 ModExtension 定义
@@ -403,6 +469,20 @@ namespace WulaFallenEmpire
         {
             get => animationPhase;
             set => animationPhase = value;
+        }
+        
+        // 向后兼容：Rotate应该映射到RotateZ
+        [Obsolete("Use animationType instead")]
+        public AnimationType animationTypeCompat
+        {
+            get => animationType;
+            set 
+            { 
+                animationType = value;
+                // 如果旧值是Rotate，映射到RotateZ
+                if (animationType == AnimationType.RotateZ)
+                    animationType = AnimationType.RotateZ;
+            }
         }
     }
 }
