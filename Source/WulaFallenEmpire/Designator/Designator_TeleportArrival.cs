@@ -13,6 +13,7 @@ namespace WulaFallenEmpire
         private WULA_TeleportLandingMarker marker;
         private List<Thing> thingsToTeleport = new List<Thing>();
         private IntVec3 sourceCenter;
+        private List<IntVec3> relativeCells;
 
         public override string Label => "WULA_SelectArrivalPoint".Translate();
         public override string Desc => "WULA_SelectArrivalPointDesc".Translate();
@@ -26,31 +27,35 @@ namespace WulaFallenEmpire
             this.soundDragSustain = SoundDefOf.Designate_DragStandard;
             this.soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
             this.soundSucceeded = SoundDefOf.Designate_PlaceBuilding;
+            
+            // Cache relative cells from the group
+            this.relativeCells = teleporter.GetRelativeGroupCells();
         }
 
         public override AcceptanceReport CanDesignateCell(IntVec3 loc)
         {
             if (!loc.InBounds(targetMap)) return false;
             
-            // 检查区域是否有效
-            CellRect rect = CellRect.CenteredOn(loc, teleporter.Props.areaSize.x, teleporter.Props.areaSize.z);
-            foreach (IntVec3 cell in rect)
+            // Check all cells in the group shape
+            foreach (IntVec3 offset in relativeCells)
             {
+                IntVec3 cell = loc + offset;
+                
                 if (!cell.InBounds(targetMap)) return "WULA_OutOfBounds".Translate();
                 
-                // 检查地图边缘
+                // Check map edge
                 if (cell.InNoBuildEdgeArea(targetMap))
                 {
                     return "WULA_InNoBuildArea".Translate();
                 }
                 
-                // 检查迷雾
+                // Check fog
                 if (cell.Fogged(targetMap))
                 {
                     return "WULA_BlockedByFog".Translate();
                 }
                 
-                // 检查是否有不可覆盖的建筑
+                // Check for indestructible buildings
                 List<Thing> things = targetMap.thingGrid.ThingsListAt(cell);
                 foreach (Thing t in things)
                 {
@@ -63,7 +68,7 @@ namespace WulaFallenEmpire
                     }
                 }
                 
-                // 检查地形是否支持建造
+                // Check terrain passability
                 TerrainDef terrain = cell.GetTerrain(targetMap);
                 if (terrain.passability == Traversability.Impassable && !terrain.IsWater)
                 {
@@ -110,7 +115,13 @@ namespace WulaFallenEmpire
 
         private void DrawRect()
         {
-            GenDraw.DrawFieldEdges(CellRect.CenteredOn(UI.MouseCell(), teleporter.Props.areaSize.x, teleporter.Props.areaSize.z).Cells.ToList());
+            IntVec3 center = UI.MouseCell();
+            List<IntVec3> drawCells = new List<IntVec3>();
+            foreach (var offset in relativeCells)
+            {
+                drawCells.Add(center + offset);
+            }
+            GenDraw.DrawFieldEdges(drawCells);
         }
 
         private void CacheThings()
@@ -120,9 +131,11 @@ namespace WulaFallenEmpire
 
             sourceCenter = teleporter.parent.Position;
             Map sourceMap = teleporter.parent.Map;
-            CellRect rect = CellRect.CenteredOn(sourceCenter, teleporter.Props.areaSize.x, teleporter.Props.areaSize.z);
             
-            foreach (IntVec3 cell in rect)
+            // Use the group cells directly from the teleporter
+            List<IntVec3> groupCells = teleporter.GroupCells;
+            
+            foreach (IntVec3 cell in groupCells)
             {
                 if (!cell.InBounds(sourceMap)) continue;
                 foreach (Thing t in sourceMap.thingGrid.ThingsListAt(cell))
@@ -133,7 +146,7 @@ namespace WulaFallenEmpire
                     }
                 }
             }
-            // 添加自身
+            // Add self (leader)
             thingsToTeleport.Add(teleporter.parent);
         }
 
@@ -158,7 +171,7 @@ namespace WulaFallenEmpire
                     }
                     catch
                     {
-                        // 忽略绘制错误，防止UI崩溃
+                        // Ignore drawing errors to prevent UI crash
                     }
                 }
             }

@@ -18,6 +18,100 @@ namespace WulaFallenEmpire
         private int warmupTicksLeft = 0;
         private GlobalTargetInfo target;
         private WULA_TeleportLandingMarker activeMarker;
+
+        // Group caching
+        private List<CompMapTeleporter> cachedGroupMembers;
+        private int lastGroupCheckTick = -1;
+        
+        // Cells caching
+        private List<IntVec3> cachedGroupCells;
+        private int lastGroupCellsCheckTick = -1;
+
+        public CellRect TeleportRect => CellRect.CenteredOn(parent.Position, Props.areaSize.x, Props.areaSize.z);
+        
+        private List<CompMapTeleporter> GroupMembers
+        {
+            get
+            {
+                if (lastGroupCheckTick == Find.TickManager.TicksGame && cachedGroupMembers != null)
+                {
+                    return cachedGroupMembers;
+                }
+
+                lastGroupCheckTick = Find.TickManager.TicksGame;
+                cachedGroupMembers = new List<CompMapTeleporter>();
+                var openSet = new Queue<CompMapTeleporter>();
+                var closedSet = new HashSet<CompMapTeleporter>();
+
+                openSet.Enqueue(this);
+                closedSet.Add(this);
+
+                while (openSet.Count > 0)
+                {
+                    var currentComp = openSet.Dequeue();
+                    cachedGroupMembers.Add(currentComp);
+
+                    var potentialNeighbors = parent.Map.listerThings.ThingsOfDef(parent.def);
+                    foreach (var potentialNeighbor in potentialNeighbors)
+                    {
+                        var neighborComp = potentialNeighbor.TryGetComp<CompMapTeleporter>();
+                        if (neighborComp == null || closedSet.Contains(neighborComp)) continue;
+
+                        if (currentComp.TeleportRect.ExpandedBy(1).Overlaps(neighborComp.TeleportRect))
+                        {
+                            closedSet.Add(neighborComp);
+                            openSet.Enqueue(neighborComp);
+                        }
+                    }
+                }
+                // Sort by ID to ensure consistent leader
+                cachedGroupMembers.SortBy(c => c.parent.thingIDNumber);
+                return cachedGroupMembers;
+            }
+        }
+
+        public List<IntVec3> GroupCells
+        {
+            get
+            {
+                if (lastGroupCellsCheckTick == Find.TickManager.TicksGame && cachedGroupCells != null)
+                {
+                    return cachedGroupCells;
+                }
+
+                lastGroupCellsCheckTick = Find.TickManager.TicksGame;
+                HashSet<IntVec3> cells = new HashSet<IntVec3>();
+                foreach (var member in GroupMembers)
+                {
+                    foreach (var cell in member.TeleportRect)
+                    {
+                        if (cell.InBounds(parent.Map))
+                        {
+                            cells.Add(cell);
+                        }
+                    }
+                }
+                cachedGroupCells = cells.ToList();
+                return cachedGroupCells;
+            }
+        }
+
+        public List<IntVec3> GetRelativeGroupCells()
+        {
+            var cells = GroupCells;
+            var center = parent.Position;
+            return cells.Select(c => c - center).ToList();
+        }
+
+        private CompMapTeleporter Leader
+        {
+            get
+            {
+                var members = GroupMembers;
+                if (members.Count == 0) return this;
+                return members[0];
+            }
+        }
         
         public override void PostExposeData()
         {
@@ -31,19 +125,43 @@ namespace WulaFallenEmpire
         public override void PostDrawExtraSelectionOverlays()
         {
             base.PostDrawExtraSelectionOverlays();
-            GenDraw.DrawFieldEdges(CellRect.CenteredOn(parent.Position, Props.areaSize.x, Props.areaSize.z).Cells.ToList());
+            
+            // Draw the combined field edges
+            GenDraw.DrawFieldEdges(GroupCells, Color.cyan);
+
+            var leader = Leader;
+            if (leader != null)
+            {
+                // Mark the leader clearly
+                Vector3 center = leader.parent.TrueCenter();
+                GenDraw.DrawLineBetween(center + new Vector3(-1f, 0, -1f), center + new Vector3(1f, 0, 1f), SimpleColor.Yellow);
+                GenDraw.DrawLineBetween(center + new Vector3(-1f, 0, 1f), center + new Vector3(1f, 0, -1f), SimpleColor.Yellow);
+                GenDraw.DrawCircleOutline(center, 1.5f, SimpleColor.Yellow);
+
+                // Draw lines from members to leader
+                foreach (var member in GroupMembers)
+                {
+                    if (member != leader)
+                    {
+                        GenDraw.DrawLineBetween(leader.parent.TrueCenter(), member.parent.TrueCenter(), SimpleColor.Cyan);
+                    }
+                }
+            }
         }
 
         public override void CompTick()
         {
             base.CompTick();
-            if (isWarmingUp)
+            if (Leader == this && isWarmingUp)
             {
                 warmupTicksLeft--;
                 if (warmupTicksLeft % 60 == 0)
                 {
                     Log.Message($"[WULA] Teleport warmup: {warmupTicksLeft} ticks left.");
-                    Props.warmupEffecter?.Spawn(parent, parent.Map).Cleanup();
+                    foreach (var member in GroupMembers)
+                    {
+                        Props.warmupEffecter?.Spawn(member.parent, member.parent.Map).Cleanup();
+                    }
                 }
 
                 if (warmupTicksLeft <= 0)
@@ -63,6 +181,10 @@ namespace WulaFallenEmpire
             }
 
             if (parent.Faction != Faction.OfPlayer)
+                yield break;
+
+            // Only the leader provides the gizmos
+            if (Leader != this)
                 yield break;
 
             if (isWarmingUp)
@@ -274,17 +396,17 @@ namespace WulaFallenEmpire
         private void TeleportContents(Map targetMap, IntVec3 targetCenter)
         {
             Map sourceMap = parent.Map;
-            CellRect rect = CellRect.CenteredOn(parent.Position, Props.areaSize.x, Props.areaSize.z);
+            List<IntVec3> cells = GroupCells;
             IntVec3 center = parent.Position;
             
             List<ThingToTeleport> thingsToTeleport = new List<ThingToTeleport>();
             List<Pair<IntVec3, TerrainDef>> terrainToTeleport = new List<Pair<IntVec3, TerrainDef>>();
 
-            Log.Message($"[WULA] Collecting data from {rect.Area} cells around {center} with size {Props.areaSize}");
+            Log.Message($"[WULA] Collecting data from {cells.Count} cells in group");
 
             // 1. 收集数据
             HashSet<Thing> collectedThings = new HashSet<Thing>();
-            foreach (IntVec3 cell in rect)
+            foreach (IntVec3 cell in cells)
             {
                 if (!cell.InBounds(sourceMap)) continue;
 
@@ -294,7 +416,7 @@ namespace WulaFallenEmpire
                 for (int i = thingList.Count - 1; i >= 0; i--)
                 {
                     Thing t = thingList[i];
-                    if (t != parent && !collectedThings.Contains(t) &&
+                    if (!collectedThings.Contains(t) &&
                         (t.def.category == ThingCategory.Item || 
                          t.def.category == ThingCategory.Pawn || 
                          t.def.category == ThingCategory.Building))
@@ -309,14 +431,12 @@ namespace WulaFallenEmpire
             
             // 2. 准备传送 (PreSwapMap)
             foreach (var data in thingsToTeleport) data.thing.PreSwapMap();
-            parent.PreSwapMap();
 
             // 3. 从源地图移除 (DeSpawn)
             foreach (var data in thingsToTeleport)
             {
                 if (data.thing.Spawned) data.thing.DeSpawn(DestroyMode.WillReplace);
             }
-            if (parent.Spawned) parent.DeSpawn(DestroyMode.WillReplace);
 
             // 4. 修改地形
             foreach (var pair in terrainToTeleport)
@@ -345,14 +465,12 @@ namespace WulaFallenEmpire
                 newPos = newPos.ClampInsideMap(targetMap);
                 GenSpawn.Spawn(data.thing, newPos, targetMap, data.thing.Rotation);
             }
-            GenSpawn.Spawn(parent, targetCenter, targetMap, parent.Rotation);
 
             // 6. 传送后处理 (PostSwapMap)
             foreach (var data in thingsToTeleport)
             {
                 if (!data.thing.Destroyed) data.thing.PostSwapMap();
             }
-            parent.PostSwapMap();
 
             // 7. 完成
             CameraJumper.TryJump(targetCenter, targetMap);
