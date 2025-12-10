@@ -477,6 +477,17 @@
   </ResearchProjectDef>
   <!-- 防御 -->
   <ResearchProjectDef ParentName="WULAtechBase">
+    <defName>WULA_Sonar_Mine_Drop_Technology</defName>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>2.10</researchViewY>
+    <label>声波地雷空投许可</label>
+    <description>允许殖民地申请空投感应地雷，其需要一些时间才能启动，启动后会自动向附近在活动的敌人弹射过去。</description>
+    <baseCost>500</baseCost>
+    <prerequisites>
+      <li>WULA_Bunker_Drop_Technology</li>
+    </prerequisites>
+  </ResearchProjectDef>
+  <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Turret_Base_AT_Technology</defName>
     <researchViewX>7.00</researchViewX>
     <researchViewY>0.90</researchViewY>

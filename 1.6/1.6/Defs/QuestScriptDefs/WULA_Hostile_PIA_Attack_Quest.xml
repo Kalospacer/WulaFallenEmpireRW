@@ -39,6 +39,9 @@
       <nodes>
         <!-- 获取地图 -->
         <li Class="QuestNode_GetMap" />
+        <li Class="QuestNode_SendSignals">
+          <outSignals>wulaAttackComing</outSignals>
+        </li>
 
         <!-- 随机 -->
         <li Class="QuestNode_RandomNode">
@@ -66,6 +69,7 @@
                   <text>乌拉帝国 行星封锁机关对殖民地发起了报复打击，她们往殖民地空投了整装的要塞！</text>
                 </li>
                 <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                  <inSignal>wulaAttackComing</inSignal>
                   <thingDef>WULA_Bunker_Drop_Zone_Beacon_Cleanzone</thingDef>
                   <faction>Wula_PIA_Legion_Faction</faction>
                   <spawnCount>1</spawnCount>
@@ -79,6 +83,7 @@
                   <node Class="QuestNode_Sequence">
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Bunker_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>4</spawnCount>
@@ -95,6 +100,7 @@
                   <node Class="QuestNode_Sequence">
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>2</spawnCount>
@@ -108,10 +114,11 @@
                   <value1>$points</value1>
                   <value2>5999</value2>
 
-                  <!-- Lodgers arrive by shuttle -->        
+                  <!-- Lodgers arrive by shuttle -->
                   <node Class="QuestNode_Sequence">
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>1</spawnCount>
@@ -125,6 +132,7 @@
                         <node Class="QuestNode_Sequence">
                           <nodes>
                             <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <inSignal>wulaAttackComing</inSignal>
                               <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
                               <faction>Wula_PIA_Legion_Faction</faction>
                               <spawnCount>3</spawnCount>
@@ -141,10 +149,11 @@
                   <value1>$points</value1>
                   <value2>7999</value2>
 
-                  <!-- Lodgers arrive by shuttle -->        
+                  <!-- Lodgers arrive by shuttle -->
                   <node Class="QuestNode_Sequence">
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>1</spawnCount>
@@ -158,6 +167,7 @@
                         <node Class="QuestNode_Sequence">
                           <nodes>
                             <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <inSignal>wulaAttackComing</inSignal>
                               <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
                               <faction>Wula_PIA_Legion_Faction</faction>
                               <spawnCount>3</spawnCount>
@@ -174,10 +184,11 @@
                   <value1>$points</value1>
                   <value2>9999</value2>
 
-                  <!-- Lodgers arrive by shuttle -->        
+                  <!-- Lodgers arrive by shuttle -->
                   <node Class="QuestNode_Sequence">
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Huge_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>1</spawnCount>
@@ -191,6 +202,7 @@
                         <node Class="QuestNode_Sequence">
                           <nodes>
                             <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <inSignal>wulaAttackComing</inSignal>
                               <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
                               <faction>Wula_PIA_Legion_Faction</faction>
                               <spawnCount>2</spawnCount>
@@ -207,10 +219,11 @@
                   <value1>$points</value1>
                   <value2>12999</value2>
 
-                  <!-- Lodgers arrive by shuttle -->        
+                  <!-- Lodgers arrive by shuttle -->
                   <node Class="QuestNode_Sequence">
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Bunker_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>4</spawnCount>
@@ -218,6 +231,7 @@
                         <sendMessageOnFailure>false</sendMessageOnFailure>
                       </li>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>1</spawnCount>
@@ -231,6 +245,7 @@
                         <node Class="QuestNode_Sequence">
                           <nodes>
                             <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <inSignal>wulaAttackComing</inSignal>
                               <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
                               <faction>Wula_PIA_Legion_Faction</faction>
                               <spawnCount>3</spawnCount>
@@ -247,10 +262,11 @@
                   <value1>$points</value1>
                   <value2>15999</value2>
 
-                  <!-- Lodgers arrive by shuttle -->        
+                  <!-- Lodgers arrive by shuttle -->
                   <node Class="QuestNode_Sequence">
                     <nodes>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Bunker_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>4</spawnCount>
@@ -258,6 +274,7 @@
                         <sendMessageOnFailure>false</sendMessageOnFailure>
                       </li>
                       <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                        <inSignal>wulaAttackComing</inSignal>
                         <thingDef>WULA_Fortress_Drop_Zone_Beacon_Cleanzone</thingDef>
                         <faction>Wula_PIA_Legion_Faction</faction>
                         <spawnCount>1</spawnCount>
@@ -271,6 +288,7 @@
                         <node Class="QuestNode_Sequence">
                           <nodes>
                             <li Class="WulaFallenEmpire.QuestNode_SpawnPrefabSkyfallerCaller">
+                              <inSignal>wulaAttackComing</inSignal>
                               <thingDef>WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone</thingDef>
                               <faction>Wula_PIA_Legion_Faction</faction>
                               <spawnCount>3</spawnCount>

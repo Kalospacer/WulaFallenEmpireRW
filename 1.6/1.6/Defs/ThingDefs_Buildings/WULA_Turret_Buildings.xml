@@ -33,7 +33,7 @@
     <rotatable>false</rotatable>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites Inherit="False">
-      <li>WULA_Bunker_Drop_Technology</li>
+      <li>WULA_Sonar_Mine_Drop_Technology</li>
     </researchPrerequisites>
     <statBases>
       <MarketValue>0</MarketValue>
