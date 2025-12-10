@@ -285,6 +285,38 @@
                 </li>
               </nodes>
             </li>
+            <!-- 袭击 -->
+            <li Class="QuestNode_Sequence">
+              <nodes>
+                <li Class="QuestNode_ResolveQuestName">
+                  <rules>
+                    <rulesStrings>
+                      <li>questName->帝国部队袭击</li>
+                    </rulesStrings>
+                  </rules>
+                </li>
+                <li Class="QuestNode_ResolveQuestDescription">
+                  <rules>
+                    <rulesStrings>
+                      <li>questDescription->乌拉帝国 行星封锁机关对殖民地发起了报复打击，派出部队攻击了你的殖民地！</li>
+                    </rulesStrings>
+                  </rules>
+                </li>
+                <li Class="QuestNode_Letter">
+                  <label>帝国部队袭击</label>
+                  <letterDef>NegativeEvent</letterDef>
+                  <text>乌拉帝国 行星封锁机关对殖民地发起了报复打击，派出部队攻击了你的殖民地！</text>
+                </li>
+                <li Class="QuestNode_RandomRaid">
+                  <faction>Wula_PIA_Legion_Faction</faction>
+                  <useCurrentThreatPoints>true</useCurrentThreatPoints>
+                  <currentThreatPointsFactor>2</currentThreatPointsFactor>
+                  <arrivalMode>WULA_EdgeTeleport</arrivalMode>
+                  <customLetterLabel TKey="LetterLabelChasing">帝国部队袭击</customLetterLabel>
+                  <customLetterText TKey="LetterTextChasing">乌拉帝国 行星封锁机关对殖民地发起了报复打击，派出部队攻击了你的殖民地！</customLetterText>
+                </li>
+              </nodes>
+            </li>
           </nodes>
         </li>
         <li Class="QuestNode_End" />

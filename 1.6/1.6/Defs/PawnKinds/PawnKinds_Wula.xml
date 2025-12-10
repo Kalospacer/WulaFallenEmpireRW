@@ -88,7 +88,7 @@
     <weaponTags>
       <li>Wula_Constructor_Cat_Weapon</li>
     </weaponTags>
-    <combatPower>200</combatPower>
+    <combatPower>100</combatPower>
     <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>
@@ -105,7 +105,7 @@
     <defName>Mech_WULA_Cat_Assault</defName>
     <label>CAt-46"猫猫冲锋队"</label>
     <race>Mech_WULA_Cat_Assault</race>
-    <combatPower>500</combatPower>
+    <combatPower>100</combatPower>
     <lifeStages Inherit="False">
       <li>
         <bodyGraphicData>

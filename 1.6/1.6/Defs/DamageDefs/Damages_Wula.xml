@@ -50,8 +50,8 @@
     <deathMessage>{0} 被暗物质湮灭带来的高能射流蒸发。</deathMessage>
     <defaultDamage>15</defaultDamage>
     <defaultArmorPenetration>2</defaultArmorPenetration>
-    <buildingDamageFactorImpassable>5</buildingDamageFactorImpassable>
-    <buildingDamageFactorPassable>5</buildingDamageFactorPassable>
+    <buildingDamageFactorImpassable>50</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>50</buildingDamageFactorPassable>
   </DamageDef>
 
   <DamageDef ParentName="Bullet">
@@ -428,8 +428,8 @@
     <defaultDamage>10</defaultDamage>
     <defaultStoppingPower>10</defaultStoppingPower>
     <defaultArmorPenetration>2</defaultArmorPenetration>
-    <!-- <explosionCellFleck>BlastEMP</explosionCellFleck>
-    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge> -->
+    <explosionCellFleck>BlastEMP</explosionCellFleck>
+    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge>
     <explosionCenterEffecter>WULA_Disturber_Turret_Bomb_Shockwave</explosionCenterEffecter>
     <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
     <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
@@ -461,8 +461,8 @@
     <defaultDamage>10</defaultDamage>
     <defaultStoppingPower>10</defaultStoppingPower>
     <defaultArmorPenetration>2</defaultArmorPenetration>
-    <!-- <explosionCellFleck>BlastEMP</explosionCellFleck>
-    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge> -->
+    <explosionCellFleck>BlastEMP</explosionCellFleck>
+    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge>
     <explosionCenterEffecter>WULA_Disturber_Turret_Bomb_Shockwave</explosionCenterEffecter>
     <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
     <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
@@ -494,8 +494,8 @@
     <defaultDamage>1</defaultDamage>
     <defaultStoppingPower>10</defaultStoppingPower>
     <defaultArmorPenetration>2</defaultArmorPenetration>
-    <!-- <explosionCellFleck>BlastEMP</explosionCellFleck>
-    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge> -->
+    <explosionCellFleck>BlastEMP</explosionCellFleck>
+    <explosionColorEdge>(0.8, 0.8, 0.8, 0.8)</explosionColorEdge>
     <explosionCenterEffecter>WULA_Disturber_Turret_Bomb_Shockwave</explosionCenterEffecter>
     <buildingDamageFactorImpassable>10</buildingDamageFactorImpassable>
     <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
@@ -700,8 +700,15 @@
   <DamageDef ParentName="Bullet">
     <defName>Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon</defName>
     <label>贯杀炮切割束</label>
+    <workerClass>WulaFallenEmpire.DamageWorker_ExplosionWithTerrain</workerClass>
     <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
     <soundExplosion>Explosion_Vaporize</soundExplosion>
+    
+    <modExtensions>
+      <li Class="WulaFallenEmpire.DamageDefExtension_TerrainCover">
+        <terrainToSpawn>CooledLava</terrainToSpawn>
+      </li>
+    </modExtensions>
   </DamageDef>
   
   <DamageDef ParentName="Bomb">

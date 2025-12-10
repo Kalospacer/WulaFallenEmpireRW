@@ -1484,7 +1484,7 @@
   <AlienRace.ThingDef_AlienRace ParentName="WULA_BaseMechanoid">
     <defName>Wula_Mech_Mobile_Shield</defName> <!-- 修改了defName以避免冲突 -->
     <label>MSm-8"放射盾"</label>
-    <description>乌拉帝国的中型战争机械，常被用于镇压异族聚居地的暴动。它形状非常奇怪，根本分不出头在哪，但是不要因此小瞧这个机械体——它能释放强大的立场盾，在很大一片区域内反射大量炮火，并且机体放射出来的辐射会严重地杀伤进入反射盾范围内的敌人。在相关许可开放后，它甚至可以支持机械乌拉使用其内置的相位场进行区域传送。</description>
+    <description>乌拉帝国的中型战争机械，常被用于镇压异族聚居地的暴动。它形状非常奇怪，根本分不出头在哪，但是不要因此小瞧这个机械体——其强大的立场盾能护佑一片区域并反射大量炮火，机体放射出来的辐射则会点燃进入反射盾范围内的敌人。在相关许可开放后，它甚至可以支持机械乌拉使用其内置的相位场进行区域传送，使其获得无与伦比的机动性。</description>
     <alienRace>
       <raceRestriction>
         <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>

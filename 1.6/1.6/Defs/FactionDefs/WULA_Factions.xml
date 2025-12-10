@@ -118,13 +118,21 @@
       </points>
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
-      <!-- 服务安保部队 -->
       <li>
-        <!-- militor only -->
         <kindDef>Combat</kindDef>
-        <commonality>30</commonality>
+        <commonality>100</commonality>
         <options>
-          <Mech_WULA_Cat_Assault>10</Mech_WULA_Cat_Assault>
+          <Wula_PIA_Light_Unit>3</Wula_PIA_Light_Unit>
+          <Wula_PIA_Heavy_Unit>1</Wula_PIA_Heavy_Unit>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>80</commonality>
+        <options>
+          <Wula_AI_Rocket_Panzer>2</Wula_AI_Rocket_Panzer>
+          <Wula_AI_Heavy_Panzer>2</Wula_AI_Heavy_Panzer>
+          <Wula_Mech_Mobile_Shield>1</Wula_Mech_Mobile_Shield>
         </options>
       </li>
     </pawnGroupMakers>
@@ -201,6 +209,8 @@
         <kindDef>Combat</kindDef>
         <commonality>100</commonality>
         <options>
+          <Mech_WULA_Cat_Assault>2</Mech_WULA_Cat_Assault>
+          <Mech_WULA_Cat_Constructor>2</Mech_WULA_Cat_Constructor>
           <WULA_Hostile_Progressive_Light_Unit>1</WULA_Hostile_Progressive_Light_Unit>
         </options>
       </li>

@@ -4,7 +4,7 @@
   <HediffDef>
     <defName>Wula_Synth</defName>
     <label>合成人</label>
-    <description>乌拉帝国的合成人，拥有一部分机械体的特性——她们难以被点燃、免疫常规疾病、可以使用纳米系统自我修复，但是需要获取能量以维持机体运转。</description>
+    <description>乌拉帝国的合成人，拥有一部分机械体的特性——她们难以被点燃、免疫常规疾病、可以使用纳米系统自我修复，但是需要获取能量以维持机体运转。\n\n她们是由乌拉帝国皇家机械行会设计的造物，以其造物主为蓝本，精妙地复制了神态举止。从第一只乌拉合成人诞生起，她们便被赋予了同等的人权——她们不是工具，而是光荣的乌拉帝国公民。</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
@@ -53,7 +53,7 @@
   <HediffDef>
     <defName>WULA_NanoRepairHediff</defName>
     <label>纳米维修</label>
-    <description>乌拉帝国的机械体集成了纳米修复系统，只要有电量，它们就能一直修复机械体受到的损伤——这套系统的设计使其需要在一段时间内未受到伤害才能启动。</description>
+    <description>乌拉帝国的机械体集成了纳米修复系统，只要有电量，它们就能一直修复机械体受到的损伤——这套系统的设计使其需要在一段时间内未受到伤害才能启动。\n\n乌拉帝国高度发展的微观仿生科技成功将这种强大的系统白菜化，它几乎可以适配任何乌拉帝国机械体，甚至可以修复合成人的外部损伤，并且消耗极低，这使得帝国的机械部队超乎寻常地坚韧。</description>
     <hediffClass>HediffWithComps</hediffClass>
     <defaultLabelColor>(0.6, 0.4, 0.8)</defaultLabelColor>
     <isBad>false</isBad>
@@ -271,7 +271,7 @@
   <HediffDef>
     <defName>Mech_WULA_Cat_Cute</defName>
     <label>乌拉猫猫在附近</label>
-    <description>一只人见人爱的乌拉猫猫正在附近，憨憨的样子吸引了殖民者的注意</description>
+    <description>一只人见人爱的乌拉猫猫正在附近，憨憨的样子吸引了殖民者的注意。</description>
     <hediffClass>HediffWithComps</hediffClass>
     <defaultLabelColor>(0.52, 1, 0.95)</defaultLabelColor>
     <comps>
