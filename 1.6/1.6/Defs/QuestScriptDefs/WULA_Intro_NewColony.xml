@@ -18,6 +18,7 @@
     <sendAvailableLetter>true</sendAvailableLetter>
     <defaultChallengeRating>1</defaultChallengeRating>    <!-- 挑战等级（星级） -->
     <defaultCharity>false</defaultCharity>    <!-- 是否仁善 -->
+    <isRootSpecial>true</isRootSpecial>    <!-- 特殊任务 -->
     <!-- 命名规则 -->
     <questNameRules>
       <rulesStrings>
