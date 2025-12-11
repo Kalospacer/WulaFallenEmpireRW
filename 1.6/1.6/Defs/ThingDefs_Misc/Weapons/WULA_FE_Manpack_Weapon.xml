@@ -808,7 +808,7 @@
       <recipeUsers Inherit="False">
         <li>WULA_WeaponArmor_Productor</li>
       </recipeUsers>
-      <researchPrerequisite>WULA_Synth_Weapon_1_Base_Technology</researchPrerequisite>
+      <researchPrerequisite>WULA_Synth_Weapon_2_Bullet_Technology</researchPrerequisite>
       <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
     </recipeMaker>
     <statBases>
