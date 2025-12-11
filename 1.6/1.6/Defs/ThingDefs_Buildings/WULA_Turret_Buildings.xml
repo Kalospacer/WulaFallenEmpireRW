@@ -1492,7 +1492,7 @@
       <WULA_Alloy>400</WULA_Alloy>
       <WULA_Dark_Matter_Item>20</WULA_Dark_Matter_Item>
       <WULA_Neutronium>50</WULA_Neutronium>
-      <WULA_Tex_Voucher>3</WULA_Tex_Voucher>
+      <WULA_Tex_Voucher>1</WULA_Tex_Voucher>
     </costList>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
@@ -1596,7 +1596,7 @@
       <WULA_Alloy>400</WULA_Alloy>
       <WULA_Dark_Matter_Item>20</WULA_Dark_Matter_Item>
       <WULA_Neutronium>50</WULA_Neutronium>
-      <WULA_Tex_Voucher>3</WULA_Tex_Voucher>
+      <WULA_Tex_Voucher>1</WULA_Tex_Voucher>
     </costList>
     <tickerType>Normal</tickerType>
     <passability>Impassable</passability>
