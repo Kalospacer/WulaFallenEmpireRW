@@ -6,7 +6,7 @@ namespace WulaFallenEmpire
 {
     public class ThinkNode_ConditionalWorkMode_Drone : ThinkNode_Conditional
     {
-        public DroneWorkModeDef workMode;
+        public MechWorkModeDef workMode;
 
         public override ThinkNode DeepCopy(bool resolve = true)
         {

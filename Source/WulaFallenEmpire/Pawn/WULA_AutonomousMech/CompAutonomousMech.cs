@@ -43,7 +43,7 @@ namespace WulaFallenEmpire
         public float criticalEnergyThreshold = 0.1f; // 临界能量阈值
         public float rechargeCompleteThreshold = 0.9f; // 充电完成阈值
 
-        public DroneWorkModeDef initialWorkMode;
+        public MechWorkModeDef initialWorkMode;
 
         public CompProperties_AutonomousMech()
         {
@@ -57,7 +57,7 @@ namespace WulaFallenEmpire
 
         public Pawn MechPawn => parent as Pawn;
 
-        private DroneWorkModeDef currentWorkMode;
+        private MechWorkModeDef currentWorkMode;
 
         public bool CanBeAutonomous
         {
@@ -142,7 +142,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        public DroneWorkModeDef CurrentWorkMode => currentWorkMode;
+        public MechWorkModeDef CurrentWorkMode => currentWorkMode;
 
         // 新增：能量状态检查方法
         public float GetEnergyLevel()
@@ -161,7 +161,7 @@ namespace WulaFallenEmpire
 
             if (currentWorkMode == null)
             {
-                currentWorkMode = Props.initialWorkMode ?? WulaDefOf.Work;
+                currentWorkMode = Props.initialWorkMode ?? MechWorkModeDefOf.Work;
             }
 
             // 确保使用独立战斗系统
@@ -347,7 +347,7 @@ namespace WulaFallenEmpire
             return availableWeapons.RandomElement();
         }
 
-        public void SetWorkMode(DroneWorkModeDef mode)
+        public void SetWorkMode(MechWorkModeDef mode)
         {
             currentWorkMode = mode;
 

@@ -28,7 +28,7 @@
           <subNodes>
             <li Class="JobGiver_GetEnergy_Charger" />
             <!-- 如果没有充电站，强制休眠 -->
-            <li Class="JobGiver_SelfShutdown" />
+            <li Class="WulaFallenEmpire.JobGiver_DroneSelfShutdown" />
           </subNodes>
         </li>
 
@@ -164,10 +164,10 @@
                 
                 <!-- 关机模式：立刻休眠 -->
                 <li Class="WulaFallenEmpire.ThinkNode_ConditionalAutonomousWorkMode">
-                  <requiredMode>Shutdown</requiredMode>
+                  <requiredMode>SelfShutdown</requiredMode>
                   <subNodes>
                     <li Class="JobGiver_SeekAllowedArea" />
-                    <li Class="JobGiver_SelfShutdown" />
+                    <li Class="WulaFallenEmpire.JobGiver_DroneSelfShutdown" />
                   </subNodes>
                 </li>
 

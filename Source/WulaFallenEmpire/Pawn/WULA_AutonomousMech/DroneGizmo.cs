@@ -74,7 +74,7 @@ namespace WulaFallenEmpire
 
         public static IEnumerable<FloatMenuOption> GetWorkModeOptions(CompAutonomousMech comp, HashSet<CompAutonomousMech> groupedComps = null)
         {
-            foreach (DroneWorkModeDef mode in DefDatabase<DroneWorkModeDef>.AllDefs.OrderBy(d => d.uiOrder))
+            foreach (MechWorkModeDef mode in DefDatabase<MechWorkModeDef>.AllDefs.OrderBy(d => d.uiOrder))
             {
                 yield return new FloatMenuOption(mode.LabelCap, delegate
                 {
