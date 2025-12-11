@@ -8,13 +8,13 @@ namespace WulaFallenEmpire
     {
         protected override Job TryGiveJob(Pawn pawn)
         {
-            if (RCellFinder.TryFindNearbyMechSelfShutdownSpot(pawn.Position, pawn, pawn.Map, out var result, allowForbidden: true))
+            if (!RCellFinder.TryFindNearbyMechSelfShutdownSpot(pawn.Position, pawn, pawn.Map, out var result, allowForbidden: true))
             {
-                Job job = JobMaker.MakeJob(WulaDefOf.WULA_DroneSelfShutdown, result);
-                job.forceSleep = true;
-                return job;
+                result = pawn.Position;
             }
-            return null;
+            Job job = JobMaker.MakeJob(JobDefOf.SelfShutdown, result);
+            job.forceSleep = true;
+            return job;
         }
     }
 }
