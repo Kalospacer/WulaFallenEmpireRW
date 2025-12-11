@@ -24,7 +24,9 @@ namespace WulaFallenEmpire
         public bool affectHostile = true;            // 是否影响敌方
         public bool affectBuildings = true;          // 是否影响建筑
         public bool affectPawns = true;              // 是否影响生物
-        public bool affectPlants = false;            // 是否影响植物
+        
+        // 移除植物相关设置，因为现在只针对建筑和Pawn
+        // public bool affectPlants = false;          // 已移除：不再影响植物
         
         // 特殊设置
         public bool ignoreFactionRelations = false;  // 忽略所有阵营关系检查（用于无派系实体）

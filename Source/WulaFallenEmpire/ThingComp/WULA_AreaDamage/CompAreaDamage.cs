@@ -61,7 +61,8 @@ namespace WulaFallenEmpire
                 List<Thing> thingList = cell.GetThingList(map);
                 foreach (Thing thing in thingList)
                 {
-                    if (IsValidTarget(thing) && !thingsInRange.Contains(thing))
+                    // 修改：添加目标类型检查，只处理建筑和Pawn
+                    if (IsValidTargetType(thing) && IsValidTarget(thing) && !thingsInRange.Contains(thing))
                     {
                         thingsInRange.Add(thing);
                     }
@@ -75,78 +76,120 @@ namespace WulaFallenEmpire
             }
         }
 
+        /// <summary>
+        /// 检查目标是否为建筑或Pawn
+        /// </summary>
+        private bool IsValidTargetType(Thing thing)
+        {
+            // 只针对建筑和Pawn
+            return thing is Building || thing is Pawn;
+        }
+
         private bool IsValidTarget(Thing thing)
         {
-            // 检查是否为 Pawn（Pawn 有独立的健康系统）
+            // 首先检查是否为建筑或Pawn（双重检查）
+            if (!(thing is Building || thing is Pawn))
+            {
+                return false;
+            }
+
+            // 检查是否为 Pawn
             if (thing is Pawn pawn)
             {
-                Faction targetFaction = pawn.Faction;
-                Faction parentFaction = parent.Faction;
-
-                if (pawn.Dead || pawn.Downed)
-                    return false;
-                
-                // 检查是否影响生物
-                if (!Props.affectPawns)
-                    return false;
-
-                // 如果父物体没有派系，则只检查目标派系
-                if (parentFaction == null)
-                {
-                    if (targetFaction == null && !Props.affectNeutral)
-                        return false;
-                    if (targetFaction != null && targetFaction.IsPlayer && !Props.affectFriendly)
-                        return false;
-                    if (targetFaction != null && !targetFaction.IsPlayer && !Props.affectHostile)
-                        return false;
-                }
-                else
-                {
-                    // 正常阵营关系检查
-                    if (targetFaction == null)
-                    {
-                        if (!Props.affectNeutral)
-                            return false;
-                    }
-                    else if (targetFaction == parentFaction)
-                    {
-                        if (!Props.affectFriendly)
-                            return false;
-                    }
-                    else if (targetFaction.HostileTo(parentFaction))
-                    {
-                        if (!Props.affectHostile)
-                            return false;
-                    }
-                    else
-                    {
-                        if (!Props.affectNeutral)
-                            return false;
-                    }
-                }
+                // 移除植物检查，因为不再处理植物
+                // 修改：简化Pawn检查逻辑
+                return IsValidPawnTarget(pawn);
             }
-            else
+            // 检查是否为建筑
+            else if (thing is Building building)
             {
-                // 对于非 Pawn 物体，检查生命值系统
-                if (thing.def.useHitPoints == false || thing.HitPoints <= 0)
-                    return false;
-
-                // 检查物体类型过滤
-                if (thing is Building && !Props.affectBuildings)
-                    return false;
-                if (thing is Plant && !Props.affectPlants)
-                    return false;
+                return IsValidBuildingTarget(building);
             }
 
-            // 如果设置为影响所有物体，跳过后续检查
-            if (Props.affectEverything)
-                return true;
+            return false;
+        }
 
-            // 如果忽略阵营关系，跳过阵营检查
+        /// <summary>
+        /// 检查Pawn是否有效目标
+        /// </summary>
+        private bool IsValidPawnTarget(Pawn pawn)
+        {
+            // 基础检查：死亡或倒地的Pawn不是有效目标
+            if (pawn.Dead || pawn.Downed)
+                return false;
+            
+            // 检查是否影响Pawn
+            if (!Props.affectPawns)
+                return false;
+
+            // 检查阵营关系
+            return CheckFactionRelationship(pawn.Faction);
+        }
+
+        /// <summary>
+        /// 检查建筑是否有效目标
+        /// </summary>
+        private bool IsValidBuildingTarget(Building building)
+        {
+            // 基础检查：建筑必须有生命值且未损坏
+            if (building.def.useHitPoints == false || building.HitPoints <= 0)
+                return false;
+
+            // 检查是否影响建筑
+            if (!Props.affectBuildings)
+                return false;
+
+            // 检查阵营关系
+            return CheckFactionRelationship(building.Faction);
+        }
+
+        /// <summary>
+        /// 检查阵营关系
+        /// </summary>
+        private bool CheckFactionRelationship(Faction targetFaction)
+        {
+            Faction parentFaction = parent.Faction;
+
+            // 如果忽略所有阵营关系检查，直接返回true
             if (Props.ignoreFactionRelations)
                 return true;
 
-            return true;
+            // 如果影响所有物体，直接返回true
+            if (Props.affectEverything)
+                return true;
+
+            // 父物体没有派系的情况
+            if (parentFaction == null)
+            {
+                // 目标也没有派系 - 检查是否影响中立
+                if (targetFaction == null)
+                    return Props.affectNeutral;
+                
+                // 目标是玩家 - 检查是否影响友好
+                if (targetFaction.IsPlayer)
+                    return Props.affectFriendly;
+                
+                // 目标是非玩家派系 - 检查是否影响敌对
+                return Props.affectHostile;
+            }
+
+            // 父物体有派系的情况
+            if (targetFaction == null)
+            {
+                // 目标没有派系 - 检查是否影响中立
+                return Props.affectNeutral;
+            }
+
+            // 目标与父物体同派系 - 检查是否影响友好
+            if (targetFaction == parentFaction)
+                return Props.affectFriendly;
+
+            // 目标与父物体敌对 - 检查是否影响敌对
+            if (targetFaction.HostileTo(parentFaction))
+                return Props.affectHostile;
+
+            // 其他情况视为中立 - 检查是否影响中立
+            return Props.affectNeutral;
         }
 
         private void ApplyDamageToTarget(Thing target)
@@ -187,7 +230,7 @@ namespace WulaFallenEmpire
             {
                 damageFactor = Props.fixedDamageFactor;
             }
-            // 使用心灵敏感度缩放
+            // 使用心灵敏感度缩放（仅对Pawn有效）
             else if (Props.scaleWithPsychicSensitivity && target is Pawn pawn)
             {
                 damageFactor = CalculatePsychicSensitivityFactor(pawn);
@@ -225,15 +268,14 @@ namespace WulaFallenEmpire
         /// </summary>
         private void HandleSpecialEffects(Thing target, DamageInfo damageInfo)
         {
-            // 如果是 Pawn，可以添加额外的效果
-            if (target is Pawn pawn)
+            // 显示伤害数值（调试用）
+            if (Props.showDamageNumbers)
             {
-                // 显示伤害数值（调试用）
-                if (Props.showDamageNumbers)
-                {
-                    MoteMaker.ThrowText(target.DrawPos, target.Map, damageInfo.Amount.ToString());
-                }
+                MoteMaker.ThrowText(target.DrawPos, target.Map, damageInfo.Amount.ToString());
             }
+            
+            // 可以根据伤害类型添加额外效果
+            // 例如：火焰伤害点燃目标，电击伤害麻痹目标等
         }
 
         public override void PostExposeData()
@@ -276,6 +318,8 @@ namespace WulaFallenEmpire
         public override string CompInspectStringExtra()
         {
             string baseString = base.CompInspectStringExtra();
+            
+            // 状态信息
             string statusText = enabled ? 
                 "AreaDamageEnabled".Translate() : 
                 "AreaDamageDisabled".Translate();
@@ -284,6 +328,35 @@ namespace WulaFallenEmpire
                 return statusText;
             else
                 return baseString + "\n" + statusText;
+        }
+        
+        /// <summary>
+        /// 获取范围内所有有效目标（调试和外部调用用）
+        /// </summary>
+        public List<Thing> GetValidTargetsInRange()
+        {
+            Map map = parent.Map;
+            List<Thing> validTargets = new List<Thing>();
+            
+            if (map == null || !enabled)
+                return validTargets;
+            
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(parent.Position, Props.radius, true))
+            {
+                if (!cell.InBounds(map))
+                    continue;
+
+                List<Thing> thingList = cell.GetThingList(map);
+                foreach (Thing thing in thingList)
+                {
+                    if (IsValidTargetType(thing) && IsValidTarget(thing) && !validTargets.Contains(thing))
+                    {
+                        validTargets.Add(thing);
+                    }
+                }
+            }
+            
+            return validTargets;
         }
     }
 }

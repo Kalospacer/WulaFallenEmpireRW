@@ -29,7 +29,7 @@
         
         <!-- 时间配置 -->
         <fireAfterDaysPassed>0</fireAfterDaysPassed>
-        <checkIntervalDays>15</checkIntervalDays>
+        <checkIntervalDays>10</checkIntervalDays>
         
         <!-- 可选配置 -->
         <preventDuplicateQuests>false</preventDuplicateQuests>

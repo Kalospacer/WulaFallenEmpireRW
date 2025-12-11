@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <WulaFallenEmpire.DroneWorkModeDef>
+  <!-- <WulaFallenEmpire.DroneWorkModeDef>
     <defName>Work</defName>
     <label>工作</label>
     <description>机械将执行分配的工作.</description>
@@ -22,5 +22,5 @@
     <description>机械将立即进入休眠状态.</description>
     <iconPath>UI/Icons/WorkMode/SelfShutdown</iconPath>
     <uiOrder>30</uiOrder>
-  </WulaFallenEmpire.DroneWorkModeDef>
+  </WulaFallenEmpire.DroneWorkModeDef> -->
 </Defs>

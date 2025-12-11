@@ -238,6 +238,35 @@
           </node>
         </li>
         
+        <!-- 一段时间给个税证 -->
+        <li Class="QuestNode_LoopCount">
+          <loopCount>30</loopCount>
+          <storeLoopCounterAs>Give_Tex_Reward_Counter</storeLoopCounterAs>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Delay">
+                <delayTicks>900000</delayTicks><!--  15days -->
+                <node Class="QuestNode_Sequence">
+                  <nodes>
+                    <li Class="QuestNode_Letter">
+                      <label>缴税凭证？</label>
+                      <text>尽管没有实质上的缴税，但是殖民地还是收到了一份缴税凭证。\n\n看起来某人正在悄悄答谢殖民地。</text>
+                      <letterDef>PositiveEvent</letterDef>
+                    </li>
+                    <li Class="QuestNode_GenerateThingSet">
+                      <thingSetMaker>WULA_Base_Tex_Reward</thingSetMaker>
+                      <storeAs>permissionReward</storeAs>
+                    </li>
+                    <li Class="QuestNode_AddItemsReward">
+                      <items>$permissionReward</items>
+                    </li>
+                  </nodes>
+                </node>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
         <!-- - - - - - - -  -->
         <!-- End conditions -->
         <!-- - - - - - - -  -->
