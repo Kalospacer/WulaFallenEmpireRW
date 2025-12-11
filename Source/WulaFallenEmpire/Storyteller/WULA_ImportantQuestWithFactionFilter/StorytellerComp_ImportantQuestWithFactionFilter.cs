@@ -52,7 +52,6 @@ namespace WulaFallenEmpire
             if (FilterProps.factionTypeBlacklist != null && 
                 FilterProps.factionTypeBlacklist.Contains(faction.def))
             {
-                Log.Message($"[FactionFilter] Quest blocked: {faction.def.defName} is in blacklist");
                 return false;
             }
 
@@ -65,23 +64,16 @@ namespace WulaFallenEmpire
                 switch (FilterProps.defaultBehavior)
                 {
                     case FactionFilterDefaultBehavior.Allow:
-                        // 白名单模式：在白名单中或默认允许
-                        if (!inWhitelist)
-                        {
-                            Log.Message($"[FactionFilter] Quest allowed: {faction.def.defName} not in whitelist, but default behavior is Allow");
-                        }
                         return true;
                         
                     case FactionFilterDefaultBehavior.Deny:
                         // 白名单模式：只有在白名单中才允许
                         if (inWhitelist)
                         {
-                            Log.Message($"[FactionFilter] Quest allowed: {faction.def.defName} is in whitelist");
                             return true;
                         }
                         else
                         {
-                            Log.Message($"[FactionFilter] Quest blocked: {faction.def.defName} not in whitelist and default behavior is Deny");
                             return false;
                         }
                 }
@@ -91,10 +83,8 @@ namespace WulaFallenEmpire
             switch (FilterProps.defaultBehavior)
             {
                 case FactionFilterDefaultBehavior.Allow:
-                    Log.Message($"[FactionFilter] Quest allowed: No whitelist, default behavior is Allow");
                     return true;
                 case FactionFilterDefaultBehavior.Deny:
-                    Log.Message($"[FactionFilter] Quest blocked: No whitelist, default behavior is Deny");
                     return false;
                 default:
                     return true;
