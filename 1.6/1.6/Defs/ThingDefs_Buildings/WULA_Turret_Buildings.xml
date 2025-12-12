@@ -1882,7 +1882,6 @@
     <tradeability>None</tradeability>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <uiIconPath>Wula/Building/WULA_Combat_Excavator_Icon</uiIconPath>
-    <designationCategory>WULA_Buildings</designationCategory>
     <rotatable>false</rotatable>
     <graphicData>
       <texPath>Wula/Building/WULA_Combat_Excavator</texPath>
@@ -2332,7 +2331,6 @@
     <tradeability>None</tradeability>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <uiIconPath>Wula/Building/WULA_Combat_Excavator_Icon</uiIconPath>
-    <designationCategory>WULA_Buildings</designationCategory>
     <rotatable>false</rotatable>
     <graphicData>
       <texPath>Wula/Building/WULA_Combat_Excavator</texPath>
@@ -2432,23 +2430,23 @@
         
         <explosions>
           <li>
-            <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
-            <radius>5</radius>
+            <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+            <radius>4</radius>
             <armorPenetration>2</armorPenetration>
             <damageAmount>10</damageAmount>
             <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
           </li>
           <li>
-            <damageDef>WULA_Combat_Excavator_Shoke_S_Damage</damageDef>
-            <radius>7</radius>
+            <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+            <radius>6</radius>
             <armorPenetration>2</armorPenetration>
             <damageAmount>10</damageAmount>
             <excludeRadius>0.9</excludeRadius>
             <explosionSound>Wula_Disturber_Turret_Weapon_Explosive</explosionSound>
           </li>
           <li>
-            <damageDef>WULA_Combat_Excavator_Shoke_Damage</damageDef>
-            <radius>7</radius>
+            <damageDef>WULA_Sow_Excavator_Shoke_Damage</damageDef>
+            <radius>8</radius>
             <armorPenetration>2</armorPenetration>
             <damageAmount>20</damageAmount>
             <excludeRadius>0.9</excludeRadius>

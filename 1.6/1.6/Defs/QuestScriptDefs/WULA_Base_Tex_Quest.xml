@@ -112,6 +112,14 @@
           <value2>1</value2>
           <storeAs>taxAmount</storeAs>
         </li>
+        <li Class="WulaFallenEmpire.QuestNode_WriteToEventVariablesWithAdd">
+          <targetVariableName>WULA_Total_Tax_Amount</targetVariableName>
+          <sourceVariableName>taxAmount</sourceVariableName>
+          <value>0</value>
+          <writeMode>Set</writeMode>
+          <overwrite>true</overwrite>
+        </li>
+        
         <li Class="WulaFallenEmpire.QuestNode_CheckGlobalResource">
           <resourceDef>Silver</resourceDef>
           <requiredCount>$taxAmount</requiredCount>
