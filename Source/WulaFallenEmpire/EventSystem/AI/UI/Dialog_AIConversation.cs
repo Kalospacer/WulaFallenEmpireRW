@@ -55,7 +55,7 @@ Here is the list of tools you can use. You must follow their descriptions and sc
 
 - **`get_colonist_status`**: Retrieves the detailed status of all player colonists.
   - **Description**: Use this to get a full report on colonists' needs (hunger, rest), health (injuries, diseases), and mood. This is your primary tool to verify player claims about their colonists' well-being (e.g., if they claim ""we are starving"").
-  - **Schema**: `{}`
+  - **Schema**: `{'filter': 'string (optional, can be 'lowest_mood', 'most_injured', 'hungriest', 'most_tired')'}`
 
 - **`get_map_resources`**: Checks the player's map for resources.
   - **Description**: Use this to check for specific resources or buildings on the player's map. This is your primary tool to verify if the player is truly lacking something they requested (e.g., ""we need steel""). It returns inventory counts and mineable deposits.
