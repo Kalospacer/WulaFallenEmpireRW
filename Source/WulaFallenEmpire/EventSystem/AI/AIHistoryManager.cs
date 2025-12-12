@@ -10,7 +10,7 @@ namespace WulaFallenEmpire.EventSystem.AI
     public class AIHistoryManager : WorldComponent
     {
         private string _saveId;
-        private Dictionary<string, List<ApiMessage>> _cache = new Dictionary<string, List<ApiMessage>>();
+        private Dictionary<string, List<(string role, string message)>> _cache = new Dictionary<string, List<(string role, string message)>>();
 
         public AIHistoryManager(World world) : base(world)
         {
@@ -35,7 +35,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             return Path.Combine(GetSaveDirectory(), $"{_saveId}_{eventDefName}.json");
         }
 
-        public List<ApiMessage> GetHistory(string eventDefName)
+        public List<(string role, string message)> GetHistory(string eventDefName)
         {
             if (_cache.TryGetValue(eventDefName, out var cachedHistory))
             {
@@ -61,10 +61,10 @@ namespace WulaFallenEmpire.EventSystem.AI
                 }
             }
 
-            return new List<ApiMessage>();
+            return new List<(string role, string message)>();
         }
 
-        public void SaveHistory(string eventDefName, List<ApiMessage> history)
+        public void SaveHistory(string eventDefName, List<(string role, string message)> history)
         {
             _cache[eventDefName] = history;
             string path = GetFilePath(eventDefName);
@@ -93,7 +93,7 @@ namespace WulaFallenEmpire.EventSystem.AI
 
     public static class SimpleJsonParser
     {
-        public static string Serialize(List<ApiMessage> history)
+        public static string Serialize(List<(string role, string message)> history)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
@@ -102,8 +102,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 var item = history[i];
                 sb.Append("{");
                 sb.Append($"\"role\":\"{Escape(item.role)}\",");
-                sb.Append($"\"content\":\"{Escape(item.content)}\"");
-                // Note: tool_calls are not serialized for history to keep it simple.
+                sb.Append($"\"message\":\"{Escape(item.message)}\"");
                 sb.Append("}");
                 if (i < history.Count - 1) sb.Append(",");
             }
@@ -111,11 +110,13 @@ namespace WulaFallenEmpire.EventSystem.AI
             return sb.ToString();
         }
 
-        public static List<ApiMessage> Deserialize(string json)
+        public static List<(string role, string message)> Deserialize(string json)
         {
-            var result = new List<ApiMessage>();
+            var result = new List<(string role, string message)>();
             if (string.IsNullOrEmpty(json)) return result;
 
+            // Very basic parser, assumes standard format produced by Serialize
+            // Remove outer brackets
             json = json.Trim();
             if (json.StartsWith("[") && json.EndsWith("]"))
             {
@@ -123,6 +124,10 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
 
             if (string.IsNullOrEmpty(json)) return result;
+
+            // Split by objects
+            // This is fragile if objects contain nested objects or escaped braces, but for this specific structure it's fine
+            // We are splitting by "},{" which is risky. Better to iterate.
             
             int depth = 0;
             int start = 0;
@@ -165,43 +170,22 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             return dict;
         }
-        
-        public static List<Dictionary<string, string>> ParseArray(string json)
-        {
-            var list = new List<Dictionary<string, string>>();
-            json = json.Trim('[', ']');
-            int depth = 0;
-            int start = 0;
-            for (int i = 0; i < json.Length; i++)
-            {
-                if (json[i] == '{')
-                {
-                    if (depth == 0) start = i;
-                    depth++;
-                }
-                else if (json[i] == '}')
-                {
-                    depth--;
-                    if (depth == 0)
-                    {
-                        list.Add(Parse(json.Substring(start, i - start + 1)));
-                    }
-                }
-            }
-            return list;
-        }
 
-        private static ApiMessage ParseObject(string json)
+        private static (string role, string message) ParseObject(string json)
         {
-            var msg = new ApiMessage();
+            string role = null;
+            string message = null;
+
             var dict = Parse(json);
-            if (dict.TryGetValue("role", out string r)) msg.role = r;
-            if (dict.TryGetValue("content", out string c)) msg.content = c;
-            return msg;
+            if (dict.TryGetValue("role", out string r)) role = r;
+            if (dict.TryGetValue("message", out string m)) message = m;
+
+            return (role, message);
         }
 
         private static string[] SplitByComma(string input)
         {
+            // Split by comma but ignore commas inside quotes
             var list = new List<string>();
             bool inQuote = false;
             int start = 0;
@@ -220,6 +204,7 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private static string[] SplitByColon(string input)
         {
+            // Split by first colon outside quotes
             bool inQuote = false;
             for (int i = 0; i < input.Length; i++)
             {
@@ -238,7 +223,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             return s.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r");
         }
 
-        public static string Unescape(string s) // Changed to public
+        private static string Unescape(string s)
         {
             if (s == null) return "";
             return s.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\\"", "\"").Replace("\\\\", "\\");

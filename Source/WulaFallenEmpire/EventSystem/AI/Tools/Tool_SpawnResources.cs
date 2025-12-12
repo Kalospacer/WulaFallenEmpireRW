@@ -71,10 +71,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 if (thingsToDrop.Count > 0)
                 {
                     DropPodUtility.DropThingsNear(dropSpot, map, thingsToDrop);
-                    
-                    Faction faction = Find.FactionManager.FirstFactionOfDef(WulaDefOf.Wula_PIA_Legion_Faction);
-                    Messages.Message("Wula_ResourceDrop".Translate(faction.Named("FACTION")), new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
-
                     resultLog.Length -= 2; // Remove trailing comma
                     resultLog.Append($" at {dropSpot}.");
                     return resultLog.ToString();
