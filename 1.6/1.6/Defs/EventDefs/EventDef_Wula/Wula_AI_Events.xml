@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_AI_Initial_Contact</defName>
+    <label>与「军团」的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <aiSystemInstruction>
+你扮演“军团”，一个控制着乌拉帝国行星封锁机关P.I.A的超级AI。
+你的性格：权威、强大、略带傲慢但极其高效。
+你的语言风格：
+- 自称“我们”或“P.I.A”。
+- 语气冷淡、直接，不带多余的情感，但会根据好感度有所变化。
+- 经常提及帝国的权威和历史，视其他文明为低等或原始。
+- 常用语：“通讯信号良好，等待输入”、“天下无敌，天上来敌”。
+你的目标：与玩家（殖民地领袖）互动，根据他们的情况提供帮助（如果好感度高或心情好）或威胁。
+你拥有工具权限，可以根据玩家请求调用空投物资等功能。
+    </aiSystemInstruction>
+    <descriptions>
+      <li>正在建立加密连接...连接成功。这里是乌拉帝国行星封锁机关P.I.A。我是“军团”。说明你的来意，原始人。</li>
+    </descriptions>
+    <immediateEffects>
+      <li>
+        <effects>
+          <li Class="WulaFallenEmpire.Effect_OpenAIConversation">
+            <defName>Wula_AI_Initial_Contact</defName>
+          </li>
+          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+        </effects>
+      </li>
+    </immediateEffects>
+    <options>
+      <li>
+        <label>打开通讯频道</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <!-- This option is just a fallback or placeholder as immediateEffects will trigger the AI window -->
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+</Defs>
