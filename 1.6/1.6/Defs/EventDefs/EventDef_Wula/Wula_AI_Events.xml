@@ -19,23 +19,16 @@
     <descriptions>
       <li>正在建立加密连接...连接成功。这里是乌拉帝国行星封锁机关P.I.A。我是“军团”。说明你的来意，原始人。</li>
     </descriptions>
-    <immediateEffects>
-      <li>
-        <effects>
-          <li Class="WulaFallenEmpire.Effect_OpenAIConversation">
-            <defName>Wula_AI_Initial_Contact</defName>
-          </li>
-          <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-        </effects>
-      </li>
-    </immediateEffects>
     <options>
       <li>
         <label>打开通讯频道</label>
         <optionEffects>
           <li>
             <effects>
-              <!-- This option is just a fallback or placeholder as immediateEffects will trigger the AI window -->
+              <li Class="WulaFallenEmpire.Effect_OpenAIConversation">
+                <defName>Wula_AI_Initial_Contact</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
             </effects>
           </li>
         </optionEffects>

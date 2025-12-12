@@ -142,4 +142,18 @@
   <WULA_GeneratedMapCleanedUp>由于传送取消，生成的临时地图已被清理。</WULA_GeneratedMapCleanedUp>
   <WULA_InsufficientFuel>燃料不足。</WULA_InsufficientFuel>
 
+  <!-- AI Settings -->
+  <Wula_AISettings_Title>AI 设置 (OpenAI 兼容)</Wula_AISettings_Title>
+  <Wula_AISettings_ApiKey>API 密钥:</Wula_AISettings_ApiKey>
+  <Wula_AISettings_BaseUrl>API 地址 (Base URL):</Wula_AISettings_BaseUrl>
+  <Wula_AISettings_Model>模型名称:</Wula_AISettings_Model>
+  <Wula_AISettings_UseStreaming>启用流式传输 (实验性)</Wula_AISettings_UseStreaming>
+  <Wula_AISettings_UseStreamingDesc>启用实时打字机效果。如果遇到问题请禁用。</Wula_AISettings_UseStreamingDesc>
+
+  <!-- AI Conversation -->
+  <Wula_AI_Retry>重试</Wula_AI_Retry>
+  <Wula_AI_Send>发送</Wula_AI_Send>
+  <Wula_AI_Error_Internal>错误：内部系统故障。{0}</Wula_AI_Error_Internal>
+  <Wula_AI_Error_ConnectionLost>错误：连接丢失。“军团”保持沉默。</Wula_AI_Error_ConnectionLost>
+
 </LanguageData>

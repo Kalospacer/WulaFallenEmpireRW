@@ -12,9 +12,10 @@ namespace WulaFallenEmpire
 
         public override void Execute(Window dialog = null)
         {
-            if (!RimTalkBridge.IsRimTalkActive)
+            // Check if API Key is configured in local settings
+            if (string.IsNullOrEmpty(WulaFallenEmpireMod.settings.apiKey))
             {
-                Messages.Message("RimTalk mod is not active. AI conversation cannot be started.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message("AI API Key is not configured in Mod Settings. AI conversation cannot be started.", MessageTypeDefOf.RejectInput, false);
                 return;
             }
 

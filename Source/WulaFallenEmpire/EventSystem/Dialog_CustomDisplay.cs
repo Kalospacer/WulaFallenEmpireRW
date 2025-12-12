@@ -9,12 +9,12 @@ namespace WulaFallenEmpire
 {
     public class Dialog_CustomDisplay : Window
     {
-        private EventDef def;
-        private Texture2D portrait;
-        private Texture2D background;
-        private string selectedDescription;
+        protected EventDef def;
+        protected Texture2D portrait;
+        protected Texture2D background;
+        protected string selectedDescription;
 
-        private static EventUIConfigDef config;
+        protected static EventUIConfigDef config;
         public static EventUIConfigDef Config
         {
             get
@@ -37,8 +37,8 @@ namespace WulaFallenEmpire
         private static readonly Color CustomButtonTextDisabledColor = new Color(0.6f, 0.6f, 0.6f, 1f);
 
         // 滚动位置
-        private Vector2 descriptionScrollPosition = Vector2.zero;
-        private Vector2 optionsScrollPosition = Vector2.zero;
+        protected Vector2 descriptionScrollPosition = Vector2.zero;
+        protected Vector2 optionsScrollPosition = Vector2.zero;
 
         // 使用配置的窗口尺寸
         public override Vector2 InitialSize
@@ -56,8 +56,10 @@ namespace WulaFallenEmpire
             // 关键修改：使用配置控制是否暂停游戏
             this.forcePause = Config.pauseGameOnOpen;
             
-            this.absorbInputAroundWindow = true;
+            this.absorbInputAroundWindow = false; // Allow interaction with other UI elements
             this.doCloseX = true;
+            this.draggable = true; // Allow dragging
+            this.resizeable = true; // Allow resizing
             
             // 根据配置设置是否绘制窗口背景和阴影
             this.doWindowBackground = Config.showMainWindow;
@@ -280,7 +282,7 @@ namespace WulaFallenEmpire
         /// <summary>
         /// 修复的描述区域滚动视图 - 只显示纵向滚动条
         /// </summary>
-        private void DrawDescriptionScrollView(Rect outRect, string text)
+        protected virtual void DrawDescriptionScrollView(Rect outRect, string text)
         {
             try
             {
@@ -315,7 +317,7 @@ namespace WulaFallenEmpire
         }
 
         // 绘制单个选项 - 使用自定义样式
-        private void DrawSingleOption(Rect rect, EventOption option)
+        protected virtual void DrawSingleOption(Rect rect, EventOption option)
         {
             string reason;
             bool conditionsMet = AreConditionsMet(option.conditions, out reason);
@@ -500,7 +502,7 @@ namespace WulaFallenEmpire
         }
 
         // 绘制选项区域
-        private void DrawOptions(Rect rect, List<EventOption> options)
+        protected virtual void DrawOptions(Rect rect, List<EventOption> options)
         {
             if (options == null || options.Count == 0)
                 return;
@@ -599,7 +601,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        private void HandleAction(List<ConditionalEffects> conditionalEffects)
+        protected virtual void HandleAction(List<ConditionalEffects> conditionalEffects)
         {
             if (conditionalEffects.NullOrEmpty())
             {
@@ -615,7 +617,7 @@ namespace WulaFallenEmpire
             }
         }
 
-        private bool AreConditionsMet(List<ConditionBase> conditions, out string reason)
+        protected bool AreConditionsMet(List<ConditionBase> conditions, out string reason)
         {
             reason = "";
             if (conditions.NullOrEmpty())
@@ -634,7 +636,7 @@ namespace WulaFallenEmpire
             return true;
         }
 
-        private string GetDisabledReason(EventOption option, string reason)
+        protected string GetDisabledReason(EventOption option, string reason)
         {
             if (!option.disabledReason.NullOrEmpty())
             {
