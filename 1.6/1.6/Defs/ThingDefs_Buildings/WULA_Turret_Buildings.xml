@@ -1882,7 +1882,6 @@
     <tradeability>None</tradeability>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <uiIconPath>Wula/Building/WULA_Combat_Excavator_Icon</uiIconPath>
-    <designationCategory>WULA_Buildings</designationCategory>
     <rotatable>false</rotatable>
     <graphicData>
       <texPath>Wula/Building/WULA_Combat_Excavator</texPath>
@@ -2332,7 +2331,6 @@
     <tradeability>None</tradeability>
     <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
     <uiIconPath>Wula/Building/WULA_Combat_Excavator_Icon</uiIconPath>
-    <designationCategory>WULA_Buildings</designationCategory>
     <rotatable>false</rotatable>
     <graphicData>
       <texPath>Wula/Building/WULA_Combat_Excavator</texPath>
