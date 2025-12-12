@@ -2,11 +2,11 @@
 <ModMetaData>
   <name>Wula Fallen Empire V2</name>
   <author>Tourswen</author>
-  <description>Wula Fallen Empire V2 测试版</description>
+  <description>Wula Fallen Empire V2</description>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
-  <packageId>Tourswen.WulaFallenEmpireV2Test</packageId>
+  <packageId>Tourswen.WulaFallenEmpireV2</packageId>
   
   <modDependencies>
     <li>
