@@ -244,6 +244,18 @@
           <count>1</count>
         </li>
 
+        <!-- 附近的物品 -->
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>Steel</thingDef>
+          <count>500</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>ComponentIndustrial</thingDef>
+          <count>30</count>
+        </li>
+
         <!-- 初始科技 -->
         <li Class="ScenPart_StartingResearch">
           <def>StartingResearch</def>
