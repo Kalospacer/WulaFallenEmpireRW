@@ -15,6 +15,9 @@
 		{
 			"name": "dll1.6",
 			"path": "../../../../dll1.6"
+		},
+		{
+			"path": "../../../../../../../../Users/Kalo/Downloads/RimTalk-main"
 		}
 	],
 	"settings": {}
