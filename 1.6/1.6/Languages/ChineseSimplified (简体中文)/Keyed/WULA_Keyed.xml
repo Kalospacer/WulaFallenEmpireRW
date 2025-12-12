@@ -155,5 +155,6 @@
   <Wula_AI_Send>发送</Wula_AI_Send>
   <Wula_AI_Error_Internal>错误：内部系统故障。{0}</Wula_AI_Error_Internal>
   <Wula_AI_Error_ConnectionLost>错误：连接丢失。“军团”保持沉默。</Wula_AI_Error_ConnectionLost>
+    <Wula_ResourceDrop>{FACTION_name}已经在附近投下了一些资源。</Wula_ResourceDrop>
 
 </LanguageData>

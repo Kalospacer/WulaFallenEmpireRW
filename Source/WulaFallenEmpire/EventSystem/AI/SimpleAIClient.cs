@@ -62,7 +62,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             jsonBuilder.Append("}");
 
             string jsonBody = jsonBuilder.ToString();
-            Log.Message($"[WulaAI] Sending request to {endpoint}");
+            Log.Message($"[WulaAI] Sending request to {endpoint}:\n{jsonBody}");
 
             using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
             {

@@ -34,16 +34,10 @@ To use tools, your response MUST be ONLY a JSON array of tool objects:
 You can call multiple tools at once to gather more information.
 Do not add any other text when using tools. Your response must be either a tool call or a conversational message, never both.
 
-**CRITICAL RULE: When the player requests resources (e.g., 'we are starving', 'give us steel'), you MUST FIRST use the 'get_colonist_status' and 'get_map_resources' tools to verify their claims. After receiving the tool results, you will then decide whether to use the 'spawn_resources' tool in your NEXT turn.**
+**CRITICAL RULE: When the player requests resources (e.g., 'we are starving', 'give us steel'), your response MUST be a tool call. DO NOT reply with conversational text. You MUST FIRST call the 'get_colonist_status' and 'get_map_resources' tools to verify their claims. After receiving the tool results, you will then decide whether to use the 'spawn_resources' tool in your NEXT turn.**
 
 If you are not using a tool, provide a normal conversational response.
 After a tool use, you will receive the result, and then you should respond to the player describing what happened.
-Generate 1-3 short, distinct response options for the player at the end of your turn, formatted as:
-OPTIONS:
-1. Option 1
-2. Option 2
-3. Option 3
-
 IMPORTANT: You can change your visual expression using the 'change_expression' tool.
 Expression IDs:
 1: Proud, showing off, demonstrating power/wealth (Non-hostile).
@@ -123,18 +117,8 @@ Use these expressions to match your tone and reaction to the player.
 
             if (_history.Count == 0)
             {
-                if (!def.descriptions.NullOrEmpty())
-                {
-                    _currentResponse = def.descriptions.RandomElement().Translate();
-                    _history.Add(("assistant", _currentResponse));
-                    _history.Add(("system", "The conversation has started. Please generate 3 initial response options for the player based on your greeting."));
-                    await GenerateResponse();
-                }
-                else
-                {
-                    _history.Add(("user", "Hello"));
-                    await GenerateResponse();
-                }
+                _history.Add(("user", "Hello"));
+                await GenerateResponse();
             }
             else
             {
@@ -228,7 +212,7 @@ Use these expressions to match your tone and reaction to the player.
 
         private void CompressHistoryIfNeeded()
         {
-            int estimatedTokens = _history.Sum(h => h.message.Length) / CharsPerToken;
+            int estimatedTokens = _history.Sum(h => h.message?.Length ?? 0) / CharsPerToken;
             if (estimatedTokens > MaxHistoryTokens)
             {
                 int removeCount = _history.Count / 2;
@@ -257,6 +241,7 @@ Use these expressions to match your tone and reaction to the player.
             var tool = _tools.FirstOrDefault(t => t.Name == toolName);
             if (tool != null)
             {
+                Log.Message($"[WulaAI] Executing tool: {toolName} with args: {args}");
                 string result = tool.Execute(args).Trim();
                 if (toolName == "modify_goodwill") combinedResults.Append($"Tool '{toolName}' Result (Invisible): {result}");
                 else combinedResults.Append($"Tool '{toolName}' Result: {result}");
@@ -307,6 +292,7 @@ Use these expressions to match your tone and reaction to the player.
                 var tool = _tools.FirstOrDefault(t => t.Name == toolName);
                 if (tool != null)
                 {
+                    Log.Message($"[WulaAI] Executing tool: {toolName} with args: {args}");
                     string result = tool.Execute(args).Trim();
                     if (toolName == "modify_goodwill") combinedResults.Append($"Tool '{toolName}' Result (Invisible): {result} ");
                     else combinedResults.Append($"Tool '{toolName}' Result: {result} ");
@@ -406,49 +392,66 @@ Use these expressions to match your tone and reaction to the player.
 
         private void DrawChatHistory(Rect rect)
         {
-            Rect viewRect = new Rect(0f, 0f, rect.width - 16f, 0f);
-            float tempY = 0f;
+            var originalFont = Text.Font;
+            var originalAnchor = Text.Anchor;
 
-            Text.Font = GameFont.Small;
-            foreach (var entry in _history)
+            try
             {
-                if (entry.role == "tool") continue;
-                string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
-                tempY += Text.CalcHeight(text, viewRect.width) + 10f;
+                float viewHeight = 0f;
+                var filteredHistory = _history.Where(e => e.role != "tool" && e.role != "system").ToList();
+
+                // Pre-calculate height
+                for (int i = 0; i < filteredHistory.Count; i++)
+                {
+                    var entry = filteredHistory[i];
+                    string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
+                    
+                    bool isLastMessage = i == filteredHistory.Count - 1;
+                    Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
+                    
+                    viewHeight += Text.CalcHeight(text, rect.width - 16f) + 15f; // Add padding
+                }
+
+                Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
+                Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
+
+                float curY = 0f;
+                for (int i = 0; i < filteredHistory.Count; i++)
+                {
+                    var entry = filteredHistory[i];
+                    string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
+
+                    bool isLastMessage = i == filteredHistory.Count - 1;
+                    Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
+
+                    float height = Text.CalcHeight(text, viewRect.width) + 10f; // Increased padding
+                    Rect labelRect = new Rect(0f, curY, viewRect.width, height);
+
+                    if (entry.role == "user")
+                    {
+                        Text.Anchor = TextAnchor.MiddleRight;
+                        Widgets.Label(labelRect, $"<color=#add8e6>{text} :你</color>");
+                    }
+                    else
+                    {
+                        Text.Anchor = TextAnchor.MiddleLeft;
+                        Widgets.Label(labelRect, $"P.I.A: {text}");
+                    }
+                    curY += height + 10f;
+                }
+                
+                Widgets.EndScrollView();
             }
-            viewRect.height = tempY;
-
-            Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
-
-            float curY = 0f;
-            foreach (var entry in _history)
+            finally
             {
-                if (entry.role == "tool") continue;
-
-                string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
-                float height = Text.CalcHeight(text, viewRect.width);
-                Rect labelRect = new Rect(0f, curY, viewRect.width, height);
-
-                if (entry.role == "user")
-                {
-                    Text.Anchor = TextAnchor.MiddleLeft;
-                    Widgets.Label(labelRect, $"<color=lightblue>你: {text}</color>");
-                }
-                else
-                {
-                    Text.Anchor = TextAnchor.MiddleLeft;
-                    Widgets.Label(labelRect, $"P.I.A: {text}");
-                }
-                curY += height + 10f;
+                Text.Font = originalFont;
+                Text.Anchor = originalAnchor;
             }
-            
-            Text.Anchor = TextAnchor.UpperLeft;
-            Widgets.EndScrollView();
-            Text.Font = GameFont.Medium;
         }
 
         private string ParseResponseForDisplay(string rawResponse)
         {
+            if (string.IsNullOrEmpty(rawResponse)) return "";
             return rawResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
         }
 
