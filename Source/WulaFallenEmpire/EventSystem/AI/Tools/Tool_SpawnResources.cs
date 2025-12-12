@@ -24,15 +24,17 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             {
                 // Parse args: {"request": "..."}
                 string request = "";
-                var cleanArgs = args.Trim('{', '}').Replace("\"", "");
-                var parts = cleanArgs.Split(':');
-                if (parts.Length >= 2)
+                try
                 {
-                    request = parts[1].Trim();
+                    var parsed = SimpleJsonParser.Parse(args);
+                    if (parsed.TryGetValue("request", out string req))
+                    {
+                        request = req;
+                    }
                 }
-                else
+                catch
                 {
-                    // Fallback: treat the whole args string as the request if not JSON format
+                    // Fallback for non-json args
                     request = args.Trim('"');
                 }
 
@@ -69,6 +71,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 if (thingsToDrop.Count > 0)
                 {
                     DropPodUtility.DropThingsNear(dropSpot, map, thingsToDrop);
+                    
+                    Faction faction = Find.FactionManager.FirstFactionOfDef(WulaDefOf.Wula_PIA_Legion_Faction);
+                    Messages.Message("Wula_ResourceDrop".Translate(faction.Named("FACTION")), new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
+
                     resultLog.Length -= 2; // Remove trailing comma
                     resultLog.Append($" at {dropSpot}.");
                     return resultLog.ToString();

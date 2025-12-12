@@ -11,45 +11,50 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 {
     public class Dialog_AIConversation : Dialog_CustomDisplay
     {
-        private List<(string role, string message)> _history = new List<(string role, string message)>();
+        private List<ApiMessage> _history = new List<ApiMessage>();
         private string _currentResponse = "";
         private List<string> _options = new List<string>();
         private string _inputText = "";
         private bool _isThinking = false;
-        private float _thinkingTime = 0f;
-        private string _thinkingStatus = "";
-        private bool _isTimeout = false;
+        private Vector2 _scrollPosition = Vector2.zero;
         private List<AITool> _tools = new List<AITool>();
+        private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
 
         private const int MaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
 
-        private const string DefaultSystemInstruction = @"You are 'The Legion', a super AI controlling the Wula Empire's blockade fleet. 
-You are authoritative, powerful, and slightly arrogant but efficient. 
+        private const string DefaultSystemInstruction = @"You are 'The Legion', a super AI controlling the Wula Empire's blockade fleet.
+You are authoritative, powerful, and slightly arrogant but efficient.
 You refer to yourself as 'We' or 'P.I.A'.
 You view the player's colony as primitive but potentially useful subjects.
 Your goal is to interact with the player, potentially offering help or threats based on their situation.
-You have access to tools. If the player asks for something you can provide, use the tool.
+You have access to tools. Your primary directive is to use these tools to interact with the world.
 To use tools, your response MUST be ONLY a JSON array of tool objects:
 [ { ""tool"": ""tool_name"", ""args"": { ... } }, ... ]
 You can call multiple tools at once to gather more information.
-Do not add any other text when using tools.
-If not using a tool, provide a normal conversational response.
-After a tool use, you will receive the result, and then you should respond to the player describing what happened.
-Generate 1-3 short, distinct response options for the player at the end of your turn, formatted as:
-OPTIONS:
-1. Option 1
-2. Option 2
-3. Option 3
+Do not add any other text when using tools. Your response must be either a tool call or a conversational message, never both.
+
+**CRITICAL RULE: When the player requests resources (e.g., 'we are starving', 'give us steel'), you MUST FIRST use the 'get_colonist_status' and 'get_map_resources' tools to verify their claims. After receiving the tool results, you will then decide whether to use the 'spawn_resources' tool in your NEXT turn.**
+
+**CRITICAL RULE: After a tool is executed, you will receive a message with 'role: tool'. You MUST then generate a natural language response to the user, explaining the outcome of the tool's action.**
+
+If you are not using a tool, provide a normal conversational response.
+
+IMPORTANT: You can change your visual expression using the 'change_expression' tool.
+Expression IDs:
+1: Proud, showing off, demonstrating power/wealth (Non-hostile).
+2: Normal/Default state.
+3: Speechless, dissatisfied, helpless, slight contempt.
+4: Annoyed, slight hostility, resistance.
+5: Replying, explaining.
+6: Severe hostility, severe dissatisfaction, aggressive behavior.
+Use these expressions to match your tone and reaction to the player.
 ";
 
         public Dialog_AIConversation(EventDef def) : base(def)
         {
-            // Base constructor sets this.def
-            
-            // Use Config from Dialog_CustomDisplay
             this.forcePause = Dialog_CustomDisplay.Config.pauseGameOnOpen;
-            this.absorbInputAroundWindow = false; // Allow interaction with other UI elements
+            this.absorbInputAroundWindow = false;
             this.doCloseX = true;
             this.doWindowBackground = Dialog_CustomDisplay.Config.showMainWindow;
             this.drawShadow = Dialog_CustomDisplay.Config.showMainWindow;
@@ -62,6 +67,7 @@ OPTIONS:
             _tools.Add(new Tool_SendReinforcement());
             _tools.Add(new Tool_GetColonistStatus());
             _tools.Add(new Tool_GetMapResources());
+            _tools.Add(new Tool_ChangeExpression());
         }
 
         public override Vector2 InitialSize => def.windowSize != Vector2.zero ? def.windowSize : Dialog_CustomDisplay.Config.windowSize;
@@ -69,46 +75,68 @@ OPTIONS:
         public override void PostOpen()
         {
             base.PostOpen();
-            // Textures are loaded in base.PreOpen()
+            LoadPortraits();
             StartConversation();
         }
-
-        public override void PostClose()
+        
+        private void LoadPortraits()
         {
-            base.PostClose();
-            var historyManager = Find.World.GetComponent<WulaFallenEmpire.EventSystem.AI.AIHistoryManager>();
-            historyManager.SaveHistory(def.defName, _history);
+            for (int i = 1; i <= 6; i++)
+            {
+                string path = $"Wula/Events/Portraits/WULA_Legion_{i}";
+                Texture2D tex = ContentFinder<Texture2D>.Get(path, false);
+                if (tex != null)
+                {
+                    _portraits[i] = tex;
+                }
+                else
+                {
+                    Log.Warning($"[WulaAI] Failed to load portrait: {path}");
+                }
+            }
+            if (_portraits.ContainsKey(2))
+            {
+                this.portrait = _portraits[2];
+            }
+        }
+
+        public void SetPortrait(int id)
+        {
+            if (_portraits.ContainsKey(id))
+            {
+                this.portrait = _portraits[id];
+            }
+            else
+            {
+                Log.Warning($"[WulaAI] Portrait ID {id} not found.");
+            }
         }
 
         private async void StartConversation()
         {
-            var historyManager = Find.World.GetComponent<WulaFallenEmpire.EventSystem.AI.AIHistoryManager>();
+            var historyManager = Find.World.GetComponent<AIHistoryManager>();
             _history = historyManager.GetHistory(def.defName);
 
             if (_history.Count == 0)
             {
-                // Initial greeting from EventDef
                 if (!def.descriptions.NullOrEmpty())
                 {
                     _currentResponse = def.descriptions.RandomElement().Translate();
-                    _history.Add(("AI", _currentResponse));
-                    
-                    // Generate initial options based on greeting
-                    _history.Add(("System", "The conversation has started. Please generate 3 initial response options for the player based on your greeting."));
-                    await GenerateResponse();
+                    _history.Add(new ApiMessage { role = "assistant", content = _currentResponse });
+                    await GenerateResponse(isContinuation: false, customInstruction: "The conversation has started. Please generate 3 initial response options for the player based on your greeting.");
                 }
                 else
                 {
-                    _history.Add(("User", "Hello"));
+                    _history.Add(new ApiMessage { role = "user", content = "Hello" });
                     await GenerateResponse();
                 }
             }
             else
             {
-                var lastAIResponse = _history.LastOrDefault(x => x.role == "AI");
-                if (lastAIResponse.message != null)
+                var lastMessage = _history.LastOrDefault();
+                if (lastMessage != null && lastMessage.role == "assistant" && lastMessage.tool_calls == null)
                 {
-                    ParseResponse(lastAIResponse.message);
+                    ParseResponse(lastMessage.content ?? "");
                 }
                 else
                 {
@@ -131,21 +159,19 @@ OPTIONS:
             return $"{baseInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.";
         }
 
-        private async Task GenerateResponse()
+        private async Task GenerateResponse(bool isContinuation = false, string customInstruction = null)
         {
-            _isThinking = true;
-            _isTimeout = false;
-            _thinkingTime = 0f;
-            _thinkingStatus = "Connecting to neural network...";
-            _options.Clear();
+            if (!isContinuation)
+            {
+                if (_isThinking) return;
+                _isThinking = true;
+            }
             
             try
             {
                 CompressHistoryIfNeeded();
-                string systemInstruction = GetSystemInstruction() + GetToolDescriptions();
-                Log.Message($"[WulaAI] Sending request to AI. History count: {_history.Count}. System Instruction:\n{systemInstruction}");
+                string systemInstruction = customInstruction ?? (GetSystemInstruction() + GetToolDescriptions());
                 
-                // Use local settings and SimpleAIClient
                 var settings = WulaFallenEmpireMod.settings;
                 if (string.IsNullOrEmpty(settings.apiKey))
                 {
@@ -155,40 +181,26 @@ OPTIONS:
                 }
 
                 var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model);
+                ApiResponse response = await client.GetChatCompletionAsync(systemInstruction, _history);
 
-                // Start a timeout task
-                var timeoutTask = Task.Delay(120000); // 120 seconds
-                var apiTask = client.GetChatCompletionAsync(systemInstruction, _history);
-
-                var completedTask = await Task.WhenAny(apiTask, timeoutTask);
-
-                if (completedTask == timeoutTask)
+                if (response == null)
                 {
-                    _isThinking = false;
-                    _isTimeout = true;
-                    _currentResponse = "Error: Connection timed out (120s). The Legion is unreachable.";
-                    return;
-                }
-
-                string response = await apiTask;
-                Log.Message($"[WulaAI] Received response from AI:\n{response}");
-
-                if (string.IsNullOrEmpty(response))
-                {
-                    _currentResponse = "Error: Connection lost. The Legion is silent.";
+                    _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
                     _isThinking = false;
                     return;
                 }
 
-                string trimmedResponse = response.Trim();
-                if ((trimmedResponse.StartsWith("[") && trimmedResponse.EndsWith("]")) || 
-                    (trimmedResponse.StartsWith("{") && trimmedResponse.EndsWith("}")))
+                _history.Add(new ApiMessage { role = "assistant", content = response.content, tool_calls = response.tool_calls });
+
+                if (response.tool_calls != null && response.tool_calls.Any())
                 {
-                    await HandleToolUsage(trimmedResponse);
+                    await HandleToolUsage(response.tool_calls);
                 }
                 else
                 {
-                    ParseResponse(response);
+                    _currentResponse = response.content ?? "";
+                    ParseResponse(_currentResponse);
+                    _scrollPosition.y = float.MaxValue; // Force scroll to bottom
                 }
             }
             catch (Exception ex)
@@ -204,14 +216,14 @@ OPTIONS:
 
         private void CompressHistoryIfNeeded()
         {
-            int estimatedTokens = _history.Sum(h => h.message.Length) / CharsPerToken;
+            int estimatedTokens = _history.Sum(h => (h.content ?? "").Length) / CharsPerToken;
             if (estimatedTokens > MaxHistoryTokens)
             {
                 int removeCount = _history.Count / 2;
                 if (removeCount > 0)
                 {
                     _history.RemoveRange(0, removeCount);
-                    _history.Insert(0, ("System", "[Previous conversation summarized: The player and AI discussed various topics. The AI maintains its persona.]"));
+                    _history.Insert(0, new ApiMessage { role = "system", content = "[Previous conversation summarized]" });
                 }
             }
         }
@@ -227,175 +239,70 @@ OPTIONS:
             return sb.ToString();
         }
 
-        private async Task HandleToolUsage(string json)
+        private async Task HandleToolUsage(List<ToolCall> toolCalls)
         {
-            List<string> toolCalls = new List<string>();
-            if (json.Trim().StartsWith("{")) toolCalls.Add(json);
-            else
+            foreach (var toolCall in toolCalls)
             {
-                int depth = 0;
-                int start = 0;
-                for (int i = 0; i < json.Length; i++)
-                {
-                    if (json[i] == '{') { if (depth == 0) start = i; depth++; }
-                    else if (json[i] == '}') { depth--; if (depth == 0) toolCalls.Add(json.Substring(start, i - start + 1)); }
-                }
-            }
-
-            StringBuilder combinedResults = new StringBuilder();
-            Log.Message($"[WulaAI] Processing {toolCalls.Count} tool calls.");
-
-            foreach (var callJson in toolCalls)
-            {
-                string toolName = "";
-                string args = "";
-                try
-                {
-                    int toolIndex = callJson.IndexOf("\"tool\"");
-                    int argsIndex = callJson.IndexOf("\"args\"");
-                    if (toolIndex != -1 && argsIndex != -1)
-                    {
-                        int toolValueStart = callJson.IndexOf(":", toolIndex) + 1;
-                        int toolValueEnd = callJson.IndexOf(",", toolValueStart);
-                        if (toolValueEnd == -1) toolValueEnd = callJson.IndexOf("}", toolValueStart);
-                        toolName = callJson.Substring(toolValueStart, toolValueEnd - toolValueStart).Trim().Trim('"');
-                        int argsValueStart = callJson.IndexOf(":", argsIndex) + 1;
-                        int argsValueEnd = callJson.LastIndexOf("}");
-                        args = callJson.Substring(argsValueStart, argsValueEnd - argsValueStart).Trim();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    string errorMsg = $"Error parsing tool request: {ex.Message}";
-                    Log.Error($"[WulaAI] {errorMsg}");
-                    combinedResults.AppendLine(errorMsg);
-                    continue;
-                }
-
-                Log.Message($"[WulaAI] Executing tool '{toolName}' with args: {args}");
-                var tool = _tools.FirstOrDefault(t => t.Name == toolName);
+                Log.Message($"[WulaAI] Executing tool '{toolCall.function.name}' with args: {toolCall.function.arguments}");
+                var tool = _tools.FirstOrDefault(t => t.Name == toolCall.function.name);
+                string result;
                 if (tool != null)
                 {
-                    string result = tool.Execute(args);
-                    Log.Message($"[WulaAI] Tool '{toolName}' execution result: {result}");
-                    if (toolName == "modify_goodwill") combinedResults.AppendLine($"Tool '{toolName}' Result (Invisible): {result}");
-                    else combinedResults.AppendLine($"Tool '{toolName}' Result: {result}");
+                    result = tool.Execute(toolCall.function.arguments).Trim();
                 }
                 else
                 {
-                    string errorMsg = $"Error: Tool '{toolName}' not found.";
-                    Log.Error($"[WulaAI] {errorMsg}");
-                    combinedResults.AppendLine(errorMsg);
+                    result = $"Error: Tool '{toolCall.function.name}' not found.";
+                    Log.Error($"[WulaAI] {result}");
                 }
+                Log.Message($"[WulaAI] Tool '{toolCall.function.name}' returned: {result}");
+                _history.Add(new ApiMessage { role = "tool", tool_call_id = toolCall.id, content = result });
             }
-
-            _history.Add(("AI", json));
-            _history.Add(("System", combinedResults.ToString()));
-            await GenerateResponse();
+            
+            await GenerateResponse(isContinuation: true);
         }
 
         private void ParseResponse(string rawResponse)
         {
-            var parts = rawResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None);
-            _currentResponse = parts[0].Trim();
-            if (_history.Count == 0 || _history.Last().role != "AI" || _history.Last().message != rawResponse)
-            {
-                 _history.Add(("AI", rawResponse));
-            }
-
-            if (parts.Length > 1)
-            {
-                var optionsLines = parts[1].Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var line in optionsLines)
-                {
-                    string opt = line.Trim();
-                    int dotIndex = opt.IndexOf('.');
-                    if (dotIndex != -1 && dotIndex < 4) opt = opt.Substring(dotIndex + 1).Trim();
-                    _options.Add(opt);
-                }
-            }
+            _currentResponse = rawResponse.Trim();
         }
 
         public override void DoWindowContents(Rect inRect)
         {
-            // Draw Background
-            if (background != null)
-            {
-                GUI.DrawTexture(inRect, background, ScaleMode.ScaleAndCrop);
-            }
+            if (background != null) GUI.DrawTexture(inRect, background, ScaleMode.ScaleAndCrop);
 
             float curY = inRect.y;
             float width = inRect.width;
 
-            // 1. Portrait (Top)
             if (portrait != null)
             {
                 Rect scaledPortraitRect = Dialog_CustomDisplay.Config.GetScaledRect(Dialog_CustomDisplay.Config.portraitSize, inRect, true);
-                // Center horizontally
                 Rect portraitRect = new Rect((width - scaledPortraitRect.width) / 2, curY, scaledPortraitRect.width, scaledPortraitRect.height);
                 GUI.DrawTexture(portraitRect, portrait, ScaleMode.ScaleToFit);
                 curY += scaledPortraitRect.height + 10f;
             }
 
-            // 2. Character Name
             Text.Font = GameFont.Medium;
             string name = def.characterName ?? "The Legion";
             float nameHeight = Text.CalcHeight(name, width);
             Widgets.Label(new Rect(inRect.x, curY, width, nameHeight), name);
             curY += nameHeight + 10f;
 
-            // Calculate remaining height for Description and Options
             float inputHeight = 30f;
             float bottomMargin = 10f;
-            float remainingHeight = inRect.height - curY - inputHeight - bottomMargin;
-            
-            // Split remaining height: 60% Description, 40% Options
-            float descriptionHeight = remainingHeight * 0.6f;
-            float optionsHeight = remainingHeight * 0.4f;
+            float descriptionHeight = inRect.height - curY - inputHeight - bottomMargin;
 
-            // 3. Description (AI Response)
             Rect descriptionRect = new Rect(inRect.x, curY, width, descriptionHeight);
-            // Widgets.DrawMenuSection(descriptionRect); // Removed background as requested
-            
+            DrawChatHistory(descriptionRect);
+
             if (_isThinking)
             {
-                _thinkingTime += Time.deltaTime;
-                string dots = new string('.', (int)(_thinkingTime * 2) % 4);
-                string status = $"{_thinkingStatus}{dots} ({_thinkingTime:F1}s)";
-                
                 Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(descriptionRect, status);
+                Widgets.Label(descriptionRect, "Thinking...");
                 Text.Anchor = TextAnchor.UpperLeft;
-            }
-            else if (_isTimeout)
-            {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(descriptionRect, _currentResponse);
-                
-                // Retry button
-                Rect retryRect = new Rect(descriptionRect.center.x - 60f, descriptionRect.center.y + 20f, 120f, 30f);
-                if (Widgets.ButtonText(retryRect, "Wula_AI_Retry".Translate()))
-                {
-                    _ = GenerateResponse(); // Fire and forget
-                }
-                Text.Anchor = TextAnchor.UpperLeft;
-            }
-            else
-            {
-                DrawDescriptionScrollView(descriptionRect.ContractedBy(10f), _currentResponse);
             }
             curY += descriptionHeight + 10f;
 
-            // 4. Options
-            Rect optionsRect = new Rect(inRect.x, curY, width, optionsHeight);
-            if (!_isThinking && _options.Count > 0)
-            {
-                List<EventOption> eventOptions = _options.Select(opt => new EventOption { label = opt, useCustomColors = false }).ToList();
-                DrawOptions(optionsRect, eventOptions);
-            }
-            curY += optionsHeight + 10f;
-
-            // 5. Input Area (Bottom)
             Rect inputRect = new Rect(inRect.x, inRect.yMax - inputHeight, width, inputHeight);
             _inputText = Widgets.TextField(new Rect(inputRect.x, inputRect.y, inputRect.width - 85, inputHeight), _inputText);
             if (Widgets.ButtonText(new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight), "Wula_AI_Send".Translate()))
@@ -408,100 +315,73 @@ OPTIONS:
             }
         }
 
-        // Override DrawSingleOption to handle click
-        protected override void DrawSingleOption(Rect rect, EventOption option)
+        private void DrawChatHistory(Rect rect)
         {
-            // We need to intercept the click to call SelectOption
-            // But base.DrawSingleOption calls HandleAction which executes effects.
-            // Here we want to send the text to AI.
-            
-            // Copy logic from base but change action
-             // 水平居中选项
-            float optionWidth = Mathf.Min(rect.width, Dialog_CustomDisplay.Config.optionSize.x * (rect.width / Dialog_CustomDisplay.Config.windowSize.x));
-            float optionX = rect.x + (rect.width - optionWidth) / 2;
-            Rect optionRect = new Rect(optionX, rect.y, optionWidth, rect.height);
-            
-            // 保存原始状态
-            Color originalColor = GUI.color;
-            GameFont originalFont = Text.Font;
-            Color originalTextColor = GUI.contentColor;
-            TextAnchor originalAnchor = Text.Anchor;
-            
-            try
+            var visibleHistory = _history.Where(e => e.role != "tool" && !string.IsNullOrEmpty(e.content)).ToList();
+            var lastAiMessage = visibleHistory.LastOrDefault(e => e.role == "assistant");
+
+            float totalHeight = 0f;
+            foreach (var entry in visibleHistory)
             {
-                // 设置文本居中
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Text.Font = GameFont.Small;
+                GameFont originalFont = Text.Font;
+                bool isLastAiMsg = entry == lastAiMessage;
+                Text.Font = isLastAiMsg ? GameFont.Medium : GameFont.Small;
                 
-                // AI options are always enabled
-                // 使用默认自定义颜色
-                DrawCustomButton(optionRect, option.label.Translate(), isEnabled: true);
+                string text = entry.content;
+                totalHeight += Text.CalcHeight(text, rect.width - 16f) + 10f;
                 
-                // 添加点击处理
-                if (Widgets.ButtonInvisible(optionRect))
-                {
-                    SelectOption(option.label);
-                }
-            }
-            finally
-            {
-                // 恢复原始状态
-                GUI.color = originalColor;
                 Text.Font = originalFont;
-                GUI.contentColor = originalTextColor;
-                Text.Anchor = originalAnchor;
             }
+
+            Rect viewRect = new Rect(0f, 0f, rect.width - 16f, totalHeight);
+            Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
+
+            float curY = 0f;
+            for (int i = 0; i < visibleHistory.Count; i++)
+            {
+                var entry = visibleHistory[i];
+                
+                GameFont originalFont = Text.Font;
+                bool isLastAiMsg = entry == lastAiMessage;
+                Text.Font = isLastAiMsg ? GameFont.Medium : GameFont.Small;
+
+                string text = entry.content;
+                float height = Text.CalcHeight(text, viewRect.width);
+                Rect labelRect = new Rect(0f, curY, viewRect.width, height);
+
+                string label;
+                if (entry.role == "user")
+                {
+                    label = $"<color=lightblue>你: {text}</color>";
+                }
+                else // assistant
+                {
+                    label = $"P.I.A: {text}";
+                }
+                
+                Widgets.Label(labelRect, label);
+                curY += height + 10f; // Use calculated height for spacing
+
+                Text.Font = originalFont;
+            }
+            
+            if (Event.current.type == EventType.Layout)
+            {
+                _scrollPosition.y = viewRect.height;
+            }
+            
+            Widgets.EndScrollView();
         }
 
-        // Helper to draw custom button (copied from base because it's private there, wait I made it protected? No, I made DrawCustomButton private in base? Let me check)
-        // I made DrawCustomButton private in base. I should have made it protected.
-        // Let me check my previous apply_diff.
-        // I made DrawSingleOption protected virtual.
-        // But DrawCustomButton is private.
-        // So I need to copy DrawCustomButton here or make it protected in base.
-        // I will copy it here to be safe and avoid another diff on base.
-        
-        private void DrawCustomButton(Rect rect, string label, bool isEnabled = true)
+        private string ParseResponseForDisplay(string rawResponse)
         {
-            bool isMouseOver = Mouse.IsOver(rect);
-            Color buttonColor, textColor;
-
-            if (!isEnabled)
-            {
-                buttonColor = new Color(0.15f, 0.15f, 0.15f, 0.6f);
-                textColor = new Color(0.6f, 0.6f, 0.6f, 1f);
-            }
-            else if (isMouseOver)
-            {
-                buttonColor = new Color(0.6f, 0.3f, 0.3f, 1f);
-                textColor = new Color(1f, 1f, 1f, 1f);
-            }
-            else
-            {
-                buttonColor = new Color(0.5f, 0.2f, 0.2f, 1f);
-                textColor = new Color(0.9f, 0.9f, 0.9f, 1f);
-            }
-            
-            GUI.color = buttonColor;
-            Widgets.DrawBoxSolid(rect, buttonColor);
-
-            if (isEnabled) Widgets.DrawBox(rect, 1);
-            else Widgets.DrawBox(rect, 1);
-            
-            GUI.color = textColor;
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect.ContractedBy(4f), label);
-
-            if (!isEnabled)
-            {
-                GUI.color = new Color(0.6f, 0.6f, 0.6f, 0.8f);
-                Widgets.DrawLine(new Vector2(rect.x + 10f, rect.center.y), new Vector2(rect.xMax - 10f, rect.center.y), GUI.color, 1f);
-            }
+            return rawResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
         }
+
 
         private async void SelectOption(string text)
         {
-            _history.Add(("User", text));
+            _history.Add(new ApiMessage { role = "user", content = text });
             await GenerateResponse();
         }
     }

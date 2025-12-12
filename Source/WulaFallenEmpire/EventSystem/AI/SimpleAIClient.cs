@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
@@ -20,7 +21,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             _model = model;
         }
 
-        public async Task<string> GetChatCompletionAsync(string instruction, List<(string role, string message)> messages)
+        public async Task<ApiResponse> GetChatCompletionAsync(string instruction, List<ApiMessage> messages)
         {
             if (string.IsNullOrEmpty(_baseUrl))
             {
@@ -29,32 +30,56 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
 
             string endpoint = $"{_baseUrl}/chat/completions";
-            // Handle cases where baseUrl already includes /v1 or full path
             if (_baseUrl.EndsWith("/chat/completions")) endpoint = _baseUrl;
             else if (!_baseUrl.EndsWith("/v1")) endpoint = $"{_baseUrl}/v1/chat/completions";
 
-            // Build JSON manually to avoid dependencies
             StringBuilder jsonBuilder = new StringBuilder();
             jsonBuilder.Append("{");
             jsonBuilder.Append($"\"model\": \"{_model}\",");
             jsonBuilder.Append("\"stream\": false,");
             jsonBuilder.Append("\"messages\": [");
             
-            // System instruction
             if (!string.IsNullOrEmpty(instruction))
             {
                 jsonBuilder.Append($"{{\"role\": \"system\", \"content\": \"{EscapeJson(instruction)}\"}},");
             }
 
-            // Messages
             for (int i = 0; i < messages.Count; i++)
             {
                 var msg = messages[i];
                 string role = msg.role.ToLower();
                 if (role == "ai") role = "assistant";
-                // Map other roles if needed
-                
-                jsonBuilder.Append($"{{\"role\": \"{role}\", \"content\": \"{EscapeJson(msg.message)}\"}}");
+
+                jsonBuilder.Append("{");
+                jsonBuilder.Append($"\"role\": \"{role}\"");
+
+                if (!string.IsNullOrEmpty(msg.content))
+                {
+                    jsonBuilder.Append($", \"content\": \"{EscapeJson(msg.content)}\"");
+                }
+
+                if (msg.tool_calls != null && msg.tool_calls.Any())
+                {
+                    jsonBuilder.Append(", \"tool_calls\": [");
+                    for (int j = 0; j < msg.tool_calls.Count; j++)
+                    {
+                        var toolCall = msg.tool_calls[j];
+                        jsonBuilder.Append("{");
+                        jsonBuilder.Append($"\"id\": \"{toolCall.id}\",");
+                        jsonBuilder.Append($"\"type\": \"{toolCall.type}\",");
+                        jsonBuilder.Append($"\"function\": {{ \"name\": \"{toolCall.function.name}\", \"arguments\": \"{EscapeJson(toolCall.function.arguments)}\" }}");
+                        jsonBuilder.Append("}");
+                        if (j < msg.tool_calls.Count - 1) jsonBuilder.Append(",");
+                    }
+                    jsonBuilder.Append("]");
+                }
+
+                if (!string.IsNullOrEmpty(msg.tool_call_id))
+                {
+                    jsonBuilder.Append($", \"tool_call_id\": \"{msg.tool_call_id}\"");
+                }
+
+                jsonBuilder.Append("}");
                 if (i < messages.Count - 1) jsonBuilder.Append(",");
             }
             
@@ -62,8 +87,8 @@ namespace WulaFallenEmpire.EventSystem.AI
             jsonBuilder.Append("}");
 
             string jsonBody = jsonBuilder.ToString();
-            Log.Message($"[WulaAI] Sending request to {endpoint}");
-
+            Log.Message($"[WulaAI] Sending request: {jsonBody}");
+            
             using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
             {
                 byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonBody);
@@ -82,19 +107,15 @@ namespace WulaFallenEmpire.EventSystem.AI
                     await Task.Delay(50);
                 }
 
-#if UNITY_2020_2_OR_NEWER
                 if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-#else
-                if (request.isNetworkError || request.isHttpError)
-#endif
                 {
                     Log.Error($"[WulaAI] API Error: {request.error}\nResponse: {request.downloadHandler.text}");
                     return null;
                 }
 
                 string responseText = request.downloadHandler.text;
-                Log.Message($"[WulaAI] Raw Response: {responseText}");
-                return ExtractContent(responseText);
+                Log.Message($"[WulaAI] Received raw response: {responseText}");
+                return ParseApiResponse(responseText);
             }
         }
 
@@ -108,66 +129,79 @@ namespace WulaFallenEmpire.EventSystem.AI
                     .Replace("\t", "\\t");
         }
 
-        private string ExtractContent(string json)
+        private ApiResponse ParseApiResponse(string json)
         {
             try
             {
-                // Robust parsing for "content": "..." allowing for whitespace variations
-                int contentIndex = json.IndexOf("\"content\"");
-                if (contentIndex == -1) return null;
-
-                // Find the opening quote after "content"
-                int openQuoteIndex = -1;
-                for (int i = contentIndex + 9; i < json.Length; i++)
+                var parsed = SimpleJsonParser.Parse(json);
+                if (parsed.TryGetValue("choices", out string choicesStr))
                 {
-                    if (json[i] == '"')
+                    var choices = SimpleJsonParser.ParseArray(choicesStr);
+                    if (choices.Any())
                     {
-                        openQuoteIndex = i;
-                        break;
-                    }
-                }
-                if (openQuoteIndex == -1) return null;
+                        var firstChoice = choices.First();
+                        if (firstChoice.TryGetValue("message", out string messageStr))
+                        {
+                            var message = SimpleJsonParser.Parse(messageStr);
+                            string content = null;
+                            if (message.TryGetValue("content", out string c)) content = c;
 
-                int startIndex = openQuoteIndex + 1;
-                StringBuilder content = new StringBuilder();
-                bool escaped = false;
-                
-                for (int i = startIndex; i < json.Length; i++)
-                {
-                    char c = json[i];
-                    if (escaped)
-                    {
-                        if (c == 'n') content.Append('\n');
-                        else if (c == 'r') content.Append('\r');
-                        else if (c == 't') content.Append('\t');
-                        else if (c == '"') content.Append('"');
-                        else if (c == '\\') content.Append('\\');
-                        else content.Append(c); // Literal
-                        escaped = false;
-                    }
-                    else
-                    {
-                        if (c == '\\')
-                        {
-                            escaped = true;
-                        }
-                        else if (c == '"')
-                        {
-                            // End of string
-                            return content.ToString();
-                        }
-                        else
-                        {
-                            content.Append(c);
+                            List<ToolCall> toolCalls = new List<ToolCall>();
+                            if (message.TryGetValue("tool_calls", out string toolCallsStr))
+                            {
+                                var toolCallArray = SimpleJsonParser.ParseArray(toolCallsStr);
+                                foreach (var tc in toolCallArray)
+                                {
+                                    if (tc.TryGetValue("id", out string id) &&
+                                        tc.TryGetValue("type", out string type) &&
+                                        tc.TryGetValue("function", out string functionStr))
+                                    {
+                                        var function = SimpleJsonParser.Parse(functionStr);
+                                        if (function.TryGetValue("name", out string name) &&
+                                            function.TryGetValue("arguments", out string args))
+                                        {
+                                            toolCalls.Add(new ToolCall { id = id, type = type, function = new ToolFunction { name = name, arguments = args } });
+                                        }
+                                    }
+                                }
+                            }
+                            return new ApiResponse { content = content, tool_calls = toolCalls };
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaAI] Error parsing response: {ex}");
+                Log.Error($"[WulaAI] Error parsing API response: {ex}");
             }
             return null;
         }
+    }
+
+    public class ApiMessage
+    {
+        public string role;
+        public string content;
+        public List<ToolCall> tool_calls;
+        public string tool_call_id; // For tool responses
+    }
+
+    public class ToolCall
+    {
+        public string id;
+        public string type; // "function"
+        public ToolFunction function;
+    }
+
+    public class ToolFunction
+    {
+        public string name;
+        public string arguments; // JSON string
+    }
+
+    public class ApiResponse
+    {
+        public string content;
+        public List<ToolCall> tool_calls;
     }
 }

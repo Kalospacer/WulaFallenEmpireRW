@@ -108,6 +108,36 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     {
                         sb.AppendLine($"  Mood: {pawn.needs.mood.CurLevelPercentage:P0} ({pawn.needs.mood.MoodString})");
                     }
+
+                    // Equipment
+                    if (pawn.equipment?.Primary != null)
+                    {
+                        sb.AppendLine($"  Weapon: {pawn.equipment.Primary.LabelCap}");
+                    }
+
+                    // Apparel
+                    if (pawn.apparel?.WornApparelCount > 0)
+                    {
+                        sb.Append("  Apparel: ");
+                        foreach (var apparel in pawn.apparel.WornApparel)
+                        {
+                            sb.Append($"{apparel.LabelCap}, ");
+                        }
+                        sb.Length -= 2; // Remove trailing comma
+                        sb.AppendLine();
+                    }
+
+                    // Inventory
+                    if (pawn.inventory != null && pawn.inventory.innerContainer.Count > 0)
+                    {
+                        sb.Append("  Inventory: ");
+                        foreach (var item in pawn.inventory.innerContainer)
+                        {
+                            sb.Append($"{item.LabelCap}, ");
+                        }
+                        sb.Length -= 2; // Remove trailing comma
+                        sb.AppendLine();
+                    }
                 }
 
                 return sb.ToString();

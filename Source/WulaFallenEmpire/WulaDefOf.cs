@@ -80,8 +80,8 @@ namespace WulaFallenEmpire
     [DefOf]
     public static class WulaDefOf
     {
-        // public static PawnTableDef WULA_AutonomousMechs;
-
+        public static FactionDef Wula_PIA_Legion_Faction;
+        
         static WulaDefOf()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(WulaDefOf));
