@@ -21,7 +21,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 {
                     if (int.TryParse(idStr, out id))
                     {
-                        var window = Find.WindowStack.WindowOfType<Dialog_AIConversation>();
+                        var window = Dialog_AIConversation.Instance ?? Find.WindowStack.WindowOfType<Dialog_AIConversation>();
                         if (window != null)
                         {
                             window.SetPortrait(id);

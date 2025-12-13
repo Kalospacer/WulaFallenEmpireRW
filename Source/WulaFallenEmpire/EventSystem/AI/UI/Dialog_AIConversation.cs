@@ -23,6 +23,12 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private const int MaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
 
+        // Static instance for tools to access
+        public static Dialog_AIConversation Instance { get; private set; }
+        
+        // Debug field to track current portrait ID
+        private int _currentPortraitId = 2;
+
         // Default Persona (used if XML doesn't provide one)
         private const string DefaultPersona = @"
 # ROLE AND GOAL
@@ -54,6 +60,7 @@ Use this tool when:
 CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
 Parameters:
 - items: (REQUIRED) A list of items to spawn. Each item must have a `name` (English label or DefName) and `count`.
+  * Note: If you don't know the exact `defName`, use the item's English label (e.g., ""Simple Meal""). The system will try to find the best match.
 Usage:
 <spawn_resources>
   <items>
@@ -214,6 +221,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
 
         public override void PostOpen()
         {
+            Instance = this;
             base.PostOpen();
             LoadPortraits();
             StartConversation();
@@ -237,6 +245,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             if (_portraits.ContainsKey(2))
             {
                 this.portrait = _portraits[2];
+                _currentPortraitId = 2;
             }
         }
 
@@ -245,6 +254,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             if (_portraits.ContainsKey(id))
             {
                 this.portrait = _portraits[id];
+                _currentPortraitId = id;
             }
             else
             {
@@ -326,10 +336,10 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 }
 
                 // REWRITTEN: Check for XML tool call format
-                string trimmedResponse = response.Trim();
-                if (trimmedResponse.StartsWith("<") && trimmedResponse.EndsWith(">"))
+                // Use regex to detect if the response contains any XML tags
+                if (Regex.IsMatch(response, @"<[a-zA-Z0-9_]+(?:>.*?</\1>|/>)", RegexOptions.Singleline))
                 {
-                    await HandleXmlToolUsage(trimmedResponse);
+                    await HandleXmlToolUsage(response);
                 }
                 else
                 {
@@ -415,7 +425,21 @@ When the player requests any form of resources, you MUST follow this multi-turn 
 
                 _history.Add(("assistant", xml));
                 _history.Add(("tool", combinedResults.ToString().Trim()));
-                await GenerateResponse(isContinuation: true);
+
+                // Check if there is any text content in the response
+                string textContent = Regex.Replace(xml, @"<[a-zA-Z0-9_]+(?:>.*?</\1>|/>)", "", RegexOptions.Singleline).Trim();
+
+                if (!string.IsNullOrEmpty(textContent))
+                {
+                    // If there is text, we treat it as the final response for this turn.
+                    // We don't recurse. We just update the UI state.
+                    ParseResponse(xml);
+                }
+                else
+                {
+                    // If no text (pure tool call), we recurse to let AI generate a text response based on tool results.
+                    await GenerateResponse(isContinuation: true);
+                }
             }
             catch (Exception ex)
             {
@@ -457,6 +481,14 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 Rect scaledPortraitRect = Dialog_CustomDisplay.Config.GetScaledRect(Dialog_CustomDisplay.Config.portraitSize, inRect, true);
                 Rect portraitRect = new Rect((width - scaledPortraitRect.width) / 2, curY, scaledPortraitRect.width, scaledPortraitRect.height);
                 GUI.DrawTexture(portraitRect, portrait, ScaleMode.ScaleToFit);
+                
+                // DEBUG: Draw portrait ID
+                Text.Font = GameFont.Medium;
+                Text.Anchor = TextAnchor.UpperRight;
+                Widgets.Label(portraitRect, $"ID: {_currentPortraitId}");
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+
                 curY += scaledPortraitRect.height + 10f;
             }
             Text.Font = GameFont.Medium;
@@ -643,6 +675,13 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         {
             _history.Add(("user", text));
             await GenerateResponse();
+        }
+        
+        public override void PostClose()
+        {
+            if (Instance == this) Instance = null;
+            base.PostClose();
+            HandleAction(def.dismissEffects);
         }
     }
 }
