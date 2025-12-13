@@ -444,7 +444,8 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 {
                     // If there is text, we treat it as the final response for this turn.
                     // We don't recurse. We just update the UI state.
-                    ParseResponse(xml);
+                    // We've already added the full 'xml' to history, so tell ParseResponse not to add it again.
+                    ParseResponse(xml, addToHistory: false);
                 }
                 else
                 {
@@ -460,13 +461,16 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             }
         }
 
-        private void ParseResponse(string rawResponse)
+        private void ParseResponse(string rawResponse, bool addToHistory = true)
         {
             _currentResponse = rawResponse;
             var parts = rawResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None);
-            if (_history.Count == 0 || _history.Last().role != "assistant" || _history.Last().message != rawResponse)
+            if (addToHistory)
             {
-                _history.Add(("assistant", rawResponse));
+                if (_history.Count == 0 || _history.Last().role != "assistant" || _history.Last().message != rawResponse)
+                {
+                    _history.Add(("assistant", rawResponse));
+                }
             }
             if (parts.Length > 1)
             {

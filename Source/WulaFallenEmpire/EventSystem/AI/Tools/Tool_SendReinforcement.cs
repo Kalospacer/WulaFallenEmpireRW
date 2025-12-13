@@ -5,6 +5,7 @@ using System.Text;
 using RimWorld;
 using Verse;
 using Verse.AI.Group;
+using WulaFallenEmpire;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
@@ -107,7 +108,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 if (pawnsToSpawn.Count == 0) return "Error: No valid units specified.";
 
                 // Apply Goodwill modifier to points
-                var eventVarManager = Find.World.GetComponent<WulaFallenEmpire.EventVariableManager>();
+                var eventVarManager = Find.World.GetComponent<EventVariableManager>();
                 int goodwill = eventVarManager.GetVariable<int>("Wula_Goodwill_To_PIA", 0);
                 float goodwillFactor = 1.0f;
                 bool hostile = faction.HostileTo(Faction.OfPlayer);
