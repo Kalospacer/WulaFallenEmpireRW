@@ -37,7 +37,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             StringBuilder jsonBuilder = new StringBuilder();
             jsonBuilder.Append("{");
             jsonBuilder.Append($"\"model\": \"{_model}\",");
-            jsonBuilder.Append("\"stream\": false,");
+            jsonBuilder.Append("\"stream\": false,"); // We request non-stream, but handle stream if returned
             jsonBuilder.Append("\"messages\": [");
             
             // System instruction
@@ -108,60 +108,90 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             try
             {
-                // Robust parsing for "content": "..." allowing for whitespace variations
-                int contentIndex = json.IndexOf("\"content\"");
-                if (contentIndex == -1) return null;
-
-                // Find the opening quote after "content"
-                int openQuoteIndex = -1;
-                for (int i = contentIndex + 9; i < json.Length; i++)
+                // Check for stream format (SSE)
+                // SSE lines start with "data: "
+                if (json.TrimStart().StartsWith("data:"))
                 {
-                    if (json[i] == '"')
+                    StringBuilder fullContent = new StringBuilder();
+                    string[] lines = json.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string line in lines)
                     {
-                        openQuoteIndex = i;
-                        break;
+                        string trimmedLine = line.Trim();
+                        if (trimmedLine == "data: [DONE]") continue;
+                        if (trimmedLine.StartsWith("data: "))
+                        {
+                            string dataJson = trimmedLine.Substring(6);
+                            // Extract content from this chunk
+                            string chunkContent = ExtractJsonValue(dataJson, "content");
+                            if (!string.IsNullOrEmpty(chunkContent))
+                            {
+                                fullContent.Append(chunkContent);
+                            }
+                        }
                     }
+                    return fullContent.ToString();
                 }
-                if (openQuoteIndex == -1) return null;
-
-                int startIndex = openQuoteIndex + 1;
-                StringBuilder content = new StringBuilder();
-                bool escaped = false;
-                
-                for (int i = startIndex; i < json.Length; i++)
+                else
                 {
-                    char c = json[i];
-                    if (escaped)
-                    {
-                        if (c == 'n') content.Append('\n');
-                        else if (c == 'r') content.Append('\r');
-                        else if (c == 't') content.Append('\t');
-                        else if (c == '"') content.Append('"');
-                        else if (c == '\\') content.Append('\\');
-                        else content.Append(c); // Literal
-                        escaped = false;
-                    }
-                    else
-                    {
-                        if (c == '\\')
-                        {
-                            escaped = true;
-                        }
-                        else if (c == '"')
-                        {
-                            // End of string
-                            return content.ToString();
-                        }
-                        else
-                        {
-                            content.Append(c);
-                        }
-                    }
+                    // Standard non-stream format
+                    return ExtractJsonValue(json, "content");
                 }
             }
             catch (Exception ex)
             {
                 Log.Error($"[WulaAI] Error parsing response: {ex}");
+            }
+            return null;
+        }
+
+        private string ExtractJsonValue(string json, string key)
+        {
+            // Simple parser to find "key": "value"
+            // This is not a full JSON parser and assumes standard formatting
+            string keyPattern = $"\"{key}\"";
+            int keyIndex = json.IndexOf(keyPattern);
+            if (keyIndex == -1) return null;
+
+            // Find the colon after the key
+            int colonIndex = json.IndexOf(':', keyIndex + keyPattern.Length);
+            if (colonIndex == -1) return null;
+
+            // Find the opening quote of the value
+            int valueStart = json.IndexOf('"', colonIndex);
+            if (valueStart == -1) return null;
+
+            // Extract string with escape handling
+            StringBuilder sb = new StringBuilder();
+            bool escaped = false;
+            for (int i = valueStart + 1; i < json.Length; i++)
+            {
+                char c = json[i];
+                if (escaped)
+                {
+                    if (c == 'n') sb.Append('\n');
+                    else if (c == 'r') sb.Append('\r');
+                    else if (c == 't') sb.Append('\t');
+                    else if (c == '"') sb.Append('"');
+                    else if (c == '\\') sb.Append('\\');
+                    else sb.Append(c); // Literal
+                    escaped = false;
+                }
+                else
+                {
+                    if (c == '\\')
+                    {
+                        escaped = true;
+                    }
+                    else if (c == '"')
+                    {
+                        // End of string
+                        return sb.ToString();
+                    }
+                    else
+                    {
+                        sb.Append(c);
+                    }
+                }
             }
             return null;
         }

@@ -506,7 +506,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     bool isLastMessage = i == filteredHistory.Count - 1;
                     Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
 
-                    viewHeight += Text.CalcHeight(text, rect.width - 16f) + 15f; // Add padding
+                    // Increase padding significantly for Medium font to prevent clipping
+                    float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
+                    viewHeight += Text.CalcHeight(text, rect.width - 16f) + padding;
                 }
                 Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
                 Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
@@ -520,7 +522,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
 
                     bool isLastMessage = i == filteredHistory.Count - 1;
                     Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
-                    float height = Text.CalcHeight(text, viewRect.width) + 10f; // Increased padding
+                    
+                    float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
+                    float height = Text.CalcHeight(text, viewRect.width) + padding;
                     Rect labelRect = new Rect(0f, curY, viewRect.width, height);
                     if (entry.role == "user")
                     {

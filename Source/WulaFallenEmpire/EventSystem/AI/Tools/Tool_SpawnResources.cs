@@ -103,7 +103,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDef.Named("Wula_PIA_Legion_Faction"));
                     if (faction != null)
                     {
-                        Messages.Message("Wula_ResourceDrop".Translate(faction.Name), new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
+                        Messages.Message("Wula_ResourceDrop".Translate(faction.Name.Named("FACTION_name")), new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
                     }
                     
                     resultLog.Length -= 2; // Remove trailing comma
