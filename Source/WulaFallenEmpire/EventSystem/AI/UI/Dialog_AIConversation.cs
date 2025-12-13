@@ -366,46 +366,55 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         {
             try
             {
-                // 1. Extract tool name (the root tag)
-                var toolNameMatch = Regex.Match(xml, @"<([a-zA-Z0-9_]+)");
-                if (!toolNameMatch.Success)
+                // Match all top-level XML tags to support multiple tool calls in one response
+                // Regex: <TagName>...</TagName> or <TagName/>
+                var matches = Regex.Matches(xml, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
+                
+                if (matches.Count == 0)
                 {
                     ParseResponse(xml); // Invalid XML format, treat as conversational
                     return;
                 }
-                string toolName = toolNameMatch.Groups[1].Value;
 
-                // 2. Find the tool
-                var tool = _tools.FirstOrDefault(t => t.Name == toolName);
-                if (tool == null)
+                StringBuilder combinedResults = new StringBuilder();
+
+                foreach (Match match in matches)
                 {
-                    string errorMsg = $"Error: Tool '{toolName}' not found.";
-                    Log.Error($"[WulaAI] {errorMsg}");
-                    _history.Add(("assistant", xml)); // Log what the AI tried to do
-                    _history.Add(("tool", errorMsg));
-                    await GenerateResponse(isContinuation: true);
-                    return;
-                }
+                    string toolCallXml = match.Value;
+                    string toolName = match.Groups[1].Value;
 
-                // 3. Execute the tool directly with the XML string
-                // We need to pass the INNER XML (parameters) to the tool, stripping the root tool tag.
-                // Otherwise, ParseXmlArgs will match the root tag as a parameter.
-                string argsXml = xml;
-                var contentMatch = Regex.Match(xml, $@"<{toolName}>(.*?)</{toolName}>", RegexOptions.Singleline);
-                if (contentMatch.Success)
-                {
-                    argsXml = contentMatch.Groups[1].Value;
-                }
+                    var tool = _tools.FirstOrDefault(t => t.Name == toolName);
+                    if (tool == null)
+                    {
+                        string errorMsg = $"Error: Tool '{toolName}' not found.";
+                        Log.Error($"[WulaAI] {errorMsg}");
+                        combinedResults.AppendLine(errorMsg);
+                        continue;
+                    }
 
-                Log.Message($"[WulaAI] Executing tool: {toolName} with args: {argsXml}");
-                string result = tool.Execute(argsXml).Trim();
-                
-                string toolResultOutput = (toolName == "modify_goodwill")
-                    ? $"Tool '{toolName}' Result (Invisible): {result}"
-                    : $"Tool '{toolName}' Result: {result}";
+                    // Extract inner XML for arguments
+                    string argsXml = toolCallXml;
+                    var contentMatch = Regex.Match(toolCallXml, $@"<{toolName}>(.*?)</{toolName}>", RegexOptions.Singleline);
+                    if (contentMatch.Success)
+                    {
+                        argsXml = contentMatch.Groups[1].Value;
+                    }
+
+                    Log.Message($"[WulaAI] Executing tool: {toolName} with args: {argsXml}");
+                    string result = tool.Execute(argsXml).Trim();
+
+                    if (toolName == "modify_goodwill")
+                    {
+                        combinedResults.AppendLine($"Tool '{toolName}' Result (Invisible): {result}");
+                    }
+                    else
+                    {
+                        combinedResults.AppendLine($"Tool '{toolName}' Result: {result}");
+                    }
+                }
 
                 _history.Add(("assistant", xml));
-                _history.Add(("tool", toolResultOutput));
+                _history.Add(("tool", combinedResults.ToString().Trim()));
                 await GenerateResponse(isContinuation: true);
             }
             catch (Exception ex)
