@@ -1,0 +1,49 @@
+<!-- File 4: WULA_Misc_Hediffs.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Wula_Synth.label>Synth</Wula_Synth.label>
+  <Wula_Synth.description>Synths of the Wula Empire, possessing some characteristics of mechanoids—they are difficult to ignite, immune to common diseases, can self-repair using a nano-system, but require energy to sustain operation.\n\nThey are creations designed by the Wula Empire Royal Mechanist Guild, meticulously replicating the appearance and behavior of their creators. From the birth of the first Wula synth, they have been granted equal human rights—they are not tools, but honorable citizens of the Wula Empire.</Wula_Synth.description>
+
+  <WULA_NanoRepairHediff.label>Nano Repair</WULA_NanoRepairHediff.label>
+  <WULA_NanoRepairHediff.description>Wula Empire mechanoids are integrated with a nano-repair system. As long as they have power, they can continuously repair damage sustained by the mechanoid—the system is designed to activate only after a period without taking damage.\n\nThe Wula Empire's highly developed microscopic bionic technology has successfully made this powerful system commonplace. It can be adapted to almost any Wula Empire mechanoid, even repairing external damage on synths, with extremely low consumption, making the Empire's mechanical forces extraordinarily resilient.</WULA_NanoRepairHediff.description>
+  <WULA_NanoRepairHediff.stages.0.label>Active</WULA_NanoRepairHediff.stages.0.label>
+  <WULA_NanoRepairHediff.stages.1.label>Dormant</WULA_NanoRepairHediff.stages.1.label>
+
+  <WULA_ChargingHediff.label>Energy Overcharge</WULA_ChargingHediff.label>
+  <WULA_ChargingHediff.description>The Wula is continuously absorbing energy from the power core.</WULA_ChargingHediff.description>
+  <WULA_ChargingHediff.stages.0.label>Charging</WULA_ChargingHediff.stages.0.label>
+
+  <WULA_Maintenance_MinorBreakdown.label>Maintenance</WULA_Maintenance_MinorBreakdown.label>
+  <WULA_Maintenance_MinorBreakdown.description>This Wula Empire synth has been active in the harsh rimworld for some time. Although in overall good condition, it has developed minor flaws.</WULA_Maintenance_MinorBreakdown.description>
+  <WULA_Maintenance_MinorBreakdown.stages.0.label>Minor Damage</WULA_Maintenance_MinorBreakdown.stages.0.label>
+
+  <WULA_Maintenance_MajorBreakdown.label>Maintenance</WULA_Maintenance_MajorBreakdown.label>
+  <WULA_Maintenance_MajorBreakdown.description>This Wula Empire synth has gone a while without maintenance and is operating with considerable difficulty.</WULA_Maintenance_MajorBreakdown.description>
+  <WULA_Maintenance_MajorBreakdown.stages.0.label>Damage</WULA_Maintenance_MajorBreakdown.stages.0.label>
+
+  <WULA_Maintenance_CriticalFailuren.label>Maintenance</WULA_Maintenance_CriticalFailuren.label>
+  <WULA_Maintenance_CriticalFailuren.description>This Wula Empire synth is almost inoperative and requires immediate maintenance, or it will become a pile of scrap.</WULA_Maintenance_CriticalFailuren.description>
+  <WULA_Maintenance_CriticalFailuren.stages.0.label>Critical Failure</WULA_Maintenance_CriticalFailuren.stages.0.label>
+
+  <WULA_Shutdown.label>Shutdown</WULA_Shutdown.label>
+  <WULA_Shutdown.description>The mechanical Wula's body energy is completely depleted. All non-core functions are offline, requiring immediate energy replenishment.\n\nIf you need to restart the mechanical Wula, you must build a repair point or synth charging station. A colonist capable of performing medical tasks will bring the incapacitated mechanical Wula to the repair station and use a Wula Empire power core to restart it.</WULA_Shutdown.description>
+  <WULA_Shutdown.stages.0.label>Shutdown</WULA_Shutdown.stages.0.label>
+
+  <WULA_MechCarrierSwitchHediff.label>Production Suppression</WULA_MechCarrierSwitchHediff.label>
+  <WULA_MechCarrierSwitchHediff.description>This unit's automatic production function has been suppressed.</WULA_MechCarrierSwitchHediff.description>
+
+  <WULA_RemoveSwitchHediff.label>Restart Production</WULA_RemoveSwitchHediff.label>
+  <WULA_RemoveSwitchHediff.description>Restart automatic mechanoid production.</WULA_RemoveSwitchHediff.description>
+
+  <WULA_GiveSwitchHediff.label>Stop Production</WULA_GiveSwitchHediff.label>
+  <WULA_GiveSwitchHediff.description>Stop automatic mechanoid production.</WULA_GiveSwitchHediff.description>
+
+  <Mech_WULA_Cat_Cute.label>Wula Cat Nearby</Mech_WULA_Cat_Cute.label>
+  <Mech_WULA_Cat_Cute.description>A Wula cat that everyone loves is nearby, its adorable appearance attracting colonists' attention.</Mech_WULA_Cat_Cute.description>
+
+  <Wula_Holographic_Flag_Hediff.label>Fighting Under the Banner</Wula_Holographic_Flag_Hediff.label>
+  <Wula_Holographic_Flag_Hediff.description>The Emperor watches over me!</Wula_Holographic_Flag_Hediff.description>
+
+  <WULA_Cat_Invisibility.label>Special Ops Cat</WULA_Cat_Invisibility.label>
+  <WULA_Cat_Invisibility.description>This Wula cat has been specially modified and is invisible to the naked eye, only briefly appearing when firing.</WULA_Cat_Invisibility.description>
+</LanguageData>

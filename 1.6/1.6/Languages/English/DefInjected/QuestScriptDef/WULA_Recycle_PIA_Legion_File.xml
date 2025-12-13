@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <WULA_Recycle_PIA_Legion_File.questNameRules.rulesStrings>
+    <li>questName->晋级任务：回收皇家机密</li>
+  </WULA_Recycle_PIA_Legion_File.questNameRules.rulesStrings>
+  <WULA_Recycle_PIA_Legion_File.questDescriptionRules.rulesStrings>
+    <li>questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个特殊的请求，有一个装着皇室机密的保险箱被乌拉帝国的进步派叛军控制了，殖民地必须将其回收，随后将其交回乌拉帝国舰队。如果保险箱已经被打开，就要杀光在场的所有人。\n\n目前叛军很可能在试图打开这个保险箱，你需要检查其哨站内的工作台。大约有&lt;color=#AA3020>&lt;i>10~20个叛军合成人&lt;/i>&lt;/color>被拍摄到，现场同时发现了正在运作的&lt;color=#AA3020>&lt;i>若干炮台&lt;/i>&lt;/color>。\n\n你只有5天的时间处理这个任务，取得保险箱后，你可以建造&lt;color=#6BB7B7>&lt;i>乌拉帝国物资输送舱&lt;/i>&lt;/color>来将保险箱输送到位于轨道上的舰队。</li>
+  </WULA_Recycle_PIA_Legion_File.questDescriptionRules.rulesStrings>
+</LanguageData> 

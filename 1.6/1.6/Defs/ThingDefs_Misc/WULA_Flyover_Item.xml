@@ -46,6 +46,9 @@
     <alwaysHaulable>false</alwaysHaulable>
     <altitudeLayer>MetaOverlays</altitudeLayer>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PlaySoundOnSpawn">
+        <sound>WULA_MotherShip_Planet_Interdiction_IncomingSound</sound>
+      </li>
       <!-- 入场信封信息 -->
       <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
         <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->
@@ -249,6 +252,9 @@
     <alwaysHaulable>false</alwaysHaulable>
     <altitudeLayer>MetaOverlays</altitudeLayer>
     <comps>
+      <li Class="WulaFallenEmpire.CompProperties_PlaySoundOnSpawn">
+        <sound>WULA_MotherShip_Planet_Interdiction_IncomingSound</sound>
+      </li>
       <!-- 入场信封信息 -->
       <li Class="WulaFallenEmpire.CompProperties_SendLetterAfterTicks">
         <ticksDelay>60</ticksDelay> <!-- 2秒后发送 -->

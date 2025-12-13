@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_EnterMaintenancePod.reportString>Entering maintenance pod</WULA_EnterMaintenancePod.reportString>
+  <WULA_IngestWulaEnergy.reportString>Ingesting energy</WULA_IngestWulaEnergy.reportString>
+  <WULA_FeedWulaPatient.reportString>Feeding power core</WULA_FeedWulaPatient.reportString>
+  <WULA_HaulToMaintenancePod.reportString>Carrying TargetA to TargetB</WULA_HaulToMaintenancePod.reportString>
+  <WULA_RecycleMechanoid.reportString>Preparing to enter the cat bunker.</WULA_RecycleMechanoid.reportString>
+  <WULA_InspectBuilding.reportString>Inspecting TargetA.</WULA_InspectBuilding.reportString>
+</LanguageData>

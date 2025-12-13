@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <WULA_Colony_Promotion.questNameRules.rulesStrings>
+    <li>questName->晋级任务：殖民地考察</li>
+  </WULA_Colony_Promotion.questNameRules.rulesStrings>
+  <WULA_Colony_Promotion.questDescriptionRules.rulesStrings>
+    <li>questDescription->殖民地已经承接了视察任务。\n\n行星封锁机关的总控AI已经派遣了自己的一个分体和护卫队抵达殖民地。考察持续12天，她会检查殖民地方方面面的运转情况，你需要确保其心情始终高于25%。考察完成后，她和卫队会搭乘穿梭机离开，如果一切顺利你们将获得殖民地晋升的机会，以解锁更多的许可科技。\n\n小心，附近的敌对派系已经知道了殖民地来了一个大人物，这些劫掠者会尝试袭击殖民地并抓住这个分体，你可能需要面对大量袭击！</li>
+  </WULA_Colony_Promotion.questDescriptionRules.rulesStrings>
+</LanguageData>

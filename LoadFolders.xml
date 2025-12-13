@@ -3,5 +3,6 @@
 		<li>1.6/1.6</li>
 		<li>Content</li>
 		<li IfModActive="Ludeon.RimWorld.Odyssey">1.6/Odyssey</li>
+		<li IfModActive="wvc.sergkart.biotech.MoreMechanoidsWorkModes">1.6/WVC Work Modes</li>
 	</v1.6>
 </loadFolders>

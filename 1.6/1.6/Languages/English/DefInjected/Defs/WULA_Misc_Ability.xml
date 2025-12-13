@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Wula_Mech_Mobile_Factory_Produce Ability -->
+  <Wula_Mech_Mobile_Factory_Produce.label>Produce War Machines</Wula_Mech_Mobile_Factory_Produce.label>
+  <Wula_Mech_Mobile_Factory_Produce.description>Immediately produce 10 CRm-51 "Solder Ants" to quickly organize a melee front line.</Wula_Mech_Mobile_Factory_Produce.description>
+  <!-- Associated Projectile -->
+  <Wula_Mech_Mobile_Factory_Produce_Proj.label>CRm-51 "Solder Ant"</Wula_Mech_Mobile_Factory_Produce_Proj.label>
+
+  <!-- WULA_PsiCrusher Ability -->
+  <WULA_PsiCrusher.label>Wula Empire Technique: Psychic Scream</WULA_PsiCrusher.label>
+  <WULA_PsiCrusher.description>Unleashes an inhuman scream of psychic energy, directly deconstructing all targets within a conical area in front. Whether buildings or living beings, nothing can escape destruction. The amount of psychic energy required for this technique is immeasurable; only a Psychic Titan equipped with numerous closed psychic circuits can use it continuously.</WULA_PsiCrusher.description>
+
+  <!-- WULA_Psi_Skip Ability -->
+  <WULA_Psi_Skip.label>Wula Empire Technique: Psychic Skip</WULA_Psi_Skip.label>
+  <WULA_Psi_Skip.description>Uses psychic power to tear open a one-way channel connecting the self, the psychic realm, and the destination, then traverses the entire channel in an extremely short time to instantly teleport to the target location.</WULA_Psi_Skip.description>
+
+  <!-- WULA_Psi_Black_Hole Ability -->
+  <WULA_Psi_Black_Hole.label>Wula Empire Technique: Void Shadow</WULA_Psi_Black_Hole.label>
+  <WULA_Psi_Black_Hole.description>Tears open a rift in the psychic realm, summoning a Void Shadow at the target location. The immense psychic energy it leaks continuously damages enemy units and buildings within its range and causes items to deteriorate rapidly. Even psychically deaf targets are not fully immune to this surreal damage—it is even more lethal to units with high psychic sensitivity.</WULA_Psi_Black_Hole.description>
+  <!-- Spawned Entity -->
+  <WULA_Black_Hole_Entity.label>Void Shadow</WULA_Black_Hole_Entity.label>
+</LanguageData>

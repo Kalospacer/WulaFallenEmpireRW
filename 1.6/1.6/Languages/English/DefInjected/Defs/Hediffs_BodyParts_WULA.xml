@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Shutdown_Synth.label>Emergency Shutdown</WULA_Shutdown_Synth.label>
+  <WULA_Shutdown_Synth.description>Shut down all systems of this mechanical Wula to avoid potential risks for a period of time. Requires a colonist to assist with the shutdown, and another colonist is needed to power it back on.</WULA_Shutdown_Synth.description>
+  <WULA_Shutdown_Synth.jobString>Emergency shutdown in progress.</WULA_Shutdown_Synth.jobString>
+
+  <WULA_Synth_Power_On.label>Power On</WULA_Synth_Power_On.label>
+  <WULA_Synth_Power_On.description>Restart this synth, restoring its system functions.</WULA_Synth_Power_On.description>
+  <WULA_Synth_Power_On.jobString>Restarting synth.</WULA_Synth_Power_On.jobString>
+  <WULA_Synth_Power_On.successfullyRemovedHediffMessage>{0} successfully restarted {1}.</WULA_Synth_Power_On.successfullyRemovedHediffMessage>
+
+  <WULA_Shutdown_Synth_Hediff.label>Shutdown</WULA_Shutdown_Synth_Hediff.label>
+  <WULA_Shutdown_Synth_Hediff.description>All systems of this mechanical Wula have been shut down.</WULA_Shutdown_Synth_Hediff.description>
+  <WULA_Shutdown_Synth_Hediff.descriptionShort>All systems of this mechanical Wula have been shut down—if awakening is needed, assistance from another colonist is required.</WULA_Shutdown_Synth_Hediff.descriptionShort>
+  <WULA_Shutdown_Synth_Hediff.stages.0.label>Shutdown</WULA_Shutdown_Synth_Hediff.stages.0.label>
+
+  <WULA_AutoJumpdrive.label>Micro Teleporter</WULA_AutoJumpdrive.label>
+  <WULA_AutoJumpdrive.description>A micro jump-drive installed in Wula Empire synth military units, which retrieves the synth when it reaches the designated combat time.</WULA_AutoJumpdrive.description>
+
+  <WULA_AutoJumpdrive_Thing.label>Micro Teleporter</WULA_AutoJumpdrive_Thing.label>
+  <WULA_AutoJumpdrive_Thing.description>A micro jump-drive installed in Wula Empire synth military units, which retrieves the synth when it reaches the designated combat time.</WULA_AutoJumpdrive_Thing.description>
+
+  <Install_WULA_AutoJumpdrive.label>install death acidifier</Install_WULA_AutoJumpdrive.label>
+  <Install_WULA_AutoJumpdrive.description>Install a death acidifier.</Install_WULA_AutoJumpdrive.description>
+  <Install_WULA_AutoJumpdrive.jobString>Installing death acidifier.</Install_WULA_AutoJumpdrive.jobString>
+
+  <WULA_AutoJumpdrive_Week.label>Micro Teleporter</WULA_AutoJumpdrive_Week.label>
+  <WULA_AutoJumpdrive_Week.description>A micro jump-drive installed in Wula Empire synth military units, which retrieves the synth when it reaches the designated combat time.</WULA_AutoJumpdrive_Week.description>
+
+  <Install_WULA_AutoJumpdrive_Week.label>install death acidifier</Install_WULA_AutoJumpdrive_Week.label>
+  <Install_WULA_AutoJumpdrive_Week.description>Install a death acidifier.</Install_WULA_AutoJumpdrive_Week.description>
+  <Install_WULA_AutoJumpdrive_Week.jobString>Installing death acidifier.</Install_WULA_AutoJumpdrive_Week.jobString>
+</LanguageData>

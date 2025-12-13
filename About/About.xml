@@ -38,5 +38,9 @@
     <li>Ludeon.RimWorld.Biotech</li>
     <li>erdelf.HumanoidAlienRaces</li>
     <li>HaiLuan.CustomQuestFramework</li>
+    <li>co.uk.epicguru.meleeanimation</li>
+    <li>Nals.FacialAnimation</li>
+    <li>MemeGoddess.SearchAndDestroy</li>
+    <li>wvc.sergkart.biotech.MoreMechanoidsWorkModes</li>
   </loadAfter>
 </ModMetaData>

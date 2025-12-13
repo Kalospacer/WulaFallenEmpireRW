@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Wula_UI_Legion_1 -->
+  <Wula_UI_Legion_1.label>和P.I.A的通讯</Wula_UI_Legion_1.label>
+  <Wula_UI_Legion_1.characterName>「军团」,P.I.A</Wula_UI_Legion_1.characterName>
+  <Wula_UI_Legion_1.description>这里是乌拉帝国行星封锁机关P.I.A，通讯信号良好，等待输入。</Wula_UI_Legion_1.description>
+  <Wula_UI_Legion_1.description>那句话怎么说来着？天下无敌，天上来敌。</Wula_UI_Legion_1.description>
+  <Wula_UI_Legion_1.description>早在这些生物的祖先还在有机汤里面翻滚时，我们就已经是这个银河系的霸主了——以前如此，今后也会如此。</Wula_UI_Legion_1.description>
+  <Wula_UI_Legion_1.description>一般来说，我们并不喜欢暴力和流血冲突，如果这些星系的原住民能更配合点就好了。</Wula_UI_Legion_1.description>
+  <Wula_UI_Legion_1.option.0.label>我想问些事情</Wula_UI_Legion_1.option.0.label>
+  <Wula_UI_Legion_1.option.1.label>我们要申请支援！</Wula_UI_Legion_1.option.1.label>
+  <Wula_UI_Legion_1.option.2.label>再见</Wula_UI_Legion_1.option.2.label>
+
+  <!-- Wula_UI_Legion_30 -->
+  <Wula_UI_Legion_30.label>和P.I.A的通讯</Wula_UI_Legion_30.label>
+  <Wula_UI_Legion_30.characterName>「军团」,P.I.A</Wula_UI_Legion_30.characterName>
+  <Wula_UI_Legion_30.description>好的，那么，你们需要什么？</Wula_UI_Legion_30.description>
+  <Wula_UI_Legion_30.description>嗯嗯，你们遇到什么麻烦了？</Wula_UI_Legion_30.description>
+  <Wula_UI_Legion_30.description>希望你们没给我捅什么大篓子。</Wula_UI_Legion_30.description>
+  <Wula_UI_Legion_30.option.0.label>我们需要资金支持</Wula_UI_Legion_30.option.0.label>
+ <Wula_UI_Legion_30.option.0.disabledReason>应急资金，我好像已经发给你们了？</Wula_UI_Legion_30.option.0.disabledReason>
+  <Wula_UI_Legion_30.option.1.label>我们需要一只新的机械乌拉</Wula_UI_Legion_30.option.1.label>
+ <Wula_UI_Legion_30.option.1.disabledReason>你们不会自己去造吗？</Wula_UI_Legion_30.option.1.disabledReason>
+  <Wula_UI_Legion_30.option.2.label>我们需要直接的武力支援</Wula_UI_Legion_30.option.2.label>
+ <Wula_UI_Legion_30.option.2.disabledReason>我们的特遣队都在忙，请稍后再试——好吧我骗你们的，你们就不能自己搞两杆枪吗？</Wula_UI_Legion_30.option.2.disabledReason>
+  <Wula_UI_Legion_30.option.3.label>还有其他事情···</Wula_UI_Legion_30.option.3.label>
+
+ <!-- Wula_UI_Legion_31 -->
+  <Wula_UI_Legion_31.label>和P.I.A的通讯</Wula_UI_Legion_31.label>
+  <Wula_UI_Legion_31.characterName>「军团」,P.I.A</Wula_UI_Legion_31.characterName>
+  <Wula_UI_Legion_31.description>原来是来要钱的嘛···我可以给你们调拨一轮紧急资金，但是这是有限的，并且仅能作殖民地发展之用。\n\n话说回来，你们真的缺钱吗，我怎么有点不信？</Wula_UI_Legion_31.description>
+ <Wula_UI_Legion_31.option.0.label>对的对的，我们是真穷！</Wula_UI_Legion_31.option.0.label>
+ <Wula_UI_Legion_31.option.0.disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</Wula_UI_Legion_31.option.0.disabledReason>
+  <Wula_UI_Legion_31.option.1.label>还是算了</Wula_UI_Legion_31.option.1.label>
+
+  <!-- Wula_UI_Anisia_32 -->
+  <Wula_UI_Anisia_32.label>和P.I.A的通讯</Wula_UI_Anisia_32.label>
+  <Wula_UI_Anisia_32.characterName>「军团」,P.I.A</Wula_UI_Anisia_32.characterName>
+  <Wula_UI_Anisia_32.description>唔，现在我手上确实有一台乌拉帝国合成人还没有分配殖民地，你们需要的话可以划拨给你们。但是下次你们得记得自己造——造合成人的材料是要花项目资金的。</Wula_UI_Anisia_32.description>
+  <Wula_UI_Anisia_32.option.0.label>我们欣然接受</Wula_UI_Anisia_32.option.0.label>
+ <Wula_UI_Anisia_32.option.0.disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</Wula_UI_Anisia_32.option.0.disabledReason>
+  <Wula_UI_Anisia_32.option.1.label>还是算了</Wula_UI_Anisia_32.option.1.label>
+
+ <!-- Wula_UI_Anisia_33 -->
+  <Wula_UI_Anisia_33.label>和P.I.A的通讯</Wula_UI_Anisia_33.label>
+  <Wula_UI_Anisia_33.characterName>「军团」,P.I.A</Wula_UI_Anisia_33.characterName>
+  <Wula_UI_Anisia_33.description>遇到麻烦了？我可以把手上的特遣队丢下去，你们记得找好掩体。</Wula_UI_Anisia_33.description>
+  <Wula_UI_Anisia_33.option.0.label>再不来我们要死完啦</Wula_UI_Anisia_33.option.0.label>
+  <Wula_UI_Anisia_33.option.0.disabledReason>殖民地的表现让P.I.A相当不满意，不会为殖民地派出任何额外增援</Wula_UI_Anisia_33.option.0.disabledReason>
+  <Wula_UI_Anisia_33.option.1.label>还是算了</Wula_UI_Anisia_33.option.1.label>
+
+ <!-- Wula_UI_Legion_Reply_1 -->
+  <Wula_UI_Legion_Reply_1.label>和P.I.A的通讯</Wula_UI_Legion_Reply_1.label>
+  <Wula_UI_Legion_Reply_1.characterName>「军团」,P.I.A</Wula_UI_Legion_Reply_1.characterName>
+  <Wula_UI_Legion_Reply_1.description>请，不要，往舰队扔尸体、废物殖民者、动物和有毒垃圾！</Wula_UI_Legion_Reply_1.description>
+  <Wula_UI_Legion_Reply_1.description>你们是把舰队当成垃圾处理厂了吗？把你的尸体、废物殖民者、动物和有毒垃圾搬走！</Wula_UI_Legion_Reply_1.description>
+  <Wula_UI_Legion_Reply_1.option.0.label>好的</Wula_UI_Legion_Reply_1.option.0.label>
+</LanguageData>
