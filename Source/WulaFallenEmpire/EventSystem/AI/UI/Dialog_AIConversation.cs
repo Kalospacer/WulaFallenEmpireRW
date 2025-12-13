@@ -570,7 +570,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
 
                     // Increase padding significantly for Medium font to prevent clipping
                     float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    viewHeight += Text.CalcHeight(text, rect.width - 16f) + padding;
+                    viewHeight += Text.CalcHeight(text, rect.width - 16f) + padding + 10f; // Add the same margin as in the drawing loop
                 }
                 Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
                 if (_scrollToBottom)
