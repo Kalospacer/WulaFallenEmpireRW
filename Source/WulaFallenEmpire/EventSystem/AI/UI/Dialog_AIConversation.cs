@@ -436,7 +436,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 }
 
                 _history.Add(("assistant", xml));
-                _history.Add(("tool", combinedResults.ToString().Trim()));
+                // Use role "user" for tool results to avoid API errors about tool_calls format.
+                // This is safe and won't break AI logic, as the AI still sees the result clearly.
+                _history.Add(("user", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
 
                 // Check if there is any text content in the response
                 string textContent = Regex.Replace(xml, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", "", RegexOptions.Singleline).Trim();
@@ -539,12 +541,17 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             curY += optionsHeight + 10f;
             Rect inputRect = new Rect(inRect.x, inRect.yMax - inputHeight, width, inputHeight);
             _inputText = Widgets.TextField(new Rect(inputRect.x, inputRect.y, inputRect.width - 85, inputHeight), _inputText);
-            if (Widgets.ButtonText(new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight), "Wula_AI_Send".Translate()))
+            
+            bool sendButtonPressed = Widgets.ButtonText(new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight), "Wula_AI_Send".Translate());
+            bool enterKeyPressed = Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter);
+
+            if ((sendButtonPressed || enterKeyPressed) && !string.IsNullOrEmpty(_inputText))
             {
-                if (!string.IsNullOrEmpty(_inputText))
+                SelectOption(_inputText);
+                _inputText = "";
+                if (enterKeyPressed)
                 {
-                    SelectOption(_inputText);
-                    _inputText = "";
+                    Event.current.Use();
                 }
             }
         }
@@ -563,7 +570,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     var entry = filteredHistory[i];
                     string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
 
-                    if (string.IsNullOrEmpty(text)) continue;
+                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
 
                     bool isLastMessage = i == filteredHistory.Count - 1;
                     Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
@@ -585,7 +592,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     var entry = filteredHistory[i];
                     string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
                     
-                    if (string.IsNullOrEmpty(text)) continue;
+                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
 
                     bool isLastMessage = i == filteredHistory.Count - 1;
                     Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
