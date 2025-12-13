@@ -16,31 +16,34 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                                               "If goodwill is low (< 0), give significantly less than asked or refuse. " +
                                               "If goodwill is high (> 50), you may give what is asked or slightly more. " +
                                               "Otherwise, give a moderate amount.";
-        public override string UsageSchema => "{\"request\": \"string (e.g., '5 beef, 10 medicine')\"}";
+        public override string UsageSchema => "<spawn_resources><request>string describing items</request></spawn_resources>";
 
         public override string Execute(string args)
         {
             try
             {
-                // Parse args: {"request": "..."}
+                var parsedArgs = ParseXmlArgs(args);
                 string request = "";
-                try
+                
+                if (parsedArgs.TryGetValue("request", out string req))
                 {
-                    var parsed = SimpleJsonParser.Parse(args);
-                    if (parsed.TryGetValue("request", out string req))
-                    {
-                        request = req;
-                    }
+                    request = req;
                 }
-                catch
+                else
                 {
-                    // Fallback for non-json args
-                    request = args.Trim('"');
+                    // Fallback: try to treat the whole args as the request if parsing failed or format is weird
+                    // But with strict XML, this shouldn't happen often.
+                    // Let's just log a warning or return error.
+                    // Actually, for robustness, if the args doesn't contain tags, maybe it's raw text?
+                    if (!args.Trim().StartsWith("<"))
+                    {
+                        request = args;
+                    }
                 }
 
                 if (string.IsNullOrEmpty(request))
                 {
-                    return "Error: Empty request.";
+                    return "Error: Empty request. Usage: <spawn_resources><request>...</request></spawn_resources>";
                 }
 
                 var items = ThingDefSearcher.ParseAndSearch(request);

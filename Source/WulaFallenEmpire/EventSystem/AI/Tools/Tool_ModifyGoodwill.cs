@@ -8,22 +8,32 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "modify_goodwill";
         public override string Description => "Adjusts your goodwill towards the player. Use this to reflect your changing opinion based on the conversation. Positive values increase goodwill, negative values decrease it. Keep changes small (e.g., -5 to 5). THIS IS INVISIBLE TO THE PLAYER.";
-        public override string UsageSchema => "{\"amount\": \"int\"}";
+        public override string UsageSchema => "<modify_goodwill><amount>integer</amount></modify_goodwill>";
 
         public override string Execute(string args)
         {
             try
             {
-                var cleanArgs = args.Trim('{', '}').Replace("\"", "");
-                var parts = cleanArgs.Split(':');
+                var parsedArgs = ParseXmlArgs(args);
                 int amount = 0;
-                
-                foreach (var part in parts)
+
+                if (parsedArgs.TryGetValue("amount", out string amountStr))
                 {
-                    if (int.TryParse(part.Trim(), out int val))
+                    if (!int.TryParse(amountStr, out amount))
+                    {
+                        return $"Error: Invalid amount '{amountStr}'. Must be an integer.";
+                    }
+                }
+                else
+                {
+                    // Fallback for simple number string
+                    if (int.TryParse(args.Trim(), out int val))
                     {
                         amount = val;
-                        break;
+                    }
+                    else
+                    {
+                        return "Error: Missing <amount> parameter.";
                     }
                 }
 

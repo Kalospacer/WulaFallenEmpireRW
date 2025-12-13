@@ -12,7 +12,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "get_map_resources";
         public override string Description => "Checks the player's map for specific resources or buildings. Use this to verify if the player is truly lacking something they requested (e.g., 'we need steel'). Returns inventory count and mineable deposits.";
-        public override string UsageSchema => "{\"resourceName\": \"string (optional, e.g., 'Steel')\"}";
+        public override string UsageSchema => "<get_map_resources><resourceName>string (optional, e.g., 'Steel')</resourceName></get_map_resources>";
 
         public override string Execute(string args)
         {
@@ -22,11 +22,18 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 if (map == null) return "Error: No active map.";
 
                 string resourceName = "";
-                var cleanArgs = args.Trim('{', '}').Replace("\"", "");
-                var parts = cleanArgs.Split(':');
-                if (parts.Length >= 2)
+                var parsedArgs = ParseXmlArgs(args);
+                if (parsedArgs.TryGetValue("resourceName", out string resName))
                 {
-                    resourceName = parts[1].Trim();
+                    resourceName = resName;
+                }
+                else
+                {
+                    // Fallback
+                    if (!args.Trim().StartsWith("<"))
+                    {
+                        resourceName = args;
+                    }
                 }
 
                 StringBuilder sb = new StringBuilder();
@@ -80,9 +87,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     
                     // Key resources
                     var keyResources = new[] { "Steel", "WoodLog", "ComponentIndustrial", "MedicineIndustrial", "MealSimple" };
-                    foreach (var resName in keyResources)
+                    foreach (var keyResName in keyResources)
                     {
-                        ThingDef def = DefDatabase<ThingDef>.GetNamed(resName, false);
+                        ThingDef def = DefDatabase<ThingDef>.GetNamed(keyResName, false);
                         if (def != null)
                         {
                             int count = map.resourceCounter.GetCount(def);

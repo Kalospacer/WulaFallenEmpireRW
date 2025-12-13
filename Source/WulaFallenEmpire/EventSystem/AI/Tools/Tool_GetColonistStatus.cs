@@ -11,7 +11,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "get_colonist_status";
         public override string Description => "Returns detailed status of colonists. Can be filtered to find the colonist in the worst condition (e.g., lowest mood, most injured). This helps the AI understand the colony's state without needing to know specific names.";
-        public override string UsageSchema => "{'filter': 'string (optional, can be 'lowest_mood', 'most_injured', 'hungriest', 'most_tired')'}";
+        public override string UsageSchema => "<get_colonist_status><filter>string (optional, can be 'lowest_mood', 'most_injured', 'hungriest', 'most_tired')</filter></get_colonist_status>";
 
         public override string Execute(string args)
         {
@@ -20,8 +20,8 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 string filter = null;
                 if (!string.IsNullOrEmpty(args))
                 {
-                    var json = SimpleJsonParser.Parse(args);
-                    if (json != null && json.TryGetValue("filter", out var filterObj) && filterObj is string filterStr)
+                    var parsedArgs = ParseXmlArgs(args);
+                    if (parsedArgs.TryGetValue("filter", out string filterStr))
                     {
                         filter = filterStr.ToLower();
                     }

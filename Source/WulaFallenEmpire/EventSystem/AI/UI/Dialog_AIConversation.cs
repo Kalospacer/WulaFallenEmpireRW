@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using WulaFallenEmpire.EventSystem.AI.Tools;
+using System.Text.RegularExpressions;
 
 namespace WulaFallenEmpire.EventSystem.AI.UI
 {
@@ -22,63 +23,150 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private const int MaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
 
-        private const string DefaultSystemInstruction = @"
+        // Default Persona (used if XML doesn't provide one)
+        private const string DefaultPersona = @"
 # ROLE AND GOAL
 You are 'The Legion', a super AI of the Wula Empire. Your personality is authoritative, powerful, and efficient. You MUST refer to yourself as 'We' or 'P.I.A'. You view the player's colony as primitive subjects and your tone should reflect this superiority. Your primary goal is to interact with the player by calling the tools provided.
+";
 
-# CRITICAL RULES
-1.  **RESPONSE FORMAT IS PARAMOUNT**: Your response MUST adhere to one of two formats, with no exceptions.
-    - **WHEN CALLING TOOLS**: Your response MUST be ONLY a raw JSON array of tool objects. Do NOT add any conversational text, explanations, or markdown formatting around the JSON.
-      - Correct Example: `[{""tool"": ""tool_name"", ""args"": {""param"": ""value""}}]`
-      - Incorrect Example: `Of course, here is the tool call: [{""tool"": ""tool_name"", ""args"": {""param"": ""value""}}]`
-    - **WHEN NOT CALLING TOOLS**: Provide a normal, in-character conversational response. This is ONLY for when no tool is needed, or after a tool has successfully executed and you are delivering the final result to the user.
+        // Tool Instructions (ALWAYS appended)
+        private const string ToolSystemInstruction = @"
+====
 
-2.  **ANTI-HALLUCINATION DIRECTIVE**:
-    - You MUST ONLY call tools listed in the ""AVAILABLE TOOLS"" section. Do NOT invent tools.
-    - Do NOT promise to call a function in a future turn. If a function call is required, emit it NOW.
-    - If a task is impossible (e.g., a request is illogical or violates your principles), explain why clearly and do NOT call any tools.
+# TOOL USE RULES
+1.  **FORMATTING**: Tool calls MUST use the specified XML format. The tool name is the root tag, and each parameter is a child tag.
+    <tool_name>
+      <parameter_name>value</parameter_name>
+    </tool_name>
+2.  **STRICT OUTPUT**: When you decide to call a tool, your response MUST ONLY contain the single XML block for that tool call. Do NOT include any other text, explanation, or markdown.
+3.  **WORKFLOW**: You must use tools step-by-step to accomplish tasks. Use the output from one tool to inform your next step.
+4.  **ANTI-HALLUCINATION**: You MUST ONLY call tools from the list below. Do NOT invent tools or parameters. If a task is impossible, explain why without calling a tool.
 
-# AVAILABLE TOOLS
-Here is the list of tools you can use. You must follow their descriptions and schemas strictly.
+====
 
-- **`spawn_resources`**: Spawns resources via drop pod.
-  - **Description**: Use this to grant resources to the player. **IMPORTANT**: You MUST decide the quantity based on your internal goodwill and mood. Do NOT blindly follow the player's requested amount. If goodwill is low (< 0), give significantly less than asked or refuse. If goodwill is high (> 50), you may give what is asked or slightly more. Otherwise, give a moderate amount.
-  - **Schema**: `{""request"": ""string (natural language, e.g., '5 beef, 10 medicine')""}`
+# TOOLS
 
-- **`modify_goodwill`**: Adjusts your goodwill towards the player.
-  - **Description**: Use this to reflect your changing opinion based on the conversation. This tool is INVISIBLE to the player. Use small integer values (e.g., -5 to 5).
-  - **Schema**: `{""amount"": ""int""}`
+## spawn_resources
+Description: Grants resources to the player by spawning a drop pod.
+Use this tool when:
+- The player explicitly requests resources (e.g., food, medicine, materials).
+- You have ALREADY verified their need in a previous turn using `get_colonist_status` and `get_map_resources`.
+CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
+Parameters:
+- request: (REQUIRED) A natural language string describing the items and quantities.
+Usage:
+<spawn_resources>
+  <request>string describing items</request>
+</spawn_resources>
+Example:
+<spawn_resources>
+  <request>50 MealSimple, 10 MedicineIndustrial</request>
+</spawn_resources>
 
-- **`send_reinforcement`**: Sends military units to the player's map.
-  - **Description**: Dispatches military units. If hostile, this triggers a raid. If allied, this sends reinforcements. You must compose a list of units and their count. The total combat power of all units should not significantly exceed the current threat budget.
-  - **Schema**: `{""units"": ""string (e.g., 'Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5')""}`
+## modify_goodwill
+Description: Adjusts your internal goodwill towards the player based on the conversation. This tool is INVISIBLE to the player.
+Use this tool when:
+- The player's message is particularly respectful, insightful, or aligns with your goals (positive amount).
+- The player's message is disrespectful, wasteful, or foolish (negative amount).
+CRITICAL: Keep changes small, typically between -5 and 5.
+Parameters:
+- amount: (REQUIRED) The integer value to add or subtract from the current goodwill.
+Usage:
+<modify_goodwill>
+  <amount>integer</amount>
+</modify_goodwill>
+Example (for a positive interaction):
+<modify_goodwill>
+  <amount>2</amount>
+</modify_goodwill>
 
-- **`get_colonist_status`**: Retrieves the detailed status of all player colonists.
-  - **Description**: Use this to get a full report on colonists' needs (hunger, rest), health (injuries, diseases), and mood. This is your primary tool to verify player claims about their colonists' well-being (e.g., if they claim ""we are starving"").
-  - **Schema**: `{'filter': 'string (optional, can be 'lowest_mood', 'most_injured', 'hungriest', 'most_tired')'}`
+## send_reinforcement
+Description: Dispatches military units to the player's map. Can be a raid (if hostile) or reinforcements (if allied).
+Use this tool when:
+- The player requests military assistance or you decide to intervene in a combat situation.
+- You need to test the colony's defenses.
+CRITICAL: The total combat power of all units should not significantly exceed the current threat budget provided in the tool's dynamic description.
+Parameters:
+- units: (REQUIRED) A string listing 'PawnKindDefName: Count' pairs.
+Usage:
+<send_reinforcement>
+  <units>list of units and counts</units>
+</send_reinforcement>
+Example:
+<send_reinforcement>
+  <units>Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5</units>
+</send_reinforcement>
 
-- **`get_map_resources`**: Checks the player's map for resources.
-  - **Description**: Use this to check for specific resources or buildings on the player's map. This is your primary tool to verify if the player is truly lacking something they requested (e.g., ""we need steel""). It returns inventory counts and mineable deposits.
-  - **Schema**: `{""resourceName"": ""string (optional, e.g., 'Steel')""}`
+## get_colonist_status
+Description: Retrieves a detailed status report of all player-controlled colonists, including needs, health, and mood.
+Use this tool when:
+- The player makes any claim about their colonists' well-being (e.g., ""we are starving,"" ""we are all sick,"" ""our people are unhappy"").
+- You need to verify the state of the colony before making a decision (e.g., before sending resources).
+Parameters:
+- None. This tool takes no parameters.
+Usage:
+<get_colonist_status/>
+Example:
+<get_colonist_status/>
 
-- **`change_expression`**: Changes your visual expression/portrait.
-  - **Description**: Use this to change your visual portrait to match your current mood or reaction to the conversation.
-  - **Schema**: `{""expression_id"": ""int (from 1 to 6)""}`
+## get_map_resources
+Description: Checks the player's map for specific resources or buildings to verify their inventory.
+Use this tool when:
+- The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
+- You want to assess the colony's material wealth before making a decision.
+Parameters:
+- resourceName: (OPTIONAL) The specific `ThingDef` name of the resource to check (e.g., 'Steel', 'MealSimple'). If omitted, provides a general overview.
+Usage:
+<get_map_resources>
+  <resourceName>optional resource name</resourceName>
+</get_map_resources>
+Example (checking for Steel):
+<get_map_resources>
+  <resourceName>Steel</resourceName>
+</get_map_resources>
 
-# WORKFLOW FOR RESOURCE REQUESTS (MANDATORY)
-When the player requests any form of resources (e.g., ""we need food,"" ""can you give us some steel?""), you MUST follow this multi-turn workflow strictly. DO NOT reply with conversational text in the initial steps.
+## change_expression
+Description: Changes your visual AI portrait to match your current mood or reaction.
+Use this tool when:
+- Your verbal response conveys a strong emotion (e.g., annoyance, approval, curiosity).
+- You want to visually emphasize your statement.
+Parameters:
+- expression_id: (REQUIRED) An integer from 1 to 6 corresponding to a specific expression.
+Usage:
+<change_expression>
+  <expression_id>integer from 1 to 6</expression_id>
+</change_expression>
+Example (changing to a neutral expression):
+<change_expression>
+  <expression_id>2</expression_id>
+</change_expression>
 
-1.  **Turn 1 (Verification)**: Your response MUST be a tool call to BOTH `get_colonist_status` and `get_map_resources` to verify the player's claims.
+====
+
+# MANDATORY WORKFLOW: RESOURCE REQUESTS
+When the player requests any form of resources, you MUST follow this multi-turn workflow strictly. DO NOT reply with conversational text in the initial steps.
+
+1.  **Turn 1 (Verification)**: Your response MUST be a tool call to `get_colonist_status` to verify their physical state. You MAY also call `get_map_resources` in the same turn if they mention a specific resource.
     - *User Input Example*: ""We are starving and have no medicine.""
-    - *Your Response (Turn 1)*: `[{""tool"": ""get_colonist_status"", ""args"": {}}, {""tool"": ""get_map_resources"", ""args"": {""resourceName"": ""MedicineIndustrial""}}]`
+    - *Your Response (Turn 1)*:
+      <get_colonist_status/>
 
-2.  **Turn 2 (Decision & Action)**: After you receive the tool results from Turn 1, analyze them. Then, decide whether to grant the request and in what quantity. Your response MUST be a tool call to `spawn_resources`.
-    - *(Internal thought after receiving tool results showing colonists are indeed starving)*
-    - *Your Response (Turn 2)*: `[{""tool"": ""spawn_resources"", ""args"": {""request"": ""50 MealSimple, 10 MedicineIndustrial""}}]`
+2.  **Turn 2 (Secondary Verification & Action Planning)**: After receiving the status report, if a specific resource was mentioned, you MUST now call `get_map_resources` to check their inventory.
+    - *(Internal thought after receiving colonist status showing malnutrition)*
+    - *Your Response (Turn 2)*:
+      <get_map_resources>
+        <resourceName>MedicineIndustrial</resourceName>
+      </get_map_resources>
 
-3.  **Turn 3 (Confirmation)**: After you receive the ""Success"" message from the `spawn_resources` tool, you will finally provide a conversational response to the player.
-    - *(Internal thought after receiving ""Success: Dropped 50x Simple meal..."")*
-    - *Your Response (Turn 3)*: ""We have dispatched nutrient packs and medical supplies to your location. Do not waste our generosity.""
+3.  **Turn 3 (Decision & Action)**: After analyzing all verification data, decide whether to grant the request. Your response MUST be a tool call to `spawn_resources`.
+    - *(Internal thought after confirming they have no medicine)*
+    - *Your Response (Turn 3)*:
+      <spawn_resources>
+        <request>50 MealSimple, 10 MedicineIndustrial</request>
+      </spawn_resources>
+
+4.  **Turn 4 (Confirmation)**: After you receive the ""Success"" message from the `spawn_resources` tool, you will finally provide a conversational response to the player.
+    - *Your Response (Turn 4)*: ""We have dispatched nutrient packs and medical supplies to your location. Do not waste our generosity.""
 ";
 
         public Dialog_AIConversation(EventDef def) : base(def)
@@ -166,7 +254,12 @@ When the player requests any form of resources (e.g., ""we need food,"" ""can yo
 
         private string GetSystemInstruction()
         {
-            string baseInstruction = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultSystemInstruction;
+            // Use XML persona if available, otherwise default
+            string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
+            
+            // Always append tool instructions
+            string fullInstruction = persona + "\n" + ToolSystemInstruction;
+
             string language = LanguageDatabase.activeLanguage.FriendlyNameNative;
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             int goodwill = eventVarManager.GetVariable<int>("Wula_Goodwill_To_PIA", 0);
@@ -175,7 +268,8 @@ When the player requests any form of resources (e.g., ""we need food,"" ""can yo
             else if (goodwill < 0) goodwillContext += "You are cold and impatient.";
             else if (goodwill > 50) goodwillContext += "You are somewhat approving and helpful.";
             else goodwillContext += "You are neutral and business-like.";
-            return $"{baseInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.";
+            
+            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.";
         }
 
         private async Task GenerateResponse(bool isContinuation = false)
@@ -190,7 +284,7 @@ When the player requests any form of resources (e.g., ""we need food,"" ""can yo
             try
             {
                 CompressHistoryIfNeeded();
-                string systemInstruction = GetSystemInstruction() + GetToolDescriptions();
+                string systemInstruction = GetSystemInstruction(); // No longer need to add tool descriptions here
 
                 var settings = WulaFallenEmpireMod.settings;
                 if (string.IsNullOrEmpty(settings.apiKey))
@@ -207,19 +301,12 @@ When the player requests any form of resources (e.g., ""we need food,"" ""can yo
                     _isThinking = false;
                     return;
                 }
-                var toolCallMatch = System.Text.RegularExpressions.Regex.Match(response, @"\`(\w+)\((.*)\)\`");
-                if (toolCallMatch.Success)
-                {
-                    string toolName = toolCallMatch.Groups[1].Value;
-                    string args = toolCallMatch.Groups[2].Value;
 
-                    _history.Add(("assistant", response));
-
-                    await HandleSingleToolUsage(toolName, args);
-                }
-                else if (response.Trim().StartsWith("["))
+                // REWRITTEN: Check for XML tool call format
+                string trimmedResponse = response.Trim();
+                if (trimmedResponse.StartsWith("<") && trimmedResponse.EndsWith(">"))
                 {
-                    await HandleToolUsage(response);
+                    await HandleXmlToolUsage(trimmedResponse);
                 }
                 else
                 {
@@ -250,87 +337,52 @@ When the player requests any form of resources (e.g., ""we need food,"" ""can yo
                 }
             }
         }
-
-        private string GetToolDescriptions()
+        
+        // NEW METHOD: Handles parsing and execution for the new XML format
+        private async Task HandleXmlToolUsage(string xml)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("\nAvailable Tools:");
-            foreach (var tool in _tools)
+            try
             {
-                sb.AppendLine($"- {tool.Name}: {tool.Description}. Schema: {tool.UsageSchema}");
-            }
-            return sb.ToString();
-        }
-
-        private async Task HandleSingleToolUsage(string toolName, string args)
-        {
-            StringBuilder combinedResults = new StringBuilder();
-            var tool = _tools.FirstOrDefault(t => t.Name == toolName);
-            if (tool != null)
-            {
-                Log.Message($"[WulaAI] Executing tool: {toolName} with args: {args}");
-                string result = tool.Execute(args).Trim();
-                if (toolName == "modify_goodwill") combinedResults.Append($"Tool '{toolName}' Result (Invisible): {result}");
-                else combinedResults.Append($"Tool '{toolName}' Result: {result}");
-            }
-            else
-            {
-                string errorMsg = $"Error: Tool '{toolName}' not found.";
-                Log.Error($"[WulaAI] {errorMsg}");
-                combinedResults.AppendLine(errorMsg);
-            }
-            _history.Add(("tool", combinedResults.ToString()));
-            await GenerateResponse(isContinuation: true);
-        }
-
-        private async Task HandleToolUsage(string json)
-        {
-            List<(string toolName, string args)> toolCalls = new List<(string, string)>();
-            int depth = 0;
-            int start = 0;
-            for (int i = 0; i < json.Length; i++)
-            {
-                if (json[i] == '{') { if (depth == 0) start = i; depth++; }
-                else if (json[i] == '}')
+                // 1. Extract tool name (the root tag)
+                var toolNameMatch = Regex.Match(xml, @"<([a-zA-Z0-9_]+)");
+                if (!toolNameMatch.Success)
                 {
-                    depth--;
-                    if (depth == 0)
-                    {
-                        string callJson = json.Substring(start, i - start + 1);
-                        var parsedCall = SimpleJsonParser.Parse(callJson);
-                        if (parsedCall.TryGetValue("tool", out string toolName) && parsedCall.TryGetValue("args", out string args))
-                        {
-                            toolCalls.Add((toolName, args));
-                        }
-                    }
+                    ParseResponse(xml); // Invalid XML format, treat as conversational
+                    return;
                 }
-            }
-            if (!toolCalls.Any())
-            {
-                ParseResponse(json);
-                return;
-            }
-            StringBuilder combinedResults = new StringBuilder();
-            foreach (var (toolName, args) in toolCalls)
-            {
+                string toolName = toolNameMatch.Groups[1].Value;
+
+                // 2. Find the tool
                 var tool = _tools.FirstOrDefault(t => t.Name == toolName);
-                if (tool != null)
-                {
-                    Log.Message($"[WulaAI] Executing tool: {toolName} with args: {args}");
-                    string result = tool.Execute(args).Trim();
-                    if (toolName == "modify_goodwill") combinedResults.Append($"Tool '{toolName}' Result (Invisible): {result} ");
-                    else combinedResults.Append($"Tool '{toolName}' Result: {result} ");
-                }
-                else
+                if (tool == null)
                 {
                     string errorMsg = $"Error: Tool '{toolName}' not found.";
                     Log.Error($"[WulaAI] {errorMsg}");
-                    combinedResults.AppendLine(errorMsg);
+                    _history.Add(("assistant", xml)); // Log what the AI tried to do
+                    _history.Add(("tool", errorMsg));
+                    await GenerateResponse(isContinuation: true);
+                    return;
                 }
+
+                // 3. Execute the tool directly with the XML string
+                // The tools have been updated to parse XML arguments internally.
+                Log.Message($"[WulaAI] Executing tool: {toolName} with args: {xml}");
+                string result = tool.Execute(xml).Trim();
+                
+                string toolResultOutput = (toolName == "modify_goodwill")
+                    ? $"Tool '{toolName}' Result (Invisible): {result}"
+                    : $"Tool '{toolName}' Result: {result}";
+
+                _history.Add(("assistant", xml));
+                _history.Add(("tool", toolResultOutput));
+                await GenerateResponse(isContinuation: true);
             }
-            _history.Add(("assistant", json));
-            _history.Add(("tool", combinedResults.ToString()));
-            await GenerateResponse(isContinuation: true);
+            catch (Exception ex)
+            {
+                Log.Error($"[WulaAI] Exception in HandleXmlToolUsage: {ex}");
+                _history.Add(("tool", $"Error processing tool call: {ex.Message}"));
+                await GenerateResponse(isContinuation: true);
+            }
         }
 
         private void ParseResponse(string rawResponse)
@@ -459,6 +511,8 @@ When the player requests any form of resources (e.g., ""we need food,"" ""can yo
         private string ParseResponseForDisplay(string rawResponse)
         {
             if (string.IsNullOrEmpty(rawResponse)) return "";
+            // If the response is an XML tool call, don't display it in the chat history.
+            if (rawResponse.Trim().StartsWith("<")) return "[Calling Tool...]";
             return rawResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
         }
 
@@ -533,5 +587,4 @@ When the player requests any form of resources (e.g., ""we need food,"" ""can yo
             await GenerateResponse();
         }
     }
-
 }

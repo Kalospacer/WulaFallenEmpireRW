@@ -55,7 +55,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             }
         }
 
-        public override string UsageSchema => "{\"units\": \"string (e.g., 'Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5')\"}";
+        public override string UsageSchema => "<send_reinforcement><units>string (e.g., 'Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5')</units></send_reinforcement>";
 
         public override string Execute(string args)
         {
@@ -68,67 +68,26 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 if (faction == null) return "Error: Faction Wula_PIA_Legion_Faction not found.";
 
                 // Parse args
-                var cleanArgs = args.Trim('{', '}').Replace("\"", "");
-                var parts = cleanArgs.Split(':');
+                var parsedArgs = ParseXmlArgs(args);
                 string unitString = "";
-                if (parts.Length >= 2 && parts[0].Trim() == "units")
+                
+                if (parsedArgs.TryGetValue("units", out string units))
                 {
-                    unitString = args.Substring(args.IndexOf(':') + 1).Trim('"', ' ', '}');
+                    unitString = units;
                 }
                 else
                 {
-                    unitString = cleanArgs;
+                    // Fallback
+                    if (!args.Trim().StartsWith("<"))
+                    {
+                        unitString = args;
+                    }
                 }
 
                 var unitPairs = unitString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 
-                // Build dynamic PawnGroupMaker
-                PawnGroupMaker groupMaker = new PawnGroupMaker();
-                groupMaker.kindDef = PawnGroupKindDefOf.Combat;
-                groupMaker.options = new List<PawnGenOption>();
-                
-                float totalCost = 0;
-
-                foreach (var pair in unitPairs)
-                {
-                    var kv = pair.Split(':');
-                    if (kv.Length != 2) continue;
-
-                    string defName = kv[0].Trim();
-                    if (!int.TryParse(kv[1].Trim(), out int count)) continue;
-
-                    PawnKindDef kind = DefDatabase<PawnKindDef>.GetNamed(defName, false);
-                    if (kind == null) return $"Error: PawnKind '{defName}' not found.";
-
-                    // Add to group maker options
-                    // We use selectionWeight 1 and count as cost? No, PawnGroupMaker uses points.
-                    // But here we want exact counts.
-                    // Standard PawnGroupMaker generates based on points.
-                    // If we want EXACT counts, we should just generate them manually or use a custom logic.
-                    // But user asked to use PawnGroupMaker dynamically.
-                    // Actually, Effect_TriggerRaid uses PawnGroupMaker to generate pawns based on points.
-                    // If we want exact counts, we can't easily use standard PawnGroupMaker logic which is probabilistic/points-based.
-                    // However, we can simulate it by creating a list of pawns manually, which is what I did before.
-                    // But user said "You should dynamically generate pawngroupmaker similar to Effect_TriggerRaid".
-                    // Effect_TriggerRaid uses existing PawnGroupMakers from XML or generates based on points.
-                    
-                    // Let's stick to manual generation but wrapped in a way that respects the user's request for "dynamic composition".
-                    // Actually, if the user wants AI to decide composition based on points, AI should just give us the list.
-                    // If AI gives list, we generate list.
-                    
-                    // Let's use the manual generation approach but ensure we use the correct raid logic.
-                    for (int i = 0; i < count; i++)
-                    {
-                        Pawn p = PawnGenerator.GeneratePawn(new PawnGenerationRequest(kind, faction, PawnGenerationContext.NonPlayer, -1, true));
-                        totalCost += kind.combatPower;
-                        // We can't easily add to a "group maker" to generate exact counts without hacking it.
-                        // So we will just collect the pawns.
-                    }
-                }
-                
-                // Re-parsing to get the list of pawns (I can't use the loop above directly because I need to validate points first)
                 List<Pawn> pawnsToSpawn = new List<Pawn>();
-                totalCost = 0;
+                float totalCost = 0;
                 foreach (var pair in unitPairs)
                 {
                     var kv = pair.Split(':');

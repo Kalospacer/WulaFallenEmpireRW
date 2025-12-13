@@ -8,25 +8,31 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "change_expression";
         public override string Description => "Changes your visual expression/portrait to match your current mood or reaction.";
-        public override string UsageSchema => "{\"expression_id\": \"int (1-6)\"}";
+        public override string UsageSchema => "<change_expression><expression_id>int (1-6)</expression_id></change_expression>";
 
         public override string Execute(string args)
         {
             try
             {
-                var json = SimpleJsonParser.Parse(args);
+                var parsedArgs = ParseXmlArgs(args);
                 int id = 0;
-                if (json.TryGetValue("expression_id", out string idStr) && int.TryParse(idStr, out id))
+                
+                if (parsedArgs.TryGetValue("expression_id", out string idStr))
                 {
-                    var window = Find.WindowStack.WindowOfType<Dialog_AIConversation>();
-                    if (window != null)
+                    if (int.TryParse(idStr, out id))
                     {
-                        window.SetPortrait(id);
-                        return $"Expression changed to {id}.";
+                        var window = Find.WindowStack.WindowOfType<Dialog_AIConversation>();
+                        if (window != null)
+                        {
+                            window.SetPortrait(id);
+                            return $"Expression changed to {id}.";
+                        }
+                        return "Error: Dialog window not found.";
                     }
-                    return "Error: Dialog window not found.";
+                    return "Error: Invalid arguments. 'expression_id' must be an integer.";
                 }
-                return "Error: Invalid arguments. 'expression_id' must be an integer.";
+                
+                return "Error: Missing <expression_id> parameter.";
             }
             catch (Exception ex)
             {
