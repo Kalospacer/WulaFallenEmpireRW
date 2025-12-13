@@ -129,6 +129,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 float baseMaxPoints = StorytellerUtility.DefaultThreatPointsNow(map);
                 float adjustedMaxPoints = baseMaxPoints * goodwillFactor * 1.5f;
 
+                Log.Message($"[WulaAI] send_reinforcement: totalCost={totalCost}, adjustedMaxPoints={adjustedMaxPoints}");
                 if (totalCost > adjustedMaxPoints)
                 {
                     return $"Error: Total cost {totalCost} exceeds limit {adjustedMaxPoints:F0}. Reduce unit count.";

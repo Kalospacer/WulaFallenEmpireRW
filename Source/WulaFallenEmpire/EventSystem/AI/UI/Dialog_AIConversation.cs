@@ -18,6 +18,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private string _inputText = "";
         private bool _isThinking = false;
         private Vector2 _scrollPosition = Vector2.zero;
+        private bool _scrollToBottom = false;
         private List<AITool> _tools = new List<AITool>();
         private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
         private const int MaxHistoryTokens = 100000;
@@ -472,6 +473,11 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     _history.Add(("assistant", rawResponse));
                 }
             }
+
+            if (!string.IsNullOrEmpty(ParseResponseForDisplay(rawResponse)))
+            {
+                _scrollToBottom = true;
+            }
             if (parts.Length > 1)
             {
                 _options.Clear();
@@ -567,6 +573,11 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     viewHeight += Text.CalcHeight(text, rect.width - 16f) + padding;
                 }
                 Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
+                if (_scrollToBottom)
+                {
+                    _scrollPosition.y = float.MaxValue;
+                    _scrollToBottom = false;
+                }
                 Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
                 float curY = 0f;
                 for (int i = 0; i < filteredHistory.Count; i++)
@@ -689,6 +700,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         private async void SelectOption(string text)
         {
             _history.Add(("user", text));
+            _scrollToBottom = true;
             await GenerateResponse();
         }
         
