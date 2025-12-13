@@ -27,7 +27,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         public static Dialog_AIConversation Instance { get; private set; }
         
         // Debug field to track current portrait ID
-        private int _currentPortraitId = 2;
+        private int _currentPortraitId = 0;
 
         // Default Persona (used if XML doesn't provide one)
         private const string DefaultPersona = @"
@@ -242,7 +242,18 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     Log.Warning($"[WulaAI] Failed to load portrait: {path}");
                 }
             }
-            if (_portraits.ContainsKey(2))
+            
+            // Use portraitPath from def as the initial portrait
+            if (this.portrait != null)
+            {
+                // Find the ID of the initial portrait
+                var initial = _portraits.FirstOrDefault(kvp => kvp.Value == this.portrait);
+                if (initial.Key != 0)
+                {
+                    _currentPortraitId = initial.Key;
+                }
+            }
+            else if (_portraits.ContainsKey(2)) // Fallback to 2 if def has no portrait
             {
                 this.portrait = _portraits[2];
                 _currentPortraitId = 2;
@@ -337,7 +348,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
 
                 // REWRITTEN: Check for XML tool call format
                 // Use regex to detect if the response contains any XML tags
-                if (Regex.IsMatch(response, @"<[a-zA-Z0-9_]+(?:>.*?</\1>|/>)", RegexOptions.Singleline))
+                if (Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline))
                 {
                     await HandleXmlToolUsage(response);
                 }
@@ -427,7 +438,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 _history.Add(("tool", combinedResults.ToString().Trim()));
 
                 // Check if there is any text content in the response
-                string textContent = Regex.Replace(xml, @"<[a-zA-Z0-9_]+(?:>.*?</\1>|/>)", "", RegexOptions.Singleline).Trim();
+                string textContent = Regex.Replace(xml, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", "", RegexOptions.Singleline).Trim();
 
                 if (!string.IsNullOrEmpty(textContent))
                 {
@@ -599,7 +610,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             text = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
             
             // Remove self-closing tags: <tag/>
-            text = Regex.Replace(text, @"<[a-zA-Z0-9_]+[^>]*/>", "");
+            text = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
             
             text = text.Trim();
             

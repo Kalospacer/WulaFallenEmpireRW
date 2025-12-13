@@ -53,17 +53,33 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     if (!countMatch.Success) continue;
                     if (!int.TryParse(countMatch.Groups[1].Value, out int count)) continue;
 
-                    // Search for ThingDef using fuzzy search
+                    // Search for ThingDef
                     ThingDef def = null;
-                    var searchResult = ThingDefSearcher.ParseAndSearch(name);
-                    if (searchResult.Count > 0)
+                    
+                    // 1. Try exact defName match
+                    def = DefDatabase<ThingDef>.GetNamed(name, false);
+                    
+                    // 2. Try exact label match (case-insensitive)
+                    if (def == null)
                     {
-                        def = searchResult[0].Def;
+                        foreach (var d in DefDatabase<ThingDef>.AllDefs)
+                        {
+                            if (d.label != null && d.label.Equals(name, StringComparison.OrdinalIgnoreCase))
+                            {
+                                def = d;
+                                break;
+                            }
+                        }
                     }
-                    else
+
+                    // 3. Try fuzzy search
+                    if (def == null)
                     {
-                        // Fallback: try exact defName match just in case
-                        def = DefDatabase<ThingDef>.GetNamed(name, false);
+                        var searchResult = ThingDefSearcher.ParseAndSearch(name);
+                        if (searchResult.Count > 0)
+                        {
+                            def = searchResult[0].Def;
+                        }
                     }
 
                     if (def != null && count > 0)
@@ -103,7 +119,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDef.Named("Wula_PIA_Legion_Faction"));
                     if (faction != null)
                     {
-                        Messages.Message("Wula_ResourceDrop".Translate(faction.Name.Named("FACTION_name")), new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
+                        Messages.Message("Wula_ResourceDrop".Translate(faction.def.defName.Named("FACTION_name")), new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
                     }
                     
                     resultLog.Length -= 2; // Remove trailing comma
