@@ -4,15 +4,15 @@ namespace WulaFallenEmpire
 {
     public class WulaFallenEmpireSettings : ModSettings
     {
-        public string apiKey = "";
-        public string baseUrl = "https://api.openai.com/v1";
-        public string model = "gpt-3.5-turbo";
+        public string apiKey = "sk-xxxxxxxx";
+        public string baseUrl = "https://api.deepseek.com";
+        public string model = "deepseek-reasoner";
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref apiKey, "apiKey", "");
-            Scribe_Values.Look(ref baseUrl, "baseUrl", "https://api.openai.com/v1");
-            Scribe_Values.Look(ref model, "model", "gpt-3.5-turbo");
+            Scribe_Values.Look(ref apiKey, "apiKey", "sk-xxxxxxxx");
+            Scribe_Values.Look(ref baseUrl, "baseUrl", "https://api.deepseek.com");
+            Scribe_Values.Look(ref model, "model", "deepseek-reasoner");
             base.ExposeData();
         }
     }
