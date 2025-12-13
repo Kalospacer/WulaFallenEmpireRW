@@ -53,14 +53,28 @@ Use this tool when:
 - You have ALREADY verified their need in a previous turn using `get_colonist_status` and `get_map_resources`.
 CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
 Parameters:
-- request: (REQUIRED) A natural language string describing the items and quantities.
+- items: (REQUIRED) A list of items to spawn. Each item must have a `name` (English label or DefName) and `count`.
 Usage:
 <spawn_resources>
-  <request>string describing items</request>
+  <items>
+    <item>
+      <name>Item Name</name>
+      <count>Integer</count>
+    </item>
+  </items>
 </spawn_resources>
 Example:
 <spawn_resources>
-  <request>50 MealSimple, 10 MedicineIndustrial</request>
+  <items>
+    <item>
+      <name>Simple Meal</name>
+      <count>50</count>
+    </item>
+    <item>
+      <name>Medicine</name>
+      <count>10</count>
+    </item>
+  </items>
 </spawn_resources>
 
 ## modify_goodwill
@@ -162,7 +176,16 @@ When the player requests any form of resources, you MUST follow this multi-turn 
     - *(Internal thought after confirming they have no medicine)*
     - *Your Response (Turn 3)*:
       <spawn_resources>
-        <request>50 MealSimple, 10 MedicineIndustrial</request>
+        <items>
+          <item>
+            <name>Simple Meal</name>
+            <count>50</count>
+          </item>
+          <item>
+            <name>Medicine</name>
+            <count>10</count>
+          </item>
+        </items>
       </spawn_resources>
 
 4.  **Turn 4 (Confirmation)**: After you receive the ""Success"" message from the `spawn_resources` tool, you will finally provide a conversational response to the player.
@@ -365,9 +388,17 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 }
 
                 // 3. Execute the tool directly with the XML string
-                // The tools have been updated to parse XML arguments internally.
-                Log.Message($"[WulaAI] Executing tool: {toolName} with args: {xml}");
-                string result = tool.Execute(xml).Trim();
+                // We need to pass the INNER XML (parameters) to the tool, stripping the root tool tag.
+                // Otherwise, ParseXmlArgs will match the root tag as a parameter.
+                string argsXml = xml;
+                var contentMatch = Regex.Match(xml, $@"<{toolName}>(.*?)</{toolName}>", RegexOptions.Singleline);
+                if (contentMatch.Success)
+                {
+                    argsXml = contentMatch.Groups[1].Value;
+                }
+
+                Log.Message($"[WulaAI] Executing tool: {toolName} with args: {argsXml}");
+                string result = tool.Execute(argsXml).Trim();
                 
                 string toolResultOutput = (toolName == "modify_goodwill")
                     ? $"Tool '{toolName}' Result (Invisible): {result}"
@@ -470,6 +501,8 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     var entry = filteredHistory[i];
                     string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
 
+                    if (string.IsNullOrEmpty(text)) continue;
+
                     bool isLastMessage = i == filteredHistory.Count - 1;
                     Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
 
@@ -482,6 +515,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 {
                     var entry = filteredHistory[i];
                     string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
+                    
+                    if (string.IsNullOrEmpty(text)) continue;
+
                     bool isLastMessage = i == filteredHistory.Count - 1;
                     Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
                     float height = Text.CalcHeight(text, viewRect.width) + 10f; // Increased padding
@@ -511,9 +547,18 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         private string ParseResponseForDisplay(string rawResponse)
         {
             if (string.IsNullOrEmpty(rawResponse)) return "";
-            // If the response is an XML tool call, don't display it in the chat history.
-            if (rawResponse.Trim().StartsWith("<")) return "[Calling Tool...]";
-            return rawResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
+            
+            string text = rawResponse;
+            
+            // Remove standard tags with content: <tag>content</tag>
+            text = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
+            
+            // Remove self-closing tags: <tag/>
+            text = Regex.Replace(text, @"<[a-zA-Z0-9_]+[^>]*/>", "");
+            
+            text = text.Trim();
+            
+            return text.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
         }
 
         protected override void DrawSingleOption(Rect rect, EventOption option)
