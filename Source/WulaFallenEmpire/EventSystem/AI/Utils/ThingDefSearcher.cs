@@ -98,6 +98,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                 // Exact match
                 if (label == lowerQuery) score = 1.0f;
                 else if (defName == lowerQuery) score = 0.9f;
+                // Starts with match (High priority for defNames like "WoodLog" when searching "Wood")
+                else if (defName.StartsWith(lowerQuery))
+                {
+                    score = 0.8f + (0.1f * ((float)lowerQuery.Length / defName.Length));
+                }
                 // Contains match
                 else if (label.Contains(lowerQuery))
                 {
@@ -106,7 +111,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                 }
                 else if (defName.Contains(lowerQuery))
                 {
-                    score = 0.5f;
+                    score = 0.5f + (0.2f * ((float)lowerQuery.Length / defName.Length));
                 }
                 
                 // Bonus for tradeability (more likely to be what player wants)
