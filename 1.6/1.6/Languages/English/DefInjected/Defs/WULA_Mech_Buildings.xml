@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Panzer -->
+  <Wula_AI_Heavy_Panzer_Cleanzone.label>HAp-6 "Panzer"</Wula_AI_Heavy_Panzer_Cleanzone.label>
+  <Wula_AI_Heavy_Panzer_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire mothership to drop large war mechanoids here.\n\nThe Panzer is a medium war mechanoid of the Wula Empire, hovering across the battlefield, using highly penetrative tank guns and missiles to strike enemies. It is the backbone of the Wula Empire's vanguard forces.</Wula_AI_Heavy_Panzer_Cleanzone.description>
+
+  <Wula_AI_Heavy_Panzer_Incoming.label>HAp-6 "Panzer" (Incoming Drop)</Wula_AI_Heavy_Panzer_Incoming.label>
+
+  <!-- Flamethrower Panzer -->
+  <Wula_AI_Rocket_Panzer_Cleanzone.label>HRp-3 "Flamethrower Panzer"</Wula_AI_Rocket_Panzer_Cleanzone.label>
+  <Wula_AI_Rocket_Panzer_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire mothership to drop large war mechanoids here.\n\nThe Flamethrower Panzer is a medium war mechanoid of the Wula Empire, hovering across the battlefield, equipped with a hull mortar and two rotary missile pods that can launch a large number of incendiary rockets, but unlike its sister model, it is not equipped with a shield.</Wula_AI_Rocket_Panzer_Cleanzone.description>
+
+  <Wula_AI_Rocket_Panzer_Incoming.label>HRp-3 "Flamethrower Panzer" (Incoming Drop)</Wula_AI_Rocket_Panzer_Incoming.label>
+
+  <!-- Radiant Shield -->
+  <WULA_Mobile_Shield_Cleanzone.label>MSm-8 "Radiant Shield"</WULA_Mobile_Shield_Cleanzone.label>
+  <WULA_Mobile_Shield_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire mothership to drop large war mechanoids here.\n\nThe Radiant Shield is a medium war mechanoid of the Wula Empire, often used to suppress uprisings in alien settlements. Its shape is very strange, making it hard to tell where the head is, but do not underestimate this mechanoid—it can release a powerful force field shield that reflects a large amount of fire in a wide area, and the radiation emitted from its body will severely damage enemies entering the deflector shield area. After the relevant license is opened, it can even support mechanical Wulas using its built-in phase field for regional teleportation.</WULA_Mobile_Shield_Cleanzone.description>
+
+  <WULA_Mobile_Shield_Incoming.label>MSm-8 "Radiant Shield" (Incoming Drop)</WULA_Mobile_Shield_Incoming.label>
+
+  <!-- Landstrider -->
+  <Wula_Mech_Mobile_Factory_Cleanzone.label>MFm-2 "Landstrider"</Wula_Mech_Mobile_Factory_Cleanzone.label>
+  <Wula_Mech_Mobile_Factory_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire mothership to drop large war mechanoids here.\n\nThe Landstrider is a large war mechanoid of the Wula Empire, essentially a moving fortress—it not only has thick armor and bristles with cannons but can also produce a large number of auxiliary war mechanoids on the battlefield to form a solid, flexible front line, born to crush strong fortresses and stubborn resistance.</Wula_Mech_Mobile_Factory_Cleanzone.description>
+
+  <Wula_Mech_Mobile_Factory_Incoming.label>MFm-2 "Landstrider" (Incoming Drop)</Wula_Mech_Mobile_Factory_Incoming.label>
+
+  <!-- Psychic Titan -->
+  <Wula_Psi_Titan_Cleanzone.label>PAt-6 "Psychic Titan"</Wula_Psi_Titan_Cleanzone.label>
+  <Wula_Psi_Titan_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire mothership to drop large war mechanoids here.\n\nA heavy psychic mechanoid developed under the auspices of the Wula Empire's state church, it moves gracefully through artillery fire via warping and uses powerful shields to block enemy projectile attacks. The interior of this unit is engraved with countless spell circuits, making it act like a walking psychic transmitter, capable of wielding various powerful psychic abilities.</Wula_Psi_Titan_Cleanzone.description>
+
+  <Wula_Psi_Titan_Incoming.label>PAt-6 "Psychic Titan" (Incoming Drop)</Wula_Psi_Titan_Incoming.label>
+
+  <!-- Special Ops Cat (Non-Player) -->
+  <Mech_WULA_Cat_Cloak_Sniper_Cleanzone.label>Strange Drop Zone</Mech_WULA_Cat_Cloak_Sniper_Cleanzone.label>
+  <Mech_WULA_Cat_Cloak_Sniper_Cleanzone.description>Strange drop zone.</Mech_WULA_Cat_Cloak_Sniper_Cleanzone.description>
+  <Mech_WULA_Cat_Cloak_Sniper_Incoming.label>Strange Drop Pod (Incoming Drop)</Mech_WULA_Cat_Cloak_Sniper_Incoming.label>
+</LanguageData>

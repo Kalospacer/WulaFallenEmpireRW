@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Wula_BrokenPersonality.label>Personality Shattering</Wula_BrokenPersonality.label>
+  <Wula_BrokenPersonality.baseInspectLine>Mental State: Shattered Personality</Wula_BrokenPersonality.baseInspectLine>
+  <Wula_BrokenPersonality.beginLetter>Due to severe mental breakdown, {0}'s simulated personality has shattered. Influenced by a master node of the planet's aberrant Wula Empire network, {0} has become one of these aberrant Wula sub-individuals.</Wula_BrokenPersonality.beginLetter>
+
+  <Wula_Fake_MechanoidBerserk.label>Brief Loss of Control</Wula_Fake_MechanoidBerserk.label>
+  <Wula_Fake_MechanoidBerserk.beginLetter>{0} is stunned.</Wula_Fake_MechanoidBerserk.beginLetter>
+  <Wula_Fake_MechanoidBerserk.baseInspectLine>Mental State: Brief Loss of Control</Wula_Fake_MechanoidBerserk.baseInspectLine>
+</LanguageData>

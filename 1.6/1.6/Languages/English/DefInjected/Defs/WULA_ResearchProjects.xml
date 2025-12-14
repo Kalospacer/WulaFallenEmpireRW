@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Techprint Labels and Descriptions -->
+  <Techprint_SP_WULA_Colony_License_LV1_Technology.label>Wula Empire Colony License: Tier 1</Techprint_SP_WULA_Colony_License_LV1_Technology.label>
+  <Techprint_SP_WULA_Colony_License_LV1_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV1_Technology.description>
+
+  <Techprint_SP_WULA_Colony_License_LV2_Technology.label>Wula Empire Colony License: Tier 2</Techprint_SP_WULA_Colony_License_LV2_Technology.label>
+  <Techprint_SP_WULA_Colony_License_LV2_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV2_Technology.description>
+
+  <Techprint_SP_WULA_Colony_License_LV3_Technology.label>Wula Empire Colony License: Tier 3</Techprint_SP_WULA_Colony_License_LV3_Technology.label>
+  <Techprint_SP_WULA_Colony_License_LV3_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV3_Technology.description>
+
+  <!-- Research Projects -->
+  <WULA_Colony_License_LV1_Technology.label>Wula Empire Colony License: Tier 1</WULA_Colony_License_LV1_Technology.label>
+  <WULA_Colony_License_LV1_Technology.description>The first-tier Wula Empire colony license, signifying that this colony is officially recognized as one of its subordinate colonies. The license itself doesn't bring many benefits, but upgrading it is an important condition for continuing to research Wula Empire technology.</WULA_Colony_License_LV1_Technology.description>
+
+  <WULA_Colony_License_LV2_Technology.label>Wula Empire Colony License: Tier 2</WULA_Colony_License_LV2_Technology.label>
+  <WULA_Colony_License_LV2_Technology.description>The second-tier Wula Empire colony license, signifying that this colony has been granted more privileges. The license itself doesn't bring many benefits, but upgrading it is an important condition for continuing to research Wula Empire technology.\n\nTo obtain the license, you need to build a &lt;color=#6BB7B7>&lt;i>Wula Empire Operations Comms Station&lt;/i>&lt;/color>, assign a colonist to contact the commander of the Wula Empire Planetary Blockade Agency, and initiate the review process quest. Upon completion, this license will be granted.</WULA_Colony_License_LV2_Technology.description>
+
+  <WULA_Colony_License_LV3_Technology.label>Wula Empire Colony License: Tier 3</WULA_Colony_License_LV3_Technology.label>
+  <WULA_Colony_License_LV3_Technology.description>The third-tier Wula Empire colony license, signifying that this colony has been granted more privileges. The license itself doesn't bring many benefits, but upgrading it is an important condition for continuing to research Wula Empire technology.</WULA_Colony_License_LV3_Technology.description>
+
+  <WULA_Aircraft_Carrier_Technology.label>Assault Fleet Allocation License</WULA_Aircraft_Carrier_Technology.label>
+  <WULA_Aircraft_Carrier_Technology.description>Allows the colony to establish beacons to increase assault fleet quota, and enables mechanical Wulas to switch antenna frequencies to request fleet air support, including 2 cruisers capable of orbital bombardment and 1 carrier providing aircraft support.</WULA_Aircraft_Carrier_Technology.description>
+
+  <WULA_Light_Fighter_Drone_Technology.label>Swarm Drone License</WULA_Light_Fighter_Drone_Technology.label>
+  <WULA_Light_Fighter_Drone_Technology.description>Allows the colony to self-assemble and deploy swarm drones, and enables mechanical Wulas to switch antenna frequencies to request aircraft air strikes.\n\nSwarm drones are lightweight intelligent drones powered by the Wula Empire's atmospheric ionization network. They can perform coordinated strafing runs and drop small bombs on enemies at a relatively high frequency.\n\nUnlike other aircraft, swarm drones do not rely on hangars, so support can be called without a ship carrying a hangar being present.</WULA_Light_Fighter_Drone_Technology.description>
+
+  <WULA_Striker_Technology.label>Striker Aircraft Allocation License</WULA_Striker_Technology.label>
+  <WULA_Striker_Technology.description>Allows the colony to establish beacons to increase striker aircraft quota, and enables mechanical Wulas to switch antenna frequencies to request aircraft air strikes.\n\nWula Empire strikers are powerful ground support firepower, loaded with numerous missiles, EMP bombs, and powerful cannons to precisely harvest enemy targets.\n\nAir strikes depend on a ship's &lt;color=#BD952F>&lt;i>hangar&lt;/i>&lt;/color>. Aircraft support can only be called when a ship carrying such facilities is present on the map.</WULA_Striker_Technology.description>
+
+  <WULA_Bomber_Technology.label>Bomber Allocation License</WULA_Bomber_Technology.label>
+  <WULA_Bomber_Technology.description>Allows the colony to establish beacons to increase bomber quota, and enables mechanical Wulas to switch antenna frequencies to request aircraft air strikes.\n\nWula Empire bombers are the largest flying vehicles capable of entering the atmosphere. Besides dropping functional smoke bombs, they can also drop a large number of bombs or launch a dark matter missile to level the Empire's enemies.\n\nAir strikes depend on a ship's &lt;color=#BD952F>&lt;i>hangar&lt;/i>&lt;/color>. Aircraft support can only be called when a ship carrying such facilities is present on the map.</WULA_Bomber_Technology.description>
+
+  <WULA_ArmedShuttle_Technology.label>Armed Shuttle Allocation License</WULA_ArmedShuttle_Technology.label>
+  <WULA_ArmedShuttle_Technology.description>Allows the colony to call a CVe-3 "Raven" armed shuttle, which possesses a massive cargo hold and an internally folded living area, giving it impressive carrying capacity and allowing activity inside. It also features a high-reflection-probability deflector shield and an MLt-1 "Prism" turbo-laser cannon, capable of resisting most attacks.</WULA_ArmedShuttle_Technology.description>
+
+  <WULA_Firepower_Minigun_Technology.label>Chaingun Strike License</WULA_Firepower_Minigun_Technology.label>
+  <WULA_Firepower_Minigun_Technology.description>Allows the colony to request close support strikes from a ship's weapon array chainguns.\n\nChainguns are very high-rate-of-fire large-caliber autocannons. Thanks to the Wula Empire's excellent materials science, their projectiles retain powerful lethality against lightly armored targets even after passing through the atmosphere.\n\nOrbital attacks depend on a ship's &lt;color=#BD2F31>&lt;i>weapon array&lt;/i>&lt;/color>. Orbital strikes can only be called when a ship carrying such facilities is present on the map.</WULA_Firepower_Minigun_Technology.description>
+
+  <WULA_Firepower_Cannon_Technology.label>Secondary Cannon Strike License</WULA_Firepower_Cannon_Technology.label>
+  <WULA_Firepower_Cannon_Technology.description>Allows the colony to request close support strikes from a ship's weapon array light naval guns.\n\nWula Empire light naval guns are rapid-fire cannons used in space combat against small to medium-sized ships—naturally, they are equally effective against ground targets.\n\nOrbital attacks depend on a ship's &lt;color=#BD2F31>&lt;i>weapon array&lt;/i>&lt;/color>. Orbital strikes can only be called when a ship carrying such facilities is present on the map.</WULA_Firepower_Cannon_Technology.description>
+
+  <WULA_Firepower_EnergyLance_Technology.label>Lance Strike License</WULA_Firepower_EnergyLance_Technology.label>
+  <WULA_Firepower_EnergyLance_Technology.description>Allows the colony to request close support strikes from a ship's weapon array lances.\n\nThe dark matter lance is one of the Wula Empire fleet's primary combat weapons. Its lethality comes from near-pure energy; any armor defense is futile against it.\n\nOrbital attacks depend on a ship's &lt;color=#BD2F31>&lt;i>weapon array&lt;/i>&lt;/color>. Orbital strikes can only be called when a ship carrying such facilities is present on the map.</WULA_Firepower_EnergyLance_Technology.description>
+
+  <WULA_Firepower_Primary_Cannon_Technology.label>Primary Cannon Strike License</WULA_Firepower_Primary_Cannon_Technology.label>
+  <WULA_Firepower_Primary_Cannon_Technology.description>Allows the colony to request close support strikes from a ship's weapon array primary cannons.\n\nThe Wula Empire's primary cannons are mounted on the ship's axis, acting as the fleet's hammer in naval engagements. If those shells, capable of shattering fleet keels, were fired at the ground...\n\nOrbital attacks depend on a ship's &lt;color=#BD2F31>&lt;i>weapon array&lt;/i>&lt;/color>. Orbital strikes can only be called when a ship carrying such facilities is present on the map.</WULA_Firepower_Primary_Cannon_Technology.description>
+
+  <WULA_WeaponArmor_Productor_Technology.label>Operations Comms Station Airdrop License</WULA_WeaponArmor_Productor_Technology.label>
+  <WULA_WeaponArmor_Productor_Technology.description>Allows the colony to request airdrops of Operations Comms Stations and Material Delivery Pods, enabling the transfer of resources to the Wula Empire fleet, submission of production orders, and receipt of fleet-produced goods.</WULA_WeaponArmor_Productor_Technology.description>
+
+  <WULA_Synth_Maintain_Technology.label>Maintenance Airdrop License</WULA_Synth_Maintain_Technology.label>
+  <WULA_Synth_Maintain_Technology.description>Allows the colony to request airdrops of Synth Maintenance Pods and Synth Charging Stations to enable charging and periodic maintenance of mechanical Wulas.</WULA_Synth_Maintain_Technology.description>
+
+  <WULA_Structure_Technology.label>Structure Airdrop License</WULA_Structure_Technology.label>
+  <WULA_Structure_Technology.description>Allows the colony to request airdrops of Wula Empire fortress structures to quickly construct colony exterior walls and doors.</WULA_Structure_Technology.description>
+
+  <Wula_Fusion_Generators_Technology.label>Fusion Generator Airdrop License</Wula_Fusion_Generators_Technology.label>
+  <Wula_Fusion_Generators_Technology.description>Allows the colony to request airdrops of fusion generators, a type of generator with moderate output but extremely easy maintenance.</Wula_Fusion_Generators_Technology.description>
+
+  <WULA_DarkEnergy_Generators_Technology.label>Dark Matter Generator Airdrop License</WULA_DarkEnergy_Generators_Technology.label>
+  <WULA_DarkEnergy_Generators_Technology.description>Allows the colony to request airdrops of dark matter generators, a type of generator with terrifyingly high output but very resource-intensive.</WULA_DarkEnergy_Generators_Technology.description>
+
+  <WULA_Bunker_Drop_Technology.label>Bunker Airdrop License</WULA_Bunker_Drop_Technology.label>
+  <WULA_Bunker_Drop_Technology.description>Allows the colony to request airdrops of Wula Cat Bunkers and Mechanoid Charging Stations. The bunker is a defensive and production building containing three Wula Cat mechanoids.</WULA_Bunker_Drop_Technology.description>
+
+  <WULA_Synth_Productor_Technology.label>Synth Airdrop License</WULA_Synth_Productor_Technology.label>
+  <WULA_Synth_Productor_Technology.description>Allows the colony to submit orders for mechanical Wulas, producing new mechanical Wulas for the colony.</WULA_Synth_Productor_Technology.description>
+
+  <WULA_Shutdown_Technology.label>System Hibernation Kit</WULA_Shutdown_Technology.label>
+  <WULA_Shutdown_Technology.description>Acquire the necessary knowledge to shut down various systems of Wula Empire synths.</WULA_Shutdown_Technology.description>
+
+  <WULA_AI_Heavy_Panzer_Technology.label>Panzer Airdrop License</WULA_AI_Heavy_Panzer_Technology.label>
+  <WULA_AI_Heavy_Panzer_Technology.description>Allows the colony to request airdrops of HAp-6 "Panzer", the Wula Empire's medium war mechanoid. It hovers across the battlefield, using highly penetrative tank guns, rockets, and mortars to strike enemies.</WULA_AI_Heavy_Panzer_Technology.description>
+
+  <WULA_Mech_Mobile_Shield_Technology.label>Radiant Shield Airdrop License</WULA_Mech_Mobile_Shield_Technology.label>
+  <WULA_Mech_Mobile_Shield_Technology.description>Allows the colony to request airdrops of MSm-8 "Radiant Shield", the Wula Empire's medium war mechanoid. A multi-legged mechanoid, it possesses an impenetrable deflector shield while also being able to burn any fools attempting to enter the shield area.</WULA_Mech_Mobile_Shield_Technology.description>
+
+  <WULA_Mech_Mobile_Shield_Teleporter_Technology.label>Radiant Shield Teleporter License</WULA_Mech_Mobile_Shield_Teleporter_Technology.label>
+  <WULA_Mech_Mobile_Shield_Teleporter_Technology.description>Allows the colony to use the teleporter built into the MSm-8 "Radiant Shield". Mechanical Wulas within its coverage area will teleport instantly instead of walking when performing normal movement while drafted.</WULA_Mech_Mobile_Shield_Teleporter_Technology.description>
+
+  <WULA_Mech_Mobile_Factory_Technology.label>Landstrider Airdrop License</WULA_Mech_Mobile_Factory_Technology.label>
+  <WULA_Mech_Mobile_Factory_Technology.description>Allows the colony to request airdrops of MFm-2 "Landstrider", the Wula Empire's large war mechanoid. A mobile fortress bristling with cannons and field production facilities.</WULA_Mech_Mobile_Factory_Technology.description>
+
+  <WULA_Psi_Titan_Technology.label>Psychic Titan Airdrop License</WULA_Psi_Titan_Technology.label>
+  <WULA_Psi_Titan_Technology.description>Allows the colony to request airdrops of PAt-6 "Psychic Titan", the Wula Empire's large psychic war mechanoid capable of wielding various powerful psychic abilities.\n\nThe core used for engraving its psychic circuits is strictly controlled by the Imperial Church and cannot be obtained through conventional means.</WULA_Psi_Titan_Technology.description>
+
+  <WULA_Sonar_Mine_Drop_Technology.label>Sonar Mine Airdrop License</WULA_Sonar_Mine_Drop_Technology.label>
+  <WULA_Sonar_Mine_Drop_Technology.description>Allows the colony to request airdrops of proximity mines. They require some time to arm; once active, they automatically launch towards nearby moving enemies.</WULA_Sonar_Mine_Drop_Technology.description>
+
+  <WULA_Turret_Base_AT_Technology.label>Anti-Tank Railgun License</WULA_Turret_Base_AT_Technology.label>
+  <WULA_Turret_Base_AT_Technology.description>Allows the colony to request airdrops of anti-tank railgun turrets, capable of penetrating heavily armored enemies at long range.</WULA_Turret_Base_AT_Technology.description>
+
+  <WULA_Turret_Base_Laser_Technology.label>Turbo-Laser License</WULA_Turret_Base_Laser_Technology.label>
+  <WULA_Turret_Base_Laser_Technology.description>Allows the colony to request airdrops of laser turrets, capable of continuously and directionally burning enemies, maximizing injury while preserving loot and captives.</WULA_Turret_Base_Laser_Technology.description>
+
+  <WULA_Sow_Excavator_Technology.label>Excavator License</WULA_Sow_Excavator_Technology.label>
+  <WULA_Sow_Excavator_Technology.description>Allows the colony to request airdrops of excavators, a one-time industrial device that makes nearby soil suitable for sowing—of course, it can also kill.</WULA_Sow_Excavator_Technology.description>
+
+  <WULA_Turret_Base_Mortar_Technology.label>Automatic Mortar License</WULA_Turret_Base_Mortar_Technology.label>
+  <WULA_Turret_Base_Mortar_Technology.description>Allows the colony to request airdrops of automatic mortar turrets, capable of firing long-range high-explosive mortar shells at any enemy appearing on the map.</WULA_Turret_Base_Mortar_Technology.description>
+
+  <WULA_Combat_Excavator_Technology.label>Combat Excavator License</WULA_Combat_Excavator_Technology.label>
+  <WULA_Combat_Excavator_Technology.description>Allows the colony to request airdrops of combat excavators, a one-time industrial device that can trigger devastating lava collapses, deploying smoke grenades and mechanoids to assist the attack after the assault.</WULA_Combat_Excavator_Technology.description>
+
+  <Wula_Disturber_Turret_Technology.label>Volcano Cannon License</Wula_Disturber_Turret_Technology.label>
+  <Wula_Disturber_Turret_Technology.description>Allows the colony to request airdrops of quad-mounted volcano cannons, erasing all enemies of the Empire with a devastating lava storm.\n\nThis armament is excessive for a colony; not every colony has the capability to obtain this license...</Wula_Disturber_Turret_Technology.description>
+
+  <WULA_Plant_Eggplant_Technology.label>Steel Eggplant Cultivation License</WULA_Plant_Eggplant_Technology.label>
+  <WULA_Plant_Eggplant_Technology.description>Allows the colony to cultivate steel eggplants, a special crop that yields steel.</WULA_Plant_Eggplant_Technology.description>
+
+  <WULA_Synth_Weapon_1_Base_Technology.label>Basic Armament Production License</WULA_Synth_Weapon_1_Base_Technology.label>
+  <WULA_Synth_Weapon_1_Base_Technology.description>Allows submission of production orders for basic weapons from the Operations Comms Station—some rifles and melee weapons that don't cost many resources but can secure the colony.</WULA_Synth_Weapon_1_Base_Technology.description>
+
+  <WULA_Synth_Weapon_1_Missile_Technology.label>Missile Armament Production License</WULA_Synth_Weapon_1_Missile_Technology.label>
+  <WULA_Synth_Weapon_1_Missile_Technology.description>Allows submission of production orders for Wula Empire armaments that fire tracking loitering munitions from the Operations Comms Station, to counter heavily armored enemies difficult to eliminate with ordinary weapons.</WULA_Synth_Weapon_1_Missile_Technology.description>
+
+  <WULA_Synth_Weapon_2_Laser_Technology.label>Laser Armament Production License</WULA_Synth_Weapon_2_Laser_Technology.label>
+  <WULA_Synth_Weapon_2_Laser_Technology.description>Allows submission of production orders for basic energy weapons from the Operations Comms Station. These weapons require longer aiming time but can fire continuously once aimed.</WULA_Synth_Weapon_2_Laser_Technology.description>
+
+  <WULA_Synth_Weapon_2_Bullet_Technology.label>Railgun Armament Production License</WULA_Synth_Weapon_2_Bullet_Technology.label>
+  <WULA_Synth_Weapon_2_Bullet_Technology.description>Allows submission of production orders for advanced projectile weapons from the Operations Comms Station. These weapons have strong destructive power, but their effective and disadvantageous range bands are quite distinct.</WULA_Synth_Weapon_2_Bullet_Technology.description>
+
+  <WULA_Synth_Weapon_3_Explosive_Technology.label>Explosive Armament Production License</WULA_Synth_Weapon_3_Explosive_Technology.label>
+  <WULA_Synth_Weapon_3_Explosive_Technology.description>Allows submission of production orders for explosive weapons from the Operations Comms Station. These weapons can cause area explosions, possessing rather ferocious firepower.</WULA_Synth_Weapon_3_Explosive_Technology.description>
+
+  <WULA_Synth_Weapon_3_Laser_Technology.label>Forge Armament Production License</WULA_Synth_Weapon_3_Laser_Technology.label>
+  <WULA_Synth_Weapon_3_Laser_Technology.description>Allows submission of production orders for advanced energy weapons from the Operations Comms Station. Given a stable firing environment, they can demonstrate their terrifying siege-breaking capabilities.</WULA_Synth_Weapon_3_Laser_Technology.description>
+
+  <WULA_Synth_Weapon_2_Melee_Technology.label>Chainsword Armament Production License</WULA_Synth_Weapon_2_Melee_Technology.label>
+  <WULA_Synth_Weapon_2_Melee_Technology.description>Allows submission of production orders for chainsword weapons from the Operations Comms Station. This type of melee weapon can inflict numerous wounds with a single hit.</WULA_Synth_Weapon_2_Melee_Technology.description>
+
+  <WULA_Synth_Weapon_3_Melee_Technology.label>Great Weapon Armament Production License</WULA_Synth_Weapon_3_Melee_Technology.label>
+  <WULA_Synth_Weapon_3_Melee_Technology.description>Allows submission of production orders for giant melee weapons from the Operations Comms Station. This type of melee weapon is heavy and powerful, capable of causing high area damage, designed to counter enemy heavy troops.</WULA_Synth_Weapon_3_Melee_Technology.description>
+
+  <WULA_Synth_Clothes_1_Technology.label>Simple Clothing Production License</WULA_Synth_Clothes_1_Technology.label>
+  <WULA_Synth_Clothes_1_Technology.description>Allows submission of production orders for simple Wula Empire clothing from the Operations Comms Station.</WULA_Synth_Clothes_1_Technology.description>
+
+  <WULA_Synth_Weapon_Shield_Technology.label>Shield Production License</WULA_Synth_Weapon_Shield_Technology.label>
+  <WULA_Synth_Weapon_Shield_Technology.description>Allows submission of orders for various handheld shields from the Operations Comms Station.</WULA_Synth_Weapon_Shield_Technology.description>
+
+  <WULA_Synth_Armor_1_Technology.label>Basic Armor Production License</WULA_Synth_Armor_1_Technology.label>
+  <WULA_Synth_Armor_1_Technology.description>Allows submission of production orders for basic Wula Empire armor from the Operations Comms Station.</WULA_Synth_Armor_1_Technology.description>
+
+  <WULA_Synth_Armor_2_Technology.label>Advanced Armor Production License</WULA_Synth_Armor_2_Technology.label>
+  <WULA_Synth_Armor_2_Technology.description>Allows submission of production orders for advanced Wula Empire armor from the Operations Comms Station.</WULA_Synth_Armor_2_Technology.description>
+
+  <WULA_Building_Teleporter_Technology.label>Building Teleportation License</WULA_Building_Teleporter_Technology.label>
+  <WULA_Building_Teleporter_Technology.description>Allows teleportation of Wula Empire buildings directly to the drop zone, enabling immediate deployment at the target location and ignoring thick rock roof obstructions. Additionally, allows construction of a regional jump drive to move the entire base.</WULA_Building_Teleporter_Technology.description>
+</LanguageData>

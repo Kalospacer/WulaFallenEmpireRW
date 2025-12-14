@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Cube_ProductorBills.label>Work at Fabricator</WULA_Cube_ProductorBills.label>
+  <WULA_Cube_ProductorBills.verb>Work at</WULA_Cube_ProductorBills.verb>
+  <WULA_Cube_ProductorBills.gerund>Working at</WULA_Cube_ProductorBills.gerund>
+
+  <FeedWulaPatient.label>Refuel Mechanical Wula</FeedWulaPatient.label>
+  <FeedWulaPatient.verb>Refuel</FeedWulaPatient.verb>
+  <FeedWulaPatient.gerund>Refueling</FeedWulaPatient.gerund>
+
+  <FeedWulaPrisoner.label>Refuel Wula Prisoner</FeedWulaPrisoner.label>
+  <FeedWulaPrisoner.verb>Refuel</FeedWulaPrisoner.verb>
+  <FeedWulaPrisoner.gerund>Refueling</FeedWulaPrisoner.gerund>
+
+  <DeliverEnergyToWulaPrisoner.label>Deliver Energy to Wula Prisoner</DeliverEnergyToWulaPrisoner.label>
+  <DeliverEnergyToWulaPrisoner.verb>Deliver energy</DeliverEnergyToWulaPrisoner.verb>
+  <DeliverEnergyToWulaPrisoner.gerund>Delivering energy to</DeliverEnergyToWulaPrisoner.gerund>
+
+  <WULA_DoMaintenanceWork.verb>Receive maintenance at</WULA_DoMaintenanceWork.verb>
+  <WULA_DoMaintenanceWork.gerund>Receiving maintenance at</WULA_DoMaintenanceWork.gerund>
+
+  <WULA_Cat_Drill.label>Drill</WULA_Cat_Drill.label>
+  <WULA_Cat_Drill.verb>Drill</WULA_Cat_Drill.verb>
+  <WULA_Cat_Drill.gerund>Drilling</WULA_Cat_Drill.gerund>
+</LanguageData>

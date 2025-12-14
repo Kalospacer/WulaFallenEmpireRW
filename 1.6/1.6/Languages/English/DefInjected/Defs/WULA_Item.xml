@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Alloy.label>Alloy</WULA_Alloy.label>
+  <WULA_Alloy.description>A high-density alloy produced by Wula Empire craftsmanship, serving as the raw material for many Wula Empire equipment.</WULA_Alloy.description>
+
+  <WULA_Dark_Matter_Item.label>Encapsulated Dark Matter</WULA_Dark_Matter_Item.label>
+  <WULA_Dark_Matter_Item.description>A small piece of dark matter encapsulated using Wula Empire technology. This mysterious substance possesses many properties that seem to break so-called natural laws.\n\nNote: The dark matter containment device is fragile; impact will trigger a large-scale annihilation reaction!</WULA_Dark_Matter_Item.description>
+
+  <WULA_Neutronium.label>Neutronium</WULA_Neutronium.label>
+  <WULA_Neutronium.description>Neutronium, also known as neutron element, is the main component of neutron stars. Compared to conventional alloys, it is more suitable as a casting material for armor and melee weapons. The Wula Empire can artificially produce this powerful material through material compression technology driven by dark matter.</WULA_Neutronium.description>
+
+  <WULA_Charge_Cube.label>Wula Empire Power Core</WULA_Charge_Cube.label>
+  <WULA_Charge_Cube.description>A highly compressed power core, the only acceptable external energy source for the mechanical Wulas' energy systems.</WULA_Charge_Cube.description>
+  <WULA_Charge_Cube.ingestible.useLabel>Ingest energy from the power core</WULA_Charge_Cube.ingestible.useLabel>
+
+  <WULA_Charge_Cube_No_Power.label>Wula Empire Power Core (Depleted)</WULA_Charge_Cube_No_Power.label>
+  <WULA_Charge_Cube_No_Power.description>A used Wula Empire power core that requires recharging.</WULA_Charge_Cube_No_Power.description>
+
+  <WULA_Tex_Voucher.label>Tax Payment Voucher</WULA_Tex_Voucher.label>
+  <WULA_Tex_Voucher.description>This is a credential issued by the Wula Empire, containing a series of secret keys and electronic identity information, proving that the citizens of this colony are model citizens who pay taxes on time.\n\nHuh, did they just stamp a red seal on an electronic storage device?</WULA_Tex_Voucher.description>
+
+  <WULA_Psi_Titan_Core.label>Psychic Circuit Core</WULA_Psi_Titan_Core.label>
+  <WULA_Psi_Titan_Core.description>The psychic circuit core of the PAt-6 "Psychic Titan". Every psychic Titan requires this core to complete the engraving of its psychic circuits. It is strictly controlled by the Wula Empire's Imperial Church and cannot be easily obtained by colonies.</WULA_Psi_Titan_Core.description>
+
+  <WULA_Excavator_Blade.label>Excavator Blade</WULA_Excavator_Blade.label>
+  <WULA_Excavator_Blade.description>The blade used by DSm-6 "Excavator" and DBm-6 "Combat Excavator". It is unimaginably hard; even using Wula Empire fleet facilities cannot process this blade; it can only be transported from other industrial star systems.\n\nWula Empire's progressive rebels seem to have shipped many of these to the rimworld, no wonder they can throw drills around like they're free.</WULA_Excavator_Blade.description>
+</LanguageData>

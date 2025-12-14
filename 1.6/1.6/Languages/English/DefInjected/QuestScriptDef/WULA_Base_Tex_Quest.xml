@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<LanguageData>
-  <WULA_Base_Tex_Quest.questNameRules.rulesStrings>
-    <li>questName->什一税税收</li>
-  </WULA_Base_Tex_Quest.questNameRules.rulesStrings>
-  <WULA_Base_Tex_Quest.questDescriptionRules.rulesStrings>
-    <li>questDescription->唯死亡和税收不可避免——按时上交什一税是乌拉帝国殖民地的光荣义务。\n\n乌拉帝国每隔10天收一次什一税，什一税会从殖民地储存在舰队中的资产里面扣除，你可以建造&lt;color=#6BB7B7>&lt;i>乌拉帝国物资输送舱&lt;/i>&lt;/color>来将物资输送到位于轨道上的舰队。\n\n乌拉帝国对积极纳税的殖民地会给予更多关照——但是如果拖延，则每延期一天都会惹其不快，最后甚至有可能被定性为叛国！</li>
-  </WULA_Base_Tex_Quest.questDescriptionRules.rulesStrings>
-</LanguageData>

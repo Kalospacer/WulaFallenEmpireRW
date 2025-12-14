@@ -280,7 +280,7 @@
                   <li>WULA_Tex_Voucher</li>
                 </thingDefs>
               </filter>
-              <countRange>1</countRange>
+              <countRange>2~2</countRange>
             </fixedParams>
           </thingSetMaker>
         </li>

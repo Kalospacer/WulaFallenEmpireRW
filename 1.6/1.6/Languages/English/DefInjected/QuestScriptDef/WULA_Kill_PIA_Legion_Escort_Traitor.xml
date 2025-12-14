@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<LanguageData>
-  <WULA_Kill_PIA_Legion_Escort_Traitor.questNameRules.rulesStrings>
-    <li>questName->特殊任务：杀死叛变的断爪卫队</li>
-  </WULA_Kill_PIA_Legion_Escort_Traitor.questNameRules.rulesStrings>
-  <WULA_Kill_PIA_Legion_Escort_Traitor.questDescriptionRules.rulesStrings>
-    <li>questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个特殊的请求，她要求你杀死一个已经叛离帝国的断爪卫队成员。\n\n这不会是一个很简单的任务，</li>
-  </WULA_Kill_PIA_Legion_Escort_Traitor.questDescriptionRules.rulesStrings>
-</LanguageData> 

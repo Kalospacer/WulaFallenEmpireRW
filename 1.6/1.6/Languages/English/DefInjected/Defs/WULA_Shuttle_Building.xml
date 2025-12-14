@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_ArmedShuttleWithPocket_Cleanzone_Free.label>CVe-3 "Raven"</WULA_ArmedShuttleWithPocket_Cleanzone_Free.label>
+  <WULA_ArmedShuttleWithPocket_Cleanzone_Free.description>Clear an area and prepare resources so the Wula Empire mothership can dispatch a shuttle here.\n\nThe CVe-3 "Raven" is a special shuttle used by the Wula Empire to establish connections between the fleet and the surface. It features a massive cargo hold and an internally folded living area, giving it impressive carrying capacity and allowing activity inside. It also possesses a high-reflectance deflector shield and an MLt-1 "Prism" turbo-laser cannon, capable of resisting most attacks.</WULA_ArmedShuttleWithPocket_Cleanzone_Free.description>
+
+  <WULA_ArmedShuttleWithPocket_Cleanzone.label>CVe-3 "Raven"</WULA_ArmedShuttleWithPocket_Cleanzone.label>
+  <WULA_ArmedShuttleWithPocket_Cleanzone.description>Clear an area and prepare resources so the Wula Empire mothership can dispatch a shuttle here.\n\nThe CVe-3 "Raven" is a special shuttle used by the Wula Empire to establish connections between the fleet and the surface. It features a massive cargo hold and an internally folded living area, giving it impressive carrying capacity and allowing activity inside. It also possesses a high-reflectance deflector shield and an MLt-1 "Prism" turbo-laser cannon, capable of resisting most attacks.</WULA_ArmedShuttleWithPocket_Cleanzone.description>
+
+  <WULA_ArmedShuttleWithPocket_Incoming.label>CVe-3 "Raven" (Incoming)</WULA_ArmedShuttleWithPocket_Incoming.label>
+
+  <WULA_ArmedShuttleWithPocket.label>CVe-3 "Raven"</WULA_ArmedShuttleWithPocket.label>
+  <WULA_ArmedShuttleWithPocket.description>A special shuttle used by the Wula Empire to establish connections between the fleet and the surface. It features a massive cargo hold and an internally folded living area, giving it impressive carrying capacity and allowing activity inside. It also possesses a high-reflectance deflector shield and an MLt-1 "Prism" turbo-laser cannon, capable of resisting most attacks.</WULA_ArmedShuttleWithPocket.description>
+  <CompProperties_AreaDamage.toggleLabel>Heat Radiation</CompProperties_AreaDamage.toggleLabel>
+  <CompProperties_AreaDamage.toggleDescription>The CVe-3 "Raven" can activate its defenses to vaporize enemies daring to enter the deflector field—this will also cause it to damage all nearby scattered items.</CompProperties_AreaDamage.toggleDescription>
+
+  <WulaWall_Inner.label>Wula Empire Inner Bulkhead Wall</WulaWall_Inner.label>
+  <WulaWall_Inner.description>Wula Empire inner bulkhead wall, with embedded conduits capable of providing power from the shuttle.</WulaWall_Inner.description>
+
+  <WULA_PocketMapExit.label>Transport Lift Platform</WULA_PocketMapExit.label>
+  <WULA_PocketMapExit.description>Lift platform for transporting personnel and items in and out of the shuttle.</WULA_PocketMapExit.description>
+
+  <WULA_Shuttle_Autocannon.label>SRc-22 "Four-Leaf"</WULA_Shuttle_Autocannon.label>
+  <WULA_Shuttle_Autocannon.description>Autocannon equipped on Wula Empire shuttles, capable of organizing high-rate-of-fire barrages to suppress and kill large-scale targets.</WULA_Shuttle_Autocannon.description>
+
+  <Bullet_WULA_Shuttle_Autocannon.label>Four-Leaf Autocannon Bullet</Bullet_WULA_Shuttle_Autocannon.label>
+
+  <ArmedShuttleIncoming_WULA.label>Armed Shuttle (Incoming)</ArmedShuttleIncoming_WULA.label>
+
+  <ArmedShuttleLeaving_WULA.label>Armed Shuttle (Departing)</ArmedShuttleLeaving_WULA.label>
+
+  <Ship_ArmedShuttle.label>CVe-3 "Raven"</Ship_ArmedShuttle.label>
+
+  <Wula_ArmedShuttle_Object.label>CVe-3 "Raven"</Wula_ArmedShuttle_Object.label>
+  <Wula_ArmedShuttle_Object.description>A flying CVe-3 "Raven" armed shuttle.</Wula_ArmedShuttle_Object.description>
+</LanguageData>

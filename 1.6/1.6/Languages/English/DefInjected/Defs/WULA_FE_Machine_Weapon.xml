@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Mobile Factory Main Weapon -->
+  <WULA_RW_Unlimit_Penetrating_Beam_Cannon.label>UPb-00 "Excalibur Cannon"</WULA_RW_Unlimit_Penetrating_Beam_Cannon.label>
+  <WULA_RW_Unlimit_Penetrating_Beam_Cannon.description>A weapon designed by the Wula Empire Armaments Department during its golden age. It loads slowly, is enormous in size, and can only be equipped by the largest war platforms. The cutting beam it fires can almost cross the battlefield, erasing all enemies in its path.</WULA_RW_Unlimit_Penetrating_Beam_Cannon.description>
+
+  <!-- Mobile Factory Turrets -->
+  <Wula_CR_Mobile_Factory_Turret.label>CRt-91 "Iridium-Osmium"</Wula_CR_Mobile_Factory_Turret.label>
+  <Wula_CR_Mobile_Factory_Turret.description>One of the turrets equipped on the Wula Empire's Landstrider, capable of spraying armor-penetrating melta beams to handle threats approaching the Landstrider.</Wula_CR_Mobile_Factory_Turret.description>
+
+  <Wula_MR_Mobile_Factory_Turret.label>CRt-60 "Meteoric Phosphorus"</Wula_MR_Mobile_Factory_Turret.label>
+  <Wula_MR_Mobile_Factory_Turret.description>One of the turrets equipped on the Wula Empire's Landstrider, a fast-firing autocannon that can suppress and kill swathes of enemies.</Wula_MR_Mobile_Factory_Turret.description>
+  <Bullet_Wula_MR_Mobile_Factory_Turret.label>Meteoric Phosphorus Needle Rounds</Bullet_Wula_MR_Mobile_Factory_Turret.label>
+
+  <Wula_LR_Mobile_Factory_Turret.label>CRt-26 "Crystal Cluster"</Wula_LR_Mobile_Factory_Turret.label>
+  <Wula_LR_Mobile_Factory_Turret.description>One of the turrets equipped on the Wula Empire's Landstrider. It has long range and high power, capable of leveling resistant enemies at a distance.</Wula_LR_Mobile_Factory_Turret.description>
+  <Bullet_Wula_LR_Mobile_Factory_Turret.label>Crystal Cluster Shell</Bullet_Wula_LR_Mobile_Factory_Turret.label>
+
+  <!-- Mech Flyer Weapon -->
+  <WULA_MechFlyerTurretGun.label>Magnetic Force Beam</WULA_MechFlyerTurretGun.label>
+  <WULA_MechFlyerTurretGun.description>A built-in turret that can steal weapons from others.</WULA_MechFlyerTurretGun.description>
+
+  <!-- Heavy Panzer Turrets -->
+  <Wula_AI_Heavy_Panzer_Turret_Weapon.label>ATt-2 "Lapis Lazuli"</Wula_AI_Heavy_Panzer_Turret_Weapon.label>
+  <Wula_AI_Heavy_Panzer_Turret_Weapon.description>The turret of the HAp-6 "Panzer," capable of precisely eliminating high-value targets from extreme distances.</Wula_AI_Heavy_Panzer_Turret_Weapon.description>
+  <Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon.label>Lapis Lazuli Needle Rounds</Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon.label>
+
+  <Wula_AI_Heavy_Panzer_Main_Weapon.label>SDm-2 "Moonstone"</Wula_AI_Heavy_Panzer_Main_Weapon.label>
+  <Wula_AI_Heavy_Panzer_Main_Weapon.description>The assault gun on the front hull of the HAp-6 "Panzer." It has very short range and can only fire while stationary, but its power is immense, specifically designed to deal with fortified positions and dense clusters of personnel.</Wula_AI_Heavy_Panzer_Main_Weapon.description>
+  <Bullet_Wula_AI_Heavy_Panzer_Main_Weapon.label>Moonstone Shell</Bullet_Wula_AI_Heavy_Panzer_Main_Weapon.label>
+
+  <!-- Rocket Panzer Turret -->
+  <Wula_AI_Rocket_Panzer_Turret_Weapon.label>FRt-1 "Fire Opal"</Wula_AI_Rocket_Panzer_Turret_Weapon.label>
+  <Wula_AI_Rocket_Panzer_Turret_Weapon.description>The turret of the HRp-3 "Flamethrower Panzer," capable of firing a large number of rockets in one salvo.</Wula_AI_Rocket_Panzer_Turret_Weapon.description>
+  <Bullet_Wula_AI_Rocket_Panzer_Turret_Weapon.label>Fire Opal Rocket</Bullet_Wula_AI_Rocket_Panzer_Turret_Weapon.label>
+
+  <!-- Psi Titan Beam -->
+  <Wula_Psi_Titan_Beam.label>KLb-15 "Calcite"</Wula_Psi_Titan_Beam.label>
+  <Wula_Psi_Titan_Beam.description>A weapon used by the psychic war mechanoid PAt-6 "Psychic Titan" to mark targets. It has no ability to harm enemies.</Wula_Psi_Titan_Beam.description>
+</LanguageData>
