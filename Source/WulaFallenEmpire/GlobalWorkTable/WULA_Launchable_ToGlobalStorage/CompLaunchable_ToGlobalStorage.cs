@@ -94,23 +94,23 @@ namespace WulaFallenEmpire
             StringBuilder outputItemsList = new StringBuilder();
 
             // 1. 将物品分类转移到相应的存储
-            foreach (Thing item in transporter.innerContainer)
+            foreach (Thing item in transporter.innerContainer.ToList())
             {
                 if (ShouldGoToOutputStorage(item))
                 {
-                    // 发送到输出存储器
-                    globalStorage.AddToOutputStorage(item.def, item.stackCount);
-                    outputItemsCount += item.stackCount;
+                    int moved = item.stackCount;
+                    transporter.innerContainer.TryTransferToContainer(item, globalStorage.outputContainer, moved, true);
+                    outputItemsCount += moved;
                     if (outputItemsList.Length > 0) outputItemsList.Append(", ");
-                    outputItemsList.Append($"{item.LabelCap} x{item.stackCount}");
+                    outputItemsList.Append($"{item.LabelCap} x{moved}");
                 }
                 else
                 {
-                    // 发送到输入存储器
-                    globalStorage.AddToInputStorage(item.def, item.stackCount);
-                    inputItemsCount += item.stackCount;
+                    int moved = item.stackCount;
+                    transporter.innerContainer.TryTransferToContainer(item, globalStorage.inputContainer, moved, true);
+                    inputItemsCount += moved;
                     if (inputItemsList.Length > 0) inputItemsList.Append(", ");
-                    inputItemsList.Append($"{item.LabelCap} x{item.stackCount}");
+                    inputItemsList.Append($"{item.LabelCap} x{moved}");
                 }
             }
 

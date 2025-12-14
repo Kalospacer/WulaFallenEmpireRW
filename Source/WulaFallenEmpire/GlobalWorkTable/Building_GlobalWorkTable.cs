@@ -146,9 +146,7 @@ namespace WulaFallenEmpire
 
                 int take = Mathf.Min(thing.stackCount, remaining);
                 Thing split = thing.SplitOff(take);
-                split.Destroy(DestroyMode.Vanish);
-
-                storage.AddToInputStorage(def, take);
+                storage.AddToInputStorage(split);
 
                 uploaded += take;
                 remaining -= take;
@@ -181,9 +179,7 @@ namespace WulaFallenEmpire
 
                         int take = Mathf.Min(t.stackCount, remaining);
                         Thing split = t.SplitOff(take);
-                        split.Destroy(DestroyMode.Vanish);
-
-                        storage.AddToInputStorage(def, take);
+                        storage.AddToInputStorage(split);
                         uploaded += take;
                         remaining -= take;
                     }
@@ -223,7 +219,7 @@ namespace WulaFallenEmpire
                 action = OpenGlobalStorageTransferDialog,
                 defaultLabel = "WULA_AccessGlobalStorage".Translate(),
                 defaultDesc = "WULA_AccessGlobalStorageDesc".Translate(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Trade", true),
+                icon = ContentFinder<Texture2D>.Get("UI/Commands/Trade", false) ?? TexButton.Search,
             };
 
             // 白银转移按钮 - 检查输入端是否有白银
@@ -241,7 +237,7 @@ namespace WulaFallenEmpire
                 };
             }
             // 原有的空投按钮逻辑保持不变
-            bool hasOutputItems = globalStorage != null && globalStorage.outputStorage.Any(kvp => kvp.Value > 0);
+            bool hasOutputItems = globalStorage != null && globalStorage.GetOutputStorageTotalCount() > 0;
             bool hasFactoryFlyOver = HasFactoryFacilityFlyOver();
             if (hasOutputItems && hasFactoryFlyOver)
             {
@@ -320,11 +316,8 @@ namespace WulaFallenEmpire
         {
             try
             {
-                // 从输入端移除白银
-                if (globalStorage.RemoveFromInputStorage(ThingDefOf.Silver, silverAmount))
+                if (TryMoveBetweenStorages(globalStorage.inputContainer, globalStorage.outputContainer, ThingDefOf.Silver, silverAmount))
                 {
-                    // 添加到输出端
-                    globalStorage.AddToOutputStorage(ThingDefOf.Silver, silverAmount);
 
                     // 显示成功消息
                     Messages.Message("WULA_SilverTransferred".Translate(silverAmount), MessageTypeDefOf.PositiveEvent);
@@ -342,6 +335,28 @@ namespace WulaFallenEmpire
                 Messages.Message("WULA_TransferError".Translate(), MessageTypeDefOf.RejectInput);
                 Log.Error($"[WULA] Error during silver transfer: {ex}");
             }
+        }
+
+        private static bool TryMoveBetweenStorages(ThingOwner<Thing> from, ThingOwner<Thing> to, ThingDef def, int count)
+        {
+            if (from == null || to == null || def == null || count <= 0) return false;
+
+            int available = from.Where(t => t != null && t.def == def).Sum(t => t.stackCount);
+            if (available < count) return false;
+
+            int remaining = count;
+            for (int i = from.Count - 1; i >= 0 && remaining > 0; i--)
+            {
+                Thing t = from[i];
+                if (t == null || t.def != def) continue;
+
+                int take = Mathf.Min(t.stackCount, remaining);
+                Thing split = t.SplitOff(take); // count>=stackCount 时会从 from 中移除该 Thing
+                to.TryAdd(split, true);
+                remaining -= take;
+            }
+
+            return remaining <= 0;
         }
 
         // 新增：检查是否有拥有FactoryFacility设施的飞行器
@@ -397,7 +412,7 @@ namespace WulaFallenEmpire
         {
             // 检查是否有输出物品
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            if (globalStorage == null || !globalStorage.outputStorage.Any(kvp => kvp.Value > 0))
+            if (globalStorage == null || globalStorage.GetOutputStorageTotalCount() <= 0)
             {
                 Messages.Message("WULA_NoProductsToAirdrop".Translate(), MessageTypeDefOf.RejectInput);
                 return;
@@ -550,85 +565,17 @@ namespace WulaFallenEmpire
             {
                 podContents.Add(new List<Thing>());
             }
-            // 获取所有输出物品并转换为Thing列表
+
             List<Thing> allItems = new List<Thing>();
-
-            // 首先处理机械体，因为需要特殊处理
-            foreach (var kvp in storage.outputStorage.ToList())
+            for (int i = storage.outputContainer.Count - 1; i >= 0; i--)
             {
-                if (kvp.Value <= 0) continue;
-                ThingDef thingDef = kvp.Key;
-                int remainingCount = kvp.Value;
-                // 如果是Pawn，需要特殊处理
-                if (thingDef.race != null)
-                {
-                    // 对于Pawn，每个单独生成
-                    for (int i = 0; i < remainingCount; i++)
-                    {
-                        PawnKindDef randomPawnKind = GetRandomPawnKindForType(thingDef);
-                        if (randomPawnKind != null)
-                        {
-                            try
-                            {
-                                Pawn pawn = PawnGenerator.GeneratePawn(randomPawnKind, Faction.OfPlayer);
-                                // 确保Pawn处于活跃状态
-                                if (pawn != null)
-                                {
-                                    // 设置Pawn为可用的状态
-                                    pawn.health.Reset();
-                                    pawn.drafter = new Pawn_DraftController(pawn);
+                Thing t = storage.outputContainer[i];
+                if (t == null) continue;
 
-                                    allItems.Add(pawn);
-                                }
-                                else
-                                {
-                                    Log.Error("[Airdrop] Generated pawn is null");
-                                }
-                            }
-                            catch (System.Exception ex)
-                            {
-                                Log.Error($"[Airdrop] Error generating pawn: {ex}");
-                            }
-                        }
-                        else
-                        {
-                            Log.Error($"[Airdrop] Could not find suitable PawnKindDef for {thingDef.defName}");
-                        }
-                    }
-
-                    // 立即从存储中移除已处理的机械体
-                    storage.RemoveFromOutputStorage(thingDef, remainingCount);
-                }
+                storage.outputContainer.Remove(t);
+                allItems.Add(t);
             }
-            // 然后处理普通物品
-            foreach (var kvp in storage.outputStorage.ToList())
-            {
-                if (kvp.Value <= 0) continue;
-                ThingDef thingDef = kvp.Key;
-                int remainingCount = kvp.Value;
-                // 跳过已经处理的机械体
-                if (thingDef.race != null) continue;
-                Log.Message($"[Airdrop] Processing {remainingCount} items of type {thingDef.defName}");
-                // 对于普通物品，按照堆叠限制分割
-                while (remainingCount > 0)
-                {
-                    int stackSize = Mathf.Min(remainingCount, thingDef.stackLimit);
-                    Thing thing = CreateThingWithMaterial(thingDef, stackSize);
-                    if (thing != null)
-                    {
-                        allItems.Add(thing);
-                        remainingCount -= stackSize;
-                    }
-                    else
-                    {
-                        Log.Error($"[Airdrop] Failed to create thing: {thingDef.defName}");
-                        break;
-                    }
-                }
 
-                // 从存储中移除已处理的物品
-                storage.RemoveFromOutputStorage(thingDef, kvp.Value);
-            }
             if (allItems.Count == 0)
             {
                 return podContents;

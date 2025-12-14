@@ -23,7 +23,7 @@ namespace WulaFallenEmpire
         private Vector2 scrollPosition;
         private float viewHeight;
 
-        private List<Tradeable_StorageTransfer> tradeables = new List<Tradeable_StorageTransfer>();
+        private List<Tradeable> tradeables = new List<Tradeable>();
 
         private ITrader prevTrader;
         private Pawn prevNegotiator;
@@ -117,7 +117,7 @@ namespace WulaFallenEmpire
 
             for (int i = 0; i < tradeables.Count; i++)
             {
-                Tradeable_StorageTransfer trad = tradeables[i];
+                Tradeable trad = tradeables[i];
                 if (trad == null || trad.ThingDef == null) continue;
 
                 if (!quickSearchWidget.filter.Matches(trad.ThingDef))
@@ -187,42 +187,48 @@ namespace WulaFallenEmpire
         {
             tradeables.Clear();
 
-            var byDef = new Dictionary<ThingDef, Tradeable_StorageTransfer>();
+            void AddThingToTradeables(Thing thing, Transactor transactor)
+            {
+                if (thing == null) return;
+
+                Tradeable trad = TransferableUtility.TradeableMatching(thing, tradeables);
+                if (trad == null)
+                {
+                    trad = thing is Pawn ? new Tradeable_StorageTransferPawn() : new Tradeable_StorageTransfer();
+                    tradeables.Add(trad);
+                }
+                trad.AddThing(thing, transactor);
+            }
 
             foreach (Thing t in GetThingsInPoweredTradeBeaconRange(table.Map))
             {
                 if (t?.def == null) continue;
+                if (t is Corpse) continue;
                 if (t.def.category != ThingCategory.Item) continue;
-
-                if (!byDef.TryGetValue(t.def, out var trad))
-                {
-                    trad = new Tradeable_StorageTransfer();
-                    byDef[t.def] = trad;
-                }
-                trad.AddThing(t, Transactor.Colony);
+                AddThingToTradeables(t, Transactor.Colony);
             }
 
-            foreach (var kvp in GetGlobalStorageCounts(storage))
+            if (storage?.inputContainer != null)
             {
-                ThingDef def = kvp.Key;
-                int count = kvp.Value;
-                if (def == null || count <= 0) continue;
-
-                if (!byDef.TryGetValue(def, out var trad))
+                foreach (Thing t in storage.inputContainer)
                 {
-                    trad = new Tradeable_StorageTransfer();
-                    byDef[def] = trad;
-                }
-
-                foreach (Thing dummy in MakeDummyStacks(def, count))
-                {
-                    trad.AddThing(dummy, Transactor.Trader);
+                    if (t == null) continue;
+                    AddThingToTradeables(t, Transactor.Trader);
                 }
             }
 
-            tradeables = byDef.Values
-                .Where(t => t != null && t.ThingDef != null)
-                .OrderBy(t => t.ThingDef.label)
+            if (storage?.outputContainer != null)
+            {
+                foreach (Thing t in storage.outputContainer)
+                {
+                    if (t == null) continue;
+                    AddThingToTradeables(t, Transactor.Trader);
+                }
+            }
+
+            tradeables = tradeables
+                .Where(t => t != null && t.HasAnyThing)
+                .OrderBy(t => t.ThingDef?.label ?? "")
                 .ToList();
         }
 
@@ -247,63 +253,13 @@ namespace WulaFallenEmpire
             }
         }
 
-        private static Dictionary<ThingDef, int> GetGlobalStorageCounts(GlobalStorageWorldComponent storage)
-        {
-            var counts = new Dictionary<ThingDef, int>();
-            if (storage == null) return counts;
-
-            foreach (var kvp in storage.outputStorage)
-            {
-                if (kvp.Key == null || kvp.Value <= 0) continue;
-                counts[kvp.Key] = counts.TryGetValue(kvp.Key, out var v) ? v + kvp.Value : kvp.Value;
-            }
-
-            foreach (var kvp in storage.inputStorage)
-            {
-                if (kvp.Key == null || kvp.Value <= 0) continue;
-                counts[kvp.Key] = counts.TryGetValue(kvp.Key, out var v) ? v + kvp.Value : kvp.Value;
-            }
-
-            return counts;
-        }
-
-        private static IEnumerable<Thing> MakeDummyStacks(ThingDef def, int count)
-        {
-            int remaining = count;
-            int stackLimit = Mathf.Max(1, def.stackLimit);
-
-            while (remaining > 0)
-            {
-                int stackCount = Mathf.Min(remaining, stackLimit);
-                Thing thing = MakeThingForDef(def, stackCount);
-                if (thing == null) yield break;
-
-                yield return thing;
-                remaining -= stackCount;
-            }
-        }
-
-        private static Thing MakeThingForDef(ThingDef def, int stackCount)
-        {
-            if (def == null) return null;
-
-            Thing thing;
-            if (def.MadeFromStuff)
-            {
-                ThingDef stuff = GenStuff.DefaultStuffFor(def) ?? GenStuff.AllowedStuffsFor(def).FirstOrDefault();
-                if (stuff == null) return null;
-                thing = ThingMaker.MakeThing(def, stuff);
-            }
-            else
-            {
-                thing = ThingMaker.MakeThing(def);
-            }
-
-            thing.stackCount = stackCount;
-            return thing;
-        }
-
         private class Tradeable_StorageTransfer : Tradeable
+        {
+            public override bool TraderWillTrade => true;
+            public override bool IsCurrency => false;
+        }
+
+        private class Tradeable_StorageTransferPawn : Tradeable_Pawn
         {
             public override bool TraderWillTrade => true;
             public override bool IsCurrency => false;
@@ -347,14 +303,12 @@ namespace WulaFallenEmpire
 
                 if (ShouldGoToOutputStorage(thing))
                 {
-                    storage.AddToOutputStorage(thing.def, thing.stackCount);
+                    storage.AddToOutputStorage(thing);
                 }
                 else
                 {
-                    storage.AddToInputStorage(thing.def, thing.stackCount);
+                    storage.AddToInputStorage(thing);
                 }
-
-                thing.Destroy(DestroyMode.Vanish);
             }
 
             public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -362,12 +316,6 @@ namespace WulaFallenEmpire
                 if (storage == null) return;
                 if (map == null) return;
                 if (toGive == null || countToGive <= 0) return;
-
-                if (!TryRemoveFromAnyStorage(toGive.def, countToGive))
-                {
-                    Log.Warning($"[WULA] Global storage changed while transfer dialog open; could not remove {countToGive}x {toGive.def?.defName}.");
-                    return;
-                }
 
                 Thing thing = toGive.SplitOff(countToGive);
                 thing.PreTraded(TradeAction.PlayerBuys, playerNegotiator, this);
@@ -383,33 +331,6 @@ namespace WulaFallenEmpire
                 if (def.IsWeapon) return true;
                 if (def.IsApparel) return true;
                 return false;
-            }
-
-            private bool TryRemoveFromAnyStorage(ThingDef def, int count)
-            {
-                if (def == null || count <= 0) return false;
-
-                int available = storage.GetInputStorageCount(def) + storage.GetOutputStorageCount(def);
-                if (available < count) return false;
-
-                int remaining = count;
-                int fromOutput = Mathf.Min(remaining, storage.GetOutputStorageCount(def));
-                if (fromOutput > 0)
-                {
-                    if (!storage.RemoveFromOutputStorage(def, fromOutput)) return false;
-                    remaining -= fromOutput;
-                }
-
-                if (remaining > 0)
-                {
-                    if (!storage.RemoveFromInputStorage(def, remaining))
-                    {
-                        if (fromOutput > 0) storage.AddToOutputStorage(def, fromOutput);
-                        return false;
-                    }
-                }
-
-                return true;
             }
         }
     }
