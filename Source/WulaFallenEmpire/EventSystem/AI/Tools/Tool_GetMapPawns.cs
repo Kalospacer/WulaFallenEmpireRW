@@ -10,8 +10,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_GetMapPawns : AITool
     {
         public override string Name => "get_map_pawns";
-        public override string Description => "Scans the current map and lists pawns. Supports filtering by relation (friendly/hostile/neutral), type (colonist/animal/mechanoid/humanlike), and status (prisoner/slave/guest/downed).";
-        public override string UsageSchema => "<get_map_pawns><filter>string (optional, comma-separated: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed)</filter><maxResults>int (optional, default 50)</maxResults></get_map_pawns>";
+        public override string Description => "Scans the current map and lists pawns (including corpses). Supports filtering by relation (friendly/hostile/neutral), type (colonist/animal/mech/humanlike), and status (prisoner/slave/guest/wild/downed/dead).";
+        public override string UsageSchema =>
+            "<get_map_pawns><filter>string (optional, comma-separated: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed, dead)</filter><includeDead>true/false (optional, default true)</includeDead><maxResults>int (optional, default 50)</maxResults></get_map_pawns>";
+
+        private struct MapPawnEntry
+        {
+            public Pawn Pawn;
+            public bool IsDead;
+            public IntVec3 Position;
+        }
 
         public override string Execute(string args)
         {
@@ -21,36 +29,85 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
                 string filterRaw = null;
                 if (parsed.TryGetValue("filter", out string f)) filterRaw = f;
+
                 int maxResults = 50;
                 if (parsed.TryGetValue("maxResults", out string maxStr) && int.TryParse(maxStr, out int mr))
                 {
                     maxResults = Math.Max(1, Math.Min(200, mr));
                 }
 
+                bool includeDead = true;
+                if (parsed.TryGetValue("includeDead", out string includeDeadStr) && bool.TryParse(includeDeadStr, out bool parsedIncludeDead))
+                {
+                    includeDead = parsedIncludeDead;
+                }
+
                 Map map = Find.CurrentMap;
                 if (map == null) return "Error: No active map.";
 
                 var filters = ParseFilters(filterRaw);
+                if (filters.Contains("dead")) includeDead = true;
 
-                List<Pawn> pawns = map.mapPawns?.AllPawnsSpawned?.Where(p => p != null).ToList() ?? new List<Pawn>();
-                pawns = pawns.Where(p => MatchesFilters(p, filters)).ToList();
+                var entries = new List<MapPawnEntry>();
 
-                if (pawns.Count == 0) return "No pawns matched.";
+                var livePawns = map.mapPawns?.AllPawnsSpawned?.Where(p => p != null).ToList() ?? new List<Pawn>();
+                foreach (var pawn in livePawns)
+                {
+                    entries.Add(new MapPawnEntry
+                    {
+                        Pawn = pawn,
+                        IsDead = pawn.Dead,
+                        Position = pawn.Position
+                    });
+                }
 
-                pawns = pawns
-                    .OrderByDescending(p => IsHostileToPlayer(p))
-                    .ThenByDescending(p => p.RaceProps?.Humanlike ?? false)
-                    .ThenBy(p => p.def?.label ?? "")
-                    .ThenBy(p => p.Name?.ToStringShort ?? "")
+                if (includeDead && map.listerThings != null)
+                {
+                    var corpses = map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse);
+                    if (corpses != null)
+                    {
+                        foreach (var thing in corpses)
+                        {
+                            if (thing is not Corpse corpse) continue;
+                            Pawn inner = corpse.InnerPawn;
+                            if (inner == null) continue;
+
+                            entries.Add(new MapPawnEntry
+                            {
+                                Pawn = inner,
+                                IsDead = true,
+                                Position = corpse.Position
+                            });
+                        }
+                    }
+                }
+
+                entries = entries
+                    .Where(e => e.Pawn != null)
+                    .GroupBy(e => e.Pawn.thingIDNumber)
+                    .Select(g => g.First())
+                    .Where(e => includeDead || !e.IsDead)
+                    .Where(e => MatchesFilters(e, filters))
+                    .ToList();
+
+                if (entries.Count == 0) return "No pawns matched.";
+
+                int matched = entries.Count;
+                var selected = entries
+                    .OrderByDescending(e => IsHostileToPlayer(e.Pawn))
+                    .ThenBy(e => e.IsDead) // living first
+                    .ThenByDescending(e => e.Pawn.RaceProps?.Humanlike ?? false)
+                    .ThenBy(e => e.Pawn.def?.label ?? "")
+                    .ThenBy(e => e.Pawn.Name?.ToStringShort ?? "")
                     .Take(maxResults)
                     .ToList();
 
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine($"Found {pawns.Count} pawns on map (showing up to {maxResults}):");
+                sb.AppendLine($"Found {matched} matching pawns on map (showing {selected.Count}):");
 
-                foreach (var pawn in pawns)
+                foreach (var entry in selected)
                 {
-                    AppendPawnLine(sb, pawn);
+                    AppendPawnLine(sb, entry);
                 }
 
                 return sb.ToString().TrimEnd();
@@ -66,7 +123,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             if (string.IsNullOrWhiteSpace(filterRaw)) return set;
 
-            var parts = filterRaw.Split(new[] { ',', '，', ';', '、', '|' }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = filterRaw.Split(new[] { ',', '\uFF0C', ';', '\u3001', '|' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var part in parts)
             {
                 string token = part.Trim().ToLowerInvariant();
@@ -85,16 +142,18 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 else if (token == "访客" || token == "客人") token = "guest";
                 else if (token == "野生") token = "wild";
                 else if (token == "倒地" || token == "昏迷") token = "downed";
+                else if (token == "死亡" || token == "尸体") token = "dead";
 
                 set.Add(token);
             }
             return set;
         }
 
-        private static bool MatchesFilters(Pawn pawn, HashSet<string> filters)
+        private static bool MatchesFilters(MapPawnEntry entry, HashSet<string> filters)
         {
             if (filters == null || filters.Count == 0) return true;
 
+            Pawn pawn = entry.Pawn;
             bool anyMatched = false;
             foreach (var f in filters)
             {
@@ -112,6 +171,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     "guest" => pawn.guest != null && pawn.Faction != null && pawn.Faction != Faction.OfPlayer,
                     "wild" => pawn.Faction == null && (pawn.RaceProps?.Animal ?? false),
                     "downed" => pawn.Downed,
+                    "dead" => entry.IsDead || pawn.Dead,
                     _ => false
                 };
 
@@ -137,19 +197,20 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         private static bool IsNeutralToPlayer(Pawn pawn)
         {
             if (pawn == null || Faction.OfPlayer == null) return false;
-            if (pawn.Faction == null) return true; // wild/animals etc.
+            if (pawn.Faction == null) return true;
             if (pawn.Faction == Faction.OfPlayer) return false;
             return !pawn.HostileTo(Faction.OfPlayer);
         }
 
-        private static void AppendPawnLine(StringBuilder sb, Pawn pawn)
+        private static void AppendPawnLine(StringBuilder sb, MapPawnEntry entry)
         {
+            Pawn pawn = entry.Pawn;
             string name = pawn.Name?.ToStringShort ?? pawn.LabelShortCap;
             string kind = pawn.def?.label ?? "unknown";
             string faction = pawn.Faction?.Name ?? (pawn.RaceProps?.Animal == true ? "Wild" : "None");
             string relation = IsHostileToPlayer(pawn) ? "Hostile" : (pawn.Faction == Faction.OfPlayer ? "Player" : "Non-hostile");
-            string tags = BuildTags(pawn);
-            string pos = pawn.Position.IsValid ? pawn.Position.ToString() : "?";
+            string tags = BuildTags(pawn, entry.IsDead);
+            string pos = entry.Position.IsValid ? entry.Position.ToString() : (pawn.Position.IsValid ? pawn.Position.ToString() : "?");
 
             sb.Append($"- {name} ({kind})");
             sb.Append($" faction={faction} relation={relation} pos={pos}");
@@ -157,7 +218,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             sb.AppendLine();
         }
 
-        private static string BuildTags(Pawn pawn)
+        private static string BuildTags(Pawn pawn, bool isDead)
         {
             var tags = new List<string>();
             if (pawn.IsFreeColonist) tags.Add("colonist");
@@ -165,6 +226,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             if (pawn.IsSlaveOfColony) tags.Add("slave");
             if (pawn.guest != null && pawn.Faction != null && pawn.Faction != Faction.OfPlayer) tags.Add("guest");
             if (pawn.Downed) tags.Add("downed");
+            if (isDead || pawn.Dead) tags.Add("dead");
             if (pawn.InMentalState) tags.Add("mental");
             if (pawn.Drafted) tags.Add("drafted");
             if (pawn.RaceProps?.Humanlike ?? false) tags.Add("humanlike");
@@ -174,3 +236,4 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         }
     }
 }
+

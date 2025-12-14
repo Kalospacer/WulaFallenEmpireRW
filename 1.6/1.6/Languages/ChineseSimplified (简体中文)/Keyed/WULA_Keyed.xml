@@ -156,6 +156,8 @@
   <Wula_AISettings_ApiKey>API 密钥:</Wula_AISettings_ApiKey>
   <Wula_AISettings_BaseUrl>API 地址 (Base URL):</Wula_AISettings_BaseUrl>
   <Wula_AISettings_Model>模型名称:</Wula_AISettings_Model>
+  <Wula_AISettings_MaxContextTokens>上下文保存长度 (Token 估算上限):</Wula_AISettings_MaxContextTokens>
+  <Wula_AISettings_MaxContextTokensDesc>控制 AI 对话历史在超过上限时自动压缩。数值越小越省成本，但 AI 更容易“忘记”。</Wula_AISettings_MaxContextTokensDesc>
   <Wula_AISettings_UseStreaming>启用流式传输 (实验性)</Wula_AISettings_UseStreaming>
   <Wula_AISettings_UseStreamingDesc>启用实时打字机效果。如果遇到问题请禁用。</Wula_AISettings_UseStreamingDesc>
 

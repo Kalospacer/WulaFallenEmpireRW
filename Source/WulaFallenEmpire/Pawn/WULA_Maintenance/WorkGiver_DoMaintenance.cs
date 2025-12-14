@@ -22,6 +22,20 @@ namespace WulaFallenEmpire
             if (podComp == null || podComp.State != MaintenancePodState.Idle || !podComp.PowerOn)
                 return false;
 
+            // 检查是否有足够的燃料（零部件）
+            // 如果是强制工作（玩家右键），我们允许通过检查，让 JobDriver 去处理（可能会提示燃料不足）
+            // 这样玩家能知道为什么不能工作，而不是默默失败
+            if (!forced)
+            {
+                float requiredFuel = podComp.GetRequiredComponentsFor(pawn);
+                var refuelable = t.TryGetComp<CompRefuelable>();
+                if (refuelable != null && refuelable.Fuel < requiredFuel)
+                {
+                    JobFailReason.Is("WULA_MaintenancePod_NotEnoughComponents".Translate(requiredFuel.ToString("F0")));
+                    return false;
+                }
+            }
+
             // 检查当前pawn是否有维护需求且需要维护
             return PawnNeedsMaintenance(pawn);
         }

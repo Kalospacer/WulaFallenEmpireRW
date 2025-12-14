@@ -21,10 +21,16 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private bool _scrollToBottom = false;
         private List<AITool> _tools = new List<AITool>();
         private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
-        private const int MaxHistoryTokens = 100000;
+        private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
         private int _continuationDepth = 0;
         private const int MaxContinuationDepth = 6;
+
+        private static int GetMaxHistoryTokens()
+        {
+            int configured = WulaFallenEmpire.WulaFallenEmpireMod.settings?.maxContextTokens ?? DefaultMaxHistoryTokens;
+            return Math.Max(1000, Math.Min(200000, configured));
+        }
 
         // Static instance for tools to access
         public static Dialog_AIConversation Instance { get; private set; }
@@ -51,6 +57,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 3.  **WORKFLOW**: You must use tools step-by-step to accomplish tasks. Use the output from one tool to inform your next step.
 4.  **ANTI-HALLUCINATION**: You MUST ONLY call tools from the list below. Do NOT invent tools or parameters. If a task is impossible, explain why without calling a tool.
 5.  **ENFORCEMENT**: The game will execute multiple info tools in one response, but it will NOT execute an action tool (spawn/bombardment/reinforcements/goodwill/expression) if you also included info tools in the same response. Call action tools in a separate turn after you see the info tool results.
+6.  **AFTER TOOL RESULTS**: After you receive tool results, if no further tools are needed, you MUST reply in natural language only (no XML).
 
 ====
 
@@ -151,34 +158,48 @@ Example:
 <get_colonist_status/>
 
 ## get_map_resources
-Description: Checks the player's map for specific resources or buildings to verify their inventory.
+ Description: Checks the player's map for specific resources or buildings to verify their inventory.
+ Use this tool when:
+ - The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
+ - You want to assess the colony's material wealth before making a decision.
+ Parameters:
+ - resourceName: (OPTIONAL) The specific `ThingDef` name of the resource to check (e.g., 'Steel', 'MealSimple'). If omitted, provides a general overview.
+ Usage:
+ <get_map_resources>
+   <resourceName>optional resource name</resourceName>
+ </get_map_resources>
+ Example (checking for Steel):
+ <get_map_resources>
+   <resourceName>Steel</resourceName>
+ </get_map_resources>
+
+## get_recent_notifications
+Description: Gets the most recent letters and messages, sorted by in-game time from newest to oldest.
 Use this tool when:
-- The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
-- You want to assess the colony's material wealth before making a decision.
+- You need recent context about what happened (raids, alerts, rewards, failures) without relying on player memory.
 Parameters:
-- resourceName: (OPTIONAL) The specific `ThingDef` name of the resource to check (e.g., 'Steel', 'MealSimple'). If omitted, provides a general overview.
+- count: (OPTIONAL) How many entries to return (default 10, max 100).
+- includeLetters: (OPTIONAL) true/false (default true).
+- includeMessages: (OPTIONAL) true/false (default true).
 Usage:
-<get_map_resources>
-  <resourceName>optional resource name</resourceName>
-</get_map_resources>
-Example (checking for Steel):
-<get_map_resources>
-  <resourceName>Steel</resourceName>
-</get_map_resources>
+<get_recent_notifications>
+  <count>10</count>
+</get_recent_notifications>
 
 ## get_map_pawns
-Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
-Use this tool when:
-- You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
-- The player claims there are threats or asks about who/what is nearby.
-Parameters:
-- filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed.
-- maxResults: (OPTIONAL) Max lines to return (default 50).
-Usage:
-<get_map_pawns>
+ Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
+ Use this tool when:
+ - You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
+ - The player claims there are threats or asks about who/what is nearby.
+ Parameters:
+ - filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed, dead.
+ - includeDead: (OPTIONAL) true/false, include corpse pawns (default true).
+ - maxResults: (OPTIONAL) Max lines to return (default 50).
+ Usage:
+ <get_map_pawns>
   <filter>hostile, humanlike</filter>
   <maxResults>50</maxResults>
-</get_map_pawns>
+ </get_map_pawns>
 
 ## call_bombardment
  Description: Calls orbital bombardment support at a specified map coordinate using an AbilityDef's bombardment configuration (e.g., WULA_Firepower_Cannon_Salvo).
@@ -270,13 +291,14 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             _tools.Add(new Tool_SpawnResources());
             _tools.Add(new Tool_ModifyGoodwill());
             _tools.Add(new Tool_SendReinforcement());
-            _tools.Add(new Tool_GetColonistStatus());
-            _tools.Add(new Tool_GetMapResources());
-            _tools.Add(new Tool_GetMapPawns());
-            _tools.Add(new Tool_CallBombardment());
-            _tools.Add(new Tool_ChangeExpression());
-            _tools.Add(new Tool_SearchThingDef());
-        }
+             _tools.Add(new Tool_GetColonistStatus());
+             _tools.Add(new Tool_GetMapResources());
+             _tools.Add(new Tool_GetRecentNotifications());
+             _tools.Add(new Tool_GetMapPawns());
+             _tools.Add(new Tool_CallBombardment());
+             _tools.Add(new Tool_ChangeExpression());
+             _tools.Add(new Tool_SearchThingDef());
+         }
 
         public override Vector2 InitialSize => def.windowSize != Vector2.zero ? def.windowSize : Dialog_CustomDisplay.Config.windowSize;
 
@@ -414,6 +436,11 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             {
                 CompressHistoryIfNeeded();
                 string systemInstruction = GetSystemInstruction(); // No longer need to add tool descriptions here
+                if (isContinuation)
+                {
+                    systemInstruction += "\n\n# CONTINUATION\nYou have received tool results. If you already have enough information, reply to the player in natural language only (NO XML, NO tool calls). " +
+                                         "Only call another tool if strictly necessary, and if you do, call ONLY ONE tool in your entire response.";
+                }
 
                 var settings = WulaFallenEmpireMod.settings;
                 if (string.IsNullOrEmpty(settings.apiKey))
@@ -456,7 +483,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         private void CompressHistoryIfNeeded()
         {
             int estimatedTokens = _history.Sum(h => h.message?.Length ?? 0) / CharsPerToken;
-            if (estimatedTokens > MaxHistoryTokens)
+            if (estimatedTokens > GetMaxHistoryTokens())
             {
                 int removeCount = _history.Count / 2;
                 if (removeCount > 0)
@@ -487,15 +514,19 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 StringBuilder xmlOnlyBuilder = new StringBuilder();
                 bool executedAnyInfoTool = false;
                 bool executedAnyActionTool = false;
+                bool executedAnyCosmeticTool = false;
 
                 static bool IsActionToolName(string toolName)
                 {
-                    // Action tools cause side effects / state changes and must be handled step-by-step.
                     return toolName == "spawn_resources" ||
                            toolName == "modify_goodwill" ||
                            toolName == "send_reinforcement" ||
-                           toolName == "call_bombardment" ||
-                           toolName == "change_expression";
+                           toolName == "call_bombardment";
+                }
+
+                static bool IsCosmeticToolName(string toolName)
+                {
+                    return toolName == "change_expression";
                 }
 
                 foreach (Match match in matches)
@@ -504,6 +535,8 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     string toolName = match.Groups[1].Value;
 
                     bool isAction = IsActionToolName(toolName);
+                    bool isCosmetic = IsCosmeticToolName(toolName);
+                    bool isInfo = !isAction && !isCosmetic;
 
                     // Enforce step-by-step tool use:
                     // - Allow batching multiple info tools in one response (read-only queries).
@@ -518,6 +551,21 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     if (isAction && executedAnyActionTool)
                     {
                         combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because only one action tool may be executed per turn.");
+                        break;
+                    }
+                    if (isInfo && executedAnyActionTool)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' and any following tools because info tools must not be mixed with an action tool in the same turn.");
+                        break;
+                    }
+                    if (isCosmetic && executedAnyActionTool)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because cosmetic tools must not be mixed with an action tool in the same turn.");
+                        break;
+                    }
+                    if (isCosmetic && executedAnyCosmeticTool)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because only one cosmetic tool may be executed per turn.");
                         break;
                     }
 
@@ -563,6 +611,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     }
 
                     if (isAction) executedAnyActionTool = true;
+                    else if (isCosmetic) executedAnyCosmeticTool = true;
                     else executedAnyInfoTool = true;
                 }
 
