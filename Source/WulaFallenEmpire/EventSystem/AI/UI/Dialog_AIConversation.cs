@@ -179,6 +179,24 @@ Usage:
   <maxResults>50</maxResults>
 </get_map_pawns>
 
+## call_bombardment
+ Description: Calls orbital bombardment support at a specified map coordinate using an AbilityDef's bombardment configuration (e.g., WULA_Firepower_Cannon_Salvo).
+ Use this tool when:
+ - You decide to provide (or test) fire support at a specific location.
+ Parameters:
+ - abilityDef: (OPTIONAL) AbilityDef defName (default WULA_Firepower_Cannon_Salvo).
+ - x/z: (REQUIRED) Target cell coordinates on the current map.
+ - cell: (OPTIONAL) Alternative to x/z: ""x,z"".
+ - filterFriendlyFire: (OPTIONAL) true/false, avoid targeting player's pawns when possible (default true).
+ Notes:
+ - This tool ignores ability prerequisites (facility/cooldown/non-hostility/research).
+ Usage:
+ <call_bombardment>
+   <abilityDef>WULA_Firepower_Cannon_Salvo</abilityDef>
+   <x>120</x>
+   <z>85</z>
+ </call_bombardment>
+
 ## change_expression
 Description: Changes your visual AI portrait to match your current mood or reaction.
 Use this tool when:
@@ -250,6 +268,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             _tools.Add(new Tool_GetColonistStatus());
             _tools.Add(new Tool_GetMapResources());
             _tools.Add(new Tool_GetMapPawns());
+            _tools.Add(new Tool_CallBombardment());
             _tools.Add(new Tool_ChangeExpression());
             _tools.Add(new Tool_SearchThingDef());
         }

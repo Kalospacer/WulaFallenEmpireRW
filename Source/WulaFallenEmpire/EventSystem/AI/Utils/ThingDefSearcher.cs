@@ -45,16 +45,12 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
             return results;
         }
 
-        /// <summary>
-        /// Parses a natural language request string into a list of spawnable items.
-        /// Example: "5 beef, 1 persona core, 30 wood"
-        /// </summary>
         public static List<SearchResult> ParseAndSearch(string request)
         {
             var results = new List<SearchResult>();
             if (string.IsNullOrEmpty(request)) return results;
 
-            var parts = request.Split(new[] { ',', '，', ';', '、', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = request.Split(new[] { ',', '\uFF0C', ';', '\u3001', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var part in parts)
             {
                 var result = ParseSingleItem(part.Trim());
@@ -88,7 +84,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
             {
                 count = parsedCount;
                 nameQuery = itemRequest.Replace(match.Value, "").Trim();
-                nameQuery = Regex.Replace(nameQuery, @"[个只把张条xX×]", "").Trim();
+                nameQuery = Regex.Replace(nameQuery, @"[\u4E2A\u53EA\u628A\u5F20\u6761xX\u00D7]", "").Trim();
             }
 
             if (string.IsNullOrWhiteSpace(nameQuery))
@@ -150,8 +146,12 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                 }
             }
 
-            bool queryLooksLikeFood = tokens.Any(t => t == "meal" || t == "food" || t.Contains("meal") || t.Contains("food")) ||
-                                      lowerQuery.Contains("食") || lowerQuery.Contains("饭") || lowerQuery.Contains("餐");
+            bool queryLooksLikeFood =
+                tokens.Any(t => t == "meal" || t == "food" || t.Contains("meal") || t.Contains("food")) ||
+                lowerQuery.Contains("\u996D") || // 饭
+                lowerQuery.Contains("\u9910") || // 餐
+                lowerQuery.Contains("\u98DF");   // 食
+
             if (queryLooksLikeFood && def.ingestible != null)
             {
                 score += 0.05f;
@@ -179,12 +179,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                 if (string.IsNullOrWhiteSpace(cleaned)) continue;
                 tokens.Add(cleaned);
 
-                // CJK queries often have no spaces; add bigrams for better partial matching
-                // (e.g. "乌拉能源核心" should match "乌拉帝国能源核心").
+                // CJK queries often have no spaces; add bigrams for better partial matching.
+                // e.g. "乌拉能源核心" should match "乌拉帝国能源核心".
                 AddCjkBigrams(cleaned, tokens);
             }
 
-            // For queries like "fine meal" also consider the normalized concatenation for matching "MealFine".
             if (tokens.Count >= 2)
             {
                 tokens.Add(string.Concat(tokens));
@@ -226,7 +225,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
             int len = end - start + 1;
             if (len < 2) return;
 
-            // cap to avoid generating too many tokens for long Chinese sentences
             int maxBigrams = 32;
             int added = 0;
 
@@ -240,7 +238,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
 
         private static bool IsCjkChar(char c)
         {
-            // Basic CJK ranges commonly used in Chinese/Japanese/Korean text.
             return (c >= '\u4E00' && c <= '\u9FFF') ||
                    (c >= '\u3400' && c <= '\u4DBF') ||
                    (c >= '\uF900' && c <= '\uFAFF');
@@ -256,3 +253,4 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
         }
     }
 }
+

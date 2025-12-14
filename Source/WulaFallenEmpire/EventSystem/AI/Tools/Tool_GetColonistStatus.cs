@@ -7,18 +7,18 @@ using Verse;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
-    public class Tool_GetColonistStatus : AITool
-    {
-        public override string Name => "get_colonist_status";
-        public override string Description => "Returns detailed status of colonists. Can be filtered to find the colonist in the worst condition (e.g., lowest mood, most injured). This helps the AI understand the colony's state without needing to know specific names.";
-        public override string UsageSchema => "<get_colonist_status><filter>string (optional, can be 'lowest_mood', 'most_injured', 'hungriest', 'most_tired')</filter><showAllNeeds>true/false (optional, default true in DevMode, false otherwise)</showAllNeeds><lowNeedThreshold>float 0-1 (optional, default 0.3)</lowNeedThreshold></get_colonist_status>";
+        public class Tool_GetColonistStatus : AITool
+        {
+            public override string Name => "get_colonist_status";
+            public override string Description => "Returns detailed status of colonists. Can be filtered to find the colonist in the worst condition (e.g., lowest mood, most injured). This helps the AI understand the colony's state without needing to know specific names.";
+            public override string UsageSchema => "<get_colonist_status><filter>string (optional, can be 'lowest_mood', 'most_injured', 'hungriest', 'most_tired')</filter><showAllNeeds>true/false (optional, default true)</showAllNeeds><lowNeedThreshold>float 0-1 (optional, default 0.3)</lowNeedThreshold></get_colonist_status>";
 
         public override string Execute(string args)
         {
             try
             {
                 string filter = null;
-                bool showAllNeeds = Prefs.DevMode;
+                bool showAllNeeds = true;
                 float lowNeedThreshold = 0.3f;
 
                 if (!string.IsNullOrEmpty(args))

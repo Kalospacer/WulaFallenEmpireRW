@@ -153,20 +153,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
                 if (thingsToDrop.Count > 0)
                 {
-                    // If the conversation window pauses the game, incoming drop pods may not "land" until unpaused.
-                    // To keep this tool reliable, place items immediately when paused; otherwise, use drop pods.
-                    bool isPaused = Find.TickManager != null && Find.TickManager.Paused;
-                    if (isPaused)
-                    {
-                        foreach (var thing in thingsToDrop)
-                        {
-                            GenPlace.TryPlaceThing(thing, dropSpot, map, ThingPlaceMode.Near);
-                        }
-                    }
-                    else
-                    {
-                        DropPodUtility.DropThingsNear(dropSpot, map, thingsToDrop);
-                    }
+                    DropPodUtility.DropThingsNear(dropSpot, map, thingsToDrop);
                     
                     Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDef.Named("Wula_PIA_Legion_Faction"));
                     // Avoid unresolved named placeholders if the translation system doesn't pick up NamedArguments as expected.
@@ -176,7 +163,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     Messages.Message(letterText, new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
                     
                     resultLog.Length -= 2; // Remove trailing comma
-                    resultLog.Append($" at {dropSpot}. {(isPaused ? "(placed immediately because game is paused)" : "(drop pods inbound)")}");
+                    resultLog.Append($" at {dropSpot}. (drop pods inbound)");
 
                     if (Prefs.DevMode && substitutions.Count > 0)
                     {
