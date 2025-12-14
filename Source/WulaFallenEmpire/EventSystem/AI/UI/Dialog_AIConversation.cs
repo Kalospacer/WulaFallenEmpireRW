@@ -151,25 +151,38 @@ Example:
 <get_colonist_status/>
 
 ## get_map_resources
-Description: Checks the player's map for specific resources or buildings to verify their inventory.
+ Description: Checks the player's map for specific resources or buildings to verify their inventory.
+ Use this tool when:
+ - The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
+ - You want to assess the colony's material wealth before making a decision.
+ Parameters:
+ - resourceName: (OPTIONAL) The specific `ThingDef` name of the resource to check (e.g., 'Steel', 'MealSimple'). If omitted, provides a general overview.
+ Usage:
+ <get_map_resources>
+   <resourceName>optional resource name</resourceName>
+ </get_map_resources>
+ Example (checking for Steel):
+ <get_map_resources>
+   <resourceName>Steel</resourceName>
+ </get_map_resources>
+
+## get_recent_notifications
+Description: Gets the most recent letters and messages, sorted by in-game time from newest to oldest.
 Use this tool when:
-- The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
-- You want to assess the colony's material wealth before making a decision.
+- You need recent context about what happened (raids, alerts, rewards, failures) without relying on player memory.
 Parameters:
-- resourceName: (OPTIONAL) The specific `ThingDef` name of the resource to check (e.g., 'Steel', 'MealSimple'). If omitted, provides a general overview.
+- count: (OPTIONAL) How many entries to return (default 10, max 100).
+- includeLetters: (OPTIONAL) true/false (default true).
+- includeMessages: (OPTIONAL) true/false (default true).
 Usage:
-<get_map_resources>
-  <resourceName>optional resource name</resourceName>
-</get_map_resources>
-Example (checking for Steel):
-<get_map_resources>
-  <resourceName>Steel</resourceName>
-</get_map_resources>
+<get_recent_notifications>
+  <count>10</count>
+</get_recent_notifications>
 
 ## get_map_pawns
-Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
-Use this tool when:
-- You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
+ Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
+ Use this tool when:
+ - You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
 - The player claims there are threats or asks about who/what is nearby.
 Parameters:
 - filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed.
@@ -266,13 +279,14 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             _tools.Add(new Tool_SpawnResources());
             _tools.Add(new Tool_ModifyGoodwill());
             _tools.Add(new Tool_SendReinforcement());
-            _tools.Add(new Tool_GetColonistStatus());
-            _tools.Add(new Tool_GetMapResources());
-            _tools.Add(new Tool_GetMapPawns());
-            _tools.Add(new Tool_CallBombardment());
-            _tools.Add(new Tool_ChangeExpression());
-            _tools.Add(new Tool_SearchThingDef());
-        }
+             _tools.Add(new Tool_GetColonistStatus());
+             _tools.Add(new Tool_GetMapResources());
+             _tools.Add(new Tool_GetRecentNotifications());
+             _tools.Add(new Tool_GetMapPawns());
+             _tools.Add(new Tool_CallBombardment());
+             _tools.Add(new Tool_ChangeExpression());
+             _tools.Add(new Tool_SearchThingDef());
+         }
 
         public override Vector2 InitialSize => def.windowSize != Vector2.zero ? def.windowSize : Dialog_CustomDisplay.Config.windowSize;
 
