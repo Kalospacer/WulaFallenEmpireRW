@@ -178,6 +178,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                 string cleaned = Regex.Replace(token, @"[^\p{L}\p{N}]+", "");
                 if (string.IsNullOrWhiteSpace(cleaned)) continue;
                 tokens.Add(cleaned);
+
+                // CJK queries often have no spaces; add bigrams for better partial matching
+                // (e.g. "乌拉能源核心" should match "乌拉帝国能源核心").
+                AddCjkBigrams(cleaned, tokens);
             }
 
             // For queries like "fine meal" also consider the normalized concatenation for matching "MealFine".
@@ -187,6 +191,59 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
             }
 
             return tokens.Distinct().ToList();
+        }
+
+        private static void AddCjkBigrams(string token, List<string> tokens)
+        {
+            if (string.IsNullOrEmpty(token) || token.Length < 2) return;
+
+            int runStart = -1;
+            for (int i = 0; i < token.Length; i++)
+            {
+                bool isCjk = IsCjkChar(token[i]);
+                if (isCjk)
+                {
+                    if (runStart == -1) runStart = i;
+                }
+                else
+                {
+                    if (runStart != -1)
+                    {
+                        AddBigramsForRun(token, runStart, i - 1, tokens);
+                        runStart = -1;
+                    }
+                }
+            }
+
+            if (runStart != -1)
+            {
+                AddBigramsForRun(token, runStart, token.Length - 1, tokens);
+            }
+        }
+
+        private static void AddBigramsForRun(string token, int start, int end, List<string> tokens)
+        {
+            int len = end - start + 1;
+            if (len < 2) return;
+
+            // cap to avoid generating too many tokens for long Chinese sentences
+            int maxBigrams = 32;
+            int added = 0;
+
+            for (int i = start; i < end; i++)
+            {
+                tokens.Add(token.Substring(i, 2));
+                added++;
+                if (added >= maxBigrams) break;
+            }
+        }
+
+        private static bool IsCjkChar(char c)
+        {
+            // Basic CJK ranges commonly used in Chinese/Japanese/Korean text.
+            return (c >= '\u4E00' && c <= '\u9FFF') ||
+                   (c >= '\u3400' && c <= '\u4DBF') ||
+                   (c >= '\uF900' && c <= '\uFAFF');
         }
 
         private static string NormalizeKey(string s)
