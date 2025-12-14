@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -79,12 +79,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             this.closeOnClickedOutside = false;
             this.draggable = true;
             this.resizeable = true;
+
+            // 关键修改：禁止Enter键自动关闭窗口
+            this.closeOnAccept = false;
+
             _tools.Add(new Tool_SpawnResources());
             _tools.Add(new Tool_ModifyGoodwill());
             _tools.Add(new Tool_SendReinforcement());
              _tools.Add(new Tool_GetColonistStatus());
              _tools.Add(new Tool_GetMapResources());
-             _tools.Add(new Tool_GetRecentNotifications());
              _tools.Add(new Tool_GetMapPawns());
              _tools.Add(new Tool_CallBombardment());
              _tools.Add(new Tool_ChangeExpression());
@@ -890,18 +893,24 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
             }
         }
-
         public override void DoWindowContents(Rect inRect)
         {
             if (background != null) GUI.DrawTexture(inRect, background, ScaleMode.ScaleAndCrop);
-            float curY = inRect.y;
-            float width = inRect.width;
+
+            // 定义边距
+            float margin = 15f;
+            Rect paddedRect = inRect.ContractedBy(margin);
+
+            float curY = paddedRect.y;
+            float width = paddedRect.width;
+
+            // 立绘不需要边距，所以使用原始inRect的位置
             if (portrait != null)
             {
                 Rect scaledPortraitRect = Dialog_CustomDisplay.Config.GetScaledRect(Dialog_CustomDisplay.Config.portraitSize, inRect, true);
-                Rect portraitRect = new Rect((width - scaledPortraitRect.width) / 2, curY, scaledPortraitRect.width, scaledPortraitRect.height);
+                Rect portraitRect = new Rect((inRect.width - scaledPortraitRect.width) / 2, inRect.y, scaledPortraitRect.width, scaledPortraitRect.height);
                 GUI.DrawTexture(portraitRect, portrait, ScaleMode.ScaleToFit);
-                
+
                 // DEBUG: Draw portrait ID
                 Text.Font = GameFont.Medium;
                 Text.Anchor = TextAnchor.UpperRight;
@@ -909,94 +918,199 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
 
-                curY += scaledPortraitRect.height + 10f;
+                curY = portraitRect.yMax + 10f;
             }
+
+            // 人物名字 - 居中显示
             Text.Font = GameFont.Medium;
             string name = def.characterName ?? "The Legion";
             float nameHeight = Text.CalcHeight(name, width);
-            Widgets.Label(new Rect(inRect.x, curY, width, nameHeight), name);
+
+            // 创建名字的矩形，使其在窗口水平居中
+            Rect nameRect = new Rect(paddedRect.x, curY, width, nameHeight);
+            Text.Anchor = TextAnchor.UpperCenter;  // 改为上中对齐
+            Widgets.Label(nameRect, name);
+            Text.Anchor = TextAnchor.UpperLeft;    // 恢复左对齐
+
             curY += nameHeight + 10f;
+
+            // 计算输入框高度、选项高度和聊天历史高度
             float inputHeight = 30f;
             float optionsHeight = _options.Any() ? 100f : 0f;
-            float bottomMargin = 10f;
-            float descriptionHeight = inRect.height - curY - inputHeight - optionsHeight - bottomMargin;
-            Rect descriptionRect = new Rect(inRect.x, curY, width, descriptionHeight);
+            float spacing = 10f;
+
+            // 聊天历史区域 - 使用带边距的矩形
+            float descriptionHeight = paddedRect.height - curY - inputHeight - optionsHeight - spacing * 2;
+            Rect descriptionRect = new Rect(paddedRect.x, curY, width, descriptionHeight);
             DrawChatHistory(descriptionRect);
+
             if (_isThinking)
             {
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(descriptionRect, "Thinking...");
                 Text.Anchor = TextAnchor.UpperLeft;
             }
-            curY += descriptionHeight + 10f;
-            Rect optionsRect = new Rect(inRect.x, curY, width, optionsHeight);
+
+            curY += descriptionHeight + spacing;
+
+            // 选项区域
+            Rect optionsRect = new Rect(paddedRect.x, curY, width, optionsHeight);
             if (!_isThinking && _options.Count > 0)
             {
                 List<EventOption> eventOptions = _options.Select(opt => new EventOption { label = opt, useCustomColors = false }).ToList();
                 DrawOptions(optionsRect, eventOptions);
             }
-            curY += optionsHeight + 10f;
-            Rect inputRect = new Rect(inRect.x, inRect.yMax - inputHeight, width, inputHeight);
-            _inputText = Widgets.TextField(new Rect(inputRect.x, inputRect.y, inputRect.width - 85, inputHeight), _inputText);
-            
-            bool sendButtonPressed = Widgets.ButtonText(new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight), "Wula_AI_Send".Translate());
-            bool enterKeyPressed = Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter);
 
-            if ((sendButtonPressed || enterKeyPressed) && !string.IsNullOrEmpty(_inputText))
+            curY += optionsHeight + spacing;
+
+            // 输入框区域 - 使用带边距的矩形
+            Rect inputRect = new Rect(paddedRect.x, curY, width, inputHeight);
+
+            // 保存当前字体
+            var originalFont = Text.Font;
+
+            // 设置更小的字体
+            if (Text.Font == GameFont.Small)
             {
-                SelectOption(_inputText);
-                _inputText = "";
-                if (enterKeyPressed)
+                // 使用 Tiny 字体
+                Text.Font = GameFont.Tiny;
+            }
+            else
+            {
+                // 如果当前不是 Small，降一级
+                Text.Font = GameFont.Small;
+            }
+
+            // 计算输入框文本高度
+            float textFieldHeight = Text.CalcHeight("Test", inputRect.width - 85);
+            Rect textFieldRect = new Rect(inputRect.x, inputRect.y + (inputHeight - textFieldHeight) / 2, inputRect.width - 85, textFieldHeight);
+
+            _inputText = Widgets.TextField(textFieldRect, _inputText);
+
+            // 发送按钮 - 使用与Dialog_CustomDisplay相同的自定义按钮样式
+            // 保存当前状态
+            var originalAnchor = Text.Anchor;
+            var originalColor = GUI.color;
+
+            // 设置字体为Tiny
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleCenter;
+
+            // 发送按钮的矩形
+            Rect sendButtonRect = new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight);
+
+            // 使用基类的DrawCustomButton方法绘制按钮（与Dialog_CustomDisplay一致）
+            base.DrawCustomButton(sendButtonRect, "Wula_AI_Send".Translate(), isEnabled: true);
+
+            // 恢复状态
+            GUI.color = originalColor;
+            Text.Anchor = originalAnchor;
+            Text.Font = originalFont;
+
+            // 处理点击事件
+            bool sendButtonPressed = Widgets.ButtonInvisible(sendButtonRect);
+
+            // 直接在DoWindowContents中处理Enter键，而不是调用单独的方法
+            // 这是为了确保事件在正确的时机被处理
+            if (Event.current.type == EventType.KeyDown)
+            {
+                // 检查是否按下了Enter键（主键盘或小键盘的Enter）
+                if ((Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter) && !string.IsNullOrEmpty(_inputText))
                 {
+                    // 如果AI正在思考，不处理Enter键
+                    if (!_isThinking)
+                    {
+                        SelectOption(_inputText);
+                        _inputText = "";
+                        // 消费这个事件，防止它传递到窗口的关闭逻辑
+                        Event.current.Use();
+                    }
+                }
+                // 可选：添加Escape键关闭窗口的功能
+                else if (Event.current.keyCode == KeyCode.Escape)
+                {
+                    this.Close();
                     Event.current.Use();
                 }
             }
-        }
 
+            // 处理鼠标点击发送按钮
+            if (sendButtonPressed && !string.IsNullOrEmpty(_inputText))
+            {
+                SelectOption(_inputText);
+                _inputText = "";
+            }
+        }
         private void DrawChatHistory(Rect rect)
         {
             var originalFont = Text.Font;
             var originalAnchor = Text.Anchor;
+
             try
             {
                 float viewHeight = 0f;
                 var filteredHistory = _history.Where(e => e.role != "tool" && e.role != "system").ToList();
-                // Pre-calculate height
+
+                // 添加内边距
+                float innerPadding = 5f;
+                float contentWidth = rect.width - 16f - innerPadding * 2;
+
+                // 预计算高度 - 使用小字体
                 for (int i = 0; i < filteredHistory.Count; i++)
                 {
                     var entry = filteredHistory[i];
                     string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
-
                     if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
-
                     bool isLastMessage = i == filteredHistory.Count - 1;
-                    Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
 
-                    // Increase padding significantly for Medium font to prevent clipping
+                    // 设置更小的字体
+                    if (isLastMessage && entry.role == "assistant")
+                    {
+                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
+                    }
+                    else
+                    {
+                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
+                    }
+                    // 增加padding
                     float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    viewHeight += Text.CalcHeight(text, rect.width - 16f) + padding + 10f; // Add the same margin as in the drawing loop
+                    viewHeight += Text.CalcHeight(text, contentWidth) + padding + 10f;
                 }
+
                 Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
                 if (_scrollToBottom)
                 {
                     _scrollPosition.y = float.MaxValue;
                     _scrollToBottom = false;
                 }
+
                 Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
+
                 float curY = 0f;
                 for (int i = 0; i < filteredHistory.Count; i++)
                 {
                     var entry = filteredHistory[i];
                     string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
-                    
-                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
 
+                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
                     bool isLastMessage = i == filteredHistory.Count - 1;
-                    Text.Font = (isLastMessage && entry.role == "assistant") ? GameFont.Medium : GameFont.Small;
-                    
+
+                    // 设置更小的字体
+                    if (isLastMessage && entry.role == "assistant")
+                    {
+                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
+                    }
+                    else
+                    {
+                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
+                    }
+
                     float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    float height = Text.CalcHeight(text, viewRect.width) + padding;
-                    Rect labelRect = new Rect(0f, curY, viewRect.width, height);
+                    float height = Text.CalcHeight(text, contentWidth) + padding;
+
+                    // 添加内边距
+                    Rect labelRect = new Rect(innerPadding, curY, contentWidth, height);
+
                     if (entry.role == "user")
                     {
                         Text.Anchor = TextAnchor.MiddleRight;
@@ -1009,7 +1123,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
                     curY += height + 10f;
                 }
-
                 Widgets.EndScrollView();
             }
             finally
@@ -1066,7 +1179,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
         }
 
-        private void DrawCustomButton(Rect rect, string label, bool isEnabled = true)
+        private new void DrawCustomButton(Rect rect, string label, bool isEnabled = true)
         {
             bool isMouseOver = Mouse.IsOver(rect);
             Color buttonColor, textColor;
@@ -1148,3 +1261,4 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
     }
 }
+

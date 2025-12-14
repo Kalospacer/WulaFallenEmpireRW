@@ -28,13 +28,13 @@ namespace WulaFallenEmpire
         }
 
         // 新增：自定义按钮样式设置
-        private static readonly Color CustomButtonNormalColor = new Color(0.5f, 0.2f, 0.2f, 1f);
-        private static readonly Color CustomButtonHoverColor = new Color(0.6f, 0.3f, 0.3f, 1f);
-        private static readonly Color CustomButtonDisabledColor = new Color(0.15f, 0.15f, 0.15f, 0.6f);
+        public static readonly Color CustomButtonNormalColor = new Color(0.5f, 0.2f, 0.2f, 1f);
+        public static readonly Color CustomButtonHoverColor = new Color(0.6f, 0.3f, 0.3f, 1f);
+        public static readonly Color CustomButtonDisabledColor = new Color(0.15f, 0.15f, 0.15f, 0.6f);
 
-        private static readonly Color CustomButtonTextNormalColor = new Color(0.9f, 0.9f, 0.9f, 1f);
-        private static readonly Color CustomButtonTextHoverColor = new Color(1f, 1f, 1f, 1f);
-        private static readonly Color CustomButtonTextDisabledColor = new Color(0.6f, 0.6f, 0.6f, 1f);
+        public static readonly Color CustomButtonTextNormalColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+        public static readonly Color CustomButtonTextHoverColor = new Color(1f, 1f, 1f, 1f);
+        public static readonly Color CustomButtonTextDisabledColor = new Color(0.6f, 0.6f, 0.6f, 1f);
 
         // 滚动位置
         protected Vector2 descriptionScrollPosition = Vector2.zero;
@@ -388,7 +388,7 @@ namespace WulaFallenEmpire
         /// <summary>
         /// 绘制自定义按钮（基础版本）
         /// </summary>
-        private void DrawCustomButton(Rect rect, string label, bool isEnabled = true)
+        public void DrawCustomButton(Rect rect, string label, bool isEnabled = true)
         {
             bool isMouseOver = Mouse.IsOver(rect);
 
