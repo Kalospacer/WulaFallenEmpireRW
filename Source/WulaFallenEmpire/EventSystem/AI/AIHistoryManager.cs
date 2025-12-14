@@ -79,6 +79,23 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
         }
 
+        public void ClearHistory(string eventDefName)
+        {
+            _cache.Remove(eventDefName);
+            string path = GetFilePath(eventDefName);
+            try
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[WulaFallenEmpire] Failed to clear AI history at {path}: {ex}");
+            }
+        }
+
         public override void ExposeData()
         {
             base.ExposeData();
