@@ -10,15 +10,12 @@ namespace WulaFallenEmpire
     [HarmonyPatch(typeof(Pawn), "ThreatDisabled")]
     public static class Patch_Pawn_ThreatDisabled
     {
-        public static void Postfix(Pawn __instance, IAttackTargetSearcher disabledFor, ref bool __result)
+        public static void Postfix(Pawn __instance, ref bool __result)
         {
-            if (!__result) return;
-            if (!__instance.IsColonyMech) return;
-
-            var comp = __instance.GetComp<CompAutonomousMech>();
-            if (comp != null && comp.CanFightAutonomously)
+            // 如果已经判定为无威胁，检查是否有CompAutonomousMech组件
+            if (__result && __instance.GetComp<CompAutonomousMech>() != null)
             {
-                __result = false;
+                __result = false; // 强制设置为有威胁
             }
         }
     }
