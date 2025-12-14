@@ -15,9 +15,7 @@ namespace WulaFallenEmpire
         private const float TopAreaHeight = 58f;
 
         private readonly Building_GlobalWorkTable table;
-        private readonly Pawn negotiator;
         private readonly GlobalStorageWorldComponent storage;
-        private readonly GlobalStorageTransferTrader trader;
 
         private readonly QuickSearchWidget quickSearchWidget = new QuickSearchWidget();
         private Vector2 scrollPosition;
@@ -25,19 +23,12 @@ namespace WulaFallenEmpire
 
         private List<Tradeable> tradeables = new List<Tradeable>();
 
-        private ITrader prevTrader;
-        private Pawn prevNegotiator;
-        private TradeDeal prevDeal;
-        private bool prevGiftMode;
-
         public override Vector2 InitialSize => new Vector2(1024f, UI.screenHeight);
 
         public Dialog_GlobalStorageTransfer(Building_GlobalWorkTable table, Pawn negotiator)
         {
             this.table = table;
-            this.negotiator = negotiator;
             storage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            trader = new GlobalStorageTransferTrader(table?.Map, storage);
 
             doCloseX = true;
             closeOnAccept = false;
@@ -48,28 +39,7 @@ namespace WulaFallenEmpire
         public override void PostOpen()
         {
             base.PostOpen();
-
-            prevTrader = TradeSession.trader;
-            prevNegotiator = TradeSession.playerNegotiator;
-            prevDeal = TradeSession.deal;
-            prevGiftMode = TradeSession.giftMode;
-
-            TradeSession.trader = trader;
-            TradeSession.playerNegotiator = negotiator;
-            TradeSession.deal = null;
-            TradeSession.giftMode = false;
-
             RebuildTradeables();
-        }
-
-        public override void PostClose()
-        {
-            base.PostClose();
-
-            TradeSession.trader = prevTrader;
-            TradeSession.playerNegotiator = prevNegotiator;
-            TradeSession.deal = prevDeal;
-            TradeSession.giftMode = prevGiftMode;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -111,30 +81,119 @@ namespace WulaFallenEmpire
             Rect outRect = rect.ContractedBy(5f);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, viewHeight);
 
-            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             float curY = 0f;
             int drawnIndex = 0;
 
-            for (int i = 0; i < tradeables.Count; i++)
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+            try
             {
-                Tradeable trad = tradeables[i];
-                if (trad == null || trad.ThingDef == null) continue;
+                for (int i = 0; i < tradeables.Count; i++)
+                {
+                    Tradeable trad = tradeables[i];
+                    if (trad == null || trad.ThingDef == null) continue;
 
-                if (!quickSearchWidget.filter.Matches(trad.ThingDef))
-                    continue;
+                    PruneTradeableThingLists(trad);
+                    if (!trad.HasAnyThing) continue;
 
-                Rect rowRect = new Rect(0f, curY, viewRect.width, RowHeight);
-                TradeUI.DrawTradeableRow(rowRect, trad, drawnIndex);
-                curY += RowHeight;
-                drawnIndex++;
+                    if (!quickSearchWidget.filter.Matches(trad.ThingDef))
+                        continue;
+
+                    Rect rowRect = new Rect(0f, curY, viewRect.width, RowHeight);
+                    DrawStorageTransferRow(rowRect, trad, drawnIndex);
+                    curY += RowHeight;
+                    drawnIndex++;
+                }
+
+                if (Event.current.type == EventType.Layout)
+                {
+                    viewHeight = Mathf.Max(curY, outRect.height);
+                }
+            }
+            finally
+            {
+                GenUI.ResetLabelAlign();
+                Widgets.EndScrollView();
+            }
+        }
+
+        private static void DrawStorageTransferRow(Rect rect, Tradeable trad, int index)
+        {
+            if (index % 2 == 1)
+            {
+                Widgets.DrawLightHighlight(rect);
             }
 
-            if (Event.current.type == EventType.Layout)
+            Text.Font = GameFont.Small;
+            Widgets.BeginGroup(rect);
+            try
             {
-                viewHeight = Mathf.Max(curY, outRect.height);
+                float width = rect.width;
+
+                int globalCount = SafeCountHeldBy(trad, Transactor.Trader);
+                if (globalCount != 0 && trad.IsThing)
+                {
+                    Rect countRect = new Rect(width - TradeUI.CountColumnWidth, 0f, TradeUI.CountColumnWidth, rect.height);
+                    Widgets.DrawHighlightIfMouseover(countRect);
+                    Text.Anchor = TextAnchor.MiddleRight;
+                    Rect labelRect = countRect.ContractedBy(5f, 0f);
+                    Widgets.Label(labelRect, globalCount.ToStringCached());
+                    TooltipHandler.TipRegionByKey(countRect, "TraderCount");
+                }
+
+                width -= TradeUI.CountColumnWidth + TradeUI.PriceColumnWidth;
+
+                Rect adjustRect = new Rect(width - TradeUI.AdjustColumnWidth, 0f, TradeUI.AdjustColumnWidth, rect.height);
+                int min = -SafeCountHeldBy(trad, Transactor.Colony);
+                int max = SafeCountHeldBy(trad, Transactor.Trader);
+                TransferableUIUtility.DoCountAdjustInterface(adjustRect, trad, index, min, max, flash: false);
+                width -= TradeUI.AdjustColumnWidth;
+
+                int beaconCount = SafeCountHeldBy(trad, Transactor.Colony);
+                if (beaconCount != 0)
+                {
+                    Rect countRect = new Rect(width - TradeUI.CountColumnWidth, 0f, TradeUI.CountColumnWidth, rect.height);
+                    Widgets.DrawHighlightIfMouseover(countRect);
+                    Text.Anchor = TextAnchor.MiddleLeft;
+                    Rect labelRect = countRect.ContractedBy(5f, 0f);
+                    Widgets.Label(labelRect, beaconCount.ToStringCached());
+                    TooltipHandler.TipRegionByKey(countRect, "ColonyCount");
+                }
+
+                width -= TradeUI.CountColumnWidth + TradeUI.PriceColumnWidth;
+
+                Rect infoRect = new Rect(0f, 0f, width, rect.height);
+                TransferableUIUtility.DrawTransferableInfo(trad, infoRect, Color.white);
+            }
+            finally
+            {
+                GenUI.ResetLabelAlign();
+                Widgets.EndGroup();
+            }
+        }
+
+        private static int SafeCountHeldBy(Tradeable trad, Transactor transactor)
+        {
+            if (trad == null) return 0;
+
+            List<Thing> list = (transactor == Transactor.Colony) ? trad.thingsColony : trad.thingsTrader;
+            if (list == null || list.Count == 0) return 0;
+
+            int count = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                Thing t = list[i];
+                if (t == null || t.Destroyed) continue;
+                count += t.stackCount;
             }
 
-            Widgets.EndScrollView();
+            return count;
+        }
+
+        private static void PruneTradeableThingLists(Tradeable trad)
+        {
+            if (trad == null) return;
+            trad.thingsColony?.RemoveAll(t => t == null || t.Destroyed);
+            trad.thingsTrader?.RemoveAll(t => t == null || t.Destroyed);
         }
 
         private void DrawBottomButtons(Rect rect)
@@ -160,27 +219,109 @@ namespace WulaFallenEmpire
 
         private void ExecuteTransfers()
         {
-            bool changed = false;
+            if (storage == null || table?.Map == null)
+                return;
 
-            foreach (var trad in tradeables)
+            bool changed = false;
+            Map map = table.Map;
+            IntVec3 dropSpot = DropCellFinder.TradeDropSpot(map);
+
+            for (int i = 0; i < tradeables.Count; i++)
             {
+                Tradeable trad = tradeables[i];
                 if (trad == null) continue;
                 if (trad.CountToTransfer == 0) continue;
 
-                changed = true;
-                trad.ResolveTrade();
+                PruneTradeableThingLists(trad);
+                if (!trad.HasAnyThing) continue;
+
+                int storeCount = trad.CountToTransferToDestination; // 信标 -> 全局（CountToTransfer<0）
+                int takeCount = trad.CountToTransferToSource;       // 全局 -> 信标（CountToTransfer>0）
+
+                if (storeCount > 0)
+                {
+                    changed |= TransferToGlobalStorage(trad, storeCount);
+                }
+                else if (takeCount > 0)
+                {
+                    changed |= TransferFromGlobalStorage(trad, takeCount, map, dropSpot);
+                }
+
                 trad.ForceTo(0);
             }
 
-            if (changed)
-            {
-                SoundDefOf.ExecuteTrade.PlayOneShotOnCamera();
-                RebuildTradeables();
-            }
-            else
+            if (!changed)
             {
                 SoundDefOf.Tick_Low.PlayOneShotOnCamera();
+                return;
             }
+
+            SoundDefOf.ExecuteTrade.PlayOneShotOnCamera();
+            RebuildTradeables();
+        }
+
+        private bool TransferToGlobalStorage(Tradeable trad, int count)
+        {
+            if (trad == null || count <= 0 || storage == null) return false;
+
+            bool changed = false;
+            TransferableUtility.TransferNoSplit(trad.thingsColony, count, (Thing thing, int countToTransfer) =>
+            {
+                if (thing == null || thing.Destroyed || countToTransfer <= 0) return;
+
+                Thing split = thing.SplitOff(countToTransfer);
+                if (split == null) return;
+
+                if (ShouldGoToOutputStorage(split))
+                {
+                    storage.AddToOutputStorage(split);
+                }
+                else
+                {
+                    storage.AddToInputStorage(split);
+                }
+
+                changed = true;
+            });
+
+            return changed;
+        }
+
+        private bool TransferFromGlobalStorage(Tradeable trad, int count, Map map, IntVec3 dropSpot)
+        {
+            if (trad == null || count <= 0 || storage == null || map == null) return false;
+
+            bool changed = false;
+            TransferableUtility.TransferNoSplit(trad.thingsTrader, count, (Thing thing, int countToTransfer) =>
+            {
+                if (thing == null || thing.Destroyed || countToTransfer <= 0) return;
+
+                Thing split = thing.SplitOff(countToTransfer);
+                if (split == null) return;
+
+                if (split.holdingOwner != null)
+                {
+                    split.holdingOwner.Remove(split);
+                }
+                if (split.Spawned)
+                {
+                    split.DeSpawn();
+                }
+
+                TradeUtility.SpawnDropPod(dropSpot, map, split);
+                changed = true;
+            });
+
+            return changed;
+        }
+
+        private static bool ShouldGoToOutputStorage(Thing thing)
+        {
+            ThingDef def = thing?.def;
+            if (def == null) return false;
+            if (def.IsWeapon) return true;
+            if (def.IsApparel) return true;
+            return false;
         }
 
         private void RebuildTradeables()
@@ -257,81 +398,16 @@ namespace WulaFallenEmpire
         {
             public override bool TraderWillTrade => true;
             public override bool IsCurrency => false;
+            public override bool Interactive => true;
+            public override TransferablePositiveCountDirection PositiveCountDirection => TransferablePositiveCountDirection.Source;
         }
 
         private class Tradeable_StorageTransferPawn : Tradeable_Pawn
         {
             public override bool TraderWillTrade => true;
             public override bool IsCurrency => false;
-        }
-
-        private class GlobalStorageTransferTrader : ITrader
-        {
-            private readonly Map map;
-            private readonly GlobalStorageWorldComponent storage;
-            private readonly TraderKindDef traderKind;
-
-            public GlobalStorageTransferTrader(Map map, GlobalStorageWorldComponent storage)
-            {
-                this.map = map;
-                this.storage = storage;
-
-                traderKind =
-                    DefDatabase<TraderKindDef>.GetNamedSilentFail("Orbital_ExoticGoods") ??
-                    DefDatabase<TraderKindDef>.GetNamedSilentFail("Orbital_BulkGoods") ??
-                    DefDatabase<TraderKindDef>.AllDefs.FirstOrDefault();
-            }
-
-            public TraderKindDef TraderKind => traderKind;
-            public IEnumerable<Thing> Goods => Enumerable.Empty<Thing>();
-            public int RandomPriceFactorSeed => 0;
-            public string TraderName => "WULA_GlobalStorageTransferTitle".Translate();
-            public bool CanTradeNow => true;
-            public float TradePriceImprovementOffsetForPlayer => 0f;
-            public Faction Faction => Faction.OfPlayer;
-            public TradeCurrency TradeCurrency => TradeCurrency.Silver;
-
-            public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator) => Enumerable.Empty<Thing>();
-
-            public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
-            {
-                if (storage == null) return;
-                if (toGive == null || countToGive <= 0) return;
-
-                Thing thing = toGive.SplitOff(countToGive);
-                thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this);
-
-                if (ShouldGoToOutputStorage(thing))
-                {
-                    storage.AddToOutputStorage(thing);
-                }
-                else
-                {
-                    storage.AddToInputStorage(thing);
-                }
-            }
-
-            public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
-            {
-                if (storage == null) return;
-                if (map == null) return;
-                if (toGive == null || countToGive <= 0) return;
-
-                Thing thing = toGive.SplitOff(countToGive);
-                thing.PreTraded(TradeAction.PlayerBuys, playerNegotiator, this);
-
-                IntVec3 dropSpot = DropCellFinder.TradeDropSpot(map);
-                TradeUtility.SpawnDropPod(dropSpot, map, thing);
-            }
-
-            private static bool ShouldGoToOutputStorage(Thing thing)
-            {
-                ThingDef def = thing?.def;
-                if (def == null) return false;
-                if (def.IsWeapon) return true;
-                if (def.IsApparel) return true;
-                return false;
-            }
+            public override bool Interactive => true;
+            public override TransferablePositiveCountDirection PositiveCountDirection => TransferablePositiveCountDirection.Source;
         }
     }
 }
