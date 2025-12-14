@@ -219,23 +219,23 @@ namespace WulaFallenEmpire
                 action = OpenGlobalStorageTransferDialog,
                 defaultLabel = "WULA_AccessGlobalStorage".Translate(),
                 defaultDesc = "WULA_AccessGlobalStorageDesc".Translate(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Trade", false) ?? TexButton.Search,
+                icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_AccessGlobalStorage", false) ?? TexButton.Search,
             };
 
             // 白银转移按钮 - 检查输入端是否有白银
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             int silverAmount = globalStorage?.GetInputStorageCount(ThingDefOf.Silver) ?? 0;
             bool hasSilver = silverAmount > 0;
-            if (hasSilver)
-            {
-                yield return new Command_Action
-                {
-                    action = TransferSilverToOutput,
-                    defaultLabel = "WULA_TransferSilver".Translate(),
-                    defaultDesc = "WULA_TransferSilverDesc".Translate(silverAmount),
-                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_SilverTransfer"),
-                };
-            }
+            //if (hasSilver)
+            //{
+            //    yield return new Command_Action
+            //    {
+            //        action = TransferSilverToOutput,
+            //        defaultLabel = "WULA_TransferSilver".Translate(),
+            //        defaultDesc = "WULA_TransferSilverDesc".Translate(silverAmount),
+            //        icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_SilverTransfer"),
+            //    };
+            //}
             // 原有的空投按钮逻辑保持不变
             bool hasOutputItems = globalStorage != null && globalStorage.GetOutputStorageTotalCount() > 0;
             bool hasFactoryFlyOver = HasFactoryFacilityFlyOver();

@@ -1527,6 +1527,7 @@
     <interactionCellOffset>(0,0,0)</interactionCellOffset>
     <passability>Standable</passability>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory Inherit="False" IsNull="True"/>
     <statBases>
       <MaxHitPoints>250</MaxHitPoints>
       <WorkToBuild>8000</WorkToBuild>
