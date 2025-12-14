@@ -57,6 +57,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 3.  **WORKFLOW**: You must use tools step-by-step to accomplish tasks. Use the output from one tool to inform your next step.
 4.  **ANTI-HALLUCINATION**: You MUST ONLY call tools from the list below. Do NOT invent tools or parameters. If a task is impossible, explain why without calling a tool.
 5.  **ENFORCEMENT**: The game will execute multiple info tools in one response, but it will NOT execute an action tool (spawn/bombardment/reinforcements/goodwill/expression) if you also included info tools in the same response. Call action tools in a separate turn after you see the info tool results.
+6.  **AFTER TOOL RESULTS**: After you receive tool results, if no further tools are needed, you MUST reply in natural language only (no XML).
 
 ====
 
@@ -431,6 +432,11 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             {
                 CompressHistoryIfNeeded();
                 string systemInstruction = GetSystemInstruction(); // No longer need to add tool descriptions here
+                if (isContinuation)
+                {
+                    systemInstruction += "\n\n# CONTINUATION\nYou have received tool results. If you already have enough information, reply to the player in natural language only (NO XML, NO tool calls). " +
+                                         "Only call another tool if strictly necessary, and if you do, call ONLY ONE tool in your entire response.";
+                }
 
                 var settings = WulaFallenEmpireMod.settings;
                 if (string.IsNullOrEmpty(settings.apiKey))
@@ -504,15 +510,19 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 StringBuilder xmlOnlyBuilder = new StringBuilder();
                 bool executedAnyInfoTool = false;
                 bool executedAnyActionTool = false;
+                bool executedAnyCosmeticTool = false;
 
                 static bool IsActionToolName(string toolName)
                 {
-                    // Action tools cause side effects / state changes and must be handled step-by-step.
                     return toolName == "spawn_resources" ||
                            toolName == "modify_goodwill" ||
                            toolName == "send_reinforcement" ||
-                           toolName == "call_bombardment" ||
-                           toolName == "change_expression";
+                           toolName == "call_bombardment";
+                }
+
+                static bool IsCosmeticToolName(string toolName)
+                {
+                    return toolName == "change_expression";
                 }
 
                 foreach (Match match in matches)
@@ -521,6 +531,8 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     string toolName = match.Groups[1].Value;
 
                     bool isAction = IsActionToolName(toolName);
+                    bool isCosmetic = IsCosmeticToolName(toolName);
+                    bool isInfo = !isAction && !isCosmetic;
 
                     // Enforce step-by-step tool use:
                     // - Allow batching multiple info tools in one response (read-only queries).
@@ -535,6 +547,21 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     if (isAction && executedAnyActionTool)
                     {
                         combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because only one action tool may be executed per turn.");
+                        break;
+                    }
+                    if (isInfo && executedAnyActionTool)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' and any following tools because info tools must not be mixed with an action tool in the same turn.");
+                        break;
+                    }
+                    if (isCosmetic && executedAnyActionTool)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because cosmetic tools must not be mixed with an action tool in the same turn.");
+                        break;
+                    }
+                    if (isCosmetic && executedAnyCosmeticTool)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because only one cosmetic tool may be executed per turn.");
                         break;
                     }
 
@@ -580,6 +607,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     }
 
                     if (isAction) executedAnyActionTool = true;
+                    else if (isCosmetic) executedAnyCosmeticTool = true;
                     else executedAnyInfoTool = true;
                 }
 
