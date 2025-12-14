@@ -67,16 +67,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     <tool_name>
       <parameter_name>value</parameter_name>
     </tool_name>
-2.  **STRICT OUTPUT (TOOL PHASES)**: In PHASE 1/2/3, your output MUST be either:
-    - One or more XML tool calls (no extra text), OR
-    - Exactly: <no_action/>
-    Do NOT include any natural language, explanation, markdown, or additional commentary in tool phases.
+2.  **STRICT OUTPUT (TOOL PHASES)**:
+    - In PHASE 1/2, your output MUST be either:
+      - One or more XML tool calls (no extra text), OR
+      - Exactly: <no_action/>
+    - In PHASE 3, you MUST output XML tool calls only AND you MUST include exactly one <change_expression> (expression_id 1-6). Do NOT output <no_action/> in PHASE 3.
+    Do NOT include any natural language, explanation, markdown, or additional commentary in tool phases (PHASE 1/2/3).
 3.  **STRICT OUTPUT (REPLY PHASE)**: In PHASE 4, tools are disabled. You MUST reply in natural language only and MUST NOT output any XML.
 4.  **ALLOWED TOOLS**: You MUST ONLY call tools listed in the current phase's tool list (the section titled ""# TOOLS (PHASE X/4 ONLY)"").
 5.  **WORKFLOW**: Use the phase workflow:
     - PHASE 1 gathers info (optional).
     - PHASE 2 performs at most one in-game action (optional).
-    - PHASE 3 performs UI/meta adjustments (optional).
+    - PHASE 3 performs UI/meta adjustments (MUST include <change_expression>).
     - PHASE 4 replies to the player in natural language (mandatory).
 6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, use <no_action/> and proceed to PHASE 4 to explain limitations.
 ";
@@ -221,7 +223,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                        "IMPORTANT: Tool calls are DISABLED in this turn. Reply in natural language only. Do NOT output any XML.";
             }
 
-            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.";
+            // Tool phases (1/2/3): avoid instructing the model to "reply" in a human language, because it must output XML only.
+            // We still provide the language so it can be used in PHASE 4.
+            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: In PHASE 1/2/3 you MUST output XML only (tool calls or <no_action/>). " +
+                   $"You will produce the natural-language reply in PHASE 4 and MUST use: {language}.";
         }
 
         private string BuildToolsForPhase(RequestPhase phase)
@@ -398,6 +403,13 @@ Description: Changes your visual AI portrait to match your current mood or react
 Use this tool when:
 - Your verbal response conveys a strong emotion (e.g., annoyance, approval, curiosity).
 - You want to visually emphasize your statement.
+Expression meanings (choose the closest match):
+- 1: 得意、炫耀（非敌对）、示威（非敌对）、展示武力和财力（非敌对）、策划计谋
+- 2: 常态立绘（当其他立绘不适用时使用这个）
+- 3: 无言以对、不满、无奈、轻微的鄙视
+- 4: 恼火、展现轻微敌对姿态、抗拒
+- 5: 答复、解释
+- 6: 严重的敌意、严重不满、攻击性行为
 Parameters:
 - expression_id: (REQUIRED) An integer from 1 to 6 corresponding to a specific expression.
 Usage:
@@ -467,11 +479,13 @@ Example (changing to a neutral expression):
                     "Output: XML only.\n",
                 RequestPhase.Cosmetic =>
                     "# PHASE 3/4 (Cosmetic)\n" +
-                    "Goal: Optional UI/meta adjustments before your final reply.\n" +
+                    "Goal: Set your UI expression before your final reply.\n" +
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- You MAY call up to 2 tools from \"# TOOLS (PHASE 3/4 ONLY)\".\n" +
-                    "- If you do not need any tool, output exactly: <no_action/>.\n" +
+                    "- You MUST call exactly ONE <change_expression> in this phase (expression_id 1-6).\n" +
+                    "- You MAY also call <modify_goodwill> (invisible) if needed, but keep changes small.\n" +
+                    "- Use <modify_goodwill> only to adjust your INTERNAL goodwill (invisible to the player).\n" +
+                    "- Do NOT output <no_action/> in this phase.\n" +
                     "After this phase, the game will automatically proceed to PHASE 4.\n" +
                     "Output: XML only.\n",
                 RequestPhase.Reply =>
@@ -489,6 +503,13 @@ Example (changing to a neutral expression):
         {
             if (string.IsNullOrWhiteSpace(response)) return false;
             return Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
+        }
+
+        private static bool ContainsToolCall(string response, string toolName)
+        {
+            if (string.IsNullOrWhiteSpace(response) || string.IsNullOrWhiteSpace(toolName)) return false;
+            string pattern = $@"<\s*{Regex.Escape(toolName)}(?:\s|/|>)";
+            return Regex.IsMatch(response, pattern, RegexOptions.IgnoreCase);
         }
 
         private static bool IsAllowedInPhase(RequestPhase phase, string toolName)
@@ -522,7 +543,7 @@ Example (changing to a neutral expression):
             return phase switch
             {
                 RequestPhase.Info => 4,
-                RequestPhase.Action => 2,
+                RequestPhase.Action => 1,
                 RequestPhase.Cosmetic => 2,
                 _ => 0
             };
@@ -613,7 +634,7 @@ Example (changing to a neutral expression):
                     if (!IsXmlToolCall(response))
                     {
                         // If the model didn't call tools when tools are expected, push it forward with a reminder.
-                        _history.Add(("system", $"[PhaseEnforcer] You must output XML tool calls in PHASE {phaseIndex}. If no tool is needed, output <no_action/>."));
+                        _history.Add(("system", $"[PhaseEnforcer] PHASE {phaseIndex}/4 is a tool phase. Output XML tool calls only, or exactly <no_action/>. Do NOT output any natural language."));
                         PersistHistory();
                         if (Prefs.DevMode)
                         {
@@ -624,6 +645,42 @@ Example (changing to a neutral expression):
                         {
                             _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
                             return;
+                        }
+
+                        // If it STILL refuses to output XML, forcibly treat it as <no_action/> to keep the phase deterministic.
+                        if (!IsXmlToolCall(response))
+                        {
+                            if (Prefs.DevMode)
+                            {
+                                Log.Warning($"[WulaAI] Turn {phaseIndex}/4 still missing XML after retry; forcing <no_action/>");
+                            }
+                            response = phase == RequestPhase.Cosmetic
+                                ? "<change_expression><expression_id>2</expression_id></change_expression>"
+                                : "<no_action/>";
+                        }
+                    }
+
+                    if (phase == RequestPhase.Cosmetic && !ContainsToolCall(response, "change_expression"))
+                    {
+                        _history.Add(("system", "[PhaseEnforcer] PHASE 3/4 MUST include exactly one <change_expression> (expression_id 1-6). Output XML only and do NOT output <no_action/> in PHASE 3."));
+                        PersistHistory();
+                        if (Prefs.DevMode)
+                        {
+                            Log.Message("[WulaAI] Turn 3/4 missing <change_expression>; retrying once");
+                        }
+
+                        string retry = await client.GetChatCompletionAsync(systemInstruction, _history);
+                        if (!string.IsNullOrEmpty(retry) && ContainsToolCall(retry, "change_expression"))
+                        {
+                            response = retry;
+                        }
+                        else
+                        {
+                            if (Prefs.DevMode)
+                            {
+                                Log.Warning("[WulaAI] Turn 3/4 still missing <change_expression> after retry; forcing default expression_id=2");
+                            }
+                            response = "<change_expression><expression_id>2</expression_id></change_expression>";
                         }
                     }
 
@@ -646,10 +703,17 @@ Example (changing to a neutral expression):
             // Special-case no_action for phases 1-3.
             if (Regex.IsMatch(xml ?? "", @"<\s*no_action\s*/\s*>", RegexOptions.IgnoreCase))
             {
+                if (phase == RequestPhase.Cosmetic)
+                {
+                    xml = "<change_expression><expression_id>2</expression_id></change_expression>";
+                }
+                else
+                {
                 _history.Add(("assistant", "<no_action/>"));
                 _history.Add(("tool", "[Tool Results]\nTool 'no_action' Result: No action taken."));
                 PersistHistory();
                 return;
+                }
             }
 
             // Reuse the tool runner but temporarily constrain allowed tools by phase.
@@ -664,6 +728,9 @@ Example (changing to a neutral expression):
 
             int maxTools = MaxToolsPerPhase(phase);
             int executed = 0;
+            bool actionHadError = false;
+            bool executedChangeExpression = false;
+            bool executedModifyGoodwill = false;
             StringBuilder combinedResults = new StringBuilder();
             StringBuilder xmlOnlyBuilder = new StringBuilder();
 
@@ -682,6 +749,28 @@ Example (changing to a neutral expression):
                 {
                     combinedResults.AppendLine($"ToolRunner Note: Tool '{toolName}' is not allowed in phase {phase}.");
                     continue;
+                }
+
+                if (phase == RequestPhase.Cosmetic)
+                {
+                    if (toolName.Equals("change_expression", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (executedChangeExpression)
+                        {
+                            combinedResults.AppendLine("ToolRunner Note: Skipped duplicate 'change_expression' (only one is allowed in PHASE 3).");
+                            continue;
+                        }
+                        executedChangeExpression = true;
+                    }
+                    else if (toolName.Equals("modify_goodwill", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (executedModifyGoodwill)
+                        {
+                            combinedResults.AppendLine("ToolRunner Note: Skipped duplicate 'modify_goodwill' (only one is allowed in PHASE 3).");
+                            continue;
+                        }
+                        executedModifyGoodwill = true;
+                    }
                 }
 
                 if (xmlOnlyBuilder.Length > 0) xmlOnlyBuilder.AppendLine().AppendLine();
@@ -711,6 +800,7 @@ Example (changing to a neutral expression):
                 if (_recentToolSignatures.Count > 12) _recentToolSignatures.RemoveRange(0, _recentToolSignatures.Count - 12);
 
                 string result = tool.Execute(argsXml).Trim();
+                bool isError = !string.IsNullOrEmpty(result) && result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase);
                 if (toolName == "modify_goodwill")
                 {
                     combinedResults.AppendLine($"Tool '{toolName}' Result (Invisible): {result}");
@@ -721,11 +811,21 @@ Example (changing to a neutral expression):
                 }
 
                 executed++;
+
+                if (phase == RequestPhase.Action && isError)
+                {
+                    actionHadError = true;
+                    combinedResults.AppendLine("ToolRunner Guard: The action tool returned an error. In PHASE 4 you MUST tell the player the action FAILED and MUST NOT claim success.");
+                }
             }
 
             string xmlOnly = xmlOnlyBuilder.Length == 0 ? "<no_action/>" : xmlOnlyBuilder.ToString().Trim();
             _history.Add(("assistant", xmlOnly));
             _history.Add(("tool", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
+            if (phase == RequestPhase.Action && actionHadError)
+            {
+                _history.Add(("system", "[ActionFailed] The in-game action in PHASE 2 FAILED (tool returned Error). In PHASE 4 you MUST acknowledge the failure and MUST NOT claim any reinforcements/bombardment/resources were successfully dispatched."));
+            }
             PersistHistory();
 
             // Between phases, do not request the model again here; RunPhasedRequestAsync controls the sequence.
@@ -1109,12 +1209,15 @@ Example (changing to a neutral expression):
                 Rect portraitRect = new Rect((inRect.width - scaledPortraitRect.width) / 2, inRect.y, scaledPortraitRect.width, scaledPortraitRect.height);
                 GUI.DrawTexture(portraitRect, portrait, ScaleMode.ScaleToFit);
 
-                // DEBUG: Draw portrait ID
-                Text.Font = GameFont.Medium;
-                Text.Anchor = TextAnchor.UpperRight;
-                Widgets.Label(portraitRect, $"ID: {_currentPortraitId}");
-                Text.Anchor = TextAnchor.UpperLeft;
-                Text.Font = GameFont.Small;
+                if (Prefs.DevMode)
+                {
+                    // DEBUG: Draw portrait ID
+                    Text.Font = GameFont.Medium;
+                    Text.Anchor = TextAnchor.UpperRight;
+                    Widgets.Label(portraitRect, $"ID: {_currentPortraitId}");
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    Text.Font = GameFont.Small;
+                }
 
                 curY = portraitRect.yMax + 10f;
             }
