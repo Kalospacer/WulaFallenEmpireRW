@@ -183,15 +183,16 @@ Usage:
  Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
  Use this tool when:
  - You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
-- The player claims there are threats or asks about who/what is nearby.
-Parameters:
-- filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed.
-- maxResults: (OPTIONAL) Max lines to return (default 50).
-Usage:
-<get_map_pawns>
+ - The player claims there are threats or asks about who/what is nearby.
+ Parameters:
+ - filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed, dead.
+ - includeDead: (OPTIONAL) true/false, include corpse pawns (default true).
+ - maxResults: (OPTIONAL) Max lines to return (default 50).
+ Usage:
+ <get_map_pawns>
   <filter>hostile, humanlike</filter>
   <maxResults>50</maxResults>
-</get_map_pawns>
+ </get_map_pawns>
 
 ## call_bombardment
  Description: Calls orbital bombardment support at a specified map coordinate using an AbilityDef's bombardment configuration (e.g., WULA_Firepower_Cannon_Salvo).
