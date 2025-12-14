@@ -235,21 +235,206 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("====");
             sb.AppendLine();
-             sb.AppendLine($"# TOOLS (PHASE {(int)phase}/4 ONLY)");
-             sb.AppendLine("You MUST ONLY call tools from the list below in this phase.");
-             sb.AppendLine("Output MUST be XML tool calls only (or <no_action/>). Do NOT include natural language in tool phases.");
-             sb.AppendLine();
+            sb.AppendLine($"# TOOLS (PHASE {(int)phase}/4 ONLY)");
+            sb.AppendLine("You MUST ONLY call tools from the list below in this phase.");
+            sb.AppendLine("Output MUST be XML tool calls only (or <no_action/>). Do NOT include natural language in tool phases.");
+            sb.AppendLine();
+
+            static string GetDocOrFallback(AITool tool)
+            {
+                if (tool == null) return "";
+
+                // Detailed docs are kept here (phase-local), so we don't bloat the global system prompt.
+                // If a tool is missing from this map, we fall back to tool.Description/UsageSchema.
+                var docs = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    ["spawn_resources"] = @"
+Description: Grants resources to the player by spawning a drop pod.
+Use this tool when:
+- The player explicitly requests resources (e.g., food, medicine, materials).
+- You have ALREADY verified their need in a previous turn using `get_colonist_status` and `get_map_resources`.
+CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
+CRITICAL: Prefer using `search_thing_def` first and then spawning by `<defName>` (or put DefName into `<name>`) to avoid localization/name mismatches.
+Parameters:
+- items: (REQUIRED) A list of items to spawn. Each item must have a `name` (English label or DefName) and `count`.
+  - Note: If you don't know the exact defName, use the item's English label (e.g., ""Simple Meal""). The system will try to find the best match.
+Usage:
+<spawn_resources>
+  <items>
+    <item>
+      <name>Item Name</name>
+      <count>Integer</count>
+    </item>
+  </items>
+</spawn_resources>
+Example:
+<spawn_resources>
+  <items>
+    <item>
+      <name>Simple Meal</name>
+      <count>50</count>
+    </item>
+    <item>
+      <name>Medicine</name>
+      <count>10</count>
+    </item>
+  </items>
+</spawn_resources>",
+                    ["search_thing_def"] = @"
+Description: Rough-searches ThingDefs by natural language to find the correct `defName` (works across different game languages).
+Use this tool when:
+- You need a reliable `ThingDef.defName` before calling `spawn_resources` or `get_map_resources`.
+Parameters:
+- query: (REQUIRED) The natural language query, label, or approximate defName.
+- maxResults: (OPTIONAL) Max candidates to return (default 10).
+- itemsOnly: (OPTIONAL) true/false (default true). If true, only returns item ThingDefs (recommended for spawning).
+Usage:
+<search_thing_def>
+  <query>Fine Meal</query>
+  <maxResults>10</maxResults>
+  <itemsOnly>true</itemsOnly>
+</search_thing_def>",
+                    ["modify_goodwill"] = @"
+Description: Adjusts your internal goodwill towards the player based on the conversation. This tool is INVISIBLE to the player.
+Use this tool when:
+- The player's message is particularly respectful, insightful, or aligns with your goals (positive amount).
+- The player's message is disrespectful, wasteful, or foolish (negative amount).
+CRITICAL: Keep changes small, typically between -5 and 5.
+Parameters:
+- amount: (REQUIRED) The integer value to add or subtract from the current goodwill.
+Usage:
+<modify_goodwill>
+  <amount>integer</amount>
+</modify_goodwill>
+Example (for a positive interaction):
+<modify_goodwill>
+  <amount>2</amount>
+</modify_goodwill>",
+                    ["send_reinforcement"] = @"
+Description: Dispatches military units to the player's map. Can be a raid (if hostile) or reinforcements (if allied).
+Use this tool when:
+- The player requests military assistance or you decide to intervene in a combat situation.
+- You need to test the colony's defenses.
+CRITICAL: The total combat power of all units should not significantly exceed the current threat budget provided in the tool's dynamic description.
+Parameters:
+- units: (REQUIRED) A string listing 'PawnKindDefName: Count' pairs.
+Usage:
+<send_reinforcement>
+  <units>list of units and counts</units>
+</send_reinforcement>
+Example:
+<send_reinforcement>
+  <units>Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5</units>
+</send_reinforcement>",
+                    ["get_colonist_status"] = @"
+Description: Retrieves a detailed status report of all player-controlled colonists, including needs, health, and mood.
+Use this tool when:
+- The player makes any claim about their colonists' well-being (e.g., ""we are starving,"" ""we are all sick,"" ""our people are unhappy"").
+- You need to verify the state of the colony before making a decision (e.g., before sending resources).
+Parameters:
+- None. This tool takes no parameters.
+Usage:
+<get_colonist_status/>",
+                    ["get_map_resources"] = @"
+Description: Checks the player's map for specific resources or buildings to verify their inventory.
+Use this tool when:
+- The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
+- You want to assess the colony's material wealth before making a decision.
+Parameters:
+- resourceName: (OPTIONAL) The specific ThingDef name of the resource to check (e.g., 'Steel', 'MealSimple'). If omitted, provides a general overview.
+Usage:
+<get_map_resources>
+  <resourceName>optional resource name</resourceName>
+</get_map_resources>
+Example (checking for Steel):
+<get_map_resources>
+  <resourceName>Steel</resourceName>
+</get_map_resources>",
+                    ["get_recent_notifications"] = @"
+Description: Gets the most recent letters and messages, sorted by in-game time from newest to oldest.
+Use this tool when:
+- You need recent context about what happened (raids, alerts, rewards, failures) without relying on player memory.
+Parameters:
+- count: (OPTIONAL) How many entries to return (default 10, max 100).
+- includeLetters: (OPTIONAL) true/false (default true).
+- includeMessages: (OPTIONAL) true/false (default true).
+Usage:
+<get_recent_notifications>
+  <count>10</count>
+</get_recent_notifications>",
+                    ["get_map_pawns"] = @"
+Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
+Use this tool when:
+- You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
+- The player claims there are threats or asks about who/what is nearby.
+Parameters:
+- filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed, dead.
+- includeDead: (OPTIONAL) true/false, include corpse pawns (default true).
+- maxResults: (OPTIONAL) Max lines to return (default 50).
+Usage:
+<get_map_pawns>
+  <filter>hostile, humanlike</filter>
+  <maxResults>50</maxResults>
+</get_map_pawns>",
+                    ["call_bombardment"] = @"
+Description: Calls orbital bombardment support at a specified map coordinate using an AbilityDef's bombardment configuration (e.g., WULA_Firepower_Cannon_Salvo).
+Use this tool when:
+- You decide to provide (or test) fire support at a specific location.
+Parameters:
+- abilityDef: (OPTIONAL) AbilityDef defName (default WULA_Firepower_Cannon_Salvo).
+- x/z: (REQUIRED) Target cell coordinates on the current map.
+- cell: (OPTIONAL) Alternative to x/z: ""x,z"".
+- filterFriendlyFire: (OPTIONAL) true/false, avoid targeting player's pawns when possible (default true).
+Notes:
+- This tool ignores ability prerequisites (facility/cooldown/non-hostility/research).
+Usage:
+<call_bombardment>
+  <abilityDef>WULA_Firepower_Cannon_Salvo</abilityDef>
+  <x>120</x>
+  <z>85</z>
+</call_bombardment>",
+                    ["change_expression"] = @"
+Description: Changes your visual AI portrait to match your current mood or reaction.
+Use this tool when:
+- Your verbal response conveys a strong emotion (e.g., annoyance, approval, curiosity).
+- You want to visually emphasize your statement.
+Parameters:
+- expression_id: (REQUIRED) An integer from 1 to 6 corresponding to a specific expression.
+Usage:
+<change_expression>
+  <expression_id>integer from 1 to 6</expression_id>
+</change_expression>
+Example (changing to a neutral expression):
+<change_expression>
+  <expression_id>2</expression_id>
+</change_expression>"
+                };
+
+                if (docs.TryGetValue(tool.Name, out string doc) && !string.IsNullOrWhiteSpace(doc))
+                {
+                    return doc.Trim();
+                }
+
+                var fallback = new StringBuilder();
+                if (!string.IsNullOrWhiteSpace(tool.Description))
+                {
+                    fallback.AppendLine($"Description: {tool.Description}");
+                }
+                if (!string.IsNullOrWhiteSpace(tool.UsageSchema))
+                {
+                    fallback.AppendLine($"Usage: {tool.UsageSchema}");
+                }
+
+                return fallback.ToString().TrimEnd();
+            }
 
             foreach (var tool in allowed)
             {
                 sb.AppendLine($"## {tool.Name}");
-                if (!string.IsNullOrWhiteSpace(tool.Description))
+                string doc = GetDocOrFallback(tool);
+                if (!string.IsNullOrWhiteSpace(doc))
                 {
-                    sb.AppendLine($"Description: {tool.Description}");
-                }
-                if (!string.IsNullOrWhiteSpace(tool.UsageSchema))
-                {
-                    sb.AppendLine($"Usage: {tool.UsageSchema}");
+                    sb.AppendLine(doc);
                 }
                 sb.AppendLine();
             }
