@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Make_WULA_Alloy.label>Produce Wula Empire Alloy</Make_WULA_Alloy.label>
+  <Make_WULA_Alloy.description>A high-density alloy produced by processing steel, it is the raw material for many Wula Empire equipment.</Make_WULA_Alloy.description>
+  <Make_WULA_Alloy.jobString>Forging alloy</Make_WULA_Alloy.jobString>
+
+  <Make_WULA_Alloy_Group.label>Produce Wula Empire Alloy (10 pieces)</Make_WULA_Alloy_Group.label>
+  <Make_WULA_Alloy_Group.description>A high-density alloy produced by processing steel, it is the raw material for many Wula Empire equipment.</Make_WULA_Alloy_Group.description>
+  <Make_WULA_Alloy_Group.jobString>Forging alloy</Make_WULA_Alloy_Group.jobString>
+
+  <Make_Component_By_WULA_Cube_Productor.label>Manufacture Components</Make_Component_By_WULA_Cube_Productor.label>
+  <Make_Component_By_WULA_Cube_Productor.description>Manufacture components using Wula Empire fabricators. Takes longer than a precision assembly bench and consumes more resources.</Make_Component_By_WULA_Cube_Productor.description>
+  <Make_Component_By_WULA_Cube_Productor.jobString>Manufacturing components</Make_Component_By_WULA_Cube_Productor.jobString>
+
+  <Make_WULA_Charge_Cube.label>Manufacture Wula Empire Power Core</Make_WULA_Charge_Cube.label>
+  <Make_WULA_Charge_Cube.description>Manufacture a Wula Empire power core, including a rechargeable capacitor and energy to supply machinery. This is the only acceptable external energy source for mechanical Wulas and a precursor for many Wula Empire products.</Make_WULA_Charge_Cube.description>
+  <Make_WULA_Charge_Cube.jobString>Manufacturing Wula Empire power core</Make_WULA_Charge_Cube.jobString>
+
+  <Recharge_WULA_Charge_Cube.label>Recharge Power Core</Recharge_WULA_Charge_Cube.label>
+  <Recharge_WULA_Charge_Cube.description>Use chemfuel to recharge depleted Wula Empire power cores that have lost their energy.</Recharge_WULA_Charge_Cube.description>
+  <Recharge_WULA_Charge_Cube.jobString>Recharging Wula Empire power core</Recharge_WULA_Charge_Cube.jobString>
+
+  <Recharge_WULA_Charge_Cube_Group.label>Recharge Power Cores (4)</Recharge_WULA_Charge_Cube_Group.label>
+  <Recharge_WULA_Charge_Cube_Group.description>Use chemfuel to recharge depleted Wula Empire power cores that have lost their energy.</Recharge_WULA_Charge_Cube_Group.description>
+  <Recharge_WULA_Charge_Cube_Group.jobString>Recharging Wula Empire power cores</Recharge_WULA_Charge_Cube_Group.jobString>
+
+  <Make_WULA_Dark_Matter_Item.label>Manufacture Wula Empire Dark Matter</Make_WULA_Dark_Matter_Item.label>
+  <Make_WULA_Dark_Matter_Item.description>Manufacture 1 unit of encapsulated dark matter, consisting of a dark matter containment device and dark matter. It is a necessary energy source for Wula Empire large-scale facilities and armaments.</Make_WULA_Dark_Matter_Item.description>
+  <Make_WULA_Dark_Matter_Item.jobString>Manufacturing Wula Empire dark matter</Make_WULA_Dark_Matter_Item.jobString>
+
+  <Make_WULA_Neutronium.label>Compress Neutronium</Make_WULA_Neutronium.label>
+  <Make_WULA_Neutronium.description>Manufacture 1 unit of neutronium, a powerful material that can create the hardest armor or the strongest melee weapons.</Make_WULA_Neutronium.description>
+  <Make_WULA_Neutronium.jobString>Compressing neutronium</Make_WULA_Neutronium.jobString>
+
+  <WULA_Build_Wula_Synth.label>Build URa-00 "Mechanical Wula"</WULA_Build_Wula_Synth.label>
+  <WULA_Build_Wula_Synth.description>Build a URa-00 "Mechanical Wula" synth, the main species of a Wula Empire synth colony. Possesses complex, realistic simulated emotions while being a mechanoid.</WULA_Build_Wula_Synth.description>
+
+  <WULA_Build_Mech_WULA_Cat.label>Build CAt-11 "Cat"</WULA_Build_Mech_WULA_Cat.label>
+  <WULA_Build_Mech_WULA_Cat.description>Build a CAt-11 "Cat".</WULA_Build_Mech_WULA_Cat.description>
+
+  <WULA_Build_Mech_WULA_Cat_Constructor.label>Build CAt-86 "Cat Worker"</WULA_Build_Mech_WULA_Cat_Constructor.label>
+  <WULA_Build_Mech_WULA_Cat_Constructor.description>Build a CAt-86 "Cat Worker".</WULA_Build_Mech_WULA_Cat_Constructor.description>
+
+  <WULA_Build_Mech_WULA_Cat_Assault.label>Build CAt-46 "Cat Assault Force"</WULA_Build_Mech_WULA_Cat_Assault.label>
+  <WULA_Build_Mech_WULA_Cat_Assault.description>Build a CAt-46 "Cat Assault Force".</WULA_Build_Mech_WULA_Cat_Assault.description>
+</LanguageData>

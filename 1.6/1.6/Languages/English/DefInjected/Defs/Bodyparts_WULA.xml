@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- BodyPartDef Labels -->
+  <WULA_Energy_Furnace_Bodypart.label>Central Energy Furnace</WULA_Energy_Furnace_Bodypart.label>
+  <WULA_Addons_Antenna_Bodypart.label>Uplink Antenna</WULA_Addons_Antenna_Bodypart.label>
+  <WULA_Skeleton_Bodypart.label>Alloy Skeleton</WULA_Skeleton_Bodypart.label>
+  <WULA_Panzer_Core_Bodypart.label>Core Engine</WULA_Panzer_Core_Bodypart.label>
+  <WULA_Outer_Armor_Bodypart.label>Outer Armor Plating</WULA_Outer_Armor_Bodypart.label>
+  <WULA_Panzer_OutBrust_Bodypart.label>Retro-Thrust Vent</WULA_Panzer_OutBrust_Bodypart.label>
+  <WULA_AI_Core_Bodypart.label>Autonomous Core</WULA_AI_Core_Bodypart.label>
+  <WULA_Mobile_Bunker_Bodypart.label>Bunker Shell</WULA_Mobile_Bunker_Bodypart.label>
+  <WULA_Shield_Field_Maintainer_Bodypart.label>Reflective Shield Generator</WULA_Shield_Field_Maintainer_Bodypart.label>
+  
+  <!-- BodyDef Labels -->
+  <WULA_Machine_Body.label>Mechanical Wula</WULA_Machine_Body.label>
+  <WULA_AI_Heavy_Panzer_Body.label>Intelligent Tank</WULA_AI_Heavy_Panzer_Body.label>
+  <WULA_Mech_Mobile_Shield_Body.label>Radiant Shield</WULA_Mech_Mobile_Shield_Body.label>
+  <WULA_Mech_Mobile_Factory_Body.label>Landship</WULA_Mech_Mobile_Factory_Body.label>
+</LanguageData>

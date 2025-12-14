@@ -112,6 +112,45 @@
           <value2>1</value2>
           <storeAs>taxAmount</storeAs>
         </li>
+        <li Class="QuestNode_Greater">
+          <value1>$points</value1>
+          <value2>3999</value2>
+
+          <node Class="QuestNode_Multiply">
+            <value1>$taxAmount</value1>
+            <value2>0.8</value2>
+            <storeAs>taxAmount</storeAs>
+          </node>
+        </li>
+        <li Class="QuestNode_Greater">
+          <value1>$points</value1>
+          <value2>6999</value2>
+
+          <node Class="QuestNode_Multiply">
+            <value1>$taxAmount</value1>
+            <value2>0.8</value2>
+            <storeAs>taxAmount</storeAs>
+          </node>
+        </li>
+        <li Class="QuestNode_Greater">
+          <value1>$points</value1>
+          <value2>9999</value2>
+
+          <node Class="QuestNode_Multiply">
+            <value1>$taxAmount</value1>
+            <value2>0.8</value2>
+            <storeAs>taxAmount</storeAs>
+          </node>
+        </li>
+        <li Class="QuestNode_Greater">
+          <value1>$taxAmount</value1>
+          <value2>30000</value2>
+
+          <node Class="QuestNode_Set">
+            <name>taxAmount</name>
+            <value>30000</value>
+          </node>
+        </li>
         <li Class="WulaFallenEmpire.QuestNode_WriteToEventVariablesWithAdd">
           <targetVariableName>WULA_Total_Tax_Amount</targetVariableName>
           <sourceVariableName>taxAmount</sourceVariableName>
@@ -241,7 +280,7 @@
                   <li>WULA_Tex_Voucher</li>
                 </thingDefs>
               </filter>
-              <countRange>1</countRange>
+              <countRange>2~2</countRange>
             </fixedParams>
           </thingSetMaker>
         </li>

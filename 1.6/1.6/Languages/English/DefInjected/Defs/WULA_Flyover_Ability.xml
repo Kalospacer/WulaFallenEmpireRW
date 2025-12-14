@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- 母舰编队 -->
+  <WULA_CallMotherShip.label>Call Imperial Mothership Fleet</WULA_CallMotherShip.label>
+  <WULA_CallMotherShip.description>Send a reinforcement request to summon the Wula Empire Mothership Fleet to the colony's high orbit. Contains 4 cruisers capable of orbital bombardment and 1 mothership that provides aircraft, artillery, and orbital support.</WULA_CallMotherShip.description>
+  <WULA_CallMotherShip.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>Flight Path Blocked: A large vessel is already above the colony.</WULA_CallMotherShip.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>
+
+  <!-- 战舰编队 -->
+  <WULA_CallFleet.label>Call Imperial Cruiser Fleet</WULA_CallFleet.label>
+  <WULA_CallFleet.description>Send a reinforcement request to summon the Wula Empire Fleet to the colony's high orbit. Contains 2 cruisers capable of orbital bombardment and 1 aircraft carrier that provides aircraft.</WULA_CallFleet.description>
+  <WULA_CallFleet.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>Flight Path Blocked: A large vessel is already above the colony.</WULA_CallFleet.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>
+
+  <!-- 航道净空 -->
+  <WULA_ClearFlightPath.label>Flight Path Clearance</WULA_ClearFlightPath.label>
+  <WULA_ClearFlightPath.description>Orders the fleet in low orbit to depart, allowing other Wula Empire fleets to enter.</WULA_ClearFlightPath.description>
+
+  <!-- 全域封锁 -->
+  <WULA_Spawn_BattleShip_Artillery.label>Call Global Blockade Fleet</WULA_Spawn_BattleShip_Artillery.label>
+  <WULA_Spawn_BattleShip_Artillery.description>Request a full planetary blockade along a designated flight path. An entire Wula Empire fleet, escorted by numerous fighter squadrons, will advance along the path and bombard with ship cannons to completely crush all resistance.\n\nThe bombardment covers nearly the entire map. While efforts are made to avoid hitting colony personnel and assets, the vast bombardment area leaves little chance for anything below to escape—try not to call it directly over your own colony.</WULA_Spawn_BattleShip_Artillery.description>
+
+  <!-- 飞行器 -->
+  <WULA_Spawn_Fighter_Drone_Laser.label>Drone Patrol</WULA_Spawn_Fighter_Drone_Laser.label>
+  <WULA_Spawn_Fighter_Drone_Laser.description>Command the Wula Empire's swarm drones to sweep across the battlefield at medium speed, using their underslung small laser cannons to strike encountered enemies—the drone capacitors are limited, allowing strikes against only the first 3 targets.</WULA_Spawn_Fighter_Drone_Laser.description>
+
+  <WULA_Spawn_Fighter_Drone_Bomb.label>Drone Bombing</WULA_Spawn_Fighter_Drone_Bomb.label>
+  <WULA_Spawn_Fighter_Drone_Bomb.description>Command the Wula Empire's swarm drones to sweep across the battlefield at medium speed, dropping 2 high-drag napalm bombs at the target location. The napalm contains chemical fuel, causing both explosions and persistent area burning.</WULA_Spawn_Fighter_Drone_Bomb.description>
+
+  <WULA_Spawn_Striker_Missile.label>Strike Aircraft Patrol</WULA_Spawn_Striker_Missile.label>
+  <WULA_Spawn_Striker_Missile.description>Command the Wula Empire's strike aircraft to sweep across the battlefield at medium speed, using their missiles to strike encountered enemies.\nTheir missile payload allows strikes against 12 targets.</WULA_Spawn_Striker_Missile.description>
+  <WULA_Spawn_Striker_Missile.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> facility must be on the map to launch an airstrike.</WULA_Spawn_Striker_Missile.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Spawn_Striker_RailGun.label>Strike Aircraft Strafing</WULA_Spawn_Striker_RailGun.label>
+  <WULA_Spawn_Striker_RailGun.description>Command the Wula Empire's strike aircraft to sweep across the battlefield at high speed, using two high-rate-of-fire belly cannons to strike the target area—the high speed results in a long, narrow strike zone.</WULA_Spawn_Striker_RailGun.description>
+  <WULA_Spawn_Striker_RailGun.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> facility must be on the map to launch an airstrike.</WULA_Spawn_Striker_RailGun.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Spawn_Striker_EMP.label>Strike Aircraft EMP Suppression</WULA_Spawn_Striker_EMP.label>
+  <WULA_Spawn_Striker_EMP.description>Command the Wula Empire's strike aircraft to sweep across the battlefield at high speed, rapidly dropping a set of EMP bombs—the high speed results in a long, narrow strike zone.</WULA_Spawn_Striker_EMP.description>
+  <WULA_Spawn_Striker_EMP.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> facility must be on the map to launch an airstrike.</WULA_Spawn_Striker_EMP.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Spawn_Bomber_BaseBomb.label>Bomber Bombing</WULA_Spawn_Bomber_BaseBomb.label>
+  <WULA_Spawn_Bomber_BaseBomb.description>Command the Wula Empire's bombers to sweep across the battlefield at low speed, dropping numerous bombs on the target area—the resulting destruction is much larger than the marked bombing zone.</WULA_Spawn_Bomber_BaseBomb.description>
+  <WULA_Spawn_Bomber_BaseBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> facility must be on the map to launch an airstrike.</WULA_Spawn_Bomber_BaseBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Spawn_Bomber_Smoke.label>Bomber Smoke Wall</WULA_Spawn_Bomber_Smoke.label>
+  <WULA_Spawn_Bomber_Smoke.description>Command the Wula Empire's bombers to sweep across the battlefield at low speed, dropping numerous smoke bombs on the target area—the resulting smoke wall is much larger than the marked bombing zone.</WULA_Spawn_Bomber_Smoke.description>
+  <WULA_Spawn_Bomber_Smoke.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> facility must be on the map to launch an airstrike.</WULA_Spawn_Bomber_Smoke.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Spawn_Bomber_DarkMatterBomb.label>Bomber Antimatter Impact</WULA_Spawn_Bomber_DarkMatterBomb.label>
+  <WULA_Spawn_Bomber_DarkMatterBomb.description>Command the Wula Empire's bombers to sweep across the battlefield at low speed, firing an antimatter missile at the target location—remember to stay far away.</WULA_Spawn_Bomber_DarkMatterBomb.description>
+  <WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> facility must be on the map to launch an airstrike.</WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- 炮击 -->
+  <WULA_Firepower_Minigun_Strafe.label>Chain Gun Strafing</WULA_Firepower_Minigun_Strafe.label>
+  <WULA_Firepower_Minigun_Strafe.description>Uses the ship's automatic chain guns to strafe the target area in a selectable direction. Fast firing rate and cooldown, effective against lightly armored targets, but power is lacking.</WULA_Firepower_Minigun_Strafe.description>
+  <WULA_Firepower_Minigun_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD2F31>&lt;i>Weapon Array&lt;/i>&lt;/color> facility must be on the map to provide orbital artillery support.</WULA_Firepower_Minigun_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Firepower_Cannon_Salvo.label>Light Ship Cannon Salvo</WULA_Firepower_Cannon_Salvo.label>
+  <WULA_Firepower_Cannon_Salvo.description>Commands the ship's secondary broadside cannons to fire a salvo of 12 shells total, causing moderate damage.</WULA_Firepower_Cannon_Salvo.description>
+  <WULA_Firepower_Cannon_Salvo.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD2F31>&lt;i>Weapon Array&lt;/i>&lt;/color> facility must be on the map to provide orbital artillery support.</WULA_Firepower_Cannon_Salvo.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Firepower_Cannon_Surveillance.label>Light Ship Cannon Surveillance</WULA_Firepower_Cannon_Surveillance.label>
+  <WULA_Firepower_Cannon_Surveillance.description>Commands the ship's secondary broadside cannons to surveil an area for 0.3 hours, bombarding any hostile targets that enter the range.</WULA_Firepower_Cannon_Surveillance.description>
+  <WULA_Firepower_Cannon_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD2F31>&lt;i>Weapon Array&lt;/i>&lt;/color> facility must be on the map to provide orbital artillery support.</WULA_Firepower_Cannon_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Firepower_EnergyLance_Strafe.label>Lance Strafing</WULA_Firepower_EnergyLance_Strafe.label>
+  <WULA_Firepower_EnergyLance_Strafe.description>Commands the ship's lance array to fire a lance beam that sweeps across the battlefield, causing massive heat damage, especially effective against building clusters.</WULA_Firepower_EnergyLance_Strafe.description>
+  <WULA_Firepower_EnergyLance_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD2F31>&lt;i>Weapon Array&lt;/i>&lt;/color> facility must be on the map to provide orbital artillery support.</WULA_Firepower_EnergyLance_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Firepower_EnergyLance_Surveillance.label>Lance Surveillance</WULA_Firepower_EnergyLance_Surveillance.label>
+  <WULA_Firepower_EnergyLance_Surveillance.description>Commands the ship's lance array to surveil an area for 1 hour, continuously illuminating any hostile targets that enter the range.</WULA_Firepower_EnergyLance_Surveillance.description>
+  <WULA_Firepower_EnergyLance_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD2F31>&lt;i>Weapon Array&lt;/i>&lt;/color> facility must be on the map to provide orbital artillery support.</WULA_Firepower_EnergyLance_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Firepower_Primary_Cannon_Strafe.label>Main Cannon Salvo</WULA_Firepower_Primary_Cannon_Strafe.label>
+  <WULA_Firepower_Primary_Cannon_Strafe.description>Uses the ship's main cannons to strafe the target area in a selectable direction. Possesses terrifying power capable of leveling mountains, but suffers from poor response time, accuracy, and requires lengthy reloading.</WULA_Firepower_Primary_Cannon_Strafe.description>
+  <WULA_Firepower_Primary_Cannon_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD2F31>&lt;i>Weapon Array&lt;/i>&lt;/color> facility must be on the map to provide orbital artillery support.</WULA_Firepower_Primary_Cannon_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance.label>Main Cannon EMP Suppression</WULA_Firepower_Primary_Cannon_EMP_Surveillance.label>
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance.description>Commands the ship's main cannon to surveil a vast area for 3 hours, firing wide-area EMP shells at any hostile targets that enter the range. The immense energy can paralyze mechanoids for extended periods.</WULA_Firepower_Primary_Cannon_EMP_Surveillance.description>
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD2F31>&lt;i>Weapon Array&lt;/i>&lt;/color> facility must be on the map to provide orbital artillery support.</WULA_Firepower_Primary_Cannon_EMP_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+</LanguageData>

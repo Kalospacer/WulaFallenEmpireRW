@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Adult Backstories -->
+  <WULA_Adult_Backstory01.title>Blank Slate</WULA_Adult_Backstory01.title>
+  <WULA_Adult_Backstory01.titleShort>Blank Slate</WULA_Adult_Backstory01.titleShort>
+  <WULA_Adult_Backstory01.description>[PAWN_nameDef] has no story—[PAWN_pronoun] was packaged from the factory planet of origin and sent to the Wula Empire Development Agency. This is [PAWN_possessive] first deployment to an actual mission.\n\nAs a result, most of [PAWN_possessive] memory banks remain vacant, allowing [PAWN_pronoun] to learn quickly and shape [PAWN_pronoun]self.</WULA_Adult_Backstory01.description>
+
+  <WULA_Adult_Backstory02.title>Medic</WULA_Adult_Backstory02.title>
+  <WULA_Adult_Backstory02.titleShort>Medic</WULA_Adult_Backstory02.titleShort>
+  <WULA_Adult_Backstory02.description>[PAWN_nameDef] is a medic who has embarked on a nobler path—saving fading lives from the battlefield with [PAWN_possessive] own strength. During [PAWN_possessive] years of service, [PAWN_pronoun] moved through the battlefield with a gun in one hand and emergency equipment in the other. [PAWN_pronoun] has rescued countless Wula Empire wounded and killed numerous alien soldiers with ill intentions, making [PAWN_pronoun] the spiritual pillar of the entire regiment.\n\nAfter participating in multiple battles worthy of being recorded in the Empire's history, [PAWN_nameDef] met [PAWN_possessive] retirement day. But [PAWN_possessive] journey is not over; [PAWN_pronoun] joined a frontier world pioneering team, decided to continue using [PAWN_possessive] skills to save companions and fight against aliens.</WULA_Adult_Backstory02.description>
+
+  <WULA_Adult_Backstory03.title>Garrison Soldier</WULA_Adult_Backstory03.title>
+  <WULA_Adult_Backstory03.titleShort>Garrison Soldier</WULA_Adult_Backstory03.titleShort>
+  <WULA_Adult_Backstory03.description>[PAWN_nameDef] is a retired auxiliary soldier of the Wula Empire Knight Order, formerly a garrison soldier defending the front lines. Garrison soldiers typically deploy with the Knight Order's Shield Knights and are stationed at fortress nodes most in need of solid defense. [PAWN_pronoun] has accumulated rich combat and fortification experience through numerous campaigns, but [PAWN_pronoun] also grew weary of the bland retired life. Seeking excitement again, [PAWN_pronoun] joined the Wula Empire's pioneering team to start a second life in a new star sector.</WULA_Adult_Backstory03.description>
+
+  <WULA_Adult_Backstory04.title>Squire Knight</WULA_Adult_Backstory04.title>
+  <WULA_Adult_Backstory04.titleShort>Squire Knight</WULA_Adult_Backstory04.titleShort>
+  <WULA_Adult_Backstory04.description>[PAWN_nameDef] is a squire knight about to join the Wula Empire Knight Order. At a chance moment, [PAWN_possessive] talents and skills were discovered by the Order's knights, granting [PAWN_objective] the opportunity to enter. [PAWN_pronoun]毫不犹豫 chose this path and swore an oath to the Knightly Codex, vowing with [PAWN_possessive] blood to pledge loyalty to the Emperor.\n\nHowever, due to the Order's regulations, [PAWN_pronoun] still needs to undergo a series of trials to formally join. Such opportunities cannot be found within the fortress walls, so [PAWN_nameDef] joined a frontier world pioneering team, ready to prove [PAWN_reflexive] in this land of opportunity.</WULA_Adult_Backstory04.description>
+
+  <WULA_Adult_Backstory05.title>Penitent Knight</WULA_Adult_Backstory05.title>
+  <WULA_Adult_Backstory05.titleShort>Penitent Knight</WULA_Adult_Backstory05.titleShort>
+  <WULA_Adult_Backstory05.description>[PAWN_nameDef] is a Wula Empire Penitent Knight. Though nominally a knight, [PAWN_pronoun] has been expelled from the Knight Order. [PAWN_pronoun] committed an irreparable error and must atone through lifelong流浪远征 to the Order, so that upon [PAWN_possessive] death, [PAWN_pronoun] may be reinstated and allowed burial in the Order's tombs.\n\nNo one knows how [PAWN_nameDef] joined the pioneering team; [PAWN_pronoun] never speaks of [PAWN_possessive] transgression.</WULA_Adult_Backstory05.description>
+
+  <WULA_Adult_Backstory10.title>Serf</WULA_Adult_Backstory10.title>
+  <WULA_Adult_Backstory10.titleShort>Serf</WULA_Adult_Backstory10.titleShort>
+  <WULA_Adult_Backstory10.description>Serfs are the lowest caste of untouchables within the Wula Empire Knight Order's domains. Normally, synthetic Wulas with full citizenship would not fall to this state, but [PAWN_nameDef] is an exception. [PAWN_pronoun]似乎犯下过 some grave sin, stripped of citizenship and reduced to slave level. Fortunately, some pioneering teams were short-handed, as no one wanted to come to the lawless frontier worlds. To meet quotas, the Knight Order驱赶[PAWN_nameDef] to a pioneering team—at least [PAWN_pronoun] no longer suffers abuse from the upper-class masters.</WULA_Adult_Backstory10.description>
+
+  <WULA_Adult_Backstory11.title>Retinue</WULA_Adult_Backstory11.title>
+  <WULA_Adult_Backstory11.titleShort>Retinue</WULA_Adult_Backstory11.titleShort>
+  <WULA_Adult_Backstory11.description>[PAWN_nameDef] is a Wula帝国 retinue—just as described in knightly tales, the Wula Empire Knight Order's knights have their own retinues. The retinue's duty is to care for the knights' daily needs, maintain their weapons, assist in conveying orders, and even take up arms to aid the knights in battle.\n\nIn one war, [PAWN_possessive] master died on the battlefield. After arranging the aftermath, [PAWN_nameDef] suddenly lost [PAWN_possessive] sense of purpose; serving knightly masters seemed the only thing [PAWN_pronoun] knew how to do. [PAWN_pronoun] found no suitable knight to pledge allegiance to and, in a daze, joined a Wula Empire pioneering team, hoping to prove [PAWN_possessive] worth in a new star sector.</WULA_Adult_Backstory11.description>
+
+  <WULA_Adult_Backstory12.title>Legal Officer</WULA_Adult_Backstory12.title>
+  <WULA_Adult_Backstory12.titleShort>Legal Officer</WULA_Adult_Backstory12.titleShort>
+  <WULA_Adult_Backstory12.description>[PAWN_nameDef] was once a Wula Empire Legal Officer. Legal Officers are special基层执法者 within the Knight Order's domains,专门负责应对 riots, disturbances, and rebellions caused by slaves, upholding the Wula Empire's supreme authority. [PAWN_possessive] stun baton has struck down countless aliens, and rebellious slaves tremble speechlessly at the sight of [PAWN_pronoun]—but at some point, [PAWN_pronoun] suddenly grew厌恶 of this life.\n\n[PAWN_pronoun] left the Knight Order's jurisdiction and joined a pioneering team heading to a new star sector, seemingly to彻底诀别 with the past.</WULA_Adult_Backstory12.description>
+
+  <WULA_Adult_Backstory100.title>Floral Envoy</WULA_Adult_Backstory100.title>
+  <WULA_Adult_Backstory100.titleShort>Floral Envoy</WULA_Adult_Backstory100.titleShort>
+  <WULA_Adult_Backstory100.description>[PAWN_nameDef] is a Wula Empire Floral Envoy. Floral Envoys are plant sculptors of the Empire, responsible for cultivating pleasing landscapes and delicious food through genetic manipulation and pruning, carrying on the wish to撒满 seeds of beauty and hope across every Wula Empire colony.\n\nTo conduct field research in a new star sector, [PAWN_nameDef] joined a newly formed Wula Empire pioneering team to continue [PAWN_possessive] path of cultivation.</WULA_Adult_Backstory100.description>
+
+  <WULA_Adult_Backstory101.title>Breeder Envoy</WULA_Adult_Backstory101.title>
+  <WULA_Adult_Backstory101.titleShort>Breeder Envoy</WULA_Adult_Backstory101.titleShort>
+  <WULA_Adult_Backstory101.description>[PAWN_possessive] is a Wula Empire Breeder Envoy. Breeder Envoys are animal sculptors of the Empire, specializing in creating and改良 low-intelligence species through genetic修剪 and reconstruction. Of course, they occasionally construct一些疯狂扭曲的造物 and deploy them as biological weapons on the battlefield.\n\nFor a new star sector, the diverse本地生物 are the best test subjects. [PAWN_nameDef] eagerly joined the frontier world pioneering action, hoping to find new inspiration.</WULA_Adult_Backstory101.description>
+
+  <WULA_Adult_Backstory102.title>Herald Envoy</WULA_Adult_Backstory102.title>
+  <WULA_Adult_Backstory102.titleShort>Herald Envoy</WULA_Adult_Backstory102.titleShort>
+  <WULA_Adult_Backstory102.description>[PAWN_nameDef] was once a Wula Empire Herald Envoy. These八面玲珑外交人员 are the Empire's external voice; their name symbolizes their身份: noble, elegant, and目中无人. They only convey the Empire's will to lower civilizations, listening to no requests and offering no bargaining power.\n\nIn a catastrophic外交事故, [PAWN_nameDef] was deemed to have damaged the Empire's dignity, thus stripped of [PAWN_possessive]身份 and exiled to a frontier world pioneering team.</WULA_Adult_Backstory102.description>
+
+  <WULA_Adult_Backstory200.title>Harmony Attendant</WULA_Adult_Backstory200.title>
+  <WULA_Adult_Backstory200.titleShort>Harmony Attendant</WULA_Adult_Backstory200.titleShort>
+  <WULA_Adult_Backstory200.description>[PAWN_nameDef] is a Harmony Attendant of the Wula Empire State Church. Harmony Attendants excel in farming, knowing how to use psychic energy to催产 crops and offer the most perfect tribute to the Lord on harvest day.\n\nAs a member of the congregation, [PAWN_nameDef]理所当然地 joined the pioneering of new worlds, a great opportunity for the State Church to宣扬其存在 and assimilate local信仰.</WULA_Adult_Backstory200.description>
+
+  <WULA_Adult_Backstory201.title>Forge-Hammer Attendant</WULA_Adult_Backstory201.title>
+  <WULA_Adult_Backstory201.titleShort>Forge-Hammer Attendant</WULA_Adult_Backstory201.titleShort>
+  <WULA_Adult_Backstory201.description>[PAWN_nameDef] is a Forge-Hammer Attendant of the Wula Empire State Church. Forge-Hammer Attendants are skilled in forging swords and plows, using psychic energy to shape items, carving their faith into exquisite器具.\n\nAs a member of the congregation, [PAWN_nameDef]理所当然地 joined the pioneering of new worlds, a great opportunity for the State Church to宣扬其存在 and assimilate local信仰.</WULA_Adult_Backstory201.description>
+
+  <WULA_Adult_Backstory202.title>Ecclesiastical Guard</WULA_Adult_Backstory202.title>
+  <WULA_Adult_Backstory202.titleShort>Ecclesiastical Guard</WULA_Adult_Backstory202.titleShort>
+  <WULA_Adult_Backstory202.description>[PAWN_nameDef] is a战士隶属于 the Wula Empire Ecclesiastical Guard, adept in psychic combat techniques, proving [PAWN_possessive]无限热忱 with the blood of sworn enemies.\n\n按理来说, [PAWN_nameDef] and the Ecclesiastical Guard [PAWN_pronoun] represents should not be here, as this constitutes长臂管辖 for the Church—but perhaps it's personal? In short, no one清楚 why the Church made such arrangements.</WULA_Adult_Backstory202.description>
+
+  <WULA_Adult_Backstory204.title>Gospel Attendant</WULA_Adult_Backstory204.title>
+  <WULA_Adult_Backstory204.titleShort>Gospel Attendant</WULA_Adult_Backstory204.titleShort>
+  <WULA_Adult_Backstory204.description>[PAWN_nameDef] is a Gospel Attendant of the Wula Empire State Church. Gospel Attendants are congregants of the Empire's Great Cathedral, i.e., preachers who maintain social stability through sermons and致力于传播福音 among异种.\n\nAs a member of the congregation, [PAWN_nameDef]理所当然地 joined the pioneering of new worlds, a great opportunity for the State Church to宣扬其存在 and assimilate local信仰.</WULA_Adult_Backstory204.description>
+
+  <WULA_Adult_Backstory301.title>Catalog Librarian</WULA_Adult_Backstory301.title>
+  <WULA_Adult_Backstory301.titleShort>Catalog Librarian</WULA_Adult_Backstory301.titleShort>
+  <WULA_Adult_Backstory301.description>[PAWN_nameDef] was once a Wula Empire Catalog Librarian. Catalog Librarians are archivists of the Empire's library, responsible for bibliographic compilation of preserved materials spanning millions of years in thousands of languages, gears that maintain the正常运转 of the Empire's knowledge repository.\n\nTo seek new lost technologies, [PAWN_nameDef] left the comfortable living environment of the Wula Empire worlds and came to this remote star sector.</WULA_Adult_Backstory301.description>
+
+  <WULA_Adult_Backstory_Legion.title>"Legion" Aspect</WULA_Adult_Backstory_Legion.title>
+  <WULA_Adult_Backstory_Legion.titleShort>"Legion" Aspect</WULA_Adult_Backstory_Legion.titleShort>
+  <WULA_Adult_Backstory_Legion.description>[PAWN_nameDef]实际上 has no autonomous mind; it is directly linked to the super AI "Legion" of the Wula Empire Planetary Interdiction Agency, serving as its eyes and ears during external activities.</WULA_Adult_Backstory_Legion.description>
+
+  <WULA_Adult_Backstory_Legion_Escort.title>Broken Talon Guard</WULA_Adult_Backstory_Legion_Escort.title>
+  <WULA_Adult_Backstory_Legion_Escort.titleShort>Broken Talon Guard</WULA_Adult_Backstory_Legion_Escort.titleShort>
+  <WULA_Adult_Backstory_Legion_Escort.description>[PAWN_nameDef] is a member of the Broken Talon Guard, the personal guard of the Wula Empire Planetary Interdiction Agency's总控AI "Legion"—silent and deadly, faithfully fulfilling their duties, completing various棘手 tasks for their superior.</WULA_Adult_Backstory_Legion_Escort.description>
+
+  <WULA_Adult_Backstory999.title>Shattered Personality</WULA_Adult_Backstory999.title>
+  <WULA_Adult_Backstory999.titleShort>Shattered Personality</WULA_Adult_Backstory999.titleShort>
+  <WULA_Adult_Backstory999.description>[PAWN_possessive] personality matrix is completely damaged, already part of a collective consciousness.</WULA_Adult_Backstory999.description>
+</LanguageData>

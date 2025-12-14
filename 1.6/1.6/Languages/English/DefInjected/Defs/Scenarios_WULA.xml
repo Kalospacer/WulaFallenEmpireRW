@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Start_Scenario.label>Wula Empire Advance Team</WULA_Start_Scenario.label>
+  <WULA_Start_Scenario.description>The Wula Empire Development Agency's fleet has arrived at the rimworld, and an advance team responsible for establishing a forward outpost has been deployed to the planet.</WULA_Start_Scenario.description>
+  <WULA_Start_Scenario.scenario.summary>Start the game with 2 mechanical Wulas as initial colonists, accompanied by an outpost beacon to summon a small prefabricated forward outpost.</WULA_Start_Scenario.scenario.summary>
+
+  <WULA_ArmedShuttle_Start_Scenario.label>Wula Empire Survey Team</WULA_ArmedShuttle_Start_Scenario.label>
+  <WULA_ArmedShuttle_Start_Scenario.description>The Wula Empire Development Agency's fleet has arrived at the rimworld, and an investigator specializing in local ecology surveys, along with their shuttle, has been deployed to the planet's surface.</WULA_ArmedShuttle_Start_Scenario.description>
+  <WULA_ArmedShuttle_Start_Scenario.scenario.summary>Start the game with 1 well-equipped mechanical Wula and their private shuttle, but with fewer starting resources.</WULA_ArmedShuttle_Start_Scenario.scenario.summary>
+</LanguageData>

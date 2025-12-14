@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Area Teleporter -->
+  <WULA_AreaTeleportBeacon.label>Regional Jump Drive</WULA_AreaTeleportBeacon.label>
+  <WULA_AreaTeleportBeacon.description>One of the technological marvels of the Wula Empire, a jump drive that allows an entire region to continue teleportation. It will move the ground, buildings, creatures, and scattered materials within the area intact to another map.</WULA_AreaTeleportBeacon.description>
+
+  <!-- Trade Beacon -->
+  <WULA_OrbitalTradeBeacon.label>Wula Orbital Transport Beacon</WULA_OrbitalTradeBeacon.label>
+  <WULA_OrbitalTradeBeacon.description>A beacon responsible for coordinating material transport between the colony and the Wula Empire fleet in orbit. Airdrop buildings will prioritize absorbing resources from the beacon's coverage area to complete the drop.</WULA_OrbitalTradeBeacon.description>
+
+  <!-- Fleet Beacons -->
+  <WULA_Fake_Mothership_Beacon_Building.label>Imperial Mothership Beacon</WULA_Fake_Mothership_Beacon_Building.label>
+  <WULA_Fake_Mothership_Beacon_Building.description>111</WULA_Fake_Mothership_Beacon_Building.description>
+  <WULA_MotherShip_Entity.label>Imperial Mothership</WULA_MotherShip_Entity.label>
+  <WULA_MotherShip_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_MotherShip_Entity.description>
+
+  <WULA_Fake_AircraftCarrier_Beacon_Building.label>Imperial Fleet Beacon</WULA_Fake_AircraftCarrier_Beacon_Building.label>
+  <WULA_Fake_AircraftCarrier_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for additional mobilization rights for an Imperial attack fleet, including 2 cruisers capable of orbital bombardment and 1 carrier providing aircraft support.</WULA_Fake_AircraftCarrier_Beacon_Building.description>
+  <WULA_AircraftCarrier_Entity.label>Imperial Attack Fleet</WULA_AircraftCarrier_Entity.label>
+  <WULA_AircraftCarrier_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_AircraftCarrier_Entity.description>
+
+  <WULA_Fake_ConstructionShip_Beacon_Building.label>Imperial Denial Ship Beacon</WULA_Fake_ConstructionShip_Beacon_Building.label>
+  <WULA_Fake_ConstructionShip_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for additional mobilization rights for an Imperial denial fleet, including 1 denial ship capable of providing orbital support.\n\nImperial Denial Ships are defensive vessel types equipped with mobile factories. They can provide non-offensive support to colonies to protect them from fierce attacks or accelerate colony production development.</WULA_Fake_ConstructionShip_Beacon_Building.description>
+  <WULA_ConstructionShip_Entity.label>Imperial Denial Fleet</WULA_ConstructionShip_Entity.label>
+  <WULA_ConstructionShip_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_ConstructionShip_Entity.description>
+
+  <WULA_Fake_BattleShip_Beacon_Building.label>Imperial Cruiser Beacon</WULA_Fake_BattleShip_Beacon_Building.label>
+  <WULA_Fake_BattleShip_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for support from an Imperial cruiser.\n\nThe Wula Empire Rim Development Agency's cruisers are the basic combat units of close support fleets. Although their size is not as large as battlecruisers, they are still equipped with formidable artillery arrays that ground forces cannot match, capable of launching terrifying bombardments against the ground.</WULA_Fake_BattleShip_Beacon_Building.description>
+  <WULA_BattleShip_Entity.label>Imperial Cruiser</WULA_BattleShip_Entity.label>
+  <WULA_BattleShip_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_BattleShip_Entity.description>
+
+  <!-- Aircraft Beacons -->
+  <WULA_Fake_Fighter_Drone_Building.label>Wula Empire Swarm Drone</WULA_Fake_Fighter_Drone_Building.label>
+  <WULA_Fake_Fighter_Drone_Building.description>A small drone equipped with a laser cannon and napalm bombs, providing cheap but effective air support for the colony. Unlike the larger ones, swarm drones do not require hangars and can be refueled via the fleet's electromagnetic network, achieving permanent aerial combat.</WULA_Fake_Fighter_Drone_Building.description>
+  <WULA_Fighter_Drone_Leaving.label>Wula Empire Swarm Drone (Launching)</WULA_Fighter_Drone_Leaving.label>
+  <WULA_Fighter_Drone_Entity.label>Wula Empire Swarm Drone</WULA_Fighter_Drone_Entity.label>
+  <WULA_Fighter_Drone_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_Fighter_Drone_Entity.description>
+
+  <WULA_Fake_Striker_Beacon_Building.label>Wula Empire Striker Beacon</WULA_Fake_Striker_Beacon_Building.label>
+  <WULA_Fake_Striker_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for support from a Wula Empire striker. To mobilize large aircraft, a ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> must be in orbit.\n\nWula Empire strikers are powerful ground support firepower, loaded with numerous missiles, EMP bombs, and powerful cannons to precisely harvest enemy targets.</WULA_Fake_Striker_Beacon_Building.description>
+  <WULA_Striker_Entity.label>Wula Empire Striker</WULA_Striker_Entity.label>
+  <WULA_Striker_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_Striker_Entity.description>
+
+  <WULA_Fake_Bomber_Beacon_Building.label>Wula Empire Bomber Beacon</WULA_Fake_Bomber_Beacon_Building.label>
+  <WULA_Fake_Bomber_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for support from a Wula Empire bomber. To mobilize large aircraft, a ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> must be in orbit.\n\nWula Empire bombers are the largest flying vehicles capable of entering the atmosphere. Besides dropping functional smoke bombs, they can also drop a large number of bombs or launch a dark matter missile to level the Empire's enemies.</WULA_Fake_Bomber_Beacon_Building.description>
+  <WULA_Bomber_Entity.label>Wula Empire Bomber</WULA_Bomber_Entity.label>
+  <WULA_Bomber_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_Bomber_Entity.description>
+
+  <!-- Miscellaneous -->
+  <WULA_Table1x2c.label>Wula Empire Table (1x2)</WULA_Table1x2c.label>
+  <WULA_Table1x2c.description>Wula Empire table.</WULA_Table1x2c.description>
+  <WULA_Table2x4c.label>Wula Empire Table (2x4)</WULA_Table2x4c.label>
+  <WULA_Table2x4c.description>Wula Empire table.</WULA_Table2x4c.description>
+
+  <!-- Scenario Buildings -->
+  <WULA_Sky_Lock.label>Sky Lock</WULA_Sky_Lock.label>
+  <WULA_Sky_Lock.description>The Sky Lock is a purely psychic construct. The PAt-6 "Psychic Titan" can transfer damage to the Sky Lock.</WULA_Sky_Lock.description>
+
+  <!-- Mech Assemblers -->
+  <WULA_MechAssembler.label>Wula Empire Auto-Assembly Field</WULA_MechAssembler.label>
+  <WULA_MechAssembler.description>A factory the Wula Empire got from local mechanoids, repainted and readjusted assembly lines to produce Wula Empire mechanoids.\n\nIt's free anyway.</WULA_MechAssembler.description>
+  <WULA_MechAssembler_Huge.label>Wula Empire Large Auto-Assembly Field</WULA_MechAssembler_Huge.label>
+  <WULA_MechAssembler_Huge.description>A factory the Wula Empire got from local mechanoids, repainted and readjusted assembly lines to produce Wula Empire mechanoids. This model is slightly larger than others and may assemble more formidable mechanized troops.\n\nIt's free anyway.</WULA_MechAssembler_Huge.description>
+</LanguageData>

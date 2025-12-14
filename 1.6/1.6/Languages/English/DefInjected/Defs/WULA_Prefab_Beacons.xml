@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_TeleportLandingMarker.label>Teleport Landing Marker</WULA_TeleportLandingMarker.label>
+  <WULA_TeleportLandingMarker.description>Used to mark teleport landing locations.</WULA_TeleportLandingMarker.description>
+
+  <WULA_Prefab_Cleanzone_NewColonyBase_Beacon.label>Wula Prefab Airdrop Beacon - Small Outpost</WULA_Prefab_Cleanzone_NewColonyBase_Beacon.label>
+  <WULA_Prefab_Cleanzone_NewColonyBase_Beacon.description>A beacon for calling in buildings, used to quickly construct a small outpost.</WULA_Prefab_Cleanzone_NewColonyBase_Beacon.description>
+
+  <WULA_Prefab_Incoming.label>Wula Empire Building (Incoming)</WULA_Prefab_Incoming.label>
+
+  <WULA_Huge_Fortress_Drop_Zone_Beacon_Cleanzone.label>Wula Prefab Airdrop Beacon - Large Fortress</WULA_Huge_Fortress_Drop_Zone_Beacon_Cleanzone.label>
+  <WULA_Huge_Fortress_Drop_Zone_Beacon_Cleanzone.description>A beacon for calling in buildings, used to quickly construct a large fortress.</WULA_Huge_Fortress_Drop_Zone_Beacon_Cleanzone.description>
+
+  <WULA_Huge_Fortress_Drop_Zone_Prefeb_Incoming.label>Wula Empire Building (Incoming)</WULA_Huge_Fortress_Drop_Zone_Prefeb_Incoming.label>
+
+  <WULA_Bunker_Drop_Zone_Beacon_Cleanzone.label>Wula Prefab Airdrop Beacon - Bunker</WULA_Bunker_Drop_Zone_Beacon_Cleanzone.label>
+  <WULA_Bunker_Drop_Zone_Beacon_Cleanzone.description>A beacon for calling in buildings, used to quickly construct a bunker defensive facility.</WULA_Bunker_Drop_Zone_Beacon_Cleanzone.description>
+
+  <WULA_Bunker_Drop_Zone_Prefeb_Incoming.label>Wula Empire Building (Incoming)</WULA_Bunker_Drop_Zone_Prefeb_Incoming.label>
+
+  <WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone.label>Wula Prefab Airdrop Beacon - Turret Group</WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone.label>
+  <WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone.description>A beacon for calling in buildings, used to quickly construct a turret group.</WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone.description>
+
+  <WULA_Turret_Group_Drop_Zone_Prefeb_Incoming.label>Wula Empire Building (Incoming)</WULA_Turret_Group_Drop_Zone_Prefeb_Incoming.label>
+
+  <WULA_Fortress_Drop_Zone_Beacon_Cleanzone.label>Wula Prefab Airdrop Beacon - Fortress</WULA_Fortress_Drop_Zone_Beacon_Cleanzone.label>
+  <WULA_Fortress_Drop_Zone_Beacon_Cleanzone.description>A beacon for calling in buildings, used to quickly construct a fortress.</WULA_Fortress_Drop_Zone_Beacon_Cleanzone.description>
+
+  <WULA_Fortress_Drop_Zone_Prefeb_Incoming.label>Wula Empire Building (Incoming)</WULA_Fortress_Drop_Zone_Prefeb_Incoming.label>
+
+  <WULA_Progressive_Ship_Mid_Beacon_Cleanzone.label>Wula Empire Medium Assault Escort Ship</WULA_Progressive_Ship_Mid_Beacon_Cleanzone.label>
+  <WULA_Progressive_Ship_Mid_Beacon_Cleanzone.description>Landing zone for a Wula Empire medium assault escort ship.</WULA_Progressive_Ship_Mid_Beacon_Cleanzone.description>
+
+  <WULA_Progressive_Ship_Mid_Prefeb_Incoming.label>Wula Empire Medium Assault Escort Ship (Descending)</WULA_Progressive_Ship_Mid_Prefeb_Incoming.label>
+
+  <WULA_Progressive_Ship_Small_Beacon_Cleanzone.label>Wula Empire Small Assault Escort Ship</WULA_Progressive_Ship_Small_Beacon_Cleanzone.label>
+  <WULA_Progressive_Ship_Small_Beacon_Cleanzone.description>Landing zone for a Wula Empire small assault escort ship.</WULA_Progressive_Ship_Small_Beacon_Cleanzone.description>
+
+  <WULA_Progressive_Ship_Small_Prefeb_Incoming.label>Wula Empire Small Assault Escort Ship (Descending)</WULA_Progressive_Ship_Small_Prefeb_Incoming.label>
+
+  <WULA_Progressive_Ship_Mini_Beacon_Cleanzone.label>Wula Empire Mini Assault Escort Ship</WULA_Progressive_Ship_Mini_Beacon_Cleanzone.label>
+  <WULA_Progressive_Ship_Mini_Beacon_Cleanzone.description>Landing zone for a Wula Empire mini assault escort ship.</WULA_Progressive_Ship_Mini_Beacon_Cleanzone.description>
+
+  <WULA_Progressive_Ship_Mini_Prefeb_Incoming.label>Wula Empire Mini Assault Escort Ship (Descending)</WULA_Progressive_Ship_Mini_Prefeb_Incoming.label>
+</LanguageData>

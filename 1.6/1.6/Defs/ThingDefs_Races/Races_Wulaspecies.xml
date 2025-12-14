@@ -255,9 +255,6 @@
         <canLayDown>true</canLayDown>
         <validBeds>
           <li>WULA_Charging_Station_Synth</li>
-          <li>DoubleBed</li>
-          <li>HospitalBed</li>
-          <li>SleepingSpot</li>
         </validBeds>
         <!-- 各种零件定义 -->
         <alienPartGenerator Inherit="False">

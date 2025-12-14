@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_EdgeTeleport.textEnemy>A group of {0} from {1} has teleported onto the map!</WULA_EdgeTeleport.textEnemy>
+  <WULA_EdgeTeleport.textFriendly>A group of {0} reinforcements from {1} has teleported onto the map!</WULA_EdgeTeleport.textFriendly>
+  <WULA_EdgeTeleport.textWillArrive>{0_pawnsPluralDef} will arrive via teleportation</WULA_EdgeTeleport.textWillArrive>
+</LanguageData>
