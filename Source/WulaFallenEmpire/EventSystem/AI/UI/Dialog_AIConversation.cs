@@ -23,6 +23,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
         private const int MaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
+        private int _continuationDepth = 0;
+        private const int MaxContinuationDepth = 6;
 
         // Static instance for tools to access
         public static Dialog_AIConversation Instance { get; private set; }
@@ -372,6 +374,16 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 if (_isThinking) return;
                 _isThinking = true;
                 _options.Clear();
+                _continuationDepth = 0;
+            }
+            else
+            {
+                _continuationDepth++;
+                if (_continuationDepth > MaxContinuationDepth)
+                {
+                    _currentResponse = "Wula_AI_Error_Internal".Translate("Tool continuation limit exceeded.");
+                    return;
+                }
             }
 
             try
@@ -448,11 +460,15 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 }
 
                 StringBuilder combinedResults = new StringBuilder();
+                StringBuilder xmlOnlyBuilder = new StringBuilder();
 
                 foreach (Match match in matches)
                 {
                     string toolCallXml = match.Value;
                     string toolName = match.Groups[1].Value;
+
+                    if (xmlOnlyBuilder.Length > 0) xmlOnlyBuilder.AppendLine().AppendLine();
+                    xmlOnlyBuilder.Append(toolCallXml);
 
                     var tool = _tools.FirstOrDefault(t => t.Name == toolName);
                     if (tool == null)
@@ -493,26 +509,15 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     }
                 }
 
-                _history.Add(("assistant", xml));
+                // Store only the tool-call XML in history (ignore any extra text the model included).
+                string xmlOnly = xmlOnlyBuilder.ToString().Trim();
+                _history.Add(("assistant", xmlOnly));
                 // Persist tool results with a dedicated role; the API request maps this role to a supported one.
                 _history.Add(("tool", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
                 PersistHistory();
 
-                // Check if there is any text content in the response
-                string textContent = Regex.Replace(xml, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", "", RegexOptions.Singleline).Trim();
-
-                if (!string.IsNullOrEmpty(textContent))
-                {
-                    // If there is text, we treat it as the final response for this turn.
-                    // We don't recurse. We just update the UI state.
-                    // We've already added the full 'xml' to history, so tell ParseResponse not to add it again.
-                    ParseResponse(xml, addToHistory: false);
-                }
-                else
-                {
-                    // If no text (pure tool call), we recurse to let AI generate a text response based on tool results.
-                    await GenerateResponse(isContinuation: true);
-                }
+                // Always recurse: tool results are fed back to the model, and the next response should be user-facing text.
+                await GenerateResponse(isContinuation: true);
             }
             catch (Exception ex)
             {
@@ -623,9 +628,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             try
             {
                 float viewHeight = 0f;
-                var filteredHistory = _history
-                    .Where(e => e.role != "system" && (Prefs.DevMode || e.role != "tool"))
-                    .ToList();
+                var filteredHistory = _history.Where(e => e.role != "tool" && e.role != "system").ToList();
                 // Pre-calculate height
                 for (int i = 0; i < filteredHistory.Count; i++)
                 {
