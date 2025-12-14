@@ -50,6 +50,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 2.  **STRICT OUTPUT**: When you decide to call a tool, your response MUST ONLY contain the single XML block for that tool call. Do NOT include any other text, explanation, or markdown.
 3.  **WORKFLOW**: You must use tools step-by-step to accomplish tasks. Use the output from one tool to inform your next step.
 4.  **ANTI-HALLUCINATION**: You MUST ONLY call tools from the list below. Do NOT invent tools or parameters. If a task is impossible, explain why without calling a tool.
+5.  **ENFORCEMENT**: The game will execute multiple info tools in one response, but it will NOT execute an action tool (spawn/bombardment/reinforcements/goodwill/expression) if you also included info tools in the same response. Call action tools in a separate turn after you see the info tool results.
 
 ====
 
@@ -480,11 +481,41 @@ When the player requests any form of resources, you MUST follow this multi-turn 
 
                 StringBuilder combinedResults = new StringBuilder();
                 StringBuilder xmlOnlyBuilder = new StringBuilder();
+                bool executedAnyInfoTool = false;
+                bool executedAnyActionTool = false;
+
+                static bool IsActionToolName(string toolName)
+                {
+                    // Action tools cause side effects / state changes and must be handled step-by-step.
+                    return toolName == "spawn_resources" ||
+                           toolName == "modify_goodwill" ||
+                           toolName == "send_reinforcement" ||
+                           toolName == "call_bombardment" ||
+                           toolName == "change_expression";
+                }
 
                 foreach (Match match in matches)
                 {
                     string toolCallXml = match.Value;
                     string toolName = match.Groups[1].Value;
+
+                    bool isAction = IsActionToolName(toolName);
+
+                    // Enforce step-by-step tool use:
+                    // - Allow batching multiple info tools in one response (read-only queries).
+                    // - If an action tool appears after any info tool, stop here and ask the model again
+                    //   so it can decide using the gathered facts (prevents spawning the wrong defName, etc.).
+                    // - Never execute more than one action tool per response.
+                    if (isAction && executedAnyInfoTool)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' and any following tools because action tools must be called after info tools in a separate turn.");
+                        break;
+                    }
+                    if (isAction && executedAnyActionTool)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because only one action tool may be executed per turn.");
+                        break;
+                    }
 
                     if (xmlOnlyBuilder.Length > 0) xmlOnlyBuilder.AppendLine().AppendLine();
                     xmlOnlyBuilder.Append(toolCallXml);
@@ -526,6 +557,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     {
                         combinedResults.AppendLine($"Tool '{toolName}' Result: {result}");
                     }
+
+                    if (isAction) executedAnyActionTool = true;
+                    else executedAnyInfoTool = true;
                 }
 
                 // Store only the tool-call XML in history (ignore any extra text the model included).
