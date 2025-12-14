@@ -679,6 +679,7 @@ Example (changing to a neutral expression):
 
             int maxTools = MaxToolsPerPhase(phase);
             int executed = 0;
+            bool actionHadError = false;
             StringBuilder combinedResults = new StringBuilder();
             StringBuilder xmlOnlyBuilder = new StringBuilder();
 
@@ -726,6 +727,7 @@ Example (changing to a neutral expression):
                 if (_recentToolSignatures.Count > 12) _recentToolSignatures.RemoveRange(0, _recentToolSignatures.Count - 12);
 
                 string result = tool.Execute(argsXml).Trim();
+                bool isError = !string.IsNullOrEmpty(result) && result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase);
                 if (toolName == "modify_goodwill")
                 {
                     combinedResults.AppendLine($"Tool '{toolName}' Result (Invisible): {result}");
@@ -736,11 +738,21 @@ Example (changing to a neutral expression):
                 }
 
                 executed++;
+
+                if (phase == RequestPhase.Action && isError)
+                {
+                    actionHadError = true;
+                    combinedResults.AppendLine("ToolRunner Guard: The action tool returned an error. In PHASE 4 you MUST tell the player the action FAILED and MUST NOT claim success.");
+                }
             }
 
             string xmlOnly = xmlOnlyBuilder.Length == 0 ? "<no_action/>" : xmlOnlyBuilder.ToString().Trim();
             _history.Add(("assistant", xmlOnly));
             _history.Add(("tool", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
+            if (phase == RequestPhase.Action && actionHadError)
+            {
+                _history.Add(("system", "[ActionFailed] The in-game action in PHASE 2 FAILED (tool returned Error). In PHASE 4 you MUST acknowledge the failure and MUST NOT claim any reinforcements/bombardment/resources were successfully dispatched."));
+            }
             PersistHistory();
 
             // Between phases, do not request the model again here; RunPhasedRequestAsync controls the sequence.
