@@ -90,12 +90,15 @@ namespace WulaFallenEmpire
                 for (int i = 0; i < tradeables.Count; i++)
                 {
                     Tradeable trad = tradeables[i];
-                    if (trad == null || trad.ThingDef == null) continue;
+                    if (trad == null) continue;
 
                     PruneTradeableThingLists(trad);
-                    if (!trad.HasAnyThing) continue;
+                    if (!TryGetAnyThing(trad, out Thing anyThing)) continue;
 
-                    if (!quickSearchWidget.filter.Matches(trad.ThingDef))
+                    ThingDef def = anyThing?.def;
+                    if (def == null) continue;
+
+                    if (!quickSearchWidget.filter.Matches(def))
                         continue;
 
                     Rect rowRect = new Rect(0f, curY, viewRect.width, RowHeight);
@@ -114,6 +117,34 @@ namespace WulaFallenEmpire
                 GenUI.ResetLabelAlign();
                 Widgets.EndScrollView();
             }
+        }
+
+        private static bool TryGetAnyThing(Tradeable trad, out Thing anyThing)
+        {
+            anyThing = null;
+            if (trad == null) return false;
+
+            if (TryGetAnyThingFromList(trad.thingsColony, out anyThing)) return true;
+            if (TryGetAnyThingFromList(trad.thingsTrader, out anyThing)) return true;
+
+            return false;
+        }
+
+        private static bool TryGetAnyThingFromList(List<Thing> things, out Thing anyThing)
+        {
+            anyThing = null;
+            if (things == null || things.Count == 0) return false;
+
+            for (int i = 0; i < things.Count; i++)
+            {
+                Thing t = things[i];
+                if (t == null || t.Destroyed) continue;
+                anyThing = t.GetInnerIfMinified();
+                if (anyThing != null && !anyThing.Destroyed) return true;
+            }
+
+            anyThing = null;
+            return false;
         }
 
         private static void DrawStorageTransferRow(Rect rect, Tradeable trad, int index)
@@ -368,8 +399,12 @@ namespace WulaFallenEmpire
             }
 
             tradeables = tradeables
-                .Where(t => t != null && t.HasAnyThing)
-                .OrderBy(t => t.ThingDef?.label ?? "")
+                .Where(t => t != null && TryGetAnyThing(t, out _))
+                .OrderBy(t =>
+                {
+                    TryGetAnyThing(t, out Thing anyThing);
+                    return anyThing?.def?.label ?? "";
+                })
                 .ToList();
         }
 
