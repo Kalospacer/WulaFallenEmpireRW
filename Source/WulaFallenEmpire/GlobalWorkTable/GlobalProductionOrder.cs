@@ -132,36 +132,62 @@ namespace WulaFallenEmpire
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null) return false;
 
-            // 检查资源是否足够
-            if (!HasEnoughResources()) return false;
-
-            // 扣除资源
+            // 扣除资源（需要处理扣除失败的情况，避免出现“扣料失败但仍返回 true”的无成本生产）
             var productCostList = GetProductCostList();
             if (productCostList.Count > 0)
             {
+                Dictionary<ThingDef, int> removed = new Dictionary<ThingDef, int>();
+
                 foreach (var kvp in productCostList)
                 {
-                    globalStorage.RemoveFromInputStorage(kvp.Key, kvp.Value);
+                    if (kvp.Value <= 0) continue;
+
+                    if (!globalStorage.RemoveFromInputStorage(kvp.Key, kvp.Value))
+                    {
+                        foreach (var r in removed)
+                        {
+                            globalStorage.AddToInputStorage(r.Key, r.Value);
+                        }
+                        return false;
+                    }
+
+                    removed[kvp.Key] = kvp.Value;
                 }
-                return true;
+
+                return removed.Count > 0;
             }
             
+            List<KeyValuePair<ThingDef, int>> removedIngredients = new List<KeyValuePair<ThingDef, int>>();
             foreach (var ingredient in recipe.ingredients)
             {
+                bool removedForThisIngredient = false;
                 foreach (var thingDef in ingredient.filter.AllowedThingDefs)
                 {
                     int requiredCount = ingredient.CountRequiredOfFor(thingDef, recipe);
                     int availableCount = globalStorage.GetInputStorageCount(thingDef);
                     
-                    if (availableCount >= requiredCount)
+                    if (requiredCount > 0 && availableCount >= requiredCount)
                     {
-                        globalStorage.RemoveFromInputStorage(thingDef, requiredCount);
-                        break; // 只扣除一种满足条件的材料
+                        if (globalStorage.RemoveFromInputStorage(thingDef, requiredCount))
+                        {
+                            removedIngredients.Add(new KeyValuePair<ThingDef, int>(thingDef, requiredCount));
+                            removedForThisIngredient = true;
+                            break; // 只扣除一种满足条件的材料
+                        }
                     }
+                }
+
+                if (!removedForThisIngredient)
+                {
+                    foreach (var r in removedIngredients)
+                    {
+                        globalStorage.AddToInputStorage(r.Key, r.Value);
+                    }
+                    return false;
                 }
             }
             
-            return true;
+            return removedIngredients.Count > 0;
         }
 
         // 修复：GetIngredientsTooltip 方法，显示正确的成本信息

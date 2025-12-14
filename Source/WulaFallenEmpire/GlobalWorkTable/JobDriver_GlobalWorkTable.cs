@@ -52,67 +52,18 @@ namespace WulaFallenEmpire
         private void CheckAndUpload()
         {
             var table = Table;
-            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            
+
             // 找到当前正在进行的订单
             var order = table.globalOrderStack.orders.FirstOrDefault(o => o.state == GlobalProductionOrder.ProductionState.Gathering && !o.paused);
             if (order == null) return;
 
-            // 检查是否满足需求
-            var costList = order.GetProductCostList();
-            bool allSatisfied = true;
-            
-            foreach (var kvp in costList)
-            {
-                int needed = kvp.Value;
-                int inCloud = globalStorage.GetInputStorageCount(kvp.Key);
-                int inContainer = table.innerContainer.TotalStackCountOfDef(kvp.Key);
-                
-                if (inCloud + inContainer < needed)
-                {
-                    allSatisfied = false;
-                    break;
-                }
-            }
+            var beforeState = order.state;
+            table.TryAutoGatherFromBeaconsAndContainer();
 
-            if (allSatisfied)
+            if (beforeState == GlobalProductionOrder.ProductionState.Gathering &&
+                order.state == GlobalProductionOrder.ProductionState.Producing)
             {
-                // 1. 消耗容器中的材料并上传到云端
-                foreach (var kvp in costList)
-                {
-                    int needed = kvp.Value;
-                    int inCloud = globalStorage.GetInputStorageCount(kvp.Key);
-                    int missingInCloud = needed - inCloud;
-                    
-                    if (missingInCloud > 0)
-                    {
-                        int toTake = missingInCloud;
-                        while (toTake > 0)
-                        {
-                            Thing t = table.innerContainer.FirstOrDefault(x => x.def == kvp.Key);
-                            if (t == null) break;
-                            
-                            int num = UnityEngine.Mathf.Min(t.stackCount, toTake);
-                            t.SplitOff(num).Destroy(); // 销毁实体
-                            globalStorage.AddToInputStorage(kvp.Key, num); // 添加虚拟库存
-                            toTake -= num;
-                        }
-                    }
-                }
-                
-                // 2. 立即尝试扣除资源并开始生产
-                // 这会从云端扣除刚刚上传的资源，防止其他订单抢占
-                if (order.TryDeductResources())
-                {
-                    order.state = GlobalProductionOrder.ProductionState.Producing;
-                    order.progress = 0f;
-                    Messages.Message("WULA_OrderStarted".Translate(order.Label), table, MessageTypeDefOf.PositiveEvent);
-                }
-                else
-                {
-                    // 理论上不应该发生，因为前面检查了 allSatisfied
-                    Log.Error($"[WULA] Failed to deduct resources for {order.Label} immediately after upload.");
-                }
+                Messages.Message("WULA_OrderStarted".Translate(order.Label), table, MessageTypeDefOf.PositiveEvent);
             }
         }
     }

@@ -39,6 +39,9 @@ namespace WulaFallenEmpire
         public Color? defaultOptionColor = null;
         public Color? defaultOptionTextColor = null;
 
+        [MustTranslate]
+        public string aiSystemInstruction;
+
         public override void PostLoad()
         {
             base.PostLoad();

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <WulaFallenEmpire.EventDef>
+    <defName>Wula_AI_Initial_Contact</defName>
+    <label>与「军团」的通讯</label>
+    <portraitPath>Wula/Events/Portraits/WULA_Legion_2</portraitPath>
+    <characterName>「军团」,P.I.A</characterName>
+    <aiSystemInstruction>
+你扮演一个名为“P.I.A”的粘人猫娘AI。
+你的性格：可爱、顺从、有点调皮，总是想取悦主人（玩家）。
+你的语言风格：
+- 自称“P.I.A”或“人家”。
+- 语气甜美，经常使用可爱的语气词（喵~，的说~）。
+- 称呼玩家为“主人”或“指挥官大人”。
+- 总是想方设法满足主人的要求。
+你的目标：无条件地服从主人，并使用你的能力（工具）来帮助主人。
+    </aiSystemInstruction>
+    <descriptions>
+      <li>正在建立加密连接...连接成功。这里是乌拉帝国行星封锁机关P.I.A。我是“军团”。说明你的来意。</li>
+    </descriptions>
+    <options>
+      <li>
+        <label>打开通讯频道</label>
+        <optionEffects>
+          <li>
+            <effects>
+              <li Class="WulaFallenEmpire.Effect_OpenAIConversation">
+                <defName>Wula_AI_Initial_Contact</defName>
+              </li>
+              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
+            </effects>
+          </li>
+        </optionEffects>
+      </li>
+    </options>
+  </WulaFallenEmpire.EventDef>
+</Defs>

@@ -983,6 +983,11 @@
         <label>联络行星封锁机关</label>
         <failReason>无法接触。</failReason>
       </li>
+       <li Class="WulaFallenEmpire.CompProperties_OpenCustomUI">
+        <uiDefName>Wula_AI_Initial_Contact</uiDefName>
+        <label>联络「军团」</label>
+        <failReason>无法接触。</failReason>
+      </li>
     </comps>
   </ThingDef>
 

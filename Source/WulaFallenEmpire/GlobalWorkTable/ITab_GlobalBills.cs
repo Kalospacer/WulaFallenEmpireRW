@@ -193,7 +193,7 @@ namespace WulaFallenEmpire
                     {
                         recipe = recipe,
                         targetCount = 1,
-                        paused = true
+                        paused = false
                     };
                     SelTable.globalOrderStack.AddOrder(newOrder);
                     SoundDefOf.Click.PlayOneShotOnCamera();
@@ -274,10 +274,12 @@ namespace WulaFallenEmpire
             // 输入存储（原材料）
             sb.AppendLine("WULA_InputStorage".Translate() + ":");
             sb.AppendLine();
-            var inputItems = globalStorage.inputStorage
-                .Where(kvp => kvp.Value > 0)
-                .OrderByDescending(kvp => kvp.Value)
-                .ThenBy(kvp => kvp.Key.label)
+            var inputItems = globalStorage.inputContainer
+                .Where(t => t != null && t.stackCount > 0)
+                .GroupBy(t => t.def)
+                .Select(g => new { Def = g.Key, Count = g.Sum(x => x.stackCount) })
+                .OrderByDescending(x => x.Count)
+                .ThenBy(x => x.Def.label)
                 .ToList();
             if (inputItems.Count == 0)
             {
@@ -285,19 +287,21 @@ namespace WulaFallenEmpire
             }
             else
             {
-                foreach (var kvp in inputItems)
+                foreach (var x in inputItems)
                 {
-                    sb.AppendLine($"  {kvp.Value} {kvp.Key.LabelCap}");
+                    sb.AppendLine($"  {x.Count} {x.Def.LabelCap}");
                 }
             }
             sb.AppendLine();
             // 输出存储（产品）
             sb.AppendLine("WULA_OutputStorage".Translate() + ":");
             sb.AppendLine();
-            var outputItems = globalStorage.outputStorage
-                .Where(kvp => kvp.Value > 0)
-                .OrderByDescending(kvp => kvp.Value)
-                .ThenBy(kvp => kvp.Key.label)
+            var outputItems = globalStorage.outputContainer
+                .Where(t => t != null && t.stackCount > 0)
+                .GroupBy(t => t.def)
+                .Select(g => new { Def = g.Key, Count = g.Sum(x => x.stackCount) })
+                .OrderByDescending(x => x.Count)
+                .ThenBy(x => x.Def.label)
                 .ToList();
             if (outputItems.Count == 0)
             {
@@ -305,9 +309,9 @@ namespace WulaFallenEmpire
             }
             else
             {
-                foreach (var kvp in outputItems)
+                foreach (var x in outputItems)
                 {
-                    sb.AppendLine($"  {kvp.Value} {kvp.Key.LabelCap}");
+                    sb.AppendLine($"  {x.Count} {x.Def.LabelCap}");
                 }
             }
             return sb.ToString();
@@ -356,34 +360,19 @@ namespace WulaFallenEmpire
                 IntVec3 spawnCell = SelTable.Position;
                 int totalSpawned = 0;
 
-                // 复制列表以避免修改时枚举
-                var outputCopy = new Dictionary<ThingDef, int>(globalStorage.outputStorage);
-
-                foreach (var kvp in outputCopy)
+                for (int i = globalStorage.outputContainer.Count - 1; i >= 0; i--)
                 {
-                    ThingDef thingDef = kvp.Key;
-                    int count = kvp.Value;
+                    Thing thing = globalStorage.outputContainer[i];
+                    if (thing == null) continue;
 
-                    if (count > 0)
+                    globalStorage.outputContainer.Remove(thing);
+                    if (GenPlace.TryPlaceThing(thing, spawnCell, map, ThingPlaceMode.Near))
                     {
-                        // 创建物品并放置到地图上
-                        while (count > 0)
-                        {
-                            int stackSize = Mathf.Min(count, thingDef.stackLimit);
-                            Thing thing = ThingMaker.MakeThing(thingDef);
-                            thing.stackCount = stackSize;
-
-                            if (GenPlace.TryPlaceThing(thing, spawnCell, map, ThingPlaceMode.Near))
-                            {
-                                globalStorage.RemoveFromOutputStorage(thingDef, stackSize);
-                                count -= stackSize;
-                                totalSpawned += stackSize;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
+                        totalSpawned += thing.stackCount;
+                    }
+                    else
+                    {
+                        globalStorage.outputContainer.TryAdd(thing, true);
                     }
                 }
 
