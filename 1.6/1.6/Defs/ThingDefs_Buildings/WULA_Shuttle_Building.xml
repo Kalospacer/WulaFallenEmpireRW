@@ -42,6 +42,7 @@
     <size>(9,13)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <stuffCategories Inherit="False" />
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
@@ -103,6 +104,7 @@
     <size>(9,13)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <stuffCategories Inherit="False" />
     <researchPrerequisites Inherit="False">
       <li>WULA_ArmedShuttle_Technology</li>

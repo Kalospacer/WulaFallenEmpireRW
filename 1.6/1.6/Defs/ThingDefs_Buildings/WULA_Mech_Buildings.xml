@@ -53,6 +53,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>
@@ -168,6 +169,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>
@@ -282,6 +284,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>
@@ -396,6 +399,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>
@@ -510,6 +514,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>
@@ -612,6 +617,7 @@
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
     </building>

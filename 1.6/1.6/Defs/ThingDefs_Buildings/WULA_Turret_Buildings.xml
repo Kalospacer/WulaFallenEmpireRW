@@ -45,6 +45,7 @@
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList Inherit="False">
       <WULA_Alloy>1</WULA_Alloy>
       <Chemfuel>5</Chemfuel>
@@ -308,6 +309,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <Steel>300</Steel>
       <ComponentIndustrial>3</ComponentIndustrial>
@@ -576,6 +578,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList Inherit="False">
       <WULA_Alloy>100</WULA_Alloy>
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
@@ -876,6 +879,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <costList Inherit="False">
       <WULA_Alloy>100</WULA_Alloy>
@@ -1189,6 +1193,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList Inherit="False">
       <WULA_Alloy>100</WULA_Alloy>
       <WULA_Charge_Cube>6</WULA_Charge_Cube>
@@ -1488,6 +1493,7 @@
     <size>(5,5)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList Inherit="False">
       <WULA_Alloy>400</WULA_Alloy>
       <WULA_Dark_Matter_Item>20</WULA_Dark_Matter_Item>
@@ -1800,6 +1806,7 @@
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList Inherit="False">
       <WULA_Alloy>20</WULA_Alloy>
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -2068,6 +2075,7 @@
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <WULA_Alloy>50</WULA_Alloy>
       <ComponentIndustrial>2</ComponentIndustrial>

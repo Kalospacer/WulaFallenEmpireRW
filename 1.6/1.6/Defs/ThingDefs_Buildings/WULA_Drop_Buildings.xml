@@ -47,6 +47,7 @@
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <stuffCategories Inherit="False"/>
     <researchPrerequisites Inherit="False">
       <li>WULA_Structure_Technology</li>
@@ -212,7 +213,6 @@
     </costList>
     <castEdgeShadows>false</castEdgeShadows>
     <staticSunShadowHeight Inherit="False" IsNull="True" />
-    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <selectable>true</selectable>
     <neverMultiSelect>false</neverMultiSelect>
     <blockLight>false</blockLight>
@@ -229,6 +229,7 @@
     <drawerType>RealtimeOnly</drawerType>
     <designationCategory>WULA_Buildings</designationCategory>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <researchPrerequisites Inherit="False">
       <li>WULA_Structure_Technology</li>
     </researchPrerequisites>
@@ -459,6 +460,7 @@
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <stuffCategories Inherit="False"/>
     <researchPrerequisites Inherit="False">
       <li>WULA_Structure_Technology</li>
@@ -639,6 +641,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <researchPrerequisites Inherit="False">
       <li>WULA_Synth_Maintain_Technology</li>
     </researchPrerequisites>
@@ -848,6 +851,7 @@
     </statBases>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <WULA_Alloy>40</WULA_Alloy>
       <ComponentIndustrial>2</ComponentIndustrial>
@@ -1038,6 +1042,7 @@
     </statBases>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <Steel>20</Steel>
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -1455,6 +1460,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <WULA_Alloy>20</WULA_Alloy>
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -1634,6 +1640,7 @@
     <size>(1,2)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <WULA_Alloy>30</WULA_Alloy>
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -1804,6 +1811,7 @@
     <size>(1,1)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <Steel>50</Steel>
       <ComponentIndustrial>1</ComponentIndustrial>
@@ -1990,6 +1998,7 @@
     <size>(5,5)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <WULA_Alloy>50</WULA_Alloy>
       <WULA_Dark_Matter_Item>2</WULA_Dark_Matter_Item>
@@ -2200,6 +2209,7 @@
     <size>(3,3)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <costList>
       <WULA_Alloy>40</WULA_Alloy>
       <ComponentIndustrial>2</ComponentIndustrial>
