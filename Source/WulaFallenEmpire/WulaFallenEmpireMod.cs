@@ -10,6 +10,7 @@ namespace WulaFallenEmpire
     public class WulaFallenEmpireMod : Mod
     {
         public static WulaFallenEmpireSettings settings;
+        private string _maxContextTokensBuffer;
 
         public WulaFallenEmpireMod(ModContentPack content) : base(content)
         {
@@ -37,6 +38,12 @@ namespace WulaFallenEmpire
             
             listingStandard.Label("Wula_AISettings_Model".Translate());
             settings.model = listingStandard.TextEntry(settings.model);
+
+            listingStandard.GapLine();
+            listingStandard.Label("Wula_AISettings_MaxContextTokens".Translate());
+            listingStandard.Label("Wula_AISettings_MaxContextTokensDesc".Translate());
+            Rect tokensRect = listingStandard.GetRect(Text.LineHeight);
+            Widgets.TextFieldNumeric(tokensRect, ref settings.maxContextTokens, ref _maxContextTokensBuffer, 1000, 200000);
 
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);

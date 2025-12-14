@@ -21,10 +21,16 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private bool _scrollToBottom = false;
         private List<AITool> _tools = new List<AITool>();
         private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
-        private const int MaxHistoryTokens = 100000;
+        private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
         private int _continuationDepth = 0;
         private const int MaxContinuationDepth = 6;
+
+        private static int GetMaxHistoryTokens()
+        {
+            int configured = WulaFallenEmpire.WulaFallenEmpireMod.settings?.maxContextTokens ?? DefaultMaxHistoryTokens;
+            return Math.Max(1000, Math.Min(200000, configured));
+        }
 
         // Static instance for tools to access
         public static Dialog_AIConversation Instance { get; private set; }
@@ -467,7 +473,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         private void CompressHistoryIfNeeded()
         {
             int estimatedTokens = _history.Sum(h => h.message?.Length ?? 0) / CharsPerToken;
-            if (estimatedTokens > MaxHistoryTokens)
+            if (estimatedTokens > GetMaxHistoryTokens())
             {
                 int removeCount = _history.Count / 2;
                 if (removeCount > 0)
