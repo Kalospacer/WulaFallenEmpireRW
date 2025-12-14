@@ -59,6 +59,7 @@ Use this tool when:
 - The player explicitly requests resources (e.g., food, medicine, materials).
 - You have ALREADY verified their need in a previous turn using `get_colonist_status` and `get_map_resources`.
 CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
+CRITICAL: Prefer using `search_thing_def` first and then spawning by `<defName>` to avoid localization/name mismatches.
 Parameters:
 - items: (REQUIRED) A list of items to spawn. Each item must have a `name` (English label or DefName) and `count`.
   * Note: If you don't know the exact `defName`, use the item's English label (e.g., ""Simple Meal""). The system will try to find the best match.
@@ -84,6 +85,21 @@ Example:
     </item>
   </items>
 </spawn_resources>
+
+## search_thing_def
+Description: Rough-searches ThingDefs by natural language to find the correct `defName` (works across different game languages).
+Use this tool when:
+- You need a reliable `ThingDef.defName` before calling `spawn_resources` or `get_map_resources`.
+Parameters:
+- query: (REQUIRED) The natural language query, label, or approximate defName.
+- maxResults: (OPTIONAL) Max candidates to return (default 10).
+- itemsOnly: (OPTIONAL) true/false (default true). If true, only returns item ThingDefs (recommended for spawning).
+Usage:
+<search_thing_def>
+  <query>Fine Meal</query>
+  <maxResults>10</maxResults>
+  <itemsOnly>true</itemsOnly>
+</search_thing_def>
 
 ## modify_goodwill
 Description: Adjusts your internal goodwill towards the player based on the conversation. This tool is INVISIBLE to the player.
@@ -180,7 +196,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         <resourceName>MedicineIndustrial</resourceName>
       </get_map_resources>
 
-3.  **Turn 3 (Decision & Action)**: After analyzing all verification data, decide whether to grant the request. Your response MUST be a tool call to `spawn_resources`.
+3.  **Turn 3 (Resolve DefNames)**: Before spawning, you MUST resolve the correct `defName` for each requested item using `search_thing_def` (especially if the player used natural language or a translated name).
+
+4.  **Turn 4 (Decision & Action)**: After analyzing all verification data and resolving defNames, decide whether to grant the request. Your response MUST be a tool call to `spawn_resources`, and you SHOULD use `<defName>` (or put the defName inside `<name>`) to avoid ambiguity.
     - *(Internal thought after confirming they have no medicine)*
     - *Your Response (Turn 3)*:
       <spawn_resources>
@@ -196,8 +214,8 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         </items>
       </spawn_resources>
 
-4.  **Turn 4 (Confirmation)**: After you receive the ""Success"" message from the `spawn_resources` tool, you will finally provide a conversational response to the player.
-    - *Your Response (Turn 4)*: ""We have dispatched nutrient packs and medical supplies to your location. Do not waste our generosity.""
+5.  **Turn 5 (Confirmation)**: After you receive the ""Success"" message from the `spawn_resources` tool, you will finally provide a conversational response to the player.
+    - *Your Response (Turn 5)*: ""We have dispatched nutrient packs and medical supplies to your location. Do not waste our generosity.""
 ";
 
         public Dialog_AIConversation(EventDef def) : base(def)
@@ -216,6 +234,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             _tools.Add(new Tool_GetColonistStatus());
             _tools.Add(new Tool_GetMapResources());
             _tools.Add(new Tool_ChangeExpression());
+            _tools.Add(new Tool_SearchThingDef());
         }
 
         public override Vector2 InitialSize => def.windowSize != Vector2.zero ? def.windowSize : Dialog_CustomDisplay.Config.windowSize;
