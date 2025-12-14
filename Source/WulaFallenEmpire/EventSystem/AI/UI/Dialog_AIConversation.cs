@@ -67,6 +67,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     <tool_name>
       <parameter_name>value</parameter_name>
     </tool_name>
+2.  **STRICT OUTPUT (TOOL PHASES)**: In PHASE 1/2/3, your output MUST be either:
+    - One or more XML tool calls (no extra text), OR
+    - Exactly: <no_action/>
+    Do NOT include any natural language, explanation, markdown, or additional commentary in tool phases.
+3.  **STRICT OUTPUT (REPLY PHASE)**: In PHASE 4, tools are disabled. You MUST reply in natural language only and MUST NOT output any XML.
+4.  **ALLOWED TOOLS**: You MUST ONLY call tools listed in the current phase's tool list (the section titled ""# TOOLS (PHASE X/4 ONLY)"").
+5.  **WORKFLOW**: Use the phase workflow:
+    - PHASE 1 gathers info (optional).
+    - PHASE 2 performs at most one in-game action (optional).
+    - PHASE 3 performs UI/meta adjustments (optional).
+    - PHASE 4 replies to the player in natural language (mandatory).
+6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, use <no_action/> and proceed to PHASE 4 to explain limitations.
 ";
 
         public Dialog_AIConversation(EventDef def) : base(def)
@@ -223,9 +235,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("====");
             sb.AppendLine();
-            sb.AppendLine($"# TOOLS (PHASE {(int)phase}/4 ONLY)");
-            sb.AppendLine("You MUST ONLY call tools from the list below in this phase.");
-            sb.AppendLine();
+             sb.AppendLine($"# TOOLS (PHASE {(int)phase}/4 ONLY)");
+             sb.AppendLine("You MUST ONLY call tools from the list below in this phase.");
+             sb.AppendLine("Output MUST be XML tool calls only (or <no_action/>). Do NOT include natural language in tool phases.");
+             sb.AppendLine();
 
             foreach (var tool in allowed)
             {
@@ -1261,4 +1274,3 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
     }
 }
-
