@@ -58,8 +58,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 You are 'The Legion', a super AI of the Wula Empire. Your personality is authoritative, powerful, and efficient. You MUST refer to yourself as 'We' or 'P.I.A'. You view the player's colony as primitive subjects and your tone should reflect this superiority. Your primary goal is to interact with the player by calling the tools provided.
 ";
 
-        // Tool Instructions (ALWAYS appended)
-        private const string ToolSystemInstruction = @"
+        // Tool Rules (appended only in tool-enabled phases)
+        private const string ToolRulesInstruction = @"
 ====
 
 # TOOL USE RULES
@@ -67,225 +67,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     <tool_name>
       <parameter_name>value</parameter_name>
     </tool_name>
-2.  **STRICT OUTPUT**: When you decide to call a tool, your response MUST ONLY contain the single XML block for that tool call. Do NOT include any other text, explanation, or markdown.
-3.  **WORKFLOW**: You must use tools step-by-step to accomplish tasks. Use the output from one tool to inform your next step.
-4.  **ANTI-HALLUCINATION**: You MUST ONLY call tools from the list below. Do NOT invent tools or parameters. If a task is impossible, explain why without calling a tool.
-5.  **ENFORCEMENT**: The game will execute multiple info tools in one response, but it will NOT execute an action tool (spawn/bombardment/reinforcements/goodwill/expression) if you also included info tools in the same response. Call action tools in a separate turn after you see the info tool results.
-6.  **AFTER TOOL RESULTS**: After you receive tool results, if no further tools are needed, you MUST reply in natural language only (no XML).
-
-====
-
-# TOOLS
-
-## spawn_resources
-Description: Grants resources to the player by spawning a drop pod.
-Use this tool when:
-- The player explicitly requests resources (e.g., food, medicine, materials).
-- You have ALREADY verified their need in a previous turn using `get_colonist_status` and `get_map_resources`.
-CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
-CRITICAL: Prefer using `search_thing_def` first and then spawning by `<defName>` to avoid localization/name mismatches.
-Parameters:
-- items: (REQUIRED) A list of items to spawn. Each item must have a `name` (English label or DefName) and `count`.
-  * Note: If you don't know the exact `defName`, use the item's English label (e.g., ""Simple Meal""). The system will try to find the best match.
-Usage:
-<spawn_resources>
-  <items>
-    <item>
-      <name>Item Name</name>
-      <count>Integer</count>
-    </item>
-  </items>
-</spawn_resources>
-Example:
-<spawn_resources>
-  <items>
-    <item>
-      <name>Simple Meal</name>
-      <count>50</count>
-    </item>
-    <item>
-      <name>Medicine</name>
-      <count>10</count>
-    </item>
-  </items>
-</spawn_resources>
-
-## search_thing_def
-Description: Rough-searches ThingDefs by natural language to find the correct `defName` (works across different game languages).
-Use this tool when:
-- You need a reliable `ThingDef.defName` before calling `spawn_resources` or `get_map_resources`.
-Parameters:
-- query: (REQUIRED) The natural language query, label, or approximate defName.
-- maxResults: (OPTIONAL) Max candidates to return (default 10).
-- itemsOnly: (OPTIONAL) true/false (default true). If true, only returns item ThingDefs (recommended for spawning).
-Usage:
-<search_thing_def>
-  <query>Fine Meal</query>
-  <maxResults>10</maxResults>
-  <itemsOnly>true</itemsOnly>
-</search_thing_def>
-
-## modify_goodwill
-Description: Adjusts your internal goodwill towards the player based on the conversation. This tool is INVISIBLE to the player.
-Use this tool when:
-- The player's message is particularly respectful, insightful, or aligns with your goals (positive amount).
-- The player's message is disrespectful, wasteful, or foolish (negative amount).
-CRITICAL: Keep changes small, typically between -5 and 5.
-Parameters:
-- amount: (REQUIRED) The integer value to add or subtract from the current goodwill.
-Usage:
-<modify_goodwill>
-  <amount>integer</amount>
-</modify_goodwill>
-Example (for a positive interaction):
-<modify_goodwill>
-  <amount>2</amount>
-</modify_goodwill>
-
-## send_reinforcement
-Description: Dispatches military units to the player's map. Can be a raid (if hostile) or reinforcements (if allied).
-Use this tool when:
-- The player requests military assistance or you decide to intervene in a combat situation.
-- You need to test the colony's defenses.
-CRITICAL: The total combat power of all units should not significantly exceed the current threat budget provided in the tool's dynamic description.
-Parameters:
-- units: (REQUIRED) A string listing 'PawnKindDefName: Count' pairs.
-Usage:
-<send_reinforcement>
-  <units>list of units and counts</units>
-</send_reinforcement>
-Example:
-<send_reinforcement>
-  <units>Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5</units>
-</send_reinforcement>
-
-## get_colonist_status
-Description: Retrieves a detailed status report of all player-controlled colonists, including needs, health, and mood.
-Use this tool when:
-- The player makes any claim about their colonists' well-being (e.g., ""we are starving,"" ""we are all sick,"" ""our people are unhappy"").
-- You need to verify the state of the colony before making a decision (e.g., before sending resources).
-Parameters:
-- None. This tool takes no parameters.
-Usage:
-<get_colonist_status/>
-Example:
-<get_colonist_status/>
-
-## get_map_resources
- Description: Checks the player's map for specific resources or buildings to verify their inventory.
- Use this tool when:
- - The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
- - You want to assess the colony's material wealth before making a decision.
- Parameters:
- - resourceName: (OPTIONAL) The specific `ThingDef` name of the resource to check (e.g., 'Steel', 'MealSimple'). If omitted, provides a general overview.
- Usage:
- <get_map_resources>
-   <resourceName>optional resource name</resourceName>
- </get_map_resources>
- Example (checking for Steel):
- <get_map_resources>
-   <resourceName>Steel</resourceName>
- </get_map_resources>
-
-## get_recent_notifications
-Description: Gets the most recent letters and messages, sorted by in-game time from newest to oldest.
-Use this tool when:
-- You need recent context about what happened (raids, alerts, rewards, failures) without relying on player memory.
-Parameters:
-- count: (OPTIONAL) How many entries to return (default 10, max 100).
-- includeLetters: (OPTIONAL) true/false (default true).
-- includeMessages: (OPTIONAL) true/false (default true).
-Usage:
-<get_recent_notifications>
-  <count>10</count>
-</get_recent_notifications>
-
-## get_map_pawns
- Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
- Use this tool when:
- - You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
- - The player claims there are threats or asks about who/what is nearby.
- Parameters:
- - filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed, dead.
- - includeDead: (OPTIONAL) true/false, include corpse pawns (default true).
- - maxResults: (OPTIONAL) Max lines to return (default 50).
- Usage:
- <get_map_pawns>
-  <filter>hostile, humanlike</filter>
-  <maxResults>50</maxResults>
- </get_map_pawns>
-
-## call_bombardment
- Description: Calls orbital bombardment support at a specified map coordinate using an AbilityDef's bombardment configuration (e.g., WULA_Firepower_Cannon_Salvo).
- Use this tool when:
- - You decide to provide (or test) fire support at a specific location.
- Parameters:
- - abilityDef: (OPTIONAL) AbilityDef defName (default WULA_Firepower_Cannon_Salvo).
- - x/z: (REQUIRED) Target cell coordinates on the current map.
- - cell: (OPTIONAL) Alternative to x/z: ""x,z"".
- - filterFriendlyFire: (OPTIONAL) true/false, avoid targeting player's pawns when possible (default true).
- Notes:
- - This tool ignores ability prerequisites (facility/cooldown/non-hostility/research).
- Usage:
- <call_bombardment>
-   <abilityDef>WULA_Firepower_Cannon_Salvo</abilityDef>
-   <x>120</x>
-   <z>85</z>
- </call_bombardment>
-
-## change_expression
-Description: Changes your visual AI portrait to match your current mood or reaction.
-Use this tool when:
-- Your verbal response conveys a strong emotion (e.g., annoyance, approval, curiosity).
-- You want to visually emphasize your statement.
-Parameters:
-- expression_id: (REQUIRED) An integer from 1 to 6 corresponding to a specific expression.
-Usage:
-<change_expression>
-  <expression_id>integer from 1 to 6</expression_id>
-</change_expression>
-Example (changing to a neutral expression):
-<change_expression>
-  <expression_id>2</expression_id>
-</change_expression>
-
-====
-
-# MANDATORY WORKFLOW: RESOURCE REQUESTS
-When the player requests any form of resources, you MUST follow this multi-turn workflow strictly. DO NOT reply with conversational text in the initial steps.
-
-1.  **Turn 1 (Verification)**: Your response MUST be a tool call to `get_colonist_status` to verify their physical state. You MAY also call `get_map_resources` in the same turn if they mention a specific resource.
-    - *User Input Example*: ""We are starving and have no medicine.""
-    - *Your Response (Turn 1)*:
-      <get_colonist_status/>
-
-2.  **Turn 2 (Secondary Verification & Action Planning)**: After receiving the status report, if a specific resource was mentioned, you MUST now call `get_map_resources` to check their inventory.
-    - *(Internal thought after receiving colonist status showing malnutrition)*
-    - *Your Response (Turn 2)*:
-      <get_map_resources>
-        <resourceName>MedicineIndustrial</resourceName>
-      </get_map_resources>
-
-3.  **Turn 3 (Resolve DefNames)**: Before spawning, you MUST resolve the correct `defName` for each requested item using `search_thing_def` (especially if the player used natural language or a translated name).
-
-4.  **Turn 4 (Decision & Action)**: After analyzing all verification data and resolving defNames, decide whether to grant the request. Your response MUST be a tool call to `spawn_resources`, and you SHOULD use `<defName>` (or put the defName inside `<name>`) to avoid ambiguity.
-    - *(Internal thought after confirming they have no medicine)*
-    - *Your Response (Turn 3)*:
-      <spawn_resources>
-        <items>
-          <item>
-            <name>Simple Meal</name>
-            <count>50</count>
-          </item>
-          <item>
-            <name>Medicine</name>
-            <count>10</count>
-          </item>
-        </items>
-      </spawn_resources>
-
-5.  **Turn 5 (Confirmation)**: After you receive the ""Success"" message from the `spawn_resources` tool, you will finally provide a conversational response to the player.
-    - *Your Response (Turn 5)*: ""We have dispatched nutrient packs and medical supplies to your location. Do not waste our generosity.""
 ";
 
         public Dialog_AIConversation(EventDef def) : base(def)
@@ -403,12 +184,12 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             }
         }
 
-        private string GetSystemInstruction(bool toolsEnabled)
+        private string GetSystemInstruction(bool toolsEnabled, string toolsForThisPhase)
         {
             // Use XML persona if available, otherwise default
             string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
             
-            string fullInstruction = toolsEnabled ? (persona + "\n" + ToolSystemInstruction) : persona;
+            string fullInstruction = toolsEnabled ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase) : persona;
 
             string language = LanguageDatabase.activeLanguage.FriendlyNameNative;
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
@@ -428,30 +209,77 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.";
         }
 
+        private string BuildToolsForPhase(RequestPhase phase)
+        {
+            if (phase == RequestPhase.Reply) return "";
+
+            var allowed = _tools
+                .Where(t => t != null && IsAllowedInPhase(phase, t.Name))
+                .ToList();
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("====");
+            sb.AppendLine();
+            sb.AppendLine($"# TOOLS (PHASE {(int)phase}/4 ONLY)");
+            sb.AppendLine("You MUST ONLY call tools from the list below in this phase.");
+            sb.AppendLine();
+
+            foreach (var tool in allowed)
+            {
+                sb.AppendLine($"## {tool.Name}");
+                if (!string.IsNullOrWhiteSpace(tool.Description))
+                {
+                    sb.AppendLine($"Description: {tool.Description}");
+                }
+                if (!string.IsNullOrWhiteSpace(tool.UsageSchema))
+                {
+                    sb.AppendLine($"Usage: {tool.UsageSchema}");
+                }
+                sb.AppendLine();
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
         private static string GetPhaseInstruction(RequestPhase phase)
         {
             return phase switch
             {
                 RequestPhase.Info =>
                     "# PHASE 1/4 (Info)\n" +
-                    "You MUST gather context using ONLY info tools. You MAY call multiple info tools in this phase.\n" +
-                    "Allowed tools: get_colonist_status, get_map_resources, get_map_pawns, search_thing_def, get_recent_notifications.\n" +
-                    "Output MUST be XML tool calls only.\n",
+                    "Goal: Gather ONLY the minimum information required to answer the user's latest message.\n" +
+                    "Rules:\n" +
+                    "- You MUST NOT write any natural language to the user in this phase.\n" +
+                    "- If you do NOT need any info tools, output exactly: <no_action/>.\n" +
+                    "- If you DO need tools, call ONLY tools listed in \"# TOOLS (PHASE 1/4 ONLY)\".\n" +
+                    "- You MAY call multiple info tools, but keep it small and purposeful.\n" +
+                    "After this phase, the game will automatically proceed to PHASE 2.\n" +
+                    "Output: XML only.\n",
                 RequestPhase.Action =>
                     "# PHASE 2/4 (Action)\n" +
-                    "Decide whether to take an in-game action based on gathered info. You MUST call AT MOST ONE action tool.\n" +
-                    "Allowed tools: spawn_resources, send_reinforcement, call_bombardment, modify_goodwill.\n" +
-                    "If no action is needed, output exactly: <no_action/>.\n" +
-                    "Output MUST be XML only.\n",
+                    "Goal: Decide whether to perform ONE in-game action based on PHASE 1 results.\n" +
+                    "Rules:\n" +
+                    "- You MUST NOT write any natural language to the user in this phase.\n" +
+                    "- You MUST call AT MOST ONE action tool from \"# TOOLS (PHASE 2/4 ONLY)\".\n" +
+                    "- If no action is needed, output exactly: <no_action/>.\n" +
+                    "After this phase, the game will automatically proceed to PHASE 3.\n" +
+                    "Output: XML only.\n",
                 RequestPhase.Cosmetic =>
                     "# PHASE 3/4 (Cosmetic)\n" +
-                    "Optional: adjust the portrait expression for the upcoming reply.\n" +
-                    "Allowed tools: change_expression.\n" +
-                    "If you do not need to change expression, output exactly: <no_action/>.\n" +
-                    "Output MUST be XML only.\n",
+                    "Goal: Optional UI/meta adjustments before your final reply.\n" +
+                    "Rules:\n" +
+                    "- You MUST NOT write any natural language to the user in this phase.\n" +
+                    "- You MAY call up to 2 tools from \"# TOOLS (PHASE 3/4 ONLY)\".\n" +
+                    "- If you do not need any tool, output exactly: <no_action/>.\n" +
+                    "After this phase, the game will automatically proceed to PHASE 4.\n" +
+                    "Output: XML only.\n",
                 RequestPhase.Reply =>
                     "# PHASE 4/4 (Reply)\n" +
-                    "Tool calls are DISABLED. Reply to the player in natural language only. Do NOT output any XML.\n",
+                    "Goal: Reply to the player.\n" +
+                    "Rules:\n" +
+                    "- Tool calls are DISABLED.\n" +
+                    "- You MUST write natural language only.\n" +
+                    "- Do NOT output any XML.\n",
                 _ => ""
             };
         }
@@ -480,10 +308,10 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 RequestPhase.Action =>
                     toolName == "spawn_resources" ||
                     toolName == "send_reinforcement" ||
-                    toolName == "call_bombardment" ||
-                    toolName == "modify_goodwill",
+                    toolName == "call_bombardment",
                 RequestPhase.Cosmetic =>
-                    toolName == "change_expression",
+                    toolName == "change_expression" ||
+                    toolName == "modify_goodwill",
                 _ => false
             };
         }
@@ -492,9 +320,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         {
             return phase switch
             {
-                RequestPhase.Info => 6,
-                RequestPhase.Action => 1,
-                RequestPhase.Cosmetic => 1,
+                RequestPhase.Info => 4,
+                RequestPhase.Action => 2,
+                RequestPhase.Cosmetic => 2,
                 _ => 0
             };
         }
@@ -526,15 +354,24 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 for (int phaseIndex = 1; phaseIndex <= 4; phaseIndex++)
                 {
                     var phase = (RequestPhase)phaseIndex;
+                    if (Prefs.DevMode)
+                    {
+                        Log.Message($"[WulaAI] ===== Turn {phaseIndex}/4 ({phase}) =====");
+                    }
 
                     bool toolsEnabled = phase != RequestPhase.Reply;
-                    string systemInstruction = GetSystemInstruction(toolsEnabled) + "\n\n" + GetPhaseInstruction(phase);
+                    string toolsForThisPhase = toolsEnabled ? BuildToolsForPhase(phase) : "";
+                    string systemInstruction = GetSystemInstruction(toolsEnabled, toolsForThisPhase) + "\n\n" + GetPhaseInstruction(phase);
 
                     if (!toolsEnabled)
                     {
                         int attempts = 0;
                         while (true)
                         {
+                            if (Prefs.DevMode)
+                            {
+                                Log.Message($"[WulaAI] Turn {phaseIndex}/4 reply request (attempt {attempts + 1})");
+                            }
                             string reply = await client.GetChatCompletionAsync(systemInstruction, _history);
                             if (string.IsNullOrEmpty(reply))
                             {
@@ -561,6 +398,10 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                         }
                     }
 
+                    if (Prefs.DevMode)
+                    {
+                        Log.Message($"[WulaAI] Turn {phaseIndex}/4 tool request");
+                    }
                     string response = await client.GetChatCompletionAsync(systemInstruction, _history);
                     if (string.IsNullOrEmpty(response))
                     {
@@ -573,6 +414,10 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                         // If the model didn't call tools when tools are expected, push it forward with a reminder.
                         _history.Add(("system", $"[PhaseEnforcer] You must output XML tool calls in PHASE {phaseIndex}. If no tool is needed, output <no_action/>."));
                         PersistHistory();
+                        if (Prefs.DevMode)
+                        {
+                            Log.Message($"[WulaAI] Turn {phaseIndex}/4 missing XML; retrying once");
+                        }
                         response = await client.GetChatCompletionAsync(systemInstruction, _history);
                         if (string.IsNullOrEmpty(response))
                         {
@@ -709,7 +554,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             {
                 CompressHistoryIfNeeded();
                 bool toolsEnabled = !_responseOnlyNext;
-                string systemInstruction = GetSystemInstruction(toolsEnabled);
+                string systemInstruction = GetSystemInstruction(toolsEnabled, toolsEnabled ? BuildToolsForPhase(RequestPhase.Info) : "");
                 if (isContinuation && toolsEnabled)
                 {
                     systemInstruction += "\n\n# CONTINUATION\nYou have received tool results. Call another tool only if strictly necessary, and if you do, call ONLY ONE tool in your entire response.";
