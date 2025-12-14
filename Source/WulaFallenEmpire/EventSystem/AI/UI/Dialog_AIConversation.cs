@@ -293,7 +293,6 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             _tools.Add(new Tool_SendReinforcement());
              _tools.Add(new Tool_GetColonistStatus());
              _tools.Add(new Tool_GetMapResources());
-             _tools.Add(new Tool_GetRecentNotifications());
              _tools.Add(new Tool_GetMapPawns());
              _tools.Add(new Tool_CallBombardment());
              _tools.Add(new Tool_ChangeExpression());
