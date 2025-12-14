@@ -163,6 +163,20 @@ Example (checking for Steel):
   <resourceName>Steel</resourceName>
 </get_map_resources>
 
+## get_map_pawns
+Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
+Use this tool when:
+- You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
+- The player claims there are threats or asks about who/what is nearby.
+Parameters:
+- filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed.
+- maxResults: (OPTIONAL) Max lines to return (default 50).
+Usage:
+<get_map_pawns>
+  <filter>hostile, humanlike</filter>
+  <maxResults>50</maxResults>
+</get_map_pawns>
+
 ## change_expression
 Description: Changes your visual AI portrait to match your current mood or reaction.
 Use this tool when:
@@ -233,6 +247,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             _tools.Add(new Tool_SendReinforcement());
             _tools.Add(new Tool_GetColonistStatus());
             _tools.Add(new Tool_GetMapResources());
+            _tools.Add(new Tool_GetMapPawns());
             _tools.Add(new Tool_ChangeExpression());
             _tools.Add(new Tool_SearchThingDef());
         }

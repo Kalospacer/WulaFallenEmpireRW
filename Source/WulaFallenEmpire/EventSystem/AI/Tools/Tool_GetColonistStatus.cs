@@ -11,19 +11,34 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "get_colonist_status";
         public override string Description => "Returns detailed status of colonists. Can be filtered to find the colonist in the worst condition (e.g., lowest mood, most injured). This helps the AI understand the colony's state without needing to know specific names.";
-        public override string UsageSchema => "<get_colonist_status><filter>string (optional, can be 'lowest_mood', 'most_injured', 'hungriest', 'most_tired')</filter></get_colonist_status>";
+        public override string UsageSchema => "<get_colonist_status><filter>string (optional, can be 'lowest_mood', 'most_injured', 'hungriest', 'most_tired')</filter><showAllNeeds>true/false (optional, default true in DevMode, false otherwise)</showAllNeeds><lowNeedThreshold>float 0-1 (optional, default 0.3)</lowNeedThreshold></get_colonist_status>";
 
         public override string Execute(string args)
         {
             try
             {
                 string filter = null;
+                bool showAllNeeds = Prefs.DevMode;
+                float lowNeedThreshold = 0.3f;
+
                 if (!string.IsNullOrEmpty(args))
                 {
                     var parsedArgs = ParseXmlArgs(args);
                     if (parsedArgs.TryGetValue("filter", out string filterStr))
                     {
                         filter = filterStr.ToLower();
+                    }
+
+                    if (parsedArgs.TryGetValue("showAllNeeds", out string showAllNeedsStr) && bool.TryParse(showAllNeedsStr, out bool parsedShowAllNeeds))
+                    {
+                        showAllNeeds = parsedShowAllNeeds;
+                    }
+
+                    if (parsedArgs.TryGetValue("lowNeedThreshold", out string thresholdStr) && float.TryParse(thresholdStr, out float parsedThreshold))
+                    {
+                        if (parsedThreshold < 0f) lowNeedThreshold = 0f;
+                        else if (parsedThreshold > 1f) lowNeedThreshold = 1f;
+                        else lowNeedThreshold = parsedThreshold;
                     }
                 }
 
@@ -86,7 +101,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
                 foreach (var pawn in colonistsToReport)
                 {
-                    AppendPawnStatus(sb, pawn);
+                    AppendPawnStatus(sb, pawn, showAllNeeds, lowNeedThreshold);
                 }
 
                 return sb.ToString();
@@ -97,7 +112,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             }
         }
 
-        private void AppendPawnStatus(StringBuilder sb, Pawn pawn)
+        private void AppendPawnStatus(StringBuilder sb, Pawn pawn, bool showAllNeeds, float lowNeedThreshold)
         {
             if (pawn == null) return;
             sb.AppendLine($"- {pawn.Name.ToStringShort} ({pawn.def.label}, Age {pawn.ageTracker.AgeBiologicalYears}):");
@@ -106,17 +121,35 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             if (pawn.needs != null)
             {
                 sb.Append("  Needs: ");
-                bool anyNeedLow = false;
-                foreach (var need in pawn.needs.AllNeeds)
+
+                bool anyReported = false;
+                var allNeeds = pawn.needs.AllNeeds;
+                if (allNeeds != null && allNeeds.Count > 0)
                 {
-                    if (need.CurLevelPercentage < 0.3f) // Report low needs
+                    foreach (var need in allNeeds.OrderBy(n => n.CurLevelPercentage))
                     {
-                        sb.Append($"{need.LabelCap} ({need.CurLevelPercentage:P0}), ");
-                        anyNeedLow = true;
+                        bool isLow = need.CurLevelPercentage < lowNeedThreshold;
+                        if (!showAllNeeds && !isLow) continue;
+
+                        string marker = isLow ? "!" : "";
+                        sb.Append($"{marker}{need.LabelCap} ({need.CurLevelPercentage:P0})");
+                        if (Prefs.DevMode && need.def != null)
+                        {
+                            sb.Append($"[{need.def.defName}]");
+                        }
+                        sb.Append(", ");
+                        anyReported = true;
                     }
                 }
-                if (!anyNeedLow) sb.Append("All needs satisfied. ");
-                else sb.Length -= 2; // Remove trailing comma
+
+                if (!anyReported)
+                {
+                    sb.Append(showAllNeeds ? "(none)" : $"All needs satisfied (>= {lowNeedThreshold:P0}).");
+                }
+                else
+                {
+                    sb.Length -= 2; // Remove trailing comma
+                }
                 sb.AppendLine();
             }
 
