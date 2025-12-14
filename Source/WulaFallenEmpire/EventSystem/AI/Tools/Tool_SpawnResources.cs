@@ -28,7 +28,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 if (args == null) args = "";
 
                 // Custom XML parsing for nested items
-                var itemsToSpawn = new List<(ThingDef def, int count)>();
+                var itemsToSpawn = new List<(ThingDef def, int count, string requestedName, string stuffDefName)>();
                 var substitutions = new List<string>();
                 
                 // Match all <item>...</item> blocks
@@ -51,6 +51,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     }
 
                     string name = ExtractTag(itemXml, "name") ?? ExtractTag(itemXml, "defName");
+                    string stuffDefName = ExtractTag(itemXml, "stuffDefName") ?? ExtractTag(itemXml, "stuff") ?? ExtractTag(itemXml, "material");
 
                     if (string.IsNullOrEmpty(name)) continue;
 
@@ -102,7 +103,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
                     if (def != null)
                     {
-                        itemsToSpawn.Add((def, count));
+                        itemsToSpawn.Add((def, count, name, stuffDefName));
                     }
                 }
 
@@ -114,7 +115,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     {
                         if (r.Def != null && r.Count > 0)
                         {
-                            itemsToSpawn.Add((r.Def, r.Count));
+                            itemsToSpawn.Add((r.Def, r.Count, r.Def.defName, null));
                         }
                     }
                 }
@@ -140,15 +141,107 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     dropSpot = DropCellFinder.RandomDropSpot(map);
                 }
                 List<Thing> thingsToDrop = new List<Thing>();
-                StringBuilder resultLog = new StringBuilder();
-                resultLog.Append("Success: Dropped ");
+                var summary = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+                var skipped = new List<string>();
 
-                foreach (var (def, count) in itemsToSpawn)
+                ThingDef ResolveStuffDef(ThingDef productDef, string preferredStuffDefName)
                 {
-                    Thing thing = ThingMaker.MakeThing(def);
-                    thing.stackCount = count;
-                    thingsToDrop.Add(thing);
-                    resultLog.Append($"{count}x {def.label}, ");
+                    if (productDef == null || !productDef.MadeFromStuff) return null;
+
+                    List<ThingDef> allowed = null;
+                    try
+                    {
+                        allowed = GenStuff.AllowedStuffsFor(productDef)?.ToList();
+                    }
+                    catch
+                    {
+                        allowed = null;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(preferredStuffDefName))
+                    {
+                        ThingDef preferred = DefDatabase<ThingDef>.GetNamed(preferredStuffDefName.Trim(), false);
+                        if (preferred != null && preferred.IsStuff && (allowed == null || allowed.Contains(preferred)))
+                        {
+                            return preferred;
+                        }
+                    }
+
+                    ThingDef defaultStuff = null;
+                    try
+                    {
+                        defaultStuff = GenStuff.DefaultStuffFor(productDef);
+                    }
+                    catch
+                    {
+                        defaultStuff = null;
+                    }
+
+                    if (defaultStuff != null) return defaultStuff;
+                    if (allowed != null && allowed.Count > 0) return allowed[0];
+
+                    return ThingDefOf.Steel;
+                }
+
+                void AddSummary(ThingDef def, int count, bool minified)
+                {
+                    if (def == null || count <= 0) return;
+                    string key = minified ? $"{def.label} (minified)" : def.label;
+                    if (summary.TryGetValue(key, out int existing))
+                    {
+                        summary[key] = existing + count;
+                    }
+                    else
+                    {
+                        summary[key] = count;
+                    }
+                }
+
+                foreach (var (def, count, requestedName, preferredStuffDefName) in itemsToSpawn)
+                {
+                    if (def == null || count <= 0) continue;
+
+                    if (def.category == ThingCategory.Building)
+                    {
+                        int created = 0;
+                        for (int i = 0; i < count; i++)
+                        {
+                            try
+                            {
+                                ThingDef stuff = ResolveStuffDef(def, preferredStuffDefName);
+                                Thing building = def.MadeFromStuff ? ThingMaker.MakeThing(def, stuff) : ThingMaker.MakeThing(def);
+                                Thing minified = MinifyUtility.MakeMinified(building);
+                                if (minified == null)
+                                {
+                                    skipped.Add($"{requestedName} -> {def.defName} (not minifiable)");
+                                    break;
+                                }
+                                thingsToDrop.Add(minified);
+                                created++;
+                            }
+                            catch (Exception ex)
+                            {
+                                skipped.Add($"{requestedName} -> {def.defName} (build/minify failed: {ex.Message})");
+                                break;
+                            }
+                        }
+
+                        AddSummary(def, created, minified: true);
+                        continue;
+                    }
+
+                    int remaining = count;
+                    int stackLimit = Math.Max(1, def.stackLimit);
+                    while (remaining > 0)
+                    {
+                        int stackCount = Math.Min(remaining, stackLimit);
+                        ThingDef stuff = ResolveStuffDef(def, preferredStuffDefName);
+                        Thing thing = def.MadeFromStuff ? ThingMaker.MakeThing(def, stuff) : ThingMaker.MakeThing(def);
+                        thing.stackCount = stackCount;
+                        thingsToDrop.Add(thing);
+                        AddSummary(def, stackCount, minified: false);
+                        remaining -= stackCount;
+                    }
                 }
 
                 if (thingsToDrop.Count > 0)
@@ -161,9 +254,22 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     string factionName = faction?.Name ?? "Unknown";
                     string letterText = template.Replace("{FACTION_name}", factionName);
                     Messages.Message(letterText, new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
-                    
-                    resultLog.Length -= 2; // Remove trailing comma
+
+                    StringBuilder resultLog = new StringBuilder();
+                    resultLog.Append("Success: Dropped ");
+                    foreach (var kv in summary)
+                    {
+                        resultLog.Append($"{kv.Value}x {kv.Key}, ");
+                    }
+                    if (summary.Count > 0)
+                    {
+                        resultLog.Length -= 2;
+                    }
                     resultLog.Append($" at {dropSpot}. (drop pods inbound)");
+                    if (skipped.Count > 0)
+                    {
+                        resultLog.Append($" | Skipped: {string.Join("; ", skipped)}");
+                    }
 
                     if (Prefs.DevMode && substitutions.Count > 0)
                     {
@@ -173,7 +279,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 }
                 else
                 {
-                    string msg = "Error: Failed to create items.";
+                    string msg = skipped.Count > 0
+                        ? $"Error: Failed to create any items. Skipped: {string.Join("; ", skipped)}"
+                        : "Error: Failed to create items.";
                     Messages.Message(msg, MessageTypeDefOf.RejectInput);
                     return msg;
                 }
