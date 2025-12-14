@@ -50,6 +50,15 @@
   <WULA_StorageStats>存储统计</WULA_StorageStats>
   <WULA_InputItems>种输入物品</WULA_InputItems>
   <WULA_OutputItems>种输出物品</WULA_OutputItems>
+
+  <WULA_AccessGlobalStorage>存取全局存储</WULA_AccessGlobalStorage>
+  <WULA_AccessGlobalStorageDesc>在轨道贸易信标范围和全局存储之间存取物品</WULA_AccessGlobalStorageDesc>
+  <WULA_NoPoweredTradeBeacon>没有已通电的轨道贸易信标</WULA_NoPoweredTradeBeacon>
+  <WULA_NoNegotiator>没有可用的殖民者</WULA_NoNegotiator>
+  <WULA_GlobalStorageTransferTitle>全局存储存取</WULA_GlobalStorageTransferTitle>
+  <WULA_GlobalStorageTransferHint>负数=存（信标->全局），正数=取（全局->信标空投）</WULA_GlobalStorageTransferHint>
+  <WULA_ResetTransfer>清零</WULA_ResetTransfer>
+  <WULA_ExecuteTransfer>执行存取</WULA_ExecuteTransfer>
   
   <!-- 中文翻译 -->
   <WULA_AirdropProducts>空投成品</WULA_AirdropProducts>

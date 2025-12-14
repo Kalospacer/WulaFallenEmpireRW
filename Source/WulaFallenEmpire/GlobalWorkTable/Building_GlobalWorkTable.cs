@@ -56,9 +56,143 @@ namespace WulaFallenEmpire
 
                 if (CurrentlyUsableForGlobalBills())
                 {
+                    TryAutoGatherFromBeaconsAndContainer();
                     globalOrderStack.ProcessOrders();
                 }
             }
+        }
+
+        internal void TryAutoGatherFromBeaconsAndContainer()
+        {
+            var order = globalOrderStack?.orders?.FirstOrDefault(o =>
+                o != null &&
+                !o.paused &&
+                o.state == GlobalProductionOrder.ProductionState.Gathering);
+            if (order == null) return;
+
+            var storage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            if (storage == null) return;
+
+            Dictionary<ThingDef, int> required = GetRequiredMaterialsForOrder(order);
+            if (required.Count == 0) return;
+
+            bool changed = false;
+            foreach (var kvp in required)
+            {
+                ThingDef thingDef = kvp.Key;
+                int need = kvp.Value;
+                if (need <= 0) continue;
+
+                int inCloud = storage.GetInputStorageCount(thingDef);
+                int missing = need - inCloud;
+                if (missing <= 0) continue;
+
+                int uploadedFromBeacons = UploadFromPoweredTradeBeacons(storage, thingDef, missing);
+                if (uploadedFromBeacons > 0)
+                {
+                    changed = true;
+                    missing -= uploadedFromBeacons;
+                }
+
+                if (missing <= 0) continue;
+
+                int uploadedFromContainer = UploadFromInnerContainer(storage, thingDef, missing);
+                if (uploadedFromContainer > 0)
+                {
+                    changed = true;
+                }
+            }
+
+            if (changed)
+            {
+                order.UpdateState();
+            }
+        }
+
+        internal Dictionary<ThingDef, int> GetRequiredMaterialsForOrder(GlobalProductionOrder order)
+        {
+            var required = order.GetProductCostList();
+            if (required.Count > 0) return required;
+
+            required = new Dictionary<ThingDef, int>();
+            if (order.recipe?.ingredients == null) return required;
+
+            foreach (var ingredient in order.recipe.ingredients)
+            {
+                ThingDef def = ingredient.filter?.AllowedThingDefs?.FirstOrDefault();
+                if (def == null) continue;
+
+                int count = ingredient.CountRequiredOfFor(def, order.recipe);
+                if (count <= 0) continue;
+
+                if (required.ContainsKey(def)) required[def] += count;
+                else required[def] = count;
+            }
+
+            return required;
+        }
+
+        internal int UploadFromInnerContainer(GlobalStorageWorldComponent storage, ThingDef def, int count)
+        {
+            if (count <= 0) return 0;
+
+            int remaining = count;
+            int uploaded = 0;
+
+            while (remaining > 0)
+            {
+                Thing thing = innerContainer?.FirstOrDefault(t => t.def == def);
+                if (thing == null) break;
+
+                int take = Mathf.Min(thing.stackCount, remaining);
+                Thing split = thing.SplitOff(take);
+                split.Destroy(DestroyMode.Vanish);
+
+                storage.AddToInputStorage(def, take);
+
+                uploaded += take;
+                remaining -= take;
+            }
+
+            return uploaded;
+        }
+
+        internal int UploadFromPoweredTradeBeacons(GlobalStorageWorldComponent storage, ThingDef def, int count)
+        {
+            if (count <= 0) return 0;
+            if (Map == null) return 0;
+
+            int remaining = count;
+            int uploaded = 0;
+
+            foreach (var beacon in Building_OrbitalTradeBeacon.AllPowered(Map))
+            {
+                foreach (var cell in beacon.TradeableCells)
+                {
+                    if (remaining <= 0) break;
+
+                    List<Thing> things = cell.GetThingList(Map);
+                    for (int i = things.Count - 1; i >= 0; i--)
+                    {
+                        if (remaining <= 0) break;
+
+                        Thing t = things[i];
+                        if (t?.def != def) continue;
+
+                        int take = Mathf.Min(t.stackCount, remaining);
+                        Thing split = t.SplitOff(take);
+                        split.Destroy(DestroyMode.Vanish);
+
+                        storage.AddToInputStorage(def, take);
+                        uploaded += take;
+                        remaining -= take;
+                    }
+                }
+
+                if (remaining <= 0) break;
+            }
+
+            return uploaded;
         }
 
         public bool CurrentlyUsableForGlobalBills()
@@ -83,6 +217,15 @@ namespace WulaFallenEmpire
             {
                 yield return g;
             }
+
+            yield return new Command_Action
+            {
+                action = OpenGlobalStorageTransferDialog,
+                defaultLabel = "WULA_AccessGlobalStorage".Translate(),
+                defaultDesc = "WULA_AccessGlobalStorageDesc".Translate(),
+                icon = ContentFinder<Texture2D>.Get("UI/Commands/Trade", true),
+            };
+
             // 白银转移按钮 - 检查输入端是否有白银
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             int silverAmount = globalStorage?.GetInputStorageCount(ThingDefOf.Silver) ?? 0;
@@ -120,6 +263,27 @@ namespace WulaFallenEmpire
                     icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_AirdropProducts"),
                 };
             }
+        }
+
+        private void OpenGlobalStorageTransferDialog()
+        {
+            if (Map == null)
+                return;
+
+            if (!Building_OrbitalTradeBeacon.AllPowered(Map).Any())
+            {
+                Messages.Message("WULA_NoPoweredTradeBeacon".Translate(), this, MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            Pawn negotiator = Map.mapPawns?.FreeColonistsSpawned?.FirstOrDefault();
+            if (negotiator == null)
+            {
+                Messages.Message("WULA_NoNegotiator".Translate(), this, MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            Find.WindowStack.Add(new Dialog_GlobalStorageTransfer(this, negotiator));
         }
 
         // 新增：将输入端白银转移到输出端的方法

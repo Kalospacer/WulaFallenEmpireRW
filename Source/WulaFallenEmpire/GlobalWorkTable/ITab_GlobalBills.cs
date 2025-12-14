@@ -193,7 +193,7 @@ namespace WulaFallenEmpire
                     {
                         recipe = recipe,
                         targetCount = 1,
-                        paused = true
+                        paused = false
                     };
                     SelTable.globalOrderStack.AddOrder(newOrder);
                     SoundDefOf.Click.PlayOneShotOnCamera();

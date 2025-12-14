@@ -41,14 +41,16 @@ namespace WulaFallenEmpire
             }
 
             // 检查是否已经有足够的材料在容器中或云端
-            if (order.HasEnoughResources())
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            var neededMaterials = GetNeededMaterials(order, table, globalStorage);
+            if (neededMaterials.Count == 0)
             {
                 if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Order has enough resources.");
                 return false;
             }
 
             // 查找所需材料
-            var ingredients = FindBestIngredients(pawn, table, order);
+            var ingredients = FindBestIngredients(pawn, table, neededMaterials);
             if (ingredients == null)
             {
                 if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Could not find ingredients for {order.Label}.");
@@ -67,7 +69,11 @@ namespace WulaFallenEmpire
             if (order == null)
                 return null;
 
-            var ingredients = FindBestIngredients(pawn, table, order);
+            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
+            var neededMaterials = GetNeededMaterials(order, table, globalStorage);
+            if (neededMaterials.Count == 0) return null;
+
+            var ingredients = FindBestIngredients(pawn, table, neededMaterials);
             if (ingredients == null)
                 return null;
 
@@ -77,15 +83,11 @@ namespace WulaFallenEmpire
             return job;
         }
 
-        private List<KeyValuePair<Thing, int>> FindBestIngredients(Pawn pawn, Building_GlobalWorkTable table, GlobalProductionOrder order)
+        private List<KeyValuePair<Thing, int>> FindBestIngredients(Pawn pawn, Building_GlobalWorkTable table, Dictionary<ThingDef, int> neededMaterials)
         {
             var result = new List<KeyValuePair<Thing, int>>();
-            var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
-            
-            // 获取所需材料清单
-            var neededMaterials = GetNeededMaterials(order, table, globalStorage);
-            
-            Log.Message($"[WULA_DEBUG] Needed materials for {order.Label}: {string.Join(", ", neededMaterials.Select(k => $"{k.Key.defName} x{k.Value}"))}");
+
+            Log.Message($"[WULA_DEBUG] Needed materials: {string.Join(", ", neededMaterials.Select(k => $"{k.Key.defName} x{k.Value}"))}");
 
             foreach (var kvp in neededMaterials)
             {
@@ -155,6 +157,9 @@ namespace WulaFallenEmpire
                 int containerCount = table.innerContainer.TotalStackCountOfDef(kvp.Key);
                 remaining -= containerCount;
 
+                // 4. 减去轨道贸易信标（已通电）的范围内已有的
+                remaining -= CountInPoweredTradeBeaconRange(table.Map, kvp.Key);
+
                 if (remaining > 0)
                 {
                     needed[kvp.Key] = remaining;
@@ -162,6 +167,29 @@ namespace WulaFallenEmpire
             }
 
             return needed;
+        }
+
+        private int CountInPoweredTradeBeaconRange(Map map, ThingDef def)
+        {
+            if (map == null || def == null) return 0;
+
+            int count = 0;
+            foreach (var beacon in Building_OrbitalTradeBeacon.AllPowered(map))
+            {
+                foreach (var cell in beacon.TradeableCells)
+                {
+                    List<Thing> things = cell.GetThingList(map);
+                    for (int i = 0; i < things.Count; i++)
+                    {
+                        Thing t = things[i];
+                        if (t != null && t.def == def)
+                        {
+                            count += t.stackCount;
+                        }
+                    }
+                }
+            }
+            return count;
         }
     }
 }
