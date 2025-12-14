@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using RimWorld;
@@ -90,16 +91,24 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
                 if (itemsToSpawn.Count == 0)
                 {
-                    return "Error: No valid items found in request. Usage: <spawn_resources><items><item><name>...</name><count>...</count></item></items></spawn_resources>";
+                    string msg = "Error: No valid items found in request. Usage: <spawn_resources><items><item><name>...</name><count>...</count></item></items></spawn_resources>";
+                    Messages.Message(msg, MessageTypeDefOf.RejectInput);
+                    return msg;
                 }
 
-                Map map = Find.CurrentMap;
+                Map map = GetTargetMap();
                 if (map == null)
                 {
-                    return "Error: No active map.";
+                    string msg = "Error: No active map.";
+                    Messages.Message(msg, MessageTypeDefOf.RejectInput);
+                    return msg;
                 }
 
                 IntVec3 dropSpot = DropCellFinder.TradeDropSpot(map);
+                if (!dropSpot.IsValid || !dropSpot.InBounds(map))
+                {
+                    dropSpot = DropCellFinder.RandomDropSpot(map);
+                }
                 List<Thing> thingsToDrop = new List<Thing>();
                 StringBuilder resultLog = new StringBuilder();
                 resultLog.Append("Success: Dropped ");
@@ -114,27 +123,60 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
                 if (thingsToDrop.Count > 0)
                 {
-                    DropPodUtility.DropThingsNear(dropSpot, map, thingsToDrop);
-                    
-                    Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDef.Named("Wula_PIA_Legion_Faction"));
-                    if (faction != null)
+                    // If the conversation window pauses the game, incoming drop pods may not "land" until unpaused.
+                    // To keep this tool reliable, place items immediately when paused; otherwise, use drop pods.
+                    bool isPaused = Find.TickManager != null && Find.TickManager.Paused;
+                    if (isPaused)
                     {
-                        Messages.Message("Wula_ResourceDrop".Translate(faction.def.defName.Named("FACTION_name")), new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
+                        foreach (var thing in thingsToDrop)
+                        {
+                            GenPlace.TryPlaceThing(thing, dropSpot, map, ThingPlaceMode.Near);
+                        }
+                    }
+                    else
+                    {
+                        DropPodUtility.DropThingsNear(dropSpot, map, thingsToDrop);
                     }
                     
+                    Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDef.Named("Wula_PIA_Legion_Faction"));
+                    string letterText = faction != null
+                        ? "Wula_ResourceDrop".Translate(faction.def.defName.Named("FACTION_name"))
+                        : "Wula_ResourceDrop".Translate("Unknown".Named("FACTION_name"));
+                    Messages.Message(letterText, new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent);
+                    
                     resultLog.Length -= 2; // Remove trailing comma
-                    resultLog.Append($" at {dropSpot}.");
+                    resultLog.Append($" at {dropSpot}. {(isPaused ? "(placed immediately because game is paused)" : "(drop pods inbound)")}");
                     return resultLog.ToString();
                 }
                 else
                 {
-                    return "Error: Failed to create items.";
+                    string msg = "Error: Failed to create items.";
+                    Messages.Message(msg, MessageTypeDefOf.RejectInput);
+                    return msg;
                 }
             }
             catch (Exception ex)
             {
-                return $"Error: {ex.Message}";
+                string msg = $"Error: {ex.Message}";
+                Messages.Message(msg, MessageTypeDefOf.RejectInput);
+                return msg;
             }
+        }
+
+        private static Map GetTargetMap()
+        {
+            Map map = Find.CurrentMap;
+            if (map != null) return map;
+
+            if (Find.Maps != null)
+            {
+                Map homeMap = Find.Maps.FirstOrDefault(m => m != null && m.IsPlayerHome);
+                if (homeMap != null) return homeMap;
+
+                if (Find.Maps.Count > 0) return Find.Maps[0];
+            }
+
+            return null;
         }
     }
 }

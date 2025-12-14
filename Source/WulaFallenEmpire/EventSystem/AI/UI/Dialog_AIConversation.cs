@@ -228,6 +228,19 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             StartConversation();
         }
 
+        private void PersistHistory()
+        {
+            try
+            {
+                var historyManager = Find.World?.GetComponent<AIHistoryManager>();
+                historyManager?.SaveHistory(def.defName, _history);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[WulaAI] Failed to persist AI history: {ex}");
+            }
+        }
+
         private void LoadPortraits()
         {
             for (int i = 1; i <= 6; i++)
@@ -281,6 +294,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             if (_history.Count == 0)
             {
                 _history.Add(("user", "Hello"));
+                PersistHistory();
                 await GenerateResponse();
             }
             else
@@ -379,6 +393,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 {
                     _history.RemoveRange(0, removeCount);
                     _history.Insert(0, ("system", "[Previous conversation summarized]"));
+                    PersistHistory();
                 }
             }
         }
@@ -422,8 +437,17 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                         argsXml = contentMatch.Groups[1].Value;
                     }
 
-                    Log.Message($"[WulaAI] Executing tool: {toolName} with args: {argsXml}");
+                    if (Prefs.DevMode)
+                    {
+                        Log.Message($"[WulaAI] Executing tool: {toolName} with args: {argsXml}");
+                    }
+
                     string result = tool.Execute(argsXml).Trim();
+                    if (Prefs.DevMode && !string.IsNullOrEmpty(result))
+                    {
+                        string toLog = result.Length <= 2000 ? result : result.Substring(0, 2000) + $"... (truncated, total {result.Length} chars)";
+                        Log.Message($"[WulaAI] Tool '{toolName}' result: {toLog}");
+                    }
 
                     if (toolName == "modify_goodwill")
                     {
@@ -436,9 +460,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 }
 
                 _history.Add(("assistant", xml));
-                // Use role "user" for tool results to avoid API errors about tool_calls format.
-                // This is safe and won't break AI logic, as the AI still sees the result clearly.
-                _history.Add(("user", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
+                // Persist tool results with a dedicated role; the API request maps this role to a supported one.
+                _history.Add(("tool", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
+                PersistHistory();
 
                 // Check if there is any text content in the response
                 string textContent = Regex.Replace(xml, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", "", RegexOptions.Singleline).Trim();
@@ -460,6 +484,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             {
                 Log.Error($"[WulaAI] Exception in HandleXmlToolUsage: {ex}");
                 _history.Add(("tool", $"Error processing tool call: {ex.Message}"));
+                PersistHistory();
                 await GenerateResponse(isContinuation: true);
             }
         }
@@ -473,6 +498,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                 if (_history.Count == 0 || _history.Last().role != "assistant" || _history.Last().message != rawResponse)
                 {
                     _history.Add(("assistant", rawResponse));
+                    PersistHistory();
                 }
             }
 
@@ -563,7 +589,9 @@ When the player requests any form of resources, you MUST follow this multi-turn 
             try
             {
                 float viewHeight = 0f;
-                var filteredHistory = _history.Where(e => e.role != "tool" && e.role != "system").ToList();
+                var filteredHistory = _history
+                    .Where(e => e.role != "system" && (Prefs.DevMode || e.role != "tool"))
+                    .ToList();
                 // Pre-calculate height
                 for (int i = 0; i < filteredHistory.Count; i++)
                 {
@@ -603,7 +631,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
                     if (entry.role == "user")
                     {
                         Text.Anchor = TextAnchor.MiddleRight;
-                        Widgets.Label(labelRect, $"<color=#add8e6>{text} :你</color>");
+                        Widgets.Label(labelRect, $"<color=#add8e6>{text}</color>");
                     }
                     else
                     {
@@ -707,6 +735,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         private async void SelectOption(string text)
         {
             _history.Add(("user", text));
+            PersistHistory();
             _scrollToBottom = true;
             await GenerateResponse();
         }
@@ -714,6 +743,7 @@ When the player requests any form of resources, you MUST follow this multi-turn 
         public override void PostClose()
         {
             if (Instance == this) Instance = null;
+            PersistHistory();
             base.PostClose();
             HandleAction(def.dismissEffects);
         }
