@@ -221,7 +221,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                        "IMPORTANT: Tool calls are DISABLED in this turn. Reply in natural language only. Do NOT output any XML.";
             }
 
-            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.";
+            // Tool phases (1/2/3): avoid instructing the model to "reply" in a human language, because it must output XML only.
+            // We still provide the language so it can be used in PHASE 4.
+            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: In PHASE 1/2/3 you MUST output XML only (tool calls or <no_action/>). " +
+                   $"You will produce the natural-language reply in PHASE 4 and MUST use: {language}.";
         }
 
         private string BuildToolsForPhase(RequestPhase phase)
@@ -471,6 +474,8 @@ Example (changing to a neutral expression):
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
                     "- You MAY call up to 2 tools from \"# TOOLS (PHASE 3/4 ONLY)\".\n" +
+                    "- If you performed an in-game action in PHASE 2, you SHOULD call <change_expression> to match your mood.\n" +
+                    "- Use <modify_goodwill> only to adjust your INTERNAL goodwill (invisible to the player).\n" +
                     "- If you do not need any tool, output exactly: <no_action/>.\n" +
                     "After this phase, the game will automatically proceed to PHASE 4.\n" +
                     "Output: XML only.\n",
@@ -522,7 +527,7 @@ Example (changing to a neutral expression):
             return phase switch
             {
                 RequestPhase.Info => 4,
-                RequestPhase.Action => 2,
+                RequestPhase.Action => 1,
                 RequestPhase.Cosmetic => 2,
                 _ => 0
             };
@@ -613,7 +618,7 @@ Example (changing to a neutral expression):
                     if (!IsXmlToolCall(response))
                     {
                         // If the model didn't call tools when tools are expected, push it forward with a reminder.
-                        _history.Add(("system", $"[PhaseEnforcer] You must output XML tool calls in PHASE {phaseIndex}. If no tool is needed, output <no_action/>."));
+                        _history.Add(("system", $"[PhaseEnforcer] PHASE {phaseIndex}/4 is a tool phase. Output XML tool calls only, or exactly <no_action/>. Do NOT output any natural language."));
                         PersistHistory();
                         if (Prefs.DevMode)
                         {
@@ -624,6 +629,16 @@ Example (changing to a neutral expression):
                         {
                             _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
                             return;
+                        }
+
+                        // If it STILL refuses to output XML, forcibly treat it as <no_action/> to keep the phase deterministic.
+                        if (!IsXmlToolCall(response))
+                        {
+                            if (Prefs.DevMode)
+                            {
+                                Log.Warning($"[WulaAI] Turn {phaseIndex}/4 still missing XML after retry; forcing <no_action/>");
+                            }
+                            response = "<no_action/>";
                         }
                     }
 
@@ -1109,12 +1124,15 @@ Example (changing to a neutral expression):
                 Rect portraitRect = new Rect((inRect.width - scaledPortraitRect.width) / 2, inRect.y, scaledPortraitRect.width, scaledPortraitRect.height);
                 GUI.DrawTexture(portraitRect, portrait, ScaleMode.ScaleToFit);
 
-                // DEBUG: Draw portrait ID
-                Text.Font = GameFont.Medium;
-                Text.Anchor = TextAnchor.UpperRight;
-                Widgets.Label(portraitRect, $"ID: {_currentPortraitId}");
-                Text.Anchor = TextAnchor.UpperLeft;
-                Text.Font = GameFont.Small;
+                if (Prefs.DevMode)
+                {
+                    // DEBUG: Draw portrait ID
+                    Text.Font = GameFont.Medium;
+                    Text.Anchor = TextAnchor.UpperRight;
+                    Widgets.Label(portraitRect, $"ID: {_currentPortraitId}");
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    Text.Font = GameFont.Small;
+                }
 
                 curY = portraitRect.yMax + 10f;
             }
