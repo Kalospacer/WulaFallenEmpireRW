@@ -13,7 +13,7 @@ namespace WulaFallenEmpire
         // 修复：明确的工作量定义
         private const float WorkPerSecond = 60f; // 每秒60工作量（标准RimWorld速度）
         private const float TicksPerSecond = 60f;
-        private const float WorkPerTick = WorkPerSecond / TicksPerSecond; // 每tick 1工作量
+        private int lastProcessedTick = -1;
 
         public GlobalProductionOrderStack(Building_GlobalWorkTable table)
         {
@@ -56,6 +56,13 @@ namespace WulaFallenEmpire
 
         public void ProcessOrders()
         {
+            int currentTick = Find.TickManager.TicksGame;
+            int deltaTicks = lastProcessedTick < 0 ? 1 : currentTick - lastProcessedTick;
+            if (deltaTicks <= 0) deltaTicks = 1;
+            lastProcessedTick = currentTick;
+
+            float workThisStep = WorkPerSecond * (deltaTicks / TicksPerSecond);
+
             // 修复：使用倒序遍历避免修改集合问题
             for (int i = orders.Count - 1; i >= 0; i--)
             {
@@ -70,7 +77,7 @@ namespace WulaFallenEmpire
                 // 生产中
                 if (order.state == GlobalProductionOrder.ProductionState.Producing)
                 {
-                    ProcessProducingOrder(order, i);
+                    ProcessProducingOrder(order, i, workThisStep);
                 }
                 else if (order.state == GlobalProductionOrder.ProductionState.Gathering && !order.paused)
                 {
@@ -79,7 +86,7 @@ namespace WulaFallenEmpire
             }
         }
         
-        private void ProcessProducingOrder(GlobalProductionOrder order, int index)
+        private void ProcessProducingOrder(GlobalProductionOrder order, int index, float workThisStep)
         {
             // 修复：使用正确的方法获取工作量
             float workAmount = GetWorkAmountForOrder(order);
@@ -93,8 +100,8 @@ namespace WulaFallenEmpire
                 return;
             }
             
-            // 修复：正确计算进度增量
-            float progressIncrement = WorkPerTick / workAmount;
+            // 修复：按两次 ProcessOrders 调用间隔的 tick 计算，避免调用频率变化导致生产速度偏差
+            float progressIncrement = workThisStep / workAmount;
             
             // 修复：确保进度不会变成负数
             float newProgress = Mathf.Max(0f, order.progress + progressIncrement);
@@ -152,15 +159,22 @@ namespace WulaFallenEmpire
         
         private void ProcessWaitingOrder(GlobalProductionOrder order)
         {
-            // 检查是否应该开始生产
+            // 注意：这里不能在不扣料的情况下把 Gathering 直接切到 Producing（会绕过 TryDeductResources）
             if (order.HasEnoughResources())
             {
-                order.state = GlobalProductionOrder.ProductionState.Producing;
-                order.progress = 0f;
-                
-                if (Find.TickManager.TicksGame % 600 == 0) // 每10秒记录一次
+                if (order.TryDeductResources())
                 {
-                    Log.Message($"[INFO] Order {order.recipe.defName} started producing");
+                    order.state = GlobalProductionOrder.ProductionState.Producing;
+                    order.progress = 0f;
+
+                    if (Find.TickManager.TicksGame % 600 == 0) // 每10秒记录一次
+                    {
+                        Log.Message($"[INFO] Order {order.recipe.defName} started producing");
+                    }
+                }
+                else
+                {
+                    Log.Warning($"[WULA] Order {order.recipe.defName} had enough resources but failed to deduct them; staying in Gathering.");
                 }
             }
             else if (Find.TickManager.TicksGame % 1200 == 0) // 每20秒检查一次
@@ -185,7 +199,7 @@ namespace WulaFallenEmpire
             if (order.currentCount >= order.targetCount)
             {
                 order.state = GlobalProductionOrder.ProductionState.Completed;
-                orders.RemoveAt(index);
+                Delete(order); // 同步 GlobalStorageWorldComponent.productionOrders
                 Log.Message($"[COMPLETE] Order {order.recipe.defName} completed and removed");
             }
             else
@@ -225,7 +239,7 @@ namespace WulaFallenEmpire
                 if (order.recipe == null)
                 {
                     Log.Warning($"Removing order with null recipe");
-                    orders.RemoveAt(i);
+                    Delete(order); // 同步 GlobalStorageWorldComponent.productionOrders
                     continue;
                 }
                 

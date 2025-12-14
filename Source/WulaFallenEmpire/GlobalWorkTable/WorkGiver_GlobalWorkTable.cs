@@ -126,6 +126,8 @@ namespace WulaFallenEmpire
             var totalRequired = order.GetProductCostList();
             if (totalRequired.Count == 0)
             {
+                totalRequired = new Dictionary<ThingDef, int>();
+
                 // 处理配方原料 (Ingredients) - 简化处理，假设配方只使用固定材料
                 // 实际情况可能更复杂，需要处理过滤器
                 foreach (var ingredient in order.recipe.ingredients)
@@ -133,19 +135,20 @@ namespace WulaFallenEmpire
                     // 这里简化：只取第一个允许的物品作为需求
                     // 更好的做法是动态匹配，但这需要更复杂的逻辑
                     var def = ingredient.filter.AllowedThingDefs.FirstOrDefault();
-                    if (def != null)
-                    {
-                        int count = (int)ingredient.GetBaseCount();
-                        if (needed.ContainsKey(def)) needed[def] += count;
-                        else needed[def] = count;
-                    }
+                    if (def == null) continue;
+
+                    int count = ingredient.CountRequiredOfFor(def, order.recipe);
+                    if (count <= 0) continue;
+
+                    if (totalRequired.ContainsKey(def)) totalRequired[def] += count;
+                    else totalRequired[def] = count;
                 }
             }
 
             // 2. 减去云端已有的
             foreach (var kvp in totalRequired)
             {
-                int cloudCount = storage.GetInputStorageCount(kvp.Key);
+                int cloudCount = storage?.GetInputStorageCount(kvp.Key) ?? 0;
                 int remaining = kvp.Value - cloudCount;
                 
                 // 3. 减去工作台容器中已有的
