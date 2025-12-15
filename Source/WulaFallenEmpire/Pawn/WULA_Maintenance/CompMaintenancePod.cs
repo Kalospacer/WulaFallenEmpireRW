@@ -368,9 +368,9 @@ namespace WulaFallenEmpire
                     continue;
                 }
 
-                // 检查是否真的需要维护
-                if (maintenanceNeed.CurLevel > Props.minNeedLevelToMaintain && !DebugSettings.godMode)
-                    continue;
+                // ����Ƿ������Ҫά��
+                //if (maintenanceNeed.CurLevel > Props.minNeedLevelToMaintain && !DebugSettings.godMode)
+                //    continue;
 
                 // 创建选项
                 var option = CreatePawnOption(pawn, maintenanceNeed);
