@@ -1,0 +1,193 @@
+<LanguageData>
+  <!-- File: Wula_MainEvent.xml -->
+  
+  <!-- Wula_UI_Legion_1 -->
+  <Wula_UI_Legion_1.label>Communication with P.I.A</Wula_UI_Legion_1.label>
+  <Wula_UI_Legion_1.characterName>"Legion", P.I.A</Wula_UI_Legion_1.characterName>
+  <Wula_UI_Legion_1.descriptions.0>This is the Wula Empire Planetary Interdiction Agency P.I.A, communication signal strong, awaiting input.</Wula_UI_Legion_1.descriptions.0>
+  <Wula_UI_Legion_1.descriptions.1>How does that saying go? Invincible under heaven, enemies from heaven.</Wula_UI_Legion_1.descriptions.1>
+  <Wula_UI_Legion_1.descriptions.2>Long before the ancestors of these creatures were tumbling in the primordial soup, we were already the rulers of this galaxy - as we were, so shall we remain.</Wula_UI_Legion_1.descriptions.2>
+  <Wula_UI_Legion_1.descriptions.3>Generally speaking, we don't particularly like violence and bloodshed - if only the native inhabitants of these star systems would be more cooperative.</Wula_UI_Legion_1.descriptions.3>
+  
+  <Wula_UI_Legion_1.options.0.label>I'd like to ask some questions...</Wula_UI_Legion_1.options.0.label>
+  <Wula_UI_Legion_1.options.1.label>We need to request support...</Wula_UI_Legion_1.options.1.label>
+  <Wula_UI_Legion_1.options.1.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_1.options.1.disabledReason>
+  <Wula_UI_Legion_1.options.2.label>We'd like to undergo promotion review...</Wula_UI_Legion_1.options.2.label>
+  <Wula_UI_Legion_1.options.3.label>We need to further increase colony permissions...</Wula_UI_Legion_1.options.3.label>
+  <Wula_UI_Legion_1.options.4.label>Any special missions available...</Wula_UI_Legion_1.options.4.label>
+  <Wula_UI_Legion_1.options.5.label>Goodbye</Wula_UI_Legion_1.options.5.label>
+
+  <!-- Wula_UI_Legion_10 -->
+  <Wula_UI_Legion_10.label>Unknown Transmission</Wula_UI_Legion_10.label>
+  <Wula_UI_Legion_10.characterName>"Legion", P.I.A</Wula_UI_Legion_10.characterName>
+  <Wula_UI_Legion_10.descriptions.0>Hmm?</Wula_UI_Legion_10.descriptions.0>
+  <Wula_UI_Legion_10.descriptions.1>Alright - so, what do you want to ask?</Wula_UI_Legion_10.descriptions.1>
+  <Wula_UI_Legion_10.descriptions.2>Ah, fine, what do you want to ask?</Wula_UI_Legion_10.descriptions.2>
+  
+  <Wula_UI_Legion_10.options.0.label>Who are you?</Wula_UI_Legion_10.options.0.label>
+  <Wula_UI_Legion_10.options.1.label>What do we need to do? (Development process)</Wula_UI_Legion_10.options.1.label>
+  <Wula_UI_Legion_10.options.2.label>No further questions...</Wula_UI_Legion_10.options.2.label>
+
+  <!-- Wula_UI_Legion_11 -->
+  <Wula_UI_Legion_11.label>Unknown Transmission</Wula_UI_Legion_11.label>
+  <Wula_UI_Legion_11.characterName>"Legion", P.I.A</Wula_UI_Legion_11.characterName>
+  <Wula_UI_Legion_11.descriptions.0>Memory banks corrupted?\n\n...Well, you can call me "Legion." I'm the AI responsible for managing the Wula Empire Planetary Interdiction Agency fleet. According to your organizational structure, I'm your direct superior. Didn't the Mechanical Guild set up the correct memory sectors for you before landing?</Wula_UI_Legion_11.descriptions.0>
+  
+  <Wula_UI_Legion_11.options.0.label>Planetary Interdiction Agency?</Wula_UI_Legion_11.options.0.label>
+  <Wula_UI_Legion_11.options.1.label>Mechanical Guild?</Wula_UI_Legion_11.options.1.label>
+  <Wula_UI_Legion_11.options.2.label>We have no further questions...</Wula_UI_Legion_11.options.2.label>
+
+  <!-- Wula_UI_Legion_12 -->
+  <Wula_UI_Legion_12.label>Unknown Transmission</Wula_UI_Legion_12.label>
+  <Wula_UI_Legion_12.characterName>"Legion", P.I.A</Wula_UI_Legion_12.characterName>
+  <Wula_UI_Legion_12.descriptions.0>The Planetary Interdiction Agency is a law enforcement organization under the Wula Empire Development Department, controlling all the department's fleets and responsible for aggressive contact during territorial expansion.\n\nTypically, for planets like this rimworld, we'd directly blockade the orbit, bombard all existing settlements, and then deploy colonists. However, it seems this world still has potential for recovery, so you were deployed as the first advance team to contact and test other alien races. Understood?</Wula_UI_Legion_12.descriptions.0>
+  
+  <Wula_UI_Legion_12.options.0.label>We have other questions...</Wula_UI_Legion_12.options.0.label>
+  <Wula_UI_Legion_12.options.1.label>We have no further questions...</Wula_UI_Legion_12.options.1.label>
+
+  <!-- Wula_UI_Legion_13 -->
+  <Wula_UI_Legion_13.label>Unknown Transmission</Wula_UI_Legion_13.label>
+  <Wula_UI_Legion_13.characterName>"Legion", P.I.A</Wula_UI_Legion_13.characterName>
+  <Wula_UI_Legion_13.descriptions.0>The Wula Empire Mechanical Guild is responsible for the production, review, deployment, and initialization of all synths. When you were deployed to the fleet, a mechanic should have configured your pre-loaded memory sectors, but clearly that individual was negligent, leaving you here annoying me with things you should already know.</Wula_UI_Legion_13.descriptions.0>
+  
+  <Wula_UI_Legion_13.options.0.label>We have other questions...</Wula_UI_Legion_13.options.0.label>
+  <Wula_UI_Legion_13.options.1.label>We have no further questions...</Wula_UI_Legion_13.options.1.label>
+
+  <!-- Wula_UI_Legion_14 -->
+  <Wula_UI_Legion_14.label>Unknown Transmission</Wula_UI_Legion_14.label>
+  <Wula_UI_Legion_14.characterName>"Legion", P.I.A</Wula_UI_Legion_14.characterName>
+  <Wula_UI_Legion_14.descriptions.0>You mean you were dropped here without even knowing what to do?\n\nWell, what you need to do is use your various skills to survive and establish a base. According to Imperial tax law, you must periodically submit taxes - as an Imperial colony, the fleet and aircraft groups will be your backing.\n\nIf you feel you're ready, you can apply for permission advancement review. I'll deploy an avatar with a guard team to inspect your colony for a period, then decide whether to promote you based on the rating. Promoted colonies receive more permits, allowing access to more powerful weapons and support.</Wula_UI_Legion_14.descriptions.0>
+  
+  <Wula_UI_Legion_14.options.0.label>We have no further questions...</Wula_UI_Legion_14.options.0.label>
+
+  <!-- Wula_UI_Legion_30 -->
+  <Wula_UI_Legion_30.label>Communication with P.I.A</Wula_UI_Legion_30.label>
+  <Wula_UI_Legion_30.characterName>"Legion", P.I.A</Wula_UI_Legion_30.characterName>
+  <Wula_UI_Legion_30.descriptions.0>Alright, so what do you need?</Wula_UI_Legion_30.descriptions.0>
+  <Wula_UI_Legion_30.descriptions.1>Hmm, what trouble have you encountered?</Wula_UI_Legion_30.descriptions.1>
+  <Wula_UI_Legion_30.descriptions.2>I hope you haven't caused any major mess for me.</Wula_UI_Legion_30.descriptions.2>
+  
+  <Wula_UI_Legion_30.options.0.label>We need financial support</Wula_UI_Legion_30.options.0.label>
+  <Wula_UI_Legion_30.options.0.disabledReason>Emergency funds? I believe I already gave them to you?</Wula_UI_Legion_30.options.0.disabledReason>
+  <Wula_UI_Legion_30.options.1.label>We need personnel reinforcements</Wula_UI_Legion_30.options.1.label>
+  <Wula_UI_Legion_30.options.1.disabledReason>Can't you build them yourselves?</Wula_UI_Legion_30.options.1.disabledReason>
+  <Wula_UI_Legion_30.options.2.label>We need direct military support</Wula_UI_Legion_30.options.2.label>
+  <Wula_UI_Legion_30.options.2.disabledReason>Our task forces are busy, please try again later - alright I'm lying, can't you get some guns yourselves?</Wula_UI_Legion_30.options.2.disabledReason>
+  <Wula_UI_Legion_30.options.3.label>There are other matters...</Wula_UI_Legion_30.options.3.label>
+
+  <!-- Wula_UI_Legion_31 -->
+  <Wula_UI_Legion_31.label>Communication with P.I.A</Wula_UI_Legion_31.label>
+  <Wula_UI_Legion_31.characterName>"Legion", P.I.A</Wula_UI_Legion_31.characterName>
+  <Wula_UI_Legion_31.descriptions.0>So you're here for money... I can allocate a round of emergency funds, but this is limited and can only be used for colony development.\n\nBy the way, are you really short on money? I'm having a hard time believing that.</Wula_UI_Legion_31.descriptions.0>
+  
+  <Wula_UI_Legion_31.options.0.label>Yes yes, we're really poor!</Wula_UI_Legion_31.options.0.label>
+  <Wula_UI_Legion_31.options.0.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_31.options.0.disabledReason>
+  <Wula_UI_Legion_31.options.1.label>Actually, we need components more than money...</Wula_UI_Legion_31.options.1.label>
+  <Wula_UI_Legion_31.options.2.label>We need some rare minerals...</Wula_UI_Legion_31.options.2.label>
+  <Wula_UI_Legion_31.options.3.label>Never mind</Wula_UI_Legion_31.options.3.label>
+
+  <!-- Wula_UI_Legion_31A -->
+  <Wula_UI_Legion_31A.label>Communication with P.I.A</Wula_UI_Legion_31A.label>
+  <Wula_UI_Legion_31A.characterName>"Legion", P.I.A</Wula_UI_Legion_31A.characterName>
+  <Wula_UI_Legion_31A.descriptions.0>A very specific request, seems like you're having a component crisis? I'll airdrop some to you, but remember - free components don't just fall from the sky all the time.</Wula_UI_Legion_31A.descriptions.0>
+  
+  <Wula_UI_Legion_31A.options.0.label>Yes, we're being strangled</Wula_UI_Legion_31A.options.0.label>
+  <Wula_UI_Legion_31A.options.0.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_31A.options.0.disabledReason>
+  <Wula_UI_Legion_31A.options.1.label>Never mind</Wula_UI_Legion_31A.options.1.label>
+
+  <!-- Wula_UI_Legion_31B -->
+  <Wula_UI_Legion_31B.label>Communication with P.I.A</Wula_UI_Legion_31B.label>
+  <Wula_UI_Legion_31B.characterName>"Legion", P.I.A</Wula_UI_Legion_31B.characterName>
+  <Wula_UI_Legion_31B.descriptions.0>Minerals? Honestly, the fleet doesn't store much raw minerals - unprocessed raw materials take up a lot of space, but if you really need them, I'm not unwilling to allocate some for you.</Wula_UI_Legion_31B.descriptions.0>
+  
+  <Wula_UI_Legion_31B.options.0.label>Great, we're short on materials</Wula_UI_Legion_31B.options.0.label>
+  <Wula_UI_Legion_31B.options.0.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_31B.options.0.disabledReason>
+  <Wula_UI_Legion_31B.options.1.label>Never mind</Wula_UI_Legion_31B.options.1.label>
+
+  <!-- Wula_UI_Legion_32 -->
+  <Wula_UI_Legion_32.label>Communication with P.I.A</Wula_UI_Legion_32.label>
+  <Wula_UI_Legion_32.characterName>"Legion", P.I.A</Wula_UI_Legion_32.characterName>
+  <Wula_UI_Legion_32.descriptions.0>Hmm, currently I do have an unallocated Wula Empire synth. I can assign it to you if needed. But next time remember to build your own - materials for building synths require project funding.</Wula_UI_Legion_32.descriptions.0>
+  
+  <Wula_UI_Legion_32.options.0.label>We gladly accept</Wula_UI_Legion_32.options.0.label>
+  <Wula_UI_Legion_32.options.0.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_32.options.0.disabledReason>
+  <Wula_UI_Legion_32.options.1.label>We want some mechanical Wula cats...</Wula_UI_Legion_32.options.1.label>
+  <Wula_UI_Legion_32.options.2.label>Never mind</Wula_UI_Legion_32.options.2.label>
+
+  <!-- Wula_UI_Legion_32A -->
+  <Wula_UI_Legion_32A.label>Communication with P.I.A</Wula_UI_Legion_32A.label>
+  <Wula_UI_Legion_32A.characterName>"Legion", P.I.A</Wula_UI_Legion_32A.characterName>
+  <Wula_UI_Legion_32A.descriptions.0>Need cheap labor? Then I'll throw down all the Wula cats I have on hand - should be about a dozen, enough for you.</Wula_UI_Legion_32A.descriptions.0>
+  
+  <Wula_UI_Legion_32A.options.0.label>That's exactly what we want</Wula_UI_Legion_32A.options.0.label>
+  <Wula_UI_Legion_32A.options.0.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_32A.options.0.disabledReason>
+  <Wula_UI_Legion_32A.options.1.label>Never mind</Wula_UI_Legion_32A.options.1.label>
+
+  <!-- Wula_UI_Legion_33 -->
+  <Wula_UI_Legion_33.label>Communication with P.I.A</Wula_UI_Legion_33.label>
+  <Wula_UI_Legion_33.characterName>"Legion", P.I.A</Wula_UI_Legion_33.characterName>
+  <Wula_UI_Legion_33.descriptions.0>In trouble? I can drop my task force down, just make sure you find cover.</Wula_UI_Legion_33.descriptions.0>
+  
+  <Wula_UI_Legion_33.options.0.label>We'll all be dead if you don't come soon!</Wula_UI_Legion_33.options.0.label>
+  <Wula_UI_Legion_33.options.0.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_33.options.0.disabledReason>
+  <Wula_UI_Legion_33.options.1.label>Any heavy armored units available...</Wula_UI_Legion_33.options.1.label>
+  <Wula_UI_Legion_33.options.2.label>We need ultimate firepower...</Wula_UI_Legion_33.options.2.label>
+  <Wula_UI_Legion_33.options.3.label>Never mind</Wula_UI_Legion_33.options.3.label>
+
+  <!-- Wula_UI_Legion_33A -->
+  <Wula_UI_Legion_33A.label>Communication with P.I.A</Wula_UI_Legion_33A.label>
+  <Wula_UI_Legion_33A.characterName>"Legion", P.I.A</Wula_UI_Legion_33A.characterName>
+  <Wula_UI_Legion_33A.descriptions.0>You want to request heavy unit support? That's possible, they're fewer in number than the assault troops but are elite units - be careful not to get hit by their mortars.</Wula_UI_Legion_33A.descriptions.0>
+  
+  <Wula_UI_Legion_33A.options.0.label>That's exactly what we want</Wula_UI_Legion_33A.options.0.label>
+  <Wula_UI_Legion_33A.options.0.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_33A.options.0.disabledReason>
+  <Wula_UI_Legion_33A.options.1.label>Never mind</Wula_UI_Legion_33A.options.1.label>
+
+  <!-- Wula_UI_Legion_33B -->
+  <Wula_UI_Legion_33B.label>Communication with P.I.A</Wula_UI_Legion_33B.label>
+  <Wula_UI_Legion_33B.characterName>"Legion", P.I.A</Wula_UI_Legion_33B.characterName>
+  <Wula_UI_Legion_33B.descriptions.0>Then I'll send my top-tier veteran troops down. Whatever problems you encounter, they should be able to handle it.</Wula_UI_Legion_33B.descriptions.0>
+  
+  <Wula_UI_Legion_33B.options.0.label>That's exactly what we want</Wula_UI_Legion_33B.options.0.label>
+  <Wula_UI_Legion_33B.options.0.disabledReason>The colony's performance has left P.I.A quite unsatisfied; no additional reinforcements will be dispatched to the colony</Wula_UI_Legion_33B.options.0.disabledReason>
+  <Wula_UI_Legion_33B.options.1.label>Never mind</Wula_UI_Legion_33B.options.1.label>
+
+  <!-- Wula_UI_Legion_50 -->
+  <Wula_UI_Legion_50.label>Communication with P.I.A</Wula_UI_Legion_50.label>
+  <Wula_UI_Legion_50.characterName>"Legion", P.I.A</Wula_UI_Legion_50.characterName>
+  <Wula_UI_Legion_50.descriptions.0>Looking for work? Alright, I have some jobs that, well, aren't suitable for the Wula Empire's standard review procedures, and my Broken Claw Guard isn't suited for these tasks. I do need someone to handle them for me.\n\nPick one that interests you, and I'll send you the mission requirements.</Wula_UI_Legion_50.descriptions.0>
+  
+  <Wula_UI_Legion_50.options.0.label>...Psychic Titan?</Wula_UI_Legion_50.options.0.label>
+  <Wula_UI_Legion_50.options.1.label>...Volcano Cannon Fortress?</Wula_UI_Legion_50.options.1.label>
+  <Wula_UI_Legion_50.options.2.label>...Vacation?</Wula_UI_Legion_50.options.2.label>
+  <Wula_UI_Legion_50.options.3.label>Now's not the right time...</Wula_UI_Legion_50.options.3.label>
+
+  <!-- Wula_UI_Legion_Reply_1 -->
+  <Wula_UI_Legion_Reply_1.label>Communication with P.I.A</Wula_UI_Legion_Reply_1.label>
+  <Wula_UI_Legion_Reply_1.characterName>"Legion", P.I.A</Wula_UI_Legion_Reply_1.characterName>
+  <Wula_UI_Legion_Reply_1.descriptions.0>Please, do not, throw corpses, useless colonists, animals, and toxic waste at the fleet!</Wula_UI_Legion_Reply_1.descriptions.0>
+  <Wula_UI_Legion_Reply_1.descriptions.1>Are you treating the fleet as a garbage disposal facility? Take your corpses, useless colonists, animals, and toxic waste away!</Wula_UI_Legion_Reply_1.descriptions.1>
+  
+  <Wula_UI_Legion_Reply_1.options.0.label>Understood</Wula_UI_Legion_Reply_1.options.0.label>
+
+  <!-- Wula_UI_Legion_Reply_2 -->
+  <Wula_UI_Legion_Reply_2.label>Communication with P.I.A</Wula_UI_Legion_Reply_2.label>
+  <Wula_UI_Legion_Reply_2.characterName>"Legion", P.I.A</Wula_UI_Legion_Reply_2.characterName>
+  <Wula_UI_Legion_Reply_2.descriptions.0>Do not stuff corpses, colonists, creatures, toxic waste, and other unsellable items into the launch bay - the ordnance department won't accept them</Wula_UI_Legion_Reply_2.descriptions.0>
+  
+  <Wula_UI_Legion_Reply_2.options.0.label>Understood</Wula_UI_Legion_Reply_2.options.0.label>
+
+  <!-- Wula_UI_Legion_Test1 -->
+  <Wula_UI_Legion_Test1.label>Communication with P.I.A</Wula_UI_Legion_Test1.label>
+  <Wula_UI_Legion_Test1.characterName>"Legion", P.I.A</Wula_UI_Legion_Test1.characterName>
+  <Wula_UI_Legion_Test1.descriptions.0>This is a test option, you can receive all kinds of beatings</Wula_UI_Legion_Test1.descriptions.0>
+  
+  <Wula_UI_Legion_Test1.options.0.label>Come on, Champion Warrior reinforcements</Wula_UI_Legion_Test1.options.0.label>
+  <Wula_UI_Legion_Test1.options.1.label>Come on, Veteran Vanguard reinforcements</Wula_UI_Legion_Test1.options.1.label>
+  <Wula_UI_Legion_Test1.options.2.label>Come on, Broken Claw Guard</Wula_UI_Legion_Test1.options.2.label>
+  <Wula_UI_Legion_Test1.options.3.label>Come on, Land Battleship</Wula_UI_Legion_Test1.options.3.label>
+  <Wula_UI_Legion_Test1.options.4.label>Come on, Psychic Titan</Wula_UI_Legion_Test1.options.4.label>
+  <Wula_UI_Legion_Test1.options.5.label>Come on, Armored Vehicle Group</Wula_UI_Legion_Test1.options.5.label>
+  <Wula_UI_Legion_Test1.options.6.label>Never mind</Wula_UI_Legion_Test1.options.6.label>
+
+</LanguageData>

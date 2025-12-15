@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- Maintenance Pod -->
+  <WULA_MaintenancePod_Status>Status</WULA_MaintenancePod_Status>
+  <WULA_MaintenancePod_State_Idle>Idle</WULA_MaintenancePod_State_Idle>
+  <WULA_MaintenancePod_State_Running>Running</WULA_MaintenancePod_State_Running>
+  <WULA_MaintenancePod_StoredComponents>Stored Components</WULA_MaintenancePod_StoredComponents>
+  <WULA_MaintenancePod_Enter>Enter Maintenance</WULA_MaintenancePod_Enter>
+  <WULA_MaintenancePod_EnterDesc>Command a colonist needing maintenance to enter maintenance pod.</WULA_MaintenancePod_EnterDesc>
+  <WULA_MaintenancePod_NotEnoughComponents>Requires {0} components</WULA_MaintenancePod_NotEnoughComponents>
+  <WULA_MaintenancePod_NoOneNeeds>No colonists need maintenance.</WULA_MaintenancePod_NoOneNeeds>
+  <WULA_MaintenancePod_CancelDesc>Abort maintenance and eject colonist.</WULA_MaintenancePod_CancelDesc>
+  <WULA_MaintenanceComplete>{PAWN_nameDef}'s maintenance completed.</WULA_MaintenanceComplete>
+  <WULA_MaintenanceCanceled>Maintenance cancelled.</WULA_MaintenanceCanceled>
+  <WULA_MaintenanceHealedAllWounds>{PAWN_nameDef}'s all damaged parts repaired.</WULA_MaintenanceHealedAllWounds>
+  <WULA_MaintenanceNoEffect>{PAWN_nameDef}'s maintenance completed, but{PAWN_nameDef} has no repairable damaged parts.</WULA_MaintenanceNoEffect>
+  <WULA_NoComponentsToHaul>No components available to haul.</WULA_NoComponentsToHaul>
+
+  <WULA_MessageGainedDamageShieldCharges>{0} gained {1} damage shield layers!</WULA_MessageGainedDamageShieldCharges>
+  <WULA_CannotUseOnDeadPawn>Cannot use on dead Pawn.</WULA_CannotUseOnDeadPawn>
+  <WULA_DamageShieldMaxChargesReached>Damage shield reached maximum layers.</WULA_DamageShieldMaxChargesReached>
+  <WULA_DamageShieldChargesDescription>Use: Add {0} damage shield layers</WULA_DamageShieldChargesDescription>
+
+  <WULA_AutonomousMechsSection>Autonomous Mechs</WULA_AutonomousMechsSection>
+
+  <!-- Global Production System -->
+  <WULA_GlobalBillsTab>Fleet Production</WULA_GlobalBillsTab>
+  <WULA_GlobalProduction>Fleet Production Orders</WULA_GlobalProduction>
+  <WULA_AddProductionOrder>Add Production Order</WULA_AddProductionOrder>
+  <WULA_Resume>Resume</WULA_Resume>
+  <WULA_Pause>Pause</WULA_Pause>
+  <WULA_Delete>Delete</WULA_Delete>
+  <WULA_WaitingForResources>Waiting for Resources</WULA_WaitingForResources>
+  <WULA_Completed>Completed</WULA_Completed>
+  <WULA_Unknown>Unknown</WULA_Unknown>
+  <WULA_InsufficientResources>Insufficient resources in Empire Fleet storage</WULA_InsufficientResources>
+  <WULA_NoAvailableRecipes>No available recipes</WULA_NoAvailableRecipes>
+  <!-- Added to your language file -->
+  <WULA_RequiredIngredients>Available Recipes</WULA_RequiredIngredients>
+  <WULA_Products>Products</WULA_Products>
+  <WULA_WorkAmount>Work Amount</WULA_WorkAmount>
+
+  <!-- Chinese Translation -->
+  <WULA_ViewStorage>View Storage</WULA_ViewStorage>
+  <WULA_InputStorage>Input Storage (Raw Materials)</WULA_InputStorage>
+  <WULA_OutputStorage>Output Storage (Products)</WULA_OutputStorage>
+  <WULA_NoGlobalStorage>Global storage component not found</WULA_NoGlobalStorage> 
+  <WULA_NoItems>No items</WULA_NoItems>
+  <WULA_StorageStats>Storage Statistics</WULA_StorageStats>
+  <WULA_InputItems>input item types</WULA_InputItems>
+  <WULA_OutputItems>output item types</WULA_OutputItems>
+
+  <WULA_AccessGlobalStorage>Fleet Storage</WULA_AccessGlobalStorage>
+  <WULA_AccessGlobalStorageDesc>Open fleet storage to store/retrieve items. Only materials within orbital trade beacon range are recognized for deposit to fleet storage.</WULA_AccessGlobalStorageDesc>
+  <WULA_NoPoweredTradeBeacon>No powered orbital trade beacons</WULA_NoPoweredTradeBeacon>
+  <WULA_NoNegotiator>No available colonists</WULA_NoNegotiator>
+  <WULA_GlobalStorageTransferTitle>Global Storage Transfer</WULA_GlobalStorageTransferTitle>
+  <WULA_GlobalStorageTransferHint>Negative=Deposit (Beacon→Global), Positive=Withdraw (Global→Beacon air-drop)</WULA_GlobalStorageTransferHint>
+  <WULA_ResetTransfer>Reset</WULA_ResetTransfer>
+  <WULA_ExecuteTransfer>Execute Transfer</WULA_ExecuteTransfer>
+  
+  <!-- Chinese Translation -->
+  <WULA_AirdropProducts>Air-drop Products</WULA_AirdropProducts>
+  <WULA_AirdropProductsDesc>Air-drop all processed items from Wula Empire mothership and engineering ships to designated area via drop pods.</WULA_AirdropProductsDesc>
+  <WULA_CannotAirdrop>Cannot execute air-drop: Workbench not ready</WULA_CannotAirdrop>
+  <WULA_NoProductsToAirdrop>No items to air-drop</WULA_NoProductsToAirdrop>
+  <WULA_AirdropTargetTooFar>Target distance exceeds maximum air-drop range ({0})</WULA_AirdropTargetTooFar>
+  <WULA_NoValidDropSpots>No valid drop spots. Please select another location.</WULA_NoValidDropSpots>
+  <WULA_FailedToDistributeItems>Failed to distribute items to drop pods</WULA_FailedToDistributeItems>
+ <WULA_AirdropSuccessful>Successfully air-dropped {0} drop pods</WULA_AirdropSuccessful>
+  <WULA_NoFactoryFlyOver>Requires warship with production facilities deployed in colony orbit for air-drop</WULA_NoFactoryFlyOver>
+  <WULA_NoFactoryFlyOverDesc>No warship with production facilities deployed in colony orbit on current map, cannot perform air-drop</WULA_NoFactoryFlyOverDesc>
+
+  
+  <WULA_LaunchToGlobalStorage>Launch to Wula Empire Fleet</WULA_LaunchToGlobalStorage>
+  <WULA_LaunchToGlobalStorageDesc>Send items to Wula Empire Fleet for processing.\n\nIf equipment, weapons, and corpses are sent to Wula Empire Fleet, they will be returned with the next product drop. Other materials received by Wula Empire Fleet are generally not returned.</WULA_LaunchToGlobalStorageDesc>
+ <WULA_NoItemsToSendToGlobalStorage>No items to send to global storage</WULA_NoItemsToSendToGlobalStorage>
+  <!-- CompLaunchable_ToGlobalStorage.cs new translations -->
+ <WULA_ItemsSentToBothStorages>{0} materials received by fleet, {1} materials returned by fleet (returned with next product drop)</WULA_ItemsSentToBothStorages>
+  <WULA_ItemsSentToInputStorage>{0} materials received by fleet</WULA_ItemsSentToInputStorage>
+  <WULA_ItemsSentToOutputStorage>{0} materials returned by fleet (returned with next product drop)</WULA_ItemsSentToOutputStorage>
+  <WULA_InputStorageItems>Input storage: {0}</WULA_InputStorageItems>
+  <WULA_OutputStorageItems>Output storage: {0}</WULA_OutputStorageItems>
+  <WULA_LaunchCancelledDueToForbiddenItems>Fleet refused to receive materials—contains unallowed item types</WULA_LaunchCancelledDueToForbiddenItems>
+
+  <!-- Autonomous Mech Energy System -->
+  <WULA_EnergyInfo> [Energy: {0}]</WULA_EnergyInfo>
+  <WULA_CurrentEnergy>Current Energy: {0}</WULA_CurrentEnergy>
+  <WULA_EnergyLow> [Low Energy!]</WULA_EnergyLow>
+  <WULA_EnergyCritical> [Critical Energy!]</WULA_EnergyCritical>
+  <WULA_Switch_Mech_WorkMode>Switch Mech Work Mode</WULA_Switch_Mech_WorkMode>
+  <WULA_Mech_WorkMode>Mech Mode: {0}</WULA_Mech_WorkMode>
+  <WULA_WorkMode_Work>Work</WULA_WorkMode_Work>
+  <WULA_WorkMode_Recharge>Recharge</WULA_WorkMode_Recharge>
+  <WULA_WorkMode_Shutdown>Shutdown</WULA_WorkMode_Shutdown>
+  <WULA_WorkMode_Unknown>Unknown</WULA_WorkMode_Unknown>
+  <WULA_WorkMode_Work_Desc>Switch to Work Mode - Mech performs assigned work</WULA_WorkMode_Work_Desc>
+  <WULA_WorkMode_Recharge_Desc>Switch to Recharge Mode - Mech seeks charging station and recharges</WULA_WorkMode_Recharge_Desc>
+  <WULA_WorkMode_Shutdown_Desc>Switch to Shutdown Mode - Mech immediately enters dormant state</WULA_WorkMode_Shutdown_Desc>
+  <WULA_SwitchedToMode>{0} switched to {1} mode</WULA_SwitchedToMode>
+  <WULA_EnergyInfoShort>(Energy: {0})</WULA_EnergyInfoShort>
+  <WULA_Autonomous_Drafted>Autonomous Control</WULA_Autonomous_Drafted>
+  <WULA_Autonomous_Mode>Autonomous Mode: {0}</WULA_Autonomous_Mode>
+  <WULA_LowEnergySwitchToRecharge>{0} energy low, automatically switched to recharge mode</WULA_LowEnergySwitchToRecharge>
+  <WULA_FullyChargedSwitchToWork>{0} fully charged, automatically switched to work mode</WULA_FullyChargedSwitchToWork>
+  <WULA_CriticalEnergyLevels>{0} energy critical!</WULA_CriticalEnergyLevels>
+
+  <WULA_AutonomousMech>Autonomous Mech</WULA_AutonomousMech>
+  <WULA_WorkMode_AutoFight>Auto Fight</WULA_WorkMode_AutoFight>
+  <WULA_WorkMode_AutoFight_Desc>Switch to Auto Fight Mode - Mech automatically seeks and attacks enemies</WULA_WorkMode_AutoFight_Desc>
+  <!-- CompSkyfallerCaller -->
+  <WULA_ToggleAutoCallSkyfaller>Toggle Auto Call</WULA_ToggleAutoCallSkyfaller>
+  <WULA_ToggleAutoCallSkyfallerDesc>Enable or disable auto air-drop for all beacons. When enabled, beacons automatically call air-drop after construction.</WULA_ToggleAutoCallSkyfallerDesc>
+  <WULA_AutoCallEnabled>Auto air-drop enabled.</WULA_AutoCallEnabled>
+  <WULA_AutoCallDisabled>Auto air-drop disabled.</WULA_AutoCallDisabled>
+
+  <!-- ITab_GlobalBills -->
+  <WULA_Equipment>Equipment</WULA_Equipment>
+  <WULA_Weapon>Weapon</WULA_Weapon>
+  <WULA_Mechanoid>Mechanoid</WULA_Mechanoid>
+  <WULA_SelectCategoryFirst>Please select a category first</WULA_SelectCategoryFirst>
+  <WULA_GatheringMaterials>Gathering Materials</WULA_GatheringMaterials>
+  <WULA_Paused>Paused</WULA_Paused>
+  <!-- Area Teleporter -->
+  <WULA_CancelTeleport>Cancel Teleport</WULA_CancelTeleport>
+  <WULA_CancelTeleportDesc>Cancel current teleport warmup.</WULA_CancelTeleportDesc>
+  <WULA_InitiateTeleport>Initiate Teleport</WULA_InitiateTeleport>
+  <WULA_InitiateTeleportDesc>Initiate area teleport procedure to teleport objects around beacon to designated location.</WULA_InitiateTeleportDesc>
+  <WULA_RequiresResearch>Research required: {0}</WULA_RequiresResearch>
+  <WULA_MissingResearch>Missing required research: {0}</WULA_MissingResearch>
+  <WULA_TeleportFailed_MapGeneration>Cannot generate target map.</WULA_TeleportFailed_MapGeneration>
+  <WULA_TeleportWarmupStarted>Teleport warmup started.</WULA_TeleportWarmupStarted>
+  <WULA_TeleportCancelled>Teleport cancelled.</WULA_TeleportCancelled>
+  <WULA_TeleportFailed_InvalidTarget>Invalid target location.</WULA_TeleportFailed_InvalidTarget>
+  <WULA_TeleportFailed_NoMap>Cannot get target map.</WULA_TeleportFailed_NoMap>
+  <WULA_TeleportSuccessful>Teleport successful.</WULA_TeleportSuccessful>
+  <WULA_SelectArrivalPoint>Select Landing Point</WULA_SelectArrivalPoint>
+  <WULA_SelectArrivalPointDesc>Select specific teleport arrival location.</WULA_SelectArrivalPointDesc>
+  <WULA_OutOfBounds>Out of map bounds.</WULA_OutOfBounds>
+  <WULA_InNoBuildArea>In no-build area.</WULA_InNoBuildArea>
+  <WULA_BlockedByFog>Target location covered by fog.</WULA_BlockedByFog>
+  <WULA_BlockedByIndestructible>Blocked by indestructible object: {0}</WULA_BlockedByIndestructible>
+  <WULA_TerrainImpassable>Target terrain impassable.</WULA_TerrainImpassable>
+  <WULA_BlockedByThickRoof>Blocked by thick rock roof.</WULA_BlockedByThickRoof>
+  <WULA_MustSelectLandingSpot>Must select a landing spot.</WULA_MustSelectLandingSpot>
+  <WULA_ConfirmTeleport>Confirm Teleport</WULA_ConfirmTeleport>
+  <WULA_ConfirmTeleportDesc>Confirm current position and begin teleport.</WULA_ConfirmTeleportDesc>
+  <WULA_MoveMarker>Move Marker</WULA_MoveMarker>
+  <WULA_MoveMarkerDesc>Reselect landing position.</WULA_MoveMarkerDesc>
+  <WULA_GeneratedMapCleanedUp>Generated temporary map cleaned up due to teleport cancellation.</WULA_GeneratedMapCleanedUp>
+  <WULA_InsufficientFuel>Insufficient fuel.</WULA_InsufficientFuel>
+
+  <!-- AI Settings -->
+  <Wula_AISettings_Title>AI Settings (OpenAI Compatible)</Wula_AISettings_Title>
+  <Wula_AISettings_ApiKey>API Key:</Wula_AISettings_ApiKey>
+  <Wula_AISettings_BaseUrl>API Address (Base URL):</Wula_AISettings_BaseUrl>
+  <Wula_AISettings_Model>Model Name:</Wula_AISettings_Model>
+  <Wula_AISettings_MaxContextTokens>Context Length (Token Estimate Limit):</Wula_AISettings_MaxContextTokens>
+  <Wula_AISettings_MaxContextTokensDesc>Controls automatic compression of AI conversation history when exceeding limit. Lower values save cost but AI "forgets" more easily.</Wula_AISettings_MaxContextTokensDesc>
+  <Wula_AISettings_UseStreaming>Enable Streaming (Experimental)</Wula_AISettings_UseStreaming>
+  <Wula_AISettings_UseStreamingDesc>Enable real-time typewriter effect. Disable if encountering issues.</Wula_AISettings_UseStreamingDesc>
+
+  <!-- AI Conversation -->
+  <Wula_AI_Retry>Retry</Wula_AI_Retry>
+  <Wula_AI_Send>Send</Wula_AI_Send>
+  <Wula_AI_Error_Internal>Error: Internal system failure. {0}</Wula_AI_Error_Internal>
+  <Wula_AI_Error_ConnectionLost>Error: Connection lost. "Legion" remains silent.</Wula_AI_Error_ConnectionLost>
+    <Wula_ResourceDrop>{FACTION_name} has dropped some resources nearby.</Wula_ResourceDrop>
+
+</LanguageData>

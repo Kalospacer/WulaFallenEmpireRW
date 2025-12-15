@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- CompAutoMechCarrier -->
+  <MechCarrierDesc_Free>Command this unit to spawn {0} {1}. This action consumes no resources.</MechCarrierDesc_Free>
+  <WULA_AutoSpawn_Label>Auto Production</WULA_AutoSpawn_Label>
+  <WULA_AutoSpawn_Desc>Toggles automatic unit production. When enabled, units will be automatically produced when resources and cooldown allow, maintaining the queue limit.</WULA_AutoSpawn_Desc>
+  <WULA_AutoSpawn_On_Reason>Auto production enabled. Click again to disable.</WULA_AutoSpawn_On_Reason>
+  
+  <!-- Work Mode Related -->
+  <WULA_Mech_WorkMode>Behavior Mode: {0}</WULA_Mech_WorkMode>
+  <WULA_Switch_Mech_WorkMode>Modify autonomous mech's behavior mode</WULA_Switch_Mech_WorkMode>
+  
+  <WULA_WorkMode_Work>Work</WULA_WorkMode_Work>
+  <WULA_WorkMode_Recharge>Recharge</WULA_WorkMode_Recharge>
+  <WULA_WorkMode_Shutdown>Shutdown</WULA_WorkMode_Shutdown>
+  <WULA_WorkMode_Unknown>Unknown</WULA_WorkMode_Unknown>
+  
+  <WULA_WorkMode_Work_Desc>Work Mode - Performs work according to unit settings</WULA_WorkMode_Work_Desc>
+  <WULA_WorkMode_Recharge_Desc>Recharge Mode - Recharges then enters hibernation</WULA_WorkMode_Recharge_Desc>
+  <WULA_WorkMode_Shutdown_Desc>Shutdown Mode - Immediately shuts down, charges at a very slow rate in this state</WULA_WorkMode_Shutdown_Desc>
+  
+  <!-- Status Display -->
+  <WULA_Autonomous_Drafted>Autonomous Operation</WULA_Autonomous_Drafted>
+  <WULA_Autonomous_Mode>Autonomous Mode: {0}</WULA_Autonomous_Mode>
+  
+  <!-- Energy Information -->
+  <WULA_EnergyInfo>({0})</WULA_EnergyInfo>
+  <WULA_EnergyInfoShort>({0})</WULA_EnergyInfoShort>
+  <WULA_CurrentEnergy>Current Energy: {0}</WULA_CurrentEnergy>
+  <WULA_EnergyLow>(Low Energy)</WULA_EnergyLow>
+  <WULA_EnergyCritical>(Critical Energy!)</WULA_EnergyCritical>
+  
+  <!-- Message Prompts -->
+  <WULA_LowEnergySwitchToRecharge>{0} energy low, switching to recharge mode</WULA_LowEnergySwitchToRecharge>
+  <WULA_FullyChargedSwitchToWork>{0} fully charged, returning to work mode</WULA_FullyChargedSwitchToWork>
+  <WULA_CriticalEnergyLevels>{0} energy critical!</WULA_CriticalEnergyLevels>
+  <WULA_SwitchedToMode>{0} switched to {1} mode</WULA_SwitchedToMode>
+
+  <WULA_Autonomous_Mode>Draft Autonomous Mechs</WULA_Autonomous_Mode>
+  <WULA_Autonomous_Mode_Desc>Command autonomous mechs into drafted state</WULA_Autonomous_Mode_Desc>
+
+  <WULA_NanoRepair_Active>Nano Repair System: Repairing</WULA_NanoRepair_Active>
+  <WULA_NanoRepair_Inactive>Nano Repair System: Standby</WULA_NanoRepair_Inactive>
+  <WULA_CurrentEnergy>Current Energy: {0}</WULA_CurrentEnergy>
+  <WULA_NoEnergyNeed>No energy requirement</WULA_NoEnergyNeed>
+  <WULA_DamageDetected>Damage detected</WULA_DamageDetected>
+  <WULA_NoDamage>No damage</WULA_NoDamage>
+  <WULA_RepairCooldown>Repair cooldown: {0} seconds</WULA_RepairCooldown>
+
+  <!-- Chinese -->
+  <WULA_NanoRepair_Disable>Disable Nano Repair</WULA_NanoRepair_Disable>
+  <WULA_NanoRepair_DisableDesc>Turn off nano repair system to save energy</WULA_NanoRepair_DisableDesc>
+  <WULA_NanoRepair_Enable>Enable Nano Repair</WULA_NanoRepair_Enable>
+  <WULA_NanoRepair_EnableDesc>Turn on nano repair system to automatically repair damage</WULA_NanoRepair_EnableDesc>
+  <WULA_NanoRepair_EnabledMsg>{0}'s nano repair system enabled</WULA_NanoRepair_EnabledMsg>
+  <WULA_NanoRepair_DisabledMsg>{0}'s nano repair system disabled</WULA_NanoRepair_DisabledMsg>
+  <WULA_NanoRepair_Disabled>Nano Repair: Disabled</WULA_NanoRepair_Disabled>
+
+  <!-- FlyOver Related Translations -->
+  <WULA_Flyover_BaseBuilder>Air-droppable Buildings</WULA_Flyover_BaseBuilder>
+  <WULA_NoRequiredFlyOver>Requires {0} over colony to air-drop buildings</WULA_NoRequiredFlyOver>
+  <WULA_RequiresFlyOver>Requires {0} over colony to air-drop buildings</WULA_RequiresFlyOver>
+  <WULA_MissingFlyOver>Requires {0} over colony to air-drop buildings</WULA_MissingFlyOver>
+  <!-- Roof Related Translations -->
+  <WULA_ThickRoofBlocking>Thick rock roof blocking air-drop</WULA_ThickRoofBlocking>
+  <WULA_RoofBlocking>Roof blocking air-drop</WULA_RoofBlocking>
+  <WULA_ThickRoofBlockingDesc>Thick rock roof at drop location prevents air-drop</WULA_ThickRoofBlockingDesc>
+  <WULA_RoofBlockingDesc>Roof at drop location prevents air-drop</WULA_RoofBlockingDesc>
+  <WULA_BlockedByThickRoof>Blocked by thick rock roof</WULA_BlockedByThickRoof>
+  <WULA_BlockedByRoof>Blocked by roof</WULA_BlockedByRoof>
+  <!-- Building Air-drop Related Translations -->
+  <WULA_NoBuildingDropperFlyOver>Requires warship with building drop facilities deployed in colony orbit for air-drop</WULA_NoBuildingDropperFlyOver>
+  <WULA_RequiresBuildingDropperFlyOver>Requires warship with building drop facilities deployed in colony orbit for air-drop</WULA_RequiresBuildingDropperFlyOver>
+  <WULA_MissingBuildingDropperFlyOver>No warship with building drop facilities deployed in colony orbit</WULA_MissingBuildingDropperFlyOver>
+
+  
+  <!-- Message Translations -->
+  <WULA_BuildingIncomingFromGlobal>Building called from global storage will arrive in {0}</WULA_BuildingIncomingFromGlobal>
+  <WULA_BuildingIncoming>Called building will arrive in {0}</WULA_BuildingIncoming>
+  <WULA_MissingResearch>Research required: {0}</WULA_MissingResearch>
+  <WULA_NoBuildingDropperFlyOver>Requires building drop aircraft in area</WULA_NoBuildingDropperFlyOver>
+  
+  <!-- Roof Blocking Messages -->
+  <WULA_RoofBlocking_thick>Heavy roof blocks building drop</WULA_RoofBlocking_thick>
+  <WULA_RoofBlocking_thin>Roof blocks building drop</WULA_RoofBlocking_thin>
+  
+  <!-- Command Buttons -->
+  <WULA_CancelBuilding>Cancel Building Call</WULA_CancelBuilding>
+  <WULA_CancelBuildingDesc>Cancel ongoing building drop call</WULA_CancelBuildingDesc>
+  <WULA_TeleportBuilding>Teleport Building</WULA_TeleportBuilding>
+  <WULA_TeleportBuildingDesc>Use Wula Empire's teleportation network to teleport {0} to designated location—alternative to air-drop buildings, can complete construction under thick rock roofs with faster response.</WULA_TeleportBuildingDesc>
+  <WULA_NonPlayerCannotCall>Non-player factions cannot manually call buildings</WULA_NonPlayerCannotCall>
+  <WULA_RequiresResearch>Research required: {0}</WULA_RequiresResearch>
+  <WULA_AutoBuildingArrivingIn>Auto-building will arrive in {0}</WULA_AutoBuildingArrivingIn>
+  <WULA_BuildingArrivingInFromGlobal>Building called from global storage will arrive in {0}</WULA_BuildingArrivingInFromGlobal>
+  <WULA_BuildingArrivingIn>Building will arrive in {0}</WULA_BuildingArrivingIn>
+  <WULA_AutoBuildingReady>Auto-building ready</WULA_AutoBuildingReady>
+  <WULA_ReadyToCallBuilding>Ready to call {0}</WULA_ReadyToCallBuilding>
+
+  <!-- New Air-drop Resource Source Related Translations -->
+  <WULA_ReadyToCallSkyfaller>Ready to call air-drop building</WULA_ReadyToCallSkyfaller>
+  <WULA_CallSkyfaller>Call Air-drop Building</WULA_CallSkyfaller>
+  <WULA_CallSkyfallerDesc>Call corresponding building air-drop from Wula Empire fleet to this location. Air-drop buildings consume resources equal to their construction cost.</WULA_CallSkyfallerDesc>
+  <WULA_SkyfallerIncomingFromGlobal>Air-drop building in transit, arriving in {0}. Due to insufficient local resources, this air-drop consumed stored resources from Wula Empire fleet.</WULA_SkyfallerIncomingFromGlobal>
+  <WULA_SkyfallerIncoming>Air-drop building in transit, arriving in {0}.</WULA_SkyfallerIncoming>
+  <WULA_SkyfallerArrivingInFromGlobal>Air-drop building will arrive in {0}, due to insufficient local resources, consumed stored resources from Wula Empire fleet.</WULA_SkyfallerArrivingInFromGlobal>
+  <WULA_SkyfallerArrivingIn>Air-drop building will arrive in {0}</WULA_SkyfallerArrivingIn>
+  <WULA_ResourcePriorityInfo>Prioritized from within range of &lt;color=#6BB7B7>&lt;i>Wula Orbital Delivery Beacon&lt;/i>&lt;/color>. If insufficient resources, consume stored resources from Wula Empire fleet.</WULA_ResourcePriorityInfo>
+
+  <!-- CompSkyfallerCaller new keys -->
+  <WULA_RequiredMaterials>Required materials:</WULA_RequiredMaterials>
+  <WULA_InsufficientMaterials>Insufficient materials within range of &lt;color=#6BB7B7>&lt;i>Wula Orbital Delivery Beacon&lt;/i>&lt;/color>. You need to build Wula Orbital Delivery Beacon and place enough materials within its signal range; these materials will be automatically submitted to Empire fleet during construction.\n\nAdditionally, resources stored on Wula Empire fleet will also be considered.</WULA_InsufficientMaterials>
+
+  <!-- Cancel Skyfaller -->
+  <WULA_CancelSkyfaller>Cancel Call</WULA_CancelSkyfaller>
+  <WULA_CancelSkyfallerDesc>Abort ongoing air-drop call.</WULA_CancelSkyfallerDesc>
+  <WULA_SkyfallerCallCancelled>Air-drop call cancelled.</WULA_SkyfallerCallCancelled>
+
+  <!-- Maintenance Pod Status -->
+  <WULA_MaintenancePod_Status>Maintenance Pod Status</WULA_MaintenancePod_Status>
+  <WULA_MaintenancePod_State_Idle>Idle</WULA_MaintenancePod_State_Idle>
+  <WULA_MaintenancePod_State_Running>Running</WULA_MaintenancePod_State_Running>
+  
+  <!-- Maintenance Pod Interaction -->
+  <WULA_MaintenancePod_Enter>Enter Maintenance Pod</WULA_MaintenancePod_Enter>
+  <WULA_MaintenancePod_EnterDesc>Select synth needing maintenance</WULA_MaintenancePod_EnterDesc>
+  <WULA_MaintenancePod_CancelDesc>Cancel current maintenance cycle</WULA_MaintenancePod_CancelDesc>
+  <WULA_MaintenancePod_NoOneNeeds>No synths need maintenance</WULA_MaintenancePod_NoOneNeeds>
+  <WULA_MaintenancePod_NotEnoughComponents>Requires {0} components</WULA_MaintenancePod_NotEnoughComponents>
+  
+  <!-- Maintenance Effect Messages -->
+  <WULA_MaintenanceLevel>Maintenance Level</WULA_MaintenanceLevel>
+  <WULA_MaintenanceCycleStarted>{0} started maintenance cycle</WULA_MaintenanceCycleStarted>
+  <WULA_MaintenanceCycleComplete>{0} maintenance completed</WULA_MaintenanceCycleComplete>
+  <WULA_MaintenanceHealedInjuries>Repaired {0}'s {1} injuries</WULA_MaintenanceHealedInjuries>
+  <WULA_MaintenanceHealedParts>Repaired {0}'s missing parts</WULA_MaintenanceHealedParts>
+  <WULA_MaintenanceCanceled>Maintenance cancelled</WULA_MaintenanceCanceled>
+  <WULA_NoHaulerAvailable>No available hauler</WULA_NoHaulerAvailable>
+  <WULA_NoMaintenanceNeed>No maintenance need</WULA_NoMaintenanceNeed>
+  
+  <!-- Maintenance Requirement Related -->
+  <WULA_MaintenanceNeed>Maintenance Need</WULA_MaintenanceNeed>
+  <WULA_MaintenanceStatus>Status: {0} (Last maintenance: {1} days ago)</WULA_MaintenanceStatus>
+  <WULA_DegradationRate>Degradation rate: {0}/day</WULA_DegradationRate>
+  <WULA_MaintenanceCompleted>{0}'s maintenance completed</WULA_MaintenanceCompleted>
+  
+  <!-- Maintenance Status -->
+  <WULA_Operational>Operational</WULA_Operational>
+  <WULA_MinorBreakdown>Minor Breakdown</WULA_MinorBreakdown>
+  <WULA_MajorBreakdown>Major Breakdown</WULA_MajorBreakdown>
+  <WULA_CriticalFailure>Critical Failure</WULA_CriticalFailure>
+  
+  <WULA_OperationalDesc>Synth operating at optimal condition</WULA_OperationalDesc>
+  <WULA_MinorBreakdownDesc>Synth has minor malfunctions, reduced work efficiency</WULA_MinorBreakdownDesc>
+  <WULA_MajorBreakdownDesc>Synth has major malfunctions, requires immediate maintenance</WULA_MajorBreakdownDesc>
+  <WULA_CriticalFailureDesc>Synth completely failed, cannot work</WULA_CriticalFailureDesc>
+  
+  <!-- Work Related -->
+  <WULA_SynthMaintenance>Synth Maintenance</WULA_SynthMaintenance>
+  <WULA_DoMaintenance>Perform Maintenance</WULA_DoMaintenance>
+  
+  <!-- Damage Related Translations -->
+  <WULA_DamageAffectsMaintenance>Damage affects maintenance level ({0}/point damage)</WULA_DamageAffectsMaintenance>
+  <WULA_DamagePenalty>Damage Penalty</WULA_DamagePenalty>
+  <WULA_RecentDamageEvents>Recent Damage Events</WULA_RecentDamageEvents>
+  <WULA_MaintenanceCompletedWithDamage>{0} maintenance completed (repaired {1} damage)</WULA_MaintenanceCompletedWithDamage>
+  <WULA_MaintenanceRepairedDamage>Repaired {0} structural damage</WULA_MaintenanceRepairedDamage>
+  <WULA_DaysSinceMaintenance>Days since maintenance</WULA_DaysSinceMaintenance>
+
+  <WULA_ChooseStuff>Material</WULA_ChooseStuff>
+  <WULA_ChooseStuffTooltip>Select material for this weapon</WULA_ChooseStuffTooltip>
+  <WULA_CurrentStuff>Current material: {0}</WULA_CurrentStuff>
+  <WULA_NoStuffAvailable>No materials available</WULA_NoStuffAvailable>
+  <WULA_StuffSelected>Selected {0} as material</WULA_StuffSelected>
+  <WULA_StuffAutoSelected>Auto-selected {0} as material</WULA_StuffAutoSelected>
+  <WULA_AutoSelectStuff>Auto-select (most abundant)</WULA_AutoSelectStuff>
+  <WULA_ClearStuffSelection>Clear Selection</WULA_ClearStuffSelection>
+  <WULA_StuffSelectionCleared>Material selection cleared</WULA_StuffSelectionCleared>
+  <WULA_CannotChangeStuffAfterStart>Cannot change material after production starts</WULA_CannotChangeStuffAfterStart>
+  <WULA_RecipeDoesNotSupportStuff>This weapon doesn't support material selection</WULA_RecipeDoesNotSupportStuff>
+  <WULA_NoStuffSelected>No material selected</WULA_NoStuffSelected>
+  <!-- Distinguish fixed consumption and material consumption -->
+  <WULA_FixedIngredients>Fixed Ingredients</WULA_FixedIngredients>
+  <WULA_StuffMaterial>Material</WULA_StuffMaterial>
+  <!-- Material Property Related -->
+  <WULA_Commonality>Commonality</WULA_Commonality>
+  <WULA_Adjective>Adjective</WULA_Adjective>
+
+  <!-- Added to language file -->
+  <WULA_Equipment>Equipment</WULA_Equipment>
+  <WULA_Weapon>Weapon</WULA_Weapon>
+  <WULA_Mechanoid>Mechanoid</WULA_Mechanoid>
+  <WULA_SelectCategoryFirst>Please select category first</WULA_SelectCategoryFirst>
+
+  <!-- Nano Repair Stat Related Translations -->
+  <WULA_NanoRepairCostPerHP>Nano Repair Energy Cost per HP</WULA_NanoRepairCostPerHP>
+  <WULA_NanoRepairCostPerHP_Desc>Energy consumed by nano repair system per hit point repaired. Lower values mean lower repair cost.</WULA_NanoRepairCostPerHP_Desc>
+  <WULA_NanoRepairCooldownAfterDamage>Nano Repair Cooldown After Damage</WULA_NanoRepairCooldownAfterDamage>
+  <WULA_NanoRepairCooldownAfterDamage_Desc>Cooldown time for nano repair system after taking damage. Lower values mean faster system response.</WULA_NanoRepairCooldownAfterDamage_Desc>
+  <!-- Nano Repair Stat Explanation Text -->
+  <WULA_NanoRepair_Properties>Nano Repair System Properties:</WULA_NanoRepair_Properties>
+  <WULA_NanoRepair_CostPerHP_Line>\n• Energy cost per HP repaired: {0}</WULA_NanoRepair_CostPerHP_Line>
+  <WULA_NanoRepair_MinEnergyThreshold_Line>\n• Minimum activation energy threshold: {0}</WULA_NanoRepair_MinEnergyThreshold_Line>
+  <WULA_NanoRepair_CooldownAfterDamage_Line>\n• Cooldown after damage: {1} seconds</WULA_NanoRepair_CooldownAfterDamage_Line>
+  <WULA_NanoRepair_SystemStatus_Line>\n• System status: {0}</WULA_NanoRepair_SystemStatus_Line>
+  <WULA_NanoRepair_SystemStatus_Enabled>Enabled</WULA_NanoRepair_SystemStatus_Enabled>
+  <WULA_NanoRepair_SystemStatus_Disabled>Disabled</WULA_NanoRepair_SystemStatus_Disabled>
+  <WULA_RepairCostPerHP>Energy cost per HP repaired: {0}</WULA_RepairCostPerHP>
+  <!-- Maintenance System Stat Explanation -->
+  <WULA_Maintenance_Properties>Maintenance System Properties:</WULA_Maintenance_Properties>
+  <WULA_Maintenance_DegradationFactor_Explanation>\n• Pre-threshold degradation rate: {0}/day\n• Post-threshold degradation rate: {1}/day\n• Threshold days: {2} days</WULA_Maintenance_DegradationFactor_Explanation>
+  <WULA_Maintenance_StatusThresholdFactor_Explanation>\n• Minor breakdown threshold: {0}\n• Major breakdown threshold: {1}\n• Critical failure threshold: {2}</WULA_Maintenance_StatusThresholdFactor_Explanation>
+  <WULA_Maintenance_DamageToMaintenanceFactor_Explanation>\n• Maintenance damage: {0}/point damage</WULA_Maintenance_DamageToMaintenanceFactor_Explanation>
+  <WULA_Maintenance_MinorBreakdownThreshold_Explanation>\n• Minor breakdown threshold: {0}</WULA_Maintenance_MinorBreakdownThreshold_Explanation>
+  <WULA_Maintenance_MajorBreakdownThreshold_Explanation>\n• Major breakdown threshold: {0}</WULA_Maintenance_MajorBreakdownThreshold_Explanation>
+  <WULA_Maintenance_CriticalFailureThreshold_Explanation>\n• Critical failure threshold: {0}</WULA_Maintenance_CriticalFailureThreshold_Explanation>
+  <!-- StatWorker_Energy  -->
+  <WULA_Energy_Properties>Energy System Properties:</WULA_Energy_Properties>
+  <WULA_Energy_MaxLevelOffset_PawnExplanation>Wula Energy Max Level Offset: Affects this individual's maximum energy storage.</WULA_Energy_MaxLevelOffset_PawnExplanation>
+  <WULA_Energy_FallRateFactor_PawnExplanation>Wula Energy Consumption Rate: Affects this individual's energy consumption rate.</WULA_Energy_FallRateFactor_PawnExplanation>
+  <WULA_Energy_RaceProperties>Race Energy Properties:</WULA_Energy_RaceProperties>
+  <WULA_Energy_MaxLevelOffset_RaceExplanation>Wula Energy Max Level Offset: Affects this race's maximum energy storage.</WULA_Energy_MaxLevelOffset_RaceExplanation>
+  <WULA_Energy_FallRateFactor_RaceExplanation>Wula Energy Consumption Rate: Affects this race's energy consumption rate.</WULA_Energy_FallRateFactor_RaceExplanation>
+
+  <!-- Default Labels and Descriptions -->
+  <WULA_SwitchableHediff_SwitchLabel>Switch Effect</WULA_SwitchableHediff_SwitchLabel>
+  <WULA_SwitchableHediff_SwitchDesc>Click to open menu and select different effect modes</WULA_SwitchableHediff_SwitchDesc>
+  <WULA_SwitchableHediff_StatusLabel>Current effect: {0}</WULA_SwitchableHediff_StatusLabel>
+  <WULA_SwitchableHediff_StatusDesc>Click to view current effect details</WULA_SwitchableHediff_StatusDesc>
+  
+  <!-- Dynamic Content -->
+  <WULA_SwitchableHediff_CurrentMode>Current: {0}</WULA_SwitchableHediff_CurrentMode>
+  <WULA_SwitchableHediff_CurrentDesc>{0}</WULA_SwitchableHediff_CurrentDesc>
+  <WULA_SwitchableHediff_SwitchedTo>Switched to: {0}</WULA_SwitchableHediff_SwitchedTo>
+  <WULA_SwitchableHediff_SelectMode>Select Effect Mode</WULA_SwitchableHediff_SelectMode>
+  <WULA_SwitchableHediff_CurrentModeInfo>Current effect: {0}\n\n{1}</WULA_SwitchableHediff_CurrentModeInfo>
+  <WULA_SwitchableHediff_CurrentEffect>Current effect: {0}</WULA_SwitchableHediff_CurrentEffect>
+  
+  <!-- General Terminology -->
+  <WULA_Unknown>Unknown</WULA_Unknown>
+  <WULA_None>None</WULA_None>
+  <WULA_NoDescription>No description available</WULA_NoDescription>
+
+  <WULA_CurrentExperience>Current experience: {0}</WULA_CurrentExperience>
+  <WULA_CurrentExperienceStat>Current Experience</WULA_CurrentExperienceStat>
+  <WULA_CurrentExperienceDesc>Total experience accumulated by this weapon</WULA_CurrentExperienceDesc>
+  
+  <WULA_NextQualityProgress>Next quality: {0} ({1})</WULA_NextQualityProgress>
+  <WULA_NextQuality>Next Quality</WULA_NextQuality>
+  <WULA_NextQualityDesc>Unlocks at {0} experience</WULA_NextQualityDesc>
+  
+  <WULA_CurrentQuality>Current Quality</WULA_CurrentQuality>
+  <WULA_CurrentQualityDesc>Current quality level of this weapon</WULA_CurrentQualityDesc>
+  
+  <WULA_MaxQuality>Reached maximum quality: {0}</WULA_MaxQuality>
+  <WULA_TrackedSkill>Skill tracked for autonomous core experience: {0}</WULA_TrackedSkill>
+  
+  <WULA_WeaponUpgraded>{0} upgraded to {1} quality!</WULA_WeaponUpgraded>
+  
+  <!-- Optional Upgrade Messages -->
+  <WULA_WeaponEvolving>{0}'s autonomous core is evolving with its user's gained experience, improving weapon quality</WULA_WeaponEvolving>
+  <WULA_WeaponMastering>{0}'s autonomous core experience has reached maximum level!</WULA_WeaponMastering>
+
+  <!-- Chinese Translation -->
+  <WULA_EjectDataPack>Eject Data Pack</WULA_EjectDataPack>
+  <WULA_EjectDataPackDesc>Extract data contained in autonomous core as data pack absorbable by other weapons' autonomous cores. Weapon resets to initial state.</WULA_EjectDataPackDesc>
+  <WULA_AbsorbDataPack>Absorb Data Pack</WULA_AbsorbDataPack>
+  <WULA_AbsorbDataPackDesc>Autonomous core will absorb experience from nearby data packs to improve this weapon's quality.</WULA_AbsorbDataPackDesc>
+  <WULA_DataPackExperience>Stored experience: {0} (from {1})</WULA_DataPackExperience>
+  <WULA_DataPackEjected>Experience core ejected, containing {0} experience</WULA_DataPackEjected>
+  <WULA_DataPackAbsorbed>Absorbed {0} experience from data pack</WULA_DataPackAbsorbed>
+  <WULA_NoDataPackDef>No data pack definition configured</WULA_NoDataPackDef>
+  <WULA_NoExperienceToEject>No data to eject</WULA_NoExperienceToEject>
+  <WULA_NoDataPackNearby>No compatible data packs found nearby</WULA_NoDataPackNearby>
+  <WULA_DataPackEmpty>Data pack contains no experience</WULA_DataPackEmpty>
+  <WULA_DataPackCompMissing>Data pack component missing</WULA_DataPackCompMissing>
+  <WULA_OverflowExperience>Overflow experience: {0}</WULA_OverflowExperience>
+  <WULA_OverflowExperienceStat>Overflow Experience</WULA_OverflowExperienceStat>
+  <WULA_OverflowExperienceDesc>Stored experience exceeding maximum quality threshold</WULA_OverflowExperienceDesc>
+  <WULA_OverflowStored>Excess experience stored</WULA_OverflowStored>
+  <WULA_DataPackPartiallyAbsorbed>Absorbed {0} experience, {1} converted to overflow data pack</WULA_DataPackPartiallyAbsorbed>
+  <WULA_DataPackOverflowOnly>All {0} experience converted to overflow data pack (max quality reached)</WULA_DataPackOverflowOnly>
+
+  <WULA_ResearchRequired>Using this ability requires research tech {0}</WULA_ResearchRequired>
+
+  <!-- Bombardment Ability Related Translations -->
+  <SelectBombardmentStart>Select Bombardment Start Point</SelectBombardmentStart>
+  <SelectBombardmentDirection>Select Bombardment Direction</SelectBombardmentDirection>
+  <CannotBombardInvalidLocation>Cannot bombard at this location</CannotBombardInvalidLocation>
+  <BombardmentInProgress>Bombardment in progress</BombardmentInProgress>
+  <BombardmentCompleted>Bombardment completed</BombardmentCompleted>
+
+  <WULA_GlobalFlyOverCooldown.CannotUseOutsideMap>Cannot use outside map</WULA_GlobalFlyOverCooldown.CannotUseOutsideMap>
+  <WULA_GlobalFlyOverCooldown.NoAvailableFacilities>No available weapon arrays on orbiting warships (total {0}, all on cooldown)</WULA_GlobalFlyOverCooldown.NoAvailableFacilities>
+  <WULA_GlobalFlyOverCooldown.FacilityStatus>Weapon arrays: {0} ready, {1} on cooldown</WULA_GlobalFlyOverCooldown.FacilityStatus>
+  <WULA_GlobalFlyOverCooldown.FacilityStatusError>Facility status error</WULA_GlobalFlyOverCooldown.FacilityStatusError>
+  <WULA_GlobalFlyOverCooldown.FacilityStatusDetailed>Weapon arrays: {0} ready, {1} on cooldown</WULA_GlobalFlyOverCooldown.FacilityStatusDetailed>
+  <WULA_GlobalFlyOverCooldown.CooldownTime>Cooldown time for weapon arrays after using this support: {0}</WULA_GlobalFlyOverCooldown.CooldownTime>
+  <WULA_GlobalFlyOverCooldown.NoAvailableFacilitiesSimple>No available weapon arrays</WULA_GlobalFlyOverCooldown.NoAvailableFacilitiesSimple>
+  
+  <!-- FlyOverCooldown Translations -->
+  <WULA_FlyOverCooldown.Ready>Ready</WULA_FlyOverCooldown.Ready>
+  <WULA_FlyOverCooldown.CooldownRemaining>Cooldown: {0}</WULA_FlyOverCooldown.CooldownRemaining>
+  <WULA_FlyOverCooldown.BombardmentFacilityStatus>Weapon arrays: {0}</WULA_FlyOverCooldown.BombardmentFacilityStatus>
+  <WULA_FlyOverCooldown.BombardmentFacilityReady>Weapon arrays: Ready</WULA_FlyOverCooldown.BombardmentFacilityReady>
+
+  <SkyfallerPawnLanded>War machine deployed</SkyfallerPawnLanded>
+
+  <DisappearWithEffect_TimeRemaining>Time remaining: {0}</DisappearWithEffect_TimeRemaining>
+
+  <WULA_TaxCollection.Waiting>Collection: Waiting for activation...</WULA_TaxCollection.Waiting>
+  <WULA_TaxCollection.Status>Resources required for submission to Wula Empire Fleet: {0} {1} {2}</WULA_TaxCollection.Status>
+  <WULA_TaxCollection.Status.Succeeded>- Completed</WULA_TaxCollection.Status.Succeeded>
+  <WULA_TaxCollection.Status.Failed>- Overdue</WULA_TaxCollection.Status.Failed>
+
+  <!-- Area Shield Gizmo Text -->
+  <ShieldOfflineByMoving>Inactive - Moving</ShieldOfflineByMoving>
+
+  <ToggleAreaDamage>Toggle Area Damage</ToggleAreaDamage>
+  <ToggleAreaDamageDesc>Enable or disable area damage effect</ToggleAreaDamageDesc>
+  <AreaDamageEnabled>Area Damage: Enabled</AreaDamageEnabled>
+  <AreaDamageDisabled>Area Damage: Disabled</AreaDamageDisabled>
+
+  <WULA_SwitchWeapon>Switch Weapon</WULA_SwitchWeapon>
+  <WULA_SwitchWeapon_Desc>Drop current weapon and equip this unit's initial weapon</WULA_SwitchWeapon_Desc>
+  <WULA_WeaponSwitched>{0} switched weapon to {1}</WULA_WeaponSwitched>
+  <WULA_NoWeaponAvailable>{0} has no available weapon types</WULA_NoWeaponAvailable>
+
+  <WULA_HideAreaShieldLabel>Hide Area Reflector Shield</WULA_HideAreaShieldLabel>
+  <WULA_ShowAreaShieldLabel>Show Area Reflector Shield</WULA_ShowAreaShieldLabel>
+  <WULA_HideAreaShieldDesc>Hide this unit's area reflector shield. This doesn't affect actual functionality, only visual effect.</WULA_HideAreaShieldDesc>
+  <WULA_ShowAreaShieldDesc>Show this unit's area reflector shield. This doesn't affect actual functionality, only visual effect.</WULA_ShowAreaShieldDesc>
+  
+  <!-- Building_MechanoidRecycler.cs -->
+  <WULA_RecyclerFull>Bunker full.</WULA_RecyclerFull>
+  <WULA_MechRecycled>Recycled {0}. (Current: {1}/{2})</WULA_MechRecycled>
+  <WULA_NoMechsToConvert>No Wula cats to convert.</WULA_NoMechsToConvert>
+  <WULA_NotEnoughMechs>Insufficient Wula cats in bunker.</WULA_NotEnoughMechs>
+  <WULA_ConvertingMechs>Converting {0} Wula cats in bunker to {1}.</WULA_ConvertingMechs>
+  <WULA_RecycleNearbyMechs>Call Wula Cats to Report</WULA_RecycleNearbyMechs>
+  <WULA_RecycleNearbyMechsDesc>Call Wula cats within {0} tiles to report, for conversion to other cat types or to use bunker weapons against enemies.</WULA_RecycleNearbyMechsDesc>
+  <WULA_StorageFull>Bunker storage full.</WULA_StorageFull>
+  <WULA_ConvertMechs>Release Wula Cats</WULA_ConvertMechs>
+  <WULA_ConvertMechsDesc>Release Wula cats from bunker. They can choose equipment before leaving to change type.\nCapacity: {0}/{1}</WULA_ConvertMechsDesc>
+  <WULA_NoAvailableMechs>No Wula cats on standby in bunker.</WULA_NoAvailableMechs>
+  <WULA_NoNearbyRecyclableMechs>No recyclable Wula cats nearby.</WULA_NoNearbyRecyclableMechs>
+  <WULA_MechsOrderedToRecycle>{0} Wula cats called back to bunker.</WULA_MechsOrderedToRecycle>
+  <WULA_StoredMechs>Capacity: {0}/{1}</WULA_StoredMechs>
+  <WULA_TransformCooldown>Transformation cooldown: {0} hours</WULA_TransformCooldown>
+  
+  <!-- CompTransformAtFullCapacity.cs -->
+  <WULA_BuildingCooldown>Building just deployed, need to wait {0} hours before transformation</WULA_BuildingCooldown>
+  <WULA_NeedMoreMechs>Requires {0} Wula cats to report, current: {1}/{2}</WULA_NeedMoreMechs>
+  <WULA_CooldownRemaining>Cooldown remaining: {0} hours</WULA_CooldownRemaining>
+  <WULA_TargetUnit>Target unit: {0}</WULA_TargetUnit>
+  <WULA_MechsRequired>Requires Wula cats: {0}</WULA_MechsRequired>
+  <WULA_BuildingTransformedToPawn>{0} transformed to {1}</WULA_BuildingTransformedToPawn>
+  
+  <!-- CompTransformIntoBuilding.cs -->
+  <WULA_UnitNotSpawned>Unit not spawned or destroyed</WULA_UnitNotSpawned>
+  <WULA_CannotDetermineBuildingType>Cannot determine target building type</WULA_CannotDetermineBuildingType>
+  <WULA_NoSuitablePositionFound>No suitable placement positions found nearby</WULA_NoSuitablePositionFound>
+  <WULA_DeployingAtNearbyPosition>Will deploy building at nearby position {0}</WULA_DeployingAtNearbyPosition>
+  <WULA_CannotDeployBuilding>Cannot deploy building: {0}</WULA_CannotDeployBuilding>
+  <WULA_PawnDeployedAsBuilding>{0} deployed as {1}</WULA_PawnDeployedAsBuilding>
+  <WULA_WillRestoreTo>Will restore to: {0}</WULA_WillRestoreTo>
+  <WULA_MaxStorageCapacity>Maximum storage capacity: {0} Wula cats</WULA_MaxStorageCapacity>
+  <WULA_PositionValid>✓ Current position can place building</WULA_PositionValid>
+  <WULA_PositionInvalid>✗ {0}</WULA_PositionInvalid>
+
+  <WULA_TeleportFailedNoValidLocation>No valid landing location after teleport, teleport cancelled.</WULA_TeleportFailedNoValidLocation>
+  <WULA_CannotTeleportToLocation>Invalid teleport location</WULA_CannotTeleportToLocation>
+
+  <!-- CompAbilityEffect_PullTarget.cs -->
+  <WULA_InvalidPullTarget>Cannot pull this target</WULA_InvalidPullTarget>
+  <WULA_TargetTooLarge>{0} too large to pull (max size: {1})</WULA_TargetTooLarge>
+  <WULA_PullFailedNoValidLocation>Pull failed: No suitable landing position found</WULA_PullFailedNoValidLocation>
+  <WULA_MustTargetPawn>Must select a creature as target</WULA_MustTargetPawn>
+  <WULA_TargetOutOfRange>Target out of range (max range: {0})</WULA_TargetOutOfRange>
+  <WULA_TargetTooClose>Target too close (minimum distance: {0} tiles)</WULA_TargetTooClose>
+  <WULA_NoLineOfSight>No line of sight to target</WULA_NoLineOfSight>
+  <WULA_CannotPullTarget>Cannot pull this target</WULA_CannotPullTarget>
+
+  <!-- Area Teleporter Strings -->
+  <WULA_TeleporterEnabled>Teleporter enabled</WULA_TeleporterEnabled>
+  <WULA_TeleporterDisabled>Teleporter disabled</WULA_TeleporterDisabled>
+  <WULA_TeleporterEnable>Enable Teleporter</WULA_TeleporterEnable>
+  <WULA_TeleporterEnableDesc>Enable area teleportation, allowing Wula mechs to teleport instead of normal movement within its coverage.</WULA_TeleporterEnableDesc>
+  <WULA_TeleporterDisable>Disable Teleporter</WULA_TeleporterDisable>
+  <WULA_TeleporterDisableDesc>Disable area teleportation. Wula mechs nearby will use normal movement instead of teleportation.</WULA_TeleporterDisableDesc>
+
+  <!-- Value Converter Strings -->
+  <WULA_ConvertToSilver>Sell Goods to Fleet</WULA_ConvertToSilver>
+  <WULA_ConvertToSilverDesc>Launch drop pod to Wula Empire Fleet. All item values converted to silver at {0} ratio, stored in fleet resources</WULA_ConvertToSilverDesc>
+  <WULA_CannotConvert>Cannot sell: Contains forbidden items or container empty</WULA_CannotConvert>
+  <WULA_NoItemsToConvert>No items to sell</WULA_NoItemsToConvert>
+  <WULA_NoValuableItems>No valuable items</WULA_NoValuableItems>
+  <WULA_ConversionValueTooLow>Selling value too low</WULA_ConversionValueTooLow>
+  <WULA_ConversionCancelledDueToForbiddenItems>Sale cancelled: Contains forbidden items: {0}</WULA_ConversionCancelledDueToForbiddenItems>
+  <WULA_ValueConverted>Successfully converted items worth {0} to {1} silver</WULA_ValueConverted>
+  <WULA_ValueConvertedWithLoss>Successfully converted items worth {0} to {1} silver (conversion rate: {2})</WULA_ValueConvertedWithLoss>
+  <WULA_ValueConvertedWithBonus>Successfully converted items worth {0} to {1} silver (bonus rate: {2})</WULA_ValueConvertedWithBonus>
+  <WULA_CurrentValueInContainer>Total item value in container: {0}</WULA_CurrentValueInContainer>
+  <WULA_PotentialSilver>Convertible silver: {0}</WULA_PotentialSilver>
+  <WULA_ConversionRate>Conversion rate: {0}</WULA_ConversionRate>
+  <WULA_ConversionEfficiency>Conversion efficiency: {0}</WULA_ConversionEfficiency>
+  <WULA_ConversionEfficiencyLoss>(with loss)</WULA_ConversionEfficiencyLoss>
+  <WULA_ConversionEfficiencyBonus>(with bonus)</WULA_ConversionEfficiencyBonus>
+  <WULA_ConversionEfficiencyNormal>(equal conversion)</WULA_ConversionEfficiencyNormal>
+
+   
+  <!-- Value Converter Translations -->
+  <WULA_ConvertToCurrency>Sell Goods to Fleet</WULA_ConvertToCurrency>
+  <WULA_ConvertToCurrencyDesc>Launch drop pod to Wula Empire Fleet. All item values converted to {0} at {1}% ratio, stored in fleet resources.</WULA_ConvertToCurrencyDesc>
+  <WULA_CurrentTotalValue>Current total value: {0}</WULA_CurrentTotalValue>
+  <WULA_ConvertedValue>Converted value: {0} {1}</WULA_ConvertedValue>
+  <WULA_ContainedItems>Contained items:</WULA_ContainedItems>
+  <WULA_ItemListEntry>  - {0} x{1}</WULA_ItemListEntry>
+  
+  <!-- Error and Status Messages -->
+  <WULA_ConverterNotSpawned>Converter must be placed on map to use.</WULA_ConverterNotSpawned>
+  <WULA_NoItemsToConvert>No items to sell</WULA_NoItemsToConvert>
+  <WULA_ConvertedValueTooLow>Value after sale too low to generate any currency.</WULA_ConvertedValueTooLow>
+  <WULA_ConversionComplete>Sold {0} items (total value {1}), received {2} {3}.</WULA_ConversionComplete>
+  <WULA_ConvertedItems>Items sold: {0}</WULA_ConvertedItems>
+  <WULA_ConversionRatioApplied>Conversion rate: {0}%</WULA_ConversionRatioApplied>
+  
+  <!-- Junk Filter Related (if used) -->
+  <WULA_LaunchCancelledDueToForbiddenItems>Launch cancelled due to forbidden items: {0}</WULA_LaunchCancelledDueToForbiddenItems>
+
+  <WULA_TransferSilver>Withdraw Silver!</WULA_TransferSilver>
+  <WULA_TransferSilverDesc>Retrieve {0} silver stored on Wula Empire Fleet. They will be air-dropped with the next product drop.</WULA_TransferSilverDesc>
+  <WULA_ConfirmTransferSilver>Are you sure you want to withdraw {0} silver stored on Wula Empire Fleet?</WULA_ConfirmTransferSilver>
+  <WULA_NoSilverToTransfer>No silver stored on Wula Empire Fleet</WULA_NoSilverToTransfer>
+  <WULA_SilverTransferred>Withdrew {0} silver, will be air-dropped with the next product drop.</WULA_SilverTransferred>
+  <WULA_TransferFailed>Failed to withdraw silver</WULA_TransferFailed>
+  <WULA_TransferError>Error withdrawing silver</WULA_TransferError>
+
+  <WULA_TrapLauncherTriggered>Proximity mine activated!</WULA_TrapLauncherTriggered>
+
+  <WULA_Designator_CallSkyfallerInArea>Area Air-drop</WULA_Designator_CallSkyfallerInArea>
+  <WULA_Designator_CallSkyfallerInAreaDesc>Mark an area to activate all Wula Empire buildings and war mechs needing air-drop within it.\n\nArea air-drop still calculates material consumption. If insufficient materials, no air-drop will occur.</WULA_Designator_CallSkyfallerInAreaDesc>
+  <WULA_AreaCallInitiated>Area air-drop ordered</WULA_AreaCallInitiated>
+  <WULA_NoCallableBuildingsInArea>No Wula Empire air-drop zones in area accepting air-drop commands</WULA_NoCallableBuildingsInArea>
+
+  <WULA_AbilityRequiresNonHostility>Cannot use this ability while hostile with {0}</WULA_AbilityRequiresNonHostility>
+</LanguageData>

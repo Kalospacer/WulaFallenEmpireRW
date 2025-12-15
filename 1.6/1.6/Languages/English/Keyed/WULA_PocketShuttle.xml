@@ -1,26 +1,23 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-  <!-- Building_ArmedShuttleWithPocket related text -->
-  <WULA.PocketSpace.Status>Living quarters status</WULA.PocketSpace.Status>
+  <!-- Building_ArmedShuttleWithPocket related texts -->
+  <WULA.PocketSpace.Status>\nLiving Quarters Status</WULA.PocketSpace.Status>
   <WULA.PocketSpace.Ready>Ready</WULA.PocketSpace.Ready>
-  <WULA.PocketSpace.NotGenerated>Not initialized</WULA.PocketSpace.NotGenerated>
-  <WULA.PocketSpace.ItemCount>Stored items: {0}</WULA.PocketSpace.ItemCount>
+  <WULA.PocketSpace.NotGenerated>Not Initialized</WULA.PocketSpace.NotGenerated>
   
-  <!-- Gizmo button text -->
-  <WULA.PocketSpace.Initialize>Initialize living quarters</WULA.PocketSpace.Initialize>
-  <WULA.PocketSpace.InitializeDesc>Initialize the shuttle's internal living quarters. This will create the dimensional storage space inside the shuttle.</WULA.PocketSpace.InitializeDesc>
+  <!-- Gizmo button texts -->
+  <WULA.PocketSpace.Initialize>Initialize Living Quarters</WULA.PocketSpace.Initialize>
+  <WULA.PocketSpace.InitializeDesc>Initialize the living quarters space within the shuttle. This will create a living area inside the shuttle where crew members can rest and work. Colonists in this space cannot participate in piloting the shuttle.</WULA.PocketSpace.InitializeDesc>
   
-  <WULA.PocketSpace.Enter>Enter living quarters</WULA.PocketSpace.Enter>
-  <WULA.PocketSpace.EnterDesc>Enter the shuttle's internal living quarters. Direct access without hacking required. Selected colonists will be transported to the internal space.</WULA.PocketSpace.EnterDesc>
+  <WULA.PocketSpace.Enter>Enter Living Quarters</WULA.PocketSpace.Enter>
+  <WULA.PocketSpace.EnterDesc>Enter the living quarters space of the shuttle - selected colonists will be teleported to the living quarters. Colonists in this space cannot participate in piloting the shuttle.</WULA.PocketSpace.EnterDesc>
   
-  <WULA.PocketSpace.SwitchTo>Switch to living quarters</WULA.PocketSpace.SwitchTo>
-  <WULA.PocketSpace.SwitchToDesc>Directly switch view to the internal living quarters. Useful for quick switching when colonists are already inside.</WULA.PocketSpace.SwitchToDesc>
   
-  <WULA.PocketSpace.ManageStorage>Manage internal storage</WULA.PocketSpace.ManageStorage>
-  <WULA.PocketSpace.ManageStorageDesc>Open internal container management interface to view and retrieve items stored in the living quarters.</WULA.PocketSpace.ManageStorageDesc>
+  <WULA.PocketSpace.ViewMap>View Living Quarters</WULA.PocketSpace.ViewMap>
+  <WULA.PocketSpace.ViewMapDesc>Switch perspective to the living quarters space of the shuttle.</WULA.PocketSpace.ViewMapDesc>
   
-  <!-- Message text -->
+  
+  <!-- Message texts -->
   <WULA.PocketSpace.CannotInitialize>Cannot initialize living quarters.</WULA.PocketSpace.CannotInitialize>
   <WULA.PocketSpace.AlreadyInitialized>Living quarters already initialized.</WULA.PocketSpace.AlreadyInitialized>
   <WULA.PocketSpace.InitializeSuccess>Living quarters initialized successfully.</WULA.PocketSpace.InitializeSuccess>
@@ -28,27 +25,19 @@
   
   <WULA.PocketSpace.CannotEnter>Cannot enter living quarters.</WULA.PocketSpace.CannotEnter>
   <WULA.PocketSpace.AccessDenied>Access denied.</WULA.PocketSpace.AccessDenied>
-  <WULA.PocketSpace.TransportDisabled>Transport functionality disabled (shuttle in flight).</WULA.PocketSpace.TransportDisabled>
-  <WULA.PocketSpace.NoTargetMap>No target map available.</WULA.PocketSpace.NoTargetMap>
   <WULA.PocketSpace.NotSpawned>Shuttle not deployed.</WULA.PocketSpace.NotSpawned>
+  <WULA.PocketSpace.TransportDisabled>Transport function disabled (shuttle in flight).</WULA.PocketSpace.TransportDisabled>
+  <WULA.PocketSpace.NoTargetMap>No target map.</WULA.PocketSpace.NoTargetMap>
   <WULA.PocketSpace.CreationFailed>Living quarters creation failed.</WULA.PocketSpace.CreationFailed>
   <WULA.PocketSpace.TransferSuccess>{0} personnel successfully transferred to living quarters.</WULA.PocketSpace.TransferSuccess>
-  <WULA.PocketSpace.SwitchToPocket>About to switch to internal living quarters. Confirm?</WULA.PocketSpace.SwitchToPocket>
   
   <!-- Storage management dialog -->
-  <WULA.PocketSpace.StorageManagement>Living quarters storage management</WULA.PocketSpace.StorageManagement>
-  
   <WULA.PocketSpace.PawnCount>Living quarters personnel: {0}</WULA.PocketSpace.PawnCount>
   <WULA.PocketSpace.NoPawnsSelected>Please select at least one colonist to enter the living quarters.</WULA.PocketSpace.NoPawnsSelected>
-  <WULA.PocketSpace.NoPawnsAvailable>No available colonists.</WULA.PocketSpace.NoPawnsAvailable>
-  <WULA.PocketSpace.AllColonists>All colonists ({0} people)</WULA.PocketSpace.AllColonists>
-
   
   <!-- Exit point related -->
-  <WULA.PocketSpace.ExitThroughPortal>Return through portal</WULA.PocketSpace.ExitThroughPortal>
-  <WULA.PocketSpace.ExitAll>Return all</WULA.PocketSpace.ExitAll>
-  <WULA.PocketSpace.ExitAllDesc>Transport all colonists from living quarters back to the main map.</WULA.PocketSpace.ExitAllDesc>
-  <WULA.PocketSpace.ExitSuccess>{0} successfully returned to main map.</WULA.PocketSpace.ExitSuccess>
-  <WULA.PocketSpace.ExitAllSuccess>{0} personnel have all returned to the main map.</WULA.PocketSpace.ExitAllSuccess>
-
+  <WULA.PocketSpace.ExitToMainMap>Return to Main Map</WULA.PocketSpace.ExitToMainMap>
+  <WULA.PocketSpace.ExitToMainMapDesc>Return to the main map through the living quarters exit.</WULA.PocketSpace.ExitToMainMapDesc>
+  <WULA.PocketSpace.ExitSuccess>{0} has successfully returned to the main map.</WULA.PocketSpace.ExitSuccess>
+  
 </LanguageData>

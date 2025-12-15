@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- Automatic Launch Related -->
+  <LaunchAircraft>Acquire Aircraft</LaunchAircraft>
+  <LaunchAircraftDesc>Acquire corresponding aircraft</LaunchAircraftDesc>
+  <ToggleAutoLaunch>Enable Auto-Launch</ToggleAutoLaunch>
+  <ToggleAutoLaunchDesc>Enable automatic aircraft launch function</ToggleAutoLaunchDesc>
+  <CancelAutoLaunch>Cancel Auto-Launch</CancelAutoLaunch>
+  <CancelAutoLaunchDesc>Cancel scheduled automatic launch</CancelAutoLaunchDesc>
+  <!-- Status Messages -->
+  <AircraftStatusLaunched>Status: Launched</AircraftStatusLaunched>
+  <AutoLaunchScheduled>Auto-launch: in {0} seconds</AutoLaunchScheduled>
+  <AutoLaunchReady>Auto-launch: Ready</AutoLaunchReady>
+  <!-- Event Messages -->
+  <AircraftAutoLaunchScheduled>Aircraft auto-launch scheduled: {0} will launch in {1} seconds</AircraftAutoLaunchScheduled>
+  <AircraftAutoLaunchThreatDetected>Threat {0} detected, scheduling aircraft auto-launch</AircraftAutoLaunchThreatDetected>
+  <AircraftAutoLaunchManhunterDetected>Manhunter animals {0} detected, scheduling aircraft auto-launch</AircraftAutoLaunchManhunterDetected>
+  <AutoLaunchCancelled>Auto-launch cancelled</AutoLaunchCancelled>
+  <!-- Original translations remain unchanged -->
+  <AircraftLaunched>{0} {1} acquired</AircraftLaunched>
+  <HangarDamaged>Hangar damaged</HangarDamaged>
+  
+  <!-- Mouse Overlay Text -->
+  <AvailableAircraft>{0}: {1}</AvailableAircraft>
+  <CooldownAircraft>On cooldown: {0}</CooldownAircraft>
+  <CostPerUse>Cost: {0}</CostPerUse>
+  
+  <!-- Tooltip Text -->
+  <AircraftStatusTooltip>Aircraft status:</AircraftStatusTooltip>
+  <TotalAircraft>Total: {0}</TotalAircraft>
+  <ReadyAircraft>Ready to deploy: {0}</ReadyAircraft>
+  <CooldownAircraft>On cooldown: {0}</CooldownAircraft>
+  <AircraftCost>Cost per use: {0}</AircraftCost>
+  <!-- Existing keys... -->
+  
+  <!-- New Aircraft Cooldown Time Keys -->
+  <AircraftCooldownTime>Cooldown: {0} hours</AircraftCooldownTime>
+  <AircraftAbilityDescription>\nThis ability requires {0} to deploy\nEach use occupies {1} {0}\nCooldown: {2} hours</AircraftAbilityDescription>
+  
+  <!-- Miscellaneous -->
+  <UnknownFaction>Unknown Faction</UnknownFaction>
+
+  
+  <!-- Aircraft Hangar Gizmo Text -->
+  <LaunchAircraft>Aircraft Takeoff</LaunchAircraft>
+  <LaunchAircraftDesc>Command aircraft to take off. Launched aircraft will never land; to use them, you need the command of Mechanical Wula.</LaunchAircraftDesc>
+  <HangarDamaged>Aircraft Damaged</HangarDamaged>
+  
+  <!-- Aircraft Hangar Messages -->
+  <AircraftLaunched>Aircraft launched: {0} {1}</AircraftLaunched>
+  <AircraftManagerNotFound>Aircraft manager not found!</AircraftManagerNotFound>
+  
+  <!-- Takeoff Effect Messages -->
+  <TakeoffEffectMapNull>Cannot create takeoff effect: parent map is null</TakeoffEffectMapNull>
+  <TakeoffSkyfallerCreated>Created takeoff skyfaller at {0}, carrying 1 unit of Chemfuel</TakeoffSkyfallerCreated>
+  <TakeoffEffectError>Error creating takeoff effect: {0}</TakeoffEffectError>
+
+  <!-- Aircraft Manager Error Messages -->
+  <AddAircraftNullFaction>Attempted to add aircraft to null faction</AddAircraftNullFaction>
+  
+  <!-- Aircraft Status Messages -->
+  <AircraftCooldownEnded>{0} is ready for another strike</AircraftCooldownEnded>
+  <NoAircraftStatus>No aircraft available</NoAircraftStatus>
+  <AircraftStatusLine>{0}: {1}/{2} (Cooldown: {3})</AircraftStatusLine>
+
+  <WULA_DestroyFlyOver>Airspace cleared, fleet on the flight path is returning to high orbit</WULA_DestroyFlyOver>
+  
+  <!-- Aircraft Strike Ability -->
+  <WULA_AircraftManagerNotFound>Aircraft manager not found</WULA_AircraftManagerNotFound>
+  <WULA_AircraftStrikeInitiated>{0} airstrike initiated</WULA_AircraftStrikeInitiated>
+  <WULA_AircraftStrikeSuccess>Used {0} {1} for airstrike</WULA_AircraftStrikeSuccess>
+  <WULA_NoAvailableAircraft>No available {0}</WULA_NoAvailableAircraft>
+  <WULA_AircraftStrikeFailed>Cannot use {0} for faction {1}</WULA_AircraftStrikeFailed>
+  <WULA_UnknownFaction>Unknown faction</WULA_UnknownFaction>
+  <WULA_AircraftSystemNotReady>Aircraft system not ready</WULA_AircraftSystemNotReady>
+  <WULA_NoAvailableAircraftType>No available {0}</WULA_NoAvailableAircraftType>
+  <WULA_AircraftInsufficient>Insufficient {0} ({1}/{2})</WULA_AircraftInsufficient>
+  <WULA_AircraftOnCooldown>{0} is on cooldown</WULA_AircraftOnCooldown>
+  <WULA_AvailableAircraft>Available aircraft: {0}</WULA_AvailableAircraft>
+  <WULA_CooldownAircraft>On cooldown: {0}</WULA_CooldownAircraft>
+  <WULA_CostPerUse>Cost per use: {0}</WULA_CostPerUse>
+  <WULA_NoAircraftForStrike>No aircraft available for airstrike</WULA_NoAircraftForStrike>
+  <WULA_AircraftStatus>Aircraft status:</WULA_AircraftStatus>
+  <WULA_TotalAircraft>• Total: {0}</WULA_TotalAircraft>
+  <WULA_ReadyAircraft>• Available: {0}</WULA_ReadyAircraft>
+  <WULA_CooldownAircraftCount>• On cooldown: {0}</WULA_CooldownAircraftCount>
+  <WULA_AircraftRequirement>Requires {0} x{1}</WULA_AircraftRequirement>
+  <WULA_CooldownTime>Cooldown time: {0} hours</WULA_CooldownTime>
+</LanguageData>
