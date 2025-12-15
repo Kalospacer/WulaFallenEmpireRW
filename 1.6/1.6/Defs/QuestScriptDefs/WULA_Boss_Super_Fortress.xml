@@ -129,13 +129,6 @@
                 <inSignal>site.AllEnemiesDefeated</inSignal>
                 <eventDefName>WULA_Boss_Super_Fortress_UI_2</eventDefName>
               </li>
-              <li Class="QuestNode_ResolveQuestDescription">
-                <rules>
-                  <rulesStrings>
-                    <li>questDescription->任务已经完成，奖励已经发放，现在在乌拉帝国舰队整天蔽日的弹雨落下前，你还有1天的时间撤出巨型要塞。</li>
-                  </rulesStrings>
-                </rules>
-              </li>
               <li Class="QuestNode_Delay">
                 <delayTicks>60000</delayTicks> <!--  1day -->
                 <node Class="QuestNode_Sequence">
