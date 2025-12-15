@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 using RimWorld.Planet;
@@ -163,7 +163,7 @@ namespace WulaFallenEmpire
 
             if (aircraftManager == null)
             {
-                Log.Error("AircraftManagerNotFound".Translate());
+                WulaLog.Debug("AircraftManagerNotFound".Translate());
                 return;
             }
 
@@ -205,21 +205,21 @@ namespace WulaFallenEmpire
                 // 检查地图是否有效
                 if (parent.Map == null)
                 {
-                    Log.Error("TakeoffEffectMapNull".Translate());
+                    WulaLog.Debug("TakeoffEffectMapNull".Translate());
                     return;
                 }
 
                 // 生成 Skyfaller
                 GenSpawn.Spawn(skyfaller, takeoffPos, parent.Map);
 
-                Log.Message("TakeoffSkyfallerCreated".Translate(takeoffPos));
+                WulaLog.Debug("TakeoffSkyfallerCreated".Translate(takeoffPos));
 
                 // 销毁原建筑
                 parent.Destroy(DestroyMode.Vanish);
             }
             catch (System.Exception ex)
             {
-                Log.Error("TakeoffEffectError".Translate(ex.Message));
+                WulaLog.Debug("TakeoffEffectError".Translate(ex.Message));
                 // 如果Skyfaller创建失败，直接销毁建筑
                 parent.Destroy(DestroyMode.Vanish);
             }

@@ -1,4 +1,4 @@
-// GlobalStorageWorldComponent.cs (移除材质相关存储)
+﻿// GlobalStorageWorldComponent.cs (移除材质相关存储)
 using LudeonTK;
 using RimWorld;
 using RimWorld.Planet;
@@ -247,7 +247,7 @@ namespace WulaFallenEmpire
             {
                 globalStorage.AddToInputStorage(ThingDefOf.Steel, 200);
                 globalStorage.AddToInputStorage(ThingDefOf.ComponentIndustrial, 100);
-                Log.Message("Added test resources to global storage");
+                WulaLog.Debug("Added test resources to global storage");
             }
         }
         
@@ -271,7 +271,7 @@ namespace WulaFallenEmpire
                         globalStorage.outputContainer.Remove(thing);
                         GenPlace.TryPlaceThing(thing, workTable.Position, workTable.Map, ThingPlaceMode.Near);
                     }
-                    Log.Message("Spawned all output products");
+                    WulaLog.Debug("Spawned all output products");
                 }
             }
         }

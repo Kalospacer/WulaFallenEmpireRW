@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -50,7 +50,7 @@ namespace WulaFallenEmpire
         public void Notify_ThingAdded(Thing t)
         {
             // 这里可以添加逻辑来处理物品被添加到口袋空间的情况
-            Log.Message($"[WULA] Item {t.LabelCap} added to pocket space container.");
+            WulaLog.Debug($"[WULA] Item {t.LabelCap} added to pocket space container.");
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace WulaFallenEmpire
         public void Notify_ThingRemoved(Thing t)
         {
             // 这里可以添加逻辑来处理物品被从口袋空间移除的情况
-            Log.Message($"[WULA] Item {t.LabelCap} removed from pocket space container.");
+            WulaLog.Debug($"[WULA] Item {t.LabelCap} removed from pocket space container.");
         }
 
         public void ExposeData()

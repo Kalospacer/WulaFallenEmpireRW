@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet; // 关键修复
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace WulaFallenEmpire
                 return;
             }
             
-            Log.Message("[WULA] Patch_CaravanFormingUtility_AllSendablePawns Postfix - Start checking for autonomous mechs...");
+            WulaLog.Debug("[WULA] Patch_CaravanFormingUtility_AllSendablePawns Postfix - Start checking for autonomous mechs...");
 
             // 遍历地图上所有的Pawn
             foreach (Pawn pawn in map.mapPawns.AllPawns)
@@ -29,17 +29,17 @@ namespace WulaFallenEmpire
                     var comp = pawn.GetComp<CompAutonomousMech>();
                     bool canBeAutonomous = comp != null && comp.CanBeAutonomous;
 
-                    Log.Message($"[WULA] Checking Mech: {pawn.LabelCap}, Already in list: {alreadyInList}, Has CompAutonomousMech: {comp != null}, CanBeAutonomous: {canBeAutonomous}");
+                    WulaLog.Debug($"[WULA] Checking Mech: {pawn.LabelCap}, Already in list: {alreadyInList}, Has CompAutonomousMech: {comp != null}, CanBeAutonomous: {canBeAutonomous}");
 
                     // 如果它是一个可以自主行动的机械体，但没有被原版方法包含，我们就添加它
                     if (!alreadyInList && canBeAutonomous)
                     {
                         __result.Add(pawn);
-                        Log.Message($"[WULA] -> Added {pawn.LabelCap} to the list.");
+                        WulaLog.Debug($"[WULA] -> Added {pawn.LabelCap} to the list.");
                     }
                 }
             }
-            Log.Message("[WULA] Patch_CaravanFormingUtility_AllSendablePawns Postfix - Finished.");
+            WulaLog.Debug("[WULA] Patch_CaravanFormingUtility_AllSendablePawns Postfix - Finished.");
         }
     }
 }

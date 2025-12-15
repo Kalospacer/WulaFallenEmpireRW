@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using RimWorld;
@@ -63,7 +63,7 @@ namespace WulaFallenEmpire
             {
                 AddHediffsToPawn(pawn);
                 hediffsApplied = true;
-                Log.Message($"Debug: Applied hediffs to {pawn.Label}");
+                WulaLog.Debug($"Debug: Applied hediffs to {pawn.Label}");
             }
         }
     }

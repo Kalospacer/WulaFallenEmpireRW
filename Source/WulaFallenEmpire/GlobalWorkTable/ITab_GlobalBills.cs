@@ -1,4 +1,4 @@
-// ITab_GlobalBills.cs (移除材质选择功能)
+﻿// ITab_GlobalBills.cs (移除材质选择功能)
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -622,7 +622,7 @@ namespace WulaFallenEmpire
 
             if (!resourcesConsumed)
             {
-                Log.Message($"[GOD MODE] Could not consume resources for {order.recipe.defName}, completing without resource consumption");
+                WulaLog.Debug($"[GOD MODE] Could not consume resources for {order.recipe.defName}, completing without resource consumption");
             }
 
             // 添加产品到输出存储

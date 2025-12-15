@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +25,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             if (string.IsNullOrEmpty(_baseUrl))
             {
-                Log.Error("[WulaAI] Base URL is missing.");
+                WulaLog.Debug("[WulaAI] Base URL is missing.");
                 return null;
             }
 
@@ -69,8 +69,8 @@ namespace WulaFallenEmpire.EventSystem.AI
             string jsonBody = jsonBuilder.ToString();
             if (Prefs.DevMode)
             {
-                Log.Message($"[WulaAI] Sending request to {endpoint} (model={_model}, messages={messages?.Count ?? 0})");
-                Log.Message($"[WulaAI] Request body (truncated):\n{TruncateForLog(jsonBody)}");
+                WulaLog.Debug($"[WulaAI] Sending request to {endpoint} (model={_model}, messages={messages?.Count ?? 0})");
+                WulaLog.Debug($"[WulaAI] Request body (truncated):\n{TruncateForLog(jsonBody)}");
             }
 
             using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
@@ -93,14 +93,14 @@ namespace WulaFallenEmpire.EventSystem.AI
 
                 if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
                 {
-                    Log.Error($"[WulaAI] API Error: {request.error}\nResponse (truncated): {TruncateForLog(request.downloadHandler.text)}");
+                    WulaLog.Debug($"[WulaAI] API Error: {request.error}\nResponse (truncated): {TruncateForLog(request.downloadHandler.text)}");
                     return null;
                 }
 
                 string responseText = request.downloadHandler.text;
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[WulaAI] Raw Response (truncated): {TruncateForLog(responseText)}");
+                    WulaLog.Debug($"[WulaAI] Raw Response (truncated): {TruncateForLog(responseText)}");
                 }
                 return ExtractContent(responseText);
             }
@@ -181,7 +181,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaAI] Error parsing response: {ex}");
+                WulaLog.Debug($"[WulaAI] Error parsing response: {ex}");
             }
             return null;
         }

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using RimWorld.Planet;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace WulaFallenEmpire
             
             if (aircraftManager == null)
             {
-                Log.Error("WULA_AircraftManagerNotFound".Translate());
+                WulaLog.Debug("WULA_AircraftManagerNotFound".Translate());
                 return;
             }
 
@@ -40,12 +40,12 @@ namespace WulaFallenEmpire
             {
                 // 成功消耗战机，发送消息
                 Messages.Message("WULA_AircraftStrikeInitiated".Translate(Props.requiredAircraftType.LabelCap), MessageTypeDefOf.PositiveEvent);
-                Log.Message("WULA_AircraftStrikeSuccess".Translate(Props.aircraftsPerUse, Props.requiredAircraftType.LabelCap));
+                WulaLog.Debug("WULA_AircraftStrikeSuccess".Translate(Props.aircraftsPerUse, Props.requiredAircraftType.LabelCap));
             }
             else
             {
                 Messages.Message("WULA_NoAvailableAircraft".Translate(Props.requiredAircraftType.LabelCap), MessageTypeDefOf.NegativeEvent);
-                Log.Warning("WULA_AircraftStrikeFailed".Translate(Props.requiredAircraftType.LabelCap, parent.pawn.Faction?.Name ?? "WULA_UnknownFaction".Translate()));
+                WulaLog.Debug("WULA_AircraftStrikeFailed".Translate(Props.requiredAircraftType.LabelCap, parent.pawn.Faction?.Name ?? "WULA_UnknownFaction".Translate()));
             }
         }
 

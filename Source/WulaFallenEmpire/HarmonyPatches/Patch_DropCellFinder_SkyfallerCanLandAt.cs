@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -46,7 +46,7 @@ namespace WulaFallenEmpire.HarmonyPatches
                 {
                     if (!occupiedCell.InBounds(map))
                     {
-                        Log.Warning($"[WULA] Harmony Patch: SkyfallerCanLandAt - Occupied cell {occupiedCell} for WULA_ArmedShuttle (size: {size}) is out of map bounds. Preventing landing.");
+                        WulaLog.Debug($"[WULA] Harmony Patch: SkyfallerCanLandAt - Occupied cell {occupiedCell} for WULA_ArmedShuttle (size: {size}) is out of map bounds. Preventing landing.");
                         __result = false;
                         return false; // 阻止原方法执行，并返回 false
                     }

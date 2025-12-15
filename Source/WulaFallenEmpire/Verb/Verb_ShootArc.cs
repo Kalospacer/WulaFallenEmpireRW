@@ -333,7 +333,7 @@ namespace WulaFallenEmpire
             bool flag2 = flag;
             if (flag2)
             {
-                Log.Error("TargetTakeDamage has null caster or target");
+                WulaLog.Debug("TargetTakeDamage has null caster or target");
             }
             else
             {

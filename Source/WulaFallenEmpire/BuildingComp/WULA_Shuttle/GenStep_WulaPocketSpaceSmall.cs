@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -21,7 +21,7 @@ namespace WulaFallenEmpire
         {
             try
             {
-                Log.Message($"[WULA] Generating WULA pocket space, map size: {map.Size}");
+                WulaLog.Debug($"[WULA] Generating WULA pocket space, map size: {map.Size}");
                 
                 // 获取地图边界
                 IntVec3 mapSize = map.Size;
@@ -32,7 +32,7 @@ namespace WulaFallenEmpire
                 // 生成内部地板
                 GenerateFloor(map);
                 
-                Log.Message("[WULA] WULA pocket space generation completed");
+                WulaLog.Debug("[WULA] WULA pocket space generation completed");
                 
                 // 添加预制件生成
                 // 如果指定了预制件Def名称，则加载并生成
@@ -42,17 +42,17 @@ namespace WulaFallenEmpire
                     if (customPrefabDef != null)
                     {
                         GeneratePrefab(map, customPrefabDef);
-                        Log.Message($"[WULA] Generated custom prefab: {customPrefabDef.defName}");
+                        WulaLog.Debug($"[WULA] Generated custom prefab: {customPrefabDef.defName}");
                     }
                     else
                     {
-                        Log.Warning($"[WULA] Custom prefab '{prefabDefName}' not found. Skipping prefab generation.");
+                        WulaLog.Debug($"[WULA] Custom prefab '{prefabDefName}' not found. Skipping prefab generation.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[WULA] Error generating WULA pocket space: {ex}");
+                WulaLog.Debug($"[WULA] Error generating WULA pocket space: {ex}");
             }
         }
 
@@ -103,7 +103,7 @@ namespace WulaFallenEmpire
                             Thing wall = ThingMaker.MakeThing(rockWallDef);
                             wall.SetFaction(null);
                             GenPlace.TryPlaceThing(wall, pos, map, ThingPlaceMode.Direct);
-                            Log.Warning("[WULA] WulaWall not found, using fallback wall");
+                            WulaLog.Debug("[WULA] WulaWall not found, using fallback wall");
                         }
                     }
                 }
@@ -126,7 +126,7 @@ namespace WulaFallenEmpire
             
             if (floorDef == null)
             {
-                Log.Warning("[WULA] WulaFloor not found, using fallback floor");
+                WulaLog.Debug("[WULA] WulaFloor not found, using fallback floor");
             }
             
             // 清理内部区域并设置正确的地板
@@ -141,7 +141,7 @@ namespace WulaFallenEmpire
                 }
             }
             
-            Log.Message($"[WULA] Set floor for internal area ({mapSize.x-2}x{mapSize.z-2}) to {(floorDef?.defName ?? fallbackFloor?.defName)}");
+            WulaLog.Debug($"[WULA] Set floor for internal area ({mapSize.x-2}x{mapSize.z-2}) to {(floorDef?.defName ?? fallbackFloor?.defName)}");
         }
         
         /// <summary>
@@ -192,7 +192,7 @@ namespace WulaFallenEmpire
                     {
                         if (Prefs.DevMode) // 只在开发模式下输出详细日志
                         {
-                            Log.Message($"[WULA] Removing {thing.def.defName} at {pos} to make space for floor");
+                            WulaLog.Debug($"[WULA] Removing {thing.def.defName} at {pos} to make space for floor");
                         }
                         thing.Destroy(DestroyMode.Vanish);
                     }
@@ -204,7 +204,7 @@ namespace WulaFallenEmpire
                 {
                     if (thing.def.category == ThingCategory.Building && thing.def.Fillage == FillCategory.Full)
                     {
-                        Log.Warning($"[WULA] Force removing remaining building {thing.def.defName} at {pos}");
+                        WulaLog.Debug($"[WULA] Force removing remaining building {thing.def.defName} at {pos}");
                         thing.Destroy(DestroyMode.Vanish);
                     }
                 }
@@ -215,13 +215,13 @@ namespace WulaFallenEmpire
                     map.terrainGrid.SetTerrain(pos, floorDef);
                     if (Prefs.DevMode)
                     {
-                        Log.Message($"[WULA] Set terrain at {pos} to {floorDef.defName}");
+                        WulaLog.Debug($"[WULA] Set terrain at {pos} to {floorDef.defName}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[WULA] Error clearing cell at {pos}: {ex}");
+                WulaLog.Debug($"[WULA] Error clearing cell at {pos}: {ex}");
             }
         }
 
@@ -232,7 +232,7 @@ namespace WulaFallenEmpire
         {
             if (prefabDef == null)
             {
-                Log.Error("[WULA] PrefabDef is null, cannot generate prefab.");
+                WulaLog.Debug("[WULA] PrefabDef is null, cannot generate prefab.");
                 return;
             }
 
@@ -271,7 +271,7 @@ namespace WulaFallenEmpire
             {
                 // 这里需要递归调用GeneratePrefab，但为了简化，暂时只处理顶层
                 // 实际项目中，可能需要更复杂的逻辑来处理子预制件的位置和旋转
-                Log.Warning($"[WULA] Sub-prefabs are not fully supported in this simple generator: {subPrefabData.data.def.defName}");
+                WulaLog.Debug($"[WULA] Sub-prefabs are not fully supported in this simple generator: {subPrefabData.data.def.defName}");
             }
         }
     }

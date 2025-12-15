@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 using System.Collections.Generic;
@@ -21,11 +21,11 @@ namespace WulaFallenEmpire
                 // 创建延时召唤
                 CallSkyfallerDelayed(target.Cell);
                 
-                Log.Message($"[CallSkyfaller] Scheduled skyfaller at {target.Cell} with {Props.delayTicks} ticks delay");
+                WulaLog.Debug($"[CallSkyfaller] Scheduled skyfaller at {target.Cell} with {Props.delayTicks} ticks delay");
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[CallSkyfaller] Error calling skyfaller: {ex}");
+                WulaLog.Debug($"[CallSkyfaller] Error calling skyfaller: {ex}");
             }
         }
 

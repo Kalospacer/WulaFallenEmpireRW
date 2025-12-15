@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -146,7 +146,7 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error($"[WULA-ERROR] Could not find valid drop position for item {item.LabelShort} in pocket map.");
+                    WulaLog.Debug($"[WULA-ERROR] Could not find valid drop position for item {item.LabelShort} in pocket map.");
                     item.Destroy(); // 实在没地方放，就销毁
                 }
             }
@@ -212,7 +212,7 @@ namespace WulaFallenEmpire
             }
             if (transferableOneWay.things.Contains(t))
             {
-                Log.Error("Tried to add the same thing twice to TransferableOneWay: " + t);
+                WulaLog.Debug("Tried to add the same thing twice to TransferableOneWay: " + t);
             }
             else
             {

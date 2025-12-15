@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using Verse;
@@ -26,20 +26,20 @@ namespace WulaFallenEmpire
         {
             if (resourceDef == null || resourceDef.GetValue(slate) == null)
             {
-                Log.Error("QuestNode_CheckGlobalResource: resourceDef is null");
+                WulaLog.Debug("QuestNode_CheckGlobalResource: resourceDef is null");
                 return false;
             }
 
             if (requiredCount.GetValue(slate) <= 0)
             {
-                Log.Error("QuestNode_CheckGlobalResource: requiredCount must be positive");
+                WulaLog.Debug("QuestNode_CheckGlobalResource: requiredCount must be positive");
                 return false;
             }
 
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null)
             {
-                Log.Error("QuestNode_CheckGlobalResource: GlobalStorageWorldComponent not found");
+                WulaLog.Debug("QuestNode_CheckGlobalResource: GlobalStorageWorldComponent not found");
                 return false;
             }
 
@@ -79,7 +79,7 @@ namespace WulaFallenEmpire
 
             quest.AddPart(part);
 
-            Log.Message($"QuestNode_CheckGlobalResource: Added resource check for {actualRequiredCount} {actualResourceDef.defName} in {(actualUseInputStorage ? "Input" : "Output")} Storage");
+            WulaLog.Debug($"QuestNode_CheckGlobalResource: Added resource check for {actualRequiredCount} {actualResourceDef.defName} in {(actualUseInputStorage ? "Input" : "Output")} Storage");
         }
     }
 }

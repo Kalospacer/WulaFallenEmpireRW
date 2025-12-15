@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using Verse;
 
@@ -66,7 +66,7 @@ namespace WulaFallenEmpire
             // 验证buildingToSpawn
             if (buildingToSpawn != null && buildingToSpawn.category != ThingCategory.Building)
             {
-                Log.Error($"CompProperties_BuildingSpawner: buildingToSpawn must be a building, but got {buildingToSpawn.defName}");
+                WulaLog.Debug($"CompProperties_BuildingSpawner: buildingToSpawn must be a building, but got {buildingToSpawn.defName}");
                 buildingToSpawn = null;
             }
         }

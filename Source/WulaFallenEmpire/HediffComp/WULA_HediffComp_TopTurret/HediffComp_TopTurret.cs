@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -315,7 +315,7 @@ namespace WulaFallenEmpire
             {
                 if (this.gun == null)
                 {
-                    Log.Error("CompTurrentGun had null gun after loading. Recreating.");
+                    WulaLog.Debug("CompTurrentGun had null gun after loading. Recreating.");
                     this.MakeGun();
                     return;
                 }

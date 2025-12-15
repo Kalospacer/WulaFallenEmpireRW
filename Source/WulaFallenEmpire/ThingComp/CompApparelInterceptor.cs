@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -107,11 +107,11 @@ namespace WulaFallenEmpire
                 originalProjectile.Destroy(DestroyMode.Vanish);
                 // 播放反弹效果
                 PlayBounceEffect(originalProjectile);
-                Log.Message($"[Interceptor] Projectile bounced forward to {targetCell}");
+                WulaLog.Debug($"[Interceptor] Projectile bounced forward to {targetCell}");
             }
             catch (Exception ex)
             {
-                Log.Error($"Error in BounceProjectileNew: {ex}");
+                WulaLog.Debug($"Error in BounceProjectileNew: {ex}");
             }
         }
         // 使用 Traverse 复制字段
@@ -137,7 +137,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Warning($"Error copying projectile fields with Traverse: {ex}");
+                WulaLog.Debug($"Error copying projectile fields with Traverse: {ex}");
             }
         }
         // 使用 Traverse 调用 Launch 方法
@@ -165,12 +165,12 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error("Launch method not found using Traverse");
+                    WulaLog.Debug("Launch method not found using Traverse");
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"Error launching projectile with Traverse: {ex}");
+                WulaLog.Debug($"Error launching projectile with Traverse: {ex}");
             }
         }
         // 使用反射设置抛射体字段
@@ -215,7 +215,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Warning($"Error setting projectile fields: {ex}");
+                WulaLog.Debug($"Error setting projectile fields: {ex}");
             }
         }
         // 使用反射调用 Launch 方法
@@ -260,12 +260,12 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error("Could not find Launch method on Projectile");
+                    WulaLog.Debug("Could not find Launch method on Projectile");
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"Error launching projectile: {ex}");
+                WulaLog.Debug($"Error launching projectile: {ex}");
             }
         }
         // 使用反射获取私有字段值
@@ -382,7 +382,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Warning($"[CompApparelInterceptor] Error in TryInterceptProjectile: {ex.Message}");
+                WulaLog.Debug($"[CompApparelInterceptor] Error in TryInterceptProjectile: {ex.Message}");
                 return false;
             }
         }
@@ -424,7 +424,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Warning($"[CompApparelInterceptor] Error during interception effects: {ex.Message}");
+                WulaLog.Debug($"[CompApparelInterceptor] Error during interception effects: {ex.Message}");
             }
         }
 
@@ -559,7 +559,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[CompApparelInterceptor] Error in CompTick: {ex.Message}");
+                WulaLog.Debug($"[CompApparelInterceptor] Error in CompTick: {ex.Message}");
             }
         }
 
@@ -656,7 +656,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[CompApparelInterceptor] Error in CompDrawWornExtras: {ex.Message}");
+                WulaLog.Debug($"[CompApparelInterceptor] Error in CompDrawWornExtras: {ex.Message}");
             }
         }
 

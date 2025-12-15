@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 using Verse.Sound;
@@ -31,7 +31,7 @@ namespace WulaFallenEmpire
                 // 完全拦截伤害 - 将伤害设置为0
                 dinfo.SetAmount(0f);
                 
-                Log.Message($"[DamageInterceptor] {Pawn.LabelShort} 完全拦截 {transferDamage} 点伤害并转移至 {targetBuilding.Label}，自身承受0伤害");
+                WulaLog.Debug($"[DamageInterceptor] {Pawn.LabelShort} 完全拦截 {transferDamage} 点伤害并转移至 {targetBuilding.Label}，自身承受0伤害");
                 
                 return true; // 继续应用修改后的伤害（0伤害）
             }
@@ -108,7 +108,7 @@ namespace WulaFallenEmpire
             // 对建筑造成伤害
             building.TakeDamage(buildingDamage);
             
-            Log.Message($"[DamageInterceptor] 对建筑 {building.Label} 造成 {damageAmount} 点伤害，剩余生命值: {building.HitPoints}/{building.MaxHitPoints}");
+            WulaLog.Debug($"[DamageInterceptor] 对建筑 {building.Label} 造成 {damageAmount} 点伤害，剩余生命值: {building.HitPoints}/{building.MaxHitPoints}");
         }
 
         private void OnDamageIntercepted(DamageInfo dinfo, float interceptDamage, Building targetBuilding)

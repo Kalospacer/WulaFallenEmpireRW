@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +63,7 @@ namespace WulaFallenEmpire
             // 记录调试信息
             if (Prefs.DevMode)
             {
-                Log.Message($"[JobGiver_InspectBuilding] Assigned inspection job to {pawn.Name} at {inspectionTarget.Label}");
+                WulaLog.Debug($"[JobGiver_InspectBuilding] Assigned inspection job to {pawn.Name} at {inspectionTarget.Label}");
             }
 
             return job;
@@ -107,7 +107,7 @@ namespace WulaFallenEmpire
             {
                 int remainingTicks = minIntervalTicks - elapsedTicks;
                 float remainingSeconds = remainingTicks / 60f;
-                Log.Message($"[JobGiver_InspectBuilding] {pawn.Name} must wait {remainingSeconds:F1} seconds before next inspection");
+                WulaLog.Debug($"[JobGiver_InspectBuilding] {pawn.Name} must wait {remainingSeconds:F1} seconds before next inspection");
             }
 
             return canInspect;
@@ -122,7 +122,7 @@ namespace WulaFallenEmpire
 
             if (Prefs.DevMode)
             {
-                Log.Message($"[JobGiver_InspectBuilding] Recorded inspection start for {pawn.Name} at tick {lastInspectionTicks[pawn]}");
+                WulaLog.Debug($"[JobGiver_InspectBuilding] Recorded inspection start for {pawn.Name} at tick {lastInspectionTicks[pawn]}");
             }
         }
 
@@ -158,7 +158,7 @@ namespace WulaFallenEmpire
             {
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[JobGiver_InspectBuilding] No valid inspection targets found for {pawn.Name}");
+                    WulaLog.Debug($"[JobGiver_InspectBuilding] No valid inspection targets found for {pawn.Name}");
                 }
                 return null;
             }
@@ -168,7 +168,7 @@ namespace WulaFallenEmpire
             
             if (Prefs.DevMode)
             {
-                Log.Message($"[JobGiver_InspectBuilding] Randomly selected {selectedBuilding.Label} from {validBuildings.Count} valid targets");
+                WulaLog.Debug($"[JobGiver_InspectBuilding] Randomly selected {selectedBuilding.Label} from {validBuildings.Count} valid targets");
             }
 
             return selectedBuilding;
@@ -228,7 +228,7 @@ namespace WulaFallenEmpire
             {
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[JobGiver_InspectBuilding] Excluding wall: {thing.Label}");
+                    WulaLog.Debug($"[JobGiver_InspectBuilding] Excluding wall: {thing.Label}");
                 }
                 return true;
             }
@@ -283,7 +283,7 @@ namespace WulaFallenEmpire
 
             if (Prefs.DevMode && toRemove.Count > 0)
             {
-                Log.Message($"[JobGiver_InspectBuilding] Cleaned up {toRemove.Count} inspection records");
+                WulaLog.Debug($"[JobGiver_InspectBuilding] Cleaned up {toRemove.Count} inspection records");
             }
         }
 

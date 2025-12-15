@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Verse;
 using RimWorld;
@@ -36,7 +36,7 @@ namespace WulaFallenEmpire
             Pawn pawn = this.parent.pawn;
             if (pawn == null || pawn.story == null)
             {
-                Log.Warning($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: Pawn or Pawn.story is null for hediff {this.parent.def.defName}. Cannot regenerate backstory.");
+                WulaLog.Debug($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: Pawn or Pawn.story is null for hediff {this.parent.def.defName}. Cannot regenerate backstory.");
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Warning($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: No spawnCategories specified for hediff {this.parent.def.defName}. Using all available categories.");
+                WulaLog.Debug($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: No spawnCategories specified for hediff {this.parent.def.defName}. Using all available categories.");
                 categories = DefDatabase<BackstoryDef>.AllDefs.SelectMany(bs => bs.spawnCategories).Distinct().ToList(); // 如果没有指定类别，则使用所有类别
             }
 
@@ -71,7 +71,7 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Warning($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: No childhood backstories found for categories: {string.Join(", ", Props.spawnCategories ?? new List<string>())}.");
+                    WulaLog.Debug($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: No childhood backstories found for categories: {string.Join(", ", Props.spawnCategories ?? new List<string>())}.");
                 }
             } else
             {
@@ -92,7 +92,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Warning($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: No adulthood backstories found for categories: {string.Join(", ", Props.spawnCategories ?? new List<string>())}.");
+                WulaLog.Debug($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: No adulthood backstories found for categories: {string.Join(", ", Props.spawnCategories ?? new List<string>())}.");
             }
 
             // 应用新的背景故事
@@ -100,16 +100,16 @@ namespace WulaFallenEmpire
             {
                 pawn.story.Childhood = newChildhood;
                 pawn.story.Adulthood = newAdulthood;
-                Log.Message($"[WulaFallenEmpire] Regenerated backstory for {pawn.NameShortColored}: Childhood='{newChildhood?.title ?? "None"}', Adulthood='{newAdulthood?.title ?? "None"}'.");
+                WulaLog.Debug($"[WulaFallenEmpire] Regenerated backstory for {pawn.NameShortColored}: Childhood='{newChildhood?.title ?? "None"}', Adulthood='{newAdulthood?.title ?? "None"}'.");
             }
             else
             {
-                Log.Warning($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: Failed to find any suitable backstories for {pawn.NameShortColored} with categories: {string.Join(", ", Props.spawnCategories ?? new List<string>())}.");
+                WulaLog.Debug($"[WulaFallenEmpire] HediffComp_RegenerateBackstory: Failed to find any suitable backstories for {pawn.NameShortColored} with categories: {string.Join(", ", Props.spawnCategories ?? new List<string>())}.");
             }
 
             // 删除当前的Hediff
             pawn.health.RemoveHediff(this.parent);
-            Log.Message($"[WulaFallenEmpire] Removed hediff {this.parent.def.defName} from {pawn.NameShortColored} after backstory regeneration.");
+            WulaLog.Debug($"[WulaFallenEmpire] Removed hediff {this.parent.def.defName} from {pawn.NameShortColored} after backstory regeneration.");
         }
     }
 }

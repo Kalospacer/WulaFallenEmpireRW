@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +61,7 @@ namespace WulaFallenEmpire
                 {
                     targetMap = parentShuttle.Map;
                     targetPos = parentShuttle.Position;
-                    Log.Message($"[WULA] Updated exit target to shuttle location: {targetMap?.uniqueID} at {targetPos}");
+                    WulaLog.Debug($"[WULA] Updated exit target to shuttle location: {targetMap?.uniqueID} at {targetPos}");
                 }
             }
             else if (parentShuttle != null && !parentShuttle.Spawned)
@@ -70,7 +70,7 @@ namespace WulaFallenEmpire
                 // 保持原有目标，但记录警告
                 if (this.IsHashIntervalTick(2500)) // 每隔一段时间检查一次
                 {
-                    Log.Warning($"[WULA] Parent shuttle is not spawned, exit target may be outdated. Last known: {targetMap?.uniqueID} at {targetPos}");
+                    WulaLog.Debug($"[WULA] Parent shuttle is not spawned, exit target may be outdated. Last known: {targetMap?.uniqueID} at {targetPos}");
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[WULA] Error exiting pocket space: {ex}");
+                WulaLog.Debug($"[WULA] Error exiting pocket space: {ex}");
             }
         }
     }

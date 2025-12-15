@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -372,7 +372,7 @@ namespace WulaFallenEmpire
                 // 确保 parent 不为 null
                 if (_parent == null || _parent.parent == null)
                 {
-                    Log.Warning("[StorageTurret] Parent is null when updating gun verbs");
+                    WulaLog.Debug("[StorageTurret] Parent is null when updating gun verbs");
                     return;
                 }
 

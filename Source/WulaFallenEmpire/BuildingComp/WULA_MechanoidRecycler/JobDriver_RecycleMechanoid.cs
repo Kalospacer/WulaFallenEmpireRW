@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using Verse.AI;
 using System.Collections.Generic;
@@ -45,14 +45,14 @@ namespace WulaFallenEmpire
 
                         if (Prefs.DevMode)
                         {
-                            Log.Message($"[CompAutonomousMech] {pawn.LabelCap} equipped new weapon: {newWeaponDef.LabelCap}");
+                            WulaLog.Debug($"[CompAutonomousMech] {pawn.LabelCap} equipped new weapon: {newWeaponDef.LabelCap}");
                         }
                     }
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[CompAutonomousMech] Error switching weapon for {pawn?.LabelCap}: {ex}");
+                WulaLog.Debug($"[CompAutonomousMech] Error switching weapon for {pawn?.LabelCap}: {ex}");
             }
         }
 

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 using UnityEngine;
@@ -400,7 +400,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[NanoRepair] 修复部位 {part.def.defName} 时出错: {ex}");
+                WulaLog.Debug($"[NanoRepair] 修复部位 {part.def.defName} 时出错: {ex}");
                 return false;
             }
         }
@@ -470,7 +470,7 @@ namespace WulaFallenEmpire
                 HediffDef injuryDef = DefDatabase<HediffDef>.GetNamedSilentFail("Crush");
                 if (injuryDef == null)
                 {
-                    Log.Error($"[NanoRepair] 找不到指定的hediff定义: Crush");
+                    WulaLog.Debug($"[NanoRepair] 找不到指定的hediff定义: Crush");
                     return false;
                 }
                 
@@ -484,7 +484,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[NanoRepair] 转换缺失部件 {missingPart.Part.def.defName} 时出错: {ex}");
+                WulaLog.Debug($"[NanoRepair] 转换缺失部件 {missingPart.Part.def.defName} 时出错: {ex}");
                 return false;
             }
         }

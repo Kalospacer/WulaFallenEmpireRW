@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
@@ -120,7 +120,7 @@ namespace WulaFallenEmpire
             // 记录拉取信息
             if (Prefs.DevMode)
             {
-                Log.Message($"[PullTarget] {caster.Label} 将 {targetPawn.Label} 拉取到 {finalDestination}");
+                WulaLog.Debug($"[PullTarget] {caster.Label} 将 {targetPawn.Label} 拉取到 {finalDestination}");
             }
         }
 

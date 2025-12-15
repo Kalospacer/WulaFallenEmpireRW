@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.QuestGen;
 using System.Collections.Generic;
 using Verse;
@@ -56,7 +56,7 @@ namespace WulaFallenEmpire
                     }
                     else
                     {
-                        Log.Warning($"QuestNode_Hyperlinks: Could not find faction for def {factionDef.defName}");
+                        WulaLog.Debug($"QuestNode_Hyperlinks: Could not find faction for def {factionDef.defName}");
                     }
                 }
             }
@@ -69,7 +69,7 @@ namespace WulaFallenEmpire
             // 添加到任务
             quest.AddPart(hyperlinksPart);
 
-            Log.Message($"QuestNode_Hyperlinks: Added hyperlinks - Things: {actualThingDefs?.Count ?? 0}, Pawns: {actualPawns?.Count ?? 0}, Factions: {actualFactionDefs?.Count ?? 0}, Research: {actualResearchProjects?.Count ?? 0}");
+            WulaLog.Debug($"QuestNode_Hyperlinks: Added hyperlinks - Things: {actualThingDefs?.Count ?? 0}, Pawns: {actualPawns?.Count ?? 0}, Factions: {actualFactionDefs?.Count ?? 0}, Research: {actualResearchProjects?.Count ?? 0}");
         }
     }
 }

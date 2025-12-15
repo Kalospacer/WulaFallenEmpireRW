@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace WulaFallenEmpire
 
             try
             {
-                Log.Message($"[Bombardment] Starting bombardment at {target.Cell} with direction to {dest.Cell}");
+                WulaLog.Debug($"[Bombardment] Starting bombardment at {target.Cell} with direction to {dest.Cell}");
                 
                 // 计算轰炸区域和方向（基于两个目标点）
                 CalculateBombardmentArea(target.Cell, dest.Cell);
@@ -50,11 +50,11 @@ namespace WulaFallenEmpire
                 // 开始前摇
                 StartWarmup();
                 
-                Log.Message($"[Bombardment] Bombardment initialized: {targetCells.Count} targets in {bombardmentRows.Count} rows");
+                WulaLog.Debug($"[Bombardment] Bombardment initialized: {targetCells.Count} targets in {bombardmentRows.Count} rows");
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[Bombardment] Error starting bombardment: {ex}");
+                WulaLog.Debug($"[Bombardment] Error starting bombardment: {ex}");
             }
         }
 
@@ -253,7 +253,7 @@ namespace WulaFallenEmpire
             
             bombardmentDirection = direction;
             
-            Log.Message($"[Bombardment] Bombardment direction: {bombardmentDirection} (from {startCell} to {directionCell})");
+            WulaLog.Debug($"[Bombardment] Bombardment direction: {bombardmentDirection} (from {startCell} to {directionCell})");
         }
 
         private void SelectTargetCells()
@@ -294,7 +294,7 @@ namespace WulaFallenEmpire
             }
             
             targetCells = selectedCells;
-            Log.Message($"[Bombardment] Selected {targetCells.Count} target cells from {areaCells.Count} area cells");
+            WulaLog.Debug($"[Bombardment] Selected {targetCells.Count} target cells from {areaCells.Count} area cells");
         }
 
         // 修复：重新组织目标格子成排，确保正确的渐进顺序
@@ -343,7 +343,7 @@ namespace WulaFallenEmpire
                 });
             }
             
-            Log.Message($"[Bombardment] Organized into {bombardmentRows.Count} rows in progressive order");
+            WulaLog.Debug($"[Bombardment] Organized into {bombardmentRows.Count} rows in progressive order");
         }
 
         private void StartWarmup()
@@ -359,7 +359,7 @@ namespace WulaFallenEmpire
                 CreateAreaEffecter();
             }
             
-            Log.Message($"[Bombardment] Warmup started: {warmupTicksRemaining} ticks remaining");
+            WulaLog.Debug($"[Bombardment] Warmup started: {warmupTicksRemaining} ticks remaining");
         }
 
         private void UpdateWarmup()
@@ -371,7 +371,7 @@ namespace WulaFallenEmpire
                 // 前摇结束，开始轰炸
                 currentState = BombardmentState.Bombarding;
                 nextBombardmentTick = Find.TickManager.TicksGame;
-                Log.Message($"[Bombardment] Warmup completed, starting progressive bombardment");
+                WulaLog.Debug($"[Bombardment] Warmup completed, starting progressive bombardment");
             }
         }
 
@@ -384,7 +384,7 @@ namespace WulaFallenEmpire
             {
                 // 所有排都轰炸完毕
                 currentState = BombardmentState.Completed;
-                Log.Message($"[Bombardment] Progressive bombardment completed");
+                WulaLog.Debug($"[Bombardment] Progressive bombardment completed");
                 return;
             }
             
@@ -396,7 +396,7 @@ namespace WulaFallenEmpire
                 currentRowIndex++;
                 currentCellIndex = 0;
                 nextBombardmentTick = Find.TickManager.TicksGame + Props.rowDelayTicks;
-                Log.Message($"[Bombardment] Moving to next row {currentRowIndex + 1}/{bombardmentRows.Count}");
+                WulaLog.Debug($"[Bombardment] Moving to next row {currentRowIndex + 1}/{bombardmentRows.Count}");
                 return;
             }
             
@@ -408,7 +408,7 @@ namespace WulaFallenEmpire
             nextBombardmentTick = Find.TickManager.TicksGame + Props.impactDelayTicks;
             
             // 记录轰炸进度
-            Log.Message($"[Bombardment] Bombarding cell {currentCellIndex}/{currentRow.cells.Count} in row {currentRowIndex + 1}/{bombardmentRows.Count}");
+            WulaLog.Debug($"[Bombardment] Bombarding cell {currentCellIndex}/{currentRow.cells.Count} in row {currentRowIndex + 1}/{bombardmentRows.Count}");
         }
 
         private void LaunchBombardment(IntVec3 targetCell)
@@ -420,7 +420,7 @@ namespace WulaFallenEmpire
                     // 使用 Skyfaller
                     Skyfaller skyfaller = SkyfallerMaker.MakeSkyfaller(Props.skyfallerDef);
                     GenSpawn.Spawn(skyfaller, targetCell, parent.pawn.Map);
-                    Log.Message($"[Bombardment] Launched skyfaller at {targetCell}");
+                    WulaLog.Debug($"[Bombardment] Launched skyfaller at {targetCell}");
                 }
                 else if (Props.projectileDef != null)
                 {
@@ -429,12 +429,12 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error($"[Bombardment] No skyfaller or projectile defined for bombardment");
+                    WulaLog.Debug($"[Bombardment] No skyfaller or projectile defined for bombardment");
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[Bombardment] Error launching bombardment at {targetCell}: {ex}");
+                WulaLog.Debug($"[Bombardment] Error launching bombardment at {targetCell}: {ex}");
             }
         }
 
@@ -455,7 +455,7 @@ namespace WulaFallenEmpire
                     ProjectileHitFlags.All,
                     false
                 );
-                Log.Message($"[Bombardment] Launched projectile at {targetCell}");
+                WulaLog.Debug($"[Bombardment] Launched projectile at {targetCell}");
             }
         }
 
@@ -482,7 +482,7 @@ namespace WulaFallenEmpire
             bombardmentRows.Clear();
             currentPreviewCells.Clear();
             
-            Log.Message($"[Bombardment] Cleanup completed");
+            WulaLog.Debug($"[Bombardment] Cleanup completed");
         }
 
         private IntVec3 GetSafeMapPosition(IntVec3 pos, Map map)

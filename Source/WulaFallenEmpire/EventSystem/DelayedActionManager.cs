@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
@@ -60,7 +60,7 @@ namespace WulaFallenEmpire
                     }
                     catch (Exception ex)
                     {
-                        Log.Error($"[WulaFallenEmpire] Error executing delayed action for event '{delayedAction.eventDefName}': {ex}");
+                        WulaLog.Debug($"[WulaFallenEmpire] Error executing delayed action for event '{delayedAction.eventDefName}': {ex}");
                     }
                     actions.RemoveAt(i);
                 }
@@ -78,7 +78,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error($"[WulaFallenEmpire] DelayedActionManager could not find EventDef named '{defName}'");
+                WulaLog.Debug($"[WulaFallenEmpire] DelayedActionManager could not find EventDef named '{defName}'");
             }
         }
 

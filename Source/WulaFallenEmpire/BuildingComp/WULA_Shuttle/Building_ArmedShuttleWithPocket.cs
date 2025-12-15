@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -137,7 +137,7 @@ namespace WulaFallenEmpire
 
         public Building_ArmedShuttleWithPocket()
         {
-            Log.Message("[WULA-DEBUG] Building_ArmedShuttleWithPocket constructor called");
+            WulaLog.Debug("[WULA-DEBUG] Building_ArmedShuttleWithPocket constructor called");
             // 不再初始化innerContainer，只使用CompTransporter的容器
         }
 
@@ -149,14 +149,14 @@ namespace WulaFallenEmpire
 
         public override void PostMake()
         {
-            Log.Message("[WULA-DEBUG] PostMake called");
+            WulaLog.Debug("[WULA-DEBUG] PostMake called");
             base.PostMake();
             // 不再初始化innerContainer，只使用CompTransporter的容器
         }
 
         public override void ExposeData()
         {
-            Log.Message($"[WULA-DEBUG] ExposeData called, mode: {Scribe.mode}");
+            WulaLog.Debug($"[WULA-DEBUG] ExposeData called, mode: {Scribe.mode}");
             
             base.ExposeData();
             Scribe_References.Look(ref pocketMap, "pocketMap");
@@ -171,24 +171,24 @@ namespace WulaFallenEmpire
             
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                Log.Message("[WULA-DEBUG] PostLoadInit: Validating components after load");
+                WulaLog.Debug("[WULA-DEBUG] PostLoadInit: Validating components after load");
                 
                 // 验证CompTransporter组件是否正常
                 CompTransporter transporter = this.GetComp<CompTransporter>();
                 if (transporter == null)
                 {
-                    Log.Error("[WULA-ERROR] CompTransporter is missing after load! This will cause item storage issues.");
+                    WulaLog.Debug("[WULA-ERROR] CompTransporter is missing after load! This will cause item storage issues.");
                 }
                 else
                 {
-                    Log.Message($"[WULA-DEBUG] CompTransporter loaded successfully with {transporter.innerContainer?.Count ?? 0} items");
+                    WulaLog.Debug($"[WULA-DEBUG] CompTransporter loaded successfully with {transporter.innerContainer?.Count ?? 0} items");
                 }
             }
         }
 
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
-            Log.Message($"[WULA-DEBUG] DeSpawn called with mode: {mode}");
+            WulaLog.Debug($"[WULA-DEBUG] DeSpawn called with mode: {mode}");
             
             // 只在真正销毁时清理口袋地图，发射时保留
             if (ShouldDestroyPocketMapOnDeSpawn(mode))
@@ -197,7 +197,7 @@ namespace WulaFallenEmpire
                 {
                     try
                     {
-                        Log.Message("[WULA-DEBUG] Destroying pocket map due to shuttle destruction");
+                        WulaLog.Debug("[WULA-DEBUG] Destroying pocket map due to shuttle destruction");
                         
                         // 将口袋空间中的物品和人员转移到主地图
                         TransferAllFromPocketToMainMap();
@@ -209,19 +209,19 @@ namespace WulaFallenEmpire
                     }
                     catch (Exception ex)
                     {
-                        Log.Error($"[WULA-ERROR] Error cleaning up pocket map: {ex}");
+                        WulaLog.Debug($"[WULA-ERROR] Error cleaning up pocket map: {ex}");
                     }
                 }
             }
             else
             {
-                Log.Message("[WULA-DEBUG] Preserving pocket map during shuttle launch/transport");
+                WulaLog.Debug("[WULA-DEBUG] Preserving pocket map during shuttle launch/transport");
                 // 发射时暂停传送功能，但保留口袋空间
                 transportDisabled = true;
                 if (pocketMap != null && exit != null)
                 {
                     // 标记传送功能暂停
-                    Log.Message("[WULA-DEBUG] Transport functionality disabled during flight");
+                    WulaLog.Debug("[WULA-DEBUG] Transport functionality disabled during flight");
                 }
             }
             
@@ -249,7 +249,7 @@ namespace WulaFallenEmpire
                 case DestroyMode.FailConstruction:  // 建造失败，删除口袋空间
                     return true;
                 default:
-                    Log.Warning($"[WULA-WARNING] Unknown DestroyMode: {mode}, defaulting to preserve pocket map");
+                    WulaLog.Debug($"[WULA-WARNING] Unknown DestroyMode: {mode}, defaulting to preserve pocket map");
                     return false;
             }
         }
@@ -432,16 +432,16 @@ namespace WulaFallenEmpire
                     // 在口袋地图中心放置退出点
                     CreateExitPoint();
                     
-                    Log.Message($"[WULA] Successfully created pocket map of size {pocketMapSize} for armed shuttle");
+                    WulaLog.Debug($"[WULA] Successfully created pocket map of size {pocketMapSize} for armed shuttle");
                 }
                 else
                 {
-                    Log.Error("[WULA] Failed to create pocket map");
+                    WulaLog.Debug("[WULA] Failed to create pocket map");
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[WULA] Exception creating pocket map: {ex}");
+                WulaLog.Debug($"[WULA] Exception creating pocket map: {ex}");
             }
         }
         
@@ -490,16 +490,16 @@ namespace WulaFallenEmpire
                     }
                     
                     GenPlace.TryPlaceThing(exitBuilding, exitPos, pocketMap, ThingPlaceMode.Direct);
-                    Log.Message($"[WULA] Created exit point at {exitPos} in pocket map");
+                    WulaLog.Debug($"[WULA] Created exit point at {exitPos} in pocket map");
                 }
                 else
                 {
-                    Log.Warning("[WULA] Could not find valid position for exit point in pocket map");
+                    WulaLog.Debug("[WULA] Could not find valid position for exit point in pocket map");
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[WULA] Error creating exit point: {ex}");
+                WulaLog.Debug($"[WULA] Error creating exit point: {ex}");
             }
         }
 
@@ -525,7 +525,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[WULA] Error transferring pawn {pawn?.LabelShort} to pocket space: {ex}");
+                WulaLog.Debug($"[WULA] Error transferring pawn {pawn?.LabelShort} to pocket space: {ex}");
             }
             
             return false;
@@ -536,17 +536,17 @@ namespace WulaFallenEmpire
         /// </summary>
         private void TransferAllFromPocketToMainMap()
         {
-            Log.Message("[WULA-DEBUG] TransferAllFromPocketToMainMap started");
+            WulaLog.Debug("[WULA-DEBUG] TransferAllFromPocketToMainMap started");
             
             if (pocketMap == null)
             {
-                Log.Warning("[WULA-DEBUG] TransferAllFromPocketToMainMap: pocketMap is null, nothing to transfer");
+                WulaLog.Debug("[WULA-DEBUG] TransferAllFromPocketToMainMap: pocketMap is null, nothing to transfer");
                 return;
             }
             
             if (!Spawned)
             {
-                Log.Error("[WULA-ERROR] TransferAllFromPocketToMainMap: Shuttle not spawned, cannot transfer items");
+                WulaLog.Debug("[WULA-ERROR] TransferAllFromPocketToMainMap: Shuttle not spawned, cannot transfer items");
                 return;
             }
 
@@ -556,28 +556,28 @@ namespace WulaFallenEmpire
                 CompTransporter transporter = this.GetComp<CompTransporter>();
                 if (transporter == null)
                 {
-                    Log.Error("[WULA-ERROR] CompTransporter not found on shuttle! Cannot transfer items.");
+                    WulaLog.Debug("[WULA-ERROR] CompTransporter not found on shuttle! Cannot transfer items.");
                     return;
                 }
                 
-                Log.Message($"[WULA-DEBUG] Found CompTransporter with {transporter.innerContainer.Count} existing items");
+                WulaLog.Debug($"[WULA-DEBUG] Found CompTransporter with {transporter.innerContainer.Count} existing items");
 
                 // 转移所有殖民者
                 List<Pawn> pawnsToTransfer = pocketMap.mapPawns.AllPawnsSpawned.ToList();
                     
-                Log.Message($"[WULA-DEBUG] Found {pawnsToTransfer.Count} colonists to transfer");
+                WulaLog.Debug($"[WULA-DEBUG] Found {pawnsToTransfer.Count} colonists to transfer");
                     
                 foreach (Pawn pawn in pawnsToTransfer)
                 {
                     if (pawn.Spawned)
                     {
-                        Log.Message($"[WULA-DEBUG] Transferring pawn: {pawn.LabelShort}");
+                        WulaLog.Debug($"[WULA-DEBUG] Transferring pawn: {pawn.LabelShort}");
                         pawn.DeSpawn();
                         
                         // 直接放入穿梭机的容器，如果失败就放到地面
                         if (!transporter.innerContainer.TryAdd(pawn))
                         {
-                            Log.Warning($"[WULA-WARNING] Container full, placing pawn {pawn.LabelShort} near shuttle");
+                            WulaLog.Debug($"[WULA-WARNING] Container full, placing pawn {pawn.LabelShort} near shuttle");
                             // 如果容器满了，放到穿梭机附近
                             IntVec3 spawnPos = CellFinder.RandomClosewalkCellNear(this.Position, this.Map, 5, 
                                 p => p.Standable(this.Map) && !p.GetThingList(this.Map).Any(t => t is Pawn));
@@ -585,16 +585,16 @@ namespace WulaFallenEmpire
                             if (spawnPos.IsValid)
                             {
                                 GenPlace.TryPlaceThing(pawn, spawnPos, this.Map, ThingPlaceMode.Near);
-                                Log.Message($"[WULA-DEBUG] Placed pawn {pawn.LabelShort} at {spawnPos}");
+                                WulaLog.Debug($"[WULA-DEBUG] Placed pawn {pawn.LabelShort} at {spawnPos}");
                             }
                             else
                             {
-                                Log.Error($"[WULA-ERROR] Could not find valid position for pawn {pawn.LabelShort}");
+                                WulaLog.Debug($"[WULA-ERROR] Could not find valid position for pawn {pawn.LabelShort}");
                             }
                         }
                         else
                         {
-                            Log.Message($"[WULA-DEBUG] Successfully added pawn {pawn.LabelShort} to container");
+                            WulaLog.Debug($"[WULA-DEBUG] Successfully added pawn {pawn.LabelShort} to container");
                         }
                     }
                 }
@@ -603,46 +603,46 @@ namespace WulaFallenEmpire
                 List<Thing> itemsToTransfer = pocketMap.listerThings.AllThings
                     .Where(t => t.def.category == ThingCategory.Item && t.def.EverHaulable).ToList();
                     
-                Log.Message($"[WULA-DEBUG] Found {itemsToTransfer.Count} items to transfer");
+                WulaLog.Debug($"[WULA-DEBUG] Found {itemsToTransfer.Count} items to transfer");
                     
                 foreach (Thing item in itemsToTransfer)
                 {
                     if (item.Spawned)
                     {
-                        Log.Message($"[WULA-DEBUG] Transferring item: {item.LabelShort} (stack: {item.stackCount})");
+                        WulaLog.Debug($"[WULA-DEBUG] Transferring item: {item.LabelShort} (stack: {item.stackCount})");
                         item.DeSpawn();
                         
                         // 直接使用穿梭机的主容器
                         if (!transporter.innerContainer.TryAdd(item))
                         {
-                            Log.Warning($"[WULA-WARNING] Container full, dropping item {item.LabelShort} near shuttle");
+                            WulaLog.Debug($"[WULA-WARNING] Container full, dropping item {item.LabelShort} near shuttle");
                             // 如果容器满了，丢到穿梭机附近（玩家可以手动重新装载）
                             IntVec3 dropPos = CellFinder.RandomClosewalkCellNear(this.Position, this.Map, 3);
                             if (dropPos.IsValid)
                             {
                                 GenPlace.TryPlaceThing(item, dropPos, this.Map, ThingPlaceMode.Near);
                                 Messages.Message($"容器已满：{item.LabelShort} 被放置在穿梭机附近", this, MessageTypeDefOf.CautionInput);
-                                Log.Message($"[WULA-DEBUG] Dropped item {item.LabelShort} at {dropPos}");
+                                WulaLog.Debug($"[WULA-DEBUG] Dropped item {item.LabelShort} at {dropPos}");
                             }
                             else
                             {
-                                Log.Error($"[WULA-ERROR] Could not find valid drop position for item {item.LabelShort}");
+                                WulaLog.Debug($"[WULA-ERROR] Could not find valid drop position for item {item.LabelShort}");
                             }
                         }
                         else
                         {
-                            Log.Message($"[WULA-DEBUG] Successfully added item {item.LabelShort} to container");
+                            WulaLog.Debug($"[WULA-DEBUG] Successfully added item {item.LabelShort} to container");
                         }
                     }
                 }
                 
-                Log.Message($"[WULA-DEBUG] Transfer complete. Container now has {transporter.innerContainer.Count} total items");
-                Log.Message($"[WULA-SUCCESS] Transferred {pawnsToTransfer.Count} pawns and {itemsToTransfer.Count} items from pocket space");
+                WulaLog.Debug($"[WULA-DEBUG] Transfer complete. Container now has {transporter.innerContainer.Count} total items");
+                WulaLog.Debug($"[WULA-SUCCESS] Transferred {pawnsToTransfer.Count} pawns and {itemsToTransfer.Count} items from pocket space");
             }
             catch (Exception ex)
             {
-                Log.Error($"[WULA-ERROR] Error transferring from pocket map: {ex}");
-                Log.Error($"[WULA-ERROR] Stack trace: {ex.StackTrace}");
+                WulaLog.Debug($"[WULA-ERROR] Error transferring from pocket map: {ex}");
+                WulaLog.Debug($"[WULA-ERROR] Stack trace: {ex.StackTrace}");
             }
         }
         
@@ -927,19 +927,19 @@ namespace WulaFallenEmpire
                             pocketExit.targetMap = this.Map;
                             pocketExit.targetPos = this.Position;
                             pocketExit.parentShuttle = this;
-                            Log.Message($"[WULA] Updated pocket map exit target to shuttle location: {this.Map?.uniqueID} at {this.Position}");
+                            WulaLog.Debug($"[WULA] Updated pocket map exit target to shuttle location: {this.Map?.uniqueID} at {this.Position}");
                         }
                     }
                     else
                     {
                         // 穿梭机不在地图上（可能在飞行中），记录警告但保持原有目标
-                        Log.Warning($"[WULA] Shuttle not spawned, pocket map exit target may be outdated. Current target: {pocketExit.targetMap?.uniqueID} at {pocketExit.targetPos}");
+                        WulaLog.Debug($"[WULA] Shuttle not spawned, pocket map exit target may be outdated. Current target: {pocketExit.targetMap?.uniqueID} at {pocketExit.targetPos}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[WULA] Error updating exit point target: {ex}");
+                WulaLog.Debug($"[WULA] Error updating exit point target: {ex}");
             }
         }
         
@@ -967,13 +967,13 @@ namespace WulaFallenEmpire
                     {
                         if (Prefs.DevMode)
                         {
-                            Log.Message($"[WULA] Auto-synced pocket items. Current status: {GetPocketSpaceDebugInfo()}");
+                            WulaLog.Debug($"[WULA] Auto-synced pocket items. Current status: {GetPocketSpaceDebugInfo()}");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Log.Error($"[WULA] Error during auto-sync: {ex}");
+                    WulaLog.Debug($"[WULA] Error during auto-sync: {ex}");
                 }
             }
         }
@@ -983,7 +983,7 @@ namespace WulaFallenEmpire
         /// </summary>
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            Log.Message($"[WULA-DEBUG] SpawnSetup called: map={map?.uniqueID}, respawning={respawningAfterLoad}");
+            WulaLog.Debug($"[WULA-DEBUG] SpawnSetup called: map={map?.uniqueID}, respawning={respawningAfterLoad}");
             
             // 保存旧位置信息
             Map oldMap = this.Map;
@@ -997,19 +997,19 @@ namespace WulaFallenEmpire
                 // 验证口袋地图的父级对象是否存在于世界列表中
                 if (pocketMap.Parent is PocketMapParent pocketParent && !Find.World.pocketMaps.Contains(pocketParent))
                 {
-                    Log.Warning($"[WULA] Pocket map parent for map ID {pocketMap.uniqueID} was not found in the world list. Re-adding it to prevent data loss.");
+                    WulaLog.Debug($"[WULA] Pocket map parent for map ID {pocketMap.uniqueID} was not found in the world list. Re-adding it to prevent data loss.");
                     Find.World.pocketMaps.Add(pocketParent);
                 }
 
                 // 验证口袋地图本身是否存在于游戏地图列表中
                 if (!Find.Maps.Contains(pocketMap))
                 {
-                    Log.Warning($"[WULA] Pocket map ID {pocketMap.uniqueID} was not found in the game's map list. Re-registering it.");
+                    WulaLog.Debug($"[WULA] Pocket map ID {pocketMap.uniqueID} was not found in the game's map list. Re-registering it.");
                     
                     // 在重新添加前，进行安全检查，防止添加已损坏的地图
                     if (!Find.Maps.Contains(pocketMap) && (pocketMap.mapPawns == null || pocketMap.Tile < 0))
                     {
-                        Log.Error("[WULA] Cannot re-register a corrupted pocket map. The contents of the pocket space are likely lost. This is a critical error.");
+                        WulaLog.Debug("[WULA] Cannot re-register a corrupted pocket map. The contents of the pocket space are likely lost. This is a critical error.");
                         Messages.Message("WULA.PocketSpace.MapInvalidAndRecovering".Translate(), this, MessageTypeDefOf.NegativeEvent);
                         pocketMap = null;
                         pocketMapGenerated = false;
@@ -1018,7 +1018,7 @@ namespace WulaFallenEmpire
                     {
                         // 重新注册地图，使其再次“激活”
                         Current.Game.AddMap(pocketMap);
-                        Log.Message($"[WULA] Pocket map {pocketMap.uniqueID} successfully re-registered.");
+                        WulaLog.Debug($"[WULA] Pocket map {pocketMap.uniqueID} successfully re-registered.");
                     }
                 }
             }
@@ -1030,23 +1030,23 @@ namespace WulaFallenEmpire
             CompTransporter transporter = this.GetComp<CompTransporter>();
             if (transporter == null)
             {
-                Log.Error("[WULA-ERROR] CompTransporter missing in SpawnSetup! This will cause serious issues.");
+                WulaLog.Debug("[WULA-ERROR] CompTransporter missing in SpawnSetup! This will cause serious issues.");
             }
             else
             {
-                Log.Message($"[WULA-DEBUG] CompTransporter found with {transporter.innerContainer?.Count ?? 0} items");
+                WulaLog.Debug($"[WULA-DEBUG] CompTransporter found with {transporter.innerContainer?.Count ?? 0} items");
             }
             
             // 如果是从飞行状态恢复，重新启用传送功能
             if (transportDisabled)
             {
-                Log.Message("[WULA-DEBUG] Re-enabling transport functionality after landing");
+                WulaLog.Debug("[WULA-DEBUG] Re-enabling transport functionality after landing");
                 transportDisabled = false;
                 
                 // 如果有口袋空间，确保退出点正确连接到新地图
                 if (pocketMapGenerated && pocketMap != null && exit != null)
                 {
-                    Log.Message($"[WULA-DEBUG] Reconnecting pocket space exit to new map: {map?.uniqueID} at {this.Position}");
+                    WulaLog.Debug($"[WULA-DEBUG] Reconnecting pocket space exit to new map: {map?.uniqueID} at {this.Position}");
                     // 退出点会在 UpdateExitPointTarget 中自动更新
                 }
             }
@@ -1055,25 +1055,25 @@ namespace WulaFallenEmpire
             if (def.HasModExtension<PocketMapProperties>())
             {
                 var portalProps = def.GetModExtension<PocketMapProperties>();
-                Log.Message($"[WULA-DEBUG] Loading portal properties from ThingDef");
+                WulaLog.Debug($"[WULA-DEBUG] Loading portal properties from ThingDef");
                 
                 if (portalProps.pocketMapGenerator != null)
                 {
                     mapGenerator = portalProps.pocketMapGenerator;
-                    Log.Message($"[WULA-DEBUG] Set mapGenerator: {mapGenerator.defName}");
+                    WulaLog.Debug($"[WULA-DEBUG] Set mapGenerator: {mapGenerator.defName}");
                 }
                 if (portalProps.exitDef != null)
                 {
                     exitDef = portalProps.exitDef;
-                    Log.Message($"[WULA-DEBUG] Set exitDef: {exitDef.defName}");
+                    WulaLog.Debug($"[WULA-DEBUG] Set exitDef: {exitDef.defName}");
                 }
                 if (portalProps.pocketMapSize != IntVec2.Zero)
                 {
                     pocketMapSize = portalProps.pocketMapSize;
-                    Log.Message($"[WULA-DEBUG] Set pocketMapSize: {pocketMapSize}");
+                    WulaLog.Debug($"[WULA-DEBUG] Set pocketMapSize: {pocketMapSize}");
                 }
                 allowDirectAccess = portalProps.allowDirectAccess;
-                Log.Message($"[WULA-DEBUG] Set allowDirectAccess: {allowDirectAccess}");
+                WulaLog.Debug($"[WULA-DEBUG] Set allowDirectAccess: {allowDirectAccess}");
             }
             
             // 初始化地图生成器和退出点定义（如果 XML 中没有配置）
@@ -1082,23 +1082,23 @@ namespace WulaFallenEmpire
                 mapGenerator = DefDatabase<MapGeneratorDef>.GetNamed("AncientStockpile", false) 
                     ?? DefDatabase<MapGeneratorDef>.GetNamed("Base_Player", false)
                     ?? MapGeneratorDefOf.Base_Player;
-                Log.Message($"[WULA-DEBUG] Using fallback mapGenerator: {mapGenerator.defName}");
+                WulaLog.Debug($"[WULA-DEBUG] Using fallback mapGenerator: {mapGenerator.defName}");
             }
             
             if (exitDef == null)
             {
                 exitDef = DefDatabase<ThingDef>.GetNamed("WULA_PocketMapExit", false) 
                     ?? ThingDefOf.Door;
-                Log.Message($"[WULA-DEBUG] Using fallback exitDef: {exitDef.defName}");
+                WulaLog.Debug($"[WULA-DEBUG] Using fallback exitDef: {exitDef.defName}");
             }
             
             // 如果位置发生了变化，记录日志
             if (oldMap != null && (oldMap != map || oldPos != this.Position))
             {
-                Log.Message($"[WULA-DEBUG] Shuttle moved from {oldMap?.uniqueID}:{oldPos} to {map?.uniqueID}:{this.Position}, updating pocket map exit target");
+                WulaLog.Debug($"[WULA-DEBUG] Shuttle moved from {oldMap?.uniqueID}:{oldPos} to {map?.uniqueID}:{this.Position}, updating pocket map exit target");
             }
             
-            Log.Message($"[WULA-DEBUG] SpawnSetup completed successfully");
+            WulaLog.Debug($"[WULA-DEBUG] SpawnSetup completed successfully");
         }
         
         #endregion

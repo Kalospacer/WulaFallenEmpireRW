@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RimWorld;
@@ -114,7 +114,7 @@ namespace WulaFallenEmpire
                             var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
                             if (facilitiesComp == null)
                             {
-                                Log.Warning($"[BuildingSpawner] FlyOver at {flyOver.Position} has no CompFlyOverFacilities");
+                                WulaLog.Debug($"[BuildingSpawner] FlyOver at {flyOver.Position} has no CompFlyOverFacilities");
                                 continue;
                             }
                             
@@ -129,7 +129,7 @@ namespace WulaFallenEmpire
                 }
                 catch (System.Exception ex)
                 {
-                    Log.Error($"[BuildingSpawner] Exception while checking for FlyOver: {ex}");
+                    WulaLog.Debug($"[BuildingSpawner] Exception while checking for FlyOver: {ex}");
                     return false;
                 }
             }
@@ -223,7 +223,7 @@ namespace WulaFallenEmpire
             {
                 if (Props.buildingToSpawn == null)
                 {
-                    Log.Error("[BuildingSpawner] Building def is null!");
+                    WulaLog.Debug("[BuildingSpawner] Building def is null!");
                     ResetCall();
                     return;
                 }
@@ -237,7 +237,7 @@ namespace WulaFallenEmpire
                 // 检查位置是否可用
                 if (!CanSpawnAtPosition(spawnPos))
                 {
-                    Log.Error($"[BuildingSpawner] Cannot spawn building at {spawnPos}");
+                    WulaLog.Debug($"[BuildingSpawner] Cannot spawn building at {spawnPos}");
                     ResetCall();
                     return;
                 }
@@ -250,7 +250,7 @@ namespace WulaFallenEmpire
                 
                 if (newBuilding == null)
                 {
-                    Log.Error("[BuildingSpawner] Failed to create building!");
+                    WulaLog.Debug("[BuildingSpawner] Failed to create building!");
                     ResetCall();
                     return;
                 }
@@ -273,7 +273,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[BuildingSpawner] Error in ExecuteAutoBuildingSpawn: {ex}");
+                WulaLog.Debug($"[BuildingSpawner] Error in ExecuteAutoBuildingSpawn: {ex}");
                 ResetCall();
             }
         }
@@ -348,7 +348,7 @@ namespace WulaFallenEmpire
         {
             if (Props.buildingToSpawn == null)
             {
-                Log.Error("[BuildingSpawner] Building def is null!");
+                WulaLog.Debug("[BuildingSpawner] Building def is null!");
                 return;
             }
             
@@ -371,7 +371,7 @@ namespace WulaFallenEmpire
             // 检查位置是否可用
             if (!CanSpawnAtPosition(spawnPos))
             {
-                Log.Error($"[BuildingSpawner] Cannot spawn building at {spawnPos}");
+                WulaLog.Debug($"[BuildingSpawner] Cannot spawn building at {spawnPos}");
                 ResetCall();
                 return;
             }
@@ -384,7 +384,7 @@ namespace WulaFallenEmpire
             
             if (newBuilding == null)
             {
-                Log.Error("[BuildingSpawner] Failed to create building!");
+                WulaLog.Debug("[BuildingSpawner] Failed to create building!");
                 return;
             }
             
@@ -409,14 +409,14 @@ namespace WulaFallenEmpire
         {
             if (parent?.Map == null)
             {
-                Log.Warning($"[BuildingSpawner] Parent map is null for {parent?.LabelShort}");
+                WulaLog.Debug($"[BuildingSpawner] Parent map is null for {parent?.LabelShort}");
                 return false;
             }
 
             // 检查是否在地图范围内
             if (!spawnPos.InBounds(parent.Map))
             {
-                Log.Warning($"[BuildingSpawner] Spawn position {spawnPos} is out of bounds for {parent?.LabelShort}");
+                WulaLog.Debug($"[BuildingSpawner] Spawn position {spawnPos} is out of bounds for {parent?.LabelShort}");
                 return false;
             }
 
@@ -424,7 +424,7 @@ namespace WulaFallenEmpire
             ThingDef buildingDef = Props.buildingToSpawn;
             if (buildingDef == null)
             {
-                Log.Error($"[BuildingSpawner] buildingToSpawn is null for {parent?.LabelShort}");
+                WulaLog.Debug($"[BuildingSpawner] buildingToSpawn is null for {parent?.LabelShort}");
                 return false;
             }
 
@@ -437,7 +437,7 @@ namespace WulaFallenEmpire
             // 检查建筑是否完全在地图范围内
             if (!rect.InBounds(parent.Map))
             {
-                Log.Warning($"[BuildingSpawner] Building rect {rect} for {buildingDef.defName} is out of bounds. Size: {buildingSize}, Position: {spawnPos}");
+                WulaLog.Debug($"[BuildingSpawner] Building rect {rect} for {buildingDef.defName} is out of bounds. Size: {buildingSize}, Position: {spawnPos}");
                 return false;
             }
 
@@ -451,7 +451,7 @@ namespace WulaFallenEmpire
                 if (rect.minX < safeMargin || rect.minZ < safeMargin ||
                     rect.maxX >= pocketMap.Size.x - safeMargin || rect.maxZ >= pocketMap.Size.z - safeMargin)
                 {
-                    Log.Warning($"[BuildingSpawner] Building {buildingDef.defName} too close to pocket map edge. Rect: {rect}, Map Size: {pocketMap.Size}");
+                    WulaLog.Debug($"[BuildingSpawner] Building {buildingDef.defName} too close to pocket map edge. Rect: {rect}, Map Size: {pocketMap.Size}");
                     return false;
                 }
             }
@@ -461,7 +461,7 @@ namespace WulaFallenEmpire
             {
                 if (!cell.InBounds(parent.Map))
                 {
-                    Log.Warning($"[BuildingSpawner] Cell {cell} is out of bounds for building {buildingDef.defName}");
+                    WulaLog.Debug($"[BuildingSpawner] Cell {cell} is out of bounds for building {buildingDef.defName}");
                     return false;
                 }
 
@@ -476,7 +476,7 @@ namespace WulaFallenEmpire
                             // 跳过自己
                             if (thing != parent)
                             {
-                                Log.Warning($"[BuildingSpawner] Cell {cell} is blocked by {thing.def.defName} ({thing.LabelShort})");
+                                WulaLog.Debug($"[BuildingSpawner] Cell {cell} is blocked by {thing.def.defName} ({thing.LabelShort})");
                                 return false;
                             }
                         }

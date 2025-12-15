@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -15,13 +15,13 @@ namespace WulaFallenEmpire
         {
             if (!(t is Building_GlobalWorkTable table) || !table.Spawned || table.IsForbidden(pawn))
             {
-                if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Target invalid or forbidden. {t}");
+                if (forced) WulaLog.Debug($"[WULA_DEBUG] HasJobOnThing: Target invalid or forbidden. {t}");
                 return false;
             }
 
             if (!pawn.CanReserve(table, 1, -1, null, forced))
             {
-                if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Cannot reserve table.");
+                if (forced) WulaLog.Debug($"[WULA_DEBUG] HasJobOnThing: Cannot reserve table.");
                 return false;
             }
 
@@ -31,10 +31,10 @@ namespace WulaFallenEmpire
             {
                 if (forced)
                 {
-                    Log.Message($"[WULA_DEBUG] HasJobOnThing: No gathering order found. Total orders: {table.globalOrderStack.orders.Count}");
+                    WulaLog.Debug($"[WULA_DEBUG] HasJobOnThing: No gathering order found. Total orders: {table.globalOrderStack.orders.Count}");
                     foreach (var o in table.globalOrderStack.orders)
                     {
-                        Log.Message($"  - Order: {o.Label}, State: {o.state}, Paused: {o.paused}");
+                        WulaLog.Debug($"  - Order: {o.Label}, State: {o.state}, Paused: {o.paused}");
                     }
                 }
                 return false;
@@ -45,7 +45,7 @@ namespace WulaFallenEmpire
             var neededMaterials = GetNeededMaterials(order, table, globalStorage);
             if (neededMaterials.Count == 0)
             {
-                if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Order has enough resources.");
+                if (forced) WulaLog.Debug($"[WULA_DEBUG] HasJobOnThing: Order has enough resources.");
                 return false;
             }
 
@@ -53,7 +53,7 @@ namespace WulaFallenEmpire
             var ingredients = FindBestIngredients(pawn, table, neededMaterials);
             if (ingredients == null)
             {
-                if (forced) Log.Message($"[WULA_DEBUG] HasJobOnThing: Could not find ingredients for {order.Label}.");
+                if (forced) WulaLog.Debug($"[WULA_DEBUG] HasJobOnThing: Could not find ingredients for {order.Label}.");
                 return false;
             }
             
@@ -87,7 +87,7 @@ namespace WulaFallenEmpire
         {
             var result = new List<KeyValuePair<Thing, int>>();
 
-            Log.Message($"[WULA_DEBUG] Needed materials: {string.Join(", ", neededMaterials.Select(k => $"{k.Key.defName} x{k.Value}"))}");
+            WulaLog.Debug($"[WULA_DEBUG] Needed materials: {string.Join(", ", neededMaterials.Select(k => $"{k.Key.defName} x{k.Value}"))}");
 
             foreach (var kvp in neededMaterials)
             {
@@ -114,7 +114,7 @@ namespace WulaFallenEmpire
                     }
                 }
                 
-                Log.Message($"[WULA_DEBUG] Found {currentCount}/{countNeeded} of {def.defName}");
+                WulaLog.Debug($"[WULA_DEBUG] Found {currentCount}/{countNeeded} of {def.defName}");
             }
 
             return result.Count > 0 ? result : null;

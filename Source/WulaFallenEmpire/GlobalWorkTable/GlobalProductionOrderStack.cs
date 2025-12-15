@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using Verse;
 using UnityEngine;
@@ -94,7 +94,7 @@ namespace WulaFallenEmpire
             // 防止除零错误
             if (workAmount <= 0)
             {
-                Log.Error($"Invalid workAmount ({workAmount}) for recipe {order.recipe.defName}");
+                WulaLog.Debug($"Invalid workAmount ({workAmount}) for recipe {order.recipe.defName}");
                 order.state = GlobalProductionOrder.ProductionState.Gathering;
                 order.progress = 0f;
                 return;
@@ -110,7 +110,7 @@ namespace WulaFallenEmpire
             // 调试信息
             if (Find.TickManager.TicksGame % 300 == 0) // 每5秒输出一次
             {
-                Log.Message($"[DEBUG] Order {order.recipe.defName}: " +
+                WulaLog.Debug($"[DEBUG] Order {order.recipe.defName}: " +
                            $"progress={order.progress:P2}, " +
                            $"workAmount={workAmount}, " +
                            $"increment={progressIncrement:E4}, " +
@@ -153,7 +153,7 @@ namespace WulaFallenEmpire
             }
             
             // 最后的回退方案
-            Log.Warning($"Could not determine work amount for recipe {order.recipe.defName}, using default value");
+            WulaLog.Debug($"Could not determine work amount for recipe {order.recipe.defName}, using default value");
             return 1000f; // 默认工作量
         }
         
@@ -169,17 +169,17 @@ namespace WulaFallenEmpire
 
                     if (Find.TickManager.TicksGame % 600 == 0) // 每10秒记录一次
                     {
-                        Log.Message($"[INFO] Order {order.recipe.defName} started producing");
+                        WulaLog.Debug($"[INFO] Order {order.recipe.defName} started producing");
                     }
                 }
                 else
                 {
-                    Log.Warning($"[WULA] Order {order.recipe.defName} had enough resources but failed to deduct them; staying in Gathering.");
+                    WulaLog.Debug($"[WULA] Order {order.recipe.defName} had enough resources but failed to deduct them; staying in Gathering.");
                 }
             }
             else if (Find.TickManager.TicksGame % 1200 == 0) // 每20秒检查一次
             {
-                Log.Message($"[DEBUG] Order {order.recipe.defName} is waiting. " +
+                WulaLog.Debug($"[DEBUG] Order {order.recipe.defName} is waiting. " +
                            $"HasEnoughResources: {order.HasEnoughResources()}");
             }
         }
@@ -189,7 +189,7 @@ namespace WulaFallenEmpire
             // 生产完成（资源已经在开始生产时扣除）
             order.Produce();
             
-            Log.Message($"[SUCCESS] Produced {order.recipe.products[0].thingDef.defName}, " +
+            WulaLog.Debug($"[SUCCESS] Produced {order.recipe.products[0].thingDef.defName}, " +
                        $"count: {order.currentCount}/{order.targetCount}");
             
             // 重置进度
@@ -200,7 +200,7 @@ namespace WulaFallenEmpire
             {
                 order.state = GlobalProductionOrder.ProductionState.Completed;
                 Delete(order); // 同步 GlobalStorageWorldComponent.productionOrders
-                Log.Message($"[COMPLETE] Order {order.recipe.defName} completed and removed");
+                WulaLog.Debug($"[COMPLETE] Order {order.recipe.defName} completed and removed");
             }
             else
             {
@@ -222,23 +222,23 @@ namespace WulaFallenEmpire
                 if (float.IsNaN(order.progress) || float.IsInfinity(order.progress))
                 {
                     order.progress = 0f;
-                    Log.Warning($"Fixed invalid progress for {order.recipe?.defName ?? "unknown"}");
+                    WulaLog.Debug($"Fixed invalid progress for {order.recipe?.defName ?? "unknown"}");
                 }
                 else if (order.progress < 0f)
                 {
                     order.progress = 0f;
-                    Log.Warning($"Fixed negative progress for {order.recipe?.defName ?? "unknown"}");
+                    WulaLog.Debug($"Fixed negative progress for {order.recipe?.defName ?? "unknown"}");
                 }
                 else if (order.progress > 1f)
                 {
                     order.progress = 1f;
-                    Log.Warning($"Fixed excessive progress for {order.recipe?.defName ?? "unknown"}");
+                    WulaLog.Debug($"Fixed excessive progress for {order.recipe?.defName ?? "unknown"}");
                 }
                 
                 // 修复状态
                 if (order.recipe == null)
                 {
-                    Log.Warning($"Removing order with null recipe");
+                    WulaLog.Debug($"Removing order with null recipe");
                     Delete(order); // 同步 GlobalStorageWorldComponent.productionOrders
                     continue;
                 }

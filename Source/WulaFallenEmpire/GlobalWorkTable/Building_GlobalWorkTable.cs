@@ -1,4 +1,4 @@
-// Building_GlobalWorkTable.cs (修改版本)
+﻿// Building_GlobalWorkTable.cs (修改版本)
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -322,18 +322,18 @@ namespace WulaFallenEmpire
                     // 显示成功消息
                     Messages.Message("WULA_SilverTransferred".Translate(silverAmount), MessageTypeDefOf.PositiveEvent);
 
-                    Log.Message($"[WULA] Transferred {silverAmount} silver from input to output storage");
+                    WulaLog.Debug($"[WULA] Transferred {silverAmount} silver from input to output storage");
                 }
                 else
                 {
                     Messages.Message("WULA_TransferFailed".Translate(), MessageTypeDefOf.RejectInput);
-                    Log.Error("[WULA] Failed to remove silver from input storage during transfer");
+                    WulaLog.Debug("[WULA] Failed to remove silver from input storage during transfer");
                 }
             }
             catch (System.Exception ex)
             {
                 Messages.Message("WULA_TransferError".Translate(), MessageTypeDefOf.RejectInput);
-                Log.Error($"[WULA] Error during silver transfer: {ex}");
+                WulaLog.Debug($"[WULA] Error during silver transfer: {ex}");
             }
         }
 
@@ -402,7 +402,7 @@ namespace WulaFallenEmpire
             //}
             //catch (System.Exception ex)
             //{
-            //    Log.Error($"[FactoryFacility Check] Error in HasFactoryFacilityFlyOver: {ex}");
+            //    WulaLog.Debug($"[FactoryFacility Check] Error in HasFactoryFacilityFlyOver: {ex}");
             //    return false;
             //}
         }
@@ -593,7 +593,7 @@ namespace WulaFallenEmpire
             // 记录分配结果
             for (int i = 0; i < podContents.Count; i++)
             {
-                Log.Message($"[Airdrop] Pod {i} contains {podContents[i].Count} items");
+                WulaLog.Debug($"[Airdrop] Pod {i} contains {podContents[i].Count} items");
             }
             return podContents;
         }
@@ -652,14 +652,14 @@ namespace WulaFallenEmpire
         {
             if (pawnType.race == null)
             {
-                Log.Error($"[Airdrop] GetRandomPawnKindForType: {pawnType.defName} is not a pawn type");
+                WulaLog.Debug($"[Airdrop] GetRandomPawnKindForType: {pawnType.defName} is not a pawn type");
                 return null;
             }
             // 获取工作台的派系
             Faction workTableFaction = this.Faction;
             if (workTableFaction == null)
             {
-                Log.Error($"[Airdrop] Work table has no faction");
+                WulaLog.Debug($"[Airdrop] Work table has no faction");
                 return null;
             }
             // 获取该种族的所有PawnKindDef
@@ -668,7 +668,7 @@ namespace WulaFallenEmpire
                 .ToList();
             if (availableKinds.Count == 0)
             {
-                Log.Error($"[Airdrop] No PawnKindDef found for race: {pawnType.defName}");
+                WulaLog.Debug($"[Airdrop] No PawnKindDef found for race: {pawnType.defName}");
                 return null;
             }
             // 最高优先级：与工作台派系完全相同的PawnKind
@@ -702,12 +702,12 @@ namespace WulaFallenEmpire
             if (noFactionKinds.Count > 0)
             {
                 var selected = noFactionKinds.RandomElement();
-                Log.Message($"[Airdrop] Selected no-faction PawnKind: {selected.defName}");
+                WulaLog.Debug($"[Airdrop] Selected no-faction PawnKind: {selected.defName}");
                 return selected;
             }
             // 最后选择任何可用的PawnKind
             var selectedKind = availableKinds.RandomElement();
-            Log.Message($"[Airdrop] Selected fallback PawnKind: {selectedKind.defName}");
+            WulaLog.Debug($"[Airdrop] Selected fallback PawnKind: {selectedKind.defName}");
             return selectedKind;
         }
 
@@ -729,14 +729,14 @@ namespace WulaFallenEmpire
             {
                 if (contents == null || contents.Count == 0)
                 {
-                    Log.Warning("[Airdrop] CreateDropPod: contents is null or empty");
+                    WulaLog.Debug("[Airdrop] CreateDropPod: contents is null or empty");
                     return false;
                 }
-                Log.Message($"[Airdrop] Creating drop pod at {dropCell} with {contents.Count} items");
+                WulaLog.Debug($"[Airdrop] Creating drop pod at {dropCell} with {contents.Count} items");
                 // 检查目标单元格是否有效
                 if (!dropCell.IsValid || !dropCell.InBounds(Map))
                 {
-                    Log.Error($"[Airdrop] Invalid drop cell: {dropCell}");
+                    WulaLog.Debug($"[Airdrop] Invalid drop cell: {dropCell}");
                     return false;
                 }
                 // 创建空投舱信息 - 使用 DropPodInfo 而不是 ActiveTransporterInfo
@@ -752,29 +752,29 @@ namespace WulaFallenEmpire
                     {
                         if (!container.TryAdd(thing, true))
                         {
-                            Log.Error($"[Airdrop] Failed to add {thing.Label} to drop pod");
+                            WulaLog.Debug($"[Airdrop] Failed to add {thing.Label} to drop pod");
                         }
                         else
                         {
-                            Log.Message($"[Airdrop] Added {thing.Label} to drop pod");
+                            WulaLog.Debug($"[Airdrop] Added {thing.Label} to drop pod");
                         }
                     }
                 }
                 if (container.Count == 0)
                 {
-                    Log.Warning("[Airdrop] No items were successfully added to drop pod");
+                    WulaLog.Debug("[Airdrop] No items were successfully added to drop pod");
                     return false;
                 }
                 dropPodInfo.innerContainer = container;
                 // 生成空投舱
                 DropPodUtility.MakeDropPodAt(dropCell, Map, dropPodInfo, Faction.OfPlayer);
 
-                Log.Message($"[Airdrop] Successfully created drop pod at {dropCell}");
+                WulaLog.Debug($"[Airdrop] Successfully created drop pod at {dropCell}");
                 return true;
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[Airdrop] Failed to create drop pod at {dropCell}: {ex}");
+                WulaLog.Debug($"[Airdrop] Failed to create drop pod at {dropCell}: {ex}");
                 return false;
             }
         }

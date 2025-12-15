@@ -324,7 +324,7 @@ namespace WulaFallenEmpire
             // 检查是否有攻击动词
             if (currentEffectiveVerb == null)
             {
-                Log.Error("BestShootTargetFromCurrentPosition with " + searcher.ToStringSafe<IAttackTargetSearcher>() + " who has no attack verb.");
+                WulaLog.Debug("BestShootTargetFromCurrentPosition with " + searcher.ToStringSafe<IAttackTargetSearcher>() + " who has no attack verb.");
                 return null;
             }
 
@@ -376,7 +376,7 @@ namespace WulaFallenEmpire
             // 验证攻击动词是否存在
             if (verb == null)
             {
-                Log.Error("BestAttackTarget with " + searcher.ToStringSafe<IAttackTargetSearcher>() + " who has no attack verb.");
+                WulaLog.Debug("BestAttackTarget with " + searcher.ToStringSafe<IAttackTargetSearcher>() + " who has no attack verb.");
                 return null;
             }
 

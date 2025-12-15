@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using Verse;
 using UnityEngine;
@@ -101,7 +101,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"AreaShield interception error: {ex}");
+                WulaLog.Debug($"AreaShield interception error: {ex}");
                 return true; // 出错时继续执行原方法
             }
         }

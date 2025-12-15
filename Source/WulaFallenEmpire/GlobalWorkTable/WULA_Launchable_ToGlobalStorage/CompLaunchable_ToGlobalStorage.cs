@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -45,14 +45,14 @@ namespace WulaFallenEmpire
         {
             if (!this.parent.Spawned)
             {
-                Log.Error("Tried to launch " + this.parent + " but it's not spawned.");
+                WulaLog.Debug("Tried to launch " + this.parent + " but it's not spawned.");
                 return;
             }
 
             var globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
             if (globalStorage == null)
             {
-                Log.Error("Could not find GlobalStorageWorldComponent.");
+                WulaLog.Debug("Could not find GlobalStorageWorldComponent.");
                 return;
             }
 

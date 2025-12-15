@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
@@ -46,7 +46,7 @@ namespace WulaFallenEmpire
             // 检查单元格是否可影响
             if (!terrainCover.CanAffectCell(cell, map, out string reason))
             {
-                Log.Message($"Cannot affect cell {cell}: {reason}");
+                WulaLog.Debug($"Cannot affect cell {cell}: {reason}");
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace WulaFallenEmpire
             Plant plant = cell.GetPlant(map);
             if (plant != null && plant.def.plant.treeCategory == TreeCategory.Super)
             {
-                Log.Message($"Large tree at {cell}, skipping");
+                WulaLog.Debug($"Large tree at {cell}, skipping");
                 return;
             }
 
@@ -78,11 +78,11 @@ namespace WulaFallenEmpire
                 // 设置新地形
                 map.terrainGrid.SetTerrain(cell, terrainCover.terrainToSpawn);
 
-                Log.Message($"Applied terrain {terrainCover.terrainToSpawn.defName} to cell {cell}");
+                WulaLog.Debug($"Applied terrain {terrainCover.terrainToSpawn.defName} to cell {cell}");
             }
             else
             {
-                Log.Message($"Cannot build terrain {terrainCover.terrainToSpawn.defName} at cell {cell}");
+                WulaLog.Debug($"Cannot build terrain {terrainCover.terrainToSpawn.defName} at cell {cell}");
             }
         }
     }

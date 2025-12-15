@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -57,7 +57,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 }
                 catch (Exception ex)
                 {
-                    Log.Error($"[WulaFallenEmpire] Failed to load AI history from {path}: {ex}");
+                    WulaLog.Debug($"[WulaFallenEmpire] Failed to load AI history from {path}: {ex}");
                 }
             }
 
@@ -75,7 +75,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaFallenEmpire] Failed to save AI history to {path}: {ex}");
+                WulaLog.Debug($"[WulaFallenEmpire] Failed to save AI history to {path}: {ex}");
             }
         }
 
@@ -92,7 +92,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaFallenEmpire] Failed to clear AI history at {path}: {ex}");
+                WulaLog.Debug($"[WulaFallenEmpire] Failed to clear AI history at {path}: {ex}");
             }
         }
 

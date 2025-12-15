@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.QuestGen;
 using Verse;
 using Verse.AI;
@@ -18,7 +18,7 @@ namespace WulaFallenEmpire
         {
             if (inspectionJobDef.GetValue(slate) == null)
             {
-                Log.Error("[QuestNode_AddInspectionJob] inspectionJobDef is null");
+                WulaLog.Debug("[QuestNode_AddInspectionJob] inspectionJobDef is null");
                 return false;
             }
 
@@ -33,7 +33,7 @@ namespace WulaFallenEmpire
             Pawn pawnValue = pawn.GetValue(slate);
             if (pawnValue == null)
             {
-                Log.Error("[QuestNode_AddInspectionJob] pawn is null");
+                WulaLog.Debug("[QuestNode_AddInspectionJob] pawn is null");
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace WulaFallenEmpire
                 // 如果 Pawn 无效或未生成，记录调试信息但不报错
                 if (QuestGen.slate.Get<bool>("debugLogging", false))
                 {
-                    Log.Message($"[QuestNode_AddInspectionJob] Pawn {pawnValue.Name} is not ready for job assignment (Destroyed: {pawnValue.Destroyed}, Spawned: {pawnValue.Spawned}, Map: {pawnValue.Map?.Index ?? -1})");
+                    WulaLog.Debug($"[QuestNode_AddInspectionJob] Pawn {pawnValue.Name} is not ready for job assignment (Destroyed: {pawnValue.Destroyed}, Spawned: {pawnValue.Spawned}, Map: {pawnValue.Map?.Index ?? -1})");
                 }
                 return;
             }
@@ -59,14 +59,14 @@ namespace WulaFallenEmpire
                 
                 if (QuestGen.slate.Get<bool>("debugLogging", false))
                 {
-                    Log.Message($"[QuestNode_AddInspectionJob] Assigned inspection job to {pawnValue.Name} at position {pawnValue.Position}");
+                    WulaLog.Debug($"[QuestNode_AddInspectionJob] Assigned inspection job to {pawnValue.Name} at position {pawnValue.Position}");
                 }
             }
             else
             {
                 if (QuestGen.slate.Get<bool>("debugLogging", false))
                 {
-                    Log.Message($"[QuestNode_AddInspectionJob] Failed to create inspection job for {pawnValue.Name}");
+                    WulaLog.Debug($"[QuestNode_AddInspectionJob] Failed to create inspection job for {pawnValue.Name}");
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace WulaFallenEmpire
             {
                 if (QuestGen.slate.Get<bool>("debugLogging", false))
                 {
-                    Log.Message($"[QuestNode_AddInspectionJob] No valid inspection target found for {pawn.Name} on map {pawn.Map}");
+                    WulaLog.Debug($"[QuestNode_AddInspectionJob] No valid inspection target found for {pawn.Name} on map {pawn.Map}");
                 }
                 return null;
             }
@@ -123,7 +123,7 @@ namespace WulaFallenEmpire
             
             if (QuestGen.slate.Get<bool>("debugLogging", false))
             {
-                Log.Message($"[QuestNode_AddInspectionJob] Created inspection job for {pawn.Name} at {inspectionTarget.Label} (Position: {inspectionTarget.Position})");
+                WulaLog.Debug($"[QuestNode_AddInspectionJob] Created inspection job for {pawn.Name} at {inspectionTarget.Label} (Position: {inspectionTarget.Position})");
             }
 
             return job;
@@ -139,8 +139,8 @@ namespace WulaFallenEmpire
 
             if (QuestGen.slate.Get<bool>("debugLogging", false))
             {
-                Log.Message($"[QuestNode_AddInspectionJob] Searching for inspection target for {pawn.Name}");
-                Log.Message($"[QuestNode_AddInspectionJob] Require player owned: {requirePlayerOwnedValue}, Require accessible: {requireAccessibleValue}");
+                WulaLog.Debug($"[QuestNode_AddInspectionJob] Searching for inspection target for {pawn.Name}");
+                WulaLog.Debug($"[QuestNode_AddInspectionJob] Require player owned: {requirePlayerOwnedValue}, Require accessible: {requireAccessibleValue}");
             }
 
             // 寻找玩家拥有的建筑
@@ -158,11 +158,11 @@ namespace WulaFallenEmpire
             {
                 if (target != null)
                 {
-                    Log.Message($"[QuestNode_AddInspectionJob] Found target: {target.Label} at {target.Position}");
+                    WulaLog.Debug($"[QuestNode_AddInspectionJob] Found target: {target.Label} at {target.Position}");
                 }
                 else
                 {
-                    Log.Message($"[QuestNode_AddInspectionJob] No target found within range");
+                    WulaLog.Debug($"[QuestNode_AddInspectionJob] No target found within range");
                 }
             }
 
@@ -183,7 +183,7 @@ namespace WulaFallenEmpire
             {
                 if (QuestGen.slate.Get<bool>("debugLogging", false) && thing.Faction != null)
                 {
-                    Log.Message($"[QuestNode_AddInspectionJob] Target {thing.Label} faction: {thing.Faction.Name}, required: Player");
+                    WulaLog.Debug($"[QuestNode_AddInspectionJob] Target {thing.Label} faction: {thing.Faction.Name}, required: Player");
                 }
                 return false;
             }
@@ -193,7 +193,7 @@ namespace WulaFallenEmpire
             {
                 if (QuestGen.slate.Get<bool>("debugLogging", false))
                 {
-                    Log.Message($"[QuestNode_AddInspectionJob] Target {thing.Label} at {thing.Position} is not reachable by {pawn.Name}");
+                    WulaLog.Debug($"[QuestNode_AddInspectionJob] Target {thing.Label} at {thing.Position} is not reachable by {pawn.Name}");
                 }
                 return false;
             }
@@ -212,7 +212,7 @@ namespace WulaFallenEmpire
 
             if (QuestGen.slate.Get<bool>("debugLogging", false))
             {
-                Log.Message($"[QuestNode_AddInspectionJob] Target {thing.Label} at {thing.Position} is valid");
+                WulaLog.Debug($"[QuestNode_AddInspectionJob] Target {thing.Label} at {thing.Position} is valid");
             }
 
             return true;

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -158,7 +158,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[WULA ValueConverter] Error in GetConversionDescription: {ex}");
+                WulaLog.Debug($"[WULA ValueConverter] Error in GetConversionDescription: {ex}");
                 return "WULA_ConversionDescriptionError".Translate();
             }
         }
@@ -225,7 +225,7 @@ namespace WulaFallenEmpire
 
             if (!this.parent.Spawned)
             {
-                Log.Error("Tried to convert " + this.parent + " but it's not spawned.");
+                WulaLog.Debug("Tried to convert " + this.parent + " but it's not spawned.");
                 return;
             }
 
@@ -253,7 +253,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error("Could not find GlobalStorageWorldComponent.");
+                WulaLog.Debug("Could not find GlobalStorageWorldComponent.");
                 return;
             }
 
@@ -307,7 +307,7 @@ namespace WulaFallenEmpire
                     }
                     else
                     {
-                        Log.Error($"[CompValueConverter] Could not find EventDef named '{uiEventDefName}'.");
+                        WulaLog.Debug($"[CompValueConverter] Could not find EventDef named '{uiEventDefName}'.");
                     }
                 }
             }
@@ -378,7 +378,7 @@ namespace WulaFallenEmpire
         public new void TryLaunch(PlanetTile destinationTile, TransportersArrivalAction arrivalAction)
         {
             // 这个方法不应该被直接调用，应该使用ConvertToCurrency
-            Log.Warning("CompValueConverter.TryLaunch should not be called directly. Use ConvertToCurrency instead.");
+            WulaLog.Debug("CompValueConverter.TryLaunch should not be called directly. Use ConvertToCurrency instead.");
             ConvertToCurrency();
         }
     }

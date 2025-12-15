@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -51,7 +51,7 @@ namespace WulaFallenEmpire
                 HediffComp_Disappears hediffComp_Disappears = hediff.TryGetComp<HediffComp_Disappears>();
                 if (hediffComp_Disappears == null)
                 {
-                    Log.Error("HediffComp_GiveHediffsInRangeToRace has a hediff in props which does not have a HediffComp_Disappears");
+                    WulaLog.Debug("HediffComp_GiveHediffsInRangeToRace has a hediff in props which does not have a HediffComp_Disappears");
                 }
                 else
                 {

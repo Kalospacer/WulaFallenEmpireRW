@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using Verse;
@@ -159,13 +159,13 @@ namespace WulaFallenEmpire
             // 从奖励池中随机选择一个武器
             if (ritualDef.rewardWeaponPool.NullOrEmpty())
             {
-                Log.Error($"[WulaFallenEmpire] Reward weapon pool is empty for {ritualDef.defName}");
+                WulaLog.Debug($"[WulaFallenEmpire] Reward weapon pool is empty for {ritualDef.defName}");
                 return;
             }
             ThingDef weaponDef = ritualDef.rewardWeaponPool.RandomElement();
             if (weaponDef == null)
             {
-                Log.Error($"[WulaFallenEmpire] Could not find weapon Def in reward pool for {ritualDef.defName}");
+                WulaLog.Debug($"[WulaFallenEmpire] Could not find weapon Def in reward pool for {ritualDef.defName}");
                 return;
             }
 

@@ -1,4 +1,4 @@
-using Verse;
+﻿using Verse;
 using RimWorld;
 
 namespace WulaFallenEmpire
@@ -58,7 +58,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception e)
             {
-                Log.Warning($"[EventSystem] Condition_VariableEquals: Could not compare '{variable}' and '{compareValueStr}'. Error: {e.Message}");
+                WulaLog.Debug($"[EventSystem] Condition_VariableEquals: Could not compare '{variable}' and '{compareValueStr}'. Error: {e.Message}");
                 reason = "Type mismatch or parsing error during comparison.";
                 return false;
             }
@@ -89,7 +89,7 @@ namespace WulaFallenEmpire
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             if (!eventVarManager.HasVariable(name))
             {
-                Log.Message($"[EventSystem] {GetType().Name}: Variable '{name}' not found, defaulting to 0f.");
+                WulaLog.Debug($"[EventSystem] {GetType().Name}: Variable '{name}' not found, defaulting to 0f.");
                 eventVarManager.SetVariable(name, 0f);
             }
             
@@ -102,13 +102,13 @@ namespace WulaFallenEmpire
                 if (float.IsNaN(compareValue))
                 {
                     reason = $"Comparison variable '{valueVariableName}' not set or not a number.";
-                    Log.Warning($"[EventSystem] {GetType().Name} check for '{name}' failed: {reason}");
+                    WulaLog.Debug($"[EventSystem] {GetType().Name} check for '{name}' failed: {reason}");
                     return false;
                 }
             }
 
             bool met = Compare(variable, compareValue);
-            Log.Message($"[EventSystem] {GetType().Name} check: Name='{name}', CurrentValue='{variable}', CompareValue='{compareValue}', Met={met}");
+            WulaLog.Debug($"[EventSystem] {GetType().Name} check: Name='{name}', CurrentValue='{variable}', CompareValue='{compareValue}', Met={met}");
             if (!met)
             {
                 reason = $"Requires {name} {GetOperatorString()} {compareValue} (Current: {variable})";
@@ -195,12 +195,12 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception e)
             {
-                Log.Warning($"[EventSystem] Condition_VariableNotEqual: Could not compare '{variable}' and '{compareValueStr}'. Error: {e.Message}");
+                WulaLog.Debug($"[EventSystem] Condition_VariableNotEqual: Could not compare '{variable}' and '{compareValueStr}'. Error: {e.Message}");
                 reason = "Type mismatch or parsing error during comparison.";
                 return false;
             }
             
-            Log.Message($"[EventSystem] Condition_VariableNotEqual check: Name='{name}', Type='{variable?.GetType().Name ?? "null"}', CurrentValue='{variable}', CompareValue='{compareValueStr}', Met={met}");
+            WulaLog.Debug($"[EventSystem] Condition_VariableNotEqual check: Name='{name}', Type='{variable?.GetType().Name ?? "null"}', CurrentValue='{variable}', CompareValue='{compareValueStr}', Met={met}");
             if (!met)
             {
                 reason = $"Requires {name} != {compareValueStr} (Current: {variable})";

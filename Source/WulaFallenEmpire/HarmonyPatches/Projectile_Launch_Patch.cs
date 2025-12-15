@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace WulaFallenEmpire.HarmonyPatches
             }
             catch (Exception ex)
             {
-                Log.Error($"Error in Projectile_Impact_Patch: {ex}");
+                WulaLog.Debug($"Error in Projectile_Impact_Patch: {ex}");
                 return true;
             }
         }
@@ -76,7 +76,7 @@ namespace WulaFallenEmpire.HarmonyPatches
             }
             catch (Exception ex)
             {
-                Log.Error($"Error in GetInterceptorsOnPawn: {ex}");
+                WulaLog.Debug($"Error in GetInterceptorsOnPawn: {ex}");
             }
 
             return result;

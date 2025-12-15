@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -33,7 +33,7 @@ namespace WulaFallenEmpire
                 currentLongitudinalOffset = Props.longitudinalInitialOffset;
             }
             
-            Log.Message($"GroundStrafing: Initialized with {confirmedTargetCells.Count} targets, " +
+            WulaLog.Debug($"GroundStrafing: Initialized with {confirmedTargetCells.Count} targets, " +
                        $"Lateral Offset: {currentLateralOffsetAngle:F1}°, " +
                        $"Longitudinal Offset: {currentLongitudinalOffset:F1}");
         }
@@ -52,7 +52,7 @@ namespace WulaFallenEmpire
             // 定期状态输出
             if (Find.TickManager.TicksGame % 120 == 0 && confirmedTargetCells.Count > 0)
             {
-                Log.Message($"GroundStrafing: {firedCells.Count}/{confirmedTargetCells.Count + firedCells.Count} targets fired, " +
+                WulaLog.Debug($"GroundStrafing: {firedCells.Count}/{confirmedTargetCells.Count + firedCells.Count} targets fired, " +
                            $"Lateral: {currentLateralOffsetAngle:F1}°, Longitudinal: {currentLongitudinalOffset:F1}");
             }
         }
@@ -84,7 +84,7 @@ namespace WulaFallenEmpire
                         
                         if (firedCells.Count == 1)
                         {
-                            Log.Message($"First strafing shot at {targetCell}, " +
+                            WulaLog.Debug($"First strafing shot at {targetCell}, " +
                                        $"Lateral offset: {currentLateralOffsetAngle:F1}°, " +
                                        $"Longitudinal offset: {currentLongitudinalOffset:F1}");
                         }
@@ -235,7 +235,7 @@ namespace WulaFallenEmpire
         {
             if (Props.projectileDef == null)
             {
-                Log.Error("No projectile defined for ground strafing");
+                WulaLog.Debug("No projectile defined for ground strafing");
                 return false;
             }
             
@@ -279,7 +279,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Error launching ground strafing projectile: {ex}");
+                WulaLog.Debug($"Error launching ground strafing projectile: {ex}");
             }
             
             return false;
@@ -320,13 +320,13 @@ namespace WulaFallenEmpire
             
             confirmedTargetCells.AddRange(targets);
             
-            Log.Message($"GroundStrafing: Set {confirmedTargetCells.Count} targets, " +
+            WulaLog.Debug($"GroundStrafing: Set {confirmedTargetCells.Count} targets, " +
                        $"Lateral Mode: {Props.lateralOffsetMode}, " +
                        $"Longitudinal Mode: {Props.longitudinalOffsetMode}");
             
             if (confirmedTargetCells.Count > 0)
             {
-                Log.Message($"First target: {confirmedTargetCells[0]}, Last target: {confirmedTargetCells[confirmedTargetCells.Count - 1]}");
+                WulaLog.Debug($"First target: {confirmedTargetCells[0]}, Last target: {confirmedTargetCells[confirmedTargetCells.Count - 1]}");
             }
         }
         
@@ -345,10 +345,10 @@ namespace WulaFallenEmpire
         // 修改：调试方法
         public void DebugOffsetStatus()
         {
-            Log.Message($"GroundStrafing Offset Status:");
-            Log.Message($"  Lateral - Angle: {currentLateralOffsetAngle:F1}°, Mode: {Props.lateralOffsetMode}");
-            Log.Message($"  Longitudinal - Offset: {currentLongitudinalOffset:F1}, Mode: {Props.longitudinalOffsetMode}");
-            Log.Message($"  Shots Fired: {shotsFired}, Forward Phase: {isForwardPhase}");
+            WulaLog.Debug($"GroundStrafing Offset Status:");
+            WulaLog.Debug($"  Lateral - Angle: {currentLateralOffsetAngle:F1}°, Mode: {Props.lateralOffsetMode}");
+            WulaLog.Debug($"  Longitudinal - Offset: {currentLongitudinalOffset:F1}, Mode: {Props.longitudinalOffsetMode}");
+            WulaLog.Debug($"  Shots Fired: {shotsFired}, Forward Phase: {isForwardPhase}");
         }
     }
     

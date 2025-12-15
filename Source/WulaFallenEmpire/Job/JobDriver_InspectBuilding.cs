@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -51,7 +51,7 @@ namespace WulaFallenEmpire
                 // 记录日志
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[JobDriver_InspectBuilding] {pawn.Name} started inspecting {TargetThingA.Label} for {ticksLeft} ticks");
+                    WulaLog.Debug($"[JobDriver_InspectBuilding] {pawn.Name} started inspecting {TargetThingA.Label} for {ticksLeft} ticks");
                 }
             };
 
@@ -99,7 +99,7 @@ namespace WulaFallenEmpire
             
             if (Prefs.DevMode)
             {
-                Log.Message($"[JobDriver_InspectBuilding] {pawn.Name} completed inspection of {TargetThingA.Label}");
+                WulaLog.Debug($"[JobDriver_InspectBuilding] {pawn.Name} completed inspection of {TargetThingA.Label}");
             }
         }
 

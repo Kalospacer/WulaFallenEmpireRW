@@ -1,4 +1,4 @@
-using System; // Required for Activator
+ï»¿using System; // Required for Activator
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,7 +29,7 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error("[WulaFallenEmpire] DelayedActionManager not found. Cannot schedule delayed UI opening.");
+                    WulaLog.Debug("[WulaFallenEmpire] DelayedActionManager not found. Cannot schedule delayed UI opening.");
                 }
             }
             else
@@ -64,7 +64,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error($"[WulaFallenEmpire] Effect_OpenCustomUI could not find EventDef named '{defName}'");
+                WulaLog.Debug($"[WulaFallenEmpire] Effect_OpenCustomUI could not find EventDef named '{defName}'");
             }
         }
 
@@ -119,7 +119,7 @@ namespace WulaFallenEmpire
         {
             if (incident == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_FireIncident has a null incident Def.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_FireIncident has a null incident Def.");
                 return;
             }
 
@@ -131,7 +131,7 @@ namespace WulaFallenEmpire
 
             if (!incident.Worker.TryExecute(parms))
             {
-                Log.Error($"[WulaFallenEmpire] Could not fire incident {incident.defName}");
+                WulaLog.Debug($"[WulaFallenEmpire] Could not fire incident {incident.defName}");
             }
         }
     }
@@ -145,14 +145,14 @@ namespace WulaFallenEmpire
         {
             if (faction == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_ChangeFactionRelation has a null faction Def.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_ChangeFactionRelation has a null faction Def.");
                 return;
             }
 
             Faction targetFaction = Find.FactionManager.FirstFactionOfDef(faction);
             if (targetFaction == null)
             {
-                Log.Warning($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{faction.defName}'.");
+                WulaLog.Debug($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{faction.defName}'.");
                 return;
             }
 
@@ -204,14 +204,14 @@ namespace WulaFallenEmpire
         {
             if (faction == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_ChangeFactionRelation_FromVariable has a null faction Def.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_ChangeFactionRelation_FromVariable has a null faction Def.");
                 return;
             }
             
             Faction targetFaction = Find.FactionManager.FirstFactionOfDef(faction);
             if (targetFaction == null)
             {
-                Log.Warning($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{faction.defName}'.");
+                WulaLog.Debug($"[WulaFallenEmpire] Could not find an active faction for FactionDef '{faction.defName}'.");
                 return;
             }
 
@@ -230,12 +230,12 @@ namespace WulaFallenEmpire
         {
             if (kindDef == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_SpawnPawnAndStore has a null kindDef.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_SpawnPawnAndStore has a null kindDef.");
                 return;
             }
             if (storeAs.NullOrEmpty())
             {
-                Log.Error("[WulaFallenEmpire] Effect_SpawnPawnAndStore needs a 'storeAs' variable name.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_SpawnPawnAndStore needs a 'storeAs' variable name.");
                 return;
             }
 
@@ -269,14 +269,14 @@ namespace WulaFallenEmpire
         {
             if (thingDef == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_GiveThing has a null thingDef.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_GiveThing has a null thingDef.");
                 return;
             }
 
             Map currentMap = Find.CurrentMap;
             if (currentMap == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_GiveThing cannot execute without a current map.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_GiveThing cannot execute without a current map.");
                 return;
             }
 
@@ -303,14 +303,14 @@ namespace WulaFallenEmpire
         {
             if (kindDef == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_SpawnPawn has a null kindDef.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_SpawnPawn has a null kindDef.");
                 return;
             }
 
             Map map = Find.CurrentMap;
             if (map == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_SpawnPawn cannot execute without a current map.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_SpawnPawn cannot execute without a current map.");
                 return;
             }
 
@@ -361,7 +361,7 @@ namespace WulaFallenEmpire
         {
             if (string.IsNullOrEmpty(name))
             {
-                Log.Error("[WulaFallenEmpire] Effect_ModifyVariable has a null or empty name.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_ModifyVariable has a null or empty name.");
                 return;
             }
 
@@ -374,7 +374,7 @@ namespace WulaFallenEmpire
                 valueStr = eventVarManager.GetVariable<object>(valueVariableName)?.ToString();
                 if (valueStr == null)
                 {
-                    Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable: valueVariableName '{valueVariableName}' not found.");
+                    WulaLog.Debug($"[WulaFallenEmpire] Effect_ModifyVariable: valueVariableName '{valueVariableName}' not found.");
                     return;
                 }
             }
@@ -383,7 +383,7 @@ namespace WulaFallenEmpire
             object variable = eventVarManager.GetVariable<object>(name);
             if (variable == null)
             {
-                Log.Message($"[EventSystem] Effect_ModifyVariable: Variable '{name}' not found, initializing to 0.");
+                WulaLog.Debug($"[EventSystem] Effect_ModifyVariable: Variable '{name}' not found, initializing to 0.");
                 variable = 0;
             }
 
@@ -406,12 +406,12 @@ namespace WulaFallenEmpire
                     newValue = Modify(currentVal, modVal, operation);
                 }
 
-                Log.Message($"[EventSystem] Modifying variable '{name}'. Operation: {operation}. Value: {valueStr}. From: {originalValue} To: {newValue}");
+                WulaLog.Debug($"[EventSystem] Modifying variable '{name}'. Operation: {operation}. Value: {valueStr}. From: {originalValue} To: {newValue}");
                 eventVarManager.SetVariable(name, newValue);
             }
             catch (System.Exception e)
             {
-                Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable: Could not parse or operate on value '{valueStr}' for variable '{name}'. Error: {e.Message}");
+                WulaLog.Debug($"[WulaFallenEmpire] Effect_ModifyVariable: Could not parse or operate on value '{valueStr}' for variable '{name}'. Error: {e.Message}");
             }
         }
 
@@ -424,7 +424,7 @@ namespace WulaFallenEmpire
                 case VariableOperation.Multiply: return current * modifier;
                 case VariableOperation.Divide:
                     if (modifier != 0) return current / modifier;
-                    Log.Error($"[WulaFallenEmpire] Effect_ModifyVariable tried to divide by zero.");
+                    WulaLog.Debug($"[WulaFallenEmpire] Effect_ModifyVariable tried to divide by zero.");
                     return current;
                 default: return current;
             }
@@ -439,7 +439,7 @@ namespace WulaFallenEmpire
         {
             if (string.IsNullOrEmpty(name))
             {
-                Log.Error("[WulaFallenEmpire] Effect_ClearVariable has a null or empty name.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_ClearVariable has a null or empty name.");
                 return;
             }
             Find.World.GetComponent<EventVariableManager>().ClearVariable(name);
@@ -453,17 +453,17 @@ namespace WulaFallenEmpire
         {
             if (quest == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_AddQuest has a null quest Def.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_AddQuest has a null quest Def.");
                 return;
             }
-            // Ê¹ÓÃ±ê×¼µÄÈÎÎñÉú³É·½·¨£¬¶ø²»ÊÇ´´½¨raw quest
+            // Ê¹ï¿½Ã±ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½raw quest
             Quest newQuest = QuestUtility.GenerateQuestAndMakeAvailable(quest, 0);
 
             if (newQuest != null)
             {
-                Log.Message($"[WulaFallenEmpire] Successfully added quest: {quest.defName}");
+                WulaLog.Debug($"[WulaFallenEmpire] Successfully added quest: {quest.defName}");
 
-                // Èç¹û²»ÊÇ×Ô¶¯½ÓÊÜµÄÈÎÎñ£¬·¢ËÍ¿ÉÓÃÐÅ¼þ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Üµï¿½ï¿½ï¿½ï¿½ñ£¬·ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ï¿½Å¼ï¿½
                 if (!newQuest.root.autoAccept)
                 {
                     QuestUtility.SendLetterQuestAvailable(newQuest);
@@ -471,7 +471,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error($"[WulaFallenEmpire] Failed to generate quest: {quest.defName}");
+                WulaLog.Debug($"[WulaFallenEmpire] Failed to generate quest: {quest.defName}");
             }
         }
     }
@@ -484,7 +484,7 @@ namespace WulaFallenEmpire
         {
             if (research == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_FinishResearch has a null research Def.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_FinishResearch has a null research Def.");
                 return;
             }
 
@@ -507,14 +507,14 @@ namespace WulaFallenEmpire
             Map map = Find.CurrentMap;
             if (map == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_TriggerRaid cannot execute without a current map.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_TriggerRaid cannot execute without a current map.");
                 return;
             }
 
             Faction factionInst = Find.FactionManager.FirstFactionOfDef(this.faction);
             if (factionInst == null)
             {
-                Log.Error($"[WulaFallenEmpire] Effect_TriggerRaid could not find an active faction for FactionDef '{this.faction?.defName}'.");
+                WulaLog.Debug($"[WulaFallenEmpire] Effect_TriggerRaid could not find an active faction for FactionDef '{this.faction?.defName}'.");
                 return;
             }
 
@@ -531,7 +531,7 @@ namespace WulaFallenEmpire
 
             if (!RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Hostile))
             {
-                Log.Error("[WulaFallenEmpire] Effect_TriggerRaid could not find a valid spawn center.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_TriggerRaid could not find a valid spawn center.");
                 return;
             }
 
@@ -579,7 +579,7 @@ namespace WulaFallenEmpire
         {
             if (factionDef == null || string.IsNullOrEmpty(variableName))
             {
-                Log.Error("[WulaFallenEmpire] Effect_CheckFactionGoodwill is not configured correctly.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_CheckFactionGoodwill is not configured correctly.");
                 return;
             }
 
@@ -589,12 +589,12 @@ namespace WulaFallenEmpire
             if (faction != null)
             {
                 int goodwill = faction.GoodwillWith(Faction.OfPlayer);
-                Log.Message($"[EventSystem] Storing goodwill for faction '{faction.Name}' ({goodwill}) into variable '{variableName}'.");
+                WulaLog.Debug($"[EventSystem] Storing goodwill for faction '{faction.Name}' ({goodwill}) into variable '{variableName}'.");
                 eventVarManager.SetVariable(variableName, goodwill);
             }
             else
             {
-                Log.Warning($"[EventSystem] Effect_CheckFactionGoodwill: Faction '{factionDef.defName}' not found. Storing 0 in variable '{variableName}'.");
+                WulaLog.Debug($"[EventSystem] Effect_CheckFactionGoodwill: Faction '{factionDef.defName}' not found. Storing 0 in variable '{variableName}'.");
                 eventVarManager.SetVariable(variableName, 0);
             }
         }
@@ -608,13 +608,13 @@ namespace WulaFallenEmpire
         {
             if (string.IsNullOrEmpty(variableName))
             {
-                Log.Error("[WulaFallenEmpire] Effect_StoreRealPlayTime is not configured correctly (missing variableName).");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_StoreRealPlayTime is not configured correctly (missing variableName).");
                 return;
             }
 
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             float realPlayTime = Find.GameInfo.RealPlayTimeInteracting;
-            Log.Message($"[EventSystem] Storing real play time ({realPlayTime}s) into variable '{variableName}'.");
+            WulaLog.Debug($"[EventSystem] Storing real play time ({realPlayTime}s) into variable '{variableName}'.");
             eventVarManager.SetVariable(variableName, realPlayTime);
         }
     }
@@ -627,13 +627,13 @@ namespace WulaFallenEmpire
         {
             if (string.IsNullOrEmpty(variableName))
             {
-                Log.Error("[WulaFallenEmpire] Effect_StoreDaysPassed is not configured correctly (missing variableName).");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_StoreDaysPassed is not configured correctly (missing variableName).");
                 return;
             }
 
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             int daysPassed = GenDate.DaysPassed;
-            Log.Message($"[EventSystem] Storing days passed ({daysPassed}) into variable '{variableName}'.");
+            WulaLog.Debug($"[EventSystem] Storing days passed ({daysPassed}) into variable '{variableName}'.");
             eventVarManager.SetVariable(variableName, daysPassed);
         }
     }
@@ -646,20 +646,20 @@ namespace WulaFallenEmpire
         {
             if (string.IsNullOrEmpty(variableName))
             {
-                Log.Error("[WulaFallenEmpire] Effect_StoreColonyWealth is not configured correctly (missing variableName).");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_StoreColonyWealth is not configured correctly (missing variableName).");
                 return;
             }
 
             Map currentMap = Find.CurrentMap;
             if (currentMap == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_StoreColonyWealth cannot execute without a current map.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_StoreColonyWealth cannot execute without a current map.");
                 return;
             }
 
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             float wealth = currentMap.wealthWatcher.WealthTotal;
-            Log.Message($"[EventSystem] Storing colony wealth ({wealth}) into variable '{variableName}'.");
+            WulaLog.Debug($"[EventSystem] Storing colony wealth ({wealth}) into variable '{variableName}'.");
             eventVarManager.SetVariable(variableName, wealth);
         }
     }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
@@ -79,7 +79,7 @@ namespace WulaFallenEmpire
                         }
                     }
 
-                    Log.Message($"[SkyfallerCaller] Found {allFlyOvers.Count} FlyOvers on map");
+                    WulaLog.Debug($"[SkyfallerCaller] Found {allFlyOvers.Count} FlyOvers on map");
 
                     foreach (var thing in allFlyOvers)
                     {
@@ -89,28 +89,28 @@ namespace WulaFallenEmpire
                             var facilitiesComp = flyOver.GetComp<CompFlyOverFacilities>();
                             if (facilitiesComp == null)
                             {
-                                Log.Warning($"[SkyfallerCaller] FlyOver at {flyOver.Position} has no CompFlyOverFacilities");
+                                WulaLog.Debug($"[SkyfallerCaller] FlyOver at {flyOver.Position} has no CompFlyOverFacilities");
                                 continue;
                             }
                             
                             if (facilitiesComp.HasFacility("BuildingdropperFacility"))
                             {
-                                Log.Message($"[SkyfallerCaller] Found valid FlyOver at {flyOver.Position} with BuildingdropperFacility");
+                                WulaLog.Debug($"[SkyfallerCaller] Found valid FlyOver at {flyOver.Position} with BuildingdropperFacility");
                                 return true;
                             }
                             else
                             {
-                                Log.Message($"[SkyfallerCaller] FlyOver at {flyOver.Position} missing BuildingdropperFacility. Has: {string.Join(", ", facilitiesComp.GetActiveFacilities())}");
+                                WulaLog.Debug($"[SkyfallerCaller] FlyOver at {flyOver.Position} missing BuildingdropperFacility. Has: {string.Join(", ", facilitiesComp.GetActiveFacilities())}");
                             }
                         }
                     }
 
-                    Log.Message("[SkyfallerCaller] No FlyOver with BuildingdropperFacility found");
+                    WulaLog.Debug("[SkyfallerCaller] No FlyOver with BuildingdropperFacility found");
                     return false;
                 }
                 catch (System.Exception ex)
                 {
-                    Log.Error($"[SkyfallerCaller] Exception while checking for FlyOver: {ex}");
+                    WulaLog.Debug($"[SkyfallerCaller] Exception while checking for FlyOver: {ex}");
                     return false;
                 }
             }
@@ -146,7 +146,7 @@ namespace WulaFallenEmpire
                 callTick = Find.TickManager.TicksGame + Props.autoCallDelayTicks;
                 calling = true;
                 
-                Log.Message($"[SkyfallerCaller] Scheduled auto-call for non-player building {parent.Label} at tick {callTick}");
+                WulaLog.Debug($"[SkyfallerCaller] Scheduled auto-call for non-player building {parent.Label} at tick {callTick}");
             }
         }
 
@@ -185,11 +185,11 @@ namespace WulaFallenEmpire
         {
             try
             {
-                Log.Message($"[SkyfallerCaller] Executing auto skyfaller call for non-player building at {parent.Position}");
+                WulaLog.Debug($"[SkyfallerCaller] Executing auto skyfaller call for non-player building at {parent.Position}");
                 
                 if (Props.skyfallerDef == null)
                 {
-                    Log.Error("[SkyfallerCaller] Skyfaller def is null!");
+                    WulaLog.Debug("[SkyfallerCaller] Skyfaller def is null!");
                     ResetCall();
                     return;
                 }
@@ -202,19 +202,19 @@ namespace WulaFallenEmpire
                 Skyfaller skyfaller = SkyfallerMaker.MakeSkyfaller(Props.skyfallerDef);
                 if (skyfaller == null)
                 {
-                    Log.Error("[SkyfallerCaller] Failed to create skyfaller!");
+                    WulaLog.Debug("[SkyfallerCaller] Failed to create skyfaller!");
                     ResetCall();
                     return;
                 }
 
                 IntVec3 spawnPos = parent.Position;
-                Log.Message($"[SkyfallerCaller] Spawning auto skyfaller at {spawnPos}");
+                WulaLog.Debug($"[SkyfallerCaller] Spawning auto skyfaller at {spawnPos}");
                 
                 GenSpawn.Spawn(skyfaller, spawnPos, parent.Map);
                 
                 if (Props.destroyBuilding)
                 {
-                    Log.Message($"[SkyfallerCaller] Destroying non-player building {parent.Label}");
+                    WulaLog.Debug($"[SkyfallerCaller] Destroying non-player building {parent.Label}");
                     parent.Destroy(DestroyMode.Vanish);
                 }
                 
@@ -228,7 +228,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[SkyfallerCaller] Error in ExecuteAutoSkyfallerCall: {ex}");
+                WulaLog.Debug($"[SkyfallerCaller] Error in ExecuteAutoSkyfallerCall: {ex}");
                 ResetCall();
             }
         }
@@ -263,7 +263,7 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            Log.Message($"[SkyfallerCaller] Starting skyfaller call from {parent.Label} at {parent.Position}");
+            WulaLog.Debug($"[SkyfallerCaller] Starting skyfaller call from {parent.Label} at {parent.Position}");
             
             calling = true;
             used = true;
@@ -295,11 +295,11 @@ namespace WulaFallenEmpire
 
         protected virtual void ExecuteSkyfallerCall()
         {
-            Log.Message($"[SkyfallerCaller] Executing skyfaller call at {parent.Position}");
+            WulaLog.Debug($"[SkyfallerCaller] Executing skyfaller call at {parent.Position}");
             
             if (Props.skyfallerDef == null)
             {
-                Log.Error("[SkyfallerCaller] Skyfaller def is null!");
+                WulaLog.Debug("[SkyfallerCaller] Skyfaller def is null!");
                 return;
             }
 
@@ -307,7 +307,7 @@ namespace WulaFallenEmpire
             var resourceCheck = CheckAndConsumeMaterials();
             if (!resourceCheck.HasEnoughMaterials)
             {
-                Log.Message($"[SkyfallerCaller] Aborting skyfaller call due to insufficient materials.");
+                WulaLog.Debug($"[SkyfallerCaller] Aborting skyfaller call due to insufficient materials.");
                 ResetCall();
                 return;
             }
@@ -322,18 +322,18 @@ namespace WulaFallenEmpire
             Skyfaller skyfaller = SkyfallerMaker.MakeSkyfaller(Props.skyfallerDef);
             if (skyfaller == null)
             {
-                Log.Error("[SkyfallerCaller] Failed to create skyfaller!");
+                WulaLog.Debug("[SkyfallerCaller] Failed to create skyfaller!");
                 return;
             }
 
             IntVec3 spawnPos = parent.Position;
-            Log.Message($"[SkyfallerCaller] Spawning skyfaller at {spawnPos}");
+            WulaLog.Debug($"[SkyfallerCaller] Spawning skyfaller at {spawnPos}");
             
             GenSpawn.Spawn(skyfaller, spawnPos, parent.Map);
             
             if (Props.destroyBuilding)
             {
-                Log.Message($"[SkyfallerCaller] Destroying building {parent.Label}");
+                WulaLog.Debug($"[SkyfallerCaller] Destroying building {parent.Label}");
                 parent.Destroy(DestroyMode.Vanish);
             }
             
@@ -350,7 +350,7 @@ namespace WulaFallenEmpire
             
             if (roof != null && !roof.isThickRoof && Props.allowThinRoof)
             {
-                Log.Message($"[SkyfallerCaller] Destroying thin roof at {targetPos}");
+                WulaLog.Debug($"[SkyfallerCaller] Destroying thin roof at {targetPos}");
                 parent.Map.roofGrid.SetRoof(targetPos, null);
                 
                 // 生成屋顶破坏效果
@@ -670,7 +670,7 @@ namespace WulaFallenEmpire
 
             // 在非 God Mode 下，这个方法不应该被调用
             // 实际的消耗在 CheckAndConsumeMaterials 中处理
-            Log.Warning("[SkyfallerCaller] ConsumeMaterials called in non-God mode, this shouldn't happen");
+            WulaLog.Debug("[SkyfallerCaller] ConsumeMaterials called in non-God mode, this shouldn't happen");
         }
 
         // 其余方法保持不变...

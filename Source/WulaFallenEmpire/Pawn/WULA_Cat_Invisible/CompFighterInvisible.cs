@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -255,7 +255,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"CompFighterInvisible: Error sending letter for {Sightstealer?.LabelCap}: {ex}");
+                WulaLog.Debug($"CompFighterInvisible: Error sending letter for {Sightstealer?.LabelCap}: {ex}");
             }
         }
         

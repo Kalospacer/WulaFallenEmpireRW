@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -147,7 +147,7 @@ namespace WulaFallenEmpire
             
             if (successfulSpawns < escortsToSpawn)
             {
-                Log.Message($"Spawned {successfulSpawns}/{escortsToSpawn} escorts (some positions were too close to existing escorts)");
+                WulaLog.Debug($"Spawned {successfulSpawns}/{escortsToSpawn} escorts (some positions were too close to existing escorts)");
             }
         }
 
@@ -210,7 +210,7 @@ namespace WulaFallenEmpire
                 ThingDef escortDef = SelectEscortDef();
                 if (escortDef == null)
                 {
-                    Log.Error("FlyOver Escort: No valid escort def found");
+                    WulaLog.Debug("FlyOver Escort: No valid escort def found");
                     return null;
                 }
 
@@ -220,7 +220,7 @@ namespace WulaFallenEmpire
                 
                 if (!escortStart.InBounds(mainFlyOver.Map) || !escortEnd.InBounds(mainFlyOver.Map))
                 {
-                    Log.Warning("FlyOver Escort: Escort start or end position out of bounds");
+                    WulaLog.Debug("FlyOver Escort: Escort start or end position out of bounds");
                     return null;
                 }
 
@@ -247,7 +247,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Error creating FlyOver escort: {ex}");
+                WulaLog.Debug($"Error creating FlyOver escort: {ex}");
                 return null;
             }
         }

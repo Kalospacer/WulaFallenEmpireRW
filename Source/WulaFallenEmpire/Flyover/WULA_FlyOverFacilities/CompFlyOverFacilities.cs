@@ -1,4 +1,4 @@
-// CompFlyOverFacilities.cs
+﻿// CompFlyOverFacilities.cs
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
@@ -41,7 +41,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[FlyOverFacilities] Error in AnyFlyOverHasFacilities: {ex}");
+                WulaLog.Debug($"[FlyOverFacilities] Error in AnyFlyOverHasFacilities: {ex}");
                 return false;
             }
         }
@@ -71,7 +71,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[FlyOverFacilities] Error in GetAllFlyOversWithFacilities: {ex}");
+                WulaLog.Debug($"[FlyOverFacilities] Error in GetAllFlyOversWithFacilities: {ex}");
                 return result;
             }
         }
@@ -100,7 +100,7 @@ namespace WulaFallenEmpire
             {
                 // 只在初次生成时激活所有定义的设施
                 activeFacilities.AddRange(Props.availableFacilities);
-                Log.Message($"[FlyOverFacilities] Initialized with {activeFacilities.Count} facilities: {string.Join(", ", activeFacilities)}");
+                WulaLog.Debug($"[FlyOverFacilities] Initialized with {activeFacilities.Count} facilities: {string.Join(", ", activeFacilities)}");
             }
         }
 
@@ -127,7 +127,7 @@ namespace WulaFallenEmpire
                 activeFacilities = new List<string>();
                 // 在加载后重新添加默认设施
                 activeFacilities.AddRange(Props.availableFacilities);
-                Log.Message($"[FlyOverFacilities] Reinitialized after load with {activeFacilities.Count} facilities");
+                WulaLog.Debug($"[FlyOverFacilities] Reinitialized after load with {activeFacilities.Count} facilities");
             }
         }
 

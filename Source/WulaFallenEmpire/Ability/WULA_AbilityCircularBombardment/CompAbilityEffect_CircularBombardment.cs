@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace WulaFallenEmpire
 
             try
             {
-                Log.Message($"[CircularBombardment] Starting circular bombardment at {target.Cell}");
+                WulaLog.Debug($"[CircularBombardment] Starting circular bombardment at {target.Cell}");
                 
                 // 设置轰炸中心
                 bombardmentCenter = target.Cell;
@@ -52,13 +52,13 @@ namespace WulaFallenEmpire
                 // 开始前摇
                 StartWarmup();
                 
-                Log.Message($"[CircularBombardment] Bombardment initialized: {targetCells.Count} targets, " +
+                WulaLog.Debug($"[CircularBombardment] Bombardment initialized: {targetCells.Count} targets, " +
                            $"{Props.simultaneousLaunches} simultaneous launches, " +
                            $"independent intervals: {Props.useIndependentIntervals}");
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[CircularBombardment] Error starting bombardment: {ex}");
+                WulaLog.Debug($"[CircularBombardment] Error starting bombardment: {ex}");
             }
         }
 
@@ -226,7 +226,7 @@ namespace WulaFallenEmpire
             }
             
             targetCells = selectedCells;
-            Log.Message($"[CircularBombardment] Selected {targetCells.Count} target cells from {areaCells.Count} area cells");
+            WulaLog.Debug($"[CircularBombardment] Selected {targetCells.Count} target cells from {areaCells.Count} area cells");
         }
 
         // 检查单元格是否有效
@@ -269,7 +269,7 @@ namespace WulaFallenEmpire
             launchesCompleted = 0;
             currentGroupIndex = 0;
             
-            Log.Message($"[CircularBombardment] Warmup started: {warmupTicksRemaining} ticks remaining");
+            WulaLog.Debug($"[CircularBombardment] Warmup started: {warmupTicksRemaining} ticks remaining");
         }
 
         private void UpdateWarmup()
@@ -281,7 +281,7 @@ namespace WulaFallenEmpire
                 // 前摇结束，开始发射
                 currentState = CircularBombardmentState.Launching;
                 nextLaunchTick = Find.TickManager.TicksGame;
-                Log.Message($"[CircularBombardment] Warmup completed, starting launches");
+                WulaLog.Debug($"[CircularBombardment] Warmup completed, starting launches");
             }
         }
 
@@ -291,7 +291,7 @@ namespace WulaFallenEmpire
             if (remainingTargets.Count == 0 || launchesCompleted >= Props.maxLaunches)
             {
                 currentState = CircularBombardmentState.Completed;
-                Log.Message($"[CircularBombardment] All launches completed: {launchesCompleted}/{Props.maxLaunches}");
+                WulaLog.Debug($"[CircularBombardment] All launches completed: {launchesCompleted}/{Props.maxLaunches}");
                 return;
             }
             
@@ -307,7 +307,7 @@ namespace WulaFallenEmpire
                 nextInnerLaunchTick = Find.TickManager.TicksGame;
                 currentGroupIndex++;
                 
-                Log.Message($"[CircularBombardment] Starting group {currentGroupIndex} with {currentGroupTargets.Count} targets, using independent intervals");
+                WulaLog.Debug($"[CircularBombardment] Starting group {currentGroupIndex} with {currentGroupTargets.Count} targets, using independent intervals");
             }
             else
             {
@@ -323,7 +323,7 @@ namespace WulaFallenEmpire
                 
                 // 设置下一组发射时间
                 nextLaunchTick = Find.TickManager.TicksGame + Props.launchIntervalTicks;
-                Log.Message($"[CircularBombardment] Launched group {currentGroupIndex + 1} simultaneously: {currentGroupTargets.Count} targets");
+                WulaLog.Debug($"[CircularBombardment] Launched group {currentGroupIndex + 1} simultaneously: {currentGroupTargets.Count} targets");
             }
         }
 
@@ -338,7 +338,7 @@ namespace WulaFallenEmpire
                 // 当前组发射完毕
                 isInGroupLaunch = false;
                 nextLaunchTick = Find.TickManager.TicksGame + Props.launchIntervalTicks;
-                Log.Message($"[CircularBombardment] Group {currentGroupIndex} completed");
+                WulaLog.Debug($"[CircularBombardment] Group {currentGroupIndex} completed");
                 return;
             }
             
@@ -361,7 +361,7 @@ namespace WulaFallenEmpire
                 nextLaunchTick = Find.TickManager.TicksGame + Props.launchIntervalTicks;
             }
             
-            Log.Message($"[CircularBombardment] Launched target in group {currentGroupIndex} ({launchesCompleted}/{Props.maxLaunches})");
+            WulaLog.Debug($"[CircularBombardment] Launched target in group {currentGroupIndex} ({launchesCompleted}/{Props.maxLaunches})");
         }
 
         // 更新发射逻辑
@@ -384,7 +384,7 @@ namespace WulaFallenEmpire
                 (remainingTargets.Count == 0 && !isInGroupLaunch))
             {
                 currentState = CircularBombardmentState.Completed;
-                Log.Message($"[CircularBombardment] Bombardment completed: {launchesCompleted} launches");
+                WulaLog.Debug($"[CircularBombardment] Bombardment completed: {launchesCompleted} launches");
             }
         }
 
@@ -405,12 +405,12 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error($"[CircularBombardment] No skyfaller or projectile defined");
+                    WulaLog.Debug($"[CircularBombardment] No skyfaller or projectile defined");
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[CircularBombardment] Error launching at {targetCell}: {ex}");
+                WulaLog.Debug($"[CircularBombardment] Error launching at {targetCell}: {ex}");
             }
         }
 
@@ -447,7 +447,7 @@ namespace WulaFallenEmpire
             isInGroupLaunch = false;
             launchesCompleted = 0;
             
-            Log.Message($"[CircularBombardment] Cleanup completed");
+            WulaLog.Debug($"[CircularBombardment] Cleanup completed");
         }
 
         public override void CompTick()

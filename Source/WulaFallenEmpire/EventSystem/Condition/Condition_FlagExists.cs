@@ -1,4 +1,4 @@
-using Verse;
+﻿using Verse;
 using RimWorld;
 
 namespace WulaFallenEmpire
@@ -40,7 +40,7 @@ namespace WulaFallenEmpire
                 }
             }
 
-            Log.Message($"[EventSystem] Condition_FlagExists check: Flag='{flagName}', Exists={flagExists}, Reason='{reason}'");
+            WulaLog.Debug($"[EventSystem] Condition_FlagExists check: Flag='{flagName}', Exists={flagExists}, Reason='{reason}'");
             return flagExists;
         }
     }

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -37,7 +37,7 @@ namespace WulaFallenEmpire
             var prefab = DefDatabase<PrefabDef>.GetNamed(PropsPrefab.prefabDefName, false);
             if (prefab == null)
             {
-                Log.Error($"[PrefabSkyfallerCaller] Could not find PrefabDef named {PropsPrefab.prefabDefName}");
+                WulaLog.Debug($"[PrefabSkyfallerCaller] Could not find PrefabDef named {PropsPrefab.prefabDefName}");
                 return new List<ThingDefCountClass>(); // Return empty list to avoid null reference
             }
 
@@ -69,7 +69,7 @@ namespace WulaFallenEmpire
                 // Final material check before launching
                 if (!HasEnoughMaterials())
                 {
-                    Log.Warning($"[PrefabSkyfallerCaller] Aborting skyfaller call due to insufficient materials at the last moment.");
+                    WulaLog.Debug($"[PrefabSkyfallerCaller] Aborting skyfaller call due to insufficient materials at the last moment.");
                     ResetCall(); // Reset the calling state
                     return;
                 }
@@ -114,7 +114,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error($"[PrefabSkyfallerCaller] Failed to create Skyfaller_PrefabSpawner. Created thing is of type {thing.GetType().FullName}. Def: {Props.skyfallerDef.defName}, ThingClass: {Props.skyfallerDef.thingClass.FullName}");
+                WulaLog.Debug($"[PrefabSkyfallerCaller] Failed to create Skyfaller_PrefabSpawner. Created thing is of type {thing.GetType().FullName}. Def: {Props.skyfallerDef.defName}, ThingClass: {Props.skyfallerDef.thingClass.FullName}");
                 // Fallback: spawn as normal skyfaller if possible, or just abort
                 if (thing is Skyfaller normalSkyfaller)
                 {
@@ -138,7 +138,7 @@ namespace WulaFallenEmpire
             
             if (roof != null && !roof.isThickRoof && Props.allowThinRoof)
             {
-                Log.Message($"[PrefabSkyfallerCaller] Destroying thin roof at {targetPos}");
+                WulaLog.Debug($"[PrefabSkyfallerCaller] Destroying thin roof at {targetPos}");
                 parent.Map.roofGrid.SetRoof(targetPos, null);
                 
                 // 生成屋顶破坏效果

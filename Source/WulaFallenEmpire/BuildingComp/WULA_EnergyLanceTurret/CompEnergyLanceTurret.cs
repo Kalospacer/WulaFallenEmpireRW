@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace WulaFallenEmpire
                 ResetState();
             }
             
-            Log.Message($"[EnergyLanceTurret] 炮塔生成在 {parent.Position}, 检测范围: {Props.detectionRange}");
+            WulaLog.Debug($"[EnergyLanceTurret] 炮塔生成在 {parent.Position}, 检测范围: {Props.detectionRange}");
         }
 
         // 在 StartEnergyLance 方法中修复光束创建逻辑
@@ -63,7 +63,7 @@ namespace WulaFallenEmpire
             // 双重检查目标有效性
             if (currentTarget == null || !IsTargetValid(currentTarget))
             {
-                Log.Warning($"[EnergyLanceTurret] 尝试启动能量光束但目标无效: {(currentTarget == null ? "目标为null" : "目标无效")}");
+                WulaLog.Debug($"[EnergyLanceTurret] 尝试启动能量光束但目标无效: {(currentTarget == null ? "目标为null" : "目标无效")}");
 
                 // 尝试重新寻找目标
                 var potentialTargets = FindPotentialTargets();
@@ -72,11 +72,11 @@ namespace WulaFallenEmpire
                     currentTarget = potentialTargets
                         .OrderBy(t => t.Position.DistanceTo(parent.Position))
                         .First();
-                    Log.Message($"[EnergyLanceTurret] 重新获取目标: {currentTarget.LabelCap}");
+                    WulaLog.Debug($"[EnergyLanceTurret] 重新获取目标: {currentTarget.LabelCap}");
                 }
                 else
                 {
-                    Log.Message("[EnergyLanceTurret] 无法重新获取目标，进入冷却");
+                    WulaLog.Debug("[EnergyLanceTurret] 无法重新获取目标，进入冷却");
                     StartCooldown();
                     return;
                 }
@@ -88,12 +88,12 @@ namespace WulaFallenEmpire
                 var lanceDef = Props.energyLanceDef ?? ThingDef.Named("EnergyLance");
                 if (lanceDef == null)
                 {
-                    Log.Error("[EnergyLanceTurret] 能量光束定义为空!");
+                    WulaLog.Debug("[EnergyLanceTurret] 能量光束定义为空!");
                     StartCooldown();
                     return;
                 }
 
-                Log.Message($"[EnergyLanceTurret] 创建能量光束: {lanceDef.defName} 目标: {currentTarget.LabelCap} 在 {currentTarget.Position}");
+                WulaLog.Debug($"[EnergyLanceTurret] 创建能量光束: {lanceDef.defName} 目标: {currentTarget.LabelCap} 在 {currentTarget.Position}");
 
                 // 关键修复：光束直接在目标位置生成，而不是建筑位置
                 activeLance = EnergyLance.MakeEnergyLance(
@@ -109,7 +109,7 @@ namespace WulaFallenEmpire
 
                 if (activeLance == null)
                 {
-                    Log.Error("[EnergyLanceTurret] 能量光束创建失败!");
+                    WulaLog.Debug("[EnergyLanceTurret] 能量光束创建失败!");
                     StartCooldown();
                     return;
                 }
@@ -131,11 +131,11 @@ namespace WulaFallenEmpire
                 // 立即更新光束位置，确保光束在正确位置开始
                 UpdateEnergyLancePosition();
 
-                Log.Message($"[EnergyLanceTurret] 能量光束启动成功，追踪目标: {currentTarget.LabelCap}");
+                WulaLog.Debug($"[EnergyLanceTurret] 能量光束启动成功，追踪目标: {currentTarget.LabelCap}");
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[EnergyLanceTurret] 启动能量光束错误: {ex}");
+                WulaLog.Debug($"[EnergyLanceTurret] 启动能量光束错误: {ex}");
                 StartCooldown();
             }
         }
@@ -154,7 +154,7 @@ namespace WulaFallenEmpire
                 // 添加更多调试信息
                 if (debugTickCounter % 30 == 0) // 每0.5秒输出一次位置信息
                 {
-                    Log.Message($"[EnergyLanceTurret] 更新光束位置: 目标在 {currentTarget.Position}, 光束在 {activeLance.Position}");
+                    WulaLog.Debug($"[EnergyLanceTurret] 更新光束位置: 目标在 {currentTarget.Position}, 光束在 {activeLance.Position}");
                 }
             }
             else if (lastTargetPosition.IsValid && Find.TickManager.TicksGame - lastPositionUpdateTick <= Props.targetUpdateInterval * 2)
@@ -209,12 +209,12 @@ namespace WulaFallenEmpire
             
             if (debugTickCounter % 30 == 0) // 每0.5秒输出一次冷却信息
             {
-                Log.Message($"[EnergyLanceTurret] 冷却中: {cooldownTicksRemaining} ticks 剩余");
+                WulaLog.Debug($"[EnergyLanceTurret] 冷却中: {cooldownTicksRemaining} ticks 剩余");
             }
             
             if (cooldownTicksRemaining <= 0)
             {
-                Log.Message("[EnergyLanceTurret] 冷却完成，返回待机状态");
+                WulaLog.Debug("[EnergyLanceTurret] 冷却完成，返回待机状态");
                 currentState = TurretState.Idle;
                 isActive = false;
             }
@@ -226,7 +226,7 @@ namespace WulaFallenEmpire
             // 在预热过程中持续检查目标有效性
             if (currentTarget == null || !IsTargetValid(currentTarget))
             {
-                Log.Message($"[EnergyLanceTurret] 预热过程中目标失效，取消预热");
+                WulaLog.Debug($"[EnergyLanceTurret] 预热过程中目标失效，取消预热");
                 ResetState();
                 return;
             }
@@ -235,12 +235,12 @@ namespace WulaFallenEmpire
             
             if (debugTickCounter % 10 == 0) // 每0.17秒输出一次预热信息
             {
-                Log.Message($"[EnergyLanceTurret] 预热中: {warmupTicksRemaining} ticks 剩余, 目标: {currentTarget?.LabelCap ?? "无"}");
+                WulaLog.Debug($"[EnergyLanceTurret] 预热中: {warmupTicksRemaining} ticks 剩余, 目标: {currentTarget?.LabelCap ?? "无"}");
             }
             
             if (warmupTicksRemaining <= 0)
             {
-                Log.Message("[EnergyLanceTurret] 预热完成，开始发射光束");
+                WulaLog.Debug("[EnergyLanceTurret] 预热完成，开始发射光束");
                 StartEnergyLance();
             }
         }
@@ -280,23 +280,23 @@ namespace WulaFallenEmpire
         private void OutputDebugInfo()
         {
             var targets = FindPotentialTargets();
-            Log.Message($"[EnergyLanceTurret] 调试信息:");
-            Log.Message($"  - 状态: {currentState}");
-            Log.Message($"  - 当前目标: {currentTarget?.LabelCap ?? "无"}");
-            Log.Message($"  - 目标位置: {currentTarget?.Position.ToString() ?? "无"}");
-            Log.Message($"  - 活跃光束: {(activeLance != null && !activeLance.Destroyed ? "是" : "否")}");
-            Log.Message($"  - 检测到目标数: {targets.Count}");
-            Log.Message($"  - 冷却剩余: {cooldownTicksRemaining}");
-            Log.Message($"  - 预热剩余: {warmupTicksRemaining}");
-            Log.Message($"  - 是否活跃: {isActive}");
-            Log.Message($"  - 目标丢失保护: {(targetLostTick >= 0 ? (Find.TickManager.TicksGame - targetLostTick) + " ticks前" : "无")}");
-            Log.Message($"  - 光束保护期: {(lanceCreationTick >= 0 ? (Find.TickManager.TicksGame - lanceCreationTick) + " ticks前创建" : "无")}");
+            WulaLog.Debug($"[EnergyLanceTurret] 调试信息:");
+            WulaLog.Debug($"  - 状态: {currentState}");
+            WulaLog.Debug($"  - 当前目标: {currentTarget?.LabelCap ?? "无"}");
+            WulaLog.Debug($"  - 目标位置: {currentTarget?.Position.ToString() ?? "无"}");
+            WulaLog.Debug($"  - 活跃光束: {(activeLance != null && !activeLance.Destroyed ? "是" : "否")}");
+            WulaLog.Debug($"  - 检测到目标数: {targets.Count}");
+            WulaLog.Debug($"  - 冷却剩余: {cooldownTicksRemaining}");
+            WulaLog.Debug($"  - 预热剩余: {warmupTicksRemaining}");
+            WulaLog.Debug($"  - 是否活跃: {isActive}");
+            WulaLog.Debug($"  - 目标丢失保护: {(targetLostTick >= 0 ? (Find.TickManager.TicksGame - targetLostTick) + " ticks前" : "无")}");
+            WulaLog.Debug($"  - 光束保护期: {(lanceCreationTick >= 0 ? (Find.TickManager.TicksGame - lanceCreationTick) + " ticks前创建" : "无")}");
             
             // 输出前3个检测到的目标
             for (int i = 0; i < Mathf.Min(3, targets.Count); i++)
             {
                 var target = targets[i];
-                Log.Message($"  - 目标{i+1}: {target.LabelCap} 在 {target.Position}, 距离: {target.Position.DistanceTo(parent.Position):F1}");
+                WulaLog.Debug($"  - 目标{i+1}: {target.LabelCap} 在 {target.Position}, 距离: {target.Position.DistanceTo(parent.Position):F1}");
             }
         }
         
@@ -317,7 +317,7 @@ namespace WulaFallenEmpire
         // 更新目标
         private void UpdateTarget()
         {
-            Log.Message($"[EnergyLanceTurret] 更新目标检查 - 状态: {currentState}, 活跃光束: {(activeLance != null && !activeLance.Destroyed ? "是" : "否")}");
+            WulaLog.Debug($"[EnergyLanceTurret] 更新目标检查 - 状态: {currentState}, 活跃光束: {(activeLance != null && !activeLance.Destroyed ? "是" : "否")}");
             
             // 如果没有光束，寻找新目标
             if (activeLance == null || activeLance.Destroyed)
@@ -333,7 +333,7 @@ namespace WulaFallenEmpire
                 lastTargetPosition = currentTarget.Position;
                 lastPositionUpdateTick = Find.TickManager.TicksGame;
                 targetLostTick = -1; // 重置目标丢失计时
-                Log.Message($"[EnergyLanceTurret] 目标仍然有效: {currentTarget.LabelCap}");
+                WulaLog.Debug($"[EnergyLanceTurret] 目标仍然有效: {currentTarget.LabelCap}");
                 return;
             }
             
@@ -344,11 +344,11 @@ namespace WulaFallenEmpire
         // 寻找新目标（首次）
         private void FindNewTarget()
         {
-            Log.Message("[EnergyLanceTurret] 寻找新目标...");
+            WulaLog.Debug("[EnergyLanceTurret] 寻找新目标...");
             
             if (currentState != TurretState.Idle)
             {
-                Log.Message($"[EnergyLanceTurret] 无法寻找目标 - 当前状态: {currentState}");
+                WulaLog.Debug($"[EnergyLanceTurret] 无法寻找目标 - 当前状态: {currentState}");
                 return;
             }
                 
@@ -361,14 +361,14 @@ namespace WulaFallenEmpire
                     .OrderBy(t => t.Position.DistanceTo(parent.Position))
                     .First();
                 
-                Log.Message($"[EnergyLanceTurret] 发现新目标: {currentTarget.LabelCap} 在 {currentTarget.Position}");
+                WulaLog.Debug($"[EnergyLanceTurret] 发现新目标: {currentTarget.LabelCap} 在 {currentTarget.Position}");
                 
                 // 开始预热
                 StartWarmup();
             }
             else
             {
-                Log.Message("[EnergyLanceTurret] 没有发现有效目标");
+                WulaLog.Debug("[EnergyLanceTurret] 没有发现有效目标");
             }
         }
         
@@ -378,7 +378,7 @@ namespace WulaFallenEmpire
             if (activeLance == null || activeLance.Destroyed)
                 return;
                 
-            Log.Message("[EnergyLanceTurret] 为现有光束寻找新目标...");
+            WulaLog.Debug("[EnergyLanceTurret] 为现有光束寻找新目标...");
                 
             var potentialTargets = FindPotentialTargets();
             
@@ -393,7 +393,7 @@ namespace WulaFallenEmpire
                 lastPositionUpdateTick = Find.TickManager.TicksGame;
                 targetLostTick = -1; // 重置目标丢失计时
                 
-                Log.Message($"[EnergyLanceTurret] 切换到新目标: {currentTarget.LabelCap} 在 {currentTarget.Position}");
+                WulaLog.Debug($"[EnergyLanceTurret] 切换到新目标: {currentTarget.LabelCap} 在 {currentTarget.Position}");
             }
             else
             {
@@ -401,12 +401,12 @@ namespace WulaFallenEmpire
                 if (targetLostTick < 0)
                 {
                     targetLostTick = Find.TickManager.TicksGame;
-                    Log.Message($"[EnergyLanceTurret] 目标丢失，开始保护期: {TARGET_LOST_GRACE_PERIOD} ticks");
+                    WulaLog.Debug($"[EnergyLanceTurret] 目标丢失，开始保护期: {TARGET_LOST_GRACE_PERIOD} ticks");
                 }
                 
                 currentTarget = null;
                 lastTargetPosition = IntVec3.Invalid;
-                Log.Message("[EnergyLanceTurret] 没有有效目标，发送空位置");
+                WulaLog.Debug("[EnergyLanceTurret] 没有有效目标，发送空位置");
             }
         }
         
@@ -498,7 +498,7 @@ namespace WulaFallenEmpire
         {
             if (currentTarget == null)
             {
-                Log.Warning("[EnergyLanceTurret] 尝试开始预热但没有目标");
+                WulaLog.Debug("[EnergyLanceTurret] 尝试开始预热但没有目标");
                 return;
             }
             
@@ -506,7 +506,7 @@ namespace WulaFallenEmpire
             isActive = true;
             currentState = TurretState.WarmingUp;
             
-            Log.Message($"[EnergyLanceTurret] 开始预热: {warmupTicksRemaining} ticks, 目标: {currentTarget.LabelCap}");
+            WulaLog.Debug($"[EnergyLanceTurret] 开始预热: {warmupTicksRemaining} ticks, 目标: {currentTarget.LabelCap}");
         }
         
         // 更新光束目标位置
@@ -519,7 +519,7 @@ namespace WulaFallenEmpire
             if (activeLance is EnergyLance energyLance)
             {
                 energyLance.UpdateTargetPosition(targetPos);
-                Log.Message($"[EnergyLanceTurret] 更新光束目标: {targetPos}");
+                WulaLog.Debug($"[EnergyLanceTurret] 更新光束目标: {targetPos}");
             }
             else
             {
@@ -528,11 +528,11 @@ namespace WulaFallenEmpire
                 if (moveMethod != null)
                 {
                     moveMethod.Invoke(activeLance, new object[] { targetPos });
-                    Log.Message($"[EnergyLanceTurret] 通过反射更新光束目标: {targetPos}");
+                    WulaLog.Debug($"[EnergyLanceTurret] 通过反射更新光束目标: {targetPos}");
                 }
                 else
                 {
-                    Log.Warning("[EnergyLanceTurret] 无法更新光束目标位置");
+                    WulaLog.Debug("[EnergyLanceTurret] 无法更新光束目标位置");
                 }
             }
         }
@@ -543,7 +543,7 @@ namespace WulaFallenEmpire
             if (activeLance == null || activeLance.Destroyed)
             {
                 // 光束已销毁，进入冷却
-                Log.Message("[EnergyLanceTurret] 光束已销毁，开始冷却");
+                WulaLog.Debug("[EnergyLanceTurret] 光束已销毁，开始冷却");
                 StartCooldown();
                 return;
             }
@@ -558,7 +558,7 @@ namespace WulaFallenEmpire
             // 检查目标丢失保护期
             if (targetLostTick >= 0 && Find.TickManager.TicksGame - targetLostTick > TARGET_LOST_GRACE_PERIOD)
             {
-                Log.Message("[EnergyLanceTurret] 目标丢失保护期结束，销毁光束");
+                WulaLog.Debug("[EnergyLanceTurret] 目标丢失保护期结束，销毁光束");
                 activeLance.Destroy();
                 StartCooldown();
                 return;
@@ -567,7 +567,7 @@ namespace WulaFallenEmpire
             // 检查光束是否长时间没有收到位置更新
             if (Find.TickManager.TicksGame - lastPositionUpdateTick > Props.targetUpdateInterval * 3)
             {
-                Log.Message("[EnergyLanceTurret] 光束长时间未收到位置更新，销毁");
+                WulaLog.Debug("[EnergyLanceTurret] 光束长时间未收到位置更新，销毁");
                 activeLance.Destroy();
                 StartCooldown();
             }
@@ -584,7 +584,7 @@ namespace WulaFallenEmpire
             targetLostTick = -1;
             currentState = TurretState.CoolingDown;
             
-            Log.Message($"[EnergyLanceTurret] 开始冷却: {cooldownTicksRemaining} ticks");
+            WulaLog.Debug($"[EnergyLanceTurret] 开始冷却: {cooldownTicksRemaining} ticks");
         }
         
         // 绘制检测范围

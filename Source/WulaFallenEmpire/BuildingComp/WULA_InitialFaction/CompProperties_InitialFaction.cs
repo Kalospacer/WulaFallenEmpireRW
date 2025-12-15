@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 
 namespace WulaFallenEmpire
@@ -49,7 +49,7 @@ namespace WulaFallenEmpire
             if (faction != null && faction != parent.Faction)
             {
                 parent.SetFaction(faction);
-                Log.Message($"Set faction for {parent.Label} to {faction.Name}");
+                WulaLog.Debug($"Set faction for {parent.Label} to {faction.Name}");
             }
         }
         

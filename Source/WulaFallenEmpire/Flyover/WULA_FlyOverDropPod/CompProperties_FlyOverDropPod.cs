@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -127,14 +127,14 @@ namespace WulaFallenEmpire
             if (Props.useCyclicDrops)
             {
                 ticksUntilNextDrop = (int)(Props.cyclicDropIntervalHours * 2500f); // 1小时 = 2500 ticks
-                Log.Message($"Cyclic drops initialized: {Props.cyclicDropIntervalHours} hours interval");
+                WulaLog.Debug($"Cyclic drops initialized: {Props.cyclicDropIntervalHours} hours interval");
             }
 
             // 初始化信号等待状态
             if (Props.waitForExternalSignal)
             {
                 waitingForSignal = true;
-                Log.Message($"Waiting for external signal: {Props.externalSignalTag}");
+                WulaLog.Debug($"Waiting for external signal: {Props.externalSignalTag}");
             }
         }
 
@@ -151,7 +151,7 @@ namespace WulaFallenEmpire
                     if (pawn != null)
                     {
                         pawns.Add(pawn);
-                        Log.Message($"Generated pawn: {pawn.Label} ({pawnKindCount.pawnKindDef.defName})");
+                        WulaLog.Debug($"Generated pawn: {pawn.Label} ({pawnKindCount.pawnKindDef.defName})");
                     }
                 }
             }
@@ -162,7 +162,7 @@ namespace WulaFallenEmpire
         {
             if (pawnKindDef == null)
             {
-                Log.Error("Attempted to generate pawn with null PawnKindDef");
+                WulaLog.Debug("Attempted to generate pawn with null PawnKindDef");
                 return null;
             }
 
@@ -213,12 +213,12 @@ namespace WulaFallenEmpire
                     pawn.mindState.SetupLastHumanMeatTick();
                 }
 
-                Log.Message($"Successfully generated pawn: {pawn.LabelCap} from {pawnKindDef.defName}");
+                WulaLog.Debug($"Successfully generated pawn: {pawn.LabelCap} from {pawnKindDef.defName}");
                 return pawn;
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Failed to generate pawn from {pawnKindDef.defName}: {ex}");
+                WulaLog.Debug($"Failed to generate pawn from {pawnKindDef.defName}: {ex}");
                 return null;
             }
         }
@@ -282,7 +282,7 @@ namespace WulaFallenEmpire
 
                 // 重置计时器
                 ticksUntilNextDrop = (int)(Props.cyclicDropIntervalHours * 2500f);
-                Log.Message($"Cyclic drop completed, next drop in {Props.cyclicDropIntervalHours} hours");
+                WulaLog.Debug($"Cyclic drop completed, next drop in {Props.cyclicDropIntervalHours} hours");
             }
         }
 
@@ -291,7 +291,7 @@ namespace WulaFallenEmpire
         {
             if (parent is FlyOver flyOver && waitingForSignal)
             {
-                Log.Message($"External signal received, triggering drop pods");
+                WulaLog.Debug($"External signal received, triggering drop pods");
                 DropPods(flyOver);
                 waitingForSignal = false;
             }
@@ -313,12 +313,12 @@ namespace WulaFallenEmpire
             Map map = flyOver.Map;
             if (map == null)
             {
-                Log.Error("FlyOver DropPods: Map is null");
+                WulaLog.Debug("FlyOver DropPods: Map is null");
                 return;
             }
 
             IntVec3 dropCenter = GetDropCenter(flyOver);
-            Log.Message($"DropPods triggered at progress {flyOver.currentProgress}, center: {dropCenter}");
+            WulaLog.Debug($"DropPods triggered at progress {flyOver.currentProgress}, center: {dropCenter}");
 
             // 如果在投掷时生成 Pawn，现在生成
             if (Props.generatePawnsOnDrop && Props.pawnKinds != null)
@@ -351,7 +351,7 @@ namespace WulaFallenEmpire
 
             if (!thingsToDrop.Any())
             {
-                Log.Warning("No items to drop from FlyOver drop pods");
+                WulaLog.Debug("No items to drop from FlyOver drop pods");
                 return;
             }
 
@@ -377,7 +377,7 @@ namespace WulaFallenEmpire
                 SendDropLetter(thingsToDrop, dropCenter, map);
             }
 
-            Log.Message($"Drop pods completed: {thingsToDrop.Count} items dropped, including {pawns.Count} pawns");
+            WulaLog.Debug($"Drop pods completed: {thingsToDrop.Count} items dropped, including {pawns.Count} pawns");
             
             // 清空已投掷的物品列表，避免重复投掷
             items.Clear();
@@ -464,7 +464,7 @@ namespace WulaFallenEmpire
                 // 创建 Lord
                 Lord lord = LordMaker.MakeNewLord(faction, lordJob, Find.CurrentMap, factionPawns);
                 
-                Log.Message($"Assigned assault lord job to {factionPawns.Count} pawns of faction {faction.Name}");
+                WulaLog.Debug($"Assigned assault lord job to {factionPawns.Count} pawns of faction {faction.Name}");
             }
         }
 

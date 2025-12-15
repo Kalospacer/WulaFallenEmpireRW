@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -64,7 +64,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Error spawning fly over: {ex}");
+                WulaLog.Debug($"Error spawning fly over: {ex}");
             }
         }
 
@@ -84,7 +84,7 @@ namespace WulaFallenEmpire
             ThingDef flyOverDef = Props.flyOverDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("ARA_HiveShip");
             if (flyOverDef == null)
             {
-                Log.Warning("No fly over def specified for standard fly over");
+                WulaLog.Debug("No fly over def specified for standard fly over");
                 return;
             }
 
@@ -105,7 +105,7 @@ namespace WulaFallenEmpire
             ThingDef flyOverDef = Props.flyOverDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("ARA_HiveCorvette");
             if (flyOverDef == null)
             {
-                Log.Warning("No fly over def specified for ground strafing fly over");
+                WulaLog.Debug("No fly over def specified for ground strafing fly over");
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace WulaFallenEmpire
             ThingDef flyOverDef = Props.flyOverDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("ARA_HiveCorvette");
             if (flyOverDef == null)
             {
-                Log.Warning("No fly over def specified for sector surveillance fly over");
+                WulaLog.Debug("No fly over def specified for sector surveillance fly over");
                 return;
             }
 

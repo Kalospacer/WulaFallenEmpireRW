@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 
@@ -73,7 +73,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[BlockedByFlyOverFacility] Error in ExtraLabelMouseAttachment: {ex}");
+                WulaLog.Debug($"[BlockedByFlyOverFacility] Error in ExtraLabelMouseAttachment: {ex}");
                 return "航道状态检查错误";
             }
         }
@@ -119,13 +119,13 @@ namespace WulaFallenEmpire
                     }
                 }
                 
-                Log.Message($"[BlockedByFlyOverFacility] Found {flyOversWithFacilities.Count} FlyOvers with facilities");
+                WulaLog.Debug($"[BlockedByFlyOverFacility] Found {flyOversWithFacilities.Count} FlyOvers with facilities");
                 
                 return flyOversWithFacilities;
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[BlockedByFlyOverFacility] Error in GetFlyOversWithFacilities: {ex}");
+                WulaLog.Debug($"[BlockedByFlyOverFacility] Error in GetFlyOversWithFacilities: {ex}");
                 return new List<FlyOver>();
             }
         }
@@ -136,7 +136,7 @@ namespace WulaFallenEmpire
             // 在应用前再次检查，确保安全
             if (HasFlyOverWithFacilities())
             {
-                Log.Warning($"[BlockedByFlyOverFacility] Attempted to use ability while FlyOvers are present");
+                WulaLog.Debug($"[BlockedByFlyOverFacility] Attempted to use ability while FlyOvers are present");
                 Messages.Message(Props.blockedMessage, parent.pawn, MessageTypeDefOf.RejectInput);
                 return;
             }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Verse;
 using RimWorld;
 using RimWorld.Planet;
@@ -76,7 +76,7 @@ namespace WulaFallenEmpire
                 if (kvp.Value >= 0 && currentTick >= kvp.Value)
                 {
                     flagsToRemove.Add(kvp.Key);
-                    Log.Message($"[EventSystem] Flag '{kvp.Key}' expired and will be removed.");
+                    WulaLog.Debug($"[EventSystem] Flag '{kvp.Key}' expired and will be removed.");
                 }
             }
 
@@ -92,7 +92,7 @@ namespace WulaFallenEmpire
             if (string.IsNullOrEmpty(name)) return;
 
             // Log the variable change
-            Log.Message($"[EventSystem] Setting variable '{name}' to value '{value}' of type {value?.GetType().Name ?? "null"}.");
+            WulaLog.Debug($"[EventSystem] Setting variable '{name}' to value '{value}' of type {value?.GetType().Name ?? "null"}.");
 
             // Clear any existing variable with the same name to prevent type confusion
             ClearVariable(name);
@@ -120,7 +120,7 @@ namespace WulaFallenEmpire
             else if (value != null)
             {
                 stringVars[name] = value.ToString();
-                Log.Warning($"[WulaFallenEmpire] EventVariableManager: Variable '{name}' of type {value.GetType()} was converted to string for storage. This may lead to unexpected behavior.");
+                WulaLog.Debug($"[WulaFallenEmpire] EventVariableManager: Variable '{name}' of type {value.GetType()} was converted to string for storage. This may lead to unexpected behavior.");
             }
         }
 
@@ -138,13 +138,13 @@ namespace WulaFallenEmpire
             {
                 // 负数表示永久flag
                 expiryTick = -1;
-                Log.Message($"[EventSystem] Setting permanent flag '{flagName}'.");
+                WulaLog.Debug($"[EventSystem] Setting permanent flag '{flagName}'.");
             }
             else
             {
                 // 正数表示有时间限制的flag
                 expiryTick = Find.TickManager.TicksGame + durationTicks;
-                Log.Message($"[EventSystem] Setting timed flag '{flagName}' with duration {durationTicks} ticks (expires at tick {expiryTick}).");
+                WulaLog.Debug($"[EventSystem] Setting timed flag '{flagName}' with duration {durationTicks} ticks (expires at tick {expiryTick}).");
             }
 
             timedFlags[flagName] = expiryTick;
@@ -172,7 +172,7 @@ namespace WulaFallenEmpire
                     {
                         // 如果过期了，移除它
                         timedFlags.Remove(flagName);
-                        Log.Message($"[EventSystem] Flag '{flagName}' has expired and was removed.");
+                        WulaLog.Debug($"[EventSystem] Flag '{flagName}' has expired and was removed.");
                     }
                     return isActive;
                 }
@@ -241,7 +241,7 @@ namespace WulaFallenEmpire
                 }
                 catch (System.Exception e)
                 {
-                    Log.Warning($"[WulaFallenEmpire] EventVariableManager: Variable '{name}' of type {value.GetType()} could not be converted to {typeof(T)}. Error: {e.Message}");
+                    WulaLog.Debug($"[WulaFallenEmpire] EventVariableManager: Variable '{name}' of type {value.GetType()} could not be converted to {typeof(T)}. Error: {e.Message}");
                     return defaultValue;
                 }
             }
@@ -263,7 +263,7 @@ namespace WulaFallenEmpire
         {
             if (HasVariable(name))
             {
-                Log.Message($"[EventSystem] Clearing variable '{name}'.");
+                WulaLog.Debug($"[EventSystem] Clearing variable '{name}'.");
             }
             intVars.Remove(name);
             floatVars.Remove(name);

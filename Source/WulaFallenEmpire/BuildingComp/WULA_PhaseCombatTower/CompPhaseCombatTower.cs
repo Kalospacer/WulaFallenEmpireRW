@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
@@ -86,7 +86,7 @@ namespace WulaFallenEmpire
                     }
                     else
                     {
-                        Log.Error($"PhaseCombatTower: 找不到PawnKindDef '{pawnKindName}'");
+                        WulaLog.Debug($"PhaseCombatTower: 找不到PawnKindDef '{pawnKindName}'");
                     }
                 }
             }

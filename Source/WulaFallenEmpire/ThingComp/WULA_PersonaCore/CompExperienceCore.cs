@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -310,7 +310,7 @@ namespace WulaFallenEmpire
                 
                 GenPlace.TryPlaceThing(overflowDataPack, parent.Position, parent.Map, ThingPlaceMode.Near);
                 
-                Log.Message($"[ExperienceCore] Created overflow data pack with {overflowAmount} experience");
+                WulaLog.Debug($"[ExperienceCore] Created overflow data pack with {overflowAmount} experience");
             }
         }
 
@@ -478,7 +478,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error($"[ExperienceCore] ERROR: {parent.Label} has no CompQuality component!");
+                WulaLog.Debug($"[ExperienceCore] ERROR: {parent.Label} has no CompQuality component!");
                 return;
             }
 

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.QuestGen;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error("[WulaFallenEmpire] QuestNode_Root_EventLetter: eventDefName is not specified.");
+                WulaLog.Debug("[WulaFallenEmpire] QuestNode_Root_EventLetter: eventDefName is not specified.");
             }
         }
 
@@ -38,14 +38,14 @@ namespace WulaFallenEmpire
             
             if (defName.NullOrEmpty())
             {
-                Log.Error("[WulaFallenEmpire] QuestNode_Root_EventLetter: eventDefName is not specified.");
+                WulaLog.Debug("[WulaFallenEmpire] QuestNode_Root_EventLetter: eventDefName is not specified.");
                 return false;
             }
 
             EventDef eventDef = DefDatabase<EventDef>.GetNamed(defName, false);
             if (eventDef == null)
             {
-                Log.Error($"[WulaFallenEmpire] QuestNode_Root_EventLetter: EventDef '{defName}' not found.");
+                WulaLog.Debug($"[WulaFallenEmpire] QuestNode_Root_EventLetter: EventDef '{defName}' not found.");
                 return false;
             }
             
@@ -64,7 +64,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error($"[WulaFallenEmpire] QuestNode_Root_EventLetter: Could not find EventDef '{defName}'");
+                WulaLog.Debug($"[WulaFallenEmpire] QuestNode_Root_EventLetter: Could not find EventDef '{defName}'");
             }
         }
     }

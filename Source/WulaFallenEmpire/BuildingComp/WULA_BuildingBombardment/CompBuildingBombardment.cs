@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 using System.Collections.Generic;
@@ -41,14 +41,14 @@ namespace WulaFallenEmpire
             {
                 currentState = BuildingBombardmentState.Bursting;
                 nextInnerBurstTick = Find.TickManager.TicksGame;
-                Log.Message($"[BuildingBombardment] Starting burst with {currentTargets.Count} targets");
+                WulaLog.Debug($"[BuildingBombardment] Starting burst with {currentTargets.Count} targets");
             }
             else
             {
                 // 没有找到目标，等待下一轮
                 currentState = BuildingBombardmentState.Idle;
                 nextBurstTick = Find.TickManager.TicksGame + Props.burstIntervalTicks;
-                Log.Message($"[BuildingBombardment] No targets found, waiting for next burst");
+                WulaLog.Debug($"[BuildingBombardment] No targets found, waiting for next burst");
             }
         }
         
@@ -110,7 +110,7 @@ namespace WulaFallenEmpire
                 // 当前组发射完毕
                 currentState = BuildingBombardmentState.Idle;
                 nextBurstTick = Find.TickManager.TicksGame + Props.burstIntervalTicks;
-                Log.Message($"[BuildingBombardment] Burst completed, waiting for next burst");
+                WulaLog.Debug($"[BuildingBombardment] Burst completed, waiting for next burst");
                 return;
             }
             
@@ -125,7 +125,7 @@ namespace WulaFallenEmpire
                 nextInnerBurstTick = Find.TickManager.TicksGame + Props.innerBurstIntervalTicks;
             }
             
-            Log.Message($"[BuildingBombardment] Launched bombardment {currentBurstCount}/{currentTargets.Count}");
+            WulaLog.Debug($"[BuildingBombardment] Launched bombardment {currentBurstCount}/{currentTargets.Count}");
         }
         
         private void LaunchBombardment(LocalTargetInfo target)
@@ -149,7 +149,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[BuildingBombardment] Error launching bombardment: {ex}");
+                WulaLog.Debug($"[BuildingBombardment] Error launching bombardment: {ex}");
             }
         }
         

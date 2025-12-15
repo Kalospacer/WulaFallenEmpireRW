@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
@@ -30,7 +30,7 @@ namespace WulaFallenEmpire
                     modExtension = def.GetModExtension<ExtraGraphicsExtension>();
                     if (modExtension == null)
                     {
-                        Log.Error($"Building_ExtraGraphics: No ExtraGraphicsExtension found for {def.defName}");
+                        WulaLog.Debug($"Building_ExtraGraphics: No ExtraGraphicsExtension found for {def.defName}");
                         // 创建默认配置避免空引用
                         modExtension = new ExtraGraphicsExtension();
                     }
@@ -114,7 +114,7 @@ namespace WulaFallenEmpire
                 case "metaoverlay":
                     return ShaderDatabase.MetaOverlay;
                 default:
-                    Log.Warning($"Building_ExtraGraphics: Shader '{shaderName}' not found, using TransparentPostLight as fallback");
+                    WulaLog.Debug($"Building_ExtraGraphics: Shader '{shaderName}' not found, using TransparentPostLight as fallback");
                     return ShaderDatabase.TransparentPostLight;
             }
         }
@@ -140,7 +140,7 @@ namespace WulaFallenEmpire
         {
             if (ModExtension.graphicLayers == null || ModExtension.graphicLayers.Count == 0)
             {
-                Log.Warning($"Building_ExtraGraphics: No graphic layers configured for {def.defName}");
+                WulaLog.Debug($"Building_ExtraGraphics: No graphic layers configured for {def.defName}");
                 return;
             }
 
@@ -158,7 +158,7 @@ namespace WulaFallenEmpire
         {
             if (string.IsNullOrEmpty(layer.texturePath))
             {
-                Log.Warning($"Building_ExtraGraphics: Empty texture path in layer for {def.defName}");
+                WulaLog.Debug($"Building_ExtraGraphics: Empty texture path in layer for {def.defName}");
                 return;
             }
 
@@ -223,7 +223,7 @@ namespace WulaFallenEmpire
                 
                 if (mesh == null || mat == null)
                 {
-                    Log.Warning($"Building_ExtraGraphics: Unable to get mesh or material for rotating layer");
+                    WulaLog.Debug($"Building_ExtraGraphics: Unable to get mesh or material for rotating layer");
                     return;
                 }
                 
@@ -273,7 +273,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"Building_ExtraGraphics: Error drawing rotating layer: {ex}");
+                WulaLog.Debug($"Building_ExtraGraphics: Error drawing rotating layer: {ex}");
             }
         }
 
@@ -347,7 +347,7 @@ namespace WulaFallenEmpire
                             if (DebugSettings.godMode && i == 0 && Find.TickManager.TicksGame % 60 == 0)
                             {
                                 // 只在开发模式下，每60帧输出一次第一条图层的旋转信息
-                                Log.Message($"{layer.animationType} 图层 {i}: 角度={rotationAngle:F1}°, 时间={layerAnimationTimes[i]:F2}s, 速度={rotateSpeed}°/s");
+                                WulaLog.Debug($"{layer.animationType} 图层 {i}: 角度={rotationAngle:F1}°, 时间={layerAnimationTimes[i]:F2}s, 速度={rotateSpeed}°/s");
                             }
                             break;
                     }

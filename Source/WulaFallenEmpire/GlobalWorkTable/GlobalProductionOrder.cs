@@ -1,4 +1,4 @@
-// GlobalProductionOrder.cs (修复成本计算，使用产物的costList)
+﻿// GlobalProductionOrder.cs (修复成本计算，使用产物的costList)
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace WulaFallenEmpire
                 _progress = Mathf.Clamp01(value);
                 if (value < 0f || value > 1f)
                 {
-                    Log.Warning($"Progress clamped from {value} to {_progress} for {recipe?.defName ?? "unknown"}");
+                    WulaLog.Debug($"Progress clamped from {value} to {_progress} for {recipe?.defName ?? "unknown"}");
                 }
             }
         }

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using UnityEngine;
 using Verse;
 using System.Collections.Generic;
@@ -188,12 +188,12 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Warning("[CustomRadius] Could not find MapInterface.MapInterfaceUpdate method");
+                    WulaLog.Debug("[CustomRadius] Could not find MapInterface.MapInterfaceUpdate method");
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[CustomRadius] Error in static constructor: {ex}");
+                WulaLog.Debug($"[CustomRadius] Error in static constructor: {ex}");
             }
         }
 
@@ -252,12 +252,12 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Warning("[CustomRadius] Could not find SelectionDrawer.DrawSelectionOverlays method");
+                    WulaLog.Debug("[CustomRadius] Could not find SelectionDrawer.DrawSelectionOverlays method");
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[CustomRadius] Error in static constructor: {ex}");
+                WulaLog.Debug($"[CustomRadius] Error in static constructor: {ex}");
             }
         }
 

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -251,14 +251,14 @@ namespace WulaFallenEmpire
                 // 确保Command不为null
                 if (switchWeaponCommand == null)
                 {
-                    Log.Error($"Failed to create weapon switch gizmo for {MechPawn?.LabelCap}");
+                    WulaLog.Debug($"Failed to create weapon switch gizmo for {MechPawn?.LabelCap}");
                     return null;
                 }
                 return switchWeaponCommand;
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Error creating weapon switch gizmo: {ex}");
+                WulaLog.Debug($"Error creating weapon switch gizmo: {ex}");
                 return null;
             }
         }
@@ -282,7 +282,7 @@ namespace WulaFallenEmpire
                     
                     if (Prefs.DevMode)
                     {
-                        Log.Message($"[CompAutonomousMech] {MechPawn.LabelCap} dropped weapon: {currentWeapon.LabelCap}");
+                        WulaLog.Debug($"[CompAutonomousMech] {MechPawn.LabelCap} dropped weapon: {currentWeapon.LabelCap}");
                     }
                 }
 
@@ -302,7 +302,7 @@ namespace WulaFallenEmpire
                         
                         if (Prefs.DevMode)
                         {
-                            Log.Message($"[CompAutonomousMech] {MechPawn.LabelCap} equipped new weapon: {newWeaponDef.LabelCap}");
+                            WulaLog.Debug($"[CompAutonomousMech] {MechPawn.LabelCap} equipped new weapon: {newWeaponDef.LabelCap}");
                         }
                     }
                 }
@@ -314,7 +314,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[CompAutonomousMech] Error switching weapon for {MechPawn?.LabelCap}: {ex}");
+                WulaLog.Debug($"[CompAutonomousMech] Error switching weapon for {MechPawn?.LabelCap}: {ex}");
             }
         }
 

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -96,7 +96,7 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error($"[CompGarbageShield] Could not find EventDef named '{Props.garbageShieldUIEventDefName}'.");
+                    WulaLog.Debug($"[CompGarbageShield] Could not find EventDef named '{Props.garbageShieldUIEventDefName}'.");
                 }
             }
         }

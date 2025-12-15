@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
@@ -18,7 +18,7 @@ namespace WulaFallenEmpire
 
             if (!eligibleDefs.Any())
             {
-                Log.Warning("[Debug] No ThingDefs found with CompProperties_PrefabSkyfallerCaller");
+                WulaLog.Debug("[Debug] No ThingDefs found with CompProperties_PrefabSkyfallerCaller");
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace WulaFallenEmpire
 
             if (!eligibleDefs.Any())
             {
-                Log.Warning("[Debug] No ThingDefs found with CompProperties_PrefabSkyfallerCaller");
+                WulaLog.Debug("[Debug] No ThingDefs found with CompProperties_PrefabSkyfallerCaller");
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace WulaFallenEmpire
             var currentMap = Find.CurrentMap;
             if (currentMap == null)
             {
-                Log.Warning("[Debug] No current map found");
+                WulaLog.Debug("[Debug] No current map found");
                 return;
             }
 
@@ -97,11 +97,11 @@ namespace WulaFallenEmpire
             var compProps = thingDef.comps.OfType<CompProperties_PrefabSkyfallerCaller>().FirstOrDefault();
             if (compProps == null)
             {
-                Log.Warning($"[Debug] Could not find CompProperties_PrefabSkyfallerCaller for {thingDef.defName}");
+                WulaLog.Debug($"[Debug] Could not find CompProperties_PrefabSkyfallerCaller for {thingDef.defName}");
                 return;
             }
 
-            Log.Message($"[Debug] Looking for spawn positions for {thingDef.defName} (Size: {thingDef.Size})");
+            WulaLog.Debug($"[Debug] Looking for spawn positions for {thingDef.defName} (Size: {thingDef.Size})");
 
             for (int i = 0; i < spawnCount && attempts < maxAttempts; i++)
             {
@@ -120,11 +120,11 @@ namespace WulaFallenEmpire
                     GenSpawn.Spawn(thing, spawnPos, currentMap);
 
                     successCount++;
-                    Log.Message($"[Debug] Successfully spawned {thingDef.defName} at {spawnPos} for faction {faction?.Name ?? "None"}");
+                    WulaLog.Debug($"[Debug] Successfully spawned {thingDef.defName} at {spawnPos} for faction {faction?.Name ?? "None"}");
                 }
                 else
                 {
-                    Log.Warning($"[Debug] Failed to find valid spawn position for {thingDef.defName} (attempt {attempts})");
+                    WulaLog.Debug($"[Debug] Failed to find valid spawn position for {thingDef.defName} (attempt {attempts})");
                 }
             }
 
@@ -144,7 +144,7 @@ namespace WulaFallenEmpire
             var potentialCells = new List<IntVec3>();
 
             // 策略1：首先尝试玩家基地附近的开放区域
-            Log.Message($"[Debug] Searching near base area...");
+            WulaLog.Debug($"[Debug] Searching near base area...");
             var baseCells = GetOpenAreaCellsNearBase(map, thingDef.Size);
             foreach (var cell in baseCells)
             {
@@ -157,12 +157,12 @@ namespace WulaFallenEmpire
 
             if (potentialCells.Count > 0)
             {
-                Log.Message($"[Debug] Found {potentialCells.Count} positions near base");
+                WulaLog.Debug($"[Debug] Found {potentialCells.Count} positions near base");
                 return potentialCells.RandomElement();
             }
 
             // 策略2：搜索整个地图的开阔区域
-            Log.Message($"[Debug] Searching open areas...");
+            WulaLog.Debug($"[Debug] Searching open areas...");
             var openAreas = FindOpenAreas(map, thingDef.Size, 1000);
             foreach (var cell in openAreas)
             {
@@ -175,12 +175,12 @@ namespace WulaFallenEmpire
 
             if (potentialCells.Count > 0)
             {
-                Log.Message($"[Debug] Found {potentialCells.Count} positions in open areas");
+                WulaLog.Debug($"[Debug] Found {potentialCells.Count} positions in open areas");
                 return potentialCells.RandomElement();
             }
 
             // 策略3：使用随机采样
-            Log.Message($"[Debug] Trying random sampling...");
+            WulaLog.Debug($"[Debug] Trying random sampling...");
             for (int i = 0; i < 500; i++)
             {
                 IntVec3 randomCell = new IntVec3(
@@ -198,11 +198,11 @@ namespace WulaFallenEmpire
 
             if (potentialCells.Count > 0)
             {
-                Log.Message($"[Debug] Found {potentialCells.Count} positions via random sampling");
+                WulaLog.Debug($"[Debug] Found {potentialCells.Count} positions via random sampling");
                 return potentialCells.RandomElement();
             }
 
-            Log.Warning($"[Debug] No valid positions found for {thingDef.defName}");
+            WulaLog.Debug($"[Debug] No valid positions found for {thingDef.defName}");
             return IntVec3.Invalid;
         }
 
@@ -415,12 +415,12 @@ namespace WulaFallenEmpire
                     }
                 }
 
-                Log.Message($"[Debug] Force cleared {clearedCount} objects for skyfaller drop");
+                WulaLog.Debug($"[Debug] Force cleared {clearedCount} objects for skyfaller drop");
                 return clearedCount > 0;
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[Debug] Error force clearing area: {ex}");
+                WulaLog.Debug($"[Debug] Error force clearing area: {ex}");
                 return false;
             }
         }

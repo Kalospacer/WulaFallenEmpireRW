@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Linq;
 using UnityEngine;
@@ -25,17 +25,17 @@ namespace WulaFallenEmpire
         protected override void Impact()
         {
             // Re-adding debug logs for stage 6
-            Log.Message($"[WULA] Stage 6: Impact - ArmedShuttleIncoming Impact() called. InnerThing (via innerContainer) is: {innerContainer.FirstOrDefault()?.ToString() ?? "NULL"}");
+            WulaLog.Debug($"[WULA] Stage 6: Impact - ArmedShuttleIncoming Impact() called. InnerThing (via innerContainer) is: {innerContainer.FirstOrDefault()?.ToString() ?? "NULL"}");
             
             Thing innerThing = innerContainer.FirstOrDefault();
             if (innerThing is Building_ArmedShuttle shuttle)
             {
-                Log.Message("[WULA] Stage 6: Impact - InnerThing is a Building_ArmedShuttle. Attempting to notify arrival.");
+                WulaLog.Debug("[WULA] Stage 6: Impact - InnerThing is a Building_ArmedShuttle. Attempting to notify arrival.");
                 shuttle.TryGetComp<CompLaunchable>()?.Notify_Arrived();
             }
             else
             {
-                Log.Warning($"[WULA] Stage 6: Impact - InnerThing is NOT a Building_ArmedShuttle or is NULL. Type: {innerThing?.GetType().Name ?? "NULL"}. This is the cause of the issue.");
+                WulaLog.Debug($"[WULA] Stage 6: Impact - InnerThing is NOT a Building_ArmedShuttle or is NULL. Type: {innerThing?.GetType().Name ?? "NULL"}. This is the cause of the issue.");
             }
             
             // Calling base.Impact() will handle the actual spawning of the innerThing.
@@ -47,7 +47,7 @@ namespace WulaFallenEmpire
         {
             base.SpawnSetup(map, respawningAfterLoad);
             // Re-adding debug logs for stage 5
-            Log.Message($"[WULA] Stage 5: Landing Sequence - ArmedShuttleIncoming spawned. InnerThing (via innerContainer) is: {innerContainer.FirstOrDefault()?.ToString() ?? "NULL"}");
+            WulaLog.Debug($"[WULA] Stage 5: Landing Sequence - ArmedShuttleIncoming spawned. InnerThing (via innerContainer) is: {innerContainer.FirstOrDefault()?.ToString() ?? "NULL"}");
             if (!respawningAfterLoad && !base.BeingTransportedOnGravship)
             {
                 angle = GetAngle(0f, base.Rotation);
@@ -58,7 +58,7 @@ namespace WulaFallenEmpire
         {
             if (!hasImpacted)
             {
-                Log.Error("Destroying armed shuttle skyfaller without ever having impacted"); // Changed log message
+                WulaLog.Debug("Destroying armed shuttle skyfaller without ever having impacted"); // Changed log message
             }
             base.Destroy(mode);
         }

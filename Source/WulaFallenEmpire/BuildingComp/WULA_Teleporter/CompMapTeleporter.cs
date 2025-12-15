@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -157,7 +157,7 @@ namespace WulaFallenEmpire
                 warmupTicksLeft--;
                 if (warmupTicksLeft % 60 == 0)
                 {
-                    Log.Message($"[WULA] Teleport warmup: {warmupTicksLeft} ticks left.");
+                    WulaLog.Debug($"[WULA] Teleport warmup: {warmupTicksLeft} ticks left.");
                     foreach (var member in GroupMembers)
                     {
                         Props.warmupEffecter?.Spawn(member.parent, member.parent.Map).Cleanup();
@@ -166,7 +166,7 @@ namespace WulaFallenEmpire
 
                 if (warmupTicksLeft <= 0)
                 {
-                    Log.Message("[WULA] Warmup finished. Attempting teleport...");
+                    WulaLog.Debug("[WULA] Warmup finished. Attempting teleport...");
                     TryTeleport();
                     isWarmingUp = false;
                 }
@@ -335,7 +335,7 @@ namespace WulaFallenEmpire
 
         private void TryTeleport()
         {
-            Log.Message($"[WULA] TryTeleport called. Target valid: {target.IsValid}, Tile: {target.Tile}, Cell: {target.Cell}");
+            WulaLog.Debug($"[WULA] TryTeleport called. Target valid: {target.IsValid}, Tile: {target.Tile}, Cell: {target.Cell}");
 
             if (!target.IsValid)
             {
@@ -349,7 +349,7 @@ namespace WulaFallenEmpire
 
             if (targetMap == null)
             {
-                Log.Message($"[WULA] Target map is null. Generating map for tile {target.Tile}...");
+                WulaLog.Debug($"[WULA] Target map is null. Generating map for tile {target.Tile}...");
                 targetMap = GetOrGenerateTargetMap(target.Tile);
                 if (targetMap == null)
                 {
@@ -360,7 +360,7 @@ namespace WulaFallenEmpire
                 targetCell = targetMap.Center;
             }
 
-            Log.Message($"[WULA] Teleporting to map {targetMap.Index}, cell {targetCell}");
+            WulaLog.Debug($"[WULA] Teleporting to map {targetMap.Index}, cell {targetCell}");
             TeleportContents(targetMap, targetCell);
         }
 
@@ -402,7 +402,7 @@ namespace WulaFallenEmpire
             List<ThingToTeleport> thingsToTeleport = new List<ThingToTeleport>();
             List<Pair<IntVec3, TerrainDef>> terrainToTeleport = new List<Pair<IntVec3, TerrainDef>>();
 
-            Log.Message($"[WULA] Collecting data from {cells.Count} cells in group");
+            WulaLog.Debug($"[WULA] Collecting data from {cells.Count} cells in group");
 
             // 1. 收集数据
             HashSet<Thing> collectedThings = new HashSet<Thing>();

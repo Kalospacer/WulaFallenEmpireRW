@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -103,7 +103,7 @@ namespace WulaFallenEmpire
                         map.fogGrid.ClearAllFog();
 
                         // 记录日志以便调试
-                        Log.Message($"[MapObserver] 开始监测地图: {mapParent.Label} at tile {target.Tile}");
+                        WulaLog.Debug($"[MapObserver] 开始监测地图: {mapParent.Label} at tile {target.Tile}");
                     }
                 }, "GeneratingMap", doAsynchronously: false, null);
 
@@ -128,12 +128,12 @@ namespace WulaFallenEmpire
                     if (observedMap is Settlement settlement)
                     {
                         settlement.Name = $"监测点-{thingIDNumber}";
-                        Log.Message($"[MapObserver] 创建新监测点: {settlement.Name} at tile {target.Tile}");
+                        WulaLog.Debug($"[MapObserver] 创建新监测点: {settlement.Name} at tile {target.Tile}");
                     }
                     else
                     {
                         // 如果observedMap不是Settlement，使用Label属性
-                        Log.Message($"[MapObserver] 创建新监测点: {observedMap.Label} at tile {target.Tile}");
+                        WulaLog.Debug($"[MapObserver] 创建新监测点: {observedMap.Label} at tile {target.Tile}");
                     }
 
                 }, "GeneratingMap", doAsynchronously: false, null);
@@ -165,7 +165,7 @@ namespace WulaFallenEmpire
                 {
                     Find.World.worldObjects.Remove(observedMap);
                 }
-                Log.Message($"[MapObserver] 清理空置监测地图: {observedMap.Label}");
+                WulaLog.Debug($"[MapObserver] 清理空置监测地图: {observedMap.Label}");
             }
         }
 
@@ -176,14 +176,14 @@ namespace WulaFallenEmpire
             // 断电或被关闭时停止监测
             if (observedMap != null && (signal == "PowerTurnedOff" || signal == "FlickedOff"))
             {
-                Log.Message($"[MapObserver] 电力中断，停止监测: {observedMap.Label}");
+                WulaLog.Debug($"[MapObserver] 电力中断，停止监测: {observedMap.Label}");
                 StopObserving();
             }
             // 恢复电力时重新注册
             else if (observedMap != null && (signal == "PowerTurnedOn" || signal == "FlickedOn"))
             {
                 activeObservers.Add(this);
-                Log.Message($"[MapObserver] 电力恢复，继续监测: {observedMap.Label}");
+                WulaLog.Debug($"[MapObserver] 电力恢复，继续监测: {observedMap.Label}");
             }
         }
 

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 using System.Collections.Generic;
@@ -64,11 +64,11 @@ namespace WulaFallenEmpire
                     Props.soundEffect.PlayOneShot(new TargetInfo(cell, map));
                 }
 
-                Log.Message($"[DeleteTarget] Processed cell {cell}, deleted {deletionCount} objects");
+                WulaLog.Debug($"[DeleteTarget] Processed cell {cell}, deleted {deletionCount} objects");
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[DeleteTarget] Error deleting objects at {cell}: {ex}");
+                WulaLog.Debug($"[DeleteTarget] Error deleting objects at {cell}: {ex}");
             }
         }
 
@@ -123,13 +123,13 @@ namespace WulaFallenEmpire
                 if (thing.Spawned)
                 {
                     thing.DeSpawn(DestroyMode.Vanish);
-                    Log.Message($"[DeleteTarget] Method1 - DeSpawn: {thingInfo}");
+                    WulaLog.Debug($"[DeleteTarget] Method1 - DeSpawn: {thingInfo}");
                     return true;
                 }
             }
             catch (System.Exception ex1)
             {
-                Log.Warning($"[DeleteTarget] Method1 failed for {thingInfo}: {ex1}");
+                WulaLog.Debug($"[DeleteTarget] Method1 failed for {thingInfo}: {ex1}");
             }
 
             try
@@ -138,13 +138,13 @@ namespace WulaFallenEmpire
                 if (thing.Spawned)
                 {
                     ForceRemoveFromThingGrid(thing, map);
-                    Log.Message($"[DeleteTarget] Method2 - ForceRemoveFromThingGrid: {thingInfo}");
+                    WulaLog.Debug($"[DeleteTarget] Method2 - ForceRemoveFromThingGrid: {thingInfo}");
                     return true;
                 }
             }
             catch (System.Exception ex2)
             {
-                Log.Warning($"[DeleteTarget] Method2 failed for {thingInfo}: {ex2}");
+                WulaLog.Debug($"[DeleteTarget] Method2 failed for {thingInfo}: {ex2}");
             }
 
             try
@@ -153,13 +153,13 @@ namespace WulaFallenEmpire
                 if (thing.Spawned)
                 {
                     ForceDespawnViaReflection(thing, map);
-                    Log.Message($"[DeleteTarget] Method3 - ForceDespawnViaReflection: {thingInfo}");
+                    WulaLog.Debug($"[DeleteTarget] Method3 - ForceDespawnViaReflection: {thingInfo}");
                     return true;
                 }
             }
             catch (System.Exception ex3)
             {
-                Log.Warning($"[DeleteTarget] Method3 failed for {thingInfo}: {ex3}");
+                WulaLog.Debug($"[DeleteTarget] Method3 failed for {thingInfo}: {ex3}");
             }
 
             try
@@ -168,16 +168,16 @@ namespace WulaFallenEmpire
                 if (thing.Spawned)
                 {
                     CallInternalCleanup(thing, map);
-                    Log.Message($"[DeleteTarget] Method4 - CallInternalCleanup: {thingInfo}");
+                    WulaLog.Debug($"[DeleteTarget] Method4 - CallInternalCleanup: {thingInfo}");
                     return true;
                 }
             }
             catch (System.Exception ex4)
             {
-                Log.Warning($"[DeleteTarget] Method4 failed for {thingInfo}: {ex4}");
+                WulaLog.Debug($"[DeleteTarget] Method4 failed for {thingInfo}: {ex4}");
             }
 
-            Log.Error($"[DeleteTarget] All methods failed for: {thingInfo}");
+            WulaLog.Debug($"[DeleteTarget] All methods failed for: {thingInfo}");
             return false;
         }
 
@@ -199,7 +199,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[DeleteTarget] ForceRemoveFromThingGrid failed: {ex}");
+                WulaLog.Debug($"[DeleteTarget] ForceRemoveFromThingGrid failed: {ex}");
                 throw;
             }
         }
@@ -242,7 +242,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[DeleteTarget] RemoveThingFromCell failed: {ex}");
+                WulaLog.Debug($"[DeleteTarget] RemoveThingFromCell failed: {ex}");
             }
         }
 
@@ -279,7 +279,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[DeleteTarget] ForceDespawnViaReflection failed: {ex}");
+                WulaLog.Debug($"[DeleteTarget] ForceDespawnViaReflection failed: {ex}");
                 throw;
             }
         }
@@ -310,7 +310,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[DeleteTarget] CallInternalCleanup failed: {ex}");
+                WulaLog.Debug($"[DeleteTarget] CallInternalCleanup failed: {ex}");
                 throw;
             }
         }

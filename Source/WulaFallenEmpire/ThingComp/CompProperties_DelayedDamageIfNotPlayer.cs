@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -82,17 +82,17 @@ namespace WulaFallenEmpire
                 damageApplied = true;
 
                 // 记录日志以便调试
-                Log.Message($"[CompDelayedDamage] Applied {Props.damageAmount} {Props.damageDef.defName} damage to {parent.Label} (Faction: {parent.Faction?.Name ?? "None"})");
+                WulaLog.Debug($"[CompDelayedDamage] Applied {Props.damageAmount} {Props.damageDef.defName} damage to {parent.Label} (Faction: {parent.Faction?.Name ?? "None"})");
 
                 // 检查是否被杀死
                 if (Props.destroyIfKilled && (parent.Destroyed || (parent is Pawn pawn && pawn.Dead)))
                 {
-                    Log.Message($"[CompDelayedDamage] {parent.Label} was destroyed by delayed damage");
+                    WulaLog.Debug($"[CompDelayedDamage] {parent.Label} was destroyed by delayed damage");
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[CompDelayedDamage] Error applying delayed damage: {ex}");
+                WulaLog.Debug($"[CompDelayedDamage] Error applying delayed damage: {ex}");
             }
         }
 

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
@@ -51,7 +51,7 @@ namespace WulaFallenEmpire
             foreach (FlyOver flyOver in flyOversWithFacilities)
             {
                 flyOver.EmergencyDestroy();
-                Log.Message($"[DestroyFlyOverByFacilities] Destroyed FlyOver with facilities at {flyOver.Position}");
+                WulaLog.Debug($"[DestroyFlyOverByFacilities] Destroyed FlyOver with facilities at {flyOver.Position}");
             }
             
             if (flyOversWithFacilities.Count > 0)
@@ -126,7 +126,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[DestroyFlyOverByFacilities] Error in ExtraLabelMouseAttachment: {ex}");
+                WulaLog.Debug($"[DestroyFlyOverByFacilities] Error in ExtraLabelMouseAttachment: {ex}");
                 return "Error checking FlyOver status";
             }
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using RimWorld;
 using Verse;
 using WulaFallenEmpire.EventSystem.AI;
@@ -26,7 +26,7 @@ namespace WulaFallenEmpire
             }
             else
             {
-                Log.Error($"[WulaFallenEmpire] Effect_OpenAIConversation could not find EventDef named '{defName}'");
+                WulaLog.Debug($"[WulaFallenEmpire] Effect_OpenAIConversation could not find EventDef named '{defName}'");
             }
         }
     }

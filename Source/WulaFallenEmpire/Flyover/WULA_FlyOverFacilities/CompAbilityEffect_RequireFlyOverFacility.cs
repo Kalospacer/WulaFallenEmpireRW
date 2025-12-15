@@ -1,4 +1,4 @@
-// CompAbilityEffect_RequireFlyOverFacility.cs
+﻿// CompAbilityEffect_RequireFlyOverFacility.cs
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -22,7 +22,7 @@ namespace WulaFallenEmpire
             
             if (availableFlyOvers.Count == 0)
             {
-                Log.Error($"[RequireFlyOverFacility] No valid FlyOver found with required facility: {Props.requiredFacility}");
+                WulaLog.Debug($"[RequireFlyOverFacility] No valid FlyOver found with required facility: {Props.requiredFacility}");
                 return;
             }
 
@@ -62,7 +62,7 @@ namespace WulaFallenEmpire
             catch (System.Exception ex)
             {
                 // 捕获异常，避免UI崩溃
-                Log.Error($"[RequireFlyOverFacility] Error in ExtraLabelMouseAttachment: {ex}");
+                WulaLog.Debug($"[RequireFlyOverFacility] Error in ExtraLabelMouseAttachment: {ex}");
                 return "设施检查错误";
             }
         }
@@ -123,7 +123,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[RequireFlyOverFacility] Error in GetValidFlyOvers: {ex}");
+                WulaLog.Debug($"[RequireFlyOverFacility] Error in GetValidFlyOvers: {ex}");
                 return new List<FlyOver>();
             }
         }

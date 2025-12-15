@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Verse;
 using RimWorld;
 using UnityEngine;
@@ -20,13 +20,13 @@ namespace WulaFallenEmpire
             Map currentMap = Find.CurrentMap;
             if (currentMap == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_CallSkyfaller cannot execute without a current map.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_CallSkyfaller cannot execute without a current map.");
                 return;
             }
 
             if (skyfallerDef == null)
             {
-                Log.Error("[WulaFallenEmpire] Effect_CallSkyfaller has a null skyfallerDef.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_CallSkyfaller has a null skyfallerDef.");
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace WulaFallenEmpire
 
             if (!dropCenter.IsValid)
             {
-                Log.Error("[WulaFallenEmpire] Effect_CallSkyfaller could not find a valid drop spot.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_CallSkyfaller could not find a valid drop spot.");
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace WulaFallenEmpire
                 Find.LetterStack.ReceiveLetter(letterLabel, letterText, letterDef ?? LetterDefOf.NeutralEvent);
             }
 
-            Log.Message($"[WulaFallenEmpire] Scheduled skyfaller '{skyfallerDef.defName}' at {dropCenter} with {delayTicks} ticks delay");
+            WulaLog.Debug($"[WulaFallenEmpire] Scheduled skyfaller '{skyfallerDef.defName}' at {dropCenter} with {delayTicks} ticks delay");
         }
 
         private IntVec3 FindDropSpotWithClearance(Map map, int radius)

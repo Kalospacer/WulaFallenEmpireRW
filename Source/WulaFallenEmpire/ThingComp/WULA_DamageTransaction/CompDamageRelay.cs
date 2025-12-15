@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 using Verse.Sound;
@@ -48,7 +48,7 @@ namespace WulaFallenEmpire
                 OnDamageRelayed(dinfo, relayDamage, targetBuilding);
                 
                 // 记录日志
-                Log.Message($"[DamageRelay] {Building.Label} 将 {relayDamage} 点伤害传递给 {targetBuilding.Label}");
+                WulaLog.Debug($"[DamageRelay] {Building.Label} 将 {relayDamage} 点伤害传递给 {targetBuilding.Label}");
             }
         }
 
@@ -104,7 +104,7 @@ namespace WulaFallenEmpire
             // 对建筑造成伤害
             building.TakeDamage(buildingDamage);
             
-            Log.Message($"[DamageRelay] 对建筑 {building.Label} 造成 {damageAmount} 点伤害，剩余生命值: {building.HitPoints}/{building.MaxHitPoints}");
+            WulaLog.Debug($"[DamageRelay] 对建筑 {building.Label} 造成 {damageAmount} 点伤害，剩余生命值: {building.HitPoints}/{building.MaxHitPoints}");
         }
 
         private void OnDamageRelayed(DamageInfo dinfo, float relayDamage, Building targetBuilding)

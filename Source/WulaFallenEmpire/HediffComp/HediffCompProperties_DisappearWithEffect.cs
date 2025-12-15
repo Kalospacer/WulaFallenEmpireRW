@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using Verse.Sound;
 
@@ -85,11 +85,11 @@ namespace WulaFallenEmpire
                 // 5. 暴力删除 pawn
                 DestroyPawn();
 
-                Log.Message($"[DisappearWithEffect] Pawn {Pawn.LabelCap} destroyed at {position}");
+                WulaLog.Debug($"[DisappearWithEffect] Pawn {Pawn.LabelCap} destroyed at {position}");
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[DisappearWithEffect] Error in TriggerDisappearEffect: {ex}");
+                WulaLog.Debug($"[DisappearWithEffect] Error in TriggerDisappearEffect: {ex}");
             }
         }
 
@@ -211,11 +211,11 @@ namespace WulaFallenEmpire
                 // 直接调用 Destroy，绕过所有死亡逻辑
                 Pawn.Destroy(DestroyMode.Vanish);
                 
-                Log.Message($"[DisappearWithEffect] Pawn {Pawn.LabelCap} destroyed");
+                WulaLog.Debug($"[DisappearWithEffect] Pawn {Pawn.LabelCap} destroyed");
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[DisappearWithEffect] Error destroying pawn: {ex}");
+                WulaLog.Debug($"[DisappearWithEffect] Error destroying pawn: {ex}");
             }
         }
 

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -164,7 +164,7 @@ namespace WulaFallenEmpire
             // 播放转换效果
             PlayTransformEffects(position, map);
 
-            Log.Message($"[TransformSystem] Building -> Pawn transformation completed at {position}. Path grid updated.");
+            WulaLog.Debug($"[TransformSystem] Building -> Pawn transformation completed at {position}. Path grid updated.");
         }
     }
 }

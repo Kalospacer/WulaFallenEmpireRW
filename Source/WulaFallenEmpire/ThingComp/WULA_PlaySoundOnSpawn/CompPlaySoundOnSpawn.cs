@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using Verse.Sound;
 using System.Collections.Generic;
@@ -131,12 +131,12 @@ namespace WulaFallenEmpire
                 // 调试日志
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"Played spawn sound: {Props.sound.defName} for {parent.Label} at {parent.Position}");
+                    WulaLog.Debug($"Played spawn sound: {Props.sound.defName} for {parent.Label} at {parent.Position}");
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Error playing spawn sound for {parent.Label}: {ex}");
+                WulaLog.Debug($"Error playing spawn sound for {parent.Label}: {ex}");
             }
         }
 
@@ -164,7 +164,7 @@ namespace WulaFallenEmpire
                         }
                         else
                         {
-                            Log.Warning("No sound defined for CompPlaySoundOnSpawn");
+                            WulaLog.Debug("No sound defined for CompPlaySoundOnSpawn");
                         }
                     }
                 };

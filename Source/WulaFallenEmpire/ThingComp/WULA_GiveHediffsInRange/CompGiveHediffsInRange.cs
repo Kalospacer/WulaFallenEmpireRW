@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 using UnityEngine;
@@ -147,7 +147,7 @@ namespace WulaFallenEmpire
                     }
                     catch (System.Exception ex)
                     {
-                        Log.Warning($"检查派系关系时出错: {ex.Message}");
+                        WulaLog.Debug($"检查派系关系时出错: {ex.Message}");
                         // 出错时保守处理，不施加效果
                         return false;
                     }
@@ -215,11 +215,11 @@ namespace WulaFallenEmpire
                 CreateEffectForPawn(pawn);
                 
                 // 记录日志（可选，调试时使用）
-                // Log.Message($"给予 {pawn.LabelShort} ({pawn.def.defName}) Hediff: {Props.hediff.defName}");
+                // WulaLog.Debug($"给予 {pawn.LabelShort} ({pawn.def.defName}) Hediff: {Props.hediff.defName}");
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"无法给 {pawn.LabelShort} 添加Hediff: {ex.Message}");
+                WulaLog.Debug($"无法给 {pawn.LabelShort} 添加Hediff: {ex.Message}");
             }
         }
 
@@ -237,7 +237,7 @@ namespace WulaFallenEmpire
                 }
                 catch (System.Exception ex)
                 {
-                    Log.Warning($"移除 {pawn.LabelShort} 的Hediff时出错: {ex.Message}");
+                    WulaLog.Debug($"移除 {pawn.LabelShort} 的Hediff时出错: {ex.Message}");
                 }
                 
                 affectedPawns.Remove(pawn);
@@ -281,7 +281,7 @@ namespace WulaFallenEmpire
                 }
                 catch (System.Exception ex)
                 {
-                    Log.Warning($"创建视觉效果时出错: {ex.Message}");
+                    WulaLog.Debug($"创建视觉效果时出错: {ex.Message}");
                 }
             }
         }
@@ -296,7 +296,7 @@ namespace WulaFallenEmpire
                 }
                 catch (System.Exception ex)
                 {
-                    Log.Warning($"清理视觉效果时出错: {ex.Message}");
+                    WulaLog.Debug($"清理视觉效果时出错: {ex.Message}");
                 }
                 effecters.Remove(pawn);
             }
@@ -318,7 +318,7 @@ namespace WulaFallenEmpire
                     }
                     catch (System.Exception ex)
                     {
-                        Log.Warning($"更新视觉效果时出错: {ex.Message}");
+                        WulaLog.Debug($"更新视觉效果时出错: {ex.Message}");
                         effectersToRemove.Add(kvp.Key);
                     }
                 }
@@ -384,7 +384,7 @@ namespace WulaFallenEmpire
                 }
                 catch (System.Exception ex)
                 {
-                    Log.Warning($"绘制范围环时出错: {ex.Message}");
+                    WulaLog.Debug($"绘制范围环时出错: {ex.Message}");
                 }
             }
         }

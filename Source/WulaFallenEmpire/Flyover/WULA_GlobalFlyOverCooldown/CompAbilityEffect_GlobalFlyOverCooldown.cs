@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace WulaFallenEmpire
             
             if (availableFlyOvers.Count == 0)
             {
-                Log.Error($"[GlobalFlyOverCooldown] No available FlyOver with BombardmentFacility found");
+                WulaLog.Debug($"[GlobalFlyOverCooldown] No available FlyOver with BombardmentFacility found");
                 return;
             }
 
@@ -31,14 +31,14 @@ namespace WulaFallenEmpire
             
             if (facilitiesComp == null)
             {
-                Log.Error($"[GlobalFlyOverCooldown] Selected FlyOver has no CompFlyOverFacilities");
+                WulaLog.Debug($"[GlobalFlyOverCooldown] Selected FlyOver has no CompFlyOverFacilities");
                 return;
             }
 
             // 设置冷却时间
             SetCooldown(selectedFlyOver, Props.globalCooldownTicks);
             
-            Log.Message($"[GlobalFlyOverCooldown] Set cooldown on FlyOver at {selectedFlyOver.Position} for {Props.globalCooldownTicks} ticks");
+            WulaLog.Debug($"[GlobalFlyOverCooldown] Set cooldown on FlyOver at {selectedFlyOver.Position} for {Props.globalCooldownTicks} ticks");
         }
 
         public override bool GizmoDisabled(out string reason)
@@ -73,7 +73,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[GlobalFlyOverCooldown] Error in ExtraLabelMouseAttachment: {ex}");
+                WulaLog.Debug($"[GlobalFlyOverCooldown] Error in ExtraLabelMouseAttachment: {ex}");
                 return "WULA_GlobalFlyOverCooldown.FacilityStatusError".Translate();
             }
         }
@@ -144,7 +144,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[GlobalFlyOverCooldown] Error in GetAvailableFlyOvers: {ex}");
+                WulaLog.Debug($"[GlobalFlyOverCooldown] Error in GetAvailableFlyOvers: {ex}");
                 return new List<FlyOver>();
             }
         }
@@ -188,7 +188,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[GlobalFlyOverCooldown] Error in GetTotalFlyOvers: {ex}");
+                WulaLog.Debug($"[GlobalFlyOverCooldown] Error in GetTotalFlyOvers: {ex}");
                 return new List<FlyOver>();
             }
         }
@@ -214,7 +214,7 @@ namespace WulaFallenEmpire
             var cooldownComp = flyOver.GetComp<CompFlyOverCooldown>();
             if (cooldownComp == null)
             {
-                Log.Error($"[GlobalFlyOverCooldown] FlyOver at {flyOver.Position} has no CompFlyOverCooldown");
+                WulaLog.Debug($"[GlobalFlyOverCooldown] FlyOver at {flyOver.Position} has no CompFlyOverCooldown");
                 return;
             }
 

@@ -1,4 +1,4 @@
-using Verse;
+﻿using Verse;
 using RimWorld;
 
 namespace WulaFallenEmpire
@@ -24,7 +24,7 @@ namespace WulaFallenEmpire
         {
             if (Props.pawnKind == null)
             {
-                Log.Error("CompSkyfallerPawnSpawner: pawnKind is null");
+                WulaLog.Debug("CompSkyfallerPawnSpawner: pawnKind is null");
                 return;
             }
 

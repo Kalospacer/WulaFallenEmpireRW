@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
@@ -49,12 +49,12 @@ namespace WulaFallenEmpire
 
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[DelayedSkyfaller] Spawned '{delayedSkyfaller.skyfallerDef.defName}' at {delayedSkyfaller.targetCell}");
+                    WulaLog.Debug($"[DelayedSkyfaller] Spawned '{delayedSkyfaller.skyfallerDef.defName}' at {delayedSkyfaller.targetCell}");
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[DelayedSkyfaller] Error spawning skyfaller: {ex}");
+                WulaLog.Debug($"[DelayedSkyfaller] Error spawning skyfaller: {ex}");
             }
         }
 

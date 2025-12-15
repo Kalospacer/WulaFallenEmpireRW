@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -52,23 +52,23 @@ namespace WulaFallenEmpire
                 currentLongitudinalOffset = Props.longitudinalInitialOffset;
             }
             
-            Log.Message($"SectorSurveillance: Initialized - Angle: {Props.sectorAngle}°, Range: {Props.sectorRange}, Shots: {Props.shotCount}, Interval: {Props.shotInterval}s");
-            Log.Message($"SectorSurveillance: ProjectileDef = {Props.projectileDef?.defName ?? "NULL"}");
-            Log.Message($"SectorSurveillance: Parent = {parent?.def?.defName ?? "NULL"} at {parent?.Position.ToString() ?? "NULL"}");
-            Log.Message($"SectorSurveillance: Max Projectiles = {Props.maxProjectiles}, Remaining = {remainingProjectiles}");
-            Log.Message($"SectorSurveillance: Lateral Mode: {Props.lateralOffsetMode}, Longitudinal Mode: {Props.longitudinalOffsetMode}");
+            WulaLog.Debug($"SectorSurveillance: Initialized - Angle: {Props.sectorAngle}°, Range: {Props.sectorRange}, Shots: {Props.shotCount}, Interval: {Props.shotInterval}s");
+            WulaLog.Debug($"SectorSurveillance: ProjectileDef = {Props.projectileDef?.defName ?? "NULL"}");
+            WulaLog.Debug($"SectorSurveillance: Parent = {parent?.def?.defName ?? "NULL"} at {parent?.Position.ToString() ?? "NULL"}");
+            WulaLog.Debug($"SectorSurveillance: Max Projectiles = {Props.maxProjectiles}, Remaining = {remainingProjectiles}");
+            WulaLog.Debug($"SectorSurveillance: Lateral Mode: {Props.lateralOffsetMode}, Longitudinal Mode: {Props.longitudinalOffsetMode}");
             
             InitializeFactionCache();
         }
 
         private void InitializeFactionCache()
         {
-            Log.Message($"SectorSurveillance: Initializing faction cache...");
+            WulaLog.Debug($"SectorSurveillance: Initializing faction cache...");
             
             if (parent.Faction != null)
             {
                 cachedFaction = parent.Faction;
-                Log.Message($"SectorSurveillance: Using parent.Faction: {cachedFaction?.Name ?? "NULL"}");
+                WulaLog.Debug($"SectorSurveillance: Using parent.Faction: {cachedFaction?.Name ?? "NULL"}");
             }
             else
             {
@@ -76,21 +76,21 @@ namespace WulaFallenEmpire
                 if (flyOver?.caster != null && flyOver.caster.Faction != null)
                 {
                     cachedFaction = flyOver.caster.Faction;
-                    Log.Message($"SectorSurveillance: Using caster.Faction: {cachedFaction?.Name ?? "NULL"}");
+                    WulaLog.Debug($"SectorSurveillance: Using caster.Faction: {cachedFaction?.Name ?? "NULL"}");
                 }
                 else if (flyOver?.faction != null)
                 {
                     cachedFaction = flyOver.faction;
-                    Log.Message($"SectorSurveillance: Using flyOver.faction: {cachedFaction?.Name ?? "NULL"}");
+                    WulaLog.Debug($"SectorSurveillance: Using flyOver.faction: {cachedFaction?.Name ?? "NULL"}");
                 }
                 else
                 {
-                    Log.Error($"SectorSurveillance: CRITICAL - No faction found!");
+                    WulaLog.Debug($"SectorSurveillance: CRITICAL - No faction found!");
                 }
             }
             
             factionInitialized = true;
-            Log.Message($"SectorSurveillance: Faction cache initialized: {cachedFaction?.Name ?? "NULL"}");
+            WulaLog.Debug($"SectorSurveillance: Faction cache initialized: {cachedFaction?.Name ?? "NULL"}");
         }
 
         private Faction GetEffectiveFaction()
@@ -102,7 +102,7 @@ namespace WulaFallenEmpire
             
             if (cachedFaction == null)
             {
-                Log.Warning("SectorSurveillance: Cached faction is null, reinitializing...");
+                WulaLog.Debug("SectorSurveillance: Cached faction is null, reinitializing...");
                 InitializeFactionCache();
             }
             
@@ -118,8 +118,8 @@ namespace WulaFallenEmpire
             if (Find.TickManager.TicksGame % 60 == 0)
             {
                 Faction currentFaction = GetEffectiveFaction();
-                Log.Message($"SectorSurveillance Status: Frames={totalFramesProcessed}, TargetsFound={totalTargetsFound}, ShotsFired={totalShotsFired}, ActiveTargets={activeTargets.Count}, Cooldowns={shotCooldowns.Count}, Faction={currentFaction?.Name ?? "NULL"}, RemainingProjectiles={remainingProjectiles}, AmmoExhausted={ammoExhausted}");
-                Log.Message($"SectorSurveillance Offsets: Lateral={currentLateralOffsetAngle:F1}°, Longitudinal={currentLongitudinalOffset:F1}, TotalShots={shotsFired}");
+                WulaLog.Debug($"SectorSurveillance Status: Frames={totalFramesProcessed}, TargetsFound={totalTargetsFound}, ShotsFired={totalShotsFired}, ActiveTargets={activeTargets.Count}, Cooldowns={shotCooldowns.Count}, Faction={currentFaction?.Name ?? "NULL"}, RemainingProjectiles={remainingProjectiles}, AmmoExhausted={ammoExhausted}");
+                WulaLog.Debug($"SectorSurveillance Offsets: Lateral={currentLateralOffsetAngle:F1}°, Longitudinal={currentLongitudinalOffset:F1}, TotalShots={shotsFired}");
             }
             
             UpdateShotCooldowns();
@@ -165,7 +165,7 @@ namespace WulaFallenEmpire
             foreach (Pawn pawn in toRemove)
             {
                 shotCooldowns.Remove(pawn);
-                Log.Message($"SectorSurveillance: Cooldown finished for {pawn?.Label ?? "NULL"}");
+                WulaLog.Debug($"SectorSurveillance: Cooldown finished for {pawn?.Label ?? "NULL"}");
             }
         }
         
@@ -178,11 +178,11 @@ namespace WulaFallenEmpire
             }
             
             List<Pawn> enemiesInSector = GetEnemiesInSector();
-            Log.Message($"SectorSurveillance: Found {enemiesInSector.Count} enemies in sector");
+            WulaLog.Debug($"SectorSurveillance: Found {enemiesInSector.Count} enemies in sector");
 
             if (enemiesInSector.Count > 0)
             {
-                Log.Message($"SectorSurveillance: Enemies in sector: {string.Join(", ", enemiesInSector.ConvertAll(p => p.Label))}");
+                WulaLog.Debug($"SectorSurveillance: Enemies in sector: {string.Join(", ", enemiesInSector.ConvertAll(p => p.Label))}");
             }
             
             foreach (Pawn enemy in enemiesInSector)
@@ -194,7 +194,7 @@ namespace WulaFallenEmpire
                     !shotCooldowns.ContainsKey(enemy))
                 {
                     activeTargets[enemy] = Props.shotCount;
-                    Log.Message($"SectorSurveillance: Starting attack sequence on {enemy.Label} at {enemy.Position} - {Props.shotCount} shots");
+                    WulaLog.Debug($"SectorSurveillance: Starting attack sequence on {enemy.Label} at {enemy.Position} - {Props.shotCount} shots");
                 }
             }
         }
@@ -231,26 +231,26 @@ namespace WulaFallenEmpire
                 
                 if (!IsInSector(enemy.Position))
                 {
-                    Log.Message($"SectorSurveillance: Target {enemy.Label} left sector, cancelling attack");
+                    WulaLog.Debug($"SectorSurveillance: Target {enemy.Label} left sector, cancelling attack");
                     completedTargets.Add(enemy);
                     continue;
                 }
                 
                 if (shotCooldowns.ContainsKey(enemy))
                 {
-                    Log.Message($"SectorSurveillance: Target {enemy.Label} in cooldown, skipping this frame");
+                    WulaLog.Debug($"SectorSurveillance: Target {enemy.Label} in cooldown, skipping this frame");
                     continue;
                 }
                 
                 // 检查剩余射弹数量
                 if (remainingProjectiles == 0)
                 {
-                    Log.Message($"SectorSurveillance: Ammo exhausted, cannot fire at {enemy.Label}");
+                    WulaLog.Debug($"SectorSurveillance: Ammo exhausted, cannot fire at {enemy.Label}");
                     ammoExhausted = true;
                     break; // 跳出循环，不再发射任何射弹
                 }
                 
-                Log.Message($"SectorSurveillance: Attempting to fire at {enemy.Label}, remaining shots: {remainingShots}, remaining projectiles: {remainingProjectiles}");
+                WulaLog.Debug($"SectorSurveillance: Attempting to fire at {enemy.Label}, remaining shots: {remainingShots}, remaining projectiles: {remainingProjectiles}");
                 if (LaunchProjectileAt(enemy))
                 {
                     totalShotsFired++;
@@ -261,13 +261,13 @@ namespace WulaFallenEmpire
                     if (remainingProjectiles > 0)
                     {
                         remainingProjectiles--;
-                        Log.Message($"SectorSurveillance: Remaining projectiles: {remainingProjectiles}");
+                        WulaLog.Debug($"SectorSurveillance: Remaining projectiles: {remainingProjectiles}");
                         
                         // 检查是否耗尽弹药
                         if (remainingProjectiles == 0)
                         {
                             ammoExhausted = true;
-                            Log.Message($"SectorSurveillance: AMMO EXHAUSTED - No more projectiles available");
+                            WulaLog.Debug($"SectorSurveillance: AMMO EXHAUSTED - No more projectiles available");
                         }
                     }
                     
@@ -277,18 +277,18 @@ namespace WulaFallenEmpire
                     int cooldownTicks = Mathf.RoundToInt(Props.shotInterval * 60f);
                     shotCooldowns[enemy] = cooldownTicks;
                     
-                    Log.Message($"SectorSurveillance: Successfully fired at {enemy.Label}, {remainingShots} shots remaining, cooldown: {cooldownTicks} ticks");
+                    WulaLog.Debug($"SectorSurveillance: Successfully fired at {enemy.Label}, {remainingShots} shots remaining, cooldown: {cooldownTicks} ticks");
                     
                     if (remainingShots <= 0)
                     {
                         attackedPawns.Add(enemy);
                         completedTargets.Add(enemy);
-                        Log.Message($"SectorSurveillance: Completed attack sequence on {enemy.Label}");
+                        WulaLog.Debug($"SectorSurveillance: Completed attack sequence on {enemy.Label}");
                     }
                 }
                 else
                 {
-                    Log.Error($"SectorSurveillance: Failed to fire projectile at {enemy.Label}");
+                    WulaLog.Debug($"SectorSurveillance: Failed to fire projectile at {enemy.Label}");
                 }
             }
             
@@ -299,13 +299,13 @@ namespace WulaFallenEmpire
                 if (enemy != null)
                 {
                     activeTargets.Remove(enemy);
-                    Log.Message($"SectorSurveillance: Removed {enemy.Label} from active targets");
+                    WulaLog.Debug($"SectorSurveillance: Removed {enemy.Label} from active targets");
                 }
                 else
                 {
                     // 如果目标已不存在，直接从字典中移除对应的键
                     activeTargets.Remove(enemy);
-                    Log.Message($"SectorSurveillance: Removed null target from active targets");
+                    WulaLog.Debug($"SectorSurveillance: Removed null target from active targets");
                 }
             }
         }
@@ -448,14 +448,14 @@ namespace WulaFallenEmpire
             
             if (map == null)
             {
-                Log.Error("SectorSurveillance: Map is null!");
+                WulaLog.Debug("SectorSurveillance: Map is null!");
                 return enemies;
             }
             
             FlyOver flyOver = parent as FlyOver;
             if (flyOver == null)
             {
-                Log.Error("SectorSurveillance: Parent is not a FlyOver!");
+                WulaLog.Debug("SectorSurveillance: Parent is not a FlyOver!");
                 return enemies;
             }
             
@@ -464,7 +464,7 @@ namespace WulaFallenEmpire
             float range = Props.sectorRange;
             float halfAngle = Props.sectorAngle * 0.5f;
 
-            Log.Message($"SectorSurveillance: Checking sector - Center: {center}, Direction: {flightDirection}, Range: {range}, HalfAngle: {halfAngle}");
+            WulaLog.Debug($"SectorSurveillance: Checking sector - Center: {center}, Direction: {flightDirection}, Range: {range}, HalfAngle: {halfAngle}");
             
             int totalEnemiesChecked = 0;
             
@@ -480,12 +480,12 @@ namespace WulaFallenEmpire
                     if (inSector)
                     {
                         enemies.Add(pawn);
-                        Log.Message($"SectorSurveillance: Valid target found - {pawn.Label} at {pawn.Position}, in sector: {inSector}");
+                        WulaLog.Debug($"SectorSurveillance: Valid target found - {pawn.Label} at {pawn.Position}, in sector: {inSector}");
                     }
                 }
             }
 
-            Log.Message($"SectorSurveillance: Checked {totalEnemiesChecked} pawns, found {enemies.Count} valid targets in sector");
+            WulaLog.Debug($"SectorSurveillance: Checked {totalEnemiesChecked} pawns, found {enemies.Count} valid targets in sector");
             return enemies;
         }
         
@@ -493,32 +493,32 @@ namespace WulaFallenEmpire
         {
             if (pawn == null)
             {
-                Log.Message("SectorSurveillance: IsValidTarget - pawn is null");
+                WulaLog.Debug("SectorSurveillance: IsValidTarget - pawn is null");
                 return false;
             }
 
             // 关键修复：检查pawn是否已被销毁或死亡
             if (pawn.Destroyed || pawn.Dead || !pawn.Spawned)
             {
-                Log.Message($"SectorSurveillance: IsValidTarget - {pawn.Label} is destroyed/dead/unspawned");
+                WulaLog.Debug($"SectorSurveillance: IsValidTarget - {pawn.Label} is destroyed/dead/unspawned");
                 return false;
             }
 
             if (pawn.Downed)
             {
-                Log.Message($"SectorSurveillance: IsValidTarget - {pawn.Label} is downed");
+                WulaLog.Debug($"SectorSurveillance: IsValidTarget - {pawn.Label} is downed");
                 return false;
             }
 
             Faction effectiveFaction = GetEffectiveFaction();
             if (effectiveFaction == null)
             {
-                Log.Error($"SectorSurveillance: IsValidTarget - No effective faction found for {pawn.Label}");
+                WulaLog.Debug($"SectorSurveillance: IsValidTarget - No effective faction found for {pawn.Label}");
                 return false;
             }
 
             bool hostile = pawn.HostileTo(effectiveFaction);
-            Log.Message($"SectorSurveillance: IsValidTarget - {pawn.Label} from {pawn.Faction?.Name ?? "NULL"} is hostile to {effectiveFaction.Name}: {hostile}");
+            WulaLog.Debug($"SectorSurveillance: IsValidTarget - {pawn.Label} from {pawn.Faction?.Name ?? "NULL"} is hostile to {effectiveFaction.Name}: {hostile}");
 
             return hostile;
         }
@@ -528,7 +528,7 @@ namespace WulaFallenEmpire
             FlyOver flyOver = parent as FlyOver;
             if (flyOver == null)
             {
-                Log.Error("SectorSurveillance: IsInSector - Parent is not a FlyOver!");
+                WulaLog.Debug("SectorSurveillance: IsInSector - Parent is not a FlyOver!");
                 return false;
             }
             
@@ -539,7 +539,7 @@ namespace WulaFallenEmpire
             float distance = targetVector.magnitude;
             if (distance > Props.sectorRange)
             {
-                Log.Message($"SectorSurveillance: IsInSector - Target at {targetPos} is out of range: {distance:F1} > {Props.sectorRange}");
+                WulaLog.Debug($"SectorSurveillance: IsInSector - Target at {targetPos} is out of range: {distance:F1} > {Props.sectorRange}");
                 return false;
             }
             
@@ -548,7 +548,7 @@ namespace WulaFallenEmpire
             
             bool inAngle = angle <= Props.sectorAngle * 0.5f;
             
-            Log.Message($"SectorSurveillance: IsInSector - Target at {targetPos}, distance: {distance:F1}, angle: {angle:F1}°, inAngle: {inAngle}");
+            WulaLog.Debug($"SectorSurveillance: IsInSector - Target at {targetPos}, distance: {distance:F1}, angle: {angle:F1}°, inAngle: {inAngle}");
             
             return inAngle;
         }
@@ -557,11 +557,11 @@ namespace WulaFallenEmpire
         {
             if (Props.projectileDef == null)
             {
-                Log.Error("SectorSurveillance: No projectile defined for sector surveillance");
+                WulaLog.Debug("SectorSurveillance: No projectile defined for sector surveillance");
                 return false;
             }
 
-            Log.Message($"SectorSurveillance: LaunchProjectileAt - Starting launch for target {target?.Label ?? "NULL"}");
+            WulaLog.Debug($"SectorSurveillance: LaunchProjectileAt - Starting launch for target {target?.Label ?? "NULL"}");
             
             try
             {
@@ -574,33 +574,33 @@ namespace WulaFallenEmpire
                 
                 IntVec3 spawnCell = offsetSpawnPos.ToIntVec3();
                 
-                Log.Message($"SectorSurveillance: Spawn position - World: {offsetSpawnPos}, Cell: {spawnCell}, Lateral Offset: {currentLateralOffsetAngle:F1}°, Longitudinal Offset: {currentLongitudinalOffset:F1}");
+                WulaLog.Debug($"SectorSurveillance: Spawn position - World: {offsetSpawnPos}, Cell: {spawnCell}, Lateral Offset: {currentLateralOffsetAngle:F1}°, Longitudinal Offset: {currentLongitudinalOffset:F1}");
 
                 if (parent.Map == null)
                 {
-                    Log.Error("SectorSurveillance: Map is null during projectile launch");
+                    WulaLog.Debug("SectorSurveillance: Map is null during projectile launch");
                     return false;
                 }
 
                 if (!spawnCell.InBounds(parent.Map))
                 {
-                    Log.Error($"SectorSurveillance: Spawn cell {spawnCell} is out of bounds");
+                    WulaLog.Debug($"SectorSurveillance: Spawn cell {spawnCell} is out of bounds");
                     return false;
                 }
 
-                Log.Message($"SectorSurveillance: Attempting to spawn projectile: {Props.projectileDef.defName}");
+                WulaLog.Debug($"SectorSurveillance: Attempting to spawn projectile: {Props.projectileDef.defName}");
                 Projectile projectile = (Projectile)GenSpawn.Spawn(Props.projectileDef, spawnCell, parent.Map);
                 
                 if (projectile != null)
                 {
-                    Log.Message($"SectorSurveillance: Projectile spawned successfully: {projectile}");
+                    WulaLog.Debug($"SectorSurveillance: Projectile spawned successfully: {projectile}");
                     
                     Thing launcher = GetLauncher();
                     Vector3 launchPos = offsetSpawnPos;
                     
                     LocalTargetInfo targetInfo = new LocalTargetInfo(target);
                     
-                    Log.Message($"SectorSurveillance: Launching projectile - Launcher: {launcher?.def?.defName ?? "NULL"}, LaunchPos: {launchPos}, Target: {targetInfo.Cell}");
+                    WulaLog.Debug($"SectorSurveillance: Launching projectile - Launcher: {launcher?.def?.defName ?? "NULL"}, LaunchPos: {launchPos}, Target: {targetInfo.Cell}");
                     
                     projectile.Launch(
                         launcher,
@@ -617,19 +617,19 @@ namespace WulaFallenEmpire
                         CreateOffsetEffect(offsetSpawnPos, directionToTarget);
                     }
                     
-                    Log.Message($"SectorSurveillance: Projectile launched successfully");
+                    WulaLog.Debug($"SectorSurveillance: Projectile launched successfully");
                     return true;
                 }
                 else
                 {
-                    Log.Error("SectorSurveillance: Failed to spawn projectile - GenSpawn.Spawn returned null");
+                    WulaLog.Debug("SectorSurveillance: Failed to spawn projectile - GenSpawn.Spawn returned null");
                     return false;
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"SectorSurveillance: Exception launching projectile: {ex}");
-                Log.Error($"SectorSurveillance: Stack trace: {ex.StackTrace}");
+                WulaLog.Debug($"SectorSurveillance: Exception launching projectile: {ex}");
+                WulaLog.Debug($"SectorSurveillance: Stack trace: {ex.StackTrace}");
                 return false;
             }
         }
@@ -653,11 +653,11 @@ namespace WulaFallenEmpire
             FlyOver flyOver = parent as FlyOver;
             //if (flyOver != null && flyOver.caster != null)
             //{
-            //    Log.Message($"SectorSurveillance: Using caster as launcher: {flyOver.caster.Label}");
+            //    WulaLog.Debug($"SectorSurveillance: Using caster as launcher: {flyOver.caster.Label}");
             //    return flyOver.caster;
             //}
             
-            Log.Message($"SectorSurveillance: Using parent as launcher: {parent.Label}");
+            WulaLog.Debug($"SectorSurveillance: Using parent as launcher: {parent.Label}");
             return parent;
         }
         
@@ -732,10 +732,10 @@ namespace WulaFallenEmpire
         // 新增：调试方法
         public void DebugOffsetStatus()
         {
-            Log.Message($"SectorSurveillance Offset Status:");
-            Log.Message($"  Lateral - Angle: {currentLateralOffsetAngle:F1}°, Mode: {Props.lateralOffsetMode}");
-            Log.Message($"  Longitudinal - Offset: {currentLongitudinalOffset:F1}, Mode: {Props.longitudinalOffsetMode}");
-            Log.Message($"  Shots Fired: {shotsFired}, Forward Phase: {isForwardPhase}");
+            WulaLog.Debug($"SectorSurveillance Offset Status:");
+            WulaLog.Debug($"  Lateral - Angle: {currentLateralOffsetAngle:F1}°, Mode: {Props.lateralOffsetMode}");
+            WulaLog.Debug($"  Longitudinal - Offset: {currentLongitudinalOffset:F1}, Mode: {Props.longitudinalOffsetMode}");
+            WulaLog.Debug($"  Shots Fired: {shotsFired}, Forward Phase: {isForwardPhase}");
         }
     }
     

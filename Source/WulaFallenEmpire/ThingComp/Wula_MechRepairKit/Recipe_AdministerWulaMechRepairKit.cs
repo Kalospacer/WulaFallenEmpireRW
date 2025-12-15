@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 
@@ -33,14 +33,14 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error($"WULA_MechRepairKit is missing CompUseEffect_FixAllHealthConditions. This should not happen.");
+                    WulaLog.Debug($"WULA_MechRepairKit is missing CompUseEffect_FixAllHealthConditions. This should not happen.");
                 }
 
                 // 物品将由 CompProperties_UseEffectDestroySelf 销毁，因此此处无需手动销毁。
             }
             else
             {
-                Log.Error($"Recipe_AdministerWulaMechRepairKit could not find WULA_MechRepairKit in ingredients for pawn {pawn.LabelShort}.");
+                WulaLog.Debug($"Recipe_AdministerWulaMechRepairKit could not find WULA_MechRepairKit in ingredients for pawn {pawn.LabelShort}.");
             }
         }
     }

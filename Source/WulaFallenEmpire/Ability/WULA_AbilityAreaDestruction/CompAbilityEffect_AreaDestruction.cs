@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -99,14 +99,14 @@ namespace WulaFallenEmpire
                             // 处理目标
                             ProcessTarget(thing);
                             
-                            Log.Message($"[AreaDestruction] Cleared overlapping object: {thing.Label} at {casterPos}");
+                            WulaLog.Debug($"[AreaDestruction] Cleared overlapping object: {thing.Label} at {casterPos}");
                         }
                     }
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[AreaDestruction] Error clearing overlapping objects: {ex.Message}");
+                WulaLog.Debug($"[AreaDestruction] Error clearing overlapping objects: {ex.Message}");
             }
         }
 
@@ -135,7 +135,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[AreaDestruction] Error playing clear effecter: {ex.Message}");
+                WulaLog.Debug($"[AreaDestruction] Error playing clear effecter: {ex.Message}");
             }
         }
 
@@ -174,7 +174,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[AreaDestruction] Error playing hit effecter on {target?.Label}: {ex.Message}");
+                WulaLog.Debug($"[AreaDestruction] Error playing hit effecter on {target?.Label}: {ex.Message}");
             }
         }
 
@@ -243,11 +243,11 @@ namespace WulaFallenEmpire
                 building.Destroy(DestroyMode.Vanish);
                 
                 // 可选：记录日志用于调试
-                // Log.Message($"[AreaDestruction] Destroyed building: {buildingInfo}");
+                // WulaLog.Debug($"[AreaDestruction] Destroyed building: {buildingInfo}");
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[AreaDestruction] Error destroying building {building?.Label}: {ex.Message}");
+                WulaLog.Debug($"[AreaDestruction] Error destroying building {building?.Label}: {ex.Message}");
             }
         }
 
@@ -287,7 +287,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[AreaDestruction] Error destroying body parts on {targetPawn?.Label}: {ex.Message}");
+                WulaLog.Debug($"[AreaDestruction] Error destroying body parts on {targetPawn?.Label}: {ex.Message}");
             }
         }
 

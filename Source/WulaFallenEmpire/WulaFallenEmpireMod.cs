@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
@@ -20,7 +20,7 @@ namespace WulaFallenEmpire
             var harmony = new Harmony("tourswen.wulafallenempire"); // 替换为您的唯一Mod ID
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            Log.Message("[WulaFallenEmpire] Harmony patches applied.");
+            WulaLog.Debug("[WulaFallenEmpire] Harmony patches applied.");
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
@@ -45,6 +45,9 @@ namespace WulaFallenEmpire
             Rect tokensRect = listingStandard.GetRect(Text.LineHeight);
             Widgets.TextFieldNumeric(tokensRect, ref settings.maxContextTokens, ref _maxContextTokensBuffer, 1000, 200000);
 
+            listingStandard.GapLine();
+            listingStandard.CheckboxLabeled("Enable Debug Logs".Translate(), ref settings.enableDebugLogs, "Enable detailed debug logging (independent of DevMode)".Translate());
+
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);
         }
@@ -60,7 +63,7 @@ namespace WulaFallenEmpire
     {
         static StartupLogger()
         {
-            Log.Message("WulaFallenEmpire Mod DLL, version 1.0.2, has been loaded.");
+            WulaLog.Debug("WulaFallenEmpire Mod DLL, version 1.0.2, has been loaded.");
         }
     }
 }

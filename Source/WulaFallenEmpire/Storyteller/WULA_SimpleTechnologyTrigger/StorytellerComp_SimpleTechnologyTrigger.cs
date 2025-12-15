@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using Verse;
 using System.Linq;
@@ -50,8 +50,8 @@ namespace WulaFallenEmpire
             {
                 if (SimpleProps.debugLogging)
                 {
-                    Log.Message($"[SimpleTechnologyTrigger] Triggering incident {incidentToTrigger.defName} for technology {SimpleProps.technology.defName}");
-                    Log.Message($"[SimpleTechnologyTrigger] Faction relation status: {factionCheckResult}");
+                    WulaLog.Debug($"[SimpleTechnologyTrigger] Triggering incident {incidentToTrigger.defName} for technology {SimpleProps.technology.defName}");
+                    WulaLog.Debug($"[SimpleTechnologyTrigger] Faction relation status: {factionCheckResult}");
                 }
 
                 yield return new FiringIncident(incidentToTrigger, this, GenerateParms(incidentToTrigger.category, target));
@@ -74,7 +74,7 @@ namespace WulaFallenEmpire
                     {
                         if (SimpleProps.debugLogging)
                         {
-                            Log.Message($"[SimpleTechnologyTrigger] Using hostile alternative incident: {SimpleProps.incidentIfHostile.defName}");
+                            WulaLog.Debug($"[SimpleTechnologyTrigger] Using hostile alternative incident: {SimpleProps.incidentIfHostile.defName}");
                         }
                         return SimpleProps.incidentIfHostile;
                     }
@@ -106,7 +106,7 @@ namespace WulaFallenEmpire
                 {
                     if (SimpleProps.debugLogging)
                     {
-                        Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} does not exist or is defeated");
+                        WulaLog.Debug($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} does not exist or is defeated");
                     }
                     return FactionRelationResult.Invalid("Faction does not exist or is defeated");
                 }
@@ -124,7 +124,7 @@ namespace WulaFallenEmpire
                     {
                         if (SimpleProps.debugLogging)
                         {
-                            Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} is hostile to player and requireNonHostileRelation is true");
+                            WulaLog.Debug($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} is hostile to player and requireNonHostileRelation is true");
                         }
                         return FactionRelationResult.Invalid("Faction is hostile and requireNonHostileRelation is true");
                     }
@@ -133,7 +133,7 @@ namespace WulaFallenEmpire
                         // 不要求非敌对关系，但派系是敌对的 - 这是一个特殊状态
                         if (SimpleProps.debugLogging)
                         {
-                            Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} is hostile but requireNonHostileRelation is false - allowing with possible alternative");
+                            WulaLog.Debug($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} is hostile but requireNonHostileRelation is false - allowing with possible alternative");
                         }
                         return FactionRelationResult.HostileButAllowed();
                     }
@@ -142,7 +142,7 @@ namespace WulaFallenEmpire
 
             if (SimpleProps.debugLogging)
             {
-                Log.Message($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} check passed");
+                WulaLog.Debug($"[SimpleTechnologyTrigger] Required faction {SimpleProps.requiredFaction.defName} check passed");
             }
 
             return FactionRelationResult.Valid();
@@ -169,7 +169,7 @@ namespace WulaFallenEmpire
         {
             if (SimpleProps.technology == null)
             {
-                Log.Error("[SimpleTechnologyTrigger] No technology specified in props");
+                WulaLog.Debug("[SimpleTechnologyTrigger] No technology specified in props");
                 return false;
             }
 
@@ -177,7 +177,7 @@ namespace WulaFallenEmpire
 
             if (SimpleProps.debugLogging)
             {
-                Log.Message($"[SimpleTechnologyTrigger] Technology {SimpleProps.technology.defName} research status: {hasTechnology}");
+                WulaLog.Debug($"[SimpleTechnologyTrigger] Technology {SimpleProps.technology.defName} research status: {hasTechnology}");
             }
 
             return hasTechnology;
@@ -200,7 +200,7 @@ namespace WulaFallenEmpire
             {
                 if (SimpleProps.debugLogging)
                 {
-                    Log.Message($"[SimpleTechnologyTrigger] Faction {faction.def.defName} is in blacklist");
+                    WulaLog.Debug($"[SimpleTechnologyTrigger] Faction {faction.def.defName} is in blacklist");
                 }
                 return false;
             }
@@ -219,7 +219,7 @@ namespace WulaFallenEmpire
                         {
                             if (SimpleProps.debugLogging)
                             {
-                                Log.Message($"[SimpleTechnologyTrigger] Faction {faction.def.defName} is in whitelist");
+                                WulaLog.Debug($"[SimpleTechnologyTrigger] Faction {faction.def.defName} is in whitelist");
                             }
                             return true;
                         }
@@ -227,7 +227,7 @@ namespace WulaFallenEmpire
                         {
                             if (SimpleProps.debugLogging)
                             {
-                                Log.Message($"[SimpleTechnologyTrigger] Faction {faction.def.defName} not in whitelist and default behavior is Deny");
+                                WulaLog.Debug($"[SimpleTechnologyTrigger] Faction {faction.def.defName} not in whitelist and default behavior is Deny");
                             }
                             return false;
                         }
@@ -239,13 +239,13 @@ namespace WulaFallenEmpire
                 case FactionFilterDefaultBehavior.Allow:
                     if (SimpleProps.debugLogging)
                     {
-                        Log.Message($"[SimpleTechnologyTrigger] No whitelist, default behavior is Allow");
+                        WulaLog.Debug($"[SimpleTechnologyTrigger] No whitelist, default behavior is Allow");
                     }
                     return true;
                 case FactionFilterDefaultBehavior.Deny:
                     if (SimpleProps.debugLogging)
                     {
-                        Log.Message($"[SimpleTechnologyTrigger] No whitelist, default behavior is Deny");
+                        WulaLog.Debug($"[SimpleTechnologyTrigger] No whitelist, default behavior is Deny");
                     }
                     return false;
                 default:
@@ -287,7 +287,7 @@ namespace WulaFallenEmpire
 
                 if (SimpleProps.debugLogging && hasActiveQuest)
                 {
-                    Log.Message($"[SimpleTechnologyTrigger] Active quest {SimpleProps.questDef.defName} found, skipping trigger");
+                    WulaLog.Debug($"[SimpleTechnologyTrigger] Active quest {SimpleProps.questDef.defName} found, skipping trigger");
                 }
 
                 return hasActiveQuest;

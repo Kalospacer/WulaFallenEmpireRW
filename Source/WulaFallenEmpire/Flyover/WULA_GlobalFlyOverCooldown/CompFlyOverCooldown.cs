@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 
 namespace WulaFallenEmpire
@@ -39,7 +39,7 @@ namespace WulaFallenEmpire
             int actualCooldown = cooldownTicks > 0 ? cooldownTicks : Props.baseCooldownTicks;
             cooldownEndTick = Find.TickManager.TicksGame + actualCooldown;
             
-            Log.Message($"[FlyOverCooldown] Cooldown started for {actualCooldown} ticks, ends at tick {cooldownEndTick}");
+            WulaLog.Debug($"[FlyOverCooldown] Cooldown started for {actualCooldown} ticks, ends at tick {cooldownEndTick}");
         }
 
         // 强制结束冷却

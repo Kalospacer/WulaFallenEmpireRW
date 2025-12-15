@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -47,8 +47,8 @@ namespace WulaFallenEmpire
             base.Initialize(props);
             ticksUntilNextAttack = Props.ticksBetweenAttacks;
             
-            Log.Message($"Ship Artillery initialized: {Props.ticksBetweenAttacks} ticks between attacks, {Props.attackRadius} radius");
-            Log.Message($"Faction Discrimination: {Props.useFactionDiscrimination}, Target Faction: {Props.targetFaction?.defName ?? "None"}, Micro Tracking: {Props.useMicroTracking}");
+            WulaLog.Debug($"Ship Artillery initialized: {Props.ticksBetweenAttacks} ticks between attacks, {Props.attackRadius} radius");
+            WulaLog.Debug($"Faction Discrimination: {Props.useFactionDiscrimination}, Target Faction: {Props.targetFaction?.defName ?? "None"}, Micro Tracking: {Props.useMicroTracking}");
         }
 
         public override void CompTick()
@@ -117,9 +117,9 @@ namespace WulaFallenEmpire
 
             if (DebugSettings.godMode && cachedTargets.Count > 0)
             {
-                Log.Message($"Target Cache Updated: Found {cachedTargets.Count} targets");
+                WulaLog.Debug($"Target Cache Updated: Found {cachedTargets.Count} targets");
                 var stats = GetTargetStatistics();
-                Log.Message($"Target Statistics - Pawns: {stats.pawnCount}, Owned Buildings: {stats.ownedBuildingCount}, Unowned Buildings: {stats.unownedBuildingCount}, Walls: {stats.wallCount}, Others: {stats.otherCount}");
+                WulaLog.Debug($"Target Statistics - Pawns: {stats.pawnCount}, Owned Buildings: {stats.ownedBuildingCount}, Unowned Buildings: {stats.unownedBuildingCount}, Walls: {stats.wallCount}, Others: {stats.otherCount}");
             }
         }
 
@@ -240,12 +240,12 @@ namespace WulaFallenEmpire
             
             if (!currentTarget.IsValid || !currentTarget.InBounds(flyOver.Map))
             {
-                Log.Warning("Ship Artillery: Invalid target selected, skipping attack");
+                WulaLog.Debug("Ship Artillery: Invalid target selected, skipping attack");
                 ticksUntilNextAttack = Props.ticksBetweenAttacks;
                 return;
             }
 
-            Log.Message($"Ship Artillery starting attack on target area: {currentTarget} (attack radius: {Props.attackRadius})");
+            WulaLog.Debug($"Ship Artillery starting attack on target area: {currentTarget} (attack radius: {Props.attackRadius})");
 
             // 修复3：在一轮炮击中，只进行一次目标选择
             currentVolleyCenter = currentTarget;
@@ -297,7 +297,7 @@ namespace WulaFallenEmpire
                 attackEffecter = Props.attackEffect.Spawn();
             }
 
-            Log.Message($"Ship Artillery started firing at area {currentTarget}");
+            WulaLog.Debug($"Ship Artillery started firing at area {currentTarget}");
             
             // 发送攻击通知
             if (Props.sendAttackLetter)
@@ -390,7 +390,7 @@ namespace WulaFallenEmpire
 
             if (DebugSettings.godMode)
             {
-                Log.Message($"Generated {currentVolleyTargets.Count} targets for volley around {currentVolleyCenter}");
+                WulaLog.Debug($"Generated {currentVolleyTargets.Count} targets for volley around {currentVolleyCenter}");
             }
         }
 
@@ -401,7 +401,7 @@ namespace WulaFallenEmpire
                 ThingDef shellDef = SelectShellDef();
                 if (shellDef == null)
                 {
-                    Log.Error("Ship Artillery: No valid shell def found");
+                    WulaLog.Debug("Ship Artillery: No valid shell def found");
                     return;
                 }
 
@@ -410,7 +410,7 @@ namespace WulaFallenEmpire
                 float distanceFromCenter = shellTarget.DistanceTo(currentVolleyCenter);
                 if (DebugSettings.godMode)
                 {
-                    Log.Message($"Ship Artillery fired shell at {shellTarget} (distance from center: {distanceFromCenter:F1})");
+                    WulaLog.Debug($"Ship Artillery fired shell at {shellTarget} (distance from center: {distanceFromCenter:F1})");
                 }
 
                 if (Props.attackSound != null)
@@ -420,7 +420,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Error firing ship artillery shell: {ex}");
+                WulaLog.Debug($"Error firing ship artillery shell: {ex}");
             }
         }
 
@@ -429,7 +429,7 @@ namespace WulaFallenEmpire
         {
             if (cachedTargets.Count == 0)
             {
-                Log.Warning("MicroTracking: No targets available, falling back to random target");
+                WulaLog.Debug("MicroTracking: No targets available, falling back to random target");
                 return SelectRandomTargetInRadius(currentVolleyCenter, flyOver.Map, Props.attackRadius);
             }
 
@@ -456,7 +456,7 @@ namespace WulaFallenEmpire
                                   selectedThing is Building building ? 
                                   (building.Faction == null ? "Unowned Building" : "Owned Building") : "Other";
                 
-                Log.Message($"MicroTracking: Targeting {selectedThing?.Label ?? "unknown"} ({targetType}) at {targetCell}, final target: {offsetTarget}");
+                WulaLog.Debug($"MicroTracking: Targeting {selectedThing?.Label ?? "unknown"} ({targetType}) at {targetCell}, final target: {offsetTarget}");
             }
 
             return offsetTarget;
@@ -586,11 +586,11 @@ namespace WulaFallenEmpire
                         if (DebugSettings.godMode)
                         {
                             float actualDistance = potentialTarget.DistanceTo(center);
-                            Log.Message($"Found valid target at {potentialTarget} (distance from center: {actualDistance:F1})");
+                            WulaLog.Debug($"Found valid target at {potentialTarget} (distance from center: {actualDistance:F1})");
                             
                             if (ignoreProtectionForThisTarget)
                             {
-                                Log.Warning($"Protection ignored for target selection! May target player assets.");
+                                WulaLog.Debug($"Protection ignored for target selection! May target player assets.");
                             }
                         }
                         
@@ -600,7 +600,7 @@ namespace WulaFallenEmpire
             }
 
             // 回退：使用地图随机位置
-            Log.Warning("Could not find valid target in radius, using fallback");
+            WulaLog.Debug("Could not find valid target in radius, using fallback");
             CellRect mapRect = CellRect.WholeMap(map);
             for (int i = 0; i < 5; i++)
             {
@@ -749,7 +749,7 @@ namespace WulaFallenEmpire
                 ticksUntilNextAttack = Props.ticksBetweenAttacks;
             }
 
-            Log.Message($"Ship Artillery attack ended");
+            WulaLog.Debug($"Ship Artillery attack ended");
         }
 
         private void SendAttackLetter(FlyOver flyOver)
@@ -768,7 +768,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"Error sending ship artillery letter: {ex}");
+                WulaLog.Debug($"Error sending ship artillery letter: {ex}");
             }
         }
 
@@ -827,20 +827,20 @@ namespace WulaFallenEmpire
                         if (parent is FlyOver flyOver)
                         {
                             IntVec3 flyOverPos = GetFlyOverPosition(flyOver);
-                            Log.Message($"FlyOver - DrawPos: {flyOver.DrawPos}, Position: {flyOver.Position}, Calculated: {flyOverPos}");
-                            Log.Message($"Current Target: {currentTarget}, Distance: {flyOverPos.DistanceTo(currentTarget):F1}");
+                            WulaLog.Debug($"FlyOver - DrawPos: {flyOver.DrawPos}, Position: {flyOver.Position}, Calculated: {flyOverPos}");
+                            WulaLog.Debug($"Current Target: {currentTarget}, Distance: {flyOverPos.DistanceTo(currentTarget):F1}");
                             
                             // 显示派系甄别信息
                             Faction targetFaction = GetTargetFaction(flyOver);
-                            Log.Message($"Faction Discrimination: {Props.useFactionDiscrimination}, Target Faction: {targetFaction?.def.defName ?? "None"}");
-                            Log.Message($"Micro Tracking: {Props.useMicroTracking}, Targets Found: {cachedTargets.Count}");
+                            WulaLog.Debug($"Faction Discrimination: {Props.useFactionDiscrimination}, Target Faction: {targetFaction?.def.defName ?? "None"}");
+                            WulaLog.Debug($"Micro Tracking: {Props.useMicroTracking}, Targets Found: {cachedTargets.Count}");
                             
                             // 显示目标统计
                             var stats = GetTargetStatistics();
-                            Log.Message($"Target Stats - Pawns: {stats.pawnCount}, Owned Buildings: {stats.ownedBuildingCount}, Unowned Buildings: {stats.unownedBuildingCount}, Walls: {stats.wallCount}, Others: {stats.otherCount}");
+                            WulaLog.Debug($"Target Stats - Pawns: {stats.pawnCount}, Owned Buildings: {stats.ownedBuildingCount}, Unowned Buildings: {stats.unownedBuildingCount}, Walls: {stats.wallCount}, Others: {stats.otherCount}");
                             
                             // 显示炮击信息
-                            Log.Message($"Volley - Center: {currentVolleyCenter}, Targets: {currentVolleyTargets.Count}, Index: {currentVolleyIndex}");
+                            WulaLog.Debug($"Volley - Center: {currentVolleyCenter}, Targets: {currentVolleyTargets.Count}, Index: {currentVolleyIndex}");
                         }
                     }
                 };
@@ -864,7 +864,7 @@ namespace WulaFallenEmpire
                                                 thing is Building building ? 
                                                 (building.Faction == null ? "Unowned Building" : "Owned Building") : "Other";
                                     
-                                    Log.Message($"Cached Target: {thing?.Label ?? "Unknown"} ({type}) at {target.Cell}, Weight: {weight:F2}");
+                                    WulaLog.Debug($"Cached Target: {thing?.Label ?? "Unknown"} ({type}) at {target.Cell}, Weight: {weight:F2}");
                                 }
                             }
                         }
@@ -881,7 +881,7 @@ namespace WulaFallenEmpire
                         {
                             for (int i = 0; i < currentVolleyTargets.Count; i++)
                             {
-                                Log.Message($"Volley Target {i}: {currentVolleyTargets[i]} ({(i == currentVolleyIndex ? "NEXT" : "queued")})");
+                                WulaLog.Debug($"Volley Target {i}: {currentVolleyTargets[i]} ({(i == currentVolleyIndex ? "NEXT" : "queued")})");
                             }
                         }
                     };
@@ -896,7 +896,7 @@ namespace WulaFallenEmpire
                         if (parent is FlyOver flyOver)
                         {
                             UpdateTargetCache(flyOver);
-                            Log.Message($"Force updated target cache: {cachedTargets.Count} targets found");
+                            WulaLog.Debug($"Force updated target cache: {cachedTargets.Count} targets found");
                         }
                     }
                 };

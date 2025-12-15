@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using System;
 using Verse;
 
@@ -33,17 +33,17 @@ namespace WulaFallenEmpire
                     Window window = (Window)Activator.CreateInstance(uiDef.windowType, uiDef);
                     Find.WindowStack.Add(window);
                     
-                    Log.Message($"[CompUseEffect] Opened custom UI: {Props.uiDefName}");
+                    WulaLog.Debug($"[CompUseEffect] Opened custom UI: {Props.uiDefName}");
                 }
                 else
                 {
-                    Log.Error($"[CompUseEffect] Could not find EventDef named '{Props.uiDefName}'");
+                    WulaLog.Debug($"[CompUseEffect] Could not find EventDef named '{Props.uiDefName}'");
                     Messages.Message($"Error: Could not find UI definition '{Props.uiDefName}'", MessageTypeDefOf.RejectInput);
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[CompUseEffect] Error opening custom UI '{Props.uiDefName}': {ex}");
+                WulaLog.Debug($"[CompUseEffect] Error opening custom UI '{Props.uiDefName}': {ex}");
                 Messages.Message($"Error opening UI: {ex.Message}", MessageTypeDefOf.RejectInput);
             }
         }

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using System.Reflection;
@@ -74,18 +74,18 @@ namespace WulaFallenEmpire
                         false, // canTransfer
                         Faction.OfPlayer  // faction
                     });
-                    Log.Message("[WULA] Successfully called DropThingGroupsNear with faction parameter via reflection");
+                    WulaLog.Debug("[WULA] Successfully called DropThingGroupsNear with faction parameter via reflection");
                 }
                 else
                 {
-                    Log.Error("[WULA] Could not find 11-parameter DropThingGroupsNear method");
+                    WulaLog.Debug("[WULA] Could not find 11-parameter DropThingGroupsNear method");
                 }
                 // 返回 false 来跳过原方法的执行
                 return false;
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[WULA] Error in DoDropPods prefix: {ex}");
+                WulaLog.Debug($"[WULA] Error in DoDropPods prefix: {ex}");
                 // 如果出错，让原方法继续执行
                 return true;
             }

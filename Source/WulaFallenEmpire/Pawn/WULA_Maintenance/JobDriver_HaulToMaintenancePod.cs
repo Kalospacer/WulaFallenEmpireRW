@@ -1,4 +1,4 @@
-// JobDriver_HaulToMaintenancePod.cs (修复版)
+﻿// JobDriver_HaulToMaintenancePod.cs (修复版)
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
@@ -41,14 +41,14 @@ namespace WulaFallenEmpire
                     {
                         if (Takee == null || Takee.Destroyed)
                         {
-                            Log.Error("试图搬运不存在的Pawn");
+                            WulaLog.Debug("试图搬运不存在的Pawn");
                             return;
                         }
 
                         // 使用TryStartCarryThing并明确指定数量
                         if (pawn.carryTracker.TryStartCarry(Takee, 1) <= 0)
                         {
-                            Log.Error($"无法搬运Pawn: {Takee.Label}");
+                            WulaLog.Debug($"无法搬运Pawn: {Takee.Label}");
                             EndJobWith(JobCondition.Incompletable);
                         }
                     }

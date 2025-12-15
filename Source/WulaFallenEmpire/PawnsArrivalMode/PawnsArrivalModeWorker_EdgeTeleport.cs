@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -133,7 +133,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"Failed to play teleport effect for {pawn?.LabelCap}: {ex}");
+                WulaLog.Debug($"Failed to play teleport effect for {pawn?.LabelCap}: {ex}");
             }
         }
 

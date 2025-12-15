@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,7 @@ namespace WulaFallenEmpire
         {
             if (corpseDef == null) return;
 
-            Log.Message($"[WulaSpecies] Starting corpse modification for WulaSpecies");
+            WulaLog.Debug($"[WulaSpecies] Starting corpse modification for WulaSpecies");
 
             // 1. 移除腐烂组件（如果存在）
             RemoveCompProperties(corpseDef, typeof(CompProperties_Rottable));
@@ -42,13 +42,13 @@ namespace WulaFallenEmpire
             if (corpseDef.ingestible != null)
             {
                 corpseDef.ingestible.preferability = FoodPreferability.NeverForNutrition;
-                Log.Message($"[WulaSpecies] Set ingestible preferability to NeverForNutrition");
+                WulaLog.Debug($"[WulaSpecies] Set ingestible preferability to NeverForNutrition");
             }
 
             // 4. 移除 HarbingerTreeConsumable 组件（如果存在）
             RemoveCompProperties(corpseDef, typeof(CompProperties), "CompHarbingerTreeConsumable");
 
-            Log.Message($"[WulaSpecies] Completed corpse modification for WulaSpecies");
+            WulaLog.Debug($"[WulaSpecies] Completed corpse modification for WulaSpecies");
         }
 
         /// <summary>
@@ -65,19 +65,19 @@ namespace WulaFallenEmpire
                 if (comp.GetType() == compType)
                 {
                     compsToRemove.Add(comp);
-                    Log.Message($"[WulaSpecies] Found and will remove component: {comp.GetType().Name}");
+                    WulaLog.Debug($"[WulaSpecies] Found and will remove component: {comp.GetType().Name}");
                 }
                 else if (!string.IsNullOrEmpty(compClassName) && comp.compClass?.Name == compClassName)
                 {
                     compsToRemove.Add(comp);
-                    Log.Message($"[WulaSpecies] Found and will remove component by class name: {compClassName}");
+                    WulaLog.Debug($"[WulaSpecies] Found and will remove component by class name: {compClassName}");
                 }
             }
 
             foreach (var comp in compsToRemove)
             {
                 thingDef.comps.Remove(comp);
-                Log.Message($"[WulaSpecies] Removed component: {comp.GetType().Name}");
+                WulaLog.Debug($"[WulaSpecies] Removed component: {comp.GetType().Name}");
             }
         }
     }

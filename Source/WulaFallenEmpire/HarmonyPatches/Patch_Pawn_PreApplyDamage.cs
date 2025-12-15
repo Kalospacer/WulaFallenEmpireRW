@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -14,7 +14,7 @@ namespace WulaFallenEmpire
             var interceptorComp = __instance.TryGetComp<CompDamageInterceptor>();
             if (interceptorComp != null)
             {
-                Log.Message($"[DamageInterceptor] {__instance.LabelShort} 即将受到 {dinfo.Amount} 点伤害，拦截组件激活");
+                WulaLog.Debug($"[DamageInterceptor] {__instance.LabelShort} 即将受到 {dinfo.Amount} 点伤害，拦截组件激活");
                 
                 // 让拦截组件处理伤害
                 return interceptorComp.PreApplyDamage(ref dinfo);
@@ -34,7 +34,7 @@ namespace WulaFallenEmpire
             var interceptorComp = __instance.TryGetComp<CompDamageInterceptor>();
             if (interceptorComp != null && totalDamageDealt == 0f)
             {
-                Log.Message($"[DamageInterceptor] {__instance.LabelShort} 成功拦截所有伤害，实际承受0点伤害");
+                WulaLog.Debug($"[DamageInterceptor] {__instance.LabelShort} 成功拦截所有伤害，实际承受0点伤害");
             }
         }
     }

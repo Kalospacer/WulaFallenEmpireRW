@@ -127,7 +127,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaAI] Failed to persist AI history: {ex}");
+                WulaLog.Debug($"[WulaAI] Failed to persist AI history: {ex}");
             }
         }
 
@@ -143,7 +143,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 else
                 {
-                    Log.Warning($"[WulaAI] Failed to load portrait: {path}");
+                    WulaLog.Debug($"[WulaAI] Failed to load portrait: {path}");
                 }
             }
             
@@ -173,7 +173,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             else
             {
-                Log.Warning($"[WulaAI] Portrait ID {id} not found.");
+                WulaLog.Debug($"[WulaAI] Portrait ID {id} not found.");
             }
         }
 
@@ -578,7 +578,7 @@ Example (changing to a neutral expression):
                     var phase = (RequestPhase)phaseIndex;
                     if (Prefs.DevMode)
                     {
-                        Log.Message($"[WulaAI] ===== Turn {phaseIndex}/4 ({phase}) =====");
+                        WulaLog.Debug($"[WulaAI] ===== Turn {phaseIndex}/4 ({phase}) =====");
                     }
 
                     bool toolsEnabled = phase != RequestPhase.Reply;
@@ -592,7 +592,7 @@ Example (changing to a neutral expression):
                         {
                             if (Prefs.DevMode)
                             {
-                                Log.Message($"[WulaAI] Turn {phaseIndex}/4 reply request (attempt {attempts + 1})");
+                                WulaLog.Debug($"[WulaAI] Turn {phaseIndex}/4 reply request (attempt {attempts + 1})");
                             }
                             string reply = await client.GetChatCompletionAsync(systemInstruction, _history);
                             if (string.IsNullOrEmpty(reply))
@@ -622,7 +622,7 @@ Example (changing to a neutral expression):
 
                     if (Prefs.DevMode)
                     {
-                        Log.Message($"[WulaAI] Turn {phaseIndex}/4 tool request");
+                        WulaLog.Debug($"[WulaAI] Turn {phaseIndex}/4 tool request");
                     }
                     string response = await client.GetChatCompletionAsync(systemInstruction, _history);
                     if (string.IsNullOrEmpty(response))
@@ -638,7 +638,7 @@ Example (changing to a neutral expression):
                         PersistHistory();
                         if (Prefs.DevMode)
                         {
-                            Log.Message($"[WulaAI] Turn {phaseIndex}/4 missing XML; retrying once");
+                            WulaLog.Debug($"[WulaAI] Turn {phaseIndex}/4 missing XML; retrying once");
                         }
                         response = await client.GetChatCompletionAsync(systemInstruction, _history);
                         if (string.IsNullOrEmpty(response))
@@ -652,7 +652,7 @@ Example (changing to a neutral expression):
                         {
                             if (Prefs.DevMode)
                             {
-                                Log.Warning($"[WulaAI] Turn {phaseIndex}/4 still missing XML after retry; forcing <no_action/>");
+                                WulaLog.Debug($"[WulaAI] Turn {phaseIndex}/4 still missing XML after retry; forcing <no_action/>");
                             }
                             response = phase == RequestPhase.Cosmetic
                                 ? "<change_expression><expression_id>2</expression_id></change_expression>"
@@ -666,7 +666,7 @@ Example (changing to a neutral expression):
                         PersistHistory();
                         if (Prefs.DevMode)
                         {
-                            Log.Message("[WulaAI] Turn 3/4 missing <change_expression>; retrying once");
+                            WulaLog.Debug("[WulaAI] Turn 3/4 missing <change_expression>; retrying once");
                         }
 
                         string retry = await client.GetChatCompletionAsync(systemInstruction, _history);
@@ -678,7 +678,7 @@ Example (changing to a neutral expression):
                         {
                             if (Prefs.DevMode)
                             {
-                                Log.Warning("[WulaAI] Turn 3/4 still missing <change_expression> after retry; forcing default expression_id=2");
+                                WulaLog.Debug("[WulaAI] Turn 3/4 still missing <change_expression> after retry; forcing default expression_id=2");
                             }
                             response = "<change_expression><expression_id>2</expression_id></change_expression>";
                         }
@@ -689,7 +689,7 @@ Example (changing to a neutral expression):
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaAI] Exception in RunPhasedRequestAsync: {ex}");
+                WulaLog.Debug($"[WulaAI] Exception in RunPhasedRequestAsync: {ex}");
                 _currentResponse = "Wula_AI_Error_Internal".Translate(ex.Message);
             }
             finally
@@ -792,7 +792,7 @@ Example (changing to a neutral expression):
 
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[WulaAI] Executing tool (phase {phase}): {toolName} with args: {argsXml}");
+                    WulaLog.Debug($"[WulaAI] Executing tool (phase {phase}): {toolName} with args: {argsXml}");
                 }
 
                 string signature = $"{toolName}:{Regex.Replace(argsXml ?? "", @"\s+", " ").Trim()}";
@@ -918,7 +918,7 @@ Example (changing to a neutral expression):
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaAI] Exception in GenerateResponse: {ex}");
+                WulaLog.Debug($"[WulaAI] Exception in GenerateResponse: {ex}");
                 _currentResponse = "Wula_AI_Error_Internal".Translate(ex.Message);
             }
             finally
@@ -1069,7 +1069,7 @@ Example (changing to a neutral expression):
                     if (tool == null)
                     {
                         string errorMsg = $"Error: Tool '{toolName}' not found.";
-                        Log.Error($"[WulaAI] {errorMsg}");
+                        WulaLog.Debug($"[WulaAI] {errorMsg}");
                         combinedResults.AppendLine(errorMsg);
                         continue;
                     }
@@ -1084,7 +1084,7 @@ Example (changing to a neutral expression):
 
                     if (Prefs.DevMode)
                     {
-                        Log.Message($"[WulaAI] Executing tool: {toolName} with args: {argsXml}");
+                        WulaLog.Debug($"[WulaAI] Executing tool: {toolName} with args: {argsXml}");
                     }
 
                     // Record tool signature for loop detection (before execution, so errors also count)
@@ -1096,7 +1096,7 @@ Example (changing to a neutral expression):
                     if (Prefs.DevMode && !string.IsNullOrEmpty(result))
                     {
                         string toLog = result.Length <= 2000 ? result : result.Substring(0, 2000) + $"... (truncated, total {result.Length} chars)";
-                        Log.Message($"[WulaAI] Tool '{toolName}' result: {toLog}");
+                        WulaLog.Debug($"[WulaAI] Tool '{toolName}' result: {toLog}");
                     }
 
                     if (toolName == "modify_goodwill")
@@ -1154,7 +1154,7 @@ Example (changing to a neutral expression):
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaAI] Exception in HandleXmlToolUsage: {ex}");
+                WulaLog.Debug($"[WulaAI] Exception in HandleXmlToolUsage: {ex}");
                 _history.Add(("tool", $"Error processing tool call: {ex.Message}"));
                 PersistHistory();
                 await GenerateResponse(isContinuation: true);
@@ -1535,7 +1535,7 @@ Example (changing to a neutral expression):
                 }
                 catch (Exception ex)
                 {
-                    Log.Error($"[WulaAI] Failed to clear AI history: {ex}");
+                    WulaLog.Debug($"[WulaAI] Failed to clear AI history: {ex}");
                 }
 
                 Messages.Message("已清除 AI 对话上下文历史。", MessageTypeDefOf.NeutralEvent);

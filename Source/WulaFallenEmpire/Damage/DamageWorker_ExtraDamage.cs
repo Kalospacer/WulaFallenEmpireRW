@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 
@@ -36,7 +36,7 @@ namespace WulaFallenEmpire
                         // 调试信息
                         if (Prefs.DevMode)
                         {
-                            Log.Message($"应用额外伤害: {extraDamage.damageDef.defName} 伤害值: {extraDamage.amount}");
+                            WulaLog.Debug($"应用额外伤害: {extraDamage.damageDef.defName} 伤害值: {extraDamage.amount}");
                         }
                     }
                 }

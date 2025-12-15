@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace WulaFallenEmpire
 		{
 			if (parentHediff.pawn != null && parentHediff.def.defName != null && debug)
 			{
-				Log.Warning(parentHediff.pawn.Label + "'s Hediff: " + parentHediff.def.defName + " says goodbye.");
+				WulaLog.Debug(parentHediff.pawn.Label + "'s Hediff: " + parentHediff.def.defName + " says goodbye.");
 			}
 			parentHediff.Severity = 0f;
 		}
@@ -24,14 +24,14 @@ namespace WulaFallenEmpire
 			{
 				if (debug)
 				{
-					Log.Warning("GetPawnAgeOverlifeExpectancyRatio pawn NOT OK");
+					WulaLog.Debug("GetPawnAgeOverlifeExpectancyRatio pawn NOT OK");
 				}
 				return result;
 			}
 			result = pawn.ageTracker.AgeBiologicalYearsFloat / pawn.RaceProps.lifeExpectancy;
 			if (debug)
 			{
-				Log.Warning(string.Concat(new string[]
+				WulaLog.Debug(string.Concat(new string[]
 				{
 					pawn.Label,
 					" Age: ",
@@ -51,7 +51,7 @@ namespace WulaFallenEmpire
 			{
 				if (debug)
 				{
-					Log.Warning("pawn is null - wounded ");
+					WulaLog.Debug("pawn is null - wounded ");
 				}
 				return false;
 			}
@@ -66,7 +66,7 @@ namespace WulaFallenEmpire
 			}
 			if (debug && num > 0f)
 			{
-				Log.Warning(pawn.Label + " is wounded ");
+				WulaLog.Debug(pawn.Label + " is wounded ");
 			}
 			return num > 0f;
 		}
@@ -77,14 +77,14 @@ namespace WulaFallenEmpire
 			{
 				if (debug)
 				{
-					Log.Warning("pawn is null - IsHungry ");
+					WulaLog.Debug("pawn is null - IsHungry ");
 				}
 				return false;
 			}
 			bool flag = pawn.needs.food != null && pawn.needs.food.CurCategory == HungerCategory.Starving;
 			if (debug && flag)
 			{
-				Log.Warning(pawn.Label + " is hungry ");
+				WulaLog.Debug(pawn.Label + " is hungry ");
 			}
 			return flag;
 		}
@@ -98,7 +98,7 @@ namespace WulaFallenEmpire
 		{
 			if (debug)
 			{
-				Log.Warning(warning);
+				WulaLog.Debug(warning);
 			}
 		}
 

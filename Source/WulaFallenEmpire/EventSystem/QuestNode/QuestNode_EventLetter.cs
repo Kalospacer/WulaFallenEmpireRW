@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.QuestGen;
 using System;
 using Verse;
@@ -25,7 +25,7 @@ namespace WulaFallenEmpire
 
             if (defName.NullOrEmpty())
             {
-                Log.Error("[WulaFallenEmpire] QuestNode_EventLetter: eventDefName is not specified.");
+                WulaLog.Debug("[WulaFallenEmpire] QuestNode_EventLetter: eventDefName is not specified.");
                 return;
             }
 
@@ -49,11 +49,11 @@ namespace WulaFallenEmpire
         {
             base.Notify_QuestSignalReceived(signal);
             
-            Log.Message($"[WulaFallenEmpire] QuestPart_EventLetter received signal: '{signal.tag}', waiting for: '{inSignal}'");
+            WulaLog.Debug($"[WulaFallenEmpire] QuestPart_EventLetter received signal: '{signal.tag}', waiting for: '{inSignal}'");
             
             if (signal.tag == inSignal)
             {
-                Log.Message($"[WulaFallenEmpire] Signal matched! Opening EventDef: {eventDefName}");
+                WulaLog.Debug($"[WulaFallenEmpire] Signal matched! Opening EventDef: {eventDefName}");
                 OpenEventDefWindow(eventDefName);
             }
         }
@@ -65,26 +65,26 @@ namespace WulaFallenEmpire
                 EventDef eventDef = DefDatabase<EventDef>.GetNamed(defName, false);
                 if (eventDef == null)
                 {
-                    Log.Error($"[WulaFallenEmpire] EventDef '{defName}' not found in DefDatabase.");
+                    WulaLog.Debug($"[WulaFallenEmpire] EventDef '{defName}' not found in DefDatabase.");
                     return;
                 }
 
                 if (eventDef.windowType == null)
                 {
-                    Log.Error($"[WulaFallenEmpire] EventDef '{defName}' has null windowType.");
+                    WulaLog.Debug($"[WulaFallenEmpire] EventDef '{defName}' has null windowType.");
                     return;
                 }
 
-                Log.Message($"[WulaFallenEmpire] Creating window instance for {defName} with type {eventDef.windowType}");
+                WulaLog.Debug($"[WulaFallenEmpire] Creating window instance for {defName} with type {eventDef.windowType}");
                 Window window = (Window)Activator.CreateInstance(eventDef.windowType, eventDef);
                 
-                Log.Message($"[WulaFallenEmpire] Adding window to WindowStack");
+                WulaLog.Debug($"[WulaFallenEmpire] Adding window to WindowStack");
                 Find.WindowStack.Add(window);
-                Log.Message($"[WulaFallenEmpire] Successfully opened EventDef window: {defName}");
+                WulaLog.Debug($"[WulaFallenEmpire] Successfully opened EventDef window: {defName}");
             }
             catch (Exception ex)
             {
-                Log.Error($"[WulaFallenEmpire] Error opening EventDef window '{defName}': {ex}");
+                WulaLog.Debug($"[WulaFallenEmpire] Error opening EventDef window '{defName}': {ex}");
             }
         }
 

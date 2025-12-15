@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
@@ -38,14 +38,14 @@ namespace WulaFallenEmpire
             // 在测试运行中只检查基本条件
             if (thingDef.GetValue(slate) == null)
             {
-                Log.Warning("[QuestNode] ThingDef is null in TestRun");
+                WulaLog.Debug("[QuestNode] ThingDef is null in TestRun");
                 return false;
             }
 
             var mapValue = map.GetValue(slate) ?? Find.CurrentMap;
             if (mapValue == null)
             {
-                Log.Warning("[QuestNode] Map is null in TestRun");
+                WulaLog.Debug("[QuestNode] Map is null in TestRun");
                 return false;
             }
 
@@ -72,13 +72,13 @@ namespace WulaFallenEmpire
 
             if (targetThingDef == null)
             {
-                Log.Error("[QuestNode] ThingDef is null in RunInt");
+                WulaLog.Debug("[QuestNode] ThingDef is null in RunInt");
                 return;
             }
 
             if (targetMap == null)
             {
-                Log.Error("[QuestNode] Map is null in RunInt");
+                WulaLog.Debug("[QuestNode] Map is null in RunInt");
                 return;
             }
 
@@ -162,17 +162,17 @@ namespace WulaFallenEmpire
 
             if (thingDef == null)
             {
-                Log.Error("[QuestPart] ThingDef is null");
+                WulaLog.Debug("[QuestPart] ThingDef is null");
                 return;
             }
 
             if (map == null)
             {
-                Log.Error("[QuestPart] Map is null");
+                WulaLog.Debug("[QuestPart] Map is null");
                 return;
             }
 
-            Log.Message($"[QuestPart] Received signal {inSignal}, spawning {spawnCount} {thingDef.defName} on map {map}");
+            WulaLog.Debug($"[QuestPart] Received signal {inSignal}, spawning {spawnCount} {thingDef.defName} on map {map}");
 
             // 执行生成逻辑
             successCount = ExecuteSpawnLogic();
@@ -184,7 +184,7 @@ namespace WulaFallenEmpire
                 {
                     Messages.Message($"[Quest] Successfully spawned {successCount} {thingDef.label}", MessageTypeDefOf.PositiveEvent);
                 }
-                Log.Message($"[QuestPart] Successfully spawned {successCount}/{spawnCount} {thingDef.defName}");
+                WulaLog.Debug($"[QuestPart] Successfully spawned {successCount}/{spawnCount} {thingDef.defName}");
             }
             else
             {
@@ -192,7 +192,7 @@ namespace WulaFallenEmpire
                 {
                     Messages.Message($"[Quest] Failed to spawn any {thingDef.label}", MessageTypeDefOf.NegativeEvent);
                 }
-                Log.Warning($"[QuestPart] Failed to spawn any {thingDef.defName}");
+                WulaLog.Debug($"[QuestPart] Failed to spawn any {thingDef.defName}");
             }
         }
 
@@ -209,7 +209,7 @@ namespace WulaFallenEmpire
                 
                 if (spreadOut && !isSmallTarget)
                 {
-                    Log.Message($"[QuestPart] Target {thingDef.defName} is not considered small (size {thingDef.Size.x}x{thingDef.Size.z}), not using spread-out algorithm");
+                    WulaLog.Debug($"[QuestPart] Target {thingDef.defName} is not considered small (size {thingDef.Size.x}x{thingDef.Size.z}), not using spread-out algorithm");
                 }
             }
 
@@ -229,7 +229,7 @@ namespace WulaFallenEmpire
         /// </summary>
         private int SpawnThingsWithSpacing(ThingDef thingDef, Faction faction, int spawnCount, Map targetMap, bool allowThickRoof, bool allowThinRoof, int minSpacing)
         {
-            Log.Message($"[QuestPart] Using spread-out algorithm with min spacing {minSpacing} cells");
+            WulaLog.Debug($"[QuestPart] Using spread-out algorithm with min spacing {minSpacing} cells");
             
             List<IntVec3> spawnedPositions = new List<IntVec3>();
             int successCount = 0;
@@ -240,12 +240,12 @@ namespace WulaFallenEmpire
             // 生成一个所有可能位置的列表
             List<IntVec3> allPossibleCells = GeneratePossibleCells(targetMap, thingDef, allowThickRoof, allowThinRoof, 1000);
             
-            Log.Message($"[QuestPart] Found {allPossibleCells.Count} possible cells for {thingDef.defName}");
+            WulaLog.Debug($"[QuestPart] Found {allPossibleCells.Count} possible cells for {thingDef.defName}");
             
             // 如果没有足够的可能位置，直接使用原算法
             if (allPossibleCells.Count < spawnCount)
             {
-                Log.Warning($"[QuestPart] Not enough possible cells ({allPossibleCells.Count}) for {spawnCount} spawns, falling back to normal algorithm");
+                WulaLog.Debug($"[QuestPart] Not enough possible cells ({allPossibleCells.Count}) for {spawnCount} spawns, falling back to normal algorithm");
                 return SpawnThingsAtValidLocations(thingDef, faction, spawnCount, targetMap, allowThickRoof, allowThinRoof);
             }
 
@@ -293,7 +293,7 @@ namespace WulaFallenEmpire
                         // 从可能位置列表中移除这个位置及其周围的位置（避免重复选择）
                         allPossibleCells.RemoveAll(cell => cell.DistanceTo(candidatePos) < minSpacing / 2);
                         
-                        Log.Message($"[QuestPart] Successfully spawned {thingDef.defName} at {candidatePos} (distance to nearest: {GetMinDistanceToOthers(candidatePos, spawnedPositions)})");
+                        WulaLog.Debug($"[QuestPart] Successfully spawned {thingDef.defName} at {candidatePos} (distance to nearest: {GetMinDistanceToOthers(candidatePos, spawnedPositions)})");
                         break;
                     }
                 }
@@ -301,7 +301,7 @@ namespace WulaFallenEmpire
                 // 如果找不到满足间距条件的位置，放宽条件
                 if (!foundPosition)
                 {
-                    Log.Warning($"[QuestPart] Could not find position with required spacing for {thingDef.defName}, trying with reduced spacing");
+                    WulaLog.Debug($"[QuestPart] Could not find position with required spacing for {thingDef.defName}, trying with reduced spacing");
                     
                     // 尝试使用减半的间距
                     bool foundWithReducedSpacing = TrySpawnWithReducedSpacing(thingDef, faction, targetMap, spawnedPositions, allPossibleCells, minSpacing / 2, ref successCount, ref attempts);
@@ -309,18 +309,18 @@ namespace WulaFallenEmpire
                     if (!foundWithReducedSpacing)
                     {
                         // 如果还找不到，尝试不使用间距条件
-                        Log.Warning($"[QuestPart] Still couldn't find position, falling back to no spacing requirement");
+                        WulaLog.Debug($"[QuestPart] Still couldn't find position, falling back to no spacing requirement");
                         foundWithReducedSpacing = TrySpawnWithReducedSpacing(thingDef, faction, targetMap, spawnedPositions, allPossibleCells, 0, ref successCount, ref attempts);
                     }
                     
                     if (!foundWithReducedSpacing)
                     {
-                        Log.Warning($"[QuestPart] Failed to spawn {thingDef.defName} after multiple attempts");
+                        WulaLog.Debug($"[QuestPart] Failed to spawn {thingDef.defName} after multiple attempts");
                     }
                 }
             }
             
-            Log.Message($"[QuestPart] Spread-out algorithm completed: {successCount}/{spawnCount} spawned");
+            WulaLog.Debug($"[QuestPart] Spread-out algorithm completed: {successCount}/{spawnCount} spawned");
             return successCount;
         }
         
@@ -367,7 +367,7 @@ namespace WulaFallenEmpire
                     // 从可能位置列表中移除这个位置及其周围的位置
                     allPossibleCells.RemoveAll(cell => cell.DistanceTo(candidatePos) < reducedSpacing / 2);
                     
-                    Log.Message($"[QuestPart] Successfully spawned {thingDef.defName} at {candidatePos} with reduced spacing {reducedSpacing}");
+                    WulaLog.Debug($"[QuestPart] Successfully spawned {thingDef.defName} at {candidatePos} with reduced spacing {reducedSpacing}");
                     return true;
                 }
             }
@@ -439,7 +439,7 @@ namespace WulaFallenEmpire
                 }
             }
             
-            Log.Message($"[QuestPart] Generated {possibleCells.Count} possible cells after checking {cellsChecked} cells");
+            WulaLog.Debug($"[QuestPart] Generated {possibleCells.Count} possible cells after checking {cellsChecked} cells");
             return possibleCells;
         }
 
@@ -469,11 +469,11 @@ namespace WulaFallenEmpire
                     GenSpawn.Spawn(thing, spawnPos, targetMap);
                     successCount++;
 
-                    Log.Message($"[QuestPart] Successfully spawned {thingDef.defName} at {spawnPos} for faction {faction?.Name ?? "None"}");
+                    WulaLog.Debug($"[QuestPart] Successfully spawned {thingDef.defName} at {spawnPos} for faction {faction?.Name ?? "None"}");
                 }
                 else
                 {
-                    Log.Warning($"[QuestPart] Failed to find valid spawn position for {thingDef.defName} (attempt {attempts})");
+                    WulaLog.Debug($"[QuestPart] Failed to find valid spawn position for {thingDef.defName} (attempt {attempts})");
                 }
             }
 
@@ -540,7 +540,7 @@ namespace WulaFallenEmpire
                 return potentialCells.RandomElement();
             }
 
-            Log.Warning($"[QuestPart] No valid positions found for {thingDef.defName} after exhaustive search");
+            WulaLog.Debug($"[QuestPart] No valid positions found for {thingDef.defName} after exhaustive search");
             return IntVec3.Invalid;
         }
 

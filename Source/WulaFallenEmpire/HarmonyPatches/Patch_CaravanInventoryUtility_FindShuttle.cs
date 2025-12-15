@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -25,7 +25,7 @@ namespace WulaFallenEmpire.HarmonyPatches
             {
                 if (item is Building_ArmedShuttle armedShuttle)
                 {
-                    Log.Message($"[WULA] Harmony Patch: Found Building_ArmedShuttle ({armedShuttle.Label}) in caravan inventory. Setting as __result.");
+                    WulaLog.Debug($"[WULA] Harmony Patch: Found Building_ArmedShuttle ({armedShuttle.Label}) in caravan inventory. Setting as __result.");
                     // We need to cast our Building_ArmedShuttle to Building_PassengerShuttle
                     // This is safe because Building_ArmedShuttle is designed to be compatible with Building_PassengerShuttle's interface for caravan purposes.
                     __result = (Building_PassengerShuttle)armedShuttle; 

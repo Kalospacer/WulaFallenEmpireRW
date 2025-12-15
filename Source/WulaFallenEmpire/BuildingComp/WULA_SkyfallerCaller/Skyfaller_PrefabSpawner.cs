@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 
 namespace WulaFallenEmpire
@@ -13,14 +13,14 @@ namespace WulaFallenEmpire
             // Don't spawn the innerThing, we are spawning a prefab instead.
             if (string.IsNullOrEmpty(prefabDefName))
             {
-                Log.Error("[Skyfaller_PrefabSpawner] prefabDefName is null or empty. Cannot spawn prefab.");
+                WulaLog.Debug("[Skyfaller_PrefabSpawner] prefabDefName is null or empty. Cannot spawn prefab.");
                 return;
             }
 
             PrefabDef prefabDef = DefDatabase<PrefabDef>.GetNamed(prefabDefName, false);
             if (prefabDef == null)
             {
-                Log.Error($"[Skyfaller_PrefabSpawner] Could not find PrefabDef named {prefabDefName}.");
+                WulaLog.Debug($"[Skyfaller_PrefabSpawner] Could not find PrefabDef named {prefabDefName}.");
                 return;
             }
 

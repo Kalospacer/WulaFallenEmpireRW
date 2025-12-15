@@ -1,4 +1,4 @@
-using System; // Required for Activator
+﻿using System; // Required for Activator
 using RimWorld;
 using Verse;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Error($"[CompOpenCustomUI] Could not find EventDef named '{Props.uiDefName}'.");
+                    WulaLog.Debug($"[CompOpenCustomUI] Could not find EventDef named '{Props.uiDefName}'.");
                 }
             });
 

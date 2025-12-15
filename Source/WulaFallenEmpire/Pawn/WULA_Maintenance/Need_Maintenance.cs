@@ -1,4 +1,4 @@
-// Need_Maintenance.cs
+﻿// Need_Maintenance.cs
 using RimWorld;
 using Verse;
 using System.Linq;
@@ -120,7 +120,7 @@ namespace WulaFallenEmpire
             // 情况1：没有 Hediff，但应该有
             if (expectedStatus != MaintenanceStatus.Operational && actualHediffs.Count == 0)
             {
-                Log.Warning($"[Maintenance] Validation: {pawn.Label} should have {expectedStatus} hediff but has none. Reapplying.");
+                WulaLog.Debug($"[Maintenance] Validation: {pawn.Label} should have {expectedStatus} hediff but has none. Reapplying.");
                 UpdateHediffForStatus(expectedStatus);
                 return;
             }
@@ -128,7 +128,7 @@ namespace WulaFallenEmpire
             // 情况2：有 Hediff，但不应该有
             if (expectedStatus == MaintenanceStatus.Operational && actualHediffs.Count > 0)
             {
-                Log.Warning($"[Maintenance] Validation: {pawn.Label} is operational but has maintenance hediffs. Removing all.");
+                WulaLog.Debug($"[Maintenance] Validation: {pawn.Label} is operational but has maintenance hediffs. Removing all.");
                 RemoveAllMaintenanceHediffs();
                 currentAppliedStatus = MaintenanceStatus.Operational;
                 currentAppliedHediff = null;
@@ -138,7 +138,7 @@ namespace WulaFallenEmpire
             // 情况3：有多个 Hediff
             if (actualHediffs.Count > 1)
             {
-                Log.Warning($"[Maintenance] Validation: {pawn.Label} has multiple maintenance hediffs ({actualHediffs.Count}). Cleaning up.");
+                WulaLog.Debug($"[Maintenance] Validation: {pawn.Label} has multiple maintenance hediffs ({actualHediffs.Count}). Cleaning up.");
                 CleanupMultipleHediffs(expectedStatus);
                 return;
             }
@@ -151,7 +151,7 @@ namespace WulaFallenEmpire
                 
                 if (currentHediff.def != expectedHediffDef)
                 {
-                    Log.Warning($"[Maintenance] Validation: {pawn.Label} has wrong hediff type. Expected {expectedHediffDef?.defName}, got {currentHediff.def.defName}. Correcting.");
+                    WulaLog.Debug($"[Maintenance] Validation: {pawn.Label} has wrong hediff type. Expected {expectedHediffDef?.defName}, got {currentHediff.def.defName}. Correcting.");
                     UpdateHediffForStatus(expectedStatus);
                     return;
                 }
@@ -160,14 +160,14 @@ namespace WulaFallenEmpire
                 if (currentAppliedHediff != currentHediff)
                 {
                     currentAppliedHediff = currentHediff;
-                    Log.Message($"[Maintenance] Validation: Updated currentAppliedHediff reference for {pawn.Label}");
+                    WulaLog.Debug($"[Maintenance] Validation: Updated currentAppliedHediff reference for {pawn.Label}");
                 }
             }
             
             // 情况5：状态记录不一致
             if (currentAppliedStatus != expectedStatus)
             {
-                Log.Warning($"[Maintenance] Validation: {pawn.Label} status mismatch. Recorded: {currentAppliedStatus}, Actual: {expectedStatus}. Synchronizing.");
+                WulaLog.Debug($"[Maintenance] Validation: {pawn.Label} status mismatch. Recorded: {currentAppliedStatus}, Actual: {expectedStatus}. Synchronizing.");
                 currentAppliedStatus = expectedStatus;
             }
         }
@@ -248,7 +248,7 @@ namespace WulaFallenEmpire
             {
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[Maintenance] Status changed for {pawn.Label}: {currentAppliedStatus} -> {newStatus}");
+                    WulaLog.Debug($"[Maintenance] Status changed for {pawn.Label}: {currentAppliedStatus} -> {newStatus}");
                 }
                 
                 UpdateHediffForStatus(newStatus);
@@ -273,7 +273,7 @@ namespace WulaFallenEmpire
                 // 调试日志
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[Maintenance] Applied {hediffDefToAdd.defName} for status {status} to {pawn.Label}");
+                    WulaLog.Debug($"[Maintenance] Applied {hediffDefToAdd.defName} for status {status} to {pawn.Label}");
                 }
             }
             else if (status == MaintenanceStatus.Operational)
@@ -281,7 +281,7 @@ namespace WulaFallenEmpire
                 // 操作状态，不需要 Hediff
                 if (Prefs.DevMode)
                 {
-                    Log.Message($"[Maintenance] {pawn.Label} is operational, no hediff needed");
+                    WulaLog.Debug($"[Maintenance] {pawn.Label} is operational, no hediff needed");
                 }
             }
         }

@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using System.Collections.Generic;
 using UnityEngine;
@@ -391,11 +391,11 @@ namespace WulaFallenEmpire
                 PerformTeleport(pawn, safeTarget);
                 
                 // 记录日志
-                Log.Message($"[AreaTeleporter] 传送 {pawn.LabelShort} 从 {pawn.Position} 到 {safeTarget} (网络传送)");
+                WulaLog.Debug($"[AreaTeleporter] 传送 {pawn.LabelShort} 从 {pawn.Position} 到 {safeTarget} (网络传送)");
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"传送Pawn时出错: {ex.Message}");
+                WulaLog.Debug($"传送Pawn时出错: {ex.Message}");
             }
         }
 
@@ -620,7 +620,7 @@ namespace WulaFallenEmpire
                 }
                 catch (System.Exception ex)
                 {
-                    Log.Warning($"绘制传送范围环时出错: {ex.Message}");
+                    WulaLog.Debug($"绘制传送范围环时出错: {ex.Message}");
                 }
             }
         }

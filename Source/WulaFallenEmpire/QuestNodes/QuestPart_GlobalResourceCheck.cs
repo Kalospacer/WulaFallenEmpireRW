@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace WulaFallenEmpire
             
             // 激活时立即开始第一次检查
             nextRetryTick = Find.TickManager.TicksGame;
-            Log.Message($"QuestPart_GlobalResourceCheck Enabled: Will check for {requiredCount} {resourceDef?.defName} in {(useInputStorage ? "Input" : "Output")} Storage");
+            WulaLog.Debug($"QuestPart_GlobalResourceCheck Enabled: Will check for {requiredCount} {resourceDef?.defName} in {(useInputStorage ? "Input" : "Output")} Storage");
         }
 
         public override void QuestPartTick()
@@ -93,14 +93,14 @@ namespace WulaFallenEmpire
                 GlobalStorageWorldComponent globalStorage = Find.World.GetComponent<GlobalStorageWorldComponent>();
                 if (globalStorage == null)
                 {
-                    Log.Error("QuestPart_GlobalResourceCheck: GlobalStorageWorldComponent not found");
+                    WulaLog.Debug("QuestPart_GlobalResourceCheck: GlobalStorageWorldComponent not found");
                     HandleFailure("Global storage component missing");
                     return;
                 }
 
                 if (resourceDef == null)
                 {
-                    Log.Error("QuestPart_GlobalResourceCheck: resourceDef is null");
+                    WulaLog.Debug("QuestPart_GlobalResourceCheck: resourceDef is null");
                     HandleFailure("Resource definition is null");
                     return;
                 }
@@ -112,7 +112,7 @@ namespace WulaFallenEmpire
                     
                 bool hasEnough = currentAmount >= requiredCount;
 
-                Log.Message($"GlobalResourceCheck [{retryCount}]: {currentAmount}/{requiredCount} {resourceDef.defName} in {(useInputStorage ? "Input" : "Output")} Storage - Enough: {hasEnough}");
+                WulaLog.Debug($"GlobalResourceCheck [{retryCount}]: {currentAmount}/{requiredCount} {resourceDef.defName} in {(useInputStorage ? "Input" : "Output")} Storage - Enough: {hasEnough}");
 
                 if (hasEnough)
                 {
@@ -127,7 +127,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"GlobalResourceCheck: Exception during check - {ex}");
+                WulaLog.Debug($"GlobalResourceCheck: Exception during check - {ex}");
                 HandleFailure($"Exception: {ex.Message}");
             }
         }
@@ -145,17 +145,17 @@ namespace WulaFallenEmpire
                     
                 if (!deducted)
                 {
-                    Log.Error($"QuestPart_GlobalResourceCheck: Failed to deduct {requiredCount} {resourceDef.defName} from {(useInputStorage ? "Input" : "Output")} Storage");
+                    WulaLog.Debug($"QuestPart_GlobalResourceCheck: Failed to deduct {requiredCount} {resourceDef.defName} from {(useInputStorage ? "Input" : "Output")} Storage");
                 }
             }
 
-            Log.Message($"GlobalResourceCheck: SUCCESS - {(deductOnSuccess ? "Deducted" : "Found")} {requiredCount} {resourceDef.defName} from {(useInputStorage ? "Input" : "Output")} Storage");
+            WulaLog.Debug($"GlobalResourceCheck: SUCCESS - {(deductOnSuccess ? "Deducted" : "Found")} {requiredCount} {resourceDef.defName} from {(useInputStorage ? "Input" : "Output")} Storage");
 
             // 发送成功信号
             if (!successSignal.NullOrEmpty())
             {
                 Find.SignalManager.SendSignal(new Signal(successSignal));
-                Log.Message($"GlobalResourceCheck: Sent success signal '{successSignal}'");
+                WulaLog.Debug($"GlobalResourceCheck: Sent success signal '{successSignal}'");
             }
 
             // 完成这个任务部分
@@ -167,14 +167,14 @@ namespace WulaFallenEmpire
             // 检查是否超过最大重试次数
             if (retryCount >= MAX_RETRY_COUNT)
             {
-                Log.Warning($"GlobalResourceCheck: Max retry count ({MAX_RETRY_COUNT}) reached for {resourceDef.defName}. Reason: {reason}");
+                WulaLog.Debug($"GlobalResourceCheck: Max retry count ({MAX_RETRY_COUNT}) reached for {resourceDef.defName}. Reason: {reason}");
                 hasFailed = true;
 
                 // 发送失败信号
                 if (!failSignal.NullOrEmpty())
                 {
                     Find.SignalManager.SendSignal(new Signal(failSignal));
-                    Log.Message($"GlobalResourceCheck: Sent fail signal '{failSignal}' after max retries");
+                    WulaLog.Debug($"GlobalResourceCheck: Sent fail signal '{failSignal}' after max retries");
                 }
 
                 Complete();
@@ -190,7 +190,7 @@ namespace WulaFallenEmpire
             nextRetryTick = Find.TickManager.TicksGame + retryDelayTicks;
             
             // 记录重试信息
-            Log.Message($"GlobalResourceCheck: Scheduled retry #{retryCount + 1} in {retryDelayTicks} ticks for {requiredCount} {resourceDef.defName}. Reason: {reason}");
+            WulaLog.Debug($"GlobalResourceCheck: Scheduled retry #{retryCount + 1} in {retryDelayTicks} ticks for {requiredCount} {resourceDef.defName}. Reason: {reason}");
         }
 
         public override void ExposeData()

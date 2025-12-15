@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 using System.Collections.Generic;
@@ -69,12 +69,12 @@ namespace WulaFallenEmpire
                     hasStarted = true;
                 }
 
-                Log.Message($"[EnergyLance] Target updated to: {targetPos}, current position: {base.Position}");
+                WulaLog.Debug($"[EnergyLance] Target updated to: {targetPos}, current position: {base.Position}");
             }
             else
             {
                 hasValidTarget = false;
-                Log.Message("[EnergyLance] Target cleared");
+                WulaLog.Debug("[EnergyLance] Target cleared");
             }
         }
 
@@ -107,7 +107,7 @@ namespace WulaFallenEmpire
                 if (newCell != base.Position && newCell.InBounds(base.Map))
                 {
                     base.Position = newCell;
-                    Log.Message($"[EnergyLance] Moved to new cell: {newCell}");
+                    WulaLog.Debug($"[EnergyLance] Moved to new cell: {newCell}");
                 }
 
                 // 检查是否接近目标
@@ -117,7 +117,7 @@ namespace WulaFallenEmpire
                     // 非常接近目标，直接设置到目标位置
                     exactPosition = targetVector;
                     base.Position = currentTargetPosition;
-                    Log.Message($"[EnergyLance] Reached target position: {currentTargetPosition}");
+                    WulaLog.Debug($"[EnergyLance] Reached target position: {currentTargetPosition}");
                 }
             }
             else
@@ -170,7 +170,7 @@ namespace WulaFallenEmpire
             // 检查是否长时间没有收到目标更新
             if (hasValidTarget && Find.TickManager.TicksGame - lastTargetUpdateTick > maxIdleTicks)
             {
-                Log.Message("[EnergyLance] No target updates received, self-destructing");
+                WulaLog.Debug("[EnergyLance] No target updates received, self-destructing");
                 CompleteEnergyLance();
                 return;
             }
@@ -202,7 +202,7 @@ namespace WulaFallenEmpire
             sustainer?.End();
             sustainer = null;
 
-            Log.Message($"[EnergyLance] 光束完成 at position {base.Position}, ticksPassed: {ticksPassed}, durationTicks: {durationTicks}");
+            WulaLog.Debug($"[EnergyLance] 光束完成 at position {base.Position}, ticksPassed: {ticksPassed}, durationTicks: {durationTicks}");
 
             // 销毁自身
             Destroy();
@@ -307,7 +307,7 @@ namespace WulaFallenEmpire
                 // 开始音效
                 StartSound();
 
-                Log.Message($"[EnergyLance] Spawned at {base.Position}, target: {endPosition}, " +
+                WulaLog.Debug($"[EnergyLance] Spawned at {base.Position}, target: {endPosition}, " +
                            $"exact position: {exactPosition}");
             }
         }
@@ -319,11 +319,11 @@ namespace WulaFallenEmpire
             if (startAnimationMethod != null)
             {
                 startAnimationMethod.Invoke(orbitalBeamComp, new object[] { durationTicks, 10, 0f });
-                Log.Message("[EnergyLance] Orbital beam animation started");
+                WulaLog.Debug("[EnergyLance] Orbital beam animation started");
             }
             else
             {
-                Log.Warning("[EnergyLance] Could not find StartAnimation method on CompOrbitalBeam");
+                WulaLog.Debug("[EnergyLance] Could not find StartAnimation method on CompOrbitalBeam");
             }
         }
 
@@ -397,7 +397,7 @@ namespace WulaFallenEmpire
             IntVec3 spawnPosition = end.IsValid ? end : start;
             GenSpawn.Spawn(energyLance, spawnPosition, map);
 
-            Log.Message($"[EnergyLance] Created {energyLanceDef.defName} at {spawnPosition}, target: {end}");
+            WulaLog.Debug($"[EnergyLance] Created {energyLanceDef.defName} at {spawnPosition}, target: {end}");
             return energyLance;
         }
     }

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace WulaFallenEmpire
             if (autonomousMechs.Any())
             {
                 widget.AddSection("WULA_AutonomousMechsSection".Translate(), autonomousMechs);
-                Log.Message($"[WULA] Postfix: Added 'Autonomous Mechs' section with {autonomousMechs.Count} mechs.");
+                WulaLog.Debug($"[WULA] Postfix: Added 'Autonomous Mechs' section with {autonomousMechs.Count} mechs.");
             }
         }
     }

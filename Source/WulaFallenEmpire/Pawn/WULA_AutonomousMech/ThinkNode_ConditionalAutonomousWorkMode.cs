@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using Verse.AI;
 
@@ -28,7 +28,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[WULA] Exception in ThinkNode_ConditionalAutonomousWorkMode.Satisfied for pawn {pawn?.LabelShort}: {ex}");
+                WulaLog.Debug($"[WULA] Exception in ThinkNode_ConditionalAutonomousWorkMode.Satisfied for pawn {pawn?.LabelShort}: {ex}");
                 return false;
             }
         }

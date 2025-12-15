@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld.Planet;
 using System.Linq;
 using Verse;
@@ -27,7 +27,7 @@ namespace WulaFallenEmpire
                 if (isBeingObserved)
                 {
                     // 如果地图正在被监测，阻止地图被移除
-                    Log.Message($"[MapObserver] 阻止地图移除: {__instance.Label} 正在被监测");
+                    WulaLog.Debug($"[MapObserver] 阻止地图移除: {__instance.Label} 正在被监测");
                     return false;
                 }
 
@@ -36,14 +36,14 @@ namespace WulaFallenEmpire
                 {
                     if (shuttle != null && shuttle.PocketMapGenerated && shuttle.PocketMap != null && shuttle.PocketMap.mapPawns.AnyPawnBlockingMapRemoval)
                     {
-                        Log.Message($"[WULA] 阻止地图移除: 穿梭机 '{shuttle.Label}' 的口袋维度中仍有生物");
+                        WulaLog.Debug($"[WULA] 阻止地图移除: 穿梭机 '{shuttle.Label}' 的口袋维度中仍有生物");
                         return false;
                     }
                 }
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[MapObserver] MapParent_CheckRemoveMapNow_Patch 错误: {ex}");
+                WulaLog.Debug($"[MapObserver] MapParent_CheckRemoveMapNow_Patch 错误: {ex}");
             }
 
             // 如果没有找到需要保护的情况，允许原方法继续执行

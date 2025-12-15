@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 
@@ -32,11 +32,11 @@ namespace WulaFallenEmpire
                     parent.pawn
                 );
                 
-                Log.Message($"[EnergyLance] Started {lanceDef.defName} from {target.Cell} to {dest.Cell}");
+                WulaLog.Debug($"[EnergyLance] Started {lanceDef.defName} from {target.Cell} to {dest.Cell}");
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[EnergyLance] Error starting EnergyLance: {ex}");
+                WulaLog.Debug($"[EnergyLance] Error starting EnergyLance: {ex}");
             }
         }
 

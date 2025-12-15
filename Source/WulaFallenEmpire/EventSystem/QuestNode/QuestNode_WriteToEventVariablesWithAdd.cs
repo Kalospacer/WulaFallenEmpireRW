@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using RimWorld.QuestGen;
 using Verse;
 using System.Collections.Generic;
@@ -97,7 +97,7 @@ namespace WulaFallenEmpire
             string targetName = targetVariableName.GetValue(slate);
             if (string.IsNullOrEmpty(targetName))
             {
-                Log.Error("[QuestNode_WriteToEventVariablesWithAdd] targetVariableName is null or empty!");
+                WulaLog.Debug("[QuestNode_WriteToEventVariablesWithAdd] targetVariableName is null or empty!");
                 return false;
             }
 
@@ -107,7 +107,7 @@ namespace WulaFallenEmpire
             {
                 if (logDebug.GetValue(slate))
                 {
-                    Log.Warning($"[QuestNode_WriteToEventVariablesWithAdd] No value to operate for variable '{targetName}'.");
+                    WulaLog.Debug($"[QuestNode_WriteToEventVariablesWithAdd] No value to operate for variable '{targetName}'.");
                 }
                 return false;
             }
@@ -122,7 +122,7 @@ namespace WulaFallenEmpire
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
             if (eventVarManager == null)
             {
-                Log.Error("[QuestNode_WriteToEventVariablesWithAdd] EventVariableManager not found!");
+                WulaLog.Debug("[QuestNode_WriteToEventVariablesWithAdd] EventVariableManager not found!");
                 return false;
             }
 
@@ -132,10 +132,10 @@ namespace WulaFallenEmpire
             // 记录操作前的状态
             if (logDebug.GetValue(slate))
             {
-                Log.Message($"[QuestNode_WriteToEventVariablesWithAdd] Operation for variable '{targetName}':");
-                Log.Message($"  - Mode: {writeMode}");
-                Log.Message($"  - Current value: {currentValue ?? "[null]"} (Type: {currentValue?.GetType().Name ?? "null"})");
-                Log.Message($"  - Source value: {sourceValue ?? "[null]"} (Type: {sourceValue?.GetType().Name ?? "null"})");
+                WulaLog.Debug($"[QuestNode_WriteToEventVariablesWithAdd] Operation for variable '{targetName}':");
+                WulaLog.Debug($"  - Mode: {writeMode}");
+                WulaLog.Debug($"  - Current value: {currentValue ?? "[null]"} (Type: {currentValue?.GetType().Name ?? "null"})");
+                WulaLog.Debug($"  - Source value: {sourceValue ?? "[null]"} (Type: {sourceValue?.GetType().Name ?? "null"})");
             }
 
             // 根据写入模式计算新值
@@ -146,7 +146,7 @@ namespace WulaFallenEmpire
             {
                 if (logDebug.GetValue(slate))
                 {
-                    Log.Message($"  - Operation skipped (new value is null)");
+                    WulaLog.Debug($"  - Operation skipped (new value is null)");
                 }
                 return false;
             }
@@ -160,7 +160,7 @@ namespace WulaFallenEmpire
                 slate.Remove(sourceVariableName.GetValue(slate));
                 if (logDebug.GetValue(slate))
                 {
-                    Log.Message($"  - Removed source variable '{sourceVariableName.GetValue(slate)}' from Slate");
+                    WulaLog.Debug($"  - Removed source variable '{sourceVariableName.GetValue(slate)}' from Slate");
                 }
             }
 
@@ -171,11 +171,11 @@ namespace WulaFallenEmpire
                 bool writeVerified = (readBackValue == null && newValue == null) || 
                                      (readBackValue != null && readBackValue.Equals(newValue));
                 
-                Log.Message($"  - New value written: {newValue} (Type: {newValue.GetType().Name})");
-                Log.Message($"  - Write verified: {writeVerified}");
+                WulaLog.Debug($"  - New value written: {newValue} (Type: {newValue.GetType().Name})");
+                WulaLog.Debug($"  - Write verified: {writeVerified}");
                 if (!writeVerified)
                 {
-                    Log.Warning($"  - Verification failed! Expected: {newValue}, Got: {readBackValue}");
+                    WulaLog.Debug($"  - Verification failed! Expected: {newValue}, Got: {readBackValue}");
                 }
             }
 
@@ -235,7 +235,7 @@ namespace WulaFallenEmpire
                 {
                     if (logDebug.GetValue(slate))
                     {
-                        Log.Message($"  - Variable exists and overwrite is false, keeping current value");
+                        WulaLog.Debug($"  - Variable exists and overwrite is false, keeping current value");
                     }
                     return currentValue; // 不覆盖，返回原值
                 }
@@ -281,7 +281,7 @@ namespace WulaFallenEmpire
                     case MathOperator.Divide:
                         if (source == 0)
                         {
-                            Log.Error($"[QuestNode_WriteToEventVariablesWithAdd] Division by zero for variable operation");
+                            WulaLog.Debug($"[QuestNode_WriteToEventVariablesWithAdd] Division by zero for variable operation");
                             return currentValue;
                         }
                         result = current / source;
@@ -307,7 +307,7 @@ namespace WulaFallenEmpire
             {
                 if (logDebug.GetValue(slate))
                 {
-                    Log.Error($"[QuestNode_WriteToEventVariablesWithAdd] Math operation failed: {ex.Message}");
+                    WulaLog.Debug($"[QuestNode_WriteToEventVariablesWithAdd] Math operation failed: {ex.Message}");
                 }
                 return currentValue;
             }
@@ -404,7 +404,7 @@ namespace WulaFallenEmpire
             {
                 if (logDebug.GetValue(slate))
                 {
-                    Log.Warning($"[QuestNode_WriteToEventVariablesWithAdd] Cannot increment non-numeric type: {currentValue.GetType().Name}");
+                    WulaLog.Debug($"[QuestNode_WriteToEventVariablesWithAdd] Cannot increment non-numeric type: {currentValue.GetType().Name}");
                 }
                 return currentValue;
             }
@@ -427,7 +427,7 @@ namespace WulaFallenEmpire
             {
                 if (logDebug.GetValue(slate))
                 {
-                    Log.Error($"[QuestNode_WriteToEventVariablesWithAdd] Increment operation failed: {ex.Message}");
+                    WulaLog.Debug($"[QuestNode_WriteToEventVariablesWithAdd] Increment operation failed: {ex.Message}");
                 }
                 return currentValue;
             }
@@ -437,7 +437,7 @@ namespace WulaFallenEmpire
         {
             if (logDebug.GetValue(slate))
             {
-                Log.Warning($"[QuestNode_WriteToEventVariablesWithAdd] Type mismatch for operation: {mismatchReason}");
+                WulaLog.Debug($"[QuestNode_WriteToEventVariablesWithAdd] Type mismatch for operation: {mismatchReason}");
             }
 
             switch (onTypeMismatch)
@@ -448,7 +448,7 @@ namespace WulaFallenEmpire
                 case TypeMismatchBehavior.Skip:
                     if (logDebug.GetValue(slate))
                     {
-                        Log.Message($"  - Skipping operation due to type mismatch");
+                        WulaLog.Debug($"  - Skipping operation due to type mismatch");
                     }
                     return currentValue; // 保持原值
                     

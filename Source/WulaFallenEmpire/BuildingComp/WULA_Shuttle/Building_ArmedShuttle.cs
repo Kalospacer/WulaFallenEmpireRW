@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RimWorld;
@@ -212,7 +212,7 @@ namespace WulaFallenEmpire
             {
                 if (gun == null)
                 {
-                    Log.Error("Turret had null gun after loading. Recreating.");
+                    WulaLog.Debug("Turret had null gun after loading. Recreating.");
                     MakeGun();
                 }
                 else

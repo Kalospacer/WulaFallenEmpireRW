@@ -311,7 +311,7 @@ namespace WulaFallenEmpire
             catch (Exception ex)
             {
                 // 错误处理：如果滚动视图出现问题，回退到简单标签
-                Log.Warning($"[CustomDisplay] Error in description scroll view: {ex.Message}");
+                WulaLog.Debug($"[CustomDisplay] Error in description scroll view: {ex.Message}");
                 Widgets.Label(outRect, text);
             }
         }

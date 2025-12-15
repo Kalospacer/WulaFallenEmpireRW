@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -33,7 +33,7 @@ namespace WulaFallenEmpire
             Wula_BeamPierce_Extension props = Props;
             if (props == null)
             {
-                Log.Error("Projectile_WulaBeam requires a Wula_BeamPierce_Extension in its def.");
+                WulaLog.Debug("Projectile_WulaBeam requires a Wula_BeamPierce_Extension in its def.");
                 Destroy(DestroyMode.Vanish);
                 return;
             }

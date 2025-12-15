@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using UnityEngine;
 using Verse.Sound;
@@ -397,7 +397,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"Error in TryIntercept: {ex}");
+                WulaLog.Debug($"Error in TryIntercept: {ex}");
                 return false;
             }
         }
@@ -445,7 +445,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"Error reflecting projectile: {ex}");
+                WulaLog.Debug($"Error reflecting projectile: {ex}");
             }
 
             return false;
@@ -479,7 +479,7 @@ namespace WulaFallenEmpire
                 Projectile newProjectile = (Projectile)GenSpawn.Spawn(originalProjectile.def, spawnCell, Holder.Map);
                 if (newProjectile == null)
                 {
-                    Log.Warning("Failed to spawn reflected projectile");
+                    WulaLog.Debug("Failed to spawn reflected projectile");
                     return false;
                 }
                 
@@ -502,12 +502,12 @@ namespace WulaFallenEmpire
                 // 使用延迟销毁而不是立即销毁
                 ReflectedProjectileManager.MarkForDelayedDestroy(originalProjectile);
                 
-                Log.Message($"反射抛射体: 由 {Holder?.LabelShort} 从 {spawnCell} 向 {targetCell} 发射");
+                WulaLog.Debug($"反射抛射体: 由 {Holder?.LabelShort} 从 {spawnCell} 向 {targetCell} 发射");
                 return true;
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"Error creating reflected projectile: {ex}");
+                WulaLog.Debug($"Error creating reflected projectile: {ex}");
                 return false;
             }
         }
@@ -554,7 +554,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"Error copying projectile properties: {ex}");
+                WulaLog.Debug($"Error copying projectile properties: {ex}");
             }
         }
         

@@ -111,7 +111,7 @@ namespace WulaFallenEmpire
             // 防止过多任务影响性能
             if (activeCoroutines.Count >= MAX_CONCURRENT_BOMBARDMENTS)
             {
-                Log.Warning($"Too many concurrent bombardments on map {map}, max is {MAX_CONCURRENT_BOMBARDMENTS}");
+                WulaLog.Debug($"Too many concurrent bombardments on map {map}, max is {MAX_CONCURRENT_BOMBARDMENTS}");
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"Lightning bombardment error: {ex}");
+                WulaLog.Debug($"Lightning bombardment error: {ex}");
                 activeCoroutines.Clear();
             }
         }

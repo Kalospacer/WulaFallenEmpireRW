@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq; // 添加这个 using 指令
 using RimWorld;
 using UnityEngine;
@@ -141,7 +141,7 @@ namespace WulaFallenEmpire
             // 记录传送调整信息（调试用）
             if (finalTargetCell != target.Cell)
             {
-                Log.Message($"[TeleportSelf] AI传送位置从 {target.Cell} 调整到 {finalTargetCell}");
+                WulaLog.Debug($"[TeleportSelf] AI传送位置从 {target.Cell} 调整到 {finalTargetCell}");
             }
         }
 

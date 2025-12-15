@@ -1,4 +1,4 @@
-// 在 EffectBase.cs 中添加以下类
+﻿// 在 EffectBase.cs 中添加以下类
 using Verse;
 using RimWorld;
 
@@ -13,7 +13,7 @@ namespace WulaFallenEmpire
         {
             if (string.IsNullOrEmpty(flagName))
             {
-                Log.Error("[WulaFallenEmpire] Effect_SetTimedFlag has a null or empty flagName.");
+                WulaLog.Debug("[WulaFallenEmpire] Effect_SetTimedFlag has a null or empty flagName.");
                 return;
             }
 
@@ -21,7 +21,7 @@ namespace WulaFallenEmpire
             eventVarManager.SetTimedFlag(flagName, durationTicks);
 
             string durationInfo = durationTicks < 0 ? "permanent" : $"{durationTicks} ticks";
-            Log.Message($"[EventSystem] Set timed flag '{flagName}' with duration: {durationInfo}");
+            WulaLog.Debug($"[EventSystem] Set timed flag '{flagName}' with duration: {durationInfo}");
         }
     }
 }
