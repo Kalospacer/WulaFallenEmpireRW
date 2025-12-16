@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <WULA_Bomber_A.label>Wula Empire Bomber (Bombing Run)</WULA_Bomber_A.label>
+  <WULA_Bomber_B.label>Wula Empire Bomber (Smoke Wall)</WULA_Bomber_B.label>
+  <WULA_Bomber_C.label>Wula Empire Bomber (Antimatter)</WULA_Bomber_C.label>
+
+  <WULA_Striker_A.label>Wula Empire Striker (Missile Patrol)</WULA_Striker_A.label>
+  <WULA_Striker_B.label>Wula Empire Striker (Strafing Run)</WULA_Striker_B.label>
+  <WULA_Striker_C.label>Wula Empire Striker (EMP Suppression)</WULA_Striker_C.label>
+
+  <WULA_Fighter_Drone_A.label>Wula Empire Swarm Drone (Laser Patrol)</WULA_Fighter_Drone_A.label>
+  <WULA_Fighter_Drone_B.label>Wula Empire Swarm Drone (Bombing)</WULA_Fighter_Drone_B.label>
+
+</LanguageData>

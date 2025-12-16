@@ -14,20 +14,4 @@
   <WULA_Shutdown_Synth_Hediff.descriptionShort>All systems of this mechanical Wula have been shut down—if awakening is needed, assistance from another colonist is required.</WULA_Shutdown_Synth_Hediff.descriptionShort>
   <WULA_Shutdown_Synth_Hediff.stages.0.label>Shutdown</WULA_Shutdown_Synth_Hediff.stages.0.label>
 
-  <WULA_AutoJumpdrive.label>Micro Teleporter</WULA_AutoJumpdrive.label>
-  <WULA_AutoJumpdrive.description>A micro jump-drive installed in Wula Empire synth military units, which retrieves the synth when it reaches the designated combat time.</WULA_AutoJumpdrive.description>
-
-  <WULA_AutoJumpdrive_Thing.label>Micro Teleporter</WULA_AutoJumpdrive_Thing.label>
-  <WULA_AutoJumpdrive_Thing.description>A micro jump-drive installed in Wula Empire synth military units, which retrieves the synth when it reaches the designated combat time.</WULA_AutoJumpdrive_Thing.description>
-
-  <Install_WULA_AutoJumpdrive.label>install death acidifier</Install_WULA_AutoJumpdrive.label>
-  <Install_WULA_AutoJumpdrive.description>Install a death acidifier.</Install_WULA_AutoJumpdrive.description>
-  <Install_WULA_AutoJumpdrive.jobString>Installing death acidifier.</Install_WULA_AutoJumpdrive.jobString>
-
-  <WULA_AutoJumpdrive_Week.label>Micro Teleporter</WULA_AutoJumpdrive_Week.label>
-  <WULA_AutoJumpdrive_Week.description>A micro jump-drive installed in Wula Empire synth military units, which retrieves the synth when it reaches the designated combat time.</WULA_AutoJumpdrive_Week.description>
-
-  <Install_WULA_AutoJumpdrive_Week.label>install death acidifier</Install_WULA_AutoJumpdrive_Week.label>
-  <Install_WULA_AutoJumpdrive_Week.description>Install a death acidifier.</Install_WULA_AutoJumpdrive_Week.description>
-  <Install_WULA_AutoJumpdrive_Week.jobString>Installing death acidifier.</Install_WULA_AutoJumpdrive_Week.jobString>
 </LanguageData>

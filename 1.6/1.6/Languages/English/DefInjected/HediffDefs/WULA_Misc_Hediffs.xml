@@ -45,4 +45,28 @@
 
   <WULA_Cat_Invisibility.label>Special Ops Cat</WULA_Cat_Invisibility.label>
   <WULA_Cat_Invisibility.description>This Wula cat has been specially modified and is invisible to the naked eye, only briefly appearing when firing.</WULA_Cat_Invisibility.description>
+
+  <!-- Screenshot Hediffs -->
+  <WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff.label>ILm-60 "Chrome" Mortar</WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff.label>
+  <WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff.description>A twin-linked light mortar system externally mounted as a backpack weapon attachment on the Wula Empire heavy infantry armor. It can analyze enemy movement and fire autonomously—as long as the wearer is not in melee combat.</WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff.description>
+  <WULA_Child_Backstory01_Hediff.label>Origin: Kroup</WULA_Child_Backstory01_Hediff.label>
+  <WULA_Child_Backstory01_Hediff.description>Synthetics produced here use strategic materials far above other sectors, granting them higher body durability, lower energy consumption, and built-in combat abilities.</WULA_Child_Backstory01_Hediff.description>
+  <WULA_Child_Backstory02_Hediff.label>Origin: Daedalus</WULA_Child_Backstory02_Hediff.label>
+  <WULA_Child_Backstory02_Hediff.description>Synthetics from here are equipped with powerful production systems, allowing them to offset the natural disadvantages of this type of synthetic in mining and construction.</WULA_Child_Backstory02_Hediff.description>
+  <WULA_Child_Backstory03_Hediff.label>Origin: Palace District</WULA_Child_Backstory03_Hediff.label>
+  <WULA_Child_Backstory03_Hediff.description>Synthetics produced here are usually more refined and elegant than those from other sectors, giving them innate advantages in social and artistic skills.</WULA_Child_Backstory03_Hediff.description>
+  <WULA_Child_Backstory04_Hediff.label>Origin: Delta</WULA_Child_Backstory04_Hediff.label>
+  <WULA_Child_Backstory04_Hediff.description>Synthetics produced here are designed as dedicated war machines, simple and easy to maintain, possessing undisputed combat capabilities, but not very good at other tasks.</WULA_Child_Backstory04_Hediff.description>
+  <WULA_Child_Backstory05_Hediff.label>Origin: Serris</WULA_Child_Backstory05_Hediff.label>
+  <WULA_Child_Backstory05_Hediff.description>Synthetics produced here are research-specialized models; they excel at research and are among the few synthetics capable of directly controlling mechanoids—though the Empire's mechanoids are autonomous machines.</WULA_Child_Backstory05_Hediff.description>
+  <WULA_Child_Backstory06_Hediff.label>Origin: Marek</WULA_Child_Backstory06_Hediff.label>
+  <WULA_Child_Backstory06_Hediff.description>Synthetics produced in this star region usually have built-in housekeeping and agricultural systems, making them very adept at handling chores. Additionally, their durable design causes them to wear rate slower than synthetics from other sectors under natural conditions.</WULA_Child_Backstory06_Hediff.description>
+  <WULA_Child_Backstory07_Hediff.label>Origin: Dyson</WULA_Child_Backstory07_Hediff.label>
+  <WULA_Child_Backstory07_Hediff.description>Synthetics born here possess powerful crafting systems; their nano-repair is designed for self-sustaining repair in extreme environments, thus repair consumption is lower than synthetics from other sectors.</WULA_Child_Backstory07_Hediff.description>
+  <WULA_Beam_Weapon_Aiming_Hediff.label>Beam Preheat</WULA_Beam_Weapon_Aiming_Hediff.label>
+  <WULA_Beam_Weapon_Aiming_Hediff.description>Before firing, Wula Empire beam weapons need to preheat for a period, after which they can fire continuously.</WULA_Beam_Weapon_Aiming_Hediff.description>
+  <WULA_RW_Base_Loitering_Munition_Hediff.label>Loitering Munition Guidance System</WULA_RW_Base_Loitering_Munition_Hediff.label>
+  <WULA_RW_Base_Loitering_Munition_Hediff.description>The guidance system of the WLl-35 "Zeolite" allows its loitering munition to be fire-and-forget, but it can only be active for a short time.</WULA_RW_Base_Loitering_Munition_Hediff.description>
+  <WULA_RW_Handle_Cannon_Burn_Hediff.label>Armor Melt</WULA_RW_Handle_Cannon_Burn_Hediff.label>
+  <WULA_RW_Handle_Cannon_Burn_Hediff.description>The large beam weapons of the Wula Empire will melt enemy armor, reducing their resistance to heat.</WULA_RW_Handle_Cannon_Burn_Hediff.description>
 </LanguageData>

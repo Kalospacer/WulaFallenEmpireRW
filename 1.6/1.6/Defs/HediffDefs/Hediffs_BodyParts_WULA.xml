@@ -128,9 +128,9 @@
   </ThingDef>
   <RecipeDef ParentName="SurgeryInstallImplantBase">
     <defName>Install_WULA_AutoJumpdrive</defName>
-    <label>install death acidifier</label>
-    <description>Install a death acidifier.</description>
-    <jobString>Installing death acidifier.</jobString>
+    <label>安装微型传送装置</label>
+    <description>安装一个微型传送装置。</description>
+    <jobString>正在安装微型传送装置。</jobString>
     <ingredients>
       <li>
         <filter>
@@ -174,9 +174,9 @@
   </ThingDef>
   <RecipeDef ParentName="SurgeryInstallImplantBase">
     <defName>Install_WULA_AutoJumpdrive_Week</defName>
-    <label>install death acidifier</label>
-    <description>Install a death acidifier.</description>
-    <jobString>Installing death acidifier.</jobString>
+    <label>安装微型传送装置 (周)</label>
+    <description>安装一个微型传送装置 (周)。</description>
+    <jobString>正在安装微型传送装置 (周)。</jobString>
     <ingredients>
       <li>
         <filter>

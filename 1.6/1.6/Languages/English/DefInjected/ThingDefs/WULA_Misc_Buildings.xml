@@ -12,39 +12,39 @@
   <WULA_Fake_Mothership_Beacon_Building.label>Imperial Mothership Beacon</WULA_Fake_Mothership_Beacon_Building.label>
   <WULA_Fake_Mothership_Beacon_Building.description>111</WULA_Fake_Mothership_Beacon_Building.description>
   <WULA_MotherShip_Entity.label>Imperial Mothership</WULA_MotherShip_Entity.label>
-  <WULA_MotherShip_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_MotherShip_Entity.description>
+  <WULA_MotherShip_Entity.description>An entity used for internal tracking of the Imperial Mothership's presence.</WULA_MotherShip_Entity.description>
 
   <WULA_Fake_AircraftCarrier_Beacon_Building.label>Imperial Fleet Beacon</WULA_Fake_AircraftCarrier_Beacon_Building.label>
   <WULA_Fake_AircraftCarrier_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for additional mobilization rights for an Imperial attack fleet, including 2 cruisers capable of orbital bombardment and 1 carrier providing aircraft support.</WULA_Fake_AircraftCarrier_Beacon_Building.description>
   <WULA_AircraftCarrier_Entity.label>Imperial Attack Fleet</WULA_AircraftCarrier_Entity.label>
-  <WULA_AircraftCarrier_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_AircraftCarrier_Entity.description>
+  <WULA_AircraftCarrier_Entity.description>An entity used for internal tracking of the Imperial Attack Fleet's presence.</WULA_AircraftCarrier_Entity.description>
 
   <WULA_Fake_ConstructionShip_Beacon_Building.label>Imperial Denial Ship Beacon</WULA_Fake_ConstructionShip_Beacon_Building.label>
   <WULA_Fake_ConstructionShip_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for additional mobilization rights for an Imperial denial fleet, including 1 denial ship capable of providing orbital support.\n\nImperial Denial Ships are defensive vessel types equipped with mobile factories. They can provide non-offensive support to colonies to protect them from fierce attacks or accelerate colony production development.</WULA_Fake_ConstructionShip_Beacon_Building.description>
   <WULA_ConstructionShip_Entity.label>Imperial Denial Fleet</WULA_ConstructionShip_Entity.label>
-  <WULA_ConstructionShip_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_ConstructionShip_Entity.description>
+  <WULA_ConstructionShip_Entity.description>An entity used for internal tracking of the Imperial Denial Fleet's presence.</WULA_ConstructionShip_Entity.description>
 
   <WULA_Fake_BattleShip_Beacon_Building.label>Imperial Cruiser Beacon</WULA_Fake_BattleShip_Beacon_Building.label>
   <WULA_Fake_BattleShip_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for support from an Imperial cruiser.\n\nThe Wula Empire Rim Development Agency's cruisers are the basic combat units of close support fleets. Although their size is not as large as battlecruisers, they are still equipped with formidable artillery arrays that ground forces cannot match, capable of launching terrifying bombardments against the ground.</WULA_Fake_BattleShip_Beacon_Building.description>
   <WULA_BattleShip_Entity.label>Imperial Cruiser</WULA_BattleShip_Entity.label>
-  <WULA_BattleShip_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_BattleShip_Entity.description>
+  <WULA_BattleShip_Entity.description>An entity used for internal tracking of the Imperial Cruiser's presence.</WULA_BattleShip_Entity.description>
 
   <!-- Aircraft Beacons -->
   <WULA_Fake_Fighter_Drone_Building.label>Wula Empire Swarm Drone</WULA_Fake_Fighter_Drone_Building.label>
   <WULA_Fake_Fighter_Drone_Building.description>A small drone equipped with a laser cannon and napalm bombs, providing cheap but effective air support for the colony. Unlike the larger ones, swarm drones do not require hangars and can be refueled via the fleet's electromagnetic network, achieving permanent aerial combat.</WULA_Fake_Fighter_Drone_Building.description>
   <WULA_Fighter_Drone_Leaving.label>Wula Empire Swarm Drone (Launching)</WULA_Fighter_Drone_Leaving.label>
   <WULA_Fighter_Drone_Entity.label>Wula Empire Swarm Drone</WULA_Fighter_Drone_Entity.label>
-  <WULA_Fighter_Drone_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_Fighter_Drone_Entity.description>
+  <WULA_Fighter_Drone_Entity.description>An entity used for internal tracking of Swarm Drone availability.</WULA_Fighter_Drone_Entity.description>
 
   <WULA_Fake_Striker_Beacon_Building.label>Wula Empire Striker Beacon</WULA_Fake_Striker_Beacon_Building.label>
   <WULA_Fake_Striker_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for support from a Wula Empire striker. To mobilize large aircraft, a ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> must be in orbit.\n\nWula Empire strikers are powerful ground support firepower, loaded with numerous missiles, EMP bombs, and powerful cannons to precisely harvest enemy targets.</WULA_Fake_Striker_Beacon_Building.description>
   <WULA_Striker_Entity.label>Wula Empire Striker</WULA_Striker_Entity.label>
-  <WULA_Striker_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_Striker_Entity.description>
+  <WULA_Striker_Entity.description>An entity used for internal tracking of Striker availability.</WULA_Striker_Entity.description>
 
   <WULA_Fake_Bomber_Beacon_Building.label>Wula Empire Bomber Beacon</WULA_Fake_Bomber_Beacon_Building.label>
   <WULA_Fake_Bomber_Beacon_Building.description>A beacon used to submit resources to the Wula Empire fleet, which can be exchanged for support from a Wula Empire bomber. To mobilize large aircraft, a ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> must be in orbit.\n\nWula Empire bombers are the largest flying vehicles capable of entering the atmosphere. Besides dropping functional smoke bombs, they can also drop a large number of bombs or launch a dark matter missile to level the Empire's enemies.</WULA_Fake_Bomber_Beacon_Building.description>
   <WULA_Bomber_Entity.label>Wula Empire Bomber</WULA_Bomber_Entity.label>
-  <WULA_Bomber_Entity.description>What? This is a ThingDef for counting, you shouldn't see this in any situation.</WULA_Bomber_Entity.description>
+  <WULA_Bomber_Entity.description>An entity used for internal tracking of Bomber availability.</WULA_Bomber_Entity.description>
 
   <!-- Miscellaneous -->
   <WULA_Table1x2c.label>Wula Empire Table (1x2)</WULA_Table1x2c.label>
@@ -61,4 +61,25 @@
   <WULA_MechAssembler.description>A factory the Wula Empire got from local mechanoids, repainted and readjusted assembly lines to produce Wula Empire mechanoids.\n\nIt's free anyway.</WULA_MechAssembler.description>
   <WULA_MechAssembler_Huge.label>Wula Empire Large Auto-Assembly Field</WULA_MechAssembler_Huge.label>
   <WULA_MechAssembler_Huge.description>A factory the Wula Empire got from local mechanoids, repainted and readjusted assembly lines to produce Wula Empire mechanoids. This model is slightly larger than others and may assemble more formidable mechanized troops.\n\nIt's free anyway.</WULA_MechAssembler_Huge.description>
+
+  <!-- Techprints -->
+  <Techprint_SP_WULA_Colony_License_LV1_Technology.label>Wula Empire Colony License: Tier 1</Techprint_SP_WULA_Colony_License_LV1_Technology.label>
+  <Techprint_SP_WULA_Colony_License_LV1_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV1_Technology.description>
+  <Techprint_SP_WULA_Colony_License_LV2_Technology.label>Wula Empire Colony License: Tier 2</Techprint_SP_WULA_Colony_License_LV2_Technology.label>
+  <Techprint_SP_WULA_Colony_License_LV2_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV2_Technology.description>
+  <Techprint_SP_WULA_Colony_License_LV3_Technology.label>Wula Empire Colony License: Tier 3</Techprint_SP_WULA_Colony_License_LV3_Technology.label>
+  <Techprint_SP_WULA_Colony_License_LV3_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV3_Technology.description>
+
+  <!-- Quest Items -->
+  <WULA_Safe_Box_For_Mission.label>Wula Empire Safe</WULA_Safe_Box_For_Mission.label>
+  <WULA_Safe_Box_For_Mission.description>A safe related to the Wula Empire royal family.</WULA_Safe_Box_For_Mission.description>
+
+  <!-- Screenshot Items -->
+  <WULA_Alpha_Mantodea_Turret.label>Twin Demoneye</WULA_Alpha_Mantodea_Turret.label>
+  <WULA_Alpha_Mantodea_Turret.description>A special eye part equipped on a few large Wula Empire mechanoids. Compared to a single Demoneye, it can strafe from two directions simultaneously, unleashing terrifying power to melt enemies.</WULA_Alpha_Mantodea_Turret.description>
+  <WULA_Hostile_Progressive_Outpost_LootBox.label>Suspicious Wula Empire Weaver</WULA_Hostile_Progressive_Outpost_LootBox.label>
+  <WULA_Hostile_Progressive_Outpost_LootBox.description>This Wula Empire weaver, originally used for producing materials, is using its high-energy cutting blade to cut a hard safe—but the safe remains unscathed.</WULA_Hostile_Progressive_Outpost_LootBox.description>
+  <WULA_Black_Hole_Entity.label>Void Shadow</WULA_Black_Hole_Entity.label>
+  <WULA_Alpha_Wolf_Turret.label>Demoneye</WULA_Alpha_Wolf_Turret.label>
+  <WULA_Alpha_Wolf_Turret.description>The eye of a large mechanoid from the Wula Empire's library. Besides providing visual sensing, it is also equipped with a powerful dark matter beam cannon that can melt enemies by strafing the battlefield with terrifying power.</WULA_Alpha_Wolf_Turret.description>
 </LanguageData>

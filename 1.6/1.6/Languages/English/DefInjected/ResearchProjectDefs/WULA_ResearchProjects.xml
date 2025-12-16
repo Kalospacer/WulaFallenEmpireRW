@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <!-- Techprint Labels and Descriptions -->
-  <Techprint_SP_WULA_Colony_License_LV1_Technology.label>Wula Empire Colony License: Tier 1</Techprint_SP_WULA_Colony_License_LV1_Technology.label>
-  <Techprint_SP_WULA_Colony_License_LV1_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV1_Technology.description>
-
-  <Techprint_SP_WULA_Colony_License_LV2_Technology.label>Wula Empire Colony License: Tier 2</Techprint_SP_WULA_Colony_License_LV2_Technology.label>
-  <Techprint_SP_WULA_Colony_License_LV2_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV2_Technology.description>
-
-  <Techprint_SP_WULA_Colony_License_LV3_Technology.label>Wula Empire Colony License: Tier 3</Techprint_SP_WULA_Colony_License_LV3_Technology.label>
-  <Techprint_SP_WULA_Colony_License_LV3_Technology.description>This is a special credential issued by the Wula Empire Development Agency to certify a colony's status.</Techprint_SP_WULA_Colony_License_LV3_Technology.description>
-
   <!-- Research Projects -->
   <WULA_Colony_License_LV1_Technology.label>Wula Empire Colony License: Tier 1</WULA_Colony_License_LV1_Technology.label>
   <WULA_Colony_License_LV1_Technology.description>The first-tier Wula Empire colony license, signifying that this colony is officially recognized as one of its subordinate colonies. The license itself doesn't bring many benefits, but upgrading it is an important condition for continuing to research Wula Empire technology.</WULA_Colony_License_LV1_Technology.description>
