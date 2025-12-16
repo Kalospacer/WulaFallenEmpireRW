@@ -9,7 +9,9 @@ namespace WulaFallenEmpire
     public class CompProperties_OpenCustomUI : CompProperties
     {
         public string uiDefName;
+        [MustTranslate]
         public string label; // The text to display in the float menu
+        [MustTranslate]
         public string failReason; // Optional: Custom text to show if the pawn can't reach the building
 
         public CompProperties_OpenCustomUI()

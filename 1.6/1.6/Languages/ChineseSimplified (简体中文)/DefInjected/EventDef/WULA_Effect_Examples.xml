@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
- <!-- WULA_Debug_StoreAllStats -->
-  <WULA_Debug_StoreAllStats.label>Debug: Store All Stats</WULA_Debug_StoreAllStats.label>
- <WULA_Debug_StoreAllStats.description>一个用于将各种游戏统计数据存储到变量中的调试事件。</WULA_Debug_StoreAllStats.description>
-</LanguageData>
