@@ -46,7 +46,7 @@ namespace WulaFallenEmpire
             Widgets.TextFieldNumeric(tokensRect, ref settings.maxContextTokens, ref _maxContextTokensBuffer, 1000, 200000);
 
             listingStandard.GapLine();
-            listingStandard.CheckboxLabeled("Enable Debug Logs".Translate(), ref settings.enableDebugLogs, "Enable detailed debug logging (independent of DevMode)".Translate());
+            listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());
 
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);

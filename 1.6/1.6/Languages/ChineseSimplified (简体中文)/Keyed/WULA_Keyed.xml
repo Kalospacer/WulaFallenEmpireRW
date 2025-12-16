@@ -160,6 +160,8 @@
   <Wula_AISettings_MaxContextTokensDesc>控制 AI 对话历史在超过上限时自动压缩。数值越小越省成本，但 AI 更容易“忘记”。</Wula_AISettings_MaxContextTokensDesc>
   <Wula_AISettings_UseStreaming>启用流式传输 (实验性)</Wula_AISettings_UseStreaming>
   <Wula_AISettings_UseStreamingDesc>启用实时打字机效果。如果遇到问题请禁用。</Wula_AISettings_UseStreamingDesc>
+  <Wula_EnableDebugLogs>启用调试日志</Wula_EnableDebugLogs>
+  <Wula_EnableDebugLogsDesc>启用详细的调试日志记录（独立于开发者模式）</Wula_EnableDebugLogsDesc>
 
   <!-- AI Conversation -->
   <Wula_AI_Retry>重试</Wula_AI_Retry>
