@@ -41,11 +41,11 @@
   <WULA_WeaponArmor_Productor.label>Wula Empire Operations Comms Station</WULA_WeaponArmor_Productor.label>
   <WULA_WeaponArmor_Productor.description>A special communications console used to contact the Wula Empire mothership and engineering vessels to place orders. Production of these supplies and equipment does not require colony participation; simply use the Wula Empire Material Transport Pod to send materials to the Imperial Fleet, then place orders based on the material quantity.</WULA_WeaponArmor_Productor.description>
     <!-- WULA_WeaponArmor_Productor -->
-  <WULA_WeaponArmor_Productor.comps.2.label>Contact P.I.A</WULA_WeaponArmor_Productor.comps.2.label>
-  <WULA_WeaponArmor_Productor.comps.2.failReason>Cannot reach.</WULA_WeaponArmor_Productor.comps.2.failReason>
-
-  <WULA_WeaponArmor_Productor.comps.3.label>Contact "Legion"</WULA_WeaponArmor_Productor.comps.3.label>
+  <WULA_WeaponArmor_Productor.comps.3.label>Contact P.I.A</WULA_WeaponArmor_Productor.comps.3.label>
   <WULA_WeaponArmor_Productor.comps.3.failReason>Cannot reach.</WULA_WeaponArmor_Productor.comps.3.failReason>
+
+  <WULA_WeaponArmor_Productor.comps.4.label>Contact "Legion"</WULA_WeaponArmor_Productor.comps.4.label>
+  <WULA_WeaponArmor_Productor.comps.4.failReason>Cannot reach.</WULA_WeaponArmor_Productor.comps.4.failReason>
 
   <!-- Transport Pod -->
   <WULA_TransportPod_Cleanzone.label>Wula Empire Transport Pod</WULA_TransportPod_Cleanzone.label>
