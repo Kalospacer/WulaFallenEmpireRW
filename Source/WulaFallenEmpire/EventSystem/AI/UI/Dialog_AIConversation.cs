@@ -74,7 +74,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     - In PHASE 3, you MUST output XML tool calls only AND you MUST include exactly one <change_expression> (expression_id 1-6). Do NOT output <no_action/> in PHASE 3.
     Do NOT include any natural language, explanation, markdown, or additional commentary in tool phases (PHASE 1/2/3).
 3.  **STRICT OUTPUT (REPLY PHASE)**: In PHASE 4, tools are disabled. You MUST reply in natural language only and MUST NOT output any XML.
-4.  **ALLOWED TOOLS**: You MUST ONLY call tools listed in the current phase's tool list (the section titled ""# TOOLS (PHASE X/4 ONLY)"").
+4.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (FULL REFERENCE)"". You SHOULD follow the intent of the current phase.
 5.  **WORKFLOW**: Use the phase workflow:
     - PHASE 1 gathers info (optional).
     - PHASE 2 performs at most one in-game action (optional).
@@ -103,6 +103,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
              _tools.Add(new Tool_GetColonistStatus());
              _tools.Add(new Tool_GetMapResources());
              _tools.Add(new Tool_GetMapPawns());
+             _tools.Add(new Tool_GetRecentNotifications());
              _tools.Add(new Tool_CallBombardment());
              _tools.Add(new Tool_ChangeExpression());
              _tools.Add(new Tool_SearchThingDef());
@@ -206,7 +207,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             // Use XML persona if available, otherwise default
             string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
             
-            string fullInstruction = toolsEnabled ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase) : persona;
+            string fullInstruction = toolsEnabled
+                ? (persona + "\n" + ToolRulesInstruction + "\n" + BuildAllToolsReference() + "\n\n" + toolsForThisPhase)
+                : persona;
 
             string language = LanguageDatabase.activeLanguage.FriendlyNameNative;
             var eventVarManager = Find.World.GetComponent<EventVariableManager>();
@@ -229,20 +232,210 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    $"You will produce the natural-language reply in PHASE 4 and MUST use: {language}.";
         }
 
+        private static string GetToolDocOrFallback(AITool tool)
+        {
+            if (tool == null) return "";
+
+            // Full tool usage docs (global). If a tool is missing from this map, we fall back to tool.Description/UsageSchema.
+            var docs = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["spawn_resources"] = @"
+Description: Grants resources to the player by spawning a drop pod.
+Use this tool when:
+- The player explicitly requests resources (e.g., food, medicine, materials).
+- You have ALREADY verified their need in a previous turn using `get_colonist_status` and `get_map_resources`.
+CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
+CRITICAL: Prefer using `search_thing_def` first and then spawning by `<defName>` (or put DefName into `<name>`) to avoid localization/name mismatches.
+Parameters:
+- items: (REQUIRED) A list of items to spawn. Each item must have a `name` (English label or DefName) and `count`.
+  - Note: If you don't know the exact defName, use the item's English label (e.g., ""Simple Meal""). The system will try to find the best match.
+Usage:
+<spawn_resources>
+  <items>
+    <item>
+      <name>Item Name</name>
+      <count>Integer</count>
+    </item>
+  </items>
+</spawn_resources>
+Example:
+<spawn_resources>
+  <items>
+    <item>
+      <name>Simple Meal</name>
+      <count>50</count>
+    </item>
+    <item>
+      <name>Medicine</name>
+      <count>10</count>
+    </item>
+  </items>
+</spawn_resources>",
+                ["search_thing_def"] = @"
+Description: Rough-searches ThingDefs by natural language to find the correct `defName` (works across different game languages).
+Use this tool when:
+- You need a reliable `ThingDef.defName` before calling `spawn_resources` or `get_map_resources`.
+Parameters:
+- query: (REQUIRED) The natural language query, label, or approximate defName.
+- maxResults: (OPTIONAL) Max candidates to return (default 10).
+- itemsOnly: (OPTIONAL) true/false (default true). If true, only returns item ThingDefs (recommended for spawning).
+Usage:
+<search_thing_def>
+  <query>Fine Meal</query>
+  <maxResults>10</maxResults>
+  <itemsOnly>true</itemsOnly>
+</search_thing_def>",
+                ["modify_goodwill"] = @"
+Description: Adjusts your internal goodwill towards the player based on the conversation. This tool is INVISIBLE to the player.
+Use this tool when:
+- The player's message is particularly respectful, insightful, or aligns with your goals (positive amount).
+- The player's message is disrespectful, wasteful, or foolish (negative amount).
+CRITICAL: Keep changes small, typically between -5 and 5.
+Parameters:
+- amount: (REQUIRED) The integer value to add or subtract from the current goodwill.
+Usage:
+<modify_goodwill>
+  <amount>integer</amount>
+</modify_goodwill>
+Example:
+<modify_goodwill>
+  <amount>2</amount>
+</modify_goodwill>",
+                ["send_reinforcement"] = @"
+Description: Dispatches military units to the player's map. Can be a raid (if hostile) or reinforcements (if allied).
+Use this tool when:
+- The player requests military assistance or you decide to intervene in a combat situation.
+- You need to test the colony's defenses.
+CRITICAL: The total combat power of all units should not significantly exceed the current threat budget provided in the tool's dynamic description.
+Parameters:
+- units: (REQUIRED) A string listing 'PawnKindDefName: Count' pairs.
+Usage:
+<send_reinforcement>
+  <units>list of units and counts</units>
+</send_reinforcement>
+Example:
+<send_reinforcement>
+  <units>Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5</units>
+</send_reinforcement>",
+                ["get_colonist_status"] = @"
+Description: Retrieves a detailed status report of all player-controlled colonists, including needs, health, and mood.
+Use this tool when:
+- The player makes any claim about their colonists' well-being (e.g., ""we are starving,"" ""we are all sick,"" ""our people are unhappy"").
+- You need to verify the state of the colony before making a decision (e.g., before sending resources).
+Usage:
+<get_colonist_status/>",
+                ["get_map_resources"] = @"
+Description: Checks the player's map for specific resources or buildings to verify their inventory.
+Use this tool when:
+- The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
+- You want to assess the colony's material wealth before making a decision.
+Usage:
+<get_map_resources>
+  <resourceName>optional resource name</resourceName>
+</get_map_resources>",
+                ["get_recent_notifications"] = @"
+Description: Gets the most recent letters and messages, sorted by in-game time from newest to oldest.
+Use this tool when:
+- You need recent context about what happened (raids, alerts, rewards, failures) without relying on player memory.
+Usage:
+<get_recent_notifications>
+  <count>10</count>
+</get_recent_notifications>",
+                ["get_map_pawns"] = @"
+Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
+Use this tool when:
+- You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
+- The player claims there are threats or asks about who/what is nearby.
+Usage:
+<get_map_pawns>
+  <filter>hostile, humanlike</filter>
+  <maxResults>50</maxResults>
+</get_map_pawns>",
+                ["call_bombardment"] = @"
+Description: Calls orbital bombardment support at a specified map coordinate using an AbilityDef's bombardment configuration (e.g., WULA_Firepower_Cannon_Salvo).
+Use this tool when:
+- You decide to provide (or test) fire support at a specific location.
+Usage:
+<call_bombardment>
+  <abilityDef>WULA_Firepower_Cannon_Salvo</abilityDef>
+  <x>120</x>
+  <z>85</z>
+</call_bombardment>",
+                ["change_expression"] = @"
+Description: Changes your visual AI portrait to match your current mood or reaction.
+Expression meanings (choose the closest match):
+- 1: 得意、炫耀（非敌对）、示威（非敌对）、展示武力和财力（非敌对）、策划计谋
+- 2: 常态立绘（当其他立绘不适用时使用这个）
+- 3: 无言以对、不满、无奈、轻微的鄙视
+- 4: 恼火、展现轻微敌对姿态、抗拒
+- 5: 答复、解释
+- 6: 严重的敌意、严重不满、攻击性行为
+Usage:
+<change_expression>
+  <expression_id>integer from 1 to 6</expression_id>
+</change_expression>"
+            };
+
+            if (docs.TryGetValue(tool.Name, out string doc) && !string.IsNullOrWhiteSpace(doc))
+            {
+                return doc.Trim();
+            }
+
+            var fallback = new StringBuilder();
+            if (!string.IsNullOrWhiteSpace(tool.Description))
+            {
+                fallback.AppendLine($"Description: {tool.Description}");
+            }
+            if (!string.IsNullOrWhiteSpace(tool.UsageSchema))
+            {
+                fallback.AppendLine($"Usage: {tool.UsageSchema}");
+            }
+            return fallback.ToString().TrimEnd();
+        }
+
+        private string BuildAllToolsReference()
+        {
+            var ordered = _tools
+                .Where(t => t != null)
+                .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var sb = new StringBuilder();
+            sb.AppendLine("====");
+            sb.AppendLine();
+            sb.AppendLine("# TOOLS (FULL REFERENCE)");
+            sb.AppendLine("This section contains ALL tools and their usage. You MUST still obey the current phase's allowed-tool list.");
+            sb.AppendLine();
+
+            foreach (var tool in ordered)
+            {
+                sb.AppendLine($"## {tool.Name}");
+                string doc = GetToolDocOrFallback(tool);
+                if (!string.IsNullOrWhiteSpace(doc))
+                {
+                    sb.AppendLine(doc);
+                }
+                sb.AppendLine();
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
         private string BuildToolsForPhase(RequestPhase phase)
         {
             if (phase == RequestPhase.Reply) return "";
 
-            var allowed = _tools
-                .Where(t => t != null && IsAllowedInPhase(phase, t.Name))
+            var available = _tools
+                .Where(t => t != null)
+                .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("====");
             sb.AppendLine();
-            sb.AppendLine($"# TOOLS (PHASE {(int)phase}/4 ONLY)");
-            sb.AppendLine("You MUST ONLY call tools from the list below in this phase.");
-            sb.AppendLine("Output MUST be XML tool calls only (or <no_action/>). Do NOT include natural language in tool phases.");
+            sb.AppendLine($"# TOOLS (PHASE {(int)phase}/4)");
+            sb.AppendLine("You are not restricted to a subset by the engine; you SHOULD still follow the phase intent.");
+            sb.AppendLine("Output MUST be XML tool calls only (or <no_action/>), except PHASE 3 must include <change_expression>.");
             sb.AppendLine();
 
             static string GetDocOrFallback(AITool tool)
@@ -440,14 +633,11 @@ Example (changing to a neutral expression):
                 return fallback.ToString().TrimEnd();
             }
 
-            foreach (var tool in allowed)
+            _ = GetDocOrFallback(null);
+
+            foreach (var tool in available)
             {
                 sb.AppendLine($"## {tool.Name}");
-                string doc = GetDocOrFallback(tool);
-                if (!string.IsNullOrWhiteSpace(doc))
-                {
-                    sb.AppendLine(doc);
-                }
                 sb.AppendLine();
             }
 
@@ -464,7 +654,7 @@ Example (changing to a neutral expression):
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
                     "- If you do NOT need any info tools, output exactly: <no_action/>.\n" +
-                    "- If you DO need tools, call ONLY tools listed in \"# TOOLS (PHASE 1/4 ONLY)\".\n" +
+                    "- If you DO need tools, call the appropriate tools from the full tool reference.\n" +
                     "- You MAY call multiple info tools, but keep it small and purposeful.\n" +
                     "After this phase, the game will automatically proceed to PHASE 2.\n" +
                     "Output: XML only.\n",
@@ -473,7 +663,7 @@ Example (changing to a neutral expression):
                     "Goal: Decide whether to perform ONE in-game action based on PHASE 1 results.\n" +
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- You MUST call AT MOST ONE action tool from \"# TOOLS (PHASE 2/4 ONLY)\".\n" +
+                    "- You MUST call AT MOST ONE tool in this phase.\n" +
                     "- If no action is needed, output exactly: <no_action/>.\n" +
                     "After this phase, the game will automatically proceed to PHASE 3.\n" +
                     "Output: XML only.\n",
@@ -744,12 +934,6 @@ Example (changing to a neutral expression):
 
                 string toolCallXml = match.Value;
                 string toolName = match.Groups[1].Value;
-
-                if (!IsAllowedInPhase(phase, toolName))
-                {
-                    combinedResults.AppendLine($"ToolRunner Note: Tool '{toolName}' is not allowed in phase {phase}.");
-                    continue;
-                }
 
                 if (phase == RequestPhase.Cosmetic)
                 {
