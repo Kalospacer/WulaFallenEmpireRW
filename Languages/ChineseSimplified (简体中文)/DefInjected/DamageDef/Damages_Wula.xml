@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 热熔 -->
+  <Damage_WULA_Melta.label>TODO</Damage_WULA_Melta.label>
+  <!-- EN: {0} 被热熔武器融化了。 -->
+  <Damage_WULA_Melta.deathMessage>TODO</Damage_WULA_Melta.deathMessage>
+  
+  <!-- EN: 热熔 -->
+  <Damage_WULA_Melta_Small.label>TODO</Damage_WULA_Melta_Small.label>
+  <!-- EN: {0} 被热熔武器融化了。 -->
+  <Damage_WULA_Melta_Small.deathMessage>TODO</Damage_WULA_Melta_Small.deathMessage>
+  
+  <!-- EN: 等离子熔融 -->
+  <Damage_WULA_Plasma.label>TODO</Damage_WULA_Plasma.label>
+  <!-- EN: {0} 被等离子体引发的熔融爆炸炸死了。 -->
+  <Damage_WULA_Plasma.deathMessage>TODO</Damage_WULA_Plasma.deathMessage>
+  
+  <!-- EN: 熔融爆炸 -->
+  <Damage_WULA_Plasma_Explosive.label>TODO</Damage_WULA_Plasma_Explosive.label>
+  <!-- EN: {0} 被等离子体引发的熔融爆炸炸死了。 -->
+  <Damage_WULA_Plasma_Explosive.deathMessage>TODO</Damage_WULA_Plasma_Explosive.deathMessage>
+  
+  <!-- EN: 贯杀炮切割束 -->
+  <Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.label>TODO</Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.label>
+  <!-- EN: {0} has been shot to death. -->
+  <Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.deathMessage>TODO</Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.deathMessage>
+  
+  <!-- EN: 穿甲钢针 -->
+  <WULA_Armour_Piercing_Projectile_1_Damage.label>TODO</WULA_Armour_Piercing_Projectile_1_Damage.label>
+  <!-- EN: {0} has been shot to death. -->
+  <WULA_Armour_Piercing_Projectile_1_Damage.deathMessage>TODO</WULA_Armour_Piercing_Projectile_1_Damage.deathMessage>
+  
+  <!-- EN: 穿甲钢针 -->
+  <WULA_Armour_Piercing_Projectile_2_Damage.label>TODO</WULA_Armour_Piercing_Projectile_2_Damage.label>
+  <!-- EN: {0} has been shot to death. -->
+  <WULA_Armour_Piercing_Projectile_2_Damage.deathMessage>TODO</WULA_Armour_Piercing_Projectile_2_Damage.deathMessage>
+  
+  <!-- EN: 穿甲钢针 -->
+  <WULA_Armour_Piercing_Projectile_3_Damage.label>TODO</WULA_Armour_Piercing_Projectile_3_Damage.label>
+  <!-- EN: {0} has been shot to death. -->
+  <WULA_Armour_Piercing_Projectile_3_Damage.deathMessage>TODO</WULA_Armour_Piercing_Projectile_3_Damage.deathMessage>
+  
+  <!-- EN: 穿甲钢针 -->
+  <WULA_Armour_Piercing_Projectile_4_Damage.label>TODO</WULA_Armour_Piercing_Projectile_4_Damage.label>
+  <!-- EN: {0} has been shot to death. -->
+  <WULA_Armour_Piercing_Projectile_4_Damage.deathMessage>TODO</WULA_Armour_Piercing_Projectile_4_Damage.deathMessage>
+  
+  <!-- EN: 高能震波 -->
+  <WULA_Combat_Excavator_Shoke_Damage.label>TODO</WULA_Combat_Excavator_Shoke_Damage.label>
+  <!-- EN: {0} has died in an explosion. -->
+  <WULA_Combat_Excavator_Shoke_Damage.deathMessage>TODO</WULA_Combat_Excavator_Shoke_Damage.deathMessage>
+  
+  <!-- EN: 高能震波 -->
+  <WULA_Combat_Excavator_Shoke_S_Damage.label>TODO</WULA_Combat_Excavator_Shoke_S_Damage.label>
+  <!-- EN: {0} has died in an explosion. -->
+  <WULA_Combat_Excavator_Shoke_S_Damage.deathMessage>TODO</WULA_Combat_Excavator_Shoke_S_Damage.deathMessage>
+  
+  <!-- EN: 暗物质射流 -->
+  <Wula_Dark_Matter_Beam.label>TODO</Wula_Dark_Matter_Beam.label>
+  <!-- EN: {0} 被暗物质射流穿透而死。 -->
+  <Wula_Dark_Matter_Beam.deathMessage>TODO</Wula_Dark_Matter_Beam.deathMessage>
+  
+  <!-- EN: 暗物质射流 -->
+  <Wula_Dark_Matter_Beam_Huge.label>TODO</Wula_Dark_Matter_Beam_Huge.label>
+  <!-- EN: {0} 被暗物质射流穿透而死。 -->
+  <Wula_Dark_Matter_Beam_Huge.deathMessage>TODO</Wula_Dark_Matter_Beam_Huge.deathMessage>
+  
+  <!-- EN: 暗物质湮灭 -->
+  <Wula_Dark_Matter_Flame.label>TODO</Wula_Dark_Matter_Flame.label>
+  <!-- EN: {0} 被暗物质湮灭带来的高能射流蒸发。 -->
+  <Wula_Dark_Matter_Flame.deathMessage>TODO</Wula_Dark_Matter_Flame.deathMessage>
+  
+  <!-- EN: 暗物质湮灭爆炸 -->
+  <WULA_DarkMatterBomb.label>TODO</WULA_DarkMatterBomb.label>
+  <!-- EN: {0} has died in an explosion. -->
+  <WULA_DarkMatterBomb.deathMessage>TODO</WULA_DarkMatterBomb.deathMessage>
+  
+  <!-- EN: 熔岩爆炸 -->
+  <WULA_Disturber_Turret_Bomb.label>TODO</WULA_Disturber_Turret_Bomb.label>
+  <!-- EN: {0} has died in an explosion. -->
+  <WULA_Disturber_Turret_Bomb.deathMessage>TODO</WULA_Disturber_Turret_Bomb.deathMessage>
+  
+  <!-- EN: 子弹 -->
+  <WULA_Firepower_Minigun_Strafe_Damage.label>TODO</WULA_Firepower_Minigun_Strafe_Damage.label>
+  <!-- EN: {0} has been shot to death. -->
+  <WULA_Firepower_Minigun_Strafe_Damage.deathMessage>TODO</WULA_Firepower_Minigun_Strafe_Damage.deathMessage>
+  
+  <!-- EN: 大型爆炸 -->
+  <WULA_GiantBomb.label>TODO</WULA_GiantBomb.label>
+  <!-- EN: {0} has died in an explosion. -->
+  <WULA_GiantBomb.deathMessage>TODO</WULA_GiantBomb.deathMessage>
+  
+  <!-- EN: EMP -->
+  <WULA_Mech_Drop.label>TODO</WULA_Mech_Drop.label>
+  <!-- EN: {0} has been EMPed to death. -->
+  <WULA_Mech_Drop.deathMessage>TODO</WULA_Mech_Drop.deathMessage>
+  
+  <!-- EN: EMP -->
+  <WULA_Mech_EMP_Drop.label>TODO</WULA_Mech_EMP_Drop.label>
+  <!-- EN: {0} has been EMPed to death. -->
+  <WULA_Mech_EMP_Drop.deathMessage>TODO</WULA_Mech_EMP_Drop.deathMessage>
+  
+  <!-- EN: 灵能爆燃 -->
+  <Wula_Psi_Bomb.label>TODO</Wula_Psi_Bomb.label>
+  <!-- EN: {0} 被灵能灼烧而死。 -->
+  <Wula_Psi_Bomb.deathMessage>TODO</Wula_Psi_Bomb.deathMessage>
+  
+  <!-- EN: 灵能灼烧 -->
+  <Wula_Psi_Damage.label>TODO</Wula_Psi_Damage.label>
+  <!-- EN: {0} 被灵能灼烧而死。 -->
+  <Wula_Psi_Damage.deathMessage>TODO</Wula_Psi_Damage.deathMessage>
+  
+  <!-- EN: bullet -->
+  <WULA_Shuttle_Autocannon_Bullet.label>TODO</WULA_Shuttle_Autocannon_Bullet.label>
+  <!-- EN: {0} has been shot to death. -->
+  <WULA_Shuttle_Autocannon_Bullet.deathMessage>TODO</WULA_Shuttle_Autocannon_Bullet.deathMessage>
+  
+  <!-- EN: 高能震波 -->
+  <WULA_Sow_Excavator_Shoke_Damage.label>TODO</WULA_Sow_Excavator_Shoke_Damage.label>
+  <!-- EN: {0} has died in an explosion. -->
+  <WULA_Sow_Excavator_Shoke_Damage.deathMessage>TODO</WULA_Sow_Excavator_Shoke_Damage.deathMessage>
+  
+</LanguageData>

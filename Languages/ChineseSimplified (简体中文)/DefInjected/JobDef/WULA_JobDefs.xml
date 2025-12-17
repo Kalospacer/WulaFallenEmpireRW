@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: Doing something. -->
+  <WULA_CastAbilityOnThingMelee_WithWeapon.reportString>TODO</WULA_CastAbilityOnThingMelee_WithWeapon.reportString>
+  
+  <!-- EN: 正在进入维护舱 -->
+  <WULA_EnterMaintenancePod.reportString>TODO</WULA_EnterMaintenancePod.reportString>
+  
+  <!-- EN: 正在喂食能量核心 -->
+  <WULA_FeedWulaPatient.reportString>TODO</WULA_FeedWulaPatient.reportString>
+  
+  <!-- EN: 正在将TargetA抬到TargetB -->
+  <WULA_HaulToMaintenancePod.reportString>TODO</WULA_HaulToMaintenancePod.reportString>
+  
+  <!-- EN: 正在摄取能量 -->
+  <WULA_IngestWulaEnergy.reportString>TODO</WULA_IngestWulaEnergy.reportString>
+  
+  <!-- EN: 正在考察TargetA. -->
+  <WULA_InspectBuilding.reportString>TODO</WULA_InspectBuilding.reportString>
+  
+  <!-- EN: 正在准备进入猫猫地堡。 -->
+  <WULA_RecycleMechanoid.reportString>TODO</WULA_RecycleMechanoid.reportString>
+  
+</LanguageData>

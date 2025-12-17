@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 为乌拉囚犯运送能量 -->
+  <DeliverEnergyToWulaPrisoner.label>TODO</DeliverEnergyToWulaPrisoner.label>
+  <!-- EN: 运送能量于 -->
+  <DeliverEnergyToWulaPrisoner.gerund>TODO</DeliverEnergyToWulaPrisoner.gerund>
+  <!-- EN: 运送能量 -->
+  <DeliverEnergyToWulaPrisoner.verb>TODO</DeliverEnergyToWulaPrisoner.verb>
+  
+  <!-- EN: 为机械乌拉补充能量 -->
+  <FeedWulaPatient.label>TODO</FeedWulaPatient.label>
+  <!-- EN: 补充能量于 -->
+  <FeedWulaPatient.gerund>TODO</FeedWulaPatient.gerund>
+  <!-- EN: 补充能量 -->
+  <FeedWulaPatient.verb>TODO</FeedWulaPatient.verb>
+  
+  <!-- EN: 为乌拉囚犯补充能量 -->
+  <FeedWulaPrisoner.label>TODO</FeedWulaPrisoner.label>
+  <!-- EN: 补充能量于 -->
+  <FeedWulaPrisoner.gerund>TODO</FeedWulaPrisoner.gerund>
+  <!-- EN: 补充能量 -->
+  <FeedWulaPrisoner.verb>TODO</FeedWulaPrisoner.verb>
+  
+  <!-- EN: 钻探 -->
+  <WULA_Cat_Drill.label>TODO</WULA_Cat_Drill.label>
+  <!-- EN: 钻探中 -->
+  <WULA_Cat_Drill.gerund>TODO</WULA_Cat_Drill.gerund>
+  <!-- EN: 钻探 -->
+  <WULA_Cat_Drill.verb>TODO</WULA_Cat_Drill.verb>
+  
+  <!-- EN: 在编织体制造物品 -->
+  <WULA_Cube_ProductorBills.label>TODO</WULA_Cube_ProductorBills.label>
+  <!-- EN: 工作于 -->
+  <WULA_Cube_ProductorBills.gerund>TODO</WULA_Cube_ProductorBills.gerund>
+  <!-- EN: 工作于 -->
+  <WULA_Cube_ProductorBills.verb>TODO</WULA_Cube_ProductorBills.verb>
+  
+  <!-- EN: 接受维护于 -->
+  <WULA_DoMaintenanceWork.gerund>TODO</WULA_DoMaintenanceWork.gerund>
+  <!-- EN: 接受维护于 -->
+  <WULA_DoMaintenanceWork.verb>TODO</WULA_DoMaintenanceWork.verb>
+  
+</LanguageData>

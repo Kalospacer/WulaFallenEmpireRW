@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 未知通讯 -->
+  <Wula_Intro_NewColony_UI_1.label>TODO</Wula_Intro_NewColony_UI_1.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <Wula_Intro_NewColony_UI_1.characterName>TODO</Wula_Intro_NewColony_UI_1.characterName>
+  <!-- EN: 这里是行星封锁机关P.I.A，看起来你们已经成功抵达地表了。根据规划，你们应该是第一批部署在这个星球地表的乌拉帝国合成人——遵照异族接触法则做事，建立本地根据地，如果有必要就呼叫舰队的支援。 -->
+  <Wula_Intro_NewColony_UI_1.descriptions.0>TODO</Wula_Intro_NewColony_UI_1.descriptions.0>
+  <!-- EN: 你是谁？ -->
+  <Wula_Intro_NewColony_UI_1.options.0.label>TODO</Wula_Intro_NewColony_UI_1.options.0.label>
+  <!-- EN: 我们需要做什么？（发展流程） -->
+  <Wula_Intro_NewColony_UI_1.options.1.label>TODO</Wula_Intro_NewColony_UI_1.options.1.label>
+  <!-- EN: 收到，帝国荣光永存 -->
+  <Wula_Intro_NewColony_UI_1.options.2.label>TODO</Wula_Intro_NewColony_UI_1.options.2.label>
+  
+  <!-- EN: 未知通讯 -->
+  <Wula_Intro_NewColony_UI_10.label>TODO</Wula_Intro_NewColony_UI_10.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <Wula_Intro_NewColony_UI_10.characterName>TODO</Wula_Intro_NewColony_UI_10.characterName>
+  <!-- EN: 还有什么事吗？ -->
+  <Wula_Intro_NewColony_UI_10.descriptions.0>TODO</Wula_Intro_NewColony_UI_10.descriptions.0>
+  <!-- EN: 你是谁？ -->
+  <Wula_Intro_NewColony_UI_10.options.0.label>TODO</Wula_Intro_NewColony_UI_10.options.0.label>
+  <!-- EN: 我们需要做什么？（发展流程） -->
+  <Wula_Intro_NewColony_UI_10.options.1.label>TODO</Wula_Intro_NewColony_UI_10.options.1.label>
+  <!-- EN: 收到，帝国荣光永存 -->
+  <Wula_Intro_NewColony_UI_10.options.2.label>TODO</Wula_Intro_NewColony_UI_10.options.2.label>
+  
+  <!-- EN: 未知通讯 -->
+  <Wula_Intro_NewColony_UI_11.label>TODO</Wula_Intro_NewColony_UI_11.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <Wula_Intro_NewColony_UI_11.characterName>TODO</Wula_Intro_NewColony_UI_11.characterName>
+  <!-- EN: 帝国荣光永存。\n\n快去吧，有一整个世界在等着我们征服。 -->
+  <Wula_Intro_NewColony_UI_11.descriptions.0>TODO</Wula_Intro_NewColony_UI_11.descriptions.0>
+  <!-- EN: （结束通讯） -->
+  <Wula_Intro_NewColony_UI_11.options.0.label>TODO</Wula_Intro_NewColony_UI_11.options.0.label>
+  
+  <!-- EN: 未知通讯 -->
+  <Wula_Intro_NewColony_UI_2.label>TODO</Wula_Intro_NewColony_UI_2.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <Wula_Intro_NewColony_UI_2.characterName>TODO</Wula_Intro_NewColony_UI_2.characterName>
+  <!-- EN: 第一次参加开拓任务？\n\n好吧，你们可以叫我「军团」，我是负责管理乌拉帝国行星封锁机关舰队的AI，根据你们的编制来说，我是你们的顶头上司。在登陆地表前，机械行会没有给你们设置正确的记忆扇区吗？ -->
+  <Wula_Intro_NewColony_UI_2.descriptions.0>TODO</Wula_Intro_NewColony_UI_2.descriptions.0>
+  <!-- EN: 行星封锁机关？ -->
+  <Wula_Intro_NewColony_UI_2.options.0.label>TODO</Wula_Intro_NewColony_UI_2.options.0.label>
+  <!-- EN: 机械行会？ -->
+  <Wula_Intro_NewColony_UI_2.options.1.label>TODO</Wula_Intro_NewColony_UI_2.options.1.label>
+  <!-- EN: 我们没有相关问题了··· -->
+  <Wula_Intro_NewColony_UI_2.options.2.label>TODO</Wula_Intro_NewColony_UI_2.options.2.label>
+  
+  <!-- EN: 未知通讯 -->
+  <Wula_Intro_NewColony_UI_3.label>TODO</Wula_Intro_NewColony_UI_3.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <Wula_Intro_NewColony_UI_3.characterName>TODO</Wula_Intro_NewColony_UI_3.characterName>
+  <!-- EN: 行星封锁机关是隶属于乌拉帝国开发署的暴力机关，控制着开发署所有的舰队，负责在疆域开拓中的侵略性接触。\n\n通常来说，类似边缘世界这样的星球，我们会直接封锁轨道，轰炸所有现存聚居地然后再投放殖民者，不过看起来这个世界还有救，所以你们作为第一批先遣队投放到星球上，和其他异族接触试探一下，明白了吗？ -->
+  <Wula_Intro_NewColony_UI_3.descriptions.0>TODO</Wula_Intro_NewColony_UI_3.descriptions.0>
+  <!-- EN: 我们还有别的问题··· -->
+  <Wula_Intro_NewColony_UI_3.options.0.label>TODO</Wula_Intro_NewColony_UI_3.options.0.label>
+  <!-- EN: 我们没有相关问题了··· -->
+  <Wula_Intro_NewColony_UI_3.options.1.label>TODO</Wula_Intro_NewColony_UI_3.options.1.label>
+  
+  <!-- EN: 未知通讯 -->
+  <Wula_Intro_NewColony_UI_4.label>TODO</Wula_Intro_NewColony_UI_4.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <Wula_Intro_NewColony_UI_4.characterName>TODO</Wula_Intro_NewColony_UI_4.characterName>
+  <!-- EN: 乌拉帝国机械行会负责所有的合成人的生产、审查、投放和初始化，你们在部署到舰队上时，应该会有一个机械师帮你们设置好预载了记忆的扇区，但是很显然那家伙失职了，才让你们在这里拿着一堆你们早该知道的事情来烦我。 -->
+  <Wula_Intro_NewColony_UI_4.descriptions.0>TODO</Wula_Intro_NewColony_UI_4.descriptions.0>
+  <!-- EN: 我们还有别的问题··· -->
+  <Wula_Intro_NewColony_UI_4.options.0.label>TODO</Wula_Intro_NewColony_UI_4.options.0.label>
+  <!-- EN: 我们没有相关问题了··· -->
+  <Wula_Intro_NewColony_UI_4.options.1.label>TODO</Wula_Intro_NewColony_UI_4.options.1.label>
+  
+  <!-- EN: 未知通讯 -->
+  <Wula_Intro_NewColony_UI_5.label>TODO</Wula_Intro_NewColony_UI_5.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <Wula_Intro_NewColony_UI_5.characterName>TODO</Wula_Intro_NewColony_UI_5.characterName>
+  <!-- EN: 你们的意思是，你们连不知道要干什么就被丢下来了？\n\n哎，你们要做的就是施展你们的百般武艺活下来，建立一个根据地。根据帝国税收法，你们每个一段时间需要上交税款——作为帝国殖民地，舰队和机群将成为你们的后盾。\n\n如果你们觉得你们准备好了，可以申请权限进阶审查，我会部署一个带卫队的分体去你们的殖民地考察一段时间，然后根据评级决定是否给你们晋升。晋升后的殖民地会获得更多的许可，允许调用更加强大的武备和支援。 -->
+  <Wula_Intro_NewColony_UI_5.descriptions.0>TODO</Wula_Intro_NewColony_UI_5.descriptions.0>
+  <!-- EN: 我们还有别的问题··· -->
+  <Wula_Intro_NewColony_UI_5.options.0.label>TODO</Wula_Intro_NewColony_UI_5.options.0.label>
+  <!-- EN: 我们没有相关问题了··· -->
+  <Wula_Intro_NewColony_UI_5.options.1.label>TODO</Wula_Intro_NewColony_UI_5.options.1.label>
+  
+</LanguageData>

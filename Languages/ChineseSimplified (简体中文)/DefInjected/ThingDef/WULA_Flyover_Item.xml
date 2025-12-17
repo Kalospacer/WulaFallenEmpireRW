@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 蜂群光束 -->
+  <Bullet_Beam_Fighter_Drone.label>TODO</Bullet_Beam_Fighter_Drone.label>
+  
+  <!-- EN: 轰炸机炸弹 -->
+  <Bullet_WULA_Bomber_A_Bomb.label>TODO</Bullet_WULA_Bomber_A_Bomb.label>
+  
+  <!-- EN: 暗物质导弹 -->
+  <Bullet_WULA_Bomber_C_DrakMatterBomb.label>TODO</Bullet_WULA_Bomber_C_DrakMatterBomb.label>
+  
+  <!-- EN: 攻击机对地导弹 -->
+  <Bullet_WULA_Striker_A_Missile.label>TODO</Bullet_WULA_Striker_A_Missile.label>
+  
+  <!-- EN: 攻击机机炮子弹 -->
+  <Bullet_WULA_Striker_B.label>TODO</Bullet_WULA_Striker_B.label>
+  
+  <!-- EN: Mote -->
+  <Mote_Beam_Fighter_Drone.label>TODO</Mote_Beam_Fighter_Drone.label>
+  
+  <!-- EN: 乌拉帝国航空舰 -->
+  <WULA_AircraftCarrier.label>TODO</WULA_AircraftCarrier.label>
+  
+  <!-- EN: 乌拉帝国巡洋舰 -->
+  <WULA_BattleShip.label>TODO</WULA_BattleShip.label>
+  
+  <!-- EN: 乌拉帝国巡洋舰（伴飞） -->
+  <WULA_BattleShip_Escort.label>TODO</WULA_BattleShip_Escort.label>
+  
+  <!-- EN: 乌拉帝国巡洋舰（炮击） -->
+  <WULA_BattleShip_Planet_Interdiction.label>TODO</WULA_BattleShip_Planet_Interdiction.label>
+  
+  <!-- EN: 乌拉帝国轰炸机 -->
+  <WULA_Bomber_A.label>TODO</WULA_Bomber_A.label>
+  
+  <!-- EN: 乌拉帝国轰炸机 -->
+  <WULA_Bomber_B.label>TODO</WULA_Bomber_B.label>
+  
+  <!-- EN: 乌拉帝国轰炸机 -->
+  <WULA_Bomber_C.label>TODO</WULA_Bomber_C.label>
+  
+  <!-- EN: 乌拉帝国轰炸机 -->
+  <WULA_Bomber_Escort.label>TODO</WULA_Bomber_Escort.label>
+  
+  <!-- EN: Mote -->
+  <WULA_DarkMatterBomb_FlashStrong.label>TODO</WULA_DarkMatterBomb_FlashStrong.label>
+  
+  <!-- EN: 乌拉帝国光矛 -->
+  <WULA_EnergyLance_Base.label>TODO</WULA_EnergyLance_Base.label>
+  <!-- EN: 一束从乌拉帝国战舰上发射的纯净能量光束，将点燃路径上的一切活物。 -->
+  <WULA_EnergyLance_Base.description>TODO</WULA_EnergyLance_Base.description>
+  
+  <!-- EN: 乌拉帝国光矛 -->
+  <WULA_EnergyLance_Surveillance.label>TODO</WULA_EnergyLance_Surveillance.label>
+  <!-- EN: 一束从乌拉帝国战舰上发射的纯净能量光束，将点燃路径上的一切活物。 -->
+  <WULA_EnergyLance_Surveillance.description>TODO</WULA_EnergyLance_Surveillance.description>
+  
+  <!-- EN: 乌拉帝国蜂群无人机 -->
+  <WULA_Fighter_Drone_A.label>TODO</WULA_Fighter_Drone_A.label>
+  
+  <!-- EN: 乌拉帝国蜂群无人机 -->
+  <WULA_Fighter_Drone_B.label>TODO</WULA_Fighter_Drone_B.label>
+  
+  <!-- EN: 轻型副炮炮弹 -->
+  <WULA_Firepower_Cannon_Salvo_Skyfaller.label>TODO</WULA_Firepower_Cannon_Salvo_Skyfaller.label>
+  
+  <!-- EN: 舰炮监视信标 -->
+  <WULA_Firepower_Cannon_Surveillance_Beacon.label>TODO</WULA_Firepower_Cannon_Surveillance_Beacon.label>
+  <!-- EN: 一枚标定监视区的轰炸信标，进入此处的敌对势力都会被乌拉帝国舰队的舰炮狠狠打击。 -->
+  <WULA_Firepower_Cannon_Surveillance_Beacon.description>TODO</WULA_Firepower_Cannon_Surveillance_Beacon.description>
+  
+  <!-- EN: 舰炮监视信标 -->
+  <WULA_Firepower_Cannon_Surveillance_Skyfaller.label>TODO</WULA_Firepower_Cannon_Surveillance_Skyfaller.label>
+  
+  <!-- EN: 光矛监视信标 -->
+  <WULA_Firepower_EnergyLance_Surveillance_Beacon.label>TODO</WULA_Firepower_EnergyLance_Surveillance_Beacon.label>
+  <!-- EN: 一枚标定监视区的轰炸信标，进入此处的敌对势力都会被乌拉帝国舰队的舰炮狠狠打击。 -->
+  <WULA_Firepower_EnergyLance_Surveillance_Beacon.description>TODO</WULA_Firepower_EnergyLance_Surveillance_Beacon.description>
+  
+  <!-- EN: 光矛监视信标 -->
+  <WULA_Firepower_EnergyLance_Surveillance_Skyfaller.label>TODO</WULA_Firepower_EnergyLance_Surveillance_Skyfaller.label>
+  
+  <!-- EN: 链炮子弹 -->
+  <WULA_Firepower_Minigun_Strafe_Skyfaller.label>TODO</WULA_Firepower_Minigun_Strafe_Skyfaller.label>
+  
+  <!-- EN: 主炮炮弹 -->
+  <WULA_Firepower_Primary_Cannon_EMP_Skyfaller.label>TODO</WULA_Firepower_Primary_Cannon_EMP_Skyfaller.label>
+  
+  <!-- EN: 主炮EMP监视信标 -->
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon.label>TODO</WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon.label>
+  <!-- EN: 一枚标定监视区的轰炸信标，进入此处的敌对势力都会被乌拉帝国舰队的舰炮狠狠打击。 -->
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon.description>TODO</WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon.description>
+  
+  <!-- EN: 主炮EMP监视信标 -->
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance_Skyfaller.label>TODO</WULA_Firepower_Primary_Cannon_EMP_Surveillance_Skyfaller.label>
+  
+  <!-- EN: 主炮炮弹 -->
+  <WULA_Firepower_Primary_Cannon_Strafe_Skyfaller.label>TODO</WULA_Firepower_Primary_Cannon_Strafe_Skyfaller.label>
+  
+  <!-- EN: 乌拉帝国母舰 -->
+  <WULA_MotherShip.label>TODO</WULA_MotherShip.label>
+  
+  <!-- EN: 乌拉帝国母舰（炮击） -->
+  <WULA_MotherShip_Planet_Interdiction.label>TODO</WULA_MotherShip_Planet_Interdiction.label>
+  
+  <!-- EN: 乌拉帝国攻击机 -->
+  <WULA_Striker_A.label>TODO</WULA_Striker_A.label>
+  
+  <!-- EN: 乌拉帝国攻击机 -->
+  <WULA_Striker_B.label>TODO</WULA_Striker_B.label>
+  
+  <!-- EN: 乌拉帝国攻击机 -->
+  <WULA_Striker_C.label>TODO</WULA_Striker_C.label>
+  
+  <!-- EN: 乌拉帝国攻击机（伴飞） -->
+  <WULA_Striker_Escort.label>TODO</WULA_Striker_Escort.label>
+  
+</LanguageData>
