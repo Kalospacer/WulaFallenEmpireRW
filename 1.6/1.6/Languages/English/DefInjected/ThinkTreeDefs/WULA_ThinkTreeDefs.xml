@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_AutonomousMech.thinkRoot.subNodes.2.subNodes.0.subNodes.0.subNodes.0.subNodes.0.crawlingReportStringOverride>Crawling to safety.</WULA_AutonomousMech.thinkRoot.subNodes.2.subNodes.0.subNodes.0.subNodes.0.subNodes.0.crawlingReportStringOverride>
+  <WULA_AutonomousMech.thinkRoot.subNodes.2.subNodes.0.subNodes.0.subNodes.0.subNodes.1.subNodes.0.crawlingReportStringOverride>Crawling to bed.</WULA_AutonomousMech.thinkRoot.subNodes.2.subNodes.0.subNodes.0.subNodes.0.subNodes.1.subNodes.0.crawlingReportStringOverride>
+  <WULA_AutonomousMech.thinkRoot.subNodes.8.subNodes.0.subNodes.2.subNodes.4.subNodes.1.subNodes.0.reportStringOverride>Patrolling.</WULA_AutonomousMech.thinkRoot.subNodes.8.subNodes.0.subNodes.2.subNodes.4.subNodes.1.subNodes.0.reportStringOverride>
+  <WULA_AutonomousMech.thinkRoot.subNodes.8.subNodes.0.subNodes.3.subNodes.1.subNodes.0.reportStringOverride>Charging complete.</WULA_AutonomousMech.thinkRoot.subNodes.8.subNodes.0.subNodes.3.subNodes.1.subNodes.0.reportStringOverride>
+  <WULA_AutonomousMech.thinkRoot.subNodes.8.subNodes.0.subNodes.3.subNodes.3.reportStringOverride>Waiting for an available charging station.</WULA_AutonomousMech.thinkRoot.subNodes.8.subNodes.0.subNodes.3.subNodes.3.reportStringOverride>
+  <WULA_Humanlike.thinkRoot.subNodes.2.subNodes.0.subNodes.0.subNodes.0.subNodes.0.crawlingReportStringOverride>Crawling to safety.</WULA_Humanlike.thinkRoot.subNodes.2.subNodes.0.subNodes.0.subNodes.0.subNodes.0.crawlingReportStringOverride>
+  <WULA_Humanlike.thinkRoot.subNodes.2.subNodes.0.subNodes.0.subNodes.0.subNodes.1.subNodes.0.crawlingReportStringOverride>Crawling to bed.</WULA_Humanlike.thinkRoot.subNodes.2.subNodes.0.subNodes.0.subNodes.0.subNodes.1.subNodes.0.crawlingReportStringOverride>
+</LanguageData>

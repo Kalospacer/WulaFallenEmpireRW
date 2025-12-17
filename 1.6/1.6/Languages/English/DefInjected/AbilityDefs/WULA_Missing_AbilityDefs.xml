@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_GiveSwitchHediff.label>Stop production</WULA_GiveSwitchHediff.label>
+  <WULA_GiveSwitchHediff.description>Stop automatic mech production.</WULA_GiveSwitchHediff.description>
+
+  <WULA_RemoveSwitchHediff.label>Resume production</WULA_RemoveSwitchHediff.label>
+  <WULA_RemoveSwitchHediff.description>Restart automatic mech production.</WULA_RemoveSwitchHediff.description>
+
+  <WULA_MW_Breaker_Bar_Ability.label>Linebreaker smash</WULA_MW_Breaker_Bar_Ability.label>
+  <WULA_MW_Breaker_Bar_Ability.description>Charge the PMb-97 \"Wallbreaker\" hammerhead to maximum pressure, then deliver an unavoidable blow to break through even the tightest wall of bodies. Even if the target survives, they will be left reeling and knocked back a fair distance.</WULA_MW_Breaker_Bar_Ability.description>
+
+  <WULA_MW_Cheat_Weapon_Ability.label>Banishment Gate</WULA_MW_Cheat_Weapon_Ability.label>
+  <WULA_MW_Cheat_Weapon_Ability.description>Immediately banish the target—ignoring all protections—and erase them from the save forever.</WULA_MW_Cheat_Weapon_Ability.description>
+
+  <WULA_MW_Twohanded_ChainBroadsword_Ability.label>Short-range jump</WULA_MW_Twohanded_ChainBroadsword_Ability.label>
+  <WULA_MW_Twohanded_ChainBroadsword_Ability.description>Use the CBs-25 \"Hellfang\" blade's phase engine to blink to a new position. This engine can only teleport small targets; if the wielder's body size is greater than 3, teleportation cannot be initiated.</WULA_MW_Twohanded_ChainBroadsword_Ability.description>
+
+  <WULA_MW_Twohanded_ChainBroadsword_Second_Ability.label>Spatial deletion</WULA_MW_Twohanded_ChainBroadsword_Second_Ability.label>
+  <WULA_MW_Twohanded_ChainBroadsword_Second_Ability.description>Use the CBs-25 \"Hellfang\" blade's phase engine to pull the target closer to the caster. This engine can only teleport small targets; targets with a body size greater than 3 cannot be pulled.</WULA_MW_Twohanded_ChainBroadsword_Second_Ability.description>
+
+  <WULA_RW_Auto_GL_Smoke_Ability.label>Launch smoke grenade</WULA_RW_Auto_GL_Smoke_Ability.label>
+  <WULA_RW_Auto_GL_Smoke_Ability.description>Temporarily load and fire a smoke grenade with the SEl-78 \"Conglomerate\" to obscure turret aim and reduce friendly fire from stray shots.</WULA_RW_Auto_GL_Smoke_Ability.description>
+
+  <WULA_RW_Base_AR_Ability.label>Launch flashbang</WULA_RW_Base_AR_Ability.label>
+  <WULA_RW_Base_AR_Ability.description>Fire a flashbang from the underbarrel launcher on the DLa-1 \"Shale\". After a short delay on the ground, it detonates and stuns all nearby biologicals and mechanoids.</WULA_RW_Base_AR_Ability.description>
+
+  <WULA_RW_Base_Loitering_Munition_Ability.label>Activate guidance system</WULA_RW_Base_Loitering_Munition_Ability.label>
+  <WULA_RW_Base_Loitering_Munition_Ability.description>Activate the WLl-35 \"Zeolite\" self-guidance system so the next missile doesn't require a long guiding process.</WULA_RW_Base_Loitering_Munition_Ability.description>
+
+  <WULA_RW_EMP_RF_EMP_Ability.label>Launch EMP grenade</WULA_RW_EMP_RF_EMP_Ability.label>
+  <WULA_RW_EMP_RF_EMP_Ability.description>Fire an EMP grenade from the underbarrel launcher on the FLm-78 \"Fluorite\" to break shields and disable mechanoids. This heavy launcher has long range, but needs time to set up before firing.</WULA_RW_EMP_RF_EMP_Ability.description>
+
+  <WULA_RW_Penetrating_Beam_RifleSwitchAbility.label>Armament release / Armament lock</WULA_RW_Penetrating_Beam_RifleSwitchAbility.label>
+  <WULA_RW_Penetrating_Beam_RifleSwitchAbility.description>Adjust the beam-splitting prism setting to switch whether the SLb-15 \"Trident\" enters beam scattering mode.</WULA_RW_Penetrating_Beam_RifleSwitchAbility.description>
+</LanguageData>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_AI_Heavy_Panzer_Body.label>Intelligent war vehicle</WULA_AI_Heavy_Panzer_Body.label>
+  <WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.3.customLabel>First retro-thruster nozzle</WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.3.customLabel>
+  <WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>Second retro-thruster nozzle</WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>
+  <WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>Third retro-thruster nozzle</WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>
+  <WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>Fourth retro-thruster nozzle</WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>
+
+  <WULA_Machine_Body.label>Mechanical Wula</WULA_Machine_Body.label>
+  <WULA_Machine_Body.corePart.parts.1.customLabel>Power furnace</WULA_Machine_Body.corePart.parts.1.customLabel>
+  <WULA_Machine_Body.corePart.parts.2.customLabel>Neck</WULA_Machine_Body.corePart.parts.2.customLabel>
+  <WULA_Machine_Body.corePart.parts.2.parts.Head.parts.left_ear.customLabel>left ear</WULA_Machine_Body.corePart.parts.2.parts.Head.parts.left_ear.customLabel>
+  <WULA_Machine_Body.corePart.parts.2.parts.Head.parts.left_eye.customLabel>left eye</WULA_Machine_Body.corePart.parts.2.parts.Head.parts.left_eye.customLabel>
+  <WULA_Machine_Body.corePart.parts.2.parts.Head.parts.right_ear.customLabel>right ear</WULA_Machine_Body.corePart.parts.2.parts.Head.parts.right_ear.customLabel>
+  <WULA_Machine_Body.corePart.parts.2.parts.Head.parts.right_eye.customLabel>right eye</WULA_Machine_Body.corePart.parts.2.parts.Head.parts.right_eye.customLabel>
+  <WULA_Machine_Body.corePart.parts.3.customLabel>Left shoulder</WULA_Machine_Body.corePart.parts.3.customLabel>
+  <WULA_Machine_Body.corePart.parts.3.parts.0.customLabel>Left arm</WULA_Machine_Body.corePart.parts.3.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.customLabel>Left hand</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.0.customLabel>Left little finger</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.1.customLabel>Left ring finger</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.1.customLabel>
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.2.customLabel>Left middle finger</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.2.customLabel>
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.3.customLabel>Left index finger</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.3.customLabel>
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.4.customLabel>Left thumb</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.4.customLabel>
+  <WULA_Machine_Body.corePart.parts.4.customLabel>Right shoulder</WULA_Machine_Body.corePart.parts.4.customLabel>
+  <WULA_Machine_Body.corePart.parts.4.parts.0.customLabel>Right arm</WULA_Machine_Body.corePart.parts.4.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.customLabel>Right hand</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.0.customLabel>Right little finger</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.1.customLabel>Right ring finger</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.1.customLabel>
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.2.customLabel>Right middle finger</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.2.customLabel>
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.3.customLabel>Right index finger</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.3.customLabel>
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.4.customLabel>Right thumb</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.4.customLabel>
+  <WULA_Machine_Body.corePart.parts.6.customLabel>Left leg</WULA_Machine_Body.corePart.parts.6.customLabel>
+  <WULA_Machine_Body.corePart.parts.6.parts.0.customLabel>Left foot</WULA_Machine_Body.corePart.parts.6.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.0.customLabel>Left little toe</WULA_Machine_Body.corePart.parts.6.parts.0.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.1.customLabel>Left fourth toe</WULA_Machine_Body.corePart.parts.6.parts.0.parts.1.customLabel>
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.2.customLabel>Left third toe</WULA_Machine_Body.corePart.parts.6.parts.0.parts.2.customLabel>
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.3.customLabel>Left second toe</WULA_Machine_Body.corePart.parts.6.parts.0.parts.3.customLabel>
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.4.customLabel>Left big toe</WULA_Machine_Body.corePart.parts.6.parts.0.parts.4.customLabel>
+  <WULA_Machine_Body.corePart.parts.7.customLabel>Right leg</WULA_Machine_Body.corePart.parts.7.customLabel>
+  <WULA_Machine_Body.corePart.parts.7.parts.0.customLabel>Right foot</WULA_Machine_Body.corePart.parts.7.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.0.customLabel>Right little toe</WULA_Machine_Body.corePart.parts.7.parts.0.parts.0.customLabel>
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.1.customLabel>Right fourth toe</WULA_Machine_Body.corePart.parts.7.parts.0.parts.1.customLabel>
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.2.customLabel>Right third toe</WULA_Machine_Body.corePart.parts.7.parts.0.parts.2.customLabel>
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.3.customLabel>Right second toe</WULA_Machine_Body.corePart.parts.7.parts.0.parts.3.customLabel>
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.4.customLabel>Right big toe</WULA_Machine_Body.corePart.parts.7.parts.0.parts.4.customLabel>
+
+  <WULA_Mech_Mobile_Factory_Body.label>Landship</WULA_Mech_Mobile_Factory_Body.label>
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>First retro-thruster nozzle</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>Second retro-thruster nozzle</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>Third retro-thruster nozzle</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.7.customLabel>Fourth retro-thruster nozzle</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.7.customLabel>
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.8.customLabel>Fifth retro-thruster nozzle</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.8.customLabel>
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.9.customLabel>Sixth retro-thruster nozzle</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.9.customLabel>
+
+  <WULA_Mech_Mobile_Shield_Body.label>Reflective shield</WULA_Mech_Mobile_Shield_Body.label>
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>First mechanical foot</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>Second mechanical foot</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>Third mechanical foot</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.7.customLabel>Fourth mechanical foot</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.7.customLabel>
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.8.customLabel>Fifth mechanical foot</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.8.customLabel>
+</LanguageData>

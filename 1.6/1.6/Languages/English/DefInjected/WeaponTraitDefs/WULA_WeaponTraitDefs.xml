@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_DamagePsychicScaling.label>Psychic amplification</WULA_DamagePsychicScaling.label>
+  <WULA_DamagePsychicScaling.description>This weapon's damage scales with the wielder's psychic sensitivity.</WULA_DamagePsychicScaling.description>
+
+  <WULA_ExtraPsychicSkill.label>Extra psychic ability</WULA_ExtraPsychicSkill.label>
+  <WULA_ExtraPsychicSkill.description>This weapon comes with an additional psychic ability.</WULA_ExtraPsychicSkill.description>
+
+  <WULA_Melee_Cleave.label>Cleave damage</WULA_Melee_Cleave.label>
+  <WULA_Melee_Cleave.description>This weapon's melee attacks damage not only the target, but also others in a cone behind them.</WULA_Melee_Cleave.description>
+
+  <WULA_MissileLauncher.label>Wula Empire missiles</WULA_MissileLauncher.label>
+  <WULA_MissileLauncher.description>This weapon's projectiles track enemies. If no clear target is available, they spread out before impact to form a bombardment zone.</WULA_MissileLauncher.description>
+
+  <WULA_PsychicIgnoreBlock.label>Ignore obstruction</WULA_PsychicIgnoreBlock.label>
+  <WULA_PsychicIgnoreBlock.description>This weapon's attacks ignore all obstructions—mountains, walls, and shields alike.</WULA_PsychicIgnoreBlock.description>
+</LanguageData>

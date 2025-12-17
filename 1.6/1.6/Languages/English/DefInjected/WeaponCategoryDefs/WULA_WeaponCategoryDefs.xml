@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Missile.label>Missile</WULA_Missile.label>
+  <WULA_Missile.description>A weapon that fires homing projectiles, usually at a relatively low speed.</WULA_Missile.description>
+  <WULA_Psychic.label>Psychic</WULA_Psychic.label>
+  <WULA_Psychic.description>A weapon that interacts with psychic energy.</WULA_Psychic.description>
+  <WULA_SP_Melee_Weaopn.label>Special melee weapons</WULA_SP_Melee_Weaopn.label>
+  <WULA_SP_Melee_Weaopn.description>Melee weapons with special effects.</WULA_SP_Melee_Weaopn.description>
+</LanguageData>

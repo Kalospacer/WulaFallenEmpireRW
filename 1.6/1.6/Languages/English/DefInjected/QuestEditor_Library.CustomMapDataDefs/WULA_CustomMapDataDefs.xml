@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Hostile_Progressive_Outpost.label>Wula Empire Progressive outpost</WULA_Hostile_Progressive_Outpost.label>
+  <WULA_Hostile_Progressive_Outpost.customThings.0.customName>Suspicious Wula Empire Fabricator</WULA_Hostile_Progressive_Outpost.customThings.0.customName>
+  <WULA_Hostile_Progressive_Outpost.customThings.0.customDescription>This Wula Empire Fabricator, originally used for producing materials, is trying to cut into a sturdy safe with its high-energy cutting blade—but the safe won't budge.</WULA_Hostile_Progressive_Outpost.customThings.0.customDescription>
+  <WULA_Hostile_Progressive_Outpost.customThings.0.loots.0.message>Your colonist disabled the Fabricator, and a scalding-hot safe fell out.</WULA_Hostile_Progressive_Outpost.customThings.0.loots.0.message>
+  <Wula_PsiTitan_Boss_Map.label>Area where the Psititan was discovered</Wula_PsiTitan_Boss_Map.label>
+  <WULA_Super_Fortress_Map.label>Giant Wula Empire fortress</WULA_Super_Fortress_Map.label>
+</LanguageData>

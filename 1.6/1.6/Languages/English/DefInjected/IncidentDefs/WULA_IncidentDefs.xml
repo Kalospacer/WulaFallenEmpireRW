@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_GiveQuest_Base_Tex.label>Pay Tithe</WULA_GiveQuest_Base_Tex.label>
+  <WULA_GiveQuest_Colony_Promotion.label>Colony Inspection</WULA_GiveQuest_Colony_Promotion.label>
+  <WULA_GiveQuest_Hostile_PIA_Attack_Quest.label>Fortress Airdrop</WULA_GiveQuest_Hostile_PIA_Attack_Quest.label>
+  <WULA_GiveQuest_Intro_NewColony.label>New Colony Introduction</WULA_GiveQuest_Intro_NewColony.label>
+  <WULA_GiveQuest_Intro_Spy.label>Cover for a Spy</WULA_GiveQuest_Intro_Spy.label>
+  <WULA_GiveQuest_Progressive_Ship_Attack_Quest.label>Progressive Attack</WULA_GiveQuest_Progressive_Ship_Attack_Quest.label>
+  <WULA_GiveQuest_Recycle_PIA_Legion_File.label>Recover Files</WULA_GiveQuest_Recycle_PIA_Legion_File.label>
+</LanguageData>

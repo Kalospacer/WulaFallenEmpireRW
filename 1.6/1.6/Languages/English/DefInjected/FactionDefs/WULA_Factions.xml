@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <!-- WULA_Awakened_Synth Faction -->
-  <WULA_Awakened_Synth.label>Wula Empire Synths</WULA_Awakened_Synth.label>
+  <WULA_Awakened_Synth.label>Wula Empire synths</WULA_Awakened_Synth.label>
   <WULA_Awakened_Synth.description>Wula Empire synths awakened by a mysterious signal.</WULA_Awakened_Synth.description>
-  <WULA_Awakened_Synth.pawnSingular>colonist</WULA_Awakened_Synth.pawnSingular>
-  <WULA_Awakened_Synth.pawnsPlural>colonists</WULA_Awakened_Synth.pawnsPlural>
-  
-  <!-- Wula_PIA_Legion_Faction Faction -->
-  <Wula_PIA_Legion_Faction.label>Wula Empire Planetary Blockade Agency</Wula_PIA_Legion_Faction.label>
-  <Wula_PIA_Legion_Faction.description>The violent arm under the Wula Empire Development Agency, primarily responsible for blockading and displacing indigenous populations on planets that have been occupied but have weak military capabilities. Although they are not a true military force, the fleet and armed forces they possess are sufficient to support a war across star systems.\n\nMost of them live within their massive fleet, with only scattered outpost colonies on the surface. They do not send traders like caravans; they only operate within their own faction and use fleet support for the production and combat of these ground outposts.</Wula_PIA_Legion_Faction.description>
-  <Wula_PIA_Legion_Faction.pawnSingular>Wula Empire Synth</Wula_PIA_Legion_Faction.pawnSingular>
-  <Wula_PIA_Legion_Faction.pawnsPlural>Wula Empire Synths</Wula_PIA_Legion_Faction.pawnsPlural>
-  <Wula_PIA_Legion_Faction.fixedName>Wula Empire Planetary Blockade Agency</Wula_PIA_Legion_Faction.fixedName>
-  <Wula_PIA_Legion_Faction.leaderTitle>Director</Wula_PIA_Legion_Faction.leaderTitle>
-  
-  <!-- Wula_Progressive_Faction Faction -->
+  <WULA_Awakened_Synth.leaderTitle>leader</WULA_Awakened_Synth.leaderTitle>
+  <WULA_Awakened_Synth.messageDefendersAttacking>{0} from {1} are attacking your {2}.</WULA_Awakened_Synth.messageDefendersAttacking>
+
+  <Wula_PIA_Legion_Faction.label>Wula Empire Planetary Interdiction Authority</Wula_PIA_Legion_Faction.label>
+  <Wula_PIA_Legion_Faction.fixedName>Wula Empire Planetary Interdiction Authority</Wula_PIA_Legion_Faction.fixedName>
+  <Wula_PIA_Legion_Faction.description>A violent arm of the Wula Empire Development Agency, tasked primarily with blockading and displacing locals on worlds that are occupied but militarily weak. Though not a true army, the fleets and firepower it possesses are enough to wage war across star systems.\n\nMost of its members live aboard their immense fleets, with only scattered surface outposts. They do not dispatch traders such as caravans; they operate only within their own territory, using their fleets to support the production and fighting of these ground holdings.</Wula_PIA_Legion_Faction.description>
+  <Wula_PIA_Legion_Faction.leaderTitle>Central controller</Wula_PIA_Legion_Faction.leaderTitle>
+  <Wula_PIA_Legion_Faction.messageDefendersAttacking>{0} from {1} are attacking your {2}.</Wula_PIA_Legion_Faction.messageDefendersAttacking>
+  <Wula_PIA_Legion_Faction.pawnSingular>Wula Empire synth</Wula_PIA_Legion_Faction.pawnSingular>
+  <Wula_PIA_Legion_Faction.pawnsPlural>Wula Empire synths</Wula_PIA_Legion_Faction.pawnsPlural>
+
   <Wula_Progressive_Faction.label>Wula Empire Progressives</Wula_Progressive_Faction.label>
-  <Wula_Progressive_Faction.description>Splinter factions within the Wula Empire, rallying under the banner of overthrowing the imperial family, their influence rapidly spreading across Wula Empire star domains. They view aliens and royalists as mortal enemies and will mercilessly attack Wula Empire synths that do not belong to the same faction.\n\nCurrently, their activities in the rimworlds are relatively covert, but it is certain that even without organized fleets, they are still capable of rivaling the Planetary Blockade Agency through their proficiency in guerrilla warfare.</Wula_Progressive_Faction.description>
-  <Wula_Progressive_Faction.pawnSingular>Wula Empire Synth</Wula_Progressive_Faction.pawnSingular>
-  <Wula_Progressive_Faction.pawnsPlural>Wula Empire Synths</Wula_Progressive_Faction.pawnsPlural>
   <Wula_Progressive_Faction.fixedName>Wula Empire Progressives</Wula_Progressive_Faction.fixedName>
+  <Wula_Progressive_Faction.description>Splinter factions within the Wula Empire. Waving the banner of overthrowing the imperial family, their influence spreads rapidly across Wula star domains. They treat aliens and royalists as mortal enemies, and mercilessly attack any Wula Empire synths outside their faction.\n\nTheir activities on the rim remain covert for now, but one thing is certain: even without an organized fleet, their guerrilla warfare makes them capable of standing toe-to-toe with the Planetary Interdiction Authority.</Wula_Progressive_Faction.description>
+  <Wula_Progressive_Faction.leaderTitle>leader</Wula_Progressive_Faction.leaderTitle>
+  <Wula_Progressive_Faction.messageDefendersAttacking>{0} from {1} are attacking your {2}.</Wula_Progressive_Faction.messageDefendersAttacking>
+  <Wula_Progressive_Faction.pawnSingular>Wula Empire synth</Wula_Progressive_Faction.pawnSingular>
+  <Wula_Progressive_Faction.pawnsPlural>Wula Empire synths</Wula_Progressive_Faction.pawnsPlural>
 </LanguageData>

@@ -1,60 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <!-- DamageDef Labels and Death Messages -->
-  <Wula_Dark_Matter_Beam.label>Dark Matter Beam</Wula_Dark_Matter_Beam.label>
-  <Wula_Dark_Matter_Beam.deathMessage>{0} was penetrated and killed by a dark matter beam.</Wula_Dark_Matter_Beam.deathMessage>
-  
-  <Wula_Dark_Matter_Flame.label>Dark Matter Annihilation</Wula_Dark_Matter_Flame.label>
-  <Wula_Dark_Matter_Flame.deathMessage>{0} was vaporized by the high-energy jet from dark matter annihilation.</Wula_Dark_Matter_Flame.deathMessage>
-  
-  <WULA_Firepower_Minigun_Strafe_Damage.label>Bullet</WULA_Firepower_Minigun_Strafe_Damage.label>
-  
-  <WULA_Armour_Piercing_Projectile_1_Damage.label>Armor-Piercing Dart</WULA_Armour_Piercing_Projectile_1_Damage.label>
-  <WULA_Armour_Piercing_Projectile_1_Damage.modExtensions.DamageDef_ExtraDamageExtension.extraLabel>Penetration Damage</WULA_Armour_Piercing_Projectile_1_Damage.modExtensions.DamageDef_ExtraDamageExtension.extraLabel>
-  
-  <WULA_Armour_Piercing_Projectile_2_Damage.label>Armor-Piercing Dart</WULA_Armour_Piercing_Projectile_2_Damage.label>
-  <WULA_Armour_Piercing_Projectile_2_Damage.modExtensions.DamageDef_ExtraDamageExtension.extraLabel>Penetration Damage</WULA_Armour_Piercing_Projectile_2_Damage.modExtensions.DamageDef_ExtraDamageExtension.extraLabel>
-  
-  <WULA_Armour_Piercing_Projectile_3_Damage.label>Armor-Piercing Dart</WULA_Armour_Piercing_Projectile_3_Damage.label>
-  <WULA_Armour_Piercing_Projectile_3_Damage.modExtensions.DamageDef_ExtraDamageExtension.extraLabel>Penetration Damage</WULA_Armour_Piercing_Projectile_3_Damage.modExtensions.DamageDef_ExtraDamageExtension.extraLabel>
-  
-  <WULA_Armour_Piercing_Projectile_4_Damage.label>Armor-Piercing Dart</WULA_Armour_Piercing_Projectile_4_Damage.label>
-  <WULA_Armour_Piercing_Projectile_4_Damage.modExtensions.DamageDef_ExtraDamageExtension.extraLabel>Penetration Damage</WULA_Armour_Piercing_Projectile_4_Damage.modExtensions.DamageDef_ExtraDamageExtension.extraLabel>
-  
-  <Wula_Psi_Damage.label>Psychic Burn</Wula_Psi_Damage.label>
-  <Wula_Psi_Damage.deathMessage>{0} was burned to death by psychic energy.</Wula_Psi_Damage.deathMessage>
-  
-  <Wula_Psi_Bomb.label>Psychic Deflagration</Wula_Psi_Bomb.label>
-  <Wula_Psi_Bomb.deathMessage>{0} was burned to death by psychic energy.</Wula_Psi_Bomb.deathMessage>
-  
-  <Damage_WULA_Plasma.label>Plasma Melting</Damage_WULA_Plasma.label>
-  <Damage_WULA_Plasma.deathMessage>{0} was killed by the molten explosion caused by plasma.</Damage_WULA_Plasma.deathMessage>
-  
-  <Damage_WULA_Plasma_Explosive.label>Molten Explosion</Damage_WULA_Plasma_Explosive.label>
-  <Damage_WULA_Plasma_Explosive.deathMessage>{0} was killed by the molten explosion caused by plasma.</Damage_WULA_Plasma_Explosive.deathMessage>
-  
   <Damage_WULA_Melta.label>Melta</Damage_WULA_Melta.label>
   <Damage_WULA_Melta.deathMessage>{0} was melted by a melta weapon.</Damage_WULA_Melta.deathMessage>
-  
-  <WULA_Shuttle_Autocannon_Bullet.label>Bullet</WULA_Shuttle_Autocannon_Bullet.label>
-  
-  <WULA_Disturber_Turret_Bomb.label>Lava Explosion</WULA_Disturber_Turret_Bomb.label>
-  
-  <WULA_Combat_Excavator_Shoke_Damage.label>High-Energy Shockwave</WULA_Combat_Excavator_Shoke_Damage.label>
-  
-  <WULA_Combat_Excavator_Shoke_S_Damage.label>High-Energy Shockwave</WULA_Combat_Excavator_Shoke_S_Damage.label>
-  
-  <WULA_Sow_Excavator_Shoke_Damage.label>High-Energy Shockwave</WULA_Sow_Excavator_Shoke_Damage.label>
-  
-  <WULA_DarkMatterBomb.label>Dark Matter Annihilation Explosion</WULA_DarkMatterBomb.label>
-  
+
+  <Damage_WULA_Melta_Small.label>Melta</Damage_WULA_Melta_Small.label>
+  <Damage_WULA_Melta_Small.deathMessage>{0} was melted by a melta weapon.</Damage_WULA_Melta_Small.deathMessage>
+
+  <Damage_WULA_Plasma.label>Plasma melt</Damage_WULA_Plasma.label>
+  <Damage_WULA_Plasma.deathMessage>{0} was killed by a plasma-induced melting explosion.</Damage_WULA_Plasma.deathMessage>
+
+  <Damage_WULA_Plasma_Explosive.label>Melting explosion</Damage_WULA_Plasma_Explosive.label>
+  <Damage_WULA_Plasma_Explosive.deathMessage>{0} was killed by a plasma-induced melting explosion.</Damage_WULA_Plasma_Explosive.deathMessage>
+
+  <Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.label>Penetrating beam cannon cutter</Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.label>
+  <Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.deathMessage>{0} has been shot to death.</Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.deathMessage>
+
+  <WULA_Armour_Piercing_Projectile_1_Damage.label>Armor-piercing needle</WULA_Armour_Piercing_Projectile_1_Damage.label>
+  <WULA_Armour_Piercing_Projectile_1_Damage.deathMessage>{0} has been shot to death.</WULA_Armour_Piercing_Projectile_1_Damage.deathMessage>
+  <WULA_Armour_Piercing_Projectile_1_Damage.modExtensions.0.extraLabel>Penetration damage</WULA_Armour_Piercing_Projectile_1_Damage.modExtensions.0.extraLabel>
+
+  <WULA_Armour_Piercing_Projectile_2_Damage.label>Armor-piercing needle</WULA_Armour_Piercing_Projectile_2_Damage.label>
+  <WULA_Armour_Piercing_Projectile_2_Damage.deathMessage>{0} has been shot to death.</WULA_Armour_Piercing_Projectile_2_Damage.deathMessage>
+  <WULA_Armour_Piercing_Projectile_2_Damage.modExtensions.0.extraLabel>Penetration damage</WULA_Armour_Piercing_Projectile_2_Damage.modExtensions.0.extraLabel>
+
+  <WULA_Armour_Piercing_Projectile_3_Damage.label>Armor-piercing needle</WULA_Armour_Piercing_Projectile_3_Damage.label>
+  <WULA_Armour_Piercing_Projectile_3_Damage.deathMessage>{0} has been shot to death.</WULA_Armour_Piercing_Projectile_3_Damage.deathMessage>
+  <WULA_Armour_Piercing_Projectile_3_Damage.modExtensions.0.extraLabel>Penetration damage</WULA_Armour_Piercing_Projectile_3_Damage.modExtensions.0.extraLabel>
+
+  <WULA_Armour_Piercing_Projectile_4_Damage.label>Armor-piercing needle</WULA_Armour_Piercing_Projectile_4_Damage.label>
+  <WULA_Armour_Piercing_Projectile_4_Damage.deathMessage>{0} has been shot to death.</WULA_Armour_Piercing_Projectile_4_Damage.deathMessage>
+  <WULA_Armour_Piercing_Projectile_4_Damage.modExtensions.0.extraLabel>Penetration damage</WULA_Armour_Piercing_Projectile_4_Damage.modExtensions.0.extraLabel>
+
+  <WULA_Combat_Excavator_Shoke_Damage.label>High-energy shockwave</WULA_Combat_Excavator_Shoke_Damage.label>
+  <WULA_Combat_Excavator_Shoke_Damage.deathMessage>{0} has died in an explosion.</WULA_Combat_Excavator_Shoke_Damage.deathMessage>
+
+  <WULA_Combat_Excavator_Shoke_S_Damage.label>High-energy shockwave</WULA_Combat_Excavator_Shoke_S_Damage.label>
+  <WULA_Combat_Excavator_Shoke_S_Damage.deathMessage>{0} has died in an explosion.</WULA_Combat_Excavator_Shoke_S_Damage.deathMessage>
+
+  <WULA_DarkMatterBomb.label>Dark matter annihilation explosion</WULA_DarkMatterBomb.label>
+  <WULA_DarkMatterBomb.deathMessage>{0} has died in an explosion.</WULA_DarkMatterBomb.deathMessage>
+
+  <Wula_Dark_Matter_Beam.label>Dark matter jet</Wula_Dark_Matter_Beam.label>
+  <Wula_Dark_Matter_Beam.deathMessage>{0} was pierced through and killed by a dark matter jet.</Wula_Dark_Matter_Beam.deathMessage>
+
+  <Wula_Dark_Matter_Beam_Huge.label>Dark matter jet</Wula_Dark_Matter_Beam_Huge.label>
+  <Wula_Dark_Matter_Beam_Huge.deathMessage>{0} was pierced through and killed by a dark matter jet.</Wula_Dark_Matter_Beam_Huge.deathMessage>
+
+  <Wula_Dark_Matter_Flame.label>Dark matter annihilation</Wula_Dark_Matter_Flame.label>
+  <Wula_Dark_Matter_Flame.deathMessage>{0} was vaporized by the high-energy jet produced by dark matter annihilation.</Wula_Dark_Matter_Flame.deathMessage>
+
+  <WULA_Disturber_Turret_Bomb.label>Lava explosion</WULA_Disturber_Turret_Bomb.label>
+  <WULA_Disturber_Turret_Bomb.deathMessage>{0} has died in an explosion.</WULA_Disturber_Turret_Bomb.deathMessage>
+
+  <WULA_Firepower_Minigun_Strafe_Damage.label>Bullet</WULA_Firepower_Minigun_Strafe_Damage.label>
+  <WULA_Firepower_Minigun_Strafe_Damage.deathMessage>{0} has been shot to death.</WULA_Firepower_Minigun_Strafe_Damage.deathMessage>
+
+  <WULA_GiantBomb.label>Large explosion</WULA_GiantBomb.label>
+  <WULA_GiantBomb.deathMessage>{0} has died in an explosion.</WULA_GiantBomb.deathMessage>
+
   <WULA_Mech_Drop.label>EMP</WULA_Mech_Drop.label>
   <WULA_Mech_Drop.deathMessage>{0} has been EMPed to death.</WULA_Mech_Drop.deathMessage>
-  
+
   <WULA_Mech_EMP_Drop.label>EMP</WULA_Mech_EMP_Drop.label>
   <WULA_Mech_EMP_Drop.deathMessage>{0} has been EMPed to death.</WULA_Mech_EMP_Drop.deathMessage>
-  
-  <Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.label>Penetrating Cannon Cutting Beam</Damage_WULA_RW_Unlimit_Penetrating_Beam_Cannon.label>
-  
-  <WULA_GiantBomb.label>Large Explosion</WULA_GiantBomb.label>
+
+  <Wula_Psi_Bomb.label>Psychic flashfire</Wula_Psi_Bomb.label>
+  <Wula_Psi_Bomb.deathMessage>{0} was burned to death by psychic energy.</Wula_Psi_Bomb.deathMessage>
+
+  <Wula_Psi_Damage.label>Psychic burn</Wula_Psi_Damage.label>
+  <Wula_Psi_Damage.deathMessage>{0} was burned to death by psychic energy.</Wula_Psi_Damage.deathMessage>
+
+  <WULA_RW_Handle_Cannon_Burn.label>Beam scorch</WULA_RW_Handle_Cannon_Burn.label>
+  <WULA_RW_Handle_Cannon_Burn.deathMessage>{0} has burned to death.</WULA_RW_Handle_Cannon_Burn.deathMessage>
+
+  <WULA_Shuttle_Autocannon_Bullet.label>Bullet</WULA_Shuttle_Autocannon_Bullet.label>
+  <WULA_Shuttle_Autocannon_Bullet.deathMessage>{0} has been shot to death.</WULA_Shuttle_Autocannon_Bullet.deathMessage>
+
+  <WULA_Sow_Excavator_Shoke_Damage.label>High-energy shockwave</WULA_Sow_Excavator_Shoke_Damage.label>
+  <WULA_Sow_Excavator_Shoke_Damage.deathMessage>{0} has died in an explosion.</WULA_Sow_Excavator_Shoke_Damage.deathMessage>
 </LanguageData>

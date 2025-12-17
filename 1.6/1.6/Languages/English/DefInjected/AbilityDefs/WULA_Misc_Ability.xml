@@ -2,9 +2,7 @@
 <LanguageData>
   <!-- Wula_Mech_Mobile_Factory_Produce Ability -->
   <Wula_Mech_Mobile_Factory_Produce.label>Produce War Machines</Wula_Mech_Mobile_Factory_Produce.label>
-  <Wula_Mech_Mobile_Factory_Produce.description>Immediately produce 10 CRm-51 "Solder Ants" to quickly organize a melee front line.</Wula_Mech_Mobile_Factory_Produce.description>
-  <!-- Associated Projectile -->
-  <Wula_Mech_Mobile_Factory_Produce_Proj.label>CRm-51 "Solder Ant"</Wula_Mech_Mobile_Factory_Produce_Proj.label>
+  <Wula_Mech_Mobile_Factory_Produce.description>Immediately produce 10 CRm-51 \"Soldier Ant\" units to quickly form a melee front line.</Wula_Mech_Mobile_Factory_Produce.description>
 
   <!-- WULA_PsiCrusher Ability -->
   <WULA_PsiCrusher.label>Wula Empire Technique: Psychic Scream</WULA_PsiCrusher.label>
@@ -17,6 +15,4 @@
   <!-- WULA_Psi_Black_Hole Ability -->
   <WULA_Psi_Black_Hole.label>Wula Empire Technique: Void Shadow</WULA_Psi_Black_Hole.label>
   <WULA_Psi_Black_Hole.description>Tears open a rift in the psychic realm, summoning a Void Shadow at the target location. The immense psychic energy it leaks continuously damages enemy units and buildings within its range and causes items to deteriorate rapidly. Even psychically deaf targets are not fully immune to this surreal damage—it is even more lethal to units with high psychic sensitivity.</WULA_Psi_Black_Hole.description>
-  <!-- Spawned Entity -->
-  <WULA_Black_Hole_Entity.label>Void Shadow</WULA_Black_Hole_Entity.label>
 </LanguageData>

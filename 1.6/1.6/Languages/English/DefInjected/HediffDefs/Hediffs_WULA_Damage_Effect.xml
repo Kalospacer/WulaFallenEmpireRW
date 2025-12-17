@@ -2,17 +2,9 @@
 <LanguageData>
   <Wula_Psi_Damage_Hediff.label>Psychic Chaos</Wula_Psi_Damage_Hediff.label>
   <Wula_Psi_Damage_Hediff.description>Temporary chaos caused by Wula Empire psychic strikes, which may lead to states like limb discoordination, resulting in loss of combat capability.</Wula_Psi_Damage_Hediff.description>
-  <Wula_Psi_Damage_Hediff.comps.HediffCompProperties_SurgeryInspectable.surgicalDetectionDesc>{PAWN_nameDef} is in a state of confusion due to a Wula Empire psychic strike—it won't cause permanent harm, but requires time to dissipate.</Wula_Psi_Damage_Hediff.comps.HediffCompProperties_SurgeryInspectable.surgicalDetectionDesc>
-  <Wula_Psi_Damage_Hediff.stages.0.label>initial</Wula_Psi_Damage_Hediff.stages.0.label>
-  <Wula_Psi_Damage_Hediff.stages.1.label>initial</Wula_Psi_Damage_Hediff.stages.1.label>
-  <Wula_Psi_Damage_Hediff.stages.2.label>minor</Wula_Psi_Damage_Hediff.stages.2.label>
-  <Wula_Psi_Damage_Hediff.stages.3.label>moderate</Wula_Psi_Damage_Hediff.stages.3.label>
-  <Wula_Psi_Damage_Hediff.stages.4.label>serious</Wula_Psi_Damage_Hediff.stages.4.label>
-  <Wula_Psi_Damage_Hediff.stages.5.label>extreme</Wula_Psi_Damage_Hediff.stages.5.label>
 
   <WULA_Darkmatter_Explosion.label>Dark Matter Burst</WULA_Darkmatter_Explosion.label>
   <WULA_Darkmatter_Explosion.description>You are contaminated with unknown dark matter! It's about to explode! Good luck~</WULA_Darkmatter_Explosion.description>
-  <WULA_Darkmatter_Explosion.stages.0.label>minor</WULA_Darkmatter_Explosion.stages.0.label>
 
   <WULA_Psi_Regeneration.label>Psychic Regeneration</WULA_Psi_Regeneration.label>
   <WULA_Psi_Regeneration.description>Under the influence of a powerful psychic ritual, this creature is regenerating at an astonishingly fast rate. They can heal almost any wound in a short time.</WULA_Psi_Regeneration.description>

@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <WULA_BrokenPersonalityTrait.degreeDatas.0.label>Mechanical Wula</WULA_BrokenPersonalityTrait.degreeDatas.0.label>
-  <WULA_BrokenPersonalityTrait.degreeDatas.0.description>{PAWN_nameDef} is a Mechanical Wula. The Wula's thought patterns differ from normal people; under extreme stress, their simulated personality will completely shatter.</WULA_BrokenPersonalityTrait.degreeDatas.0.description>
+  <WULA_BrokenPersonalityTrait.degreeDatas.0.description>{PAWN_nameDef} is a Mechanical Wula. Wulas think differently from ordinary people; under extreme stress, their simulated personality will completely collapse.</WULA_BrokenPersonalityTrait.degreeDatas.0.description>
 
   <WULA_Trait_WhitePaper.degreeDatas.0.label>Blank Slate</WULA_Trait_WhitePaper.degreeDatas.0.label>
-  <WULA_Trait_WhitePaper.degreeDatas.0.description>[PAWN_nameDef]'s memory banks are mostly still empty. [PAWN_pronoun] can learn quickly to shape [PAWN_possessive]self.</WULA_Trait_WhitePaper.degreeDatas.0.description>
+  <WULA_Trait_WhitePaper.degreeDatas.0.description>[PAWN_nameDef]'s memory banks are mostly empty. [PAWN_pronoun] can learn quickly and shape [PAWN_possessive]self.</WULA_Trait_WhitePaper.degreeDatas.0.description>
 
   <WULA_Trait_Knight.degreeDatas.0.label>Imperial Knight</WULA_Trait_Knight.degreeDatas.0.label>
-  <WULA_Trait_Knight.degreeDatas.0.description>My body belongs to the Emperor's blade,\nMy name is blessed by the Emperor,\nTraveling through the boundless sea of stars,\nI swear by my soul to the Emperor:\n\nAlways treat the Empire's people with a kind heart, always treat the helpless and weak with compassion,\nAlways treat innocent women and children with mercy, always view all living beings with equality;\n\nAlways exterminate the Empire's traitors in the name of valor, always slay the Empire's enemies in the name of a knight,\nAlways raze rebel cities in the name of the Empire, always purge the endless cosmos in the name of the Emperor;\n\nAlways contemplate the Empire's problems with a wise soul, always answer ignorant doubts with a patient soul,\nAlways discern life's truths with a devout soul, always educate billions of citizens with a faithful soul;\n\nAlways explore the Empire's territories with an inquisitive will, always seek unknown knowledge with a questing will,\nAlways pursue the Emperor's footsteps with a steadfast will, always scrutinize the truths of the starry sea with an exploring heart;\n\nI am the Emperor's shield, I am the Emperor's blade.\nIn the name of the Wula Emperor, I am an Imperial Knight!</WULA_Trait_Knight.degreeDatas.0.description>
+  <WULA_Trait_Knight.degreeDatas.0.description>My body belongs beneath the Emperor's sword,\nMy name is blessed by the Emperor,\nI travel through the boundless sea of stars,\nAnd I swear by my soul to the Emperor:\n\nAlways treat the Empire's people with kindness; always show compassion to the helpless and the weak.\nAlways show mercy to innocent women and children; always regard all living beings as equals.\n\nAlways purge the Empire's traitors in the name of valor; always slay the Empire's enemies in the name of a knight.\nAlways raze rebel cities in the name of the Empire; always cleanse the endless cosmos in the name of the Emperor.\n\nAlways contemplate the Empire's troubles with wisdom; always answer ignorant doubts with patience.\nAlways discern life's truths with devotion; always guide billions of citizens with faith.\n\nAlways explore the Empire's domains with the will to discover; always seek the unknown with the will to learn.\nAlways follow the Emperor's footsteps with tenacity; always scrutinize the truths of the star-sea with a seeking heart.\n\nI am the Emperor's shield, and I am the Emperor's sword.\nIn the name of the Wula Emperor, I am an Imperial Knight!</WULA_Trait_Knight.degreeDatas.0.description>
 
   <WULA_Trait_Legal_Officer.degreeDatas.0.label>Legal Officer</WULA_Trait_Legal_Officer.degreeDatas.0.label>
-  <WULA_Trait_Legal_Officer.degreeDatas.0.description>Legal Officers are special grassroots enforcers of the Wula Empire's Knight Orders. They receive excellent marksmanship training and possess the silver tongue needed to suppress and placate slaves.</WULA_Trait_Legal_Officer.degreeDatas.0.description>
+  <WULA_Trait_Legal_Officer.degreeDatas.0.description>Legal officers are frontline enforcers of the Wula Empire's knight orders. They are well trained in shooting, and they have the smooth tongue needed to suppress and placate slaves.</WULA_Trait_Legal_Officer.degreeDatas.0.description>
 
   <WULA_Trait_Sculptor.degreeDatas.0.label>Sculptor</WULA_Trait_Sculptor.degreeDatas.0.label>
-  <WULA_Trait_Sculptor.degreeDatas.0.description>Sculptors are scientists at the Wula Empire's observatories. They view genetic editing technology as the ultimate artistic medium, treating living organisms as raw sculpting materials to create unique "living artworks" with stunning aesthetic value or philosophical significance.</WULA_Trait_Sculptor.degreeDatas.0.description>
+  <WULA_Trait_Sculptor.degreeDatas.0.description>Sculptors are scientists at the Wula Empire Observatory. They treat gene editing as the ultimate artistic medium, and living organisms as raw materials—creating one-of-a-kind \"living artworks\" with striking aesthetic value or philosophical meaning.</WULA_Trait_Sculptor.degreeDatas.0.description>
 
   <WULA_Trait_Diplomat.degreeDatas.0.label>Diplomat</WULA_Trait_Diplomat.degreeDatas.0.label>
-  <WULA_Trait_Diplomat.degreeDatas.0.description>Wula Empire diplomats are known as Heralds. Their courteous etiquette cannot conceal the arrogance and haughtiness inherent to a fallen empire.</WULA_Trait_Diplomat.degreeDatas.0.description>
+  <WULA_Trait_Diplomat.degreeDatas.0.description>Wula Empire diplomats are known as Heralds. Even their polished etiquette can't hide the arrogance and condescension of a fallen empire.</WULA_Trait_Diplomat.degreeDatas.0.description>
 
   <WULA_Trait_Nun.degreeDatas.0.label>Nun</WULA_Trait_Nun.degreeDatas.0.label>
-  <WULA_Trait_Nun.degreeDatas.0.description>Wula Empire nuns form the core of the Wula Empire Cathedral. They have abandoned the pampered life of a fallen empire to personally carry out preaching expeditions, embodying their devout faith.</WULA_Trait_Nun.degreeDatas.0.description>
+  <WULA_Trait_Nun.degreeDatas.0.description>Wula Empire nuns are the backbone of the Grand Cathedral. They cast aside the pampered life of a fallen empire and carry out preaching crusades in person to uphold their devout faith.</WULA_Trait_Nun.degreeDatas.0.description>
 
   <WULA_Trait_Researcher.degreeDatas.0.label>Archivist</WULA_Trait_Researcher.degreeDatas.0.label>
-  <WULA_Trait_Researcher.degreeDatas.0.description>To uncover and preserve the lost knowledge of the Wula Empire, the Archivists of the Wula Empire Library tirelessly navigate the ocean of books.</WULA_Trait_Researcher.degreeDatas.0.description>
+  <WULA_Trait_Researcher.degreeDatas.0.description>To uncover and preserve the Wula Empire's lost knowledge, the archivists of the Imperial Library tirelessly wade through an ocean of books.</WULA_Trait_Researcher.degreeDatas.0.description>
 
-  <WULA_Trait_Connector.degreeDatas.0.label>Dimensional Linker</WULA_Trait_Connector.degreeDatas.0.label>
-  <WULA_Trait_Connector.degreeDatas.0.description>These Wula citizens have maintained a cross-dimensional link with an extraplanar facility for so long that they have gradually become dehumanized.</WULA_Trait_Connector.degreeDatas.0.description>
+  <WULA_Trait_Connector.degreeDatas.0.label>High-dimensional linker</WULA_Trait_Connector.degreeDatas.0.label>
+  <WULA_Trait_Connector.degreeDatas.0.description>After maintaining a cross-dimensional link with an extraplanar installation for so long, these Wulas have gradually become less human.</WULA_Trait_Connector.degreeDatas.0.description>
 
   <WULA_Trait_Broken_Personality.degreeDatas.0.label>Shattered Personality</WULA_Trait_Broken_Personality.degreeDatas.0.label>
-  <WULA_Trait_Broken_Personality.degreeDatas.0.description>This Wula Empire synth lacks a complete personality, making her more like a true machine.</WULA_Trait_Broken_Personality.degreeDatas.0.description>
+  <WULA_Trait_Broken_Personality.degreeDatas.0.description>This Wula Empire synth lacks a complete personality, making them more like a true machine.</WULA_Trait_Broken_Personality.degreeDatas.0.description>
 </LanguageData>

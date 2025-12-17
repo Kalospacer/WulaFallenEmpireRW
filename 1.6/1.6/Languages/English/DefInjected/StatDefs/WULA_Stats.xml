@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WULA_Synth.label>Wula Empire Mechanoids</WULA_Synth.label>
+  <WulaEnergyMaxLevelOffset.label>Mechanical Wula max energy</WulaEnergyMaxLevelOffset.label>
+  <WulaEnergyMaxLevelOffset.description>Offset to a mechanical Wula's maximum energy.</WulaEnergyMaxLevelOffset.description>
 
-  <WulaEnergyMaxLevelOffset.label>Mechanical Wula Energy Max Level Offset</WulaEnergyMaxLevelOffset.label>
-  <WulaEnergyMaxLevelOffset.description>Offset affecting the maximum energy level of mechanical Wulas.</WulaEnergyMaxLevelOffset.description>
+  <WulaEnergyFallRateFactor.label>Mechanical Wula energy consumption rate</WulaEnergyFallRateFactor.label>
+  <WulaEnergyFallRateFactor.description>Multiplier for how quickly a mechanical Wula consumes energy.</WulaEnergyFallRateFactor.description>
 
-  <WulaEnergyFallRateFactor.label>Mechanical Wula Energy Consumption Rate</WulaEnergyFallRateFactor.label>
-  <WulaEnergyFallRateFactor.description>Multiplier factor affecting the energy consumption rate of mechanical Wulas.</WulaEnergyFallRateFactor.description>
+  <WULA_MaintenanceCriticalFailureThresholdFactor.label>Critical failure threshold</WULA_MaintenanceCriticalFailureThresholdFactor.label>
+  <WULA_MaintenanceCriticalFailureThresholdFactor.description>Multiplier affecting the threshold for a Wula Empire synth to enter critical failure. Higher values make critical failure more likely.</WULA_MaintenanceCriticalFailureThresholdFactor.description>
 
-  <WULA_NanoRepairCostPerHP.label>Nano Repair Energy Cost</WULA_NanoRepairCostPerHP.label>
-  <WULA_NanoRepairCostPerHP.description>Energy consumed by the nano-repair system per point of health repaired.</WULA_NanoRepairCostPerHP.description>
+  <WULA_MaintenanceDamageToMaintenanceFactor.label>Maintenance loss from damage</WULA_MaintenanceDamageToMaintenanceFactor.label>
+  <WULA_MaintenanceDamageToMaintenanceFactor.description>How much maintenance a Wula Empire synth loses from damage. Higher values mean more maintenance is lost when taking damage.</WULA_MaintenanceDamageToMaintenanceFactor.description>
 
-  <WULA_NanoRepairCooldownAfterDamage.label>Nano Repair Cooldown Time</WULA_NanoRepairCooldownAfterDamage.label>
-  <WULA_NanoRepairCooldownAfterDamage.description>Cooldown time (in ticks) for the nano-repair system after taking damage.</WULA_NanoRepairCooldownAfterDamage.description>
+  <WULA_MaintenanceDegradationFactor.label>Maintenance decay multiplier</WULA_MaintenanceDegradationFactor.label>
+  <WULA_MaintenanceDegradationFactor.description>Multiplier for how quickly a Wula Empire synth's maintenance need decays. Higher values make low-maintenance states more likely.</WULA_MaintenanceDegradationFactor.description>
 
-  <WULA_MaintenanceDegradationFactor.label>Maintenance Degradation Multiplier</WULA_MaintenanceDegradationFactor.label>
-  <WULA_MaintenanceDegradationFactor.description>Multiplier for the degradation rate of Wula Empire synth maintenance needs. Higher values make mechanical Wulas more prone to low maintenance status.</WULA_MaintenanceDegradationFactor.description>
+  <WULA_MaintenanceMajorBreakdownThresholdFactor.label>Major breakdown threshold</WULA_MaintenanceMajorBreakdownThresholdFactor.label>
+  <WULA_MaintenanceMajorBreakdownThresholdFactor.description>Multiplier affecting the threshold for a Wula Empire synth to enter major breakdown. Higher values make major breakdown more likely.</WULA_MaintenanceMajorBreakdownThresholdFactor.description>
 
-  <WULA_MaintenanceStatusThresholdFactor.label>Maintenance Status Threshold</WULA_MaintenanceStatusThresholdFactor.label>
-  <WULA_MaintenanceStatusThresholdFactor.description>Multiplier affecting the maintenance status thresholds of Wula Empire synths. Higher values make it easier to fall into debuff states from low maintenance.</WULA_MaintenanceStatusThresholdFactor.description>
+  <WULA_MaintenanceMinorBreakdownThresholdFactor.label>Minor breakdown threshold multiplier</WULA_MaintenanceMinorBreakdownThresholdFactor.label>
+  <WULA_MaintenanceMinorBreakdownThresholdFactor.description>Multiplier affecting the threshold for a Wula Empire synth to enter minor breakdown. Higher values make minor breakdown more likely.</WULA_MaintenanceMinorBreakdownThresholdFactor.description>
 
-  <WULA_MaintenanceDamageToMaintenanceFactor.label>Maintenance Damage</WULA_MaintenanceDamageToMaintenanceFactor.label>
-  <WULA_MaintenanceDamageToMaintenanceFactor.description>The extent to which Wula Empire synths lose maintenance due to damage. Higher values cause greater maintenance loss when taking damage.</WULA_MaintenanceDamageToMaintenanceFactor.description>
+  <WULA_MaintenanceStatusThresholdFactor.label>Maintenance status thresholds</WULA_MaintenanceStatusThresholdFactor.label>
+  <WULA_MaintenanceStatusThresholdFactor.description>Multiplier affecting the thresholds for maintenance statuses. Higher values make low-maintenance debuff states easier to reach.</WULA_MaintenanceStatusThresholdFactor.description>
 
-  <WULA_MaintenanceMinorBreakdownThresholdFactor.label>Minor Breakdown Threshold Multiplier</WULA_MaintenanceMinorBreakdownThresholdFactor.label>
-  <WULA_MaintenanceMinorBreakdownThresholdFactor.description>Multiplier affecting the threshold for Wula Empire synths to enter a minor breakdown state. Higher values make it easier to enter a minor breakdown state.</WULA_MaintenanceMinorBreakdownThresholdFactor.description>
+  <WULA_NanoRepairCooldownAfterDamage.label>Nano-repair cooldown (after damage)</WULA_NanoRepairCooldownAfterDamage.label>
+  <WULA_NanoRepairCooldownAfterDamage.description>Time (in ticks) before the nano-repair system can activate after taking damage.</WULA_NanoRepairCooldownAfterDamage.description>
 
-  <WULA_MaintenanceMajorBreakdownThresholdFactor.label>Major Breakdown Threshold Multiplier</WULA_MaintenanceMajorBreakdownThresholdFactor.label>
-  <WULA_MaintenanceMajorBreakdownThresholdFactor.description>Multiplier affecting the threshold for Wula Empire synths to enter a major breakdown state. Higher values make it easier to enter a major breakdown state.</WULA_MaintenanceMajorBreakdownThresholdFactor.description>
-
-  <WULA_MaintenanceCriticalFailureThresholdFactor.label>Critical Failure Threshold Multiplier</WULA_MaintenanceCriticalFailureThresholdFactor.label>
-  <WULA_MaintenanceCriticalFailureThresholdFactor.description>Multiplier affecting the threshold for Wula Empire synths to enter a critical failure state. Higher values make it easier to enter a critical failure state.</WULA_MaintenanceCriticalFailureThresholdFactor.description>
+  <WULA_NanoRepairCostPerHP.label>Nano-repair energy cost</WULA_NanoRepairCostPerHP.label>
+  <WULA_NanoRepairCostPerHP.description>Energy consumed by the nano-repair system per 1 HP restored.</WULA_NanoRepairCostPerHP.description>
 </LanguageData>

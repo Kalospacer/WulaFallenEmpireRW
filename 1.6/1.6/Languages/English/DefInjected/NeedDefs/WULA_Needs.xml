@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <WULA_Energy.label>Energy</WULA_Energy.label>
-  <WULA_Energy.description>Wula Empire synths require energy for normal operation. When lacking energy, they will collapse and be unable to perform any work.\n\nThe charging stations for mechanical Wulas are special; they can only charge at synth charging stations and cannot use conventional ones.</WULA_Energy.description>
+  <WULA_Energy.description>Wula Empire synths require energy to operate. When they run out of energy, they will collapse and be unable to work.\n\nMechanical Wulas can only recharge at synth charging stations and cannot use standard charging stations.</WULA_Energy.description>
 
   <WULA_MaintenanceNeed.label>Maintenance</WULA_MaintenanceNeed.label>
-  <WULA_MaintenanceNeed.description>Due to their overly intricate design, Wula Empire synths require frequent maintenance. When well-maintained, their capabilities in all aspects will increase. Conversely, if they go long periods without maintenance or sustain significant damage in a short time, they will become difficult to operate autonomously and may even shut down!</WULA_MaintenanceNeed.description>
+  <WULA_MaintenanceNeed.description>Wula Empire synths require frequent maintenance due to their complex design. When well maintained, their abilities improve. If they go without maintenance for a long time or take heavy damage in a short period, they may struggle to function—or shut down entirely.</WULA_MaintenanceNeed.description>
 </LanguageData>

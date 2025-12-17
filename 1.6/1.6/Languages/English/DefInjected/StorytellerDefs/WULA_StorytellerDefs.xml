@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Legion.comps.StorytellerComp_DissolutionTriggered.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_DissolutionTriggered.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_FactionInteraction-0.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_FactionInteraction-0.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_GauranlenPodSpawn.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_GauranlenPodSpawn.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_ImportantQuest.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_ImportantQuest.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_MechanitorComplexQuest.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_MechanitorComplexQuest.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_MonolithMigration.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_MonolithMigration.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_OnOffCycle-1.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_OnOffCycle-1.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_OnOffCycle-2.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_OnOffCycle-2.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_RandomEpicQuest.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_RandomEpicQuest.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_RandomQuest-0.disableIfAnyModActive></WULA_Legion.comps.StorytellerComp_RandomQuest-0.disableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_RandomQuest-1.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_RandomQuest-1.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_RefiringUniqueQuest-0.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_RefiringUniqueQuest-0.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_RefiringUniqueQuest-1.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_RefiringUniqueQuest-1.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_SingleOnceFixed-1.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_SingleOnceFixed-1.enableIfAnyModActive>
+  <WULA_Legion.comps.StorytellerComp_SingleOnceFixed-2.enableIfAnyModActive></WULA_Legion.comps.StorytellerComp_SingleOnceFixed-2.enableIfAnyModActive>
+
+  <WULA_Legion.label>Legion</WULA_Legion.label>
+  <WULA_Legion.description>A super AI that commands and dispatches the fleets of the Wula Empire's Planetary Interdiction Authority (P.I.A.), spearheading the Imperial Development Agency's expansion. When the Empire decides to control and intervene on a planet, it directs a vast vanguard fleet to seize orbit and proclaim Imperial authority with unquestionable force.\n\nAs a storyteller, it offers no safeguards. Raids and harmful incidents can happen from the moment you land, and attacks occur more frequently than usual—though they still follow a cyclical pattern.</WULA_Legion.description>
+</LanguageData>

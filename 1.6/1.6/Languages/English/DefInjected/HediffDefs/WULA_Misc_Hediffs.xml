@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <Wula_Synth.label>Synth</Wula_Synth.label>
   <Wula_Synth.description>Synths of the Wula Empire, possessing some characteristics of mechanoids—they are difficult to ignite, immune to common diseases, can self-repair using a nano-system, but require energy to sustain operation.\n\nThey are creations designed by the Wula Empire Royal Mechanist Guild, meticulously replicating the appearance and behavior of their creators. From the birth of the first Wula synth, they have been granted equal human rights—they are not tools, but honorable citizens of the Wula Empire.</Wula_Synth.description>
 
   <WULA_NanoRepairHediff.label>Nano Repair</WULA_NanoRepairHediff.label>
@@ -30,12 +29,6 @@
 
   <WULA_MechCarrierSwitchHediff.label>Production Suppression</WULA_MechCarrierSwitchHediff.label>
   <WULA_MechCarrierSwitchHediff.description>This unit's automatic production function has been suppressed.</WULA_MechCarrierSwitchHediff.description>
-
-  <WULA_RemoveSwitchHediff.label>Restart Production</WULA_RemoveSwitchHediff.label>
-  <WULA_RemoveSwitchHediff.description>Restart automatic mechanoid production.</WULA_RemoveSwitchHediff.description>
-
-  <WULA_GiveSwitchHediff.label>Stop Production</WULA_GiveSwitchHediff.label>
-  <WULA_GiveSwitchHediff.description>Stop automatic mechanoid production.</WULA_GiveSwitchHediff.description>
 
   <Mech_WULA_Cat_Cute.label>Wula Cat Nearby</Mech_WULA_Cat_Cute.label>
   <Mech_WULA_Cat_Cute.description>A Wula cat that everyone loves is nearby, its adorable appearance attracting colonists' attention.</Mech_WULA_Cat_Cute.description>

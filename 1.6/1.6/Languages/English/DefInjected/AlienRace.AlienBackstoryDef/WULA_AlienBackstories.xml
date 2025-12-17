@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Adult_Backstory01.title>Blank chassis</WULA_Adult_Backstory01.title>
+  <WULA_Adult_Backstory01.titleShort>Blank chassis</WULA_Adult_Backstory01.titleShort>
+  <WULA_Adult_Backstory01.description>[PAWN_nameDef] has no story—[PAWN_pronoun] was packaged up on a factory world and shipped to the Wula Empire Development Agency. This is [PAWN_pronoun]'s first real deployment.\n\nBecause of that, most of [PAWN_possessive] memory banks are still empty, and [PAWN_pronoun] can learn quickly and shape [PAWN_possessive]self.</WULA_Adult_Backstory01.description>
+
+  <WULA_Adult_Backstory02.title>Combat medic</WULA_Adult_Backstory02.title>
+  <WULA_Adult_Backstory02.titleShort>Combat medic</WULA_Adult_Backstory02.titleShort>
+  <WULA_Adult_Backstory02.description>[PAWN_nameDef] is a combat medic. [PAWN_pronoun] chose a nobler path—using [PAWN_possessive] own hands to pull fading lives back from the battlefield. During [PAWN_possessive] years of service, [PAWN_pronoun] carried a gun in one hand and medical gear in the other, weaving through the fighting. [PAWN_pronoun] saved countless wounded of the Wula Empire and shot down countless alien soldiers with ill intent, becoming the shining pillar of the whole unit.\n\nAfter taking part in battles worthy of the imperial annals, [PAWN_nameDef] reached retirement. But [PAWN_possessive] journey wasn't over. [PAWN_pronoun] joined a frontier expedition to the rim, determined to keep using [PAWN_possessive] skills to save comrades and fight off hostile aliens.</WULA_Adult_Backstory02.description>
+
+  <WULA_Adult_Backstory03.title>Garrison soldier</WULA_Adult_Backstory03.title>
+  <WULA_Adult_Backstory03.titleShort>Garrison soldier</WULA_Adult_Backstory03.titleShort>
+  <WULA_Adult_Backstory03.description>[PAWN_nameDef] is a retired auxiliary of the Wula Empire knight orders, once a city-defense soldier guarding the lines. Such soldiers typically campaign alongside the knight orders' Bulwark Knights, and are posted to the fortress nodes that most need holding. In countless campaigns, [PAWN_pronoun] gained rich experience in combat and fortification building—but also grew weary of a bland retired life. Seeking excitement again, [PAWN_pronoun] joined a Wula Empire frontier expedition to a new star region to begin a second life.</WULA_Adult_Backstory03.description>
+
+  <WULA_Adult_Backstory04.title>Knight-in-training</WULA_Adult_Backstory04.title>
+  <WULA_Adult_Backstory04.titleShort>Knight-in-training</WULA_Adult_Backstory04.titleShort>
+  <WULA_Adult_Backstory04.description>[PAWN_nameDef] is a knight-in-training, soon to join the Wula Empire knight orders. By chance, [PAWN_possessive] talent and skill were noticed by the knights, earning [PAWN_pronoun] a chance to enter the order. [PAWN_pronoun] chose the path without hesitation, swore upon the knightly canon, and vowed with blood to be loyal to the Emperor.\n\nBut by the order's customs, [PAWN_pronoun] must pass a series of trials before being formally inducted. There are no such chances behind the fortress walls, so [PAWN_nameDef] joined a frontier expedition to the rim—ready to prove [PAWN_possessive] worth in a land of opportunity.</WULA_Adult_Backstory04.description>
+
+  <WULA_Adult_Backstory05.title>Penitent knight</WULA_Adult_Backstory05.title>
+  <WULA_Adult_Backstory05.titleShort>Penitent knight</WULA_Adult_Backstory05.titleShort>
+  <WULA_Adult_Backstory05.description>[PAWN_nameDef] is a penitent knight of the Wula Empire. Though still called a knight, [PAWN_pronoun] has been struck from the rolls of the knight order. Having committed an unforgivable mistake, [PAWN_pronoun] must atone through a lifetime of wandering crusade. Only then, upon [PAWN_possessive] last breath, may [PAWN_pronoun] regain [PAWN_possessive] title and be allowed to rest in the order's tombs.\n\nNo one knows how [PAWN_nameDef] came to join the frontier expedition. [PAWN_pronoun] never speaks of [PAWN_possessive] sin.</WULA_Adult_Backstory05.description>
+
+  <WULA_Adult_Backstory10.title>Serf</WULA_Adult_Backstory10.title>
+  <WULA_Adult_Backstory10.titleShort>Serf</WULA_Adult_Backstory10.titleShort>
+  <WULA_Adult_Backstory10.description>Serfs are the lowest underclass in territories ruled by the Wula Empire knight orders. Normally, a synth with full citizenship would never fall so low—but [PAWN_nameDef] is an exception. [PAWN_pronoun] seems to have committed some grievous crime, was stripped of citizenship, and reduced to the same status as a slave. Fortunately, frontier expeditions are always short on hands, and no one wants to go to the unclaimed rim. To meet their quotas, the knights drove [PAWN_nameDef] into an expedition—at least [PAWN_pronoun] no longer has to endure the bullying of the upper class.</WULA_Adult_Backstory10.description>
+
+  <WULA_Adult_Backstory11.title>Retainer</WULA_Adult_Backstory11.title>
+  <WULA_Adult_Backstory11.titleShort>Retainer</WULA_Adult_Backstory11.titleShort>
+  <WULA_Adult_Backstory11.description>[PAWN_nameDef] was a retainer of the Wula Empire—just like in the knightly tales. Knights of the Wula Empire have their own attendants. A retainer cares for a knight's daily life, maintains their weapons, helps relay orders, and even takes up a gun to support them in battle.\n\nIn one war, [PAWN_possessive] master fell on the field. After arranging the funeral rites, [PAWN_nameDef] suddenly couldn't find a reason to exist—serving a knight was the only thing [PAWN_pronoun] knew how to do. [PAWN_pronoun] never found another knight worth swearing to. Drifting aimlessly, [PAWN_pronoun] joined a frontier expedition to a new star region, hoping to prove [PAWN_possessive] value.</WULA_Adult_Backstory11.description>
+
+  <WULA_Adult_Backstory12.title>Legal officer</WULA_Adult_Backstory12.title>
+  <WULA_Adult_Backstory12.titleShort>Legal officer</WULA_Adult_Backstory12.titleShort>
+  <WULA_Adult_Backstory12.description>[PAWN_nameDef] used to be a legal officer of the Wula Empire. Legal officers are special grassroots enforcers within territories controlled by the knight orders, dedicated to handling riots, unrest, and rebellions sparked by slaves, and upholding the Empire's supreme authority. [PAWN_possessive] shock baton has felled countless aliens; defiant slaves would go pale and tremble at the sight of [PAWN_pronoun]. Yet at some point, [PAWN_pronoun] came to hate that life.\n\n[PAWN_pronoun] left the knights' domain and joined a frontier expedition to a new star region, seemingly to sever ties with the past for good.</WULA_Adult_Backstory12.description>
+
+  <WULA_Adult_Backstory100.title>Floral shaper</WULA_Adult_Backstory100.title>
+  <WULA_Adult_Backstory100.titleShort>Floral shaper</WULA_Adult_Backstory100.titleShort>
+  <WULA_Adult_Backstory100.description>[PAWN_nameDef] is a Floral Shaper of the Wula Empire. Floral Shapers are plant sculptors, using genetic manipulation and pruning to cultivate pleasing landscapes and delicious food for the Empire, carrying on the wish to sow seeds of beauty and hope across every colony.\n\nTo survey a new star region in person, [PAWN_nameDef] joined a freshly formed frontier expedition, continuing [PAWN_possessive] path of practice.</WULA_Adult_Backstory100.description>
+
+  <WULA_Adult_Backstory101.title>Breeding shaper</WULA_Adult_Backstory101.title>
+  <WULA_Adult_Backstory101.titleShort>Breeding shaper</WULA_Adult_Backstory101.titleShort>
+  <WULA_Adult_Backstory101.description>[PAWN_nameDef] is a Breeding Shaper of the Wula Empire. Breeding Shapers are animal sculptors who specialize in creating and improving low-intelligence species through gene trimming and reconstruction. From time to time, they also build twisted monstrosities and deploy them as bioweapons on the battlefield.\n\nFor a new star region, the diverse local fauna are perfect test subjects. [PAWN_nameDef] eagerly joined the push into the rim, searching for new inspiration.</WULA_Adult_Backstory101.description>
+
+  <WULA_Adult_Backstory102.title>Herald</WULA_Adult_Backstory102.title>
+  <WULA_Adult_Backstory102.titleShort>Herald</WULA_Adult_Backstory102.titleShort>
+  <WULA_Adult_Backstory102.description>[PAWN_nameDef] was once a Herald of the Wula Empire. These silver-tongued diplomats are the Empire's voice to the outside. Their very title speaks of their station: noble, elegant, and disdainful. They deliver the Wula Empire's will to lesser civilizations—they do not listen to requests, and they offer no room for bargaining.\n\nAfter a disastrous diplomatic incident, [PAWN_nameDef] was judged to have damaged the Empire's dignity. [PAWN_pronoun] was stripped of status and exiled to a frontier expedition on the rim.</WULA_Adult_Backstory102.description>
+
+  <WULA_Adult_Backstory200.title>Harmony acolyte</WULA_Adult_Backstory200.title>
+  <WULA_Adult_Backstory200.titleShort>Harmony acolyte</WULA_Adult_Backstory200.titleShort>
+  <WULA_Adult_Backstory200.description>[PAWN_nameDef] is a Harmony Acolyte of the Wula Empire's state church. Harmony Acolytes excel at farming, using psychic power to spur crops, and offering the finest tribute to the Lord on harvest day.\n\nAs a member of the faithful, [PAWN_nameDef] naturally joined the push into a new world—an excellent chance for the church to proclaim itself and assimilate local beliefs.</WULA_Adult_Backstory200.description>
+
+  <WULA_Adult_Backstory201.title>Forgehammer acolyte</WULA_Adult_Backstory201.title>
+  <WULA_Adult_Backstory201.titleShort>Forgehammer acolyte</WULA_Adult_Backstory201.titleShort>
+  <WULA_Adult_Backstory201.description>[PAWN_nameDef] is a Forgehammer Acolyte of the Wula Empire's state church. Forgehammer Acolytes are skilled at forging swords and plowshares alike. By driving psychic power to shape materials, they can carve their faith into exquisite tools.\n\nAs a member of the faithful, [PAWN_nameDef] naturally joined the push into a new world—an excellent chance for the church to proclaim itself and assimilate local beliefs.</WULA_Adult_Backstory201.description>
+
+  <WULA_Adult_Backstory202.title>Church militant</WULA_Adult_Backstory202.title>
+  <WULA_Adult_Backstory202.titleShort>Church militant</WULA_Adult_Backstory202.titleShort>
+  <WULA_Adult_Backstory202.description>[PAWN_nameDef] is a warrior of the Wula Empire's Church Militant, well versed in close combat guided by psychic power, proving boundless zeal with the blood of sworn enemies.\n\nBy rights, [PAWN_nameDef] and the Church Militant [PAWN_pronoun] represents shouldn't be here—this is already far beyond the church's usual reach. But perhaps this is a personal action. In any case, no one knows why the church made such an arrangement.</WULA_Adult_Backstory202.description>
+
+  <WULA_Adult_Backstory204.title>Evangelist</WULA_Adult_Backstory204.title>
+  <WULA_Adult_Backstory204.titleShort>Evangelist</WULA_Adult_Backstory204.titleShort>
+  <WULA_Adult_Backstory204.description>[PAWN_nameDef] is an Evangelist of the Wula Empire's state church. Evangelists are among the faithful of the Grand Cathedral—preachers who maintain social stability through sermons and devote themselves to spreading the gospel among other species.\n\nAs a member of the faithful, [PAWN_nameDef] naturally joined the push into a new world—an excellent chance for the church to proclaim itself and assimilate local beliefs.</WULA_Adult_Backstory204.description>
+
+  <WULA_Adult_Backstory301.title>Cataloging librarian</WULA_Adult_Backstory301.title>
+  <WULA_Adult_Backstory301.titleShort>Cataloging librarian</WULA_Adult_Backstory301.titleShort>
+  <WULA_Adult_Backstory301.description>[PAWN_nameDef] was a cataloging librarian of the Wula Empire. Cataloging librarians are archivists of the Imperial Library, compiling bibliographies for preserved records written in thousands of languages and spanning millions of years. They are a cog that keeps the Wula knowledge vault running.\n\nSeeking new lost technologies, [PAWN_nameDef] left the comfortable worlds of the Wula Empire and came to this remote star region.</WULA_Adult_Backstory301.description>
+
+  <WULA_Adult_Backstory999.title>Shattered personality</WULA_Adult_Backstory999.title>
+  <WULA_Adult_Backstory999.titleShort>Shattered personality</WULA_Adult_Backstory999.titleShort>
+  <WULA_Adult_Backstory999.description>[PAWN_possessive] personality matrix is completely damaged. [PAWN_pronoun] is now part of a collective consciousness.</WULA_Adult_Backstory999.description>
+
+  <WULA_Adult_Backstory_Legion.title>Legion shard</WULA_Adult_Backstory_Legion.title>
+  <WULA_Adult_Backstory_Legion.titleShort>Legion shard</WULA_Adult_Backstory_Legion.titleShort>
+  <WULA_Adult_Backstory_Legion.description>[PAWN_nameDef] has no independent mind. [PAWN_pronoun] is directly linked to the Planetary Interdiction Authority's super AI, \"Legion\", serving as its eyes and ears while operating in the field.</WULA_Adult_Backstory_Legion.description>
+
+  <WULA_Adult_Backstory_Legion_Escort.title>Brokenclaw Guard</WULA_Adult_Backstory_Legion_Escort.title>
+  <WULA_Adult_Backstory_Legion_Escort.titleShort>Brokenclaw Guard</WULA_Adult_Backstory_Legion_Escort.titleShort>
+  <WULA_Adult_Backstory_Legion_Escort.description>[PAWN_nameDef] is a member of the Brokenclaw Guard, the personal guard of the Planetary Interdiction Authority's central AI \"Legion\". Silent and deadly, they faithfully fulfill their duties and carry out all manner of thorny missions for their superior.</WULA_Adult_Backstory_Legion_Escort.description>
+
+  <WULA_Child_Backstory01.title>Origin: Kroup</WULA_Child_Backstory01.title>
+  <WULA_Child_Backstory01.titleShort>Kroup</WULA_Child_Backstory01.titleShort>
+  <WULA_Child_Backstory01.description>[PAWN_nameDef] is a synth produced in the Kroup star region. This region is a battleground of constant conflict. Due to its position on the fringes and its complex geopolitics, the Wula Empire has never truly controlled it—but the excellent rare crystals and alien natural gas found here are too valuable for the Empire to abandon.\n\nSynths produced here use far more strategic materials than those from other regions. This grants them higher durability, lower energy consumption, and some built-in combat and crafting aptitude.</WULA_Child_Backstory01.description>
+
+  <WULA_Child_Backstory02.title>Origin: Daedalus</WULA_Child_Backstory02.title>
+  <WULA_Child_Backstory02.titleShort>Daedalus</WULA_Child_Backstory02.titleShort>
+  <WULA_Child_Backstory02.description>[PAWN_nameDef] is a synth produced in the Daedalus star region. This region is a factory domain near the rim, where countless high-quality alloys are produced to supply the Wula fleets—the beating heart of the industrial districts.\n\nSynths produced here are fitted with powerful production systems, offsetting this model's natural disadvantages in mining and construction.</WULA_Child_Backstory02.description>
+
+  <WULA_Child_Backstory03.title>Origin: Palace District</WULA_Child_Backstory03.title>
+  <WULA_Child_Backstory03.titleShort>Palace District</WULA_Child_Backstory03.titleShort>
+  <WULA_Child_Backstory03.description>[PAWN_nameDef] is a synth produced in the Palace District. The Palace District is the core of Wula politics and power. Things produced here are generally reserved for the royal family and do not flow to other regions—though there are exceptions.\n\nSynths from here are usually more refined and graceful than those from elsewhere, giving them natural advantages in social and artistic skills.</WULA_Child_Backstory03.description>
+
+  <WULA_Child_Backstory04.title>Origin: Delta</WULA_Child_Backstory04.title>
+  <WULA_Child_Backstory04.titleShort>Delta</WULA_Child_Backstory04.titleShort>
+  <WULA_Child_Backstory04.description>[PAWN_nameDef] is a synth produced in the Delta star region. Delta is a true fortress region. Countless assembly plants spit sulfur and flame, and war machines are the only product here. The moment they step off the line, they join the flood of \"Legion\" and march to the Wula Empire's battlefields.\n\nSynths produced here are designed as dedicated war machines—simple and easy to maintain, with unquestionable combat capability, but not very good at other work.</WULA_Child_Backstory04.description>
+
+  <WULA_Child_Backstory05.title>Origin: Serris</WULA_Child_Backstory05.title>
+  <WULA_Child_Backstory05.titleShort>Serris</WULA_Child_Backstory05.titleShort>
+  <WULA_Child_Backstory05.description>[PAWN_nameDef] is a synth produced in the Serris star region. Serris is the Wula Empire's research center. Although the Empire's baseline technology has effectively stagnated, ambitious citizens still flock to its endless stores of knowledge. However, synths produced here are often drafted into local secret projects and rarely get the chance to transfer to other regions.\n\nSynths produced here are research-specialized models. They excel at research, and are among the few synths that can directly control mechanoids—though Wula mechanoids are autonomous machines.</WULA_Child_Backstory05.description>
+
+  <WULA_Child_Backstory06.title>Origin: Marek</WULA_Child_Backstory06.title>
+  <WULA_Child_Backstory06.titleShort>Marek</WULA_Child_Backstory06.titleShort>
+  <WULA_Child_Backstory06.description>[PAWN_nameDef] is a synth produced in the Marek star region. Marek is a vast agricultural region compared to others. Multiple planets with excellent astronomical positions are suited for agriculture, allowing it to continuously supply the Wula Empire with huge amounts of food.\n\nSynths produced here usually have built-in housekeeping and agricultural systems, making them adept at everyday chores. Their durable design also causes them to wear down much more slowly under natural conditions than synths from other regions.</WULA_Child_Backstory06.description>
+
+  <WULA_Child_Backstory07.title>Origin: Dyson</WULA_Child_Backstory07.title>
+  <WULA_Child_Backstory07.titleShort>Dyson</WULA_Child_Backstory07.titleShort>
+  <WULA_Child_Backstory07.description>[PAWN_nameDef] is a synth produced in the Dyson star region. Dyson hosts a vast concentration of astronomical-scale megastructures, a direct testament to the Wula Empire's former might. Naturally, so many giant structures require large numbers of highly adaptable synths to maintain them.\n\nSynths born here have powerful crafting systems. Their nano-repair is designed for self-sustaining repair in extreme environments, so repair consumption is lower than for synths from other regions.</WULA_Child_Backstory07.description>
+
+  <WULA_Child_Backstory99.title>Origin: Unknown</WULA_Child_Backstory99.title>
+  <WULA_Child_Backstory99.titleShort>Unknown origin</WULA_Child_Backstory99.titleShort>
+  <WULA_Child_Backstory99.description>[PAWN_nameDef]'s origin cannot be traced. Perhaps it's a high-quality counterfeit from some region, or a chassis illegally refurbished after salvage. In any case, the serial number on their body is either forged—or simply absent.\n\nThese feral mechanical Wulas can do a bit of everything, but they don't particularly excel at anything.</WULA_Child_Backstory99.description>
+</LanguageData>

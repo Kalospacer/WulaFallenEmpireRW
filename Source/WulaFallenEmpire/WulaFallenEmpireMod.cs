@@ -3,6 +3,7 @@ using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using Verse;
+using WulaFallenEmpire.Utils;
 
 namespace WulaFallenEmpire
 {
@@ -47,6 +48,14 @@ namespace WulaFallenEmpire
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());
+
+            listingStandard.GapLine();
+            listingStandard.Label("Translation tools");
+            Rect exportRect = listingStandard.GetRect(30f);
+            if (Widgets.ButtonText(exportRect, "Export DefInjected template (CN source)"))
+            {
+                DefInjectedExportUtility.ExportDefInjectedTemplateFromDefs(Content);
+            }
 
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);

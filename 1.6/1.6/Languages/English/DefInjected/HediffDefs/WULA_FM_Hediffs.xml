@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WULA_Addons_Antenna_Hide.label>Hidden Antenna</WULA_Addons_Antenna_Hide.label>
-  <WULA_Addons_Antenna_Hide.description>A special command antenna embedded behind the head, with a unique system code. Any colonist can use this communication device to contact the Wula Empire fleet; it is a credential of the Empire's recognition of the colony.</WULA_Addons_Antenna_Hide.description>
-
   <WULA_Addons_Antenna_Hediff_Base.label>Mechanical Command Node</WULA_Addons_Antenna_Hediff_Base.label>
   <WULA_Addons_Antenna_Hediff_Base.description>Wula Empire synths have a pair of antennas on their heads. They can use this communication system to contact the Wula Empire fleet. Additionally, they can also use this system to send and receive secondary mechanoid signals—although most of the time, they lack the bandwidth to command mechanoids.</WULA_Addons_Antenna_Hediff_Base.description>
   <WULA_Addons_Antenna_Hediff_Base.descriptionShort>A pair of antennas capable of fleet communication.</WULA_Addons_Antenna_Hediff_Base.descriptionShort>

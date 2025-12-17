@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_DroneEnergy.label>Energy</WULA_DroneEnergy.label>
+  <WULA_DroneWorkMode.label>Autonomous mode</WULA_DroneWorkMode.label>
+  <WULA_DroneWorkMode.headerTip>Work Mode</WULA_DroneWorkMode.headerTip>
+</LanguageData>

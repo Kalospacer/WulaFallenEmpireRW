@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_Addons_Antenna_Bodypart.label>Uplink antenna</WULA_Addons_Antenna_Bodypart.label>
+  <WULA_AI_Core_Bodypart.label>Autonomous core</WULA_AI_Core_Bodypart.label>
+  <WULA_Energy_Furnace_Bodypart.label>Central power furnace</WULA_Energy_Furnace_Bodypart.label>
+  <WULA_Mobile_Bunker_Bodypart.label>Bunker shell</WULA_Mobile_Bunker_Bodypart.label>
+  <WULA_Outer_Armor_Bodypart.label>Outer armor plating</WULA_Outer_Armor_Bodypart.label>
+  <WULA_Panzer_Core_Bodypart.label>Core engine</WULA_Panzer_Core_Bodypart.label>
+  <WULA_Panzer_OutBrust_Bodypart.label>Retro-thruster nozzle</WULA_Panzer_OutBrust_Bodypart.label>
+  <WULA_Shield_Field_Maintainer_Bodypart.label>Reflective shield generator</WULA_Shield_Field_Maintainer_Bodypart.label>
+  <WULA_Skeleton_Bodypart.label>Alloy skeleton</WULA_Skeleton_Bodypart.label>
+</LanguageData>

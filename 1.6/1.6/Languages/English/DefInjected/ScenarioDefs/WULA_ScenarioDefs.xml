@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WULA_ArmedShuttle_Start_Scenario.label>Wula Empire Survey Team</WULA_ArmedShuttle_Start_Scenario.label>
+  <WULA_ArmedShuttle_Start_Scenario.description>The Wula Empire Development Agency's fleet has arrived in the rim. An investigator specializing in studying local ecology has been deployed to the planet's surface along with their shuttle.</WULA_ArmedShuttle_Start_Scenario.description>
+  <WULA_ArmedShuttle_Start_Scenario.scenario.name>Wula Empire Survey Team</WULA_ArmedShuttle_Start_Scenario.scenario.name>
+  <WULA_ArmedShuttle_Start_Scenario.scenario.description>The Wula Empire Development Agency's fleet has arrived in the rim. An investigator specializing in studying local ecology has been deployed to the planet's surface along with their shuttle.</WULA_ArmedShuttle_Start_Scenario.scenario.description>
+  <WULA_ArmedShuttle_Start_Scenario.scenario.summary>Start with 1 well-equipped mechanical Wula and their private shuttle, but with fewer starting resources.</WULA_ArmedShuttle_Start_Scenario.scenario.summary>
+
+  <WULA_Start_Scenario.label>Wula Empire Vanguard</WULA_Start_Scenario.label>
+  <WULA_Start_Scenario.description>The Wula Empire Development Agency's fleet has arrived in the rim. An advance team tasked with establishing a surface outpost has been deployed to the planet.</WULA_Start_Scenario.description>
+  <WULA_Start_Scenario.scenario.name>Wula Empire Vanguard</WULA_Start_Scenario.scenario.name>
+  <WULA_Start_Scenario.scenario.description>The Wula Empire Development Agency's fleet has arrived in the rim. An advance team tasked with establishing a surface outpost has been deployed to the planet.</WULA_Start_Scenario.scenario.description>
+  <WULA_Start_Scenario.scenario.summary>Start with 2 mechanical Wulas as your initial colonists, along with an outpost beacon to call in a small prefabricated outpost.</WULA_Start_Scenario.scenario.summary>
+</LanguageData>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Mech_WULA_Cat.label>CAt-11 \"Kitty\"</Mech_WULA_Cat.label>
+  <Mech_WULA_Cat.description>A small autonomous mech of the Wula Empire. It needs no overseer and can perform simple work such as hauling, cooking, planting and harvesting, cleaning, tending, and firefighting. Its cat-like form is beloved by Wulas.\n\nThis mechanoid can pick up weapons on the ground while not drafted.</Mech_WULA_Cat.description>
+  <Mech_WULA_Cat.tools.head.label>head</Mech_WULA_Cat.tools.head.label>
+
+  <Mech_WULA_Cat_Assault.label>CAt-46 \"Kitty Assault Squad\"</Mech_WULA_Cat_Assault.label>
+  <Mech_WULA_Cat_Assault.description>A small autonomous mech of the Wula Empire. It needs no overseer and can haul, hunt, and cut plants. It wears light armor and carries a DLa-1 \"Shale\", making it a real nuisance for enemies.\n\nThis mechanoid can pick up weapons on the ground while not drafted.</Mech_WULA_Cat_Assault.description>
+  <Mech_WULA_Cat_Assault.tools.head.label>head</Mech_WULA_Cat_Assault.tools.head.label>
+
+  <Mech_WULA_Cat_Cloak_Sniper.label>CAt-71 \"Spec Ops Kitty\"</Mech_WULA_Cat_Cloak_Sniper.label>
+  <Mech_WULA_Cat_Cloak_Sniper.description>A Wula kitty mech modified by Wula Empire Progressive rebels. Armed with a special magnetic-rail sniper rifle, it can hide in the wild using optical camouflage and its small frame—always ready to take a shot.</Mech_WULA_Cat_Cloak_Sniper.description>
+  <Mech_WULA_Cat_Cloak_Sniper.comps.CompFighterInvisible.letterTitle>SNI!PER!</Mech_WULA_Cat_Cloak_Sniper.comps.CompFighterInvisible.letterTitle>
+  <Mech_WULA_Cat_Cloak_Sniper.comps.CompFighterInvisible.letterText>A sniper is nearby. Find cover!</Mech_WULA_Cat_Cloak_Sniper.comps.CompFighterInvisible.letterText>
+  <Mech_WULA_Cat_Cloak_Sniper.tools.0.label>Cat-claw knife</Mech_WULA_Cat_Cloak_Sniper.tools.0.label>
+
+  <Mech_WULA_Cat_Constructor.label>CAt-86 \"Kitty Worker\"</Mech_WULA_Cat_Constructor.label>
+  <Mech_WULA_Cat_Constructor.description>A small autonomous mech of the Wula Empire. It needs no overseer and can only build and mine. It can jump up and smash enemies' knees with its HAm-1 \"Decorator Hammer\".</Mech_WULA_Cat_Constructor.description>
+  <Mech_WULA_Cat_Constructor.tools.head.label>head</Mech_WULA_Cat_Constructor.tools.head.label>
+
+  <Mech_WULA_Fire_Cat.label>CAt-55 \"Assault Kitty\"</Mech_WULA_Fire_Cat.label>
+  <Mech_WULA_Fire_Cat.description>A small autonomous mech of the Wula Empire. It needs no overseer. Its lifespan is limited, and it only appears as part of certain suicide attacks.</Mech_WULA_Fire_Cat.description>
+  <Mech_WULA_Fire_Cat.tools.head.label>head</Mech_WULA_Fire_Cat.tools.head.label>
+
+  <WulaSpecies.label>Mechanical Wula</WulaSpecies.label>
+  <WulaSpecies.description>Mechanical life born in the Wula Empire—a masterful imitation of the empire's rulers. As mechanical life, Wula Empire synths are far tougher than ordinary humans. They do not fear extreme climates, vacuum, or toxic gas, and they do not need food in the conventional sense.\n\nHowever, they also have their flaws: they move more slowly, are vulnerable to EMP attacks, and their clockwork-precise bodies cannot continuously withstand heavy damage. They must return to maintenance pods for regular servicing.</WulaSpecies.description>
+  <WulaSpecies.tools.head.label>head</WulaSpecies.tools.head.label>
+  <WulaSpecies.tools.left_fist.label>left fist</WulaSpecies.tools.left_fist.label>
+  <WulaSpecies.tools.left_fist.labelNoLocation>fist</WulaSpecies.tools.left_fist.labelNoLocation>
+  <WulaSpecies.tools.right_fist.label>right fist</WulaSpecies.tools.right_fist.label>
+  <WulaSpecies.tools.right_fist.labelNoLocation>fist</WulaSpecies.tools.right_fist.labelNoLocation>
+  <WulaSpecies.tools.teeth.label>teeth</WulaSpecies.tools.teeth.label>
+
+  <Wula_AI_Heavy_Panzer.label>HAp-6 \"Chariot\"</Wula_AI_Heavy_Panzer.label>
+  <Wula_AI_Heavy_Panzer.description>A medium Wula Empire war machine that hovers across the battlefield. It strikes enemies with a devastating autocannon and a hull-mounted mortar, forming the backbone of the Empire's vanguard forces.</Wula_AI_Heavy_Panzer.description>
+  <Wula_AI_Heavy_Panzer.comps.CompAreaDamage.toggleLabel>Crush damage</Wula_AI_Heavy_Panzer.comps.CompAreaDamage.toggleLabel>
+  <Wula_AI_Heavy_Panzer.comps.CompAreaDamage.toggleDescription>The HAp-6 \"Chariot\" can lower its hull slightly and create a low-pressure zone to crush nearby enemies—this also damages any loose items nearby.</Wula_AI_Heavy_Panzer.comps.CompAreaDamage.toggleDescription>
+  <Wula_AI_Heavy_Panzer.tools.0.label>Crush</Wula_AI_Heavy_Panzer.tools.0.label>
+
+  <Wula_AI_Rocket_Panzer.label>HRp-3 \"Flame Chariot\"</Wula_AI_Rocket_Panzer.label>
+  <Wula_AI_Rocket_Panzer.description>A medium Wula Empire war machine that hovers across the battlefield. It carries a hull-mounted mortar and two rotary missile pods that can launch large numbers of incendiary rockets, but unlike its sister model it is not fitted with a shield.</Wula_AI_Rocket_Panzer.description>
+  <Wula_AI_Rocket_Panzer.comps.CompAreaDamage.toggleLabel>Crush damage</Wula_AI_Rocket_Panzer.comps.CompAreaDamage.toggleLabel>
+  <Wula_AI_Rocket_Panzer.comps.CompAreaDamage.toggleDescription>The HRp-3 \"Flame Chariot\" can lower its hull slightly and create a low-pressure zone to crush nearby enemies—this also damages any loose items nearby.</Wula_AI_Rocket_Panzer.comps.CompAreaDamage.toggleDescription>
+  <Wula_AI_Rocket_Panzer.tools.0.label>Crush</Wula_AI_Rocket_Panzer.tools.0.label>
+
+  <Wula_Mech_Mobile_Factory.label>MFm-2 \"Landship\"</Wula_Mech_Mobile_Factory.label>
+  <Wula_Mech_Mobile_Factory.description>A massive Wula Empire war machine—a moving fortress. Not only is it heavily armored and bristling with guns, it can also produce large numbers of auxiliary war mechs on the battlefield to form a solid, elastic front line. It was built to crush hardened fortresses and stubborn resistance.</Wula_Mech_Mobile_Factory.description>
+  <Wula_Mech_Mobile_Factory.comps.CompAreaDamage.toggleLabel>Crush damage</Wula_Mech_Mobile_Factory.comps.CompAreaDamage.toggleLabel>
+  <Wula_Mech_Mobile_Factory.comps.CompAreaDamage.toggleDescription>The MFm-2 \"Landship\" can lower its hull slightly and create a low-pressure zone to crush nearby enemies—this also damages any loose items nearby.</Wula_Mech_Mobile_Factory.comps.CompAreaDamage.toggleDescription>
+  <Wula_Mech_Mobile_Factory.tools.0.label>Crush</Wula_Mech_Mobile_Factory.tools.0.label>
+
+  <Wula_Mech_Mobile_Shield.label>MSm-8 \"Radiant Shield\"</Wula_Mech_Mobile_Shield.label>
+  <Wula_Mech_Mobile_Shield.description>A medium Wula Empire war machine often used to suppress riots in alien settlements. Its shape is so strange that you can hardly tell where its head is—but don't underestimate it. Its powerful field shield protects an area and reflects heavy fire, while the radiation it emits ignites enemies that enter the shield's range. With the proper license, it can even enable mechanical Wulas to use its built-in phase field for area teleportation, granting unmatched mobility.</Wula_Mech_Mobile_Shield.description>
+  <Wula_Mech_Mobile_Shield.comps.CompAreaDamage.toggleLabel>Thermal radiation</Wula_Mech_Mobile_Shield.comps.CompAreaDamage.toggleLabel>
+  <Wula_Mech_Mobile_Shield.comps.CompAreaDamage.toggleDescription>The MSm-8 \"Radiant Shield\" can open its casing and vaporize enemies who dare enter its reflective field—this also damages any loose items nearby.</Wula_Mech_Mobile_Shield.comps.CompAreaDamage.toggleDescription>
+  <Wula_Mech_Mobile_Shield.tools.0.label>Crush</Wula_Mech_Mobile_Shield.tools.0.label>
+
+  <WULA_Mobile_Bunker.label>BUk-1 \"Kitty Bunker\"</WULA_Mobile_Bunker.label>
+  <WULA_Mobile_Bunker.description>Four kitties are carrying a bunker around. Hard to believe, but that's exactly what's happening. Two more Wula kitties sit behind the firing slits, operating the bunker machine gun.\n\nThe kitties can set the bunker down and all pile inside, turning it back into a building.</WULA_Mobile_Bunker.description>
+  <WULA_Mobile_Bunker.comps.CompTransformIntoBuilding.gizmoLabel>Deploy as Wula kitty bunker</WULA_Mobile_Bunker.comps.CompTransformIntoBuilding.gizmoLabel>
+  <WULA_Mobile_Bunker.comps.CompTransformIntoBuilding.gizmoDesc>The Wula kitties drop the bunker and climb inside, transforming back into a building. Each time it transforms into a building, it has a 24-hour cooldown during which it cannot become a BUk-1 \"Kitty Bunker\" again.</WULA_Mobile_Bunker.comps.CompTransformIntoBuilding.gizmoDesc>
+  <WULA_Mobile_Bunker.tools.0.label>Crush</WULA_Mobile_Bunker.tools.0.label>
+
+  <Wula_Psi_Titan.label>PAt-6 \"Psititan\"</Wula_Psi_Titan.label>
+  <Wula_Psi_Titan.description>A heavy psychic war machine developed under the Wula Empire's state religion. It blinks elegantly through enemy fire and uses powerful shields to deflect incoming projectiles. Countless ritual circuits are etched within its body, turning it into a walking psychic emitter capable of wielding a variety of formidable psychic abilities.</Wula_Psi_Titan.description>
+  <Wula_Psi_Titan.comps.CompAreaDamage.toggleLabel>Scorch area</Wula_Psi_Titan.comps.CompAreaDamage.toggleLabel>
+  <Wula_Psi_Titan.comps.CompAreaDamage.toggleDescription>The enormous energy released from the PAt-6 \"Psititan\" psychic circuits scorches nearby enemies with psychic damage and sets them alight—this also damages any loose items nearby.</Wula_Psi_Titan.comps.CompAreaDamage.toggleDescription>
+  <Wula_Psi_Titan.tools.0.label>Crush</Wula_Psi_Titan.tools.0.label>
+</LanguageData>
