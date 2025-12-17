@@ -1,57 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-  <!-- Base Definitions -->
-  <WULA_ApparelOnSkinBase.description>Close-fitting fabric for Wula Empire synths, offering minimal defensive capability.</WULA_ApparelOnSkinBase.description>
-
-  <!-- Inner Wear -->
   <WULA_Bodystocking_Black.label>Wula Empire Full Black Tights</WULA_Bodystocking_Black.label>
   <WULA_Bodystocking_White.label>Wula Empire Full White Tights</WULA_Bodystocking_White.label>
   <WULA_Pantyhose_Black.label>Wula Empire Black Pantyhose</WULA_Pantyhose_Black.label>
   <WULA_Pantyhose_White.label>Wula Empire White Pantyhose</WULA_Pantyhose_White.label>
   <WULA_Latex_Catsuit.label>Wula Empire Black Latex Catsuit</WULA_Latex_Catsuit.label>
-
-  <!-- Civilian Hats -->
   <WULA_Eggplant_Hat.label>Eggplant Hat</WULA_Eggplant_Hat.label>
   <WULA_Eggplant_Hat.description>Is this even a hat? The stem is here, but where's the eggplant?</WULA_Eggplant_Hat.description>
-
-  <!-- Maid Uniform -->
   <WULA_Maid_Uniform.label>Wula Empire Maid Uniform</WULA_Maid_Uniform.label>
   <WULA_Maid_Uniform.description>Distinctive uniform issued to Wula Empire synths. It offers little defense but is lightweight, aesthetically pleasing, and facilitates movement and work.</WULA_Maid_Uniform.description>
-
   <WULA_Maid_Uniform_Headband.label>Wula Empire Maid Hairband</WULA_Maid_Uniform_Headband.label>
   <WULA_Maid_Uniform_Headband.description>Distinctive uniform issued to Wula Empire synths. It offers little defense but is lightweight, aesthetically pleasing, and facilitates movement and work.</WULA_Maid_Uniform_Headband.description>
-
-  <!-- Commander Apparel -->
   <WULA_Legion_Cloth.label>Wula Empire Commander Uniform</WULA_Legion_Cloth.label>
   <WULA_Legion_Cloth.description>A resplendent, gilded robe worn by Wula Empire commanders.\n\nWhat more introduction do you want to hear? Do you think you have the status to wear something like this?</WULA_Legion_Cloth.description>
-
   <WULA_Swimsuit.label>Wula Empire Swimsuit</WULA_Swimsuit.label>
   <WULA_Swimsuit.description>A swimsuit specially designed for Wula Empire synths, adapted to their ball joints to prevent slipping.\n\nSome might tell you this is the most powerful armor for the Wula species. Don't believe them.</WULA_Swimsuit.description>
-
-  <!-- Armor -->
   <WULA_Assault_Troop_PowerArmor.label>Wula Empire Assault Troop Armor</WULA_Assault_Troop_PowerArmor.label>
   <WULA_Assault_Troop_PowerArmor.description>The semi-ceremonial, semi-protective armor worn by Wula Empire assault troops. Considering these troops mostly function as military police, this armor is sufficient. In addition to using lightweight composite materials to protect the torso, it includes a defense field generator capable of erecting an area shield that reflects projectiles.</WULA_Assault_Troop_PowerArmor.description>
   <WULA_Assault_Troop_Helmet.label>Wula Empire Assault Troop Helmet</WULA_Assault_Troop_Helmet.label>
   <WULA_Assault_Troop_Helmet.description>The cap that accompanies the semi-ceremonial, semi-protective armor worn by Wula Empire assault troops. Does this even provide any defense?</WULA_Assault_Troop_Helmet.description>
-
   <WULA_Heavy_Infantry_PowerArmor.label>Wula Empire Heavy Infantry Armor</WULA_Heavy_Infantry_PowerArmor.label>
   <WULA_Heavy_Infantry_PowerArmor.description>The power armor worn by Wula Empire heavy infantry, the heaviest tier in the empire's standard equipment inventory—slow-moving, highly defensive, with a powerful deflector shield, and back-mounted with two ILm-60 "Chrome" mortars for bombarding enemies.</WULA_Heavy_Infantry_PowerArmor.description>
-  <WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff.label>ILm-60 "Chrome" Mortar</WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff.label>
-  <WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff.description>A twin-linked light mortar system externally mounted as a backpack weapon attachment on the Wula Empire heavy infantry armor. It can analyze enemy movement and fire autonomously—as long as the wearer is not in melee combat.</WULA_Heavy_Infantry_PowerArmor_Mortar_Hediff.description>
-
   <WULA_Heavy_Infantry_Helmet.label>Wula Empire Heavy Infantry Helmet</WULA_Heavy_Infantry_Helmet.label>
   <WULA_Heavy_Infantry_Helmet.description>The helmet that accompanies Wula Empire heavy infantry armor. It provides powerful defense.</WULA_Heavy_Infantry_Helmet.description>
-
   <WULA_Heavy_Infantry_Helmet_Nomask.label>Wula Empire Heavy Infantry Helmet (No Mask)</WULA_Heavy_Infantry_Helmet_Nomask.label>
   <WULA_Heavy_Infantry_Helmet_Nomask.description>The helmet that accompanies Wula Empire heavy infantry armor. It provides powerful defense. This version lacks an air mask, as the quartermaster finally remembered that mechanical Wulas cannot be poisoned.</WULA_Heavy_Infantry_Helmet_Nomask.description>
-
   <WULA_Champion_Warrior_Armor.label>Wula Empire Champion Armor</WULA_Champion_Warrior_Armor.label>
   <WULA_Champion_Warrior_Armor.description>Armor provided to the Wula Empire's Ambition's Champion Warriors. It is considerably lighter than those heavy armors. Additionally, it is equipped with a rare double-layer full deflector shield, making external projectiles utterly incapable of penetrating its shield. This forces opponents to enter the shield's area for close combat.</WULA_Champion_Warrior_Armor.description>
-
-  <!-- Shields -->
   <WULA_Shield_Base.label>Wula Empire Shield</WULA_Shield_Base.label>
   <WULA_Shield_Base.description>A shield for use by Wula Empire assault teams, classified as a heavy shield in the armament sequence. It can provide a bipod for ranged weapons to stabilize aiming.</WULA_Shield_Base.description>
-
-  <!-- Apparel Layer -->
-  <Shield.label>Shield</Shield.label>
 </LanguageData>

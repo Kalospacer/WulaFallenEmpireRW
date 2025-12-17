@@ -1,13 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-
   <WULA_Addons_Antenna_Hide.label>Hidden Antenna</WULA_Addons_Antenna_Hide.label>
   <WULA_Addons_Antenna_Hide.description>A special command antenna embedded behind the head, with a unique system code. Any colonist can use this communication device to contact the Wula Empire fleet; it is a credential of the Empire's recognition of the colony.</WULA_Addons_Antenna_Hide.description>
-
-  <WULA_AutoJumpdrive.label>Micro Teleporter</WULA_AutoJumpdrive.label>
-  <WULA_AutoJumpdrive.description>A micro jump-drive installed in Wula Empire synth military units, which retrieves the synth when it reaches the designated combat time.</WULA_AutoJumpdrive.description>
-
-  <WULA_AutoJumpdrive_Week.label>Micro Teleporter (Weekly)</WULA_AutoJumpdrive_Week.label>
-  <WULA_AutoJumpdrive_Week.description>A micro jump-drive installed in Wula Empire synth military units, which retrieves the synth when it reaches the designated combat time.</WULA_AutoJumpdrive_Week.description>
-
 </LanguageData>

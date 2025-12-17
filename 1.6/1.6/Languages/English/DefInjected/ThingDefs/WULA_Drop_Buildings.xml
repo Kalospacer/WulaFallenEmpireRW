@@ -1,106 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-  <!-- Walls and Doors -->
   <WulaWall_Cleanzone.label>Wula Empire Fortress Wall</WulaWall_Cleanzone.label>
   <WulaWall_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nWula Empire fortress exterior walls are quite thick, capable of withstanding significant damage, and are airtight, allowing them to be used on starship hulls.</WulaWall_Cleanzone.description>
-
   <WulaWall_Incoming.label>Wula Empire Fortress Wall (Incoming Drop)</WulaWall_Incoming.label>
   <WulaWall.label>Wula Empire Fortress Wall</WulaWall.label>
   <WulaWall.description>Wula Empire fortress exterior wall, quite thick, capable of withstanding significant damage, and is airtight, allowing it to be used on starship hulls.</WulaWall.description>
-
   <WulaDoor_Cleanzone.label>Wula Empire Gate</WulaDoor_Cleanzone.label>
   <WulaDoor_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nWula Empire fortress gates can not only withstand significant explosive and concussive damage but also feature servo systems that operate without power to increase passage speed.</WulaDoor_Cleanzone.description>
-
   <WulaDoor_Incoming.label>Wula Empire Gate (Incoming Drop)</WulaDoor_Incoming.label>
   <WulaDoor.label>Wula Empire Gate</WulaDoor.label>
   <WulaDoor.description>Wula Empire fortress gate, not only capable of withstanding significant explosive and concussive damage but also featuring servo systems that operate without power to increase passage speed.</WulaDoor.description>
-
-  <WulaFloor.label>Wula Empire Floor</WulaFloor.label>
-  <WulaFloor.description>Flooring used in Wula Empire fortresses, aesthetically pleasing and easy to clean, while also treated for fire resistance.</WulaFloor.description>
-
   <WulaShelter_Cleanzone.label>Wula Empire Shelter</WulaShelter_Cleanzone.label>
   <WulaShelter_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nShelter used to protect Wula Empire warriors, very thick and resistant to explosions. Warriors can fire over these shelters.</WulaShelter_Cleanzone.description>
-
   <WulaShelter_Incoming.label>Wula Empire Shelter (Incoming Drop)</WulaShelter_Incoming.label>
   <WulaShelter.label>Wula Empire Shelter</WulaShelter.label>
   <WulaShelter.description>Shelter used to protect Wula Empire warriors, very thick and resistant to explosions. Warriors can fire over these shelters.</WulaShelter.description>
-
-  <!-- Maintenance Pod -->
   <WULA_MaintenancePod_Cleanzone.label>Synth Maintenance Pod</WULA_MaintenancePod_Cleanzone.label>
   <WULA_MaintenancePod_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nThe synth maintenance pod is a facility designed for Wula Empire synths. Mechanical Wulas need to enter it periodically for body function maintenance and calibration, otherwise their bodies will gradually weaken. Maintenance consumes components and repairs all wounds.</WULA_MaintenancePod_Cleanzone.description>
-
   <WULA_MaintenancePod_Incoming.label>Synth Maintenance Pod (Incoming Drop)</WULA_MaintenancePod_Incoming.label>
   <WULA_MaintenancePod.label>Synth Maintenance Pod</WULA_MaintenancePod.label>
   <WULA_MaintenancePod.description>A fully automated maintenance pod designed for Wula Empire synths. Mechanical Wulas need to enter it periodically for body function maintenance and calibration, otherwise their bodies will gradually weaken. Maintenance consumes components and repairs all wounds.</WULA_MaintenancePod.description>
-
-  <!-- Order Console (Weapon/Armor Producer) -->
   <WULA_WeaponArmor_Productor_Cleanzone.label>Wula Empire Operations Comms Station</WULA_WeaponArmor_Productor_Cleanzone.label>
   <WULA_WeaponArmor_Productor_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nThe Wula Empire Operations Comms Station is a special communications console used to contact the Wula Empire mothership and engineering vessels to place weapon and equipment orders. Production of these weapons and equipment does not require colony participation; simply use the Wula Empire Material Exchange Pod to send materials to the Imperial Fleet, then place orders based on the material quantity.</WULA_WeaponArmor_Productor_Cleanzone.description>
-
   <WULA_WeaponArmor_Productor_Incoming.label>Wula Empire Operations Comms Station (Incoming Drop)</WULA_WeaponArmor_Productor_Incoming.label>
   <WULA_WeaponArmor_Productor.label>Wula Empire Operations Comms Station</WULA_WeaponArmor_Productor.label>
   <WULA_WeaponArmor_Productor.description>A special communications console used to contact the Wula Empire mothership and engineering vessels to place orders. Production of these supplies and equipment does not require colony participation; simply use the Wula Empire Material Transport Pod to send materials to the Imperial Fleet, then place orders based on the material quantity.</WULA_WeaponArmor_Productor.description>
-    <!-- WULA_WeaponArmor_Productor -->
-  <WULA_WeaponArmor_Productor.comps.3.label>Contact P.I.A</WULA_WeaponArmor_Productor.comps.3.label>
-  <WULA_WeaponArmor_Productor.comps.3.failReason>Cannot reach.</WULA_WeaponArmor_Productor.comps.3.failReason>
-
-  <WULA_WeaponArmor_Productor.comps.4.label>Contact "Legion"</WULA_WeaponArmor_Productor.comps.4.label>
-  <WULA_WeaponArmor_Productor.comps.4.failReason>Cannot reach.</WULA_WeaponArmor_Productor.comps.4.failReason>
-
-  <!-- Transport Pod -->
   <WULA_TransportPod_Cleanzone.label>Wula Empire Transport Pod</WULA_TransportPod_Cleanzone.label>
   <WULA_TransportPod_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nThe Wula Empire transport pod is for Wula Empire colony residents to move about. Essentially, it launches colonists and cargo to the Wula Empire fleet in orbit, then drops them at another location, so it can travel to far-off places.</WULA_TransportPod_Cleanzone.description>
-
   <WULA_TransportPod_Incoming.label>Wula Empire Drop Pod (Incoming)</WULA_TransportPod_Incoming.label>
   <WULA_TransportPod.label>Wula Empire Transport Pod</WULA_TransportPod.label>
   <WULA_TransportPod.description>For Wula Empire colony residents to move about. Essentially, it launches colonists and cargo to the Wula Empire fleet in orbit, then drops them at another location, so it can travel to far-off places.</WULA_TransportPod.description>
-
   <WULA_GlobalStorageSenderPod.label>Wula Empire Material Transport Pod</WULA_GlobalStorageSenderPod.label>
   <WULA_GlobalStorageSenderPod.description>A disposable material transport device that can launch loaded cargo to the Wula Empire fleet for its use.</WULA_GlobalStorageSenderPod.description>
-
   <WULA_TradeSenderPod.label>Wula Empire Material Recycling Pod</WULA_TradeSenderPod.label>
   <WULA_TradeSenderPod.description>A disposable material transport device used to package and send loot to the Wula Empire fleet in exchange for silver. This silver is stored in the fleet, not directly launched to the colony.</WULA_TradeSenderPod.description>
-
   <WULA_DropPodLeaving.label>Wula Empire Drop Pod (Launching)</WULA_DropPodLeaving.label>
   <WULA_DropPodIncoming.label>Wula Empire Drop Pod (Incoming)</WULA_DropPodIncoming.label>
   <WULA_DropPod_Active.label>Wula Empire Drop Pod</WULA_DropPod_Active.label>
-
-  <!-- Charger -->
   <WULA_Machine_Recharger_Cleanzone.label>Wula Empire Underground Maintenance Station</WULA_Machine_Recharger_Cleanzone.label>
   <WULA_Machine_Recharger_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nThe Wula Empire Underground Maintenance Station is a charging station capable of storing large amounts of electricity and allowing all size types of Wula Empire mechanoids to charge. It does not support synth refueling. As its foundation is buried underground, it does not obstruct the movement of other colonists and mechanoids above it.</WULA_Machine_Recharger_Cleanzone.description>
-
   <WULA_Machine_Recharger_Incoming.label>Wula Empire Underground Maintenance Station (Incoming Drop)</WULA_Machine_Recharger_Incoming.label>
   <WULA_Machine_Recharger.label>Wula Empire Underground Maintenance Station</WULA_Machine_Recharger.label>
   <WULA_Machine_Recharger.description>A charging station capable of storing large amounts of electricity and allowing all size types of Wula Empire mechanoids to charge. It does not support synth refueling. As its foundation is buried underground, it does not obstruct the movement of other colonists and mechanoids above it.</WULA_Machine_Recharger.description>
-
-  <!-- Charging Bed -->
   <WULA_Charging_Station_Synth_Cleanzone.label>Synth Charging Station</WULA_Charging_Station_Synth_Cleanzone.label>
   <WULA_Charging_Station_Synth_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nThe synth charging station is an inspection station for Wula Empire synths to refuel and modify their bodies. When a mechanical Wula needs to charge, it will prioritize going to this station.</WULA_Charging_Station_Synth_Cleanzone.description>
-
   <WULA_Charging_Station_Synth_Incoming.label>Synth Charging Station (Incoming Drop)</WULA_Charging_Station_Synth_Incoming.label>
   <WULA_Charging_Station_Synth.label>Synth Charging Station</WULA_Charging_Station_Synth.label>
   <WULA_Charging_Station_Synth.description>An inspection station for Wula Empire synths to refuel and modify their bodies. When a mechanical Wula needs to charge, it will prioritize going to this station.</WULA_Charging_Station_Synth.description>
-
-  <!-- Fabricator -->
   <WULA_Cube_Productor_Cleanzone.label>Wula Empire Fabricator</WULA_Cube_Productor_Cleanzone.label>
   <WULA_Cube_Productor_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nThe Wula Empire fabricator is a simple plastic construct that can only produce some materials, reducing the fleet's processing pressure through local processing.</WULA_Cube_Productor_Cleanzone.description>
-
   <WULA_Cube_Productor_Incoming.label>Wula Empire Fabricator (Incoming Drop)</WULA_Cube_Productor_Incoming.label>
   <WULA_Cube_Productor.label>Wula Empire Fabricator</WULA_Cube_Productor.label>
   <WULA_Cube_Productor.description>A simple plastic construct that can only produce some materials, reducing the fleet's processing pressure through local processing.</WULA_Cube_Productor.description>
-
-  <!-- Dark Matter Generator -->
   <Wula_DarkEnergy_Generators_Cleanzone.label>Dark Matter Generator</Wula_DarkEnergy_Generators_Cleanzone.label>
   <Wula_DarkEnergy_Generators_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nA Wula Empire generator that uses dark matter annihilation reactions to provide energy. It requires dark matter as fuel at a high consumption rate but possesses generating capabilities far beyond ordinary generators. Designed to be airdropped with turret groups in field environments, this generator's armor layer is very thick.</Wula_DarkEnergy_Generators_Cleanzone.description>
-
   <Wula_DarkEnergy_Generators_Incoming.label>Dark Matter Generator (Incoming Drop)</Wula_DarkEnergy_Generators_Incoming.label>
   <Wula_DarkEnergy_Generators.label>Dark Matter Generator</Wula_DarkEnergy_Generators.label>
   <Wula_DarkEnergy_Generators.description>A Wula Empire generator that uses dark matter annihilation reactions to provide energy. It requires dark matter as fuel at a high consumption rate but possesses generating capabilities far beyond ordinary generators. Designed to be airdropped with turret groups in field environments, this generator's armor layer is very thick.</Wula_DarkEnergy_Generators.description>
-
-  <!-- Fusion Generator -->
   <Wula_Fusion_Generators_Cleanzone.label>Fusion Generator</Wula_Fusion_Generators_Cleanzone.label>
   <Wula_Fusion_Generators_Cleanzone.description>Clear a site and prepare resources, enabling the Wula Empire to drop a building here.\n\nA simple generator relying on heavy nuclear fusion for power generation. Its output is not very high, but the fuel is easy to find; it just needs to be filled with stone to generate electricity.</Wula_Fusion_Generators_Cleanzone.description>
-
   <Wula_Fusion_Generators_Incoming.label>Fusion Generator (Incoming Drop)</Wula_Fusion_Generators_Incoming.label>
   <Wula_Fusion_Generators.label>Fusion Generator</Wula_Fusion_Generators.label>
   <Wula_Fusion_Generators.description>A simple generator relying on heavy nuclear fusion for power generation. Its output is not very high, but the fuel is easy to find; it just needs to be filled with stone to generate electricity.</Wula_Fusion_Generators.description>

@@ -1,46 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <Make_WULA_Alloy.label>Produce Wula Empire Alloy</Make_WULA_Alloy.label>
-  <Make_WULA_Alloy.description>A high-density alloy produced by processing steel, it is the raw material for many Wula Empire equipment.</Make_WULA_Alloy.description>
-  <Make_WULA_Alloy.jobString>Forging alloy</Make_WULA_Alloy.jobString>
-
-  <Make_WULA_Alloy_Group.label>Produce Wula Empire Alloy (10 pieces)</Make_WULA_Alloy_Group.label>
-  <Make_WULA_Alloy_Group.description>A high-density alloy produced by processing steel, it is the raw material for many Wula Empire equipment.</Make_WULA_Alloy_Group.description>
-  <Make_WULA_Alloy_Group.jobString>Forging alloy</Make_WULA_Alloy_Group.jobString>
-
-  <Make_Component_By_WULA_Cube_Productor.label>Manufacture Components</Make_Component_By_WULA_Cube_Productor.label>
-  <Make_Component_By_WULA_Cube_Productor.description>Manufacture components using Wula Empire fabricators. Takes longer than a precision assembly bench and consumes more resources.</Make_Component_By_WULA_Cube_Productor.description>
-  <Make_Component_By_WULA_Cube_Productor.jobString>Manufacturing components</Make_Component_By_WULA_Cube_Productor.jobString>
-
-  <Make_WULA_Charge_Cube.label>Manufacture Wula Empire Power Core</Make_WULA_Charge_Cube.label>
-  <Make_WULA_Charge_Cube.description>Manufacture a Wula Empire power core, including a rechargeable capacitor and energy to supply machinery. This is the only acceptable external energy source for mechanical Wulas and a precursor for many Wula Empire products.</Make_WULA_Charge_Cube.description>
-  <Make_WULA_Charge_Cube.jobString>Manufacturing Wula Empire power core</Make_WULA_Charge_Cube.jobString>
-
-  <Recharge_WULA_Charge_Cube.label>Recharge Power Core</Recharge_WULA_Charge_Cube.label>
-  <Recharge_WULA_Charge_Cube.description>Use chemfuel to recharge depleted Wula Empire power cores that have lost their energy.</Recharge_WULA_Charge_Cube.description>
-  <Recharge_WULA_Charge_Cube.jobString>Recharging Wula Empire power core</Recharge_WULA_Charge_Cube.jobString>
-
-  <Recharge_WULA_Charge_Cube_Group.label>Recharge Power Cores (4)</Recharge_WULA_Charge_Cube_Group.label>
-  <Recharge_WULA_Charge_Cube_Group.description>Use chemfuel to recharge depleted Wula Empire power cores that have lost their energy.</Recharge_WULA_Charge_Cube_Group.description>
-  <Recharge_WULA_Charge_Cube_Group.jobString>Recharging Wula Empire power cores</Recharge_WULA_Charge_Cube_Group.jobString>
-
-  <Make_WULA_Dark_Matter_Item.label>Manufacture Wula Empire Dark Matter</Make_WULA_Dark_Matter_Item.label>
-  <Make_WULA_Dark_Matter_Item.description>Manufacture 1 unit of encapsulated dark matter, consisting of a dark matter containment device and dark matter. It is a necessary energy source for Wula Empire large-scale facilities and armaments.</Make_WULA_Dark_Matter_Item.description>
-  <Make_WULA_Dark_Matter_Item.jobString>Manufacturing Wula Empire dark matter</Make_WULA_Dark_Matter_Item.jobString>
-
-  <Make_WULA_Neutronium.label>Compress Neutronium</Make_WULA_Neutronium.label>
-  <Make_WULA_Neutronium.description>Manufacture 1 unit of neutronium, a powerful material that can create the hardest armor or the strongest melee weapons.</Make_WULA_Neutronium.description>
-  <Make_WULA_Neutronium.jobString>Compressing neutronium</Make_WULA_Neutronium.jobString>
-
-  <WULA_Build_Wula_Synth.label>Build URa-00 "Mechanical Wula"</WULA_Build_Wula_Synth.label>
-  <WULA_Build_Wula_Synth.description>Build a URa-00 "Mechanical Wula" synth, the main species of a Wula Empire synth colony. Possesses complex, realistic simulated emotions while being a mechanoid.</WULA_Build_Wula_Synth.description>
-
-  <WULA_Build_Mech_WULA_Cat.label>Build CAt-11 "Cat"</WULA_Build_Mech_WULA_Cat.label>
-  <WULA_Build_Mech_WULA_Cat.description>Build a CAt-11 "Cat".</WULA_Build_Mech_WULA_Cat.description>
-
-  <WULA_Build_Mech_WULA_Cat_Constructor.label>Build CAt-86 "Cat Worker"</WULA_Build_Mech_WULA_Cat_Constructor.label>
-  <WULA_Build_Mech_WULA_Cat_Constructor.description>Build a CAt-86 "Cat Worker".</WULA_Build_Mech_WULA_Cat_Constructor.description>
-
-  <WULA_Build_Mech_WULA_Cat_Assault.label>Build CAt-46 "Cat Assault Force"</WULA_Build_Mech_WULA_Cat_Assault.label>
-  <WULA_Build_Mech_WULA_Cat_Assault.description>Build a CAt-46 "Cat Assault Force".</WULA_Build_Mech_WULA_Cat_Assault.description>
+  <Install_WULA_AutoJumpdrive.description>Install a Mini-Jumpdrive.</Install_WULA_AutoJumpdrive.description>
+  <Install_WULA_AutoJumpdrive.jobString>Installing Mini-Jumpdrive.</Install_WULA_AutoJumpdrive.jobString>
+  <Install_WULA_AutoJumpdrive.label>Install Mini-Jumpdrive</Install_WULA_AutoJumpdrive.label>
+  <Install_WULA_AutoJumpdrive_Week.description>Install a Mini-Jumpdrive (Weekly).</Install_WULA_AutoJumpdrive_Week.description>
+  <Install_WULA_AutoJumpdrive_Week.jobString>Installing Mini-Jumpdrive (Weekly).</Install_WULA_AutoJumpdrive_Week.jobString>
+  <Install_WULA_AutoJumpdrive_Week.label>Install Mini-Jumpdrive (Weekly)</Install_WULA_AutoJumpdrive_Week.label>
+  <Make_Apparel_WULA_Manpack_Loitering_Munition.description>Make MPl_8&quot;Vermiculite&quot;.</Make_Apparel_WULA_Manpack_Loitering_Munition.description>
+  <Make_Apparel_WULA_Manpack_Loitering_Munition.jobString>Making MPl_8&quot;Vermiculite&quot;.</Make_Apparel_WULA_Manpack_Loitering_Munition.jobString>
+  <Make_Apparel_WULA_Manpack_Loitering_Munition.label>Make MPl_8&quot;Vermiculite&quot;</Make_Apparel_WULA_Manpack_Loitering_Munition.label>
+  <Make_Component_By_WULA_Cube_Productor.description>Make components using the Wula Empire weaver core. Takes longer and costs more resources than the fabrication bench.</Make_Component_By_WULA_Cube_Productor.description>
+  <Make_Component_By_WULA_Cube_Productor.jobString>Making components.</Make_Component_By_WULA_Cube_Productor.jobString>
+  <Make_Component_By_WULA_Cube_Productor.label>Make components</Make_Component_By_WULA_Cube_Productor.label>
+  <Make_Mech_WULA_Cat.description>Make CAt-11&quot;Kitty&quot;.</Make_Mech_WULA_Cat.description>
+  <Make_Mech_WULA_Cat.jobString>Making CAt-11&quot;Kitty&quot;.</Make_Mech_WULA_Cat.jobString>
+  <Make_Mech_WULA_Cat.label>Make CAt-11&quot;Kitty&quot;</Make_Mech_WULA_Cat.label>
+  <Make_Mech_WULA_Cat_Assault.description>Make CAt-46&quot;Kitty Assault Squad&quot;.</Make_Mech_WULA_Cat_Assault.description>
+  <Make_Mech_WULA_Cat_Assault.jobString>Making CAt-46&quot;Kitty Assault Squad&quot;.</Make_Mech_WULA_Cat_Assault.jobString>
+  <Make_Mech_WULA_Cat_Assault.label>Make CAt-46&quot;Kitty Assault Squad&quot;</Make_Mech_WULA_Cat_Assault.label>
+  <Make_Mech_WULA_Cat_Cloak_Sniper.description>Make CAt-71&quot;Special Ops Kitty&quot;.</Make_Mech_WULA_Cat_Cloak_Sniper.description>
+  <Make_Mech_WULA_Cat_Cloak_Sniper.jobString>Making CAt-71&quot;Special Ops Kitty&quot;.</Make_Mech_WULA_Cat_Cloak_Sniper.jobString>
+  <Make_Mech_WULA_Cat_Cloak_Sniper.label>Make CAt-71&quot;Special Ops Kitty&quot;</Make_Mech_WULA_Cat_Cloak_Sniper.label>
+  <Make_Mech_WULA_Cat_Constructor.description>Make CAt-86&quot;Kitty Laborer&quot;.</Make_Mech_WULA_Cat_Constructor.description>
+  <Make_Mech_WULA_Cat_Constructor.jobString>Making CAt-86&quot;Kitty Laborer&quot;.</Make_Mech_WULA_Cat_Constructor.jobString>
+  <Make_Mech_WULA_Cat_Constructor.label>Make CAt-86&quot;Kitty Laborer&quot;</Make_Mech_WULA_Cat_Constructor.label>
+  <Make_Mech_WULA_Fire_Cat.description>Make CAt-55&quot;Assault Kitty&quot;.</Make_Mech_WULA_Fire_Cat.description>
+  <Make_Mech_WULA_Fire_Cat.jobString>Making CAt-55&quot;Assault Kitty&quot;.</Make_Mech_WULA_Fire_Cat.jobString>
+  <Make_Mech_WULA_Fire_Cat.label>Make CAt-55&quot;Assault Kitty&quot;</Make_Mech_WULA_Fire_Cat.label>
+  <Make_WulaSpecies.description>Make Wula synth.</Make_WulaSpecies.description>
+  <Make_WulaSpecies.jobString>Making Wula synth.</Make_WulaSpecies.jobString>
+  <Make_WulaSpecies.label>Make Wula synth</Make_WulaSpecies.label>
+  <Make_WulaWall.description>Make Wula Empire fortress wall.</Make_WulaWall.description>
+  <Make_WulaWall.jobString>Making Wula Empire fortress wall.</Make_WulaWall.jobString>
+  <Make_WulaWall.label>Make Wula Empire fortress wall</Make_WulaWall.label>
+  <Make_WulaWall_Inner.description>Make Wula Empire bulkhead wall.</Make_WulaWall_Inner.description>
+  <Make_WulaWall_Inner.jobString>Making Wula Empire bulkhead wall.</Make_WulaWall_Inner.jobString>
+  <Make_WulaWall_Inner.label>Make Wula Empire bulkhead wall</Make_WulaWall_Inner.label>
+  <Make_WULA_Alloy.description>A high-density alloy processed from steel. A raw material for many Wula Empire products.</Make_WULA_Alloy.description>
+  <Make_WULA_Alloy.jobString>Forging alloy.</Make_WULA_Alloy.jobString>
+  <Make_WULA_Alloy.label>Make Wula Empire alloy</Make_WULA_Alloy.label>
+  <Make_WULA_Alloy_Group.description>A high-density alloy processed from steel. A raw material for many Wula Empire products.</Make_WULA_Alloy_Group.description>
+  <Make_WULA_Alloy_Group.jobString>Forging alloy.</Make_WULA_Alloy_Group.jobString>
+  <Make_WULA_Alloy_Group.label>Make Wula Empire alloy (x10)</Make_WULA_Alloy_Group.label>
+  <Make_WULA_Assault_Troop_Helmet.description>Make Wula Empire Assault Trooper helmet.</Make_WULA_Assault_Troop_Helmet.description>
+  <Make_WULA_Assault_Troop_Helmet.ingredients.0.filter.customSummary>Metal</Make_WULA_Assault_Troop_Helmet.ingredients.0.filter.customSummary>
+  <Make_WULA_Assault_Troop_Helmet.jobString>Making Wula Empire Assault Trooper helmet.</Make_WULA_Assault_Troop_Helmet.jobString>
+  <Make_WULA_Assault_Troop_Helmet.label>Make Wula Empire Assault Trooper helmet</Make_WULA_Assault_Troop_Helmet.label>
+  <Make_WULA_Assault_Troop_PowerArmor.description>Make Wula Empire Assault Trooper armor.</Make_WULA_Assault_Troop_PowerArmor.description>
+  <Make_WULA_Assault_Troop_PowerArmor.ingredients.0.filter.customSummary>Metal</Make_WULA_Assault_Troop_PowerArmor.ingredients.0.filter.customSummary>
+  <Make_WULA_Assault_Troop_PowerArmor.jobString>Making Wula Empire Assault Trooper armor.</Make_WULA_Assault_Troop_PowerArmor.jobString>
+  <Make_WULA_Assault_Troop_PowerArmor.label>Make Wula Empire Assault Trooper armor</Make_WULA_Assault_Troop_PowerArmor.label>
+  <Make_WULA_Bodystocking_Black.description>Make Wula Empire black bodystocking.</Make_WULA_Bodystocking_Black.description>
+  <Make_WULA_Bodystocking_Black.jobString>Making Wula Empire black bodystocking.</Make_WULA_Bodystocking_Black.jobString>
+  <Make_WULA_Bodystocking_Black.label>Make Wula Empire black bodystocking</Make_WULA_Bodystocking_Black.label>
+  <Make_WULA_Bodystocking_White.description>Make Wula Empire white bodystocking.</Make_WULA_Bodystocking_White.description>
+  <Make_WULA_Bodystocking_White.jobString>Making Wula Empire white bodystocking.</Make_WULA_Bodystocking_White.jobString>
+  <Make_WULA_Bodystocking_White.label>Make Wula Empire white bodystocking</Make_WULA_Bodystocking_White.label>
+  <Make_WULA_Champion_Warrior_Armor.description>Make Wula Empire champion armor.</Make_WULA_Champion_Warrior_Armor.description>
+  <Make_WULA_Champion_Warrior_Armor.ingredients.0.filter.customSummary>Metal</Make_WULA_Champion_Warrior_Armor.ingredients.0.filter.customSummary>
+  <Make_WULA_Champion_Warrior_Armor.jobString>Making Wula Empire champion armor.</Make_WULA_Champion_Warrior_Armor.jobString>
+  <Make_WULA_Champion_Warrior_Armor.label>Make Wula Empire champion armor</Make_WULA_Champion_Warrior_Armor.label>
+  <Make_WULA_Charge_Cube.description>Make a Wula Empire energy core, including a rechargeable capacitor and the energy needed to power machinery. This is the only acceptable external energy source for Wula synths, and a precursor for many Wula Empire products.</Make_WULA_Charge_Cube.description>
+  <Make_WULA_Charge_Cube.jobString>Making Wula Empire energy core.</Make_WULA_Charge_Cube.jobString>
+  <Make_WULA_Charge_Cube.label>Make Wula Empire energy core</Make_WULA_Charge_Cube.label>
+  <Make_WULA_Dark_Matter_Item.description>Make 1 packaged dark matter, composed of a dark matter containment device and dark matter. A required energy source for Wula Empire large installations and armaments.</Make_WULA_Dark_Matter_Item.description>
+  <Make_WULA_Dark_Matter_Item.jobString>Making Wula Empire dark matter.</Make_WULA_Dark_Matter_Item.jobString>
+  <Make_WULA_Dark_Matter_Item.label>Make Wula Empire dark matter</Make_WULA_Dark_Matter_Item.label>
+  <Make_WULA_Eggplant_Hat.description>Make eggplant hat.</Make_WULA_Eggplant_Hat.description>
+  <Make_WULA_Eggplant_Hat.ingredients.0.filter.customSummary>Textile</Make_WULA_Eggplant_Hat.ingredients.0.filter.customSummary>
+  <Make_WULA_Eggplant_Hat.jobString>Making eggplant hat.</Make_WULA_Eggplant_Hat.jobString>
+  <Make_WULA_Eggplant_Hat.label>Make eggplant hat</Make_WULA_Eggplant_Hat.label>
+  <Make_WULA_Heavy_Infantry_Helmet.description>Make Wula Empire Heavy helmet.</Make_WULA_Heavy_Infantry_Helmet.description>
+  <Make_WULA_Heavy_Infantry_Helmet.ingredients.0.filter.customSummary>Metal</Make_WULA_Heavy_Infantry_Helmet.ingredients.0.filter.customSummary>
+  <Make_WULA_Heavy_Infantry_Helmet.jobString>Making Wula Empire Heavy helmet.</Make_WULA_Heavy_Infantry_Helmet.jobString>
+  <Make_WULA_Heavy_Infantry_Helmet.label>Make Wula Empire Heavy helmet</Make_WULA_Heavy_Infantry_Helmet.label>
+  <Make_WULA_Heavy_Infantry_Helmet_Nomask.description>Make Wula Empire Heavy helmet(No mask).</Make_WULA_Heavy_Infantry_Helmet_Nomask.description>
+  <Make_WULA_Heavy_Infantry_Helmet_Nomask.ingredients.0.filter.customSummary>Metal</Make_WULA_Heavy_Infantry_Helmet_Nomask.ingredients.0.filter.customSummary>
+  <Make_WULA_Heavy_Infantry_Helmet_Nomask.jobString>Making Wula Empire Heavy helmet(No mask).</Make_WULA_Heavy_Infantry_Helmet_Nomask.jobString>
+  <Make_WULA_Heavy_Infantry_Helmet_Nomask.label>Make Wula Empire Heavy helmet(No mask)</Make_WULA_Heavy_Infantry_Helmet_Nomask.label>
+  <Make_WULA_Heavy_Infantry_PowerArmor.description>Make Wula Empire Heavy armor.</Make_WULA_Heavy_Infantry_PowerArmor.description>
+  <Make_WULA_Heavy_Infantry_PowerArmor.ingredients.0.filter.customSummary>Metal</Make_WULA_Heavy_Infantry_PowerArmor.ingredients.0.filter.customSummary>
+  <Make_WULA_Heavy_Infantry_PowerArmor.jobString>Making Wula Empire Heavy armor.</Make_WULA_Heavy_Infantry_PowerArmor.jobString>
+  <Make_WULA_Heavy_Infantry_PowerArmor.label>Make Wula Empire Heavy armor</Make_WULA_Heavy_Infantry_PowerArmor.label>
+  <Make_WULA_Latex_Catsuit.description>Make Wula Empire black catsuit.</Make_WULA_Latex_Catsuit.description>
+  <Make_WULA_Latex_Catsuit.jobString>Making Wula Empire black catsuit.</Make_WULA_Latex_Catsuit.jobString>
+  <Make_WULA_Latex_Catsuit.label>Make Wula Empire black catsuit</Make_WULA_Latex_Catsuit.label>
+  <Make_WULA_Maid_Uniform.description>Make Wula Empire maid outfit.</Make_WULA_Maid_Uniform.description>
+  <Make_WULA_Maid_Uniform.ingredients.0.filter.customSummary>Textile</Make_WULA_Maid_Uniform.ingredients.0.filter.customSummary>
+  <Make_WULA_Maid_Uniform.jobString>Making Wula Empire maid outfit.</Make_WULA_Maid_Uniform.jobString>
+  <Make_WULA_Maid_Uniform.label>Make Wula Empire maid outfit</Make_WULA_Maid_Uniform.label>
+  <Make_WULA_Maid_Uniform_Headband.description>Make Wula Empire maid headband.</Make_WULA_Maid_Uniform_Headband.description>
+  <Make_WULA_Maid_Uniform_Headband.ingredients.0.filter.customSummary>Textile</Make_WULA_Maid_Uniform_Headband.ingredients.0.filter.customSummary>
+  <Make_WULA_Maid_Uniform_Headband.jobString>Making Wula Empire maid headband.</Make_WULA_Maid_Uniform_Headband.jobString>
+  <Make_WULA_Maid_Uniform_Headband.label>Make Wula Empire maid headband</Make_WULA_Maid_Uniform_Headband.label>
+  <Make_WULA_MW_Breaker_Bar.description>Make PMb-97&quot;Wallbreaker&quot;.</Make_WULA_MW_Breaker_Bar.description>
+  <Make_WULA_MW_Breaker_Bar.ingredients.0.filter.customSummary>Metal</Make_WULA_MW_Breaker_Bar.ingredients.0.filter.customSummary>
+  <Make_WULA_MW_Breaker_Bar.jobString>Making PMb-97&quot;Wallbreaker&quot;.</Make_WULA_MW_Breaker_Bar.jobString>
+  <Make_WULA_MW_Breaker_Bar.label>Make PMb-97&quot;Wallbreaker&quot;</Make_WULA_MW_Breaker_Bar.label>
+  <Make_WULA_MW_ChainSword.description>Make CMs-1&quot;Chainsaw Sword&quot;.</Make_WULA_MW_ChainSword.description>
+  <Make_WULA_MW_ChainSword.ingredients.0.filter.customSummary>Metal</Make_WULA_MW_ChainSword.ingredients.0.filter.customSummary>
+  <Make_WULA_MW_ChainSword.jobString>Making CMs-1&quot;Chainsaw Sword&quot;.</Make_WULA_MW_ChainSword.jobString>
+  <Make_WULA_MW_ChainSword.label>Make CMs-1&quot;Chainsaw Sword&quot;</Make_WULA_MW_ChainSword.label>
+  <Make_WULA_MW_Charge_Mace.description>Make CMp-7&quot;Spiked Mace&quot;.</Make_WULA_MW_Charge_Mace.description>
+  <Make_WULA_MW_Charge_Mace.ingredients.0.filter.customSummary>Metal</Make_WULA_MW_Charge_Mace.ingredients.0.filter.customSummary>
+  <Make_WULA_MW_Charge_Mace.jobString>Making CMp-7&quot;Spiked Mace&quot;.</Make_WULA_MW_Charge_Mace.jobString>
+  <Make_WULA_MW_Charge_Mace.label>Make CMp-7&quot;Spiked Mace&quot;</Make_WULA_MW_Charge_Mace.label>
+  <Make_WULA_MW_Constructor_Hammer.description>Make HAm-1&quot;Constructor Hammer&quot;.</Make_WULA_MW_Constructor_Hammer.description>
+  <Make_WULA_MW_Constructor_Hammer.jobString>Making HAm-1&quot;Constructor Hammer&quot;.</Make_WULA_MW_Constructor_Hammer.jobString>
+  <Make_WULA_MW_Constructor_Hammer.label>Make HAm-1&quot;Constructor Hammer&quot;</Make_WULA_MW_Constructor_Hammer.label>
+  <Make_WULA_MW_Lance.description>Make CMl-28&quot;Gunlance&quot;.</Make_WULA_MW_Lance.description>
+  <Make_WULA_MW_Lance.ingredients.0.filter.customSummary>Metal</Make_WULA_MW_Lance.ingredients.0.filter.customSummary>
+  <Make_WULA_MW_Lance.jobString>Making CMl-28&quot;Gunlance&quot;.</Make_WULA_MW_Lance.jobString>
+  <Make_WULA_MW_Lance.label>Make CMl-28&quot;Gunlance&quot;</Make_WULA_MW_Lance.label>
+  <Make_WULA_MW_Twohanded_ChainBroadsword.description>Make CBs-25&quot;Hellfang&quot;.</Make_WULA_MW_Twohanded_ChainBroadsword.description>
+  <Make_WULA_MW_Twohanded_ChainBroadsword.ingredients.0.filter.customSummary>Metal</Make_WULA_MW_Twohanded_ChainBroadsword.ingredients.0.filter.customSummary>
+  <Make_WULA_MW_Twohanded_ChainBroadsword.jobString>Making CBs-25&quot;Hellfang&quot;.</Make_WULA_MW_Twohanded_ChainBroadsword.jobString>
+  <Make_WULA_MW_Twohanded_ChainBroadsword.label>Make CBs-25&quot;Hellfang&quot;</Make_WULA_MW_Twohanded_ChainBroadsword.label>
+  <Make_WULA_Neutronium.description>Make 1 neutronium. A powerful material that can be used to forge the hardest armor or the strongest melee weapons.</Make_WULA_Neutronium.description>
+  <Make_WULA_Neutronium.jobString>Compressing neutronium.</Make_WULA_Neutronium.jobString>
+  <Make_WULA_Neutronium.label>Compress neutronium</Make_WULA_Neutronium.label>
+  <Make_WULA_Pantyhose_Black.description>Make Wula Empire black pantyhose.</Make_WULA_Pantyhose_Black.description>
+  <Make_WULA_Pantyhose_Black.jobString>Making Wula Empire black pantyhose.</Make_WULA_Pantyhose_Black.jobString>
+  <Make_WULA_Pantyhose_Black.label>Make Wula Empire black pantyhose</Make_WULA_Pantyhose_Black.label>
+  <Make_WULA_Pantyhose_White.description>Make Wula Empire white pantyhose.</Make_WULA_Pantyhose_White.description>
+  <Make_WULA_Pantyhose_White.jobString>Making Wula Empire white pantyhose.</Make_WULA_Pantyhose_White.jobString>
+  <Make_WULA_Pantyhose_White.label>Make Wula Empire white pantyhose</Make_WULA_Pantyhose_White.label>
+  <Make_WULA_RW_AutoCannon.description>Make FLm-78&quot;Fluorite&quot;.</Make_WULA_RW_AutoCannon.description>
+  <Make_WULA_RW_AutoCannon.jobString>Making FLm-78&quot;Fluorite&quot;.</Make_WULA_RW_AutoCannon.jobString>
+  <Make_WULA_RW_AutoCannon.label>Make FLm-78&quot;Fluorite&quot;</Make_WULA_RW_AutoCannon.label>
+  <Make_WULA_RW_Auto_GL.description>Make SEl-78&quot;Breccia&quot;.</Make_WULA_RW_Auto_GL.description>
+  <Make_WULA_RW_Auto_GL.jobString>Making SEl-78&quot;Breccia&quot;.</Make_WULA_RW_Auto_GL.jobString>
+  <Make_WULA_RW_Auto_GL.label>Make SEl-78&quot;Breccia&quot;</Make_WULA_RW_Auto_GL.label>
+  <Make_WULA_RW_Base_Loitering_Munition.description>Make WLl-35&quot;Zeolite&quot;.</Make_WULA_RW_Base_Loitering_Munition.description>
+  <Make_WULA_RW_Base_Loitering_Munition.jobString>Making WLl-35&quot;Zeolite&quot;.</Make_WULA_RW_Base_Loitering_Munition.jobString>
+  <Make_WULA_RW_Base_Loitering_Munition.label>Make WLl-35&quot;Zeolite&quot;</Make_WULA_RW_Base_Loitering_Munition.label>
+  <Make_WULA_RW_Beam_Base_AR.description>Make SLb-3&quot;Stellar Haze&quot;.</Make_WULA_RW_Beam_Base_AR.description>
+  <Make_WULA_RW_Beam_Base_AR.jobString>Making SLb-3&quot;Stellar Haze&quot;.</Make_WULA_RW_Beam_Base_AR.jobString>
+  <Make_WULA_RW_Beam_Base_AR.label>Make SLb-3&quot;Stellar Haze&quot;</Make_WULA_RW_Beam_Base_AR.label>
+  <Make_WULA_RW_Fractal_RF.description>Make SLr-14&quot;Blue Cone&quot;.</Make_WULA_RW_Fractal_RF.description>
+  <Make_WULA_RW_Fractal_RF.jobString>Making SLr-14&quot;Blue Cone&quot;.</Make_WULA_RW_Fractal_RF.jobString>
+  <Make_WULA_RW_Fractal_RF.label>Make SLr-14&quot;Blue Cone&quot;</Make_WULA_RW_Fractal_RF.label>
+  <Make_WULA_RW_Handle_Cannon.description>Make KRc-7&quot;Lava&quot;.</Make_WULA_RW_Handle_Cannon.description>
+  <Make_WULA_RW_Handle_Cannon.jobString>Making KRc-7&quot;Lava&quot;.</Make_WULA_RW_Handle_Cannon.jobString>
+  <Make_WULA_RW_Handle_Cannon.label>Make KRc-7&quot;Lava&quot;</Make_WULA_RW_Handle_Cannon.label>
+  <Make_WULA_RW_Penetrating_Beam_Rifle_Ranged.description>Make SLb-15 &quot;Trident&quot;.</Make_WULA_RW_Penetrating_Beam_Rifle_Ranged.description>
+  <Make_WULA_RW_Penetrating_Beam_Rifle_Ranged.jobString>Making SLb-15 &quot;Trident&quot;.</Make_WULA_RW_Penetrating_Beam_Rifle_Ranged.jobString>
+  <Make_WULA_RW_Penetrating_Beam_Rifle_Ranged.label>Make SLb-15 &quot;Trident&quot;</Make_WULA_RW_Penetrating_Beam_Rifle_Ranged.label>
+  <Make_WULA_RW_Sphene_MG.description>Make FLm-43&quot;Sphene&quot;.</Make_WULA_RW_Sphene_MG.description>
+  <Make_WULA_RW_Sphene_MG.jobString>Making FLm-43&quot;Sphene&quot;.</Make_WULA_RW_Sphene_MG.jobString>
+  <Make_WULA_RW_Sphene_MG.label>Make FLm-43&quot;Sphene&quot;</Make_WULA_RW_Sphene_MG.label>
+  <Make_WULA_RW_StarDrift_SG.description>Make DCs-7&quot;Obsidian&quot;.</Make_WULA_RW_StarDrift_SG.description>
+  <Make_WULA_RW_StarDrift_SG.jobString>Making DCs-7&quot;Obsidian&quot;.</Make_WULA_RW_StarDrift_SG.jobString>
+  <Make_WULA_RW_StarDrift_SG.label>Make DCs-7&quot;Obsidian&quot;</Make_WULA_RW_StarDrift_SG.label>
+  <Make_WULA_RW_SuperLongRange_RF.description>Make SRr-3&quot;Phonolite&quot;.</Make_WULA_RW_SuperLongRange_RF.description>
+  <Make_WULA_RW_SuperLongRange_RF.jobString>Making SRr-3&quot;Phonolite&quot;.</Make_WULA_RW_SuperLongRange_RF.jobString>
+  <Make_WULA_RW_SuperLongRange_RF.label>Make SRr-3&quot;Phonolite&quot;</Make_WULA_RW_SuperLongRange_RF.label>
+  <Make_WULA_Shield_Base.description>Make Wula Empire shield.</Make_WULA_Shield_Base.description>
+  <Make_WULA_Shield_Base.ingredients.0.filter.customSummary>Metal</Make_WULA_Shield_Base.ingredients.0.filter.customSummary>
+  <Make_WULA_Shield_Base.jobString>Making Wula Empire shield.</Make_WULA_Shield_Base.jobString>
+  <Make_WULA_Shield_Base.label>Make Wula Empire shield</Make_WULA_Shield_Base.label>
+  <Make_WULA_WM_Alpha_Wolf_Plasma_Gun.description>Make PMe-92&quot;Apatite&quot;.</Make_WULA_WM_Alpha_Wolf_Plasma_Gun.description>
+  <Make_WULA_WM_Alpha_Wolf_Plasma_Gun.jobString>Making PMe-92&quot;Apatite&quot;.</Make_WULA_WM_Alpha_Wolf_Plasma_Gun.jobString>
+  <Make_WULA_WM_Alpha_Wolf_Plasma_Gun.label>Make PMe-92&quot;Apatite&quot;</Make_WULA_WM_Alpha_Wolf_Plasma_Gun.label>
+  <Recharge_WULA_Charge_Cube.description>Use chemfuel to recharge a depleted Wula Empire energy core.</Recharge_WULA_Charge_Cube.description>
+  <Recharge_WULA_Charge_Cube.jobString>Recharging energy core.</Recharge_WULA_Charge_Cube.jobString>
+  <Recharge_WULA_Charge_Cube.label>Recharge energy core</Recharge_WULA_Charge_Cube.label>
+  <Recharge_WULA_Charge_Cube_Group.description>Use chemfuel to recharge depleted Wula Empire energy cores.</Recharge_WULA_Charge_Cube_Group.description>
+  <Recharge_WULA_Charge_Cube_Group.jobString>Recharging energy cores.</Recharge_WULA_Charge_Cube_Group.jobString>
+  <Recharge_WULA_Charge_Cube_Group.label>Recharge energy core (x4)</Recharge_WULA_Charge_Cube_Group.label>
+  <WULA_Build_Mech_WULA_Cat.description>Build a CAt-11 &quot;Kitty&quot;.</WULA_Build_Mech_WULA_Cat.description>
+  <WULA_Build_Mech_WULA_Cat.jobString>Gestating mech.</WULA_Build_Mech_WULA_Cat.jobString>
+  <WULA_Build_Mech_WULA_Cat.label>Build CAt-11&quot;Kitty&quot;</WULA_Build_Mech_WULA_Cat.label>
+  <WULA_Build_Mech_WULA_Cat_Assault.description>Build a CAt-46 &quot;Kitty Assault Squad&quot;.</WULA_Build_Mech_WULA_Cat_Assault.description>
+  <WULA_Build_Mech_WULA_Cat_Assault.jobString>Gestating mech.</WULA_Build_Mech_WULA_Cat_Assault.jobString>
+  <WULA_Build_Mech_WULA_Cat_Assault.label>Build CAt-46&quot;Kitty Assault Squad&quot;</WULA_Build_Mech_WULA_Cat_Assault.label>
+  <WULA_Build_Mech_WULA_Cat_Constructor.description>Build a CAt-86 &quot;Kitty Laborer&quot;.</WULA_Build_Mech_WULA_Cat_Constructor.description>
+  <WULA_Build_Mech_WULA_Cat_Constructor.jobString>Gestating mech.</WULA_Build_Mech_WULA_Cat_Constructor.jobString>
+  <WULA_Build_Mech_WULA_Cat_Constructor.label>Build CAt-86&quot;Kitty Laborer&quot;</WULA_Build_Mech_WULA_Cat_Constructor.label>
+  <WULA_Build_Wula_Synth.description>Build a URa-00 &quot;Wula synth&quot;. Wula synths are the main population of Wula Empire synth colonies, and as machines they also possess complex, lifelike simulated emotions.</WULA_Build_Wula_Synth.description>
+  <WULA_Build_Wula_Synth.jobString>Gestating mech.</WULA_Build_Wula_Synth.jobString>
+  <WULA_Build_Wula_Synth.label>Build URa-00&quot;Wula synth&quot;</WULA_Build_Wula_Synth.label>
+  <WULA_Shutdown_Synth.description>Shut down all systems of this Wula synth to avoid potential risks for a while. A colonist must assist with the shutdown, and powering it back up also requires a colonist.</WULA_Shutdown_Synth.description>
+  <WULA_Shutdown_Synth.jobString>Emergency shutdown.</WULA_Shutdown_Synth.jobString>
+  <WULA_Shutdown_Synth.label>Emergency shutdown</WULA_Shutdown_Synth.label>
+  <WULA_Synth_Power_On.description>Restart this synth and restore system operation.</WULA_Synth_Power_On.description>
+  <WULA_Synth_Power_On.jobString>Restarting synth.</WULA_Synth_Power_On.jobString>
+  <WULA_Synth_Power_On.label>power up</WULA_Synth_Power_On.label>
+  <WULA_Synth_Power_On.successfullyRemovedHediffMessage>{0} successfully restarted {1}.</WULA_Synth_Power_On.successfullyRemovedHediffMessage>
 </LanguageData>

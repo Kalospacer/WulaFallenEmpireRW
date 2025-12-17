@@ -1,56 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-  <!-- Childhood Backstories -->
   <WULA_Child_Backstory01.title>Origin: Kroup</WULA_Child_Backstory01.title>
   <WULA_Child_Backstory01.titleShort>Kroup</WULA_Child_Backstory01.titleShort>
-  <WULA_Child_Backstory01.description>[PAWN_nameDef] is a synthetic produced in the Kroup star sector. This sector is a war-torn land—due to its remote location and complex geopolitics, the Wula Empire has never truly controlled this sector, but its excellent rare crystals and alien natural gas make the Empire unwilling to relinquish control.\n\nSynthetics produced here use strategic materials far above other sectors, granting them higher机体耐久, lower energy consumption, and内置了一定的 combat and crafting abilities.</WULA_Child_Backstory01.description>
-
+  <WULA_Child_Backstory01.description>[PAWN_nameDef] is a synth produced in the Kroup star region. This region is a battleground of constant conflict. Due to its position on the fringes and its complex geopolitics, the Wula Empire has never truly controlled it—but the excellent rare crystals and alien natural gas found here are too valuable for the Empire to abandon.\n\nSynths produced here use far more strategic materials than those from other regions. This grants them higher durability, lower energy consumption, and some built-in combat and crafting aptitude.</WULA_Child_Backstory01.description>
   <WULA_Child_Backstory01_Hediff.label>Origin: Kroup</WULA_Child_Backstory01_Hediff.label>
-  <WULA_Child_Backstory01_Hediff.description>Synthetics produced here use strategic materials far above other sectors, granting them higher机体耐久, lower energy consumption, and内置了一定的 combat abilities.</WULA_Child_Backstory01_Hediff.description>
-
+  <WULA_Child_Backstory01_Hediff.description>Synthetics produced here use strategic materials far above other sectors, granting them higher body durability, lower energy consumption, and built-in combat abilities.</WULA_Child_Backstory01_Hediff.description>
   <WULA_Child_Backstory02.title>Origin: Daedalus</WULA_Child_Backstory02.title>
   <WULA_Child_Backstory02.titleShort>Daedalus</WULA_Child_Backstory02.titleShort>
-  <WULA_Child_Backstory02.description>[PAWN_nameDef] is a synthetic produced in the Daedalus star sector. This sector is a factory星域 near the frontier worlds, where countless high-quality alloys for the Wula fleets are born, the搏动的心脏 of the industrial zones.\n\nSynthetics from here are equipped with powerful production systems, allowing them to抵消此型合成人在采矿和建造上的天然劣势.</WULA_Child_Backstory02.description>
-
+  <WULA_Child_Backstory02.description>[PAWN_nameDef] is a synth produced in the Daedalus star region. This region is a factory domain near the rim, where countless high-quality alloys are produced to supply the Wula fleets—the beating heart of the industrial districts.\n\nSynths produced here are fitted with powerful production systems, offsetting this model's natural disadvantages in mining and construction.</WULA_Child_Backstory02.description>
   <WULA_Child_Backstory02_Hediff.label>Origin: Daedalus</WULA_Child_Backstory02_Hediff.label>
-  <WULA_Child_Backstory02_Hediff.description>Synthetics from here are equipped with powerful production systems, allowing them to抵消此型合成人在采矿和建造上的天然劣势.</WULA_Child_Backstory02_Hediff.description>
-
+  <WULA_Child_Backstory02_Hediff.description>Synthetics from here are equipped with powerful production systems, allowing them to offset the natural disadvantages of this type of synthetic in mining and construction.</WULA_Child_Backstory02_Hediff.description>
   <WULA_Child_Backstory03.title>Origin: Palace District</WULA_Child_Backstory03.title>
   <WULA_Child_Backstory03.titleShort>Palace District</WULA_Child_Backstory03.titleShort>
-  <WULA_Child_Backstory03.description>[PAWN_nameDef] is a synthetic produced in the Palace District. The Palace District is the core of Wula Empire politics and power; things produced here are typically皇室专供 and not外流 to other sectors—though there are exceptions.\n\nSynthetics produced here are usually more refined and风度翩翩 than those from other sectors, giving them innate advantages in社交和艺术.</WULA_Child_Backstory03.description>
-
+  <WULA_Child_Backstory03.description>[PAWN_nameDef] is a synth produced in the Palace District. The Palace District is the core of Wula politics and power. Things produced here are generally reserved for the royal family and do not flow to other regions—though there are exceptions.\n\nSynths from here are usually more refined and graceful than those from elsewhere, giving them natural advantages in social and artistic skills.</WULA_Child_Backstory03.description>
   <WULA_Child_Backstory03_Hediff.label>Origin: Palace District</WULA_Child_Backstory03_Hediff.label>
-  <WULA_Child_Backstory03_Hediff.description>Synthetics produced here are usually more refined and风度翩翩 than those from other sectors, giving them innate advantages in社交和艺术.</WULA_Child_Backstory03_Hediff.description>
-
+  <WULA_Child_Backstory03_Hediff.description>Synthetics produced here are usually more refined and elegant than those from other sectors, giving them innate advantages in social and artistic skills.</WULA_Child_Backstory03_Hediff.description>
   <WULA_Child_Backstory04.title>Origin: Delta</WULA_Child_Backstory04.title>
   <WULA_Child_Backstory04.titleShort>Delta</WULA_Child_Backstory04.titleShort>
-  <WULA_Child_Backstory04.description>[PAWN_nameDef] is a synthetic produced in the Delta star sector. The Delta sector is a true fortress sector, where countless assembly factories迸溅着 sulfur and flame; war machines are the sole product—they join the "Legion's"洪流 upon leaving the production line,奔赴 the Empire's battlefields.\n\nSynthetics produced here are designed as专用战争机械, simple and easy to maintain, possessing无可争议的战斗能力, but不太擅长 other tasks.</WULA_Child_Backstory04.description>
-
+  <WULA_Child_Backstory04.description>[PAWN_nameDef] is a synth produced in the Delta star region. Delta is a true fortress region. Countless assembly plants spit sulfur and flame, and war machines are the only product here. The moment they step off the line, they join the flood of \"Legion\" and march to the Wula Empire's battlefields.\n\nSynths produced here are designed as dedicated war machines—simple and easy to maintain, with unquestionable combat capability, but not very good at other work.</WULA_Child_Backstory04.description>
   <WULA_Child_Backstory04_Hediff.label>Origin: Delta</WULA_Child_Backstory04_Hediff.label>
-  <WULA_Child_Backstory04_Hediff.description>Synthetics produced here are designed as专用战争机械, simple and easy to maintain, possessing无可争议的战斗能力, but不太擅长 other tasks.</WULA_Child_Backstory04_Hediff.description>
-
+  <WULA_Child_Backstory04_Hediff.description>Synthetics produced here are designed as dedicated war machines, simple and easy to maintain, possessing undisputed combat capabilities, but not very good at other tasks.</WULA_Child_Backstory04_Hediff.description>
   <WULA_Child_Backstory05.title>Origin: Serris</WULA_Child_Backstory05.title>
   <WULA_Child_Backstory05.titleShort>Serris</WULA_Child_Backstory05.titleShort>
-  <WULA_Child_Backstory05.description>[PAWN_nameDef] is a synthetic produced in the Serris star sector. The Serris sector is the Wula Empire's科研中心; though the Empire's basic technology has factually stagnated, aspiring individuals within the Empire still趋之若鹜 to the sector's endless knowledge stores. However, synthetics produced here are often抽调去 local秘密项目, rarely having opportunities to be transferred to other sectors.\n\nSynthetics produced here are科研特化型号; they excel at research and are among the few synthetics capable of directly操纵机械族—though the Empire's mechanoids are autonomous machines.</WULA_Child_Backstory05.description>
-
+  <WULA_Child_Backstory05.description>[PAWN_nameDef] is a synth produced in the Serris star region. Serris is the Wula Empire's research center. Although the Empire's baseline technology has effectively stagnated, ambitious citizens still flock to its endless stores of knowledge. However, synths produced here are often drafted into local secret projects and rarely get the chance to transfer to other regions.\n\nSynths produced here are research-specialized models. They excel at research, and are among the few synths that can directly control mechanoids—though Wula mechanoids are autonomous machines.</WULA_Child_Backstory05.description>
   <WULA_Child_Backstory05_Hediff.label>Origin: Serris</WULA_Child_Backstory05_Hediff.label>
-  <WULA_Child_Backstory05_Hediff.description>Synthetics produced here are科研特化型号; they excel at research and are among the few synthetics capable of directly操纵机械族—though the Empire's mechanoids are autonomous machines.</WULA_Child_Backstory05_Hediff.description>
-
+  <WULA_Child_Backstory05_Hediff.description>Synthetics produced here are research-specialized models; they excel at research and are among the few synthetics capable of directly controlling mechanoids—though the Empire's mechanoids are autonomous machines.</WULA_Child_Backstory05_Hediff.description>
   <WULA_Child_Backstory06.title>Origin: Marek</WULA_Child_Backstory06.title>
   <WULA_Child_Backstory06.titleShort>Marek</WULA_Child_Backstory06.titleShort>
-  <WULA_Child_Backstory06.description>[PAWN_nameDef] is a synthetic produced in the Marek star sector. The Marek sector is a vast农业型星区 compared to others. Here, multiple planets with得天独厚的天文位置 are suitable for agricultural production, enabling it to源源不断地输送大量食材 to the Wula Empire.\n\nSynthetics produced in this星域通常内置了家政和农业系统, making them very adept at handling杂事. Additionally, their durable design causes them to磨损速度 slower than synthetics from other sectors under natural conditions.</WULA_Child_Backstory06.description>
-
+  <WULA_Child_Backstory06.description>[PAWN_nameDef] is a synth produced in the Marek star region. Marek is a vast agricultural region compared to others. Multiple planets with excellent astronomical positions are suited for agriculture, allowing it to continuously supply the Wula Empire with huge amounts of food.\n\nSynths produced here usually have built-in housekeeping and agricultural systems, making them adept at everyday chores. Their durable design also causes them to wear down much more slowly under natural conditions than synths from other regions.</WULA_Child_Backstory06.description>
   <WULA_Child_Backstory06_Hediff.label>Origin: Marek</WULA_Child_Backstory06_Hediff.label>
-  <WULA_Child_Backstory06_Hediff.description>Synthetics produced in this星域通常内置了家政和农业系统, making them very adept at handling杂事. Additionally, their durable design causes them to磨损速度 slower than synthetics from other sectors under natural conditions.</WULA_Child_Backstory06_Hediff.description>
-
+  <WULA_Child_Backstory06_Hediff.description>Synthetics produced in this star region usually have built-in housekeeping and agricultural systems, making them very adept at handling chores. Additionally, their durable design causes them to wear rate slower than synthetics from other sectors under natural conditions.</WULA_Child_Backstory06_Hediff.description>
   <WULA_Child_Backstory07.title>Origin: Dyson</WULA_Child_Backstory07.title>
   <WULA_Child_Backstory07.titleShort>Dyson</WULA_Child_Backstory07.titleShort>
-  <WULA_Child_Backstory07.description>[PAWN_nameDef] is a synthetic produced in the Dyson star sector. The Dyson sector集中建立了 numerous天文级别的巨型空间结构, a direct体现 of the昔日 Wula Empire's雄厚国力. Such massive structures naturally require many高适应性的 synthetics for maintenance.\n\nSynthetics born here possess powerful手工系统; their nano-repair is designed for自持修复 in extreme environments, thus repair消耗 is lower than synthetics from other sectors.</WULA_Child_Backstory07.description>
-
+  <WULA_Child_Backstory07.description>[PAWN_nameDef] is a synth produced in the Dyson star region. Dyson hosts a vast concentration of astronomical-scale megastructures, a direct testament to the Wula Empire's former might. Naturally, so many giant structures require large numbers of highly adaptable synths to maintain them.\n\nSynths born here have powerful crafting systems. Their nano-repair is designed for self-sustaining repair in extreme environments, so repair consumption is lower than for synths from other regions.</WULA_Child_Backstory07.description>
   <WULA_Child_Backstory07_Hediff.label>Origin: Dyson</WULA_Child_Backstory07_Hediff.label>
-  <WULA_Child_Backstory07_Hediff.description>Synthetics born here possess powerful手工系统; their nano-repair is designed for自持修复 in extreme environments, thus repair消耗 is lower than synthetics from other sectors.</WULA_Child_Backstory07_Hediff.description>
-
+  <WULA_Child_Backstory07_Hediff.description>Synthetics born here possess powerful crafting systems; their nano-repair is designed for self-sustaining repair in extreme environments, thus repair consumption is lower than synthetics from other sectors.</WULA_Child_Backstory07_Hediff.description>
   <WULA_Child_Backstory99.title>Origin: Unknown</WULA_Child_Backstory99.title>
-  <WULA_Child_Backstory99.titleShort>Unknown Origin</WULA_Child_Backstory99.titleShort>
-  <WULA_Child_Backstory99.description>[PAWN_nameDef]'s origin cannot be traced—perhaps a high-quality imitation from some sector, or a机体 illegally reprocessed after回收; in short, the机体编号 on their body is either forged or simply absent.\n\nThese wild mechanical Wulas know a bit of everything but excel at nothing特别.</WULA_Child_Backstory99.description>
+  <WULA_Child_Backstory99.titleShort>Unknown origin</WULA_Child_Backstory99.titleShort>
+  <WULA_Child_Backstory99.description>[PAWN_nameDef]'s origin cannot be traced. Perhaps it's a high-quality counterfeit from some region, or a chassis illegally refurbished after salvage. In any case, the serial number on their body is either forged—or simply absent.\n\nThese feral mechanical Wulas can do a bit of everything, but they don't particularly excel at anything.</WULA_Child_Backstory99.description>
 </LanguageData>

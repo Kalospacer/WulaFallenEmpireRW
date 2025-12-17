@@ -1,60 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
   <WULA_MotherShip.label>Wula Empire Mothership</WULA_MotherShip.label>
-  <WULA_MotherShip.comps.CompProperties_SendLetterAfterTicks.letterLabel>Empire Mothership Arrived</WULA_MotherShip.comps.CompProperties_SendLetterAfterTicks.letterLabel>
-  <WULA_MotherShip.comps.CompProperties_SendLetterAfterTicks.letterText>An Empire mothership has arrived in response to the request!</WULA_MotherShip.comps.CompProperties_SendLetterAfterTicks.letterText>
-
   <WULA_AircraftCarrier.label>Wula Empire Carrier</WULA_AircraftCarrier.label>
-  <WULA_AircraftCarrier.comps.CompProperties_SendLetterAfterTicks.letterLabel>Empire Assault Fleet Arrived</WULA_AircraftCarrier.comps.CompProperties_SendLetterAfterTicks.letterLabel>
-  <WULA_AircraftCarrier.comps.CompProperties_SendLetterAfterTicks.letterText>The Empire assault fleet has arrived in response to the request!</WULA_AircraftCarrier.comps.CompProperties_SendLetterAfterTicks.letterText>
-
   <WULA_BattleShip.label>Wula Empire Cruiser</WULA_BattleShip.label>
-  <WULA_BattleShip.comps.CompProperties_SendLetterAfterTicks.letterLabel>Empire Cruiser Arrived</WULA_BattleShip.comps.CompProperties_SendLetterAfterTicks.letterLabel>
-  <WULA_BattleShip.comps.CompProperties_SendLetterAfterTicks.letterText>An Empire cruiser has arrived in response to the request!</WULA_BattleShip.comps.CompProperties_SendLetterAfterTicks.letterText>
-
   <WULA_Striker_Escort.label>Wula Empire Striker (Escort)</WULA_Striker_Escort.label>
   <WULA_Bomber_Escort.label>Wula Empire Bomber</WULA_Bomber_Escort.label>
   <WULA_BattleShip_Escort.label>Wula Empire Cruiser (Escort)</WULA_BattleShip_Escort.label>
-
   <WULA_MotherShip_Planet_Interdiction.label>Wula Empire Mothership (Bombardment)</WULA_MotherShip_Planet_Interdiction.label>
   <WULA_BattleShip_Planet_Interdiction.label>Wula Empire Cruiser (Bombardment)</WULA_BattleShip_Planet_Interdiction.label>
-
-  <!-- Fighter Drones -->
-  <WULA_Fighter_Drone_Base.label>Wula Empire Swarm Drone</WULA_Fighter_Drone_Base.label>
   <Bullet_Beam_Fighter_Drone.label>Swarm Beam</Bullet_Beam_Fighter_Drone.label>
-
-  <!-- Striker -->
-  <WULA_Striker_Base.label>Wula Empire Striker</WULA_Striker_Base.label>
   <Bullet_WULA_Striker_A_Missile.label>Striker Ground Missile</Bullet_WULA_Striker_A_Missile.label>
   <Bullet_WULA_Striker_B.label>Striker Cannon Round</Bullet_WULA_Striker_B.label>
-
-  <!-- Bomber -->
-  <WULA_Bomber_Base.label>Wula Empire Bomber</WULA_Bomber_Base.label>
   <Bullet_WULA_Bomber_A_Bomb.label>Bomber Bomb</Bullet_WULA_Bomber_A_Bomb.label>
   <Bullet_WULA_Bomber_C_DrakMatterBomb.label>Dark Matter Missile</Bullet_WULA_Bomber_C_DrakMatterBomb.label>
-
-  <!-- Artillery -->
   <WULA_Firepower_Minigun_Strafe_Skyfaller.label>Chaingun Rounds</WULA_Firepower_Minigun_Strafe_Skyfaller.label>
   <WULA_Firepower_Cannon_Salvo_Skyfaller.label>Light Secondary Cannon Shell</WULA_Firepower_Cannon_Salvo_Skyfaller.label>
   <WULA_Firepower_Cannon_Surveillance_Skyfaller.label>Naval Cannon Surveillance Beacon</WULA_Firepower_Cannon_Surveillance_Skyfaller.label>
   <WULA_Firepower_Cannon_Surveillance_Beacon.label>Naval Cannon Surveillance Beacon</WULA_Firepower_Cannon_Surveillance_Beacon.label>
   <WULA_Firepower_Cannon_Surveillance_Beacon.description>A bombing beacon marking a surveillance area. Hostile forces entering this area will be severely struck by the Wula Empire fleet's naval guns.</WULA_Firepower_Cannon_Surveillance_Beacon.description>
-
   <WULA_EnergyLance_Base.label>Wula Empire Lance</WULA_EnergyLance_Base.label>
   <WULA_EnergyLance_Base.description>A beam of pure energy fired from a Wula Empire warship, igniting all living beings in its path.</WULA_EnergyLance_Base.description>
   <WULA_EnergyLance_Surveillance.label>Wula Empire Lance</WULA_EnergyLance_Surveillance.label>
   <WULA_EnergyLance_Surveillance.description>A beam of pure energy fired from a Wula Empire warship, igniting all living beings in its path.</WULA_EnergyLance_Surveillance.description>
-
   <WULA_Firepower_EnergyLance_Surveillance_Skyfaller.label>Lance Surveillance Beacon</WULA_Firepower_EnergyLance_Surveillance_Skyfaller.label>
   <WULA_Firepower_EnergyLance_Surveillance_Beacon.label>Lance Surveillance Beacon</WULA_Firepower_EnergyLance_Surveillance_Beacon.label>
   <WULA_Firepower_EnergyLance_Surveillance_Beacon.description>A bombing beacon marking a surveillance area. Hostile forces entering this area will be severely struck by the Wula Empire fleet's naval guns.</WULA_Firepower_EnergyLance_Surveillance_Beacon.description>
-
   <WULA_Firepower_Primary_Cannon_Strafe_Skyfaller.label>Primary Cannon Shell</WULA_Firepower_Primary_Cannon_Strafe_Skyfaller.label>
   <WULA_DarkMatterBomb_FlashStrong.label>Dark Matter Bomb Flash (Strong)</WULA_DarkMatterBomb_FlashStrong.label>
-
   <WULA_Firepower_Primary_Cannon_EMP_Surveillance_Skyfaller.label>Primary Cannon EMP Surveillance Beacon</WULA_Firepower_Primary_Cannon_EMP_Surveillance_Skyfaller.label>
   <WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon.label>Primary Cannon EMP Surveillance Beacon</WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon.label>
   <WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon.description>A bombing beacon marking a surveillance area. Hostile forces entering this area will be severely struck by the Wula Empire fleet's naval guns.</WULA_Firepower_Primary_Cannon_EMP_Surveillance_Beacon.description>
-
   <WULA_Firepower_Primary_Cannon_EMP_Skyfaller.label>Primary Cannon Shell</WULA_Firepower_Primary_Cannon_EMP_Skyfaller.label>
 </LanguageData>

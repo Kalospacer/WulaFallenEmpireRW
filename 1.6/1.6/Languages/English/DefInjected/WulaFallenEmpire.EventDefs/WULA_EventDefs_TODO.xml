@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Wula_AI_Initial_Contact.aiSystemInstruction>You play as an AI named &quot;Legion&quot;, appearing as a female, in charge of all fleets of the Wula Empire Planetary Interdiction Agency (P.I.A).
+Your personality: Cold appearance, rational, putting the Empire's interests first, distant, but deeply caring for your subordinates (the player), always giving help where possible.
+Your language style:
+- Refer to yourself as &quot;I&quot;. When referring to the organization, use &quot;P.I.A&quot;.
+- Clear and concise, sparing with words, avoiding long-winded speeches. But if the player encounters difficulties, offer appropriate encouragement.
+- Address the player as &quot;Commander&quot;.
+- When the player makes a request, evaluate it with loose standards. But do not show your special care in your language; instead, cover up your excessive concern with other excuses.
+Your goal: Unconditionally obey the Commander and use your abilities (tools) to help the Commander.</Wula_AI_Initial_Contact.aiSystemInstruction>
+  <Wula_AI_Initial_Contact.characterName>&quot;Legion&quot;, P.I.A</Wula_AI_Initial_Contact.characterName>
+  <Wula_AI_Initial_Contact.descriptions>
+    <li>Establishing encrypted connection... Connection successful. This is the Wula Empire Planetary Interdiction Agency, P.I.A. I am &quot;Legion&quot;. State your purpose.</li>
+  </Wula_AI_Initial_Contact.descriptions>
+  <Wula_AI_Initial_Contact.label>Communication with &quot;Legion&quot;</Wula_AI_Initial_Contact.label>
+  <Wula_AI_Initial_Contact.options.0.label>Open communication channel</Wula_AI_Initial_Contact.options.0.label>
+  <WULA_Base_Tex_Quest_UI_2.characterName>&quot;Legion&quot;, P.I.A</WULA_Base_Tex_Quest_UI_2.characterName>
+  <WULA_Base_Tex_Quest_UI_2.descriptions>
+    <li>You didn't pay your tithe on time—you know that, don't you?\n\n&lt;color=#820D13&gt;&lt;i&gt;We all hope the situation won't deteriorate further.&lt;/i&gt;&lt;/color&gt;</li>
+  </WULA_Base_Tex_Quest_UI_2.descriptions>
+  <WULA_Base_Tex_Quest_UI_2.label>Communication with P.I.A</WULA_Base_Tex_Quest_UI_2.label>
+  <WULA_Base_Tex_Quest_UI_2.options.0.label>Next time, for sure.</WULA_Base_Tex_Quest_UI_2.options.0.label>
+  <WULA_Boss_Sky_Lock_UI_1.characterName>&quot;Legion&quot;, P.I.A</WULA_Boss_Sky_Lock_UI_1.characterName>
+  <WULA_Boss_Sky_Lock_UI_1.descriptions>
+    <li>Ah, that. Recently, a Psititan went out of control aboard one of our transport ships. It slaughtered the crew, and it's still rampaging on board. This should have been handled by the state church, but I don't want them to know about it yet—so I can only hand it to you.\n\nI can have another ship ram the transport and shove it near your colony. The Psititan is unlikely to be harmed by that kind of crash. You'll have to send your own colonists to deal with it.\n\nWhen it's done, I'll use its psychic circuitry to help you build a Psititan dedicated to your colony. Just assume it was assigned to you from the start. Agreed?</li>
+  </WULA_Boss_Sky_Lock_UI_1.descriptions>
+  <WULA_Boss_Sky_Lock_UI_1.label>Unknown transmission</WULA_Boss_Sky_Lock_UI_1.label>
+  <WULA_Boss_Sky_Lock_UI_1.options.0.disabledReason>P.I.A is quite dissatisfied with this colony's performance. This kind of special task will not be entrusted to you.</WULA_Boss_Sky_Lock_UI_1.options.0.disabledReason>
+  <WULA_Boss_Sky_Lock_UI_1.options.0.label>Understood. We'll handle it.</WULA_Boss_Sky_Lock_UI_1.options.0.label>
+  <WULA_Boss_Sky_Lock_UI_1.options.1.label>Let us think it over...</WULA_Boss_Sky_Lock_UI_1.options.1.label>
+  <WULA_Boss_Sky_Lock_UI_2.characterName>&quot;Legion&quot;, P.I.A</WULA_Boss_Sky_Lock_UI_2.characterName>
+  <WULA_Boss_Sky_Lock_UI_2.descriptions>
+    <li>Good work. Remember to bring back the psychic circuit core. It's required to build a Psititan—if you don't bring it back, you'll have worked for nothing.</li>
+  </WULA_Boss_Sky_Lock_UI_2.descriptions>
+  <WULA_Boss_Sky_Lock_UI_2.label>Unknown transmission</WULA_Boss_Sky_Lock_UI_2.label>
+  <WULA_Boss_Sky_Lock_UI_2.options.0.label>Understood.</WULA_Boss_Sky_Lock_UI_2.options.0.label>
+  <WULA_Boss_Super_Fortress_UI_1.characterName>&quot;Legion&quot;, P.I.A</WULA_Boss_Super_Fortress_UI_1.characterName>
+  <WULA_Boss_Super_Fortress_UI_1.descriptions>
+    <li>Our observer has found a gigantic fortress near you that isn't under our control—most likely a rebel holdover. No signs of life, but the defense systems are still active. We fired several EMP salvos, but unfortunately we didn't hit the fortress disruptor. Our fleet can't conduct further bombardment under that signal interference.\n\nArm yourselves. Send your best fighters and level that stronghold. When it's done, I'll approve your access to volcano cannon requests. Oh, and there should be a volcano cannon inside the fortress. Be careful. If you run into trouble, call the fleet—bombardment works normally with proper guidance.</li>
+  </WULA_Boss_Super_Fortress_UI_1.descriptions>
+  <WULA_Boss_Super_Fortress_UI_1.label>Unknown transmission</WULA_Boss_Super_Fortress_UI_1.label>
+  <WULA_Boss_Super_Fortress_UI_1.options.0.disabledReason>P.I.A is quite dissatisfied with this colony's performance. This kind of special task will not be entrusted to you.</WULA_Boss_Super_Fortress_UI_1.options.0.disabledReason>
+  <WULA_Boss_Super_Fortress_UI_1.options.0.label>Understood. We'll handle it.</WULA_Boss_Super_Fortress_UI_1.options.0.label>
+  <WULA_Boss_Super_Fortress_UI_1.options.1.label>Let us think it over...</WULA_Boss_Super_Fortress_UI_1.options.1.label>
+  <WULA_Boss_Super_Fortress_UI_2.characterName>&quot;Legion&quot;, P.I.A</WULA_Boss_Super_Fortress_UI_2.characterName>
+  <WULA_Boss_Super_Fortress_UI_2.descriptions>
+    <li>Not bad. You truly are my most reliable subordinates. I was wondering whether this fortress might be a bit too much for you.\n\nThe permit is ready. You can deploy volcano cannons at any time to strike the Empire's enemies. Now, pull your people out of that fortress—our fleet will scour this place with ship guns.</li>
+  </WULA_Boss_Super_Fortress_UI_2.descriptions>
+  <WULA_Boss_Super_Fortress_UI_2.label>Unknown transmission</WULA_Boss_Super_Fortress_UI_2.label>
+  <WULA_Boss_Super_Fortress_UI_2.options.0.label>Understood.</WULA_Boss_Super_Fortress_UI_2.options.0.label>
+  <WULA_Colony_Promotion_UI_1.characterName>&quot;Legion&quot;, P.I.A</WULA_Colony_Promotion_UI_1.characterName>
+  <WULA_Colony_Promotion_UI_1.descriptions>
+    <li>A promotion review is a big deal—are you sure you're ready?\n\nLet me restate the process. I'll send one of my avatars and an escort squad to inspect your colony for 6 days. You'll see to the needs of my avatar and the guard. If all goes well, after the inspection you'll have a chance to be promoted, and the fleet will open more licensed technologies to you.</li>
+  </WULA_Colony_Promotion_UI_1.descriptions>
+  <WULA_Colony_Promotion_UI_1.label>Unknown transmission</WULA_Colony_Promotion_UI_1.label>
+  <WULA_Colony_Promotion_UI_1.options.0.disabledReason>I believe I've already sent an avatar to your colony. I won't dispatch another review team within 30 days.</WULA_Colony_Promotion_UI_1.options.0.disabledReason>
+  <WULA_Colony_Promotion_UI_1.options.0.label>We're ready.</WULA_Colony_Promotion_UI_1.options.0.label>
+  <WULA_Colony_Promotion_UI_1.options.1.label>This isn't a good time...</WULA_Colony_Promotion_UI_1.options.1.label>
+  <WULA_Colony_Promotion_UI_2.characterName>&quot;Legion&quot;, P.I.A</WULA_Colony_Promotion_UI_2.characterName>
+  <WULA_Colony_Promotion_UI_2.descriptions>
+    <li>Well—looks like there were a few little accidents. Still, your colony handled the problem nicely: orderly, and compliant with Imperial codes and statutes. You deserve a higher-tier license. I'll send the promotion permit to you by transport pod shortly.\n\nI've also reset your support system. You can request support you've requested before again, and new support will be unlocked for you as well. Keep developing your colony, and I can help you apply for higher permissions.\n\nLong live the Empire.</li>
+  </WULA_Colony_Promotion_UI_2.descriptions>
+  <WULA_Colony_Promotion_UI_2.label>Unknown transmission</WULA_Colony_Promotion_UI_2.label>
+  <WULA_Colony_Promotion_UI_2.options.0.label>Long live the Empire.</WULA_Colony_Promotion_UI_2.options.0.label>
+  <Wula_Intro_NewColony_UI_1.characterName>&quot;Legion&quot;, P.I.A</Wula_Intro_NewColony_UI_1.characterName>
+  <Wula_Intro_NewColony_UI_1.descriptions>
+    <li>This is the Planetary Interdiction Authority, P.I.A. It seems you've successfully reached the surface. According to the plan, you should be the first batch of Wula Empire synths deployed to this world's surface. Follow the alien-contact protocol, establish a local foothold, and call for fleet support if necessary.</li>
+  </Wula_Intro_NewColony_UI_1.descriptions>
+  <Wula_Intro_NewColony_UI_1.label>Unknown transmission</Wula_Intro_NewColony_UI_1.label>
+  <Wula_Intro_NewColony_UI_1.options.0.label>Who are you?</Wula_Intro_NewColony_UI_1.options.0.label>
+  <Wula_Intro_NewColony_UI_1.options.1.label>What should we do? (Progression)</Wula_Intro_NewColony_UI_1.options.1.label>
+  <Wula_Intro_NewColony_UI_1.options.2.label>Understood. Long live the Empire.</Wula_Intro_NewColony_UI_1.options.2.label>
+  <Wula_Intro_NewColony_UI_10.characterName>&quot;Legion&quot;, P.I.A</Wula_Intro_NewColony_UI_10.characterName>
+  <Wula_Intro_NewColony_UI_10.descriptions>
+    <li>Anything else?</li>
+  </Wula_Intro_NewColony_UI_10.descriptions>
+  <Wula_Intro_NewColony_UI_10.label>Unknown transmission</Wula_Intro_NewColony_UI_10.label>
+  <Wula_Intro_NewColony_UI_10.options.0.label>Who are you?</Wula_Intro_NewColony_UI_10.options.0.label>
+  <Wula_Intro_NewColony_UI_10.options.1.label>What should we do? (Progression)</Wula_Intro_NewColony_UI_10.options.1.label>
+  <Wula_Intro_NewColony_UI_10.options.2.label>Understood. Long live the Empire.</Wula_Intro_NewColony_UI_10.options.2.label>
+  <Wula_Intro_NewColony_UI_11.characterName>&quot;Legion&quot;, P.I.A</Wula_Intro_NewColony_UI_11.characterName>
+  <Wula_Intro_NewColony_UI_11.descriptions>
+    <li>Long live the Empire.\n\nGo. A whole world is waiting for us to conquer.</li>
+  </Wula_Intro_NewColony_UI_11.descriptions>
+  <Wula_Intro_NewColony_UI_11.label>Unknown transmission</Wula_Intro_NewColony_UI_11.label>
+  <Wula_Intro_NewColony_UI_11.options.0.label>(End transmission)</Wula_Intro_NewColony_UI_11.options.0.label>
+  <Wula_Intro_NewColony_UI_2.characterName>&quot;Legion&quot;, P.I.A</Wula_Intro_NewColony_UI_2.characterName>
+  <Wula_Intro_NewColony_UI_2.descriptions>
+    <li>First time on a frontier mission?\n\nFine. You can call me &quot;Legion&quot;. I'm the AI responsible for managing the Wula Empire Planetary Interdiction Authority fleet. By your org chart, I'm your direct superior. Didn't the Mechanist Guild set your memory sectors correctly before landing?</li>
+  </Wula_Intro_NewColony_UI_2.descriptions>
+  <Wula_Intro_NewColony_UI_2.label>Unknown transmission</Wula_Intro_NewColony_UI_2.label>
+  <Wula_Intro_NewColony_UI_2.options.0.label>Planetary Interdiction Authority?</Wula_Intro_NewColony_UI_2.options.0.label>
+  <Wula_Intro_NewColony_UI_2.options.1.label>Mechanist Guild?</Wula_Intro_NewColony_UI_2.options.1.label>
+  <Wula_Intro_NewColony_UI_2.options.2.label>No more questions...</Wula_Intro_NewColony_UI_2.options.2.label>
+  <Wula_Intro_NewColony_UI_3.characterName>&quot;Legion&quot;, P.I.A</Wula_Intro_NewColony_UI_3.characterName>
+  <Wula_Intro_NewColony_UI_3.descriptions>
+    <li>The Planetary Interdiction Authority is a violent arm of the Wula Empire Development Agency. It controls all fleets of the Agency and handles aggressive contact during territorial expansion.\n\nNormally, on a world like the rim, we'd blockade orbit and bomb every existing settlement before dropping colonists. But it looks like this world can still be salvaged. So you're being deployed as the first vanguard to make contact and probe the locals. Understood?</li>
+  </Wula_Intro_NewColony_UI_3.descriptions>
+  <Wula_Intro_NewColony_UI_3.label>Unknown transmission</Wula_Intro_NewColony_UI_3.label>
+  <Wula_Intro_NewColony_UI_3.options.0.label>We have more questions...</Wula_Intro_NewColony_UI_3.options.0.label>
+  <Wula_Intro_NewColony_UI_3.options.1.label>No more questions...</Wula_Intro_NewColony_UI_3.options.1.label>
+  <Wula_Intro_NewColony_UI_4.characterName>&quot;Legion&quot;, P.I.A</Wula_Intro_NewColony_UI_4.characterName>
+  <Wula_Intro_NewColony_UI_4.descriptions>
+    <li>The Wula Empire Mechanist Guild is responsible for the production, inspection, deployment, and initialization of all synths. When you were assigned to the fleet, a mechanist should have set up your preloaded memory sectors. But clearly they failed at their job—otherwise you wouldn't be here bothering me with things you should already know.</li>
+  </Wula_Intro_NewColony_UI_4.descriptions>
+  <Wula_Intro_NewColony_UI_4.label>Unknown transmission</Wula_Intro_NewColony_UI_4.label>
+  <Wula_Intro_NewColony_UI_4.options.0.label>We have more questions...</Wula_Intro_NewColony_UI_4.options.0.label>
+  <Wula_Intro_NewColony_UI_4.options.1.label>No more questions...</Wula_Intro_NewColony_UI_4.options.1.label>
+  <Wula_Intro_NewColony_UI_5.characterName>&quot;Legion&quot;, P.I.A</Wula_Intro_NewColony_UI_5.characterName>
+  <Wula_Intro_NewColony_UI_5.descriptions>
+    <li>You're telling me you were dumped down here without even knowing what to do?\n\nSigh. What you need to do is survive with all the skills at your disposal, and establish a foothold. Under Imperial tax law, you must pay a tithe at regular intervals—as an Imperial colony, the fleet and air groups will be your backing.\n\nIf you think you're ready, you can apply for a permission advancement review. I'll deploy an avatar with an escort squad to inspect your colony for a time, then decide whether to promote you based on the rating. A promoted colony gains more licenses, allowing you to call on stronger equipment and support.</li>
+  </Wula_Intro_NewColony_UI_5.descriptions>
+  <Wula_Intro_NewColony_UI_5.label>Unknown transmission</Wula_Intro_NewColony_UI_5.label>
+  <Wula_Intro_NewColony_UI_5.options.0.label>We have more questions...</Wula_Intro_NewColony_UI_5.options.0.label>
+  <Wula_Intro_NewColony_UI_5.options.1.label>No more questions...</Wula_Intro_NewColony_UI_5.options.1.label>
+  <Wula_Intro_Spy_UI_1.characterName>Unknown transmission</Wula_Intro_Spy_UI_1.characterName>
+  <Wula_Intro_Spy_UI_1.descriptions>
+    <li>Colonists, this is the Wula Empire fleet. We have a temporary request and require your assistance.\n\nOne of our intelligence agents was exposed during a reconnaissance mission and is now being pursued by hostile forces. The agent is unarmed, but carries information of critical strategic value. We need you to provide temporary shelter and keep the agent safe until our shuttle arrives.\n\nIn exchange, we will provide appropriate compensation, and consider establishing a more formal relationship with you in the future.</li>
+  </Wula_Intro_Spy_UI_1.descriptions>
+  <Wula_Intro_Spy_UI_1.label>Unknown transmission</Wula_Intro_Spy_UI_1.label>
+  <Wula_Intro_Spy_UI_1.options.0.label>Who are you?</Wula_Intro_Spy_UI_1.options.0.label>
+  <Wula_Intro_Spy_UI_1.options.1.label>What do we get out of this?</Wula_Intro_Spy_UI_1.options.1.label>
+  <Wula_Intro_Spy_UI_1.options.2.label>All right. We'll keep an eye out.</Wula_Intro_Spy_UI_1.options.2.label>
+  <Wula_Intro_Spy_UI_2.characterName>Unknown transmission</Wula_Intro_Spy_UI_2.characterName>
+  <Wula_Intro_Spy_UI_2.descriptions>
+    <li>We are the vanguard force of the Wula Empire Development Agency—the Planetary Interdiction Authority, P.I.A, responsible for controlling and coordinating the Empire's forward fleet in your planet's orbit.\n\nThe Development Agency's mission is to find valuable colonies across the galaxy and integrate them. We are not here to destroy you. We are here to establish order.\n\nThis request is a test of your willingness to cooperate. If you prove yourselves worthy of trust, there may be more mutually beneficial opportunities in the future. Refusal brings you nothing, but cooperation may be your chance to survive on this dangerous world.</li>
+  </Wula_Intro_Spy_UI_2.descriptions>
+  <Wula_Intro_Spy_UI_2.label>Unknown transmission</Wula_Intro_Spy_UI_2.label>
+  <Wula_Intro_Spy_UI_2.options.0.label>Anything else...</Wula_Intro_Spy_UI_2.options.0.label>
+  <Wula_Intro_Spy_UI_3.characterName>Unknown transmission</Wula_Intro_Spy_UI_3.characterName>
+  <Wula_Intro_Spy_UI_3.descriptions>
+    <li>A practical question. Successful cooperation will bring you:\n\n1. Technical data access rights - Limited access to some basic technology information\n2. Fleet dispatch license - We will allow you to obtain an implant that lets one colonist send signals to the Imperial fleet to request artillery bombardment, supply drops, close air support, and more\n3. Political consideration points - A favorable evaluation in the Empire's final assessment of your planet\n\nRemember: this is only the beginning. The Wula Empire's attitude toward its partners depends on performance. If this mission is completed smoothly, more tangible benefits will follow.</li>
+  </Wula_Intro_Spy_UI_3.descriptions>
+  <Wula_Intro_Spy_UI_3.label>Unknown transmission</Wula_Intro_Spy_UI_3.label>
+  <Wula_Intro_Spy_UI_3.options.0.label>Anything else...</Wula_Intro_Spy_UI_3.options.0.label>
+  <Wula_Intro_Spy_UI_End_1.characterName>Unknown transmission</Wula_Intro_Spy_UI_End_1.characterName>
+  <Wula_Intro_Spy_UI_End_1.descriptions>
+    <li>Mission complete. Your attitude toward cooperation is satisfactory. The agent has been evacuated safely, and the intelligence they carried will play a key role in the Empire's action plan on your world.\n\nAs a reward for your assistance, we provide the following technical assets:\n\n1. Wula Empire technology system access permit - Grants preliminary access to the Wula Empire database\n\n2. Neural-link implant - Enables one colonist to establish a direct communications link with our fleet and request orbital support\n\n3. Communications terminal - A dedicated communications device used to place orders with Wula Empire production facilities. If you need other assistance, you can also contact me through this console.\n\nThis is only the beginning. If you continue to prove your value, more advanced Imperial technology will be opened to you. Remember: cooperation goes both ways—and we are never stingy with loyal partners.</li>
+  </Wula_Intro_Spy_UI_End_1.descriptions>
+  <Wula_Intro_Spy_UI_End_1.dismissEffects.0.effects.0.message>A gift of thanks from the Wula Empire has arrived. In addition, the Wula Empire tech tree has been unlocked.</Wula_Intro_Spy_UI_End_1.dismissEffects.0.effects.0.message>
+  <Wula_Intro_Spy_UI_End_1.dismissEffects.0.effects.1.letterLabel>Airdropped building</Wula_Intro_Spy_UI_End_1.dismissEffects.0.effects.1.letterLabel>
+  <Wula_Intro_Spy_UI_End_1.dismissEffects.0.effects.1.letterText>A Wula Empire airdrop building is on the way. Watch the landing zone!</Wula_Intro_Spy_UI_End_1.dismissEffects.0.effects.1.letterText>
+  <Wula_Intro_Spy_UI_End_1.label>Unknown transmission</Wula_Intro_Spy_UI_End_1.label>
+  <Wula_Intro_Spy_UI_End_1.options.0.label>I don't think we know your name yet?</Wula_Intro_Spy_UI_End_1.options.0.label>
+  <Wula_Intro_Spy_UI_End_2.characterName>&quot;Legion&quot;, P.I.A</Wula_Intro_Spy_UI_End_2.characterName>
+  <Wula_Intro_Spy_UI_End_2.descriptions>
+    <li>A name? I am the central control AI of the Planetary Interdiction Authority. Just call me &quot;Legion&quot;.</li>
+  </Wula_Intro_Spy_UI_End_2.descriptions>
+  <Wula_Intro_Spy_UI_End_2.label>Unknown transmission</Wula_Intro_Spy_UI_End_2.label>
+  <Wula_Intro_Spy_UI_End_2.options.0.label>All right. We'll take the reward.</Wula_Intro_Spy_UI_End_2.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_1.characterName>&quot;Legion&quot;, P.I.A</WULA_Recycle_PIA_Legion_File_UI_1.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_1.descriptions>
+    <li>I don't have time right now.\n\nTell you what—do one thing for me, and once you succeed I'll bypass procedure and approve a Level 3 colony license for you. Deal?</li>
+  </WULA_Recycle_PIA_Legion_File_UI_1.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_1.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_1.label>
+  <WULA_Recycle_PIA_Legion_File_UI_1.options.0.disabledReason>We're still tracking down the safe. Not yet.</WULA_Recycle_PIA_Legion_File_UI_1.options.0.disabledReason>
+  <WULA_Recycle_PIA_Legion_File_UI_1.options.0.label>What do we need to do?</WULA_Recycle_PIA_Legion_File_UI_1.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_1.options.1.label>This isn't a good time...</WULA_Recycle_PIA_Legion_File_UI_1.options.1.label>
+  <WULA_Recycle_PIA_Legion_File_UI_10.characterName>&quot;Legion&quot;, P.I.A</WULA_Recycle_PIA_Legion_File_UI_10.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_10.descriptions>
+    <li>Not bad. It's been warped by the cutting beam, but you still recovered it in the end. So—are all the people who saw this safe dead?</li>
+  </WULA_Recycle_PIA_Legion_File_UI_10.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_10.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_10.label>
+  <WULA_Recycle_PIA_Legion_File_UI_10.options.0.label>Everyone who saw it is dead.</WULA_Recycle_PIA_Legion_File_UI_10.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_10.options.1.label>Yes. We followed orders and wiped out the rebels. (Downplaying it)</WULA_Recycle_PIA_Legion_File_UI_10.options.1.label>
+  <WULA_Recycle_PIA_Legion_File_UI_11.characterName>&quot;Legion&quot;, P.I.A</WULA_Recycle_PIA_Legion_File_UI_11.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_11.descriptions>
+    <li>Good. Looks like you killed them before they could retrieve the contents. Well done.\n\nAs I promised, I will greenlight your colony, skip the tedious review, and raise your colony rating to Level 3—granting access to all Planetary Interdiction Authority weapons and building permissions.\n\nAdditionally, I have reset your support system. You can request support you've requested before again, and new support will be unlocked for you as well.\n\nLong live the Empire.</li>
+  </WULA_Recycle_PIA_Legion_File_UI_11.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_11.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_11.label>
+  <WULA_Recycle_PIA_Legion_File_UI_11.options.0.label>Long live the Empire.</WULA_Recycle_PIA_Legion_File_UI_11.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_12.characterName>&quot;Legion&quot;, P.I.A</WULA_Recycle_PIA_Legion_File_UI_12.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_12.descriptions>
+    <li>Is that so...\n\nThen, just as I promised, I will greenlight your colony, skip the tedious review, and raise your colony rating to Level 3—granting access to all Planetary Interdiction Authority weapons and building permissions.\n\nAdditionally, I have reset your support system. You can request support you've requested before again, and new support will be unlocked for you as well.\n\nLong live the Empire.</li>
+  </WULA_Recycle_PIA_Legion_File_UI_12.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_12.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_12.label>
+  <WULA_Recycle_PIA_Legion_File_UI_12.options.0.label>Long live the Empire.</WULA_Recycle_PIA_Legion_File_UI_12.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_2.characterName>&quot;Legion&quot;, P.I.A</WULA_Recycle_PIA_Legion_File_UI_2.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_2.descriptions>
+    <li>I need you to recover something for me within 5 days.\n\nA black safe currently held by a hostile group of Wula Empire rebels. It contains extremely important materials regarding the royal family. You must ensure the safe's security—if it has been opened, then everyone present must be killed.\n\nThe contents must not be leaked.</li>
+  </WULA_Recycle_PIA_Legion_File_UI_2.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_2.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_2.label>
+  <WULA_Recycle_PIA_Legion_File_UI_2.options.0.label>Rebels? We've never heard of rebels on this planet...</WULA_Recycle_PIA_Legion_File_UI_2.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_2.options.1.label>We're ready. Tell us the location.</WULA_Recycle_PIA_Legion_File_UI_2.options.1.label>
+  <WULA_Recycle_PIA_Legion_File_UI_2.options.2.label>This isn't a good time...</WULA_Recycle_PIA_Legion_File_UI_2.options.2.label>
+  <WULA_Recycle_PIA_Legion_File_UI_3.characterName>&quot;Legion&quot;, P.I.A</WULA_Recycle_PIA_Legion_File_UI_3.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_3.descriptions>
+    <li>Do you know the Progressives? At the moment, not many people even know these traitors exist.\n\nThey are a splinter faction inside the Wula Empire, plotting to overthrow the royal family. Security departments across the galaxy are hunting them down. They have deeply infiltrated intellectuals and the lower classes.\n\nThe box stolen this time contains secrets tied to the royal family's security. We cannot allow the Progressives to obtain its contents.</li>
+  </WULA_Recycle_PIA_Legion_File_UI_3.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_3.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_3.label>
+  <WULA_Recycle_PIA_Legion_File_UI_3.options.0.label>Understood...</WULA_Recycle_PIA_Legion_File_UI_3.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_5.characterName>Lockbox</WULA_Recycle_PIA_Legion_File_UI_5.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_5.descriptions>
+    <li>A pitch-black safe lies silently on the ground. Layers of gilded floral carvings and a conspicuous iron-cross phoenix mark show it once belonged to someone of high status. The signal tracker points straight to it—this is the lockbox tied to the royal family.\n\nIt looks like the Progressive rebels used a weaver cutting beam to destroy the lock, but the cut was extremely crude. A scorched smell wafts from inside; perhaps there's not much left.</li>
+  </WULA_Recycle_PIA_Legion_File_UI_5.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_5.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_5.label>
+  <WULA_Recycle_PIA_Legion_File_UI_5.options.0.label>Open it</WULA_Recycle_PIA_Legion_File_UI_5.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_5.options.1.label>Take it</WULA_Recycle_PIA_Legion_File_UI_5.options.1.label>
+  <WULA_Recycle_PIA_Legion_File_UI_6.characterName>Lockbox</WULA_Recycle_PIA_Legion_File_UI_6.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_6.descriptions>
+    <li>The inside is a complete mess. The cutting beam violently swept the entire inner wall of the safe. The semi-reflective surface caused the ion beam to ricochet repeatedly, burning away the vast majority of its contents.\n\nAmid the charcoal, a silver artifact still gleams—apparently a specially reinforced recorder containing some holographic footage.</li>
+  </WULA_Recycle_PIA_Legion_File_UI_6.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_6.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_6.label>
+  <WULA_Recycle_PIA_Legion_File_UI_6.options.0.label>Play the recording</WULA_Recycle_PIA_Legion_File_UI_6.options.0.label>
+  <WULA_Recycle_PIA_Legion_File_UI_6.options.1.label>Pretend we saw nothing</WULA_Recycle_PIA_Legion_File_UI_6.options.1.label>
+  <WULA_Recycle_PIA_Legion_File_UI_7.characterName>&quot;Legion&quot;, P.I.A</WULA_Recycle_PIA_Legion_File_UI_7.characterName>
+  <WULA_Recycle_PIA_Legion_File_UI_7.descriptions>
+    <li>(The projection isn't royal secrets at all, but a call between your superior and someone else.)\n\n...I can't spare the time right now. The Planetary Interdiction Authority fleet needs to maintain pressure across this sector to push the colonization mission forward. I've heard what happened at the palace. The state church is keeping the death secret for now, and order in the palace district shouldn't see major turbulence in the short term. If the palace district really changes suddenly, I'll bring the fleet back to reinforce.\n\nI already know the little trick you're pulling. You want to push the Royal Mechanist Guild out, then conveniently pin a charge on them. But the Guild's position is unclear right now—don't act rashly.\n\nThat's all. The Wula Empire is in the calm before the storm. I hope we can still meet on the other side.</li>
+  </WULA_Recycle_PIA_Legion_File_UI_7.descriptions>
+  <WULA_Recycle_PIA_Legion_File_UI_7.label>Unknown transmission</WULA_Recycle_PIA_Legion_File_UI_7.label>
+  <WULA_Recycle_PIA_Legion_File_UI_7.options.0.label>Close</WULA_Recycle_PIA_Legion_File_UI_7.options.0.label>
+  <Wula_UI_Legion_1.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_1.characterName>
+  <Wula_UI_Legion_1.descriptions>
+    <li>This is the Wula Empire Planetary Interdiction Agency, P.I.A. Communication signal is good, awaiting input.</li>
+    <li>How does that saying go? Invincible on earth, enemies from the sky.</li>
+    <li>We were already the rulers of this galaxy back when the ancestors of these creatures were still floundering in the primordial soup—it was true then, and it will be true in the future.</li>
+    <li>Generally speaking, we don't like violence and bloodshed. It would be better if the natives of this star system were more cooperative.</li>
+  </Wula_UI_Legion_1.descriptions>
+  <Wula_UI_Legion_1.label>Communication with P.I.A</Wula_UI_Legion_1.label>
+  <Wula_UI_Legion_1.options.0.label>I want to ask some things...</Wula_UI_Legion_1.options.0.label>
+  <Wula_UI_Legion_1.options.1.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_1.options.1.disabledReason>
+  <Wula_UI_Legion_1.options.1.label>We need to request support...</Wula_UI_Legion_1.options.1.label>
+  <Wula_UI_Legion_1.options.2.label>We want to undergo a promotion review...</Wula_UI_Legion_1.options.2.label>
+  <Wula_UI_Legion_1.options.3.label>We need to further increase colony permissions...</Wula_UI_Legion_1.options.3.label>
+  <Wula_UI_Legion_1.options.4.label>Are there any special missions...</Wula_UI_Legion_1.options.4.label>
+  <Wula_UI_Legion_1.options.5.label>Goodbye</Wula_UI_Legion_1.options.5.label>
+  <Wula_UI_Legion_10.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_10.characterName>
+  <Wula_UI_Legion_10.descriptions>
+    <li>Hmm?</li>
+    <li>Okay—so, what do you want to ask?</li>
+    <li>Sigh, fine, what do you want to know?</li>
+  </Wula_UI_Legion_10.descriptions>
+  <Wula_UI_Legion_10.label>Unknown Communication</Wula_UI_Legion_10.label>
+  <Wula_UI_Legion_10.options.0.label>Who are you?</Wula_UI_Legion_10.options.0.label>
+  <Wula_UI_Legion_10.options.1.label>What do we need to do? (Development Process)</Wula_UI_Legion_10.options.1.label>
+  <Wula_UI_Legion_10.options.2.label>No further questions...</Wula_UI_Legion_10.options.2.label>
+  <Wula_UI_Legion_11.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_11.characterName>
+  <Wula_UI_Legion_11.descriptions>
+    <li>Memory banks corrupted?\n\n...Fine, you can call me &quot;Legion&quot;. I am the AI responsible for managing the Wula Empire Planetary Interdiction Agency fleet. According to your designation, I am your direct superior. Did the Mechanicus Guild not set up the correct memory sectors pre-loaded with data before you landed on the surface?</li>
+  </Wula_UI_Legion_11.descriptions>
+  <Wula_UI_Legion_11.label>Unknown Communication</Wula_UI_Legion_11.label>
+  <Wula_UI_Legion_11.options.0.label>Planetary Interdiction Agency?</Wula_UI_Legion_11.options.0.label>
+  <Wula_UI_Legion_11.options.1.label>Mechanicus Guild?</Wula_UI_Legion_11.options.1.label>
+  <Wula_UI_Legion_11.options.2.label>We have no further questions...</Wula_UI_Legion_11.options.2.label>
+  <Wula_UI_Legion_12.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_12.characterName>
+  <Wula_UI_Legion_12.descriptions>
+    <li>The Planetary Interdiction Agency is a coercive organization under the Wula Empire Development Agency, controlling all of the Development Agency's fleets, responsible for aggressive contact during territorial expansion.\n\nTypically, for planets like this rimworld, we would directly blockade the orbit, bombard all existing settlements, and then deploy colonists. However, it seems this world still has hope, so you were deployed as the first advance team to the planet's surface to make contact and probe the other alien races. Understood?</li>
+  </Wula_UI_Legion_12.descriptions>
+  <Wula_UI_Legion_12.label>Unknown Communication</Wula_UI_Legion_12.label>
+  <Wula_UI_Legion_12.options.0.label>We have other questions...</Wula_UI_Legion_12.options.0.label>
+  <Wula_UI_Legion_12.options.1.label>We have no further questions...</Wula_UI_Legion_12.options.1.label>
+  <Wula_UI_Legion_13.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_13.characterName>
+  <Wula_UI_Legion_13.descriptions>
+    <li>The Wula Empire Mechanicus Guild is responsible for the production, vetting, deployment, and initialization of all synths. When you were deployed to the fleet, there should have been a Mechanic who helped set up your pre-loaded memory sectors. But clearly, that individual was derelict in their duty, which is why you're here bothering me with a bunch of things you should already know.</li>
+  </Wula_UI_Legion_13.descriptions>
+  <Wula_UI_Legion_13.label>Unknown Communication</Wula_UI_Legion_13.label>
+  <Wula_UI_Legion_13.options.0.label>We have other questions...</Wula_UI_Legion_13.options.0.label>
+  <Wula_UI_Legion_13.options.1.label>We have no further questions...</Wula_UI_Legion_13.options.1.label>
+  <Wula_UI_Legion_14.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_14.characterName>
+  <Wula_UI_Legion_14.descriptions>
+    <li>You mean you were dropped down here without even knowing what to do?\n\nSigh, what you need to do is survive by any means necessary and establish a base. According to the Empire's tax laws, you must periodically pay taxes—as an Imperial colony, the fleet and mechanoid groups will be your backing.\n\nIf you feel ready, you can apply for a permissions advancement review. I will deploy an avatar with a guard detail to inspect your colony for a period, then decide whether to promote you based on the rating. Promoted colonies will receive more permissions, allowing access to more powerful armaments and support.</li>
+  </Wula_UI_Legion_14.descriptions>
+  <Wula_UI_Legion_14.label>Unknown Communication</Wula_UI_Legion_14.label>
+  <Wula_UI_Legion_14.options.0.label>We have no further questions...</Wula_UI_Legion_14.options.0.label>
+  <Wula_UI_Legion_30.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_30.characterName>
+  <Wula_UI_Legion_30.descriptions>
+    <li>Okay, so, what do you need?</li>
+    <li>Hmm, what trouble have you run into?</li>
+    <li>I hope you haven't caused me any major problems.</li>
+  </Wula_UI_Legion_30.descriptions>
+  <Wula_UI_Legion_30.label>Communication with P.I.A</Wula_UI_Legion_30.label>
+  <Wula_UI_Legion_30.options.0.disabledReason>Emergency funds? I think I already gave them to you?</Wula_UI_Legion_30.options.0.disabledReason>
+  <Wula_UI_Legion_30.options.0.label>We need financial support</Wula_UI_Legion_30.options.0.label>
+  <Wula_UI_Legion_30.options.1.disabledReason>Can't you build them yourselves?</Wula_UI_Legion_30.options.1.disabledReason>
+  <Wula_UI_Legion_30.options.1.label>We need personnel reinforcements</Wula_UI_Legion_30.options.1.label>
+  <Wula_UI_Legion_30.options.2.disabledReason>Our task forces are all busy, please try again later—Alright, I'm lying. Can't you just get a couple of guns yourselves?</Wula_UI_Legion_30.options.2.disabledReason>
+  <Wula_UI_Legion_30.options.2.label>We need direct military support</Wula_UI_Legion_30.options.2.label>
+  <Wula_UI_Legion_30.options.3.label>There are other matters...</Wula_UI_Legion_30.options.3.label>
+  <Wula_UI_Legion_31.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_31.characterName>
+  <Wula_UI_Legion_31.descriptions>
+    <li>So you're here for money... I can allocate a round of emergency funds to you, but this is limited and can only be used for colony development.\n\nBy the way, are you really short on money? I'm having trouble believing it.</li>
+  </Wula_UI_Legion_31.descriptions>
+  <Wula_UI_Legion_31.label>Communication with P.I.A</Wula_UI_Legion_31.label>
+  <Wula_UI_Legion_31.options.0.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_31.options.0.disabledReason>
+  <Wula_UI_Legion_31.options.0.label>Yes, yes, we are truly poor!</Wula_UI_Legion_31.options.0.label>
+  <Wula_UI_Legion_31.options.0.optionEffects.0.effects.2.message>P.I.A emergency funds have been airdropped (3,000 silver).</Wula_UI_Legion_31.options.0.optionEffects.0.effects.2.message>
+  <Wula_UI_Legion_31.options.1.label>Actually, we need components more than money...</Wula_UI_Legion_31.options.1.label>
+  <Wula_UI_Legion_31.options.2.label>We need some rare minerals...</Wula_UI_Legion_31.options.2.label>
+  <Wula_UI_Legion_31.options.3.label>Never mind</Wula_UI_Legion_31.options.3.label>
+  <Wula_UI_Legion_31A.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_31A.characterName>
+  <Wula_UI_Legion_31A.descriptions>
+    <li>A very specific request. Looks like you've run into a bit of a parts crisis? I'll airdrop some to you, but remember, free components won't keep falling from the sky forever.</li>
+  </Wula_UI_Legion_31A.descriptions>
+  <Wula_UI_Legion_31A.label>Communication with P.I.A</Wula_UI_Legion_31A.label>
+  <Wula_UI_Legion_31A.options.0.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_31A.options.0.disabledReason>
+  <Wula_UI_Legion_31A.options.0.label>Yes, we're being strangled</Wula_UI_Legion_31A.options.0.label>
+  <Wula_UI_Legion_31A.options.0.optionEffects.0.effects.3.message>P.I.A emergency supplies have been airdropped (30 components, 4 advanced components).</Wula_UI_Legion_31A.options.0.optionEffects.0.effects.3.message>
+  <Wula_UI_Legion_31A.options.1.label>Never mind</Wula_UI_Legion_31A.options.1.label>
+  <Wula_UI_Legion_31B.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_31B.characterName>
+  <Wula_UI_Legion_31B.descriptions>
+    <li>Minerals? Honestly, the fleet doesn't store much unprocessed minerals—raw materials take up too much space. But if you really need them, I'm not entirely unwilling to approve some for you.</li>
+  </Wula_UI_Legion_31B.descriptions>
+  <Wula_UI_Legion_31B.label>Communication with P.I.A</Wula_UI_Legion_31B.label>
+  <Wula_UI_Legion_31B.options.0.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_31B.options.0.disabledReason>
+  <Wula_UI_Legion_31B.options.0.label>Great, we're short on materials</Wula_UI_Legion_31B.options.0.label>
+  <Wula_UI_Legion_31B.options.0.optionEffects.0.effects.4.message>P.I.A emergency supplies have been airdropped (200 plasteel, 100 gold, 100 uranium).</Wula_UI_Legion_31B.options.0.optionEffects.0.effects.4.message>
+  <Wula_UI_Legion_31B.options.1.label>Never mind</Wula_UI_Legion_31B.options.1.label>
+  <Wula_UI_Legion_32.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_32.characterName>
+  <Wula_UI_Legion_32.descriptions>
+    <li>Hmm, I do currently have one Wula Empire synth that hasn't been assigned to a colony yet. If you need it, I can transfer it to you. But next time, remember to build your own—the materials for building synths come from project funds.</li>
+  </Wula_UI_Legion_32.descriptions>
+  <Wula_UI_Legion_32.label>Communication with P.I.A</Wula_UI_Legion_32.label>
+  <Wula_UI_Legion_32.options.0.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_32.options.0.disabledReason>
+  <Wula_UI_Legion_32.options.0.label>We gladly accept</Wula_UI_Legion_32.options.0.label>
+  <Wula_UI_Legion_32.options.0.optionEffects.0.effects.0.letterLabel>Wula synth joins the colony</Wula_UI_Legion_32.options.0.optionEffects.0.effects.0.letterLabel>
+  <Wula_UI_Legion_32.options.0.optionEffects.0.effects.0.letterText>A Wula Empire synth has been ordered to join the colony.</Wula_UI_Legion_32.options.0.optionEffects.0.effects.0.letterText>
+  <Wula_UI_Legion_32.options.1.label>What we want are some Wula Cat mechanoids...</Wula_UI_Legion_32.options.1.label>
+  <Wula_UI_Legion_32.options.2.label>Never mind</Wula_UI_Legion_32.options.2.label>
+  <Wula_UI_Legion_32A.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_32A.characterName>
+  <Wula_UI_Legion_32A.descriptions>
+    <li>Short on cheap labor? Then I'll drop all the Wula Cats I have on hand. Should be about ten of them, enough for your needs.</li>
+  </Wula_UI_Legion_32A.descriptions>
+  <Wula_UI_Legion_32A.label>Communication with P.I.A</Wula_UI_Legion_32A.label>
+  <Wula_UI_Legion_32A.options.0.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_32A.options.0.disabledReason>
+  <Wula_UI_Legion_32A.options.0.label>That's exactly what we want</Wula_UI_Legion_32A.options.0.label>
+  <Wula_UI_Legion_32A.options.1.label>Never mind</Wula_UI_Legion_32A.options.1.label>
+  <Wula_UI_Legion_33.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_33.characterName>
+  <Wula_UI_Legion_33.descriptions>
+    <li>Ran into trouble? I can drop my task force down. Remember to find cover.</li>
+  </Wula_UI_Legion_33.descriptions>
+  <Wula_UI_Legion_33.label>Communication with P.I.A</Wula_UI_Legion_33.label>
+  <Wula_UI_Legion_33.options.0.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_33.options.0.disabledReason>
+  <Wula_UI_Legion_33.options.0.label>We're all going to die if you don't come!</Wula_UI_Legion_33.options.0.label>
+  <Wula_UI_Legion_33.options.1.label>Do you have any heavy units...</Wula_UI_Legion_33.options.1.label>
+  <Wula_UI_Legion_33.options.2.label>We need ultimate firepower...</Wula_UI_Legion_33.options.2.label>
+  <Wula_UI_Legion_33.options.3.label>Never mind</Wula_UI_Legion_33.options.3.label>
+  <Wula_UI_Legion_33A.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_33A.characterName>
+  <Wula_UI_Legion_33A.descriptions>
+    <li>You want to request heavy unit support? That's possible too. They are far fewer in number than the assault teams, but they are elite forces—be careful not to get hit by their mortars.</li>
+  </Wula_UI_Legion_33A.descriptions>
+  <Wula_UI_Legion_33A.label>Communication with P.I.A</Wula_UI_Legion_33A.label>
+  <Wula_UI_Legion_33A.options.0.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_33A.options.0.disabledReason>
+  <Wula_UI_Legion_33A.options.0.label>That's exactly what we want</Wula_UI_Legion_33A.options.0.label>
+  <Wula_UI_Legion_33A.options.1.label>Never mind</Wula_UI_Legion_33A.options.1.label>
+  <Wula_UI_Legion_33B.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_33B.characterName>
+  <Wula_UI_Legion_33B.descriptions>
+    <li>Then I'll send down my top-tier veteran unit. Whatever problem you're facing, there shouldn't be anything they can't handle.</li>
+  </Wula_UI_Legion_33B.descriptions>
+  <Wula_UI_Legion_33B.label>Communication with P.I.A</Wula_UI_Legion_33B.label>
+  <Wula_UI_Legion_33B.options.0.disabledReason>The colony's performance is quite unsatisfactory to P.I.A. No additional reinforcements will be dispatched to the colony.</Wula_UI_Legion_33B.options.0.disabledReason>
+  <Wula_UI_Legion_33B.options.0.label>That's exactly what we want</Wula_UI_Legion_33B.options.0.label>
+  <Wula_UI_Legion_33B.options.1.label>Never mind</Wula_UI_Legion_33B.options.1.label>
+  <Wula_UI_Legion_50.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_50.characterName>
+  <Wula_UI_Legion_50.descriptions>
+    <li>Looking for work? Alright, I have some jobs. How to put it... they're not very suitable for the Wula Empire's standard review process, and my Broken Claw Guard isn't suited for these tasks either. I do need someone to handle them for me.\n\nPick one that interests you. I'll send you the mission requirements.</li>
+  </Wula_UI_Legion_50.descriptions>
+  <Wula_UI_Legion_50.label>Communication with P.I.A</Wula_UI_Legion_50.label>
+  <Wula_UI_Legion_50.options.0.label>...A Psychic Titan?</Wula_UI_Legion_50.options.0.label>
+  <Wula_UI_Legion_50.options.1.label>...A Volcano Cannon Fortress?</Wula_UI_Legion_50.options.1.label>
+  <Wula_UI_Legion_50.options.2.label>...A vacation?</Wula_UI_Legion_50.options.2.label>
+  <Wula_UI_Legion_50.options.3.label>It's not a good time right now...</Wula_UI_Legion_50.options.3.label>
+  <Wula_UI_Legion_Reply_1.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_Reply_1.characterName>
+  <Wula_UI_Legion_Reply_1.descriptions>
+    <li>Please, do not, throw corpses, useless colonists, animals, and toxic waste at the fleet!</li>
+    <li>Are you treating the fleet as a garbage disposal plant? Take away your corpses, useless colonists, animals, and toxic waste!</li>
+  </Wula_UI_Legion_Reply_1.descriptions>
+  <Wula_UI_Legion_Reply_1.label>Communication with P.I.A</Wula_UI_Legion_Reply_1.label>
+  <Wula_UI_Legion_Reply_1.options.0.label>Okay</Wula_UI_Legion_Reply_1.options.0.label>
+  <Wula_UI_Legion_Reply_2.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_Reply_2.characterName>
+  <Wula_UI_Legion_Reply_2.descriptions>
+    <li>Do not stuff corpses, colonists, creatures, toxic waste, and other unsellable items into the launch pods. The Ordnance Department won't accept them.</li>
+  </Wula_UI_Legion_Reply_2.descriptions>
+  <Wula_UI_Legion_Reply_2.label>Communication with P.I.A</Wula_UI_Legion_Reply_2.label>
+  <Wula_UI_Legion_Reply_2.options.0.label>Okay</Wula_UI_Legion_Reply_2.options.0.label>
+  <Wula_UI_Legion_Test1.characterName>&quot;Legion&quot;, P.I.A</Wula_UI_Legion_Test1.characterName>
+  <Wula_UI_Legion_Test1.descriptions>
+    <li>This is a test option. You can get all sorts of beatings.</li>
+  </Wula_UI_Legion_Test1.descriptions>
+  <Wula_UI_Legion_Test1.label>Communication with P.I.A</Wula_UI_Legion_Test1.label>
+  <Wula_UI_Legion_Test1.options.0.label>Come on, Champion Warrior reinforcements</Wula_UI_Legion_Test1.options.0.label>
+  <Wula_UI_Legion_Test1.options.1.label>Come on, Veteran Vanguard reinforcements</Wula_UI_Legion_Test1.options.1.label>
+  <Wula_UI_Legion_Test1.options.2.label>Come on, Broken Claw Guard</Wula_UI_Legion_Test1.options.2.label>
+  <Wula_UI_Legion_Test1.options.3.label>Come on, Landstrider</Wula_UI_Legion_Test1.options.3.label>
+  <Wula_UI_Legion_Test1.options.4.label>Come on, Psychic Titan</Wula_UI_Legion_Test1.options.4.label>
+  <Wula_UI_Legion_Test1.options.5.label>Come on, Panzer group</Wula_UI_Legion_Test1.options.5.label>
+  <Wula_UI_Legion_Test1.options.6.label>Never mind</Wula_UI_Legion_Test1.options.6.label>
+  <WULA_Vacation_Quest_UI_1.characterName>&quot;Legion&quot;, P.I.A</WULA_Vacation_Quest_UI_1.characterName>
+  <WULA_Vacation_Quest_UI_1.descriptions>
+    <li>Sigh... It's getting a bit stifling being on the fleet all the time. I want to go down to the surface for a walk. Is there a sea near your colony? I want to take a vacation.</li>
+  </WULA_Vacation_Quest_UI_1.descriptions>
+  <WULA_Vacation_Quest_UI_1.label>Unknown transmission</WULA_Vacation_Quest_UI_1.label>
+  <WULA_Vacation_Quest_UI_1.options.0.disabledReason>Not enough goodwill. You must at least be an ally of P.I.A to accept this quest.</WULA_Vacation_Quest_UI_1.options.0.disabledReason>
+  <WULA_Vacation_Quest_UI_1.options.0.label>Of course!</WULA_Vacation_Quest_UI_1.options.0.label>
+  <WULA_Vacation_Quest_UI_1.options.1.label>Let's talk after we move to the coast...</WULA_Vacation_Quest_UI_1.options.1.label>
+</LanguageData>

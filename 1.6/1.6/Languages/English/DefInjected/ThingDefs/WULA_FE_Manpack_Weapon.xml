@@ -1,117 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-  <!-- Experience Data Packs -->
   <WULA_ExperienceDataPack_Shooting.label>Autonomous Core Data Pack (Shooting)</WULA_ExperienceDataPack_Shooting.label>
   <WULA_ExperienceDataPack_Shooting.description>An autonomous core data pack containing shooting experience, which can be absorbed by Wula Empire weapons equipped with autonomous cores to improve their quality.</WULA_ExperienceDataPack_Shooting.description>
-
   <WULA_ExperienceDataPack_Melee.label>Autonomous Core Data Pack (Melee)</WULA_ExperienceDataPack_Melee.label>
   <WULA_ExperienceDataPack_Melee.description>An autonomous core data pack containing melee experience, which can be absorbed by Wula Empire weapons equipped with autonomous cores to improve their quality.</WULA_ExperienceDataPack_Melee.description>
-
-  <!-- Melee Weapons -->
   <WULA_MW_Charge_Mace.label>CMp-7 "Mace"</WULA_MW_Charge_Mace.label>
   <WULA_MW_Charge_Mace.description>This melee weapon used by Wula Empire warriors is constructed from a multi-layered composite core of high-density tungsten alloy or depleted uranium alloy, capable of stunning opponents with unparalleled impact mass.</WULA_MW_Charge_Mace.description>
-
   <WULA_MW_ChainSword.label>CMs-1 "Chainsword"</WULA_MW_ChainSword.label>
   <WULA_MW_ChainSword.description>This buzzing Wula Empire chain-type weapon features multiple high-speed rotating multi-layered composite serrated chains encircling the blade spine, interspersed with energy conduction nodes or micro coolant vents. It is a symbol of power and sheer madness—capable of inflicting numerous wounds in a single attack, enough to rip an enemy's body from head to toe.</WULA_MW_ChainSword.description>
-  <WULA_MW_ChainSword_Maneuver.requiredCapacity>Chainsword Cutting</WULA_MW_ChainSword_Maneuver.requiredCapacity>
-
   <WULA_MW_Twohanded_ChainBroadsword.label>CBs-25 "Helltooth"</WULA_MW_Twohanded_ChainBroadsword.label>
   <WULA_MW_Twohanded_ChainBroadsword.description>A giant chainsword that requires both hands to wield, this terrifying melee weapon can inflict massive wounds or even cleave an opponent in two with a single strike. Its blade head is equipped with a micro phase engine, capable of delivering a space-rending slash and instantly teleporting to the target or pulling the target to the wielder.</WULA_MW_Twohanded_ChainBroadsword.description>
-  <WULA_MW_Twohanded_ChainBroadsword_Ability.label>Short-Range Jump</WULA_MW_Twohanded_ChainBroadsword_Ability.label>
-  <WULA_MW_Twohanded_ChainBroadsword_Ability.description>Use the phase engine in the blade head of CBs-25 "Helltooth" to instantly teleport to a new location—this jump engine can only jump small targets; if the wielder's body size is larger than 3, they cannot initiate the teleport.</WULA_MW_Twohanded_ChainBroadsword_Ability.description>
-  <WULA_MW_Twohanded_ChainBroadsword_Second_Ability.label>Spatial Deletion</WULA_MW_Twohanded_ChainBroadsword_Second_Ability.label>
-  <WULA_MW_Twohanded_ChainBroadsword_Second_Ability.description>Use the phase engine in the blade head of CBs-25 "Helltooth" to pull the target closer to the caster—this jump engine can only jump small targets; if the target's body size is larger than 3, they cannot be pulled closer.</WULA_MW_Twohanded_ChainBroadsword_Second_Ability.description>
-
   <WULA_MW_Breaker_Bar.label>PMb-97 "Breaker Bar"</WULA_MW_Breaker_Bar.label>
   <WULA_MW_Breaker_Bar.description>A heavy wall-breaking device, typically carried by Wula Empire soldiers equipped with exoskeletons. It can deliver a powerful, pressurized swing to knock down multiple enemies consecutively.</WULA_MW_Breaker_Bar.description>
-  <WULA_MW_Breaker_Bar_Demolish.label>Pressurized Hammer Strike</WULA_MW_Breaker_Bar_Demolish.label>
-  <WULA_MW_Breaker_Bar_Ability.label>Formation-Shattering Strike</WULA_MW_Breaker_Bar_Ability.label>
-  <WULA_MW_Breaker_Bar_Ability.description>Pressurize the hammer head of PMb-97 "Breaker Bar" to its maximum, then deliver an unavoidable strike to break through tight enemy formations—even if enemies survive by chance, they will be stunned and knocked back a distance.</WULA_MW_Breaker_Bar_Ability.description>
-
   <WULA_MW_Constructor_Hammer.label>HAm-1 "Construction Hammer"</WULA_MW_Constructor_Hammer.label>
   <WULA_MW_Constructor_Hammer.description>A multi-purpose tool for Wula Cats, capable of both construction and mining.</WULA_MW_Constructor_Hammer.description>
-
-  <!-- Ranged Weapons (Projectile) -->
   <WULA_RW_Base_AR.label>DLa-1 "Shale"</WULA_RW_Base_AR.label>
   <WULA_RW_Base_AR.description>The Wula Empire's basic assault rifle, still using a reliable gas-operated mechanism to drive automatic firing components. It's a cheap but effective weapon, typically issued to colonies for self-defense. It mounts an underbarrel flashbang launcher that can fire a flashbang to stun enemies in an area.</WULA_RW_Base_AR.description>
   <Bullet_WULA_RW_Base_AR.label>Bullet</Bullet_WULA_RW_Base_AR.label>
-  <WULA_RW_Base_AR_Ability.label>Fire Flashbang</WULA_RW_Base_AR_Ability.label>
-  <WULA_RW_Base_AR_Ability.description>Use the underbarrel flashbang launcher on the DLa-1 "Shale" to fire a flashbang. It takes a moment to arm after landing before exploding, stunning all nearby creatures and mechanoids.</WULA_RW_Base_AR_Ability.description>
   <Grenade_WULA_RW_Base_AR.label>Flashbang</Grenade_WULA_RW_Base_AR.label>
-
   <WULA_RW_Fractal_RF.label>SLr-14 "Blue Cone"</WULA_RW_Fractal_RF.label>
   <WULA_RW_Fractal_RF.description>The Wula Empire's railgun sniper rifle. It guides powerful kinetic energy to fire steel needles. It has a slower rate of fire but can continue flying after hitting a target, damaging multiple enemies along its path.</WULA_RW_Fractal_RF.description>
   <Bullet_WULA_RW_Fractal_RF.label>Blue Cone Needle Round</Bullet_WULA_RW_Fractal_RF.label>
-
   <WULA_RW_StarDrift_SG.label>DCs-7 "Obsidian"</WULA_RW_StarDrift_SG.label>
   <WULA_RW_StarDrift_SG.description>A close-range shotgun issued by the Wula Empire, centered on powerful armor-piercing flechette rounds, focused on rapid reaction combat and sustained suppression at short distances.</WULA_RW_StarDrift_SG.description>
   <WULA_Bullet_StarDrift_Shotgun_Spear.label>Flechette</WULA_Bullet_StarDrift_Shotgun_Spear.label>
-
   <WULA_RW_AutoCannon.label>FLm-78 "Fluorite"</WULA_RW_AutoCannon.label>
   <WULA_RW_AutoCannon.description>An automatic railgun typically carried by Wula Empire boarding parties or knight legions. It has long range and ferocious firepower, capable of penetrating large groups of enemies. It also mounts a long-range EMP grenade launcher, usable for controlling mechanoid swarm assaults.</WULA_RW_AutoCannon.description>
   <Bullet_WULA_RW_AutoCannon.label>Fluorite Needle Round</Bullet_WULA_RW_AutoCannon.label>
-  <WULA_RW_EMP_RF_EMP_Ability.label>Fire EMP Grenade</WULA_RW_EMP_RF_EMP_Ability.label>
-  <WULA_RW_EMP_RF_EMP_Ability.description>Use the underbarrel grenade launcher on FLm-78 "Fluorite" to fire an EMP grenade to break shields and control mechanoids. This heavy grenade launcher has a longer firing distance but requires some time to set up and fire.</WULA_RW_EMP_RF_EMP_Ability.description>
-
   <WULA_RW_SuperLongRange_RF.label>SRr-3 "Chime Stone"</WULA_RW_SuperLongRange_RF.label>
   <WULA_RW_SuperLongRange_RF.description>The Wula Empire's heavy railgun sniper rifle, with a much longer range than standard railgun sniper rifles. Although it requires some aiming time, it possesses destructive power comparable to tank cannons. Such active-service weapons are not easily issued to frontier worlds like this remote star sector...</WULA_RW_SuperLongRange_RF.description>
   <Bullet_WULA_RW_SuperLongRange_RF.label>Chime Stone Needle Round</Bullet_WULA_RW_SuperLongRange_RF.label>
-
-  <!-- Laser Weapons -->
-  <WULA_Beam_Weapon_Aiming_Hediff.label>Beam Preheating</WULA_Beam_Weapon_Aiming_Hediff.label>
-  <WULA_Beam_Weapon_Aiming_Hediff.description>Before firing, Wula Empire beam-type weapons need to preheat for a period, after which they can fire continuously.</WULA_Beam_Weapon_Aiming_Hediff.description>
-
   <WULA_RW_Beam_Base_AR.label>SLb-3 "Stellar Mist"</WULA_RW_Beam_Base_AR.label>
   <WULA_RW_Beam_Base_AR.description>One of the standard-issue weapons for Wula Empire colonies. After preheating, it releases energy instantly from high-energy capacitors to produce short beams that burn through multiple enemies. As a handheld weapon, its power isn't very high, so while it has strong penetrating ability, it cannot inflict great damage.</WULA_RW_Beam_Base_AR.description>
   <Bullet_WULA_RW_Penetrating_Rifle.label>Penetrating Beam</Bullet_WULA_RW_Penetrating_Rifle.label>
-
   <WULA_RW_Penetrating_Beam_Rifle.label>MLr-15 "Trident" (Beam Splitting)</WULA_RW_Penetrating_Beam_Rifle.label>
   <WULA_RW_Penetrating_Beam_Rifle.description>A multi-purpose penetrating beam weapon of the Wula Empire, capable of switching between scatter and focused modes to handle different situations. When the beam-splitting prism is open, the fired beam splits into multiple beams, reducing damage and range but gaining a wider scatter area.</WULA_RW_Penetrating_Beam_Rifle.description>
   <Bullet_WULA_RW_Penetrating_Beam.label>Penetrating Beam</Bullet_WULA_RW_Penetrating_Beam.label>
-
   <WULA_RW_Penetrating_Beam_Rifle_Ranged.label>SLb-15 "Trident"</WULA_RW_Penetrating_Beam_Rifle_Ranged.label>
   <WULA_RW_Penetrating_Beam_Rifle_Ranged.description>A multi-purpose penetrating beam weapon of the Wula Empire, capable of switching between scatter and focused modes to handle different situations. When the beam-splitting prism is closed, the fired beam concentrates on a single target, gaining greater output capability against single targets.</WULA_RW_Penetrating_Beam_Rifle_Ranged.description>
   <Bullet_WULA_RW_Penetrating_Beam_Ranged.label>Penetrating Beam</Bullet_WULA_RW_Penetrating_Beam_Ranged.label>
-  <WULA_RW_Penetrating_Beam_RifleSwitchAbility.label>Weapon Release / Weapon Lock</WULA_RW_Penetrating_Beam_RifleSwitchAbility.label>
-  <WULA_RW_Penetrating_Beam_RifleSwitchAbility.description>Control the beam-splitting prism setting to determine whether SLb-15 "Trident" switches to beam scatter mode.</WULA_RW_Penetrating_Beam_RifleSwitchAbility.description>
-
   <WULA_RW_Sphene_MG.label>FLm-43 "Sphene"</WULA_RW_Sphene_MG.label>
   <WULA_RW_Sphene_MG.description>The Wula Empire's general-purpose machine gun, responsible for providing squad-level, torrential high-speed beam fire. The high temperature generated by its melt-burning penetration is extremely effective, capable of piercing and melting all enemies in a line. Due to its nature as a beam weapon, it has a long preheating period before starting sustained fire, requiring significant protection.</WULA_RW_Sphene_MG.description>
   <Bullet_WULA_RW_Sphene_MG.label>Sphene Beam</Bullet_WULA_RW_Sphene_MG.label>
-
   <WULA_RW_Handle_Cannon.label>KRc-7 "Lava"</WULA_RW_Handle_Cannon.label>
   <WULA_RW_Handle_Cannon.description>A handheld beam cannon carried by Wula Empire boarding parties or knight legions. It requires a long aiming time but can fire a powerful beam stream that penetrates single targets at long range.</WULA_RW_Handle_Cannon.description>
   <Mote_WULA_RW_Handle_Cannon_Beam.label>Beam</Mote_WULA_RW_Handle_Cannon_Beam.label>
-  <WULA_RW_Handle_Cannon_Burn.label>Beam Burn</WULA_RW_Handle_Cannon_Burn.label>
-  <WULA_RW_Handle_Cannon_Burn_Hediff.label>Armor Melting</WULA_RW_Handle_Cannon_Burn_Hediff.label>
-  <WULA_RW_Handle_Cannon_Burn_Hediff.description>Wula Empire heavy beam weapons melt enemy armor, reducing their resistance to heat.</WULA_RW_Handle_Cannon_Burn_Hediff.description>
-
   <WULA_MW_Lance.label>CMl-28 "Lance"</WULA_MW_Lance.label>
   <WULA_MW_Lance.description>A heavy melee-ranged hybrid weapon favored by Wula Empire knights. It uses a high-strength nano-carbon fiber composite inner core, with an outer layer of memory alloy armor plating featuring heat dissipation grilles and energy flow channels. It can pierce opponents in melee or fire beams from a distance to melt enemy armor.</WULA_MW_Lance.description>
   <Bullet_WULA_MW_Lance.label>Penetrating Beam</Bullet_WULA_MW_Lance.label>
-
-  <!-- Launchers -->
   <Apparel_WULA_Manpack_Loitering_Munition.label>MPl-8 "Vermiculite"</Apparel_WULA_Manpack_Loitering_Munition.label>
   <Apparel_WULA_Manpack_Loitering_Munition.description>A disposable rocket launcher issued to Wula Empire assault teams. It contains thermobaric explosives, capable of causing area damage to large numbers of soft targets—and it doesn't occupy a weapon slot, allowing assault teams to carry other weapons.</Apparel_WULA_Manpack_Loitering_Munition.description>
   <Bullet_WULA_Manpack_Loitering_Munition.label>Vermiculite Loitering Munition</Bullet_WULA_Manpack_Loitering_Munition.label>
-
   <WULA_RW_Base_Loitering_Munition.label>WLl-35 "Zeolite"</WULA_RW_Base_Loitering_Munition.label>
   <WULA_RW_Base_Loitering_Munition.description>An anti-armor shoulder-mounted loitering munition used by the Wula Empire. Its firing speed and missile flight speed are relatively slow, but it can penetrate armor and cause damage at long range.</WULA_RW_Base_Loitering_Munition.description>
   <Bullet_WULA_RW_Base_Loitering_Munition.label>Zeolite Loitering Munition</Bullet_WULA_RW_Base_Loitering_Munition.label>
-  <WULA_RW_Base_Loitering_Munition_Ability.label>Activate Guidance System</WULA_RW_Base_Loitering_Munition_Ability.label>
-  <WULA_RW_Base_Loitering_Munition_Ability.description>Activate the self-guidance system of WLl-35 "Zeolite," allowing its next missile to launch without the lengthy guidance process.</WULA_RW_Base_Loitering_Munition_Ability.description>
-  <WULA_RW_Base_Loitering_Munition_Hediff.label>Loitering Munition Guidance System</WULA_RW_Base_Loitering_Munition_Hediff.label>
-  <WULA_RW_Base_Loitering_Munition_Hediff.description>The guidance system of WLl-35 "Zeolite" allows its loitering munitions to be fire-and-forget, but it can only operate for a short time.</WULA_RW_Base_Loitering_Munition_Hediff.description>
-
   <WULA_RW_Auto_GL.label>SEl-78 "Breccia"</WULA_RW_Auto_GL.label>
   <WULA_RW_Auto_GL.description>The automatic grenade launcher equipped by the Wula Empire, primarily firing lethal grenades against low-armor clusters. Its excellent feeding mechanism gives it a much faster rate of fire than similar weapons. Additionally, it can be temporarily loaded to fire smoke grenades, making it a versatile support weapon.</WULA_RW_Auto_GL.description>
   <Bullet_WULA_RW_Auto_GL.label>Breccia Grenade</Bullet_WULA_RW_Auto_GL.label>
-  <WULA_RW_Auto_GL_Smoke_Ability.label>Fire Smoke Grenade</WULA_RW_Auto_GL_Smoke_Ability.label>
-  <WULA_RW_Auto_GL_Smoke_Ability.description>Use SEl-78 "Breccia" to temporarily load and fire a smoke grenade to obscure turret targeting and prevent friendly units from being hit by stray fire.</WULA_RW_Auto_GL_Smoke_Ability.description>
-
-  <!-- Cheat Weapon -->
   <WULA_MW_Cheat_Weapon.label>Because the vanilla game is too, too difficult, and all the other popular mods are also too, too difficult. You have already exerted impeccable effort in your struggle to hold on. Your understanding of the game is completely correct; it's just that your gaming experience has been too unfair. Therefore, you should not seek guidance from others or make any improvements. Instead, you should, in a reasonable, non-cheating, and unquestionably legitimate way, easily enjoy the feeling of becoming the overlord of the Rimworld.</WULA_MW_Cheat_Weapon.label>
   <WULA_MW_Cheat_Weapon.description>A weapon that can delete everything except chunk piles and floors. Use it to fight against other super-justice mods—you probably know this item isn't something meant for normal gameplay.</WULA_MW_Cheat_Weapon.description>
-  <WULA_MW_Cheat_Weapon_Ability.label>Banishment Gate</WULA_MW_Cheat_Weapon_Ability.label>
-  <WULA_MW_Cheat_Weapon_Ability.description>Causes the target to be instantly banished—ignoring all protective measures, permanently erasing them from the save file.</WULA_MW_Cheat_Weapon_Ability.description>
 </LanguageData>

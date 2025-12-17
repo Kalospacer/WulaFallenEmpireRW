@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LanguageData>
+  <Apparel_WULA_Manpack_Loitering_Munition.comps.CompApparelReloadable.chargeNoun>Vermiculiteloitering munition</Apparel_WULA_Manpack_Loitering_Munition.comps.CompApparelReloadable.chargeNoun>
+  <Apparel_WULA_Manpack_Loitering_Munition.comps.CompApparelReloadable.cooldownGerund>on cooldown</Apparel_WULA_Manpack_Loitering_Munition.comps.CompApparelReloadable.cooldownGerund>
+  <Apparel_WULA_Manpack_Loitering_Munition.verbs.Verb_LaunchProjectileStaticPsychic.label>MPl_8"Vermiculite"</Apparel_WULA_Manpack_Loitering_Munition.verbs.Verb_LaunchProjectileStaticPsychic.label>
+  <Blueprint_Install_Mech_WULA_Cat_Cloak_Sniper_Cleanzone.label>Strangedrop zone (Blueprint)</Blueprint_Install_Mech_WULA_Cat_Cloak_Sniper_Cleanzone.label>
+  <Blueprint_Install_WulaShelter_Cleanzone.label>Wula Empireshelter (Blueprint)</Blueprint_Install_WulaShelter_Cleanzone.label>
+  <Blueprint_Install_WulaWall_Cleanzone.label>Wula Empirefortress wall (Blueprint)</Blueprint_Install_WulaWall_Cleanzone.label>
+  <Blueprint_Install_Wula_AI_Heavy_Panzer_Cleanzone.label>HAp-6"Panzer" (Blueprint)</Blueprint_Install_Wula_AI_Heavy_Panzer_Cleanzone.label>
+  <Blueprint_Install_Wula_AI_Rocket_Panzer_Cleanzone.label>HRp-3"Flamethrower Panzer" (Blueprint)</Blueprint_Install_Wula_AI_Rocket_Panzer_Cleanzone.label>
+  <Blueprint_Install_WULA_ArmedShuttleWithPocket_Cleanzone.label>CVe-3"Raven" (Blueprint)</Blueprint_Install_WULA_ArmedShuttleWithPocket_Cleanzone.label>
+  <Blueprint_Install_WULA_ArmedShuttleWithPocket_Cleanzone_Free.label>CVe-3"Raven" (Blueprint)</Blueprint_Install_WULA_ArmedShuttleWithPocket_Cleanzone_Free.label>
+  <Blueprint_Install_Wula_Base_ATGun_Turret_Cleanzone.label>ATt-6"Rutile"anti-vehicle turret (Blueprint)</Blueprint_Install_Wula_Base_ATGun_Turret_Cleanzone.label>
+  <Blueprint_Install_Wula_Base_Laser_Turret_Cleanzone.label>MLt-1"Prism"laser turret (Blueprint)</Blueprint_Install_Wula_Base_Laser_Turret_Cleanzone.label>
+  <Blueprint_Install_Wula_Base_Mortar_Turret_Cleanzone.label>RTt-8"Abyss"mortar turret (Blueprint)</Blueprint_Install_Wula_Base_Mortar_Turret_Cleanzone.label>
+  <Blueprint_Install_WULA_Bunker_Drop_Zone_Beacon_Cleanzone.label>Wulaprefabairdropbeacon-bunker (Blueprint)</Blueprint_Install_WULA_Bunker_Drop_Zone_Beacon_Cleanzone.label>
+  <Blueprint_Install_WULA_Cat_Bunker_Cleanzone.label>WulaKittybunker (Blueprint)</Blueprint_Install_WULA_Cat_Bunker_Cleanzone.label>
+  <Blueprint_Install_WULA_Charging_Station_Synth.label>Synthcharging station (Blueprint)</Blueprint_Install_WULA_Charging_Station_Synth.label>
+  <Blueprint_Install_WULA_Charging_Station_Synth_Cleanzone.label>Synthcharging station (Blueprint)</Blueprint_Install_WULA_Charging_Station_Synth_Cleanzone.label>
+  <Blueprint_Install_WULA_Combat_Excavator_Cleanzone.label>DBm-6"combat excavator" (Blueprint)</Blueprint_Install_WULA_Combat_Excavator_Cleanzone.label>
+  <Blueprint_Install_WULA_Cube_Productor.label>Wula Empireweaver core (Blueprint)</Blueprint_Install_WULA_Cube_Productor.label>
+  <Blueprint_Install_WULA_Cube_Productor_Cleanzone.label>Wula Empireweaver core (Blueprint)</Blueprint_Install_WULA_Cube_Productor_Cleanzone.label>
+  <Blueprint_Install_Wula_DarkEnergy_Generators_Cleanzone.label>dark matter generator (Blueprint)</Blueprint_Install_Wula_DarkEnergy_Generators_Cleanzone.label>
+  <Blueprint_Install_Wula_Disturber_Turret_Cleanzone.label>HBt-1"Magnetite"volcano cannon (Blueprint)</Blueprint_Install_Wula_Disturber_Turret_Cleanzone.label>
+  <Blueprint_Install_WULA_Fortress_Drop_Zone_Beacon_Cleanzone.label>Wulaprefabairdropbeacon-fortress (Blueprint)</Blueprint_Install_WULA_Fortress_Drop_Zone_Beacon_Cleanzone.label>
+  <Blueprint_Install_Wula_Fusion_Generators_Cleanzone.label>fusion generator (Blueprint)</Blueprint_Install_Wula_Fusion_Generators_Cleanzone.label>
+  <Blueprint_Install_WULA_Huge_Fortress_Drop_Zone_Beacon_Cleanzone.label>Wulaprefabairdropbeacon-largefortress (Blueprint)</Blueprint_Install_WULA_Huge_Fortress_Drop_Zone_Beacon_Cleanzone.label>
+  <Blueprint_Install_WULA_Machine_Recharger_Cleanzone.label>Wula Empireunderground maintenance station (Blueprint)</Blueprint_Install_WULA_Machine_Recharger_Cleanzone.label>
+  <Blueprint_Install_WULA_MaintenancePod.label>Synthmaintenance pod (Blueprint)</Blueprint_Install_WULA_MaintenancePod.label>
+  <Blueprint_Install_WULA_MaintenancePod_Cleanzone.label>Synthmaintenance pod (Blueprint)</Blueprint_Install_WULA_MaintenancePod_Cleanzone.label>
+  <Blueprint_Install_Wula_Mech_Mobile_Factory_Cleanzone.label>MFm-2"landstrider" (Blueprint)</Blueprint_Install_Wula_Mech_Mobile_Factory_Cleanzone.label>
+  <Blueprint_Install_WULA_Mobile_Shield_Cleanzone.label>MSm-8"radiant shield" (Blueprint)</Blueprint_Install_WULA_Mobile_Shield_Cleanzone.label>
+  <Blueprint_Install_WULA_OrbitalTradeBeacon.label>Wulaorbital transfer beacon (Blueprint)</Blueprint_Install_WULA_OrbitalTradeBeacon.label>
+  <Blueprint_Install_WULA_Prefab_Cleanzone_NewColonyBase_Beacon.label>Wulaprefabairdropbeacon-smalloutpost (Blueprint)</Blueprint_Install_WULA_Prefab_Cleanzone_NewColonyBase_Beacon.label>
+  <Blueprint_Install_WULA_Progressive_Ship_Mid_Beacon_Cleanzone.label>Wula Empiremediumassault escort ship (Blueprint)</Blueprint_Install_WULA_Progressive_Ship_Mid_Beacon_Cleanzone.label>
+  <Blueprint_Install_WULA_Progressive_Ship_Mini_Beacon_Cleanzone.label>Wula Empireminiassault escort ship (Blueprint)</Blueprint_Install_WULA_Progressive_Ship_Mini_Beacon_Cleanzone.label>
+  <Blueprint_Install_WULA_Progressive_Ship_Small_Beacon_Cleanzone.label>Wula Empiresmallassault escort ship (Blueprint)</Blueprint_Install_WULA_Progressive_Ship_Small_Beacon_Cleanzone.label>
+  <Blueprint_Install_Wula_Psi_Titan_Cleanzone.label>PAt-6"Psititan" (Blueprint)</Blueprint_Install_Wula_Psi_Titan_Cleanzone.label>
+  <Blueprint_Install_Wula_Sonar_Mine.label>TAm-1"Pebble"proximity mine (Blueprint)</Blueprint_Install_Wula_Sonar_Mine.label>
+  <Blueprint_Install_Wula_Sonar_Mine_Cleanzone.label>TAm-1"Pebble"proximity mine (Blueprint)</Blueprint_Install_Wula_Sonar_Mine_Cleanzone.label>
+  <Blueprint_Install_WULA_Sow_Excavator_Cleanzone.label>DSm-6"excavator" (Blueprint)</Blueprint_Install_WULA_Sow_Excavator_Cleanzone.label>
+  <Blueprint_Install_WULA_Table1x2c.label>Wula Empiretable (1x2) (Blueprint)</Blueprint_Install_WULA_Table1x2c.label>
+  <Blueprint_Install_WULA_Table2x4c.label>Wula Empiretable (2x4) (Blueprint)</Blueprint_Install_WULA_Table2x4c.label>
+  <Blueprint_Install_WULA_TransportPod_Cleanzone.label>Wula Empiretransport pod (Blueprint)</Blueprint_Install_WULA_TransportPod_Cleanzone.label>
+  <Blueprint_Install_WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone.label>Wulaprefabairdropbeacon-turret group (Blueprint)</Blueprint_Install_WULA_Turret_Group_Drop_Zone_Beacon_Cleanzone.label>
+  <Blueprint_Install_WULA_WeaponArmor_Productor.label>Wula Empireoperations comms console (Blueprint)</Blueprint_Install_WULA_WeaponArmor_Productor.label>
+  <Blueprint_Install_WULA_WeaponArmor_Productor_Cleanzone.label>Wula Empireoperations comms console (Blueprint)</Blueprint_Install_WULA_WeaponArmor_Productor_Cleanzone.label>
+  <Blueprint_WulaDoor_Cleanzone.label>Wula Empiregate (Blueprint)</Blueprint_WulaDoor_Cleanzone.label>
+  <Blueprint_WulaFloor.label>Wula Empirefloor (Blueprint)</Blueprint_WulaFloor.label>
+  <Blueprint_WulaShelter_Cleanzone.label>Wula Empireshelter (Blueprint)</Blueprint_WulaShelter_Cleanzone.label>
+  <Blueprint_WulaWall_Cleanzone.label>Wula Empirefortress wall (Blueprint)</Blueprint_WulaWall_Cleanzone.label>
+  <Blueprint_Wula_AI_Heavy_Panzer_Cleanzone.label>HAp-6"Panzer" (Blueprint)</Blueprint_Wula_AI_Heavy_Panzer_Cleanzone.label>
+  <Blueprint_Wula_AI_Rocket_Panzer_Cleanzone.label>HRp-3"Flamethrower Panzer" (Blueprint)</Blueprint_Wula_AI_Rocket_Panzer_Cleanzone.label>
+  <Blueprint_WULA_AreaTeleportBeacon.label>areateleport engine (Blueprint)</Blueprint_WULA_AreaTeleportBeacon.label>
+  <Blueprint_WULA_ArmedShuttleWithPocket_Cleanzone.label>CVe-3"Raven" (Blueprint)</Blueprint_WULA_ArmedShuttleWithPocket_Cleanzone.label>
+  <Blueprint_Wula_Base_ATGun_Turret_Cleanzone.label>ATt-6"Rutile"anti-vehicle turret (Blueprint)</Blueprint_Wula_Base_ATGun_Turret_Cleanzone.label>
+  <Blueprint_Wula_Base_Laser_Turret_Cleanzone.label>MLt-1"Prism"laser turret (Blueprint)</Blueprint_Wula_Base_Laser_Turret_Cleanzone.label>
+  <Blueprint_Wula_Base_Mortar_Turret_Cleanzone.label>RTt-8"Abyss"mortar turret (Blueprint)</Blueprint_Wula_Base_Mortar_Turret_Cleanzone.label>
+  <Blueprint_WULA_Cat_Bunker_Cleanzone.label>WulaKittybunker (Blueprint)</Blueprint_WULA_Cat_Bunker_Cleanzone.label>
+  <Blueprint_WULA_Charging_Station_Synth_Cleanzone.label>Synthcharging station (Blueprint)</Blueprint_WULA_Charging_Station_Synth_Cleanzone.label>
+  <Blueprint_WULA_Combat_Excavator_Cleanzone.label>DBm-6"combat excavator" (Blueprint)</Blueprint_WULA_Combat_Excavator_Cleanzone.label>
+  <Blueprint_WULA_Cube_Productor_Cleanzone.label>Wula Empireweaver core (Blueprint)</Blueprint_WULA_Cube_Productor_Cleanzone.label>
+  <Blueprint_Wula_DarkEnergy_Generators_Cleanzone.label>dark matter generator (Blueprint)</Blueprint_Wula_DarkEnergy_Generators_Cleanzone.label>
+  <Blueprint_Wula_Disturber_Turret_Cleanzone.label>HBt-1"Magnetite"volcano cannon (Blueprint)</Blueprint_Wula_Disturber_Turret_Cleanzone.label>
+  <Blueprint_WULA_Fake_AircraftCarrier_Beacon_Building.label>Imperial Fleetbeacon (Blueprint)</Blueprint_WULA_Fake_AircraftCarrier_Beacon_Building.label>
+  <Blueprint_WULA_Fake_Bomber_Beacon_Building.label>Wula Empirebomberbeacon (Blueprint)</Blueprint_WULA_Fake_Bomber_Beacon_Building.label>
+  <Blueprint_WULA_Fake_Fighter_Drone_Building.label>Wula Empireswarm drone (Blueprint)</Blueprint_WULA_Fake_Fighter_Drone_Building.label>
+  <Blueprint_WULA_Fake_Striker_Beacon_Building.label>Wula Empirestrikerbeacon (Blueprint)</Blueprint_WULA_Fake_Striker_Beacon_Building.label>
+  <Blueprint_Wula_Fusion_Generators_Cleanzone.label>fusion generator (Blueprint)</Blueprint_Wula_Fusion_Generators_Cleanzone.label>
+  <Blueprint_WULA_GlobalStorageSenderPod.label>Wula Empiresupply pod (Blueprint)</Blueprint_WULA_GlobalStorageSenderPod.label>
+  <Blueprint_WULA_Machine_Recharger_Cleanzone.label>Wula Empireunderground maintenance station (Blueprint)</Blueprint_WULA_Machine_Recharger_Cleanzone.label>
+  <Blueprint_WULA_MaintenancePod_Cleanzone.label>Synthmaintenance pod (Blueprint)</Blueprint_WULA_MaintenancePod_Cleanzone.label>
+  <Blueprint_Wula_Mech_Mobile_Factory_Cleanzone.label>MFm-2"landstrider" (Blueprint)</Blueprint_Wula_Mech_Mobile_Factory_Cleanzone.label>
+  <Blueprint_WULA_Mobile_Shield_Cleanzone.label>MSm-8"radiant shield" (Blueprint)</Blueprint_WULA_Mobile_Shield_Cleanzone.label>
+  <Blueprint_WULA_OrbitalTradeBeacon.label>Wulaorbital transfer beacon (Blueprint)</Blueprint_WULA_OrbitalTradeBeacon.label>
+  <Blueprint_Wula_Psi_Titan_Cleanzone.label>PAt-6"Psititan" (Blueprint)</Blueprint_Wula_Psi_Titan_Cleanzone.label>
+  <Blueprint_Wula_Sonar_Mine.label>TAm-1"Pebble"proximity mine (Blueprint)</Blueprint_Wula_Sonar_Mine.label>
+  <Blueprint_Wula_Sonar_Mine_Cleanzone.label>TAm-1"Pebble"proximity mine (Blueprint)</Blueprint_Wula_Sonar_Mine_Cleanzone.label>
+  <Blueprint_WULA_Sow_Excavator_Cleanzone.label>DSm-6"excavator" (Blueprint)</Blueprint_WULA_Sow_Excavator_Cleanzone.label>
+  <Blueprint_WULA_Table1x2c.label>Wula Empiretable (1x2) (Blueprint)</Blueprint_WULA_Table1x2c.label>
+  <Blueprint_WULA_Table2x4c.label>Wula Empiretable (2x4) (Blueprint)</Blueprint_WULA_Table2x4c.label>
+  <Blueprint_WULA_TradeSenderPod.label>Wula Empirerecovery pod (Blueprint)</Blueprint_WULA_TradeSenderPod.label>
+  <Blueprint_WULA_TransportPod_Cleanzone.label>Wula Empiretransport pod (Blueprint)</Blueprint_WULA_TransportPod_Cleanzone.label>
+  <Blueprint_WULA_Wall_Flag_Building.label>P.I.Aflag (Blueprint)</Blueprint_WULA_Wall_Flag_Building.label>
+  <Blueprint_WULA_WeaponArmor_Productor_Cleanzone.label>Wula Empireoperations comms console (Blueprint)</Blueprint_WULA_WeaponArmor_Productor_Cleanzone.label>
+  <Bullet_WULA_Heavy_Infantry_PowerArmor_Mortar.label>chromitemortar shell</Bullet_WULA_Heavy_Infantry_PowerArmor_Mortar.label>
+  <Bullet_WULA_WM_Alpha_Wolf_Plasma_Gun.label>apatiteplasmablast round</Bullet_WULA_WM_Alpha_Wolf_Plasma_Gun.label>
+  <Corpse_Mech_WULA_Cat.description>The corpse of CAt-11"Kitty".</Corpse_Mech_WULA_Cat.description>
+  <Corpse_Mech_WULA_Cat.label>Corpse of CAt-11"Kitty"</Corpse_Mech_WULA_Cat.label>
+  <Corpse_Mech_WULA_Cat_Assault.description>The corpse of CAt-46"Kitty Assault Squad".</Corpse_Mech_WULA_Cat_Assault.description>
+  <Corpse_Mech_WULA_Cat_Assault.label>Corpse of CAt-46"Kitty Assault Squad"</Corpse_Mech_WULA_Cat_Assault.label>
+  <Corpse_Mech_WULA_Cat_Cloak_Sniper.description>The corpse of CAt-71"Special Ops Kitty".</Corpse_Mech_WULA_Cat_Cloak_Sniper.description>
+  <Corpse_Mech_WULA_Cat_Cloak_Sniper.label>Corpse of CAt-71"Special Ops Kitty"</Corpse_Mech_WULA_Cat_Cloak_Sniper.label>
+  <Corpse_Mech_WULA_Cat_Constructor.description>The corpse of CAt-86"Kitty Laborer".</Corpse_Mech_WULA_Cat_Constructor.description>
+  <Corpse_Mech_WULA_Cat_Constructor.label>Corpse of CAt-86"Kitty Laborer"</Corpse_Mech_WULA_Cat_Constructor.label>
+  <Corpse_Mech_WULA_Fire_Cat.description>The corpse of CAt-55"Assault Kitty".</Corpse_Mech_WULA_Fire_Cat.description>
+  <Corpse_Mech_WULA_Fire_Cat.label>Corpse of CAt-55"Assault Kitty"</Corpse_Mech_WULA_Fire_Cat.label>
+  <Corpse_WulaSpecies.description>The corpse of Wula synth.</Corpse_WulaSpecies.description>
+  <Corpse_WulaSpecies.label>Corpse of Wula synth</Corpse_WulaSpecies.label>
+  <Corpse_Wula_AI_Heavy_Panzer.description>The corpse of HAp-6"Panzer".</Corpse_Wula_AI_Heavy_Panzer.description>
+  <Corpse_Wula_AI_Heavy_Panzer.label>Corpse of HAp-6"Panzer"</Corpse_Wula_AI_Heavy_Panzer.label>
+  <Corpse_Wula_AI_Rocket_Panzer.description>The corpse of HRp-3"Flamethrower Panzer".</Corpse_Wula_AI_Rocket_Panzer.description>
+  <Corpse_Wula_AI_Rocket_Panzer.label>Corpse of HRp-3"Flamethrower Panzer"</Corpse_Wula_AI_Rocket_Panzer.label>
+  <Corpse_WULA_Fxxk_Goose.description>The corpse of Legendary Goose.</Corpse_WULA_Fxxk_Goose.description>
+  <Corpse_WULA_Fxxk_Goose.label>Corpse of Legendary Goose</Corpse_WULA_Fxxk_Goose.label>
+  <Corpse_WULA_Mech_Flyer.description>The corpse of CRm-51"Ant Trooper".</Corpse_WULA_Mech_Flyer.description>
+  <Corpse_WULA_Mech_Flyer.label>Corpse of CRm-51"Ant Trooper"</Corpse_WULA_Mech_Flyer.label>
+  <Corpse_Wula_Mech_Mobile_Factory.description>The corpse of MFm-2"landstrider".</Corpse_Wula_Mech_Mobile_Factory.description>
+  <Corpse_Wula_Mech_Mobile_Factory.label>Corpse of MFm-2"landstrider"</Corpse_Wula_Mech_Mobile_Factory.label>
+  <Corpse_Wula_Mech_Mobile_Shield.description>The corpse of MSm-8"radiant shield".</Corpse_Wula_Mech_Mobile_Shield.description>
+  <Corpse_Wula_Mech_Mobile_Shield.label>Corpse of MSm-8"radiant shield"</Corpse_Wula_Mech_Mobile_Shield.label>
+  <Corpse_WULA_Mobile_Bunker.description>The corpse of BUk-1"bunkerKitty".</Corpse_WULA_Mobile_Bunker.description>
+  <Corpse_WULA_Mobile_Bunker.label>Corpse of BUk-1"bunkerKitty"</Corpse_WULA_Mobile_Bunker.label>
+  <Corpse_Wula_Psi_Titan.description>The corpse of PAt-6"Psititan".</Corpse_Wula_Psi_Titan.description>
+  <Corpse_Wula_Psi_Titan.label>Corpse of PAt-6"Psititan"</Corpse_Wula_Psi_Titan.label>
+  <Frame_WulaDoor_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+The Wula Empire fortress gate can withstand heavy explosive and concussive damage. It also uses a servo system that operates without power to speed up passage.</Frame_WulaDoor_Cleanzone.description>
+  <Frame_WulaDoor_Cleanzone.label>Wula Empiregate (building)</Frame_WulaDoor_Cleanzone.label>
+  <Frame_WulaFloor.description>Terrain building in progress.</Frame_WulaFloor.description>
+  <Frame_WulaFloor.label>Wula Empirefloor (building)</Frame_WulaFloor.label>
+  <Frame_WulaShelter_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+A shelter used to protect Wula Empire soldiers. Extremely sturdy and blast-resistant, allowing soldiers to shoot over it.</Frame_WulaShelter_Cleanzone.description>
+  <Frame_WulaShelter_Cleanzone.label>Wula Empireshelter (building)</Frame_WulaShelter_Cleanzone.label>
+  <Frame_WulaWall_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+A thick outer wall used to build Wula Empire fortresses. It can withstand heavy damage and is airtight, making it suitable for ship hulls.</Frame_WulaWall_Cleanzone.description>
+  <Frame_WulaWall_Cleanzone.label>Wula Empirefortress wall (building)</Frame_WulaWall_Cleanzone.label>
+  <Frame_Wula_AI_Heavy_Panzer_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire mothership can drop a large war machine here.
+
+The Panzer is a medium Wula Empire war machine that hovers across the battlefield. It strikes enemies with a high-penetration panzer cannon and missiles, and forms the backbone of the Empire's vanguard.</Frame_Wula_AI_Heavy_Panzer_Cleanzone.description>
+  <Frame_Wula_AI_Heavy_Panzer_Cleanzone.label>HAp-6"Panzer" (building)</Frame_Wula_AI_Heavy_Panzer_Cleanzone.label>
+  <Frame_Wula_AI_Rocket_Panzer_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire mothership can drop a large war machine here.
+
+The Flamethrower Panzer is a medium Wula Empire war machine that hovers across the battlefield. It mounts a hull mortar and two rotary missile pods capable of launching large numbers of incendiary rockets, but lacks the shield fitted on its sister model.</Frame_Wula_AI_Rocket_Panzer_Cleanzone.description>
+  <Frame_Wula_AI_Rocket_Panzer_Cleanzone.label>HRp-3"Flamethrower Panzer" (building)</Frame_Wula_AI_Rocket_Panzer_Cleanzone.label>
+  <Frame_WULA_AreaTeleportBeacon.description>One of the Wula Empire's technological marvels: an area teleport engine that can move an entire area?terrain, buildings, creatures, and scattered materials?to another map intact.</Frame_WULA_AreaTeleportBeacon.description>
+  <Frame_WULA_AreaTeleportBeacon.label>areateleport engine (building)</Frame_WULA_AreaTeleportBeacon.label>
+  <Frame_WULA_ArmedShuttleWithPocket_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire mothership can dispatch a shuttle here.
+
+CVe-3 "Raven" is a special shuttle used by the Wula Empire to link the fleet and the surface. It has an enormous cargo hold and an internal fold-out living area, giving it exceptional payload and internal space. It also carries a high-reflection probability deflection shield and an MLt-1 "Prism" turbine laser cannon, enabling it to repel most attacks.</Frame_WULA_ArmedShuttleWithPocket_Cleanzone.description>
+  <Frame_WULA_ArmedShuttleWithPocket_Cleanzone.label>CVe-3"Raven" (building)</Frame_WULA_ArmedShuttleWithPocket_Cleanzone.label>
+  <Frame_Wula_Base_ATGun_Turret_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+ATt-6 "Rutile" anti-vehicle turret is a medium defensive turret that requires power. It fires high-penetration shells using powerful electromagnetic propulsion. Its rate of fire is not high, but its armor penetration is excellent and it deals small-area splash damage.</Frame_Wula_Base_ATGun_Turret_Cleanzone.description>
+  <Frame_Wula_Base_ATGun_Turret_Cleanzone.label>ATt-6"Rutile"anti-vehicle turret (building)</Frame_Wula_Base_ATGun_Turret_Cleanzone.label>
+  <Frame_Wula_Base_Laser_Turret_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+MLt-1 "Prism" laser turret is a medium defensive turret that requires power. It can continuously focus a high-energy laser beam on a target to vaporize it. Turret-mounted lasers require no warm-up, making them better than handheld beam weapons when engaging multiple targets.</Frame_Wula_Base_Laser_Turret_Cleanzone.description>
+  <Frame_Wula_Base_Laser_Turret_Cleanzone.label>MLt-1"Prism"laser turret (building)</Frame_Wula_Base_Laser_Turret_Cleanzone.label>
+  <Frame_Wula_Base_Mortar_Turret_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+RTt-8 "Abyss" mortar turret is a medium defensive turret that requires power. It repeatedly fires high-explosive mortar shells at long range. Although the shells travel slowly, they can arc over terrain, making them ideal for enemies still assembling and for entrenched positions.</Frame_Wula_Base_Mortar_Turret_Cleanzone.description>
+  <Frame_Wula_Base_Mortar_Turret_Cleanzone.label>RTt-8"Abyss"mortar turret (building)</Frame_Wula_Base_Mortar_Turret_Cleanzone.label>
+  <Frame_WULA_Cat_Bunker_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+The Wula Kitty Bunker is a solid structure combining production and defense. Three Wula Kitty autonomous mechanoids drop together with the bunker. The bunker lets Wula Kitties switch work types and allows them to man its internal weapons to defeat attackers.</Frame_WULA_Cat_Bunker_Cleanzone.description>
+  <Frame_WULA_Cat_Bunker_Cleanzone.label>WulaKittybunker (building)</Frame_WULA_Cat_Bunker_Cleanzone.label>
+  <Frame_WULA_Charging_Station_Synth_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+The synth charging station is a service bay for Wula Empire synths to recharge and refit. When a Wula synth needs power, it will prioritize charging here.</Frame_WULA_Charging_Station_Synth_Cleanzone.description>
+  <Frame_WULA_Charging_Station_Synth_Cleanzone.label>Synthcharging station (building)</Frame_WULA_Charging_Station_Synth_Cleanzone.label>
+  <Frame_WULA_Combat_Excavator_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+DBm-6 "Combat Excavator" is an excavator used by the Wula Empire to break enemy positions. After being dropped into the target area, the drill triggers several seismic shockwaves with high-speed rotating blades, then releases the occupants from its compartment.</Frame_WULA_Combat_Excavator_Cleanzone.description>
+  <Frame_WULA_Combat_Excavator_Cleanzone.label>DBm-6"combat excavator" (building)</Frame_WULA_Combat_Excavator_Cleanzone.label>
+  <Frame_WULA_Cube_Productor_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+The Wula Empire weaver core is a simple plastic-construct device that can only produce some materials, easing the fleet's processing load through local manufacturing.</Frame_WULA_Cube_Productor_Cleanzone.description>
+  <Frame_WULA_Cube_Productor_Cleanzone.label>Wula Empireweaver core (building)</Frame_WULA_Cube_Productor_Cleanzone.label>
+  <Frame_Wula_DarkEnergy_Generators_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+A Wula Empire generator powered by a dark-matter annihilation reaction. It consumes dark matter as fuel at a high rate, but produces power far beyond ordinary generators. Its armor is extremely thick so it can be dropped alongside turret groups in field deployments.</Frame_Wula_DarkEnergy_Generators_Cleanzone.description>
+  <Frame_Wula_DarkEnergy_Generators_Cleanzone.label>dark matter generator (building)</Frame_Wula_DarkEnergy_Generators_Cleanzone.label>
+  <Frame_Wula_Disturber_Turret_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+HBt-1 "Magnetite" is a heavy defensive turret that requires power, mounting four devastating volcano-storm cannons in a linked configuration. In the Wula Empire?where dark-matter weapons are widespread?the volcano-cannon line is considered primitive and barbaric, but no one questions its destructive power. It shatters the earth and floods the battlefield with flame, like four horns of hell, shredding any enemy assaulting your lines from long range.</Frame_Wula_Disturber_Turret_Cleanzone.description>
+  <Frame_Wula_Disturber_Turret_Cleanzone.label>HBt-1"Magnetite"volcano cannon (building)</Frame_Wula_Disturber_Turret_Cleanzone.label>
+  <Frame_WULA_Fake_AircraftCarrier_Beacon_Building.description>A beacon for submitting resources to the Wula Empire fleet, granting an additional requisition of an Imperial strike fleet: two cruisers capable of orbital bombardment and one carrier that provides aircraft support.</Frame_WULA_Fake_AircraftCarrier_Beacon_Building.description>
+  <Frame_WULA_Fake_AircraftCarrier_Beacon_Building.label>Imperial Fleetbeacon (building)</Frame_WULA_Fake_AircraftCarrier_Beacon_Building.label>
+  <Frame_WULA_Fake_Bomber_Beacon_Building.description>A beacon for submitting resources to the Wula Empire fleet, trading for support from a Wula Empire bomber. To deploy large aircraft, a warship carrying a &lt;color=#BD952F&gt;&lt;i&gt;hangar&lt;/i&gt;&lt;/color&gt; must be in orbit.
+
+Wula Empire bombers are the largest atmospheric-capable aircraft. In addition to dropping utility smoke shells, they can drop large numbers of bombs or launch a dark-matter missile to level the Empire's enemies.</Frame_WULA_Fake_Bomber_Beacon_Building.description>
+  <Frame_WULA_Fake_Bomber_Beacon_Building.label>Wula Empirebomberbeacon (building)</Frame_WULA_Fake_Bomber_Beacon_Building.label>
+  <Frame_WULA_Fake_Fighter_Drone_Building.description>A small drone equipped with a laser cannon and incendiary bombs, providing cheap but effective air support for the colony. Unlike the big craft, swarm drones do not require a hangar, and can be recharged via the fleet's electromagnetic net, enabling permanent loitering operations.</Frame_WULA_Fake_Fighter_Drone_Building.description>
+  <Frame_WULA_Fake_Fighter_Drone_Building.label>Wula Empireswarm drone (building)</Frame_WULA_Fake_Fighter_Drone_Building.label>
+  <Frame_WULA_Fake_Striker_Beacon_Building.description>A beacon for submitting resources to the Wula Empire fleet, trading for support from a Wula Empire striker. To deploy large aircraft, a warship carrying a &lt;color=#BD952F&gt;&lt;i&gt;hangar&lt;/i&gt;&lt;/color&gt; must be in orbit.
+
+Wula Empire strikers provide powerful ground-attack firepower, loaded with missiles, EMP bombs, and a heavy autocannon to precisely harvest enemy targets.</Frame_WULA_Fake_Striker_Beacon_Building.description>
+  <Frame_WULA_Fake_Striker_Beacon_Building.label>Wula Empirestrikerbeacon (building)</Frame_WULA_Fake_Striker_Beacon_Building.label>
+  <Frame_Wula_Fusion_Generators_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+A simple generator powered by heavy-nucleus fusion. Output isn't very high, but the fuel is easy to find: just fill it with stone chunks.</Frame_Wula_Fusion_Generators_Cleanzone.description>
+  <Frame_Wula_Fusion_Generators_Cleanzone.label>fusion generator (building)</Frame_Wula_Fusion_Generators_Cleanzone.label>
+  <Frame_WULA_GlobalStorageSenderPod.description>A one-time supply launcher that fires loaded goods to the Wula Empire fleet for its use.</Frame_WULA_GlobalStorageSenderPod.description>
+  <Frame_WULA_GlobalStorageSenderPod.label>Wula Empiresupply pod (building)</Frame_WULA_GlobalStorageSenderPod.label>
+  <Frame_WULA_Machine_Recharger_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+The Wula Empire underground maintenance station is a charging station that stores a large amount of power and allows Wula Empire mechanoids of all sizes to recharge. It does not support synth recharging. Since its base is buried underground, it does not obstruct movement over it.</Frame_WULA_Machine_Recharger_Cleanzone.description>
+  <Frame_WULA_Machine_Recharger_Cleanzone.label>Wula Empireunderground maintenance station (building)</Frame_WULA_Machine_Recharger_Cleanzone.label>
+  <Frame_WULA_MaintenancePod_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+The synth maintenance pod is designed for Wula Empire synths. Wula synths must periodically enter it for maintenance and calibration, otherwise their bodies will gradually weaken. Maintenance consumes components and also repairs all injuries.</Frame_WULA_MaintenancePod_Cleanzone.description>
+  <Frame_WULA_MaintenancePod_Cleanzone.label>Synthmaintenance pod (building)</Frame_WULA_MaintenancePod_Cleanzone.label>
+  <Frame_Wula_Mech_Mobile_Factory_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire mothership can drop a large war machine here.
+
+The Landstrider is a large Wula Empire war machine?a mobile fortress. It is heavily armored, bristling with guns, and can produce large numbers of supporting war machines on the battlefield to form a resilient battle line. It was born to smash strongholds and stubborn resistance.</Frame_Wula_Mech_Mobile_Factory_Cleanzone.description>
+  <Frame_Wula_Mech_Mobile_Factory_Cleanzone.label>MFm-2"landstrider" (building)</Frame_Wula_Mech_Mobile_Factory_Cleanzone.label>
+  <Frame_WULA_Mobile_Shield_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire mothership can drop a large war machine here.
+
+The Radiant Shield is a medium Wula Empire war machine often used to suppress uprisings in xeno settlements. Its shape is strange and hard to read, but don't underestimate it?it can project a powerful field shield that reflects heavy fire across a wide area, and the radiation it emits will severely injure enemies that enter the shield. After the relevant permit is unlocked, it can even support Wula synths using its built-in phase field for area teleportation.</Frame_WULA_Mobile_Shield_Cleanzone.description>
+  <Frame_WULA_Mobile_Shield_Cleanzone.label>MSm-8"radiant shield" (building)</Frame_WULA_Mobile_Shield_Cleanzone.label>
+  <Frame_WULA_OrbitalTradeBeacon.description>A beacon that coordinates material transfers between the colony and the Wula Empire fleet in orbit. Airdropped buildings will prioritize drawing resources from the area covered by the beacon to complete the airdrop.</Frame_WULA_OrbitalTradeBeacon.description>
+  <Frame_WULA_OrbitalTradeBeacon.label>Wulaorbital transfer beacon (building)</Frame_WULA_OrbitalTradeBeacon.label>
+  <Frame_Wula_Psi_Titan_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire mothership can drop a large war machine here.
+
+A heavy psionic mechanoid developed under the Wula Empire state church. It blinks gracefully through gunfire and uses powerful shields to block incoming shots. Its interior is engraved with countless arcane circuits, making it a walking psychic emitter capable of wielding many powerful psionic abilities.</Frame_Wula_Psi_Titan_Cleanzone.description>
+  <Frame_Wula_Psi_Titan_Cleanzone.label>PAt-6"Psititan" (building)</Frame_Wula_Psi_Titan_Cleanzone.label>
+  <Frame_Wula_Sonar_Mine.description>A dangerous mine typically deployed by Wula Empire engineering units. It has smart IFF and, when enemy activity is detected, launches its warhead directly toward the enemy's position.</Frame_Wula_Sonar_Mine.description>
+  <Frame_Wula_Sonar_Mine.label>TAm-1"Pebble"proximity mine (building)</Frame_Wula_Sonar_Mine.label>
+  <Frame_Wula_Sonar_Mine_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+TAm-1 "Pebble" proximity mine is a dangerous mine typically deployed by Wula Empire engineering units. It has smart IFF and, when enemy activity is detected, launches its warhead directly toward the enemy's position.</Frame_Wula_Sonar_Mine_Cleanzone.description>
+  <Frame_Wula_Sonar_Mine_Cleanzone.label>TAm-1"Pebble"proximity mine (building)</Frame_Wula_Sonar_Mine_Cleanzone.label>
+  <Frame_WULA_Sow_Excavator_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+DSm-6 "Excavator" is an excavator deployed via airdrop. The drill rapidly vibrates to loosen and turn over nearby soil, making the whole area soft and suitable for planting. The shockwaves are extremely lethal?do not approach while it's operating!</Frame_WULA_Sow_Excavator_Cleanzone.description>
+  <Frame_WULA_Sow_Excavator_Cleanzone.label>DSm-6"excavator" (building)</Frame_WULA_Sow_Excavator_Cleanzone.label>
+  <Frame_WULA_Table1x2c.description>A Wula Empire table.</Frame_WULA_Table1x2c.description>
+  <Frame_WULA_Table1x2c.label>Wula Empiretable (1x2) (building)</Frame_WULA_Table1x2c.label>
+  <Frame_WULA_Table2x4c.description>A Wula Empire table.</Frame_WULA_Table2x4c.description>
+  <Frame_WULA_Table2x4c.label>Wula Empiretable (2x4) (building)</Frame_WULA_Table2x4c.label>
+  <Frame_WULA_TradeSenderPod.description>A one-time supply launcher used to pack up loot and send it to the Wula Empire fleet in exchange for silver. The silver is stored aboard the fleet rather than being launched directly to the colony.</Frame_WULA_TradeSenderPod.description>
+  <Frame_WULA_TradeSenderPod.label>Wula Empirerecovery pod (building)</Frame_WULA_TradeSenderPod.label>
+  <Frame_WULA_TransportPod_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+The Wula Empire transport pod is used for travel by residents of Wula Empire colonies. It essentially launches colonists and cargo up to the Wula Empire fleet in orbit, then drops them elsewhere?allowing travel over great distances.</Frame_WULA_TransportPod_Cleanzone.description>
+  <Frame_WULA_TransportPod_Cleanzone.label>Wula Empiretransport pod (building)</Frame_WULA_TransportPod_Cleanzone.label>
+  <Frame_WULA_Wall_Flag_Building.description>A flag of the Wula Empire Planetary Interdiction Authority. It has no practical use, but asserts Wula Empire sovereignty.</Frame_WULA_Wall_Flag_Building.description>
+  <Frame_WULA_Wall_Flag_Building.label>P.I.Aflag (building)</Frame_WULA_Wall_Flag_Building.label>
+  <Frame_WULA_WeaponArmor_Productor_Cleanzone.description>Clear a landing zone and prepare the resources so the Wula Empire can airdrop a building here.
+
+The Wula Empire operations comms console is a special comms console used to contact the Wula Empire mothership and engineering ship and place weapon and equipment orders. Production does not require colony participation: simply send materials to the Imperial Fleet using the Wula Empire exchange pod, then place orders based on the amount of materials.</Frame_WULA_WeaponArmor_Productor_Cleanzone.description>
+  <Frame_WULA_WeaponArmor_Productor_Cleanzone.label>Wula Empireoperations comms console (building)</Frame_WULA_WeaponArmor_Productor_Cleanzone.label>
+  <Mote_Beam_Fighter_Drone.label>Mote</Mote_Beam_Fighter_Drone.label>
+  <Mote_WULA_Beam_Charge.label>Mote</Mote_WULA_Beam_Charge.label>
+  <Mote_Wula_Dark_Matter_Beam.label>Mote</Mote_Wula_Dark_Matter_Beam.label>
+  <Mote_WULA_RW_Penetrating_Beam.label>Mote</Mote_WULA_RW_Penetrating_Beam.label>
+  <Techprint_Wula_Disturber_Turret_Technology.description>This is a techprint for the research project "Volcano Cannon Permit".
+
+Techprints can take any physical form, from scraps of paper with diagrams to advanced standalone teaching devices. Regardless of form, they serve the same role: they provide your researchers with inspiration?either a workable approach, or a rough idea for a more advanced design.
+
+Your researchers must have enough foundational knowledge to understand where to begin with the technology described by the techprint. Only after applying enough techprints will they be able to figure out how to use this technology in detail under specific circumstances.
+
+Using a techprint on the corresponding research project completes half of the remaining progress. In addition, even after the project is finished, researchers can still use techprints to improve their Intellectual skill.
+
+Volcano Cannon Permit
+
+Allows the colony to apply for an airdrop of a quad-barrel volcano cannon, wiping out all enemies of the Empire with a devastating lava storm.
+
+This armament is excessive for a colony, and not every colony is capable of obtaining this permit...
+
+Unlocks: HBt-1 "Magnetite" Volcano Cannon</Techprint_Wula_Disturber_Turret_Technology.description>
+  <Techprint_Wula_Disturber_Turret_Technology.label>Techprint（volcano cannonpermit）</Techprint_Wula_Disturber_Turret_Technology.label>
+  <Techprint_WULA_Psi_Titan_Technology.description>This is a techprint for the research project "Psititan Airdrop Permit".
+
+Techprints can take any physical form, from scraps of paper with diagrams to advanced standalone teaching devices. Regardless of form, they serve the same role: they provide your researchers with inspiration?either a workable approach, or a rough idea for a more advanced design.
+
+Your researchers must have enough foundational knowledge to understand where to begin with the technology described by the techprint. Only after applying enough techprints will they be able to figure out how to use this technology in detail under specific circumstances.
+
+Using a techprint on the corresponding research project completes half of the remaining progress. In addition, even after the project is finished, researchers can still use techprints to improve their Intellectual skill.
+
+Psititan Airdrop Permit
+
+Allows the colony to apply for an airdrop of PAt-6 "Psititan", a large psionic war machine of the Wula Empire capable of wielding powerful psionic abilities.
+
+The core used to engrave its psychic circuits is strictly controlled by the state church and cannot be obtained through conventional means.
+
+Unlocks: PAt-6 "Psititan"</Techprint_WULA_Psi_Titan_Technology.description>
+  <Techprint_WULA_Psi_Titan_Technology.label>Techprint（Psititanairdroppermit）</Techprint_WULA_Psi_Titan_Technology.label>
+  <WULA_Addons_Antenna_Hide.comps.CompUsableImplant.useLabel>Install concealed antenna</WULA_Addons_Antenna_Hide.comps.CompUsableImplant.useLabel>
+  <WULA_AircraftCarrier.comps.CompSendLetterAfterTicks.letterLabel>Imperial strike fleet has arrived</WULA_AircraftCarrier.comps.CompSendLetterAfterTicks.letterLabel>
+  <WULA_AircraftCarrier.comps.CompSendLetterAfterTicks.letterText>The Imperial strike fleet has arrived above the colony in response to your request!</WULA_AircraftCarrier.comps.CompSendLetterAfterTicks.letterText>
+  <Wula_AI_Heavy_Panzer_Main_Weapon.verbs.Verb_Shoot.label>SDm-2"Moonstone"</Wula_AI_Heavy_Panzer_Main_Weapon.verbs.Verb_Shoot.label>
+  <Wula_AI_Heavy_Panzer_Turret_Weapon.verbs.Verb_Shoot.label>ATt-2"Lapis Lazuli"</Wula_AI_Heavy_Panzer_Turret_Weapon.verbs.Verb_Shoot.label>
+  <Wula_AI_Rocket_Panzer_Turret_Weapon.verbs.Verb_Shoot.label>FRt-1"Fire Opal"</Wula_AI_Rocket_Panzer_Turret_Weapon.verbs.Verb_Shoot.label>
+  <WULA_Alpha_Mantodea_Turret.verbs.Verb_ShootMeltBeam.label>Twin Demon Eyes</WULA_Alpha_Mantodea_Turret.verbs.Verb_ShootMeltBeam.label>
+  <WULA_Alpha_Wolf_Turret.verbs.Verb_ShootBeamExplosive.label>Demon Eye</WULA_Alpha_Wolf_Turret.verbs.Verb_ShootBeamExplosive.label>
+  <WULA_AreaDestruction_Mainwave.label>Mote</WULA_AreaDestruction_Mainwave.label>
+  <WULA_ArmedShuttleWithPocket.comps.CompAreaDamage.toggleDescription>CVe-3 "Raven" can activate its defensive system, vaporizing enemies who dare enter the reflection field?this will also damage all nearby unowned items.</WULA_ArmedShuttleWithPocket.comps.CompAreaDamage.toggleDescription>
+  <WULA_ArmedShuttleWithPocket.comps.CompAreaDamage.toggleLabel>Thermal radiation</WULA_ArmedShuttleWithPocket.comps.CompAreaDamage.toggleLabel>
+  <WULA_ArmedShuttleWithPocket.comps.CompLaunchable.cooldownEndedMessage>{0} is ready to launch again.</WULA_ArmedShuttleWithPocket.comps.CompLaunchable.cooldownEndedMessage>
+  <WULA_ArmedShuttleWithPocket.comps.CompRefuelable.fuelGizmoLabel>Chemfuel</WULA_ArmedShuttleWithPocket.comps.CompRefuelable.fuelGizmoLabel>
+  <WULA_ArmedShuttleWithPocket.comps.CompRefuelable.fuelLabel>Chemfuel</WULA_ArmedShuttleWithPocket.comps.CompRefuelable.fuelLabel>
+  <Wula_Base_ATGun_Turret_Cleanzone.comps.CompCustomRadius.description>Maximum turret range after the building is airdropped to the designated location.</Wula_Base_ATGun_Turret_Cleanzone.comps.CompCustomRadius.description>
+  <Wula_Base_ATGun_Turret_Cleanzone.comps.CompCustomRadius.label>Range</Wula_Base_ATGun_Turret_Cleanzone.comps.CompCustomRadius.label>
+  <Wula_Base_ATGun_Turret_Weapon.verbs.Verb_Shoot.label>ATt-6"Rutile"</Wula_Base_ATGun_Turret_Weapon.verbs.Verb_Shoot.label>
+  <Wula_Base_Laser_Turret_Cleanzone.comps.CompCustomRadius.description>Maximum turret range after the building is airdropped to the designated location.</Wula_Base_Laser_Turret_Cleanzone.comps.CompCustomRadius.description>
+  <Wula_Base_Laser_Turret_Cleanzone.comps.CompCustomRadius.label>Range</Wula_Base_Laser_Turret_Cleanzone.comps.CompCustomRadius.label>
+  <Wula_Base_Laser_Turret_Weapon.verbs.Verb_ShootBeamExplosive.label>MLt-1"Prism"</Wula_Base_Laser_Turret_Weapon.verbs.Verb_ShootBeamExplosive.label>
+  <Wula_Base_Mortar_Turret_Weapon.verbs.Verb_Shoot.label>RTt-8"Abyss"</Wula_Base_Mortar_Turret_Weapon.verbs.Verb_Shoot.label>
+  <WULA_BattleShip.comps.CompSendLetterAfterTicks.letterLabel>Imperial cruiser has arrived</WULA_BattleShip.comps.CompSendLetterAfterTicks.letterLabel>
+  <WULA_BattleShip.comps.CompSendLetterAfterTicks.letterText>An Imperial cruiser has arrived above the colony in response to your request!</WULA_BattleShip.comps.CompSendLetterAfterTicks.letterText>
+  <WULA_Black_Hole_Entity.comps.CompAreaDamage.toggleDescription>Enable or disable the area damage effect</WULA_Black_Hole_Entity.comps.CompAreaDamage.toggleDescription>
+  <WULA_Black_Hole_Entity.comps.CompAreaDamage.toggleLabel>Toggle Area Damage</WULA_Black_Hole_Entity.comps.CompAreaDamage.toggleLabel>
+  <WULA_Bodystocking_Black.description>Close-fitting fabric worn by Wula Empire synths, offering slight protection.</WULA_Bodystocking_Black.description>
+  <WULA_Bodystocking_White.description>Close-fitting fabric worn by Wula Empire synths, offering slight protection.</WULA_Bodystocking_White.description>
+  <WULA_Cat_Bunker_Cleanzone.comps.CompCustomRadius.description>Maximum turret range after the building is airdropped to the designated location.</WULA_Cat_Bunker_Cleanzone.comps.CompCustomRadius.description>
+  <WULA_Cat_Bunker_Cleanzone.comps.CompCustomRadius.label>Range</WULA_Cat_Bunker_Cleanzone.comps.CompCustomRadius.label>
+  <WULA_Cat_Bunker_TurretGun.verbs.Verb_Shoot.label>Bunker turret</WULA_Cat_Bunker_TurretGun.verbs.Verb_Shoot.label>
+  <WULA_Charge_Cube.comps.CompUsable.useLabel>Draw energy from the energy core</WULA_Charge_Cube.comps.CompUsable.useLabel>
+  <WULA_Combat_Excavator_Cleanzone.comps.CompCustomRadius.description>Maximum radius affected by the seismic waves after the drill lands.</WULA_Combat_Excavator_Cleanzone.comps.CompCustomRadius.description>
+  <WULA_Combat_Excavator_Cleanzone.comps.CompCustomRadius.label>Impact radius</WULA_Combat_Excavator_Cleanzone.comps.CompCustomRadius.label>
+  <Wula_CR_Mobile_Factory_Turret.verbs.Verb_ArcSprayIncinerator.label>CRt-91"Iridosmium"</Wula_CR_Mobile_Factory_Turret.verbs.Verb_ArcSprayIncinerator.label>
+  <Wula_DarkEnergy_Generators.comps.CompCustomRadius.description>Maximum power radius this building can supply without conduits; useful as a reference for building field fortifications.</Wula_DarkEnergy_Generators.comps.CompCustomRadius.description>
+  <Wula_DarkEnergy_Generators.comps.CompCustomRadius.label>Power radius</Wula_DarkEnergy_Generators.comps.CompCustomRadius.label>
+  <Wula_DarkEnergy_Generators.comps.CompRefuelable.fuelGizmoLabel>Dark matter fuel</Wula_DarkEnergy_Generators.comps.CompRefuelable.fuelGizmoLabel>
+  <Wula_DarkEnergy_Generators.comps.CompRefuelable.fuelLabel>Dark matter fuel</Wula_DarkEnergy_Generators.comps.CompRefuelable.fuelLabel>
+  <Wula_DarkEnergy_Generators.comps.CompRefuelable.outOfFuelMessage>Requires packaged dark matter.</Wula_DarkEnergy_Generators.comps.CompRefuelable.outOfFuelMessage>
+  <Wula_DarkEnergy_Generators_Cleanzone.comps.CompCustomRadius.description>Maximum power radius this building can supply without conduits; useful as a reference for building field fortifications.</Wula_DarkEnergy_Generators_Cleanzone.comps.CompCustomRadius.description>
+  <Wula_DarkEnergy_Generators_Cleanzone.comps.CompCustomRadius.label>Power radius</Wula_DarkEnergy_Generators_Cleanzone.comps.CompCustomRadius.label>
+  <Wula_Disturber_Turret_Weapon.verbs.Verb_ShootWithOffset.label>HBt-1"Magnetite"</Wula_Disturber_Turret_Weapon.verbs.Verb_ShootWithOffset.label>
+  <WULA_ExcaliburBeam.label>Excalibur Beam</WULA_ExcaliburBeam.label>
+  <Wula_Fusion_Generators.comps.CompCustomRadius.description>Maximum power radius this building can supply without conduits; useful as a reference for building field fortifications.</Wula_Fusion_Generators.comps.CompCustomRadius.description>
+  <Wula_Fusion_Generators.comps.CompCustomRadius.label>Power radius</Wula_Fusion_Generators.comps.CompCustomRadius.label>
+  <Wula_Fusion_Generators.comps.CompRefuelable.fuelGizmoLabel>Stone chunks</Wula_Fusion_Generators.comps.CompRefuelable.fuelGizmoLabel>
+  <Wula_Fusion_Generators.comps.CompRefuelable.fuelLabel>Stone chunks</Wula_Fusion_Generators.comps.CompRefuelable.fuelLabel>
+  <Wula_Fusion_Generators.comps.CompRefuelable.outOfFuelMessage>Requires stone chunks.</Wula_Fusion_Generators.comps.CompRefuelable.outOfFuelMessage>
+  <Wula_Fusion_Generators_Cleanzone.comps.CompCustomRadius.description>Maximum power radius this building can supply without conduits; useful as a reference for building field fortifications.</Wula_Fusion_Generators_Cleanzone.comps.CompCustomRadius.description>
+  <Wula_Fusion_Generators_Cleanzone.comps.CompCustomRadius.label>Power radius</Wula_Fusion_Generators_Cleanzone.comps.CompCustomRadius.label>
+  <WULA_Fxxk_Goose.tools.beak.label>beak</WULA_Fxxk_Goose.tools.beak.label>
+  <WULA_Fxxk_Goose.tools.claws.label>claws</WULA_Fxxk_Goose.tools.claws.label>
+  <WULA_Fxxk_Goose.tools.head.label>head</WULA_Fxxk_Goose.tools.head.label>
+  <WULA_Heavy_Infantry_PowerArmor_Mortar.description>A twin-linked light mortar mounted as a back-mounted weapon attachment on Wula Empire heavy armor. It can analyze enemy movement and fire automatically?as long as the wearer is not in melee combat.</WULA_Heavy_Infantry_PowerArmor_Mortar.description>
+  <WULA_Heavy_Infantry_PowerArmor_Mortar.label>ILm-60"chromite"mortar</WULA_Heavy_Infantry_PowerArmor_Mortar.label>
+  <WULA_Heavy_Infantry_PowerArmor_Mortar.verbs.Verb_Shoot.label>ILm-60"chromite"mortar</WULA_Heavy_Infantry_PowerArmor_Mortar.verbs.Verb_Shoot.label>
+  <WULA_Holographic_Flag_Building_Skyfaller.label>P.I.A holographic flag (landing)</WULA_Holographic_Flag_Building_Skyfaller.label>
+  <WULA_Latex_Catsuit.description>Close-fitting fabric worn by Wula Empire synths, offering slight protection.</WULA_Latex_Catsuit.description>
+  <Wula_LR_Mobile_Factory_Turret.verbs.Verb_Shoot.label>CRt-26"Crystal Cluster"</Wula_LR_Mobile_Factory_Turret.verbs.Verb_Shoot.label>
+  <WULA_MaintenancePod.comps.CompRefuelable.fuelLabel>Components</WULA_MaintenancePod.comps.CompRefuelable.fuelLabel>
+  <WULA_MechFlyerTurretGun.verbs.Verb_ShootWeaponStealBeam.label>Magnetic beam</WULA_MechFlyerTurretGun.verbs.Verb_ShootWeaponStealBeam.label>
+  <WULA_Mech_Flyer.tools.head.label>head</WULA_Mech_Flyer.tools.head.label>
+  <Wula_Mech_Mobile_Factory_Produce_Proj.label>CRm-51"Ant Trooper"</Wula_Mech_Mobile_Factory_Produce_Proj.label>
+  <WULA_Mote_ChargeLanceShot.label>Mote</WULA_Mote_ChargeLanceShot.label>
+  <WULA_Mote_fire.label>Mote</WULA_Mote_fire.label>
+  <WULA_Mote_halo.label>Mote</WULA_Mote_halo.label>
+  <WULA_MotherShip.comps.CompSendLetterAfterTicks.letterLabel>Imperial mothership has arrived</WULA_MotherShip.comps.CompSendLetterAfterTicks.letterLabel>
+  <WULA_MotherShip.comps.CompSendLetterAfterTicks.letterText>An Imperial mothership has arrived above the colony in response to your request!</WULA_MotherShip.comps.CompSendLetterAfterTicks.letterText>
+  <Wula_MR_Mobile_Factory_Turret.verbs.Verb_ShootWithOffset.label>CRt-60"Meteoric Phosphorus"</Wula_MR_Mobile_Factory_Turret.verbs.Verb_ShootWithOffset.label>
+  <WULA_MW_Breaker_Bar.comps.CompEquippableAbilityReloadable.chargeNoun>Booster</WULA_MW_Breaker_Bar.comps.CompEquippableAbilityReloadable.chargeNoun>
+  <WULA_MW_Breaker_Bar.comps.CompEquippableAbilityReloadable.cooldownGerund>on cooldown</WULA_MW_Breaker_Bar.comps.CompEquippableAbilityReloadable.cooldownGerund>
+  <WULA_MW_Breaker_Bar.tools.0.label>Sweep</WULA_MW_Breaker_Bar.tools.0.label>
+  <WULA_MW_ChainSword.tools.0.label>Chainsaw</WULA_MW_ChainSword.tools.0.label>
+  <WULA_MW_Charge_Mace.tools.0.label>Hammerhead</WULA_MW_Charge_Mace.tools.0.label>
+  <WULA_MW_Charge_Mace.tools.1.label>Handle</WULA_MW_Charge_Mace.tools.1.label>
+  <WULA_MW_Cheat_Weapon.comps.CompEquippableAbilityReloadable.chargeNoun>Might</WULA_MW_Cheat_Weapon.comps.CompEquippableAbilityReloadable.chargeNoun>
+  <WULA_MW_Cheat_Weapon.comps.CompEquippableAbilityReloadable.cooldownGerund>on cooldown</WULA_MW_Cheat_Weapon.comps.CompEquippableAbilityReloadable.cooldownGerund>
+  <WULA_MW_Cheat_Weapon.tools.0.label>Hammerhead</WULA_MW_Cheat_Weapon.tools.0.label>
+  <WULA_MW_Constructor_Hammer.tools.0.label>Hammerhead</WULA_MW_Constructor_Hammer.tools.0.label>
+  <WULA_MW_Lance.tools.0.label>Sweep</WULA_MW_Lance.tools.0.label>
+  <WULA_MW_Lance.verbs.Verb_ShootWithOffset.label>CMl-28 "Gunlance"</WULA_MW_Lance.verbs.Verb_ShootWithOffset.label>
+  <WULA_MW_Twohanded_ChainBroadsword.tools.0.label>Chainsaw</WULA_MW_Twohanded_ChainBroadsword.tools.0.label>
+  <WULA_Pantyhose_Black.description>Close-fitting fabric worn by Wula Empire synths, offering slight protection.</WULA_Pantyhose_Black.description>
+  <WULA_Pantyhose_White.description>Close-fitting fabric worn by Wula Empire synths, offering slight protection.</WULA_Pantyhose_White.description>
+  <Wula_Psi_Titan_Beam.verbs.Verb_ShootBeamExplosive.label>KLb-15 "Calcite"</Wula_Psi_Titan_Beam.verbs.Verb_ShootBeamExplosive.label>
+  <WULA_RW_AutoCannon.comps.CompEquippableAbilityReloadable.chargeNoun>EMP grenade</WULA_RW_AutoCannon.comps.CompEquippableAbilityReloadable.chargeNoun>
+  <WULA_RW_AutoCannon.comps.CompEquippableAbilityReloadable.cooldownGerund>on cooldown</WULA_RW_AutoCannon.comps.CompEquippableAbilityReloadable.cooldownGerund>
+  <WULA_RW_AutoCannon.verbs.Verb_ShootWithOffset.label>FLm-78 "Fluorite"</WULA_RW_AutoCannon.verbs.Verb_ShootWithOffset.label>
+  <WULA_RW_Auto_GL.comps.CompEquippableAbilityReloadable.chargeNoun>Smoke shell</WULA_RW_Auto_GL.comps.CompEquippableAbilityReloadable.chargeNoun>
+  <WULA_RW_Auto_GL.comps.CompEquippableAbilityReloadable.cooldownGerund>on cooldown</WULA_RW_Auto_GL.comps.CompEquippableAbilityReloadable.cooldownGerund>
+  <WULA_RW_Auto_GL.verbs.Verb_Shoot.label>SEl-78 "Breccia"</WULA_RW_Auto_GL.verbs.Verb_Shoot.label>
+  <WULA_RW_Base_AR.comps.CompEquippableAbilityReloadable.chargeNoun>Flash round</WULA_RW_Base_AR.comps.CompEquippableAbilityReloadable.chargeNoun>
+  <WULA_RW_Base_AR.comps.CompEquippableAbilityReloadable.cooldownGerund>on cooldown</WULA_RW_Base_AR.comps.CompEquippableAbilityReloadable.cooldownGerund>
+  <WULA_RW_Base_AR.verbs.Verb_ShootWithOffset.label>DLa-1 "Shale"</WULA_RW_Base_AR.verbs.Verb_ShootWithOffset.label>
+  <WULA_RW_Base_Loitering_Munition.comps.CompEquippableAbilityReloadable.chargeNoun>Guidance system</WULA_RW_Base_Loitering_Munition.comps.CompEquippableAbilityReloadable.chargeNoun>
+  <WULA_RW_Base_Loitering_Munition.comps.CompEquippableAbilityReloadable.cooldownGerund>on cooldown</WULA_RW_Base_Loitering_Munition.comps.CompEquippableAbilityReloadable.cooldownGerund>
+  <WULA_RW_Base_Loitering_Munition.verbs.Verb_Shoot.label>WLl-35 "Zeolite"</WULA_RW_Base_Loitering_Munition.verbs.Verb_Shoot.label>
+  <WULA_RW_Beam_Base_AR.verbs.Verb_ShootWithOffset.label>SLb-3 "Stellar Haze"</WULA_RW_Beam_Base_AR.verbs.Verb_ShootWithOffset.label>
+  <WULA_RW_Fractal_RF.verbs.Verb_ShootWithOffset.label>SLr-14 "Blue Cone"</WULA_RW_Fractal_RF.verbs.Verb_ShootWithOffset.label>
+  <WULA_RW_Fractal_RF_Spark_Mote.label>Mote</WULA_RW_Fractal_RF_Spark_Mote.label>
+  <WULA_RW_Handle_Cannon.verbs.Verb_ShootBeamExplosive.label>KRc-7 "Lava"</WULA_RW_Handle_Cannon.verbs.Verb_ShootBeamExplosive.label>
+  <WULA_RW_Penetrating_Beam_Rifle.verbs.Verb_ShootShotgun.label>MLr-15 "Trident" (split-beam)</WULA_RW_Penetrating_Beam_Rifle.verbs.Verb_ShootShotgun.label>
+  <WULA_RW_Penetrating_Beam_Rifle_Ranged.verbs.Verb_Shoot.label>SLb-15 "Trident"</WULA_RW_Penetrating_Beam_Rifle_Ranged.verbs.Verb_Shoot.label>
+  <WULA_RW_Sphene_MG.verbs.Verb_ShootWithOffset.label>FLm-43 "Sphene"</WULA_RW_Sphene_MG.verbs.Verb_ShootWithOffset.label>
+  <WULA_RW_StarDrift_SG.verbs.Verb_ShootShotgunWithOffset.label>DCs-7 "Obsidian"</WULA_RW_StarDrift_SG.verbs.Verb_ShootShotgunWithOffset.label>
+  <WULA_RW_SuperLongRange_RF.verbs.Verb_ShootWithOffset.label>SRr-3 "Resonant Stone"</WULA_RW_SuperLongRange_RF.verbs.Verb_ShootWithOffset.label>
+  <WULA_RW_Unlimit_Penetrating_Beam_Cannon.verbs.Verb_Excalibur.label>UPb-00 "Penetrator Cannon"</WULA_RW_Unlimit_Penetrating_Beam_Cannon.verbs.Verb_Excalibur.label>
+  <WULA_Safe_Box_For_Mission.comps.CompUsable.useLabel>Inspect the lockbox...</WULA_Safe_Box_For_Mission.comps.CompUsable.useLabel>
+  <WULA_Shuttle_Autocannon.verbs.Verb_Shoot.label>SRc-22 "Clover"</WULA_Shuttle_Autocannon.verbs.Verb_Shoot.label>
+  <Wula_Sonar_Mine_Cleanzone.comps.CompCustomRadius.description>When airdropped to the designated location, the maximum range at which the mine can monitor enemy movement.</Wula_Sonar_Mine_Cleanzone.comps.CompCustomRadius.description>
+  <Wula_Sonar_Mine_Cleanzone.comps.CompCustomRadius.label>Detection range</Wula_Sonar_Mine_Cleanzone.comps.CompCustomRadius.label>
+  <WULA_Sow_Excavator_Cleanzone.comps.CompCustomRadius.description>Maximum radius affected by the seismic waves after the drill lands.</WULA_Sow_Excavator_Cleanzone.comps.CompCustomRadius.description>
+  <WULA_Sow_Excavator_Cleanzone.comps.CompCustomRadius.label>Impact radius</WULA_Sow_Excavator_Cleanzone.comps.CompCustomRadius.label>
+  <WULA_Support_AreaTeleporter.comps.CompCustomRadius.description>Teleportation range provided by the area teleporter.</WULA_Support_AreaTeleporter.comps.CompCustomRadius.description>
+  <WULA_Support_AreaTeleporter.comps.CompCustomRadius.label>Teleport range</WULA_Support_AreaTeleporter.comps.CompCustomRadius.label>
+  <WULA_WeaponArmor_Productor.comps.CompOpenCustomUI-0.failReason>Cannot be reached.</WULA_WeaponArmor_Productor.comps.CompOpenCustomUI-0.failReason>
+  <WULA_WeaponArmor_Productor.comps.CompOpenCustomUI-0.label>Contact P.I.A</WULA_WeaponArmor_Productor.comps.CompOpenCustomUI-0.label>
+  <WULA_WeaponArmor_Productor.comps.CompOpenCustomUI-1.failReason>Cannot be reached.</WULA_WeaponArmor_Productor.comps.CompOpenCustomUI-1.failReason>
+  <WULA_WeaponArmor_Productor.comps.CompOpenCustomUI-1.label>Contact "Legion"</WULA_WeaponArmor_Productor.comps.CompOpenCustomUI-1.label>
+  <WULA_WM_Alpha_Wolf_Plasma_Gun.description>A high-energy plasma weapon mounted on the SNm-6 "Wolf Spider" mech. Its plasma projectiles travel slowly, but trigger large-scale molten explosions that can wipe out groups of enemies.</WULA_WM_Alpha_Wolf_Plasma_Gun.description>
+  <WULA_WM_Alpha_Wolf_Plasma_Gun.label>PMe-92"apatite"</WULA_WM_Alpha_Wolf_Plasma_Gun.label>
+  <WULA_WM_Alpha_Wolf_Plasma_Gun.verbs.Verb_Shoot.label>PMe-92"apatite"</WULA_WM_Alpha_Wolf_Plasma_Gun.verbs.Verb_Shoot.label>
+</LanguageData>

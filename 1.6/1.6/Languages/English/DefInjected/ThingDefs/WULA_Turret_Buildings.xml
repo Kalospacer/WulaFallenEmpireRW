@@ -1,121 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
   <Wula_Sonar_Mine_Cleanzone.label>TAm-1 "Pebble" Proximity Mine</Wula_Sonar_Mine_Cleanzone.label>
   <Wula_Sonar_Mine_Cleanzone.description>Clear an area and prepare resources so the Wula Empire can drop a building here.\n\nThe TAm-1 "Pebble" proximity mine is a dangerous landmine, typically deployed by Wula Empire engineering units onto the battlefield. Equipped with intelligent IFF, it launches its warhead directly at the enemy's position upon detecting hostile movement.</Wula_Sonar_Mine_Cleanzone.description>
-  <CompProperties_CustomRadius.label>Detection Range</CompProperties_CustomRadius.label>
-  <CompProperties_CustomRadius.description>The maximum range at which the mine can monitor enemy movements when dropped at the specified location.</CompProperties_CustomRadius.description>
-
   <Wula_Sonar_Mine_Incoming.label>TAm-1 "Pebble" Proximity Mine (Incoming)</Wula_Sonar_Mine_Incoming.label>
-
   <Wula_Sonar_Mine.label>TAm-1 "Pebble" Proximity Mine</Wula_Sonar_Mine.label>
   <Wula_Sonar_Mine.description>A dangerous landmine, typically deployed by Wula Empire engineering units onto the battlefield. Equipped with intelligent IFF, it launches its warhead directly at the enemy's position upon detecting hostile movement.</Wula_Sonar_Mine.description>
-
   <Proj_Wula_Sonar_Mine.label>TAm-1 "Pebble" Proximity Mine</Proj_Wula_Sonar_Mine.label>
-
   <WULA_Cat_Bunker_Cleanzone.label>Wula Cat Bunker</WULA_Cat_Bunker_Cleanzone.label>
   <WULA_Cat_Bunker_Cleanzone.description>Clear an area and prepare resources so the Wula Empire can drop a building here.\n\nThe Wula Cat Bunker is a sturdy building integrating production and defense. Three Wula Cat autonomous mechanoids are airdropped along with the bunker. The bunker allows Wula Cats to change their work type and permits them to occupy and use internal weapons to defeat incoming enemies.</WULA_Cat_Bunker_Cleanzone.description>
-  <CompProperties_CustomRadius.label>Range</CompProperties_CustomRadius.label>
-  <CompProperties_CustomRadius.description>The maximum range of the bunker's turret weapon when dropped at the specified location.</CompProperties_CustomRadius.description>
-
   <WULA_Cat_Bunker_Incoming.label>Wula Cat Bunker (Incoming)</WULA_Cat_Bunker_Incoming.label>
-
   <WULA_Cat_Bunker.label>Wula Cat Bunker</WULA_Cat_Bunker.label>
   <WULA_Cat_Bunker.description>This is an airdropped bunker from the Wula Empire mothership. It contains some prefabricated components allowing Wula Cats to change their work type. Additionally, when enemies attack, Wula Cats can be recalled into the bunker, where they will fire outward to repel invaders.</WULA_Cat_Bunker.description>
-
   <WULA_Cat_Bunker_TurretGun.label>Bunker Turret</WULA_Cat_Bunker_TurretGun.label>
   <WULA_Cat_Bunker_TurretGun.description>A turret operated by Wula Cats inside the bunker—no need to overthink it, just pull the trigger. The colony will reimburse the ammunition.</WULA_Cat_Bunker_TurretGun.description>
-
   <Wula_Base_ATGun_Turret_Cleanzone.label>ATt-6 "Rutile" Anti-Tank Turret</Wula_Base_ATGun_Turret_Cleanzone.label>
   <Wula_Base_ATGun_Turret_Cleanzone.description>Clear an area and prepare resources so the Wula Empire can drop a building here.\n\nThe ATt-6 "Rutile" anti-tank turret is a medium defensive turret requiring power to operate, relying on powerful electromagnetic force to fire highly penetrative shells. This turret has a moderate rate of fire but strong armor-penetrating capability and causes small-area splash damage.</Wula_Base_ATGun_Turret_Cleanzone.description>
-  <CompProperties_CustomRadius.label>Range</CompProperties_CustomRadius.label>
-  <CompProperties_CustomRadius.description>The maximum range of the turret's weapon when dropped at the specified location.</CompProperties_CustomRadius.description>
-
   <Wula_Base_ATGun_Turret_Incoming.label>ATt-6 "Rutile" Anti-Tank Turret (Incoming)</Wula_Base_ATGun_Turret_Incoming.label>
-
   <Wula_Base_ATGun_Turret.label>ATt-6 "Rutile" Anti-Tank Turret</Wula_Base_ATGun_Turret.label>
   <Wula_Base_ATGun_Turret.description>The ATt-6 "Rutile" anti-tank turret is a medium defensive turret requiring power to operate, relying on powerful electromagnetic force to fire highly penetrative shells. This turret has a moderate rate of fire but strong armor-penetrating capability and causes small-area splash damage.</Wula_Base_ATGun_Turret.description>
-
   <Wula_Base_ATGun_Turret_Weapon.label>ATt-6 "Rutile"</Wula_Base_ATGun_Turret_Weapon.label>
   <Wula_Base_ATGun_Turret_Weapon.description>Anti-tank turret, capable of precisely sniping high-value targets from extreme distances.</Wula_Base_ATGun_Turret_Weapon.description>
-
   <Bullet_WULA_WM_Panzer_Turret.label>Rutile Armor-Piercing Shell</Bullet_WULA_WM_Panzer_Turret.label>
-
   <Wula_Base_Laser_Turret_Cleanzone.label>MLt-1 "Prism" Laser Turret</Wula_Base_Laser_Turret_Cleanzone.label>
   <Wula_Base_Laser_Turret_Cleanzone.description>Clear an area and prepare resources so the Wula Empire can drop a building here.\n\nThe MLt-1 "Prism" laser turret is a medium defensive turret requiring power to operate, capable of vaporizing a target by continuously irradiating it with a high-energy laser beam. The laser weapon mounted on this turret requires no warm-up, making it more effective against multiple targets than handheld beam weapons.</Wula_Base_Laser_Turret_Cleanzone.description>
-  <CompProperties_CustomRadius.label>Range</CompProperties_CustomRadius.label>
-  <CompProperties_CustomRadius.description>The maximum range of the turret's weapon when dropped at the specified location.</CompProperties_CustomRadius.description>
-
   <Wula_Base_Laser_Turret_Incoming.label>MLt-1 "Prism" Laser Turret (Incoming)</Wula_Base_Laser_Turret_Incoming.label>
-
   <Wula_Base_Laser_Turret.label>MLt-1 "Prism" Laser Turret</Wula_Base_Laser_Turret.label>
   <Wula_Base_Laser_Turret.description>The MLt-1 "Prism" laser turret is a medium defensive turret requiring power to operate, capable of vaporizing a target by continuously irradiating it with a high-energy laser beam. The laser weapon mounted on this turret requires no warm-up, making it more effective against multiple targets than handheld beam weapons.</Wula_Base_Laser_Turret.description>
-
   <Wula_Base_Laser_Turret_Weapon.label>MLt-1 "Prism"</Wula_Base_Laser_Turret_Weapon.label>
   <Wula_Base_Laser_Turret_Weapon.description>Laser turret that melts enemies through sustained irradiation.</Wula_Base_Laser_Turret_Weapon.description>
-
   <Wula_Base_Mortar_Turret_Cleanzone.label>RTt-8 "Abyss" Mortar Turret</Wula_Base_Mortar_Turret_Cleanzone.label>
   <Wula_Base_Mortar_Turret_Cleanzone.description>Clear an area and prepare resources so the Wula Empire can drop a building here.\n\nThe RTt-8 "Abyss" mortar turret is a medium defensive turret requiring power to operate, firing high-explosive mortar shells continuously at long range. Although slow, high-explosive mortar shells can traverse terrain and are suitable for dealing with still-assembling enemy groups and fortifications.</Wula_Base_Mortar_Turret_Cleanzone.description>
-
   <Wula_Base_Mortar_Turret_Incoming.label>RTt-8 "Abyss" Mortar Turret (Incoming)</Wula_Base_Mortar_Turret_Incoming.label>
-
   <Wula_Base_Mortar_Turret.label>RTt-8 "Abyss" Mortar Turret</Wula_Base_Mortar_Turret.label>
   <Wula_Base_Mortar_Turret.description>The RTt-8 "Abyss" mortar turret is a medium defensive turret requiring power to operate, firing high-explosive mortar shells continuously at long range. Although slow, high-explosive mortar shells can traverse terrain and are suitable for dealing with still-assembling enemy groups and fortifications.</Wula_Base_Mortar_Turret.description>
-
   <Wula_Base_Mortar_Turret_Weapon.label>RTt-8 "Abyss"</Wula_Base_Mortar_Turret_Weapon.label>
   <Wula_Base_Mortar_Turret_Weapon.description>Mortar turret capable of dealing massive damage to enemy clusters from a distance.</Wula_Base_Mortar_Turret_Weapon.description>
-
   <Bullet_WULA_WM_Mortar_Turret.label>Abyss Mortar Shell</Bullet_WULA_WM_Mortar_Turret.label>
-
   <Wula_Disturber_Turret_Cleanzone.label>HBt-1 "Magnet" Volcano Cannon</Wula_Disturber_Turret_Cleanzone.label>
   <Wula_Disturber_Turret_Cleanzone.description>Clear an area and prepare resources so the Wula Empire can drop a building here.\n\nThe HBt-1 "Magnet" is a heavy defensive turret requiring power to operate, mounting four incredibly powerful volcano storm cannons in a quad configuration. In the Wula Empire military where dark matter weapons are prevalent, the volcano cannon series is considered a backward, barbaric armament—but no one has ever questioned its destructive power. Heaven and earth shatter, blazing flames surge forth, like four trumpets of hell, capable of tearing apart any enemy assaulting the position from afar.</Wula_Disturber_Turret_Cleanzone.description>
-
   <Wula_Disturber_Turret_Incoming.label>HBt-1 "Magnet" Volcano Cannon (Incoming)</Wula_Disturber_Turret_Incoming.label>
-
   <Wula_Disturber_Turret.label>HBt-1 "Magnet" Volcano Cannon</Wula_Disturber_Turret.label>
   <Wula_Disturber_Turret.description>The HBt-1 "Magnet" is a heavy defensive turret requiring power to operate, mounting four incredibly powerful volcano storm cannons in a quad configuration. In the Wula Empire military where dark matter weapons are prevalent, the volcano cannon series is considered a backward, barbaric armament—but no one has ever questioned its destructive power. Heaven and earth shatter, blazing flames surge forth, like four trumpets of hell, capable of tearing apart any enemy assaulting the position from afar.</Wula_Disturber_Turret.description>
-
   <Wula_Disturber_Turret_Weapon.label>HBt-1 "Magnet"</Wula_Disturber_Turret_Weapon.label>
   <Wula_Disturber_Turret_Weapon.description>Wula Empire's quad-mounted volcano cannon. In the Wula Empire military where dark matter weapons are prevalent, the volcano cannon series is considered a backward, barbaric armament—but no one has ever questioned its destructive power. Heaven and earth shatter, blazing flames surge forth, like four trumpets of hell, capable of tearing apart any enemy assaulting the position from afar.</Wula_Disturber_Turret_Weapon.description>
-
   <Bullet_WULA_WM_Disturber_Turret.label>Magnet Volcano Shell</Bullet_WULA_WM_Disturber_Turret.label>
-
   <WULA_Combat_Excavator_Cleanzone.label>DBm-6 "Combat Excavator"</WULA_Combat_Excavator_Cleanzone.label>
   <WULA_Combat_Excavator_Cleanzone.description>Clear an area and prepare resources so the Wula Empire can drop a building here.\n\nThe DBm-6 "Combat Excavator" is a Wula Empire excavator used to destroy enemy positions. After being airdropped and deployed at the designated location, the drill will trigger several seismic shockwaves through its high-speed rotating blades, then release all units inside its bay in one go.</WULA_Combat_Excavator_Cleanzone.description>
-  <CompProperties_CustomRadius.label>Shock Radius</CompProperties_CustomRadius.label>
-  <CompProperties_CustomRadius.description>The maximum range affected by the seismic waves after the drill lands.</CompProperties_CustomRadius.description>
-
   <WULA_Combat_Excavator_Incoming.label>DBm-6 "Combat Excavator" (Incoming)</WULA_Combat_Excavator_Incoming.label>
-
   <WULA_Combat_Excavator.label>DBm-6 "Combat Excavator"</WULA_Combat_Excavator.label>
   <WULA_Combat_Excavator.description>A Wula Empire excavator used to destroy enemy positions. After being airdropped and deployed at the designated location, the drill will trigger several seismic shockwaves through its high-speed rotating blades, then release all units inside its bay in one go.</WULA_Combat_Excavator.description>
-
   <WULA_Sow_Excavator_Cleanzone.label>DSm-6 "Excavator"</WULA_Sow_Excavator_Cleanzone.label>
   <WULA_Sow_Excavator_Cleanzone.description>Clear an area and prepare resources so the Wula Empire can drop a building here.\n\nThe DSm-6 "Excavator" is an airdrop-deployed excavator. The drill can loosen nearby soil through high-frequency vibration, making the entire area soft and easy for planting. The shockwaves from this device are extremely lethal—do not approach during operation!</WULA_Sow_Excavator_Cleanzone.description>
-  <CompProperties_CustomRadius.label>Shock Radius</CompProperties_CustomRadius.label>
-  <CompProperties_CustomRadius.description>The maximum range affected by the seismic waves after the drill lands.</CompProperties_CustomRadius.description>
-
   <WULA_Sow_Excavator_Incoming.label>DSm-6 "Excavator" (Incoming)</WULA_Sow_Excavator_Incoming.label>
-
   <WULA_Sow_Excavator.label>DSm-6 "Excavator"</WULA_Sow_Excavator.label>
   <WULA_Sow_Excavator.description>An airdrop-deployed excavator. The drill can loosen nearby soil through high-frequency vibration, making the entire area soft and easy for planting. The shockwaves from this device are extremely lethal—do not approach during operation!</WULA_Sow_Excavator.description>
-
   <WULA_Combat_Excavator_Hostile_Incoming.label>DBm-6 "Combat Excavator" (Incoming)</WULA_Combat_Excavator_Hostile_Incoming.label>
-
   <WULA_Combat_Excavator_Hostile.label>DBm-6 "Combat Excavator"</WULA_Combat_Excavator_Hostile.label>
   <WULA_Combat_Excavator_Hostile.description>A Wula Empire excavator used to destroy enemy positions. After being airdropped and deployed at the designated location, the drill will trigger several seismic shockwaves through its high-speed rotating blades, then release all units inside its bay in one go.</WULA_Combat_Excavator_Hostile.description>
-
   <WULA_Wall_Flag_Building.label>P.I.A. Flag</WULA_Wall_Flag_Building.label>
   <WULA_Wall_Flag_Building.description>Flag of the Wula Empire Planetary Interdiction Agency. Useless but declares Wula Empire sovereignty.</WULA_Wall_Flag_Building.description>
-
-  <WULA_Holographic_Flag_Skyfaller.label>P.I.A. Holographic Flag (Landing)</WULA_Holographic_Flag_Skyfaller.label>
-
   <WULA_Holographic_Flag_Building.label>P.I.A. Holographic Flag</WULA_Holographic_Flag_Building.label>
   <WULA_Holographic_Flag_Building.description>A holographic flag projection of the Wula Empire Planetary Interdiction Agency, capable of motivating nearby Wulans to fight more ferociously. The projector's base includes a denial shield that reflects most enemy projectiles; friendly fire is unaffected.</WULA_Holographic_Flag_Building.description>
-
   <WULA_Support_AreaTeleporter_Skyfaller.label>P.I.A. Holographic Flag with Area Teleporter (Landing)</WULA_Support_AreaTeleporter_Skyfaller.label>
-
   <WULA_Support_AreaTeleporter.label>P.I.A. Holographic Flag with Area Teleporter</WULA_Support_AreaTeleporter.label>
   <WULA_Support_AreaTeleporter.description>A holographic flag of the Wula Empire Planetary Interdiction Agency, which, besides declaring sovereignty, can motivate nearby Wulans to fight more ferociously. The flag's base includes an area teleporter allowing mechanical Wulas to teleport within the flag's area.\n\nThe system will self-destruct after operating for some time.</WULA_Support_AreaTeleporter.description>
-  <CompProperties_CustomRadius.label>Teleport Range</CompProperties_CustomRadius.label>
-  <CompProperties_CustomRadius.description>The teleportation range provided by the area teleporter.</CompProperties_CustomRadius.description>
 </LanguageData>
