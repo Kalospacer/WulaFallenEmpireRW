@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <Mech_WULA_Cat.label>CAt-11 "Kitty"</Mech_WULA_Cat.label>
+  <Mech_WULA_Cat_Assault.label>CAt-46 "Kitty Charge Squad"</Mech_WULA_Cat_Assault.label>
+  <Mech_WULA_Cat_Cloak_Sniper.label>CAt-71 "Special Ops Kitty"</Mech_WULA_Cat_Cloak_Sniper.label>
+  <Mech_WULA_Cat_Constructor.label>CAt-86 "Kitty Laborer"</Mech_WULA_Cat_Constructor.label>
+  <Mech_WULA_Fire_Cat.label>CAt-55 "Assault Kitty"</Mech_WULA_Fire_Cat.label>
   <WULA_Fxxk_Goose.label>Divine goose</WULA_Fxxk_Goose.label>
   <WULA_Hostile_Progressive_Light_Unit.label>Progressive rebel</WULA_Hostile_Progressive_Light_Unit.label>
   <WULA_Legion_PawnKind.label>Legion</WULA_Legion_PawnKind.label>
   <WULA_Legion_Swimsuit_PawnKind.label>Legion</WULA_Legion_Swimsuit_PawnKind.label>
+  <WULA_Mobile_Bunker.label>BUk-1 "Bunker Kitty"</WULA_Mobile_Bunker.label>
   <WULA_Mech_Flyer.label>CRm-51 "Soldier Ant"</WULA_Mech_Flyer.label>
   <Wula_PawnKind.label>Mechanical Wula</Wula_PawnKind.label>
+  <Wula_AI_Heavy_Panzer.label>HAp-6 "Panzer"</Wula_AI_Heavy_Panzer.label>
+  <Wula_AI_Rocket_Panzer.label>HRp-3 "Flamethrower Panzer"</Wula_AI_Rocket_Panzer.label>
+  <Wula_Mech_Mobile_Factory.label>MFm-2 "Landship"</Wula_Mech_Mobile_Factory.label>
+  <Wula_Mech_Mobile_Shield.label>MSm-8 "Radiation Shield"</Wula_Mech_Mobile_Shield.label>
   <Wula_PIA_Heavy_Unit.label>Legion infantry</Wula_PIA_Heavy_Unit.label>
   <Wula_PIA_Heavy_Unit_Melee.label>Ambition champion</Wula_PIA_Heavy_Unit_Melee.label>
   <Wula_PIA_Heavy_Unit_Range.label>Imperial vanguard</Wula_PIA_Heavy_Unit_Range.label>
   <Wula_PIA_Legion_Escort_Traitor.label>Brokenclaw Guard traitor</Wula_PIA_Legion_Escort_Traitor.label>
   <Wula_PIA_Legion_Escort_Unit.label>Brokenclaw Guard</Wula_PIA_Legion_Escort_Unit.label>
   <Wula_PIA_Light_Unit.label>Imperial shock troopers</Wula_PIA_Light_Unit.label>
+  <Wula_Psi_Titan.label>PAt-6 "Psychic Titan"</Wula_Psi_Titan.label>
 </LanguageData>

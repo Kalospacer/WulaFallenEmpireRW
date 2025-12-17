@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <Wula_Synth.label>Synth</Wula_Synth.label>
   <Wula_Synth.description>Synths of the Wula Empire, possessing some characteristics of mechanoids—they are difficult to ignite, immune to common diseases, can self-repair using a nano-system, but require energy to sustain operation.\n\nThey are creations designed by the Wula Empire Royal Mechanist Guild, meticulously replicating the appearance and behavior of their creators. From the birth of the first Wula synth, they have been granted equal human rights—they are not tools, but honorable citizens of the Wula Empire.</Wula_Synth.description>
 
   <WULA_NanoRepairHediff.label>Nano Repair</WULA_NanoRepairHediff.label>
