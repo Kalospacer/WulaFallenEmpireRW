@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <!-- 母舰编队 -->
+  <!-- Mothership Fleet -->
   <WULA_CallMotherShip.label>Call Imperial Mothership Fleet</WULA_CallMotherShip.label>
   <WULA_CallMotherShip.description>Send a reinforcement request to summon the Wula Empire Mothership Fleet to the colony's high orbit. Contains 4 cruisers capable of orbital bombardment and 1 mothership that provides aircraft, artillery, and orbital support.</WULA_CallMotherShip.description>
   <WULA_CallMotherShip.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>Flight Path Blocked: A large vessel is already above the colony.</WULA_CallMotherShip.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>
 
-  <!-- 战舰编队 -->
+  <!-- Cruiser Fleet -->
   <WULA_CallFleet.label>Call Imperial Cruiser Fleet</WULA_CallFleet.label>
   <WULA_CallFleet.description>Send a reinforcement request to summon the Wula Empire Fleet to the colony's high orbit. Contains 2 cruisers capable of orbital bombardment and 1 aircraft carrier that provides aircraft.</WULA_CallFleet.description>
   <WULA_CallFleet.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>Flight Path Blocked: A large vessel is already above the colony.</WULA_CallFleet.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>
 
-  <!-- 航道净空 -->
+  <!-- Flight Path Clearance -->
   <WULA_ClearFlightPath.label>Flight Path Clearance</WULA_ClearFlightPath.label>
   <WULA_ClearFlightPath.description>Orders the fleet in low orbit to depart, allowing other Wula Empire fleets to enter.</WULA_ClearFlightPath.description>
 
-  <!-- 全域封锁 -->
+  <!-- Global Blockade -->
   <WULA_Spawn_BattleShip_Artillery.label>Call Global Blockade Fleet</WULA_Spawn_BattleShip_Artillery.label>
   <WULA_Spawn_BattleShip_Artillery.description>Request a full planetary blockade along a designated flight path. An entire Wula Empire fleet, escorted by numerous fighter squadrons, will advance along the path and bombard with ship cannons to completely crush all resistance.\n\nThe bombardment covers nearly the entire map. While efforts are made to avoid hitting colony personnel and assets, the vast bombardment area leaves little chance for anything below to escape—try not to call it directly over your own colony.</WULA_Spawn_BattleShip_Artillery.description>
 
-  <!-- 飞行器 -->
+  <!-- Aircraft -->
   <WULA_Spawn_Fighter_Drone_Laser.label>Drone Patrol</WULA_Spawn_Fighter_Drone_Laser.label>
   <WULA_Spawn_Fighter_Drone_Laser.description>Command the Wula Empire's swarm drones to sweep across the battlefield at medium speed, using their underslung small laser cannons to strike encountered enemies—the drone capacitors are limited, allowing strikes against only the first 3 targets.</WULA_Spawn_Fighter_Drone_Laser.description>
 
@@ -49,7 +49,7 @@
   <WULA_Spawn_Bomber_DarkMatterBomb.description>Command the Wula Empire's bombers to sweep across the battlefield at low speed, firing an antimatter missile at the target location—remember to stay far away.</WULA_Spawn_Bomber_DarkMatterBomb.description>
   <WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD952F>&lt;i>Hangar&lt;/i>&lt;/color> facility must be on the map to launch an airstrike.</WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
 
-  <!-- 炮击 -->
+  <!-- Orbital Firepower -->
   <WULA_Firepower_Minigun_Strafe.label>Chain Gun Strafing</WULA_Firepower_Minigun_Strafe.label>
   <WULA_Firepower_Minigun_Strafe.description>Uses the ship's automatic chain guns to strafe the target area in a selectable direction. Fast firing rate and cooldown, effective against lightly armored targets, but power is lacking.</WULA_Firepower_Minigun_Strafe.description>
   <WULA_Firepower_Minigun_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>A ship with a &lt;color=#BD2F31>&lt;i>Weapon Array&lt;/i>&lt;/color> facility must be on the map to provide orbital artillery support.</WULA_Firepower_Minigun_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
