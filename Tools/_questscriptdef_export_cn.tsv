@@ -1,0 +1,167 @@
+key	cn
+WULA_Base_Tex_Quest.questDescriptionRules.rulesStrings	"questDescription->唯死亡和税收不可避免——按时上交什一税是乌拉帝国殖民地的光荣义务。
+
+乌拉帝国每隔10天收一次什一税，什一税会从殖民地储存在舰队中的资产里面扣除，你可以建造<color=#6BB7B7><i>乌拉帝国物资输送舱</i></color>来将物资输送到位于轨道上的舰队。
+
+乌拉帝国对积极纳税的殖民地会给予更多关照——但是如果拖延，则每延期一天都会惹其不快，最后甚至有可能被定性为叛国！"
+WULA_Base_Tex_Quest.questNameRules.rulesStrings	questName->什一税税收
+WULA_Base_Tex_Quest.root.nodes.Greater-0.node.value2.slateRef	0.8
+WULA_Base_Tex_Quest.root.nodes.Greater-1.node.value2.slateRef	0.8
+WULA_Base_Tex_Quest.root.nodes.Greater-2.node.value2.slateRef	0.8
+WULA_Base_Tex_Quest.root.nodes.Handle_Outtime.node.nodes.Letter.label.slateRef	未按时纳税
+WULA_Base_Tex_Quest.root.nodes.Handle_Outtime.node.nodes.Letter.text.slateRef	作为乌拉帝国的殖民地，你被发现未按时纳税——或许一次两次她们可以原谅你，但是一直拖欠必然会激怒她们！
+WULA_Base_Tex_Quest.root.nodes.Letter.label.slateRef	什一税
+WULA_Base_Tex_Quest.root.nodes.Letter.text.slateRef	"唯死亡和税收不可避免——按时上交什一税是乌拉帝国殖民地的光荣义务。
+
+查看任务列表以了解更多。"
+WULA_Base_Tex_Quest.root.nodes.TaxPaymentSuccess.node.nodes.Letter.label.slateRef	纳税完成
+WULA_Base_Tex_Quest.root.nodes.TaxPaymentSuccess.node.nodes.Letter.text.slateRef	帝国已经接收了税款，为了表彰你在纳税上的良好表现，一封税金缴纳凭证已经送到你的殖民地中！
+WULA_Boss_Sky_Lock.questDescriptionRules.rulesStrings	"questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个特殊的请求，一台部署在运输舰上的乌拉帝国战争机械——<color=#AA74E5><i>灵能泰坦</i></color>——因为失控而无差别攻击，行星封锁机关不得不让运输舰坠向星球表面以阻止事态扩大。
+
+可惜的是，<color=#AA74E5><i>灵能泰坦</i></color>没有因为运输舰坠毁而受到伤害，其仍然在星球表面大肆杀戮，殖民地必须直面这台骇人的巨兽。行星封锁机关为殖民地提供了以下信息：
+
+<color=#9F0400><i>-内驱回路</i></color> PAt-6""灵能泰坦""虽然是一台强大的灵能战争机器，但是其灵能回路是以封闭循环的方式刻印的，外部的灵能攻击无法影响它
+<color=#9F0400><i>-死亡使者</i></color> PAt-6""灵能泰坦""的灵能尖啸可以无差别粉碎所有的目标，除非有足够的信心和手段控制住它，否则不要与其正面交锋
+<color=#9F0400><i>-连环天锁</i></color> PAt-6""灵能泰坦""一定会和天锁一起出现，天锁是纯粹的灵能造物，可以吸收灵能泰坦受到的伤害。在所有的天锁被摧毁前，灵能泰坦不会受到伤害。
+<color=#9F0400><i>-网络控制</i></color> PAt-6""灵能泰坦""的控制了附近在坠毁中幸存的战车集群，因此坠毁地区很可能不只有一个敌人
+
+行星封锁机关承诺，一旦击败了暴走的<color=#AA74E5><i>灵能泰坦</i></color>，她们可以回收其灵能回路的核心，以此为殖民地建造一台全新的灵能泰坦。"
+WULA_Boss_Sky_Lock.questNameRules.rulesStrings	questName->特殊任务：击毁灵能泰坦
+WULA_Boss_Sky_Lock.root.nodes.Letter.label.slateRef	灵能泰坦抵达
+WULA_Boss_Sky_Lock.root.nodes.Letter.text.slateRef	在一艘巡洋舰向失控运输舰狠狠撞击后，碎裂的运输舰如流星般坠入边缘世界地表。不过灵能泰坦随后便在地表上被目击——地点已经标记出来了。
+WULA_Boss_Sky_Lock.root.nodes.PsiTitan0Destroyed.node.nodes.Letter.label.slateRef	灵能泰坦已停机
+WULA_Boss_Sky_Lock.root.nodes.PsiTitan0Destroyed.node.nodes.Letter.text.slateRef	"灵能泰坦在殖民者的攻击下已经停止运转，其灵能回路核心已经暴露并掉落。
+
+记得回收灵能回路核心，这是建造新的灵能泰坦所需的材料。"
+WULA_Boss_Super_Fortress.questDescriptionRules.rulesStrings	"questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个特殊的请求，一座装备了火山炮的<color=#C87451><i>巨型要塞</i></color>被发现，它不处于行星封锁机关的控制下，很可能是叛军的一个根据地，你的殖民地必须使用一切力量将其消灭。行星封锁机关为殖民地提供了以下信息：
+
+<color=#9F0400><i>-先发制人</i></color> 这个要塞已经被乌拉帝国舰队的EMP炮弹攻击过，需要一段时间才能重启防御系统——但是从轰炸效果来说，这个空窗时间可能不会太长
+<color=#9F0400><i>-炼狱号角</i></color> 要塞中有四门火山炮，一旦其重启完成，将对所有进攻部队造成毁灭性打击，应该优先解决
+<color=#9F0400><i>-碉楼林立</i></color> 要塞被多层防御设施所保护，正面攻击会非常花费时间，并且要塞的顶部进行了特别加厚，厚度堪比岩顶
+<color=#9F0400><i>-草木皆兵</i></color> 要塞附近很可能有别的不可见的埋伏，舰队在此处检测到的活动迹象与目视不匹配
+
+行星封锁机关承诺，一旦摧毁<color=#C87451><i>巨型要塞</i></color>，她们就会派遣舰队轰炸残余的设施，并为殖民地开放火山炮的申请权限。"
+WULA_Boss_Super_Fortress.questNameRules.rulesStrings	questName->特殊任务：清扫巨型要塞
+WULA_Boss_Super_Fortress.root.nodes.Letter.label.slateRef	已标记巨型要塞
+WULA_Boss_Super_Fortress.root.nodes.Letter.text.slateRef	乌拉帝国进步派所建立的巨型要塞已经在地图上标记——似乎因为干扰，舰队无法直接攻击这个要塞，但是如果附近有引导员，舰队依然可以正常进入要塞的上方轨道。
+WULA_Colony_Promotion.questDescriptionRules.rulesStrings	"questDescription->殖民地已经承接了视察任务。
+
+行星封锁机关的总控AI已经派遣了自己的一个分体和护卫队抵达殖民地。考察持续12天，她会检查殖民地方方面面的运转情况，你需要确保其心情始终高于25%。考察完成后，她和卫队会搭乘穿梭机离开，如果一切顺利你们将获得殖民地晋升的机会，以解锁更多的许可科技。
+
+小心，附近的敌对派系已经知道了殖民地来了一个大人物，这些劫掠者会尝试袭击殖民地并抓住这个分体，你可能需要面对大量袭击！"
+WULA_Colony_Promotion.questNameRules.rulesStrings	questName->晋级任务：殖民地考察
+WULA_Colony_Promotion.root.nodes.askerDestroyed.node.nodes.Letter.label.slateRef	宾客{SUBJECT_definite}死亡
+WULA_Colony_Promotion.root.nodes.askerDestroyed.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}已经死亡。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.askerLeftMap.node.nodes.Letter.label.slateRef	宾客失踪：{SUBJECT_definite}
+WULA_Colony_Promotion.root.nodes.askerLeftMap.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}失踪在你的殖民地。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.askerRanWild.node.nodes.Letter.label.slateRef	宾客失踪：{SUBJECT_definite}
+WULA_Colony_Promotion.root.nodes.askerRanWild.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.Delay.node.nodes.Letter.label.slateRef	挖掘机袭击
+WULA_Colony_Promotion.root.nodes.Delay.node.nodes.Letter.text.slateRef	几个高速移动的黑点正在拖着浓浓的黑烟尾迹飞向殖民地······那是什么？
+WULA_Colony_Promotion.root.nodes.Letter.label.slateRef	任务失败：[resolvedQuestName]
+WULA_Colony_Promotion.root.nodes.Letter.text.slateRef	[faction_name]开始敌视你。
+WULA_Colony_Promotion.root.nodes.lodgersArrested.node.nodes.Letter.label.slateRef	宾客{SUBJECT_definite}被俘
+WULA_Colony_Promotion.root.nodes.lodgersArrested.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}已经被俘虏。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.lodgersSurgeryViolation.node.nodes.Letter.label.slateRef	未授权手术：{SUBJECT_definite}
+WULA_Colony_Promotion.root.nodes.lodgersSurgeryViolation.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}接受了一场未授权的多余手术。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.label.slateRef	异种胚芽被吸收
+WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.text.slateRef	指定由你保护的{SUBJECT_definite}在你的殖民地被吸收了异种胚芽。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.MoodBelow.node.nodes.Letter.label.slateRef	{SUBJECT_bestRoyalTitle}情绪低落
+WULA_Colony_Promotion.root.nodes.MoodBelow.node.nodes.Letter.text.slateRef	需要你护卫和满足需求的{SUBJECT_definite}，其情绪值已经长时间低于最低限度[lodgersMoodThreshold]。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.pickupShipThingDestroyed.node.nodes.Letter.label.slateRef	穿梭机已被毁
+WULA_Colony_Promotion.root.nodes.pickupShipThingDestroyed.node.nodes.Letter.text.slateRef	前来迎接[asker_faction_leaderTitle]的穿梭机被摧毁了。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.pickupShipThingSentUnsatisfied.node.nodes.Letter.label.slateRef	任务失败：[resolvedQuestName]
+WULA_Colony_Promotion.root.nodes.pickupShipThingSentUnsatisfied.node.nodes.Letter.text.slateRef	前来迎接[asker_faction_leaderTitle]的穿梭机没有接到[asker_objective]。[asker_pronoun]现在只能走回去。[failLetterEndingCommon]
+WULA_Colony_Promotion.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.label.slateRef	穿梭机被破坏
+WULA_Colony_Promotion.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.text.slateRef	被派遣来运输[asker_nameDef]的穿梭机已被破坏。
+WULA_Colony_Promotion.root.nodes.Set-2.value.slateRef	0.25
+WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.InspectString.inspectString.slateRef	应该乘坐穿梭机离开
+WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.Letter.label.slateRef	穿梭机已抵达
+WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.Letter.text.slateRef	穿梭机已经前来迎接[asker_nameDef]。
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.Letter.label.slateRef	要塞空投
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.Letter.text.slateRef	乌拉帝国 行星封锁机关对殖民地发起了报复打击，她们往殖民地空投了整装的要塞！
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.ResolveQuestDescription.rules.slateRef	<rulesStrings><li>questDescription-&gt;乌拉帝国 行星封锁机关对殖民地发起了报复打击，她们往殖民地空投了整装的要塞！</li></rulesStrings>
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.ResolveQuestName.rules.slateRef	<rulesStrings><li>questName-&gt;要塞空投</li></rulesStrings>
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.Letter.label.slateRef	帝国部队袭击
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.Letter.text.slateRef	乌拉帝国 行星封锁机关对殖民地发起了报复打击，派出部队攻击了你的殖民地！
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.RandomRaid.customLetterLabel.slateRef	帝国部队袭击
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.RandomRaid.customLetterText.slateRef	乌拉帝国 行星封锁机关对殖民地发起了报复打击，派出部队攻击了你的殖民地！
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.ResolveQuestDescription.rules.slateRef	<rulesStrings><li>questDescription-&gt;乌拉帝国 行星封锁机关对殖民地发起了报复打击，派出部队攻击了你的殖民地！</li></rulesStrings>
+WULA_Hostile_PIA_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.ResolveQuestName.rules.slateRef	<rulesStrings><li>questName-&gt;帝国部队袭击</li></rulesStrings>
+WULA_Intro_NewColony.questDescriptionRules.rulesStrings	"questDescription->（因为不看提示问我乌拉族科技怎么升的全部砍死）
+
+乌拉帝国的先遣队已经抵达地表，舰队给她们发来了第一条通讯。"
+WULA_Intro_NewColony.questNameRules.rulesStrings	questName->新殖民地
+WULA_Intro_Spy.questDescriptionRules.rulesStrings	questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个请求。一位乌拉帝国密探已经暴露，正在遭受其他派系追杀——密探手无寸铁且携带重要信息，殖民地需要掩护它直到乌拉帝国的穿梭机抵达并将其接走。虽然对方未透露更多信息，不过她指明袭击不会太剧烈，密探已经甩掉了大部分敌人。
+WULA_Intro_Spy.questNameRules.rulesStrings	questName->掩护帝国密探
+WULA_Intro_Spy.root.nodes.askerArrested.node.nodes.Letter.label.slateRef	已被俘：{SUBJECT_definite}
+WULA_Intro_Spy.root.nodes.askerArrested.node.nodes.Letter.text.slateRef	需要你小心保护的{SUBJECT_definite}已被俘虏。[failLetterEndingCommon]
+WULA_Intro_Spy.root.nodes.askerDestroyed.node.nodes.Letter.label.slateRef	宾客已死亡：{SUBJECT_definite}
+WULA_Intro_Spy.root.nodes.askerDestroyed.node.nodes.Letter.text.slateRef	需要你小心保护的{SUBJECT_definite}已经死亡。[failLetterEndingCommon]
+WULA_Intro_Spy.root.nodes.askerLeftBehind.node.nodes.Letter.label.slateRef	宾客被遗弃：{SUBJECT_definite}
+WULA_Intro_Spy.root.nodes.askerLeftBehind.node.nodes.Letter.text.slateRef	{SUBJECT_definite}, who you were charged to protect, has been left behind. [failLetterEndingCommon]
+WULA_Intro_Spy.root.nodes.askerLeftMap.node.nodes.Letter.label.slateRef	宾客失踪：{SUBJECT_definite}
+WULA_Intro_Spy.root.nodes.askerLeftMap.node.nodes.Letter.text.slateRef	需要你小心保护的{SUBJECT_definite}在你的殖民地失踪了。[failLetterEndingCommon]
+WULA_Intro_Spy.root.nodes.askerRanWild.node.nodes.Letter.label.slateRef	宾客失踪：{SUBJECT_definite}
+WULA_Intro_Spy.root.nodes.askerRanWild.node.nodes.Letter.text.slateRef	需要你小心保护的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]
+WULA_Intro_Spy.root.nodes.askerSurgeryViolation.node.nodes.Letter.label.slateRef	未授权手术：{SUBJECT_definite}
+WULA_Intro_Spy.root.nodes.askerSurgeryViolation.node.nodes.Letter.text.slateRef	需要你小心保护的{SUBJECT_definite}接受了一次未授权的额外手术。因为你违规在先，[asker_pronoun]将要离开此处。[failLetterEndingCommon]
+WULA_Intro_Spy.root.nodes.askerXenogermAbsorbed.node.nodes.Letter.label.slateRef	异种胚芽被吸收：{SUBJECT_definite}
+WULA_Intro_Spy.root.nodes.askerXenogermAbsorbed.node.nodes.Letter.text.slateRef	指定由你保护的{SUBJECT_definite}在你的殖民地被吸收了异种胚芽。这是一种侵犯行为，{SUBJECT_pronoun}现在将会直接离开[failLetterEndingCommon]。
+WULA_Intro_Spy.root.nodes.Delay.node.node.parms.customLetterLabel.value.slateRef	{BASELABEL} 追捕[../asker_nameDef]
+WULA_Intro_Spy.root.nodes.Delay.node.node.parms.customLetterText.value.slateRef	"{BASETEXT}
+
+[enemyFaction_pawnsPlural]来此追捕[../asker_nameDef]。"
+WULA_Intro_Spy.root.nodes.pickupShipThingDestroyed.node.nodes.Letter.label.slateRef	穿梭机被毁
+WULA_Intro_Spy.root.nodes.pickupShipThingDestroyed.node.nodes.Letter.text.slateRef	前来迎接[asker_nameDef]的穿梭机已被毁。[asker_pronoun]现在只能走回去了。[failLetterEndingCommon]
+WULA_Intro_Spy.root.nodes.pickupShipThingLeftBehind.node.nodes.Letter.label.slateRef	穿梭机被遗弃
+WULA_Intro_Spy.root.nodes.pickupShipThingLeftBehind.node.nodes.Letter.text.slateRef	前来迎接[asker_nameDef]的穿梭机已被遗弃。[asker_pronoun]现在只能走回去了。
+WULA_Intro_Spy.root.nodes.pickupShipThingSentUnsatisfied.node.nodes.Letter.label.slateRef	任务失败：[resolvedQuestName]
+WULA_Intro_Spy.root.nodes.pickupShipThingSentUnsatisfied.node.nodes.Letter.text.slateRef	前来迎接[asker_nameDef]的穿梭机在离开时因为一些原因落下了[asker_objective]。[asker_pronoun]现在只能走回去了。[failLetterEndingCommon]
+WULA_Intro_Spy.root.nodes.ShuttleDelay.node.nodes.InspectString.inspectString.slateRef	应该乘坐穿梭机出发
+WULA_Intro_Spy.root.nodes.ShuttleDelay.node.nodes.Letter.label.slateRef	穿梭机已抵达
+WULA_Intro_Spy.root.nodes.ShuttleDelay.node.nodes.Letter.text.slateRef	前来迎接[asker_nameDef]的穿梭机已抵达。
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.Letter.label.slateRef	挖掘机空袭
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.Letter.text.slateRef	乌拉帝国进步派叛军向殖民地发射了挖掘机集群！
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.ResolveQuestDescription.rules.slateRef	<rulesStrings><li>questDescription-&gt;乌拉帝国进步派叛军向殖民地发射了挖掘机集群！</li></rulesStrings>
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.ResolveQuestName.rules.slateRef	<rulesStrings><li>questName-&gt;挖掘机空袭</li></rulesStrings>
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.Letter.label.slateRef	游击队攻击
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.Letter.text.slateRef	乌拉帝国进步派叛军的派出了一支游击队攻击殖民地！
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.RandomRaid.customLetterLabel.slateRef	乌拉帝国 进步派的游击队
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.RandomRaid.customLetterText.slateRef	一群乌拉帝国进步派的游击队正在攻击你的殖民地！
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.ResolveQuestDescription.rules.slateRef	<rulesStrings><li>questDescription-&gt;一群乌拉帝国进步派的游击队攻击了你的殖民地！</li></rulesStrings>
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.ResolveQuestName.rules.slateRef	<rulesStrings><li>questName-&gt;叛军游击队</li></rulesStrings>
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.Letter.label.slateRef	突击舰队攻击
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.Letter.text.slateRef	乌拉帝国进步派叛军的突击舰队正在攻击殖民地！
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.ResolveQuestDescription.rules.slateRef	<rulesStrings><li>questDescription-&gt;乌拉帝国进步派叛军的突击舰队正在攻击殖民地！</li></rulesStrings>
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.ResolveQuestName.rules.slateRef	<rulesStrings><li>questName-&gt;突击舰队攻击</li></rulesStrings>
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-3.nodes.ResolveQuestDescription.rules.slateRef	<rulesStrings><li>questDescription-&gt;几个可疑的黑点落到了殖民地附近···</li></rulesStrings>
+WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-3.nodes.ResolveQuestName.rules.slateRef	<rulesStrings><li>questName-&gt;微型空投舱</li></rulesStrings>
+WULA_Recycle_PIA_Legion_File.questDescriptionRules.rulesStrings	"questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个特殊的请求，有一个装着皇室机密的保险箱被乌拉帝国的进步派叛军控制了，殖民地必须将其回收，随后将其交回乌拉帝国舰队。如果保险箱已经被打开，就要杀光在场的所有人。
+
+目前叛军很可能在试图打开这个保险箱，你需要检查其哨站内的工作台。大约有<color=#AA3020><i>10~20个叛军合成人</i></color>被拍摄到，现场同时发现了正在运作的<color=#AA3020><i>若干炮台</i></color>。
+
+你只有5天的时间处理这个任务，取得保险箱后，你可以建造<color=#6BB7B7><i>乌拉帝国物资输送舱</i></color>来将保险箱输送到位于轨道上的舰队。"
+WULA_Recycle_PIA_Legion_File.questNameRules.rulesStrings	questName->晋级任务：回收皇家机密
+WULA_Recycle_PIA_Legion_File.root.nodes.Handle_Outtime.node.nodes.Letter.label.slateRef	保险箱失踪
+WULA_Recycle_PIA_Legion_File.root.nodes.Handle_Outtime.node.nodes.Letter.text.slateRef	你的上司委托你去寻找的保险箱已经失去信号了，舰队需要一些时间才能重新追踪盒子
+WULA_Vacation_Quest.questDescriptionRules.rulesStrings	"questDescription->行星封锁机关的总控AI在舰队上待得太闷了，想出来溜达一段时间。
+
+除非与乌拉帝国行星封锁机关敌对，否则看起来你的上司是要一直赖在殖民地了，你可以删除此任务，以免其占据任务列表。"
+WULA_Vacation_Quest.questNameRules.rulesStrings	questName->特殊任务：度假
+WULA_Vacation_Quest.root.nodes.askerDestroyed.node.nodes.Letter.label.slateRef	宾客{SUBJECT_definite}死亡
+WULA_Vacation_Quest.root.nodes.askerDestroyed.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}已经死亡。[failLetterEndingCommon]
+WULA_Vacation_Quest.root.nodes.askerLeftMap.node.nodes.Letter.label.slateRef	宾客失踪：{SUBJECT_definite}
+WULA_Vacation_Quest.root.nodes.askerLeftMap.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}失踪在你的殖民地。[failLetterEndingCommon]
+WULA_Vacation_Quest.root.nodes.askerRanWild.node.nodes.Letter.label.slateRef	宾客失踪：{SUBJECT_definite}
+WULA_Vacation_Quest.root.nodes.askerRanWild.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon]
+WULA_Vacation_Quest.root.nodes.Letter.label.slateRef	任务失败：[resolvedQuestName]
+WULA_Vacation_Quest.root.nodes.Letter.text.slateRef	[faction_name]开始敌视你。
+WULA_Vacation_Quest.root.nodes.lodgersArrested.node.nodes.Letter.label.slateRef	宾客{SUBJECT_definite}被俘
+WULA_Vacation_Quest.root.nodes.lodgersArrested.node.nodes.Letter.text.slateRef	需要你护卫的{SUBJECT_definite}已经被俘虏。[failLetterEndingCommon]
+WULA_Vacation_Quest.root.nodes.LoopCount.node.nodes.Delay.node.nodes.Letter.label.slateRef	缴税凭证？
+WULA_Vacation_Quest.root.nodes.LoopCount.node.nodes.Delay.node.nodes.Letter.text.slateRef	"尽管没有实质上的缴税，但是殖民地还是收到了一份缴税凭证。
+
+看起来某人正在悄悄答谢殖民地。"
+WULA_Vacation_Quest.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.label.slateRef	穿梭机被破坏
+WULA_Vacation_Quest.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.text.slateRef	被派遣来运输[asker_nameDef]的穿梭机已被破坏。

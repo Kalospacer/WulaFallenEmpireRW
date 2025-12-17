@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WULA_SkillTrainer_TargetSkillGained>{0} gained experience in {1}.</WULA_SkillTrainer_TargetSkillGained>
+  <WULA_SkillTrainer_SkillLoss>{0} lost experience in {1}.</WULA_SkillTrainer_SkillLoss>
+  <WULA_MechSerumHealerAllFixed>All of {0}'s health conditions have been repaired.</WULA_MechSerumHealerAllFixed>
+  <WULA_MechSerumHealerNoConditionsFixed>{0} has no health conditions to repair.</WULA_MechSerumHealerNoConditionsFixed>
+  <WULA_MechSerumHealerNotWula>{0} is not a Wula synth. This repair kit cannot be used.</WULA_MechSerumHealerNotWula>
+  <WULA_WulaMechRepairKit>Wula synth repair kit</WULA_WulaMechRepairKit>
+
+  <!-- Passion Trainer Messages -->
+  <WULA_PassionGained>{0} has developed a new passion for {1}.</WULA_PassionGained>
+  <WULA_PassionLost>As a cost, {0} has lost passion for {1}.</WULA_PassionLost>
+  
+  <!-- Vanilla Overrides for Passion Trainer -->
+  <PawnHasNoSkills>{0} has no skills and cannot use this.</PawnHasNoSkills>
+  <SkillTrainerHasNoSkill>No target skill is set for this trainer.</SkillTrainerHasNoSkill>
+  <SkillDisabled>The target skill is disabled and cannot be learned.</SkillDisabled>
+
+</LanguageData>

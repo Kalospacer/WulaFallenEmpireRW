@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <WULA_RitualReward_Label>Ritual reward</WULA_RitualReward_Label>
+  <WULA_RitualReward_Description>Your offering has been answered. The void has spat out an item as a reward: {0} (Quality: {1}).</WULA_RitualReward_Description>
+  
+  <WULA_ExtraOfferings>Extra offerings</WULA_ExtraOfferings>
+  <WULA_ExtraOfferings_Tooltip>Valuable items placed near the ritual spot increase the ritual quality. These items will be consumed when the ritual is completed.</WULA_ExtraOfferings_Tooltip>
+
+</LanguageData>
