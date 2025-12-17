@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Colony_Promotion_UI_1.label>TODO</WULA_Colony_Promotion_UI_1.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Colony_Promotion_UI_1.characterName>TODO</WULA_Colony_Promotion_UI_1.characterName>
+  <!-- EN: 晋级审查是一件大事情——你们确定你们已经准备好了吗？\n\n我和你们重申一下流程吧，我会派遣自己的一个分体和护卫队在你们殖民地考察6天，你要照顾我的分体和卫队的起居。如果一切顺利，考察完成之后你们将获得殖民地晋升的机会，舰队会为你们开放更多的许可科技。 -->
+  <WULA_Colony_Promotion_UI_1.descriptions.0>TODO</WULA_Colony_Promotion_UI_1.descriptions.0>
+  <!-- EN: 我们准备好了 -->
+  <WULA_Colony_Promotion_UI_1.options.0.label>TODO</WULA_Colony_Promotion_UI_1.options.0.label>
+  <!-- EN: 我记得我已经送了一个分体去你们殖民地了？在30天内，我不会再派出审查队。 -->
+  <WULA_Colony_Promotion_UI_1.options.0.disabledReason>TODO</WULA_Colony_Promotion_UI_1.options.0.disabledReason>
+  <!-- EN: 现在不是太合适··· -->
+  <WULA_Colony_Promotion_UI_1.options.1.label>TODO</WULA_Colony_Promotion_UI_1.options.1.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Colony_Promotion_UI_2.label>TODO</WULA_Colony_Promotion_UI_2.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Colony_Promotion_UI_2.characterName>TODO</WULA_Colony_Promotion_UI_2.characterName>
+  <!-- EN: 哎呀，看起来好像出了一些小意外，不过你们的殖民地很好地解决了问题，井井有条并且符合帝国法典和章程——你们值得一个更高位的许可，稍后我会通过运输舱把晋升许可寄给你们。\n\n此外，我也将你们的支援系统重置了，你们可以再次申请之前申请过的支援，并且新的支援也会开放给你们。继续发展你们的殖民地，我就能帮你们申请更高级的权限。\n\n帝国荣光永存。 -->
+  <WULA_Colony_Promotion_UI_2.descriptions.0>TODO</WULA_Colony_Promotion_UI_2.descriptions.0>
+  <!-- EN: 帝国荣光永存 -->
+  <WULA_Colony_Promotion_UI_2.options.0.label>TODO</WULA_Colony_Promotion_UI_2.options.0.label>
+  
+</LanguageData>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 微型传送装置 -->
+  <WULA_AutoJumpdrive.label>TODO</WULA_AutoJumpdrive.label>
+  <!-- EN: 安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间时将其回收 -->
+  <WULA_AutoJumpdrive.description>TODO</WULA_AutoJumpdrive.description>
+  <!-- EN: {0} 通过传送离开了殖民地 -->
+  <WULA_AutoJumpdrive.comps.HediffComp_DisappearWithEffect.messageOnDisappear>TODO</WULA_AutoJumpdrive.comps.HediffComp_DisappearWithEffect.messageOnDisappear>
+  
+  <!-- EN: 微型传送装置 -->
+  <WULA_AutoJumpdrive_Week.label>TODO</WULA_AutoJumpdrive_Week.label>
+  <!-- EN: 安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间时将其回收 -->
+  <WULA_AutoJumpdrive_Week.description>TODO</WULA_AutoJumpdrive_Week.description>
+  <!-- EN: {0} 通过传送离开了殖民地 -->
+  <WULA_AutoJumpdrive_Week.comps.HediffComp_DisappearWithEffect.messageOnDisappear>TODO</WULA_AutoJumpdrive_Week.comps.HediffComp_DisappearWithEffect.messageOnDisappear>
+  
+  <!-- EN: 关机 -->
+  <WULA_Shutdown_Synth_Hediff.label>TODO</WULA_Shutdown_Synth_Hediff.label>
+  <!-- EN: 这只机械乌拉的所有系统都已经关闭了。 -->
+  <WULA_Shutdown_Synth_Hediff.description>TODO</WULA_Shutdown_Synth_Hediff.description>
+  <!-- EN: 这只机械乌拉的所有系统都已经关闭了——如果需要唤醒，则需要另一位殖民者的协助。 -->
+  <WULA_Shutdown_Synth_Hediff.descriptionShort>TODO</WULA_Shutdown_Synth_Hediff.descriptionShort>
+  <!-- EN: 停机 -->
+  <WULA_Shutdown_Synth_Hediff.stages.0.label>TODO</WULA_Shutdown_Synth_Hediff.stages.0.label>
+  
+</LanguageData>

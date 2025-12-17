@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_1.label>TODO</WULA_Recycle_PIA_Legion_File_UI_1.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Recycle_PIA_Legion_File_UI_1.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_1.characterName>
+  <!-- EN: 我现在没时间。\n\n这样吧，你们帮我做一件事，成功之后我就绕过程序给你们批复三级殖民地许可，如何？ -->
+  <WULA_Recycle_PIA_Legion_File_UI_1.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_1.descriptions.0>
+  <!-- EN: 要做什么？ -->
+  <WULA_Recycle_PIA_Legion_File_UI_1.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_1.options.0.label>
+  <!-- EN: 我们还在追查保险箱下落，现在还不行 -->
+  <WULA_Recycle_PIA_Legion_File_UI_1.options.0.disabledReason>TODO</WULA_Recycle_PIA_Legion_File_UI_1.options.0.disabledReason>
+  <!-- EN: 现在不是太合适··· -->
+  <WULA_Recycle_PIA_Legion_File_UI_1.options.1.label>TODO</WULA_Recycle_PIA_Legion_File_UI_1.options.1.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_10.label>TODO</WULA_Recycle_PIA_Legion_File_UI_10.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Recycle_PIA_Legion_File_UI_10.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_10.characterName>
+  <!-- EN: 不错，虽然已经被切割束烧的变形了，但是最终还是回收成功了。那么，看过这个保险箱的人都死了吗？ -->
+  <WULA_Recycle_PIA_Legion_File_UI_10.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_10.descriptions.0>
+  <!-- EN: 看过的人已经命丧黄泉了 -->
+  <WULA_Recycle_PIA_Legion_File_UI_10.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_10.options.0.label>
+  <!-- EN: 是的，我们遵守指示将叛军屠杀殆尽（避重就轻） -->
+  <WULA_Recycle_PIA_Legion_File_UI_10.options.1.label>TODO</WULA_Recycle_PIA_Legion_File_UI_10.options.1.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_11.label>TODO</WULA_Recycle_PIA_Legion_File_UI_11.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Recycle_PIA_Legion_File_UI_11.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_11.characterName>
+  <!-- EN: 好，看起来你们赶在她们把里面的内容取出来之前就杀了她们，干得不错。\n\n就像我之前承诺的那样，我会给你们的殖民地开一道绿灯，跳过繁琐的审查，将殖民地评级提升到三级，开放行星封锁机关的所有武器和建筑的使用权限。\n\n此外，我也将你们的支援系统重置了，你们可以再次申请之前申请过的支援，并且新的支援也会开放给你们。\n\n帝国荣光永存。 -->
+  <WULA_Recycle_PIA_Legion_File_UI_11.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_11.descriptions.0>
+  <!-- EN: 帝国荣光永存 -->
+  <WULA_Recycle_PIA_Legion_File_UI_11.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_11.options.0.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_12.label>TODO</WULA_Recycle_PIA_Legion_File_UI_12.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Recycle_PIA_Legion_File_UI_12.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_12.characterName>
+  <!-- EN: 是吗······\n\n那，就像我之前承诺的那样，我会给你们的殖民地开一道绿灯，跳过繁琐的审查，将殖民地评级提升到三级，开放行星封锁机关的所有武器和建筑的使用权限。\n\n此外，我也将你们的支援系统重置了，你们可以再次申请之前申请过的支援，并且新的支援也会开放给你们。\n\n帝国荣光永存。 -->
+  <WULA_Recycle_PIA_Legion_File_UI_12.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_12.descriptions.0>
+  <!-- EN: 帝国荣光永存 -->
+  <WULA_Recycle_PIA_Legion_File_UI_12.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_12.options.0.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_2.label>TODO</WULA_Recycle_PIA_Legion_File_UI_2.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Recycle_PIA_Legion_File_UI_2.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_2.characterName>
+  <!-- EN: 我要你们，在5天内帮我回收一个东西。\n\n一个黑色的保险箱，现在正在一支敌对乌拉帝国叛军手中，里面有关于皇室的很重要的资料，你们必须确保这个保险箱的安全——如果它被打开了，就要杀死在场的所有人。\n\n里面的东西一定不能泄露。 -->
+  <WULA_Recycle_PIA_Legion_File_UI_2.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_2.descriptions.0>
+  <!-- EN: 叛军？我们可从来没听说过有叛军在这个星球上··· -->
+  <WULA_Recycle_PIA_Legion_File_UI_2.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_2.options.0.label>
+  <!-- EN: 我们准备好了，告诉我们位置吧 -->
+  <WULA_Recycle_PIA_Legion_File_UI_2.options.1.label>TODO</WULA_Recycle_PIA_Legion_File_UI_2.options.1.label>
+  <!-- EN: 现在不是太合适··· -->
+  <WULA_Recycle_PIA_Legion_File_UI_2.options.2.label>TODO</WULA_Recycle_PIA_Legion_File_UI_2.options.2.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_3.label>TODO</WULA_Recycle_PIA_Legion_File_UI_3.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Recycle_PIA_Legion_File_UI_3.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_3.characterName>
+  <!-- EN: 你们知道进步派吗？这些反贼的存在目前还不是很多人知道。\n\n她们是乌拉帝国内部的分裂势力，正在密谋推翻皇室。现在整个银河系的安全部门都在追查这些人的下落，她们对知识分子和底层的渗透相当严重——这次被夺走的盒子中就有关乎到皇室安全的机密，不能让进步派成功获得里面的内容。 -->
+  <WULA_Recycle_PIA_Legion_File_UI_3.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_3.descriptions.0>
+  <!-- EN: 明白了··· -->
+  <WULA_Recycle_PIA_Legion_File_UI_3.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_3.options.0.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_5.label>TODO</WULA_Recycle_PIA_Legion_File_UI_5.label>
+  <!-- EN: 保险箱 -->
+  <WULA_Recycle_PIA_Legion_File_UI_5.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_5.characterName>
+  <!-- EN: 一个通体漆黑的保险箱静静地躺在地上，多层鎏金花雕和显眼的铁十字凤凰证明其曾属于身份显贵之人，信号追踪器则毫无疑问地指向它——这就是那个和皇室相关的保险箱。看起来，进步派的叛军使用编织体的切割束将其锁头破坏了，但是这个切割手法非常的粗糙，导致里面传来阵阵焦香，或许已经不剩什么了。 -->
+  <WULA_Recycle_PIA_Legion_File_UI_5.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_5.descriptions.0>
+  <!-- EN: 打开看看 -->
+  <WULA_Recycle_PIA_Legion_File_UI_5.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_5.options.0.label>
+  <!-- EN: 收起来 -->
+  <WULA_Recycle_PIA_Legion_File_UI_5.options.1.label>TODO</WULA_Recycle_PIA_Legion_File_UI_5.options.1.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_6.label>TODO</WULA_Recycle_PIA_Legion_File_UI_6.label>
+  <!-- EN: 保险箱 -->
+  <WULA_Recycle_PIA_Legion_File_UI_6.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_6.characterName>
+  <!-- EN: 里面已经一团乱麻，切割束确实暴力地扫过了整个保险箱内壁，半反射的内壁使得离子束在里面不断撞击，烧毁了绝大部分内容。\n\n在焦炭中，一个银色的人造物在熠熠生辉，似乎是一个经过特别加固的记录仪，记录了某些全息影像。 -->
+  <WULA_Recycle_PIA_Legion_File_UI_6.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_6.descriptions.0>
+  <!-- EN: 播放内容 -->
+  <WULA_Recycle_PIA_Legion_File_UI_6.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_6.options.0.label>
+  <!-- EN: 当作没看见 -->
+  <WULA_Recycle_PIA_Legion_File_UI_6.options.1.label>TODO</WULA_Recycle_PIA_Legion_File_UI_6.options.1.label>
+  
+  <!-- EN: 未知通讯 -->
+  <WULA_Recycle_PIA_Legion_File_UI_7.label>TODO</WULA_Recycle_PIA_Legion_File_UI_7.label>
+  <!-- EN: 「军团」,P.I.A -->
+  <WULA_Recycle_PIA_Legion_File_UI_7.characterName>TODO</WULA_Recycle_PIA_Legion_File_UI_7.characterName>
+  <!-- EN: （投影画面上根本不是什么皇室秘闻，而是你的上司和另一个人的通话）\n\n···我现在抽不开身，行星封锁机关的舰队要在这边对整片星区施加存在压力，以推进这片星区的殖民任务。皇宫那边的事情我听说了，现在国教教会秘不发丧，皇宫区的秩序短时间内应该不会出现大的波澜——如果皇宫区真的突生变化，我会带着舰队回去增援的。\n\n你们在搞的小把戏我已经知道了，你们想把皇家机械行会踢出局再顺手给她们扣顶高帽，但是现在皇家机械行会立场不明，最好不要轻举妄动。\n\n就这样了，乌拉帝国现在正处于暴风雨前的宁静，希望我们都还能在彼端相见。 -->
+  <WULA_Recycle_PIA_Legion_File_UI_7.descriptions.0>TODO</WULA_Recycle_PIA_Legion_File_UI_7.descriptions.0>
+  <!-- EN: 关闭 -->
+  <WULA_Recycle_PIA_Legion_File_UI_7.options.0.label>TODO</WULA_Recycle_PIA_Legion_File_UI_7.options.0.label>
+  
+</LanguageData>

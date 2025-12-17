@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: [PAWN_nameDef] 是产自科鲁普星区的合成人。这片星区是一个四战之地——由于其地处边缘且地缘政治复杂，乌拉帝国从未真正掌控这片星区，但是此处优秀的稀有水晶和异星天然气使得帝国不愿放弃此星区的掌控。\n\n在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗，并且内置了一定的战斗和手工能力。 -->
+  <WULA_Child_Backstory01.description>TODO</WULA_Child_Backstory01.description>
+  <!-- EN: 产地：科鲁普 -->
+  <WULA_Child_Backstory01.title>TODO</WULA_Child_Backstory01.title>
+  <!-- EN: 科鲁普 -->
+  <WULA_Child_Backstory01.titleShort>TODO</WULA_Child_Backstory01.titleShort>
+  
+  <!-- EN: [PAWN_nameDef] 是产自代达罗斯星区的合成人。这片星区是乌拉帝国靠近边缘世界的一个工厂星域，无数供给乌拉舰队之用的高质量合金从此处诞生，是诸工业区搏动的心脏。\n\n从此生产的合成人配置了强大的生产系统，使得它们可以抵消此型合成人在采矿和建造上的天然劣势。 -->
+  <WULA_Child_Backstory02.description>TODO</WULA_Child_Backstory02.description>
+  <!-- EN: 产地：代达罗斯 -->
+  <WULA_Child_Backstory02.title>TODO</WULA_Child_Backstory02.title>
+  <!-- EN: 代达罗斯 -->
+  <WULA_Child_Backstory02.titleShort>TODO</WULA_Child_Backstory02.titleShort>
+  
+  <!-- EN: [PAWN_nameDef] 是产自皇宫区的合成人。皇宫区是乌拉帝国政治和权力的核心，在这片星区生产的东西一般都是皇室专供，不会外流到其他星区——当然也有例外就是了。\n\n此处生产的合成人通常是比其他星区的合成人更加精致和风度翩翩，这使得她们在社交和艺术上拥有得天独厚的优势。 -->
+  <WULA_Child_Backstory03.description>TODO</WULA_Child_Backstory03.description>
+  <!-- EN: 产地：皇宫区 -->
+  <WULA_Child_Backstory03.title>TODO</WULA_Child_Backstory03.title>
+  <!-- EN: 皇宫区 -->
+  <WULA_Child_Backstory03.titleShort>TODO</WULA_Child_Backstory03.titleShort>
+  
+  <!-- EN: [PAWN_nameDef] 是产自德尔塔星区的合成人。德尔塔星区是真正的堡垒星区，无数装配工厂迸溅着硫磺与火焰，战争机械是这里唯一的产物——她们一踏出生产线，便会加入"军团"的洪流中，奔赴乌拉帝国的战场。\n\n此处生产的合成人作为专门的战争机械而设计，结构简单易维护，拥有无可争议的战斗能力，但是不太擅长其他的工作。 -->
+  <WULA_Child_Backstory04.description>TODO</WULA_Child_Backstory04.description>
+  <!-- EN: 产地：德尔塔 -->
+  <WULA_Child_Backstory04.title>TODO</WULA_Child_Backstory04.title>
+  <!-- EN: 德尔塔 -->
+  <WULA_Child_Backstory04.titleShort>TODO</WULA_Child_Backstory04.titleShort>
+  
+  <!-- EN: [PAWN_nameDef] 是产自瑟利斯星区的合成人。瑟利斯星区是乌拉帝国科研中心，尽管帝国的基础科技已经陷入事实上的停滞，但是帝国内的有志之士还是对星区中无尽的知识贮藏趋之若鹜。不过这一带生产的合成人经常被抽调去本地的秘密项目，不太容易有机会调往其他星区。\n\n此处生产的合成人是科研特化型号，她们非常擅长于研究，并且是少数能直接操纵机械族的合成人——尽管乌拉帝国的机械族都是自律机械。 -->
+  <WULA_Child_Backstory05.description>TODO</WULA_Child_Backstory05.description>
+  <!-- EN: 产地：瑟利斯 -->
+  <WULA_Child_Backstory05.title>TODO</WULA_Child_Backstory05.title>
+  <!-- EN: 瑟利斯 -->
+  <WULA_Child_Backstory05.titleShort>TODO</WULA_Child_Backstory05.titleShort>
+  
+  <!-- EN: [PAWN_nameDef] 是产自玛瑞克星区的合成人。玛瑞克星区是一个相较于其他星区都要庞大的农业型星区。这里有多个天文位置得天独厚的行星适合进行农业生产，使其得以源源不断地向乌拉帝国输送大量的食材。\n\n这个星域生产的合成人通常内置了家政和农业系统，使得她们非常善于处理一些杂事。此外她们经久耐用的设计使其在自然条件下的磨损速度比其他星区的合成人要慢很多。 -->
+  <WULA_Child_Backstory06.description>TODO</WULA_Child_Backstory06.description>
+  <!-- EN: 产地：玛瑞克 -->
+  <WULA_Child_Backstory06.title>TODO</WULA_Child_Backstory06.title>
+  <!-- EN: 玛瑞克 -->
+  <WULA_Child_Backstory06.titleShort>TODO</WULA_Child_Backstory06.titleShort>
+  
+  <!-- EN: [PAWN_nameDef] 是产自戴森星区的合成人。戴森星区集中建立了大量天文级别的巨型空间结构，是昔日乌拉帝国雄厚国力的直接体现。如此多的巨型结构自然需要大量高适应性的合成人参与维护。\n\n诞生于此的合成人拥有强大的手工系统，她们的纳米修复被设计用于在极端环境下实现自持修复，因此修复消耗要低于其他星区的合成人。 -->
+  <WULA_Child_Backstory07.description>TODO</WULA_Child_Backstory07.description>
+  <!-- EN: 产地：戴森 -->
+  <WULA_Child_Backstory07.title>TODO</WULA_Child_Backstory07.title>
+  <!-- EN: 戴森 -->
+  <WULA_Child_Backstory07.titleShort>TODO</WULA_Child_Backstory07.titleShort>
+  
+  <!-- EN: [PAWN_nameDef] 的产地无法追溯——或许是某个星区的高仿品，或许是被回收之后非法再加工的机体，总之她们身体上的机体编号要么是伪造的，要么就干脆没有机体编号。\n\n这些野生的机械乌拉什么都会一点，但是没什么特别擅长的。 -->
+  <WULA_Child_Backstory99.description>TODO</WULA_Child_Backstory99.description>
+  <!-- EN: 产地：未知 -->
+  <WULA_Child_Backstory99.title>TODO</WULA_Child_Backstory99.title>
+  <!-- EN: 未知产地 -->
+  <WULA_Child_Backstory99.titleShort>TODO</WULA_Child_Backstory99.titleShort>
+  
+</LanguageData>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 导弹 -->
+  <WULA_Missile.label>TODO</WULA_Missile.label>
+  <!-- EN: 一种发射拥有跟踪能力的抛射体武器，弹速通常较慢。 -->
+  <WULA_Missile.description>TODO</WULA_Missile.description>
+  
+  <!-- EN: 灵能 -->
+  <WULA_Psychic.label>TODO</WULA_Psychic.label>
+  <!-- EN: 与心灵能量相互作用的武器。 -->
+  <WULA_Psychic.description>TODO</WULA_Psychic.description>
+  
+  <!-- EN: 特殊近战武器 -->
+  <WULA_SP_Melee_Weaopn.label>TODO</WULA_SP_Melee_Weaopn.label>
+  <!-- EN: 拥有特殊效果的近战武器 -->
+  <WULA_SP_Melee_Weaopn.description>TODO</WULA_SP_Melee_Weaopn.description>
+  
+</LanguageData>

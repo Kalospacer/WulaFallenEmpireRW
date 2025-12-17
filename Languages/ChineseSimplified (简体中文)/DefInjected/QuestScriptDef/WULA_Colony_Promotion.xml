@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN:
+    <li>questDescription->WULA_Colony_Promotion_questDescription</li>
+  -->
+  <WULA_Colony_Promotion.questDescriptionRules.rulesStrings>
+    <li>questDescription->殖民地已经承接了视察任务。\n\n行星封锁机关的总控AI已经派遣了自己的一个分体和护卫队抵达殖民地。考察持续12天，她会检查殖民地方方面面的运转情况，你需要确保其心情始终高于25%。考察完成后，她和卫队会搭乘穿梭机离开，如果一切顺利你们将获得殖民地晋升的机会，以解锁更多的许可科技。\n\n小心，附近的敌对派系已经知道了殖民地来了一个大人物，这些劫掠者会尝试袭击殖民地并抓住这个分体，你可能需要面对大量袭击！</li>
+  </WULA_Colony_Promotion.questDescriptionRules.rulesStrings>
+  <!-- EN:
+    <li>questName->WULA_Colony_Promotion_questName</li>
+  -->
+  <WULA_Colony_Promotion.questNameRules.rulesStrings>
+    <li>questName->晋级任务：殖民地考察</li>
+  </WULA_Colony_Promotion.questNameRules.rulesStrings>
+  <!-- EN: 任务失败：[resolvedQuestName] -->
+  <WULA_Colony_Promotion.root.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.Letter.label.slateRef>
+  <!-- EN: [faction_name]开始敌视你。 -->
+  <WULA_Colony_Promotion.root.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.Letter.text.slateRef>
+  <!-- EN: 穿梭机被破坏 -->
+  <WULA_Colony_Promotion.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.label.slateRef>
+  <!-- EN: 被派遣来运输[asker_nameDef]的穿梭机已被破坏。 -->
+  <WULA_Colony_Promotion.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.text.slateRef>
+  <!-- EN: 宾客{SUBJECT_definite}死亡 -->
+  <WULA_Colony_Promotion.root.nodes.askerDestroyed.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.askerDestroyed.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}已经死亡。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.askerDestroyed.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.askerDestroyed.node.nodes.Letter.text.slateRef>
+  <!-- EN: 应该乘坐穿梭机离开 -->
+  <WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.InspectString.inspectString.slateRef>TODO</WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.InspectString.inspectString.slateRef>
+  <!-- EN: 穿梭机已抵达 -->
+  <WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.Letter.label.slateRef>
+  <!-- EN: 穿梭机已经前来迎接[asker_nameDef]。 -->
+  <WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.ShuttleDelay.node.nodes.Letter.text.slateRef>
+  <!-- EN: 挖掘机袭击 -->
+  <WULA_Colony_Promotion.root.nodes.Delay.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.Delay.node.nodes.Letter.label.slateRef>
+  <!-- EN: 几个高速移动的黑点正在拖着浓浓的黑烟尾迹飞向殖民地······那是什么？ -->
+  <WULA_Colony_Promotion.root.nodes.Delay.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.Delay.node.nodes.Letter.text.slateRef>
+  <!-- EN: {SUBJECT_bestRoyalTitle}情绪低落 -->
+  <WULA_Colony_Promotion.root.nodes.MoodBelow.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.MoodBelow.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫和满足需求的{SUBJECT_definite}，其情绪值已经长时间低于最低限度[lodgersMoodThreshold]。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.MoodBelow.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.MoodBelow.node.nodes.Letter.text.slateRef>
+  <!-- EN: 宾客{SUBJECT_definite}被俘 -->
+  <WULA_Colony_Promotion.root.nodes.lodgersArrested.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.lodgersArrested.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}已经被俘虏。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.lodgersArrested.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.lodgersArrested.node.nodes.Letter.text.slateRef>
+  <!-- EN: 未授权手术：{SUBJECT_definite} -->
+  <WULA_Colony_Promotion.root.nodes.lodgersSurgeryViolation.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.lodgersSurgeryViolation.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}接受了一场未授权的多余手术。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.lodgersSurgeryViolation.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.lodgersSurgeryViolation.node.nodes.Letter.text.slateRef>
+  <!-- EN: 异种胚芽被吸收 -->
+  <WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.label.slateRef>
+  <!-- EN: 指定由你保护的{SUBJECT_definite}在你的殖民地被吸收了异种胚芽。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.lodgersXenogermAbsorbed.node.nodes.Letter.text.slateRef>
+  <!-- EN: 宾客失踪：{SUBJECT_definite} -->
+  <WULA_Colony_Promotion.root.nodes.askerLeftMap.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.askerLeftMap.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}失踪在你的殖民地。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.askerLeftMap.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.askerLeftMap.node.nodes.Letter.text.slateRef>
+  <!-- EN: 穿梭机已被毁 -->
+  <WULA_Colony_Promotion.root.nodes.pickupShipThingDestroyed.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.pickupShipThingDestroyed.node.nodes.Letter.label.slateRef>
+  <!-- EN: 前来迎接[asker_faction_leaderTitle]的穿梭机被摧毁了。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.pickupShipThingDestroyed.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.pickupShipThingDestroyed.node.nodes.Letter.text.slateRef>
+  <!-- EN: 宾客失踪：{SUBJECT_definite} -->
+  <WULA_Colony_Promotion.root.nodes.askerRanWild.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.askerRanWild.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.askerRanWild.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.askerRanWild.node.nodes.Letter.text.slateRef>
+  <!-- EN: WULA_Colony_Promotion_UI_2 -->
+  <WULA_Colony_Promotion.root.nodes.pickupShipThingSentSatisfied.node.nodes.EventLetter.eventDefName.slateRef>TODO</WULA_Colony_Promotion.root.nodes.pickupShipThingSentSatisfied.node.nodes.EventLetter.eventDefName.slateRef>
+  <!-- EN: 任务失败：[resolvedQuestName] -->
+  <WULA_Colony_Promotion.root.nodes.pickupShipThingSentUnsatisfied.node.nodes.Letter.label.slateRef>TODO</WULA_Colony_Promotion.root.nodes.pickupShipThingSentUnsatisfied.node.nodes.Letter.label.slateRef>
+  <!-- EN: 前来迎接[asker_faction_leaderTitle]的穿梭机没有接到[asker_objective]。[asker_pronoun]现在只能走回去。[failLetterEndingCommon] -->
+  <WULA_Colony_Promotion.root.nodes.pickupShipThingSentUnsatisfied.node.nodes.Letter.text.slateRef>TODO</WULA_Colony_Promotion.root.nodes.pickupShipThingSentUnsatisfied.node.nodes.Letter.text.slateRef>
+  
+</LanguageData>

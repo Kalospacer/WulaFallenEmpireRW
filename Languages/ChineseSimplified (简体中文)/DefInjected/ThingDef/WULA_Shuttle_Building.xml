@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 武装穿梭机 (接近中) -->
+  <ArmedShuttleIncoming_WULA.label>TODO</ArmedShuttleIncoming_WULA.label>
+  
+  <!-- EN: 武装穿梭机 (离开中) -->
+  <ArmedShuttleLeaving_WULA.label>TODO</ArmedShuttleLeaving_WULA.label>
+  
+  <!-- EN: 四叶自动炮子弹 -->
+  <Bullet_WULA_Shuttle_Autocannon.label>TODO</Bullet_WULA_Shuttle_Autocannon.label>
+  
+  <!-- EN: CVe-3"渡鸦" -->
+  <WULA_ArmedShuttleWithPocket.label>TODO</WULA_ArmedShuttleWithPocket.label>
+  <!-- EN: 乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。 -->
+  <WULA_ArmedShuttleWithPocket.description>TODO</WULA_ArmedShuttleWithPocket.description>
+  <!-- EN: {0} is ready to launch again. -->
+  <WULA_ArmedShuttleWithPocket.comps.CompLaunchable.cooldownEndedMessage>TODO</WULA_ArmedShuttleWithPocket.comps.CompLaunchable.cooldownEndedMessage>
+  <!-- EN: Chemfuel -->
+  <WULA_ArmedShuttleWithPocket.comps.CompRefuelable.fuelGizmoLabel>TODO</WULA_ArmedShuttleWithPocket.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- EN: Chemfuel -->
+  <WULA_ArmedShuttleWithPocket.comps.CompRefuelable.fuelLabel>TODO</WULA_ArmedShuttleWithPocket.comps.CompRefuelable.fuelLabel>
+  
+  <!-- EN: CVe-3"渡鸦" -->
+  <WULA_ArmedShuttleWithPocket_Cleanzone.label>TODO</WULA_ArmedShuttleWithPocket_Cleanzone.label>
+  <!-- EN: 清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处派遣一艘穿梭机。\n\nCVe-3"渡鸦"是乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。 -->
+  <WULA_ArmedShuttleWithPocket_Cleanzone.description>TODO</WULA_ArmedShuttleWithPocket_Cleanzone.description>
+  
+  <!-- EN: CVe-3"渡鸦" -->
+  <WULA_ArmedShuttleWithPocket_Cleanzone_Free.label>TODO</WULA_ArmedShuttleWithPocket_Cleanzone_Free.label>
+  <!-- EN: 清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处派遣一艘穿梭机。\n\nCVe-3"渡鸦"是乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。 -->
+  <WULA_ArmedShuttleWithPocket_Cleanzone_Free.description>TODO</WULA_ArmedShuttleWithPocket_Cleanzone_Free.description>
+  
+  <!-- EN: CVe-3"渡鸦" (接近中) -->
+  <WULA_ArmedShuttleWithPocket_Incoming.label>TODO</WULA_ArmedShuttleWithPocket_Incoming.label>
+  
+  <!-- EN: 运输机升降平台 -->
+  <WULA_PocketMapExit.label>TODO</WULA_PocketMapExit.label>
+  <!-- EN: 用于在穿梭机内外运输人员和物品的升降平台. -->
+  <WULA_PocketMapExit.description>TODO</WULA_PocketMapExit.description>
+  
+  <!-- EN: SRc-22"四叶" -->
+  <WULA_Shuttle_Autocannon.label>TODO</WULA_Shuttle_Autocannon.label>
+  <!-- EN: 由乌拉帝国的穿梭机所装备的自动炮，能够组织起高射速的弹幕压制杀伤大规模目标。 -->
+  <WULA_Shuttle_Autocannon.description>TODO</WULA_Shuttle_Autocannon.description>
+  <!-- EN: SRc-22"四叶" -->
+  <WULA_Shuttle_Autocannon.verbs.Verb_Shoot.label>TODO</WULA_Shuttle_Autocannon.verbs.Verb_Shoot.label>
+  
+  <!-- EN: 乌拉帝国内舱壁墙 -->
+  <WulaWall_Inner.label>TODO</WulaWall_Inner.label>
+  <!-- EN: 乌拉帝国内舱壁墙，拥有预埋的管线，可以提供来自穿梭机的电力。 -->
+  <WulaWall_Inner.description>TODO</WulaWall_Inner.description>
+  
+</LanguageData>

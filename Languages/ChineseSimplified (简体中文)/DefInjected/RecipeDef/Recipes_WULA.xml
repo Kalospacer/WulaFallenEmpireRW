@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 制作零部件 -->
+  <Make_Component_By_WULA_Cube_Productor.label>TODO</Make_Component_By_WULA_Cube_Productor.label>
+  <!-- EN: 用乌拉帝国编织体制造零部件，耗时较精密装配台更长，并且耗费的资源更多。 -->
+  <Make_Component_By_WULA_Cube_Productor.description>TODO</Make_Component_By_WULA_Cube_Productor.description>
+  <!-- EN: 正在制作零部件 -->
+  <Make_Component_By_WULA_Cube_Productor.jobString>TODO</Make_Component_By_WULA_Cube_Productor.jobString>
+  
+  <!-- EN: 制造乌拉帝国合金 -->
+  <Make_WULA_Alloy.label>TODO</Make_WULA_Alloy.label>
+  <!-- EN: 使用钢铁进行加工得到的高密度合金，是许多乌拉帝国装备的原材料。 -->
+  <Make_WULA_Alloy.description>TODO</Make_WULA_Alloy.description>
+  <!-- EN: 正在锻造合金 -->
+  <Make_WULA_Alloy.jobString>TODO</Make_WULA_Alloy.jobString>
+  
+  <!-- EN: 制造乌拉帝国合金（10块） -->
+  <Make_WULA_Alloy_Group.label>TODO</Make_WULA_Alloy_Group.label>
+  <!-- EN: 使用钢铁进行加工得到的高密度合金，是许多乌拉帝国装备的原材料。 -->
+  <Make_WULA_Alloy_Group.description>TODO</Make_WULA_Alloy_Group.description>
+  <!-- EN: 正在锻造合金 -->
+  <Make_WULA_Alloy_Group.jobString>TODO</Make_WULA_Alloy_Group.jobString>
+  
+  <!-- EN: 制造乌拉帝国能源核心 -->
+  <Make_WULA_Charge_Cube.label>TODO</Make_WULA_Charge_Cube.label>
+  <!-- EN: 制造一块乌拉帝国能源核心，包括可复冲的电容器与供给机械运转的能量，这是机械乌拉唯一可接受的外部输入性能量来源，也是多种乌拉帝国产物的前体。 -->
+  <Make_WULA_Charge_Cube.description>TODO</Make_WULA_Charge_Cube.description>
+  <!-- EN: 正在制造乌拉帝国能源核心 -->
+  <Make_WULA_Charge_Cube.jobString>TODO</Make_WULA_Charge_Cube.jobString>
+  
+  <!-- EN: 制造乌拉帝国暗物质 -->
+  <Make_WULA_Dark_Matter_Item.label>TODO</Make_WULA_Dark_Matter_Item.label>
+  <!-- EN: 制造1份封装的暗物质，由暗物质约束装置和暗物质组成，是乌拉帝国大型设施和武备所必须的能量来源。 -->
+  <Make_WULA_Dark_Matter_Item.description>TODO</Make_WULA_Dark_Matter_Item.description>
+  <!-- EN: 正在制造乌拉帝国暗物质 -->
+  <Make_WULA_Dark_Matter_Item.jobString>TODO</Make_WULA_Dark_Matter_Item.jobString>
+  
+  <!-- EN: 压缩零素 -->
+  <Make_WULA_Neutronium.label>TODO</Make_WULA_Neutronium.label>
+  <!-- EN: 制造1份零素，一种强大的材料，可以打造出最坚硬的护甲或者最强大的近战武器。 -->
+  <Make_WULA_Neutronium.description>TODO</Make_WULA_Neutronium.description>
+  <!-- EN: 正在压缩零素 -->
+  <Make_WULA_Neutronium.jobString>TODO</Make_WULA_Neutronium.jobString>
+  
+  <!-- EN: 充能能源核心 -->
+  <Recharge_WULA_Charge_Cube.label>TODO</Recharge_WULA_Charge_Cube.label>
+  <!-- EN: 使用化合燃料，将被使用过的失去能量的乌拉帝国能源核心重新充能。 -->
+  <Recharge_WULA_Charge_Cube.description>TODO</Recharge_WULA_Charge_Cube.description>
+  <!-- EN: 正在为乌拉帝国能源核心充能 -->
+  <Recharge_WULA_Charge_Cube.jobString>TODO</Recharge_WULA_Charge_Cube.jobString>
+  
+  <!-- EN: 充能能源核心（4个） -->
+  <Recharge_WULA_Charge_Cube_Group.label>TODO</Recharge_WULA_Charge_Cube_Group.label>
+  <!-- EN: 使用化合燃料，将被使用过的失去能量的乌拉帝国能源核心重新充能。 -->
+  <Recharge_WULA_Charge_Cube_Group.description>TODO</Recharge_WULA_Charge_Cube_Group.description>
+  <!-- EN: 正在为乌拉帝国能源核心充能 -->
+  <Recharge_WULA_Charge_Cube_Group.jobString>TODO</Recharge_WULA_Charge_Cube_Group.jobString>
+  
+  <!-- EN: 建造CAt-11"猫猫" -->
+  <WULA_Build_Mech_WULA_Cat.label>TODO</WULA_Build_Mech_WULA_Cat.label>
+  <!-- EN: 建造一台CAt-11"猫猫"。 -->
+  <WULA_Build_Mech_WULA_Cat.description>TODO</WULA_Build_Mech_WULA_Cat.description>
+  <!-- EN: Gestating mech. -->
+  <WULA_Build_Mech_WULA_Cat.jobString>TODO</WULA_Build_Mech_WULA_Cat.jobString>
+  
+  <!-- EN: 建造CAt-46"猫猫冲锋队" -->
+  <WULA_Build_Mech_WULA_Cat_Assault.label>TODO</WULA_Build_Mech_WULA_Cat_Assault.label>
+  <!-- EN: 建造一台CAt-46"猫猫冲锋队"。 -->
+  <WULA_Build_Mech_WULA_Cat_Assault.description>TODO</WULA_Build_Mech_WULA_Cat_Assault.description>
+  <!-- EN: Gestating mech. -->
+  <WULA_Build_Mech_WULA_Cat_Assault.jobString>TODO</WULA_Build_Mech_WULA_Cat_Assault.jobString>
+  
+  <!-- EN: 建造CAt-86"猫猫劳工" -->
+  <WULA_Build_Mech_WULA_Cat_Constructor.label>TODO</WULA_Build_Mech_WULA_Cat_Constructor.label>
+  <!-- EN: 建造一台CAt-86"猫猫劳工"。 -->
+  <WULA_Build_Mech_WULA_Cat_Constructor.description>TODO</WULA_Build_Mech_WULA_Cat_Constructor.description>
+  <!-- EN: Gestating mech. -->
+  <WULA_Build_Mech_WULA_Cat_Constructor.jobString>TODO</WULA_Build_Mech_WULA_Cat_Constructor.jobString>
+  
+  <!-- EN: 建造URa-00"机械乌拉" -->
+  <WULA_Build_Wula_Synth.label>TODO</WULA_Build_Wula_Synth.label>
+  <!-- EN: 建造一台URa-00"机械乌拉"合成人，是乌拉帝国合成人殖民地的主体种族，作为机械体的同时拥有复杂拟真的模拟情感。 -->
+  <WULA_Build_Wula_Synth.description>TODO</WULA_Build_Wula_Synth.description>
+  <!-- EN: Gestating mech. -->
+  <WULA_Build_Wula_Synth.jobString>TODO</WULA_Build_Wula_Synth.jobString>
+  
+</LanguageData>

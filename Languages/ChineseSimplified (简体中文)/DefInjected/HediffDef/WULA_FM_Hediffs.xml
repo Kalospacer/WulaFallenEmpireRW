@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 机械指挥节点 -->
+  <WULA_Addons_Antenna_Hediff_Base.label>TODO</WULA_Addons_Antenna_Hediff_Base.label>
+  <!-- EN: 乌拉帝国合成人脑袋上有一对天线，她们可以使用这套通讯设备与乌拉帝国舰队通讯，除此之外，她们也可以用这套系统收发次级机械族信号——虽然她们大多数时候并没有供其指挥机械族的带宽可用。 -->
+  <WULA_Addons_Antenna_Hediff_Base.description>TODO</WULA_Addons_Antenna_Hediff_Base.description>
+  <!-- EN: 一对可以与舰队通讯的天线。 -->
+  <WULA_Addons_Antenna_Hediff_Base.descriptionShort>TODO</WULA_Addons_Antenna_Hediff_Base.descriptionShort>
+  
+  <!-- EN: 调频（战机） -->
+  <Wula_FM_Switc_Aircraft.label>TODO</Wula_FM_Switc_Aircraft.label>
+  <!-- EN: 允许乌拉帝国的合成人呼叫空中火力，包含一系列精准迅速的近地密接支援，每一艘战机会独立计算袭击冷却，一般需要有攻击型战舰部署在轨道上才能启动。 -->
+  <Wula_FM_Switc_Aircraft.description>TODO</Wula_FM_Switc_Aircraft.description>
+  
+  <!-- EN: 调频（火炮） -->
+  <Wula_FM_Switc_Artillery.label>TODO</Wula_FM_Switc_Artillery.label>
+  <!-- EN: 允许乌拉帝国的合成人呼叫轨道炮击，包含一系列精准度较差但是覆盖范围广的轰炸能力，一般需要有攻击型战舰部署在轨道上才能启动。 -->
+  <Wula_FM_Switc_Artillery.description>TODO</Wula_FM_Switc_Artillery.description>
+  
+  <!-- EN: 调频（无） -->
+  <Wula_FM_Switc_None.label>TODO</Wula_FM_Switc_None.label>
+  <!-- EN: 关闭所有的调频，免得技能栏太挤 -->
+  <Wula_FM_Switc_None.description>TODO</Wula_FM_Switc_None.description>
+  
+</LanguageData>

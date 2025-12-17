@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 智能战车 -->
+  <WULA_AI_Heavy_Panzer_Body.label>TODO</WULA_AI_Heavy_Panzer_Body.label>
+  <!-- EN: 第一反推喷气孔 -->
+  <WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.3.customLabel>TODO</WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.3.customLabel>
+  <!-- EN: 第二反推喷气孔 -->
+  <WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>TODO</WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>
+  <!-- EN: 第三反推喷气孔 -->
+  <WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>TODO</WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>
+  <!-- EN: 第四反推喷气孔 -->
+  <WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>TODO</WULA_AI_Heavy_Panzer_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>
+  
+  <!-- EN: 机械乌拉 -->
+  <WULA_Machine_Body.label>TODO</WULA_Machine_Body.label>
+  <!-- EN: 能源炉 -->
+  <WULA_Machine_Body.corePart.parts.1.customLabel>TODO</WULA_Machine_Body.corePart.parts.1.customLabel>
+  <!-- EN: 脖子 -->
+  <WULA_Machine_Body.corePart.parts.2.customLabel>TODO</WULA_Machine_Body.corePart.parts.2.customLabel>
+  <!-- EN: left eye -->
+  <WULA_Machine_Body.corePart.parts.2.parts.Head.parts.left_eye.customLabel>TODO</WULA_Machine_Body.corePart.parts.2.parts.Head.parts.left_eye.customLabel>
+  <!-- EN: right eye -->
+  <WULA_Machine_Body.corePart.parts.2.parts.Head.parts.right_eye.customLabel>TODO</WULA_Machine_Body.corePart.parts.2.parts.Head.parts.right_eye.customLabel>
+  <!-- EN: left ear -->
+  <WULA_Machine_Body.corePart.parts.2.parts.Head.parts.left_ear.customLabel>TODO</WULA_Machine_Body.corePart.parts.2.parts.Head.parts.left_ear.customLabel>
+  <!-- EN: right ear -->
+  <WULA_Machine_Body.corePart.parts.2.parts.Head.parts.right_ear.customLabel>TODO</WULA_Machine_Body.corePart.parts.2.parts.Head.parts.right_ear.customLabel>
+  <!-- EN: 左肩 -->
+  <WULA_Machine_Body.corePart.parts.3.customLabel>TODO</WULA_Machine_Body.corePart.parts.3.customLabel>
+  <!-- EN: 左臂 -->
+  <WULA_Machine_Body.corePart.parts.3.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.3.parts.0.customLabel>
+  <!-- EN: 左手 -->
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.customLabel>
+  <!-- EN: 左尾指 -->
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.0.customLabel>
+  <!-- EN: 左无名指 -->
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.1.customLabel>TODO</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.1.customLabel>
+  <!-- EN: 左中指 -->
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.2.customLabel>TODO</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.2.customLabel>
+  <!-- EN: 左食指 -->
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.3.customLabel>TODO</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.3.customLabel>
+  <!-- EN: 左拇指 -->
+  <WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.4.customLabel>TODO</WULA_Machine_Body.corePart.parts.3.parts.0.parts.0.parts.4.customLabel>
+  <!-- EN: 右肩 -->
+  <WULA_Machine_Body.corePart.parts.4.customLabel>TODO</WULA_Machine_Body.corePart.parts.4.customLabel>
+  <!-- EN: 右臂 -->
+  <WULA_Machine_Body.corePart.parts.4.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.4.parts.0.customLabel>
+  <!-- EN: 右手 -->
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.customLabel>
+  <!-- EN: 右尾指 -->
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.0.customLabel>
+  <!-- EN: 右无名指 -->
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.1.customLabel>TODO</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.1.customLabel>
+  <!-- EN: 右中指 -->
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.2.customLabel>TODO</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.2.customLabel>
+  <!-- EN: 右食指 -->
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.3.customLabel>TODO</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.3.customLabel>
+  <!-- EN: 右拇指 -->
+  <WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.4.customLabel>TODO</WULA_Machine_Body.corePart.parts.4.parts.0.parts.0.parts.4.customLabel>
+  <!-- EN: 左腿 -->
+  <WULA_Machine_Body.corePart.parts.6.customLabel>TODO</WULA_Machine_Body.corePart.parts.6.customLabel>
+  <!-- EN: 左足 -->
+  <WULA_Machine_Body.corePart.parts.6.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.6.parts.0.customLabel>
+  <!-- EN: 左小趾 -->
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.6.parts.0.parts.0.customLabel>
+  <!-- EN: 左次小趾 -->
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.1.customLabel>TODO</WULA_Machine_Body.corePart.parts.6.parts.0.parts.1.customLabel>
+  <!-- EN: 左三趾 -->
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.2.customLabel>TODO</WULA_Machine_Body.corePart.parts.6.parts.0.parts.2.customLabel>
+  <!-- EN: 左二趾 -->
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.3.customLabel>TODO</WULA_Machine_Body.corePart.parts.6.parts.0.parts.3.customLabel>
+  <!-- EN: 左大拇趾 -->
+  <WULA_Machine_Body.corePart.parts.6.parts.0.parts.4.customLabel>TODO</WULA_Machine_Body.corePart.parts.6.parts.0.parts.4.customLabel>
+  <!-- EN: 右腿 -->
+  <WULA_Machine_Body.corePart.parts.7.customLabel>TODO</WULA_Machine_Body.corePart.parts.7.customLabel>
+  <!-- EN: 右足 -->
+  <WULA_Machine_Body.corePart.parts.7.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.7.parts.0.customLabel>
+  <!-- EN: 右小趾 -->
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.0.customLabel>TODO</WULA_Machine_Body.corePart.parts.7.parts.0.parts.0.customLabel>
+  <!-- EN: 右次小趾 -->
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.1.customLabel>TODO</WULA_Machine_Body.corePart.parts.7.parts.0.parts.1.customLabel>
+  <!-- EN: 右三趾 -->
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.2.customLabel>TODO</WULA_Machine_Body.corePart.parts.7.parts.0.parts.2.customLabel>
+  <!-- EN: 右二趾 -->
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.3.customLabel>TODO</WULA_Machine_Body.corePart.parts.7.parts.0.parts.3.customLabel>
+  <!-- EN: 右大拇趾 -->
+  <WULA_Machine_Body.corePart.parts.7.parts.0.parts.4.customLabel>TODO</WULA_Machine_Body.corePart.parts.7.parts.0.parts.4.customLabel>
+  
+  <!-- EN: 陆行舰 -->
+  <WULA_Mech_Mobile_Factory_Body.label>TODO</WULA_Mech_Mobile_Factory_Body.label>
+  <!-- EN: 第一反推喷气孔 -->
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>TODO</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>
+  <!-- EN: 第二反推喷气孔 -->
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>TODO</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>
+  <!-- EN: 第三反推喷气孔 -->
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>TODO</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>
+  <!-- EN: 第四反推喷气孔 -->
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.7.customLabel>TODO</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.7.customLabel>
+  <!-- EN: 第五反推喷气孔 -->
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.8.customLabel>TODO</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.8.customLabel>
+  <!-- EN: 第六反推喷气孔 -->
+  <WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.9.customLabel>TODO</WULA_Mech_Mobile_Factory_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.9.customLabel>
+  
+  <!-- EN: 放射盾 -->
+  <WULA_Mech_Mobile_Shield_Body.label>TODO</WULA_Mech_Mobile_Shield_Body.label>
+  <!-- EN: 第一机械足 -->
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>TODO</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.4.customLabel>
+  <!-- EN: 第二机械足 -->
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>TODO</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.5.customLabel>
+  <!-- EN: 第三机械足 -->
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>TODO</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.6.customLabel>
+  <!-- EN: 第四机械足 -->
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.7.customLabel>TODO</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.7.customLabel>
+  <!-- EN: 第五机械足 -->
+  <WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.8.customLabel>TODO</WULA_Mech_Mobile_Shield_Body.corePart.parts.WULA_Outer_Armor_Bodypart.parts.8.customLabel>
+  
+</LanguageData>

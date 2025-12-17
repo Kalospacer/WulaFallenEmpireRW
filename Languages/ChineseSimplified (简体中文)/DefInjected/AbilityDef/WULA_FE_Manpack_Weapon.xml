@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 破阵重击 -->
+  <WULA_MW_Breaker_Bar_Ability.label>TODO</WULA_MW_Breaker_Bar_Ability.label>
+  <!-- EN: 将PMb-97"破墙槌"的锤头加到最大压强，随后挥出必中的一击，以突破严密的人墙——即使敌人侥幸存活，也会头晕目眩并被砸飞出一段距离。 -->
+  <WULA_MW_Breaker_Bar_Ability.description>TODO</WULA_MW_Breaker_Bar_Ability.description>
+  
+  <!-- EN: 放逐之门 -->
+  <WULA_MW_Cheat_Weapon_Ability.label>TODO</WULA_MW_Cheat_Weapon_Ability.label>
+  <!-- EN: 使得目标立刻被放逐——无视一切保护措施，将其从存档中永远擦除。 -->
+  <WULA_MW_Cheat_Weapon_Ability.description>TODO</WULA_MW_Cheat_Weapon_Ability.description>
+  
+  <!-- EN: 短距离跃迁 -->
+  <WULA_MW_Twohanded_ChainBroadsword_Ability.label>TODO</WULA_MW_Twohanded_ChainBroadsword_Ability.label>
+  <!-- EN: 使用CBs-25"地狱牙"刀头的相位引擎立刻折跃至一个新的位置——这种折跃引擎只能折跃小型目标，如果持刀者体型大于3则无法发起传送。 -->
+  <WULA_MW_Twohanded_ChainBroadsword_Ability.description>TODO</WULA_MW_Twohanded_ChainBroadsword_Ability.description>
+  
+  <!-- EN: 空间删除 -->
+  <WULA_MW_Twohanded_ChainBroadsword_Second_Ability.label>TODO</WULA_MW_Twohanded_ChainBroadsword_Second_Ability.label>
+  <!-- EN: 使用CBs-25"地狱牙"刀头的相位引擎将目标拉近到施法者身边——这种折跃引擎只能折跃小型目标，如果目标体型大于3则无法拉近。 -->
+  <WULA_MW_Twohanded_ChainBroadsword_Second_Ability.description>TODO</WULA_MW_Twohanded_ChainBroadsword_Second_Ability.description>
+  
+  <!-- EN: 发射烟雾弹 -->
+  <WULA_RW_Auto_GL_Smoke_Ability.label>TODO</WULA_RW_Auto_GL_Smoke_Ability.label>
+  <!-- EN: 使用SEl-78"角砾岩"临时装填并发射一枚烟雾弹，用于遮蔽炮塔的瞄准和防止己方被流弹击中。 -->
+  <WULA_RW_Auto_GL_Smoke_Ability.description>TODO</WULA_RW_Auto_GL_Smoke_Ability.description>
+  
+  <!-- EN: 发射眩光弹 -->
+  <WULA_RW_Base_AR_Ability.label>TODO</WULA_RW_Base_AR_Ability.label>
+  <!-- EN: 使用DLa-1"页岩"下挂的眩光弹发射器射出一发眩光弹，它落地之后需要一小段时间才会爆炸，将眩晕附近的所有生物和机械体。 -->
+  <WULA_RW_Base_AR_Ability.description>TODO</WULA_RW_Base_AR_Ability.description>
+  
+  <!-- EN: 启动引导系统 -->
+  <WULA_RW_Base_Loitering_Munition_Ability.label>TODO</WULA_RW_Base_Loitering_Munition_Ability.label>
+  <!-- EN: 启动WLl-35"沸石"的自引导系统，使得其下一发飞弹不需要漫长的引导。 -->
+  <WULA_RW_Base_Loitering_Munition_Ability.description>TODO</WULA_RW_Base_Loitering_Munition_Ability.description>
+  
+  <!-- EN: 发射EMP榴弹 -->
+  <WULA_RW_EMP_RF_EMP_Ability.label>TODO</WULA_RW_EMP_RF_EMP_Ability.label>
+  <!-- EN: 使用FLm-78"萤石"下挂的榴弹发射器发射一枚EMP榴弹以击破护盾和控制机械族，这种重型榴弹发射器发射距离较远，但是需要一点时间架设开火。 -->
+  <WULA_RW_EMP_RF_EMP_Ability.description>TODO</WULA_RW_EMP_RF_EMP_Ability.description>
+  
+  <!-- EN: 武装解放 / 武装闭锁 -->
+  <WULA_RW_Penetrating_Beam_RifleSwitchAbility.label>TODO</WULA_RW_Penetrating_Beam_RifleSwitchAbility.label>
+  <!-- EN: 控制分光棱镜档位，以决定SLb-15 "三叉戟"是否切换到光束散射模式。 -->
+  <WULA_RW_Penetrating_Beam_RifleSwitchAbility.description>TODO</WULA_RW_Penetrating_Beam_RifleSwitchAbility.description>
+  
+</LanguageData>

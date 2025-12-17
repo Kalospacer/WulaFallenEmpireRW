@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN:
+    <li>questDescription->WULA_Progressive_Ship_Attack_Quest_questDescription</li>
+  -->
+  <WULA_Progressive_Ship_Attack_Quest.questDescriptionRules.rulesStrings>TODO</WULA_Progressive_Ship_Attack_Quest.questDescriptionRules.rulesStrings>
+  <!-- EN:
+    <li>questName->WULA_Progressive_Ship_Attack_Quest_questName</li>
+  -->
+  <WULA_Progressive_Ship_Attack_Quest.questNameRules.rulesStrings>TODO</WULA_Progressive_Ship_Attack_Quest.questNameRules.rulesStrings>
+  <!-- EN: <rulesStrings><li>questName->挖掘机空袭</li></rulesStrings> -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.ResolveQuestName.rules.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.ResolveQuestName.rules.slateRef>
+  <!-- EN: <rulesStrings><li>questDescription->乌拉帝国进步派叛军向殖民地发射了挖掘机集群！</li></rulesStrings> -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.ResolveQuestDescription.rules.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.ResolveQuestDescription.rules.slateRef>
+  <!-- EN: 挖掘机空袭 -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.Letter.label.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.Letter.label.slateRef>
+  <!-- EN: 乌拉帝国进步派叛军向殖民地发射了挖掘机集群！ -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.Letter.text.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-0.nodes.Letter.text.slateRef>
+  <!-- EN: <rulesStrings><li>questName->叛军游击队</li></rulesStrings> -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.ResolveQuestName.rules.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.ResolveQuestName.rules.slateRef>
+  <!-- EN: <rulesStrings><li>questDescription->一群乌拉帝国进步派的游击队攻击了你的殖民地！</li></rulesStrings> -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.ResolveQuestDescription.rules.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.ResolveQuestDescription.rules.slateRef>
+  <!-- EN: 游击队攻击 -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.Letter.label.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.Letter.label.slateRef>
+  <!-- EN: 乌拉帝国进步派叛军的派出了一支游击队攻击殖民地！ -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.Letter.text.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.Letter.text.slateRef>
+  <!-- EN: 乌拉帝国 进步派的游击队 -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.RandomRaid.customLetterLabel.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.RandomRaid.customLetterLabel.slateRef>
+  <!-- EN: 一群乌拉帝国进步派的游击队正在攻击你的殖民地！ -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.RandomRaid.customLetterText.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-1.nodes.RandomRaid.customLetterText.slateRef>
+  <!-- EN: <rulesStrings><li>questName->突击舰队攻击</li></rulesStrings> -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.ResolveQuestName.rules.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.ResolveQuestName.rules.slateRef>
+  <!-- EN: <rulesStrings><li>questDescription->乌拉帝国进步派叛军的突击舰队正在攻击殖民地！</li></rulesStrings> -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.ResolveQuestDescription.rules.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.ResolveQuestDescription.rules.slateRef>
+  <!-- EN: 突击舰队攻击 -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.Letter.label.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.Letter.label.slateRef>
+  <!-- EN: 乌拉帝国进步派叛军的突击舰队正在攻击殖民地！ -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.Letter.text.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-2.nodes.Letter.text.slateRef>
+  <!-- EN: <rulesStrings><li>questName->微型空投舱</li></rulesStrings> -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-3.nodes.ResolveQuestName.rules.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-3.nodes.ResolveQuestName.rules.slateRef>
+  <!-- EN: <rulesStrings><li>questDescription->几个可疑的黑点落到了殖民地附近···</li></rulesStrings> -->
+  <WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-3.nodes.ResolveQuestDescription.rules.slateRef>TODO</WULA_Progressive_Ship_Attack_Quest.root.nodes.RandomNode.nodes.Sequence-3.nodes.ResolveQuestDescription.rules.slateRef>
+  
+</LanguageData>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: CAt-11"猫猫" -->
+  <Mech_WULA_Cat.label>TODO</Mech_WULA_Cat.label>
+  
+  <!-- EN: CAt-46"猫猫冲锋队" -->
+  <Mech_WULA_Cat_Assault.label>TODO</Mech_WULA_Cat_Assault.label>
+  
+  <!-- EN: CAt-71"特战猫猫" -->
+  <Mech_WULA_Cat_Cloak_Sniper.label>TODO</Mech_WULA_Cat_Cloak_Sniper.label>
+  
+  <!-- EN: CAt-86"猫猫劳工" -->
+  <Mech_WULA_Cat_Constructor.label>TODO</Mech_WULA_Cat_Constructor.label>
+  
+  <!-- EN: CAt-55"突击猫猫" -->
+  <Mech_WULA_Fire_Cat.label>TODO</Mech_WULA_Fire_Cat.label>
+  
+  <!-- EN: HAp-6"战车" -->
+  <Wula_AI_Heavy_Panzer.label>TODO</Wula_AI_Heavy_Panzer.label>
+  
+  <!-- EN: HRp-3"喷火战车" -->
+  <Wula_AI_Rocket_Panzer.label>TODO</Wula_AI_Rocket_Panzer.label>
+  
+  <!-- EN: 进步派叛军 -->
+  <WULA_Hostile_Progressive_Light_Unit.label>TODO</WULA_Hostile_Progressive_Light_Unit.label>
+  
+  <!-- EN: 「军团」 -->
+  <WULA_Legion_PawnKind.label>TODO</WULA_Legion_PawnKind.label>
+  
+  <!-- EN: 「军团」 -->
+  <WULA_Legion_Swimsuit_PawnKind.label>TODO</WULA_Legion_Swimsuit_PawnKind.label>
+  
+  <!-- EN: CRm-51"兵蚁" -->
+  <WULA_Mech_Flyer.label>TODO</WULA_Mech_Flyer.label>
+  
+  <!-- EN: MFm-2"陆行舰" -->
+  <Wula_Mech_Mobile_Factory.label>TODO</Wula_Mech_Mobile_Factory.label>
+  
+  <!-- EN: MSm-8"放射盾" -->
+  <Wula_Mech_Mobile_Shield.label>TODO</Wula_Mech_Mobile_Shield.label>
+  
+  <!-- EN: BUk-1"地堡猫猫" -->
+  <WULA_Mobile_Bunker.label>TODO</WULA_Mobile_Bunker.label>
+  
+  <!-- EN: 机械乌拉 -->
+  <Wula_PawnKind.label>TODO</Wula_PawnKind.label>
+  
+  <!-- EN: 军团步兵 -->
+  <Wula_PIA_Heavy_Unit.label>TODO</Wula_PIA_Heavy_Unit.label>
+  
+  <!-- EN: 野心冠军勇士 -->
+  <Wula_PIA_Heavy_Unit_Melee.label>TODO</Wula_PIA_Heavy_Unit_Melee.label>
+  
+  <!-- EN: 帝国百战军锋 -->
+  <Wula_PIA_Heavy_Unit_Range.label>TODO</Wula_PIA_Heavy_Unit_Range.label>
+  
+  <!-- EN: 断爪卫队的叛徒 -->
+  <Wula_PIA_Legion_Escort_Traitor.label>TODO</Wula_PIA_Legion_Escort_Traitor.label>
+  
+  <!-- EN: 断爪卫队 -->
+  <Wula_PIA_Legion_Escort_Unit.label>TODO</Wula_PIA_Legion_Escort_Unit.label>
+  
+  <!-- EN: 帝国冲锋队 -->
+  <Wula_PIA_Light_Unit.label>TODO</Wula_PIA_Light_Unit.label>
+  
+  <!-- EN: PAt-6"灵能泰坦" -->
+  <Wula_Psi_Titan.label>TODO</Wula_Psi_Titan.label>
+  
+</LanguageData>

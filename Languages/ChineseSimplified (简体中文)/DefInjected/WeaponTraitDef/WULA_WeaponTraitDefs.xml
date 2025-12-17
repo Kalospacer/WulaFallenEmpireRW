@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 灵能增幅 -->
+  <WULA_DamagePsychicScaling.label>TODO</WULA_DamagePsychicScaling.label>
+  <!-- EN: 这把武器的伤害会随着使用者的心灵敏感度而变化。 -->
+  <WULA_DamagePsychicScaling.description>TODO</WULA_DamagePsychicScaling.description>
+  
+  <!-- EN: 额外灵能能力 -->
+  <WULA_ExtraPsychicSkill.label>TODO</WULA_ExtraPsychicSkill.label>
+  <!-- EN: 这把武器携带了一个额外的灵能能力。 -->
+  <WULA_ExtraPsychicSkill.description>TODO</WULA_ExtraPsychicSkill.description>
+  
+  <!-- EN: 溅射伤害 -->
+  <WULA_Melee_Cleave.label>TODO</WULA_Melee_Cleave.label>
+  <!-- EN: 这把武器的近战攻击不仅会伤害受击者，还会伤害受击者后方扇形范围内的其他个体。 -->
+  <WULA_Melee_Cleave.description>TODO</WULA_Melee_Cleave.description>
+  
+  <!-- EN: 乌拉帝国导弹 -->
+  <WULA_MissileLauncher.label>TODO</WULA_MissileLauncher.label>
+  <!-- EN: 这把武器的抛射体会跟踪敌人，如果没有明确的敌人作为目标，则会在落地前散开以形成轰炸区。 -->
+  <WULA_MissileLauncher.description>TODO</WULA_MissileLauncher.description>
+  
+  <!-- EN: 无视阻挡 -->
+  <WULA_PsychicIgnoreBlock.label>TODO</WULA_PsychicIgnoreBlock.label>
+  <!-- EN: 这把武器的攻击无视所有的阻挡——无论是山体、墙体还是护盾。 -->
+  <WULA_PsychicIgnoreBlock.description>TODO</WULA_PsychicIgnoreBlock.description>
+  
+</LanguageData>

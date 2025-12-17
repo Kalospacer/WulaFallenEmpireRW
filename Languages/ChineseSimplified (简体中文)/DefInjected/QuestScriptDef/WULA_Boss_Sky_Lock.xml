@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN:
+    <li>questDescription->WULA_Boss_Sky_Lock_questDescription</li>
+  -->
+  <WULA_Boss_Sky_Lock.questDescriptionRules.rulesStrings>
+    <li>questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个特殊的请求，一台部署在运输舰上的乌拉帝国战争机械——&lt;color=#AA74E5>&lt;i>灵能泰坦&lt;/i>&lt;/color>——因为失控而无差别攻击，行星封锁机关不得不让运输舰坠向星球表面以阻止事态扩大。\n\n可惜的是，&lt;color=#AA74E5>&lt;i>灵能泰坦&lt;/i>&lt;/color>没有因为运输舰坠毁而受到伤害，其仍然在星球表面大肆杀戮，殖民地必须直面这台骇人的巨兽。行星封锁机关为殖民地提供了以下信息：\n\n&lt;color=#9F0400>&lt;i>-内驱回路&lt;/i>&lt;/color> PAt-6"灵能泰坦"虽然是一台强大的灵能战争机器，但是其灵能回路是以封闭循环的方式刻印的，外部的灵能攻击无法影响它\n&lt;color=#9F0400>&lt;i>-死亡使者&lt;/i>&lt;/color> PAt-6"灵能泰坦"的灵能尖啸可以无差别粉碎所有的目标，除非有足够的信心和手段控制住它，否则不要与其正面交锋\n&lt;color=#9F0400>&lt;i>-连环天锁&lt;/i>&lt;/color> PAt-6"灵能泰坦"一定会和天锁一起出现，天锁是纯粹的灵能造物，可以吸收灵能泰坦受到的伤害。在所有的天锁被摧毁前，灵能泰坦不会受到伤害。\n&lt;color=#9F0400>&lt;i>-网络控制&lt;/i>&lt;/color> PAt-6"灵能泰坦"的控制了附近在坠毁中幸存的战车集群，因此坠毁地区很可能不只有一个敌人\n\n行星封锁机关承诺，一旦击败了暴走的&lt;color=#AA74E5>&lt;i>灵能泰坦&lt;/i>&lt;/color>，她们可以回收其灵能回路的核心，以此为殖民地建造一台全新的灵能泰坦。</li>
+  </WULA_Boss_Sky_Lock.questDescriptionRules.rulesStrings>
+  <!-- EN:
+    <li>questName->WULA_Boss_Sky_Lock_questName</li>
+  -->
+  <WULA_Boss_Sky_Lock.questNameRules.rulesStrings>
+    <li>questName->特殊任务：击毁灵能泰坦</li>
+  </WULA_Boss_Sky_Lock.questNameRules.rulesStrings>
+  <!-- EN: 灵能泰坦抵达 -->
+  <WULA_Boss_Sky_Lock.root.nodes.Letter.label.slateRef>TODO</WULA_Boss_Sky_Lock.root.nodes.Letter.label.slateRef>
+  <!-- EN: 在一艘巡洋舰向失控运输舰狠狠撞击后，碎裂的运输舰如流星般坠入边缘世界地表。不过灵能泰坦随后便在地表上被目击——地点已经标记出来了。 -->
+  <WULA_Boss_Sky_Lock.root.nodes.Letter.text.slateRef>TODO</WULA_Boss_Sky_Lock.root.nodes.Letter.text.slateRef>
+  <!-- EN: 灵能泰坦已停机 -->
+  <WULA_Boss_Sky_Lock.root.nodes.PsiTitan0Destroyed.node.nodes.Letter.label.slateRef>TODO</WULA_Boss_Sky_Lock.root.nodes.PsiTitan0Destroyed.node.nodes.Letter.label.slateRef>
+  <!-- EN: 灵能泰坦在殖民者的攻击下已经停止运转，其灵能回路核心已经暴露并掉落。\n\n记得回收灵能回路核心，这是建造新的灵能泰坦所需的材料。 -->
+  <WULA_Boss_Sky_Lock.root.nodes.PsiTitan0Destroyed.node.nodes.Letter.text.slateRef>TODO</WULA_Boss_Sky_Lock.root.nodes.PsiTitan0Destroyed.node.nodes.Letter.text.slateRef>
+  <!-- EN: WULA_Boss_Sky_Lock_UI_2 -->
+  <WULA_Boss_Sky_Lock.root.nodes.PsiTitan0Destroyed.node.nodes.EventLetter.eventDefName.slateRef>TODO</WULA_Boss_Sky_Lock.root.nodes.PsiTitan0Destroyed.node.nodes.EventLetter.eventDefName.slateRef>
+  
+</LanguageData>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 奇怪的空投区 -->
+  <Mech_WULA_Cat_Cloak_Sniper_Cleanzone.label>TODO</Mech_WULA_Cat_Cloak_Sniper_Cleanzone.label>
+  <!-- EN: 奇怪的空投区 -->
+  <Mech_WULA_Cat_Cloak_Sniper_Cleanzone.description>TODO</Mech_WULA_Cat_Cloak_Sniper_Cleanzone.description>
+  
+  <!-- EN: 奇怪的空投舱（空投中） -->
+  <Mech_WULA_Cat_Cloak_Sniper_Incoming.label>TODO</Mech_WULA_Cat_Cloak_Sniper_Incoming.label>
+  
+  <!-- EN: HAp-6"战车" -->
+  <Wula_AI_Heavy_Panzer_Cleanzone.label>TODO</Wula_AI_Heavy_Panzer_Cleanzone.label>
+  <!-- EN: 清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n战车是乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方，是乌拉帝国前锋部队的中流砥柱。 -->
+  <Wula_AI_Heavy_Panzer_Cleanzone.description>TODO</Wula_AI_Heavy_Panzer_Cleanzone.description>
+  
+  <!-- EN: HAp-6"战车"（空投中） -->
+  <Wula_AI_Heavy_Panzer_Incoming.label>TODO</Wula_AI_Heavy_Panzer_Incoming.label>
+  
+  <!-- EN: HRp-3"喷火战车" -->
+  <Wula_AI_Rocket_Panzer_Cleanzone.label>TODO</Wula_AI_Rocket_Panzer_Cleanzone.label>
+  <!-- EN: 清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n喷火战车乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有车体臼炮和两具可以发射大量燃烧火箭弹的转轮导弹巢，但是未像其姊妹型号那样装备护盾。 -->
+  <Wula_AI_Rocket_Panzer_Cleanzone.description>TODO</Wula_AI_Rocket_Panzer_Cleanzone.description>
+  
+  <!-- EN: HRp-3"喷火战车"（空投中） -->
+  <Wula_AI_Rocket_Panzer_Incoming.label>TODO</Wula_AI_Rocket_Panzer_Incoming.label>
+  
+  <!-- EN: MFm-2"陆行舰" -->
+  <Wula_Mech_Mobile_Factory_Cleanzone.label>TODO</Wula_Mech_Mobile_Factory_Cleanzone.label>
+  <!-- EN: 清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n陆行舰是乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的堡垒和顽强的抵抗。 -->
+  <Wula_Mech_Mobile_Factory_Cleanzone.description>TODO</Wula_Mech_Mobile_Factory_Cleanzone.description>
+  
+  <!-- EN: MFm-2"陆行舰"（空投中） -->
+  <Wula_Mech_Mobile_Factory_Incoming.label>TODO</Wula_Mech_Mobile_Factory_Incoming.label>
+  
+  <!-- EN: MSm-8"放射盾" -->
+  <WULA_Mobile_Shield_Cleanzone.label>TODO</WULA_Mobile_Shield_Cleanzone.label>
+  <!-- EN: 清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n放射盾是乌拉帝国的中型战争机械，常被用于镇压异族聚居地的暴动。它形状非常奇怪，根本分不出头在哪，但是不要因此小瞧这个机械体——它能释放强大的立场盾，在很大一片区域内反射大量炮火，并且机体放射出来的辐射会严重地杀伤进入反射盾范围内的敌人。在相关许可开放后，它甚至可以支持机械乌拉使用其内置的相位场进行区域传送。 -->
+  <WULA_Mobile_Shield_Cleanzone.description>TODO</WULA_Mobile_Shield_Cleanzone.description>
+  
+  <!-- EN: MSm-8"放射盾"（空投中） -->
+  <WULA_Mobile_Shield_Incoming.label>TODO</WULA_Mobile_Shield_Incoming.label>
+  
+  <!-- EN: PAt-6"灵能泰坦" -->
+  <Wula_Psi_Titan_Cleanzone.label>TODO</Wula_Psi_Titan_Cleanzone.label>
+  <!-- EN: 清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n由乌拉帝国国教所主持开发的重型灵能机械体，以折跃优雅地穿梭于炮火间，并用强大的护盾抵挡敌方射弹侵袭。该机体的内部镌刻了无数的术式环路，这使其就像一个行走的灵能发射器，可以驱使各种强大的灵能能力。 -->
+  <Wula_Psi_Titan_Cleanzone.description>TODO</Wula_Psi_Titan_Cleanzone.description>
+  
+  <!-- EN: PAt-6"灵能泰坦"（空投中） -->
+  <Wula_Psi_Titan_Incoming.label>TODO</Wula_Psi_Titan_Incoming.label>
+  
+</LanguageData>

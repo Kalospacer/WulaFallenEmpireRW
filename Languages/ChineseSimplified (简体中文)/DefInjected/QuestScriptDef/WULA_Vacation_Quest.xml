@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN:
+    <li>questDescription->WULA_Vacation_Quest_questDescription</li>
+  -->
+  <WULA_Vacation_Quest.questDescriptionRules.rulesStrings>
+    <li>questDescription->行星封锁机关的总控AI在舰队上待得太闷了，想出来溜达一段时间。\n\n除非与乌拉帝国行星封锁机关敌对，否则看起来你的上司是要一直赖在殖民地了，你可以删除此任务，以免其占据任务列表。</li>
+  </WULA_Vacation_Quest.questDescriptionRules.rulesStrings>
+  <!-- EN:
+    <li>questName->WULA_Vacation_Quest_questName</li>
+  -->
+  <WULA_Vacation_Quest.questNameRules.rulesStrings>
+    <li>questName->特殊任务：度假</li>
+  </WULA_Vacation_Quest.questNameRules.rulesStrings>
+  <!-- EN: 任务失败：[resolvedQuestName] -->
+  <WULA_Vacation_Quest.root.nodes.Letter.label.slateRef>TODO</WULA_Vacation_Quest.root.nodes.Letter.label.slateRef>
+  <!-- EN: [faction_name]开始敌视你。 -->
+  <WULA_Vacation_Quest.root.nodes.Letter.text.slateRef>TODO</WULA_Vacation_Quest.root.nodes.Letter.text.slateRef>
+  <!-- EN: 穿梭机被破坏 -->
+  <WULA_Vacation_Quest.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.label.slateRef>TODO</WULA_Vacation_Quest.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.label.slateRef>
+  <!-- EN: 被派遣来运输[asker_nameDef]的穿梭机已被破坏。 -->
+  <WULA_Vacation_Quest.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.text.slateRef>TODO</WULA_Vacation_Quest.root.nodes.Sequence.nodes.Sequence.nodes.dropoffShipThingDestroyed.node.nodes.Letter.text.slateRef>
+  <!-- EN: 宾客{SUBJECT_definite}死亡 -->
+  <WULA_Vacation_Quest.root.nodes.askerDestroyed.node.nodes.Letter.label.slateRef>TODO</WULA_Vacation_Quest.root.nodes.askerDestroyed.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}已经死亡。[failLetterEndingCommon] -->
+  <WULA_Vacation_Quest.root.nodes.askerDestroyed.node.nodes.Letter.text.slateRef>TODO</WULA_Vacation_Quest.root.nodes.askerDestroyed.node.nodes.Letter.text.slateRef>
+  <!-- EN: 缴税凭证？ -->
+  <WULA_Vacation_Quest.root.nodes.LoopCount.node.nodes.Delay.node.nodes.Letter.label.slateRef>TODO</WULA_Vacation_Quest.root.nodes.LoopCount.node.nodes.Delay.node.nodes.Letter.label.slateRef>
+  <!-- EN: 尽管没有实质上的缴税，但是殖民地还是收到了一份缴税凭证。\n\n看起来某人正在悄悄答谢殖民地。 -->
+  <WULA_Vacation_Quest.root.nodes.LoopCount.node.nodes.Delay.node.nodes.Letter.text.slateRef>TODO</WULA_Vacation_Quest.root.nodes.LoopCount.node.nodes.Delay.node.nodes.Letter.text.slateRef>
+  <!-- EN: 宾客{SUBJECT_definite}被俘 -->
+  <WULA_Vacation_Quest.root.nodes.lodgersArrested.node.nodes.Letter.label.slateRef>TODO</WULA_Vacation_Quest.root.nodes.lodgersArrested.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}已经被俘虏。[failLetterEndingCommon] -->
+  <WULA_Vacation_Quest.root.nodes.lodgersArrested.node.nodes.Letter.text.slateRef>TODO</WULA_Vacation_Quest.root.nodes.lodgersArrested.node.nodes.Letter.text.slateRef>
+  <!-- EN: 宾客失踪：{SUBJECT_definite} -->
+  <WULA_Vacation_Quest.root.nodes.askerLeftMap.node.nodes.Letter.label.slateRef>TODO</WULA_Vacation_Quest.root.nodes.askerLeftMap.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}失踪在你的殖民地。[failLetterEndingCommon] -->
+  <WULA_Vacation_Quest.root.nodes.askerLeftMap.node.nodes.Letter.text.slateRef>TODO</WULA_Vacation_Quest.root.nodes.askerLeftMap.node.nodes.Letter.text.slateRef>
+  <!-- EN: 宾客失踪：{SUBJECT_definite} -->
+  <WULA_Vacation_Quest.root.nodes.askerRanWild.node.nodes.Letter.label.slateRef>TODO</WULA_Vacation_Quest.root.nodes.askerRanWild.node.nodes.Letter.label.slateRef>
+  <!-- EN: 需要你护卫的{SUBJECT_definite}在你的殖民地回归自然。[failLetterEndingCommon] -->
+  <WULA_Vacation_Quest.root.nodes.askerRanWild.node.nodes.Letter.text.slateRef>TODO</WULA_Vacation_Quest.root.nodes.askerRanWild.node.nodes.Letter.text.slateRef>
+  
+</LanguageData>
