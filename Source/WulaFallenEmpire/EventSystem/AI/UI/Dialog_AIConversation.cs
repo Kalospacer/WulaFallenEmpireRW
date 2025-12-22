@@ -128,6 +128,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_GetRecentNotifications());
             _tools.Add(new Tool_CallBombardment());
             _tools.Add(new Tool_SearchThingDef());
+            _tools.Add(new Tool_SearchPawnKind());
         }
 
         public override Vector2 InitialSize => def.windowSize != Vector2.zero ? def.windowSize : Dialog_CustomDisplay.Config.windowSize;
@@ -275,7 +276,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string actionWhitelist = phase == RequestPhase.ActionTools
                 ? "ACTION PHASE VALID TAGS ONLY:\n" +
                   "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <no_action/>\n" +
-                  "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <search_thing_def/>\n"
+                  "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <search_thing_def/>, <search_pawn_kind/>\n"
                 : string.Empty;
 
             return string.Join("\n\n", new[]

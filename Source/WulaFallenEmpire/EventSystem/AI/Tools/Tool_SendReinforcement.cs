@@ -19,31 +19,65 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("Sends military units to the player's map. If hostile, this triggers a raid. If neutral/allied, this sends reinforcements. ");
-                
-                float points = 0;
+
+                float basePoints = 0f;
                 Map map = Find.CurrentMap;
                 if (map != null)
                 {
-                    points = StorytellerUtility.DefaultThreatPointsNow(map);
+                    basePoints = StorytellerUtility.DefaultThreatPointsNow(map);
                 }
-                
-                sb.Append($"Current Raid Points Budget: {points:F0}. ");
-                sb.Append("Available Units (Name: Cost): ");
+
+                int goodwill = 0;
+                float goodwillFactor = 1.0f;
+                bool hostile = false;
+                var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
+                if (eventVarManager != null)
+                {
+                    goodwill = eventVarManager.GetVariable<int>("Wula_Goodwill_To_PIA", 0);
+                }
 
                 Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDef.Named("Wula_PIA_Legion_Faction"));
                 if (faction != null)
                 {
-                    var pawnKinds = DefDatabase<PawnKindDef>.AllDefs
-                        .Where(pk => faction.def.pawnGroupMakers != null && faction.def.pawnGroupMakers.Any(pgm => pgm.options.Any(o => o.kind == pk)))
-                        .Distinct()
-                        .OrderBy(pk => pk.combatPower);
+                    hostile = faction.HostileTo(Faction.OfPlayer);
+                }
 
+                if (hostile)
+                {
+                    if (goodwill < -50) goodwillFactor = 1.5f;
+                    else if (goodwill < 0) goodwillFactor = 1.2f;
+                    else if (goodwill > 50) goodwillFactor = 0.8f;
+                }
+                else
+                {
+                    if (goodwill < -50) goodwillFactor = 0.5f;
+                    else if (goodwill < 0) goodwillFactor = 0.8f;
+                    else if (goodwill > 50) goodwillFactor = 1.5f;
+                }
+
+                float adjustedMaxPoints = basePoints * goodwillFactor * 1.5f;
+
+                sb.Append($"Current Raid Points Budget: {basePoints:F0}. ");
+                sb.Append($"Adjusted Budget (Goodwill {goodwill}, Hostile={hostile}): {adjustedMaxPoints:F0}. ");
+                sb.Append("Available Units (defName | label | cost): ");
+
+                if (faction != null)
+                {
+                    var pawnKinds = DefDatabase<PawnKindDef>.AllDefs
+                        .Where(pk => IsWulaPawnKind(pk, faction))
+                        .Distinct()
+                        .OrderBy(pk => pk.combatPower)
+                        .ThenBy(pk => pk.defName)
+                        .Take(40)
+                        .ToList();
+
+                    bool first = true;
                     foreach (var pk in pawnKinds)
                     {
-                        if (pk.combatPower > 0)
-                        {
-                            sb.Append($"{pk.defName}: {pk.combatPower:F0}, ");
-                        }
+                        string label = string.IsNullOrWhiteSpace(pk.label) ? pk.defName : pk.label;
+                        if (!first) sb.Append("; ");
+                        sb.Append($"{pk.defName} | {label} | {pk.combatPower:F0}");
+                        first = false;
                     }
                 }
                 else
@@ -54,6 +88,19 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 sb.Append("Usage: Provide a list of 'PawnKindDefName: Count'. Total cost must not exceed budget significantly.");
                 return sb.ToString();
             }
+        }
+
+        private static bool IsWulaPawnKind(PawnKindDef pk, Faction faction)
+        {
+            if (pk == null) return false;
+            string defName = pk.defName ?? "";
+            string raceName = pk.race?.defName ?? "";
+
+            if (defName.IndexOf("wula", StringComparison.OrdinalIgnoreCase) >= 0) return true;
+            if (raceName.IndexOf("wula", StringComparison.OrdinalIgnoreCase) >= 0) return true;
+            if (defName.IndexOf("cat", StringComparison.OrdinalIgnoreCase) >= 0) return true;
+
+            return false;
         }
 
         public override string UsageSchema => "<send_reinforcement><units>string (e.g., 'Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5')</units></send_reinforcement>";
