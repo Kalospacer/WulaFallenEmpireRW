@@ -749,6 +749,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     replyInstruction += "\n" + _lastActionLedgerNote +
                                         "\nIMPORTANT: Do NOT claim any in-game actions beyond the Action Ledger. If the ledger is None, you MUST NOT claim any deliveries, reinforcements, or bombardments.";
                 }
+                if (_lastActionExecuted)
+                {
+                    replyInstruction += "\nIMPORTANT: Actions in the Action Ledger were executed in-game. You MUST acknowledge them as completed in your reply. You MUST NOT deny, retract, or contradict them.";
+                }
                 if (!_lastSuccessfulToolCall)
                 {
                     replyInstruction += "\nIMPORTANT: No successful tool calls occurred in the tool phases. You MUST NOT claim any tools or actions succeeded.";
@@ -756,6 +760,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 if (_lastActionHadError)
                 {
                     replyInstruction += "\nIMPORTANT: An action tool failed. You MUST acknowledge the failure and MUST NOT claim success.";
+                    if (_lastActionExecuted)
+                    {
+                        replyInstruction += " You MUST still confirm any successful actions separately.";
+                    }
                 }
 
                 string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory());
