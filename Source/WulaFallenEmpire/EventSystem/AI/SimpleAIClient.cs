@@ -66,6 +66,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 string role = (msg.role ?? "user").ToLowerInvariant();
                 if (role == "ai") role = "assistant";
                 else if (role == "tool") role = "system"; // Internal-only role; map to supported role for Chat Completions APIs.
+                else if (role == "toolcall") continue;
                 else if (role != "system" && role != "user" && role != "assistant") role = "user";
                 
                 if (!firstMessage) jsonBuilder.Append(",");

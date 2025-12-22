@@ -126,7 +126,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 for (int j = i - 1; j >= 0; j--)
                 {
                     var prev = history[j];
-                    if (string.Equals(prev.role, "assistant", StringComparison.OrdinalIgnoreCase) && IsXmlToolCall(prev.message))
+                    if (string.Equals(prev.role, "toolcall", StringComparison.OrdinalIgnoreCase) && IsXmlToolCall(prev.message))
                     {
                         entries.Add((prev.message ?? "", toolResult));
                         i = j;

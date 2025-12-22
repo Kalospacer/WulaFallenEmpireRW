@@ -168,6 +168,8 @@
   <Wula_AI_Send>Send</Wula_AI_Send>
   <Wula_AI_Error_Internal>Error: Internal system failure. {0}</Wula_AI_Error_Internal>
   <Wula_AI_Error_ConnectionLost>Error: Connection lost. "Legion" remains silent.</Wula_AI_Error_ConnectionLost>
+  <Wula_AI_Thinking_Status>Thinking... ({0}s Phase{1}/{2}{3})</Wula_AI_Thinking_Status>
+  <Wula_AI_Thinking_RetrySuffix> Retry</Wula_AI_Thinking_RetrySuffix>
     <Wula_ResourceDrop>{FACTION_name} has dropped some resources nearby.</Wula_ResourceDrop>
 
 </LanguageData>
