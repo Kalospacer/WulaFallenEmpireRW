@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
+using UnityEngine;
 using Verse;
 
 namespace WulaFallenEmpire.EventSystem.AI
@@ -21,7 +22,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             _model = model;
         }
 
-        public async Task<string> GetChatCompletionAsync(string instruction, List<(string role, string message)> messages)
+        public async Task<string> GetChatCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null)
         {
             if (string.IsNullOrEmpty(_baseUrl))
             {
@@ -39,6 +40,15 @@ namespace WulaFallenEmpire.EventSystem.AI
             jsonBuilder.Append("{");
             jsonBuilder.Append($"\"model\": \"{_model}\",");
             jsonBuilder.Append("\"stream\": false,"); // We request non-stream, but handle stream if returned
+            if (maxTokens.HasValue)
+            {
+                jsonBuilder.Append($"\"max_tokens\": {Math.Max(1, maxTokens.Value)},");
+            }
+            if (temperature.HasValue)
+            {
+                float clamped = Mathf.Clamp(temperature.Value, 0f, 2f);
+                jsonBuilder.Append($"\"temperature\": {clamped.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)},");
+            }
             jsonBuilder.Append("\"messages\": [");
             
             // System instruction

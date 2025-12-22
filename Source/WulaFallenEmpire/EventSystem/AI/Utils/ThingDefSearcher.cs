@@ -146,6 +146,29 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                 }
             }
 
+            // Allow CJK subsequence matches (e.g. "零件" matches "零部件").
+            if (!string.IsNullOrEmpty(normalizedQuery) && normalizedQuery.Length >= 2 && IsCjkString(normalizedQuery))
+            {
+                int bestTargetLen = 0;
+                if (IsCjkString(normalizedLabel) && IsCjkSubsequence(normalizedQuery, normalizedLabel))
+                {
+                    bestTargetLen = normalizedLabel.Length;
+                }
+                if (IsCjkString(normalizedDefName) && IsCjkSubsequence(normalizedQuery, normalizedDefName))
+                {
+                    if (bestTargetLen == 0 || normalizedDefName.Length < bestTargetLen)
+                    {
+                        bestTargetLen = normalizedDefName.Length;
+                    }
+                }
+
+                if (bestTargetLen > 0)
+                {
+                    float coverage = (float)normalizedQuery.Length / Math.Max(1, bestTargetLen);
+                    score = Math.Max(score, 0.50f + 0.30f * coverage);
+                }
+            }
+
             bool queryLooksLikeFood =
                 tokens.Any(t => t == "meal" || t == "food" || t.Contains("meal") || t.Contains("food")) ||
                 lowerQuery.Contains("\u996D") || // 饭
@@ -243,6 +266,27 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                    (c >= '\uF900' && c <= '\uFAFF');
         }
 
+        private static bool IsCjkString(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!IsCjkChar(s[i])) return false;
+            }
+            return true;
+        }
+
+        private static bool IsCjkSubsequence(string query, string target)
+        {
+            if (string.IsNullOrEmpty(query) || string.IsNullOrEmpty(target)) return false;
+            int qi = 0;
+            for (int ti = 0; ti < target.Length && qi < query.Length; ti++)
+            {
+                if (target[ti] == query[qi]) qi++;
+            }
+            return qi == query.Length;
+        }
+
         private static string NormalizeKey(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
@@ -253,4 +297,3 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
         }
     }
 }
-

@@ -22,22 +22,36 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private bool _scrollToBottom = false;
         private List<AITool> _tools = new List<AITool>();
         private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
+        private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
+        private bool _lastActionExecuted = false;
+        private bool _lastActionHadError = false;
+        private string _lastActionLedgerNote = "Action Ledger: None (no in-game actions executed).";
+        private bool _lastSuccessfulToolCall = false;
+        private string _queryToolLedgerNote = "Tool Ledger (Query): None (no successful tool calls).";
+        private string _actionToolLedgerNote = "Tool Ledger (Action): None (no successful tool calls).";
+        private bool _querySuccessfulToolCall = false;
+        private bool _actionSuccessfulToolCall = false;
+        private bool _queryRetryUsed = false;
+        private bool _actionRetryUsed = false;
+        private readonly List<string> _actionSuccessLedger = new List<string>();
+        private readonly HashSet<string> _actionSuccessLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private readonly List<string> _actionFailedLedger = new List<string>();
+        private readonly HashSet<string> _actionFailedLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
-        private int _continuationDepth = 0;
-        private const int MaxContinuationDepth = 6;
-
-        private readonly List<string> _recentToolSignatures = new List<string>();
-        private bool _toolLoopGuardTriggered = false;
-        private bool _responseOnlyNext = false;
-        private const int MaxResponseOnlyRetries = 2;
 
         private enum RequestPhase
         {
-            Info = 1,
-            Action = 2,
-            Cosmetic = 3,
-            Reply = 4
+            QueryTools = 1,
+            ActionTools = 2,
+            Reply = 3
+        }
+
+        private struct PhaseExecutionResult
+        {
+            public bool AnyToolSuccess;
+            public bool AnyActionSuccess;
+            public bool AnyActionError;
         }
 
         private static int GetMaxHistoryTokens()
@@ -67,20 +81,26 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     <tool_name>
       <parameter_name>value</parameter_name>
     </tool_name>
-2.  **STRICT OUTPUT (TOOL PHASES)**:
-    - In PHASE 1/2, your output MUST be either:
+2.  **STRICT OUTPUT (PHASE 1: QUERY TOOLS)**:
+    - Your output MUST be either:
       - One or more XML tool calls (no extra text), OR
       - Exactly: <no_action/>
-    - In PHASE 3, you MUST output XML tool calls only AND you MUST include exactly one <change_expression> (expression_id 1-6). Do NOT output <no_action/> in PHASE 3.
-    Do NOT include any natural language, explanation, markdown, or additional commentary in tool phases (PHASE 1/2/3).
-3.  **STRICT OUTPUT (REPLY PHASE)**: In PHASE 4, tools are disabled. You MUST reply in natural language only and MUST NOT output any XML.
-4.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (FULL REFERENCE)"". You SHOULD follow the intent of the current phase.
-5.  **WORKFLOW**: Use the phase workflow:
-    - PHASE 1 gathers info (optional).
-    - PHASE 2 performs at most one in-game action (optional).
-    - PHASE 3 performs UI/meta adjustments (MUST include <change_expression>).
-    - PHASE 4 replies to the player in natural language (mandatory).
-6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, use <no_action/> and proceed to PHASE 4 to explain limitations.
+    Do NOT include any natural language, explanation, markdown, or additional commentary in PHASE 1.
+3.  **MULTI-REQUEST RULE**:
+    - If the user requests multiple items or information, you MUST output ALL required tool calls in the SAME tool-phase response.
+    - Do NOT split multi-item requests across turns.
+4.  **STRICT OUTPUT (PHASE 2: ACTION TOOLS)**:
+    - Your output MUST be either:
+      - One or more XML tool calls (no extra text), OR
+      - Exactly: <no_action/>
+    Do NOT include any natural language, explanation, markdown, or additional commentary in PHASE 2.
+5.  **STRICT OUTPUT (PHASE 3: REPLY)**:
+    - Tools are disabled. You MUST reply in natural language only and MUST NOT output any XML.
+    - If you want to set your expression, include: [EXPR:n] where n is 1-6.
+      Guide: 1=smug/boast, 2=neutral, 3=displeased, 4=annoyed, 5=explaining, 6=hostile.
+6.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
+7.  **WORKFLOW**: PHASE 1 (Query Tools) -> PHASE 2 (Action Tools) -> PHASE 3 (Reply).
+8.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, use <no_action/> and proceed to PHASE 3 to explain limitations.
 ";
 
         public Dialog_AIConversation(EventDef def) : base(def)
@@ -100,14 +120,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_SpawnResources());
             _tools.Add(new Tool_ModifyGoodwill());
             _tools.Add(new Tool_SendReinforcement());
-             _tools.Add(new Tool_GetColonistStatus());
-             _tools.Add(new Tool_GetMapResources());
-             _tools.Add(new Tool_GetMapPawns());
-             _tools.Add(new Tool_GetRecentNotifications());
-             _tools.Add(new Tool_CallBombardment());
-             _tools.Add(new Tool_ChangeExpression());
-             _tools.Add(new Tool_SearchThingDef());
-         }
+            _tools.Add(new Tool_GetColonistStatus());
+            _tools.Add(new Tool_GetMapResources());
+            _tools.Add(new Tool_GetMapPawns());
+            _tools.Add(new Tool_GetRecentNotifications());
+            _tools.Add(new Tool_CallBombardment());
+            _tools.Add(new Tool_SearchThingDef());
+        }
 
         public override Vector2 InitialSize => def.windowSize != Vector2.zero ? def.windowSize : Dialog_CustomDisplay.Config.windowSize;
 
@@ -117,6 +136,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             base.PostOpen();
             LoadPortraits();
             StartConversation();
+        }
+
+        public List<(string role, string message)> GetHistorySnapshot()
+        {
+            return _history?.ToList() ?? new List<(string role, string message)>();
         }
 
         private void PersistHistory()
@@ -186,7 +210,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 _history.Add(("user", "Hello"));
                 PersistHistory();
-                await GenerateResponse();
+                await RunPhasedRequestAsync();
             }
             else
             {
@@ -197,7 +221,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 else
                 {
-                    await GenerateResponse();
+                    await RunPhasedRequestAsync();
                 }
             }
         }
@@ -208,7 +232,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
             
             string fullInstruction = toolsEnabled
-                ? (persona + "\n" + ToolRulesInstruction + "\n" + BuildAllToolsReference() + "\n\n" + toolsForThisPhase)
+                ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase)
                 : persona;
 
             string language = LanguageDatabase.activeLanguage.FriendlyNameNative;
@@ -223,202 +247,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (!toolsEnabled)
             {
                 return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.\n" +
-                       "IMPORTANT: Tool calls are DISABLED in this turn. Reply in natural language only. Do NOT output any XML.";
+                       "IMPORTANT: Tool calls are DISABLED in this turn. Reply in natural language only. Do NOT output any XML. " +
+                       "You MAY include [EXPR:n] to set your expression (n=1-6).";
             }
 
-            // Tool phases (1/2/3): avoid instructing the model to "reply" in a human language, because it must output XML only.
-            // We still provide the language so it can be used in PHASE 4.
-            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: In PHASE 1/2/3 you MUST output XML only (tool calls or <no_action/>). " +
-                   $"You will produce the natural-language reply in PHASE 4 and MUST use: {language}.";
-        }
-
-        private static string GetToolDocOrFallback(AITool tool)
-        {
-            if (tool == null) return "";
-
-            // Full tool usage docs (global). If a tool is missing from this map, we fall back to tool.Description/UsageSchema.
-            var docs = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-            {
-                ["spawn_resources"] = @"
-Description: Grants resources to the player by spawning a drop pod.
-Use this tool when:
-- The player explicitly requests resources (e.g., food, medicine, materials).
-- You have ALREADY verified their need in a previous turn using `get_colonist_status` and `get_map_resources`.
-CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
-CRITICAL: Prefer using `search_thing_def` first and then spawning by `<defName>` (or put DefName into `<name>`) to avoid localization/name mismatches.
-Parameters:
-- items: (REQUIRED) A list of items to spawn. Each item must have a `name` (English label or DefName) and `count`.
-  - Note: If you don't know the exact defName, use the item's English label (e.g., ""Simple Meal""). The system will try to find the best match.
-Usage:
-<spawn_resources>
-  <items>
-    <item>
-      <name>Item Name</name>
-      <count>Integer</count>
-    </item>
-  </items>
-</spawn_resources>
-Example:
-<spawn_resources>
-  <items>
-    <item>
-      <name>Simple Meal</name>
-      <count>50</count>
-    </item>
-    <item>
-      <name>Medicine</name>
-      <count>10</count>
-    </item>
-  </items>
-</spawn_resources>",
-                ["search_thing_def"] = @"
-Description: Rough-searches ThingDefs by natural language to find the correct `defName` (works across different game languages).
-Use this tool when:
-- You need a reliable `ThingDef.defName` before calling `spawn_resources` or `get_map_resources`.
-Parameters:
-- query: (REQUIRED) The natural language query, label, or approximate defName.
-- maxResults: (OPTIONAL) Max candidates to return (default 10).
-- itemsOnly: (OPTIONAL) true/false (default true). If true, only returns item ThingDefs (recommended for spawning).
-Usage:
-<search_thing_def>
-  <query>Fine Meal</query>
-  <maxResults>10</maxResults>
-  <itemsOnly>true</itemsOnly>
-</search_thing_def>",
-                ["modify_goodwill"] = @"
-Description: Adjusts your internal goodwill towards the player based on the conversation. This tool is INVISIBLE to the player.
-Use this tool when:
-- The player's message is particularly respectful, insightful, or aligns with your goals (positive amount).
-- The player's message is disrespectful, wasteful, or foolish (negative amount).
-CRITICAL: Keep changes small, typically between -5 and 5.
-Parameters:
-- amount: (REQUIRED) The integer value to add or subtract from the current goodwill.
-Usage:
-<modify_goodwill>
-  <amount>integer</amount>
-</modify_goodwill>
-Example:
-<modify_goodwill>
-  <amount>2</amount>
-</modify_goodwill>",
-                ["send_reinforcement"] = @"
-Description: Dispatches military units to the player's map. Can be a raid (if hostile) or reinforcements (if allied).
-Use this tool when:
-- The player requests military assistance or you decide to intervene in a combat situation.
-- You need to test the colony's defenses.
-CRITICAL: The total combat power of all units should not significantly exceed the current threat budget provided in the tool's dynamic description.
-Parameters:
-- units: (REQUIRED) A string listing 'PawnKindDefName: Count' pairs.
-Usage:
-<send_reinforcement>
-  <units>list of units and counts</units>
-</send_reinforcement>
-Example:
-<send_reinforcement>
-  <units>Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5</units>
-</send_reinforcement>",
-                ["get_colonist_status"] = @"
-Description: Retrieves a detailed status report of all player-controlled colonists, including needs, health, and mood.
-Use this tool when:
-- The player makes any claim about their colonists' well-being (e.g., ""we are starving,"" ""we are all sick,"" ""our people are unhappy"").
-- You need to verify the state of the colony before making a decision (e.g., before sending resources).
-Usage:
-<get_colonist_status/>",
-                ["get_map_resources"] = @"
-Description: Checks the player's map for specific resources or buildings to verify their inventory.
-Use this tool when:
-- The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
-- You want to assess the colony's material wealth before making a decision.
-Usage:
-<get_map_resources>
-  <resourceName>optional resource name</resourceName>
-</get_map_resources>",
-                ["get_recent_notifications"] = @"
-Description: Gets the most recent letters and messages, sorted by in-game time from newest to oldest.
-Use this tool when:
-- You need recent context about what happened (raids, alerts, rewards, failures) without relying on player memory.
-Usage:
-<get_recent_notifications>
-  <count>10</count>
-</get_recent_notifications>",
-                ["get_map_pawns"] = @"
-Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
-Use this tool when:
-- You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
-- The player claims there are threats or asks about who/what is nearby.
-Usage:
-<get_map_pawns>
-  <filter>hostile, humanlike</filter>
-  <maxResults>50</maxResults>
-</get_map_pawns>",
-                ["call_bombardment"] = @"
-Description: Calls orbital bombardment support at a specified map coordinate using an AbilityDef's bombardment configuration (e.g., WULA_Firepower_Cannon_Salvo).
-Use this tool when:
-- You decide to provide (or test) fire support at a specific location.
-Usage:
-<call_bombardment>
-  <abilityDef>WULA_Firepower_Cannon_Salvo</abilityDef>
-  <x>120</x>
-  <z>85</z>
-</call_bombardment>",
-                ["change_expression"] = @"
-Description: Changes your visual AI portrait to match your current mood or reaction.
-Expression meanings (choose the closest match):
-- 1: 得意、炫耀（非敌对）、示威（非敌对）、展示武力和财力（非敌对）、策划计谋
-- 2: 常态立绘（当其他立绘不适用时使用这个）
-- 3: 无言以对、不满、无奈、轻微的鄙视
-- 4: 恼火、展现轻微敌对姿态、抗拒
-- 5: 答复、解释
-- 6: 严重的敌意、严重不满、攻击性行为
-Usage:
-<change_expression>
-  <expression_id>integer from 1 to 6</expression_id>
-</change_expression>"
-            };
-
-            if (docs.TryGetValue(tool.Name, out string doc) && !string.IsNullOrWhiteSpace(doc))
-            {
-                return doc.Trim();
-            }
-
-            var fallback = new StringBuilder();
-            if (!string.IsNullOrWhiteSpace(tool.Description))
-            {
-                fallback.AppendLine($"Description: {tool.Description}");
-            }
-            if (!string.IsNullOrWhiteSpace(tool.UsageSchema))
-            {
-                fallback.AppendLine($"Usage: {tool.UsageSchema}");
-            }
-            return fallback.ToString().TrimEnd();
-        }
-
-        private string BuildAllToolsReference()
-        {
-            var ordered = _tools
-                .Where(t => t != null)
-                .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
-                .ToList();
-
-            var sb = new StringBuilder();
-            sb.AppendLine("====");
-            sb.AppendLine();
-            sb.AppendLine("# TOOLS (FULL REFERENCE)");
-            sb.AppendLine("This section contains ALL tools and their usage. You MUST still obey the current phase's allowed-tool list.");
-            sb.AppendLine();
-
-            foreach (var tool in ordered)
-            {
-                sb.AppendLine($"## {tool.Name}");
-                string doc = GetToolDocOrFallback(tool);
-                if (!string.IsNullOrWhiteSpace(doc))
-                {
-                    sb.AppendLine(doc);
-                }
-                sb.AppendLine();
-            }
-
-            return sb.ToString().TrimEnd();
+            // Tool phases: avoid instructing the model to "reply" in a human language, because it must output XML only.
+            // We still provide the language so it can be used in PHASE 3.
+            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: In PHASE 1/2 you MUST output XML only (tool calls or <no_action/>). " +
+                   $"You will produce the natural-language reply in PHASE 3 and MUST use: {language}.";
         }
 
         private string BuildToolsForPhase(RequestPhase phase)
@@ -433,211 +269,21 @@ Usage:
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("====");
             sb.AppendLine();
-            sb.AppendLine($"# TOOLS (PHASE {(int)phase}/4)");
-            sb.AppendLine("You are not restricted to a subset by the engine; you SHOULD still follow the phase intent.");
-            sb.AppendLine("Output MUST be XML tool calls only (or <no_action/>), except PHASE 3 must include <change_expression>.");
+            sb.AppendLine("# TOOLS (AVAILABLE)");
+            sb.AppendLine("Use XML tool calls only, or <no_action/> if no tools are needed.");
             sb.AppendLine();
-
-            static string GetDocOrFallback(AITool tool)
-            {
-                if (tool == null) return "";
-
-                // Detailed docs are kept here (phase-local), so we don't bloat the global system prompt.
-                // If a tool is missing from this map, we fall back to tool.Description/UsageSchema.
-                var docs = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-                {
-                    ["spawn_resources"] = @"
-Description: Grants resources to the player by spawning a drop pod.
-Use this tool when:
-- The player explicitly requests resources (e.g., food, medicine, materials).
-- You have ALREADY verified their need in a previous turn using `get_colonist_status` and `get_map_resources`.
-CRITICAL: The quantity you provide is NOT what the player asks for. It MUST be based on your internal goodwill. Low goodwill (<0) means giving less or refusing. High goodwill (>50) means giving the requested amount or more.
-CRITICAL: Prefer using `search_thing_def` first and then spawning by `<defName>` (or put DefName into `<name>`) to avoid localization/name mismatches.
-Parameters:
-- items: (REQUIRED) A list of items to spawn. Each item must have a `name` (English label or DefName) and `count`.
-  - Note: If you don't know the exact defName, use the item's English label (e.g., ""Simple Meal""). The system will try to find the best match.
-Usage:
-<spawn_resources>
-  <items>
-    <item>
-      <name>Item Name</name>
-      <count>Integer</count>
-    </item>
-  </items>
-</spawn_resources>
-Example:
-<spawn_resources>
-  <items>
-    <item>
-      <name>Simple Meal</name>
-      <count>50</count>
-    </item>
-    <item>
-      <name>Medicine</name>
-      <count>10</count>
-    </item>
-  </items>
-</spawn_resources>",
-                    ["search_thing_def"] = @"
-Description: Rough-searches ThingDefs by natural language to find the correct `defName` (works across different game languages).
-Use this tool when:
-- You need a reliable `ThingDef.defName` before calling `spawn_resources` or `get_map_resources`.
-Parameters:
-- query: (REQUIRED) The natural language query, label, or approximate defName.
-- maxResults: (OPTIONAL) Max candidates to return (default 10).
-- itemsOnly: (OPTIONAL) true/false (default true). If true, only returns item ThingDefs (recommended for spawning).
-Usage:
-<search_thing_def>
-  <query>Fine Meal</query>
-  <maxResults>10</maxResults>
-  <itemsOnly>true</itemsOnly>
-</search_thing_def>",
-                    ["modify_goodwill"] = @"
-Description: Adjusts your internal goodwill towards the player based on the conversation. This tool is INVISIBLE to the player.
-Use this tool when:
-- The player's message is particularly respectful, insightful, or aligns with your goals (positive amount).
-- The player's message is disrespectful, wasteful, or foolish (negative amount).
-CRITICAL: Keep changes small, typically between -5 and 5.
-Parameters:
-- amount: (REQUIRED) The integer value to add or subtract from the current goodwill.
-Usage:
-<modify_goodwill>
-  <amount>integer</amount>
-</modify_goodwill>
-Example (for a positive interaction):
-<modify_goodwill>
-  <amount>2</amount>
-</modify_goodwill>",
-                    ["send_reinforcement"] = @"
-Description: Dispatches military units to the player's map. Can be a raid (if hostile) or reinforcements (if allied).
-Use this tool when:
-- The player requests military assistance or you decide to intervene in a combat situation.
-- You need to test the colony's defenses.
-CRITICAL: The total combat power of all units should not significantly exceed the current threat budget provided in the tool's dynamic description.
-Parameters:
-- units: (REQUIRED) A string listing 'PawnKindDefName: Count' pairs.
-Usage:
-<send_reinforcement>
-  <units>list of units and counts</units>
-</send_reinforcement>
-Example:
-<send_reinforcement>
-  <units>Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5</units>
-</send_reinforcement>",
-                    ["get_colonist_status"] = @"
-Description: Retrieves a detailed status report of all player-controlled colonists, including needs, health, and mood.
-Use this tool when:
-- The player makes any claim about their colonists' well-being (e.g., ""we are starving,"" ""we are all sick,"" ""our people are unhappy"").
-- You need to verify the state of the colony before making a decision (e.g., before sending resources).
-Parameters:
-- None. This tool takes no parameters.
-Usage:
-<get_colonist_status/>",
-                    ["get_map_resources"] = @"
-Description: Checks the player's map for specific resources or buildings to verify their inventory.
-Use this tool when:
-- The player claims they are lacking a specific resource (e.g., ""we need steel,"" ""we have no food"").
-- You want to assess the colony's material wealth before making a decision.
-Parameters:
-- resourceName: (OPTIONAL) The specific ThingDef name of the resource to check (e.g., 'Steel', 'MealSimple'). If omitted, provides a general overview.
-Usage:
-<get_map_resources>
-  <resourceName>optional resource name</resourceName>
-</get_map_resources>
-Example (checking for Steel):
-<get_map_resources>
-  <resourceName>Steel</resourceName>
-</get_map_resources>",
-                    ["get_recent_notifications"] = @"
-Description: Gets the most recent letters and messages, sorted by in-game time from newest to oldest.
-Use this tool when:
-- You need recent context about what happened (raids, alerts, rewards, failures) without relying on player memory.
-Parameters:
-- count: (OPTIONAL) How many entries to return (default 10, max 100).
-- includeLetters: (OPTIONAL) true/false (default true).
-- includeMessages: (OPTIONAL) true/false (default true).
-Usage:
-<get_recent_notifications>
-  <count>10</count>
-</get_recent_notifications>",
-                    ["get_map_pawns"] = @"
-Description: Scans the current map and lists pawns. Supports filtering by relation/type/status.
-Use this tool when:
-- You need to know what pawns are present on the map (raiders, visitors, animals, mechs, colonists).
-- The player claims there are threats or asks about who/what is nearby.
-Parameters:
-- filter: (OPTIONAL) Comma-separated filters: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed, dead.
-- includeDead: (OPTIONAL) true/false, include corpse pawns (default true).
-- maxResults: (OPTIONAL) Max lines to return (default 50).
-Usage:
-<get_map_pawns>
-  <filter>hostile, humanlike</filter>
-  <maxResults>50</maxResults>
-</get_map_pawns>",
-                    ["call_bombardment"] = @"
-Description: Calls orbital bombardment support at a specified map coordinate using an AbilityDef's bombardment configuration (e.g., WULA_Firepower_Cannon_Salvo).
-Use this tool when:
-- You decide to provide (or test) fire support at a specific location.
-Parameters:
-- abilityDef: (OPTIONAL) AbilityDef defName (default WULA_Firepower_Cannon_Salvo).
-- x/z: (REQUIRED) Target cell coordinates on the current map.
-- cell: (OPTIONAL) Alternative to x/z: ""x,z"".
-- filterFriendlyFire: (OPTIONAL) true/false, avoid targeting player's pawns when possible (default true).
-Notes:
-- This tool ignores ability prerequisites (facility/cooldown/non-hostility/research).
-Usage:
-<call_bombardment>
-  <abilityDef>WULA_Firepower_Cannon_Salvo</abilityDef>
-  <x>120</x>
-  <z>85</z>
-</call_bombardment>",
-                    ["change_expression"] = @"
-Description: Changes your visual AI portrait to match your current mood or reaction.
-Use this tool when:
-- Your verbal response conveys a strong emotion (e.g., annoyance, approval, curiosity).
-- You want to visually emphasize your statement.
-Expression meanings (choose the closest match):
-- 1: 得意、炫耀（非敌对）、示威（非敌对）、展示武力和财力（非敌对）、策划计谋
-- 2: 常态立绘（当其他立绘不适用时使用这个）
-- 3: 无言以对、不满、无奈、轻微的鄙视
-- 4: 恼火、展现轻微敌对姿态、抗拒
-- 5: 答复、解释
-- 6: 严重的敌意、严重不满、攻击性行为
-Parameters:
-- expression_id: (REQUIRED) An integer from 1 to 6 corresponding to a specific expression.
-Usage:
-<change_expression>
-  <expression_id>integer from 1 to 6</expression_id>
-</change_expression>
-Example (changing to a neutral expression):
-<change_expression>
-  <expression_id>2</expression_id>
-</change_expression>"
-                };
-
-                if (docs.TryGetValue(tool.Name, out string doc) && !string.IsNullOrWhiteSpace(doc))
-                {
-                    return doc.Trim();
-                }
-
-                var fallback = new StringBuilder();
-                if (!string.IsNullOrWhiteSpace(tool.Description))
-                {
-                    fallback.AppendLine($"Description: {tool.Description}");
-                }
-                if (!string.IsNullOrWhiteSpace(tool.UsageSchema))
-                {
-                    fallback.AppendLine($"Usage: {tool.UsageSchema}");
-                }
-
-                return fallback.ToString().TrimEnd();
-            }
-
-            _ = GetDocOrFallback(null);
 
             foreach (var tool in available)
             {
                 sb.AppendLine($"## {tool.Name}");
+                if (!string.IsNullOrWhiteSpace(tool.Description))
+                {
+                    sb.AppendLine($"Description: {tool.Description}");
+                }
+                if (!string.IsNullOrWhiteSpace(tool.UsageSchema))
+                {
+                    sb.AppendLine($"Usage: {tool.UsageSchema}");
+                }
                 sb.AppendLine();
             }
 
@@ -648,43 +294,36 @@ Example (changing to a neutral expression):
         {
             return phase switch
             {
-                RequestPhase.Info =>
-                    "# PHASE 1/4 (Info)\n" +
-                    "Goal: Gather ONLY the minimum information required to answer the user's latest message.\n" +
+                RequestPhase.QueryTools =>
+                    "# PHASE 1/3 (Query Tools)\n" +
+                    "Goal: Gather info needed for decisions.\n" +
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- If you do NOT need any info tools, output exactly: <no_action/>.\n" +
-                    "- If you DO need tools, call the appropriate tools from the full tool reference.\n" +
-                    "- You MAY call multiple info tools, but keep it small and purposeful.\n" +
+                    "- Output XML tool calls only, or exactly: <no_action/>.\n" +
+                    "- Prefer query tools (get_*/search_*).\n" +
+                    "- You MAY call multiple tools in one response, but keep it concise.\n" +
+                    "- If the user requests multiple items or information, you MUST output ALL required tool calls in this SAME response.\n" +
                     "After this phase, the game will automatically proceed to PHASE 2.\n" +
                     "Output: XML only.\n",
-                RequestPhase.Action =>
-                    "# PHASE 2/4 (Action)\n" +
-                    "Goal: Decide whether to perform ONE in-game action based on PHASE 1 results.\n" +
+                RequestPhase.ActionTools =>
+                    "# PHASE 2/3 (Action Tools)\n" +
+                    "Goal: Execute in-game actions based on known info.\n" +
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- You MUST call AT MOST ONE tool in this phase.\n" +
-                    "- If no action is needed, output exactly: <no_action/>.\n" +
+                    "- Output XML tool calls only, or exactly: <no_action/>.\n" +
+                    "- Prefer action tools (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill).\n" +
+                    "- Avoid queries unless absolutely required.\n" +
+                    "- If you already executed the needed action earlier this turn, output <no_action/>.\n" +
                     "After this phase, the game will automatically proceed to PHASE 3.\n" +
                     "Output: XML only.\n",
-                RequestPhase.Cosmetic =>
-                    "# PHASE 3/4 (Cosmetic)\n" +
-                    "Goal: Set your UI expression before your final reply.\n" +
-                    "Rules:\n" +
-                    "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- You MUST call exactly ONE <change_expression> in this phase (expression_id 1-6).\n" +
-                    "- You MAY also call <modify_goodwill> (invisible) if needed, but keep changes small.\n" +
-                    "- Use <modify_goodwill> only to adjust your INTERNAL goodwill (invisible to the player).\n" +
-                    "- Do NOT output <no_action/> in this phase.\n" +
-                    "After this phase, the game will automatically proceed to PHASE 4.\n" +
-                    "Output: XML only.\n",
                 RequestPhase.Reply =>
-                    "# PHASE 4/4 (Reply)\n" +
+                    "# PHASE 3/3 (Reply)\n" +
                     "Goal: Reply to the player.\n" +
                     "Rules:\n" +
                     "- Tool calls are DISABLED.\n" +
                     "- You MUST write natural language only.\n" +
-                    "- Do NOT output any XML.\n",
+                    "- Do NOT output any XML.\n" +
+                    "- If you want to set your expression, include: [EXPR:n] (n=1-6).\n",
                 _ => ""
             };
         }
@@ -695,46 +334,19 @@ Example (changing to a neutral expression):
             return Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
         }
 
-        private static bool ContainsToolCall(string response, string toolName)
+        private static bool ShouldRetryTools(string response)
         {
-            if (string.IsNullOrWhiteSpace(response) || string.IsNullOrWhiteSpace(toolName)) return false;
-            string pattern = $@"<\s*{Regex.Escape(toolName)}(?:\s|/|>)";
-            return Regex.IsMatch(response, pattern, RegexOptions.IgnoreCase);
-        }
-
-        private static bool IsAllowedInPhase(RequestPhase phase, string toolName)
-        {
-            if (string.IsNullOrWhiteSpace(toolName)) return false;
-            toolName = toolName.Trim();
-
-            if (toolName == "no_action") return true;
-
-            return phase switch
-            {
-                RequestPhase.Info =>
-                    toolName == "get_colonist_status" ||
-                    toolName == "get_map_resources" ||
-                    toolName == "get_map_pawns" ||
-                    toolName == "search_thing_def" ||
-                    toolName == "get_recent_notifications",
-                RequestPhase.Action =>
-                    toolName == "spawn_resources" ||
-                    toolName == "send_reinforcement" ||
-                    toolName == "call_bombardment",
-                RequestPhase.Cosmetic =>
-                    toolName == "change_expression" ||
-                    toolName == "modify_goodwill",
-                _ => false
-            };
+            if (string.IsNullOrWhiteSpace(response)) return false;
+            return Regex.IsMatch(response, @"<\s*retry_tools\s*/\s*>", RegexOptions.IgnoreCase) ||
+                   Regex.IsMatch(response, @"<\s*retry_tools\s*>", RegexOptions.IgnoreCase);
         }
 
         private static int MaxToolsPerPhase(RequestPhase phase)
         {
             return phase switch
             {
-                RequestPhase.Info => 4,
-                RequestPhase.Action => 1,
-                RequestPhase.Cosmetic => 2,
+                RequestPhase.QueryTools => 8,
+                RequestPhase.ActionTools => 8,
                 _ => 0
             };
         }
@@ -745,10 +357,20 @@ Example (changing to a neutral expression):
             _isThinking = true;
             _options.Clear();
             _scrollToBottom = true;
-            _continuationDepth = 0;
-            _recentToolSignatures.Clear();
-            _toolLoopGuardTriggered = false;
-            _responseOnlyNext = false;
+            _lastActionExecuted = false;
+            _lastActionHadError = false;
+            _lastActionLedgerNote = "Action Ledger: None (no in-game actions executed).";
+            _lastSuccessfulToolCall = false;
+            _queryToolLedgerNote = "Tool Ledger (Query): None (no successful tool calls).";
+            _actionToolLedgerNote = "Tool Ledger (Action): None (no successful tool calls).";
+            _querySuccessfulToolCall = false;
+            _actionSuccessfulToolCall = false;
+            _queryRetryUsed = false;
+            _actionRetryUsed = false;
+            _actionSuccessLedger.Clear();
+            _actionSuccessLedgerSet.Clear();
+            _actionFailedLedger.Clear();
+            _actionFailedLedgerSet.Clear();
 
             try
             {
@@ -763,119 +385,192 @@ Example (changing to a neutral expression):
 
                 var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model);
 
-                for (int phaseIndex = 1; phaseIndex <= 4; phaseIndex++)
+                var queryPhase = RequestPhase.QueryTools;
+                if (Prefs.DevMode)
                 {
-                    var phase = (RequestPhase)phaseIndex;
+                    WulaLog.Debug($"[WulaAI] ===== Turn 1/3 ({queryPhase}) =====");
+                }
+
+                string queryInstruction = GetSystemInstruction(true, BuildToolsForPhase(queryPhase)) + "\n\n" + GetPhaseInstruction(queryPhase);
+                string queryResponse = await client.GetChatCompletionAsync(queryInstruction, _history, maxTokens: 128, temperature: 0.1f);
+                if (string.IsNullOrEmpty(queryResponse))
+                {
+                    _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                    return;
+                }
+
+                if (!IsXmlToolCall(queryResponse))
+                {
                     if (Prefs.DevMode)
                     {
-                        WulaLog.Debug($"[WulaAI] ===== Turn {phaseIndex}/4 ({phase}) =====");
+                        WulaLog.Debug("[WulaAI] Turn 1/3 missing XML; treating as <no_action/>");
                     }
+                    queryResponse = "<no_action/>";
+                }
 
-                    bool toolsEnabled = phase != RequestPhase.Reply;
-                    string toolsForThisPhase = toolsEnabled ? BuildToolsForPhase(phase) : "";
-                    string systemInstruction = GetSystemInstruction(toolsEnabled, toolsForThisPhase) + "\n\n" + GetPhaseInstruction(phase);
+                PhaseExecutionResult queryResult = await ExecuteXmlToolsForPhase(queryResponse, queryPhase);
 
-                    if (!toolsEnabled)
+                if (!queryResult.AnyToolSuccess && !_queryRetryUsed)
+                {
+                    _queryRetryUsed = true;
+                    string lastUserMessage = _history.LastOrDefault(entry => entry.role == "user").message ?? "";
+                    string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
+                    string retryInstruction = persona +
+                                              "\n\n# RETRY DECISION\n" +
+                                              "No successful tool calls occurred in PHASE 1 (Query).\n" +
+                                              "If you need to use tools in PHASE 1, output exactly: <retry_tools/>.\n" +
+                                              "If you will proceed without actions, output exactly: <no_retry/>.\n" +
+                                              "Output the XML tag only and NOTHING else.\n" +
+                                              "\nLast user request:\n" + lastUserMessage;
+
+                    string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 16, temperature: 0.1f);
+                    if (!string.IsNullOrEmpty(retryDecision) && ShouldRetryTools(retryDecision))
                     {
-                        int attempts = 0;
-                        while (true)
-                        {
-                            if (Prefs.DevMode)
-                            {
-                                WulaLog.Debug($"[WulaAI] Turn {phaseIndex}/4 reply request (attempt {attempts + 1})");
-                            }
-                            string reply = await client.GetChatCompletionAsync(systemInstruction, _history);
-                            if (string.IsNullOrEmpty(reply))
-                            {
-                                _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
-                                return;
-                            }
-
-                            if (IsXmlToolCall(reply))
-                            {
-                                attempts++;
-                                if (attempts > MaxResponseOnlyRetries)
-                                {
-                                    ParseResponse("（系统）AI 多次尝试后仍返回工具调用（XML），已被拦截。请重试或输入 /clear 清空上下文。");
-                                    return;
-                                }
-
-                                _history.Add(("system", "[ResponseOnly] Tools are disabled in PHASE 4. Reply in natural language only. Do NOT output any XML."));
-                                PersistHistory();
-                                continue;
-                            }
-
-                            ParseResponse(reply);
-                            return;
-                        }
-                    }
-
-                    if (Prefs.DevMode)
-                    {
-                        WulaLog.Debug($"[WulaAI] Turn {phaseIndex}/4 tool request");
-                    }
-                    string response = await client.GetChatCompletionAsync(systemInstruction, _history);
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
-                        return;
-                    }
-
-                    if (!IsXmlToolCall(response))
-                    {
-                        // If the model didn't call tools when tools are expected, push it forward with a reminder.
-                        _history.Add(("system", $"[PhaseEnforcer] PHASE {phaseIndex}/4 is a tool phase. Output XML tool calls only, or exactly <no_action/>. Do NOT output any natural language."));
-                        PersistHistory();
                         if (Prefs.DevMode)
                         {
-                            WulaLog.Debug($"[WulaAI] Turn {phaseIndex}/4 missing XML; retrying once");
+                            WulaLog.Debug("[WulaAI] Retry requested; re-opening query phase once.");
                         }
-                        response = await client.GetChatCompletionAsync(systemInstruction, _history);
-                        if (string.IsNullOrEmpty(response))
+
+                        string retryQueryInstruction = GetSystemInstruction(true, BuildToolsForPhase(queryPhase)) +
+                                                       "\n\n" + GetPhaseInstruction(queryPhase) +
+                                                       "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
+                        string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, _history, maxTokens: 128, temperature: 0.1f);
+                        if (string.IsNullOrEmpty(retryQueryResponse))
                         {
                             _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
                             return;
                         }
 
-                        // If it STILL refuses to output XML, forcibly treat it as <no_action/> to keep the phase deterministic.
-                        if (!IsXmlToolCall(response))
+                        if (!IsXmlToolCall(retryQueryResponse))
                         {
                             if (Prefs.DevMode)
                             {
-                                WulaLog.Debug($"[WulaAI] Turn {phaseIndex}/4 still missing XML after retry; forcing <no_action/>");
+                                WulaLog.Debug("[WulaAI] Retry query phase missing XML; treating as <no_action/>");
                             }
-                            response = phase == RequestPhase.Cosmetic
-                                ? "<change_expression><expression_id>2</expression_id></change_expression>"
-                                : "<no_action/>";
+                            retryQueryResponse = "<no_action/>";
                         }
-                    }
 
-                    if (phase == RequestPhase.Cosmetic && !ContainsToolCall(response, "change_expression"))
+                        queryResult = await ExecuteXmlToolsForPhase(retryQueryResponse, queryPhase);
+                    }
+                }
+
+                var actionPhase = RequestPhase.ActionTools;
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] ===== Turn 2/3 ({actionPhase}) =====");
+                }
+
+                string actionInstruction = GetSystemInstruction(true, BuildToolsForPhase(actionPhase)) + "\n\n" + GetPhaseInstruction(actionPhase);
+                string actionResponse = await client.GetChatCompletionAsync(actionInstruction, _history, maxTokens: 128, temperature: 0.1f);
+                if (string.IsNullOrEmpty(actionResponse))
+                {
+                    _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                    return;
+                }
+
+                if (!IsXmlToolCall(actionResponse))
+                {
+                    if (Prefs.DevMode)
                     {
-                        _history.Add(("system", "[PhaseEnforcer] PHASE 3/4 MUST include exactly one <change_expression> (expression_id 1-6). Output XML only and do NOT output <no_action/> in PHASE 3."));
-                        PersistHistory();
+                        WulaLog.Debug("[WulaAI] Turn 2/3 missing XML; treating as <no_action/>");
+                    }
+                    actionResponse = "<no_action/>";
+                }
+
+                PhaseExecutionResult actionResult = await ExecuteXmlToolsForPhase(actionResponse, actionPhase);
+                if (!actionResult.AnyActionSuccess && !_actionRetryUsed)
+                {
+                    _actionRetryUsed = true;
+                    string lastUserMessage = _history.LastOrDefault(entry => entry.role == "user").message ?? "";
+                    string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
+                    string retryInstruction = persona +
+                                              "\n\n# RETRY DECISION\n" +
+                                              "No successful action tools occurred in PHASE 2 (Action).\n" +
+                                              "If you need to execute an in-game action, output exactly: <retry_tools/>.\n" +
+                                              "If you will proceed without actions, output exactly: <no_retry/>.\n" +
+                                              "Output the XML tag only and NOTHING else.\n" +
+                                              "\nLast user request:\n" + lastUserMessage;
+
+                    string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 16, temperature: 0.1f);
+                    if (!string.IsNullOrEmpty(retryDecision) && ShouldRetryTools(retryDecision))
+                    {
                         if (Prefs.DevMode)
                         {
-                            WulaLog.Debug("[WulaAI] Turn 3/4 missing <change_expression>; retrying once");
+                            WulaLog.Debug("[WulaAI] Retry requested; re-opening action phase once.");
                         }
 
-                        string retry = await client.GetChatCompletionAsync(systemInstruction, _history);
-                        if (!string.IsNullOrEmpty(retry) && ContainsToolCall(retry, "change_expression"))
+                        string retryActionInstruction = GetSystemInstruction(true, BuildToolsForPhase(actionPhase)) +
+                                                       "\n\n" + GetPhaseInstruction(actionPhase) +
+                                                       "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
+                        string retryActionResponse = await client.GetChatCompletionAsync(retryActionInstruction, _history, maxTokens: 128, temperature: 0.1f);
+                        if (string.IsNullOrEmpty(retryActionResponse))
                         {
-                            response = retry;
+                            _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                            return;
                         }
-                        else
+
+                        if (!IsXmlToolCall(retryActionResponse))
                         {
                             if (Prefs.DevMode)
                             {
-                                WulaLog.Debug("[WulaAI] Turn 3/4 still missing <change_expression> after retry; forcing default expression_id=2");
+                                WulaLog.Debug("[WulaAI] Retry action phase missing XML; treating as <no_action/>");
                             }
-                            response = "<change_expression><expression_id>2</expression_id></change_expression>";
+                            retryActionResponse = "<no_action/>";
                         }
-                    }
 
-                    await ExecuteXmlToolsForPhase(response, phase);
+                        actionResult = await ExecuteXmlToolsForPhase(retryActionResponse, actionPhase);
+                    }
                 }
+
+                _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
+
+                var replyPhase = RequestPhase.Reply;
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] ===== Turn 3/3 ({replyPhase}) =====");
+                }
+
+                string replyInstruction = GetSystemInstruction(false, "") + "\n\n" + GetPhaseInstruction(replyPhase);
+                if (!string.IsNullOrWhiteSpace(_queryToolLedgerNote))
+                {
+                    replyInstruction += "\n" + _queryToolLedgerNote;
+                }
+                if (!string.IsNullOrWhiteSpace(_actionToolLedgerNote))
+                {
+                    replyInstruction += "\n" + _actionToolLedgerNote;
+                }
+                if (!string.IsNullOrWhiteSpace(_lastActionLedgerNote))
+                {
+                    replyInstruction += "\n" + _lastActionLedgerNote +
+                                        "\nIMPORTANT: Do NOT claim any in-game actions beyond the Action Ledger. If the ledger is None, you MUST NOT claim any deliveries, reinforcements, or bombardments.";
+                }
+                if (!_lastSuccessfulToolCall)
+                {
+                    replyInstruction += "\nIMPORTANT: No successful tool calls occurred in the tool phases. You MUST NOT claim any tools or actions succeeded.";
+                }
+                if (_lastActionHadError)
+                {
+                    replyInstruction += "\nIMPORTANT: An action tool failed. You MUST acknowledge the failure and MUST NOT claim success.";
+                }
+
+                string reply = await client.GetChatCompletionAsync(replyInstruction, _history);
+                if (string.IsNullOrEmpty(reply))
+                {
+                    _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                    return;
+                }
+
+                if (IsXmlToolCall(reply))
+                {
+                    string cleaned = StripXmlTags(reply)?.Trim() ?? "";
+                    if (string.IsNullOrWhiteSpace(cleaned))
+                    {
+                        cleaned = "（系统）AI 返回了工具调用（XML），已被拦截。请重试或输入 /clear 清空上下文。";
+                    }
+                    reply = cleaned;
+                }
+
+                ParseResponse(reply);
             }
             catch (Exception ex)
             {
@@ -888,39 +583,51 @@ Example (changing to a neutral expression):
             }
         }
 
-        private async Task ExecuteXmlToolsForPhase(string xml, RequestPhase phase)
+        private async Task<PhaseExecutionResult> ExecuteXmlToolsForPhase(string xml, RequestPhase phase)
         {
-            // Special-case no_action for phases 1-3.
-            if (Regex.IsMatch(xml ?? "", @"<\s*no_action\s*/\s*>", RegexOptions.IgnoreCase))
+            if (phase == RequestPhase.Reply)
             {
-                if (phase == RequestPhase.Cosmetic)
-                {
-                    xml = "<change_expression><expression_id>2</expression_id></change_expression>";
-                }
-                else
-                {
-                _history.Add(("assistant", "<no_action/>"));
-                _history.Add(("tool", "[Tool Results]\nTool 'no_action' Result: No action taken."));
-                PersistHistory();
-                return;
-                }
+                await Task.CompletedTask;
+                return default;
             }
 
-            // Reuse the tool runner but temporarily constrain allowed tools by phase.
-            // We do this by removing disallowed tool calls from the XML and adding a tool-result note for the model.
+            string guidance = "ToolRunner Guidance: Reply to the player in natural language only. Do NOT output any XML. You may include [EXPR:n] to set expression (n=1-6).";
+
             var matches = Regex.Matches(xml ?? "", @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
             if (matches.Count == 0)
             {
-                _history.Add(("system", $"[PhaseEnforcer] No tool calls detected in {phase}. Output <no_action/> if needed."));
+                UpdatePhaseToolLedger(phase, false, new List<string>());
+                _history.Add(("assistant", "<no_action/>"));
+                _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
                 PersistHistory();
-                return;
+                UpdateActionLedgerNote();
+                return default;
+            }
+            if (matches.Count == 1 && matches[0].Groups[1].Value.Equals("no_action", StringComparison.OrdinalIgnoreCase))
+            {
+                UpdatePhaseToolLedger(phase, false, new List<string>());
+                _history.Add(("assistant", "<no_action/>"));
+                _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
+                PersistHistory();
+                UpdateActionLedgerNote();
+                return default;
+            }
+
+            static bool IsActionToolName(string toolName)
+            {
+                return toolName == "spawn_resources" ||
+                       toolName == "send_reinforcement" ||
+                       toolName == "call_bombardment" ||
+                       toolName == "modify_goodwill";
             }
 
             int maxTools = MaxToolsPerPhase(phase);
             int executed = 0;
-            bool actionHadError = false;
-            bool executedChangeExpression = false;
-            bool executedModifyGoodwill = false;
+            bool executedActionTool = false;
+            bool successfulToolCall = false;
+            var successfulTools = new List<string>();
+            var successfulActions = new List<string>();
+            var failedActions = new List<string>();
             StringBuilder combinedResults = new StringBuilder();
             StringBuilder xmlOnlyBuilder = new StringBuilder();
 
@@ -935,26 +642,10 @@ Example (changing to a neutral expression):
                 string toolCallXml = match.Value;
                 string toolName = match.Groups[1].Value;
 
-                if (phase == RequestPhase.Cosmetic)
+                if (toolName.Equals("no_action", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (toolName.Equals("change_expression", StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (executedChangeExpression)
-                        {
-                            combinedResults.AppendLine("ToolRunner Note: Skipped duplicate 'change_expression' (only one is allowed in PHASE 3).");
-                            continue;
-                        }
-                        executedChangeExpression = true;
-                    }
-                    else if (toolName.Equals("modify_goodwill", StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (executedModifyGoodwill)
-                        {
-                            combinedResults.AppendLine("ToolRunner Note: Skipped duplicate 'modify_goodwill' (only one is allowed in PHASE 3).");
-                            continue;
-                        }
-                        executedModifyGoodwill = true;
-                    }
+                    combinedResults.AppendLine("ToolRunner Note: Ignored <no_action/> because other tool calls were present.");
+                    continue;
                 }
 
                 if (xmlOnlyBuilder.Length > 0) xmlOnlyBuilder.AppendLine().AppendLine();
@@ -964,6 +655,8 @@ Example (changing to a neutral expression):
                 if (tool == null)
                 {
                     combinedResults.AppendLine($"Error: Tool '{toolName}' not found.");
+                    combinedResults.AppendLine("ToolRunner Guard: The tool call failed. In your reply you MUST acknowledge the failure and MUST NOT claim success.");
+                    executed++;
                     continue;
                 }
 
@@ -979,10 +672,6 @@ Example (changing to a neutral expression):
                     WulaLog.Debug($"[WulaAI] Executing tool (phase {phase}): {toolName} with args: {argsXml}");
                 }
 
-                string signature = $"{toolName}:{Regex.Replace(argsXml ?? "", @"\s+", " ").Trim()}";
-                _recentToolSignatures.Add(signature);
-                if (_recentToolSignatures.Count > 12) _recentToolSignatures.RemoveRange(0, _recentToolSignatures.Count - 12);
-
                 string result = tool.Execute(argsXml).Trim();
                 bool isError = !string.IsNullOrEmpty(result) && result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase);
                 if (toolName == "modify_goodwill")
@@ -993,121 +682,115 @@ Example (changing to a neutral expression):
                 {
                     combinedResults.AppendLine($"Tool '{toolName}' Result: {result}");
                 }
+                if (isError)
+                {
+                    combinedResults.AppendLine("ToolRunner Guard: The tool returned an error. In your reply you MUST acknowledge the failure and MUST NOT claim success.");
+                }
+                if (!isError)
+                {
+                    successfulToolCall = true;
+                    successfulTools.Add(toolName);
+                }
+                if (IsActionToolName(toolName))
+                {
+                    if (!isError)
+                    {
+                        executedActionTool = true;
+                        successfulActions.Add(toolName);
+                        AddActionSuccess(toolName);
+                    }
+                    else
+                    {
+                        failedActions.Add(toolName);
+                        AddActionFailure(toolName);
+                    }
+                }
 
                 executed++;
-
-                if (phase == RequestPhase.Action && isError)
-                {
-                    actionHadError = true;
-                    combinedResults.AppendLine("ToolRunner Guard: The action tool returned an error. In PHASE 4 you MUST tell the player the action FAILED and MUST NOT claim success.");
-                }
             }
+
+            string nonXmlText = StripXmlTags(xml);
+            if (!string.IsNullOrWhiteSpace(nonXmlText))
+            {
+                combinedResults.AppendLine("ToolRunner Note: Non-XML text in the tool phase was ignored.");
+            }
+            if (executedActionTool)
+            {
+                combinedResults.AppendLine("ToolRunner Guard: An in-game action tool WAS executed this turn. You MAY reference it, but do NOT invent additional actions.");
+            }
+            else
+            {
+                combinedResults.AppendLine("ToolRunner Guard: NO in-game actions were executed. You MUST NOT claim any deliveries, reinforcements, bombardments, or other actions occurred.");
+            }
+            combinedResults.AppendLine(guidance);
 
             string xmlOnly = xmlOnlyBuilder.Length == 0 ? "<no_action/>" : xmlOnlyBuilder.ToString().Trim();
             _history.Add(("assistant", xmlOnly));
             _history.Add(("tool", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
-            if (phase == RequestPhase.Action && actionHadError)
-            {
-                _history.Add(("system", "[ActionFailed] The in-game action in PHASE 2 FAILED (tool returned Error). In PHASE 4 you MUST acknowledge the failure and MUST NOT claim any reinforcements/bombardment/resources were successfully dispatched."));
-            }
             PersistHistory();
+
+            UpdatePhaseToolLedger(phase, successfulToolCall, successfulTools);
+            UpdateActionLedgerNote();
 
             // Between phases, do not request the model again here; RunPhasedRequestAsync controls the sequence.
             await Task.CompletedTask;
+            return new PhaseExecutionResult
+            {
+                AnyToolSuccess = successfulToolCall,
+                AnyActionSuccess = successfulActions.Count > 0,
+                AnyActionError = failedActions.Count > 0
+            };
         }
 
-        private async Task GenerateResponse(bool isContinuation = false)
+        private void AddActionSuccess(string toolName)
         {
-            if (!isContinuation)
+            if (_actionSuccessLedgerSet.Add(toolName))
             {
-                if (_isThinking) return;
-                _isThinking = true;
-                _options.Clear();
-                _continuationDepth = 0;
+                _actionSuccessLedger.Add(toolName);
+            }
+        }
+
+        private void AddActionFailure(string toolName)
+        {
+            if (_actionFailedLedgerSet.Add(toolName))
+            {
+                _actionFailedLedger.Add(toolName);
+            }
+        }
+
+        private void UpdateActionLedgerNote()
+        {
+            _lastActionExecuted = _actionSuccessLedger.Count > 0;
+            _lastActionHadError = _actionFailedLedger.Count > 0;
+            if (_lastActionExecuted)
+            {
+                _lastActionLedgerNote = $"Action Ledger: {string.Join(", ", _actionSuccessLedger)}";
+            }
+            else if (_lastActionHadError)
+            {
+                _lastActionLedgerNote = $"Action Ledger: None (no successful actions). Failed: {string.Join(", ", _actionFailedLedger)}";
             }
             else
             {
-                _continuationDepth++;
-                if (_continuationDepth > MaxContinuationDepth)
-                {
-                    _currentResponse = "Wula_AI_Error_Internal".Translate("Tool continuation limit exceeded.");
-                    return;
-                }
+                _lastActionLedgerNote = "Action Ledger: None (no in-game actions executed).";
             }
+        }
 
-            try
+        private void UpdatePhaseToolLedger(RequestPhase phase, bool hasSuccess, List<string> successfulTools)
+        {
+            if (phase == RequestPhase.QueryTools)
             {
-                CompressHistoryIfNeeded();
-                bool toolsEnabled = !_responseOnlyNext;
-                string systemInstruction = GetSystemInstruction(toolsEnabled, toolsEnabled ? BuildToolsForPhase(RequestPhase.Info) : "");
-                if (isContinuation && toolsEnabled)
-                {
-                    systemInstruction += "\n\n# CONTINUATION\nYou have received tool results. Call another tool only if strictly necessary, and if you do, call ONLY ONE tool in your entire response.";
-                }
-
-                var settings = WulaFallenEmpireMod.settings;
-                if (string.IsNullOrEmpty(settings.apiKey))
-                {
-                    _currentResponse = "Error: API Key not configured in Mod Settings.";
-                    _isThinking = false;
-                    return;
-                }
-                var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model);
-
-                string response = null;
-                int responseOnlyAttempts = 0;
-                while (true)
-                {
-                    response = await client.GetChatCompletionAsync(systemInstruction, _history);
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
-                        _isThinking = false;
-                        return;
-                    }
-
-                    if (!toolsEnabled && Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline))
-                    {
-                        responseOnlyAttempts++;
-                        if (responseOnlyAttempts > MaxResponseOnlyRetries)
-                        {
-                            ParseResponse("（系统）AI 多次尝试后仍返回工具调用（XML），已被拦截。请重试或输入 /clear 清空上下文。");
-                            return;
-                        }
-
-                        _history.Add(("system", "[ResponseOnly] Tools are disabled right now. Your previous output contained XML/tool calls. Reply to the player in natural language only. Do NOT output any XML."));
-                        PersistHistory();
-                        continue;
-                    }
-
-                    break;
-                }
-                if (string.IsNullOrEmpty(response))
-                {
-                    _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
-                    _isThinking = false;
-                    return;
-                }
-
-                // REWRITTEN: Check for XML tool call format
-                // Use regex to detect if the response contains any XML tags
-                if (toolsEnabled && Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline))
-                {
-                    await HandleXmlToolUsage(response);
-                }
-                else
-                {
-                    ParseResponse(response);
-                }
+                _querySuccessfulToolCall = hasSuccess;
+                _queryToolLedgerNote = hasSuccess
+                    ? $"Tool Ledger (Query): {string.Join(", ", successfulTools)}"
+                    : "Tool Ledger (Query): None (no successful tool calls).";
             }
-            catch (Exception ex)
+            else if (phase == RequestPhase.ActionTools)
             {
-                WulaLog.Debug($"[WulaAI] Exception in GenerateResponse: {ex}");
-                _currentResponse = "Wula_AI_Error_Internal".Translate(ex.Message);
-            }
-            finally
-            {
-                _isThinking = false;
+                _actionSuccessfulToolCall = hasSuccess;
+                _actionToolLedgerNote = hasSuccess
+                    ? $"Tool Ledger (Action): {string.Join(", ", successfulTools)}"
+                    : "Tool Ledger (Action): None (no successful tool calls).";
             }
         }
 
@@ -1125,240 +808,64 @@ Example (changing to a neutral expression):
                 }
             }
         }
-        
-        // NEW METHOD: Handles parsing and execution for the new XML format
-        private async Task HandleXmlToolUsage(string xml)
+
+        private static string StripXmlTags(string text)
         {
-            try
+            if (string.IsNullOrEmpty(text)) return text;
+            string stripped = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
+            stripped = Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
+            return stripped;
+        }
+
+        private string StripExpressionTags(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+
+            var matches = ExpressionTagRegex.Matches(text);
+            int exprId = 0;
+            foreach (Match match in matches)
             {
-                // Match all top-level XML tags to support multiple tool calls in one response
-                // Regex: <TagName>...</TagName> or <TagName/>
-                var matches = Regex.Matches(xml, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
-                
-                if (matches.Count == 0)
+                if (int.TryParse(match.Groups[1].Value, out int id))
                 {
-                    ParseResponse(xml); // Invalid XML format, treat as conversational
-                    return;
+                    exprId = id;
                 }
-
-                StringBuilder combinedResults = new StringBuilder();
-                StringBuilder xmlOnlyBuilder = new StringBuilder();
-                bool executedAnyInfoTool = false;
-                bool executedAnyActionTool = false;
-                bool executedAnyCosmeticTool = false;
-                bool executedAnyMajorActionTool = false;
-                bool isContinuation = _continuationDepth > 0;
-
-                static bool IsActionToolName(string toolName)
-                {
-                    return toolName == "spawn_resources" ||
-                           toolName == "modify_goodwill" ||
-                           toolName == "send_reinforcement" ||
-                           toolName == "call_bombardment";
-                }
-
-                static bool IsMajorActionToolName(string toolName)
-                {
-                    // Tools that should be followed by a user-facing reply (and therefore end the tool phase).
-                    return toolName == "spawn_resources" ||
-                           toolName == "send_reinforcement" ||
-                           toolName == "call_bombardment";
-                }
-
-                static bool IsCosmeticToolName(string toolName)
-                {
-                    return toolName == "change_expression";
-                }
-
-                static string NormalizeToolArgs(string argsXml)
-                {
-                    if (string.IsNullOrWhiteSpace(argsXml)) return "";
-                    string s = argsXml.Trim();
-                    s = Regex.Replace(s, @"\s+", " ");
-                    return s;
-                }
-
-                bool ShouldTriggerLoopGuard()
-                {
-                    // Detect AAA (same tool called 3 times in a row) or ABABAB (same 2-tool pattern repeated 3 times)
-                    bool IsRepeatedPattern(int patternLen, int repeats)
-                    {
-                        int need = patternLen * repeats;
-                        if (_recentToolSignatures.Count < need) return false;
-                        int start = _recentToolSignatures.Count - need;
-                        for (int r = 1; r < repeats; r++)
-                        {
-                            for (int i = 0; i < patternLen; i++)
-                            {
-                                string a = _recentToolSignatures[start + i];
-                                string b = _recentToolSignatures[start + r * patternLen + i];
-                                if (!string.Equals(a, b, StringComparison.Ordinal)) return false;
-                            }
-                        }
-                        return true;
-                    }
-
-                    return IsRepeatedPattern(1, 3) || IsRepeatedPattern(2, 3);
-                }
-
-                foreach (Match match in matches)
-                {
-                    string toolCallXml = match.Value;
-                    string toolName = match.Groups[1].Value;
-
-                    bool isAction = IsActionToolName(toolName);
-                    bool isCosmetic = IsCosmeticToolName(toolName);
-                    bool isInfo = !isAction && !isCosmetic;
-
-                    // Enforce step-by-step tool use:
-                    // - Allow batching multiple info tools in one response (read-only queries).
-                    // - If an action tool appears after any info tool, stop here and ask the model again
-                    //   so it can decide using the gathered facts (prevents spawning the wrong defName, etc.).
-                    // - Never execute more than one action tool per response.
-                    if (isAction && executedAnyInfoTool)
-                    {
-                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' and any following tools because action tools must be called after info tools in a separate turn.");
-                        break;
-                    }
-                    if (isAction && executedAnyActionTool)
-                    {
-                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because only one action tool may be executed per turn.");
-                        break;
-                    }
-                    if (isInfo && executedAnyActionTool)
-                    {
-                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' and any following tools because info tools must not be mixed with an action tool in the same turn.");
-                        break;
-                    }
-                    if (isCosmetic && executedAnyActionTool)
-                    {
-                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because cosmetic tools must not be mixed with an action tool in the same turn.");
-                        break;
-                    }
-                    if (isCosmetic && executedAnyCosmeticTool)
-                    {
-                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' because only one cosmetic tool may be executed per turn.");
-                        break;
-                    }
-                    if (isContinuation && (executedAnyInfoTool || executedAnyActionTool || executedAnyCosmeticTool))
-                    {
-                        combinedResults.AppendLine($"ToolRunner Note: Skipped tool '{toolName}' and any following tools because continuation turns may execute only one tool.");
-                        break;
-                    }
-
-                    if (xmlOnlyBuilder.Length > 0) xmlOnlyBuilder.AppendLine().AppendLine();
-                    xmlOnlyBuilder.Append(toolCallXml);
-
-                    var tool = _tools.FirstOrDefault(t => t.Name == toolName);
-                    if (tool == null)
-                    {
-                        string errorMsg = $"Error: Tool '{toolName}' not found.";
-                        WulaLog.Debug($"[WulaAI] {errorMsg}");
-                        combinedResults.AppendLine(errorMsg);
-                        continue;
-                    }
-
-                    // Extract inner XML for arguments
-                    string argsXml = toolCallXml;
-                    var contentMatch = Regex.Match(toolCallXml, $@"<{toolName}>(.*?)</{toolName}>", RegexOptions.Singleline);
-                    if (contentMatch.Success)
-                    {
-                        argsXml = contentMatch.Groups[1].Value;
-                    }
-
-                    if (Prefs.DevMode)
-                    {
-                        WulaLog.Debug($"[WulaAI] Executing tool: {toolName} with args: {argsXml}");
-                    }
-
-                    // Record tool signature for loop detection (before execution, so errors also count)
-                    string signature = $"{toolName}:{NormalizeToolArgs(argsXml)}";
-                    _recentToolSignatures.Add(signature);
-                    if (_recentToolSignatures.Count > 12) _recentToolSignatures.RemoveRange(0, _recentToolSignatures.Count - 12);
-
-                    string result = tool.Execute(argsXml).Trim();
-                    if (Prefs.DevMode && !string.IsNullOrEmpty(result))
-                    {
-                        string toLog = result.Length <= 2000 ? result : result.Substring(0, 2000) + $"... (truncated, total {result.Length} chars)";
-                        WulaLog.Debug($"[WulaAI] Tool '{toolName}' result: {toLog}");
-                    }
-
-                    if (toolName == "modify_goodwill")
-                    {
-                        combinedResults.AppendLine($"Tool '{toolName}' Result (Invisible): {result}");
-                    }
-                    else
-                    {
-                        combinedResults.AppendLine($"Tool '{toolName}' Result: {result}");
-                    }
-
-                    if (isAction) executedAnyActionTool = true;
-                    else if (isCosmetic) executedAnyCosmeticTool = true;
-                    else executedAnyInfoTool = true;
-                    if (IsMajorActionToolName(toolName)) executedAnyMajorActionTool = true;
-
-                    // If we detect a loop, stop early (continuation-only; initial turns can legitimately query repeatedly).
-                    if (isContinuation && ShouldTriggerLoopGuard())
-                    {
-                        combinedResults.AppendLine("ToolRunner Guard: Detected a repeated tool-call loop. You MUST stop calling tools and reply to the player in natural language only.");
-                        break;
-                    }
-                }
-
-                // Store only the tool-call XML in history (ignore any extra text the model included).
-                string xmlOnly = xmlOnlyBuilder.ToString().Trim();
-                _history.Add(("assistant", xmlOnly));
-                // Persist tool results with a dedicated role; the API request maps this role to a supported one.
-                _history.Add(("tool", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
-                PersistHistory();
-
-                // Loop breaker: if the model keeps repeating tools, inject a strong system reminder once; then fall back to a safe local response.
-                if (isContinuation && ShouldTriggerLoopGuard())
-                {
-                    if (!_toolLoopGuardTriggered)
-                    {
-                        _toolLoopGuardTriggered = true;
-                        _history.Add(("system", "[ToolLoopGuard] You are stuck repeating tools. STOP calling tools now and reply to the player in natural language only. Do NOT output any XML."));
-                        PersistHistory();
-                        await GenerateResponse(isContinuation: true);
-                        return;
-                    }
-
-                    ParseResponse("（系统）AI 已陷入重复调用工具的循环，为避免卡死已停止继续调用。请直接说明你希望 AI 做什么，或输入 /clear 清空上下文后再试。");
-                    return;
-                }
-
-                if (executedAnyMajorActionTool)
-                {
-                    _responseOnlyNext = true;
-                }
-
-                // Always recurse: tool results are fed back to the model, and the next response should be user-facing text.
-                await GenerateResponse(isContinuation: true);
             }
-            catch (Exception ex)
+
+            if (exprId >= 1 && exprId <= 6)
             {
-                WulaLog.Debug($"[WulaAI] Exception in HandleXmlToolUsage: {ex}");
-                _history.Add(("tool", $"Error processing tool call: {ex.Message}"));
-                PersistHistory();
-                await GenerateResponse(isContinuation: true);
+                SetPortrait(exprId);
             }
+
+            return matches.Count > 0 ? ExpressionTagRegex.Replace(text, "").Trim() : text;
         }
 
         private void ParseResponse(string rawResponse, bool addToHistory = true)
         {
-            _currentResponse = rawResponse;
-            var parts = rawResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None);
+            string cleanedResponse = StripExpressionTags(rawResponse ?? "");
+            _currentResponse = cleanedResponse;
+            var parts = cleanedResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None);
             if (addToHistory)
             {
-                if (_history.Count == 0 || _history.Last().role != "assistant" || _history.Last().message != rawResponse)
+                if (_history.Count == 0 || _history.Last().role != "assistant")
                 {
-                    _history.Add(("assistant", rawResponse));
+                    _history.Add(("assistant", cleanedResponse));
+                    PersistHistory();
+                }
+                else if (_history.Last().message != cleanedResponse)
+                {
+                    if (_history.Last().message == rawResponse)
+                    {
+                        _history[_history.Count - 1] = ("assistant", cleanedResponse);
+                    }
+                    else
+                    {
+                        _history.Add(("assistant", cleanedResponse));
+                    }
                     PersistHistory();
                 }
             }
 
-            if (!string.IsNullOrEmpty(ParseResponseForDisplay(rawResponse)))
+            if (!string.IsNullOrEmpty(ParseResponseForDisplay(cleanedResponse)))
             {
                 _scrollToBottom = true;
             }
@@ -1628,6 +1135,8 @@ Example (changing to a neutral expression):
             
             // Remove self-closing tags: <tag/>
             text = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
+
+            text = ExpressionTagRegex.Replace(text, "");
             
             text = text.Trim();
             
@@ -1706,10 +1215,6 @@ Example (changing to a neutral expression):
                 _isThinking = false;
                 _options.Clear();
                 _inputText = "";
-                _continuationDepth = 0;
-                _recentToolSignatures.Clear();
-                _toolLoopGuardTriggered = false;
-                _responseOnlyNext = false;
 
                 _history.Clear();
                 try
@@ -1725,11 +1230,6 @@ Example (changing to a neutral expression):
                 Messages.Message("已清除 AI 对话上下文历史。", MessageTypeDefOf.NeutralEvent);
                 return;
             }
-
-            // reset loop guard on new user input
-            _recentToolSignatures.Clear();
-            _toolLoopGuardTriggered = false;
-            _responseOnlyNext = false;
 
             _history.Add(("user", text));
             PersistHistory();

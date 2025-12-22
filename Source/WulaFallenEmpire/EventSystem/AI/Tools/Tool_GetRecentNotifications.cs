@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Verse;
+using System.Text.RegularExpressions;
+using WulaFallenEmpire.EventSystem.AI.UI;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
@@ -91,12 +93,67 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     idx++;
                 }
 
+                string toolHistory = BuildToolHistory(count);
+                if (!string.IsNullOrWhiteSpace(toolHistory))
+                {
+                    sb.AppendLine();
+                    sb.AppendLine(toolHistory);
+                }
+
                 return sb.ToString().TrimEnd();
             }
             catch (Exception ex)
             {
                 return $"Error: {ex.Message}";
             }
+        }
+
+        private static string BuildToolHistory(int maxCount)
+        {
+            var window = Dialog_AIConversation.Instance ?? Find.WindowStack.WindowOfType<Dialog_AIConversation>();
+            if (window == null) return "AI Tool History: none found.";
+
+            var history = window.GetHistorySnapshot();
+            if (history == null || history.Count == 0) return "AI Tool History: none found.";
+
+            var entries = new List<(string ToolXml, string ToolResult)>();
+            for (int i = history.Count - 1; i >= 0; i--)
+            {
+                var entry = history[i];
+                if (!string.Equals(entry.role, "tool", StringComparison.OrdinalIgnoreCase)) continue;
+
+                string toolResult = entry.message ?? "";
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    var prev = history[j];
+                    if (string.Equals(prev.role, "assistant", StringComparison.OrdinalIgnoreCase) && IsXmlToolCall(prev.message))
+                    {
+                        entries.Add((prev.message ?? "", toolResult));
+                        i = j;
+                        break;
+                    }
+                }
+
+                if (entries.Count >= maxCount) break;
+            }
+
+            if (entries.Count == 0) return "AI Tool History: none found.";
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (i > 0) sb.AppendLine();
+                sb.AppendLine(entries[i].ToolXml.Trim());
+                sb.AppendLine(entries[i].ToolResult.Trim());
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        private static bool IsXmlToolCall(string response)
+        {
+            if (string.IsNullOrWhiteSpace(response)) return false;
+            return Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
         }
 
         private static IEnumerable<NotificationEntry> ReadLetters(int fallbackNow)
@@ -253,4 +310,3 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         }
     }
 }
-
