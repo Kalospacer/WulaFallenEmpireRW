@@ -270,13 +270,19 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                   "- call_bombardment\n" +
                   "- modify_goodwill\n" +
                   "If no action is required, output exactly: <no_action/>.\n" +
-                  "Other tools are still available if needed.\n"
+                  "Query tools exist but are disabled in this phase (not listed here).\n"
+                : string.Empty;
+            string actionWhitelist = phase == RequestPhase.ActionTools
+                ? "ACTION PHASE VALID TAGS ONLY:\n" +
+                  "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <no_action/>\n" +
+                  "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <search_thing_def/>\n"
                 : string.Empty;
 
             return string.Join("\n\n", new[]
             {
                 phaseInstruction,
                 string.IsNullOrWhiteSpace(actionPriority) ? null : actionPriority.TrimEnd(),
+                string.IsNullOrWhiteSpace(actionWhitelist) ? null : actionWhitelist.TrimEnd(),
                 ToolRulesInstruction.TrimEnd(),
                 toolsForThisPhase
             }.Where(part => !string.IsNullOrWhiteSpace(part)));
@@ -288,6 +294,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             var available = _tools
                 .Where(t => t != null)
+                .Where(t => phase == RequestPhase.QueryTools
+                    ? IsQueryToolName(t.Name)
+                    : phase == RequestPhase.ActionTools
+                        ? IsActionToolName(t.Name)
+                        : true)
                 .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
@@ -328,6 +339,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     "- Prefer query tools (get_*/search_*).\n" +
                     "- You MAY call multiple tools in one response, but keep it concise.\n" +
                     "- If the user requests multiple items or information, you MUST output ALL required tool calls in this SAME response.\n" +
+                    "- Action tools are available in PHASE 2 only; do NOT use them here.\n" +
                     "After this phase, the game will automatically proceed to PHASE 2.\n" +
                     "Output: XML only.\n",
                 RequestPhase.ActionTools =>
@@ -379,7 +391,38 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             };
         }
 
-        private List<(string role, string message)> BuildToolContext(int maxToolResults = 2)
+        private static bool IsActionToolName(string toolName)
+        {
+            return toolName == "spawn_resources" ||
+                   toolName == "send_reinforcement" ||
+                   toolName == "call_bombardment" ||
+                   toolName == "modify_goodwill";
+        }
+
+        private static bool IsQueryToolName(string toolName)
+        {
+            if (string.IsNullOrWhiteSpace(toolName)) return false;
+            return toolName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) ||
+                   toolName.StartsWith("search_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string SanitizeToolResultForActionPhase(string message)
+        {
+            if (string.IsNullOrWhiteSpace(message)) return message;
+            string sanitized = message;
+            sanitized = Regex.Replace(sanitized, @"Tool\s+'[^']+'\s+Result(?:\s+\(Invisible\))?:", "Query Result:");
+            sanitized = Regex.Replace(sanitized, @"Tool\s+'[^']+'\s+Result\s+\(Invisible\):", "Query Result:");
+            return sanitized;
+        }
+
+        private static string TrimForPrompt(string text, int maxChars)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return "";
+            if (text.Length <= maxChars) return text;
+            return text.Substring(0, maxChars) + "...(truncated)";
+        }
+
+        private List<(string role, string message)> BuildToolContext(RequestPhase phase, int maxToolResults = 2, bool includeUser = true)
         {
             if (_history == null || _history.Count == 0) return new List<(string role, string message)>();
 
@@ -400,7 +443,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 if (string.Equals(_history[i].role, "tool", StringComparison.OrdinalIgnoreCase))
                 {
-                    toolEntries.Add(_history[i]);
+                    string msg = _history[i].message;
+                    if (phase == RequestPhase.ActionTools)
+                    {
+                        msg = SanitizeToolResultForActionPhase(msg);
+                    }
+                    toolEntries.Add((_history[i].role, msg));
                 }
             }
 
@@ -409,10 +457,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 toolEntries = toolEntries.Skip(toolEntries.Count - maxToolResults).ToList();
             }
 
-            var context = new List<(string role, string message)>
+            bool includeUserFallback = includeUser || toolEntries.Count == 0;
+            var context = new List<(string role, string message)>();
+            if (includeUserFallback)
             {
-                _history[lastUserIndex]
-            };
+                context.Add(_history[lastUserIndex]);
+            }
             context.AddRange(toolEntries);
             return context;
         }
@@ -459,7 +509,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
 
                 string queryInstruction = GetToolSystemInstruction(queryPhase);
-                string queryResponse = await client.GetChatCompletionAsync(queryInstruction, BuildToolContext(), maxTokens: 128, temperature: 0.1f);
+                string queryResponse = await client.GetChatCompletionAsync(queryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f);
                 if (string.IsNullOrEmpty(queryResponse))
                 {
                     _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
@@ -501,7 +551,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         SetThinkingPhase(1, true);
                         string retryQueryInstruction = GetToolSystemInstruction(queryPhase) +
                                                        "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
-                        string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(), maxTokens: 128, temperature: 0.1f);
+                        string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f);
                         if (string.IsNullOrEmpty(retryQueryResponse))
                         {
                             _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
@@ -529,7 +579,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                 SetThinkingPhase(2, false);
                 string actionInstruction = GetToolSystemInstruction(actionPhase);
-                string actionResponse = await client.GetChatCompletionAsync(actionInstruction, BuildToolContext(), maxTokens: 128, temperature: 0.1f);
+                var actionContext = BuildToolContext(actionPhase, includeUser: true);
+                string actionResponse = await client.GetChatCompletionAsync(actionInstruction, actionContext, maxTokens: 128, temperature: 0.1f);
                 if (string.IsNullOrEmpty(actionResponse))
                 {
                     _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
@@ -540,9 +591,28 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     if (Prefs.DevMode)
                     {
-                        WulaLog.Debug("[WulaAI] Turn 2/3 missing XML; treating as <no_action/>");
+                        WulaLog.Debug("[WulaAI] Turn 2/3 missing XML; attempting XML-only conversion.");
                     }
-                    actionResponse = "<no_action/>";
+                    string fixInstruction = actionInstruction +
+                                            "\n\n# FORMAT FIX\n" +
+                                            "Your last output was not valid XML.\n" +
+                                            "Convert the intended action into VALID XML tool calls or <no_action/>.\n" +
+                                            "Output XML only. No commentary.\n" +
+                                            "You MUST use only action tools.\n" +
+                                            "\nPrevious output:\n" + TrimForPrompt(actionResponse, 600);
+                    string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, actionContext, maxTokens: 128, temperature: 0.1f);
+                    if (!string.IsNullOrEmpty(fixedResponse) && IsXmlToolCall(fixedResponse))
+                    {
+                        actionResponse = fixedResponse;
+                    }
+                    else
+                    {
+                        if (Prefs.DevMode)
+                        {
+                            WulaLog.Debug("[WulaAI] Turn 2/3 conversion failed; treating as <no_action/>");
+                        }
+                        actionResponse = "<no_action/>";
+                    }
                 }
 
                 PhaseExecutionResult actionResult = await ExecuteXmlToolsForPhase(actionResponse, actionPhase);
@@ -569,8 +639,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                         SetThinkingPhase(2, true);
                         string retryActionInstruction = GetToolSystemInstruction(actionPhase) +
-                                                       "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
-                        string retryActionResponse = await client.GetChatCompletionAsync(retryActionInstruction, BuildToolContext(), maxTokens: 128, temperature: 0.1f);
+                                                         "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
+                        var retryActionContext = BuildToolContext(actionPhase, includeUser: true);
+                        string retryActionResponse = await client.GetChatCompletionAsync(retryActionInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
                         if (string.IsNullOrEmpty(retryActionResponse))
                         {
                             _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
@@ -581,9 +652,28 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         {
                             if (Prefs.DevMode)
                             {
-                                WulaLog.Debug("[WulaAI] Retry action phase missing XML; treating as <no_action/>");
+                                WulaLog.Debug("[WulaAI] Retry action phase missing XML; attempting XML-only conversion.");
                             }
-                            retryActionResponse = "<no_action/>";
+                            string retryFixInstruction = retryActionInstruction +
+                                                        "\n\n# FORMAT FIX\n" +
+                                                        "Your last output was not valid XML.\n" +
+                                                        "Convert the intended action into VALID XML tool calls or <no_action/>.\n" +
+                                                        "Output XML only. No commentary.\n" +
+                                                        "You MUST use only action tools.\n" +
+                                                        "\nPrevious output:\n" + TrimForPrompt(retryActionResponse, 600);
+                            string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
+                            if (!string.IsNullOrEmpty(retryFixedResponse) && IsXmlToolCall(retryFixedResponse))
+                            {
+                                retryActionResponse = retryFixedResponse;
+                            }
+                            else
+                            {
+                                if (Prefs.DevMode)
+                                {
+                                    WulaLog.Debug("[WulaAI] Retry action conversion failed; treating as <no_action/>");
+                                }
+                                retryActionResponse = "<no_action/>";
+                            }
                         }
 
                         actionResult = await ExecuteXmlToolsForPhase(retryActionResponse, actionPhase);
@@ -622,14 +712,31 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     replyInstruction += "\nIMPORTANT: An action tool failed. You MUST acknowledge the failure and MUST NOT claim success.";
                 }
 
-                string reply = await client.GetChatCompletionAsync(replyInstruction, _history);
+                string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory());
                 if (string.IsNullOrEmpty(reply))
                 {
                     _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
                     return;
                 }
 
-                if (IsXmlToolCall(reply))
+                bool replyHadXml = IsXmlToolCall(reply);
+                string strippedReply = StripXmlTags(reply)?.Trim() ?? "";
+                if (replyHadXml || string.IsNullOrWhiteSpace(strippedReply))
+                {
+                    string retryReplyInstruction = replyInstruction +
+                                                  "\n\n# RETRY (REPLY OUTPUT)\n" +
+                                                  "Your last reply included XML or was empty. Tool calls are DISABLED.\n" +
+                                                  "You MUST reply in natural language only. Do NOT output any XML.\n";
+                    string retryReply = await client.GetChatCompletionAsync(retryReplyInstruction, BuildReplyHistory(), maxTokens: 256, temperature: 0.3f);
+                    if (!string.IsNullOrEmpty(retryReply))
+                    {
+                        reply = retryReply;
+                        replyHadXml = IsXmlToolCall(reply);
+                        strippedReply = StripXmlTags(reply)?.Trim() ?? "";
+                    }
+                }
+
+                if (replyHadXml)
                 {
                     string cleaned = StripXmlTags(reply)?.Trim() ?? "";
                     if (string.IsNullOrWhiteSpace(cleaned))
@@ -680,21 +787,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 PersistHistory();
                 UpdateActionLedgerNote();
                 return default;
-            }
-
-            static bool IsActionToolName(string toolName)
-            {
-                return toolName == "spawn_resources" ||
-                       toolName == "send_reinforcement" ||
-                       toolName == "call_bombardment" ||
-                       toolName == "modify_goodwill";
-            }
-
-            static bool IsQueryToolName(string toolName)
-            {
-                if (string.IsNullOrWhiteSpace(toolName)) return false;
-                return toolName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) ||
-                       toolName.StartsWith("search_", StringComparison.OrdinalIgnoreCase);
             }
 
             int maxTools = MaxToolsPerPhase(phase);
@@ -918,6 +1010,49 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string stripped = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
             stripped = Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
             return stripped;
+        }
+
+        private List<(string role, string message)> BuildReplyHistory()
+        {
+            if (_history == null || _history.Count == 0) return new List<(string role, string message)>();
+
+            int lastUserIndex = -1;
+            for (int i = _history.Count - 1; i >= 0; i--)
+            {
+                if (string.Equals(_history[i].role, "user", StringComparison.OrdinalIgnoreCase))
+                {
+                    lastUserIndex = i;
+                    break;
+                }
+            }
+
+            var filtered = new List<(string role, string message)>();
+            for (int i = 0; i < _history.Count; i++)
+            {
+                var entry = _history[i];
+                if (string.Equals(entry.role, "tool", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (lastUserIndex != -1 && i > lastUserIndex)
+                    {
+                        filtered.Add(entry);
+                    }
+                    continue;
+                }
+
+                if (!string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase))
+                {
+                    filtered.Add(entry);
+                    continue;
+                }
+
+                string stripped = StripXmlTags(entry.message)?.Trim() ?? "";
+                if (!string.IsNullOrWhiteSpace(stripped))
+                {
+                    filtered.Add(entry);
+                }
+            }
+
+            return filtered;
         }
 
         private string StripExpressionTags(string text)
