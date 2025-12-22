@@ -374,6 +374,29 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
         }
 
+        private static bool IsNoActionOnly(string response)
+        {
+            if (string.IsNullOrWhiteSpace(response)) return false;
+            var matches = Regex.Matches(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
+            return matches.Count == 1 &&
+                   matches[0].Groups[1].Value.Equals("no_action", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool HasActionToolCall(string response)
+        {
+            if (string.IsNullOrWhiteSpace(response)) return false;
+            var matches = Regex.Matches(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
+            foreach (Match match in matches)
+            {
+                var toolName = match.Groups[1].Value;
+                if (IsActionToolName(toolName))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private static bool ShouldRetryTools(string response)
         {
             if (string.IsNullOrWhiteSpace(response)) return false;
@@ -412,6 +435,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string sanitized = message;
             sanitized = Regex.Replace(sanitized, @"Tool\s+'[^']+'\s+Result(?:\s+\(Invisible\))?:", "Query Result:");
             sanitized = Regex.Replace(sanitized, @"Tool\s+'[^']+'\s+Result\s+\(Invisible\):", "Query Result:");
+            sanitized = Regex.Replace(sanitized, @"(?m)^ToolRunner\s+(Guidance|Guard|Note):.*(\r?\n)?", "");
+            sanitized = Regex.Replace(sanitized, @"(?m)^\s+$", "");
+            sanitized = sanitized.Trim();
             return sanitized;
         }
 
@@ -587,21 +613,32 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
-                if (!IsXmlToolCall(actionResponse))
+                bool actionHasXml = IsXmlToolCall(actionResponse);
+                bool actionIsNoActionOnly = IsNoActionOnly(actionResponse);
+                bool actionHasActionTool = actionHasXml && HasActionToolCall(actionResponse);
+                if (!actionHasXml || (!actionHasActionTool && !actionIsNoActionOnly))
                 {
                     if (Prefs.DevMode)
                     {
-                        WulaLog.Debug("[WulaAI] Turn 2/3 missing XML; attempting XML-only conversion.");
+                        WulaLog.Debug("[WulaAI] Turn 2/3 missing XML or no action tool; attempting XML-only conversion.");
                     }
-                    string fixInstruction = actionInstruction +
-                                            "\n\n# FORMAT FIX\n" +
-                                            "Your last output was not valid XML.\n" +
-                                            "Convert the intended action into VALID XML tool calls or <no_action/>.\n" +
-                                            "Output XML only. No commentary.\n" +
-                                            "You MUST use only action tools.\n" +
+                    string fixInstruction = "# FORMAT FIX (ACTION XML ONLY)\n" +
+                                            "Preserve the intent of the previous output.\n" +
+                                            "If the previous output indicates no action is needed or refuses action, output exactly: <no_action/>.\n" +
+                                            "Do NOT invent new actions.\n" +
+                                            "Output VALID XML tool calls only. No natural language, no commentary.\n" +
+                                            "Allowed tags: <spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <no_action/>.\n" +
+                                            "\nAction tool XML formats:\n" +
+                                            "- <spawn_resources><items><item><name>DefName</name><count>Int</count></item></items></spawn_resources>\n" +
+                                            "- <send_reinforcement><units>PawnKindDef: Count, ...</units></send_reinforcement>\n" +
+                                            "- <call_bombardment><abilityDef>DefName</abilityDef><x>Int</x><z>Int</z></call_bombardment>\n" +
+                                            "- <modify_goodwill><amount>Int</amount></modify_goodwill>\n" +
                                             "\nPrevious output:\n" + TrimForPrompt(actionResponse, 600);
                     string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, actionContext, maxTokens: 128, temperature: 0.1f);
-                    if (!string.IsNullOrEmpty(fixedResponse) && IsXmlToolCall(fixedResponse))
+                    bool fixedHasXml = !string.IsNullOrEmpty(fixedResponse) && IsXmlToolCall(fixedResponse);
+                    bool fixedIsNoActionOnly = fixedHasXml && IsNoActionOnly(fixedResponse);
+                    bool fixedHasActionTool = fixedHasXml && HasActionToolCall(fixedResponse);
+                    if (fixedHasXml && (fixedHasActionTool || fixedIsNoActionOnly))
                     {
                         actionResponse = fixedResponse;
                     }
@@ -651,21 +688,29 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         if (!IsXmlToolCall(retryActionResponse))
                         {
                             if (Prefs.DevMode)
-                            {
-                                WulaLog.Debug("[WulaAI] Retry action phase missing XML; attempting XML-only conversion.");
-                            }
-                            string retryFixInstruction = retryActionInstruction +
-                                                        "\n\n# FORMAT FIX\n" +
-                                                        "Your last output was not valid XML.\n" +
-                                                        "Convert the intended action into VALID XML tool calls or <no_action/>.\n" +
-                                                        "Output XML only. No commentary.\n" +
-                                                        "You MUST use only action tools.\n" +
+                        {
+                            WulaLog.Debug("[WulaAI] Retry action phase missing XML; attempting XML-only conversion.");
+                        }
+                            string retryFixInstruction = "# FORMAT FIX (ACTION XML ONLY)\n" +
+                                                        "Preserve the intent of the previous output.\n" +
+                                                        "If the previous output indicates no action is needed or refuses action, output exactly: <no_action/>.\n" +
+                                                        "Do NOT invent new actions.\n" +
+                                                        "Output VALID XML tool calls only. No natural language, no commentary.\n" +
+                                                        "Allowed tags: <spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <no_action/>.\n" +
+                                                        "\nAction tool XML formats:\n" +
+                                                        "- <spawn_resources><items><item><name>DefName</name><count>Int</count></item></items></spawn_resources>\n" +
+                                                        "- <send_reinforcement><units>PawnKindDef: Count, ...</units></send_reinforcement>\n" +
+                                                        "- <call_bombardment><abilityDef>DefName</abilityDef><x>Int</x><z>Int</z></call_bombardment>\n" +
+                                                        "- <modify_goodwill><amount>Int</amount></modify_goodwill>\n" +
                                                         "\nPrevious output:\n" + TrimForPrompt(retryActionResponse, 600);
-                            string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
-                            if (!string.IsNullOrEmpty(retryFixedResponse) && IsXmlToolCall(retryFixedResponse))
-                            {
-                                retryActionResponse = retryFixedResponse;
-                            }
+                        string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
+                        bool retryFixedHasXml = !string.IsNullOrEmpty(retryFixedResponse) && IsXmlToolCall(retryFixedResponse);
+                        bool retryFixedIsNoActionOnly = retryFixedHasXml && IsNoActionOnly(retryFixedResponse);
+                        bool retryFixedHasActionTool = retryFixedHasXml && HasActionToolCall(retryFixedResponse);
+                        if (retryFixedHasXml && (retryFixedHasActionTool || retryFixedIsNoActionOnly))
+                        {
+                            retryActionResponse = retryFixedResponse;
+                        }
                             else
                             {
                                 if (Prefs.DevMode)
