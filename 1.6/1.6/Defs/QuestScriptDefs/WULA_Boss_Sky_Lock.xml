@@ -132,9 +132,19 @@
                 <inSignal>PsiTitan.0.Destroyed</inSignal>
                 <eventDefName>WULA_Boss_Sky_Lock_UI_2</eventDefName>
               </li>
-              <li Class="QuestNode_End">
-                <outcome>Success</outcome>
-                <sendStandardLetter>true</sendStandardLetter>
+              <li Class="QuestNode_Delay">
+                <delayTicks>60000</delayTicks> <!--  1day -->
+                <node Class="QuestNode_Sequence">
+                  <nodes>
+                    <li Class="QuestNode_DestroyWorldObject">
+                      <worldObject>$site</worldObject>
+                    </li>
+                    <li Class="QuestNode_End">
+                      <outcome>Success</outcome>
+                      <sendStandardLetter>true</sendStandardLetter>
+                    </li>
+                  </nodes>
+                </node>
               </li>
             </nodes>
           </node>
