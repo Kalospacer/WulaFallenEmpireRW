@@ -1,19 +1,24 @@
+// File: CompProperties_StorageMultiTurretGun.cs
+using RimWorld;
 using System.Collections.Generic;
 using Verse;
 
 namespace WulaFallenEmpire
 {
-    public class CompProperties_StorageTurret : CompProperties
+    public class CompProperties_StorageMultiTurretGun : CompProperties_TurretGun
     {
-        public CompProperties_StorageTurret()
+        // 炮塔ID，用于区分多个炮塔
+        public int ID = 0;
+        
+        // 激活需要的机械族数量
+        public int requiredMechanoids = 1;
+        
+        // 是否根据机械族数量自动激活
+        public bool autoActivate = true;
+        
+        public CompProperties_StorageMultiTurretGun()
         {
-            this.compClass = typeof(CompStorageTurret);
+            compClass = typeof(Comp_StorageMultiTurretGun);
         }
-
-        public ThingDef turretDef;
-        public float angleOffset;
-        public bool autoAttack = true;
-        public int maxTurrets = 5; // 最大炮塔数量
-        public float turretSpacing = 1f; // 炮塔间距
     }
 }

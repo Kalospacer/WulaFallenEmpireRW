@@ -481,13 +481,6 @@
 
         <!-- <ownershipFaction>Player</ownershipFaction> -->
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_StorageTurret">
-        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef> <!-- 替换为您想要的炮塔 -->
-        <angleOffset>0</angleOffset>
-        <autoAttack>true</autoAttack>
-        <maxTurrets>6</maxTurrets>
-        <turretSpacing>1.5</turretSpacing>
-      </li>
       <!-- <li Class="WulaFallenEmpire.CompProperties_TransformAtFullCapacity">
         <targetPawnKind>WULA_Mobile_Bunker</targetPawnKind>
         <requiredCapacity>6</requiredCapacity>
@@ -497,6 +490,55 @@
       </li> -->
       <li Class="WulaFallenEmpire.CompProperties_PathCostUpdater">
         <adaptiveExpansion>true</adaptiveExpansion>
+      </li>
+
+      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
+        <ID>1</ID>
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
+        <requiredMechanoids>1</requiredMechanoids>
+        <autoActivate>true</autoActivate>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
+        <ID>2</ID>
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
+        <requiredMechanoids>2</requiredMechanoids>
+        <autoActivate>true</autoActivate>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
+        <ID>3</ID>
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
+        <requiredMechanoids>3</requiredMechanoids>
+        <autoActivate>true</autoActivate>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
+        <ID>4</ID>
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
+        <requiredMechanoids>4</requiredMechanoids>
+        <autoActivate>true</autoActivate>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
+        <ID>5</ID>
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
+        <requiredMechanoids>5</requiredMechanoids>
+        <autoActivate>true</autoActivate>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
+        <ID>6</ID>
+        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
+        <angleOffset>0</angleOffset>
+        <autoAttack>true</autoAttack>
+        <requiredMechanoids>6</requiredMechanoids>
+        <autoActivate>true</autoActivate>
       </li>
     </comps>
   </ThingDef>
