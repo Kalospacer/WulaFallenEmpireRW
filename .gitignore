@@ -45,3 +45,4 @@ dark-server/dark-server.js
 node_modules/
 gemini-websocket-proxy/
 Tools/dark-server/dark-server.js
+Tools/rimworld_cpt_data.jsonl
