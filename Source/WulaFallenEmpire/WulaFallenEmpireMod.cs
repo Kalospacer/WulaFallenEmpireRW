@@ -59,6 +59,12 @@ namespace WulaFallenEmpire
             listingStandard.Label("Wula_AISettings_Model".Translate());
             settings.model = listingStandard.TextEntry(settings.model);
 
+            listingStandard.Gap(5f);
+            listingStandard.Label("<color=orange>API 协议格式:</color>");
+            if (listingStandard.RadioButton("OpenAI / 常用兼容格式 (默认)", !settings.useGeminiProtocol)) settings.useGeminiProtocol = false;
+            if (listingStandard.RadioButton("Google Gemini 原生格式", settings.useGeminiProtocol)) settings.useGeminiProtocol = true;
+            listingStandard.Gap(5f);
+
             listingStandard.GapLine();
             listingStandard.Label("Wula_AISettings_MaxContextTokens".Translate());
             listingStandard.Label("Wula_AISettings_MaxContextTokensDesc".Translate());
@@ -68,35 +74,16 @@ namespace WulaFallenEmpire
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());
 
-            // VLM 设置部分
+            // 视觉设置部分
             listingStandard.GapLine();
-            listingStandard.Label("<color=cyan>VLM (视觉模型) 设置</color>");
+            listingStandard.Label("<color=cyan>视觉与多模态设置</color>");
             
-            listingStandard.CheckboxLabeled("启用 VLM 视觉功能", ref settings.enableVlmFeatures, "启用后 AI 可以「看到」游戏屏幕并分析");
+            listingStandard.CheckboxLabeled("启用视觉交互能力", ref settings.enableVlmFeatures, "启用后 AI 可以截取屏幕并理解游戏画面");
             
             if (settings.enableVlmFeatures)
             {
-                listingStandard.Label("VLM API Key:");
-                Rect vlmKeyRect = listingStandard.GetRect(30f);
-                Rect vlmPasswordRect = new Rect(vlmKeyRect.x, vlmKeyRect.y, vlmKeyRect.width - toggleWidth - 5f, vlmKeyRect.height);
-                Rect vlmToggleRect = new Rect(vlmKeyRect.xMax - toggleWidth, vlmKeyRect.y, toggleWidth, vlmKeyRect.height);
-                
-                if (_showVlmApiKey)
-                {
-                    settings.vlmApiKey = Widgets.TextField(vlmPasswordRect, settings.vlmApiKey ?? "");
-                }
-                else
-                {
-                    settings.vlmApiKey = GUI.PasswordField(vlmPasswordRect, settings.vlmApiKey ?? "", '•');
-                }
-                Widgets.CheckboxLabeled(vlmToggleRect, "Show", ref _showVlmApiKey);
-                listingStandard.Gap(listingStandard.verticalSpacing);
-                
-                listingStandard.Label("VLM Base URL:");
-                settings.vlmBaseUrl = listingStandard.TextEntry(settings.vlmBaseUrl ?? "https://dashscope.aliyuncs.com/compatible-mode/v1");
-                
-                listingStandard.Label("VLM Model:");
-                settings.vlmModel = listingStandard.TextEntry(settings.vlmModel ?? "qwen-vl-max");
+                listingStandard.CheckboxLabeled("优先使用原生多模态模式", ref settings.useNativeMultimodal, "直接在思考阶段将截图发送给主模型（推荐，速度更快，需模型支持视角）");
+                listingStandard.CheckboxLabeled("在 UI 中显示中间思考过程", ref settings.showThinkingProcess, "显示 AI 执行工具时的状态反馈");
             }
 
             listingStandard.GapLine();

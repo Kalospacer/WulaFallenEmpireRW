@@ -47,14 +47,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     return "Mod 设置未初始化。";
                 }
                 
-                // 使用主 API 密钥（如果没有单独配置 VLM 密钥）
-                string vlmApiKey = !string.IsNullOrEmpty(settings.vlmApiKey) ? settings.vlmApiKey : settings.apiKey;
-                string vlmBaseUrl = !string.IsNullOrEmpty(settings.vlmBaseUrl) ? settings.vlmBaseUrl : "https://dashscope.aliyuncs.com/compatible-mode/v1";
-                string vlmModel = !string.IsNullOrEmpty(settings.vlmModel) ? settings.vlmModel : "qwen-vl-plus";
+                // 使用主 API 配置
+                string vlmApiKey = settings.apiKey;
+                string vlmBaseUrl = settings.baseUrl;
+                string vlmModel = settings.model;
                 
                 if (string.IsNullOrEmpty(vlmApiKey))
                 {
-                    return "VLM API 密钥未配置。请在 Mod 设置中配置 API 密钥。";
+                    return "主 API 密钥未配置。请在 Mod 设置中配置。";
                 }
                 
                 // 截取屏幕
@@ -64,15 +64,20 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     return "截屏失败，无法分析屏幕。";
                 }
                 
-                // 调用 VLM API
-                var client = new SimpleAIClient(vlmApiKey, vlmBaseUrl, vlmModel);
+                // 调用 VLM API (使用统一的 GetChatCompletionAsync)
+                var client = new SimpleAIClient(vlmApiKey, vlmBaseUrl, vlmModel, settings.useGeminiProtocol);
                 
-                string result = await client.GetVisionCompletionAsync(
+                var messages = new System.Collections.Generic.List<(string role, string message)>
+                {
+                    ("user", instruction)
+                };
+
+                string result = await client.GetChatCompletionAsync(
                     BaseVisionSystemPrompt,
-                    instruction,
-                    base64Image,
-                    maxTokens: 512, // 增加 token 数以支持更复杂的分析指令响应
-                    temperature: 0.2f
+                    messages,
+                    maxTokens: 512,
+                    temperature: 0.2f,
+                    base64Image: base64Image
                 );
                 
                 if (string.IsNullOrEmpty(result))

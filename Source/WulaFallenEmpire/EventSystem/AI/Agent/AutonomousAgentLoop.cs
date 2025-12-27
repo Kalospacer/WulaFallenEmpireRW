@@ -121,32 +121,31 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
                     return;
                 }
                 
-                var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model);
+                var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model, settings.useGeminiProtocol);
                 
-                // 使用 VLM 如果启用且配置了
                 string decision;
-                if (settings.enableVlmFeatures && !string.IsNullOrEmpty(settings.vlmApiKey))
+                string base64Image = null;
+
+                // 如果启用了视觉特性且开启了原生多模态，则在决策前截图
+                if (settings.enableVlmFeatures && settings.useNativeMultimodal)
                 {
-                    // 使用 VLM 分析屏幕
-                    string base64Image = ScreenCaptureUtility.CaptureScreenAsBase64();
-                    var vlmClient = new SimpleAIClient(settings.vlmApiKey, settings.vlmBaseUrl, settings.vlmModel);
-                    decision = await vlmClient.GetVisionCompletionAsync(
-                        GetAgentSystemPrompt(),
-                        prompt,
-                        base64Image,
-                        maxTokens: 512,
-                        temperature: 0.3f
-                    );
-                }
-                else
-                {
-                    // 纯文本模式
-                    var messages = new List<(string role, string message)>
+                    base64Image = ScreenCaptureUtility.CaptureScreenAsBase64();
+                    if (settings.showThinkingProcess)
                     {
-                        ("user", prompt)
-                    };
-                    decision = await client.GetChatCompletionAsync(GetAgentSystemPrompt(), messages, 512, 0.3f);
+                        Messages.Message("AI Agent: 正在通过视觉传感器分析实地情况...", MessageTypeDefOf.NeutralEvent);
+                    }
                 }
+                else if (settings.showThinkingProcess)
+                {
+                    Messages.Message("AI Agent: 正在分析传感器遥测数据...", MessageTypeDefOf.NeutralEvent);
+                }
+
+                // 直接调用 GetChatCompletionAsync (它已支持 multimodal 参数)
+                var messages = new List<(string role, string message)>
+                {
+                    ("user", prompt)
+                };
+                decision = await client.GetChatCompletionAsync(GetAgentSystemPrompt(), messages, 512, 0.3f, base64Image: base64Image);
                 
                 if (string.IsNullOrEmpty(decision))
                 {

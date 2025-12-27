@@ -49,6 +49,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         private readonly HashSet<string> _actionSuccessLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private readonly List<string> _actionFailedLedger = new List<string>();
         private readonly HashSet<string> _actionFailedLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private SimpleAIClient _currentClient;
 
         private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
@@ -483,6 +484,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                   "If no action is required, output exactly: <no_action/>.\n" +
                   "Query tools exist but are disabled in this phase (not listed here).\n"
                 : string.Empty;
+
+            if (WulaFallenEmpireMod.settings?.enableVlmFeatures == true && WulaFallenEmpireMod.settings?.useNativeMultimodal == true)
+            {
+                phaseInstruction += "\n- NATIVE MULTIMODAL: A current screenshot of the game is attached to this request. You can see the game state directly. Use it to determine coordinates for visual tools or to understand the context.";
+            }
+
             string actionWhitelist = phase == RequestPhase.ActionTools
                 ? "ACTION PHASE VALID TAGS ONLY:\n" +
                   "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <visual_click>, <visual_scroll>, <visual_type_text>, <visual_drag>, <visual_hotkey>, <visual_wait>, <visual_delete_text>, <no_action/>\n" +
@@ -844,7 +851,23 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
-                var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model);
+                var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model, settings.useGeminiProtocol);
+                _currentClient = client;
+
+                // 只有当启用了 VLM 特性，且开启了原生多模态模式时，才截图并在请求中包含图片
+                string base64Image = null;
+                if (settings.enableVlmFeatures && settings.useNativeMultimodal)
+                {
+                    base64Image = ScreenCaptureUtility.CaptureScreenAsBase64();
+                    if (settings.showThinkingProcess)
+                    {
+                        AddAssistantMessage("<i>[P.I.A] 正在扫描当前战区情况...</i>");
+                    }
+                }
+                else if (settings.showThinkingProcess)
+                {
+                    AddAssistantMessage("<i>[P.I.A] 正在分析数据链路...</i>");
+                }
 
                 var queryPhase = RequestPhase.QueryTools;
                 if (Prefs.DevMode)
@@ -853,7 +876,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
 
                 string queryInstruction = GetToolSystemInstruction(queryPhase);
-                string queryResponse = await client.GetChatCompletionAsync(queryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f);
+                string queryResponse = await client.GetChatCompletionAsync(queryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f, base64Image: base64Image);
                 if (string.IsNullOrEmpty(queryResponse))
                 {
                     AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
@@ -896,7 +919,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         SetThinkingPhase(1, true);
                         string retryQueryInstruction = GetToolSystemInstruction(queryPhase) +
                                                        "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
-                        string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f);
+                        string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f, base64Image: base64Image);
                         if (string.IsNullOrEmpty(retryQueryResponse))
                         {
                             AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
@@ -914,6 +937,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                         queryResult = await ExecuteXmlToolsForPhase(retryQueryResponse, queryPhase);
                     }
+                }
+
+                if (settings.showThinkingProcess)
+                {
+                    AddAssistantMessage("<i>[P.I.A] 正在计算最优战术方案...</i>");
                 }
 
                 var actionPhase = RequestPhase.ActionTools;
@@ -1094,6 +1122,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     {
                         replyInstruction += " You MUST still confirm any successful actions separately.";
                     }
+                }
+
+                if (settings.showThinkingProcess)
+                {
+                    AddAssistantMessage("<i>[P.I.A] 正在汇总战报并建立通讯记录...</i>");
                 }
 
                 string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory());
