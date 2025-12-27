@@ -115,6 +115,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         public int ExpressionId => _expressionId;
         public bool IsThinking => _isThinking;
+        public float ThinkingStartTime => _thinkingStartTime;
+        public int ThinkingPhaseIndex => _thinkingPhaseIndex;
+        public bool ThinkingPhaseRetry => _thinkingPhaseRetry;
         public void InitializeConversation(string eventDefName)
         {
             if (string.IsNullOrWhiteSpace(eventDefName))

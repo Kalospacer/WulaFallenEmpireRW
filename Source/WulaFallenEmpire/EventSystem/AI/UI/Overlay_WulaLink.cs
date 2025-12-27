@@ -212,7 +212,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
             GUI.color = statusColor;
-            Widgets.Label(textRect, status);
+            Widgets.Label(textRect, _core.IsThinking ? BuildThinkingStatus() : "Standby");
             GUI.color = Color.white;
 
             // 右侧：小巧的展开按钮
@@ -568,16 +568,24 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             GUI.color = Color.white;
         }
 
+        private string BuildThinkingStatus()
+        {
+            if (_core == null) return "Thinking...";
+            float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - _core.ThinkingStartTime);
+            string elapsedText = elapsedSeconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
+            return $"P.I.A is thinking... ({elapsedText}s Phase {_core.ThinkingPhaseIndex}/3)";
+        }
+
         private void DrawThinkingIndicator(Rect rect)
         {
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = Color.gray;
             Rect iconRect = new Rect(rect.x + 60f, rect.y, 24f, 24f); 
-            Rect labelRect = new Rect(iconRect.xMax + 5f, rect.y, 200f, 24f);
+            Rect labelRect = new Rect(iconRect.xMax + 5f, rect.y, 400f, 24f);
             
             // Draw a simple box as thinking indicator if TexUI is missing
             Widgets.DrawBoxSolid(iconRect, Color.gray);
-            Widgets.Label(labelRect, "P.I.A is thinking...");
+            Widgets.Label(labelRect, BuildThinkingStatus());
             
             Text.Anchor = TextAnchor.UpperLeft;
             GUI.color = Color.white;

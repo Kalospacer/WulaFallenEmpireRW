@@ -1238,11 +1238,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 _isThinking = _core.IsThinking;
             }
 
-            // 右上角：切换到小窗口按钮
             // 左上角：切换到小窗口按钮
             Rect switchBtnRect = new Rect(0f, 0f, 25f, 25f);
-            base.DrawCustomButton(switchBtnRect, "-", isEnabled: true);
-            if (Widgets.ButtonInvisible(switchBtnRect)) 
+            if (DrawHeaderButton(switchBtnRect, "-")) 
             {
                 EventDef eventDef = this.def;
                 if (eventDef != null)
@@ -1310,12 +1308,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             Rect descriptionRect = new Rect(paddedRect.x, curY, width, descriptionHeight);
             DrawChatHistory(descriptionRect);
 
-            if (_isThinking)
-            {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(descriptionRect, BuildThinkingStatus());
-                Text.Anchor = TextAnchor.UpperLeft;
-            }
+            // 移除这里的 DrawThinkingIndicator，因为它现在被包含在 DrawChatHistory 内部
 
             curY += descriptionHeight + spacing;
 
@@ -1443,6 +1436,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     viewHeight += Text.CalcHeight(text, contentWidth) + padding + 10f;
                 }
 
+                // 为思考指示器预留高度
+                if (_isThinking)
+                {
+                    viewHeight += 40f;
+                }
+
                 Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
                 if (_scrollToBottom)
                 {
@@ -1489,6 +1488,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
                     curY += height + 10f;
                 }
+
+                if (_isThinking)
+                {
+                    DrawThinkingIndicator(new Rect(innerPadding, curY, contentWidth, 35f));
+                }
                 Widgets.EndScrollView();
             }
             finally
@@ -1519,13 +1523,58 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private string BuildThinkingStatus()
         {
-            if (!Prefs.DevMode)
-            {
-                 return "Wula_AI_Thinking_Simple".Translate();
-            }
-            // 开发者模式下也不再显示秒数计时，只显示阶段信息
-            return "Wula_AI_Thinking_Status_NoTimer".Translate(_thinkingPhaseIndex, ThinkingPhaseTotal);
+            if (_core == null) return "Thinking...";
+
+            float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - _core.ThinkingStartTime);
+            string elapsedText = elapsedSeconds.ToString("0.0", CultureInfo.InvariantCulture);
+            return $"P.I.A is thinking... ({elapsedText}s Phase {_core.ThinkingPhaseIndex}/3)";
         }
+
+        private void DrawThinkingIndicator(Rect rect)
+        {
+            GUI.color = Color.gray;
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            
+            string status = BuildThinkingStatus();
+            
+            // 简单的左对齐样式
+            Rect iconRect = new Rect(rect.x, rect.y + (rect.height - 24f) / 2f, 24f, 24f);
+            Widgets.DrawBoxSolid(iconRect, Color.gray);
+            
+            Rect labelRect = new Rect(iconRect.xMax + 10f, rect.y, rect.width - 34f, rect.height);
+            Widgets.Label(labelRect, status);
+            
+            GUI.color = Color.white;
+        }
+
+        private bool DrawHeaderButton(Rect rect, string label)
+        {
+            bool isMouseOver = Mouse.IsOver(rect);
+            Color buttonColor = isMouseOver 
+                ? new Color(0.6f, 0.3f, 0.3f, 1f)  // Hover
+                : new Color(0.4f, 0.2f, 0.2f, 0.8f); // Normal
+            Color textColor = isMouseOver ? Color.white : new Color(0.9f, 0.9f, 0.9f);
+            
+            var originalColor = GUI.color;
+            var originalAnchor = Text.Anchor;
+            var originalFont = Text.Font;
+
+            GUI.color = buttonColor;
+            Widgets.DrawBoxSolid(rect, buttonColor);
+            
+            GUI.color = textColor;
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(rect, label);
+
+            GUI.color = originalColor;
+            Text.Anchor = originalAnchor;
+            Text.Font = originalFont;
+
+            return Widgets.ButtonInvisible(rect);
+        }
+
 
         protected override void DrawSingleOption(Rect rect, EventOption option)
         {
