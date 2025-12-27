@@ -346,5 +346,91 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             return null;
         }
+
+        /// <summary>
+        /// 发送带图片的 VLM 视觉请求
+        /// </summary>
+        public async Task<string> GetVisionCompletionAsync(
+            string systemPrompt,
+            string userText,
+            string base64Image,
+            int maxTokens = 512,
+            float temperature = 0.3f)
+        {
+            if (string.IsNullOrEmpty(_baseUrl))
+            {
+                WulaLog.Debug("[WulaAI] VLM: Base URL is missing.");
+                return null;
+            }
+
+            string endpoint = $"{_baseUrl}/chat/completions";
+            if (_baseUrl.EndsWith("/chat/completions")) endpoint = _baseUrl;
+            else if (!_baseUrl.EndsWith("/v1")) endpoint = $"{_baseUrl}/v1/chat/completions";
+
+            // Build VLM-specific JSON with image content
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.Append("{");
+            jsonBuilder.Append($"\"model\": \"{_model}\",");
+            jsonBuilder.Append("\"stream\": false,");
+            jsonBuilder.Append($"\"max_tokens\": {Math.Max(1, maxTokens)},");
+            jsonBuilder.Append($"\"temperature\": {Mathf.Clamp(temperature, 0f, 2f).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)},");
+            jsonBuilder.Append("\"messages\": [");
+            
+            // System message
+            if (!string.IsNullOrEmpty(systemPrompt))
+            {
+                jsonBuilder.Append($"{{\"role\": \"system\", \"content\": \"{EscapeJson(systemPrompt)}\"}},");
+            }
+            
+            // User message with image (multimodal content)
+            jsonBuilder.Append("{\"role\": \"user\", \"content\": [");
+            jsonBuilder.Append($"{{\"type\": \"text\", \"text\": \"{EscapeJson(userText)}\"}},");
+            jsonBuilder.Append("{\"type\": \"image_url\", \"image_url\": {");
+            jsonBuilder.Append($"\"url\": \"data:image/png;base64,{base64Image}\"");
+            jsonBuilder.Append("}}");
+            jsonBuilder.Append("]}");
+            
+            jsonBuilder.Append("]}");
+
+            string jsonBody = jsonBuilder.ToString();
+            if (Prefs.DevMode)
+            {
+                // Don't log the full base64 image
+                WulaLog.Debug($"[WulaAI] VLM request to {endpoint} (model={_model}, imageSize={base64Image?.Length ?? 0} chars)");
+            }
+
+            using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
+            {
+                byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonBody);
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+                request.timeout = 60; // VLM requests may take longer due to image processing
+                if (!string.IsNullOrEmpty(_apiKey))
+                {
+                    request.SetRequestHeader("Authorization", $"Bearer {_apiKey}");
+                }
+
+                var operation = request.SendWebRequest();
+
+                while (!operation.isDone)
+                {
+                    await Task.Delay(100);
+                }
+
+                if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    WulaLog.Debug($"[WulaAI] VLM API Error: {request.error}");
+                    return null;
+                }
+
+                string responseText = request.downloadHandler.text;
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] VLM Response (truncated): {TruncateForLog(responseText)}");
+                }
+                return ExtractContent(responseText);
+            }
+        }
     }
 }
