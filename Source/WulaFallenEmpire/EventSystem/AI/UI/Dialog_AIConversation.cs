@@ -827,7 +827,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (matches.Count == 0)
             {
                 UpdatePhaseToolLedger(phase, false, new List<string>());
-                _history.Add(("assistant", "<no_action/>"));
+                _history.Add(("toolcall", "<no_action/>"));
                 _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
                 PersistHistory();
                 UpdateActionLedgerNote();
@@ -836,7 +836,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (matches.Count == 1 && matches[0].Groups[1].Value.Equals("no_action", StringComparison.OrdinalIgnoreCase))
             {
                 UpdatePhaseToolLedger(phase, false, new List<string>());
-                _history.Add(("assistant", "<no_action/>"));
+                _history.Add(("toolcall", "<no_action/>"));
                 _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
                 PersistHistory();
                 UpdateActionLedgerNote();
@@ -1325,43 +1325,45 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 _inputText = "";
             }
         }
+        // 气泡样式常量
+        private const float BubblePadding = 8f;
+        private const float AvatarSize = 32f;
+        private const float MessageSpacing = 8f;
+        private const float MaxBubbleWidthRatio = 0.75f;
+        private const float BubbleCornerRadius = 8f;
+
         private void DrawChatHistory(Rect rect)
         {
             var originalFont = Text.Font;
             var originalAnchor = Text.Anchor;
+            var originalColor = GUI.color;
 
             try
             {
                 float viewHeight = 0f;
                 var filteredHistory = _history.Where(e => e.role != "tool" && e.role != "system" && e.role != "toolcall").ToList();
 
-                // 添加内边距
-                float innerPadding = 5f;
-                float contentWidth = rect.width - 16f - innerPadding * 2;
+                float containerWidth = rect.width - 16f;
+                float maxBubbleWidth = containerWidth * MaxBubbleWidthRatio;
 
-                // 预计算高度 - 使用小字体
+                // 预计算高度
+                Text.Font = GameFont.Small;
                 for (int i = 0; i < filteredHistory.Count; i++)
                 {
                     var entry = filteredHistory[i];
                     string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
-                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
-                    bool isLastMessage = i == filteredHistory.Count - 1;
+                    if (string.IsNullOrWhiteSpace(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
 
-                    // 设置更小的字体
-                    if (isLastMessage && entry.role == "assistant")
-                    {
-                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
-                    }
-                    else
-                    {
-                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
-                    }
-                    // 增加padding
-                    float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    viewHeight += Text.CalcHeight(text, contentWidth) + padding + 10f;
+                    float textWidth = maxBubbleWidth - (BubblePadding * 2);
+                    if (entry.role == "assistant") textWidth -= (AvatarSize + BubblePadding);
+                    
+                    float textHeight = Text.CalcHeight(text, textWidth);
+                    float bubbleHeight = textHeight + (BubblePadding * 2);
+                    float rowHeight = Mathf.Max(bubbleHeight, entry.role == "assistant" ? AvatarSize : 0f);
+                    viewHeight += rowHeight + MessageSpacing;
                 }
 
-                Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
+                Rect viewRect = new Rect(0f, 0f, containerWidth, viewHeight);
                 if (_scrollToBottom)
                 {
                     _scrollPosition.y = float.MaxValue;
@@ -1376,36 +1378,22 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     var entry = filteredHistory[i];
                     string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
 
-                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
-                    bool isLastMessage = i == filteredHistory.Count - 1;
+                    if (string.IsNullOrWhiteSpace(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
 
-                    // 设置更小的字体
-                    if (isLastMessage && entry.role == "assistant")
-                    {
-                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
-                    }
-                    else
-                    {
-                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
-                    }
-
-                    float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    float height = Text.CalcHeight(text, contentWidth) + padding;
-
-                    // 添加内边距
-                    Rect labelRect = new Rect(innerPadding, curY, contentWidth, height);
+                    Text.Font = GameFont.Small;
 
                     if (entry.role == "user")
                     {
-                        Text.Anchor = TextAnchor.MiddleRight;
-                        Widgets.Label(labelRect, $"<color=#add8e6>{text}</color>");
+                        // 用户消息 - 右对齐，深蓝色气泡
+                        DrawUserMessage(new Rect(0, curY, containerWidth, 0), text, out float userMsgHeight);
+                        curY += userMsgHeight + MessageSpacing;
                     }
                     else
                     {
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        Widgets.Label(labelRect, $"P.I.A: {text}");
+                        // AI消息 - 左对齐，带头像，深红色气泡
+                        DrawAIMessage(new Rect(0, curY, containerWidth, 0), text, out float aiMsgHeight);
+                        curY += aiMsgHeight + MessageSpacing;
                     }
-                    curY += height + 10f;
                 }
                 Widgets.EndScrollView();
             }
@@ -1413,7 +1401,139 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 Text.Font = originalFont;
                 Text.Anchor = originalAnchor;
+                GUI.color = originalColor;
             }
+        }
+
+        private void DrawUserMessage(Rect containerRect, string text, out float totalHeight)
+        {
+            float maxBubbleWidth = containerRect.width * MaxBubbleWidthRatio;
+            float textWidth = maxBubbleWidth - (BubblePadding * 2);
+            
+            Text.Font = GameFont.Small;
+            float textHeight = Text.CalcHeight(text, textWidth);
+            float bubbleHeight = textHeight + (BubblePadding * 2);
+            float bubbleWidth = Mathf.Min(Text.CalcSize(text).x + (BubblePadding * 2), maxBubbleWidth);
+            
+            // 右对齐
+            float bubbleX = containerRect.xMax - bubbleWidth;
+            Rect bubbleRect = new Rect(bubbleX, containerRect.y, bubbleWidth, bubbleHeight);
+            
+            // 绘制圆角气泡背景 - 用户用深蓝色 (StudentBubble)
+            DrawRoundedRect(bubbleRect, WulaLinkStyles.StudentBubbleColor, BubbleCornerRadius);
+            
+            // 绘制文字
+            GUI.color = WulaLinkStyles.StudentTextColor;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(bubbleRect.ContractedBy(BubblePadding), text);
+            GUI.color = Color.white;
+            
+            totalHeight = bubbleHeight;
+        }
+
+        private void DrawAIMessage(Rect containerRect, string text, out float totalHeight)
+        {
+            float maxBubbleWidth = containerRect.width * MaxBubbleWidthRatio;
+            float textWidth = maxBubbleWidth - (BubblePadding * 2) - AvatarSize - BubblePadding;
+            
+            Text.Font = GameFont.Small;
+            float textHeight = Text.CalcHeight(text, textWidth);
+            float bubbleHeight = textHeight + (BubblePadding * 2);
+            float bubbleWidth = Mathf.Min(Text.CalcSize(text).x + (BubblePadding * 2), maxBubbleWidth - AvatarSize - BubblePadding);
+            
+            totalHeight = Mathf.Max(bubbleHeight, AvatarSize);
+            
+            // 头像区域 - 左侧
+            Rect avatarRect = new Rect(containerRect.x, containerRect.y + (totalHeight - AvatarSize) / 2f, AvatarSize, AvatarSize);
+            
+            // 绘制圆形头像
+            DrawCircularAvatar(avatarRect);
+            
+            // 气泡区域 - 头像右侧
+            float bubbleX = avatarRect.xMax + BubblePadding;
+            Rect bubbleRect = new Rect(bubbleX, containerRect.y + (totalHeight - bubbleHeight) / 2f, bubbleWidth, bubbleHeight);
+            
+            // 绘制圆角气泡背景 - AI用深红色 (SenseiBubble)
+            DrawRoundedRect(bubbleRect, WulaLinkStyles.SenseiBubbleColor, BubbleCornerRadius);
+            
+            // 绘制文字
+            GUI.color = WulaLinkStyles.SenseiTextColor;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(bubbleRect.ContractedBy(BubblePadding), text);
+            GUI.color = Color.white;
+        }
+
+        private void DrawCircularAvatar(Rect rect)
+        {
+            // 获取当前头像
+            Texture2D avatarTex = portrait;
+            if (avatarTex == null && _portraits.Count > 0)
+            {
+                avatarTex = _portraits.Values.FirstOrDefault();
+            }
+            
+            // 绘制圆形背景
+            DrawRoundedRect(rect, new Color(0.3f, 0.15f, 0.15f, 1f), rect.width / 2f);
+            
+            if (avatarTex != null)
+            {
+                // 使用圆形遮罩绘制头像
+                if (WulaLinkStyles.TexCircleMask != null)
+                {
+                    // 先绘制头像
+                    GUI.DrawTexture(rect, avatarTex, ScaleMode.ScaleToFit);
+                    // 再用遮罩（如果可用）
+                    GUI.color = new Color(1f, 1f, 1f, 1f);
+                }
+                else
+                {
+                    // 无遮罩时直接绘制
+                    GUI.DrawTexture(rect, avatarTex, ScaleMode.ScaleToFit);
+                }
+            }
+            else
+            {
+                // 无头像时显示占位符
+                GUI.color = WulaLinkStyles.SenseiTextColor;
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(rect, "P.I.A");
+            }
+            GUI.color = Color.white;
+        }
+
+        private void DrawRoundedRect(Rect rect, Color color, float radius)
+        {
+            var originalColor = GUI.color;
+            GUI.color = color;
+            
+            // RimWorld没有内置圆角矩形，使用实心矩形模拟
+            // 主体矩形
+            Widgets.DrawBoxSolid(new Rect(rect.x + radius, rect.y, rect.width - radius * 2, rect.height), color);
+            Widgets.DrawBoxSolid(new Rect(rect.x, rect.y + radius, rect.width, rect.height - radius * 2), color);
+            
+            // 四个角的圆（用小方块近似）
+            float step = radius / 3f;
+            for (float dx = 0; dx < radius; dx += step)
+            {
+                for (float dy = 0; dy < radius; dy += step)
+                {
+                    float dist = Mathf.Sqrt(dx * dx + dy * dy);
+                    if (dist <= radius)
+                    {
+                        // 左上角
+                        Widgets.DrawBoxSolid(new Rect(rect.x + radius - dx - step, rect.y + radius - dy - step, step, step), color);
+                        // 右上角
+                        Widgets.DrawBoxSolid(new Rect(rect.xMax - radius + dx, rect.y + radius - dy - step, step, step), color);
+                        // 左下角
+                        Widgets.DrawBoxSolid(new Rect(rect.x + radius - dx - step, rect.yMax - radius + dy, step, step), color);
+                        // 右下角
+                        Widgets.DrawBoxSolid(new Rect(rect.xMax - radius + dx, rect.yMax - radius + dy, step, step), color);
+                    }
+                }
+            }
+            
+            GUI.color = originalColor;
         }
 
         private string ParseResponseForDisplay(string rawResponse)
