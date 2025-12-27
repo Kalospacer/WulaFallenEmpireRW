@@ -321,10 +321,17 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_SearchThingDef());
             _tools.Add(new Tool_SearchPawnKind());
             
+            // Agent 工具 - 游戏操作
+            _tools.Add(new Tool_GetGameState());
+            _tools.Add(new Tool_DesignateMine());
+            _tools.Add(new Tool_DraftPawn());
+            
             // VLM 视觉分析工具 (条件性启用)
             if (WulaFallenEmpireMod.settings?.enableVlmFeatures == true)
             {
                 _tools.Add(new Tool_AnalyzeScreen());
+                _tools.Add(new Tool_VisualClick());
+                _tools.Add(new Tool_VisualScroll());
             }
         }
 
