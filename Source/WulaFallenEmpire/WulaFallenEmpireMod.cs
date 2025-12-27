@@ -33,37 +33,51 @@ namespace WulaFallenEmpire
             
             listingStandard.Label("Wula_AISettings_Title".Translate());
             
-            listingStandard.Label("Wula_AISettings_ApiKey".Translate());
-            Rect apiKeyRect = listingStandard.GetRect(30f);
-            // 这里我们手动实现一个带切换功能的密码输入框
-            float toggleWidth = 60f;
-            Rect passwordRect = new Rect(apiKeyRect.x, apiKeyRect.y, apiKeyRect.width - toggleWidth - 5f, apiKeyRect.height);
-            Rect toggleRect = new Rect(apiKeyRect.xMax - toggleWidth, apiKeyRect.y, toggleWidth, apiKeyRect.height);
-            
-            // 使用静态布尔值或类成员来记住显示状态
-            if (WulaFallenEmpireMod._showApiKey)
+            listingStandard.Label("<color=cyan>AI 核心协议选择</color>");
+            bool currentIsGemini = settings.useGeminiProtocol;
+            if (listingStandard.RadioButton("OpenAI / 常用兼容格式 (DeepSeek, ChatGPT)", !currentIsGemini)) settings.useGeminiProtocol = false;
+            if (listingStandard.RadioButton("Google Gemini 原生格式 (支持本地多模态)", currentIsGemini)) settings.useGeminiProtocol = true;
+            listingStandard.GapLine();
+
+            // 根据当前选中的协议，动态绑定输入字段
+            if (settings.useGeminiProtocol)
             {
-                settings.apiKey = Widgets.TextField(passwordRect, settings.apiKey);
+                listingStandard.Label("<color=orange>Gemini 设置 (独立存储)</color>");
+                
+                listingStandard.Label("Gemini API Key:");
+                Rect keyRect = listingStandard.GetRect(30f);
+                float tw = 60f;
+                Rect pRect = new Rect(keyRect.x, keyRect.y, keyRect.width - tw - 5f, keyRect.height);
+                Rect tRect = new Rect(keyRect.xMax - tw, keyRect.y, tw, keyRect.height);
+                if (WulaFallenEmpireMod._showApiKey) settings.geminiApiKey = Widgets.TextField(pRect, settings.geminiApiKey);
+                else settings.geminiApiKey = GUI.PasswordField(pRect, settings.geminiApiKey, '•');
+                Widgets.CheckboxLabeled(tRect, "Show", ref WulaFallenEmpireMod._showApiKey);
+                
+                listingStandard.Label("API 代理地址 (可选，留空则用官方 Google 节点):");
+                settings.geminiBaseUrl = listingStandard.TextEntry(settings.geminiBaseUrl);
+                
+                listingStandard.Label("模型名称:");
+                settings.geminiModel = listingStandard.TextEntry(settings.geminiModel);
             }
             else
             {
-                settings.apiKey = GUI.PasswordField(passwordRect, settings.apiKey, '•');
+                listingStandard.Label("<color=orange>OpenAI 兼容设置 (独立存储)</color>");
+                
+                listingStandard.Label("API Key:");
+                Rect keyRect = listingStandard.GetRect(30f);
+                float tw = 60f;
+                Rect pRect = new Rect(keyRect.x, keyRect.y, keyRect.width - tw - 5f, keyRect.height);
+                Rect tRect = new Rect(keyRect.xMax - tw, keyRect.y, tw, keyRect.height);
+                if (WulaFallenEmpireMod._showApiKey) settings.apiKey = Widgets.TextField(pRect, settings.apiKey);
+                else settings.apiKey = GUI.PasswordField(pRect, settings.apiKey, '•');
+                Widgets.CheckboxLabeled(tRect, "Show", ref WulaFallenEmpireMod._showApiKey);
+                
+                listingStandard.Label("Base URL:");
+                settings.baseUrl = listingStandard.TextEntry(settings.baseUrl);
+                
+                listingStandard.Label("模型名称:");
+                settings.model = listingStandard.TextEntry(settings.model);
             }
-            
-            Widgets.CheckboxLabeled(toggleRect, "Show", ref WulaFallenEmpireMod._showApiKey);
-            listingStandard.Gap(listingStandard.verticalSpacing);
-            
-            listingStandard.Label("Wula_AISettings_BaseUrl".Translate());
-            settings.baseUrl = listingStandard.TextEntry(settings.baseUrl);
-            
-            listingStandard.Label("Wula_AISettings_Model".Translate());
-            settings.model = listingStandard.TextEntry(settings.model);
-
-            listingStandard.Gap(5f);
-            listingStandard.Label("<color=orange>API 协议格式:</color>");
-            if (listingStandard.RadioButton("OpenAI / 常用兼容格式 (默认)", !settings.useGeminiProtocol)) settings.useGeminiProtocol = false;
-            if (listingStandard.RadioButton("Google Gemini 原生格式", settings.useGeminiProtocol)) settings.useGeminiProtocol = true;
-            listingStandard.Gap(5f);
 
             listingStandard.GapLine();
             listingStandard.Label("Wula_AISettings_MaxContextTokens".Translate());

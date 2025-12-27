@@ -595,7 +595,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
-                var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model);
+                string apiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
+                string baseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
+                string model = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
+
+                var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
 
                 var queryPhase = RequestPhase.QueryTools;
                 if (Prefs.DevMode)

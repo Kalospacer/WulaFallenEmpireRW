@@ -121,7 +121,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
                     return;
                 }
                 
-                var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model, settings.useGeminiProtocol);
+                string apiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
+                string baseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
+                string model = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
+
+                var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 
                 string decision;
                 string base64Image = null;

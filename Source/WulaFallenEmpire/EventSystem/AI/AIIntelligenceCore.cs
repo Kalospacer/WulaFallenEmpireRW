@@ -851,7 +851,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
-                var client = new SimpleAIClient(settings.apiKey, settings.baseUrl, settings.model, settings.useGeminiProtocol);
+                string apiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
+                string baseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
+                string model = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
+
+                var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 _currentClient = client;
 
                 // 只有当启用了 VLM 特性，且开启了原生多模态模式时，才截图并在请求中包含图片

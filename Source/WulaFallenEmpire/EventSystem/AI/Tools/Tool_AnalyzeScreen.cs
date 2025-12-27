@@ -47,14 +47,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     return "Mod 设置未初始化。";
                 }
                 
-                // 使用主 API 配置
-                string vlmApiKey = settings.apiKey;
-                string vlmBaseUrl = settings.baseUrl;
-                string vlmModel = settings.model;
+                // 根据协议选择配置
+                string vlmApiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
+                string vlmBaseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
+                string vlmModel = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
                 
                 if (string.IsNullOrEmpty(vlmApiKey))
                 {
-                    return "主 API 密钥未配置。请在 Mod 设置中配置。";
+                    return "API 密钥未配置。请在 Mod 设置中配置。";
                 }
                 
                 // 截取屏幕

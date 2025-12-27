@@ -7,6 +7,12 @@ namespace WulaFallenEmpire
         public string apiKey = "sk-xxxxxxxx";
         public string baseUrl = "https://api.deepseek.com";
         public string model = "deepseek-chat";
+        
+        // Gemini 专属配置 (独立存储)
+        public string geminiApiKey = "";
+        public string geminiBaseUrl = "https://generativelanguage.googleapis.com/v1beta";
+        public string geminiModel = "gemini-1.5-flash";
+        
         public bool useGeminiProtocol = false; // 是否使用 Google Gemini 协议格式
         public int maxContextTokens = 100000;
         public bool enableDebugLogs = false;
@@ -21,6 +27,11 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref apiKey, "apiKey", "sk-xxxxxxxx");
             Scribe_Values.Look(ref baseUrl, "baseUrl", "https://api.deepseek.com");
             Scribe_Values.Look(ref model, "model", "deepseek-chat");
+            
+            Scribe_Values.Look(ref geminiApiKey, "geminiApiKey", "");
+            Scribe_Values.Look(ref geminiBaseUrl, "geminiBaseUrl", "https://generativelanguage.googleapis.com/v1beta");
+            Scribe_Values.Look(ref geminiModel, "geminiModel", "gemini-1.5-flash");
+            
             Scribe_Values.Look(ref useGeminiProtocol, "useGeminiProtocol", false);
             Scribe_Values.Look(ref maxContextTokens, "maxContextTokens", 100000);
             Scribe_Values.Look(ref enableDebugLogs, "enableDebugLogs", false);
