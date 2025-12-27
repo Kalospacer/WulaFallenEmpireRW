@@ -28,6 +28,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         private int _expressionId = 2;
         private bool _overlayWindowOpen = false;
         private string _overlayWindowEventDefName = null;
+        private float _overlayWindowX = -1f;
+        private float _overlayWindowY = -1f;
 
         private float _thinkingStartTime;
         private int _thinkingPhaseIndex = 1;
@@ -106,6 +108,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             Scribe_Values.Look(ref _expressionId, "WulaAI_ExpressionId", 2);
             Scribe_Values.Look(ref _overlayWindowOpen, "WulaAI_OverlayWindowOpen", false);
             Scribe_Values.Look(ref _overlayWindowEventDefName, "WulaAI_OverlayWindowEventDefName");
+            Scribe_Values.Look(ref _overlayWindowX, "WulaAI_OverlayWindowX", -1f);
+            Scribe_Values.Look(ref _overlayWindowY, "WulaAI_OverlayWindowY", -1f);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -129,7 +133,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                 var eventDef = DefDatabase<EventDef>.GetNamedSilentFail(eventDefNameToRestore);
                                 if (eventDef != null)
                                 {
-                                    Find.WindowStack.Add(new WulaFallenEmpire.EventSystem.AI.UI.Overlay_WulaLink(eventDef));
+                                    var newWindow = new WulaFallenEmpire.EventSystem.AI.UI.Overlay_WulaLink(eventDef);
+                                    Find.WindowStack.Add(newWindow);
+                                    newWindow.ToggleMinimize(); // Start minimized
+                                    // Force position after everything else
+                                    if (_overlayWindowX >= 0f && _overlayWindowY >= 0f)
+                                    {
+                                        newWindow.windowRect.x = _overlayWindowX;
+                                        newWindow.windowRect.y = _overlayWindowY;
+                                    }
                                 }
                             }
                         }
@@ -142,7 +154,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
         }
 
-        public void SetOverlayWindowState(bool isOpen, string eventDefName = null)
+        public void SetOverlayWindowState(bool isOpen, string eventDefName = null, float x = -1f, float y = -1f)
         {
             _overlayWindowOpen = isOpen;
             if (isOpen && !string.IsNullOrEmpty(eventDefName))
@@ -153,6 +165,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 _overlayWindowEventDefName = null;
             }
+            // Always update position if provided
+            if (x >= 0f) _overlayWindowX = x;
+            if (y >= 0f) _overlayWindowY = y;
         }
 
         public int ExpressionId => _expressionId;

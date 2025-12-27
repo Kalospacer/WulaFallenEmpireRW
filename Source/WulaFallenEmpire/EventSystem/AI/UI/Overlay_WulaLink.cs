@@ -39,6 +39,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private int _unreadCount = 0;
         private Vector2 _expandedSize;
         private Vector2 _minimizedSize = new Vector2(180f, 40f);
+        private Vector2? _initialPosition = null;
         
         // Layout Constants
         private const float HeaderHeight = 50f;
@@ -71,6 +72,22 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         }
 
         public override Vector2 InitialSize => _isMinimized ? _minimizedSize : _expandedSize;
+
+        public void SetInitialPosition(float x, float y)
+        {
+            _initialPosition = new Vector2(x, y);
+        }
+
+        protected override void SetInitialSizeAndPosition()
+        {
+            base.SetInitialSizeAndPosition();
+            // Override position if we have a saved position
+            if (_initialPosition.HasValue)
+            {
+                windowRect.x = _initialPosition.Value.x;
+                windowRect.y = _initialPosition.Value.y;
+            }
+        }
 
         public void ToggleMinimize()
         {
@@ -128,7 +145,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 _core.OnMessageReceived -= OnMessageReceived;
                 _core.OnThinkingStateChanged -= OnThinkingStateChanged;
                 _core.OnExpressionChanged -= OnExpressionChanged;
-                _core.SetOverlayWindowState(false);
+                // Save position before closing
+                _core.SetOverlayWindowState(false, null, windowRect.x, windowRect.y);
             }
         }
 
