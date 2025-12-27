@@ -19,6 +19,19 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private Vector2 _scrollPosition = Vector2.zero;
         private string _inputText = "";
         private bool _scrollToBottom = true;
+        private int _lastHistoryCount = -1;
+        private float _lastUsedWidth = -1f;
+        private List<CachedMessage> _cachedMessages = new List<CachedMessage>();
+        private float _cachedTotalHeight = 0f;
+
+        private class CachedMessage
+        {
+            public string role;
+            public string message;
+            public string displayText;
+            public float height;
+            public float yOffset;
+        }
 
         
         // HUD / Minimized State
@@ -323,67 +336,87 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             return Widgets.ButtonInvisible(rect);
         }
 
-        private void DrawMessageList(Rect rect)
+        private void UpdateCacheIfNeeded(float width)
         {
             var history = _core?.GetHistorySnapshot();
             if (history == null) return;
 
-            // Filter out tool messages, empty messages, and XML-only messages
-            var displayHistory = new List<(string role, string message, string displayText)>();
+            // 如果宽度没变且条数没变，就不重算
+            if (Math.Abs(_lastUsedWidth - width) < 0.1f && history.Count == _lastHistoryCount)
+            {
+                return;
+            }
+
+            _lastUsedWidth = width;
+            _lastHistoryCount = history.Count;
+            _cachedMessages.Clear();
+            _cachedTotalHeight = 0f;
+            float reducedSpacing = 8f;
+            float curY = 10f;
+
             foreach (var msg in history)
             {
-                // Skip tool/toolcall messages to avoid empty spacing
+                // Filter logic
                 if (msg.role == "tool" || msg.role == "toolcall") continue;
                 if (msg.role == "system" && !Prefs.DevMode) continue;
                 
-                // For assistant messages, strip XML and check if empty
                 string displayText = msg.message;
                 if (msg.role == "assistant")
                 {
                     displayText = StripXmlTags(msg.message)?.Trim() ?? "";
                 }
                 
-                // Skip empty or whitespace-only messages
                 if (string.IsNullOrWhiteSpace(displayText)) continue;
+
+                float h = CalcMessageHeight(msg.role == "assistant" ? displayText : msg.message, width);
                 
-                displayHistory.Add((msg.role, msg.message, displayText));
+                _cachedMessages.Add(new CachedMessage
+                {
+                    role = msg.role,
+                    message = msg.message,
+                    displayText = displayText,
+                    height = h,
+                    yOffset = curY
+                });
+
+                curY += h + reducedSpacing;
             }
 
-            // Setup ScrollView
-            float contentHeight = 0f;
+            _cachedTotalHeight = curY;
+        }
+
+        private void DrawMessageList(Rect rect)
+        {
             float width = rect.width - 26f; // Scrollbar space
-            float reducedSpacing = 8f;
-            
-            List<float> heights = new List<float>();
-            foreach (var msg in displayHistory)
+            UpdateCacheIfNeeded(width);
+
+            float totalContentHeight = _cachedTotalHeight;
+            if (_core != null && _core.IsThinking)
             {
-                string textToMeasure = msg.role == "assistant" ? msg.displayText : msg.message;
-                float h = CalcMessageHeight(textToMeasure, width);
-                heights.Add(h);
-                contentHeight += h + reducedSpacing;
-            }
-            
-            if (_core.IsThinking)
-            {
-                contentHeight += 40f;
+                totalContentHeight += 40f;
             }
 
-            Rect viewRect = new Rect(0, 0, width, contentHeight);
+            Rect viewRect = new Rect(0, 0, width, totalContentHeight);
             
             if (_scrollToBottom)
             {
-                _scrollPosition.y = contentHeight - rect.height;
+                _scrollPosition.y = totalContentHeight - rect.height;
                 _scrollToBottom = false;
             }
 
             Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
 
-            float curY = 10f;
-            for (int i = 0; i < displayHistory.Count; i++)
+            // 虚拟化渲染：只绘制在窗口内的消息
+            float viewTop = _scrollPosition.y;
+            float viewBottom = _scrollPosition.y + rect.height;
+
+            foreach (var entry in _cachedMessages)
             {
-                var entry = displayHistory[i];
-                float h = heights[i];
-                Rect msgRect = new Rect(0, curY, width, h);
+                // 检查是否在可见范围内 (略微预留 Buffer)
+                if (entry.yOffset + entry.height < viewTop - 100f) continue;
+                if (entry.yOffset > viewBottom + 100f) break;
+
+                Rect msgRect = new Rect(0, entry.yOffset, width, entry.height);
                 
                 if (entry.role == "user")
                 {
@@ -401,14 +434,16 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 {
                     DrawSystemMessage(msgRect, entry.message);
                 }
-
-                curY += h + reducedSpacing;
             }
 
-            if (_core.IsThinking)
+            if (_core != null && _core.IsThinking)
             {
-                Rect thinkingRect = new Rect(0, curY, width, 30f);
-                DrawThinkingIndicator(thinkingRect);
+                float thinkingY = _cachedTotalHeight > 0 ? _cachedTotalHeight : 10f;
+                Rect thinkingRect = new Rect(0, thinkingY, width, 30f);
+                if (thinkingY + 30f >= viewTop && thinkingY <= viewBottom)
+                {
+                    DrawThinkingIndicator(thinkingRect);
+                }
             }
 
             Widgets.EndScrollView();

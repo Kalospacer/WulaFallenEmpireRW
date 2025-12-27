@@ -90,6 +90,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 request.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-Type", "application/json");
+                request.timeout = 120; // 120 seconds timeout
                 if (!string.IsNullOrEmpty(_apiKey))
                 {
                     request.SetRequestHeader("Authorization", $"Bearer {_apiKey}");

@@ -22,6 +22,20 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private bool _isThinking = false;
         private Vector2 _scrollPosition = Vector2.zero;
         private bool _scrollToBottom = false;
+        private int _lastHistoryCount = -1;
+        private float _lastUsedWidth = -1f;
+        private List<CachedMessage> _cachedMessages = new List<CachedMessage>();
+        private float _cachedTotalHeight = 0f;
+
+        private class CachedMessage
+        {
+            public string role;
+            public string message;
+            public string displayText;
+            public float height;
+            public float yOffset;
+            public GameFont font;
+        }
         private List<AITool> _tools = new List<AITool>();
         private AIIntelligenceCore _core;
         private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
@@ -1400,6 +1414,57 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 _inputText = "";
             }
         }
+        private void UpdateCacheIfNeeded(float width)
+        {
+            if (_core == null) return;
+            var history = _core.GetHistorySnapshot();
+            if (history == null) return;
+
+            if (Math.Abs(_lastUsedWidth - width) < 0.1f && history.Count == _lastHistoryCount)
+            {
+                return;
+            }
+
+            _lastUsedWidth = width;
+            _lastHistoryCount = history.Count;
+            _cachedMessages.Clear();
+            _cachedTotalHeight = 0f;
+            float curY = 0f;
+            float innerPadding = 5f;
+            float contentWidth = width - innerPadding * 2;
+
+            for (int i = 0; i < history.Count; i++)
+            {
+                var entry = history[i];
+                string messageText = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
+                
+                // Always skip tool/toolcall/system messages (original behavior)
+                if (entry.role == "tool" || entry.role == "system" || entry.role == "toolcall") continue;
+                if (string.IsNullOrEmpty(messageText) || (entry.role == "user" && messageText.StartsWith("[Tool Results]"))) continue;
+
+                bool isLastMessage = i == history.Count - 1;
+                GameFont font = (isLastMessage && entry.role == "assistant") ? GameFont.Small : GameFont.Tiny;
+                float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
+
+                Text.Font = font;
+                float height = Text.CalcHeight(messageText, contentWidth) + padding;
+
+                _cachedMessages.Add(new CachedMessage
+                {
+                    role = entry.role,
+                    message = entry.message,
+                    displayText = messageText,
+                    height = height,
+                    yOffset = curY,
+                    font = font
+                });
+
+                curY += height + 10f;
+            }
+
+            _cachedTotalHeight = curY;
+        }
+
         private void DrawChatHistory(Rect rect)
         {
             var originalFont = Text.Font;
@@ -1407,98 +1472,72 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             try
             {
-                float viewHeight = 0f;
-                var filteredHistory = _history.Where(e => e.role != "tool" && e.role != "system" && e.role != "toolcall").ToList();
-
-                // 添加内边距
                 float innerPadding = 5f;
                 float contentWidth = rect.width - 16f - innerPadding * 2;
 
-                // 预计计算高度 - 使用小字体
-                for (int i = 0; i < filteredHistory.Count; i++)
-                {
-                    var entry = filteredHistory[i];
-                    string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
-                    if (string.IsNullOrWhiteSpace(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
-                    bool isLastMessage = i == filteredHistory.Count - 1;
+                UpdateCacheIfNeeded(rect.width - 16f);
 
-                    // 设置更小的字体
-                    if (isLastMessage && entry.role == "assistant")
-                    {
-                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
-                    }
-                    else
-                    {
-                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
-                    }
-                    // 增加padding
-                    float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    viewHeight += Text.CalcHeight(text, contentWidth) + padding + 10f;
-                }
-
-                // 为思考指示器预留高度
+                float totalHeight = _cachedTotalHeight;
                 if (_isThinking)
                 {
-                    viewHeight += 40f;
+                    totalHeight += 40f;
                 }
 
-                Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
+                Rect viewRect = new Rect(0f, 0f, rect.width - 16f, totalHeight);
                 if (_scrollToBottom)
                 {
-                    _scrollPosition.y = float.MaxValue;
+                    _scrollPosition.y = totalHeight - rect.height;
                     _scrollToBottom = false;
                 }
 
                 Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
 
-                float curY = 0f;
-                for (int i = 0; i < filteredHistory.Count; i++)
+                float viewTop = _scrollPosition.y;
+                float viewBottom = _scrollPosition.y + rect.height;
+
+                foreach (var entry in _cachedMessages)
                 {
-                    var entry = filteredHistory[i];
-                    string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
+                    if (entry.yOffset + entry.height < viewTop - 100f) continue;
+                    if (entry.yOffset > viewBottom + 100f) break;
 
-                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
-                    bool isLastMessage = i == filteredHistory.Count - 1;
-
-                    // 设置更小的字体
-                    if (isLastMessage && entry.role == "assistant")
-                    {
-                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
-                    }
-                    else
-                    {
-                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
-                    }
-
-                    float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    float height = Text.CalcHeight(text, contentWidth) + padding;
-
-                    // 娣诲姞鍐呰竟璺?
-                    Rect labelRect = new Rect(innerPadding, curY, contentWidth, height);
+                    Text.Font = entry.font;
+                    Rect labelRect = new Rect(innerPadding, entry.yOffset, contentWidth, entry.height);
 
                     if (entry.role == "user")
                     {
                         Text.Anchor = TextAnchor.MiddleRight;
-                        Widgets.Label(labelRect, $"<color=#add8e6>{text}</color>");
+                        Widgets.Label(labelRect, $"<color=#add8e6>{entry.displayText}</color>");
+                    }
+                    else if (entry.role == "assistant")
+                    {
+                        Text.Anchor = TextAnchor.MiddleLeft;
+                        Widgets.Label(labelRect, $"P.I.A: {entry.displayText}");
                     }
                     else
                     {
                         Text.Anchor = TextAnchor.MiddleLeft;
-                        Widgets.Label(labelRect, $"P.I.A: {text}");
+                        GUI.color = Color.gray;
+                        Widgets.Label(labelRect, $"[{entry.role}] {entry.displayText}");
+                        GUI.color = Color.white;
                     }
-                    curY += height + 10f;
                 }
 
                 if (_isThinking)
                 {
-                    DrawThinkingIndicator(new Rect(innerPadding, curY, contentWidth, 35f));
+                    float thinkingY = _cachedTotalHeight > 0 ? _cachedTotalHeight : 0f;
+                    if (thinkingY + 40f >= viewTop && thinkingY <= viewBottom)
+                    {
+                        DrawThinkingIndicator(new Rect(innerPadding, thinkingY, contentWidth, 35f));
+                    }
                 }
+
                 Widgets.EndScrollView();
             }
             finally
             {
                 Text.Font = originalFont;
                 Text.Anchor = originalAnchor;
+                GUI.color = Color.white;
             }
         }
 
