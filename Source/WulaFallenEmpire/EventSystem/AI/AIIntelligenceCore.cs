@@ -489,6 +489,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (hasImage && WulaFallenEmpireMod.settings?.enableVlmFeatures == true)
             {
                 phaseInstruction += "\n- NATIVE MULTIMODAL: A current screenshot of the game is attached to this request. You can see the game state directly. Use it to determine coordinates for visual tools or to understand the context.";
+                if (phase == RequestPhase.ActionTools)
+                {
+                    phaseInstruction += "\n- VISUAL PHASE RULE: This phase is for ACTIONS only. If you want to describe the screen to the user, wait for the next phase (Reply Phase). Output XML actions only here.";
+                }
             }
 
             string actionWhitelist = phase == RequestPhase.ActionTools
@@ -1150,7 +1154,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     AddAssistantMessage("<i>[P.I.A] 正在汇总战报并建立通讯记录...</i>");
                 }
 
-                string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory());
+                // VISUAL CONTEXT FOR REPLY: Pass the image so the AI can describe what it sees.
+                string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory(), base64Image: base64Image);
                 if (string.IsNullOrEmpty(reply))
                 {
                     AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());

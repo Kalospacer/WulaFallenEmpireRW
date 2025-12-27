@@ -60,23 +60,44 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (maxTokens.HasValue) jsonBuilder.Append($"\"max_tokens\": {Math.Max(1, maxTokens.Value)},");
             if (temperature.HasValue) jsonBuilder.Append($"\"temperature\": {temperature.Value.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)},");
             
+            var validMessages = messages.Where(m => 
+            {
+                string r = (m.role ?? "user").ToLowerInvariant();
+                return r != "toolcall";
+            }).ToList();
+
             jsonBuilder.Append("\"messages\": [");
             if (!string.IsNullOrEmpty(instruction))
             {
-                jsonBuilder.Append($"{{\"role\": \"system\", \"content\": \"{EscapeJson(instruction)}\"}},");
+                jsonBuilder.Append($"{{\"role\": \"system\", \"content\": \"{EscapeJson(instruction)}\"}}");
+                if (validMessages.Count > 0) jsonBuilder.Append(",");
             }
 
-            for (int i = 0; i < messages.Count; i++)
+            // Find the index of the last user message to attach the image to
+            int lastUserIndex = -1;
+            if (!string.IsNullOrEmpty(base64Image))
             {
-                var msg = messages[i];
+                for (int i = validMessages.Count - 1; i >= 0; i--)
+                {
+                    string r = (validMessages[i].role ?? "user").ToLowerInvariant();
+                    if (r != "ai" && r != "assistant" && r != "tool" && r != "system")
+                    {
+                        lastUserIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < validMessages.Count; i++)
+            {
+                var msg = validMessages[i];
                 string role = (msg.role ?? "user").ToLowerInvariant();
                 if (role == "ai" || role == "assistant") role = "assistant";
                 else if (role == "tool") role = "system";
-                else if (role == "toolcall") continue;
                 
                 jsonBuilder.Append($"{{\"role\": \"{role}\", ");
                 
-                if (i == messages.Count - 1 && role == "user" && !string.IsNullOrEmpty(base64Image))
+                if (i == lastUserIndex && !string.IsNullOrEmpty(base64Image))
                 {
                     jsonBuilder.Append("\"content\": [");
                     jsonBuilder.Append($"{{\"type\": \"text\", \"text\": \"{EscapeJson(msg.message)}\"}},");
@@ -89,7 +110,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 }
                 
                 jsonBuilder.Append("}");
-                if (i < messages.Count - 1) jsonBuilder.Append(",");
+                if (i < validMessages.Count - 1) jsonBuilder.Append(",");
             }
             jsonBuilder.Append("]}");
 
@@ -215,6 +236,35 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             if (string.IsNullOrWhiteSpace(json)) return null;
 
+            // Handle SSE Stream (data: ...)
+            // Some endpoints return SSE streams even if stream=false is requested.
+            // We strip 'data:' prefix and aggregate the content deltas.
+            if (json.TrimStart().StartsWith("data:"))
+            {
+                StringBuilder sb = new StringBuilder();
+                string[] lines = json.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string line in lines)
+                {
+                    string trimmed = line.Trim();
+                    if (trimmed.StartsWith("data:") && !trimmed.Contains("[DONE]"))
+                    {
+                        string chunkJson = trimmed.Substring(5).Trim();
+                        // Extract content from this chunk
+                        string chunkContent = ExtractContentFromSingleJson(chunkJson);
+                        if (!string.IsNullOrEmpty(chunkContent))
+                        {
+                            sb.Append(chunkContent);
+                        }
+                    }
+                }
+                return sb.ToString();
+            }
+
+            return ExtractContentFromSingleJson(json);
+        }
+
+        private string ExtractContentFromSingleJson(string json)
+        {
             try
             {
                 // 1. Gemini format
