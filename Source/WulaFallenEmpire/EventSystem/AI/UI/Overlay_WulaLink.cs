@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -45,9 +45,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             this.forcePause = false;
             this.absorbInputAroundWindow = false;
             this.closeOnClickedOutside = false;
-            this.closeOnAccept = false; // ∑¿÷π Enter º¸ŒÛπÿ±’
+            this.closeOnAccept = false; // Èò≤Ê≠¢ Enter ÈîÆËØØÂÖ≥Èó≠
             this.doWindowBackground = false; // We draw our own
-            this.drawShadow = false; // Ω˚”√“ı”∞
+            this.drawShadow = false; // Á¶ÅÁî®Èò¥ÂΩ±
             this.draggable = true;
             this.resizeable = true;
             this.preventCameraMotion = false;
@@ -65,20 +65,23 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             
             if (_isMinimized)
             {
-                // ◊Ó–°ªØ ±±£≥÷µ±«∞Œª÷√£¨÷ªµ˜’˚¥Û–°
+                // ÊúÄÂ∞èÂåñÊó∂‰øùÊåÅÂΩìÂâç‰ΩçÁΩÆÔºåÂè™Ë∞ÉÊï¥Â§ßÂ∞è
                 windowRect.width = _minimizedSize.x;
                 windowRect.height = _minimizedSize.y;
-                // »∑±£≤ª≥¨≥ˆ∆¡ƒª±ﬂΩÁ
+                // Á°Æ‰øù‰∏çË∂ÖÂá∫Â±èÂπïËæπÁïå
                 windowRect.x = Mathf.Clamp(windowRect.x, 0, Verse.UI.screenWidth - _minimizedSize.x);
                 windowRect.y = Mathf.Clamp(windowRect.y, 0, Verse.UI.screenHeight - _minimizedSize.y);
             }
             else
             {
-                // ’πø™ ±æ”÷–µΩ∆¡ƒª÷––ƒ
+                // Â±ïÂºÄÊó∂‰ªÖÊÅ¢Â§çÂ§ßÂ∞èÔºå‰∏çÂº∫Âà∂Â±Ö‰∏≠
                 windowRect.width = _expandedSize.x;
                 windowRect.height = _expandedSize.y;
-                windowRect.x = (Verse.UI.screenWidth - _expandedSize.x) / 2f;
-                windowRect.y = (Verse.UI.screenHeight - _expandedSize.y) / 2f;
+                // Á°Æ‰øùÂ±ïÂºÄÂêé‰∏çË∂ÖÂá∫Âè≥‰æßËæπÁïåÔºàÁÆÄÂçïËæπÁïåÊ£ÄÊü•Ôºâ
+                if (windowRect.xMax > Verse.UI.screenWidth)
+                {
+                    windowRect.x = Verse.UI.screenWidth - windowRect.width - 20f;
+                }
             }
         }
         
@@ -136,6 +139,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
         public override void DoWindowContents(Rect inRect)
         {
+            // ÊúÄÂ∞èÂåñÊó∂‰∏çÂÖÅËÆ∏Ë∞ÉÊï¥Á™óÂè£Â§ßÂ∞è
+            this.resizeable = !_isMinimized;
+
             if (_isMinimized)
             {
                 DrawMinimized(inRect);
@@ -170,20 +176,29 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             GUI.color = Color.white;
             
             // Layout
-            Rect titleRect = new Rect(rect.x + 10f, rect.y + 5f, rect.width - 20f, 25f);
-            Rect statusRect = new Rect(rect.x + 10f, rect.yMax - 30f, rect.width - 20f, 25f);
+            Rect titleRect = new Rect(0, 10f, rect.width, 30f);
+            Rect statusRect = new Rect(0, rect.height - 35f, rect.width, 25f);
             
             // Title
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.UpperCenter;
+            Text.Font = GameFont.Medium;
             Widgets.Label(titleRect, "WULA LINK");
+            Text.Font = GameFont.Small;
+            
+            // Expand Button (‰ΩøÁî®Ëá™ÂÆö‰πâÊ†∑ÂºèÈò≤Ê≠¢ÊãñÂä®ËØØËß¶)
+            Rect expandBtnRect = new Rect(rect.width - 30f, 5f, 25f, 25f);
+            if (DrawHeaderButton(expandBtnRect, "+"))
+            {
+                ToggleMinimize();
+            }
             
             // Status
             string status = _core.IsThinking ? "Thinking..." : "Standby";
             Color statusColor = _core.IsThinking ? Color.yellow : Color.green;
             
             GUI.color = statusColor;
-            Widgets.Label(statusRect, $"‚ó?{status}");
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(statusRect, $"‚óè {status}"); // ‰ΩøÁî®Ê†áÂáÜÂÆûÂøÉÂúÜÁÇπ
             GUI.color = Color.white;
 
             // Unread Badge
@@ -201,11 +216,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             }
             Text.Anchor = TextAnchor.UpperLeft;
             
-            // Click to Expand
-            if (Widgets.ButtonInvisible(rect))
-            {
-                ToggleMinimize();
-            }
         }
 
         private void DrawContextBar(Rect rect)
@@ -245,17 +255,17 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             titleRect.x += 10f;
             Widgets.Label(titleRect, _def.characterName ?? "MomoTalk");
             
-            // Header Icons (Minimize/Close) - ◊‘∂®“Â—˘ Ω
+            // Header Icons (Minimize/Close) - Ëá™ÂÆö‰πâÊ†∑Âºè
             Rect closeRect = new Rect(rect.width - 35f, 10f, 25f, 25f);
             Rect minRect = new Rect(rect.width - 65f, 10f, 25f, 25f);
             
-            // ◊Ó–°ªØ∞¥≈•
+            // ÊúÄÂ∞èÂåñÊåâÈíÆ
             if (DrawHeaderButton(minRect, "-"))
             {
                 ToggleMinimize();
             }
 
-            // πÿ±’∞¥≈•
+            // ÂÖ≥Èó≠ÊåâÈíÆ
             if (DrawHeaderButton(closeRect, "X"))
             {
                 Close();
@@ -269,8 +279,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         {
             bool isMouseOver = Mouse.IsOver(rect);
             Color buttonColor = isMouseOver 
-                ? new Color(0.6f, 0.3f, 0.3f, 1f)  // Hover: …Ó∫Ï…´
-                : new Color(0.4f, 0.2f, 0.2f, 0.8f); // Normal: ∞µ∫Ï…´
+                ? new Color(0.6f, 0.3f, 0.3f, 1f)  // Hover: Ê∑±Á∫¢Ëâ≤
+                : new Color(0.4f, 0.2f, 0.2f, 0.8f); // Normal: ÊöóÁ∫¢Ëâ≤
             Color textColor = isMouseOver ? Color.white : new Color(0.9f, 0.9f, 0.9f);
             
             var originalColor = GUI.color;
@@ -442,14 +452,15 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private float CalcMessageHeight(string text, float containerWidth)
         {
             float maxBubbleWidth = containerWidth * MaxBubbleWidthRatio;
+            float effectiveWidth = maxBubbleWidth - AvatarSize - 20f;
             Text.Font = WulaLinkStyles.MessageFont;
-            float textH = Text.CalcHeight(text, maxBubbleWidth - (BubblePadding * 2));
-            return Mathf.Max(textH + (BubblePadding * 2), AvatarSize);
+            float textH = Text.CalcHeight(text, effectiveWidth - (BubblePadding * 2));
+            return Mathf.Max(textH + (BubblePadding * 2) + 8f, AvatarSize + 8f);
         }
 
         private void DrawSenseiMessage(Rect rect, string text)
         {
-            // Right aligned Blue Bubble (MomoTalk Sensei style)
+            // Áî®Êà∑Ê∂àÊÅØ - Âè≥ÂØπÈΩêËìùËâ≤Ê∞îÊ≥°
             float maxBubbleWidth = rect.width * MaxBubbleWidthRatio;
             Text.Font = WulaLinkStyles.MessageFont;
             float textWidth = maxBubbleWidth - (BubblePadding * 2);
@@ -457,18 +468,13 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             float bubbleHeight = textHeight + (BubblePadding * 2);
             float bubbleWidth = Mathf.Min(Text.CalcSize(text).x + (BubblePadding * 2) + 10f, maxBubbleWidth);
             
-            // ∆¯≈›Œª÷√ - ”“∂‘∆Î£¨¡Ù≥ˆº˝Õ∑ø’º‰
-            float arrowSize = 8f;
-            Rect bubbleRect = new Rect(rect.xMax - bubbleWidth - arrowSize - 5f, rect.y, bubbleWidth, bubbleHeight);
+            Rect bubbleRect = new Rect(rect.xMax - bubbleWidth - 10f, rect.y, bubbleWidth, bubbleHeight);
             
-            // ªÊ÷∆‘≤Ω«∆¯≈›±≥æ∞ - ¿∂…´ (Sensei color)
-            Color bubbleColor = new Color(0.29f, 0.54f, 0.78f, 1f); // #4a8ac6 MomoTalk Sensei blue
-            DrawRoundedBubble(bubbleRect, bubbleColor, 8f);
+            // ÁªòÂà∂Ê∞îÊ≥°ËÉåÊôØ - ËìùËâ≤
+            Color bubbleColor = new Color(0.29f, 0.54f, 0.78f, 1f);
+            Widgets.DrawBoxSolid(bubbleRect, bubbleColor);
             
-            // ªÊ÷∆”“≤‡º˝Õ∑
-            DrawBubbleArrow(bubbleRect.xMax, bubbleRect.y + 10f, arrowSize, bubbleColor, false);
-            
-            // ªÊ÷∆Œƒ◊÷
+            // ÁªòÂà∂ÊñáÂ≠ó
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(bubbleRect.ContractedBy(BubblePadding), text);
@@ -477,15 +483,11 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
         private void DrawStudentMessage(Rect rect, string text)
         {
-            // Left aligned Gray Bubble + Avatar (MomoTalk Student style)
+            // AIÊ∂àÊÅØ - Â∑¶ÂØπÈΩêÂ∏¶ÊñπÂΩ¢Â§¥ÂÉè
             float avatarX = 10f;
             Rect avatarRect = new Rect(avatarX, rect.y, AvatarSize, AvatarSize);
             
-            // ªÊ÷∆‘≤–ŒÕ∑œÒ±≥æ∞
-            Color avatarBgColor = new Color(0.2f, 0.2f, 0.25f, 1f);
-            DrawRoundedBubble(avatarRect, avatarBgColor, AvatarSize / 2f);
-            
-            // ªÊ÷∆Õ∑œÒ
+            // ÁªòÂà∂ÊñπÂΩ¢Â§¥ÂÉè
             int expId = _core?.ExpressionId ?? 1;
             string portraitPath = _def.portraitPath ?? $"Wula/Events/Portraits/WULA_Legion_{expId}";
             if (expId > 1 && _def.portraitPath == null)
@@ -496,40 +498,36 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Texture2D portrait = ContentFinder<Texture2D>.Get(portraitPath, false);
             if (portrait != null)
             {
-                GUI.DrawTexture(avatarRect.ContractedBy(2f), portrait, ScaleMode.ScaleToFit);
+                GUI.DrawTexture(avatarRect, portrait, ScaleMode.ScaleToFit);
             }
             else
             {
-                // œ‘ æ’ºŒª∑˚
-                GUI.color = Color.white;
-                Text.Font = GameFont.Tiny;
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(avatarRect, "P.I.A");
+                Widgets.DrawBoxSolid(avatarRect, Color.gray);
             }
-            GUI.color = Color.white;
 
-            // ∆¯≈›
+            // Ê∞îÊ≥°
             float maxBubbleWidth = rect.width * MaxBubbleWidthRatio;
-            float arrowSize = 8f;
-            float bubbleX = avatarRect.xMax + arrowSize + 5f;
+            float bubbleX = avatarRect.xMax + 10f;
             
             Text.Font = WulaLinkStyles.MessageFont;
-            float textWidth = maxBubbleWidth - AvatarSize - arrowSize - 20f;
-            float textHeight = Text.CalcHeight(text, textWidth);
+            float textWidth = maxBubbleWidth - AvatarSize - 20f;
+            float textHeight = Text.CalcHeight(text, textWidth - (BubblePadding * 2));
             float bubbleHeight = textHeight + (BubblePadding * 2);
-            float bubbleWidth = Mathf.Min(Text.CalcSize(text).x + (BubblePadding * 2) + 10f, maxBubbleWidth - AvatarSize - arrowSize - 20f);
+            float bubbleWidth = Mathf.Min(Text.CalcSize(text).x + (BubblePadding * 2) + 10f, maxBubbleWidth - AvatarSize - 20f);
             
             Rect bubbleRect = new Rect(bubbleX, rect.y, bubbleWidth, bubbleHeight);
 
-            // ªÊ÷∆‘≤Ω«∆¯≈›±≥æ∞ - ª“…´ (Student color)
-            Color bubbleColor = new Color(0.85f, 0.85f, 0.87f, 1f); // Light gray like MomoTalk
-            DrawRoundedBubble(bubbleRect, bubbleColor, 8f);
+            // ÁªòÂà∂Ê∞îÊ≥°ËÉåÊôØ - ÁÅ∞Ëâ≤
+            Color bubbleColor = new Color(0.85f, 0.85f, 0.87f, 1f);
+            Widgets.DrawBoxSolid(bubbleRect, bubbleColor);
             
-            // ªÊ÷∆◊Û≤‡º˝Õ∑
-            DrawBubbleArrow(bubbleRect.x, bubbleRect.y + 10f, arrowSize, bubbleColor, true);
+            // ÁªòÂà∂ËæπÊ°Ü
+            GUI.color = new Color(0.6f, 0.6f, 0.65f, 1f);
+            Widgets.DrawBox(bubbleRect, 1);
+            GUI.color = Color.white;
 
-            // ªÊ÷∆Œƒ◊÷
-            GUI.color = new Color(0.1f, 0.1f, 0.1f, 1f); // Dark text
+            // ÁªòÂà∂ÊñáÂ≠ó
+            GUI.color = new Color(0.1f, 0.1f, 0.1f, 1f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(bubbleRect.ContractedBy(BubblePadding), text);
             Text.Anchor = TextAnchor.UpperLeft;
@@ -609,59 +607,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
             return Widgets.ButtonInvisible(rect);
         }
-
-        // MomoTalk ∑Á∏Òµƒ‘≤Ω«∆¯≈›
-        private void DrawRoundedBubble(Rect rect, Color color, float radius)
-        {
-            var originalColor = GUI.color;
-            GUI.color = color;
-            
-            // ÷˜ÃÂæÿ–Œ
-            Widgets.DrawBoxSolid(new Rect(rect.x + radius, rect.y, rect.width - radius * 2, rect.height), color);
-            Widgets.DrawBoxSolid(new Rect(rect.x, rect.y + radius, rect.width, rect.height - radius * 2), color);
-            
-            // Àƒ∏ˆΩ«µƒΩ¸À∆‘≤Ω«
-            float step = radius / 4f;
-            for (float dx = 0; dx < radius; dx += step)
-            {
-                for (float dy = 0; dy < radius; dy += step)
-                {
-                    float dist = Mathf.Sqrt(dx * dx + dy * dy);
-                    if (dist <= radius)
-                    {
-                        Widgets.DrawBoxSolid(new Rect(rect.x + radius - dx - step, rect.y + radius - dy - step, step, step), color);
-                        Widgets.DrawBoxSolid(new Rect(rect.xMax - radius + dx, rect.y + radius - dy - step, step, step), color);
-                        Widgets.DrawBoxSolid(new Rect(rect.x + radius - dx - step, rect.yMax - radius + dy, step, step), color);
-                        Widgets.DrawBoxSolid(new Rect(rect.xMax - radius + dx, rect.yMax - radius + dy, step, step), color);
-                    }
-                }
-            }
-            
-            GUI.color = originalColor;
-        }
-
-        // MomoTalk ∑Á∏Òµƒ∆¯≈›º˝Õ∑
-        private void DrawBubbleArrow(float x, float y, float size, Color color, bool pointLeft)
-        {
-            var originalColor = GUI.color;
-            GUI.color = color;
-            
-            // ”√–°∑ΩøÈƒ£ƒ‚»˝Ω«–Œº˝Õ∑
-            float step = size / 4f;
-            for (int i = 0; i < 4; i++)
-            {
-                float width = step * (i + 1);
-                float offsetX = pointLeft ? (x - size + step * i) : (x + step * i);
-                float offsetY = y + step * i;
-                Widgets.DrawBoxSolid(new Rect(offsetX, offsetY, step, step), color);
-            }
-            
-            GUI.color = originalColor;
-        }
     }
 }
-
-
-
 
 
