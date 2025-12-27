@@ -11,27 +11,18 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "analyze_screen";
         
         public override string Description => 
-            "分析当前游戏屏幕截图，了解玩家正在查看什么区域或内容。需要配置 VLM API 密钥。";
+            "分析当前游戏屏幕截图。你可以提供具体的指令（instruction）告诉视觉模型你需要观察什么、寻找什么、或者如何描述屏幕。";
         
         public override string UsageSchema => 
-            "<analyze_screen><context>分析目标，如：玩家在看什么区域</context></analyze_screen>";
+            "<analyze_screen><instruction>给视觉模型的具体指令。例如：'找到科研按钮的比例坐标' 或 '描述当前角色的健康状态栏内容'</instruction></analyze_screen>";
         
-        private const string VisionSystemPrompt = @"
-你是一个 RimWorld 游戏屏幕分析助手。分析截图并用简洁中文描述：
-- 玩家正在查看的区域（如：殖民地基地、世界地图、菜单界面）
-- 可见的重要建筑、角色、资源
-- 任何明显的问题或特殊状态
-保持回答简洁，不超过100字。不要使用 XML 标签。";
+        private const string BaseVisionSystemPrompt = "你是一个专业的老练 RimWorld 助手。你会根据指示分析屏幕截图。保持回答专业且简洁。不要输出 XML 标签，除非被明确要求。";
         
-        public override string Execute(string args)
+        public override async Task<string> ExecuteAsync(string args)
         {
-            // 由于 VLM API 调用是异步的，我们需要同步等待结果
-            // 这在 Unity 主线程上可能会阻塞，但工具执行通常在异步上下文中调用
             try
             {
-                var task = ExecuteInternalAsync(args);
-                // 使用 GetAwaiter().GetResult() 来同步等待，避免死锁
-                return task.GetAwaiter().GetResult();
+                return await ExecuteInternalAsync(args);
             }
             catch (Exception ex)
             {
@@ -43,7 +34,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         private async Task<string> ExecuteInternalAsync(string xmlContent)
         {
             var argsDict = ParseXmlArgs(xmlContent);
-            string context = argsDict.TryGetValue("context", out var ctx) ? ctx : "描述当前屏幕内容";
+            // 优先使用 instruction，兼容旧的 context 参数
+            string instruction = argsDict.TryGetValue("instruction", out var inst) ? inst : 
+                               (argsDict.TryGetValue("context", out var ctx) ? ctx : "描述当前屏幕内容，重点关注 UI 状态和重要实体。");
             
             try
             {
@@ -75,11 +68,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 var client = new SimpleAIClient(vlmApiKey, vlmBaseUrl, vlmModel);
                 
                 string result = await client.GetVisionCompletionAsync(
-                    VisionSystemPrompt,
-                    context,
+                    BaseVisionSystemPrompt,
+                    instruction,
                     base64Image,
-                    maxTokens: 256,
-                    temperature: 0.3f
+                    maxTokens: 512, // 增加 token 数以支持更复杂的分析指令响应
+                    temperature: 0.2f
                 );
                 
                 if (string.IsNullOrEmpty(result))

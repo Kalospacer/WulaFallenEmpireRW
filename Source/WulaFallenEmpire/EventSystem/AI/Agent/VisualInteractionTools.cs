@@ -54,10 +54,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
             try
             {
                 int screenX = Mathf.RoundToInt(x * Screen.width);
-                int screenY = Mathf.RoundToInt(y * Screen.height);
-                
-                // Unity Y 轴翻转
-                int windowsY = Screen.height - screenY;
+                int windowsY = Mathf.RoundToInt(y * Screen.height);
                 
                 SetCursorPos(screenX, windowsY);
                 Thread.Sleep(20);
@@ -79,7 +76,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
                 
                 string buttonText = button == "right" ? "右键" : "左键";
                 string clickText = clicks == 2 ? "双击" : "单击";
-                return $"Success: 在 ({screenX}, {screenY}) 处{buttonText}{clickText}";
+                return $"Success: 在 ({screenX}, {windowsY}) 处{buttonText}{clickText}";
             }
             catch (Exception ex)
             {
@@ -124,8 +121,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
             try
             {
                 int screenX = Mathf.RoundToInt(x * Screen.width);
-                int screenY = Mathf.RoundToInt(y * Screen.height);
-                int windowsY = Screen.height - screenY;
+                int windowsY = Mathf.RoundToInt(y * Screen.height);
                 
                 SetCursorPos(screenX, windowsY);
                 Thread.Sleep(20);
@@ -134,7 +130,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
                 mouse_event(MOUSEEVENTF_WHEEL, 0, 0, (uint)wheelDelta, 0);
                 
                 string dir = direction == "up" ? "向上" : "向下";
-                return $"Success: 在 ({screenX}, {screenY}) 处{dir}滚动 {amount} 步";
+                return $"Success: 在 ({screenX}, {windowsY}) 处{dir}滚动 {amount} 步";
             }
             catch (Exception ex)
             {
@@ -150,9 +146,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
             try
             {
                 int sx = Mathf.RoundToInt(startX * Screen.width);
-                int sy = Screen.height - Mathf.RoundToInt(startY * Screen.height);
+                int sy = Mathf.RoundToInt(startY * Screen.height);
                 int ex = Mathf.RoundToInt(endX * Screen.width);
-                int ey = Screen.height - Mathf.RoundToInt(endY * Screen.height);
+                int ey = Mathf.RoundToInt(endY * Screen.height);
                 
                 // 移动到起点
                 SetCursorPos(sx, sy);

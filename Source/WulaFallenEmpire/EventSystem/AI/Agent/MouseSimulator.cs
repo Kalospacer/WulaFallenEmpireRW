@@ -55,12 +55,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
         {
             try
             {
-                // Unity 坐标是左下角为原点，Windows 是左上角
-                // 需要翻转 Y 坐标
-                int windowsY = Screen.height - screenY;
+                // Windows坐标系原点在左上角，与 VLM Agent 使用的坐标 convention 一致
+                int windowsY = screenY;
                 
-                // 获取游戏窗口位置并加上偏移
-                // 注意：这在全屏模式下可能需要调整
                 return SetCursorPos(screenX, windowsY);
             }
             catch (Exception ex)

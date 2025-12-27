@@ -321,17 +321,17 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_SearchThingDef());
             _tools.Add(new Tool_SearchPawnKind());
             
-            // Agent 工具 - 游戏操作
-            _tools.Add(new Tool_GetGameState());
-            _tools.Add(new Tool_DesignateMine());
-            _tools.Add(new Tool_DraftPawn());
-            
-            // VLM 视觉分析工具 (条件性启用)
+            // Agent 工具 - 纯视觉操作 (移除了 GetGameState, DesignateMine, DraftPawn)
             if (WulaFallenEmpireMod.settings?.enableVlmFeatures == true)
             {
                 _tools.Add(new Tool_AnalyzeScreen());
                 _tools.Add(new Tool_VisualClick());
                 _tools.Add(new Tool_VisualScroll());
+                _tools.Add(new Tool_VisualTypeText());
+                _tools.Add(new Tool_VisualDrag());
+                _tools.Add(new Tool_VisualHotkey());
+                _tools.Add(new Tool_VisualWait());
+                _tools.Add(new Tool_VisualDeleteText());
             }
         }
 
@@ -485,7 +485,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 : string.Empty;
             string actionWhitelist = phase == RequestPhase.ActionTools
                 ? "ACTION PHASE VALID TAGS ONLY:\n" +
-                  "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <no_action/>\n" +
+                  "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <visual_click>, <visual_scroll>, <visual_type_text>, <visual_drag>, <visual_hotkey>, <visual_wait>, <visual_delete_text>, <no_action/>\n" +
                   "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <search_thing_def/>, <search_pawn_kind/>\n"
                 : string.Empty;
 
@@ -559,7 +559,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
                     "- Output XML tool calls only, or exactly: <no_action/>.\n" +
-                    "- ONLY action tools are accepted in this phase (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill).\n" +
+                    "- ONLY action tools are accepted in this phase (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, visual_click, visual_scroll, visual_type_text, visual_drag, visual_hotkey, visual_wait, visual_delete_text).\n" +
                     "- Query tools (get_*/search_*) will be ignored.\n" +
                     "- Prefer action tools (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill).\n" +
                     "- Avoid queries unless absolutely required.\n" +
@@ -630,14 +630,22 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return toolName == "spawn_resources" ||
                    toolName == "send_reinforcement" ||
                    toolName == "call_bombardment" ||
-                   toolName == "modify_goodwill";
+                   toolName == "modify_goodwill" ||
+                   toolName == "visual_click" ||
+                   toolName == "visual_scroll" ||
+                   toolName == "visual_type_text" ||
+                   toolName == "visual_drag" ||
+                   toolName == "visual_hotkey" ||
+                   toolName == "visual_wait" ||
+                   toolName == "visual_delete_text";
         }
 
         private static bool IsQueryToolName(string toolName)
         {
             if (string.IsNullOrWhiteSpace(toolName)) return false;
             return toolName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) ||
-                   toolName.StartsWith("search_", StringComparison.OrdinalIgnoreCase);
+                   toolName.StartsWith("search_", StringComparison.OrdinalIgnoreCase) ||
+                   toolName.StartsWith("analyze_", StringComparison.OrdinalIgnoreCase);
         }
 
         private static string SanitizeToolResultForActionPhase(string message)
@@ -938,12 +946,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                             "If the previous output indicates no action is needed or refuses action, output exactly: <no_action/>.\n" +
                                             "Do NOT invent new actions.\n" +
                                             "Output VALID XML tool calls only. No natural language, no commentary.\n" +
-                                            "Allowed tags: <spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <no_action/>.\n" +
+                                            "Allowed tags: <spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <visual_click>, <visual_scroll>, <visual_type_text>, <no_action/>.\n" +
                                             "\nAction tool XML formats:\n" +
                                             "- <spawn_resources><items><item><name>DefName</name><count>Int</count></item></items></spawn_resources>\n" +
                                             "- <send_reinforcement><units>PawnKindDef: Count, ...</units></send_reinforcement>\n" +
                                             "- <call_bombardment><abilityDef>DefName</abilityDef><x>Int</x><z>Int</z></call_bombardment>\n" +
                                             "- <modify_goodwill><amount>Int</amount></modify_goodwill>\n" +
+                                            "- <visual_click><x>Float</x><y>Float</y></visual_click>\n" +
+                                            "- <visual_scroll><delta>Int</delta></visual_scroll>\n" +
+                                            "- <visual_type_text><text>String</text></visual_type_text>\n" +
+                                            "- <visual_drag><start_x>0-1</start_x><start_y>0-1</start_y><end_x>0-1</end_x><end_y>0-1</end_y></visual_drag>\n" +
+                                            "- <visual_hotkey><key>String (e.g. 'enter', 'esc', 'space')</key></visual_hotkey>\n" +
+                                            "- <visual_wait><seconds>Float</seconds></visual_wait>\n" +
                                             "\nPrevious output:\n" + TrimForPrompt(actionResponse, 600);
                     string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, actionContext, maxTokens: 128, temperature: 0.1f);
                     bool fixedHasXml = !string.IsNullOrEmpty(fixedResponse) && IsXmlToolCall(fixedResponse);
@@ -1007,12 +1021,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                                         "If the previous output indicates no action is needed or refuses action, output exactly: <no_action/>.\n" +
                                                         "Do NOT invent new actions.\n" +
                                                         "Output VALID XML tool calls only. No natural language, no commentary.\n" +
-                                                        "Allowed tags: <spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <no_action/>.\n" +
+                                                        "Allowed tags: <spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <visual_click>, <visual_scroll>, <visual_type_text>, <no_action/>.\n" +
                                                         "\nAction tool XML formats:\n" +
                                                         "- <spawn_resources><items><item><name>DefName</name><count>Int</count></item></items></spawn_resources>\n" +
                                                         "- <send_reinforcement><units>PawnKindDef: Count, ...</units></send_reinforcement>\n" +
                                                         "- <call_bombardment><abilityDef>DefName</abilityDef><x>Int</x><z>Int</z></call_bombardment>\n" +
                                                         "- <modify_goodwill><amount>Int</amount></modify_goodwill>\n" +
+                                                        "- <visual_click><x>Float</x><y>Float</y></visual_click>\n" +
+                                                        "- <visual_scroll><delta>Int</delta></visual_scroll>\n" +
+                                                        "- <visual_type_text><text>String</text></visual_type_text>\n" +
+                                                        "- <visual_drag><start_x>0-1</start_x><start_y>0-1</start_y><end_x>0-1</end_x><end_y>0-1</end_y></visual_drag>\n" +
+                                                        "- <visual_hotkey><key>String</key></visual_hotkey>\n" +
+                                                        "- <visual_wait><seconds>Float</seconds></visual_wait>\n" +
                                                         "\nPrevious output:\n" + TrimForPrompt(retryActionResponse, 600);
                             string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
                             bool retryFixedHasXml = !string.IsNullOrEmpty(retryFixedResponse) && IsXmlToolCall(retryFixedResponse);
@@ -1206,7 +1226,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     WulaLog.Debug($"[WulaAI] Executing tool (phase {phase}): {toolName} with args: {argsXml}");
                 }
 
-                string result = tool.Execute(argsXml).Trim();
+                string result = (await tool.ExecuteAsync(argsXml)).Trim();
                 bool isError = !string.IsNullOrEmpty(result) && result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase);
                 if (toolName == "modify_goodwill")
                 {
