@@ -11,6 +11,7 @@ namespace WulaFallenEmpire
     public class WulaFallenEmpireMod : Mod
     {
         public static WulaFallenEmpireSettings settings;
+        public static bool _showApiKey = false;
         private string _maxContextTokensBuffer;
 
         public WulaFallenEmpireMod(ModContentPack content) : base(content)
@@ -32,7 +33,24 @@ namespace WulaFallenEmpire
             listingStandard.Label("Wula_AISettings_Title".Translate());
             
             listingStandard.Label("Wula_AISettings_ApiKey".Translate());
-            settings.apiKey = listingStandard.TextEntry(settings.apiKey);
+            Rect apiKeyRect = listingStandard.GetRect(30f);
+            // 这里我们手动实现一个带切换功能的密码输入框
+            float toggleWidth = 60f;
+            Rect passwordRect = new Rect(apiKeyRect.x, apiKeyRect.y, apiKeyRect.width - toggleWidth - 5f, apiKeyRect.height);
+            Rect toggleRect = new Rect(apiKeyRect.xMax - toggleWidth, apiKeyRect.y, toggleWidth, apiKeyRect.height);
+            
+            // 使用静态布尔值或类成员来记住显示状态
+            if (WulaFallenEmpireMod._showApiKey)
+            {
+                settings.apiKey = Widgets.TextField(passwordRect, settings.apiKey);
+            }
+            else
+            {
+                settings.apiKey = GUI.PasswordField(passwordRect, settings.apiKey, '•');
+            }
+            
+            Widgets.CheckboxLabeled(toggleRect, "Show", ref WulaFallenEmpireMod._showApiKey);
+            listingStandard.Gap(listingStandard.verticalSpacing);
             
             listingStandard.Label("Wula_AISettings_BaseUrl".Translate());
             settings.baseUrl = listingStandard.TextEntry(settings.baseUrl);

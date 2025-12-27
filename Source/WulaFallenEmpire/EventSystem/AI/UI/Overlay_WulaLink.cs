@@ -188,7 +188,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Rect avatarRect = new Rect(8f, 8f, avaSize, avaSize);
             
             int expId = _core?.ExpressionId ?? 1;
-            string portraitPath = _def.portraitPath ?? $"Wula/Events/Portraits/WULA_Legion_{expId}";
+            string portraitPath = "Wula/Storyteller/WULA_Legion_TINY";
             Texture2D portrait = ContentFinder<Texture2D>.Get(portraitPath, false);
             if (portrait != null)
             {
@@ -510,11 +510,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             
             // 绘制方形头像
             int expId = _core?.ExpressionId ?? 1;
-            string portraitPath = _def.portraitPath ?? $"Wula/Events/Portraits/WULA_Legion_{expId}";
-            if (expId > 1 && _def.portraitPath == null)
-            {
-                portraitPath = $"Wula/Events/Portraits/WULA_Legion_{expId}";
-            }
+            string portraitPath = "Wula/Storyteller/WULA_Legion_TINY";
             
             Texture2D portrait = ContentFinder<Texture2D>.Get(portraitPath, false);
             if (portrait != null)
