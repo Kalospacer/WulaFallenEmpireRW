@@ -25,7 +25,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private bool _isMinimized = false;
         private int _unreadCount = 0;
         private Vector2 _expandedSize;
-        private Vector2 _minimizedSize = new Vector2(220f, 80f);
+        private Vector2 _minimizedSize = new Vector2(180f, 40f);
         
         // Layout Constants
         private const float HeaderHeight = 50f;
@@ -46,6 +46,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             this.absorbInputAroundWindow = false;
             this.closeOnClickedOutside = false;
             this.closeOnAccept = false; // 防止 Enter 键误关闭
+            this.closeOnCancel = false; // 防止 Esc 键误关闭
             this.doWindowBackground = false; // We draw our own
             this.drawShadow = false; // 禁用阴影
             this.draggable = true;
@@ -132,6 +133,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             // Trigger repaint or animation update if needed
         }
 
+        protected override float Margin => 0f;
+
         private void OnExpressionChanged(int id)
         {
             // Repaint happens next frame
@@ -139,11 +142,16 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
         public override void DoWindowContents(Rect inRect)
         {
-            // 最小化时不允许调整窗口大小
             this.resizeable = !_isMinimized;
 
             if (_isMinimized)
             {
+                // 强制同步 windowRect 到设计尺寸 (Margin 为 0 时直接匹配)
+                if (windowRect.width != _minimizedSize.x || windowRect.height != _minimizedSize.y)
+                {
+                    windowRect.width = _minimizedSize.x;
+                    windowRect.height = _minimizedSize.y;
+                }
                 DrawMinimized(inRect);
                 return;
             }
@@ -169,53 +177,66 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
         private void DrawMinimized(Rect rect)
         {
-            // HUD Capsule Style
-            Widgets.DrawBoxSolid(rect, new Color(0.1f, 0.1f, 0.1f, 0.85f)); // Semi-transparent black
+            // AI 核心挂件背景
+            Widgets.DrawBoxSolid(rect, new Color(0.1f, 0.1f, 0.1f, 0.9f)); 
             GUI.color = WulaLinkStyles.HeaderColor;
-            Widgets.DrawBox(rect, 2); // Thicker colored border
+            Widgets.DrawBox(rect, 2); 
             GUI.color = Color.white;
             
-            // Layout
-            Rect titleRect = new Rect(0, 10f, rect.width, 30f);
-            Rect statusRect = new Rect(0, rect.height - 35f, rect.width, 25f);
+            // 左侧：大型方形头像
+            float avaSize = rect.height - 16f;
+            Rect avatarRect = new Rect(8f, 8f, avaSize, avaSize);
             
-            // Title
-            Text.Anchor = TextAnchor.UpperCenter;
-            Text.Font = GameFont.Medium;
-            Widgets.Label(titleRect, "WULA LINK");
+            int expId = _core?.ExpressionId ?? 1;
+            string portraitPath = _def.portraitPath ?? $"Wula/Events/Portraits/WULA_Legion_{expId}";
+            Texture2D portrait = ContentFinder<Texture2D>.Get(portraitPath, false);
+            if (portrait != null)
+            {
+                GUI.DrawTexture(avatarRect, portrait, ScaleMode.ScaleToFit);
+            }
+            else
+            {
+                Widgets.DrawBoxSolid(avatarRect, new Color(0.3f, 0.3f, 0.3f));
+            }
+
+            // 右侧：状态展示
+            float rightContentX = avatarRect.xMax + 12f;
+            float btnWidth = 30f;
+            
+            // Status Info
+            string status = _core.IsThinking ? "Thinking..." : "Standby";
+            Color statusColor = _core.IsThinking ? Color.yellow : Color.green;
+
+            // 绘制状态文字
+            Rect textRect = new Rect(rightContentX, 0, rect.width - rightContentX - btnWidth - 5f, rect.height);
+            Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
-            
-            // Expand Button (使用自定义样式防止拖动误触)
-            Rect expandBtnRect = new Rect(rect.width - 30f, 5f, 25f, 25f);
+            GUI.color = statusColor;
+            Widgets.Label(textRect, status);
+            GUI.color = Color.white;
+
+            // 右侧：小巧的展开按钮
+            Rect expandBtnRect = new Rect(rect.width - 32f, (rect.height - 25f) / 2f, 25f, 25f);
             if (DrawHeaderButton(expandBtnRect, "+"))
             {
                 ToggleMinimize();
             }
-            
-            // Status
-            string status = _core.IsThinking ? "Thinking..." : "Standby";
-            Color statusColor = _core.IsThinking ? Color.yellow : Color.green;
-            
-            GUI.color = statusColor;
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(statusRect, $"● {status}"); // 使用标准实心圆点
-            GUI.color = Color.white;
 
-            // Unread Badge
+            // 未读标签角标 (头像右上角)
             if (_unreadCount > 0)
             {
-                float badgeSize = 24f;
-                Rect badgeRect = new Rect(rect.xMax - badgeSize - 5f, rect.y - 10f, badgeSize, badgeSize);
-                GUI.color = Color.red;
-                GUI.DrawTexture(badgeRect, BaseContent.WhiteTex); // Circle ideally
+                float badgeSize = 18f;
+                Rect badgeRect = new Rect(avatarRect.xMax - 10f, avatarRect.y - 5f, badgeSize, badgeSize);
+                GUI.DrawTexture(badgeRect, BaseContent.WhiteTex);
+                GUI.color = Color.red; 
+                Widgets.DrawBoxSolid(badgeRect.ContractedBy(1f), Color.red);
                 GUI.color = Color.white;
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(badgeRect, _unreadCount.ToString());
-                Text.Font = GameFont.Small;
             }
+
             Text.Anchor = TextAnchor.UpperLeft;
-            
         }
 
         private void DrawContextBar(Rect rect)
