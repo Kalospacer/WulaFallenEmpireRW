@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Defs>
-  <AlienRace.AlienBackstoryDef>
+  <!-- 基类定义，确保所有 Wula 背景故事只能被 Wula 派系使用 -->
+  <AlienRace.AlienBackstoryDef Name="WULA_BackstoryBase" Abstract="True">
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <bodyTypeGlobal>Thin</bodyTypeGlobal>
+    <bodyTypeFemale>Thin</bodyTypeFemale>
+    <bodyTypeMale>Thin</bodyTypeMale>
+  </AlienRace.AlienBackstoryDef>
+
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory01</defName>
     <slot>Adulthood</slot>
     <title>素体</title>
@@ -23,7 +31,7 @@
       <Intellectual>2</Intellectual>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory02</defName>
     <slot>Adulthood</slot>
     <title>医疗兵</title>
@@ -50,7 +58,7 @@
       <Medicine>2</Medicine>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory03</defName>
     <slot>Adulthood</slot>
     <title>城防军士兵</title>
@@ -76,7 +84,7 @@
       <Construction>2</Construction>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory04</defName>
     <slot>Adulthood</slot>
     <title>见习骑士</title>
@@ -108,7 +116,7 @@
       <Melee>2</Melee>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory05</defName>
     <slot>Adulthood</slot>
     <title>赎罪骑士</title>
@@ -144,7 +152,7 @@
       <Plants>1</Plants>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory10</defName>
     <slot>Adulthood</slot>
     <title>农奴</title>
@@ -176,7 +184,7 @@
       <Plants>2</Plants>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory11</defName>
     <slot>Adulthood</slot>
     <title>扈从</title>
@@ -209,7 +217,7 @@
       <Crafting>1</Crafting>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory12</defName>
     <slot>Adulthood</slot>
     <title>法务官</title>
@@ -250,7 +258,7 @@
     </passions>
   </AlienRace.AlienBackstoryDef>
 
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory100</defName>
     <slot>Adulthood</slot>
     <title>花使</title>
@@ -283,7 +291,7 @@
       <Plants>2</Plants>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory101</defName>
     <slot>Adulthood</slot>
     <title>繁育使</title>
@@ -317,7 +325,7 @@
       <Animals>2</Animals>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory102</defName>
     <slot>Adulthood</slot>
     <title>传谕使</title>
@@ -350,7 +358,7 @@
     </passions>
   </AlienRace.AlienBackstoryDef>
 
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory200</defName>
     <slot>Adulthood</slot>
     <title>和谐侍者</title>
@@ -384,7 +392,7 @@
       <Plants>2</Plants>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory201</defName>
     <slot>Adulthood</slot>
     <title>锻锤侍者</title>
@@ -418,7 +426,7 @@
       <Crafting>2</Crafting>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory202</defName>
     <slot>Adulthood</slot>
     <title>护教军</title>
@@ -454,7 +462,7 @@
       <Shooting>2</Shooting>
     </passions>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory204</defName>
     <slot>Adulthood</slot>
     <title>福音侍者</title>
@@ -490,7 +498,7 @@
     </passions>
   </AlienRace.AlienBackstoryDef>
 
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory301</defName>
     <slot>Adulthood</slot>
     <title>编目司书</title>
@@ -527,7 +535,7 @@
     </passions>
   </AlienRace.AlienBackstoryDef>
 
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory_Legion</defName>
     <slot>Adulthood</slot>
     <title>「军团」分体</title>
@@ -541,7 +549,7 @@
       <li>Wula_Backstory_Categories_Legion</li>
     </spawnCategories>
   </AlienRace.AlienBackstoryDef>
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory_Legion_Escort</defName>
     <slot>Adulthood</slot>
     <title>断爪卫队</title>
@@ -561,7 +569,7 @@
   </AlienRace.AlienBackstoryDef>
 
   <!-- 乌拉反常网络固定背景 -->
-  <AlienRace.AlienBackstoryDef>
+  <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory999</defName>
     <slot>Adulthood</slot>
     <title>破碎人格</title>
