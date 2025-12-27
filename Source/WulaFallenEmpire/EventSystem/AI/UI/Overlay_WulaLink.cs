@@ -116,6 +116,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 _core.OnMessageReceived += OnMessageReceived;
                 _core.OnThinkingStateChanged += OnThinkingStateChanged;
                 _core.OnExpressionChanged += OnExpressionChanged;
+                _core.SetOverlayWindowState(true, _eventDefName);
             }
         }
 
@@ -127,6 +128,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 _core.OnMessageReceived -= OnMessageReceived;
                 _core.OnThinkingStateChanged -= OnThinkingStateChanged;
                 _core.OnExpressionChanged -= OnExpressionChanged;
+                _core.SetOverlayWindowState(false);
             }
         }
 

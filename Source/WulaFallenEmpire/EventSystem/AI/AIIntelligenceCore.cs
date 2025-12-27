@@ -26,6 +26,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         private string _activeEventDefName;
         private bool _isThinking;
         private int _expressionId = 2;
+        private bool _overlayWindowOpen = false;
+        private string _overlayWindowEventDefName = null;
 
         private float _thinkingStartTime;
         private int _thinkingPhaseIndex = 1;
@@ -102,6 +104,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             base.ExposeData();
             Scribe_Values.Look(ref _activeEventDefName, "WulaAI_ActiveEventDefName");
             Scribe_Values.Look(ref _expressionId, "WulaAI_ExpressionId", 2);
+            Scribe_Values.Look(ref _overlayWindowOpen, "WulaAI_OverlayWindowOpen", false);
+            Scribe_Values.Look(ref _overlayWindowEventDefName, "WulaAI_OverlayWindowEventDefName");
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -110,6 +114,44 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     _expressionId = 2;
                 }
+
+                // Restore overlay window if it was open when saved
+                if (_overlayWindowOpen && !string.IsNullOrEmpty(_overlayWindowEventDefName))
+                {
+                    string eventDefNameToRestore = _overlayWindowEventDefName;
+                    LongEventHandler.ExecuteWhenFinished(() =>
+                    {
+                        try
+                        {
+                            var existingWindow = Find.WindowStack?.Windows?.OfType<WulaFallenEmpire.EventSystem.AI.UI.Overlay_WulaLink>().FirstOrDefault();
+                            if (existingWindow == null)
+                            {
+                                var eventDef = DefDatabase<EventDef>.GetNamedSilentFail(eventDefNameToRestore);
+                                if (eventDef != null)
+                                {
+                                    Find.WindowStack.Add(new WulaFallenEmpire.EventSystem.AI.UI.Overlay_WulaLink(eventDef));
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            WulaLog.Debug($"[WulaAI] Failed to restore overlay window: {ex.Message}");
+                        }
+                    });
+                }
+            }
+        }
+
+        public void SetOverlayWindowState(bool isOpen, string eventDefName = null)
+        {
+            _overlayWindowOpen = isOpen;
+            if (isOpen && !string.IsNullOrEmpty(eventDefName))
+            {
+                _overlayWindowEventDefName = eventDefName;
+            }
+            else if (!isOpen)
+            {
+                _overlayWindowEventDefName = null;
             }
         }
 
