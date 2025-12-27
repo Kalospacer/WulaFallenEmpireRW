@@ -22,15 +22,14 @@ namespace WulaFallenEmpire
             EventDef eventDef = DefDatabase<EventDef>.GetNamed(defName, false);
             if (eventDef != null)
             {
-                var existing = Find.WindowStack.WindowOfType<Overlay_WulaLink>();
+                var existing = Find.WindowStack.WindowOfType<Dialog_AIConversation>();
                 if (existing != null)
                 {
-                    existing.Expand();
                     Find.WindowStack.Notify_ManuallySetFocus(existing);
                 }
                 else
                 {
-                    Find.WindowStack.Add(new Overlay_WulaLink(eventDef));
+                    Find.WindowStack.Add(new Dialog_AIConversation(eventDef));
                 }
             }
             else
