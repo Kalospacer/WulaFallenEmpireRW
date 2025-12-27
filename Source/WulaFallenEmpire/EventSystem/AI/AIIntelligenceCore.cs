@@ -186,9 +186,65 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return;
             }
 
-            _history.Add(("user", text));
+            // 附加选中对象的上下文信息
+            string messageWithContext = BuildUserMessageWithContext(text);
+            _history.Add(("user", messageWithContext));
             PersistHistory();
             _ = RunPhasedRequestAsync();
+        }
+
+        private string BuildUserMessageWithContext(string userText)
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append(userText);
+
+            try
+            {
+                if (Find.Selector != null)
+                {
+                    if (Find.Selector.SingleSelectedThing != null)
+                    {
+                        var selected = Find.Selector.SingleSelectedThing;
+                        sb.AppendLine();
+                        sb.AppendLine();
+                        sb.Append($"[Context: Player has selected '{selected.LabelCap}'");
+                        
+                        if (selected is Pawn pawn)
+                        {
+                            sb.Append($" ({pawn.def.label}) at ({pawn.Position.x}, {pawn.Position.z})");
+                        }
+                        else
+                        {
+                            sb.Append($" at ({selected.Position.x}, {selected.Position.z})");
+                        }
+                        sb.Append("]");
+                    }
+                    else if (Find.Selector.SelectedObjects.Count > 1)
+                    {
+                        sb.AppendLine();
+                        sb.AppendLine();
+                        sb.Append($"[Context: Player has selected {Find.Selector.SelectedObjects.Count} objects");
+                        
+                        var selectedThings = Find.Selector.SelectedObjects.OfType<Thing>().Take(5).ToList();
+                        if (selectedThings.Count > 0)
+                        {
+                            sb.Append(": ");
+                            sb.Append(string.Join(", ", selectedThings.Select(t => t.LabelCap)));
+                            if (Find.Selector.SelectedObjects.Count > 5)
+                            {
+                                sb.Append("...");
+                            }
+                        }
+                        sb.Append("]");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug($"[WulaAI] Error building context: {ex.Message}");
+            }
+
+            return sb.ToString();
         }
 
         private void InitializeTools()
