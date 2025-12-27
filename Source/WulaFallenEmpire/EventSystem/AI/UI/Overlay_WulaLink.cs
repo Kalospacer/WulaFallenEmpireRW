@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -45,8 +45,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             this.forcePause = false;
             this.absorbInputAroundWindow = false;
             this.closeOnClickedOutside = false;
+            this.closeOnAccept = false; // 防止 Enter 键误关闭
             this.doWindowBackground = false; // We draw our own
-            this.drawShadow = true;
+            this.drawShadow = false; // 禁用阴影
             this.draggable = true;
             this.resizeable = true;
             this.preventCameraMotion = false;
@@ -64,27 +65,26 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             
             if (_isMinimized)
             {
-                // Save current position if needed, or just snap to right edge
+                // 最小化时保持当前位置，只调整大小
                 windowRect.width = _minimizedSize.x;
                 windowRect.height = _minimizedSize.y;
-                windowRect.x = Verse.UI.screenWidth - _minimizedSize.x - 20f;
-                windowRect.y = Verse.UI.screenHeight / 2f;
+                // 确保不超出屏幕边界
+                windowRect.x = Mathf.Clamp(windowRect.x, 0, Verse.UI.screenWidth - _minimizedSize.x);
+                windowRect.y = Mathf.Clamp(windowRect.y, 0, Verse.UI.screenHeight - _minimizedSize.y);
             }
             else
             {
+                // 展开时居中到屏幕中心
                 windowRect.width = _expandedSize.x;
                 windowRect.height = _expandedSize.y;
+                windowRect.x = (Verse.UI.screenWidth - _expandedSize.x) / 2f;
+                windowRect.y = (Verse.UI.screenHeight - _expandedSize.y) / 2f;
             }
         }
         
         public void Expand()
         {
             if (_isMinimized) ToggleMinimize();
-            // Ensure window is on screen
-            if (windowRect.x > Verse.UI.screenWidth - 100f)
-            {
-                windowRect.x = Verse.UI.screenWidth - _expandedSize.x - 20f;
-            }
             Find.WindowStack.Notify_ManuallySetFocus(this);
         }
 
@@ -183,7 +183,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Color statusColor = _core.IsThinking ? Color.yellow : Color.green;
             
             GUI.color = statusColor;
-            Widgets.Label(statusRect, $"�?{status}");
+            Widgets.Label(statusRect, $"鈼?{status}");
             GUI.color = Color.white;
 
             // Unread Badge
@@ -245,16 +245,18 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             titleRect.x += 10f;
             Widgets.Label(titleRect, _def.characterName ?? "MomoTalk");
             
-            // Header Icons (Minimize/Close)
-            Rect closeRect = new Rect(rect.width - 30f, 10f, 20f, 20f);
-            Rect minRect = new Rect(rect.width - 60f, 10f, 20f, 20f);
+            // Header Icons (Minimize/Close) - 自定义样式
+            Rect closeRect = new Rect(rect.width - 35f, 10f, 25f, 25f);
+            Rect minRect = new Rect(rect.width - 65f, 10f, 25f, 25f);
             
-            if (Widgets.ButtonText(minRect, "-"))
+            // 最小化按钮
+            if (DrawHeaderButton(minRect, "-"))
             {
                 ToggleMinimize();
             }
 
-            if (Widgets.ButtonImage(closeRect, Widgets.CheckboxOffTex)) // Use standard X tex
+            // 关闭按钮
+            if (DrawHeaderButton(closeRect, "X"))
             {
                 Close();
             }
@@ -263,41 +265,79 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Text.Anchor = TextAnchor.UpperLeft;
         }
 
+        private bool DrawHeaderButton(Rect rect, string label)
+        {
+            bool isMouseOver = Mouse.IsOver(rect);
+            Color buttonColor = isMouseOver 
+                ? new Color(0.6f, 0.3f, 0.3f, 1f)  // Hover: 深红色
+                : new Color(0.4f, 0.2f, 0.2f, 0.8f); // Normal: 暗红色
+            Color textColor = isMouseOver ? Color.white : new Color(0.9f, 0.9f, 0.9f);
+            
+            var originalColor = GUI.color;
+            var originalAnchor = Text.Anchor;
+            var originalFont = Text.Font;
+
+            GUI.color = buttonColor;
+            Widgets.DrawBoxSolid(rect, buttonColor);
+            
+            GUI.color = textColor;
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(rect, label);
+
+            GUI.color = originalColor;
+            Text.Anchor = originalAnchor;
+            Text.Font = originalFont;
+
+            return Widgets.ButtonInvisible(rect);
+        }
+
         private void DrawMessageList(Rect rect)
         {
             var history = _core?.GetHistorySnapshot();
             if (history == null) return;
 
-            // Filter out tool messages for cleaner display (only show in DevMode)
-            var displayHistory = new List<(string role, string message)>();
+            // Filter out tool messages, empty messages, and XML-only messages
+            var displayHistory = new List<(string role, string message, string displayText)>();
             foreach (var msg in history)
             {
-                // Skip tool/toolcall messages entirely in normal mode
-                if ((msg.role == "tool" || msg.role == "toolcall") && !Prefs.DevMode) continue;
-                displayHistory.Add(msg);
+                // Skip tool/toolcall/system messages in normal mode
+                if ((msg.role == "tool" || msg.role == "toolcall" || msg.role == "system") && !Prefs.DevMode) continue;
+                
+                // For assistant messages, strip XML and check if empty
+                string displayText = msg.message;
+                if (msg.role == "assistant")
+                {
+                    displayText = StripXmlTags(msg.message)?.Trim() ?? "";
+                }
+                
+                // Skip empty or whitespace-only messages
+                if (string.IsNullOrWhiteSpace(displayText)) continue;
+                
+                displayHistory.Add((msg.role, msg.message, displayText));
             }
 
             // Setup ScrollView
             float contentHeight = 0f;
-            float width = rect.width - 26f; // Scrollbar space (16 + margin)
-            float reducedSpacing = 8f; // Reduced from MessageSpacing (15f) to 8f
+            float width = rect.width - 26f; // Scrollbar space
+            float reducedSpacing = 8f;
             
             List<float> heights = new List<float>();
             foreach (var msg in displayHistory)
             {
-                float h = CalcMessageHeight(msg.message, width);
+                string textToMeasure = msg.role == "assistant" ? msg.displayText : msg.message;
+                float h = CalcMessageHeight(textToMeasure, width);
                 heights.Add(h);
                 contentHeight += h + reducedSpacing;
             }
             
             if (_core.IsThinking)
             {
-                contentHeight += 40f; // Space for thinking indicator
+                contentHeight += 40f;
             }
 
             Rect viewRect = new Rect(0, 0, width, contentHeight);
             
-            // Handle Auto Scroll
             if (_scrollToBottom)
             {
                 _scrollPosition.y = contentHeight - rect.height;
@@ -319,11 +359,10 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 }
                 else if (entry.role == "assistant")
                 {
-                    DrawStudentMessage(msgRect, entry.message);
+                    DrawStudentMessage(msgRect, entry.displayText);
                 }
                 else if (entry.role == "tool" || entry.role == "toolcall")
                 {
-                    // Only shown in DevMode (already filtered above)
                     DrawSystemMessage(msgRect, $"[Tool] {entry.message}");
                 }
                 else if (entry.role == "system")
@@ -341,6 +380,16 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             }
 
             Widgets.EndScrollView();
+        }
+
+        private static string StripXmlTags(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            // Remove XML tags with content: <tag>content</tag>
+            string stripped = System.Text.RegularExpressions.Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", System.Text.RegularExpressions.RegexOptions.Singleline);
+            // Remove self-closing tags: <tag/>
+            stripped = System.Text.RegularExpressions.Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/?>", "");
+            return stripped;
         }
 
         private void DrawFooter(Rect rect)
@@ -399,39 +448,46 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
         private void DrawSenseiMessage(Rect rect, string text)
         {
-            // Right aligned Blue Bubble
+            // Right aligned Blue Bubble (MomoTalk Sensei style)
             float maxBubbleWidth = rect.width * MaxBubbleWidthRatio;
             Text.Font = WulaLinkStyles.MessageFont;
-            Vector2 textSize = Text.CalcSize(text);
-            float bubbleWidth = Mathf.Min(textSize.x + (BubblePadding * 2), maxBubbleWidth);
-            float bubbleHeight = rect.height;
+            float textWidth = maxBubbleWidth - (BubblePadding * 2);
+            float textHeight = Text.CalcHeight(text, textWidth);
+            float bubbleHeight = textHeight + (BubblePadding * 2);
+            float bubbleWidth = Mathf.Min(Text.CalcSize(text).x + (BubblePadding * 2) + 10f, maxBubbleWidth);
             
-            Rect bubbleRect = new Rect(rect.xMax - bubbleWidth - 10f, rect.y, bubbleWidth, bubbleHeight);
+            // 气泡位置 - 右对齐，留出箭头空间
+            float arrowSize = 8f;
+            Rect bubbleRect = new Rect(rect.xMax - bubbleWidth - arrowSize - 5f, rect.y, bubbleWidth, bubbleHeight);
             
-            // Draw Bubble
-            GUI.color = WulaLinkStyles.SenseiBubbleColor;
-            Widgets.DrawBoxSolid(bubbleRect, WulaLinkStyles.SenseiBubbleColor); // Rounded rect ideally
+            // 绘制圆角气泡背景 - 蓝色 (Sensei color)
+            Color bubbleColor = new Color(0.29f, 0.54f, 0.78f, 1f); // #4a8ac6 MomoTalk Sensei blue
+            DrawRoundedBubble(bubbleRect, bubbleColor, 8f);
+            
+            // 绘制右侧箭头
+            DrawBubbleArrow(bubbleRect.xMax, bubbleRect.y + 10f, arrowSize, bubbleColor, false);
+            
+            // 绘制文字
             GUI.color = Color.white;
-            
-            // Text
-            Rect textRect = bubbleRect.ContractedBy(BubblePadding);
-            GUI.color = WulaLinkStyles.SenseiTextColor;
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(textRect, text);
+            Widgets.Label(bubbleRect.ContractedBy(BubblePadding), text);
             Text.Anchor = TextAnchor.UpperLeft;
-            GUI.color = Color.white;
         }
 
         private void DrawStudentMessage(Rect rect, string text)
         {
-            // Left aligned White Bubble + Avatar
+            // Left aligned Gray Bubble + Avatar (MomoTalk Student style)
             float avatarX = 10f;
             Rect avatarRect = new Rect(avatarX, rect.y, AvatarSize, AvatarSize);
             
-            // Avatar
+            // 绘制圆形头像背景
+            Color avatarBgColor = new Color(0.2f, 0.2f, 0.25f, 1f);
+            DrawRoundedBubble(avatarRect, avatarBgColor, AvatarSize / 2f);
+            
+            // 绘制头像
             int expId = _core?.ExpressionId ?? 1;
             string portraitPath = _def.portraitPath ?? $"Wula/Events/Portraits/WULA_Legion_{expId}";
-            if (expId > 1 && _def.portraitPath == null) // If using default Legion set
+            if (expId > 1 && _def.portraitPath == null)
             {
                 portraitPath = $"Wula/Events/Portraits/WULA_Legion_{expId}";
             }
@@ -439,35 +495,42 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Texture2D portrait = ContentFinder<Texture2D>.Get(portraitPath, false);
             if (portrait != null)
             {
-                GUI.DrawTexture(avatarRect, portrait); // Needs circle mask ideally
+                GUI.DrawTexture(avatarRect.ContractedBy(2f), portrait, ScaleMode.ScaleToFit);
             }
             else
             {
-                Widgets.DrawBoxSolid(avatarRect, Color.gray);
+                // 显示占位符
+                GUI.color = Color.white;
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(avatarRect, "P.I.A");
             }
+            GUI.color = Color.white;
 
+            // 气泡
             float maxBubbleWidth = rect.width * MaxBubbleWidthRatio;
-            float bubbleX = avatarRect.xMax + 10f;
+            float arrowSize = 8f;
+            float bubbleX = avatarRect.xMax + arrowSize + 5f;
             
             Text.Font = WulaLinkStyles.MessageFont;
-            Vector2 textSize = Text.CalcSize(text);
-            float bubbleWidth = Mathf.Min(textSize.x + (BubblePadding * 2), maxBubbleWidth);
-            float bubbleHeight = rect.height; // Height was pre-calculated
+            float textWidth = maxBubbleWidth - AvatarSize - arrowSize - 20f;
+            float textHeight = Text.CalcHeight(text, textWidth);
+            float bubbleHeight = textHeight + (BubblePadding * 2);
+            float bubbleWidth = Mathf.Min(Text.CalcSize(text).x + (BubblePadding * 2) + 10f, maxBubbleWidth - AvatarSize - arrowSize - 20f);
             
             Rect bubbleRect = new Rect(bubbleX, rect.y, bubbleWidth, bubbleHeight);
 
-            // Draw Bubble
-            GUI.color = WulaLinkStyles.StudentStrokeColor;
-            Widgets.DrawBox(bubbleRect, 1);
-            GUI.color = WulaLinkStyles.StudentBubbleColor;
-            Widgets.DrawBoxSolid(bubbleRect, WulaLinkStyles.StudentBubbleColor);
-            GUI.color = Color.white;
+            // 绘制圆角气泡背景 - 灰色 (Student color)
+            Color bubbleColor = new Color(0.85f, 0.85f, 0.87f, 1f); // Light gray like MomoTalk
+            DrawRoundedBubble(bubbleRect, bubbleColor, 8f);
+            
+            // 绘制左侧箭头
+            DrawBubbleArrow(bubbleRect.x, bubbleRect.y + 10f, arrowSize, bubbleColor, true);
 
-            // Text
-            Rect textRect = bubbleRect.ContractedBy(BubblePadding);
-            GUI.color = WulaLinkStyles.StudentTextColor;
+            // 绘制文字
+            GUI.color = new Color(0.1f, 0.1f, 0.1f, 1f); // Dark text
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(textRect, text);
+            Widgets.Label(bubbleRect.ContractedBy(BubblePadding), text);
             Text.Anchor = TextAnchor.UpperLeft;
             GUI.color = Color.white;
         }
@@ -545,5 +608,55 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
             return Widgets.ButtonInvisible(rect);
         }
+
+        // MomoTalk 风格的圆角气泡
+        private void DrawRoundedBubble(Rect rect, Color color, float radius)
+        {
+            var originalColor = GUI.color;
+            GUI.color = color;
+            
+            // 主体矩形
+            Widgets.DrawBoxSolid(new Rect(rect.x + radius, rect.y, rect.width - radius * 2, rect.height), color);
+            Widgets.DrawBoxSolid(new Rect(rect.x, rect.y + radius, rect.width, rect.height - radius * 2), color);
+            
+            // 四个角的近似圆角
+            float step = radius / 4f;
+            for (float dx = 0; dx < radius; dx += step)
+            {
+                for (float dy = 0; dy < radius; dy += step)
+                {
+                    float dist = Mathf.Sqrt(dx * dx + dy * dy);
+                    if (dist <= radius)
+                    {
+                        Widgets.DrawBoxSolid(new Rect(rect.x + radius - dx - step, rect.y + radius - dy - step, step, step), color);
+                        Widgets.DrawBoxSolid(new Rect(rect.xMax - radius + dx, rect.y + radius - dy - step, step, step), color);
+                        Widgets.DrawBoxSolid(new Rect(rect.x + radius - dx - step, rect.yMax - radius + dy, step, step), color);
+                        Widgets.DrawBoxSolid(new Rect(rect.xMax - radius + dx, rect.yMax - radius + dy, step, step), color);
+                    }
+                }
+            }
+            
+            GUI.color = originalColor;
+        }
+
+        // MomoTalk 风格的气泡箭头
+        private void DrawBubbleArrow(float x, float y, float size, Color color, bool pointLeft)
+        {
+            var originalColor = GUI.color;
+            GUI.color = color;
+            
+            // 用小方块模拟三角形箭头
+            float step = size / 4f;
+            for (int i = 0; i < 4; i++)
+            {
+                float width = step * (i + 1);
+                float offsetX = pointLeft ? (x - size + step * i) : (x + step * i);
+                float offsetY = y + step * i;
+                Widgets.DrawBoxSolid(new Rect(offsetX, offsetY, step, step), color);
+            }
+            
+            GUI.color = originalColor;
+        }
     }
 }
+

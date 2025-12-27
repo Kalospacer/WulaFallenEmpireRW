@@ -111,7 +111,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             this.absorbInputAroundWindow = false;
             this.doCloseX = true;
             this.doWindowBackground = Dialog_CustomDisplay.Config.showMainWindow;
-            this.drawShadow = Dialog_CustomDisplay.Config.showMainWindow;
+            this.drawShadow = false; // 禁用阴影
             this.closeOnClickedOutside = false;
             this.draggable = true;
             this.resizeable = true;
@@ -1651,10 +1651,63 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return;
             }
 
-            _history.Add(("user", text));
+            // 构建带选中对象上下文的用户消息
+            string messageWithContext = BuildUserMessageWithContext(text);
+            _history.Add(("user", messageWithContext));
             PersistHistory();
             _scrollToBottom = true;
             await RunPhasedRequestAsync();
+        }
+
+        private string BuildUserMessageWithContext(string userText)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(userText);
+
+            // 获取当前选中的对象信息
+            if (Find.Selector != null)
+            {
+                if (Find.Selector.SingleSelectedThing != null)
+                {
+                    var selected = Find.Selector.SingleSelectedThing;
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.Append($"[Context: Player has selected '{selected.LabelCap}'");
+                    
+                    // 如果是Pawn，提供更多信息
+                    if (selected is Pawn pawn)
+                    {
+                        sb.Append($" ({pawn.def.label})");
+                        sb.Append($" at ({pawn.Position.x}, {pawn.Position.z})");
+                    }
+                    else
+                    {
+                        sb.Append($" at ({selected.Position.x}, {selected.Position.z})");
+                    }
+                    sb.Append("]");
+                }
+                else if (Find.Selector.SelectedObjects.Count > 1)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.Append($"[Context: Player has selected {Find.Selector.SelectedObjects.Count} objects");
+                    
+                    // 列出前几个选中的对象
+                    var selectedThings = Find.Selector.SelectedObjects.OfType<Thing>().Take(5).ToList();
+                    if (selectedThings.Count > 0)
+                    {
+                        sb.Append(": ");
+                        sb.Append(string.Join(", ", selectedThings.Select(t => t.LabelCap)));
+                        if (Find.Selector.SelectedObjects.Count > 5)
+                        {
+                            sb.Append("...");
+                        }
+                    }
+                    sb.Append("]");
+                }
+            }
+
+            return sb.ToString();
         }
         
         public override void PostClose()
