@@ -118,7 +118,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             this.draggable = true;
             this.resizeable = true;
 
-            // 鍏抽敭淇敼锛氱姝nter閿嚜鍔ㄥ叧闂獥鍙?
+            // 关键修改：禁止Enter键自动关闭窗口
             this.closeOnAccept = false;
 
             _tools.Add(new Tool_SpawnResources());
@@ -1340,37 +1340,37 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
 
-            // 鍙戦€佹寜閽殑鐭╁舰
+            // 发送按钮的矩形
             Rect sendButtonRect = new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight);
 
-            // 浣跨敤鍩虹被鐨凞rawCustomButton鏂规硶缁樺埗鎸夐挳锛堜笌Dialog_CustomDisplay涓€鑷达級
+            // 使用基类的DrawCustomButton方法绘制按钮（与Dialog_CustomDisplay一致）
             base.DrawCustomButton(sendButtonRect, "Wula_AI_Send".Translate(), isEnabled: true);
 
-            // 鎭㈠鐘舵€?
+            // 恢复状态
             GUI.color = originalColor;
             Text.Anchor = originalAnchor;
             Text.Font = originalFont;
 
-            // 澶勭悊鐐瑰嚮浜嬩欢
+            // 处理点击事件
             bool sendButtonPressed = Widgets.ButtonInvisible(sendButtonRect);
 
-            // 鐩存帴鍦―oWindowContents涓鐞咵nter閿紝鑰屼笉鏄皟鐢ㄥ崟鐙殑鏂规硶
-            // 杩欐槸涓轰簡纭繚浜嬩欢鍦ㄦ纭殑鏃舵満琚鐞?
+            // 直接在DoWindowContents中处理Enter键，而不是调用单独的方法
+            // 这是为了确保事件在正确的时机被处理
             if (Event.current.type == EventType.KeyDown)
             {
-                // 妫€鏌ユ槸鍚︽寜涓嬩簡Enter閿紙涓婚敭鐩樻垨灏忛敭鐩樼殑Enter锛?
+                // 检查是否按下了Enter键（主键盘或小键盘的Enter）
                 if ((Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter) && !string.IsNullOrEmpty(_inputText))
                 {
-                    // 濡傛灉AI姝ｅ湪鎬濊€冿紝涓嶅鐞咵nter閿?
+                    // 如果AI正在思考，不处理Enter键
                     if (!_isThinking)
                     {
                         SelectOption(_inputText);
                         _inputText = "";
-                        // 娑堣垂杩欎釜浜嬩欢锛岄槻姝㈠畠浼犻€掑埌绐楀彛鐨勫叧闂€昏緫
+                        // 消费这个事件，防止它传递到窗口的关闭逻辑
                         Event.current.Use();
                     }
                 }
-                // 鍙€夛細娣诲姞Escape閿叧闂獥鍙ｇ殑鍔熻兘
+                // 可选：添加Escape键关闭窗口的功能
                 else if (Event.current.keyCode == KeyCode.Escape)
                 {
                     this.Close();
@@ -1378,7 +1378,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
             }
 
-            // 澶勭悊榧犳爣鐐瑰嚮鍙戦€佹寜閽?
+            // 处理鼠标点击发送按钮
             if (sendButtonPressed && !string.IsNullOrEmpty(_inputText))
             {
                 SelectOption(_inputText);
@@ -1395,11 +1395,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 float viewHeight = 0f;
                 var filteredHistory = _history.Where(e => e.role != "tool" && e.role != "system" && e.role != "toolcall").ToList();
 
-                // 娣诲姞鍐呰竟璺?
+                // 添加内边距
                 float innerPadding = 5f;
                 float contentWidth = rect.width - 16f - innerPadding * 2;
 
-                // 棰勮绠楅珮搴?- 浣跨敤灏忓瓧浣?
+                // 预计计算高度 - 使用小字体
                 for (int i = 0; i < filteredHistory.Count; i++)
                 {
                     var entry = filteredHistory[i];
@@ -1407,16 +1407,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     if (string.IsNullOrWhiteSpace(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
                     bool isLastMessage = i == filteredHistory.Count - 1;
 
-                    // 璁剧疆鏇村皬鐨勫瓧浣?
+                    // 设置更小的字体
                     if (isLastMessage && entry.role == "assistant")
                     {
-                        Text.Font = GameFont.Small; // 鍘熸潵鏄?Medium锛屾敼涓?Small
+                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
                     }
                     else
                     {
-                        Text.Font = GameFont.Tiny; // 鍘熸潵鏄?Small锛屾敼涓?Tiny
+                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
                     }
-                    // 澧炲姞padding
+                    // 增加padding
                     float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
                     viewHeight += Text.CalcHeight(text, contentWidth) + padding + 10f;
                 }
@@ -1439,14 +1439,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
                     bool isLastMessage = i == filteredHistory.Count - 1;
 
-                    // 璁剧疆鏇村皬鐨勫瓧浣?
+                    // 设置更小的字体
                     if (isLastMessage && entry.role == "assistant")
                     {
-                        Text.Font = GameFont.Small; // 鍘熸潵鏄?Medium锛屾敼涓?Small
+                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
                     }
                     else
                     {
-                        Text.Font = GameFont.Tiny; // 鍘熸潵鏄?Small锛屾敼涓?Tiny
+                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
                     }
 
                     float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
