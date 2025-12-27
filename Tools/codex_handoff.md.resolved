@@ -1,0 +1,429 @@
+# RimWorld AI Agent 开发文档
+
+> 本文档用于移交给 Codex 继续开发
+
+---
+
+## 1. 项目概述
+
+### 目标
+创建一个**完全自主的 AI Agent**，能够自动玩 RimWorld 游戏。用户只需给出开放式指令（如"帮我挖点铁"或"帮我玩10分钟"），AI 即可独立决策并操作游戏。
+
+### 技术栈
+- **语言**: C# (.NET Framework 4.8)
+- **框架**: RimWorld Mod (Verse/RimWorld API)
+- **AI 后端**: 阿里云百炼 (DashScope) API
+- **VLM 模型**: Qwen-VL / Qwen-Omni-Realtime
+
+### 核心设计
+```
+用户指令 → AIIntelligenceCore → [被动模式 | 主动模式] → 工具执行 → 游戏操作
+```
+
+---
+
+## 2. 架构
+
+### 2.1 模式切换设计
+
+```
+┌────────────────────────────────────────────┐
+│           AIIntelligenceCore               │
+│  ┌─────────────┐    ┌─────────────────┐   │
+│  │ 被动模式    │◄──►│ 主动模式         │   │
+│  │ (聊天对话)  │    │ (Agent循环)      │   │
+│  └─────────────┘    └────────┬────────┘   │
+└──────────────────────────────┼────────────┘
+                               ▼
+                   ┌─────────────────────┐
+                   │ AutonomousAgentLoop │
+                   │   Observe → Think   │
+                   │      → Act          │
+                   └─────────────────────┘
+```
+
+**模式切换触发条件（待实现）**:
+- 用户说"帮我玩X分钟" → 切换到主动模式
+- 主动模式任务完成 → 自动切回被动模式
+- 用户说"停止" → 强制切回被动模式
+
+### 2.2 文件结构
+
+```
+Source/WulaFallenEmpire/EventSystem/AI/
+├── AIIntelligenceCore.cs          # 核心AI控制器（已有）
+├── SimpleAIClient.cs              # HTTP API 客户端（已有）
+├── ScreenCaptureUtility.cs        # 截屏工具（已有）
+│
+├── Agent/                         # ★ 新增目录
+│   ├── AutonomousAgentLoop.cs     # 主动模式循环
+│   ├── StateObserver.cs           # 游戏状态收集器
+│   ├── GameStateSnapshot.cs       # 状态数据结构
+│   ├── VisualInteractionTools.cs  # 视觉交互工具(10个)
+│   ├── MouseSimulator.cs          # 鼠标模拟
+│   └── OmniRealtimeClient.cs      # WebSocket流式连接
+│
+├── Tools/                         # AI工具
+│   ├── AITool.cs                  # 工具基类（已有）
+│   ├── Tool_GetGameState.cs       # ★ 新增
+│   ├── Tool_DesignateMine.cs      # ★ 新增
+│   ├── Tool_DraftPawn.cs          # ★ 新增
+│   ├── Tool_VisualClick.cs        # ★ 新增
+│   └── ... (其他原有工具)
+│
+└── UI/
+    ├── Dialog_AIConversation.cs   # 对话UI（已有）
+    └── Overlay_WulaLink.cs        # 悬浮UI（已有）
+```
+
+---
+
+## 3. 已完成组件
+
+### 3.1 StateObserver (状态观察器)
+
+**路径**: [Agent/StateObserver.cs](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/StateObserver.cs)
+
+**功能**: 收集当前游戏状态，生成给 VLM 的文本描述
+
+**API**:
+```csharp
+public static class StateObserver
+{
+    // 捕获当前游戏状态快照
+    public static GameStateSnapshot CaptureState();
+}
+```
+
+**收集内容**:
+- 时间（小时、季节、年份）
+- 环境（生物群系、温度、天气）
+- 殖民者（名字、健康、心情、当前工作、位置）
+- 资源（钢铁、银、食物、医药等）
+- 建筑进度（蓝图、建造框架）
+- 威胁（敌对派系、距离）
+- 最近消息
+
+---
+
+### 3.2 GameStateSnapshot (状态数据结构)
+
+**路径**: [Agent/GameStateSnapshot.cs](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/GameStateSnapshot.cs)
+
+**功能**: 存储游戏状态数据
+
+**关键方法**:
+```csharp
+public class GameStateSnapshot
+{
+    public List<PawnSnapshot> Colonists;
+    public Dictionary<string, int> Resources;
+    public List<ThreatSnapshot> Threats;
+    
+    // 生成给VLM的文本描述
+    public string ToPromptText();
+}
+```
+
+---
+
+### 3.3 VisualInteractionTools (视觉交互工具集)
+
+**路径**: [Agent/VisualInteractionTools.cs](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs)
+
+**功能**: 10个纯视觉交互工具，使用 Windows API 模拟输入
+
+| 方法 | 功能 | 参数 |
+|------|------|------|
+| [MouseClick(x, y, button, clicks)](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#49-89) | 鼠标点击 | 0-1比例坐标 |
+| [TypeText(x, y, text)](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#90-118) | 输入文本 | 通过剪贴板 |
+| [ScrollWindow(x, y, direction, amount)](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#119-144) | 滚动 | up/down |
+| [MouseDrag(sx, sy, ex, ey, duration)](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#145-187) | 拖拽 | 起止坐标 |
+| [Wait(seconds)](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#188-203) | 等待 | 秒数 |
+| [PressEnter()](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#204-220) | 按回车 | 无 |
+| [PressEscape()](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#221-237) | 按ESC | 无 |
+| [DeleteText(x, y, count)](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#238-262) | 删除 | 字符数 |
+| [PressHotkey(x, y, hotkey)](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#263-306) | 快捷键 | 如"ctrl+c" |
+| [CloseWindow(x, y)](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/VisualInteractionTools.cs#307-329) | 关闭窗口 | Alt+F4 |
+
+---
+
+### 3.4 AutonomousAgentLoop (自主Agent循环)
+
+**路径**: [Agent/AutonomousAgentLoop.cs](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/AutonomousAgentLoop.cs)
+
+**功能**: 主动模式的核心循环
+
+**状态**:
+- `IsRunning`: 是否运行中
+- `CurrentObjective`: 当前目标
+- `DecisionCount`: 已执行决策次数
+
+**关键API**:
+```csharp
+public class AutonomousAgentLoop : GameComponent
+{
+    public static AutonomousAgentLoop Instance;
+    
+    // 开始执行目标
+    public void StartObjective(string objective);
+    
+    // 停止Agent
+    public void Stop();
+    
+    // 事件
+    public event Action<string> OnDecisionMade;
+    public event Action<string> OnObjectiveComplete;
+}
+```
+
+**待完成**: [ExecuteDecision()](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/AutonomousAgentLoop.cs#244-269) 方法需要整合工具执行逻辑
+
+---
+
+### 3.5 原生API工具
+
+| 工具 | 路径 | 功能 | 参数格式 |
+|------|------|------|----------|
+| [Tool_GetGameState](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Tools/Tool_GetGameState.cs#8-45) | Tools/ | 获取游戏状态 | `<get_game_state/>` |
+| [Tool_DesignateMine](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Tools/Tool_DesignateMine.cs#12-139) | Tools/ | 采矿指令 | `<designate_mine><x>数字</x><z>数字</z><radius>可选</radius></designate_mine>` |
+| [Tool_DraftPawn](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Tools/Tool_DraftPawn.cs#10-105) | Tools/ | 征召殖民者 | `<draft_pawn><pawn_name>名字</pawn_name><draft>true/false</draft></draft_pawn>` |
+
+---
+
+## 4. 待完成任务
+
+### 4.1 模式切换整合 (高优先级)
+
+**目标**: 在 [AIIntelligenceCore](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/AIIntelligenceCore.cs#16-1364) 中实现被动/主动模式切换
+
+**实现思路**:
+```csharp
+// AIIntelligenceCore 中添加
+private bool _isAgentMode = false;
+
+public void ProcessUserMessage(string message)
+{
+    // 检测是否触发主动模式
+    if (IsAgentTrigger(message, out string objective, out float duration))
+    {
+        _isAgentMode = true;
+        AutonomousAgentLoop.Instance.StartObjective(objective);
+        // 设置定时器，duration后自动停止
+    }
+    else
+    {
+        // 正常对话处理
+        RunConversation(message);
+    }
+}
+
+private bool IsAgentTrigger(string msg, out string obj, out float dur)
+{
+    // 匹配模式：
+    // "帮我玩10分钟" → obj="管理殖民地", dur=600
+    // "帮我挖点铁" → obj="采集铁矿", dur=0(无限)
+    // ...
+}
+```
+
+---
+
+### 4.2 工具执行整合 (高优先级)
+
+**目标**: 让 `AutonomousAgentLoop.ExecuteDecision()` 能够执行工具
+
+**当前状态**: 方法体是空的 TODO
+
+**实现思路**:
+```csharp
+private void ExecuteDecision(string decision)
+{
+    // 1. 检查特殊标记
+    if (decision.Contains("<no_action")) return;
+    if (decision.Contains("<objective_complete"))
+    {
+        OnObjectiveComplete?.Invoke(_currentObjective);
+        Stop();
+        return;
+    }
+    
+    // 2. 获取工具实例
+    var core = AIIntelligenceCore.Instance;
+    var tools = core.GetAvailableTools();
+    
+    // 3. 解析XML工具调用（复用AIIntelligenceCore的逻辑）
+    foreach (var tool in tools)
+    {
+        if (decision.Contains($"<{tool.Name}"))
+        {
+            string result = tool.Execute(decision);
+            WulaLog.Debug($"Tool {tool.Name}: {result}");
+            _lastToolResult = result;
+            break;
+        }
+    }
+}
+```
+
+---
+
+### 4.3 AI待办清单 (中优先级)
+
+**目标**: AI 维护自己的待办清单，持久化到游戏存档
+
+**设计**:
+```csharp
+public class AgentTodoList : IExposable
+{
+    public List<TodoItem> Items = new List<TodoItem>();
+    
+    public void ExposeData()
+    {
+        Scribe_Collections.Look(ref Items, "todoItems", LookMode.Deep);
+    }
+}
+
+public class TodoItem : IExposable
+{
+    public string Description;
+    public bool IsComplete;
+    public int Priority;
+    public int CreatedTick;
+}
+```
+
+---
+
+### 4.4 Qwen-Omni-Realtime 测试 (低优先级)
+
+**目标**: 测试 WebSocket 流式连接
+
+**已完成**: [OmniRealtimeClient.cs](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/OmniRealtimeClient.cs) 基础实现
+
+**待测试**:
+- WebSocket 连接建立
+- 图片发送 (`input_image_buffer.append`)
+- 文本接收 (`response.text.delta`)
+
+---
+
+## 5. 关键接口参考
+
+### 5.1 AITool 基类
+
+```csharp
+public abstract class AITool
+{
+    public abstract string Name { get; }
+    public abstract string Description { get; }
+    public abstract string UsageSchema { get; }
+    public abstract string Execute(string args);
+    
+    // 解析XML参数
+    protected Dictionary<string, string> ParseXmlArgs(string xmlContent);
+}
+```
+
+### 5.2 SimpleAIClient API
+
+```csharp
+public class SimpleAIClient
+{
+    public SimpleAIClient(string apiKey, string baseUrl, string model);
+    
+    // 文本对话
+    public Task<string> GetChatCompletionAsync(
+        string systemPrompt, 
+        List<(string role, string message)> messages,
+        int maxTokens = 1024,
+        float temperature = 0.7f
+    );
+    
+    // VLM 视觉分析
+    public Task<string> GetVisionCompletionAsync(
+        string systemPrompt,
+        string userPrompt,
+        string base64Image,
+        int maxTokens = 1024,
+        float temperature = 0.7f
+    );
+}
+```
+
+### 5.3 设置 (WulaFallenEmpireSettings)
+
+```csharp
+public class WulaFallenEmpireSettings : ModSettings
+{
+    // 主模型
+    public string apiKey;
+    public string baseUrl = "https://dashscope.aliyuncs.com/compatible-mode/v1";
+    public string model = "qwen-turbo";
+    
+    // VLM 模型
+    public string vlmApiKey;
+    public string vlmBaseUrl;
+    public string vlmModel = "qwen-vl-max";
+    public bool enableVlmFeatures = false;
+}
+```
+
+---
+
+## 6. 开发指南
+
+### 6.1 添加新工具
+
+1. 在 [Tools/](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/AIIntelligenceCore.cs#310-337) 创建新类继承 [AITool](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Tools/AITool.cs#8-41)
+2. 实现 [Name](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/AIIntelligenceCore.cs#636-642), [Description](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Agent/StateObserver.cs#156-187), `UsageSchema`, [Execute](file:///C:/Steam/steamapps/common/RimWorld/Mods/3516260226/Source/WulaFallenEmpire/EventSystem/AI/Tools/Tool_VisualClick.cs#133-165)
+3. 在 `AIIntelligenceCore.InitializeTools()` 中注册
+
+```csharp
+// 示例：Tool_BuildWall.cs
+public class Tool_BuildWall : AITool
+{
+    public override string Name => "build_wall";
+    public override string Description => "在指定位置放置墙壁蓝图";
+    public override string UsageSchema => "<build_wall><x>X</x><z>Z</z><stuff>材料</stuff></build_wall>";
+    
+    public override string Execute(string args)
+    {
+        var dict = ParseXmlArgs(args);
+        // 实现建造逻辑
+        // GenConstruct.PlaceBlueprintForBuild(...)
+        return "Success: 墙壁蓝图已放置";
+    }
+}
+```
+
+### 6.2 调试技巧
+
+- 使用 `WulaLog.Debug()` 输出日志
+- 检查 RimWorld 的 `Player.log` 文件
+- 在开发者模式下 `Prefs.DevMode = true` 显示更多信息
+
+### 6.3 常见问题
+
+**Q: .NET Framework 4.8 兼容性问题**
+- 不支持 `TakeLast()` → 使用 `Skip(list.Count - n)`
+- 不支持 `string.Contains(x, StringComparison)` → 使用 `IndexOf`
+
+**Q: Unity 主线程限制**
+- 异步操作结果需要回到主线程执行
+- 使用 `LongEventHandler.ExecuteWhenFinished(() => { ... })`
+
+---
+
+## 7. 参考资源
+
+- [RimWorld Modding Wiki](https://rimworldwiki.com/wiki/Modding)
+- [Harmony Patching](https://harmony.pardeike.net/)
+- [阿里云百炼 API](https://help.aliyun.com/zh/model-studio/)
+- [Qwen-Omni 文档](https://help.aliyun.com/zh/model-studio/user-guide/qwen-omni)
+
+---
+
+**文档版本**: v1.0  
+**更新时间**: 2025-12-27  
+**作者**: Gemini AI Agent

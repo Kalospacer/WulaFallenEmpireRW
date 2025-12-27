@@ -12,6 +12,7 @@ namespace WulaFallenEmpire
     {
         public static WulaFallenEmpireSettings settings;
         public static bool _showApiKey = false;
+        public static bool _showVlmApiKey = false;
         private string _maxContextTokensBuffer;
 
         public WulaFallenEmpireMod(ModContentPack content) : base(content)
@@ -66,6 +67,37 @@ namespace WulaFallenEmpire
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());
+
+            // VLM 设置部分
+            listingStandard.GapLine();
+            listingStandard.Label("<color=cyan>VLM (视觉模型) 设置</color>");
+            
+            listingStandard.CheckboxLabeled("启用 VLM 视觉功能", ref settings.enableVlmFeatures, "启用后 AI 可以「看到」游戏屏幕并分析");
+            
+            if (settings.enableVlmFeatures)
+            {
+                listingStandard.Label("VLM API Key:");
+                Rect vlmKeyRect = listingStandard.GetRect(30f);
+                Rect vlmPasswordRect = new Rect(vlmKeyRect.x, vlmKeyRect.y, vlmKeyRect.width - toggleWidth - 5f, vlmKeyRect.height);
+                Rect vlmToggleRect = new Rect(vlmKeyRect.xMax - toggleWidth, vlmKeyRect.y, toggleWidth, vlmKeyRect.height);
+                
+                if (_showVlmApiKey)
+                {
+                    settings.vlmApiKey = Widgets.TextField(vlmPasswordRect, settings.vlmApiKey ?? "");
+                }
+                else
+                {
+                    settings.vlmApiKey = GUI.PasswordField(vlmPasswordRect, settings.vlmApiKey ?? "", '•');
+                }
+                Widgets.CheckboxLabeled(vlmToggleRect, "Show", ref _showVlmApiKey);
+                listingStandard.Gap(listingStandard.verticalSpacing);
+                
+                listingStandard.Label("VLM Base URL:");
+                settings.vlmBaseUrl = listingStandard.TextEntry(settings.vlmBaseUrl ?? "https://dashscope.aliyuncs.com/compatible-mode/v1");
+                
+                listingStandard.Label("VLM Model:");
+                settings.vlmModel = listingStandard.TextEntry(settings.vlmModel ?? "qwen-vl-max");
+            }
 
             listingStandard.GapLine();
             listingStandard.Label("Translation tools");
