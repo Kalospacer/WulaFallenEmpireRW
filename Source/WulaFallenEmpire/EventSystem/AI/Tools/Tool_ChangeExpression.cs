@@ -1,6 +1,6 @@
 using System;
 using Verse;
-using WulaFallenEmpire.EventSystem.AI.UI;
+using WulaFallenEmpire.EventSystem.AI;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
@@ -21,13 +21,13 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 {
                     if (int.TryParse(idStr, out id))
                     {
-                        var window = Dialog_AIConversation.Instance ?? Find.WindowStack.WindowOfType<Dialog_AIConversation>();
-                        if (window != null)
+                        var core = AIIntelligenceCore.Instance;
+                        if (core != null)
                         {
-                            window.SetPortrait(id);
+                            core.SetPortrait(id);
                             return $"Expression changed to {id}.";
                         }
-                        return "Error: Dialog window not found.";
+                        return "Error: AI Core not found.";
                     }
                     return "Error: Invalid arguments. 'expression_id' must be an integer.";
                 }

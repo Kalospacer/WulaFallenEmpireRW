@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using Verse;
 using System.Text.RegularExpressions;
-using WulaFallenEmpire.EventSystem.AI.UI;
+using WulaFallenEmpire.EventSystem.AI;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
@@ -110,10 +110,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
         private static string BuildToolHistory(int maxCount)
         {
-            var window = Dialog_AIConversation.Instance ?? Find.WindowStack.WindowOfType<Dialog_AIConversation>();
-            if (window == null) return "AI Tool History: none found.";
+            var core = AIIntelligenceCore.Instance;
+            if (core == null) return "AI Tool History: none found.";
 
-            var history = window.GetHistorySnapshot();
+            var history = core.GetHistorySnapshot();
             if (history == null || history.Count == 0) return "AI Tool History: none found.";
 
             var entries = new List<(string ToolXml, string ToolResult)>();
@@ -310,3 +310,4 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         }
     }
 }
+

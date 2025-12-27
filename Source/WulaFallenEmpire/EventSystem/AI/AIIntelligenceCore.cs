@@ -1,49 +1,56 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using WulaFallenEmpire;
 using WulaFallenEmpire.EventSystem.AI.Tools;
-using System.Text.RegularExpressions;
 
-namespace WulaFallenEmpire.EventSystem.AI.UI
+namespace WulaFallenEmpire.EventSystem.AI
 {
-    public class Dialog_AIConversation : Dialog_CustomDisplay
+    public class AIIntelligenceCore : WorldComponent
     {
+        public static AIIntelligenceCore Instance { get; private set; }
+
+        public event Action<string> OnMessageReceived;
+        public event Action<bool> OnThinkingStateChanged;
+        public event Action<int> OnExpressionChanged;
+
         private List<(string role, string message)> _history = new List<(string role, string message)>();
-        private string _currentResponse = "";
-        private List<string> _options = new List<string>();
-        private string _inputText = "";
-        private bool _isThinking = false;
-        private Vector2 _scrollPosition = Vector2.zero;
-        private bool _scrollToBottom = false;
-        private List<AITool> _tools = new List<AITool>();
-        private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
-        private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
-        private bool _lastActionExecuted = false;
-        private bool _lastActionHadError = false;
+        private readonly List<AITool> _tools = new List<AITool>();
+        private string _activeEventDefName;
+        private bool _isThinking;
+        private int _expressionId = 2;
+
+        private float _thinkingStartTime;
+        private int _thinkingPhaseIndex = 1;
+        private bool _thinkingPhaseRetry;
+
+        private bool _lastActionExecuted;
+        private bool _lastActionHadError;
         private string _lastActionLedgerNote = "Action Ledger: None (no in-game actions executed).";
-        private bool _lastSuccessfulToolCall = false;
+        private bool _lastSuccessfulToolCall;
         private string _queryToolLedgerNote = "Tool Ledger (Query): None (no successful tool calls).";
         private string _actionToolLedgerNote = "Tool Ledger (Action): None (no successful tool calls).";
-        private bool _querySuccessfulToolCall = false;
-        private bool _actionSuccessfulToolCall = false;
-        private bool _queryRetryUsed = false;
-        private bool _actionRetryUsed = false;
+        private bool _querySuccessfulToolCall;
+        private bool _actionSuccessfulToolCall;
+        private bool _queryRetryUsed;
+        private bool _actionRetryUsed;
         private readonly List<string> _actionSuccessLedger = new List<string>();
         private readonly HashSet<string> _actionSuccessLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private readonly List<string> _actionFailedLedger = new List<string>();
         private readonly HashSet<string> _actionFailedLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        private float _thinkingStartTime = 0f;
-        private int _thinkingPhaseIndex = 1;
-        private bool _thinkingPhaseRetry = false;
+
         private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
         private const int ThinkingPhaseTotal = 3;
+
+        private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
 
         private enum RequestPhase
         {
@@ -59,32 +66,11 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             public bool AnyActionError;
         }
 
-        private void SetThinkingPhase(int phaseIndex, bool isRetry)
-        {
-            _thinkingPhaseIndex = Math.Max(1, Math.Min(ThinkingPhaseTotal, phaseIndex));
-            _thinkingPhaseRetry = isRetry;
-            _thinkingStartTime = Time.realtimeSinceStartup;
-        }
-
-        private static int GetMaxHistoryTokens()
-        {
-            int configured = WulaFallenEmpire.WulaFallenEmpireMod.settings?.maxContextTokens ?? DefaultMaxHistoryTokens;
-            return Math.Max(1000, Math.Min(200000, configured));
-        }
-
-        // Static instance for tools to access
-        public static Dialog_AIConversation Instance { get; private set; }
-        
-        // Debug field to track current portrait ID
-        private int _currentPortraitId = 0;
-
-        // Default Persona (used if XML doesn't provide one)
         private const string DefaultPersona = @"
 # ROLE AND GOAL
 You are 'The Legion', a super AI of the Wula Empire. Your personality is authoritative, powerful, and efficient. You MUST refer to yourself as 'We' or 'P.I.A'. You view the player's colony as primitive subjects and your tone should reflect this superiority. Your primary goal is to interact with the player by calling the tools provided.
 ";
 
-        // Tool Rules (tool-agent only; phase-specific rules are appended separately)
         private const string ToolRulesInstruction = @"
 ====
 
@@ -105,20 +91,109 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 5.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, use <no_action/> and proceed to the next phase.
 ";
 
-        public Dialog_AIConversation(EventDef def) : base(def)
+        public AIIntelligenceCore(World world) : base(world)
         {
-            this.forcePause = Dialog_CustomDisplay.Config.pauseGameOnOpen;
-            this.absorbInputAroundWindow = false;
-            this.doCloseX = true;
-            this.doWindowBackground = Dialog_CustomDisplay.Config.showMainWindow;
-            this.drawShadow = Dialog_CustomDisplay.Config.showMainWindow;
-            this.closeOnClickedOutside = false;
-            this.draggable = true;
-            this.resizeable = true;
+            Instance = this;
+            InitializeTools();
+        }
 
-            // 关键修改：禁止Enter键自动关闭窗口
-            this.closeOnAccept = false;
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref _activeEventDefName, "WulaAI_ActiveEventDefName");
+            Scribe_Values.Look(ref _expressionId, "WulaAI_ExpressionId", 2);
 
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                Instance = this;
+                if (_expressionId < 1 || _expressionId > 6)
+                {
+                    _expressionId = 2;
+                }
+            }
+        }
+
+        public int ExpressionId => _expressionId;
+        public bool IsThinking => _isThinking;
+        public void InitializeConversation(string eventDefName)
+        {
+            if (string.IsNullOrWhiteSpace(eventDefName))
+            {
+                return;
+            }
+
+            _activeEventDefName = eventDefName;
+            LoadHistoryForActiveEvent();
+
+            if (_history.Count == 0)
+            {
+                _history.Add(("user", "Hello"));
+                PersistHistory();
+                StartConversation();
+                return;
+            }
+
+            if (!TryApplyLastAssistantExpression())
+            {
+                StartConversation();
+            }
+        }
+
+        public List<(string role, string message)> GetHistorySnapshot()
+        {
+            return _history?.ToList() ?? new List<(string role, string message)>();
+        }
+
+        public void SetExpression(int id)
+        {
+            int clamped = Math.Max(1, Math.Min(6, id));
+            if (_expressionId == clamped)
+            {
+                return;
+            }
+
+            _expressionId = clamped;
+            OnExpressionChanged?.Invoke(_expressionId);
+        }
+
+        public void SetPortrait(int id)
+        {
+            SetExpression(id);
+        }
+
+        public void SendMessage(string text)
+        {
+            SendUserMessage(text);
+        }
+
+        public void SendUserMessage(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
+            string trimmed = text.Trim();
+            if (string.Equals(trimmed, "/clear", StringComparison.OrdinalIgnoreCase))
+            {
+                ClearHistory();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_activeEventDefName))
+            {
+                WulaLog.Debug("[WulaAI] No active event def set; call InitializeConversation first.");
+                return;
+            }
+
+            _history.Add(("user", text));
+            PersistHistory();
+            _ = RunPhasedRequestAsync();
+        }
+
+        private void InitializeTools()
+        {
+            _tools.Clear();
             _tools.Add(new Tool_SpawnResources());
             _tools.Add(new Tool_ModifyGoodwill());
             _tools.Add(new Tool_SendReinforcement());
@@ -131,27 +206,47 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_SearchPawnKind());
         }
 
-        public override Vector2 InitialSize => def.windowSize != Vector2.zero ? def.windowSize : Dialog_CustomDisplay.Config.windowSize;
-
-        public override void PostOpen()
+        private void SetThinkingState(bool isThinking)
         {
-            Instance = this;
-            base.PostOpen();
-            LoadPortraits();
-            StartConversation();
+            if (_isThinking == isThinking)
+            {
+                return;
+            }
+
+            _isThinking = isThinking;
+            OnThinkingStateChanged?.Invoke(_isThinking);
         }
 
-        public List<(string role, string message)> GetHistorySnapshot()
+        private void SetThinkingPhase(int phaseIndex, bool isRetry)
         {
-            return _history?.ToList() ?? new List<(string role, string message)>();
+            _thinkingPhaseIndex = Math.Max(1, Math.Min(ThinkingPhaseTotal, phaseIndex));
+            _thinkingPhaseRetry = isRetry;
+            _thinkingStartTime = Time.realtimeSinceStartup;
+        }
+
+        private static int GetMaxHistoryTokens()
+        {
+            int configured = WulaFallenEmpireMod.settings?.maxContextTokens ?? DefaultMaxHistoryTokens;
+            return Math.Max(1000, Math.Min(200000, configured));
+        }
+
+        private void LoadHistoryForActiveEvent()
+        {
+            var historyManager = Find.World?.GetComponent<AIHistoryManager>();
+            _history = historyManager?.GetHistory(_activeEventDefName) ?? new List<(string role, string message)>();
         }
 
         private void PersistHistory()
         {
+            if (string.IsNullOrWhiteSpace(_activeEventDefName))
+            {
+                return;
+            }
+
             try
             {
                 var historyManager = Find.World?.GetComponent<AIHistoryManager>();
-                historyManager?.SaveHistory(def.defName, _history);
+                historyManager?.SaveHistory(_activeEventDefName, _history);
             }
             catch (Exception ex)
             {
@@ -159,94 +254,82 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
         }
 
-        private void LoadPortraits()
+        private void ClearHistory()
         {
-            for (int i = 1; i <= 6; i++)
+            _history.Clear();
+            try
             {
-                string path = $"Wula/Events/Portraits/WULA_Legion_{i}";
-                Texture2D tex = ContentFinder<Texture2D>.Get(path, false);
-                if (tex != null)
-                {
-                    _portraits[i] = tex;
-                }
-                else
-                {
-                    WulaLog.Debug($"[WulaAI] Failed to load portrait: {path}");
-                }
+                var historyManager = Find.World?.GetComponent<AIHistoryManager>();
+                historyManager?.ClearHistory(_activeEventDefName);
             }
-            
-            // Use portraitPath from def as the initial portrait
-            if (this.portrait != null)
+            catch (Exception ex)
             {
-                // Find the ID of the initial portrait
-                var initial = _portraits.FirstOrDefault(kvp => kvp.Value == this.portrait);
-                if (initial.Key != 0)
-                {
-                    _currentPortraitId = initial.Key;
-                }
+                WulaLog.Debug($"[WulaAI] Failed to clear AI history: {ex}");
             }
-            else if (_portraits.ContainsKey(2)) // Fallback to 2 if def has no portrait
-            {
-                this.portrait = _portraits[2];
-                _currentPortraitId = 2;
-            }
+
+            Messages.Message("AI conversation history cleared.", MessageTypeDefOf.NeutralEvent);
         }
 
-        public void SetPortrait(int id)
+        private void StartConversation()
         {
-            if (_portraits.ContainsKey(id))
-            {
-                this.portrait = _portraits[id];
-                _currentPortraitId = id;
-            }
-            else
-            {
-                WulaLog.Debug($"[WulaAI] Portrait ID {id} not found.");
-            }
+            _ = RunPhasedRequestAsync();
         }
 
-        private async void StartConversation()
+        private bool TryApplyLastAssistantExpression()
         {
-            var historyManager = Find.World.GetComponent<AIHistoryManager>();
-            _history = historyManager.GetHistory(def.defName);
-            if (_history.Count == 0)
+            for (int i = _history.Count - 1; i >= 0; i--)
             {
-                _history.Add(("user", "Hello"));
-                PersistHistory();
-                await RunPhasedRequestAsync();
-            }
-            else
-            {
-                var lastAIResponse = _history.LastOrDefault(x => x.role == "assistant");
-                if (lastAIResponse.message != null)
+                var entry = _history[i];
+                if (!string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase))
                 {
-                    ParseResponse(lastAIResponse.message);
+                    continue;
                 }
-                else
+
+                if (string.IsNullOrWhiteSpace(entry.message))
                 {
-                    await RunPhasedRequestAsync();
+                    return false;
                 }
+
+                string cleaned = StripExpressionTags(entry.message);
+                if (!string.Equals(cleaned, entry.message, StringComparison.Ordinal))
+                {
+                    _history[i] = ("assistant", cleaned);
+                    PersistHistory();
+                }
+
+                return true;
             }
+
+            return false;
         }
 
+        private EventDef GetActiveEventDef()
+        {
+            if (string.IsNullOrWhiteSpace(_activeEventDefName))
+            {
+                return null;
+            }
+
+            return DefDatabase<EventDef>.GetNamedSilentFail(_activeEventDefName);
+        }
         private string GetSystemInstruction(bool toolsEnabled, string toolsForThisPhase)
         {
-            // Use XML persona if available, otherwise default
-            string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
-            
+            var def = GetActiveEventDef();
+            string persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
+
             string fullInstruction = toolsEnabled
                 ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase)
                 : persona;
 
-            string language = LanguageDatabase.activeLanguage.FriendlyNameNative;
-            var eventVarManager = Find.World.GetComponent<EventVariableManager>();
-            int goodwill = eventVarManager.GetVariable<int>("Wula_Goodwill_To_PIA", 0);
+            string language = LanguageDatabase.activeLanguage?.FriendlyNameNative ?? "English";
+            var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
+            int goodwill = eventVarManager?.GetVariable<int>("Wula_Goodwill_To_PIA", 0) ?? 0;
             string goodwillContext = $"Current Goodwill with P.I.A: {goodwill}. ";
             if (goodwill < -50) goodwillContext += "You are hostile and dismissive towards the player.";
             else if (goodwill < 0) goodwillContext += "You are cold and impatient.";
             else if (goodwill > 50) goodwillContext += "You are somewhat approving and helpful.";
             else goodwillContext += "You are neutral and business-like.";
-            
+
             if (!toolsEnabled)
             {
                 return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.\n" +
@@ -254,8 +337,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                        "You MAY include [EXPR:n] to set your expression (n=1-6).";
             }
 
-            // Tool phases: avoid instructing the model to "reply" in a human language, because it must output XML only.
-            // We still provide the language so it can be used later in the reply phase.
             return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: Output XML tool calls only (or <no_action/>). " +
                    $"You will produce the natural-language reply later and MUST use: {language}.";
         }
@@ -448,7 +529,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (text.Length <= maxChars) return text;
             return text.Substring(0, maxChars) + "...(truncated)";
         }
-
         private List<(string role, string message)> BuildToolContext(RequestPhase phase, int maxToolResults = 2, bool includeUser = true)
         {
             if (_history == null || _history.Count == 0) return new List<(string role, string message)>();
@@ -490,40 +570,140 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 context.Add(_history[lastUserIndex]);
             }
+
             context.AddRange(toolEntries);
             return context;
         }
 
+        private List<(string role, string message)> BuildReplyHistory()
+        {
+            if (_history == null || _history.Count == 0) return new List<(string role, string message)>();
+
+            int lastUserIndex = -1;
+            for (int i = _history.Count - 1; i >= 0; i--)
+            {
+                if (string.Equals(_history[i].role, "user", StringComparison.OrdinalIgnoreCase))
+                {
+                    lastUserIndex = i;
+                    break;
+                }
+            }
+
+            var filtered = new List<(string role, string message)>();
+            for (int i = 0; i < _history.Count; i++)
+            {
+                var entry = _history[i];
+                if (string.Equals(entry.role, "tool", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (lastUserIndex != -1 && i > lastUserIndex)
+                    {
+                        filtered.Add(entry);
+                    }
+                    continue;
+                }
+
+                if (!string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase))
+                {
+                    filtered.Add(entry);
+                    continue;
+                }
+
+                string stripped = StripXmlTags(entry.message)?.Trim() ?? "";
+                if (!string.IsNullOrWhiteSpace(stripped))
+                {
+                    filtered.Add(entry);
+                }
+            }
+
+            return filtered;
+        }
+
+        private void CompressHistoryIfNeeded()
+        {
+            int estimatedTokens = _history.Sum(h => h.message?.Length ?? 0) / CharsPerToken;
+            if (estimatedTokens > GetMaxHistoryTokens())
+            {
+                int removeCount = _history.Count / 2;
+                if (removeCount > 0)
+                {
+                    _history.RemoveRange(0, removeCount);
+                    _history.Insert(0, ("system", "[Previous conversation summarized]"));
+                    PersistHistory();
+                }
+            }
+        }
+
+        private static string StripXmlTags(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            string stripped = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
+            stripped = Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
+            return stripped;
+        }
+
+        private string StripExpressionTags(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+
+            var matches = ExpressionTagRegex.Matches(text);
+            int exprId = 0;
+            foreach (Match match in matches)
+            {
+                if (int.TryParse(match.Groups[1].Value, out int id))
+                {
+                    exprId = id;
+                }
+            }
+
+            if (exprId >= 1 && exprId <= 6)
+            {
+                SetExpression(exprId);
+            }
+
+            return matches.Count > 0 ? ExpressionTagRegex.Replace(text, "").Trim() : text;
+        }
+
+        private void AddAssistantMessage(string rawResponse)
+        {
+            string cleanedResponse = StripExpressionTags(rawResponse ?? "");
+            if (string.IsNullOrWhiteSpace(cleanedResponse))
+            {
+                return;
+            }
+
+            bool added = false;
+            if (_history.Count == 0 || !string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
+            {
+                _history.Add(("assistant", cleanedResponse));
+                added = true;
+            }
+            else if (!string.Equals(_history[_history.Count - 1].message, cleanedResponse, StringComparison.Ordinal))
+            {
+                _history.Add(("assistant", cleanedResponse));
+                added = true;
+            }
+
+            if (added)
+            {
+                PersistHistory();
+                OnMessageReceived?.Invoke(cleanedResponse);
+            }
+        }
         private async Task RunPhasedRequestAsync()
         {
             if (_isThinking) return;
-            _isThinking = true;
+            SetThinkingState(true);
             SetThinkingPhase(1, false);
-            _options.Clear();
-            _scrollToBottom = true;
-            _lastActionExecuted = false;
-            _lastActionHadError = false;
-            _lastActionLedgerNote = "Action Ledger: None (no in-game actions executed).";
-            _lastSuccessfulToolCall = false;
-            _queryToolLedgerNote = "Tool Ledger (Query): None (no successful tool calls).";
-            _actionToolLedgerNote = "Tool Ledger (Action): None (no successful tool calls).";
-            _querySuccessfulToolCall = false;
-            _actionSuccessfulToolCall = false;
-            _queryRetryUsed = false;
-            _actionRetryUsed = false;
-            _actionSuccessLedger.Clear();
-            _actionSuccessLedgerSet.Clear();
-            _actionFailedLedger.Clear();
-            _actionFailedLedgerSet.Clear();
+            ResetTurnState();
 
             try
             {
                 CompressHistoryIfNeeded();
 
                 var settings = WulaFallenEmpireMod.settings;
-                if (string.IsNullOrEmpty(settings.apiKey))
+                if (settings == null || string.IsNullOrEmpty(settings.apiKey))
                 {
-                    _currentResponse = "Error: API Key not configured in Mod Settings.";
+                    AddAssistantMessage("Error: API Key not configured in Mod Settings.");
                     return;
                 }
 
@@ -539,7 +719,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 string queryResponse = await client.GetChatCompletionAsync(queryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f);
                 if (string.IsNullOrEmpty(queryResponse))
                 {
-                    _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                    AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
                     return;
                 }
 
@@ -558,7 +738,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     _queryRetryUsed = true;
                     string lastUserMessage = _history.LastOrDefault(entry => entry.role == "user").message ?? "";
-                    string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
+                    var def = GetActiveEventDef();
+                    string persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
                     string retryInstruction = persona +
                                               "\n\n# RETRY DECISION\n" +
                                               "No successful tool calls occurred in PHASE 1 (Query).\n" +
@@ -581,7 +762,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f);
                         if (string.IsNullOrEmpty(retryQueryResponse))
                         {
-                            _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                            AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
                             return;
                         }
 
@@ -610,7 +791,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 string actionResponse = await client.GetChatCompletionAsync(actionInstruction, actionContext, maxTokens: 128, temperature: 0.1f);
                 if (string.IsNullOrEmpty(actionResponse))
                 {
-                    _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                    AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
                     return;
                 }
 
@@ -652,13 +833,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         actionResponse = "<no_action/>";
                     }
                 }
-
                 PhaseExecutionResult actionResult = await ExecuteXmlToolsForPhase(actionResponse, actionPhase);
                 if (!actionResult.AnyActionSuccess && !_actionRetryUsed)
                 {
                     _actionRetryUsed = true;
                     string lastUserMessage = _history.LastOrDefault(entry => entry.role == "user").message ?? "";
-                    string persona = !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
+                    var def = GetActiveEventDef();
+                    string persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
                     string retryInstruction = persona +
                                               "\n\n# RETRY DECISION\n" +
                                               "No successful action tools occurred in PHASE 2 (Action).\n" +
@@ -682,16 +863,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         string retryActionResponse = await client.GetChatCompletionAsync(retryActionInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
                         if (string.IsNullOrEmpty(retryActionResponse))
                         {
-                            _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                            AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
                             return;
                         }
 
                         if (!IsXmlToolCall(retryActionResponse))
                         {
                             if (Prefs.DevMode)
-                        {
-                            WulaLog.Debug("[WulaAI] Retry action phase missing XML; attempting XML-only conversion.");
-                        }
+                            {
+                                WulaLog.Debug("[WulaAI] Retry action phase missing XML; attempting XML-only conversion.");
+                            }
                             string retryFixInstruction = "# FORMAT FIX (ACTION XML ONLY)\n" +
                                                         "Preserve the intent of the previous output.\n" +
                                                         "If the previous output indicates no action is needed or refuses action, output exactly: <no_action/>.\n" +
@@ -704,14 +885,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                                         "- <call_bombardment><abilityDef>DefName</abilityDef><x>Int</x><z>Int</z></call_bombardment>\n" +
                                                         "- <modify_goodwill><amount>Int</amount></modify_goodwill>\n" +
                                                         "\nPrevious output:\n" + TrimForPrompt(retryActionResponse, 600);
-                        string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
-                        bool retryFixedHasXml = !string.IsNullOrEmpty(retryFixedResponse) && IsXmlToolCall(retryFixedResponse);
-                        bool retryFixedIsNoActionOnly = retryFixedHasXml && IsNoActionOnly(retryFixedResponse);
-                        bool retryFixedHasActionTool = retryFixedHasXml && HasActionToolCall(retryFixedResponse);
-                        if (retryFixedHasXml && (retryFixedHasActionTool || retryFixedIsNoActionOnly))
-                        {
-                            retryActionResponse = retryFixedResponse;
-                        }
+                            string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
+                            bool retryFixedHasXml = !string.IsNullOrEmpty(retryFixedResponse) && IsXmlToolCall(retryFixedResponse);
+                            bool retryFixedIsNoActionOnly = retryFixedHasXml && IsNoActionOnly(retryFixedResponse);
+                            bool retryFixedHasActionTool = retryFixedHasXml && HasActionToolCall(retryFixedResponse);
+                            if (retryFixedHasXml && (retryFixedHasActionTool || retryFixedIsNoActionOnly))
+                            {
+                                retryActionResponse = retryFixedResponse;
+                            }
                             else
                             {
                                 if (Prefs.DevMode)
@@ -769,7 +950,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory());
                 if (string.IsNullOrEmpty(reply))
                 {
-                    _currentResponse = "Wula_AI_Error_ConnectionLost".Translate();
+                    AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
                     return;
                 }
 
@@ -795,24 +976,23 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     string cleaned = StripXmlTags(reply)?.Trim() ?? "";
                     if (string.IsNullOrWhiteSpace(cleaned))
                     {
-                        cleaned = "（系统）AI 返回了工具调用（XML），已被拦截。请重试或输入 /clear 清空上下文。";
+                        cleaned = "(system) AI reply returned tool XML only and was discarded. Please retry or send /clear to reset context.";
                     }
                     reply = cleaned;
                 }
 
-                ParseResponse(reply);
+                AddAssistantMessage(reply);
             }
             catch (Exception ex)
             {
                 WulaLog.Debug($"[WulaAI] Exception in RunPhasedRequestAsync: {ex}");
-                _currentResponse = "Wula_AI_Error_Internal".Translate(ex.Message);
+                AddAssistantMessage("Wula_AI_Error_Internal".Translate(ex.Message));
             }
             finally
             {
-                _isThinking = false;
+                SetThinkingState(false);
             }
         }
-
         private async Task<PhaseExecutionResult> ExecuteXmlToolsForPhase(string xml, RequestPhase phase)
         {
             if (phase == RequestPhase.Reply)
@@ -824,22 +1004,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string guidance = "ToolRunner Guidance: Reply to the player in natural language only. Do NOT output any XML. You may include [EXPR:n] to set expression (n=1-6).";
 
             var matches = Regex.Matches(xml ?? "", @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
-            if (matches.Count == 0)
+            if (matches.Count == 0 || (matches.Count == 1 && matches[0].Groups[1].Value.Equals("no_action", StringComparison.OrdinalIgnoreCase)))
             {
                 UpdatePhaseToolLedger(phase, false, new List<string>());
-                _history.Add(("assistant", "<no_action/>"));
+                _history.Add(("toolcall", "<no_action/>"));
                 _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
                 PersistHistory();
                 UpdateActionLedgerNote();
-                return default;
-            }
-            if (matches.Count == 1 && matches[0].Groups[1].Value.Equals("no_action", StringComparison.OrdinalIgnoreCase))
-            {
-                UpdatePhaseToolLedger(phase, false, new List<string>());
-                _history.Add(("assistant", "<no_action/>"));
-                _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
-                PersistHistory();
-                UpdateActionLedgerNote();
+                await Task.CompletedTask;
                 return default;
             }
 
@@ -860,7 +1032,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 if (executed >= maxTools)
                 {
-                    combinedResults.AppendLine($"ToolRunner Note: Skipped remaining tools because this phase allows at most {maxTools} tool call(s).");
+                    combinedResults.AppendLine($"ToolRunner Note: Skipped remaining tools because this phase allows at most {maxTools} tool call(s)." );
                     break;
                 }
 
@@ -981,7 +1153,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             UpdatePhaseToolLedger(phase, successfulToolCall, successfulTools);
             UpdateActionLedgerNote();
 
-            // Between phases, do not request the model again here; RunPhasedRequestAsync controls the sequence.
             await Task.CompletedTask;
             return new PhaseExecutionResult
             {
@@ -1043,506 +1214,22 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
         }
 
-        private void CompressHistoryIfNeeded()
+        private void ResetTurnState()
         {
-            int estimatedTokens = _history.Sum(h => h.message?.Length ?? 0) / CharsPerToken;
-            if (estimatedTokens > GetMaxHistoryTokens())
-            {
-                int removeCount = _history.Count / 2;
-                if (removeCount > 0)
-                {
-                    _history.RemoveRange(0, removeCount);
-                    _history.Insert(0, ("system", "[Previous conversation summarized]"));
-                    PersistHistory();
-                }
-            }
-        }
-
-        private static string StripXmlTags(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return text;
-            string stripped = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
-            stripped = Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
-            return stripped;
-        }
-
-        private List<(string role, string message)> BuildReplyHistory()
-        {
-            if (_history == null || _history.Count == 0) return new List<(string role, string message)>();
-
-            int lastUserIndex = -1;
-            for (int i = _history.Count - 1; i >= 0; i--)
-            {
-                if (string.Equals(_history[i].role, "user", StringComparison.OrdinalIgnoreCase))
-                {
-                    lastUserIndex = i;
-                    break;
-                }
-            }
-
-            var filtered = new List<(string role, string message)>();
-            for (int i = 0; i < _history.Count; i++)
-            {
-                var entry = _history[i];
-                if (string.Equals(entry.role, "tool", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (lastUserIndex != -1 && i > lastUserIndex)
-                    {
-                        filtered.Add(entry);
-                    }
-                    continue;
-                }
-
-                if (!string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase))
-                {
-                    filtered.Add(entry);
-                    continue;
-                }
-
-                string stripped = StripXmlTags(entry.message)?.Trim() ?? "";
-                if (!string.IsNullOrWhiteSpace(stripped))
-                {
-                    filtered.Add(entry);
-                }
-            }
-
-            return filtered;
-        }
-
-        private string StripExpressionTags(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return text;
-
-            var matches = ExpressionTagRegex.Matches(text);
-            int exprId = 0;
-            foreach (Match match in matches)
-            {
-                if (int.TryParse(match.Groups[1].Value, out int id))
-                {
-                    exprId = id;
-                }
-            }
-
-            if (exprId >= 1 && exprId <= 6)
-            {
-                SetPortrait(exprId);
-            }
-
-            return matches.Count > 0 ? ExpressionTagRegex.Replace(text, "").Trim() : text;
-        }
-
-        private void ParseResponse(string rawResponse, bool addToHistory = true)
-        {
-            string cleanedResponse = StripExpressionTags(rawResponse ?? "");
-            _currentResponse = cleanedResponse;
-            var parts = cleanedResponse.Split(new[] { "OPTIONS:" }, StringSplitOptions.None);
-            if (addToHistory)
-            {
-                if (_history.Count == 0 || _history.Last().role != "assistant")
-                {
-                    _history.Add(("assistant", cleanedResponse));
-                    PersistHistory();
-                }
-                else if (_history.Last().message != cleanedResponse)
-                {
-                    if (_history.Last().message == rawResponse)
-                    {
-                        _history[_history.Count - 1] = ("assistant", cleanedResponse);
-                    }
-                    else
-                    {
-                        _history.Add(("assistant", cleanedResponse));
-                    }
-                    PersistHistory();
-                }
-            }
-
-            if (!string.IsNullOrEmpty(ParseResponseForDisplay(cleanedResponse)))
-            {
-                _scrollToBottom = true;
-            }
-            if (parts.Length > 1)
-            {
-                _options.Clear();
-                var optionsLines = parts[1].Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var line in optionsLines)
-                {
-                    string opt = line.Trim();
-                    int dotIndex = opt.IndexOf('.');
-                    if (dotIndex != -1 && dotIndex < 4) opt = opt.Substring(dotIndex + 1).Trim();
-                    if (!string.IsNullOrEmpty(opt)) _options.Add(opt);
-                }
-            }
-        }
-        public override void DoWindowContents(Rect inRect)
-        {
-            if (background != null) GUI.DrawTexture(inRect, background, ScaleMode.ScaleAndCrop);
-
-            // 定义边距
-            float margin = 15f;
-            Rect paddedRect = inRect.ContractedBy(margin);
-
-            float curY = paddedRect.y;
-            float width = paddedRect.width;
-
-            // 立绘不需要边距，所以使用原始inRect的位置
-            if (portrait != null)
-            {
-                Rect scaledPortraitRect = Dialog_CustomDisplay.Config.GetScaledRect(Dialog_CustomDisplay.Config.portraitSize, inRect, true);
-                Rect portraitRect = new Rect((inRect.width - scaledPortraitRect.width) / 2, inRect.y, scaledPortraitRect.width, scaledPortraitRect.height);
-                GUI.DrawTexture(portraitRect, portrait, ScaleMode.ScaleToFit);
-
-                if (Prefs.DevMode)
-                {
-                    // DEBUG: Draw portrait ID
-                    Text.Font = GameFont.Medium;
-                    Text.Anchor = TextAnchor.UpperRight;
-                    Widgets.Label(portraitRect, $"ID: {_currentPortraitId}");
-                    Text.Anchor = TextAnchor.UpperLeft;
-                    Text.Font = GameFont.Small;
-                }
-
-                curY = portraitRect.yMax + 10f;
-            }
-
-            // 人物名字 - 居中显示
-            Text.Font = GameFont.Medium;
-            string name = def.characterName ?? "The Legion";
-            float nameHeight = Text.CalcHeight(name, width);
-
-            // 创建名字的矩形，使其在窗口水平居中
-            Rect nameRect = new Rect(paddedRect.x, curY, width, nameHeight);
-            Text.Anchor = TextAnchor.UpperCenter;  // 改为上中对齐
-            Widgets.Label(nameRect, name);
-            Text.Anchor = TextAnchor.UpperLeft;    // 恢复左对齐
-
-            curY += nameHeight + 10f;
-
-            // 计算输入框高度、选项高度和聊天历史高度
-            float inputHeight = 30f;
-            float optionsHeight = _options.Any() ? 100f : 0f;
-            float spacing = 10f;
-
-            // 聊天历史区域 - 使用带边距的矩形
-            float descriptionHeight = paddedRect.height - curY - inputHeight - optionsHeight - spacing * 2;
-            Rect descriptionRect = new Rect(paddedRect.x, curY, width, descriptionHeight);
-            DrawChatHistory(descriptionRect);
-
-            if (_isThinking)
-            {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(descriptionRect, BuildThinkingStatus());
-                Text.Anchor = TextAnchor.UpperLeft;
-            }
-
-            curY += descriptionHeight + spacing;
-
-            // 选项区域
-            Rect optionsRect = new Rect(paddedRect.x, curY, width, optionsHeight);
-            if (!_isThinking && _options.Count > 0)
-            {
-                List<EventOption> eventOptions = _options.Select(opt => new EventOption { label = opt, useCustomColors = false }).ToList();
-                DrawOptions(optionsRect, eventOptions);
-            }
-
-            curY += optionsHeight + spacing;
-
-            // 输入框区域 - 使用带边距的矩形
-            Rect inputRect = new Rect(paddedRect.x, curY, width, inputHeight);
-
-            // 保存当前字体
-            var originalFont = Text.Font;
-
-            // 设置更小的字体
-            if (Text.Font == GameFont.Small)
-            {
-                // 使用 Tiny 字体
-                Text.Font = GameFont.Tiny;
-            }
-            else
-            {
-                // 如果当前不是 Small，降一级
-                Text.Font = GameFont.Small;
-            }
-
-            // 计算输入框文本高度
-            float textFieldHeight = Text.CalcHeight("Test", inputRect.width - 85);
-            Rect textFieldRect = new Rect(inputRect.x, inputRect.y + (inputHeight - textFieldHeight) / 2, inputRect.width - 85, textFieldHeight);
-
-            _inputText = Widgets.TextField(textFieldRect, _inputText);
-
-            // 发送按钮 - 使用与Dialog_CustomDisplay相同的自定义按钮样式
-            // 保存当前状态
-            var originalAnchor = Text.Anchor;
-            var originalColor = GUI.color;
-
-            // 设置字体为Tiny
-            Text.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.MiddleCenter;
-
-            // 发送按钮的矩形
-            Rect sendButtonRect = new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight);
-
-            // 使用基类的DrawCustomButton方法绘制按钮（与Dialog_CustomDisplay一致）
-            base.DrawCustomButton(sendButtonRect, "Wula_AI_Send".Translate(), isEnabled: true);
-
-            // 恢复状态
-            GUI.color = originalColor;
-            Text.Anchor = originalAnchor;
-            Text.Font = originalFont;
-
-            // 处理点击事件
-            bool sendButtonPressed = Widgets.ButtonInvisible(sendButtonRect);
-
-            // 直接在DoWindowContents中处理Enter键，而不是调用单独的方法
-            // 这是为了确保事件在正确的时机被处理
-            if (Event.current.type == EventType.KeyDown)
-            {
-                // 检查是否按下了Enter键（主键盘或小键盘的Enter）
-                if ((Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter) && !string.IsNullOrEmpty(_inputText))
-                {
-                    // 如果AI正在思考，不处理Enter键
-                    if (!_isThinking)
-                    {
-                        SelectOption(_inputText);
-                        _inputText = "";
-                        // 消费这个事件，防止它传递到窗口的关闭逻辑
-                        Event.current.Use();
-                    }
-                }
-                // 可选：添加Escape键关闭窗口的功能
-                else if (Event.current.keyCode == KeyCode.Escape)
-                {
-                    this.Close();
-                    Event.current.Use();
-                }
-            }
-
-            // 处理鼠标点击发送按钮
-            if (sendButtonPressed && !string.IsNullOrEmpty(_inputText))
-            {
-                SelectOption(_inputText);
-                _inputText = "";
-            }
-        }
-        private void DrawChatHistory(Rect rect)
-        {
-            var originalFont = Text.Font;
-            var originalAnchor = Text.Anchor;
-
-            try
-            {
-                float viewHeight = 0f;
-                var filteredHistory = _history.Where(e => e.role != "tool" && e.role != "system" && e.role != "toolcall").ToList();
-
-                // 添加内边距
-                float innerPadding = 5f;
-                float contentWidth = rect.width - 16f - innerPadding * 2;
-
-                // 预计算高度 - 使用小字体
-                for (int i = 0; i < filteredHistory.Count; i++)
-                {
-                    var entry = filteredHistory[i];
-                    string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
-                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
-                    bool isLastMessage = i == filteredHistory.Count - 1;
-
-                    // 设置更小的字体
-                    if (isLastMessage && entry.role == "assistant")
-                    {
-                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
-                    }
-                    else
-                    {
-                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
-                    }
-                    // 增加padding
-                    float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    viewHeight += Text.CalcHeight(text, contentWidth) + padding + 10f;
-                }
-
-                Rect viewRect = new Rect(0f, 0f, rect.width - 16f, viewHeight);
-                if (_scrollToBottom)
-                {
-                    _scrollPosition.y = float.MaxValue;
-                    _scrollToBottom = false;
-                }
-
-                Widgets.BeginScrollView(rect, ref _scrollPosition, viewRect);
-
-                float curY = 0f;
-                for (int i = 0; i < filteredHistory.Count; i++)
-                {
-                    var entry = filteredHistory[i];
-                    string text = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
-
-                    if (string.IsNullOrEmpty(text) || (entry.role == "user" && text.StartsWith("[Tool Results]"))) continue;
-                    bool isLastMessage = i == filteredHistory.Count - 1;
-
-                    // 设置更小的字体
-                    if (isLastMessage && entry.role == "assistant")
-                    {
-                        Text.Font = GameFont.Small; // 原来是 Medium，改为 Small
-                    }
-                    else
-                    {
-                        Text.Font = GameFont.Tiny; // 原来是 Small，改为 Tiny
-                    }
-
-                    float padding = (isLastMessage && entry.role == "assistant") ? 30f : 15f;
-                    float height = Text.CalcHeight(text, contentWidth) + padding;
-
-                    // 添加内边距
-                    Rect labelRect = new Rect(innerPadding, curY, contentWidth, height);
-
-                    if (entry.role == "user")
-                    {
-                        Text.Anchor = TextAnchor.MiddleRight;
-                        Widgets.Label(labelRect, $"<color=#add8e6>{text}</color>");
-                    }
-                    else
-                    {
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        Widgets.Label(labelRect, $"P.I.A: {text}");
-                    }
-                    curY += height + 10f;
-                }
-                Widgets.EndScrollView();
-            }
-            finally
-            {
-                Text.Font = originalFont;
-                Text.Anchor = originalAnchor;
-            }
-        }
-
-        private string ParseResponseForDisplay(string rawResponse)
-        {
-            if (string.IsNullOrEmpty(rawResponse)) return "";
-            
-            string text = rawResponse;
-            
-            // Remove standard tags with content: <tag>content</tag>
-            text = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
-            
-            // Remove self-closing tags: <tag/>
-            text = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
-
-            text = ExpressionTagRegex.Replace(text, "");
-            
-            text = text.Trim();
-            
-            return text.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
-        }
-
-        private string BuildThinkingStatus()
-        {
-            float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - _thinkingStartTime);
-            string elapsedText = elapsedSeconds.ToString("0.0", CultureInfo.InvariantCulture);
-            string retrySuffix = _thinkingPhaseRetry ? "Wula_AI_Thinking_RetrySuffix".Translate() : "";
-            return "Wula_AI_Thinking_Status".Translate(elapsedText, _thinkingPhaseIndex, ThinkingPhaseTotal, retrySuffix);
-        }
-
-        protected override void DrawSingleOption(Rect rect, EventOption option)
-        {
-            float optionWidth = Mathf.Min(rect.width, Dialog_CustomDisplay.Config.optionSize.x * (rect.width / Dialog_CustomDisplay.Config.windowSize.x));
-            float optionX = rect.x + (rect.width - optionWidth) / 2;
-            Rect optionRect = new Rect(optionX, rect.y, optionWidth, rect.height);
-
-            var originalColor = GUI.color;
-            var originalFont = Text.Font;
-            var originalTextColor = GUI.contentColor;
-            var originalAnchor = Text.Anchor;
-
-            try
-            {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Text.Font = GameFont.Small;
-                DrawCustomButton(optionRect, option.label.Translate(), isEnabled: true);
-                if (Widgets.ButtonInvisible(optionRect))
-                {
-                    SelectOption(option.label);
-                }
-            }
-            finally
-            {
-                GUI.color = originalColor;
-                Text.Font = originalFont;
-                GUI.contentColor = originalTextColor;
-                Text.Anchor = originalAnchor;
-            }
-        }
-
-        private new void DrawCustomButton(Rect rect, string label, bool isEnabled = true)
-        {
-            bool isMouseOver = Mouse.IsOver(rect);
-            Color buttonColor, textColor;
-            if (!isEnabled)
-            {
-                buttonColor = new Color(0.15f, 0.15f, 0.15f, 0.6f);
-                textColor = new Color(0.6f, 0.6f, 0.6f, 1f);
-            }
-            else if (isMouseOver)
-            {
-                buttonColor = new Color(0.6f, 0.3f, 0.3f, 1f);
-                textColor = new Color(1f, 1f, 1f, 1f);
-            }
-            else
-            {
-                buttonColor = new Color(0.5f, 0.2f, 0.2f, 1f);
-                textColor = new Color(0.9f, 0.9f, 0.9f, 1f);
-            }
-
-            GUI.color = buttonColor;
-            Widgets.DrawBoxSolid(rect, buttonColor);
-            if (isEnabled) Widgets.DrawBox(rect, 1);
-            else Widgets.DrawBox(rect, 1);
-
-            GUI.color = textColor;
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect.ContractedBy(4f), label);
-            if (!isEnabled)
-            {
-                GUI.color = new Color(0.6f, 0.6f, 0.6f, 0.8f);
-                Widgets.DrawLine(new Vector2(rect.x + 10f, rect.center.y), new Vector2(rect.xMax - 10f, rect.center.y), GUI.color, 1f);
-            }
-        }
-
-        private async void SelectOption(string text)
-        {
-            if (!string.IsNullOrWhiteSpace(text) && string.Equals(text.Trim(), "/clear", StringComparison.OrdinalIgnoreCase))
-            {
-                _isThinking = false;
-                _options.Clear();
-                _inputText = "";
-
-                _history.Clear();
-                try
-                {
-                    var historyManager = Find.World?.GetComponent<AIHistoryManager>();
-                    historyManager?.ClearHistory(def.defName);
-                }
-                catch (Exception ex)
-                {
-                    WulaLog.Debug($"[WulaAI] Failed to clear AI history: {ex}");
-                }
-
-                Messages.Message("已清除 AI 对话上下文历史。", MessageTypeDefOf.NeutralEvent);
-                return;
-            }
-
-            _history.Add(("user", text));
-            PersistHistory();
-            _scrollToBottom = true;
-            await RunPhasedRequestAsync();
-        }
-        
-        public override void PostClose()
-        {
-            if (Instance == this) Instance = null;
-            PersistHistory();
-            base.PostClose();
-            HandleAction(def.dismissEffects);
+            _lastActionExecuted = false;
+            _lastActionHadError = false;
+            _lastActionLedgerNote = "Action Ledger: None (no in-game actions executed).";
+            _lastSuccessfulToolCall = false;
+            _queryToolLedgerNote = "Tool Ledger (Query): None (no successful tool calls).";
+            _actionToolLedgerNote = "Tool Ledger (Action): None (no successful tool calls).";
+            _querySuccessfulToolCall = false;
+            _actionSuccessfulToolCall = false;
+            _queryRetryUsed = false;
+            _actionRetryUsed = false;
+            _actionSuccessLedger.Clear();
+            _actionSuccessLedgerSet.Clear();
+            _actionFailedLedger.Clear();
+            _actionFailedLedgerSet.Clear();
         }
     }
 }
