@@ -31,18 +31,6 @@
             </effects>
           </li>
         </optionEffects>
-      <li>
-        <label>私人频道</label>
-        <optionEffects>
-          <li>
-            <effects>
-              <li Class="WulaFallenEmpire.Effect_OpenWulaLink">
-                <defName>Wula_AI_Initial_Contact</defName>
-              </li>
-              <li Class="WulaFallenEmpire.Effect_CloseDialog" />
-            </effects>
-          </li>
-        </optionEffects>
       </li>
     </options>
   </WulaFallenEmpire.EventDef>

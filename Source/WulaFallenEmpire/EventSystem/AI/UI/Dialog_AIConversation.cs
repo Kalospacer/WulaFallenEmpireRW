@@ -1238,6 +1238,28 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 _isThinking = _core.IsThinking;
             }
 
+            // 右上角：切换到小窗口按钮
+            // 左上角：切换到小窗口按钮
+            Rect switchBtnRect = new Rect(0f, 0f, 25f, 25f);
+            base.DrawCustomButton(switchBtnRect, "-", isEnabled: true);
+            if (Widgets.ButtonInvisible(switchBtnRect)) 
+            {
+                EventDef eventDef = this.def;
+                if (eventDef != null)
+                {
+                    var existing = Find.WindowStack.WindowOfType<Overlay_WulaLink>();
+                    if (existing != null)
+                    {
+                        existing.Expand();
+                    }
+                    else
+                    {
+                        Find.WindowStack.Add(new Overlay_WulaLink(eventDef));
+                    }
+                    this.Close(); // 关闭当前大窗口
+                }
+            }
+
             // 瀹氫箟杈硅窛
             float margin = 15f;
             Rect paddedRect = inRect.ContractedBy(margin);
@@ -1497,10 +1519,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private string BuildThinkingStatus()
         {
-            float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - _thinkingStartTime);
-            string elapsedText = elapsedSeconds.ToString("0.0", CultureInfo.InvariantCulture);
-            string retrySuffix = _thinkingPhaseRetry ? "Wula_AI_Thinking_RetrySuffix".Translate() : "";
-            return "Wula_AI_Thinking_Status".Translate(elapsedText, _thinkingPhaseIndex, ThinkingPhaseTotal, retrySuffix);
+            if (!Prefs.DevMode)
+            {
+                 return "Wula_AI_Thinking_Simple".Translate();
+            }
+            // 开发者模式下也不再显示秒数计时，只显示阶段信息
+            return "Wula_AI_Thinking_Status_NoTimer".Translate(_thinkingPhaseIndex, ThinkingPhaseTotal);
         }
 
         protected override void DrawSingleOption(Rect rect, EventOption option)
