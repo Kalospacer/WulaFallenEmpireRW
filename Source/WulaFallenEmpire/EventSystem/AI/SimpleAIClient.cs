@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using UnityEngine;
 using Verse;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace WulaFallenEmpire.EventSystem.AI
 {
@@ -27,12 +28,21 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         public async Task<string> GetChatCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null, string base64Image = null)
         {
+            // 1. Gemini Mode
             if (_useGemini)
             {
-                return await GetGeminiCompletionAsync(instruction, messages, maxTokens, temperature, base64Image);
+                string geminiResponse = await GetGeminiCompletionAsync(instruction, messages, maxTokens, temperature, base64Image);
+                
+                // Fallback: If failed and had image, retry without image
+                if (geminiResponse == null && !string.IsNullOrEmpty(base64Image))
+                {
+                    WulaLog.Debug("[WulaAI] [WARNING] Visual request failed (likely model incompatible). Retrying text-only...");
+                    return await GetGeminiCompletionAsync(instruction, messages, maxTokens, temperature, null);
+                }
+                return geminiResponse;
             }
 
-            // OpenAI / Compatible Mode
+            // 2. OpenAI / Compatible Mode
             if (string.IsNullOrEmpty(_baseUrl))
             {
                 WulaLog.Debug("[WulaAI] Base URL is missing.");
@@ -83,11 +93,27 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             jsonBuilder.Append("]}");
 
-            return await SendRequestAsync(endpoint, jsonBuilder.ToString(), _apiKey);
+            string response = await SendRequestAsync(endpoint, jsonBuilder.ToString(), _apiKey);
+            
+            // Fallback: If failed and had image, retry without image
+            if (response == null && !string.IsNullOrEmpty(base64Image))
+            {
+                WulaLog.Debug("[WulaAI] [WARNING] Visual request failed (likely model incompatible). Retrying text-only...");
+                return await GetChatCompletionAsync(instruction, messages, maxTokens, temperature, null);
+            }
+            return response;
         }
 
         private async Task<string> GetGeminiCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null, string base64Image = null)
         {
+            // Ensure messages is not empty to avoid Gemini 400 Error (Invalid Argument)
+            if (messages == null) messages = new List<(string role, string message)>();
+            if (messages.Count == 0)
+            {
+                // Gemini API 'contents' cannot be empty. We add a dummy prompt to trigger the model.
+                messages.Add(("user", "Start."));
+            }
+
             // Gemini API URL
             string baseUrl = _baseUrl;
             if (string.IsNullOrEmpty(baseUrl) || !baseUrl.Contains("googleapis.com"))
@@ -141,7 +167,17 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             if (Prefs.DevMode)
             {
-                WulaLog.Debug($"[WulaAI] Sending request to {endpoint}");
+                string logUrl = endpoint;
+                if (logUrl.Contains("key="))
+                {
+                    logUrl = Regex.Replace(logUrl, @"key=[^&]*", "key=[REDACTED]");
+                }
+                WulaLog.Debug($"[WulaAI] Sending request to {logUrl}");
+                
+                // Log request body (truncated to avoid spamming base64)
+                string logBody = jsonBody;
+                if (logBody.Length > 3000) logBody = logBody.Substring(0, 3000) + "... [Truncated]";
+                WulaLog.Debug($"[WulaAI] Request Payload:\n{logBody}");
             }
 
             using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
@@ -167,6 +203,10 @@ namespace WulaFallenEmpire.EventSystem.AI
                 }
 
                 string response = request.downloadHandler.text;
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] Response Body:\n{TruncateForLog(response)}");
+                }
                 return ExtractContent(response);
             }
         }
@@ -268,7 +308,38 @@ namespace WulaFallenEmpire.EventSystem.AI
                     else if (c == 't') sb.Append('\t');
                     else if (c == '"') sb.Append('"');
                     else if (c == '\\') sb.Append('\\');
-                    else sb.Append(c);
+                    else if (c == 'u')
+                    {
+                        // Handle Unicode escape sequence \uXXXX
+                        if (i + 4 < json.Length)
+                        {
+                            string hex = json.Substring(i + 1, 4);
+                            if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out int charCode))
+                            {
+                                sb.Append((char)charCode);
+                                i += 4;
+                            }
+                            else
+                            {
+                                // Fallback if parsing fails
+                                sb.Append("\\u");
+                                sb.Append(hex);
+                                i += 4;
+                            }
+                        }
+                        else
+                        {
+                            sb.Append("\\u");
+                        }
+                    }
+                    else if (c == '/')
+                    {
+                         sb.Append('/');
+                    }
+                    else
+                    {
+                        sb.Append(c);
+                    }
                     escaped = false;
                 }
                 else

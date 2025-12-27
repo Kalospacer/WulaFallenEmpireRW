@@ -130,8 +130,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Agent
                 string decision;
                 string base64Image = null;
 
-                // 如果启用了视觉特性且开启了原生多模态，则在决策前截图
-                if (settings.enableVlmFeatures && settings.useNativeMultimodal)
+                // 如果启用了视觉特性，则在决策前截图 (Autonomous Loop 默认认为是开启视觉即全自动，或者我们可以加逻辑判断，但暂时保持 VLM 开启即截图对于 Agent Loop 来说更合理，因为它需要时刻观察)
+                // 实际上，Agent Loop 通常需要全视觉，所以我们这里只检查 enableVlmFeatures
+                if (settings.enableVlmFeatures)
                 {
                     base64Image = ScreenCaptureUtility.CaptureScreenAsBase64();
                     if (settings.showThinkingProcess)

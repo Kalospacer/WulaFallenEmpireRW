@@ -132,7 +132,8 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                         if (!showAllNeeds && !isLow) continue;
 
                         string marker = isLow ? "!" : "";
-                        sb.Append($"{marker}{need.LabelCap} ({need.CurLevelPercentage:P0})");
+                        // Add explicit polarity to guide AI interpretation
+                        sb.Append($"{marker}{need.LabelCap}: {need.CurLevelPercentage:P0} (Higher is Better)");
                         if (Prefs.DevMode && need.def != null)
                         {
                             sb.Append($"[{need.def.defName}]");

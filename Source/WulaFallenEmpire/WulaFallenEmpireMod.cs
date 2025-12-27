@@ -96,7 +96,6 @@ namespace WulaFallenEmpire
             
             if (settings.enableVlmFeatures)
             {
-                listingStandard.CheckboxLabeled("优先使用原生多模态模式", ref settings.useNativeMultimodal, "直接在思考阶段将截图发送给主模型（推荐，速度更快，需模型支持视角）");
                 listingStandard.CheckboxLabeled("在 UI 中显示中间思考过程", ref settings.showThinkingProcess, "显示 AI 执行工具时的状态反馈");
             }
 

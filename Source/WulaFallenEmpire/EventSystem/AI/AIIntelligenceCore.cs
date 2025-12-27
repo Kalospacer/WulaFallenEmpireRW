@@ -69,6 +69,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             public bool AnyToolSuccess;
             public bool AnyActionSuccess;
             public bool AnyActionError;
+            public string CapturedImage;
         }
 
         private const string DefaultPersona = @"
@@ -471,7 +472,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    $"You will produce the natural-language reply later and MUST use: {language}.";
         }
 
-        private string GetToolSystemInstruction(RequestPhase phase)
+        private string GetToolSystemInstruction(RequestPhase phase, bool hasImage)
         {
             string phaseInstruction = GetPhaseInstruction(phase).TrimEnd();
             string toolsForThisPhase = BuildToolsForPhase(phase);
@@ -485,7 +486,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                   "Query tools exist but are disabled in this phase (not listed here).\n"
                 : string.Empty;
 
-            if (WulaFallenEmpireMod.settings?.enableVlmFeatures == true && WulaFallenEmpireMod.settings?.useNativeMultimodal == true)
+            if (hasImage && WulaFallenEmpireMod.settings?.enableVlmFeatures == true)
             {
                 phaseInstruction += "\n- NATIVE MULTIMODAL: A current screenshot of the game is attached to this request. You can see the game state directly. Use it to determine coordinates for visual tools or to understand the context.";
             }
@@ -833,6 +834,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 OnMessageReceived?.Invoke(cleanedResponse);
             }
         }
+
+        private bool CheckVisualIntent(string message)
+        {
+            if (string.IsNullOrEmpty(message)) return false;
+            string[] keywords = new string[] { 
+                "屏幕", "画面", "截图", "看", "找", "显示", // CN
+                "screen", "screenshot", "image", "view", "look", "see", "find", "visual", "scan" // EN
+            };
+            return keywords.Any(k => message.IndexOf(k, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
         private async Task RunPhasedRequestAsync()
         {
             if (_isThinking) return;
@@ -858,18 +869,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 _currentClient = client;
 
-                // 只有当启用了 VLM 特性，且开启了原生多模态模式时，才截图并在请求中包含图片
+                // Model-Driven Vision: Start with null image. The model must ask for it using <analyze_screen/> or <capture_screen/> if needed.
                 string base64Image = null;
-                if (settings.enableVlmFeatures && settings.useNativeMultimodal)
+                
+                // If VLM is enabled, we allow the tool use.
+                if (settings.enableVlmFeatures && settings.showThinkingProcess)
                 {
-                    base64Image = ScreenCaptureUtility.CaptureScreenAsBase64();
-                    if (settings.showThinkingProcess)
-                    {
-                        AddAssistantMessage("<i>[P.I.A] 正在扫描当前战区情况...</i>");
-                    }
-                }
-                else if (settings.showThinkingProcess)
-                {
+                    // Optional: We can still say "Analyzing data link..."
                     AddAssistantMessage("<i>[P.I.A] 正在分析数据链路...</i>");
                 }
 
@@ -879,8 +885,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     WulaLog.Debug($"[WulaAI] ===== Turn 1/3 ({queryPhase}) =====");
                 }
 
-                string queryInstruction = GetToolSystemInstruction(queryPhase);
-                string queryResponse = await client.GetChatCompletionAsync(queryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f, base64Image: base64Image);
+                string queryInstruction = GetToolSystemInstruction(queryPhase, !string.IsNullOrEmpty(base64Image));
+                string queryResponse = await client.GetChatCompletionAsync(queryInstruction, BuildToolContext(queryPhase), maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
                 if (string.IsNullOrEmpty(queryResponse))
                 {
                     AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
@@ -897,6 +903,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
 
                 PhaseExecutionResult queryResult = await ExecuteXmlToolsForPhase(queryResponse, queryPhase);
+                
+                // DATA FLOW: If Query Phase captured an image, propagate it to subsequent phases.
+                if (!string.IsNullOrEmpty(queryResult.CapturedImage))
+                {
+                    base64Image = queryResult.CapturedImage;
+                    if (settings.showThinkingProcess)
+                    {
+                         AddAssistantMessage("<i>[P.I.A] 视觉传感器已激活，图像已捕获...</i>");
+                    }
+                }
 
                 if (!queryResult.AnyToolSuccess && !_queryRetryUsed)
                 {
@@ -912,7 +928,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                               "Output the XML tag only and NOTHING else.\n" +
                                               "\nLast user request:\n" + lastUserMessage;
 
-                    string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 16, temperature: 0.1f);
+                    string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 256, temperature: 0.1f);
                     if (!string.IsNullOrEmpty(retryDecision) && ShouldRetryTools(retryDecision))
                     {
                         if (Prefs.DevMode)
@@ -921,9 +937,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         }
 
                         SetThinkingPhase(1, true);
-                        string retryQueryInstruction = GetToolSystemInstruction(queryPhase) +
+                        string retryQueryInstruction = GetToolSystemInstruction(queryPhase, !string.IsNullOrEmpty(base64Image)) +
                                                        "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
-                        string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(queryPhase), maxTokens: 128, temperature: 0.1f, base64Image: base64Image);
+                        string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(queryPhase), maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
                         if (string.IsNullOrEmpty(retryQueryResponse))
                         {
                             AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
@@ -955,9 +971,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
 
                 SetThinkingPhase(2, false);
-                string actionInstruction = GetToolSystemInstruction(actionPhase);
+                string actionInstruction = GetToolSystemInstruction(actionPhase, !string.IsNullOrEmpty(base64Image));
                 var actionContext = BuildToolContext(actionPhase, includeUser: true);
-                string actionResponse = await client.GetChatCompletionAsync(actionInstruction, actionContext, maxTokens: 128, temperature: 0.1f);
+                // Important: Pass base64Image to Action Phase as well if available, so visual_click works.
+                string actionResponse = await client.GetChatCompletionAsync(actionInstruction, actionContext, maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
                 if (string.IsNullOrEmpty(actionResponse))
                 {
                     AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
@@ -991,7 +1008,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                             "- <visual_hotkey><key>String (e.g. 'enter', 'esc', 'space')</key></visual_hotkey>\n" +
                                             "- <visual_wait><seconds>Float</seconds></visual_wait>\n" +
                                             "\nPrevious output:\n" + TrimForPrompt(actionResponse, 600);
-                    string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, actionContext, maxTokens: 128, temperature: 0.1f);
+                    string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, actionContext, maxTokens: 2048, temperature: 0.1f);
                     bool fixedHasXml = !string.IsNullOrEmpty(fixedResponse) && IsXmlToolCall(fixedResponse);
                     bool fixedIsNoActionOnly = fixedHasXml && IsNoActionOnly(fixedResponse);
                     bool fixedHasActionTool = fixedHasXml && HasActionToolCall(fixedResponse);
@@ -1023,7 +1040,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                               "Output the XML tag only and NOTHING else.\n" +
                                               "\nLast user request:\n" + lastUserMessage;
 
-                    string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 16, temperature: 0.1f);
+                    string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 256, temperature: 0.1f);
                     if (!string.IsNullOrEmpty(retryDecision) && ShouldRetryTools(retryDecision))
                     {
                         if (Prefs.DevMode)
@@ -1032,10 +1049,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         }
 
                         SetThinkingPhase(2, true);
-                        string retryActionInstruction = GetToolSystemInstruction(actionPhase) +
+                        string retryActionInstruction = GetToolSystemInstruction(actionPhase, !string.IsNullOrEmpty(base64Image)) +
                                                          "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
                         var retryActionContext = BuildToolContext(actionPhase, includeUser: true);
-                        string retryActionResponse = await client.GetChatCompletionAsync(retryActionInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
+                        string retryActionResponse = await client.GetChatCompletionAsync(retryActionInstruction, retryActionContext, maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
                         if (string.IsNullOrEmpty(retryActionResponse))
                         {
                             AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
@@ -1066,7 +1083,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                                         "- <visual_hotkey><key>String</key></visual_hotkey>\n" +
                                                         "- <visual_wait><seconds>Float</seconds></visual_wait>\n" +
                                                         "\nPrevious output:\n" + TrimForPrompt(retryActionResponse, 600);
-                            string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 128, temperature: 0.1f);
+                            string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 2048, temperature: 0.1f);
                             bool retryFixedHasXml = !string.IsNullOrEmpty(retryFixedResponse) && IsXmlToolCall(retryFixedResponse);
                             bool retryFixedIsNoActionOnly = retryFixedHasXml && IsNoActionOnly(retryFixedResponse);
                             bool retryFixedHasActionTool = retryFixedHasXml && HasActionToolCall(retryFixedResponse);
@@ -1211,6 +1228,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             var nonActionToolsInActionPhase = new List<string>();
             StringBuilder combinedResults = new StringBuilder();
             StringBuilder xmlOnlyBuilder = new StringBuilder();
+            string capturedImageForPhase = null;
 
             bool countActionSuccessOnly = phase == RequestPhase.ActionTools;
 
@@ -1229,6 +1247,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     combinedResults.AppendLine("ToolRunner Note: Ignored <no_action/> because other tool calls were present.");
                     continue;
+                }
+
+                if (toolName.Equals("analyze_screen", StringComparison.OrdinalIgnoreCase) || toolName.Equals("capture_screen", StringComparison.OrdinalIgnoreCase))
+                {
+                     // Intercept Vision Request: Capture screen and return it.
+                     // We skip the tool's internal execution to save time/tokens, as the purpose is just to get the image into the context.
+                     capturedImageForPhase = ScreenCaptureUtility.CaptureScreenAsBase64();
+                     combinedResults.AppendLine($"Tool '{toolName}' Result: Screen captured successfully. Context updated for next phase.");
+                     successfulToolCall = true;
+                     successfulTools.Add(toolName);
+                     executed++;
+                     continue;
                 }
 
                 if (xmlOnlyBuilder.Length > 0) xmlOnlyBuilder.AppendLine().AppendLine();
@@ -1344,7 +1374,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 AnyToolSuccess = successfulToolCall,
                 AnyActionSuccess = successfulActions.Count > 0,
-                AnyActionError = failedActions.Count > 0
+                AnyActionError = failedActions.Count > 0,
+                CapturedImage = capturedImageForPhase
             };
         }
 
