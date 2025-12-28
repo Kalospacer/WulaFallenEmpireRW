@@ -144,9 +144,129 @@
     </terrain>
   </PrefabDef>
 
+
+<PrefabDef>
+  <defName>WULA_StorageBase</defName> <!-- rename -->
+  <size>(13,14)</size>
+  <things>
+    <WULA_OrbitalTradeBeacon>
+      <position>(5, 0, 6)</position>
+    </WULA_OrbitalTradeBeacon>
+    <WulaDoor>
+      <rects>
+        <li>(6,0,6,0)</li>
+        <li>(6,12,6,12)</li>
+      </rects>
+    </WulaDoor>
+    <WulaDoor>
+      <rects>
+        <li>(0,6,0,6)</li>
+        <li>(12,6,12,6)</li>
+      </rects>
+      <relativeRotation>Clockwise</relativeRotation>
+    </WulaDoor>
+    <HiddenConduit>
+      <rects>
+        <li>(6,1,6,11)</li>
+        <li>(1,6,5,6)</li>
+        <li>(7,6,11,6)</li>
+      </rects>
+    </HiddenConduit>
+    <WallLamp>
+      <rects>
+        <li>(4,1,4,1)</li>
+        <li>(8,1,8,1)</li>
+      </rects>
+      <relativeRotation>Opposite</relativeRotation>
+    </WallLamp>
+    <WallLamp>
+      <rects>
+        <li>(1,4,1,4)</li>
+        <li>(1,8,1,8)</li>
+      </rects>
+      <relativeRotation>Counterclockwise</relativeRotation>
+    </WallLamp>
+    <WallLamp>
+      <rects>
+        <li>(11,4,11,4)</li>
+        <li>(11,8,11,8)</li>
+      </rects>
+      <relativeRotation>Clockwise</relativeRotation>
+    </WallLamp>
+    <WallLamp>
+      <rects>
+        <li>(4,11,4,11)</li>
+        <li>(8,11,8,11)</li>
+      </rects>
+    </WallLamp>
+    <FirefoamPopper>
+      <position>(7, 0, 6)</position>
+    </FirefoamPopper>
+    <WulaWall>
+      <rects>
+        <li>(0,0,5,0)</li>
+        <li>(7,0,12,0)</li>
+        <li>(0,1,0,5)</li>
+        <li>(12,1,12,5)</li>
+        <li>(0,7,0,12)</li>
+        <li>(12,7,12,12)</li>
+        <li>(1,12,5,12)</li>
+        <li>(7,12,11,12)</li>
+      </rects>
+    </WulaWall>
+    <Shelf>
+      <positions>
+        <li>(3, 0, 2)</li>
+        <li>(5, 0, 2)</li>
+        <li>(8, 0, 2)</li>
+        <li>(10, 0, 2)</li>
+        <li>(3, 0, 4)</li>
+        <li>(5, 0, 4)</li>
+        <li>(8, 0, 4)</li>
+        <li>(10, 0, 4)</li>
+        <li>(3, 0, 7)</li>
+        <li>(5, 0, 7)</li>
+        <li>(8, 0, 7)</li>
+        <li>(10, 0, 7)</li>
+        <li>(3, 0, 9)</li>
+        <li>(5, 0, 9)</li>
+        <li>(8, 0, 9)</li>
+        <li>(10, 0, 9)</li>
+      </positions>
+      <relativeRotation>Opposite</relativeRotation>
+      <stuff>WULA_Alloy</stuff>
+    </Shelf>
+    <Shelf>
+      <positions>
+        <li>(2, 0, 3)</li>
+        <li>(4, 0, 3)</li>
+        <li>(7, 0, 3)</li>
+        <li>(9, 0, 3)</li>
+        <li>(2, 0, 5)</li>
+        <li>(4, 0, 5)</li>
+        <li>(7, 0, 5)</li>
+        <li>(9, 0, 5)</li>
+        <li>(2, 0, 8)</li>
+        <li>(4, 0, 8)</li>
+        <li>(7, 0, 8)</li>
+        <li>(9, 0, 8)</li>
+        <li>(2, 0, 10)</li>
+        <li>(4, 0, 10)</li>
+        <li>(7, 0, 10)</li>
+        <li>(9, 0, 10)</li>
+      </positions>
+      <stuff>WULA_Alloy</stuff>
+    </Shelf>
+    <WULA_AreaTeleportBeacon>
+      <position>(6, 0, 6)</position>
+    </WULA_AreaTeleportBeacon>
+  </things>
+</PrefabDef>
+
+
   <PrefabDef>
     <defName>WULA_KitchenBase</defName>    <!-- rename -->
-    <size>(13,13)</size>
+    <size>(13,14)</size>
     <things>
       <TableButcher>
         <position>(3, 0, 11)</position>
@@ -285,7 +405,7 @@
 
   <PrefabDef>
     <defName>WULA_HospitalBase</defName>    <!-- rename -->
-    <size>(13,13)</size>
+    <size>(13,14)</size>
     <things>
       <Table3x3c>
         <position>(10, 0, 6)</position>
@@ -423,7 +543,7 @@
 
   <PrefabDef>
     <defName>WULA_DormitoryBase</defName>    <!-- rename -->
-    <size>(13,13)</size>
+    <size>(13,14)</size>
     <things>
       <PlantPot>
         <rects>
