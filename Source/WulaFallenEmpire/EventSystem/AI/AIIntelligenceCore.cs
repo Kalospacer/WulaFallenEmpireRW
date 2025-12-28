@@ -255,6 +255,66 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _ = RunPhasedRequestAsync();
         }
 
+        public async Task<string> SendSystemMessageAsync(string message, int maxTokens = 256, float temperature = 0.3f)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return null;
+            }
+
+            var settings = WulaFallenEmpireMod.settings;
+            if (settings == null)
+            {
+                return null;
+            }
+
+            string apiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                WulaLog.Debug("[WulaAI] Auto commentary skipped: API key not configured.");
+                return null;
+            }
+
+            string baseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
+            string model = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
+            var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
+
+            string instruction = GetSystemInstruction(false, "");
+            int clampedTokens = Math.Max(32, maxTokens);
+
+            string response = await client.GetChatCompletionAsync(
+                instruction,
+                new List<(string role, string message)> { ("user", message) },
+                maxTokens: clampedTokens,
+                temperature: temperature);
+
+            return response?.Trim();
+        }
+
+        public void InjectAssistantMessage(string message)
+        {
+            AddAssistantMessage(message);
+        }
+
+        /// <summary>
+        /// 用于自动评论系统 - 走正常的对话流程（包含完整的思考步骤）
+        /// 让 AI 自己决定是否需要回复
+        /// </summary>
+        public void SendAutoCommentaryMessage(string eventInfo)
+        {
+            if (string.IsNullOrWhiteSpace(eventInfo)) return;
+
+            // 标记为自动评论消息，不显示在对话历史中
+            string internalMessage = $"[AUTO_COMMENTARY]\n{eventInfo}";
+            
+            // 添加到历史并触发正常的 AI 思考流程
+            _history.Add(("user", internalMessage));
+            PersistHistory();
+            
+            // 使用正常的分阶段请求流程（包含工具调用能力等）
+            _ = RunPhasedRequestAsync();
+        }
+
         private string BuildUserMessageWithContext(string userText)
         {
             var sb = new System.Text.StringBuilder();

@@ -162,6 +162,12 @@
   <Wula_AISettings_UseStreamingDesc>Enable real-time typewriter effect. Disable if encountering issues.</Wula_AISettings_UseStreamingDesc>
   <Wula_EnableDebugLogs>Enable Debug Logs</Wula_EnableDebugLogs>
   <Wula_EnableDebugLogsDesc>Enable detailed debug logging (independent of DevMode)</Wula_EnableDebugLogsDesc>
+  <Wula_AISettings_AutoCommentary>Enable AI Auto Commentary</Wula_AISettings_AutoCommentary>
+  <Wula_AISettings_AutoCommentaryDesc>When enabled, P.I.A will comment on in-game letters (raids, deaths, trade, etc.).</Wula_AISettings_AutoCommentaryDesc>
+  <Wula_AISettings_CommentaryChance>Commentary Chance</Wula_AISettings_CommentaryChance>
+  <Wula_AISettings_CommentaryChanceDesc>Chance for neutral or positive letters to receive commentary.</Wula_AISettings_CommentaryChanceDesc>
+  <Wula_AISettings_NegativeOnly>Comment on Negative Only</Wula_AISettings_NegativeOnly>
+  <Wula_AISettings_NegativeOnlyDesc>When enabled, AI only comments on negative letters (raids, deaths, disease, etc.).</Wula_AISettings_NegativeOnlyDesc>
 
   <!-- AI Conversation -->
   <Wula_AI_Retry>Retry</Wula_AI_Retry>

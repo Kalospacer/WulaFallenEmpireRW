@@ -19,6 +19,9 @@ namespace WulaFallenEmpire
         
         // 视觉功能配置
         public bool enableVlmFeatures = false;
+        public bool enableAIAutoCommentary = false;
+        public float aiCommentaryChance = 0.7f;
+        public bool commentOnNegativeOnly = false;
         
         public override void ExposeData()
         {
@@ -36,6 +39,9 @@ namespace WulaFallenEmpire
             
             // 简化后的视觉配置
             Scribe_Values.Look(ref enableVlmFeatures, "enableVlmFeatures", false);
+            Scribe_Values.Look(ref enableAIAutoCommentary, "enableAIAutoCommentary", false);
+            Scribe_Values.Look(ref aiCommentaryChance, "aiCommentaryChance", 0.7f);
+            Scribe_Values.Look(ref commentOnNegativeOnly, "commentOnNegativeOnly", false);
             
             base.ExposeData();
         }

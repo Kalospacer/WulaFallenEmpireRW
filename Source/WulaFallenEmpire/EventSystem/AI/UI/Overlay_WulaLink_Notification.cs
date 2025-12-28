@@ -36,13 +36,15 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 _size = new Vector2(Mathf.Max(250f, textWidth + 85f), 85f); // Taller base
             }
 
-            // Window properties
+            // Window properties - ensure no input blocking
             this.layer = WindowLayer.Super;
             this.closeOnClickedOutside = false;
             this.forcePause = false;
             this.absorbInputAroundWindow = false;
             this.doWindowBackground = false;
             this.drawShadow = false;
+            this.focusWhenOpened = false;        // Don't steal focus
+            this.preventCameraMotion = false;    // Allow WASD camera control
         }
 
         protected override void SetInitialSizeAndPosition()

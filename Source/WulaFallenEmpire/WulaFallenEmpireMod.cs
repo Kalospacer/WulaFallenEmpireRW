@@ -88,6 +88,17 @@ namespace WulaFallenEmpire
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());
 
+            listingStandard.GapLine();
+            listingStandard.CheckboxLabeled("Wula_AISettings_AutoCommentary".Translate(), ref settings.enableAIAutoCommentary, "Wula_AISettings_AutoCommentaryDesc".Translate());
+            if (settings.enableAIAutoCommentary)
+            {
+                listingStandard.Label("Wula_AISettings_CommentaryChance".Translate() + $" ({settings.aiCommentaryChance:P0})");
+                listingStandard.Label("Wula_AISettings_CommentaryChanceDesc".Translate());
+                settings.aiCommentaryChance = listingStandard.Slider(settings.aiCommentaryChance, 0f, 1f);
+                settings.aiCommentaryChance = Mathf.Clamp01(settings.aiCommentaryChance);
+                listingStandard.CheckboxLabeled("Wula_AISettings_NegativeOnly".Translate(), ref settings.commentOnNegativeOnly, "Wula_AISettings_NegativeOnlyDesc".Translate());
+            }
+
             // 视觉设置部分
             listingStandard.GapLine();
             listingStandard.Label("<color=cyan>视觉与多模态设置</color>");
