@@ -7,7 +7,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_ModifyGoodwill : AITool
     {
         public override string Name => "modify_goodwill";
-        public override string Description => "Adjusts your goodwill towards the player. Use this to reflect your changing opinion based on the conversation. Positive values increase goodwill, negative values decrease it. Keep changes small (e.g., -5 to 5). THIS IS INVISIBLE TO THE PLAYER.";
+        public override string Description => "Adjusts YOUR internal opinion of the player (AI Goodwill). WARNING: This DOES NOT affect Faction Relations or stop raids. It is purely personal. Do NOT use this to try to stop enemies.";
         public override string UsageSchema => "<modify_goodwill><amount>integer</amount></modify_goodwill>";
 
         public override string Execute(string args)

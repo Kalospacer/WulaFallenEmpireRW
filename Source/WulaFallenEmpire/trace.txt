@@ -1,0 +1,23 @@
+﻿  姝ｅ湪纭畾瑕佽繕鍘熺殑椤圭洰鈥?
+  鏃犲彲鎵ц鎿嶄綔銆傛寚瀹氱殑椤圭洰鍧囦笉鍖呭惈鍙繕鍘熺殑鍖呫€?
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\AIIntelligenceCore.cs(323,50): warning CS1998: 姝ゅ紓姝ユ柟娉曠己灏?"await" 杩愮畻绗︼紝灏嗕互鍚屾鏂瑰紡杩愯銆傝鑰冭檻浣跨敤 "await" 杩愮畻绗︾瓑寰呴潪闃绘鐨?API 璋冪敤锛屾垨鑰呬娇鐢?"await Task.Run(...)" 鍦ㄥ悗鍙扮嚎绋嬩笂鎵ц鍗犵敤澶ч噺 CPU 鐨勫伐浣溿€?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\Tools\Tool_GetRecentNotifications.cs(116,34): error CS1061: 鈥淒ialog_AIConversation鈥濇湭鍖呭惈鈥淕etHistorySnapshot鈥濈殑瀹氫箟锛屽苟涓旀壘涓嶅埌鍙帴鍙楃涓€涓€淒ialog_AIConversation鈥濈被鍨嬪弬鏁扮殑鍙闂墿灞曟柟娉曗€淕etHistorySnapshot鈥?鏄惁缂哄皯 using 鎸囦护鎴栫▼搴忛泦寮曠敤?) [C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\Tools\Tool_GetRecentNotifications.cs(117,36): error CS0019: 杩愮畻绗︹€?=鈥濇棤娉曞簲鐢ㄤ簬鈥滄柟娉曠粍鈥濆拰鈥渋nt鈥濈被鍨嬬殑鎿嶄綔鏁?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\Tools\Tool_GetRecentNotifications.cs(120,26): error CS0019: 杩愮畻绗︹€?鈥濇棤娉曞簲鐢ㄤ簬鈥滄柟娉曠粍鈥濆拰鈥渋nt鈥濈被鍨嬬殑鎿嶄綔鏁?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\UI\Overlay_WulaLink.cs(21,23): warning CS0414: 瀛楁鈥淥verlay_WulaLink._lastMessageHeight鈥濆凡琚祴鍊硷紝浣嗕粠鏈娇鐢ㄨ繃瀹冪殑鍊?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\AIIntelligenceCore.cs(79,22): warning CS0414: 瀛楁鈥淎IIntelligenceCore._actionRetryUsed鈥濆凡琚祴鍊硷紝浣嗕粠鏈娇鐢ㄨ繃瀹冪殑鍊?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\AIIntelligenceCore.cs(87,24): warning CS0414: 瀛楁鈥淎IIntelligenceCore._memoryContextQuery鈥濆凡琚祴鍊硷紝浣嗕粠鏈娇鐢ㄨ繃瀹冪殑鍊?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+
+鐢熸垚澶辫触銆?
+
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\AIIntelligenceCore.cs(323,50): warning CS1998: 姝ゅ紓姝ユ柟娉曠己灏?"await" 杩愮畻绗︼紝灏嗕互鍚屾鏂瑰紡杩愯銆傝鑰冭檻浣跨敤 "await" 杩愮畻绗︾瓑寰呴潪闃绘鐨?API 璋冪敤锛屾垨鑰呬娇鐢?"await Task.Run(...)" 鍦ㄥ悗鍙扮嚎绋嬩笂鎵ц鍗犵敤澶ч噺 CPU 鐨勫伐浣溿€?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\UI\Overlay_WulaLink.cs(21,23): warning CS0414: 瀛楁鈥淥verlay_WulaLink._lastMessageHeight鈥濆凡琚祴鍊硷紝浣嗕粠鏈娇鐢ㄨ繃瀹冪殑鍊?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\AIIntelligenceCore.cs(79,22): warning CS0414: 瀛楁鈥淎IIntelligenceCore._actionRetryUsed鈥濆凡琚祴鍊硷紝浣嗕粠鏈娇鐢ㄨ繃瀹冪殑鍊?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\AIIntelligenceCore.cs(87,24): warning CS0414: 瀛楁鈥淎IIntelligenceCore._memoryContextQuery鈥濆凡琚祴鍊硷紝浣嗕粠鏈娇鐢ㄨ繃瀹冪殑鍊?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\Tools\Tool_GetRecentNotifications.cs(116,34): error CS1061: 鈥淒ialog_AIConversation鈥濇湭鍖呭惈鈥淕etHistorySnapshot鈥濈殑瀹氫箟锛屽苟涓旀壘涓嶅埌鍙帴鍙楃涓€涓€淒ialog_AIConversation鈥濈被鍨嬪弬鏁扮殑鍙闂墿灞曟柟娉曗€淕etHistorySnapshot鈥?鏄惁缂哄皯 using 鎸囦护鎴栫▼搴忛泦寮曠敤?) [C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\Tools\Tool_GetRecentNotifications.cs(117,36): error CS0019: 杩愮畻绗︹€?=鈥濇棤娉曞簲鐢ㄤ簬鈥滄柟娉曠粍鈥濆拰鈥渋nt鈥濈被鍨嬬殑鎿嶄綔鏁?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\EventSystem\AI\Tools\Tool_GetRecentNotifications.cs(120,26): error CS0019: 杩愮畻绗︹€?鈥濇棤娉曞簲鐢ㄤ簬鈥滄柟娉曠粍鈥濆拰鈥渋nt鈥濈被鍨嬬殑鎿嶄綔鏁?[C:\Steam\steamapps\common\RimWorld\Mods\3516260226\Source\WulaFallenEmpire\WulaFallenEmpire.csproj]
+    4 涓鍛?
+    3 涓敊璇?
+
+宸茬敤鏃堕棿 00:00:00.48

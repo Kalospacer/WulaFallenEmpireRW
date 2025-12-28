@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Verse;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
@@ -11,7 +12,8 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public abstract string Description { get; }
         public abstract string UsageSchema { get; } // XML schema description
 
-        public abstract string Execute(string args);
+        public virtual string Execute(string args) => "Error: Synchronous execution not supported for this tool.";
+        public virtual Task<string> ExecuteAsync(string args) => Task.FromResult(Execute(args));
 
         /// <summary>
         /// Helper method to parse XML arguments into a dictionary.

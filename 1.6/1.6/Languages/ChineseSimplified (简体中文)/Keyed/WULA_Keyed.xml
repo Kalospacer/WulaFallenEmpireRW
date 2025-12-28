@@ -162,6 +162,12 @@
   <Wula_AISettings_UseStreamingDesc>启用实时打字机效果。如果遇到问题请禁用。</Wula_AISettings_UseStreamingDesc>
   <Wula_EnableDebugLogs>启用调试日志</Wula_EnableDebugLogs>
   <Wula_EnableDebugLogsDesc>启用详细的调试日志记录（独立于开发者模式）</Wula_EnableDebugLogsDesc>
+  <Wula_AISettings_AutoCommentary>启用 AI 自动评论</Wula_AISettings_AutoCommentary>
+  <Wula_AISettings_AutoCommentaryDesc>开启后，P.I.A 会对游戏事件信件（袭击、死亡、贸易等）发表简短评论或建议。</Wula_AISettings_AutoCommentaryDesc>
+  <Wula_AISettings_CommentaryChance>评论概率</Wula_AISettings_CommentaryChance>
+  <Wula_AISettings_CommentaryChanceDesc>AI 对中性或正面信件发表评论的概率。</Wula_AISettings_CommentaryChanceDesc>
+  <Wula_AISettings_NegativeOnly>仅评论负面事件</Wula_AISettings_NegativeOnly>
+  <Wula_AISettings_NegativeOnlyDesc>开启后，AI 只会对负面信件（袭击、死亡、疾病等）发表评论。</Wula_AISettings_NegativeOnlyDesc>
 
   <!-- AI Conversation -->
   <Wula_AI_Retry>重试</Wula_AI_Retry>
@@ -170,6 +176,27 @@
   <Wula_AI_Error_ConnectionLost>错误：连接丢失。“军团”保持沉默。</Wula_AI_Error_ConnectionLost>
   <Wula_AI_Thinking_Status>思考中...（{0}秒 阶段{1}/{2}{3}）</Wula_AI_Thinking_Status>
   <Wula_AI_Thinking_RetrySuffix> 重试中</Wula_AI_Thinking_RetrySuffix>
-    <Wula_ResourceDrop>{FACTION_name}已经在附近投下了一些资源。</Wula_ResourceDrop>
+  <Wula_ResourceDrop>{FACTION_name}已经在附近投下了一些资源。</Wula_ResourceDrop>
 
+  <!-- AI Overwatch -->
+  <WULA_AIOverwatch_Label>P.I.A 正在接管轨道防御！</WULA_AIOverwatch_Label>
+  <WULA_AIOverwatch_Desc>P.I.A 已经接管了轨道防御系统，正在持续扫描敌对目标。\n\n如果有敌人出现且无误伤风险，轨道舰队将自动进行打击。\n\n剩余时间：{0} 秒</WULA_AIOverwatch_Desc>
+  <WULA_AIOverwatch_AlreadyActive>P.I.A 轨道监视协议已处于激活状态（剩余 {0} 秒）。请求被忽略。</WULA_AIOverwatch_AlreadyActive>
+  <WULA_AIOverwatch_Engaged>P.I.A 轨道监视协议：已启动，持续 {0} 秒。</WULA_AIOverwatch_Engaged>
+  <WULA_AIOverwatch_Disengaged>P.I.A 轨道监视协议：已解除。</WULA_AIOverwatch_Disengaged>
+  <WULA_AIOverwatch_SystemActive>[P.I.A 轨道监视] 系统运行中。剩余时间：{0} 秒。</WULA_AIOverwatch_SystemActive>
+  <WULA_AIOverwatch_FriendlyFireAbort>[P.I.A 轨道监视] 目标 {0} 打击中止：友军误伤风险。</WULA_AIOverwatch_FriendlyFireAbort>
+  <WULA_AIOverwatch_MassiveCluster>[P.I.A 轨道监视] 发现超大型敌群（{0} 个目标）！执行联合打击！</WULA_AIOverwatch_MassiveCluster>
+  <WULA_AIOverwatch_EngagingLance>[P.I.A 轨道监视] 对敌群（{0} 个目标）发射光矛。</WULA_AIOverwatch_EngagingLance>
+  <WULA_AIOverwatch_EngagingCannon>[P.I.A 轨道监视] 对敌群（{0} 个目标）发射副炮齐射。</WULA_AIOverwatch_EngagingCannon>
+  <WULA_AIOverwatch_EngagingMinigun>[P.I.A 轨道监视] 对敌方（{0} 个目标）发射链炮扫射。</WULA_AIOverwatch_EngagingMinigun>
+  <WULA_AIOverwatch_FleetCalled>[P.I.A 轨道监视] 帝国舰队已抵达轨道。</WULA_AIOverwatch_FleetCalled>
+  <WULA_AIOverwatch_FleetCleared>[P.I.A 轨道监视] 航道已净空。</WULA_AIOverwatch_FleetCleared>
+  <WULA_AIOverwatch_EngagingBuilding>[P.I.A 轨道监视] 对敌方建筑/炮台发射炮击。</WULA_AIOverwatch_EngagingBuilding>
+
+  <!-- Personality Settings -->
+  <Wula_ExtraPersonality_Title>附加人格指令</Wula_ExtraPersonality_Title>
+  <Wula_ExtraPersonality_Desc>在此输入 AI 的人格提示词。如果此处不为空，它将完全覆盖 XML 中的默认设置。如果为空，则使用 XML 默认值。</Wula_ExtraPersonality_Desc>
+  <Wula_Save>保存</Wula_Save>
+  <Wula_Reset>重置为默认</Wula_Reset>
 </LanguageData>

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using UnityEngine.Networking;
 using UnityEngine;
 using Verse;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace WulaFallenEmpire.EventSystem.AI
 {
@@ -13,17 +15,34 @@ namespace WulaFallenEmpire.EventSystem.AI
         private readonly string _apiKey;
         private readonly string _baseUrl;
         private readonly string _model;
+        private readonly bool _useGemini;
         private const int MaxLogChars = 2000;
 
-        public SimpleAIClient(string apiKey, string baseUrl, string model)
+        public SimpleAIClient(string apiKey, string baseUrl, string model, bool useGemini = false)
         {
             _apiKey = apiKey;
             _baseUrl = baseUrl?.TrimEnd('/');
             _model = model;
+            _useGemini = useGemini;
         }
 
-        public async Task<string> GetChatCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null)
+        public async Task<string> GetChatCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null, string base64Image = null)
         {
+            // 1. Gemini Mode
+            if (_useGemini)
+            {
+                string geminiResponse = await GetGeminiCompletionAsync(instruction, messages, maxTokens, temperature, base64Image);
+                
+                // Fallback: If failed and had image, retry without image
+                if (geminiResponse == null && !string.IsNullOrEmpty(base64Image))
+                {
+                    WulaLog.Debug("[WulaAI] [WARNING] Visual request failed (likely model incompatible). Retrying text-only...");
+                    return await GetGeminiCompletionAsync(instruction, messages, maxTokens, temperature, null);
+                }
+                return geminiResponse;
+            }
+
+            // 2. OpenAI / Compatible Mode
             if (string.IsNullOrEmpty(_baseUrl))
             {
                 WulaLog.Debug("[WulaAI] Base URL is missing.");
@@ -31,57 +50,155 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
 
             string endpoint = $"{_baseUrl}/chat/completions";
-            // Handle cases where baseUrl already includes /v1 or full path
             if (_baseUrl.EndsWith("/chat/completions")) endpoint = _baseUrl;
             else if (!_baseUrl.EndsWith("/v1")) endpoint = $"{_baseUrl}/v1/chat/completions";
 
-            // Build JSON manually to avoid dependencies
             StringBuilder jsonBuilder = new StringBuilder();
             jsonBuilder.Append("{");
             jsonBuilder.Append($"\"model\": \"{_model}\",");
-            jsonBuilder.Append("\"stream\": false,"); // We request non-stream, but handle stream if returned
-            if (maxTokens.HasValue)
-            {
-                jsonBuilder.Append($"\"max_tokens\": {Math.Max(1, maxTokens.Value)},");
-            }
-            if (temperature.HasValue)
-            {
-                float clamped = Mathf.Clamp(temperature.Value, 0f, 2f);
-                jsonBuilder.Append($"\"temperature\": {clamped.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)},");
-            }
-            jsonBuilder.Append("\"messages\": [");
+            jsonBuilder.Append("\"stream\": false,");
+            if (maxTokens.HasValue) jsonBuilder.Append($"\"max_tokens\": {Math.Max(1, maxTokens.Value)},");
+            if (temperature.HasValue) jsonBuilder.Append($"\"temperature\": {temperature.Value.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)},");
             
-            // System instruction
-            bool firstMessage = true;
+            var validMessages = messages.Where(m => 
+            {
+                string r = (m.role ?? "user").ToLowerInvariant();
+                return r != "toolcall";
+            }).ToList();
+
+            jsonBuilder.Append("\"messages\": [");
             if (!string.IsNullOrEmpty(instruction))
             {
                 jsonBuilder.Append($"{{\"role\": \"system\", \"content\": \"{EscapeJson(instruction)}\"}}");
-                firstMessage = false;
+                if (validMessages.Count > 0) jsonBuilder.Append(",");
             }
 
-            // Messages
+            // Find the index of the last user message to attach the image to
+            int lastUserIndex = -1;
+            if (!string.IsNullOrEmpty(base64Image))
+            {
+                for (int i = validMessages.Count - 1; i >= 0; i--)
+                {
+                    string r = (validMessages[i].role ?? "user").ToLowerInvariant();
+                    if (r != "ai" && r != "assistant" && r != "tool" && r != "system")
+                    {
+                        lastUserIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < validMessages.Count; i++)
+            {
+                var msg = validMessages[i];
+                string role = (msg.role ?? "user").ToLowerInvariant();
+                if (role == "ai" || role == "assistant") role = "assistant";
+                else if (role == "tool") role = "system";
+                
+                jsonBuilder.Append($"{{\"role\": \"{role}\", ");
+                
+                if (i == lastUserIndex && !string.IsNullOrEmpty(base64Image))
+                {
+                    jsonBuilder.Append("\"content\": [");
+                    jsonBuilder.Append($"{{\"type\": \"text\", \"text\": \"{EscapeJson(msg.message)}\"}},");
+                    jsonBuilder.Append($"{{\"type\": \"image_url\", \"image_url\": {{\"url\": \"data:image/png;base64,{base64Image}\"}}}}");
+                    jsonBuilder.Append("]");
+                }
+                else
+                {
+                    jsonBuilder.Append($"\"content\": \"{EscapeJson(msg.message)}\"");
+                }
+                
+                jsonBuilder.Append("}");
+                if (i < validMessages.Count - 1) jsonBuilder.Append(",");
+            }
+            jsonBuilder.Append("]}");
+
+            string response = await SendRequestAsync(endpoint, jsonBuilder.ToString(), _apiKey);
+            
+            // Fallback: If failed and had image, retry without image
+            if (response == null && !string.IsNullOrEmpty(base64Image))
+            {
+                WulaLog.Debug("[WulaAI] [WARNING] Visual request failed (likely model incompatible). Retrying text-only...");
+                return await GetChatCompletionAsync(instruction, messages, maxTokens, temperature, null);
+            }
+            return response;
+        }
+
+        private async Task<string> GetGeminiCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null, string base64Image = null)
+        {
+            // Ensure messages is not empty to avoid Gemini 400 Error (Invalid Argument)
+            if (messages == null) messages = new List<(string role, string message)>();
+            if (messages.Count == 0)
+            {
+                // Gemini API 'contents' cannot be empty. We add a dummy prompt to trigger the model.
+                messages.Add(("user", "Start."));
+            }
+
+            // Gemini API URL
+            string baseUrl = _baseUrl;
+            if (string.IsNullOrEmpty(baseUrl) || !baseUrl.Contains("googleapis.com"))
+            {
+                baseUrl = "https://generativelanguage.googleapis.com/v1beta";
+            }
+
+            string endpoint = $"{baseUrl}/models/{_model}:generateContent?key={_apiKey}";
+            
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.Append("{");
+            
+            if (!string.IsNullOrEmpty(instruction))
+            {
+                jsonBuilder.Append("\"system_instruction\": {\"parts\": [{\"text\": \"" + EscapeJson(instruction) + "\"}]},");
+            }
+
+            jsonBuilder.Append("\"contents\": [");
             for (int i = 0; i < messages.Count; i++)
             {
                 var msg = messages[i];
                 string role = (msg.role ?? "user").ToLowerInvariant();
-                if (role == "ai") role = "assistant";
-                else if (role == "tool") role = "system"; // Internal-only role; map to supported role for Chat Completions APIs.
-                else if (role == "toolcall") continue;
-                else if (role != "system" && role != "user" && role != "assistant") role = "user";
+                if (role == "assistant" || role == "ai") role = "model";
+                else role = "user";
+
+                jsonBuilder.Append($"{{\"role\": \"{role}\", \"parts\": [");
+                jsonBuilder.Append($"{{\"text\": \"{EscapeJson(msg.message)}\"}}");
                 
-                if (!firstMessage) jsonBuilder.Append(",");
-                jsonBuilder.Append($"{{\"role\": \"{role}\", \"content\": \"{EscapeJson(msg.message)}\"}}");
-                firstMessage = false;
+                if (i == messages.Count - 1 && role == "user" && !string.IsNullOrEmpty(base64Image))
+                {
+                    jsonBuilder.Append($", {{\"inline_data\": {{\"mime_type\": \"image/png\", \"data\": \"{base64Image}\"}}}}");
+                }
+
+                jsonBuilder.Append("]}");
+                if (i < messages.Count - 1) jsonBuilder.Append(",");
             }
-            
-            jsonBuilder.Append("]");
+            jsonBuilder.Append("],");
+
+            jsonBuilder.Append("\"generationConfig\": {");
+            if (temperature.HasValue) jsonBuilder.Append($"\"temperature\": {temperature.Value.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)},");
+            if (maxTokens.HasValue) jsonBuilder.Append($"\"maxOutputTokens\": {maxTokens.Value}");
+            else jsonBuilder.Append("\"maxOutputTokens\": 2048");
             jsonBuilder.Append("}");
 
-            string jsonBody = jsonBuilder.ToString();
+            jsonBuilder.Append("}");
+
+            return await SendRequestAsync(endpoint, jsonBuilder.ToString(), null);
+        }
+
+        private async Task<string> SendRequestAsync(string endpoint, string jsonBody, string apiKey)
+        {
             if (Prefs.DevMode)
             {
-                WulaLog.Debug($"[WulaAI] Sending request to {endpoint} (model={_model}, messages={messages?.Count ?? 0})");
-                WulaLog.Debug($"[WulaAI] Request body (truncated):\n{TruncateForLog(jsonBody)}");
+                string logUrl = endpoint;
+                if (logUrl.Contains("key="))
+                {
+                    logUrl = Regex.Replace(logUrl, @"key=[^&]*", "key=[REDACTED]");
+                }
+                WulaLog.Debug($"[WulaAI] Sending request to {logUrl}");
+                
+                // Log request body (truncated to avoid spamming base64)
+                string logBody = jsonBody;
+                if (logBody.Length > 3000) logBody = logBody.Substring(0, 3000) + "... [Truncated]";
+                WulaLog.Debug($"[WulaAI] Request Payload:\n{logBody}");
             }
 
             using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
@@ -90,149 +207,108 @@ namespace WulaFallenEmpire.EventSystem.AI
                 request.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-Type", "application/json");
-                if (!string.IsNullOrEmpty(_apiKey))
+                if (!string.IsNullOrEmpty(apiKey))
                 {
-                    request.SetRequestHeader("Authorization", $"Bearer {_apiKey}");
+                    request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
                 }
+                request.timeout = 60;
 
                 var operation = request.SendWebRequest();
+                while (!operation.isDone) await Task.Delay(50);
 
-                while (!operation.isDone)
+                if (request.result != UnityWebRequest.Result.Success)
                 {
-                    await Task.Delay(50);
-                }
-
-                if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-                {
-                    WulaLog.Debug($"[WulaAI] API Error: {request.error}\nResponse (truncated): {TruncateForLog(request.downloadHandler.text)}");
+                    string errText = request.downloadHandler.text;
+                    WulaLog.Debug($"[WulaAI] API Error ({request.responseCode}): {request.error}\nResponse: {TruncateForLog(errText)}");
                     return null;
                 }
 
-                string responseText = request.downloadHandler.text;
+                string response = request.downloadHandler.text;
                 if (Prefs.DevMode)
                 {
-                    WulaLog.Debug($"[WulaAI] Raw Response (truncated): {TruncateForLog(responseText)}");
+                    WulaLog.Debug($"[WulaAI] Response Body:\n{TruncateForLog(response)}");
                 }
-                return ExtractContent(responseText);
+                return ExtractContent(response);
             }
-        }
-
-        private static string TruncateForLog(string s)
-        {
-            if (string.IsNullOrEmpty(s)) return s;
-            if (s.Length <= MaxLogChars) return s;
-            return s.Substring(0, MaxLogChars) + $"... (truncated, total {s.Length} chars)";
-        }
-
-        private string EscapeJson(string s)
-        {
-            if (s == null) return "";
-
-            StringBuilder sb = new StringBuilder(s.Length + 16);
-            for (int i = 0; i < s.Length; i++)
-            {
-                char c = s[i];
-                switch (c)
-                {
-                    case '\\': sb.Append("\\\\"); break;
-                    case '"': sb.Append("\\\""); break;
-                    case '\n': sb.Append("\\n"); break;
-                    case '\r': sb.Append("\\r"); break;
-                    case '\t': sb.Append("\\t"); break;
-                    case '\b': sb.Append("\\b"); break;
-                    case '\f': sb.Append("\\f"); break;
-                    default:
-                        if (c < 0x20)
-                        {
-                            sb.Append("\\u");
-                            sb.Append(((int)c).ToString("x4"));
-                        }
-                        else
-                        {
-                            sb.Append(c);
-                        }
-                        break;
-                }
-            }
-            return sb.ToString();
         }
 
         private string ExtractContent(string json)
         {
-            try
+            if (string.IsNullOrWhiteSpace(json)) return null;
+
+            // Handle SSE Stream (data: ...)
+            // Some endpoints return SSE streams even if stream=false is requested.
+            // We strip 'data:' prefix and aggregate the content deltas.
+            if (json.TrimStart().StartsWith("data:"))
             {
-                // Check for stream format (SSE)
-                // SSE lines start with "data: "
-                if (json.TrimStart().StartsWith("data:"))
+                StringBuilder sb = new StringBuilder();
+                string[] lines = json.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string line in lines)
                 {
-                    StringBuilder fullContent = new StringBuilder();
-                    string[] lines = json.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string line in lines)
+                    string trimmed = line.Trim();
+                    if (trimmed.StartsWith("data:") && !trimmed.Contains("[DONE]"))
                     {
-                            string trimmedLine = line.Trim();
-                            if (trimmedLine == "data: [DONE]") continue;
-                            if (trimmedLine.StartsWith("data: "))
-                            {
-                                string dataJson = trimmedLine.Substring(6);
-                            // Extract content from this chunk
-                            string chunkContent = TryExtractAssistantContent(dataJson) ?? ExtractJsonValue(dataJson, "content");
-                            if (!string.IsNullOrEmpty(chunkContent))
-                            {
-                                fullContent.Append(chunkContent);
-                            }
+                        string chunkJson = trimmed.Substring(5).Trim();
+                        // Extract content from this chunk
+                        string chunkContent = ExtractContentFromSingleJson(chunkJson);
+                        if (!string.IsNullOrEmpty(chunkContent))
+                        {
+                            sb.Append(chunkContent);
                         }
                     }
-                    return fullContent.ToString();
                 }
-                else
+                return sb.ToString();
+            }
+
+            return ExtractContentFromSingleJson(json);
+        }
+
+        private string ExtractContentFromSingleJson(string json)
+        {
+            try
+            {
+                // 1. Gemini format
+                if (json.Contains("\"candidates\""))
                 {
-                    // Standard non-stream format
-                    return TryExtractAssistantContent(json) ?? ExtractJsonValue(json, "content");
+                    int partsIndex = json.IndexOf("\"parts\"", StringComparison.Ordinal);
+                    if (partsIndex != -1) return ExtractJsonValue(json, "text", partsIndex);
                 }
+
+                // 2. OpenAI format
+                if (json.Contains("\"choices\""))
+                {
+                    int choicesIndex = json.IndexOf("\"choices\"", StringComparison.Ordinal);
+                    string firstChoice = TryExtractFirstChoiceObject(json, choicesIndex);
+                    if (!string.IsNullOrEmpty(firstChoice))
+                    {
+                        int messageIndex = firstChoice.IndexOf("\"message\"", StringComparison.Ordinal);
+                        if (messageIndex != -1) return ExtractJsonValue(firstChoice, "content", messageIndex);
+                        
+                        int deltaIndex = firstChoice.IndexOf("\"delta\"", StringComparison.Ordinal);
+                        if (deltaIndex != -1) return ExtractJsonValue(firstChoice, "content", deltaIndex);
+
+                        return ExtractJsonValue(firstChoice, "text", 0);
+                    }
+                }
+
+                // 3. Last fallback
+                return ExtractJsonValue(json, "content");
             }
             catch (Exception ex)
             {
-                WulaLog.Debug($"[WulaAI] Error parsing response: {ex}");
+                WulaLog.Debug($"[WulaAI] Error parsing response: {ex.Message}");
             }
             return null;
-        }
-
-        private static string TryExtractAssistantContent(string json)
-        {
-            if (string.IsNullOrWhiteSpace(json)) return null;
-
-            int choicesIndex = json.IndexOf("\"choices\"", StringComparison.Ordinal);
-            if (choicesIndex == -1) return null;
-
-            string firstChoiceJson = TryExtractFirstChoiceObject(json, choicesIndex);
-            if (string.IsNullOrEmpty(firstChoiceJson)) return null;
-
-            int messageIndex = firstChoiceJson.IndexOf("\"message\"", StringComparison.Ordinal);
-            if (messageIndex != -1)
-            {
-                return ExtractJsonValue(firstChoiceJson, "content", messageIndex);
-            }
-
-            int deltaIndex = firstChoiceJson.IndexOf("\"delta\"", StringComparison.Ordinal);
-            if (deltaIndex != -1)
-            {
-                return ExtractJsonValue(firstChoiceJson, "content", deltaIndex);
-            }
-
-            return ExtractJsonValue(firstChoiceJson, "text", 0);
         }
 
         private static string TryExtractFirstChoiceObject(string json, int choicesKeyIndex)
         {
             int arrayStart = json.IndexOf('[', choicesKeyIndex);
             if (arrayStart == -1) return null;
-
             int objStart = json.IndexOf('{', arrayStart);
             if (objStart == -1) return null;
-
             int objEnd = FindMatchingBrace(json, objStart);
             if (objEnd == -1) return null;
-
             return json.Substring(objStart, objEnd - objStart + 1);
         }
 
@@ -241,76 +317,35 @@ namespace WulaFallenEmpire.EventSystem.AI
             int depth = 0;
             bool inString = false;
             bool escaped = false;
-
             for (int i = startIndex; i < json.Length; i++)
             {
                 char c = json[i];
                 if (inString)
                 {
-                    if (escaped)
-                    {
-                        escaped = false;
-                        continue;
-                    }
-
-                    if (c == '\\')
-                    {
-                        escaped = true;
-                        continue;
-                    }
-
-                    if (c == '"')
-                    {
-                        inString = false;
-                    }
-
+                    if (escaped) { escaped = false; continue; }
+                    if (c == '\\') { escaped = true; continue; }
+                    if (c == '"') inString = false;
                     continue;
                 }
-
-                if (c == '"')
-                {
-                    inString = true;
-                    continue;
-                }
-
-                if (c == '{')
-                {
-                    depth++;
-                    continue;
-                }
-
-                if (c == '}')
-                {
-                    depth--;
-                    if (depth == 0) return i;
-                }
+                if (c == '"') { inString = true; continue; }
+                if (c == '{') depth++;
+                if (c == '}') { depth--; if (depth == 0) return i; }
             }
-
             return -1;
         }
 
-        private static string ExtractJsonValue(string json, string key)
-        {
-            // Simple parser to find "key": "value"
-            // This is not a full JSON parser and assumes standard formatting
-            return ExtractJsonValue(json, key, 0);
-        }
-
-        private static string ExtractJsonValue(string json, string key, int startIndex)
+        private static string ExtractJsonValue(string json, string key, int startIndex = 0)
         {
             string keyPattern = $"\"{key}\"";
             int keyIndex = json.IndexOf(keyPattern, startIndex, StringComparison.Ordinal);
             if (keyIndex == -1) return null;
 
-            // Find the colon after the key
             int colonIndex = json.IndexOf(':', keyIndex + keyPattern.Length);
             if (colonIndex == -1) return null;
 
-            // Find the opening quote of the value
             int valueStart = json.IndexOf('"', colonIndex);
             if (valueStart == -1) return null;
 
-            // Extract string with escape handling
             StringBuilder sb = new StringBuilder();
             bool escaped = false;
             for (int i = valueStart + 1; i < json.Length; i++)
@@ -323,27 +358,78 @@ namespace WulaFallenEmpire.EventSystem.AI
                     else if (c == 't') sb.Append('\t');
                     else if (c == '"') sb.Append('"');
                     else if (c == '\\') sb.Append('\\');
-                    else sb.Append(c); // Literal
-                    escaped = false;
-                }
-                else
-                {
-                    if (c == '\\')
+                    else if (c == 'u')
                     {
-                        escaped = true;
+                        // Handle Unicode escape sequence \uXXXX
+                        if (i + 4 < json.Length)
+                        {
+                            string hex = json.Substring(i + 1, 4);
+                            if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out int charCode))
+                            {
+                                sb.Append((char)charCode);
+                                i += 4;
+                            }
+                            else
+                            {
+                                // Fallback if parsing fails
+                                sb.Append("\\u");
+                                sb.Append(hex);
+                                i += 4;
+                            }
+                        }
+                        else
+                        {
+                            sb.Append("\\u");
+                        }
                     }
-                    else if (c == '"')
+                    else if (c == '/')
                     {
-                        // End of string
-                        return sb.ToString();
+                         sb.Append('/');
                     }
                     else
                     {
                         sb.Append(c);
                     }
+                    escaped = false;
+                }
+                else
+                {
+                    if (c == '\\') escaped = true;
+                    else if (c == '"') return sb.ToString();
+                    else sb.Append(c);
                 }
             }
             return null;
+        }
+
+        private string EscapeJson(string s)
+        {
+            if (s == null) return "";
+            StringBuilder sb = new StringBuilder(s.Length + 16);
+            for (int i = 0; i < s.Length; i++)
+            {
+                char c = s[i];
+                switch (c)
+                {
+                    case '\\': sb.Append("\\\\"); break;
+                    case '"': sb.Append("\\\""); break;
+                    case '\n': sb.Append("\\n"); break;
+                    case '\r': sb.Append("\\r"); break;
+                    case '\t': sb.Append("\\t"); break;
+                    default:
+                        if (c < 0x20) { sb.Append("\\u"); sb.Append(((int)c).ToString("x4")); }
+                        else sb.Append(c);
+                        break;
+                }
+            }
+            return sb.ToString();
+        }
+
+        private static string TruncateForLog(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return s;
+            if (s.Length <= MaxLogChars) return s;
+            return s.Substring(0, MaxLogChars) + "... (truncated)";
         }
     }
 }
