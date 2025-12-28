@@ -170,8 +170,7 @@
   <Wula_AI_Error_ConnectionLost>错误：连接丢失。“军团”保持沉默。</Wula_AI_Error_ConnectionLost>
   <Wula_AI_Thinking_Status>思考中...（{0}秒 阶段{1}/{2}{3}）</Wula_AI_Thinking_Status>
   <Wula_AI_Thinking_RetrySuffix> 重试中</Wula_AI_Thinking_RetrySuffix>
-    <Wula_ResourceDrop>{FACTION_name}已经在附近投下了一些资源。</Wula_ResourceDrop>
-
+  <Wula_ResourceDrop>{FACTION_name}已经在附近投下了一些资源。</Wula_ResourceDrop>
 
   <!-- AI Overwatch -->
   <WULA_AIOverwatch_Label>P.I.A 正在接管轨道防御！</WULA_AIOverwatch_Label>

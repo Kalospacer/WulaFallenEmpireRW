@@ -143,16 +143,18 @@
     <cooldownTicksRange>1</cooldownTicksRange>
     <hotKey>Misc12</hotKey>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <drawAimPie>false</drawAimPie>
       <requireLineOfSight>false</requireLineOfSight>
-      <warmupTime>0</warmupTime>
-      <range>500</range>
-      <targetable>true</targetable>
+      <warmupTime>2</warmupTime>
+      <range>-1</range>
+      <targetable>false</targetable>
       <targetParams>
-        <canTargetSelf>false</canTargetSelf>
-        <canTargetLocations>true</canTargetLocations>
+        <canTargetSelf>true</canTargetSelf>
+        <canTargetLocations>false</canTargetLocations>
       </targetParams>
     </verbProperties>
     <comps>
@@ -161,23 +163,8 @@
         <aircraftCooldownTicks>15000</aircraftCooldownTicks> 
         <aircraftsPerUse>1</aircraftsPerUse>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_AbilitySpawnFlyOver">
-        <flyOverDef>WULA_MotherShip_Planet_Interdiction</flyOverDef>
-        <flyOverType>GroundStrafing</flyOverType>
-        <flightSpeed>0.02</flightSpeed>
-        <altitude>20</altitude>
-        <playFlyOverSound>true</playFlyOverSound>
-        <approachType>Perpendicular</approachType>
-
-        <!-- 只传递信号，不传递具体参数 -->
-        <enableSectorSurveillance>true</enableSectorSurveillance>
-
-        <!-- 可视化 -->
-        <showStrafePreview>false</showStrafePreview>
-
-        <!-- 预览配置 -->
-        <showSectorPreview>true</showSectorPreview>
-        <sectorPreviewColor>(0.3,0.7,1.0,0.3)</sectorPreviewColor>
+      <li Class="WulaFallenEmpire.CompProperties_AbilityEnableOverwatch">
+        <durationSeconds>180</durationSeconds>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AbilityRequiresNonHostility">
         <factionDef>Wula_PIA_Legion_Faction</factionDef>

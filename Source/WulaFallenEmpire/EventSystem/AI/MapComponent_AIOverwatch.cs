@@ -63,10 +63,10 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             try
             {
-                var flyOverDef = DefDatabase<ThingDef>.GetNamedSilentFail("WULA_AircraftCarrier");
+                var flyOverDef = DefDatabase<ThingDef>.GetNamedSilentFail("WULA_MotherShip_Planet_Interdiction");
                 if (flyOverDef == null)
                 {
-                    WulaLog.Debug("[AI Overwatch] Could not find WULA_AircraftCarrier ThingDef.");
+                    WulaLog.Debug("[AI Overwatch] Could not find WULA_MotherShip_Planet_Interdiction ThingDef.");
                     return;
                 }
 
@@ -80,14 +80,14 @@ namespace WulaFallenEmpire.EventSystem.AI
                     startPos,
                     endPos,
                     map,
-                    speed: 0.03f,
+                    speed: 0.02f,  // Slower for mothership
                     height: 20f
                 );
 
                 if (flyOver != null)
                 {
                     Messages.Message("WULA_AIOverwatch_FleetCalled".Translate(), MessageTypeDefOf.PositiveEvent);
-                    WulaLog.Debug($"[AI Overwatch] Called fleet: WULA_AircraftCarrier spawned from {startPos} to {endPos}.");
+                    WulaLog.Debug($"[AI Overwatch] Called fleet: WULA_MotherShip_Planet_Interdiction spawned from {startPos} to {endPos}.");
                 }
             }
             catch (Exception ex)
