@@ -663,6 +663,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
                     "- Output XML tool calls only, or exactly: <no_action/>.\n" +
                     "- Prefer query tools (get_*/search_*).\n" +
+                    "- CRITICAL: If the user asks for an ITEM (e.g. 'Reviver Mech Serum'), you MUST use <search_thing_def><query>...</query></search_thing_def> to find its exact DefName. NEVER GUESS DefNames.\n" +
                     "- You MAY call multiple tools in one response, but keep it concise.\n" +
                     "- If the user requests multiple items or information, you MUST output ALL required tool calls in this SAME response.\n" +
                     "- Action tools are available in PHASE 2 only; do NOT use them here.\n" +
