@@ -396,6 +396,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_SearchPawnKind());
             _tools.Add(new Tool_CallPrefabAirdrop());
             _tools.Add(new Tool_SetOverwatchMode());
+            _tools.Add(new Tool_RememberFact());
+            _tools.Add(new Tool_RecallMemories());
             
             // Agent 工具 - 保留画面分析截图能力，移除所有模拟操作工具
             if (WulaFallenEmpireMod.settings?.enableVlmFeatures == true)
@@ -518,6 +520,23 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase)
                 : persona;
 
+            // Inject Recent Memories
+            try
+            {
+                var memoryManager = Find.World?.GetComponent<AIMemoryManager>();
+                if (memoryManager != null)
+                {
+                    var recents = memoryManager.GetRecentMemories(5);
+                    if (recents != null && recents.Count > 0)
+                    {
+                        fullInstruction += "\n\n# LONG-TERM MEMORY (Recent Facts)\n" +
+                                           string.Join("\n", recents.Select(m => $"- [{m.Category}] {m.Fact}")) +
+                                           "\n(Use 'recall_memories' to search for more, or 'remember_fact' to save new info.)";
+                    }
+                }
+            }
+            catch (Exception) { /* Ignore memory errors during prompt build */ }
+
             string language = LanguageDatabase.activeLanguage?.FriendlyNameNative ?? "English";
             var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
             int goodwill = eventVarManager?.GetVariable<int>("Wula_Goodwill_To_PIA", 0) ?? 0;
@@ -581,8 +600,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             string actionWhitelist = phase == RequestPhase.ActionTools
                 ? "ACTION PHASE VALID TAGS ONLY:\n" +
-                  "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <call_prefab_airdrop>, <set_overwatch_mode>, <no_action/>\n" +
-                  "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <analyze_screen/>, <search_thing_def/>, <search_pawn_kind/>\n"
+                  "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <call_prefab_airdrop>, <set_overwatch_mode>, <remember_fact>, <no_action/>\n" +
+                  "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <analyze_screen/>, <search_thing_def/>, <search_pawn_kind/>, <recall_memories/>\n"
                 : string.Empty;
 
             return string.Join("\n\n", new[]
@@ -728,7 +747,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    toolName == "call_bombardment" ||
                    toolName == "modify_goodwill" ||
                    toolName == "call_prefab_airdrop" ||
-                   toolName == "set_overwatch_mode";
+                   toolName == "set_overwatch_mode" ||
+                   toolName == "remember_fact";
         }
 
         private static bool IsQueryToolName(string toolName)
@@ -736,7 +756,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (string.IsNullOrWhiteSpace(toolName)) return false;
             return toolName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) ||
                    toolName.StartsWith("search_", StringComparison.OrdinalIgnoreCase) ||
-                   toolName.StartsWith("analyze_", StringComparison.OrdinalIgnoreCase);
+                   toolName.StartsWith("analyze_", StringComparison.OrdinalIgnoreCase) ||
+                   toolName == "recall_memories";
         }
 
         private static string SanitizeToolResultForActionPhase(string message)
