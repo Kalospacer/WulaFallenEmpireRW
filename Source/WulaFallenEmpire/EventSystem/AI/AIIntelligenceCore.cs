@@ -520,16 +520,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             var def = GetActiveEventDef();
             string persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
 
-            string fullInstruction = toolsEnabled
-                ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase)
-                : persona;
-
-            // Append extra personality prompt from settings if available
             var settings = WulaFallenEmpireMod.settings;
             if (settings != null && !string.IsNullOrWhiteSpace(settings.extraPersonalityPrompt))
             {
-                fullInstruction += "\n\n# ADDITIONAL PERSONALITY INSTRUCTIONS\n" + settings.extraPersonalityPrompt;
+                persona += "\n" + settings.extraPersonalityPrompt;
             }
+
+            string fullInstruction = toolsEnabled
+                ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase)
+                : persona;
 
             string language = LanguageDatabase.activeLanguage?.FriendlyNameNative ?? "English";
             var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
