@@ -261,6 +261,13 @@
       <position>(6, 0, 6)</position>
     </WULA_AreaTeleportBeacon>
   </things>
+  <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(0,1,12,12)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
 </PrefabDef>
 
 
@@ -401,6 +408,13 @@
         <position>(6, 0, 6)</position>
       </WULA_AreaTeleportBeacon>
     </things>
+    <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(0,1,12,12)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
   </PrefabDef>
 
   <PrefabDef>
@@ -539,6 +553,13 @@
         <position>(6, 0, 6)</position>
       </WULA_AreaTeleportBeacon>
     </things>
+    <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(0,1,12,12)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
   </PrefabDef>
 
   <PrefabDef>
@@ -677,6 +698,13 @@
         <position>(6, 0, 6)</position>
       </WULA_AreaTeleportBeacon>
     </things>
+    <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(0,1,12,12)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
   </PrefabDef>
 
   <PrefabDef>
