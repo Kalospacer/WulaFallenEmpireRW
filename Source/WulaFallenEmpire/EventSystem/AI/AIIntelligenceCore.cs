@@ -340,6 +340,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_SearchThingDef());
             _tools.Add(new Tool_SearchPawnKind());
             _tools.Add(new Tool_CallPrefabAirdrop());
+            _tools.Add(new Tool_SetOverwatchMode());
             
             // Agent 工具 - 保留画面分析截图能力，移除所有模拟操作工具
             if (WulaFallenEmpireMod.settings?.enableVlmFeatures == true)
@@ -494,6 +495,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                   "- call_bombardment\n" +
                   "- modify_goodwill\n" +
                   "- call_prefab_airdrop\n" +
+                  "- set_overwatch_mode\n" +
                   "If no action is required, output exactly: <no_action/>.\n" +
                   "Query tools exist but are disabled in this phase (not listed here).\n"
                 : string.Empty;
@@ -509,7 +511,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             string actionWhitelist = phase == RequestPhase.ActionTools
                 ? "ACTION PHASE VALID TAGS ONLY:\n" +
-                  "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <call_prefab_airdrop>, <no_action/>\n" +
+                  "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <call_prefab_airdrop>, <set_overwatch_mode>, <no_action/>\n" +
                   "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <analyze_screen/>, <search_thing_def/>, <search_pawn_kind/>\n"
                 : string.Empty;
 
@@ -655,7 +657,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    toolName == "send_reinforcement" ||
                    toolName == "call_bombardment" ||
                    toolName == "modify_goodwill" ||
-                   toolName == "call_prefab_airdrop";
+                   toolName == "call_prefab_airdrop" ||
+                   toolName == "set_overwatch_mode";
         }
 
         private static bool IsQueryToolName(string toolName)

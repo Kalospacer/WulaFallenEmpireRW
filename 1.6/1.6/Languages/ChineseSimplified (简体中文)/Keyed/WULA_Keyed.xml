@@ -172,4 +172,20 @@
   <Wula_AI_Thinking_RetrySuffix> 重试中</Wula_AI_Thinking_RetrySuffix>
     <Wula_ResourceDrop>{FACTION_name}已经在附近投下了一些资源。</Wula_ResourceDrop>
 
+
+  <!-- AI Overwatch -->
+  <WULA_AIOverwatch_Label>P.I.A 轨道监视已启动</WULA_AIOverwatch_Label>
+  <WULA_AIOverwatch_Desc>P.I.A 已经接管了轨道防御系统，正在持续扫描敌对目标。\n\n如果有敌人出现且无误伤风险，AI 将自动进行打击。\n\n剩余时间：{0} 秒</WULA_AIOverwatch_Desc>
+  <WULA_AIOverwatch_AlreadyActive>P.I.A 轨道监视协议已处于激活状态（剩余 {0} 秒）。请求被忽略。</WULA_AIOverwatch_AlreadyActive>
+  <WULA_AIOverwatch_Engaged>P.I.A 轨道监视协议：已启动，持续 {0} 秒。</WULA_AIOverwatch_Engaged>
+  <WULA_AIOverwatch_Disengaged>P.I.A 轨道监视协议：已解除。</WULA_AIOverwatch_Disengaged>
+  <WULA_AIOverwatch_SystemActive>[P.I.A 轨道监视] 系统运行中。剩余时间：{0} 秒。</WULA_AIOverwatch_SystemActive>
+  <WULA_AIOverwatch_FriendlyFireAbort>[P.I.A 轨道监视] 目标 {0} 打击中止：友军误伤风险。</WULA_AIOverwatch_FriendlyFireAbort>
+  <WULA_AIOverwatch_MassiveCluster>[P.I.A 轨道监视] 发现超大型敌群（{0} 个目标）！执行联合打击！</WULA_AIOverwatch_MassiveCluster>
+  <WULA_AIOverwatch_EngagingLance>[P.I.A 轨道监视] 对敌群（{0} 个目标）发射光矛。</WULA_AIOverwatch_EngagingLance>
+  <WULA_AIOverwatch_EngagingCannon>[P.I.A 轨道监视] 对敌群（{0} 个目标）发射副炮齐射。</WULA_AIOverwatch_EngagingCannon>
+  <WULA_AIOverwatch_EngagingMinigun>[P.I.A 轨道监视] 对敌方（{0} 个目标）发射链炮扫射。</WULA_AIOverwatch_EngagingMinigun>
+  <WULA_AIOverwatch_FleetCalled>[P.I.A 轨道监视] 帝国舰队已抵达轨道。</WULA_AIOverwatch_FleetCalled>
+  <WULA_AIOverwatch_FleetCleared>[P.I.A 轨道监视] 航道已净空。</WULA_AIOverwatch_FleetCleared>
+
 </LanguageData>

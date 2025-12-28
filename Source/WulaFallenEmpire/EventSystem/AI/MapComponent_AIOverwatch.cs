@@ -1,0 +1,370 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using RimWorld;
+using UnityEngine;
+using Verse;
+using WulaFallenEmpire.EventSystem.AI.Tools;
+
+namespace WulaFallenEmpire.EventSystem.AI
+{
+    public class MapComponent_AIOverwatch : MapComponent
+    {
+        private bool enabled = false;
+        private int durationTicks = 0;
+        private int tickCounter = 0;
+        private int checkInterval = 180; // Check every 3 seconds (180 ticks)
+
+        // Configurable cooldown to prevent spamming too many simultaneous strikes
+        private int globalCooldownTicks = 0;
+
+        public bool IsEnabled => enabled;
+        public int DurationTicks => durationTicks;
+
+        public MapComponent_AIOverwatch(Map map) : base(map)
+        {
+        }
+
+        public void EnableOverwatch(int durationSeconds)
+        {
+            if (this.enabled)
+            {
+                 Messages.Message("WULA_AIOverwatch_AlreadyActive".Translate(this.durationTicks / 60), MessageTypeDefOf.RejectInput);
+                 return;
+            }
+
+            // Hard limit: 3 minutes (180 seconds)
+            int clampedDuration = Math.Min(durationSeconds, 180);
+
+            this.enabled = true;
+            this.durationTicks = clampedDuration * 60;
+            this.tickCounter = 0;
+            this.globalCooldownTicks = 0;
+
+            // Call fleet when overwatch starts
+            TryCallFleet();
+
+            Messages.Message("WULA_AIOverwatch_Engaged".Translate(clampedDuration), MessageTypeDefOf.PositiveEvent);
+        }
+
+        public void DisableOverwatch()
+        {
+            this.enabled = false;
+            this.durationTicks = 0;
+
+            // Clear flight path when overwatch ends
+            TryClearFlightPath();
+
+            Messages.Message("WULA_AIOverwatch_Disengaged".Translate(), MessageTypeDefOf.NeutralEvent);
+        }
+
+        private void TryCallFleet()
+        {
+            try
+            {
+                // Find the FlyOver spawner component and trigger it
+                var flyOverDef = DefDatabase<ThingDef>.GetNamedSilentFail("WULA_AircraftCarrier");
+                if (flyOverDef != null)
+                {
+                    // Use the FlyOver spawning system
+                    var flyOver = ThingMaker.MakeThing(flyOverDef) as FlyOver;
+                    if (flyOver != null)
+                    {
+                        // Configure the flyover
+                        flyOver.flightSpeed = 0.03f;
+                        flyOver.altitude = 20;
+                        
+                        // Spawn at map edge
+                        IntVec3 spawnPos = CellFinder.RandomEdgeCell(map);
+                        GenSpawn.Spawn(flyOver, spawnPos, map);
+                        
+                        Messages.Message("WULA_AIOverwatch_FleetCalled".Translate(), MessageTypeDefOf.PositiveEvent);
+                        WulaLog.Debug("[AI Overwatch] Called fleet: WULA_AircraftCarrier spawned.");
+                    }
+                }
+                else
+                {
+                    WulaLog.Debug("[AI Overwatch] Could not find WULA_AircraftCarrier ThingDef.");
+                }
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug($"[AI Overwatch] Failed to call fleet: {ex.Message}");
+            }
+        }
+
+        private void TryClearFlightPath()
+        {
+            try
+            {
+                // Find all FlyOver entities on the map and destroy them
+                var flyOvers = map.listerThings.AllThings
+                    .Where(t => t is FlyOver || t.def.defName.Contains("FlyOver") || t.def.defName.Contains("AircraftCarrier"))
+                    .ToList();
+
+                foreach (var flyOver in flyOvers)
+                {
+                    if (!flyOver.Destroyed)
+                    {
+                        flyOver.Destroy(DestroyMode.Vanish);
+                    }
+                }
+
+                if (flyOvers.Count > 0)
+                {
+                    Messages.Message("WULA_AIOverwatch_FleetCleared".Translate(), MessageTypeDefOf.NeutralEvent);
+                    WulaLog.Debug($"[AI Overwatch] Cleared flight path: Destroyed {flyOvers.Count} entities.");
+                }
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug($"[AI Overwatch] Failed to clear flight path: {ex.Message}");
+            }
+        }
+
+        public override void MapComponentTick()
+        {
+            base.MapComponentTick();
+            if (!enabled) return;
+
+            durationTicks--;
+            if (durationTicks <= 0)
+            {
+                DisableOverwatch();
+                return;
+            }
+
+            if (globalCooldownTicks > 0)
+            {
+                globalCooldownTicks--;
+            }
+
+            tickCounter++;
+            if (tickCounter >= checkInterval)
+            {
+                tickCounter = 0;
+                
+                // Optional: Notify user every 30 seconds (1800 ticks) that system is still active
+                if ((durationTicks % 1800) < checkInterval)
+                {
+                    Messages.Message("WULA_AIOverwatch_SystemActive".Translate(durationTicks / 60), MessageTypeDefOf.NeutralEvent);
+                }
+
+                PerformScanAndStrike();
+            }
+        }
+
+        private void PerformScanAndStrike()
+        {
+            // Gather all valid hostile targets
+            List<Pawn> hostiles = map.mapPawns.AllPawnsSpawned
+                .Where(p => !p.Dead && !p.Downed && p.HostileTo(Faction.OfPlayer) && !p.IsPrisoner)
+                .ToList();
+
+            if (hostiles.Count == 0) return;
+
+            // Simple clustering: Group hostiles that are close to each other
+            var clusters = ClusterPawns(hostiles, 12f); // 12 tile radius for a cluster
+
+            // Prioritize larger clusters
+            clusters.Sort((a, b) => b.Count.CompareTo(a.Count)); // Descending order
+
+            // Process clusters
+            _strikesThisScan = 0;
+
+            foreach (var cluster in clusters)
+            {
+                if (globalCooldownTicks > 0) break; 
+                ProcessCluster(cluster);
+            }
+        }
+        
+        private int _strikesThisScan = 0;
+
+        private void ProcessCluster(List<Pawn> cluster)
+        {
+            if (cluster.Count == 0) return;
+            if (_strikesThisScan >= 3) return; // Self-limit
+
+            // Calculate center of mass
+            float x = 0, z = 0;
+            foreach (var p in cluster)
+            {
+                x += p.Position.x;
+                z += p.Position.z;
+            }
+            IntVec3 center = new IntVec3((int)(x / cluster.Count), 0, (int)(z / cluster.Count));
+
+            if (!center.InBounds(map)) return;
+
+            float angle = Rand.Range(0, 360);
+
+            // NEW Decision Logic:
+            // >= 20: Heavy (Energy Lance + Primary Cannon together)
+            // >= 10: Energy Lance only
+            // >= 3: Cannon Salvo (Medium)
+            // < 3: Minigun (Light)
+
+            if (cluster.Count >= 20)
+            {
+                // Ultra Heavy: Fire BOTH Energy Lance AND Primary Cannon
+                float safetyRadius = 18.9f;
+                if (IsFriendlyFireRisk(center, safetyRadius))
+                {
+                    Messages.Message("WULA_AIOverwatch_FriendlyFireAbort".Translate(center.ToString()), new TargetInfo(center, map), MessageTypeDefOf.CautionInput);
+                    return;
+                }
+
+                var lanceDef = DefDatabase<AbilityDef>.GetNamedSilentFail("WULA_Firepower_EnergyLance_Strafe");
+                var cannonDef = DefDatabase<AbilityDef>.GetNamedSilentFail("WULA_Firepower_Primary_Cannon_Strafe");
+
+                Messages.Message("WULA_AIOverwatch_MassiveCluster".Translate(cluster.Count), new TargetInfo(center, map), MessageTypeDefOf.ThreatBig);
+                WulaLog.Debug($"[AI Overwatch] MASSIVE cluster ({cluster.Count}), executing combined strike at {center}.");
+
+                if (lanceDef != null) FireAbility(lanceDef, center, angle);
+                if (cannonDef != null) FireAbility(cannonDef, center, angle + 45f); // Offset angle for variety
+
+                _strikesThisScan++;
+                return;
+            }
+
+            if (cluster.Count >= 10)
+            {
+                // Heavy: Energy Lance only
+                float safetyRadius = 16.9f;
+                if (IsFriendlyFireRisk(center, safetyRadius))
+                {
+                    Messages.Message("WULA_AIOverwatch_FriendlyFireAbort".Translate(center.ToString()), new TargetInfo(center, map), MessageTypeDefOf.CautionInput);
+                    return;
+                }
+
+                var lanceDef = DefDatabase<AbilityDef>.GetNamedSilentFail("WULA_Firepower_EnergyLance_Strafe");
+                if (lanceDef != null)
+                {
+                    Messages.Message("WULA_AIOverwatch_EngagingLance".Translate(cluster.Count), new TargetInfo(center, map), MessageTypeDefOf.PositiveEvent);
+                    WulaLog.Debug($"[AI Overwatch] Engaging {cluster.Count} hostiles with Energy Lance at {center}.");
+                    FireAbility(lanceDef, center, angle);
+                    _strikesThisScan++;
+                }
+                return;
+            }
+
+            if (cluster.Count >= 3)
+            {
+                // Medium: Cannon Salvo
+                float safetyRadius = 9.9f;
+                if (IsFriendlyFireRisk(center, safetyRadius))
+                {
+                    Messages.Message("WULA_AIOverwatch_FriendlyFireAbort".Translate(center.ToString()), new TargetInfo(center, map), MessageTypeDefOf.CautionInput);
+                    return;
+                }
+
+                var cannonDef = DefDatabase<AbilityDef>.GetNamedSilentFail("WULA_Firepower_Cannon_Salvo");
+                if (cannonDef != null)
+                {
+                    Messages.Message("WULA_AIOverwatch_EngagingCannon".Translate(cluster.Count), new TargetInfo(center, map), MessageTypeDefOf.PositiveEvent);
+                    WulaLog.Debug($"[AI Overwatch] Engaging {cluster.Count} hostiles with Cannon Salvo at {center}.");
+                    FireAbility(cannonDef, center, angle);
+                    _strikesThisScan++;
+                }
+                return;
+            }
+
+            // Light: Minigun Strafe
+            {
+                float safetyRadius = 5.9f;
+                if (IsFriendlyFireRisk(center, safetyRadius))
+                {
+                    Messages.Message("WULA_AIOverwatch_FriendlyFireAbort".Translate(center.ToString()), new TargetInfo(center, map), MessageTypeDefOf.CautionInput);
+                    return;
+                }
+
+                var minigunDef = DefDatabase<AbilityDef>.GetNamedSilentFail("WULA_Firepower_Minigun_Strafe");
+                if (minigunDef != null)
+                {
+                    Messages.Message("WULA_AIOverwatch_EngagingMinigun".Translate(cluster.Count), new TargetInfo(center, map), MessageTypeDefOf.PositiveEvent);
+                    WulaLog.Debug($"[AI Overwatch] Engaging {cluster.Count} hostiles with Minigun Strafe at {center}.");
+                    FireAbility(minigunDef, center, angle);
+                    _strikesThisScan++;
+                }
+            }
+        }
+
+        private void FireAbility(AbilityDef ability, IntVec3 target, float angle)
+        {
+            // Route via BombardmentUtility
+            // We need to check components again to know which method to call
+            
+            var circular = ability.comps?.OfType<CompProperties_AbilityCircularBombardment>().FirstOrDefault();
+            if (circular != null)
+            {
+                BombardmentUtility.ExecuteCircularBombardment(map, target, ability, circular);
+                return;
+            }
+
+            var bombard = ability.comps?.OfType<CompProperties_AbilityBombardment>().FirstOrDefault();
+            if (bombard != null)
+            {
+                BombardmentUtility.ExecuteStrafeBombardmentDirect(map, target, ability, bombard, angle);
+                return;
+            }
+
+            var lance = ability.comps?.OfType<CompProperties_AbilityEnergyLance>().FirstOrDefault();
+            if (lance != null)
+            {
+                BombardmentUtility.ExecuteEnergyLanceDirect(map, target, ability, lance, angle);
+                return;
+            }
+        }
+
+        private bool IsFriendlyFireRisk(IntVec3 center, float radius)
+        {
+            var pawns = map.mapPawns.AllPawnsSpawned;
+            foreach (var p in pawns)
+            {
+                if (p.Faction == Faction.OfPlayer || p.IsPrisonerOfColony)
+                {
+                    if (p.Position.InHorDistOf(center, radius)) return true;
+                }
+            }
+            return false;
+        }
+
+        private List<List<Pawn>> ClusterPawns(List<Pawn> pawns, float radius)
+        {
+            var clusters = new List<List<Pawn>>();
+            var assigned = new HashSet<Pawn>();
+
+            foreach (var p in pawns)
+            {
+                if (assigned.Contains(p)) continue;
+                
+                var newCluster = new List<Pawn> { p };
+                assigned.Add(p);
+
+                // Find neighbors
+                foreach (var neighbor in pawns)
+                {
+                    if (assigned.Contains(neighbor)) continue;
+                    if (p.Position.InHorDistOf(neighbor.Position, radius))
+                    {
+                        newCluster.Add(neighbor);
+                        assigned.Add(neighbor);
+                    }
+                }
+                clusters.Add(newCluster);
+            }
+            return clusters;
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref enabled, "enabled", false);
+            Scribe_Values.Look(ref durationTicks, "durationTicks", 0);
+            Scribe_Values.Look(ref tickCounter, "tickCounter", 0);
+            Scribe_Values.Look(ref globalCooldownTicks, "globalCooldownTicks", 0);
+        }
+    }
+}
