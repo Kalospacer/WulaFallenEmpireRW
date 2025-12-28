@@ -59,13 +59,69 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     return $"Error: Skyfaller ThingDef '{skyfallerDefName}' not found.";
                 }
 
-                // Spawning must happen on main thread
-                string resultMessage = $"Success: Scheduled airdrop for '{prefabDefName}' at {targetCell} using {skyfallerDefName}.";
+                // Auto-Scan for valid position
+                IntVec3 validCell = targetCell;
+                bool foundSpot = false;
                 
-                // We use a closure to capture the parameters
+                // Get prefab size from its size field. If not set, default to 1x1 (though prefabs are usually larger)
+                IntVec2 size = prefabDef.size;
+
+                // Simple check function for a given center cell
+                bool IsPositionValid(IntVec3 center, Map m, IntVec2 s)
+                {
+                    if (!center.InBounds(m)) return false;
+                    
+                    CellRect rect = GenAdj.OccupiedRect(center, Rot4.North, s);
+                    if (!rect.InBounds(m)) return false;
+
+                    foreach (IntVec3 c in rect)
+                    {
+                        // 1. Check Terrain Passability (water/impassable usually bad for buildings)
+                        TerrainDef terr = c.GetTerrain(m);
+                        if (terr.passability == Traversability.Impassable || terr.IsWater) return false;
+
+                        // 2. Check Thick Roof (airdrops can't penetrate)
+                        if (m.roofGrid.RoofAt(c) == RoofDefOf.RoofRockThick) return false;
+
+                        // 3. Check Existing Buildings
+                        if (c.GetFirstBuilding(m) != null) return false;
+                    }
+                    return true;
+                }
+
+                // Try original spot first
+                if (IsPositionValid(targetCell, map, size))
+                {
+                    validCell = targetCell;
+                    foundSpot = true;
+                }
+                else
+                {
+                    // Spiral scan for a nearby valid spot. 
+                    // Radius ~20 should be enough to find a spot without deviating too far.
+                    foreach (IntVec3 c in GenRadial.RadialCellsAround(targetCell, 20f, useCenter: false))
+                    {
+                        if (IsPositionValid(c, map, size))
+                        {
+                            validCell = c;
+                            foundSpot = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!foundSpot)
+                {
+                   return $"Error: Could not find a valid clear space for '{prefabDefName}' (Size: {size.x}x{size.z}) near {targetCell}. Area may be blocked by thick roofs, water, or other buildings.";
+                }
+
+                // Spawning must happen on main thread
+                string resultMessage = $"Success: Scheduled airdrop for '{prefabDefName}' at valid position {validCell} (adjusted from {targetCell}) using {skyfallerDefName}.";
+                
+                // Use the found valid cell
                 string pDef = prefabDefName;
                 ThingDef sDef = skyfallerDef;
-                IntVec3 cell = targetCell;
+                IntVec3 cell = validCell;
                 Map targetMap = map;
 
                 LongEventHandler.ExecuteWhenFinished(() =>
