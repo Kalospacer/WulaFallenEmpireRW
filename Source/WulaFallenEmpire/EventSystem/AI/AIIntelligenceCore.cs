@@ -517,13 +517,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private string GetSystemInstruction(bool toolsEnabled, string toolsForThisPhase)
         {
-            var def = GetActiveEventDef();
-            string persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
-
             var settings = WulaFallenEmpireMod.settings;
+            string persona;
             if (settings != null && !string.IsNullOrWhiteSpace(settings.extraPersonalityPrompt))
             {
-                persona += "\n" + settings.extraPersonalityPrompt;
+                persona = settings.extraPersonalityPrompt;
+            }
+            else
+            {
+                var def = GetActiveEventDef();
+                persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
             }
 
             string fullInstruction = toolsEnabled
@@ -548,6 +551,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: Output XML tool calls only (or <no_action/>). " +
                    $"You will produce the natural-language reply later and MUST use: {language}.";
+        }
+
+        public string GetEffectiveBasePersona()
+        {
+            var def = GetActiveEventDef();
+            return def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
         }
 
         private string GetToolSystemInstruction(RequestPhase phase, bool hasImage)

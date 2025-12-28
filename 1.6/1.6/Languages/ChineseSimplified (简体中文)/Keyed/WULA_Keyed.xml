@@ -196,6 +196,7 @@
 
   <!-- Personality Settings -->
   <Wula_ExtraPersonality_Title>附加人格指令</Wula_ExtraPersonality_Title>
-  <Wula_ExtraPersonality_Desc>在此输入额外的人格提示词或要求。这些内容将拼接到 AI 的核心指令之后，影响其回复风格和行为方式。</Wula_ExtraPersonality_Desc>
+  <Wula_ExtraPersonality_Desc>在此输入 AI 的人格提示词。如果此处不为空，它将完全覆盖 XML 中的默认设置。如果为空，则使用 XML 默认值。</Wula_ExtraPersonality_Desc>
   <Wula_Save>保存</Wula_Save>
+  <Wula_Reset>重置为默认</Wula_Reset>
 </LanguageData>
