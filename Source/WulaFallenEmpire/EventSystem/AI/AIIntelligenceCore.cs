@@ -300,14 +300,29 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         sb.Append("]");
                     }
                 }
+                // Add Mouse Position context
+                IntVec3 mousePos = Verse.UI.MouseMapPosition().ToIntVec3();
+                if (mousePos.InBounds(Find.CurrentMap))
+                {
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.Append($"[Context: User's cursor is at ({mousePos.x}, {mousePos.z})]");
+                }
             }
             catch (Exception ex)
             {
                 WulaLog.Debug($"[WulaAI] Error building context: {ex.Message}");
             }
-
             return sb.ToString();
         }
+
+        public static string StripContextInfo(string message)
+        {
+            if (string.IsNullOrEmpty(message)) return message;
+            // Remove all [Context: ...] blocks and any preceding newlines used to separate them
+            return Regex.Replace(message, @"(\n)*\[Context:[^\]]*\]", "", RegexOptions.Singleline).Trim();
+        }
+
 
         private void InitializeTools()
         {
@@ -494,7 +509,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string actionWhitelist = phase == RequestPhase.ActionTools
                 ? "ACTION PHASE VALID TAGS ONLY:\n" +
                   "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <call_prefab_airdrop>, <no_action/>\n" +
-                  "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <analyze_screen/>\n"
+                  "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <analyze_screen/>, <search_thing_def/>, <search_pawn_kind/>\n"
                 : string.Empty;
 
             return string.Join("\n\n", new[]
@@ -590,7 +605,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private static bool IsXmlToolCall(string response)
         {
             if (string.IsNullOrWhiteSpace(response)) return false;
-            return Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
+            return Regex.IsMatch(response, @"<(?!/?(i|b|color|size|material)\b)([a-zA-Z0-9_]+)(?:>.*?</\2>|/>)", RegexOptions.Singleline);
         }
 
         private static bool IsNoActionOnly(string response)
@@ -747,11 +762,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
-                string stripped = StripXmlTags(entry.message)?.Trim() ?? "";
-                if (!string.IsNullOrWhiteSpace(stripped))
-                {
-                    filtered.Add(entry);
-                }
+                // Revert UI filtering: Add assistant messages directly without stripping XML for history context
+                filtered.Add(entry);
             }
 
             return filtered;
@@ -775,7 +787,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private static string StripXmlTags(string text)
         {
             if (string.IsNullOrEmpty(text)) return text;
-            string stripped = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
+            string stripped = Regex.Replace(text, @"<(?!/?(i|b|color|size|material)\b)([a-zA-Z0-9_]+)[^>]*>.*?</\2>", "", RegexOptions.Singleline);
             stripped = Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
             return stripped;
         }
@@ -858,10 +870,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 string base64Image = null;
                 
                 // If VLM is enabled, we allow the tool use.
+                // If VLM is enabled (no specific message needed here, purely internal state)
                 if (settings.enableVlmFeatures && settings.showThinkingProcess)
                 {
-                    // Optional: We can still say "Analyzing data link..."
-                    AddAssistantMessage("<i>[P.I.A] 正在分析数据链路...</i>");
+                    // No message
                 }
 
                 var queryPhase = RequestPhase.QueryTools;
@@ -893,10 +905,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 if (!string.IsNullOrEmpty(queryResult.CapturedImage))
                 {
                     base64Image = queryResult.CapturedImage;
-                    if (settings.showThinkingProcess)
-                    {
-                         AddAssistantMessage("<i>[P.I.A] 视觉传感器已激活，图像已捕获...</i>");
-                    }
                 }
 
                 if (!queryResult.AnyToolSuccess && !_queryRetryUsed)
@@ -939,14 +947,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             }
                             retryQueryResponse = "<no_action/>";
                         }
-
-                        queryResult = await ExecuteXmlToolsForPhase(retryQueryResponse, queryPhase);
+                    queryResult = await ExecuteXmlToolsForPhase(retryQueryResponse, queryPhase);
                     }
-                }
-
-                if (settings.showThinkingProcess)
-                {
-                    AddAssistantMessage("<i>[P.I.A] 正在计算最优战术方案...</i>");
                 }
 
                 var actionPhase = RequestPhase.ActionTools;
@@ -1120,10 +1122,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
                 }
 
-                if (settings.showThinkingProcess)
-                {
-                    AddAssistantMessage("<i>[P.I.A] 正在汇总战报并建立通讯记录...</i>");
-                }
 
                 // VISUAL CONTEXT FOR REPLY: Pass the image so the AI can describe what it sees.
                 string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory(), base64Image: base64Image);

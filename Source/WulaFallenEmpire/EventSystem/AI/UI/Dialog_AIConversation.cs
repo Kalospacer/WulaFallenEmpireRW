@@ -319,7 +319,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             for (int i = 0; i < history.Count; i++)
             {
                 var entry = history[i];
-                string messageText = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : entry.message;
+                string messageText = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : AIIntelligenceCore.StripContextInfo(entry.message);
                 
                 if (entry.role == "tool" || entry.role == "system" || entry.role == "toolcall") continue;
                 if (string.IsNullOrEmpty(messageText) || (entry.role == "user" && messageText.StartsWith("[Tool Results]"))) continue;

@@ -385,10 +385,14 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 {
                     displayText = StripXmlTags(msg.message)?.Trim() ?? "";
                 }
+                else if (msg.role == "user")
+                {
+                    displayText = AIIntelligenceCore.StripContextInfo(msg.message);
+                }
                 
                 if (string.IsNullOrWhiteSpace(displayText)) continue;
 
-                float h = CalcMessageHeight(msg.role == "assistant" ? displayText : msg.message, width);
+                float h = CalcMessageHeight(displayText, width);
                 
                 _cachedMessages.Add(new CachedMessage
                 {
@@ -440,7 +444,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 
                 if (entry.role == "user")
                 {
-                    DrawSenseiMessage(msgRect, entry.message);
+                    DrawSenseiMessage(msgRect, entry.displayText);
                 }
                 else if (entry.role == "assistant")
                 {
@@ -473,7 +477,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         {
             if (string.IsNullOrEmpty(text)) return text;
             // Remove XML tags with content: <tag>content</tag>
-            string stripped = System.Text.RegularExpressions.Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", System.Text.RegularExpressions.RegexOptions.Singleline);
+            string stripped = System.Text.RegularExpressions.Regex.Replace(text, @"<(?!/?(i|b|color|size|material)\b)([a-zA-Z0-9_]+)[^>]*>.*?</\2>", "", System.Text.RegularExpressions.RegexOptions.Singleline);
             // Remove self-closing tags: <tag/>
             stripped = System.Text.RegularExpressions.Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/?>", "");
             return stripped;
