@@ -886,6 +886,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return;
             }
 
+            // Check for NO_COMMENT marker (AI decided not to comment on auto-commentary events)
+            if (cleanedResponse.Contains("[NO_COMMENT]") || 
+                cleanedResponse.Trim().Equals("[NO_COMMENT]", StringComparison.OrdinalIgnoreCase))
+            {
+                WulaLog.Debug("[WulaAI] AI chose not to comment ([NO_COMMENT] received). Skipping message.");
+                return;
+            }
+
             bool added = false;
             if (_history.Count == 0 || !string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
             {

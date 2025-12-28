@@ -380,6 +380,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 if (msg.role == "tool" || msg.role == "toolcall") continue;
                 if (msg.role == "system" && !Prefs.DevMode) continue;
                 
+                // Hide auto-commentary system messages (user-side) from display
+                if (msg.role == "user" && msg.message.Contains("[AUTO_COMMENTARY]")) continue;
+                
                 string displayText = msg.message;
                 if (msg.role == "assistant")
                 {

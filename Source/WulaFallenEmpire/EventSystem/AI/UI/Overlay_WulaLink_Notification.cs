@@ -10,7 +10,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
     {
         private string _message;
         private int _tickCreated;
-        private const int DisplayTicks = 180; // 3 seconds
+        private const int DisplayTicks = 600; // 10 seconds
         private Vector2 _size = new Vector2(320f, 65f);
 
         public override Vector2 InitialSize => _size;

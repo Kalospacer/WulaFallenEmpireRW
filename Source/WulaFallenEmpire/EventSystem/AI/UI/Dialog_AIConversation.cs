@@ -322,6 +322,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 string messageText = entry.role == "assistant" ? ParseResponseForDisplay(entry.message) : AIIntelligenceCore.StripContextInfo(entry.message);
                 
                 if (entry.role == "tool" || entry.role == "system" || entry.role == "toolcall") continue;
+                // Hide auto-commentary system messages (user-side) from display
+                if (entry.role == "user" && entry.message.Contains("[AUTO_COMMENTARY]")) continue;
                 if (string.IsNullOrEmpty(messageText) || (entry.role == "user" && messageText.StartsWith("[Tool Results]"))) continue;
 
                 bool isLastMessage = i == history.Count - 1;
