@@ -26,7 +26,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
         }
 
-        public void EnableOverwatch(int durationSeconds)
+        // useArtilleryVersion: false = WULA_MotherShip (normal), true = WULA_MotherShip_Planet_Interdiction (artillery)
+        public void EnableOverwatch(int durationSeconds, bool useArtilleryVersion = false)
         {
             if (this.enabled)
             {
@@ -43,7 +44,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             this.globalCooldownTicks = 0;
 
             // Call fleet when overwatch starts
-            TryCallFleet();
+            TryCallFleet(useArtilleryVersion);
 
             Messages.Message("WULA_AIOverwatch_Engaged".Translate(clampedDuration), MessageTypeDefOf.PositiveEvent);
         }
@@ -59,14 +60,16 @@ namespace WulaFallenEmpire.EventSystem.AI
             Messages.Message("WULA_AIOverwatch_Disengaged".Translate(), MessageTypeDefOf.NeutralEvent);
         }
 
-        private void TryCallFleet()
+        private void TryCallFleet(bool useArtilleryVersion)
         {
             try
             {
-                var flyOverDef = DefDatabase<ThingDef>.GetNamedSilentFail("WULA_MotherShip_Planet_Interdiction");
+                // Choose mothership version based on parameter
+                string defName = useArtilleryVersion ? "WULA_MotherShip_Planet_Interdiction" : "WULA_MotherShip";
+                var flyOverDef = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
                 if (flyOverDef == null)
                 {
-                    WulaLog.Debug("[AI Overwatch] Could not find WULA_MotherShip_Planet_Interdiction ThingDef.");
+                    WulaLog.Debug($"[AI Overwatch] Could not find {defName} ThingDef.");
                     return;
                 }
 
@@ -80,14 +83,14 @@ namespace WulaFallenEmpire.EventSystem.AI
                     startPos,
                     endPos,
                     map,
-                    speed: 0.02f,  // Slower for mothership
+                    speed: useArtilleryVersion ? 0.02f : 0.01f,  // Artillery version slower
                     height: 20f
                 );
 
                 if (flyOver != null)
                 {
                     Messages.Message("WULA_AIOverwatch_FleetCalled".Translate(), MessageTypeDefOf.PositiveEvent);
-                    WulaLog.Debug($"[AI Overwatch] Called fleet: WULA_MotherShip_Planet_Interdiction spawned from {startPos} to {endPos}.");
+                    WulaLog.Debug($"[AI Overwatch] Called fleet: {defName} spawned from {startPos} to {endPos}.");
                 }
             }
             catch (Exception ex)
@@ -206,26 +209,65 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private void PerformScanAndStrike()
         {
-            // Gather all valid hostile targets
-            List<Pawn> hostiles = map.mapPawns.AllPawnsSpawned
+            // Gather all valid hostile pawn targets
+            List<Pawn> hostilePawns = map.mapPawns.AllPawnsSpawned
                 .Where(p => !p.Dead && !p.Downed && p.HostileTo(Faction.OfPlayer) && !p.IsPrisoner)
                 .ToList();
 
-            if (hostiles.Count == 0) return;
+            // Gather all hostile buildings (turrets, etc.)
+            List<Building> hostileBuildings = map.listerBuildings.allBuildingsColonist
+                .Concat(map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial).OfType<Building>())
+                .Where(b => b != null && !b.Destroyed && b.Faction != null && b.Faction.HostileTo(Faction.OfPlayer))
+                .Distinct()
+                .ToList();
 
-            // Simple clustering: Group hostiles that are close to each other
-            var clusters = ClusterPawns(hostiles, 12f); // 12 tile radius for a cluster
+            // Convert building positions to "virtual targets" for processing
+            List<IntVec3> buildingTargets = hostileBuildings.Select(b => b.Position).ToList();
 
-            // Prioritize larger clusters
-            clusters.Sort((a, b) => b.Count.CompareTo(a.Count)); // Descending order
-
-            // Process clusters
             _strikesThisScan = 0;
 
-            foreach (var cluster in clusters)
+            // Process hostile pawns first (clustered)
+            if (hostilePawns.Count > 0)
             {
-                if (globalCooldownTicks > 0) break; 
-                ProcessCluster(cluster);
+                var clusters = ClusterPawns(hostilePawns, 12f);
+                clusters.Sort((a, b) => b.Count.CompareTo(a.Count));
+
+                foreach (var cluster in clusters)
+                {
+                    if (globalCooldownTicks > 0) break;
+                    if (_strikesThisScan >= 3) break;
+                    ProcessCluster(cluster);
+                }
+            }
+
+            // Process hostile buildings (each as individual target)
+            foreach (var buildingPos in buildingTargets)
+            {
+                if (globalCooldownTicks > 0) break;
+                if (_strikesThisScan >= 3) break;
+                ProcessBuildingTarget(buildingPos);
+            }
+        }
+
+        private void ProcessBuildingTarget(IntVec3 target)
+        {
+            if (!target.InBounds(map)) return;
+
+            float safetyRadius = 9.9f; // Medium safety for building strikes
+            if (IsFriendlyFireRisk(target, safetyRadius))
+            {
+                Messages.Message("WULA_AIOverwatch_FriendlyFireAbort".Translate(target.ToString()), new TargetInfo(target, map), MessageTypeDefOf.CautionInput);
+                return;
+            }
+
+            // Use cannon salvo for buildings (good balance of damage and precision)
+            var cannonDef = DefDatabase<AbilityDef>.GetNamedSilentFail("WULA_Firepower_Cannon_Salvo");
+            if (cannonDef != null)
+            {
+                Messages.Message("WULA_AIOverwatch_EngagingBuilding".Translate(), new TargetInfo(target, map), MessageTypeDefOf.PositiveEvent);
+                WulaLog.Debug($"[AI Overwatch] Engaging hostile building at {target} with Cannon Salvo.");
+                FireAbility(cannonDef, target, Rand.Range(0, 360));
+                _strikesThisScan++;
             }
         }
         

@@ -186,5 +186,6 @@
   <WULA_AIOverwatch_EngagingMinigun>[P.I.A 轨道监视] 对敌方（{0} 个目标）发射链炮扫射。</WULA_AIOverwatch_EngagingMinigun>
   <WULA_AIOverwatch_FleetCalled>[P.I.A 轨道监视] 帝国舰队已抵达轨道。</WULA_AIOverwatch_FleetCalled>
   <WULA_AIOverwatch_FleetCleared>[P.I.A 轨道监视] 航道已净空。</WULA_AIOverwatch_FleetCleared>
+  <WULA_AIOverwatch_EngagingBuilding>[P.I.A 轨道监视] 对敌方建筑/炮台发射炮击。</WULA_AIOverwatch_EngagingBuilding>
 
 </LanguageData>

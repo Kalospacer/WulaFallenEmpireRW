@@ -8,6 +8,7 @@ namespace WulaFallenEmpire
     public class CompProperties_AbilityEnableOverwatch : CompProperties_AbilityEffect
     {
         public int durationSeconds = 180; // Default 3 minutes
+        public bool useArtilleryVersion = false; // Both use normal mothership by default
 
         public CompProperties_AbilityEnableOverwatch()
         {
@@ -37,7 +38,7 @@ namespace WulaFallenEmpire
                 map.components.Add(overwatch);
             }
 
-            overwatch.EnableOverwatch(Props.durationSeconds);
+            overwatch.EnableOverwatch(Props.durationSeconds, Props.useArtilleryVersion);
         }
 
         public override bool CanApplyOn(LocalTargetInfo target, LocalTargetInfo dest)
