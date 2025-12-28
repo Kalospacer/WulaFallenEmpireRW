@@ -19,7 +19,6 @@ namespace WulaFallenEmpire
         
         // 视觉功能配置
         public bool enableVlmFeatures = false;
-        public bool showThinkingProcess = true; // 是否显示中间思考过过程
         
         public override void ExposeData()
         {
@@ -37,7 +36,6 @@ namespace WulaFallenEmpire
             
             // 简化后的视觉配置
             Scribe_Values.Look(ref enableVlmFeatures, "enableVlmFeatures", false);
-            Scribe_Values.Look(ref showThinkingProcess, "showThinkingProcess", true);
             
             base.ExposeData();
         }

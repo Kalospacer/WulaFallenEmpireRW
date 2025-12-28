@@ -94,10 +94,6 @@ namespace WulaFallenEmpire
             
             listingStandard.CheckboxLabeled("启用视觉交互能力", ref settings.enableVlmFeatures, "启用后 AI 可以截取屏幕并理解游戏画面");
             
-            if (settings.enableVlmFeatures)
-            {
-                listingStandard.CheckboxLabeled("在 UI 中显示中间思考过程", ref settings.showThinkingProcess, "显示 AI 执行工具时的状态反馈");
-            }
 
             listingStandard.GapLine();
             listingStandard.Label("Translation tools");

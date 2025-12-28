@@ -869,10 +869,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 // Model-Driven Vision: Start with null image. The model must ask for it using <analyze_screen/> or <capture_screen/> if needed.
                 string base64Image = null;
                 
-                if (settings.enableVlmFeatures && settings.showThinkingProcess)
-                {
-                    // No message
-                }
 
                 var queryPhase = RequestPhase.QueryTools;
                 if (Prefs.DevMode)
@@ -949,11 +945,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
                 }
 
-                if (settings.showThinkingProcess)
-                {
-                    // No message
-                }
-                
                 var actionPhase = RequestPhase.ActionTools;
                 if (Prefs.DevMode)
                 {
@@ -1123,11 +1114,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     {
                         replyInstruction += " You MUST still confirm any successful actions separately.";
                     }
-                }
-
-                if (settings.showThinkingProcess)
-                {
-                    // No message
                 }
 
                 // VISUAL CONTEXT FOR REPLY: Pass the image so the AI can describe what it sees.
