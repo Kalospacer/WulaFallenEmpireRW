@@ -63,29 +63,31 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             try
             {
-                // Find the FlyOver spawner component and trigger it
                 var flyOverDef = DefDatabase<ThingDef>.GetNamedSilentFail("WULA_AircraftCarrier");
-                if (flyOverDef != null)
-                {
-                    // Use the FlyOver spawning system
-                    var flyOver = ThingMaker.MakeThing(flyOverDef) as FlyOver;
-                    if (flyOver != null)
-                    {
-                        // Configure the flyover
-                        flyOver.flightSpeed = 0.03f;
-                        flyOver.altitude = 20;
-                        
-                        // Spawn at map edge
-                        IntVec3 spawnPos = CellFinder.RandomEdgeCell(map);
-                        GenSpawn.Spawn(flyOver, spawnPos, map);
-                        
-                        Messages.Message("WULA_AIOverwatch_FleetCalled".Translate(), MessageTypeDefOf.PositiveEvent);
-                        WulaLog.Debug("[AI Overwatch] Called fleet: WULA_AircraftCarrier spawned.");
-                    }
-                }
-                else
+                if (flyOverDef == null)
                 {
                     WulaLog.Debug("[AI Overwatch] Could not find WULA_AircraftCarrier ThingDef.");
+                    return;
+                }
+
+                // Calculate proper start and end positions (edge to opposite edge)
+                IntVec3 startPos = GetRandomMapEdgePosition(map);
+                IntVec3 endPos = GetOppositeMapEdgePosition(map, startPos);
+
+                // Use the proper FlyOver.MakeFlyOver static method
+                FlyOver flyOver = FlyOver.MakeFlyOver(
+                    flyOverDef,
+                    startPos,
+                    endPos,
+                    map,
+                    speed: 0.03f,
+                    height: 20f
+                );
+
+                if (flyOver != null)
+                {
+                    Messages.Message("WULA_AIOverwatch_FleetCalled".Translate(), MessageTypeDefOf.PositiveEvent);
+                    WulaLog.Debug($"[AI Overwatch] Called fleet: WULA_AircraftCarrier spawned from {startPos} to {endPos}.");
                 }
             }
             catch (Exception ex)
@@ -94,27 +96,74 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
         }
 
+        private IntVec3 GetRandomMapEdgePosition(Map map)
+        {
+            int edge = Rand.Range(0, 4);
+            int x, z;
+
+            switch (edge)
+            {
+                case 0: // Bottom
+                    x = Rand.Range(5, map.Size.x - 5);
+                    z = 0;
+                    break;
+                case 1: // Right
+                    x = map.Size.x - 1;
+                    z = Rand.Range(5, map.Size.z - 5);
+                    break;
+                case 2: // Top
+                    x = Rand.Range(5, map.Size.x - 5);
+                    z = map.Size.z - 1;
+                    break;
+                case 3: // Left
+                default:
+                    x = 0;
+                    z = Rand.Range(5, map.Size.z - 5);
+                    break;
+            }
+
+            return new IntVec3(x, 0, z);
+        }
+
+        private IntVec3 GetOppositeMapEdgePosition(Map map, IntVec3 startPos)
+        {
+            // Calculate direction from start to center, then extend to opposite edge
+            IntVec3 center = map.Center;
+            Vector3 toCenter = (center.ToVector3() - startPos.ToVector3()).normalized;
+            
+            // Extend to the opposite edge
+            float maxDistance = Mathf.Max(map.Size.x, map.Size.z) * 1.5f;
+            Vector3 endVec = startPos.ToVector3() + toCenter * maxDistance;
+            
+            // Clamp to map bounds
+            int endX = Mathf.Clamp((int)endVec.x, 0, map.Size.x - 1);
+            int endZ = Mathf.Clamp((int)endVec.z, 0, map.Size.z - 1);
+            
+            return new IntVec3(endX, 0, endZ);
+        }
+
         private void TryClearFlightPath()
         {
             try
             {
-                // Find all FlyOver entities on the map and destroy them
+                // Find all FlyOver entities on the map and use EmergencyDestroy for smooth exit
                 var flyOvers = map.listerThings.AllThings
-                    .Where(t => t is FlyOver || t.def.defName.Contains("FlyOver") || t.def.defName.Contains("AircraftCarrier"))
+                    .Where(t => t is FlyOver)
+                    .Cast<FlyOver>()
                     .ToList();
 
                 foreach (var flyOver in flyOvers)
                 {
                     if (!flyOver.Destroyed)
                     {
-                        flyOver.Destroy(DestroyMode.Vanish);
+                        flyOver.EmergencyDestroy(); // Use smooth accelerated exit instead of instant destroy
                     }
                 }
 
                 if (flyOvers.Count > 0)
                 {
                     Messages.Message("WULA_AIOverwatch_FleetCleared".Translate(), MessageTypeDefOf.NeutralEvent);
-                    WulaLog.Debug($"[AI Overwatch] Cleared flight path: Destroyed {flyOvers.Count} entities.");
+                    WulaLog.Debug($"[AI Overwatch] Cleared flight path: {flyOvers.Count} entities set to emergency exit.");
                 }
             }
             catch (Exception ex)

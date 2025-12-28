@@ -174,8 +174,8 @@
 
 
   <!-- AI Overwatch -->
-  <WULA_AIOverwatch_Label>P.I.A 轨道监视已启动</WULA_AIOverwatch_Label>
-  <WULA_AIOverwatch_Desc>P.I.A 已经接管了轨道防御系统，正在持续扫描敌对目标。\n\n如果有敌人出现且无误伤风险，AI 将自动进行打击。\n\n剩余时间：{0} 秒</WULA_AIOverwatch_Desc>
+  <WULA_AIOverwatch_Label>P.I.A 正在接管轨道防御！</WULA_AIOverwatch_Label>
+  <WULA_AIOverwatch_Desc>P.I.A 已经接管了轨道防御系统，正在持续扫描敌对目标。\n\n如果有敌人出现且无误伤风险，轨道舰队将自动进行打击。\n\n剩余时间：{0} 秒</WULA_AIOverwatch_Desc>
   <WULA_AIOverwatch_AlreadyActive>P.I.A 轨道监视协议已处于激活状态（剩余 {0} 秒）。请求被忽略。</WULA_AIOverwatch_AlreadyActive>
   <WULA_AIOverwatch_Engaged>P.I.A 轨道监视协议：已启动，持续 {0} 秒。</WULA_AIOverwatch_Engaged>
   <WULA_AIOverwatch_Disengaged>P.I.A 轨道监视协议：已解除。</WULA_AIOverwatch_Disengaged>
