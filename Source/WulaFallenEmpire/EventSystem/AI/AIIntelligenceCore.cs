@@ -50,6 +50,9 @@ namespace WulaFallenEmpire.EventSystem.AI
         private readonly List<string> _actionFailedLedger = new List<string>();
         private readonly HashSet<string> _actionFailedLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private SimpleAIClient _currentClient;
+        private string _memoryContext;
+        private string _memoryContextQuery;
+        private bool _memoryUpdateInProgress;
 
         private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
@@ -70,6 +73,20 @@ namespace WulaFallenEmpire.EventSystem.AI
             public bool AnyActionSuccess;
             public bool AnyActionError;
             public string CapturedImage;
+        }
+
+        private struct MemoryFact
+        {
+            public string Text;
+            public string Category;
+        }
+
+        private struct MemoryUpdate
+        {
+            public string Id;
+            public string Text;
+            public string Category;
+            public string Event;
         }
 
         private const string DefaultPersona = @"# ROLE AND GOAL
@@ -186,9 +203,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 _history.Add(("user", "Hello"));
                 PersistHistory();
+                RefreshMemoryContext("Hello");
                 StartConversation();
                 return;
             }
+
+            RefreshMemoryContext(GetLastUserMessageForMemory());
 
             if (!TryApplyLastAssistantExpression())
             {
@@ -242,6 +262,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 WulaLog.Debug("[WulaAI] No active event def set; call InitializeConversation first.");
                 return;
             }
+
+            RefreshMemoryContext(trimmed);
 
             // 附加选中对象的上下文信息
             string messageWithContext = BuildUserMessageWithContext(text);
@@ -457,6 +479,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private void ClearHistory()
         {
             _history.Clear();
+            _memoryContext = null;
+            _memoryContextQuery = null;
             try
             {
                 var historyManager = Find.World?.GetComponent<AIHistoryManager>();
@@ -512,6 +536,79 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             return DefDatabase<EventDef>.GetNamedSilentFail(_activeEventDefName);
         }
+
+        private void RefreshMemoryContext(string query)
+        {
+            _memoryContextQuery = query ?? "";
+            _memoryContext = BuildMemoryContext(_memoryContextQuery);
+        }
+
+        private string GetMemoryContext()
+        {
+            if (string.IsNullOrWhiteSpace(_memoryContext))
+            {
+                string query = _memoryContextQuery;
+                if (string.IsNullOrWhiteSpace(query))
+                {
+                    query = GetLastUserMessageForMemory();
+                }
+                _memoryContextQuery = query ?? "";
+                _memoryContext = BuildMemoryContext(_memoryContextQuery);
+            }
+
+            return _memoryContext ?? "";
+        }
+
+        private string GetLastUserMessageForMemory()
+        {
+            for (int i = _history.Count - 1; i >= 0; i--)
+            {
+                var entry = _history[i];
+                if (string.Equals(entry.role, "user", StringComparison.OrdinalIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(entry.message))
+                {
+                    return entry.message;
+                }
+            }
+
+            return "";
+        }
+
+        private string BuildMemoryContext(string query)
+        {
+            try
+            {
+                var memoryManager = Find.World?.GetComponent<AIMemoryManager>();
+                if (memoryManager == null)
+                {
+                    return "";
+                }
+
+                List<AIMemoryEntry> memories = null;
+                if (!string.IsNullOrWhiteSpace(query))
+                {
+                    memories = memoryManager.SearchMemories(query, 5);
+                }
+
+                if (memories == null || memories.Count == 0)
+                {
+                    memories = memoryManager.GetRecentMemories(5);
+                }
+
+                if (memories == null || memories.Count == 0)
+                {
+                    return "";
+                }
+
+                string lines = string.Join("\n", memories.Select(m => $"- [{m.Category}] {m.Fact}"));
+                return "\n\n# LONG-TERM MEMORY (Facts)\n" + lines +
+                       "\n(Use 'recall_memories' to search for more, or 'remember_fact' to save new info.)";
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
         private string GetSystemInstruction(bool toolsEnabled, string toolsForThisPhase)
         {
             string persona = GetActivePersona();
@@ -520,22 +617,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase)
                 : persona;
 
-            // Inject Recent Memories
-            try
+            string memoryContext = GetMemoryContext();
+            if (!string.IsNullOrWhiteSpace(memoryContext))
             {
-                var memoryManager = Find.World?.GetComponent<AIMemoryManager>();
-                if (memoryManager != null)
-                {
-                    var recents = memoryManager.GetRecentMemories(5);
-                    if (recents != null && recents.Count > 0)
-                    {
-                        fullInstruction += "\n\n# LONG-TERM MEMORY (Recent Facts)\n" +
-                                           string.Join("\n", recents.Select(m => $"- [{m.Category}] {m.Fact}")) +
-                                           "\n(Use 'recall_memories' to search for more, or 'remember_fact' to save new info.)";
-                    }
-                }
+                fullInstruction += memoryContext;
             }
-            catch (Exception) { /* Ignore memory errors during prompt build */ }
 
             string language = LanguageDatabase.activeLanguage?.FriendlyNameNative ?? "English";
             var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
@@ -575,6 +661,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private string GetToolSystemInstruction(RequestPhase phase, bool hasImage)
         {
+            string persona = GetActivePersona();
+            string memoryContext = GetMemoryContext();
+            string personaBlock = string.IsNullOrWhiteSpace(memoryContext) ? persona : (persona + memoryContext);
             string phaseInstruction = GetPhaseInstruction(phase).TrimEnd();
             string toolsForThisPhase = BuildToolsForPhase(phase);
             string actionPriority = phase == RequestPhase.ActionTools
@@ -606,6 +695,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             return string.Join("\n\n", new[]
             {
+                personaBlock,
                 phaseInstruction,
                 string.IsNullOrWhiteSpace(actionPriority) ? null : actionPriority.TrimEnd(),
                 string.IsNullOrWhiteSpace(actionWhitelist) ? null : actionWhitelist.TrimEnd(),
@@ -878,6 +968,443 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     PersistHistory();
                 }
             }
+        }
+
+        private void TriggerMemoryUpdate()
+        {
+            if (_memoryUpdateInProgress)
+            {
+                return;
+            }
+
+            string conversation = BuildMemoryConversation(12);
+            if (string.IsNullOrWhiteSpace(conversation))
+            {
+                return;
+            }
+
+            var memoryManager = Find.World?.GetComponent<AIMemoryManager>();
+            if (memoryManager == null)
+            {
+                return;
+            }
+
+            string existingJson = BuildExistingMemoriesJson(memoryManager.GetAllMemories());
+            _memoryUpdateInProgress = true;
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await UpdateMemoriesFromConversationAsync(memoryManager, existingJson, conversation);
+                }
+                finally
+                {
+                    _memoryUpdateInProgress = false;
+                }
+            });
+        }
+
+        private string BuildMemoryConversation(int maxMessages)
+        {
+            if (_history == null || _history.Count == 0)
+            {
+                return "";
+            }
+
+            var entries = _history
+                .Where(h => string.Equals(h.role, "user", StringComparison.OrdinalIgnoreCase) ||
+                            string.Equals(h.role, "assistant", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (entries.Count == 0)
+            {
+                return "";
+            }
+
+            if (entries.Count > maxMessages)
+            {
+                entries = entries.Skip(entries.Count - maxMessages).ToList();
+            }
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var entry in entries)
+            {
+                if (string.IsNullOrWhiteSpace(entry.message))
+                {
+                    continue;
+                }
+
+                string role = string.Equals(entry.role, "user", StringComparison.OrdinalIgnoreCase) ? "User" : "Assistant";
+                sb.AppendLine($"{role}: {entry.message}");
+            }
+
+            string conversation = sb.ToString().Trim();
+            return TrimForPrompt(conversation, 4000);
+        }
+
+        private async Task UpdateMemoriesFromConversationAsync(AIMemoryManager memoryManager, string existingMemoriesJson, string conversation)
+        {
+            try
+            {
+                var settings = WulaFallenEmpireMod.settings;
+                if (settings == null)
+                {
+                    return;
+                }
+
+                string apiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
+                if (string.IsNullOrWhiteSpace(apiKey))
+                {
+                    return;
+                }
+
+                string baseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
+                string model = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
+                var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
+
+                string factPrompt = MemoryPrompts.BuildFactExtractionPrompt(conversation);
+                string factsResponse = await client.GetChatCompletionAsync(factPrompt, new List<(string role, string message)>(), maxTokens: 256, temperature: 0.1f);
+                if (string.IsNullOrWhiteSpace(factsResponse))
+                {
+                    return;
+                }
+
+                var facts = ParseMemoryFacts(factsResponse);
+                if (facts.Count == 0)
+                {
+                    return;
+                }
+
+                string factsJson = BuildFactsJson(facts);
+                string updatePrompt = MemoryPrompts.BuildMemoryUpdatePrompt(existingMemoriesJson, factsJson);
+                string updateResponse = await client.GetChatCompletionAsync(updatePrompt, new List<(string role, string message)>(), maxTokens: 512, temperature: 0.1f);
+
+                var updates = ParseMemoryUpdates(updateResponse);
+                LongEventHandler.ExecuteWhenFinished(() =>
+                {
+                    ApplyMemoryUpdates(memoryManager, updates, facts);
+                });
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug($"[WulaAI] Memory update failed: {ex}");
+            }
+        }
+
+        private static List<MemoryFact> ParseMemoryFacts(string json)
+        {
+            var facts = new List<MemoryFact>();
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return facts;
+            }
+
+            string array = ExtractJsonArray(json, "facts");
+            if (string.IsNullOrWhiteSpace(array))
+            {
+                return facts;
+            }
+
+            foreach (string obj in ExtractJsonObjects(array))
+            {
+                var dict = SimpleJsonParser.Parse(obj);
+                if (dict == null || dict.Count == 0)
+                {
+                    continue;
+                }
+
+                if (!dict.TryGetValue("text", out string text) || string.IsNullOrWhiteSpace(text))
+                {
+                    continue;
+                }
+
+                dict.TryGetValue("category", out string category);
+                facts.Add(new MemoryFact { Text = text.Trim(), Category = category ?? "misc" });
+            }
+
+            return facts;
+        }
+
+        private static List<MemoryUpdate> ParseMemoryUpdates(string json)
+        {
+            var updates = new List<MemoryUpdate>();
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return updates;
+            }
+
+            string array = ExtractJsonArray(json, "memory");
+            if (string.IsNullOrWhiteSpace(array))
+            {
+                return updates;
+            }
+
+            foreach (string obj in ExtractJsonObjects(array))
+            {
+                var dict = SimpleJsonParser.Parse(obj);
+                if (dict == null || dict.Count == 0)
+                {
+                    continue;
+                }
+
+                dict.TryGetValue("id", out string id);
+                dict.TryGetValue("text", out string text);
+                dict.TryGetValue("category", out string category);
+                dict.TryGetValue("event", out string evt);
+
+                if (string.IsNullOrWhiteSpace(evt))
+                {
+                    continue;
+                }
+
+                updates.Add(new MemoryUpdate
+                {
+                    Id = id,
+                    Text = text,
+                    Category = category,
+                    Event = evt
+                });
+            }
+
+            return updates;
+        }
+
+        private static string BuildFactsJson(List<MemoryFact> facts)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{\"facts\":[");
+            bool first = true;
+            foreach (var fact in facts)
+            {
+                if (string.IsNullOrWhiteSpace(fact.Text))
+                {
+                    continue;
+                }
+
+                if (!first) sb.Append(",");
+                first = false;
+                sb.Append("{\"text\":\"").Append(EscapeJson(fact.Text)).Append("\",");
+                sb.Append("\"category\":\"").Append(EscapeJson(fact.Category ?? "misc")).Append("\"}");
+            }
+            sb.Append("]}");
+            return sb.ToString();
+        }
+
+        private static string BuildExistingMemoriesJson(IReadOnlyList<AIMemoryEntry> memories)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+            bool first = true;
+            if (memories != null)
+            {
+                foreach (var memory in memories)
+                {
+                    if (memory == null || string.IsNullOrWhiteSpace(memory.Fact))
+                    {
+                        continue;
+                    }
+
+                    if (!first) sb.Append(",");
+                    first = false;
+                    sb.Append("{\"id\":\"").Append(EscapeJson(memory.Id)).Append("\",");
+                    sb.Append("\"text\":\"").Append(EscapeJson(memory.Fact)).Append("\",");
+                    sb.Append("\"category\":\"").Append(EscapeJson(memory.Category)).Append("\"}");
+                }
+            }
+            sb.Append("]");
+            return sb.ToString();
+        }
+
+        private static void ApplyMemoryUpdates(AIMemoryManager memoryManager, List<MemoryUpdate> updates, List<MemoryFact> fallbackFacts)
+        {
+            if (memoryManager == null)
+            {
+                return;
+            }
+
+            bool applied = false;
+            if (updates != null && updates.Count > 0)
+            {
+                foreach (var update in updates)
+                {
+                    string evt = (update.Event ?? "").Trim().ToUpperInvariant();
+                    if (evt == "ADD")
+                    {
+                        memoryManager.AddMemory(update.Text, update.Category);
+                        applied = true;
+                    }
+                    else if (evt == "UPDATE")
+                    {
+                        if (!string.IsNullOrWhiteSpace(update.Id))
+                        {
+                            memoryManager.UpdateMemory(update.Id, update.Text, update.Category);
+                            applied = true;
+                        }
+                    }
+                    else if (evt == "DELETE")
+                    {
+                        if (!string.IsNullOrWhiteSpace(update.Id))
+                        {
+                            memoryManager.DeleteMemory(update.Id);
+                            applied = true;
+                        }
+                    }
+                }
+            }
+
+            if (!applied && fallbackFacts != null)
+            {
+                foreach (var fact in fallbackFacts)
+                {
+                    memoryManager.AddMemory(fact.Text, fact.Category);
+                }
+            }
+        }
+
+        private static string ExtractJsonArray(string json, string key)
+        {
+            if (string.IsNullOrWhiteSpace(json) || string.IsNullOrWhiteSpace(key))
+            {
+                return null;
+            }
+
+            string keyPattern = $"\"{key}\"";
+            int keyIndex = json.IndexOf(keyPattern, StringComparison.OrdinalIgnoreCase);
+            if (keyIndex == -1)
+            {
+                return null;
+            }
+
+            int arrayStart = json.IndexOf('[', keyIndex);
+            if (arrayStart == -1)
+            {
+                return null;
+            }
+
+            int arrayEnd = FindMatchingBracket(json, arrayStart);
+            if (arrayEnd == -1)
+            {
+                return null;
+            }
+
+            return json.Substring(arrayStart + 1, arrayEnd - arrayStart - 1);
+        }
+
+        private static List<string> ExtractJsonObjects(string arrayContent)
+        {
+            var objects = new List<string>();
+            if (string.IsNullOrWhiteSpace(arrayContent))
+            {
+                return objects;
+            }
+
+            int depth = 0;
+            int start = -1;
+            bool inString = false;
+            bool escaped = false;
+
+            for (int i = 0; i < arrayContent.Length; i++)
+            {
+                char c = arrayContent[i];
+                if (inString)
+                {
+                    if (escaped)
+                    {
+                        escaped = false;
+                        continue;
+                    }
+                    if (c == '\\')
+                    {
+                        escaped = true;
+                        continue;
+                    }
+                    if (c == '"')
+                    {
+                        inString = false;
+                    }
+                    continue;
+                }
+
+                if (c == '"')
+                {
+                    inString = true;
+                    continue;
+                }
+
+                if (c == '{')
+                {
+                    if (depth == 0) start = i;
+                    depth++;
+                    continue;
+                }
+                if (c == '}')
+                {
+                    depth--;
+                    if (depth == 0 && start >= 0)
+                    {
+                        objects.Add(arrayContent.Substring(start, i - start + 1));
+                        start = -1;
+                    }
+                }
+            }
+
+            return objects;
+        }
+
+        private static int FindMatchingBracket(string json, int startIndex)
+        {
+            int depth = 0;
+            bool inString = false;
+            bool escaped = false;
+
+            for (int i = startIndex; i < json.Length; i++)
+            {
+                char c = json[i];
+                if (inString)
+                {
+                    if (escaped)
+                    {
+                        escaped = false;
+                        continue;
+                    }
+                    if (c == '\\')
+                    {
+                        escaped = true;
+                        continue;
+                    }
+                    if (c == '"')
+                    {
+                        inString = false;
+                    }
+                    continue;
+                }
+
+                if (c == '"')
+                {
+                    inString = true;
+                    continue;
+                }
+
+                if (c == '[')
+                {
+                    depth++;
+                    continue;
+                }
+
+                if (c == ']')
+                {
+                    depth--;
+                    if (depth == 0) return i;
+                }
+            }
+
+            return -1;
+        }
+
+        private static string EscapeJson(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return "";
+            return value.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r");
         }
 
         private static string StripXmlTags(string text)
@@ -1254,6 +1781,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
 
                 AddAssistantMessage(reply);
+                TriggerMemoryUpdate();
             }
             catch (Exception ex)
             {
