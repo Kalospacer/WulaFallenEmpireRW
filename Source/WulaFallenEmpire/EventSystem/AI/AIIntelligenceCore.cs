@@ -59,6 +59,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         private const int ThinkingPhaseTotal = 3;
 
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
+        private const string AutoCommentaryTag = "[AUTO_COMMENTARY]";
 
         private enum RequestPhase
         {
@@ -537,10 +538,34 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return DefDatabase<EventDef>.GetNamedSilentFail(_activeEventDefName);
         }
 
+        private static bool IsAutoCommentaryMessage(string message)
+        {
+            return !string.IsNullOrWhiteSpace(message) &&
+                   message.TrimStart().StartsWith(AutoCommentaryTag, StringComparison.OrdinalIgnoreCase);
+        }
+
         private void RefreshMemoryContext(string query)
         {
-            _memoryContextQuery = query ?? "";
+            string safeQuery = query ?? "";
+            if (IsAutoCommentaryMessage(safeQuery))
+            {
+                _memoryContextQuery = "";
+                _memoryContext = "";
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug("[WulaAI] Memory context skipped (auto commentary).");
+                }
+                return;
+            }
+
+            _memoryContextQuery = safeQuery;
             _memoryContext = BuildMemoryContext(_memoryContextQuery);
+            if (Prefs.DevMode)
+            {
+                string preview = TrimForPrompt(_memoryContextQuery, 80);
+                int length = _memoryContext?.Length ?? 0;
+                WulaLog.Debug($"[WulaAI] Memory context refreshed (query='{preview}', length={length}).");
+            }
         }
 
         private string GetMemoryContext()
@@ -565,7 +590,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 var entry = _history[i];
                 if (string.Equals(entry.role, "user", StringComparison.OrdinalIgnoreCase) &&
-                    !string.IsNullOrWhiteSpace(entry.message))
+                    !string.IsNullOrWhiteSpace(entry.message) &&
+                    !IsAutoCommentaryMessage(entry.message))
                 {
                     return entry.message;
                 }
@@ -584,10 +610,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return "";
                 }
 
+                bool usedSearch = false;
                 List<AIMemoryEntry> memories = null;
                 if (!string.IsNullOrWhiteSpace(query))
                 {
                     memories = memoryManager.SearchMemories(query, 5);
+                    usedSearch = memories != null && memories.Count > 0;
                 }
 
                 if (memories == null || memories.Count == 0)
@@ -598,6 +626,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 if (memories == null || memories.Count == 0)
                 {
                     return "";
+                }
+
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] Memory context built ({(usedSearch ? "search" : "recent")}, count={memories.Count}).");
                 }
 
                 string lines = string.Join("\n", memories.Select(m => $"- [{m.Category}] {m.Fact}"));
@@ -974,12 +1007,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             if (_memoryUpdateInProgress)
             {
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug("[WulaAI] Memory update already running; skipping.");
+                }
                 return;
             }
 
             string conversation = BuildMemoryConversation(12);
             if (string.IsNullOrWhiteSpace(conversation))
             {
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug("[WulaAI] Memory update skipped (empty conversation).");
+                }
                 return;
             }
 
@@ -991,6 +1032,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             string existingJson = BuildExistingMemoriesJson(memoryManager.GetAllMemories());
             _memoryUpdateInProgress = true;
+            if (Prefs.DevMode)
+            {
+                WulaLog.Debug($"[WulaAI] Memory update started (conversationChars={conversation.Length}).");
+            }
             _ = Task.Run(async () =>
             {
                 try
@@ -1034,6 +1079,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
+                if (IsAutoCommentaryMessage(entry.message))
+                {
+                    continue;
+                }
+
                 string role = string.Equals(entry.role, "user", StringComparison.OrdinalIgnoreCase) ? "User" : "Assistant";
                 sb.AppendLine($"{role}: {entry.message}");
             }
@@ -1072,7 +1122,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 var facts = ParseMemoryFacts(factsResponse);
                 if (facts.Count == 0)
                 {
+                    if (Prefs.DevMode)
+                    {
+                        WulaLog.Debug("[WulaAI] Memory update: no facts extracted.");
+                    }
                     return;
+                }
+
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] Memory update: extracted {facts.Count} fact(s).");
                 }
 
                 string factsJson = BuildFactsJson(facts);
@@ -1080,6 +1139,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 string updateResponse = await client.GetChatCompletionAsync(updatePrompt, new List<(string role, string message)>(), maxTokens: 512, temperature: 0.1f);
 
                 var updates = ParseMemoryUpdates(updateResponse);
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] Memory update: parsed {updates.Count} update(s).");
+                }
                 LongEventHandler.ExecuteWhenFinished(() =>
                 {
                     ApplyMemoryUpdates(memoryManager, updates, facts);
@@ -1222,6 +1285,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return;
             }
 
+            int appliedCount = 0;
             bool applied = false;
             if (updates != null && updates.Count > 0)
             {
@@ -1232,6 +1296,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     {
                         memoryManager.AddMemory(update.Text, update.Category);
                         applied = true;
+                        appliedCount++;
                     }
                     else if (evt == "UPDATE")
                     {
@@ -1239,6 +1304,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         {
                             memoryManager.UpdateMemory(update.Id, update.Text, update.Category);
                             applied = true;
+                            appliedCount++;
                         }
                     }
                     else if (evt == "DELETE")
@@ -1247,6 +1313,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         {
                             memoryManager.DeleteMemory(update.Id);
                             applied = true;
+                            appliedCount++;
                         }
                     }
                 }
@@ -1257,7 +1324,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 foreach (var fact in fallbackFacts)
                 {
                     memoryManager.AddMemory(fact.Text, fact.Category);
+                    appliedCount++;
                 }
+            }
+
+            if (Prefs.DevMode)
+            {
+                WulaLog.Debug($"[WulaAI] Memory update applied ({appliedCount} change(s)).");
             }
         }
 
