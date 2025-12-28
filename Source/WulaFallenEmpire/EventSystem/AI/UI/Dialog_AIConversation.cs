@@ -196,6 +196,13 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 }
             }
 
+            // Personality Prompt Button
+            Rect personalityBtnRect = new Rect(0f, 30f, 25f, 25f);
+            if (DrawHeaderButton(personalityBtnRect, "P"))
+            {
+                Find.WindowStack.Add(new Dialog_ExtraPersonalityPrompt());
+            }
+
             float margin = 15f;
             Rect paddedRect = inRect.ContractedBy(margin);
             float curY = paddedRect.y;

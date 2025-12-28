@@ -26,10 +26,16 @@ namespace WulaFallenEmpire
             WulaLog.Debug("[WulaFallenEmpire] Harmony patches applied.");
         }
 
+        private Vector2 _scrollPosition = Vector2.zero;
+
         public override void DoSettingsWindowContents(Rect inRect)
         {
+            // Prepare Scroll View
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 20f, 1000f); // Adjust 1000f if more height is needed
+            Widgets.BeginScrollView(inRect, ref _scrollPosition, viewRect);
+
             Listing_Standard listingStandard = new Listing_Standard();
-            listingStandard.Begin(inRect);
+            listingStandard.Begin(viewRect);
             
             listingStandard.Label("Wula_AISettings_Title".Translate());
             
@@ -115,6 +121,7 @@ namespace WulaFallenEmpire
             }
 
             listingStandard.End();
+            Widgets.EndScrollView();
             base.DoSettingsWindowContents(inRect);
         }
 

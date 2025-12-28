@@ -194,4 +194,8 @@
   <WULA_AIOverwatch_FleetCleared>[P.I.A 轨道监视] 航道已净空。</WULA_AIOverwatch_FleetCleared>
   <WULA_AIOverwatch_EngagingBuilding>[P.I.A 轨道监视] 对敌方建筑/炮台发射炮击。</WULA_AIOverwatch_EngagingBuilding>
 
+  <!-- Personality Settings -->
+  <Wula_ExtraPersonality_Title>附加人格指令</Wula_ExtraPersonality_Title>
+  <Wula_ExtraPersonality_Desc>在此输入额外的人格提示词或要求。这些内容将拼接到 AI 的核心指令之后，影响其回复风格和行为方式。</Wula_ExtraPersonality_Desc>
+  <Wula_Save>保存</Wula_Save>
 </LanguageData>

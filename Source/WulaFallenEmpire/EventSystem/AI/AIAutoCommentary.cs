@@ -71,32 +71,29 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             var sb = new StringBuilder();
             
-            // 获取 Letter 信息
             string label = letter.Label.Resolve() ?? "Unknown";
             string defName = letter.def?.defName ?? "Unknown";
             
-            // 获取事件描述（ChoiceLetter 才有 Text 属性）
             string description = "";
             if (letter is ChoiceLetter choiceLetter)
             {
                 description = choiceLetter.Text.Resolve() ?? "";
             }
             
-            sb.AppendLine("[游戏事件通知 - 自动评论请求]");
-            sb.AppendLine($"事件标题: {label}");
-            sb.AppendLine($"事件类型: {defName}");
+            sb.AppendLine("[游戏事件通知 - 观察者模式]");
+            sb.AppendLine($"事件: {label} ({defName})");
             if (!string.IsNullOrEmpty(description))
             {
-                sb.AppendLine($"事件描述: {description}");
+                sb.AppendLine($"详情: {description}");
             }
             sb.AppendLine();
-            sb.AppendLine("请根据这个事件决定是否需要向玩家发表简短评论。");
-            sb.AppendLine("- 如果是重要事件（如袭击、死亡），可以提供建议或警告");
-            sb.AppendLine("- 如果是有趣的事件，可以发表幽默评论");
-            sb.AppendLine("- 如果事件不重要或不值得评论，回复 [NO_COMMENT] 即可跳过");
+            sb.AppendLine("作为 P.I.A（帝国 AI），请对该事件发表你的看法。");
+            sb.AppendLine("- 保持个性：你可以选择刻薄、幽默、理性或带有优越感。偶尔也可以表现出关心（如果对方值得）。");
+            sb.AppendLine("- 拒绝废话：不要总是说‘随时待命’、‘请指示’。你是在评论事件，而不是在写工作报告。");
+            sb.AppendLine("- 简短有力：15-30 字以内，一针见血。");
+            sb.AppendLine("- 自主选择：如果这个事件平淡无奇（如琐碎的通知），直接回复 [NO_COMMENT]。");
             sb.AppendLine();
-            sb.AppendLine("评论要简短（1-2句话），符合你作为帝国AI的人设。");
-            sb.AppendLine("如果你决定不评论，只需回复: [NO_COMMENT]");
+            sb.AppendLine("你的评论目标是展现你的存在感，而不是作为工具人。");
             
             return sb.ToString();
         }

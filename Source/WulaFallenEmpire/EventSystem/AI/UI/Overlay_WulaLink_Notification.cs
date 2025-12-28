@@ -9,8 +9,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
     public class Overlay_WulaLink_Notification : Window
     {
         private string _message;
-        private int _tickCreated;
-        private const int DisplayTicks = 600; // 10 seconds
+        private float _timeCreated;
+        private float _displayDuration;
         private Vector2 _size = new Vector2(320f, 65f);
 
         public override Vector2 InitialSize => _size;
@@ -18,7 +18,10 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         public Overlay_WulaLink_Notification(string message)
         {
             _message = message;
-            _tickCreated = Find.TickManager.TicksGame;
+            _timeCreated = Time.realtimeSinceStartup;
+            
+            // 动态时长：最低 10 秒，每多一个字加一秒（即时长 = 字数，但不少于 10 秒）
+            _displayDuration = Mathf.Max(10f, (float)(message?.Length ?? 0));
 
             // Calculate adaptive size (Instance-based)
             Text.Font = GameFont.Small;
@@ -49,14 +52,28 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
         protected override void SetInitialSizeAndPosition()
         {
-            // Position at top-left
-            this.windowRect = new Rect(20f, 20f, InitialSize.x, InitialSize.y);
+            float startX = 20f;
+            float startY = 20f;
+            float spacing = 5f;
+
+            // Find all existing notifications and find the bottom-most Y position
+            float maxY = startY;
+            var windows = Find.WindowStack.Windows;
+            for (int i = 0; i < windows.Count; i++)
+            {
+                if (windows[i] is Overlay_WulaLink_Notification other && other != this)
+                {
+                    maxY = Mathf.Max(maxY, other.windowRect.yMax + spacing);
+                }
+            }
+
+            this.windowRect = new Rect(startX, maxY, InitialSize.x, InitialSize.y);
         }
 
         public override void DoWindowContents(Rect inRect)
         {
-            // Auto Close after time
-            if (Find.TickManager.TicksGame > _tickCreated + DisplayTicks)
+            // Auto Close after real-time duration
+            if (Time.realtimeSinceStartup > _timeCreated + _displayDuration)
             {
                 Close();
                 return;
