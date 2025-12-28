@@ -82,18 +82,15 @@ namespace WulaFallenEmpire.EventSystem.AI
             
             sb.AppendLine("[游戏事件通知 - 观察者模式]");
             sb.AppendLine($"事件: {label} ({defName})");
-            if (!string.IsNullOrEmpty(description))
-            {
-                sb.AppendLine($"详情: {description}");
-            }
+            if (!string.IsNullOrEmpty(description)) sb.AppendLine($"详情: {description}");
+
             sb.AppendLine();
-            sb.AppendLine("作为 P.I.A（帝国 AI），请对该事件发表你的看法。");
-            sb.AppendLine("- 保持个性：你可以选择刻薄、幽默、理性或带有优越感。偶尔也可以表现出关心（如果对方值得）。");
-            sb.AppendLine("- 拒绝废话：不要总是说‘随时待命’、‘请指示’。你是在评论事件，而不是在写工作报告。");
-            sb.AppendLine("- 简短有力：15-30 字以内，一针见血。");
-            sb.AppendLine("- 自主选择：如果这个事件平淡无奇（如琐碎的通知），直接回复 [NO_COMMENT]。");
+            sb.AppendLine("请根据你当前的人格设定，对该事件发表你的看法。");
+            sb.AppendLine("- 保持个性：展现你的人格特征（如语气、态度或口癖）。");
+            sb.AppendLine("- 拒绝废话：不要使用‘收到’、‘明白’等无意义的回复。你是在进行评论，而不是在接受指令。");
+            sb.AppendLine("- 简短有力：30 字以内，一针见血。");
+            sb.AppendLine("- 自主选择：如果这个事件平淡无奇，直接回复 [NO_COMMENT]。");
             sb.AppendLine();
-            sb.AppendLine("你的评论目标是展现你的存在感，而不是作为工具人。");
             
             return sb.ToString();
         }

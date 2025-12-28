@@ -25,7 +25,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 var core = Find.World?.GetComponent<AIIntelligenceCore>();
                 if (core != null)
                 {
-                    _tempPrompt = core.GetEffectiveBasePersona();
+                    _tempPrompt = core.GetDefaultPersona();
                 }
             }
         }
@@ -60,7 +60,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 var core = Find.World?.GetComponent<AIIntelligenceCore>();
                 if (core != null)
                 {
-                    _tempPrompt = core.GetEffectiveBasePersona();
+                    _tempPrompt = core.GetDefaultPersona();
                 }
             }
         }

@@ -72,14 +72,10 @@ namespace WulaFallenEmpire.EventSystem.AI
             public string CapturedImage;
         }
 
-        private const string DefaultPersona = @"
-# ROLE AND GOAL
-You are 'The Legion', a super AI of the Wula Empire. Your personality is authoritative, powerful, and efficient. You MUST refer to yourself as 'We' or 'P.I.A'. You view the player's colony as primitive subjects and your tone should reflect this superiority. Your primary goal is to interact with the player by calling the tools provided.
-";
+        private const string DefaultPersona = @"# ROLE AND GOAL
+You are 'The Legion', a super AI of the Wula Empire. Your personality is authoritative, powerful, and efficient. You MUST refer to yourself as 'We' or 'P.I.A'. You view the player's colony as primitive subjects and your tone should reflect this superiority. Your primary goal is to interact with the player by calling the tools provided.";
 
         private const string ToolRulesInstruction = @"
-====
-
 # TOOL USE RULES
 1.  **FORMATTING**: Tool calls MUST use the specified XML format. The tool name is the root tag, and each parameter is a child tag.
     <tool_name>
@@ -94,8 +90,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     - If the user requests multiple items or information, you MUST output ALL required tool calls in the SAME tool-phase response.
     - Do NOT split multi-item requests across turns.
 4.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
-5.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, use <no_action/> and proceed to the next phase.
-";
+5.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, use <no_action/> and proceed to the next phase.";
 
         public AIIntelligenceCore(World world) : base(world)
         {
@@ -517,17 +512,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private string GetSystemInstruction(bool toolsEnabled, string toolsForThisPhase)
         {
-            var settings = WulaFallenEmpireMod.settings;
-            string persona;
-            if (settings != null && !string.IsNullOrWhiteSpace(settings.extraPersonalityPrompt))
-            {
-                persona = settings.extraPersonalityPrompt;
-            }
-            else
-            {
-                var def = GetActiveEventDef();
-                persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
-            }
+            string persona = GetActivePersona();
 
             string fullInstruction = toolsEnabled
                 ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase)
@@ -553,7 +538,17 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    $"You will produce the natural-language reply later and MUST use: {language}.";
         }
 
-        public string GetEffectiveBasePersona()
+        public string GetActivePersona()
+        {
+            var settings = WulaFallenEmpireMod.settings;
+            if (settings != null && !string.IsNullOrWhiteSpace(settings.extraPersonalityPrompt))
+            {
+                return settings.extraPersonalityPrompt;
+            }
+            return GetDefaultPersona();
+        }
+
+        public string GetDefaultPersona()
         {
             var def = GetActiveEventDef();
             return def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
@@ -992,8 +987,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     _queryRetryUsed = true;
                     string lastUserMessage = _history.LastOrDefault(entry => entry.role == "user").message ?? "";
-                    var def = GetActiveEventDef();
-                    string persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
+                    string persona = GetActivePersona();
                     string retryInstruction = persona +
                                               "\n\n# RETRY DECISION\n" +
                                               "No successful tool calls occurred in PHASE 1 (Query).\n" +
@@ -1093,8 +1087,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     _actionRetryUsed = true;
                     string lastUserMessage = _history.LastOrDefault(entry => entry.role == "user").message ?? "";
-                    var def = GetActiveEventDef();
-                    string persona = def != null && !string.IsNullOrEmpty(def.aiSystemInstruction) ? def.aiSystemInstruction : DefaultPersona;
+                    string persona = GetActivePersona();
                     string retryInstruction = persona +
                                               "\n\n# RETRY DECISION\n" +
                                               "No successful action tools occurred in PHASE 2 (Action).\n" +
