@@ -409,6 +409,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_ModifyGoodwill());
             _tools.Add(new Tool_SendReinforcement());
             _tools.Add(new Tool_GetPawnStatus());
+            _tools.Add(new Tool_GetPawnGear());
             _tools.Add(new Tool_GetMapResources());
             _tools.Add(new Tool_GetAvailablePrefabs());
             _tools.Add(new Tool_GetMapPawns());
