@@ -95,6 +95,34 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
             return false;
         }
 
+        public static bool TryParseObjectFromText(string input, out Dictionary<string, object> obj, out string jsonFragment)
+        {
+            obj = null;
+            jsonFragment = null;
+            if (string.IsNullOrWhiteSpace(input)) return false;
+
+            string trimmed = input.Trim();
+            if (TryParseObject(trimmed, out obj))
+            {
+                jsonFragment = trimmed;
+                return true;
+            }
+
+            int firstBrace = trimmed.IndexOf('{');
+            int lastBrace = trimmed.LastIndexOf('}');
+            if (firstBrace >= 0 && lastBrace > firstBrace)
+            {
+                string candidate = trimmed.Substring(firstBrace, lastBrace - firstBrace + 1);
+                if (TryParseObject(candidate, out obj))
+                {
+                    jsonFragment = candidate;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public static bool TryParseObject(string json, out Dictionary<string, object> obj)
         {
             obj = null;
