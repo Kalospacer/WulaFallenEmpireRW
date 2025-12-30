@@ -14,6 +14,8 @@ namespace WulaFallenEmpire
         public static bool _showApiKey = false;
         public static bool _showVlmApiKey = false;
         private string _maxContextTokensBuffer;
+        private string _reactMaxStepsBuffer;
+        private string _reactMaxSecondsBuffer;
 
         public WulaFallenEmpireMod(ModContentPack content) : base(content)
         {
@@ -93,6 +95,16 @@ namespace WulaFallenEmpire
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());
+
+            listingStandard.GapLine();
+            listingStandard.Label("<color=cyan>ReAct Loop Settings</color>");
+            listingStandard.Label("Max Steps (1-10):");
+            Rect stepsRect = listingStandard.GetRect(Text.LineHeight);
+            Widgets.TextFieldNumeric(stepsRect, ref settings.reactMaxSteps, ref _reactMaxStepsBuffer, 1, 10);
+
+            listingStandard.Label("Max Seconds (2-60):");
+            Rect secondsRect = listingStandard.GetRect(Text.LineHeight);
+            Widgets.TextFieldNumeric(secondsRect, ref settings.reactMaxSeconds, ref _reactMaxSecondsBuffer, 2f, 60f);
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_AISettings_AutoCommentary".Translate(), ref settings.enableAIAutoCommentary, "Wula_AISettings_AutoCommentaryDesc".Translate());

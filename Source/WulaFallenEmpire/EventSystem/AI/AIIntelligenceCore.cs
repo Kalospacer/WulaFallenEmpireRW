@@ -55,10 +55,10 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
-        private const int ReactMaxSteps = 4;
+        private const int DefaultReactMaxSteps = 4;
         private const int ReactMaxToolsPerStep = 8;
-        private const float ReactMaxSeconds = 12f;
-        private const int ThinkingPhaseTotal = ReactMaxSteps;
+        private const float DefaultReactMaxSeconds = 12f;
+        private int _thinkingPhaseTotal = DefaultReactMaxSteps;
 
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
         private const string AutoCommentaryTag = "[AUTO_COMMENTARY]";
@@ -108,7 +108,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     - If the user requests multiple items or information, you MUST output ALL required tool calls in the SAME response.
     - Do NOT split multi-item requests across turns.
 5.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
-6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""thought"": ""..."", ""tool_calls"": [], ""final"": """" }.";
+6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""thought"": ""..."", ""tool_calls"": [], ""final"": """" }.
+7.  **NO TAGS**: Do NOT use <think> tags, code fences, or any extra text outside JSON.";
 
         public AIIntelligenceCore(World world) : base(world)
         {
@@ -190,6 +191,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public float ThinkingStartTime => _thinkingStartTime;
         public int ThinkingPhaseIndex => _thinkingPhaseIndex;
         public bool ThinkingPhaseRetry => _thinkingPhaseRetry;
+        public int ThinkingPhaseTotal => _thinkingPhaseTotal;
         public void InitializeConversation(string eventDefName)
         {
             if (string.IsNullOrWhiteSpace(eventDefName))
@@ -443,7 +445,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private void SetThinkingPhase(int phaseIndex, bool isRetry)
         {
-            _thinkingPhaseIndex = Math.Max(1, Math.Min(ThinkingPhaseTotal, phaseIndex));
+            _thinkingPhaseIndex = Math.Max(1, Math.Min(_thinkingPhaseTotal, phaseIndex));
             _thinkingPhaseRetry = isRetry;
             _thinkingStartTime = Time.realtimeSinceStartup;
         }
@@ -966,6 +968,48 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    "Your last output had tool_calls=[] but an empty final.\n" +
                    "Output JSON only with tool_calls=[] and a non-empty final reply.\n" +
                    "Schema: {\"thought\":\"...\",\"tool_calls\":[],\"final\":\"...\"}";
+        }
+
+        private static string NormalizeReactResponse(string response)
+        {
+            if (string.IsNullOrWhiteSpace(response)) return response;
+            string cleaned = response.Trim();
+            cleaned = Regex.Replace(cleaned, @"<think>.*?</think>", "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            cleaned = Regex.Replace(cleaned, @"```json", "", RegexOptions.IgnoreCase);
+            cleaned = cleaned.Replace("```", "");
+            return cleaned.Trim();
+        }
+
+        private static bool TryGetNonJsonFinal(string response, out string final)
+        {
+            final = null;
+            if (string.IsNullOrWhiteSpace(response)) return false;
+
+            string cleaned = NormalizeReactResponse(response);
+            cleaned = StripToolCallJson(cleaned) ?? cleaned;
+            cleaned = cleaned.Trim();
+            if (string.IsNullOrWhiteSpace(cleaned)) return false;
+
+            final = cleaned;
+            return true;
+        }
+
+        private bool IsToolAvailable(string toolName)
+        {
+            if (string.IsNullOrWhiteSpace(toolName)) return false;
+            if (string.Equals(toolName, "capture_screen", StringComparison.OrdinalIgnoreCase)) return true;
+            return _tools.Any(t => string.Equals(t?.Name, toolName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static string BuildReactToolCorrectionInstruction(IEnumerable<string> invalidTools)
+        {
+            string invalidList = invalidTools == null ? "" : string.Join(", ", invalidTools);
+            return "# TOOL CORRECTION (REACT JSON ONLY)\n" +
+                   "You used tool names that are NOT available: " + invalidList + "\n" +
+                   "Re-emit JSON with only available tools from # TOOLS (AVAILABLE).\n" +
+                   "If no tools are needed, output tool_calls=[] and provide final.\n" +
+                   "Do NOT output any text outside JSON.\n" +
+                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}],\"final\":\"\"}";
         }
 
         private static bool ShouldRetryTools(string response)
@@ -1758,11 +1802,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 // Model-Driven Vision: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
                 string base64Image = null;
                 float startTime = Time.realtimeSinceStartup;
+                int maxSteps = DefaultReactMaxSteps;
+                float maxSeconds = DefaultReactMaxSeconds;
+
+                if (settings != null)
+                {
+                    maxSteps = Math.Max(1, Math.Min(10, settings.reactMaxSteps));
+                    maxSeconds = Mathf.Clamp(settings.reactMaxSeconds, 2f, 60f);
+                }
+                _thinkingPhaseTotal = maxSteps;
                 string finalReply = null;
 
-                for (int step = 1; step <= ReactMaxSteps; step++)
+                for (int step = 1; step <= maxSteps; step++)
                 {
-                    if (Time.realtimeSinceStartup - startTime > ReactMaxSeconds)
+                    if (Time.realtimeSinceStartup - startTime > maxSeconds)
                     {
                         if (Prefs.DevMode)
                         {
@@ -1782,27 +1835,69 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         return;
                     }
 
-                    if (!TryParseReactEnvelope(response, out var toolCalls, out string final, out _, out string jsonFragment))
+                    string normalizedResponse = NormalizeReactResponse(response);
+                    if (!TryParseReactEnvelope(normalizedResponse, out var toolCalls, out string final, out _, out string jsonFragment))
                     {
                         if (Prefs.DevMode)
                         {
                             WulaLog.Debug("[WulaAI] ReAct step missing JSON envelope; attempting format fix.");
                         }
-                        string fixInstruction = BuildReactFormatFixInstruction(response);
+                        string fixInstruction = BuildReactFormatFixInstruction(normalizedResponse);
                         string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, reactContext, maxTokens: 1024, temperature: 0.1f, base64Image: base64Image);
-                        if (string.IsNullOrEmpty(fixedResponse) ||
-                            !TryParseReactEnvelope(fixedResponse, out toolCalls, out final, out _, out jsonFragment))
+                        string normalizedFixed = NormalizeReactResponse(fixedResponse);
+                        if (string.IsNullOrEmpty(normalizedFixed) ||
+                            !TryParseReactEnvelope(normalizedFixed, out toolCalls, out final, out _, out jsonFragment))
                         {
                             if (Prefs.DevMode)
                             {
                                 WulaLog.Debug("[WulaAI] ReAct format fix failed.");
                             }
+                            if (TryGetNonJsonFinal(response, out string fallbackFinal))
+                            {
+                                finalReply = fallbackFinal;
+                                break;
+                            }
                             break;
+                        }
+                    }
+
+                    var invalidTools = toolCalls
+                        .Where(c => !IsToolAvailable(c.Name))
+                        .Select(c => c.Name)
+                        .Where(n => !string.IsNullOrWhiteSpace(n))
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+                    if (invalidTools.Count > 0)
+                    {
+                        if (Prefs.DevMode)
+                        {
+                            WulaLog.Debug($"[WulaAI] ReAct step used invalid tools: {string.Join(", ", invalidTools)}");
+                        }
+                        string correctionInstruction = BuildReactToolCorrectionInstruction(invalidTools);
+                        string correctedResponse = await client.GetChatCompletionAsync(correctionInstruction, reactContext, maxTokens: 1024, temperature: 0.1f, base64Image: base64Image);
+                        string normalizedCorrected = NormalizeReactResponse(correctedResponse);
+                        if (!string.IsNullOrEmpty(normalizedCorrected) &&
+                            TryParseReactEnvelope(normalizedCorrected, out toolCalls, out final, out _, out jsonFragment))
+                        {
+                            invalidTools = toolCalls
+                                .Where(c => !IsToolAvailable(c.Name))
+                                .Select(c => c.Name)
+                                .Where(n => !string.IsNullOrWhiteSpace(n))
+                                .Distinct(StringComparer.OrdinalIgnoreCase)
+                                .ToList();
                         }
                     }
 
                     if (toolCalls != null && toolCalls.Count > 0)
                     {
+                        if (invalidTools.Count > 0)
+                        {
+                            if (Prefs.DevMode)
+                            {
+                                WulaLog.Debug("[WulaAI] Invalid tools remain after correction; skipping tool execution.");
+                            }
+                            continue;
+                        }
                         PhaseExecutionResult stepResult = await ExecuteJsonToolsForStep(jsonFragment);
                         if (!string.IsNullOrEmpty(stepResult.CapturedImage))
                         {

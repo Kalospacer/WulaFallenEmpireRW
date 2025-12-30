@@ -635,7 +635,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             if (_core == null) return "Thinking...";
             float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - _core.ThinkingStartTime);
             string elapsedText = elapsedSeconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
-            return $"P.I.A is thinking... ({elapsedText}s Phase {_core.ThinkingPhaseIndex}/3)";
+            return $"P.I.A is thinking... ({elapsedText}s Loop {_core.ThinkingPhaseIndex}/{_core.ThinkingPhaseTotal})";
         }
 
         private void DrawThinkingIndicator(Rect rect)
