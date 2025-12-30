@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using WulaFallenEmpire;
 using WulaFallenEmpire.EventSystem.AI;
 using WulaFallenEmpire.EventSystem.AI.Utils;
 using System.Text.RegularExpressions;
@@ -29,6 +30,13 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private Dictionary<int, Texture2D> _portraits = new Dictionary<int, Texture2D>();
         private int _currentPortraitId = 0;
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
+        private bool _reactTraceExpanded = false;
+        private bool _hasReactTrace = false;
+        private float _reactTraceHeight = 0f;
+        private float _reactTraceYOffset = 0f;
+        private float _reactTraceHeaderHeight = 0f;
+        private string _reactTraceHeader = "";
+        private List<string> _reactTraceLines = new List<string>();
 
         private class CachedMessage
         {
@@ -38,6 +46,13 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             public float height;
             public float yOffset;
             public GameFont font;
+        }
+
+        private class ReactTraceStep
+        {
+            public int Step;
+            public List<string> Calls = new List<string>();
+            public List<string> Results = new List<string>();
         }
 
         public static Dialog_AIConversation Instance { get; private set; }
@@ -353,6 +368,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
                 curY += height + 10f;
             }
+
+            UpdateReactTraceCache(history, contentWidth, ref curY);
             _cachedTotalHeight = curY;
         }
 
@@ -409,6 +426,15 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     }
                 }
 
+                if (_hasReactTrace)
+                {
+                    Rect traceRect = new Rect(innerPadding, _reactTraceYOffset, contentWidth, _reactTraceHeight);
+                    if (traceRect.yMax >= viewTop && traceRect.y <= viewBottom)
+                    {
+                        DrawReactTracePanel(traceRect);
+                    }
+                }
+
                 if (_isThinking)
                 {
                     float thinkingY = _cachedTotalHeight > 0 ? _cachedTotalHeight : 0f;
@@ -443,6 +469,186 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             text = ExpressionTagRegex.Replace(text, "");
             text = text.Trim();
             return text.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
+        }
+
+        private void UpdateReactTraceCache(List<(string role, string message)> history, float contentWidth, ref float curY)
+        {
+            _hasReactTrace = false;
+            _reactTraceLines.Clear();
+            _reactTraceHeader = "";
+            _reactTraceHeight = 0f;
+            _reactTraceYOffset = 0f;
+            _reactTraceHeaderHeight = 0f;
+
+            if (WulaFallenEmpireMod.settings?.showReactTraceInUI != true)
+            {
+                return;
+            }
+
+            List<ReactTraceStep> steps = BuildReactTraceSteps(history);
+            if (steps.Count == 0)
+            {
+                return;
+            }
+
+            _hasReactTrace = true;
+            _reactTraceHeader = BuildReactTraceHeader();
+            foreach (var step in steps)
+            {
+                foreach (string call in step.Calls)
+                {
+                    _reactTraceLines.Add($"Step {step.Step}: call {call}");
+                }
+                foreach (string result in step.Results)
+                {
+                    _reactTraceLines.Add($"Step {step.Step}: result {result}");
+                }
+            }
+
+            var originalFont = Text.Font;
+            Text.Font = GameFont.Tiny;
+            float panelPadding = 6f;
+            float headerWidth = Mathf.Max(10f, contentWidth - panelPadding * 2f);
+            string headerLine = $"{(_reactTraceExpanded ? "v" : ">")} {_reactTraceHeader}";
+            _reactTraceHeaderHeight = Text.CalcHeight(headerLine, headerWidth) + 6f;
+
+            float linesHeight = 0f;
+            if (_reactTraceExpanded && _reactTraceLines.Count > 0)
+            {
+                float lineWidth = Mathf.Max(10f, contentWidth - panelPadding * 2f);
+                foreach (string line in _reactTraceLines)
+                {
+                    linesHeight += Text.CalcHeight(line, lineWidth) + 2f;
+                }
+                linesHeight += 4f;
+            }
+            _reactTraceHeight = _reactTraceHeaderHeight + linesHeight;
+            Text.Font = originalFont;
+
+            curY += 6f;
+            _reactTraceYOffset = curY;
+            curY += _reactTraceHeight + 8f;
+        }
+
+        private List<ReactTraceStep> BuildReactTraceSteps(List<(string role, string message)> history)
+        {
+            var steps = new List<ReactTraceStep>();
+            if (history == null || history.Count == 0) return steps;
+
+            int lastUserIndex = history.FindLastIndex(entry => entry.role == "user");
+            if (lastUserIndex < 0) return steps;
+
+            int stepIndex = 0;
+            for (int i = lastUserIndex + 1; i < history.Count; i++)
+            {
+                var entry = history[i];
+                if (entry.role != "toolcall") continue;
+
+                stepIndex++;
+                var step = new ReactTraceStep { Step = stepIndex };
+
+                if (JsonToolCallParser.TryParseToolCallsFromText(entry.message, out var calls, out _))
+                {
+                    foreach (var call in calls)
+                    {
+                        if (string.IsNullOrWhiteSpace(call?.Name)) continue;
+                        string args = call.ArgumentsJson;
+                        string callText = string.IsNullOrWhiteSpace(args) || args == "{}"
+                            ? call.Name
+                            : $"{call.Name} {TrimForDisplay(args, 160)}";
+                        step.Calls.Add(callText);
+                    }
+                }
+
+                if (i + 1 < history.Count && history[i + 1].role == "tool")
+                {
+                    step.Results.AddRange(ExtractToolResultLines(history[i + 1].message, 4));
+                    i++;
+                }
+
+                if (step.Calls.Count > 0 || step.Results.Count > 0)
+                {
+                    steps.Add(step);
+                }
+            }
+
+            return steps;
+        }
+
+        private static List<string> ExtractToolResultLines(string toolMessage, int maxLines)
+        {
+            var lines = new List<string>();
+            if (string.IsNullOrWhiteSpace(toolMessage)) return lines;
+
+            string[] rawLines = toolMessage.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string raw in rawLines)
+            {
+                string line = raw.Trim();
+                if (string.IsNullOrEmpty(line)) continue;
+                if (line.StartsWith("[Tool Results]", StringComparison.OrdinalIgnoreCase)) continue;
+                lines.Add(TrimForDisplay(line, 200));
+                if (lines.Count >= maxLines) break;
+            }
+
+            return lines;
+        }
+
+        private static string TrimForDisplay(string text, int maxChars)
+        {
+            if (string.IsNullOrEmpty(text) || text.Length <= maxChars) return text ?? "";
+            return text.Substring(0, maxChars) + "...";
+        }
+
+        private string BuildReactTraceHeader()
+        {
+            string state = _isThinking ? "思考中" : "已思考";
+            float elapsed = _isThinking
+                ? Mathf.Max(0f, Time.realtimeSinceStartup - (_core?.ThinkingStartTime ?? 0f))
+                : _core?.LastThinkingDuration ?? 0f;
+            string elapsedText = elapsed > 0f ? elapsed.ToString("0.0", CultureInfo.InvariantCulture) : "0.0";
+            return $"{state} ({elapsedText}s · Loop {_core?.ThinkingPhaseIndex ?? 0}/{_core?.ThinkingPhaseTotal ?? 0})";
+        }
+
+        private void DrawReactTracePanel(Rect rect)
+        {
+            var originalColor = GUI.color;
+            var originalFont = Text.Font;
+            var originalAnchor = Text.Anchor;
+
+            float padding = 6f;
+            Rect headerRect = new Rect(rect.x, rect.y, rect.width, _reactTraceHeaderHeight);
+            GUI.color = new Color(0.15f, 0.15f, 0.15f, 0.8f);
+            Widgets.DrawBoxSolid(headerRect, GUI.color);
+            GUI.color = Color.white;
+
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            string headerLine = $"{(_reactTraceExpanded ? "v" : ">")} {_reactTraceHeader}";
+            Widgets.Label(headerRect.ContractedBy(padding), headerLine);
+
+            if (Widgets.ButtonInvisible(headerRect))
+            {
+                _reactTraceExpanded = !_reactTraceExpanded;
+                _lastHistoryCount = -1;
+                _lastUsedWidth = -1f;
+            }
+
+            if (_reactTraceExpanded && _reactTraceLines.Count > 0)
+            {
+                float y = headerRect.yMax + 2f;
+                foreach (string line in _reactTraceLines)
+                {
+                    float lineHeight = Text.CalcHeight(line, rect.width - padding * 2f) + 2f;
+                    Rect lineRect = new Rect(rect.x + padding, y, rect.width - padding * 2f, lineHeight);
+                    GUI.color = new Color(0.85f, 0.85f, 0.85f, 1f);
+                    Widgets.Label(lineRect, line);
+                    y += lineHeight;
+                }
+            }
+
+            GUI.color = originalColor;
+            Text.Font = originalFont;
+            Text.Anchor = originalAnchor;
         }
 
         private string BuildThinkingStatus()

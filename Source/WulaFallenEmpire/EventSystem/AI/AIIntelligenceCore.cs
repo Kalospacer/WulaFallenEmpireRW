@@ -35,6 +35,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         private float _thinkingStartTime;
         private int _thinkingPhaseIndex = 1;
         private bool _thinkingPhaseRetry;
+        private float _lastThinkingDuration;
 
         private bool _lastActionExecuted;
         private bool _lastActionHadError;
@@ -192,6 +193,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public int ThinkingPhaseIndex => _thinkingPhaseIndex;
         public bool ThinkingPhaseRetry => _thinkingPhaseRetry;
         public int ThinkingPhaseTotal => _thinkingPhaseTotal;
+        public float LastThinkingDuration => _lastThinkingDuration;
         public void InitializeConversation(string eventDefName)
         {
             if (string.IsNullOrWhiteSpace(eventDefName))
@@ -437,6 +439,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (_isThinking == isThinking)
             {
                 return;
+            }
+
+            if (_isThinking && !isThinking)
+            {
+                _lastThinkingDuration = Mathf.Max(0f, Time.realtimeSinceStartup - _thinkingStartTime);
             }
 
             _isThinking = isThinking;

@@ -144,132 +144,130 @@
     </terrain>
   </PrefabDef>
 
-
-<PrefabDef>
-  <defName>WULA_StorageBase</defName> <!-- rename -->
-  <size>(13,14)</size>
-  <things>
-    <WULA_OrbitalTradeBeacon>
-      <position>(5, 0, 6)</position>
-    </WULA_OrbitalTradeBeacon>
-    <WulaDoor>
-      <rects>
-        <li>(6,0,6,0)</li>
-        <li>(6,12,6,12)</li>
-      </rects>
-    </WulaDoor>
-    <WulaDoor>
-      <rects>
-        <li>(0,6,0,6)</li>
-        <li>(12,6,12,6)</li>
-      </rects>
-      <relativeRotation>Clockwise</relativeRotation>
-    </WulaDoor>
-    <HiddenConduit>
-      <rects>
-        <li>(6,1,6,11)</li>
-        <li>(1,6,5,6)</li>
-        <li>(7,6,11,6)</li>
-      </rects>
-    </HiddenConduit>
-    <WallLamp>
-      <rects>
-        <li>(4,1,4,1)</li>
-        <li>(8,1,8,1)</li>
-      </rects>
-      <relativeRotation>Opposite</relativeRotation>
-    </WallLamp>
-    <WallLamp>
-      <rects>
-        <li>(1,4,1,4)</li>
-        <li>(1,8,1,8)</li>
-      </rects>
-      <relativeRotation>Counterclockwise</relativeRotation>
-    </WallLamp>
-    <WallLamp>
-      <rects>
-        <li>(11,4,11,4)</li>
-        <li>(11,8,11,8)</li>
-      </rects>
-      <relativeRotation>Clockwise</relativeRotation>
-    </WallLamp>
-    <WallLamp>
-      <rects>
-        <li>(4,11,4,11)</li>
-        <li>(8,11,8,11)</li>
-      </rects>
-    </WallLamp>
-    <FirefoamPopper>
-      <position>(7, 0, 6)</position>
-    </FirefoamPopper>
-    <WulaWall>
-      <rects>
-        <li>(0,0,5,0)</li>
-        <li>(7,0,12,0)</li>
-        <li>(0,1,0,5)</li>
-        <li>(12,1,12,5)</li>
-        <li>(0,7,0,12)</li>
-        <li>(12,7,12,12)</li>
-        <li>(1,12,5,12)</li>
-        <li>(7,12,11,12)</li>
-      </rects>
-    </WulaWall>
-    <Shelf>
-      <positions>
-        <li>(3, 0, 2)</li>
-        <li>(5, 0, 2)</li>
-        <li>(8, 0, 2)</li>
-        <li>(10, 0, 2)</li>
-        <li>(3, 0, 4)</li>
-        <li>(5, 0, 4)</li>
-        <li>(8, 0, 4)</li>
-        <li>(10, 0, 4)</li>
-        <li>(3, 0, 7)</li>
-        <li>(5, 0, 7)</li>
-        <li>(8, 0, 7)</li>
-        <li>(10, 0, 7)</li>
-        <li>(3, 0, 9)</li>
-        <li>(5, 0, 9)</li>
-        <li>(8, 0, 9)</li>
-        <li>(10, 0, 9)</li>
-      </positions>
-      <relativeRotation>Opposite</relativeRotation>
-      <stuff>WULA_Alloy</stuff>
-    </Shelf>
-    <Shelf>
-      <positions>
-        <li>(2, 0, 3)</li>
-        <li>(4, 0, 3)</li>
-        <li>(7, 0, 3)</li>
-        <li>(9, 0, 3)</li>
-        <li>(2, 0, 5)</li>
-        <li>(4, 0, 5)</li>
-        <li>(7, 0, 5)</li>
-        <li>(9, 0, 5)</li>
-        <li>(2, 0, 8)</li>
-        <li>(4, 0, 8)</li>
-        <li>(7, 0, 8)</li>
-        <li>(9, 0, 8)</li>
-        <li>(2, 0, 10)</li>
-        <li>(4, 0, 10)</li>
-        <li>(7, 0, 10)</li>
-        <li>(9, 0, 10)</li>
-      </positions>
-      <stuff>WULA_Alloy</stuff>
-    </Shelf>
-    <WULA_AreaTeleportBeacon>
-      <position>(6, 0, 6)</position>
-    </WULA_AreaTeleportBeacon>
-  </things>
-  <terrain>
+  <PrefabDef>
+    <defName>WULA_StorageBase</defName>    <!-- rename -->
+    <size>(13,14)</size>
+    <things>
+      <WULA_OrbitalTradeBeacon>
+        <position>(5, 0, 6)</position>
+      </WULA_OrbitalTradeBeacon>
+      <WulaDoor>
+        <rects>
+          <li>(6,0,6,0)</li>
+          <li>(6,12,6,12)</li>
+        </rects>
+      </WulaDoor>
+      <WulaDoor>
+        <rects>
+          <li>(0,6,0,6)</li>
+          <li>(12,6,12,6)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WulaDoor>
+      <HiddenConduit>
+        <rects>
+          <li>(6,1,6,11)</li>
+          <li>(1,6,5,6)</li>
+          <li>(7,6,11,6)</li>
+        </rects>
+      </HiddenConduit>
+      <WallLamp>
+        <rects>
+          <li>(4,1,4,1)</li>
+          <li>(8,1,8,1)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(1,4,1,4)</li>
+          <li>(1,8,1,8)</li>
+        </rects>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(11,4,11,4)</li>
+          <li>(11,8,11,8)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(4,11,4,11)</li>
+          <li>(8,11,8,11)</li>
+        </rects>
+      </WallLamp>
+      <FirefoamPopper>
+        <position>(7, 0, 6)</position>
+      </FirefoamPopper>
+      <WulaWall>
+        <rects>
+          <li>(0,0,5,0)</li>
+          <li>(7,0,12,0)</li>
+          <li>(0,1,0,5)</li>
+          <li>(12,1,12,5)</li>
+          <li>(0,7,0,12)</li>
+          <li>(12,7,12,12)</li>
+          <li>(1,12,5,12)</li>
+          <li>(7,12,11,12)</li>
+        </rects>
+      </WulaWall>
+      <Shelf>
+        <positions>
+          <li>(3, 0, 2)</li>
+          <li>(5, 0, 2)</li>
+          <li>(8, 0, 2)</li>
+          <li>(10, 0, 2)</li>
+          <li>(3, 0, 4)</li>
+          <li>(5, 0, 4)</li>
+          <li>(8, 0, 4)</li>
+          <li>(10, 0, 4)</li>
+          <li>(3, 0, 7)</li>
+          <li>(5, 0, 7)</li>
+          <li>(8, 0, 7)</li>
+          <li>(10, 0, 7)</li>
+          <li>(3, 0, 9)</li>
+          <li>(5, 0, 9)</li>
+          <li>(8, 0, 9)</li>
+          <li>(10, 0, 9)</li>
+        </positions>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+      </Shelf>
+      <Shelf>
+        <positions>
+          <li>(2, 0, 3)</li>
+          <li>(4, 0, 3)</li>
+          <li>(7, 0, 3)</li>
+          <li>(9, 0, 3)</li>
+          <li>(2, 0, 5)</li>
+          <li>(4, 0, 5)</li>
+          <li>(7, 0, 5)</li>
+          <li>(9, 0, 5)</li>
+          <li>(2, 0, 8)</li>
+          <li>(4, 0, 8)</li>
+          <li>(7, 0, 8)</li>
+          <li>(9, 0, 8)</li>
+          <li>(2, 0, 10)</li>
+          <li>(4, 0, 10)</li>
+          <li>(7, 0, 10)</li>
+          <li>(9, 0, 10)</li>
+        </positions>
+        <stuff>WULA_Alloy</stuff>
+      </Shelf>
+      <WULA_AreaTeleportBeacon>
+        <position>(6, 0, 6)</position>
+      </WULA_AreaTeleportBeacon>
+    </things>
+    <terrain>
       <WulaFloor>
         <rects>
           <li>(0,1,12,12)</li>
         </rects>
       </WulaFloor>
     </terrain>
-</PrefabDef>
-
+  </PrefabDef>
 
   <PrefabDef>
     <defName>WULA_KitchenBase</defName>    <!-- rename -->
@@ -417,160 +415,358 @@
     </terrain>
   </PrefabDef>
 
-  
+  <PrefabDef>
+    <defName>WULA_HospitalBase</defName>    <!-- rename -->
+    <size>(13,14)</size>
+    <things>
+      <VitalsMonitor>
+        <rects>
+          <li>(1,2,1,2)</li>
+          <li>(1,10,1,10)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </VitalsMonitor>
+      <VitalsMonitor>
+        <position>(11, 0, 2)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <hp>93</hp>
+      </VitalsMonitor>
+      <VitalsMonitor>
+        <position>(11, 0, 10)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </VitalsMonitor>
+      <WulaDoor>
+        <position>(6, 0, 0)</position>
+        <hp>982</hp>
+      </WulaDoor>
+      <WulaDoor>
+        <position>(6, 0, 12)</position>
+        <hp>977</hp>
+      </WulaDoor>
+      <WULA_MaintenancePod>
+        <position>(10, 0, 6)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WULA_MaintenancePod>
+      <Heater>
+        <position>(8, 0, 11)</position>
+        <hp>92</hp>
+      </Heater>
+      <Wula_Fusion_Generators>
+        <position>(2, 0, 6)</position>
+      </Wula_Fusion_Generators>
+      <DiningChair>
+        <position>(8, 0, 6)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+      </DiningChair>
+      <WallLamp>
+        <rects>
+          <li>(4,1,4,1)</li>
+          <li>(8,1,8,1)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(1,4,1,4)</li>
+          <li>(1,8,1,8)</li>
+        </rects>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(11,4,11,4)</li>
+          <li>(11,8,11,8)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <position>(4, 0, 11)</position>
+      </WallLamp>
+      <WallLamp>
+        <position>(8, 0, 11)</position>
+        <hp>17</hp>
+      </WallLamp>
+      <HospitalBed>
+        <positions>
+          <li>(1, 0, 1)</li>
+          <li>(1, 0, 3)</li>
+          <li>(1, 0, 9)</li>
+          <li>(1, 0, 11)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+      </HospitalBed>
+      <HospitalBed>
+        <position>(11, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+        <hp>149</hp>
+      </HospitalBed>
+      <HospitalBed>
+        <positions>
+          <li>(11, 0, 3)</li>
+          <li>(11, 0, 9)</li>
+          <li>(11, 0, 11)</li>
+        </positions>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+        <quality>Normal</quality>
+      </HospitalBed>
+      <WulaShelter>
+        <rects>
+          <li>(4,5,4,7)</li>
+        </rects>
+      </WulaShelter>
+      <Drape>
+        <positions>
+          <li>(1, 0, 4)</li>
+          <li>(3, 0, 4)</li>
+          <li>(8, 0, 4)</li>
+          <li>(10, 0, 4)</li>
+          <li>(1, 0, 8)</li>
+          <li>(3, 0, 8)</li>
+          <li>(8, 0, 8)</li>
+          <li>(10, 0, 8)</li>
+        </positions>
+        <stuff>Synthread</stuff>
+      </Drape>
+      <WulaWall>
+        <rects>
+          <li>(0,0,5,0)</li>
+          <li>(7,0,12,0)</li>
+          <li>(0,1,0,12)</li>
+          <li>(12,2,12,2)</li>
+          <li>(12,4,12,12)</li>
+          <li>(1,12,5,12)</li>
+          <li>(8,12,11,12)</li>
+        </rects>
+      </WulaWall>
+      <WulaWall>
+        <rects>
+          <li>(12,1,12,1)</li>
+          <li>(12,3,12,3)</li>
+          <li>(7,12,7,12)</li>
+        </rects>
+        <hp>1199</hp>
+      </WulaWall>
+      <Shelf>
+        <positions>
+          <li>(4, 0, 1)</li>
+          <li>(7, 0, 1)</li>
+        </positions>
+        <stuff>WULA_Alloy</stuff>
+      </Shelf>
+      <Shelf>
+        <position>(5, 0, 11)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+      </Shelf>
+      <WULA_AreaTeleportBeacon>
+        <position>(6, 0, 6)</position>
+      </WULA_AreaTeleportBeacon>
+    </things>
+    <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(0,1,12,12)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
+  </PrefabDef>
+
+
+  <PrefabDef>
+    <defName>WULA_PowerPlantBase</defName>    <!-- rename -->
+    <size>(13,14)</size>
+    <things>
+      <Battery>
+        <positions>
+          <li>(5, 0, 3)</li>
+          <li>(6, 0, 3)</li>
+          <li>(7, 0, 3)</li>
+        </positions>
+      </Battery>
+      <Battery>
+        <positions>
+          <li>(3, 0, 5)</li>
+          <li>(3, 0, 6)</li>
+          <li>(3, 0, 7)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+      </Battery>
+      <Battery>
+        <positions>
+          <li>(9, 0, 5)</li>
+          <li>(9, 0, 6)</li>
+          <li>(9, 0, 7)</li>
+        </positions>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </Battery>
+      <Battery>
+        <positions>
+          <li>(5, 0, 9)</li>
+          <li>(6, 0, 9)</li>
+          <li>(7, 0, 9)</li>
+        </positions>
+        <relativeRotation>Opposite</relativeRotation>
+      </Battery>
+      <WulaDoor>
+        <rects>
+          <li>(6,0,6,0)</li>
+          <li>(6,12,6,12)</li>
+        </rects>
+      </WulaDoor>
+      <WulaDoor>
+        <rects>
+          <li>(0,6,0,6)</li>
+          <li>(12,6,12,6)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WulaDoor>
+      <Wula_Fusion_Generators>
+        <positions>
+          <li>(3, 0, 3)</li>
+          <li>(9, 0, 3)</li>
+          <li>(3, 0, 9)</li>
+          <li>(9, 0, 9)</li>
+        </positions>
+      </Wula_Fusion_Generators>
+      <HiddenConduit>
+        <rects>
+          <li>(3,1,3,1)</li>
+          <li>(9,1,9,1)</li>
+          <li>(1,3,1,3)</li>
+          <li>(11,3,11,3)</li>
+          <li>(3,11,3,11)</li>
+          <li>(9,11,9,11)</li>
+        </rects>
+      </HiddenConduit>
+      <WallLamp>
+        <rects>
+          <li>(4,1,4,1)</li>
+          <li>(8,1,8,1)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(1,4,1,4)</li>
+          <li>(1,8,1,8)</li>
+        </rects>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(11,4,11,4)</li>
+          <li>(11,8,11,8)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(4,11,4,11)</li>
+          <li>(8,11,8,11)</li>
+        </rects>
+      </WallLamp>
+      <FirefoamPopper>
+        <rects>
+          <li>(5,5,5,5)</li>
+          <li>(7,7,7,7)</li>
+        </rects>
+      </FirefoamPopper>
+      <ShelfSmall>
+        <position>(6, 0, 2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+      </ShelfSmall>
+      <ShelfSmall>
+        <position>(2, 0, 6)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+      </ShelfSmall>
+      <ShelfSmall>
+        <position>(10, 0, 6)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>WULA_Alloy</stuff>
+      </ShelfSmall>
+      <ShelfSmall>
+        <position>(6, 0, 10)</position>
+        <stuff>WULA_Alloy</stuff>
+      </ShelfSmall>
+      <WulaWall>
+        <rects>
+          <li>(0,0,5,0)</li>
+          <li>(7,0,12,0)</li>
+          <li>(0,1,0,5)</li>
+          <li>(12,1,12,5)</li>
+          <li>(0,7,0,12)</li>
+          <li>(12,7,12,12)</li>
+          <li>(1,12,5,12)</li>
+          <li>(7,12,11,12)</li>
+        </rects>
+      </WulaWall>
+      <WULA_AreaTeleportBeacon>
+        <position>(6, 0, 6)</position>
+      </WULA_AreaTeleportBeacon>
+    </things>
+    <terrain>
+      <WulaFloor>
+        <rects>
+          <li>(0,1,12,12)</li>
+        </rects>
+      </WulaFloor>
+    </terrain>
+  </PrefabDef>
+
+
 <PrefabDef>
-  <defName>WULA_HospitalBase</defName> <!-- rename -->
-  <size>(13,14)</size>
+  <defName>WULA_RavenShuttleBase</defName> <!-- rename -->
+  <size>(13,13)</size>
   <things>
-    <VitalsMonitor>
+    <WulaDoor>
+      <rects>
+        <li>(1,6,1,6)</li>
+        <li>(11,6,11,6)</li>
+      </rects>
+      <relativeRotation>Clockwise</relativeRotation>
+    </WulaDoor>
+    <WallLamp>
       <rects>
         <li>(1,2,1,2)</li>
         <li>(1,10,1,10)</li>
       </rects>
-      <relativeRotation>Clockwise</relativeRotation>
-    </VitalsMonitor>
-    <VitalsMonitor>
-      <position>(11, 0, 2)</position>
-      <relativeRotation>Counterclockwise</relativeRotation>
-      <hp>93</hp>
-    </VitalsMonitor>
-    <VitalsMonitor>
-      <position>(11, 0, 10)</position>
-      <relativeRotation>Counterclockwise</relativeRotation>
-    </VitalsMonitor>
-    <WulaDoor>
-      <position>(6, 0, 0)</position>
-      <hp>982</hp>
-    </WulaDoor>
-    <WulaDoor>
-      <position>(6, 0, 12)</position>
-      <hp>977</hp>
-    </WulaDoor>
-    <WULA_MaintenancePod>
-      <position>(10, 0, 6)</position>
-      <relativeRotation>Clockwise</relativeRotation>
-    </WULA_MaintenancePod>
-    <Heater>
-      <position>(8, 0, 11)</position>
-      <hp>92</hp>
-    </Heater>
-    <Wula_Fusion_Generators>
-      <position>(2, 0, 6)</position>
-    </Wula_Fusion_Generators>
-    <DiningChair>
-      <position>(8, 0, 6)</position>
-      <relativeRotation>Clockwise</relativeRotation>
-      <stuff>WULA_Alloy</stuff>
-      <quality>Normal</quality>
-    </DiningChair>
-    <WallLamp>
-      <rects>
-        <li>(4,1,4,1)</li>
-        <li>(8,1,8,1)</li>
-      </rects>
-      <relativeRotation>Opposite</relativeRotation>
-    </WallLamp>
-    <WallLamp>
-      <rects>
-        <li>(1,4,1,4)</li>
-        <li>(1,8,1,8)</li>
-      </rects>
       <relativeRotation>Counterclockwise</relativeRotation>
     </WallLamp>
     <WallLamp>
       <rects>
-        <li>(11,4,11,4)</li>
-        <li>(11,8,11,8)</li>
+        <li>(11,2,11,2)</li>
+        <li>(11,10,11,10)</li>
       </rects>
       <relativeRotation>Clockwise</relativeRotation>
     </WallLamp>
-    <WallLamp>
-      <position>(4, 0, 11)</position>
-    </WallLamp>
-    <WallLamp>
-      <position>(8, 0, 11)</position>
-      <hp>17</hp>
-    </WallLamp>
-    <HospitalBed>
-      <positions>
-        <li>(1, 0, 1)</li>
-        <li>(1, 0, 3)</li>
-        <li>(1, 0, 9)</li>
-        <li>(1, 0, 11)</li>
-      </positions>
-      <relativeRotation>Clockwise</relativeRotation>
-      <stuff>WULA_Alloy</stuff>
-      <quality>Normal</quality>
-    </HospitalBed>
-    <HospitalBed>
-      <position>(11, 0, 1)</position>
-      <relativeRotation>Counterclockwise</relativeRotation>
-      <stuff>WULA_Alloy</stuff>
-      <quality>Normal</quality>
-      <hp>149</hp>
-    </HospitalBed>
-    <HospitalBed>
-      <positions>
-        <li>(11, 0, 3)</li>
-        <li>(11, 0, 9)</li>
-        <li>(11, 0, 11)</li>
-      </positions>
-      <relativeRotation>Counterclockwise</relativeRotation>
-      <stuff>WULA_Alloy</stuff>
-      <quality>Normal</quality>
-    </HospitalBed>
-    <WulaShelter>
-      <rects>
-        <li>(4,5,4,7)</li>
-      </rects>
-    </WulaShelter>
-    <Drape>
-      <positions>
-        <li>(1, 0, 4)</li>
-        <li>(3, 0, 4)</li>
-        <li>(8, 0, 4)</li>
-        <li>(10, 0, 4)</li>
-        <li>(1, 0, 8)</li>
-        <li>(3, 0, 8)</li>
-        <li>(8, 0, 8)</li>
-        <li>(10, 0, 8)</li>
-      </positions>
-      <stuff>Synthread</stuff>
-    </Drape>
     <WulaWall>
       <rects>
-        <li>(0,0,5,0)</li>
-        <li>(7,0,12,0)</li>
-        <li>(0,1,0,12)</li>
-        <li>(12,2,12,2)</li>
-        <li>(12,4,12,12)</li>
-        <li>(1,12,5,12)</li>
-        <li>(8,12,11,12)</li>
+        <li>(0,0,1,0)</li>
+        <li>(11,0,12,0)</li>
+        <li>(0,1,0,5)</li>
+        <li>(12,1,12,5)</li>
+        <li>(1,5,1,5)</li>
+        <li>(11,5,11,5)</li>
+        <li>(0,7,1,7)</li>
+        <li>(11,7,12,7)</li>
+        <li>(0,8,0,12)</li>
+        <li>(12,8,12,12)</li>
+        <li>(1,12,1,12)</li>
+        <li>(11,12,11,12)</li>
       </rects>
     </WulaWall>
-    <WulaWall>
-      <rects>
-        <li>(12,1,12,1)</li>
-        <li>(12,3,12,3)</li>
-        <li>(7,12,7,12)</li>
-      </rects>
-      <hp>1199</hp>
-    </WulaWall>
-    <Shelf>
-      <positions>
-        <li>(4, 0, 1)</li>
-        <li>(7, 0, 1)</li>
-      </positions>
-      <stuff>WULA_Alloy</stuff>
-    </Shelf>
-    <Shelf>
-      <position>(5, 0, 11)</position>
-      <relativeRotation>Opposite</relativeRotation>
-      <stuff>WULA_Alloy</stuff>
-    </Shelf>
-    <WULA_AreaTeleportBeacon>
+    <WULA_ArmedShuttleWithPocket>
       <position>(6, 0, 6)</position>
-    </WULA_AreaTeleportBeacon>
+    </WULA_ArmedShuttleWithPocket>
   </things>
   <terrain>
       <WulaFloor>
