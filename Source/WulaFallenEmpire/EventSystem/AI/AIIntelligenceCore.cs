@@ -936,8 +936,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (string.IsNullOrWhiteSpace(response)) return response;
             string cleaned = response.Trim();
             cleaned = Regex.Replace(cleaned, @"<think>.*?</think>", "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            cleaned = Regex.Replace(cleaned, @"```json", "", RegexOptions.IgnoreCase);
-            cleaned = cleaned.Replace("```", "");
             return cleaned.Trim();
         }
 

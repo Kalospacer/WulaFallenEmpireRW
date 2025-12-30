@@ -92,6 +92,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                 }
             }
 
+            if (TryParseToolCallsLoose(trimmed, out toolCalls, out jsonFragment))
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -121,6 +126,160 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
             }
 
             return false;
+        }
+
+        private static bool TryParseToolCallsLoose(string input, out List<ToolCallInfo> toolCalls, out string jsonFragment)
+        {
+            toolCalls = null;
+            jsonFragment = null;
+            if (string.IsNullOrWhiteSpace(input)) return false;
+
+            string cleaned = input.Trim();
+
+            int toolCallsIndex = IndexOfIgnoreCase(cleaned, "\"tool_calls\"");
+            if (toolCallsIndex < 0) return false;
+
+            int arrayStart = cleaned.IndexOf('[', toolCallsIndex);
+            if (arrayStart < 0) return false;
+
+            if (!TryExtractJsonBlock(cleaned, arrayStart, '[', ']', out string arrayBlock)) return false;
+
+            var callObjects = ExtractJsonObjects(arrayBlock);
+            if (callObjects.Count == 0) return false;
+
+            var parsedCalls = new List<ToolCallInfo>();
+            foreach (var callObj in callObjects)
+            {
+                if (callObj == null || callObj.Count == 0) continue;
+
+                string id = TryGetString(callObj, "id");
+                string name = null;
+                object argsObj = null;
+
+                if (TryGetValue(callObj, "function", out object fnObj) && fnObj is Dictionary<string, object> fnDict)
+                {
+                    name = TryGetString(fnDict, "name");
+                    TryGetValue(fnDict, "arguments", out argsObj);
+                }
+                else
+                {
+                    name = TryGetString(callObj, "name");
+                    TryGetValue(callObj, "arguments", out argsObj);
+                }
+
+                if (string.IsNullOrWhiteSpace(name)) continue;
+
+                if (!TryNormalizeArguments(argsObj, out Dictionary<string, object> args, out string argsJson))
+                {
+                    args = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                    argsJson = "{}";
+                }
+
+                parsedCalls.Add(new ToolCallInfo
+                {
+                    Id = id,
+                    Name = name.Trim(),
+                    Arguments = args,
+                    ArgumentsJson = argsJson
+                });
+            }
+
+            if (parsedCalls.Count == 0) return false;
+
+            toolCalls = parsedCalls;
+            jsonFragment = arrayBlock;
+            return true;
+        }
+
+        private static List<Dictionary<string, object>> ExtractJsonObjects(string input)
+        {
+            var objects = new List<Dictionary<string, object>>();
+            if (string.IsNullOrWhiteSpace(input)) return objects;
+
+            int i = 0;
+            while (i < input.Length)
+            {
+                if (input[i] != '{')
+                {
+                    i++;
+                    continue;
+                }
+
+                if (!TryExtractJsonBlock(input, i, '{', '}', out string objBlock))
+                {
+                    i++;
+                    continue;
+                }
+
+                if (TryParseObject(objBlock, out Dictionary<string, object> obj))
+                {
+                    objects.Add(obj);
+                }
+
+                i += Math.Max(1, objBlock.Length);
+            }
+
+            return objects;
+        }
+
+        private static bool TryExtractJsonBlock(string input, int startIndex, char openChar, char closeChar, out string block)
+        {
+            block = null;
+            if (string.IsNullOrWhiteSpace(input) || startIndex < 0 || startIndex >= input.Length) return false;
+
+            int depth = 0;
+            bool inString = false;
+            bool escape = false;
+            int start = -1;
+
+            for (int i = startIndex; i < input.Length; i++)
+            {
+                char c = input[i];
+                if (escape)
+                {
+                    escape = false;
+                }
+                else if (c == '\\')
+                {
+                    if (inString) escape = true;
+                }
+                else if (c == '\"')
+                {
+                    inString = !inString;
+                }
+
+                if (inString) continue;
+
+                if (c == openChar)
+                {
+                    if (depth == 0)
+                    {
+                        start = i;
+                    }
+                    depth++;
+                    continue;
+                }
+                if (c == closeChar)
+                {
+                    depth--;
+                    if (depth == 0 && start >= 0)
+                    {
+                        block = input.Substring(start, i - start + 1);
+                        return true;
+                    }
+                    if (depth < 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static int IndexOfIgnoreCase(string input, string value)
+        {
+            return input?.IndexOf(value ?? "", StringComparison.OrdinalIgnoreCase) ?? -1;
         }
 
         public static bool TryParseObject(string json, out Dictionary<string, object> obj)
