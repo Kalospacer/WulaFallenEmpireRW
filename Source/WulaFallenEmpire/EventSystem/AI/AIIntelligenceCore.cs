@@ -1145,6 +1145,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             for (int i = 0; i < _history.Count; i++)
             {
                 var entry = _history[i];
+                if (string.Equals(entry.role, "toolcall", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
                 if (string.Equals(entry.role, "tool", StringComparison.OrdinalIgnoreCase))
                 {
                     if (lastUserIndex != -1 && i > lastUserIndex)
@@ -1160,8 +1164,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
-                // Revert UI filtering: Add assistant messages directly without stripping tool call JSON for history context
-                filtered.Add(entry);
+                string cleaned = StripToolCallJson(entry.message)?.Trim() ?? "";
+                if (string.IsNullOrWhiteSpace(cleaned))
+                {
+                    continue;
+                }
+                filtered.Add((entry.role, cleaned));
             }
 
             return filtered;

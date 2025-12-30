@@ -627,10 +627,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
             float padding = 8f;
             Rect headerRect = new Rect(rect.x, rect.y, rect.width, traceEntry.traceHeaderHeight);
-            GUI.color = new Color(0.15f, 0.15f, 0.15f, 0.8f);
-            Widgets.DrawBoxSolid(headerRect, GUI.color);
-            GUI.color = Color.white;
-
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
             string headerLine = $"{(traceEntry.traceExpanded ? "v" : ">")} {traceEntry.traceHeader}";
@@ -646,11 +642,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
             if (traceEntry.traceExpanded && traceEntry.traceLines != null && traceEntry.traceLines.Count > 0)
             {
-                Rect bodyRect = new Rect(rect.x, headerRect.yMax, rect.width, rect.height - traceEntry.traceHeaderHeight);
-                GUI.color = new Color(0.12f, 0.12f, 0.12f, 0.45f);
-                Widgets.DrawBoxSolid(bodyRect, GUI.color);
-                GUI.color = Color.white;
-
                 float y = headerRect.yMax + 6f;
                 foreach (string line in traceEntry.traceLines)
                 {
