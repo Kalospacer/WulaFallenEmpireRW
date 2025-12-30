@@ -98,17 +98,17 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private const string ToolRulesInstruction = @"
 # TOOL USE RULES
 1.  **FORMATTING**: Your output MUST be valid JSON with fields:
-    { ""thought"": ""..."", ""tool_calls"": [ { ""type"": ""function"", ""function"": { ""name"": ""tool_name"", ""arguments"": { ... } } } ], ""final"": ""..."" }
+    { ""thought"": ""..."", ""tool_calls"": [ { ""type"": ""function"", ""function"": { ""name"": ""tool_name"", ""arguments"": { ... } } } ] }
 2.  **STRICT OUTPUT**:
-    - If ""tool_calls"" is non-empty, ""final"" MUST be an empty string.
-    - If no tools are needed, ""tool_calls"" MUST be [] and ""final"" MUST contain the user-facing reply.
+    - If tools are needed, output non-empty ""tool_calls"".
+    - If no tools are needed, output exactly: { ""tool_calls"": [] } (you may still include ""thought"").
     - Do NOT include any natural language, explanation, markdown, or extra text outside JSON.
 3.  **THOUGHT**: ""thought"" is internal and will NOT be shown to the user.
 4.  **MULTI-REQUEST RULE**:
     - If the user requests multiple items or information, you MUST output ALL required tool calls in the SAME response.
     - Do NOT split multi-item requests across turns.
 5.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
-6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""thought"": ""..."", ""tool_calls"": [], ""final"": """" }.
+6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""tool_calls"": [] }.
 7.  **NO TAGS**: Do NOT use <think> tags, code fences, or any extra text outside JSON.";
 
         public AIIntelligenceCore(World world) : base(world)
@@ -675,8 +675,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                        "You MAY include [EXPR:n] to set your expression (n=1-6).";
             }
 
-            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: Output JSON only with fields thought/tool_calls/final. " +
-                   $"Your final reply (when tool_calls is empty) MUST be in: {language}.";
+            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: Output JSON tool calls only. " +
+                   $"Final replies are generated later and MUST use: {language}.";
         }
 
         public string GetActivePersona()
@@ -758,7 +758,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             sb.AppendLine("====");
             sb.AppendLine();
             sb.AppendLine("# TOOLS (AVAILABLE)");
-            sb.AppendLine("Output JSON only with fields: thought, tool_calls, final. If no tools are needed, tool_calls must be [] and final must be set.");
+            sb.AppendLine("Output JSON only with tool_calls. If no tools are needed, output exactly: {\"tool_calls\": []}.");
             sb.AppendLine();
 
             foreach (var tool in available)
@@ -789,7 +789,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             sb.AppendLine("====");
             sb.AppendLine();
             sb.AppendLine("# TOOLS (AVAILABLE)");
-            sb.AppendLine("Output JSON only. If tools are needed, set tool_calls. If none, set tool_calls to [] and write final.");
+            sb.AppendLine("Output JSON only. If tools are needed, set tool_calls. If none, output exactly: {\"tool_calls\": []}.");
             sb.AppendLine();
 
             foreach (var tool in available)
@@ -913,61 +913,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return false;
         }
 
-        private static bool TryParseReactEnvelope(string response, out List<ToolCallInfo> toolCalls, out string final, out string thought, out string jsonFragment)
-        {
-            toolCalls = new List<ToolCallInfo>();
-            final = null;
-            thought = null;
-            jsonFragment = null;
-
-            if (string.IsNullOrWhiteSpace(response)) return false;
-            if (!JsonToolCallParser.TryParseObjectFromText(response, out var obj, out jsonFragment)) return false;
-
-            if (JsonToolCallParser.TryParseToolCallsFromText(jsonFragment, out var parsedCalls, out _))
-            {
-                toolCalls = parsedCalls ?? new List<ToolCallInfo>();
-            }
-            else
-            {
-                toolCalls = new List<ToolCallInfo>();
-            }
-
-            thought = TryGetEnvelopeString(obj, "thought");
-            final = TryGetEnvelopeString(obj, "final");
-            return true;
-        }
-
-        private static string TryGetEnvelopeString(Dictionary<string, object> obj, string key)
-        {
-            if (obj == null || string.IsNullOrWhiteSpace(key)) return null;
-            foreach (var kvp in obj)
-            {
-                if (string.Equals(kvp.Key, key, StringComparison.OrdinalIgnoreCase))
-                {
-                    string value = kvp.Value?.ToString();
-                    return string.IsNullOrWhiteSpace(value) ? null : value;
-                }
-            }
-            return null;
-        }
-
         private static string BuildReactFormatFixInstruction(string previousOutput)
         {
             return "# FORMAT FIX (REACT JSON ONLY)\n" +
-                   "Output valid JSON with fields thought/tool_calls/final.\n" +
-                   "If tools are needed, tool_calls must be non-empty and final must be an empty string.\n" +
-                   "If no tools are needed, tool_calls must be [] and final must contain the user reply.\n" +
+                   "Output valid JSON with fields thought/tool_calls.\n" +
+                   "If tools are needed, tool_calls must be non-empty.\n" +
+                   "If no tools are needed, output exactly: {\"tool_calls\": []} (you may include thought).\n" +
                    "Do NOT output any text outside JSON.\n" +
-                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}],\"final\":\"\"}\n" +
+                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}\n" +
                    "\nPrevious output:\n" + TrimForPrompt(previousOutput, 600);
-        }
-
-        private static string BuildReactFinalFixInstruction()
-        {
-            return "# FINAL REQUIRED\n" +
-                   "Your last output had tool_calls=[] but an empty final.\n" +
-                   "Output JSON only with tool_calls=[] and a non-empty final reply.\n" +
-                   "Schema: {\"thought\":\"...\",\"tool_calls\":[],\"final\":\"...\"}";
         }
 
         private static string NormalizeReactResponse(string response)
@@ -978,20 +932,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             cleaned = Regex.Replace(cleaned, @"```json", "", RegexOptions.IgnoreCase);
             cleaned = cleaned.Replace("```", "");
             return cleaned.Trim();
-        }
-
-        private static bool TryGetNonJsonFinal(string response, out string final)
-        {
-            final = null;
-            if (string.IsNullOrWhiteSpace(response)) return false;
-
-            string cleaned = NormalizeReactResponse(response);
-            cleaned = StripToolCallJson(cleaned) ?? cleaned;
-            cleaned = cleaned.Trim();
-            if (string.IsNullOrWhiteSpace(cleaned)) return false;
-
-            final = cleaned;
-            return true;
         }
 
         private bool IsToolAvailable(string toolName)
@@ -1007,9 +947,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return "# TOOL CORRECTION (REACT JSON ONLY)\n" +
                    "You used tool names that are NOT available: " + invalidList + "\n" +
                    "Re-emit JSON with only available tools from # TOOLS (AVAILABLE).\n" +
-                   "If no tools are needed, output tool_calls=[] and provide final.\n" +
+                   "If no tools are needed, output exactly: {\"tool_calls\": []}.\n" +
                    "Do NOT output any text outside JSON.\n" +
-                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}],\"final\":\"\"}";
+                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}";
         }
 
         private static bool ShouldRetryTools(string response)
@@ -1811,8 +1751,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     maxSeconds = Mathf.Clamp(settings.reactMaxSeconds, 2f, 60f);
                 }
                 _thinkingPhaseTotal = maxSteps;
-                string finalReply = null;
-
                 for (int step = 1; step <= maxSteps; step++)
                 {
                     if (Time.realtimeSinceStartup - startTime > maxSeconds)
@@ -1836,7 +1774,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
 
                     string normalizedResponse = NormalizeReactResponse(response);
-                    if (!TryParseReactEnvelope(normalizedResponse, out var toolCalls, out string final, out _, out string jsonFragment))
+                    if (!JsonToolCallParser.TryParseToolCallsFromText(normalizedResponse, out var toolCalls, out string jsonFragment))
                     {
                         if (Prefs.DevMode)
                         {
@@ -1846,16 +1784,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, reactContext, maxTokens: 1024, temperature: 0.1f, base64Image: base64Image);
                         string normalizedFixed = NormalizeReactResponse(fixedResponse);
                         if (string.IsNullOrEmpty(normalizedFixed) ||
-                            !TryParseReactEnvelope(normalizedFixed, out toolCalls, out final, out _, out jsonFragment))
+                            !JsonToolCallParser.TryParseToolCallsFromText(normalizedFixed, out toolCalls, out jsonFragment))
                         {
                             if (Prefs.DevMode)
                             {
                                 WulaLog.Debug("[WulaAI] ReAct format fix failed.");
-                            }
-                            if (TryGetNonJsonFinal(response, out string fallbackFinal))
-                            {
-                                finalReply = fallbackFinal;
-                                break;
                             }
                             break;
                         }
@@ -1876,8 +1809,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         string correctionInstruction = BuildReactToolCorrectionInstruction(invalidTools);
                         string correctedResponse = await client.GetChatCompletionAsync(correctionInstruction, reactContext, maxTokens: 1024, temperature: 0.1f, base64Image: base64Image);
                         string normalizedCorrected = NormalizeReactResponse(correctedResponse);
-                        if (!string.IsNullOrEmpty(normalizedCorrected) &&
-                            TryParseReactEnvelope(normalizedCorrected, out toolCalls, out final, out _, out jsonFragment))
+            if (!string.IsNullOrEmpty(normalizedCorrected) &&
+                            JsonToolCallParser.TryParseToolCallsFromText(normalizedCorrected, out toolCalls, out jsonFragment))
                         {
                             invalidTools = toolCalls
                                 .Where(c => !IsToolAvailable(c.Name))
@@ -1896,7 +1829,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             {
                                 WulaLog.Debug("[WulaAI] Invalid tools remain after correction; skipping tool execution.");
                             }
-                            continue;
+                            _history.Add(("toolcall", "{\"tool_calls\": []}"));
+                            _history.Add(("tool", $"[Tool Results]\nToolRunner Error: Invalid tool(s): {string.Join(", ", invalidTools)}.\nToolRunner Guidance: Re-issue valid tool calls only."));
+                            PersistHistory();
+                            break;
                         }
                         PhaseExecutionResult stepResult = await ExecuteJsonToolsForStep(jsonFragment);
                         if (!string.IsNullOrEmpty(stepResult.CapturedImage))
@@ -1907,46 +1843,77 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         continue;
                     }
 
-                    if (!string.IsNullOrWhiteSpace(final))
-                    {
-                        finalReply = final.Trim();
-                        break;
-                    }
-
-                    if (Prefs.DevMode)
-                    {
-                        WulaLog.Debug("[WulaAI] ReAct step returned empty tool_calls and empty final; requesting final.");
-                    }
-                    string finalFixInstruction = BuildReactFinalFixInstruction();
-                    string finalFixResponse = await client.GetChatCompletionAsync(finalFixInstruction, reactContext, maxTokens: 512, temperature: 0.1f, base64Image: base64Image);
-                    if (!string.IsNullOrEmpty(finalFixResponse) &&
-                        TryParseReactEnvelope(finalFixResponse, out var finalFixCalls, out string finalFix, out _, out string finalFixFragment))
-                    {
-                        if (finalFixCalls != null && finalFixCalls.Count > 0)
-                        {
-                            PhaseExecutionResult fixResult = await ExecuteJsonToolsForStep(finalFixFragment);
-                            if (!string.IsNullOrEmpty(fixResult.CapturedImage))
-                            {
-                                base64Image = fixResult.CapturedImage;
-                            }
-                            _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
-                            continue;
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(finalFix))
-                        {
-                            finalReply = finalFix.Trim();
-                            break;
-                        }
-                    }
+                    // No tool calls requested: exit tool loop and generate natural-language reply separately.
+                    break;
                 }
+                _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
 
-                if (string.IsNullOrWhiteSpace(finalReply))
+                string replyInstruction = GetSystemInstruction(false, "");
+                if (!string.IsNullOrWhiteSpace(_queryToolLedgerNote))
                 {
-                    finalReply = "Current conditions are complex. Please try again in a moment.";
+                    replyInstruction += "\n" + _queryToolLedgerNote;
+                }
+                if (!string.IsNullOrWhiteSpace(_actionToolLedgerNote))
+                {
+                    replyInstruction += "\n" + _actionToolLedgerNote;
+                }
+                if (!string.IsNullOrWhiteSpace(_lastActionLedgerNote))
+                {
+                    replyInstruction += "\n" + _lastActionLedgerNote +
+                                        "\nIMPORTANT: Do NOT claim any in-game actions beyond the Action Ledger. If the ledger is None, you MUST NOT claim any deliveries, reinforcements, or bombardments.";
+                }
+                if (_lastActionExecuted)
+                {
+                    replyInstruction += "\nIMPORTANT: Actions in the Action Ledger were executed in-game. You MUST acknowledge them as completed in your reply. You MUST NOT deny, retract, or contradict them.";
+                }
+                if (!_lastSuccessfulToolCall)
+                {
+                    replyInstruction += "\nIMPORTANT: No successful tool calls occurred in the tool phase. You MUST NOT claim any tools or actions succeeded.";
+                }
+                if (_lastActionHadError)
+                {
+                    replyInstruction += "\nIMPORTANT: An action tool failed. You MUST acknowledge the failure and MUST NOT claim success.";
+                    if (_lastActionExecuted)
+                    {
+                        replyInstruction += " You MUST still confirm any successful actions separately.";
+                    }
                 }
 
-                AddAssistantMessage(finalReply);
+                string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory(), base64Image: base64Image);
+                if (string.IsNullOrEmpty(reply))
+                {
+                    AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
+                    return;
+                }
+
+                bool replyHadToolCalls = IsToolCallJson(reply);
+                string strippedReply = StripToolCallJson(reply)?.Trim() ?? "";
+                if (replyHadToolCalls || string.IsNullOrWhiteSpace(strippedReply))
+                {
+                    string retryReplyInstruction = replyInstruction +
+                                                  "\n\n# RETRY (REPLY OUTPUT)\n" +
+                                                  "Your last reply included tool call JSON or was empty. Tool calls are DISABLED.\n" +
+                                                  "You MUST reply in natural language only. Do NOT output any tool call JSON.\n";
+                    string retryReply = await client.GetChatCompletionAsync(retryReplyInstruction, BuildReplyHistory(), maxTokens: 256, temperature: 0.3f);
+                    if (!string.IsNullOrEmpty(retryReply))
+                    {
+                        reply = retryReply;
+                        replyHadToolCalls = IsToolCallJson(reply);
+                        strippedReply = StripToolCallJson(reply)?.Trim() ?? "";
+                    }
+                }
+
+                if (replyHadToolCalls)
+                {
+                    string cleaned = StripToolCallJson(reply)?.Trim() ?? "";
+                    if (string.IsNullOrWhiteSpace(cleaned))
+                    {
+                        cleaned = "(system) AI reply returned tool call JSON only and was discarded. Please retry or send /clear to reset context.";
+                    }
+                    reply = cleaned;
+                }
+
+                AddAssistantMessage(reply);
                 TriggerMemoryUpdate();
             }
             catch (Exception ex)
@@ -1961,8 +1928,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private async Task<PhaseExecutionResult> ExecuteJsonToolsForStep(string json)
         {
-            string guidance = "ToolRunner Guidance: Continue with JSON only using {\"thought\":\"...\",\"tool_calls\":[...],\"final\":\"\"}. " +
-                              "If no more tools are needed, set tool_calls to [] and provide the final reply. Do NOT output any text outside JSON.";
+            string guidance = "ToolRunner Guidance: Continue with JSON only using {\"thought\":\"...\",\"tool_calls\":[...]}. " +
+                              "If no more tools are needed, output exactly: {\"tool_calls\": []}. Do NOT output any text outside JSON.";
 
             if (!JsonToolCallParser.TryParseToolCallsFromText(json ?? "", out var toolCalls, out string jsonFragment))
             {

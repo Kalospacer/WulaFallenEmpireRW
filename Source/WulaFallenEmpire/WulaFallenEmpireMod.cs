@@ -100,11 +100,14 @@ namespace WulaFallenEmpire
             listingStandard.Label("<color=cyan>ReAct Loop Settings</color>");
             listingStandard.Label("Max Steps (1-10):");
             Rect stepsRect = listingStandard.GetRect(Text.LineHeight);
-            Widgets.TextFieldNumeric(stepsRect, ref settings.reactMaxSteps, ref _reactMaxStepsBuffer, 1, 10);
+            Widgets.TextFieldNumeric(stepsRect, ref settings.reactMaxSteps, ref _reactMaxStepsBuffer, 1, 20);
 
             listingStandard.Label("Max Seconds (2-60):");
             Rect secondsRect = listingStandard.GetRect(Text.LineHeight);
-            Widgets.TextFieldNumeric(secondsRect, ref settings.reactMaxSeconds, ref _reactMaxSecondsBuffer, 2f, 60f);
+            Widgets.TextFieldNumeric(secondsRect, ref settings.reactMaxSeconds, ref _reactMaxSecondsBuffer, 10f, 600f);
+
+            listingStandard.GapLine();
+            listingStandard.CheckboxLabeled("显示ReAct思考折叠框", ref settings.showReactTraceInUI, "在对话窗口中显示思考/工具调用折叠面板。");
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_AISettings_AutoCommentary".Translate(), ref settings.enableAIAutoCommentary, "Wula_AISettings_AutoCommentaryDesc".Translate());
