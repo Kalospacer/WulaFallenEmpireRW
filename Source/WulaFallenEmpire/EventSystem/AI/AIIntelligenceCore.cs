@@ -941,6 +941,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return cleaned.Trim();
         }
 
+        private static bool LooksLikeNaturalReply(string response)
+        {
+            if (string.IsNullOrWhiteSpace(response)) return false;
+            string trimmed = response.Trim();
+            if (JsonToolCallParser.LooksLikeJson(trimmed)) return false;
+            return trimmed.Length >= 4;
+        }
+
         private bool IsToolAvailable(string toolName)
         {
             if (string.IsNullOrWhiteSpace(toolName)) return false;
@@ -1758,6 +1766,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     maxSeconds = Mathf.Clamp(settings.reactMaxSeconds, 2f, 60f);
                 }
                 _thinkingPhaseTotal = maxSteps;
+                string toolPhaseReplyCandidate = null;
                 for (int step = 1; step <= maxSteps; step++)
                 {
                     if (Time.realtimeSinceStartup - startTime > maxSeconds)
@@ -1783,6 +1792,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     string normalizedResponse = NormalizeReactResponse(response);
                     if (!JsonToolCallParser.TryParseToolCallsFromText(normalizedResponse, out var toolCalls, out string jsonFragment))
                     {
+                        if (LooksLikeNaturalReply(normalizedResponse))
+                        {
+                            toolPhaseReplyCandidate = normalizedResponse;
+                            break;
+                        }
+
                         if (Prefs.DevMode)
                         {
                             WulaLog.Debug("[WulaAI] ReAct step missing JSON envelope; attempting format fix.");
@@ -1793,6 +1808,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         if (string.IsNullOrEmpty(normalizedFixed) ||
                             !JsonToolCallParser.TryParseToolCallsFromText(normalizedFixed, out toolCalls, out jsonFragment))
                         {
+                            if (LooksLikeNaturalReply(normalizedFixed))
+                            {
+                                toolPhaseReplyCandidate = normalizedFixed;
+                            }
                             if (Prefs.DevMode)
                             {
                                 WulaLog.Debug("[WulaAI] ReAct format fix failed.");
@@ -1893,10 +1912,21 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
+                string fallbackReply = string.IsNullOrWhiteSpace(toolPhaseReplyCandidate)
+                    ? ""
+                    : StripToolCallJson(toolPhaseReplyCandidate)?.Trim() ?? "";
                 bool replyHadToolCalls = IsToolCallJson(reply);
                 string strippedReply = StripToolCallJson(reply)?.Trim() ?? "";
                 if (replyHadToolCalls || string.IsNullOrWhiteSpace(strippedReply))
                 {
+                    if (!string.IsNullOrWhiteSpace(fallbackReply))
+                    {
+                        reply = fallbackReply;
+                        replyHadToolCalls = false;
+                        strippedReply = fallbackReply;
+                    }
+                    else
+                    {
                     string retryReplyInstruction = replyInstruction +
                                                   "\n\n# RETRY (REPLY OUTPUT)\n" +
                                                   "Your last reply included tool call JSON or was empty. Tool calls are DISABLED.\n" +
@@ -1908,16 +1938,24 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         replyHadToolCalls = IsToolCallJson(reply);
                         strippedReply = StripToolCallJson(reply)?.Trim() ?? "";
                     }
+                    }
                 }
 
                 if (replyHadToolCalls)
                 {
+                    if (!string.IsNullOrWhiteSpace(fallbackReply))
+                    {
+                        reply = fallbackReply;
+                    }
+                    else
+                    {
                     string cleaned = StripToolCallJson(reply)?.Trim() ?? "";
                     if (string.IsNullOrWhiteSpace(cleaned))
                     {
                         cleaned = "(system) AI reply returned tool call JSON only and was discarded. Please retry or send /clear to reset context.";
                     }
                     reply = cleaned;
+                    }
                 }
 
                 AddAssistantMessage(reply);
