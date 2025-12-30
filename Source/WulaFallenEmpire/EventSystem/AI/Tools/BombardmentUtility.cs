@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
@@ -10,12 +11,12 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
     public static class BombardmentUtility
     {
-        public static string ExecuteCircularBombardment(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityCircularBombardment props, Dictionary<string, string> parsed = null)
+        public static string ExecuteCircularBombardment(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityCircularBombardment props, Dictionary<string, object> parsed = null)
         {
             if (props.skyfallerDef == null) return $"Error: '{def.defName}' has no skyfallerDef.";
             
             bool filter = true;
-            if (parsed != null && parsed.TryGetValue("filterFriendlyFire", out var ffStr) && bool.TryParse(ffStr, out bool ff)) filter = ff;
+            if (TryGetBool(parsed, "filterFriendlyFire", out bool ff)) filter = ff;
 
             List<IntVec3> selectedTargets = SelectTargetCells(map, targetCell, props, filter);
             if (selectedTargets.Count == 0) return $"Error: No valid target cells near {targetCell}.";
@@ -26,7 +27,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             return $"Success: Scheduled Circular Bombardment '{def.defName}' at {targetCell}. Launches: {totalLaunches}/{props.maxLaunches}.";
         }
 
-        public static string ExecuteStrafeBombardment(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityBombardment props, Dictionary<string, string> parsed = null)
+        public static string ExecuteStrafeBombardment(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityBombardment props, Dictionary<string, object> parsed = null)
         {
             if (props.skyfallerDef == null) return $"Error: '{def.defName}' has no skyfallerDef.";
 
@@ -101,11 +102,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
              // To simplify, let's just copy the core logic or create a private helper that takes explicit args.
              // Actually, the main method parses direction from 'parsed'. 
              // Let's make a Dictionary to pass to it.
-             var dict = new Dictionary<string, string> { { "angle", angle.ToString() } };
-             return ExecuteStrafeBombardment(map, targetCell, def, props, dict);
+            var dict = new Dictionary<string, object> { { "angle", angle } };
+            return ExecuteStrafeBombardment(map, targetCell, def, props, dict);
         }
 
-        public static string ExecuteEnergyLance(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityEnergyLance props, Dictionary<string, string> parsed = null)
+        public static string ExecuteEnergyLance(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityEnergyLance props, Dictionary<string, object> parsed = null)
         {
             ThingDef lanceDef = props.energyLanceDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("EnergyLance");
             if (lanceDef == null) return $"Error: Could not resolve EnergyLance ThingDef for '{def.defName}'.";
@@ -135,7 +136,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         
         public static string ExecuteEnergyLanceDirect(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityEnergyLance props, float angle)
         {
-             var dict = new Dictionary<string, string> { { "angle", angle.ToString() } };
+             var dict = new Dictionary<string, object> { { "angle", angle } };
              return ExecuteEnergyLance(map, targetCell, def, props, dict);
         }
 
@@ -166,7 +167,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
         // --- Helpers ---
 
-        private static void ParseDirectionInfo(Dictionary<string, string> parsed, IntVec3 startPos, float moveDistance, bool useFixedDistance, out Vector3 direction, out IntVec3 endPos)
+        private static void ParseDirectionInfo(Dictionary<string, object> parsed, IntVec3 startPos, float moveDistance, bool useFixedDistance, out Vector3 direction, out IntVec3 endPos)
         {
             direction = Vector3.forward;
             endPos = startPos;
@@ -178,7 +179,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 return;
             }
 
-            if (parsed.TryGetValue("angle", out var angleStr) && float.TryParse(angleStr, out float angle))
+            if (TryGetFloat(parsed, "angle", out float angle))
             {
                 direction = Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
                 endPos = (startPos.ToVector3() + direction * moveDistance).ToIntVec3();
@@ -204,19 +205,18 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             }
         }
 
-        private static bool TryParseDirectionCell(Dictionary<string, string> parsed, out IntVec3 cell)
+        private static bool TryParseDirectionCell(Dictionary<string, object> parsed, out IntVec3 cell)
         {
             cell = IntVec3.Invalid;
             if (parsed == null) return false;
 
-            if (parsed.TryGetValue("dirX", out var xStr) && parsed.TryGetValue("dirZ", out var zStr) &&
-                int.TryParse(xStr, out int x) && int.TryParse(zStr, out int z))
+            if (TryGetInt(parsed, "dirX", out int x) && TryGetInt(parsed, "dirZ", out int z))
             {
                 cell = new IntVec3(x, 0, z);
                 return true;
             }
             
-            if (parsed.TryGetValue("direction", out var dirStr) && !string.IsNullOrWhiteSpace(dirStr))
+            if (TryGetString(parsed, "direction", out var dirStr) && !string.IsNullOrWhiteSpace(dirStr))
             {
                  var parts = dirStr.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                  if (parts.Length >= 2 && int.TryParse(parts[0], out int dx) && int.TryParse(parts[1], out int dz))
@@ -424,6 +424,92 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             }
 
             return sortedRows;
+        }
+
+        private static bool TryGetString(Dictionary<string, object> parsed, string key, out string value)
+        {
+            value = null;
+            if (parsed == null || string.IsNullOrWhiteSpace(key)) return false;
+            if (!parsed.TryGetValue(key, out object raw) || raw == null) return false;
+            value = Convert.ToString(raw, CultureInfo.InvariantCulture);
+            return !string.IsNullOrWhiteSpace(value);
+        }
+
+        private static bool TryGetInt(Dictionary<string, object> parsed, string key, out int value)
+        {
+            value = 0;
+            if (!TryGetNumber(parsed, key, out double number)) return false;
+            value = (int)Math.Round(number);
+            return true;
+        }
+
+        private static bool TryGetFloat(Dictionary<string, object> parsed, string key, out float value)
+        {
+            value = 0f;
+            if (!TryGetNumber(parsed, key, out double number)) return false;
+            value = (float)number;
+            return true;
+        }
+
+        private static bool TryGetBool(Dictionary<string, object> parsed, string key, out bool value)
+        {
+            value = false;
+            if (parsed == null || string.IsNullOrWhiteSpace(key)) return false;
+            if (!parsed.TryGetValue(key, out object raw) || raw == null) return false;
+            if (raw is bool b)
+            {
+                value = b;
+                return true;
+            }
+            if (raw is string s && bool.TryParse(s, out bool parsedBool))
+            {
+                value = parsedBool;
+                return true;
+            }
+            if (raw is long l)
+            {
+                value = l != 0;
+                return true;
+            }
+            if (raw is double d)
+            {
+                value = Math.Abs(d) > 0.0001;
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryGetNumber(Dictionary<string, object> parsed, string key, out double value)
+        {
+            value = 0;
+            if (parsed == null || string.IsNullOrWhiteSpace(key)) return false;
+            if (!parsed.TryGetValue(key, out object raw) || raw == null) return false;
+            if (raw is double d)
+            {
+                value = d;
+                return true;
+            }
+            if (raw is float f)
+            {
+                value = f;
+                return true;
+            }
+            if (raw is int i)
+            {
+                value = i;
+                return true;
+            }
+            if (raw is long l)
+            {
+                value = l;
+                return true;
+            }
+            if (raw is string s && double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out double parsedNum))
+            {
+                value = parsedNum;
+                return true;
+            }
+            return false;
         }
     }
 }

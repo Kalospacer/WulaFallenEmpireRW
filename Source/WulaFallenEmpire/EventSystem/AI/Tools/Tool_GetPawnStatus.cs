@@ -11,16 +11,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "get_pawn_status";
         public override string Description => "Returns detailed status (health, needs, gear) of specified pawns. Use this to check for sickness, injuries, mood, or equipment. Can filter by name, category (colonist/animal/prisoner/guest), or status (sick/injured).";
-        public override string UsageSchema => "<get_pawn_status><name>optional_partial_name</name><category>colonist/animal/prisoner/guest/all (default: all)</category><filter>sick/injured/downed/dead (optional)</filter></get_pawn_status>";
+        public override string UsageSchema => "{\"name\":\"optional\",\"category\":\"colonist\",\"filter\":\"sick\"}";
 
         public override string Execute(string args)
         {
             try
             {
-                var parsed = ParseXmlArgs(args);
-                string nameTarget = parsed.TryGetValue("name", out string n) ? n.ToLower() : null;
-                string category = parsed.TryGetValue("category", out string c) ? c.ToLower() : "all";
-                string filter = parsed.TryGetValue("filter", out string f) ? f.ToLower() : null;
+                var parsed = ParseJsonArgs(args);
+                string nameTarget = TryGetString(parsed, "name", out string n) ? n.ToLower() : null;
+                string category = TryGetString(parsed, "category", out string c) ? c.ToLower() : "all";
+                string filter = TryGetString(parsed, "filter", out string f) ? f.ToLower() : null;
 
                 Map map = Find.CurrentMap;
                 if (map == null) return "Error: No active map.";

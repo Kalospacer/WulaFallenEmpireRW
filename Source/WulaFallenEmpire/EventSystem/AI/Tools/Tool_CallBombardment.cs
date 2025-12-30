@@ -13,21 +13,21 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "call_bombardment";
         public override string Description => "Calls orbital bombardment/support using an AbilityDef configuration (e.g., WULA_Firepower_Cannon_Salvo, WULA_Firepower_EnergyLance_Strafe). Supports Circular Bombardment, Strafe, Energy Lance, and Surveillance.";
-        public override string UsageSchema => "<call_bombardment><abilityDef>string</abilityDef><x>int</x><z>int</z><cell>x,z</cell><direction>x,z (optional)</direction><angle>degrees (optional)</angle><filterFriendlyFire>true/false</filterFriendlyFire></call_bombardment>";
+        public override string UsageSchema => "{\"abilityDef\":\"WULA_Firepower_Cannon_Salvo\",\"x\":12,\"z\":34,\"direction\":\"20,30\",\"angle\":90,\"filterFriendlyFire\":true}";
 
         public override string Execute(string args)
         {
             try
             {
-                var parsed = ParseXmlArgs(args);
+                var parsed = ParseJsonArgs(args);
 
-                string abilityDefName = parsed.TryGetValue("abilityDef", out var abilityStr) && !string.IsNullOrWhiteSpace(abilityStr)
+                string abilityDefName = TryGetString(parsed, "abilityDef", out var abilityStr) && !string.IsNullOrWhiteSpace(abilityStr)
                     ? abilityStr.Trim()
                     : "WULA_Firepower_Cannon_Salvo";
 
                 if (!TryParseTargetCell(parsed, out var targetCell))
                 {
-                    return "Error: Missing target coordinates. Provide <x> and <z> (or <cell>x,z</cell>).";
+                    return "Error: Missing target coordinates. Provide 'x' and 'z' (or 'cell' formatted as 'x,z').";
                 }
 
                 Map map = Find.CurrentMap;
@@ -58,18 +58,17 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             }
         }
         
-        private static bool TryParseTargetCell(Dictionary<string, string> parsed, out IntVec3 cell)
+        private static bool TryParseTargetCell(Dictionary<string, object> parsed, out IntVec3 cell)
         {
             cell = IntVec3.Invalid;
 
-            if (parsed.TryGetValue("x", out var xStr) && parsed.TryGetValue("z", out var zStr) &&
-                int.TryParse(xStr, out int x) && int.TryParse(zStr, out int z))
+            if (TryGetInt(parsed, "x", out int x) && TryGetInt(parsed, "z", out int z))
             {
                 cell = new IntVec3(x, 0, z);
                 return true;
             }
 
-            if (parsed.TryGetValue("cell", out var cellStr) && !string.IsNullOrWhiteSpace(cellStr))
+            if (TryGetString(parsed, "cell", out var cellStr) && !string.IsNullOrWhiteSpace(cellStr))
             {
                 var parts = cellStr.Split(new[] { ',', '\uFF0C', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length >= 2 && int.TryParse(parts[0], out int cx) && int.TryParse(parts[1], out int cz))

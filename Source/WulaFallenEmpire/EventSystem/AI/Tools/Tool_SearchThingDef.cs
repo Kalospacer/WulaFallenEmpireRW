@@ -11,18 +11,18 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "search_thing_def";
         public override string Description => "Rough-searches RimWorld ThingDefs by natural language (label/defName). Returns candidate defNames so you can use them in other tools like spawn_resources.";
-        public override string UsageSchema => "<search_thing_def><query>string</query><maxResults>int (optional, default 10)</maxResults><itemsOnly>true/false (optional, default true)</itemsOnly></search_thing_def>";
+        public override string UsageSchema => "{\"query\":\"Steel\",\"maxResults\":10,\"itemsOnly\":true}";
 
         public override string Execute(string args)
         {
             try
             {
-                var parsed = ParseXmlArgs(args);
+                var parsed = ParseJsonArgs(args);
                 string query = null;
-                if (parsed.TryGetValue("query", out string q)) query = q;
+                if (TryGetString(parsed, "query", out string q)) query = q;
                 if (string.IsNullOrWhiteSpace(query))
                 {
-                    if (!string.IsNullOrWhiteSpace(args) && !args.Trim().StartsWith("<"))
+                    if (!string.IsNullOrWhiteSpace(args) && !LooksLikeJson(args))
                     {
                         query = args;
                     }
@@ -34,16 +34,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 }
 
                 int maxResults = 10;
-                if (parsed.TryGetValue("maxResults", out string maxStr) && int.TryParse(maxStr, out int mr))
-                {
-                    maxResults = Math.Max(1, Math.Min(50, mr));
-                }
+                if (TryGetInt(parsed, "maxResults", out int mr)) maxResults = Math.Max(1, Math.Min(50, mr));
 
                 bool itemsOnly = true;
-                if (parsed.TryGetValue("itemsOnly", out string itemsOnlyStr) && bool.TryParse(itemsOnlyStr, out bool parsedItemsOnly))
-                {
-                    itemsOnly = parsedItemsOnly;
-                }
+                if (TryGetBool(parsed, "itemsOnly", out bool parsedItemsOnly)) itemsOnly = parsedItemsOnly;
 
                 var candidates = ThingDefSearcher.Search(query, maxResults: maxResults, itemsOnly: itemsOnly, minScore: 0.15f);
                 if (candidates.Count == 0)
@@ -91,4 +85,3 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         }
     }
 }
-

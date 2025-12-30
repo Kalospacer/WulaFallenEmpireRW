@@ -9,17 +9,17 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "remember_fact";
         public override string Description => "Stores a specific fact or piece of information into the AI's long-term memory for future retrieval.";
-        public override string UsageSchema => "<remember_fact><fact>Text content to remember</fact><category>optional_category</category></remember_fact>";
+        public override string UsageSchema => "{\"fact\":\"...\",\"category\":\"misc\"}";
 
         public override string Execute(string args)
         {
-            var argsDict = ParseXmlArgs(args);
-            if (!argsDict.TryGetValue("fact", out string fact) || string.IsNullOrWhiteSpace(fact))
+            var argsDict = ParseJsonArgs(args);
+            if (!TryGetString(argsDict, "fact", out string fact) || string.IsNullOrWhiteSpace(fact))
             {
-                return "Error: <fact> content is required.";
+                return "Error: 'fact' content is required.";
             }
 
-            string category = argsDict.TryGetValue("category", out string cat) ? cat : "misc";
+            string category = TryGetString(argsDict, "category", out string cat) ? cat : "misc";
 
             var memoryManager = Find.World?.GetComponent<AIMemoryManager>();
             if (memoryManager == null)

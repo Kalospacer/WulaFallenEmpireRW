@@ -16,26 +16,25 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                                               "You must specify the prefabDefName (e.g., 'WULA_NewColonyBase') and the coordinates (x, z). " +
                                               "TIP: Use the 'get_available_prefabs' tool first to see which structures are available. " +
                                               "The default skyfaller animation is 'WULA_Prefab_Incoming'.";
-        public override string UsageSchema => "<call_prefab_airdrop><prefabDefName>DefName of the prefab</prefabDefName><skyfallerDef>Optional, default is WULA_Prefab_Incoming</skyfallerDef><x>int</x><z>int</z></call_prefab_airdrop>";
+        public override string UsageSchema => "{\"prefabDefName\":\"WULA_NewColonyBase\",\"skyfallerDef\":\"WULA_Prefab_Incoming\",\"x\":10,\"z\":20}";
 
         public override string Execute(string args)
         {
             try
             {
-                var parsed = ParseXmlArgs(args);
+                var parsed = ParseJsonArgs(args);
 
-                if (!parsed.TryGetValue("prefabDefName", out string prefabDefName) || string.IsNullOrWhiteSpace(prefabDefName))
+                if (!TryGetString(parsed, "prefabDefName", out string prefabDefName) || string.IsNullOrWhiteSpace(prefabDefName))
                 {
-                    return "Error: Missing <prefabDefName>. Example: <prefabDefName>WULA_NewColonyBase</prefabDefName>";
+                    return "Error: Missing 'prefabDefName'.";
                 }
 
-                if (!parsed.TryGetValue("x", out string xStr) || !int.TryParse(xStr, out int x) ||
-                    !parsed.TryGetValue("z", out string zStr) || !int.TryParse(zStr, out int z))
+                if (!TryGetInt(parsed, "x", out int x) || !TryGetInt(parsed, "z", out int z))
                 {
-                    return "Error: Missing or invalid target coordinates. Provide <x> and <z>.";
+                    return "Error: Missing or invalid target coordinates. Provide 'x' and 'z'.";
                 }
 
-                string skyfallerDefName = parsed.TryGetValue("skyfallerDef", out string sd) && !string.IsNullOrWhiteSpace(sd)
+                string skyfallerDefName = TryGetString(parsed, "skyfallerDef", out string sd) && !string.IsNullOrWhiteSpace(sd)
                     ? sd.Trim()
                     : "WULA_Prefab_Incoming";
 
@@ -62,7 +61,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 // Auto-Scan for valid position
                 IntVec3 validCell = targetCell;
                 bool foundSpot = false;
-                
+
                 // Get prefab size from its size field. If not set, default to 1x1 (though prefabs are usually larger)
                 IntVec2 size = prefabDef.size;
 
@@ -70,7 +69,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 bool IsPositionValid(IntVec3 center, Map m, IntVec2 s)
                 {
                     if (!center.InBounds(m)) return false;
-                    
+
                     CellRect rect = GenAdj.OccupiedRect(center, Rot4.North, s);
                     if (!rect.InBounds(m)) return false;
 
@@ -97,7 +96,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 }
                 else
                 {
-                    // Spiral scan for a nearby valid spot. 
+                    // Spiral scan for a nearby valid spot.
                     // Radius ~20 should be enough to find a spot without deviating too far.
                     foreach (IntVec3 c in GenRadial.RadialCellsAround(targetCell, 20f, useCenter: false))
                     {
@@ -112,12 +111,12 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
                 if (!foundSpot)
                 {
-                   return $"Error: Could not find a valid clear space for '{prefabDefName}' (Size: {size.x}x{size.z}) near {targetCell}. Area may be blocked by thick roofs, water, or other buildings.";
+                    return $"Error: Could not find a valid clear space for '{prefabDefName}' (Size: {size.x}x{size.z}) near {targetCell}. Area may be blocked by thick roofs, water, or other buildings.";
                 }
 
                 // Spawning must happen on main thread
                 string resultMessage = $"Success: Scheduled airdrop for '{prefabDefName}' at valid position {validCell} (adjusted from {targetCell}) using {skyfallerDefName}.";
-                
+
                 // Use the found valid cell
                 string pDef = prefabDefName;
                 ThingDef sDef = skyfallerDef;

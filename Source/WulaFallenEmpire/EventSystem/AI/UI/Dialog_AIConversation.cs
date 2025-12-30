@@ -8,6 +8,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using WulaFallenEmpire.EventSystem.AI;
+using WulaFallenEmpire.EventSystem.AI.Utils;
 using System.Text.RegularExpressions;
 
 namespace WulaFallenEmpire.EventSystem.AI.UI
@@ -431,8 +432,14 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         {
             if (string.IsNullOrEmpty(rawResponse)) return "";
             string text = rawResponse;
-            text = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*>.*?</\1>", "", RegexOptions.Singleline);
-            text = Regex.Replace(text, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
+            if (JsonToolCallParser.TryParseToolCallsFromText(text, out _, out string fragment) && !string.IsNullOrWhiteSpace(fragment))
+            {
+                int index = text.IndexOf(fragment, StringComparison.Ordinal);
+                if (index >= 0)
+                {
+                    text = text.Remove(index, fragment.Length);
+                }
+            }
             text = ExpressionTagRegex.Replace(text, "");
             text = text.Trim();
             return text.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();

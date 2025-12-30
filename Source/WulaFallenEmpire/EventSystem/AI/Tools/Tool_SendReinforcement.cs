@@ -103,7 +103,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             return false;
         }
 
-        public override string UsageSchema => "<send_reinforcement><units>string (e.g., 'Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5')</units></send_reinforcement>";
+        public override string UsageSchema => "{\"units\": \"Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5\"}";
 
         public override string Execute(string args)
         {
@@ -116,20 +116,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 if (faction == null) return "Error: Faction Wula_PIA_Legion_Faction not found.";
 
                 // Parse args
-                var parsedArgs = ParseXmlArgs(args);
+                var parsedArgs = ParseJsonArgs(args);
                 string unitString = "";
                 
-                if (parsedArgs.TryGetValue("units", out string units))
+                if (TryGetString(parsedArgs, "units", out string units))
                 {
                     unitString = units;
                 }
-                else
+                else if (!LooksLikeJson(args))
                 {
-                    // Fallback
-                    if (!args.Trim().StartsWith("<"))
-                    {
-                        unitString = args;
-                    }
+                    unitString = args;
                 }
 
                 var unitPairs = unitString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

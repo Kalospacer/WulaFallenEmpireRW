@@ -8,32 +8,21 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "modify_goodwill";
         public override string Description => "Adjusts YOUR internal opinion of the player (AI Goodwill). WARNING: This DOES NOT affect Faction Relations or stop raids. It is purely personal. Do NOT use this to try to stop enemies.";
-        public override string UsageSchema => "<modify_goodwill><amount>integer</amount></modify_goodwill>";
+        public override string UsageSchema => "{\"amount\": 1}";
 
         public override string Execute(string args)
         {
             try
             {
-                var parsedArgs = ParseXmlArgs(args);
+                var parsedArgs = ParseJsonArgs(args);
                 int amount = 0;
 
-                if (parsedArgs.TryGetValue("amount", out string amountStr))
-                {
-                    if (!int.TryParse(amountStr, out amount))
-                    {
-                        return $"Error: Invalid amount '{amountStr}'. Must be an integer.";
-                    }
-                }
-                else
+                if (!TryGetInt(parsedArgs, "amount", out amount))
                 {
                     // Fallback for simple number string
-                    if (int.TryParse(args.Trim(), out int val))
+                    if (!int.TryParse(args?.Trim(), out amount))
                     {
-                        amount = val;
-                    }
-                    else
-                    {
-                        return "Error: Missing <amount> parameter.";
+                        return "Error: Missing 'amount' parameter.";
                     }
                 }
 

@@ -11,19 +11,13 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "recall_memories";
         public override string Description => "Searches the AI's long-term memory for facts matching a specific query or keyword.";
-        public override string UsageSchema => "<recall_memories><query>Search keywords</query><limit>optional_int_max_results</limit></recall_memories>";
+        public override string UsageSchema => "{\"query\":\"keywords\",\"limit\":5}";
 
         public override string Execute(string args)
         {
-            var argsDict = ParseXmlArgs(args);
-            string query = argsDict.TryGetValue("query", out string q) ? q : "";
-            string limitStr = argsDict.TryGetValue("limit", out string lStr) ? lStr : "5";
-            
-            int limit = 5;
-            if (int.TryParse(limitStr, out int parsedLimit))
-            {
-                limit = parsedLimit;
-            }
+            var argsDict = ParseJsonArgs(args);
+            string query = TryGetString(argsDict, "query", out string q) ? q : "";
+            int limit = TryGetInt(argsDict, "limit", out int parsedLimit) ? parsedLimit : 5;
 
             var memoryManager = Find.World?.GetComponent<AIMemoryManager>();
             if (memoryManager == null)

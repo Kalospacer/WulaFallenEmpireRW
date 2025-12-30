@@ -12,7 +12,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "get_available_bombardments";
         public override string Description => "Returns a list of available orbital bombardment abilities (AbilityDefs) that can be called. " +
                                               "Use this to find the correct 'abilityDef' for the 'call_bombardment' tool.";
-        public override string UsageSchema => "<get_available_bombardments/>";
+        public override string UsageSchema => "{}";
 
         public override string Execute(string args)
         {

@@ -10,6 +10,7 @@ using UnityEngine;
 using Verse;
 using WulaFallenEmpire;
 using WulaFallenEmpire.EventSystem.AI.Tools;
+using WulaFallenEmpire.EventSystem.AI.Utils;
 
 namespace WulaFallenEmpire.EventSystem.AI
 {
@@ -95,20 +96,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private const string ToolRulesInstruction = @"
 # TOOL USE RULES
-1.  **FORMATTING**: Tool calls MUST use the specified XML format. The tool name is the root tag, and each parameter is a child tag.
-    <tool_name>
-      <parameter_name>value</parameter_name>
-    </tool_name>
+1.  **FORMATTING**: Tool calls MUST be valid JSON using the following schema:
+    { ""tool_calls"": [ { ""type"": ""function"", ""function"": { ""name"": ""tool_name"", ""arguments"": { ... } } } ] }
 2.  **STRICT OUTPUT**:
     - Your output MUST be either:
-      - One or more XML tool calls (no extra text), OR
-      - Exactly: <no_action/>
+      - A JSON object with ""tool_calls"" (may be empty), OR
+      - Exactly: { ""tool_calls"": [] }
     Do NOT include any natural language, explanation, markdown, or additional commentary.
 3.  **MULTI-REQUEST RULE**:
     - If the user requests multiple items or information, you MUST output ALL required tool calls in the SAME tool-phase response.
     - Do NOT split multi-item requests across turns.
 4.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
-5.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, use <no_action/> and proceed to the next phase.";
+5.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""tool_calls"": [] } and proceed to the next phase.";
 
         public AIIntelligenceCore(World world) : base(world)
         {
@@ -668,11 +667,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (!toolsEnabled)
             {
                 return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: You MUST reply in the following language: {language}.\n" +
-                       "IMPORTANT: Tool calls are DISABLED in this turn. Reply in natural language only. Do NOT output any XML. " +
+                       "IMPORTANT: Tool calls are DISABLED in this turn. Reply in natural language only. Do NOT output any tool call JSON. " +
                        "You MAY include [EXPR:n] to set your expression (n=1-6).";
             }
 
-            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: Output XML tool calls only (or <no_action/>). " +
+            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: Output JSON tool calls only (or {\"tool_calls\": []}). " +
                    $"You will produce the natural-language reply later and MUST use: {language}.";
         }
 
@@ -707,7 +706,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                   "- modify_goodwill\n" +
                   "- call_prefab_airdrop\n" +
                   "- set_overwatch_mode\n" +
-                  "If no action is required, output exactly: <no_action/>.\n" +
+                  "If no action is required, output exactly: { \"tool_calls\": [] }.\n" +
                   "Query tools exist but are disabled in this phase (not listed here).\n"
                 : string.Empty;
 
@@ -716,14 +715,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 phaseInstruction += "\n- NATIVE MULTIMODAL: A current screenshot of the game is attached to this request. You can see the game state directly. Use it to determine coordinates for visual tools or to understand the context.";
                 if (phase == RequestPhase.ActionTools)
                 {
-                    phaseInstruction += "\n- VISUAL PHASE RULE: This phase is for ACTIONS only. If you want to describe the screen to the user, wait for the next phase (Reply Phase). Output XML actions only here.";
+                    phaseInstruction += "\n- VISUAL PHASE RULE: This phase is for ACTIONS only. If you want to describe the screen to the user, wait for the next phase (Reply Phase). Output JSON tool calls only here.";
                 }
             }
 
             string actionWhitelist = phase == RequestPhase.ActionTools
-                ? "ACTION PHASE VALID TAGS ONLY:\n" +
-                  "<spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <call_prefab_airdrop>, <set_overwatch_mode>, <remember_fact>, <no_action/>\n" +
-                  "INVALID EXAMPLES (do NOT use now): <get_map_resources/>, <analyze_screen/>, <search_thing_def/>, <search_pawn_kind/>, <recall_memories/>\n"
+                ? "ACTION PHASE VALID TOOLS ONLY:\n" +
+                  "spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop, set_overwatch_mode, remember_fact\n" +
+                  "INVALID EXAMPLES (do NOT use now): get_map_resources, analyze_screen, search_thing_def, search_pawn_kind, recall_memories\n"
                 : string.Empty;
 
             return string.Join("\n\n", new[]
@@ -755,7 +754,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             sb.AppendLine("====");
             sb.AppendLine();
             sb.AppendLine("# TOOLS (AVAILABLE)");
-            sb.AppendLine("Use XML tool calls only, or <no_action/> if no tools are needed.");
+            sb.AppendLine("Use JSON tool calls only, or {\"tool_calls\": []} if no tools are needed.");
             sb.AppendLine();
 
             foreach (var tool in available)
@@ -784,62 +783,58 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     "Goal: Gather info needed for decisions.\n" +
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- Output XML tool calls only, or exactly: <no_action/>.\n" +
+                    "- Output JSON tool calls only, or exactly: {\"tool_calls\": []}.\n" +
                     "- Prefer query tools (get_*/search_*).\n" +
-                    "- CRITICAL: If the user asks for an ITEM (e.g. 'Reviver Mech Serum'), you MUST use <search_thing_def><query>...</query></search_thing_def> to find its exact DefName. NEVER GUESS DefNames.\n" +
+                    "- CRITICAL: If the user asks for an ITEM (e.g. 'Reviver Mech Serum'), you MUST use search_thing_def with {\"query\":\"...\"} to find its exact DefName. NEVER GUESS DefNames.\n" +
                     "- You MAY call multiple tools in one response, but keep it concise.\n" +
                     "- If the user requests multiple items or information, you MUST output ALL required tool calls in this SAME response.\n" +
                     "- Action tools are available in PHASE 2 only; do NOT use them here.\n" +
                     "After this phase, the game will automatically proceed to PHASE 2.\n" +
-                    "Output: XML only.\n",
+                    "Output: JSON only.\n",
                 RequestPhase.ActionTools =>
                     "# PHASE 2/3 (Action Tools)\n" +
                     "Goal: Execute in-game actions based on known info.\n" +
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- Output XML tool calls only, or exactly: <no_action/>.\n" +
+                    "- Output JSON tool calls only, or exactly: {\"tool_calls\": []}.\n" +
                     "- ONLY action tools are accepted in this phase (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop).\n" +
                     "- Query tools (get_*/search_*) will be ignored.\n" +
                     "- Prefer action tools (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill).\n" +
                     "- Avoid queries unless absolutely required.\n" +
-                    "- If no action is required based on query results, output <no_action/>.\n" +
-                    "- If you already executed the needed action earlier this turn, output <no_action/>.\n" +
+                    "- If no action is required based on query results, output {\"tool_calls\": []}.\n" +
+                    "- If you already executed the needed action earlier this turn, output {\"tool_calls\": []}.\n" +
                     "After this phase, the game will automatically proceed to PHASE 3.\n" +
-                    "Output: XML only.\n",
+                    "Output: JSON only.\n",
                 RequestPhase.Reply =>
                     "# PHASE 3/3 (Reply)\n" +
                     "Goal: Reply to the player.\n" +
                     "Rules:\n" +
                     "- Tool calls are DISABLED.\n" +
                     "- You MUST write natural language only.\n" +
-                    "- Do NOT output any XML.\n" +
+                    "- Do NOT output any tool call JSON.\n" +
                     "- If you want to set your expression, include: [EXPR:n] (n=1-6).\n",
                 _ => ""
             };
         }
 
-        private static bool IsXmlToolCall(string response)
+        private static bool IsToolCallJson(string response)
         {
             if (string.IsNullOrWhiteSpace(response)) return false;
-            return Regex.IsMatch(response, @"<(?!/?(i|b|color|size|material)\b)([a-zA-Z0-9_]+)(?:>.*?</\2>|/>)", RegexOptions.Singleline);
+            return JsonToolCallParser.TryParseToolCallsFromText(response, out _, out _);
         }
 
         private static bool IsNoActionOnly(string response)
         {
-            if (string.IsNullOrWhiteSpace(response)) return false;
-            var matches = Regex.Matches(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
-            return matches.Count == 1 &&
-                   matches[0].Groups[1].Value.Equals("no_action", StringComparison.OrdinalIgnoreCase);
+            if (!JsonToolCallParser.TryParseToolCallsFromText(response, out var toolCalls, out _)) return false;
+            return toolCalls.Count == 0;
         }
 
         private static bool HasActionToolCall(string response)
         {
-            if (string.IsNullOrWhiteSpace(response)) return false;
-            var matches = Regex.Matches(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
-            foreach (Match match in matches)
+            if (!JsonToolCallParser.TryParseToolCallsFromText(response, out var toolCalls, out _)) return false;
+            foreach (var call in toolCalls)
             {
-                var toolName = match.Groups[1].Value;
-                if (IsActionToolName(toolName))
+                if (IsActionToolName(call.Name))
                 {
                     return true;
                 }
@@ -850,8 +845,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private static bool ShouldRetryTools(string response)
         {
             if (string.IsNullOrWhiteSpace(response)) return false;
-            return Regex.IsMatch(response, @"<\s*retry_tools\s*/\s*>", RegexOptions.IgnoreCase) ||
-                   Regex.IsMatch(response, @"<\s*retry_tools\s*>", RegexOptions.IgnoreCase);
+            if (!JsonToolCallParser.TryParseObject(response, out var obj)) return false;
+            if (obj.TryGetValue("retry_tools", out object raw) && raw != null)
+            {
+                if (raw is bool b) return b;
+                if (raw is string s && bool.TryParse(s, out bool parsed)) return parsed;
+                if (raw is long l) return l != 0;
+                if (raw is double d) return Math.Abs(d) > 0.0001;
+            }
+            return false;
         }
 
         private static int MaxToolsPerPhase(RequestPhase phase)
@@ -981,7 +983,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
-                // Revert UI filtering: Add assistant messages directly without stripping XML for history context
+                // Revert UI filtering: Add assistant messages directly without stripping tool call JSON for history context
                 filtered.Add(entry);
             }
 
@@ -1480,12 +1482,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return value.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r");
         }
 
-        private static string StripXmlTags(string text)
+        private static string StripToolCallJson(string text)
         {
             if (string.IsNullOrEmpty(text)) return text;
-            string stripped = Regex.Replace(text, @"<(?!/?(i|b|color|size|material)\b)([a-zA-Z0-9_]+)[^>]*>.*?</\2>", "", RegexOptions.Singleline);
-            stripped = Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/>", "");
-            return stripped;
+            if (!JsonToolCallParser.TryParseToolCallsFromText(text, out _, out string fragment))
+            {
+                return text;
+            }
+
+            int index = text.IndexOf(fragment, StringComparison.Ordinal);
+            if (index < 0) return text;
+            string cleaned = text.Remove(index, fragment.Length);
+            return cleaned.Trim();
         }
 
         private string StripExpressionTags(string text)
@@ -1570,7 +1578,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 _currentClient = client;
 
-                // Model-Driven Vision: Start with null image. The model must ask for it using <analyze_screen/> or <capture_screen/> if needed.
+                // Model-Driven Vision: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
                 string base64Image = null;
                 
 
@@ -1588,16 +1596,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
-                if (!IsXmlToolCall(queryResponse))
+                if (!IsToolCallJson(queryResponse))
                 {
                     if (Prefs.DevMode)
                     {
-                        WulaLog.Debug("[WulaAI] Turn 1/3 missing XML; treating as <no_action/>");
+                        WulaLog.Debug("[WulaAI] Turn 1/3 missing JSON tool calls; treating as no_action.");
                     }
-                    queryResponse = "<no_action/>";
+                    queryResponse = "{\"tool_calls\": []}";
                 }
 
-                PhaseExecutionResult queryResult = await ExecuteXmlToolsForPhase(queryResponse, queryPhase);
+                PhaseExecutionResult queryResult = await ExecuteJsonToolsForPhase(queryResponse, queryPhase);
                 
                 // DATA FLOW: If Query Phase captured an image, propagate it to subsequent phases.
                 if (!string.IsNullOrEmpty(queryResult.CapturedImage))
@@ -1613,9 +1621,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     string retryInstruction = persona +
                                               "\n\n# RETRY DECISION\n" +
                                               "No successful tool calls occurred in PHASE 1 (Query).\n" +
-                                              "If you need to use tools in PHASE 1, output exactly: <retry_tools/>.\n" +
-                                              "If you will proceed without actions, output exactly: <no_retry/>.\n" +
-                                              "Output the XML tag only and NOTHING else.\n" +
+                                              "If you need to use tools in PHASE 1, output exactly: {\"retry_tools\": true}.\n" +
+                                              "If you will proceed without actions, output exactly: {\"retry_tools\": false}.\n" +
+                                              "Output JSON only and NOTHING else.\n" +
                                               "\nLast user request:\n" + lastUserMessage;
 
                     string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 256, temperature: 0.1f);
@@ -1628,7 +1636,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                         SetThinkingPhase(1, true);
                         string retryQueryInstruction = GetToolSystemInstruction(queryPhase, !string.IsNullOrEmpty(base64Image)) +
-                                                       "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
+                                                       "\n\n# RETRY\nYou chose to retry. Output JSON tool calls only (or {\"tool_calls\": []}).";
                         string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(queryPhase), maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
                         if (string.IsNullOrEmpty(retryQueryResponse))
                         {
@@ -1636,15 +1644,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             return;
                         }
 
-                        if (!IsXmlToolCall(retryQueryResponse))
+                        if (!IsToolCallJson(retryQueryResponse))
                         {
                             if (Prefs.DevMode)
                             {
-                                WulaLog.Debug("[WulaAI] Retry query phase missing XML; treating as <no_action/>");
+                                WulaLog.Debug("[WulaAI] Retry query phase missing JSON tool calls; treating as no_action.");
                             }
-                            retryQueryResponse = "<no_action/>";
+                            retryQueryResponse = "{\"tool_calls\": []}";
                         }
-                        queryResult = await ExecuteXmlToolsForPhase(retryQueryResponse, queryPhase);
+                        queryResult = await ExecuteJsonToolsForPhase(retryQueryResponse, queryPhase);
                     }
                 }
 
@@ -1665,33 +1673,28 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
-                bool actionHasXml = IsXmlToolCall(actionResponse);
-                bool actionIsNoActionOnly = IsNoActionOnly(actionResponse);
-                bool actionHasActionTool = actionHasXml && HasActionToolCall(actionResponse);
-                if (!actionHasXml || (!actionHasActionTool && !actionIsNoActionOnly))
+                bool actionHasJson = IsToolCallJson(actionResponse);
+                bool actionIsNoActionOnly = actionHasJson && IsNoActionOnly(actionResponse);
+                bool actionHasActionTool = actionHasJson && HasActionToolCall(actionResponse);
+                if (!actionHasJson || (!actionHasActionTool && !actionIsNoActionOnly))
                 {
                     if (Prefs.DevMode)
                     {
-                        WulaLog.Debug("[WulaAI] Turn 2/3 missing XML or no action tool; attempting XML-only conversion.");
+                        WulaLog.Debug("[WulaAI] Turn 2/3 missing JSON or no action tool; attempting JSON-only conversion.");
                     }
-                    string fixInstruction = "# FORMAT FIX (ACTION XML ONLY)\n" +
+                    string fixInstruction = "# FORMAT FIX (ACTION JSON ONLY)\n" +
                                             "Preserve the intent of the previous output.\n" +
-                                            "If the previous output indicates no action is needed or refuses action, output exactly: <no_action/>.\n" +
+                                            "If the previous output indicates no action is needed or refuses action, output exactly: {\"tool_calls\": []}.\n" +
                                             "Do NOT invent new actions.\n" +
-                                            "Output VALID XML tool calls only. No natural language, no commentary.\nIgnore any non-XML text.\n" +
-                                            "Allowed tags: <spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <call_prefab_airdrop>, <no_action/>.\n" +
-                                            "\nAction tool XML formats:\n" +
-                                            "- <spawn_resources><items><item><name>DefName</name><count>Int</count></item></items></spawn_resources>\n" +
-                                            "- <send_reinforcement><units>PawnKindDef: Count, ...</units></send_reinforcement>\n" +
-                                            "- <call_bombardment><abilityDef>DefName</abilityDef><x>Int</x><z>Int</z></call_bombardment>\n" +
-                                            "- <modify_goodwill><amount>Int</amount></modify_goodwill>\n" +
-                                            "- <call_prefab_airdrop><prefabDefName>DefName</prefabDefName><x>Int</x><z>Int</z></call_prefab_airdrop>\n" +
+                                            "Output VALID JSON tool calls only. No natural language, no commentary.\nIgnore any non-JSON text.\n" +
+                                            "Allowed tools: spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop, set_overwatch_mode, remember_fact.\n" +
+                                            "Schema: {\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}\n" +
                                             "\nPrevious output:\n" + TrimForPrompt(actionResponse, 600);
                     string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, actionContext, maxTokens: 2048, temperature: 0.1f);
-                    bool fixedHasXml = !string.IsNullOrEmpty(fixedResponse) && IsXmlToolCall(fixedResponse);
-                    bool fixedIsNoActionOnly = fixedHasXml && IsNoActionOnly(fixedResponse);
-                    bool fixedHasActionTool = fixedHasXml && HasActionToolCall(fixedResponse);
-                    if (fixedHasXml && (fixedHasActionTool || fixedIsNoActionOnly))
+                    bool fixedHasJson = !string.IsNullOrEmpty(fixedResponse) && IsToolCallJson(fixedResponse);
+                    bool fixedIsNoActionOnly = fixedHasJson && IsNoActionOnly(fixedResponse);
+                    bool fixedHasActionTool = fixedHasJson && HasActionToolCall(fixedResponse);
+                    if (fixedHasJson && (fixedHasActionTool || fixedIsNoActionOnly))
                     {
                         actionResponse = fixedResponse;
                     }
@@ -1699,12 +1702,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     {
                         if (Prefs.DevMode)
                         {
-                            WulaLog.Debug("[WulaAI] Turn 2/3 conversion failed; treating as <no_action/>");
+                            WulaLog.Debug("[WulaAI] Turn 2/3 conversion failed; treating as no_action.");
                         }
-                        actionResponse = "<no_action/>";
+                        actionResponse = "{\"tool_calls\": []}";
                     }
                 }
-                PhaseExecutionResult actionResult = await ExecuteXmlToolsForPhase(actionResponse, actionPhase);
+                PhaseExecutionResult actionResult = await ExecuteJsonToolsForPhase(actionResponse, actionPhase);
                 if (!actionResult.AnyActionSuccess && !_actionRetryUsed)
                 {
                     _actionRetryUsed = true;
@@ -1713,9 +1716,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     string retryInstruction = persona +
                                               "\n\n# RETRY DECISION\n" +
                                               "No successful action tools occurred in PHASE 2 (Action).\n" +
-                                              "If you need to execute an in-game action, output exactly: <retry_tools/>.\n" +
-                                              "If you will proceed without actions, output exactly: <no_retry/>.\n" +
-                                              "Output the XML tag only and NOTHING else.\n" +
+                                              "If you need to execute an in-game action, output exactly: {\"retry_tools\": true}.\n" +
+                                              "If you will proceed without actions, output exactly: {\"retry_tools\": false}.\n" +
+                                              "Output JSON only and NOTHING else.\n" +
                                               "\nLast user request:\n" + lastUserMessage;
 
                     string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 256, temperature: 0.1f);
@@ -1728,7 +1731,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                         SetThinkingPhase(2, true);
                         string retryActionInstruction = GetToolSystemInstruction(actionPhase, !string.IsNullOrEmpty(base64Image)) +
-                                                         "\n\n# RETRY\nYou chose to retry. Output XML tool calls only (or <no_action/>).";
+                                                         "\n\n# RETRY\nYou chose to retry. Output JSON tool calls only (or {\"tool_calls\": []}).";
                         var retryActionContext = BuildToolContext(actionPhase, includeUser: true);
                         string retryActionResponse = await client.GetChatCompletionAsync(retryActionInstruction, retryActionContext, maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
                         if (string.IsNullOrEmpty(retryActionResponse))
@@ -1737,30 +1740,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             return;
                         }
 
-                        if (!IsXmlToolCall(retryActionResponse))
+                        if (!IsToolCallJson(retryActionResponse))
                         {
                             if (Prefs.DevMode)
                             {
-                                WulaLog.Debug("[WulaAI] Retry action phase missing XML; attempting XML-only conversion.");
+                                WulaLog.Debug("[WulaAI] Retry action phase missing JSON; attempting JSON-only conversion.");
                             }
-                            string retryFixInstruction = "# FORMAT FIX (ACTION XML ONLY)\n" +
+                            string retryFixInstruction = "# FORMAT FIX (ACTION JSON ONLY)\n" +
                                                         "Preserve the intent of the previous output.\n" +
-                                                        "If the previous output indicates no action is needed or refuses action, output exactly: <no_action/>.\n" +
+                                                        "If the previous output indicates no action is needed or refuses action, output exactly: {\"tool_calls\": []}.\n" +
                                                         "Do NOT invent new actions.\n" +
-                                                        "Output VALID XML tool calls only. No natural language, no commentary.\nIgnore any non-XML text.\n" +
-                                                        "Allowed tags: <spawn_resources>, <send_reinforcement>, <call_bombardment>, <modify_goodwill>, <call_prefab_airdrop>, <no_action/>.\n" +
-                                                        "\nAction tool XML formats:\n" +
-                                                        "- <spawn_resources><items><item><name>DefName</name><count>Int</count></item></items></spawn_resources>\n" +
-                                                        "- <send_reinforcement><units>PawnKindDef: Count, ...</units></send_reinforcement>\n" +
-                                                        "- <call_bombardment><abilityDef>DefName</abilityDef><x>Int</x><z>Int</z></call_bombardment>\n" +
-                                                        "- <modify_goodwill><amount>Int</amount></modify_goodwill>\n" +
-                                                        "- <call_prefab_airdrop><prefabDefName>DefName</prefabDefName><x>Int</x><z>Int</z></call_prefab_airdrop>\n" +
+                                                        "Output VALID JSON tool calls only. No natural language, no commentary.\nIgnore any non-JSON text.\n" +
+                                                        "Allowed tools: spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop, set_overwatch_mode, remember_fact.\n" +
+                                                        "Schema: {\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}\n" +
                                                         "\nPrevious output:\n" + TrimForPrompt(retryActionResponse, 600);
                             string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 2048, temperature: 0.1f);
-                            bool retryFixedHasXml = !string.IsNullOrEmpty(retryFixedResponse) && IsXmlToolCall(retryFixedResponse);
-                            bool retryFixedIsNoActionOnly = retryFixedHasXml && IsNoActionOnly(retryFixedResponse);
-                            bool retryFixedHasActionTool = retryFixedHasXml && HasActionToolCall(retryFixedResponse);
-                            if (retryFixedHasXml && (retryFixedHasActionTool || retryFixedIsNoActionOnly))
+                            bool retryFixedHasJson = !string.IsNullOrEmpty(retryFixedResponse) && IsToolCallJson(retryFixedResponse);
+                            bool retryFixedIsNoActionOnly = retryFixedHasJson && IsNoActionOnly(retryFixedResponse);
+                            bool retryFixedHasActionTool = retryFixedHasJson && HasActionToolCall(retryFixedResponse);
+                            if (retryFixedHasJson && (retryFixedHasActionTool || retryFixedIsNoActionOnly))
                             {
                                 retryActionResponse = retryFixedResponse;
                             }
@@ -1768,13 +1766,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             {
                                 if (Prefs.DevMode)
                                 {
-                                    WulaLog.Debug("[WulaAI] Retry action conversion failed; treating as <no_action/>");
+                                    WulaLog.Debug("[WulaAI] Retry action conversion failed; treating as no_action.");
                                 }
-                                retryActionResponse = "<no_action/>";
+                                retryActionResponse = "{\"tool_calls\": []}";
                             }
                         }
 
-                        actionResult = await ExecuteXmlToolsForPhase(retryActionResponse, actionPhase);
+                        actionResult = await ExecuteJsonToolsForPhase(retryActionResponse, actionPhase);
                     }
                 }
 
@@ -1826,29 +1824,29 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
-                bool replyHadXml = IsXmlToolCall(reply);
-                string strippedReply = StripXmlTags(reply)?.Trim() ?? "";
-                if (replyHadXml || string.IsNullOrWhiteSpace(strippedReply))
+                bool replyHadToolCalls = IsToolCallJson(reply);
+                string strippedReply = StripToolCallJson(reply)?.Trim() ?? "";
+                if (replyHadToolCalls || string.IsNullOrWhiteSpace(strippedReply))
                 {
                     string retryReplyInstruction = replyInstruction +
                                                   "\n\n# RETRY (REPLY OUTPUT)\n" +
-                                                  "Your last reply included XML or was empty. Tool calls are DISABLED.\n" +
-                                                  "You MUST reply in natural language only. Do NOT output any XML.\n";
+                                                  "Your last reply included tool call JSON or was empty. Tool calls are DISABLED.\n" +
+                                                  "You MUST reply in natural language only. Do NOT output any tool call JSON.\n";
                     string retryReply = await client.GetChatCompletionAsync(retryReplyInstruction, BuildReplyHistory(), maxTokens: 256, temperature: 0.3f);
                     if (!string.IsNullOrEmpty(retryReply))
                     {
                         reply = retryReply;
-                        replyHadXml = IsXmlToolCall(reply);
-                        strippedReply = StripXmlTags(reply)?.Trim() ?? "";
+                        replyHadToolCalls = IsToolCallJson(reply);
+                        strippedReply = StripToolCallJson(reply)?.Trim() ?? "";
                     }
                 }
 
-                if (replyHadXml)
+                if (replyHadToolCalls)
                 {
-                    string cleaned = StripXmlTags(reply)?.Trim() ?? "";
+                    string cleaned = StripToolCallJson(reply)?.Trim() ?? "";
                     if (string.IsNullOrWhiteSpace(cleaned))
                     {
-                        cleaned = "(system) AI reply returned tool XML only and was discarded. Please retry or send /clear to reset context.";
+                        cleaned = "(system) AI reply returned tool call JSON only and was discarded. Please retry or send /clear to reset context.";
                     }
                     reply = cleaned;
                 }
@@ -1866,7 +1864,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 SetThinkingState(false);
             }
         }
-        private async Task<PhaseExecutionResult> ExecuteXmlToolsForPhase(string xml, RequestPhase phase)
+        private async Task<PhaseExecutionResult> ExecuteJsonToolsForPhase(string json, RequestPhase phase)
         {
             if (phase == RequestPhase.Reply)
             {
@@ -1874,14 +1872,23 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return default;
             }
 
-            string guidance = "ToolRunner Guidance: Reply to the player in natural language only. Do NOT output any XML. You may include [EXPR:n] to set expression (n=1-6).";
+            string guidance = "ToolRunner Guidance: Reply to the player in natural language only. Do NOT output any tool call JSON. You may include [EXPR:n] to set expression (n=1-6).";
 
-            var matches = Regex.Matches(xml ?? "", @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
-
-            if (matches.Count == 0 || (matches.Count == 1 && matches[0].Groups[1].Value.Equals("no_action", StringComparison.OrdinalIgnoreCase)))
+            if (!JsonToolCallParser.TryParseToolCallsFromText(json ?? "", out var toolCalls, out string jsonFragment))
             {
                 UpdatePhaseToolLedger(phase, false, new List<string>());
-                _history.Add(("toolcall", "<no_action/>"));
+                _history.Add(("toolcall", "{\"tool_calls\": []}"));
+                _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
+                PersistHistory();
+                UpdateActionLedgerNote();
+                await Task.CompletedTask;
+                return default;
+            }
+
+            if (toolCalls.Count == 0)
+            {
+                UpdatePhaseToolLedger(phase, false, new List<string>());
+                _history.Add(("toolcall", "{\"tool_calls\": []}"));
                 _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
                 PersistHistory();
                 UpdateActionLedgerNote();
@@ -1897,43 +1904,58 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             var successfulActions = new List<string>();
             var failedActions = new List<string>();
             var nonActionToolsInActionPhase = new List<string>();
+            var historyCalls = new List<Dictionary<string, object>>();
             StringBuilder combinedResults = new StringBuilder();
-            StringBuilder xmlOnlyBuilder = new StringBuilder();
             string capturedImageForPhase = null;
 
             bool countActionSuccessOnly = phase == RequestPhase.ActionTools;
 
-            foreach (Match match in matches)
+            foreach (var call in toolCalls)
             {
                 if (executed >= maxTools)
                 {
-                    combinedResults.AppendLine($"ToolRunner Note: Skipped remaining tools because this phase allows at most {maxTools} tool call(s)." );
+                    combinedResults.AppendLine($"ToolRunner Note: Skipped remaining tools because this phase allows at most {maxTools} tool call(s).");
                     break;
                 }
 
-                string toolCallXml = match.Value;
-                string toolName = match.Groups[1].Value;
-
-                if (toolName.Equals("no_action", StringComparison.OrdinalIgnoreCase))
+                string toolName = call.Name;
+                if (string.IsNullOrWhiteSpace(toolName))
                 {
-                    combinedResults.AppendLine("ToolRunner Note: Ignored <no_action/> because other tool calls were present.");
+                    executed++;
                     continue;
                 }
 
-                if (toolName.Equals("analyze_screen", StringComparison.OrdinalIgnoreCase) || toolName.Equals("capture_screen", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(toolName, "no_action", StringComparison.OrdinalIgnoreCase))
                 {
-                     // Intercept Vision Request: Capture screen and return it.
-                     // We skip the tool's internal execution to save time/tokens, as the purpose is just to get the image into the context.
-                     capturedImageForPhase = ScreenCaptureUtility.CaptureScreenAsBase64();
-                     combinedResults.AppendLine($"Tool '{toolName}' Result: Screen captured successfully. Context updated for next phase.");
-                     successfulToolCall = true;
-                     successfulTools.Add(toolName);
-                     executed++;
-                     continue;
+                    combinedResults.AppendLine("ToolRunner Note: Ignored 'no_action' tool because other tool calls were present.");
+                    executed++;
+                    continue;
                 }
 
-                if (xmlOnlyBuilder.Length > 0) xmlOnlyBuilder.AppendLine().AppendLine();
-                xmlOnlyBuilder.Append(toolCallXml);
+                var historyCall = new Dictionary<string, object>
+                {
+                    ["type"] = "function",
+                    ["function"] = new Dictionary<string, object>
+                    {
+                        ["name"] = toolName,
+                        ["arguments"] = call.Arguments ?? new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase)
+                    }
+                };
+                if (!string.IsNullOrWhiteSpace(call.Id))
+                {
+                    historyCall["id"] = call.Id;
+                }
+                historyCalls.Add(historyCall);
+
+                if (toolName.Equals("analyze_screen", StringComparison.OrdinalIgnoreCase) || toolName.Equals("capture_screen", StringComparison.OrdinalIgnoreCase))
+                {
+                    capturedImageForPhase = ScreenCaptureUtility.CaptureScreenAsBase64();
+                    combinedResults.AppendLine($"Tool '{toolName}' Result: Screen captured successfully. Context updated for next phase.");
+                    successfulToolCall = true;
+                    successfulTools.Add(toolName);
+                    executed++;
+                    continue;
+                }
 
                 if (phase == RequestPhase.ActionTools && IsQueryToolName(toolName))
                 {
@@ -1952,19 +1974,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
-                string argsXml = toolCallXml;
-                var contentMatch = Regex.Match(toolCallXml, $@"<{toolName}>(.*?)</{toolName}>", RegexOptions.Singleline);
-                if (contentMatch.Success)
-                {
-                    argsXml = contentMatch.Groups[1].Value;
-                }
-
+                string argsJson = call.ArgumentsJson ?? "{}";
                 if (Prefs.DevMode)
                 {
-                    WulaLog.Debug($"[WulaAI] Executing tool (phase {phase}): {toolName} with args: {argsXml}");
+                    WulaLog.Debug($"[WulaAI] Executing tool (phase {phase}): {toolName} with args: {argsJson}");
                 }
 
-                string result = (await tool.ExecuteAsync(argsXml)).Trim();
+                string result = (await tool.ExecuteAsync(argsJson)).Trim();
                 bool isError = !string.IsNullOrEmpty(result) && result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase);
                 if (toolName == "modify_goodwill")
                 {
@@ -2009,10 +2025,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 executed++;
             }
 
-            string nonXmlText = StripXmlTags(xml);
-            if (!string.IsNullOrWhiteSpace(nonXmlText))
+            if (!string.IsNullOrWhiteSpace(jsonFragment) && !string.Equals((json ?? "").Trim(), jsonFragment, StringComparison.Ordinal))
             {
-                combinedResults.AppendLine("ToolRunner Note: Non-XML text in the tool phase was ignored.");
+                combinedResults.AppendLine("ToolRunner Note: Non-JSON text in the tool phase was ignored.");
             }
             if (phase == RequestPhase.ActionTools && nonActionToolsInActionPhase.Count > 0)
             {
@@ -2032,8 +2047,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             combinedResults.AppendLine(guidance);
 
-            string xmlOnly = xmlOnlyBuilder.Length == 0 ? "<no_action/>" : xmlOnlyBuilder.ToString().Trim();
-            _history.Add(("toolcall", xmlOnly));
+            string toolCallsJson = historyCalls.Count == 0
+                ? "{\"tool_calls\": []}"
+                : JsonToolCallParser.SerializeToJson(new Dictionary<string, object> { ["tool_calls"] = historyCalls });
+            _history.Add(("toolcall", toolCallsJson));
             _history.Add(("tool", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
             PersistHistory();
 

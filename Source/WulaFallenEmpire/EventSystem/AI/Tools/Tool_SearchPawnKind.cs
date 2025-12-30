@@ -10,18 +10,18 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "search_pawn_kind";
         public override string Description => "Rough-searches PawnKindDefs by natural language (label/defName). Returns candidate defNames for send_reinforcement.";
-        public override string UsageSchema => "<search_pawn_kind><query>string</query><maxResults>int (optional, default 10)</maxResults><minScore>float (optional, default 0.15)</minScore></search_pawn_kind>";
+        public override string UsageSchema => "{\"query\":\"escort\",\"maxResults\":10,\"minScore\":0.15}";
 
         public override string Execute(string args)
         {
             try
             {
-                var parsed = ParseXmlArgs(args);
+                var parsed = ParseJsonArgs(args);
                 string query = null;
-                if (parsed.TryGetValue("query", out string q)) query = q;
+                if (TryGetString(parsed, "query", out string q)) query = q;
                 if (string.IsNullOrWhiteSpace(query))
                 {
-                    if (!string.IsNullOrWhiteSpace(args) && !args.Trim().StartsWith("<"))
+                    if (!string.IsNullOrWhiteSpace(args) && !LooksLikeJson(args))
                     {
                         query = args;
                     }
@@ -33,16 +33,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 }
 
                 int maxResults = 10;
-                if (parsed.TryGetValue("maxResults", out string maxStr) && int.TryParse(maxStr, out int mr))
-                {
-                    maxResults = Math.Max(1, Math.Min(50, mr));
-                }
+                if (TryGetInt(parsed, "maxResults", out int mr)) maxResults = Math.Max(1, Math.Min(50, mr));
 
                 float minScore = 0.15f;
-                if (parsed.TryGetValue("minScore", out string minStr) && float.TryParse(minStr, out float ms))
-                {
-                    minScore = Math.Max(0.01f, Math.Min(1.0f, ms));
-                }
+                if (TryGetFloat(parsed, "minScore", out float ms)) minScore = Math.Max(0.01f, Math.Min(1.0f, ms));
 
                 var candidates = PawnKindDefSearcher.Search(query, maxResults: maxResults, minScore: minScore);
                 if (candidates.Count == 0)

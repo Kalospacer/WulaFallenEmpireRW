@@ -1,23 +1,23 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
     /// <summary>
-    /// VLM 视觉分析工具 - 截取游戏屏幕并使用视觉语言模型分析
+    /// VLM visual analysis tool.
     /// </summary>
     public class Tool_AnalyzeScreen : AITool
     {
         public override string Name => "analyze_screen";
-        
-        public override string Description => 
-            "分析当前游戏屏幕截图。你可以提供具体的指令（instruction）告诉视觉模型你需要观察什么、寻找什么、或者如何描述屏幕。";
-        
-        public override string UsageSchema => 
-            "<analyze_screen><instruction>给视觉模型的具体指令。例如：'找到科研按钮的比例坐标' 或 '描述当前角色的健康状态栏内容'</instruction></analyze_screen>";
-        
-        private const string BaseVisionSystemPrompt = "你是一个专业的老练 RimWorld 助手。你会根据指示分析屏幕截图。保持回答专业且简洁。不要输出 XML 标签，除非被明确要求。";
-        
+
+        public override string Description =>
+            "Analyze the current game screen screenshot. Provide an instruction to guide the analysis.";
+
+        public override string UsageSchema => "{\"instruction\":\"Describe the current screen\"}";
+
+        private const string BaseVisionSystemPrompt = "You are a seasoned RimWorld assistant. Analyze the screenshot per instruction. Keep replies concise. Do not output tool call JSON unless explicitly asked.";
+
         public override async Task<string> ExecuteAsync(string args)
         {
             try
@@ -27,47 +27,43 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             catch (Exception ex)
             {
                 WulaLog.Debug($"[Tool_AnalyzeScreen] Execute error: {ex}");
-                return $"视觉分析出错: {ex.Message}";
+                return $"Vision analysis error: {ex.Message}";
             }
         }
 
-        private async Task<string> ExecuteInternalAsync(string xmlContent)
+        private async Task<string> ExecuteInternalAsync(string jsonContent)
         {
-            var argsDict = ParseXmlArgs(xmlContent);
-            // 优先使用 instruction，兼容旧的 context 参数
-            string instruction = argsDict.TryGetValue("instruction", out var inst) ? inst : 
-                               (argsDict.TryGetValue("context", out var ctx) ? ctx : "描述当前屏幕内容，重点关注 UI 状态和重要实体。");
-            
+            var argsDict = ParseJsonArgs(jsonContent);
+            string instruction = TryGetString(argsDict, "instruction", out var inst) ? inst :
+                               (TryGetString(argsDict, "context", out var ctx) ? ctx : "Describe the current screen, focusing on UI state and key entities.");
+
             try
             {
-                // 检查 VLM 配置
+                // Check VLM settings
                 var settings = WulaFallenEmpireMod.settings;
                 if (settings == null)
                 {
-                    return "Mod 设置未初始化。";
+                    return "Mod settings not initialized.";
                 }
-                
-                // 根据协议选择配置
+
                 string vlmApiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
                 string vlmBaseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
                 string vlmModel = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
-                
+
                 if (string.IsNullOrEmpty(vlmApiKey))
                 {
-                    return "API 密钥未配置。请在 Mod 设置中配置。";
+                    return "API key not configured. Please configure it in Mod settings.";
                 }
-                
-                // 截取屏幕
+
                 string base64Image = ScreenCaptureUtility.CaptureScreenAsBase64();
                 if (string.IsNullOrEmpty(base64Image))
                 {
-                    return "截屏失败，无法分析屏幕。";
+                    return "Screenshot capture failed; cannot analyze screen.";
                 }
-                
-                // 调用 VLM API (使用统一的 GetChatCompletionAsync)
+
                 var client = new SimpleAIClient(vlmApiKey, vlmBaseUrl, vlmModel, settings.useGeminiProtocol);
-                
-                var messages = new System.Collections.Generic.List<(string role, string message)>
+
+                var messages = new List<(string role, string message)>
                 {
                     ("user", instruction)
                 };
@@ -79,18 +75,18 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     temperature: 0.2f,
                     base64Image: base64Image
                 );
-                
+
                 if (string.IsNullOrEmpty(result))
                 {
-                    return "VLM 分析无响应，请检查 API 配置。";
+                    return "Vision analysis produced no response. Check API settings.";
                 }
-                
-                return $"屏幕分析结果: {result.Trim()}";
+
+                return $"Screen analysis result: {result.Trim()}";
             }
             catch (Exception ex)
             {
                 WulaLog.Debug($"[Tool_AnalyzeScreen] Error: {ex}");
-                return $"视觉分析出错: {ex.Message}";
+                return $"Vision analysis error: {ex.Message}";
             }
         }
     }

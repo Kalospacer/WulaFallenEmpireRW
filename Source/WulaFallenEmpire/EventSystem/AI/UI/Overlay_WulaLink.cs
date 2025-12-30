@@ -5,6 +5,7 @@ using UnityEngine;
 using Verse;
 using RimWorld;
 using WulaFallenEmpire.EventSystem.AI;
+using WulaFallenEmpire.EventSystem.AI.Utils;
 
 namespace WulaFallenEmpire.EventSystem.AI.UI
 {
@@ -386,7 +387,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 string displayText = msg.message;
                 if (msg.role == "assistant")
                 {
-                    displayText = StripXmlTags(msg.message)?.Trim() ?? "";
+                    displayText = StripToolCallJson(msg.message)?.Trim() ?? "";
                 }
                 else if (msg.role == "user")
                 {
@@ -476,14 +477,17 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Widgets.EndScrollView();
         }
 
-        private static string StripXmlTags(string text)
+        private static string StripToolCallJson(string text)
         {
             if (string.IsNullOrEmpty(text)) return text;
-            // Remove XML tags with content: <tag>content</tag>
-            string stripped = System.Text.RegularExpressions.Regex.Replace(text, @"<(?!/?(i|b|color|size|material)\b)([a-zA-Z0-9_]+)[^>]*>.*?</\2>", "", System.Text.RegularExpressions.RegexOptions.Singleline);
-            // Remove self-closing tags: <tag/>
-            stripped = System.Text.RegularExpressions.Regex.Replace(stripped, @"<([a-zA-Z0-9_]+)[^>]*/?>", "");
-            return stripped;
+            if (!JsonToolCallParser.TryParseToolCallsFromText(text, out _, out string fragment))
+            {
+                return text;
+            }
+
+            int index = text.IndexOf(fragment, StringComparison.Ordinal);
+            if (index < 0) return text;
+            return text.Remove(index, fragment.Length).Trim();
         }
 
         private void DrawFooter(Rect rect)

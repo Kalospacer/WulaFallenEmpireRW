@@ -12,7 +12,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "get_map_resources";
         public override string Description => "Checks the player's map for specific resources or buildings. Use this to verify if the player is truly lacking something they requested (e.g., 'we need steel'). Returns inventory count and mineable deposits.";
-        public override string UsageSchema => "<get_map_resources><resourceName>string (optional, e.g., 'Steel')</resourceName></get_map_resources>";
+        public override string UsageSchema => "{\"resourceName\":\"Steel\"}";
 
         public override string Execute(string args)
         {
@@ -22,18 +22,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 if (map == null) return "Error: No active map.";
 
                 string resourceName = "";
-                var parsedArgs = ParseXmlArgs(args);
-                if (parsedArgs.TryGetValue("resourceName", out string resName))
+                var parsedArgs = ParseJsonArgs(args);
+                if (TryGetString(parsedArgs, "resourceName", out string resName))
                 {
                     resourceName = resName;
                 }
-                else
+                else if (!LooksLikeJson(args))
                 {
-                    // Fallback
-                    if (!args.Trim().StartsWith("<"))
-                    {
-                        resourceName = args;
-                    }
+                    resourceName = args;
                 }
 
                 StringBuilder sb = new StringBuilder();

@@ -7,6 +7,7 @@ using System.Text;
 using Verse;
 using System.Text.RegularExpressions;
 using WulaFallenEmpire.EventSystem.AI;
+using WulaFallenEmpire.EventSystem.AI.Utils;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
@@ -15,7 +16,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "get_recent_notifications";
         public override string Description => "Returns the most recent letters and messages, sorted by in-game time from newest to oldest.";
         public override string UsageSchema =>
-            "<get_recent_notifications><count>int (optional, default 10, max 100)</count><includeLetters>true/false (optional, default true)</includeLetters><includeMessages>true/false (optional, default true)</includeMessages></get_recent_notifications>";
+            "{\"count\":10,\"includeLetters\":true,\"includeMessages\":true}";
 
         private struct NotificationEntry
         {
@@ -33,21 +34,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 bool includeLetters = true;
                 bool includeMessages = true;
 
-                var parsed = ParseXmlArgs(args);
-                if (parsed.TryGetValue("count", out var countStr) && int.TryParse(countStr, out int parsedCount))
-                {
-                    count = parsedCount;
-                }
-
-                if (parsed.TryGetValue("includeLetters", out var incLettersStr) && bool.TryParse(incLettersStr, out bool parsedLetters))
-                {
-                    includeLetters = parsedLetters;
-                }
-
-                if (parsed.TryGetValue("includeMessages", out var incMessagesStr) && bool.TryParse(incMessagesStr, out bool parsedMessages))
-                {
-                    includeMessages = parsedMessages;
-                }
+                var parsed = ParseJsonArgs(args);
+                if (TryGetInt(parsed, "count", out int parsedCount)) count = parsedCount;
+                if (TryGetBool(parsed, "includeLetters", out bool parsedLetters)) includeLetters = parsedLetters;
+                if (TryGetBool(parsed, "includeMessages", out bool parsedMessages)) includeMessages = parsedMessages;
 
                 count = Math.Max(1, Math.Min(100, count));
 
@@ -116,7 +106,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             var history = core.GetHistorySnapshot();
             if (history == null || history.Count == 0) return "AI Tool History: none found.";
 
-            var entries = new List<(string ToolXml, string ToolResult)>();
+            var entries = new List<(string ToolJson, string ToolResult)>();
             for (int i = history.Count - 1; i >= 0; i--)
             {
                 var entry = history[i];
@@ -126,7 +116,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 for (int j = i - 1; j >= 0; j--)
                 {
                     var prev = history[j];
-                    if (string.Equals(prev.role, "toolcall", StringComparison.OrdinalIgnoreCase) && IsXmlToolCall(prev.message))
+                    if (string.Equals(prev.role, "toolcall", StringComparison.OrdinalIgnoreCase) && IsToolCallJson(prev.message))
                     {
                         entries.Add((prev.message ?? "", toolResult));
                         i = j;
@@ -143,17 +133,17 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             for (int i = 0; i < entries.Count; i++)
             {
                 if (i > 0) sb.AppendLine();
-                sb.AppendLine(entries[i].ToolXml.Trim());
+                sb.AppendLine(entries[i].ToolJson.Trim());
                 sb.AppendLine(entries[i].ToolResult.Trim());
             }
 
             return sb.ToString().TrimEnd();
         }
 
-        private static bool IsXmlToolCall(string response)
+        private static bool IsToolCallJson(string response)
         {
             if (string.IsNullOrWhiteSpace(response)) return false;
-            return Regex.IsMatch(response, @"<([a-zA-Z0-9_]+)(?:>.*?</\1>|/>)", RegexOptions.Singleline);
+            return JsonToolCallParser.TryParseToolCalls(response, out _);
         }
 
         private static IEnumerable<NotificationEntry> ReadLetters(int fallbackNow)

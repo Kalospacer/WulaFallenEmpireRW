@@ -12,7 +12,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "get_map_pawns";
         public override string Description => "Scans the current map and lists pawns (including corpses). Supports filtering by relation (friendly/hostile/neutral), type (colonist/animal/mech/humanlike), and status (prisoner/slave/guest/wild/downed/dead).";
         public override string UsageSchema =>
-            "<get_map_pawns><filter>string (optional, comma-separated: friendly, hostile, neutral, colonist, animal, mech, humanlike, prisoner, slave, guest, wild, downed, dead)</filter><includeDead>true/false (optional, default true)</includeDead><maxResults>int (optional, default 50)</maxResults></get_map_pawns>";
+            "{\"filter\":\"friendly,hostile,colonist\",\"includeDead\":true,\"maxResults\":50}";
 
         private struct MapPawnEntry
         {
@@ -25,22 +25,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         {
             try
             {
-                var parsed = ParseXmlArgs(args);
+                var parsed = ParseJsonArgs(args);
 
                 string filterRaw = null;
-                if (parsed.TryGetValue("filter", out string f)) filterRaw = f;
+                if (TryGetString(parsed, "filter", out string f)) filterRaw = f;
 
                 int maxResults = 50;
-                if (parsed.TryGetValue("maxResults", out string maxStr) && int.TryParse(maxStr, out int mr))
-                {
-                    maxResults = Math.Max(1, Math.Min(200, mr));
-                }
+                if (TryGetInt(parsed, "maxResults", out int mr)) maxResults = Math.Max(1, Math.Min(200, mr));
 
                 bool includeDead = true;
-                if (parsed.TryGetValue("includeDead", out string includeDeadStr) && bool.TryParse(includeDeadStr, out bool parsedIncludeDead))
-                {
-                    includeDead = parsedIncludeDead;
-                }
+                if (TryGetBool(parsed, "includeDead", out bool parsedIncludeDead)) includeDead = parsedIncludeDead;
 
                 Map map = Find.CurrentMap;
                 if (map == null) return "Error: No active map.";
@@ -236,4 +230,3 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         }
     }
 }
-
