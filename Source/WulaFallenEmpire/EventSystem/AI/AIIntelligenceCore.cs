@@ -671,7 +671,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                        "You MAY include [EXPR:n] to set your expression (n=1-6).";
             }
 
-            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: Output JSON tool calls only (or {\"tool_calls\": []}). " +
+            return $"{fullInstruction}\n{goodwillContext}\nIMPORTANT: Output JSON tool calls only (or {{\"tool_calls\": []}}). " +
                    $"You will produce the natural-language reply later and MUST use: {language}.";
         }
 
