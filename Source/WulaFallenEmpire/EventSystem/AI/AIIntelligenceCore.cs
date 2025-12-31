@@ -48,6 +48,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         private bool _actionSuccessfulToolCall;
         private readonly List<string> _actionSuccessLedger = new List<string>();
         private readonly HashSet<string> _actionSuccessLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private readonly HashSet<string> _lastActionStepSignatures = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private readonly List<string> _actionFailedLedger = new List<string>();
         private readonly HashSet<string> _actionFailedLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private SimpleAIClient _currentClient;
@@ -76,6 +77,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             public bool AnyActionSuccess;
             public bool AnyActionError;
             public string CapturedImage;
+            public bool ForceStop;
         }
 
         private struct MemoryFact
@@ -111,7 +113,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     - Do NOT split multi-item requests across turns.
 5.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
 6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""tool_calls"": [] }.
-7.  **WORKFLOW PREFERENCE**: Prefer the flow Query tools → Action tools → Reply. If action results reveal missing info, you MAY return to Query and then Action again.
+7.  **WORKFLOW PREFERENCE**: Prefer the flow Query tools -> Action tools -> Reply. If action results reveal missing info, you MAY return to Query and then Action again.
 8.  **NO TAGS**: Do NOT use <think> tags, code fences, or any extra text outside JSON.";
 
         public AIIntelligenceCore(World world) : base(world)
@@ -322,20 +324,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         /// <summary>
         /// 用于自动评论系统 - 走正常的对话流程（包含完整的思考步骤）
-        /// 让 AI 自己决定是否需要回复
+        /// �?AI 自己决定是否需要回�?
         /// </summary>
         public void SendAutoCommentaryMessage(string eventInfo)
         {
             if (string.IsNullOrWhiteSpace(eventInfo)) return;
 
-            // 标记为自动评论消息，不显示在对话历史中
+            // 标记为自动评论消息，不显示在对话历史�?
             string internalMessage = $"[AUTO_COMMENTARY]\n{eventInfo}";
             
-            // 添加到历史并触发正常的 AI 思考流程
+            // 添加到历史并触发正常�?AI 思考流�?
             _history.Add(("user", internalMessage));
             PersistHistory();
             
-            // 使用正常的分阶段请求流程（包含工具调用能力等）
+            // 使用正常的分阶段请求流程（包含工具调用能力等�?
             _ = RunPhasedRequestAsync();
         }
 
@@ -429,7 +431,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _tools.Add(new Tool_RememberFact());
             _tools.Add(new Tool_RecallMemories());
             
-            // Agent 工具 - 保留画面分析截图能力，移除所有模拟操作工具
+            // Agent 工具 - 保留画面分析截图能力，移除所有模拟操作工�?
             if (WulaFallenEmpireMod.settings?.enableVlmFeatures == true)
             {
                 _tools.Add(new Tool_AnalyzeScreen());
@@ -999,12 +1001,44 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return cleaned.Trim();
         }
 
+        private static string ExtractThoughtFromToolJson(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json)) return null;
+            if (!JsonToolCallParser.TryParseObject(json, out var obj)) return null;
+            if (!obj.TryGetValue("thought", out object raw) || raw == null) return null;
+            string thought = Convert.ToString(raw, CultureInfo.InvariantCulture);
+            return string.IsNullOrWhiteSpace(thought) ? null : thought.Trim();
+        }
+
         private static bool LooksLikeNaturalReply(string response)
         {
             if (string.IsNullOrWhiteSpace(response)) return false;
             string trimmed = response.Trim();
             if (JsonToolCallParser.LooksLikeJson(trimmed)) return false;
             return trimmed.Length >= 4;
+        }
+
+        private static string BuildNarratorInstruction(int step)
+        {
+            string recommendation;
+            if (step <= 1)
+            {
+                recommendation = "Recommended phase: QUERY (use query tools only).";
+            }
+            else if (step % 2 == 0)
+            {
+                recommendation = "Recommended phase: ACTION (use action tools only).";
+            }
+            else
+            {
+                recommendation = "Recommended phase: REPLY. If the task is NOT complete, set follow_recommendation=false and use QUERY tools.";
+            }
+
+            return "# NARRATOR\n" +
+                   $"Step {step}. {recommendation}\n" +
+                   "Question: Do you follow the recommendation?\n" +
+                   "Answer yes/no by adding \"follow_recommendation\": true/false in your JSON.\n" +
+                   "If you choose REPLY, output exactly {\"tool_calls\": []} (you may include thought).\n";
         }
 
         private void AddTraceNote(string note)
@@ -1083,8 +1117,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             if (string.IsNullOrWhiteSpace(message)) return message;
             string sanitized = message;
-            sanitized = Regex.Replace(sanitized, @"Tool\s+'[^']+'\s+Result(?:\s+\(Invisible\))?:", "Query Result:");
-            sanitized = Regex.Replace(sanitized, @"Tool\s+'[^']+'\s+Result\s+\(Invisible\):", "Query Result:");
             sanitized = Regex.Replace(sanitized, @"(?m)^ToolRunner\s+(Guidance|Guard|Note):.*(\r?\n)?", "");
             sanitized = Regex.Replace(sanitized, @"(?m)^\s+$", "");
             sanitized = sanitized.Trim();
@@ -1840,6 +1872,89 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return -1;
         }
 
+        private static string BuildActionSignature(string toolName, Dictionary<string, object> args)
+        {
+            if (string.IsNullOrWhiteSpace(toolName)) return "";
+            string normalizedArgs = args == null ? "{}" : SerializeCanonicalJson(args);
+            return $"{toolName}:{normalizedArgs}";
+        }
+
+        private static string SerializeCanonicalJson(object value)
+        {
+            var sb = new StringBuilder();
+            AppendCanonicalJson(sb, value);
+            return sb.ToString();
+        }
+
+        private static void AppendCanonicalJson(StringBuilder sb, object value)
+        {
+            if (value == null)
+            {
+                sb.Append("null");
+                return;
+            }
+
+            if (value is string s)
+            {
+                sb.Append('"').Append(EscapeJson(s)).Append('"');
+                return;
+            }
+
+            if (value is bool b)
+            {
+                sb.Append(b ? "true" : "false");
+                return;
+            }
+
+            if (value is double d)
+            {
+                sb.Append(d.ToString("0.################", CultureInfo.InvariantCulture));
+                return;
+            }
+
+            if (value is float f)
+            {
+                sb.Append(f.ToString("0.################", CultureInfo.InvariantCulture));
+                return;
+            }
+
+            if (value is int or long or short or byte)
+            {
+                sb.Append(Convert.ToString(value, CultureInfo.InvariantCulture));
+                return;
+            }
+
+            if (value is Dictionary<string, object> dict)
+            {
+                sb.Append('{');
+                bool first = true;
+                foreach (var key in dict.Keys.OrderBy(k => k, StringComparer.OrdinalIgnoreCase))
+                {
+                    if (!first) sb.Append(',');
+                    first = false;
+                    sb.Append('"').Append(EscapeJson(key ?? "")).Append('"').Append(':');
+                    dict.TryGetValue(key, out object child);
+                    AppendCanonicalJson(sb, child);
+                }
+                sb.Append('}');
+                return;
+            }
+
+            if (value is List<object> list)
+            {
+                sb.Append('[');
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (i > 0) sb.Append(',');
+                    AppendCanonicalJson(sb, list[i]);
+                }
+                sb.Append(']');
+                return;
+            }
+
+            sb.Append('"').Append(EscapeJson(Convert.ToString(value, CultureInfo.InvariantCulture) ?? "")).Append('"');
+        }
+
         private static string EscapeJson(string value)
         {
             if (string.IsNullOrEmpty(value)) return "";
@@ -1972,6 +2087,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     SetThinkingPhase(step, false);
 
                     string reactInstruction = GetReactSystemInstruction(!string.IsNullOrEmpty(base64Image));
+                    reactInstruction += "\n\n" + BuildNarratorInstruction(step);
                     var reactContext = BuildReactContext();
                     string response = await client.GetChatCompletionAsync(reactInstruction, reactContext, maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
                     if (string.IsNullOrEmpty(response))
@@ -2032,6 +2148,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             AddTraceNote(traceText);
                         }
                     }
+                    string thoughtNote = ExtractThoughtFromToolJson(jsonFragment) ?? ExtractThoughtFromToolJson(parsedSource);
+                    if (!string.IsNullOrWhiteSpace(thoughtNote))
+                    {
+                        AddTraceNote($"Thought: {thoughtNote}");
+                    }
 
                     var invalidTools = toolCalls
                         .Where(c => !IsToolAvailable(c.Name))
@@ -2081,9 +2202,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             base64Image = stepResult.CapturedImage;
                         }
                         _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
+                        if (stepResult.ForceStop)
+                        {
+                            AddTraceNote("Tool loop stop: duplicate action detected; switching to reply.");
+                            break;
+                        }
                         continue;
                     }
-
                     // No tool calls requested: exit tool loop and generate natural-language reply separately.
                     break;
                 }
@@ -2524,9 +2649,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             int executed = 0;
             bool executedActionTool = false;
             bool successfulToolCall = false;
+            bool repeatedActionAcrossSteps = false;
             var successfulQueryTools = new List<string>();
             var successfulActionTools = new List<string>();
             var failedActionTools = new List<string>();
+            var seenActionSignaturesThisStep = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var successfulActionSignaturesThisStep = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var historyCalls = new List<Dictionary<string, object>>();
             StringBuilder combinedResults = new StringBuilder();
             string capturedImageForStep = null;
@@ -2553,6 +2681,28 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
+                bool isActionTool = IsActionToolName(toolName);
+                string actionSignature = null;
+                if (isActionTool)
+                {
+                    actionSignature = BuildActionSignature(toolName, call.Arguments);
+                    if (!string.IsNullOrWhiteSpace(actionSignature))
+                    {
+                        if (_lastActionStepSignatures.Contains(actionSignature))
+                        {
+                            repeatedActionAcrossSteps = true;
+                            combinedResults.AppendLine($"ToolRunner Guard: Action tool '{toolName}' already executed in the previous action step with the same parameters. Skipping duplicate action call.");
+                            executed++;
+                            continue;
+                        }
+                        if (!seenActionSignaturesThisStep.Add(actionSignature))
+                        {
+                            combinedResults.AppendLine($"ToolRunner Guard: Duplicate '{toolName}' with the same parameters in the same step was skipped.");
+                            executed++;
+                            continue;
+                        }
+                    }
+                }
                 var historyCall = new Dictionary<string, object>
                 {
                     ["type"] = "function",
@@ -2620,12 +2770,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
                 }
 
-                if (IsActionToolName(toolName))
+                if (isActionTool)
                 {
                     executedActionTool = true;
                     if (!isError)
                     {
                         AddActionSuccess(toolName);
+                        if (!string.IsNullOrWhiteSpace(actionSignature))
+                        {
+                            successfulActionSignaturesThisStep.Add(actionSignature);
+                        }
                     }
                     else
                     {
@@ -2637,6 +2791,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 executed++;
             }
 
+            _lastActionStepSignatures.Clear();
+            if (successfulActionSignaturesThisStep.Count > 0)
+            {
+                _lastActionStepSignatures.UnionWith(successfulActionSignaturesThisStep);
+            }
             if (!string.IsNullOrWhiteSpace(jsonFragment) && !string.Equals((json ?? "").Trim(), jsonFragment, StringComparison.Ordinal))
             {
                 combinedResults.AppendLine("ToolRunner Note: Non-JSON text in the tool step was ignored.");
@@ -2657,6 +2816,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 combinedResults.AppendLine("ToolRunner Guard: No action tools executed. You MUST NOT claim any deliveries, reinforcements, bombardments, or other actions.");
             }
+
+            if (repeatedActionAcrossSteps)
+            {
+                combinedResults.AppendLine("ToolRunner Guard: Duplicate action request detected after the previous action step with the same parameters. Tool phase will end; reply next.");
+            }
             combinedResults.AppendLine(guidance);
 
             string toolCallsJson = historyCalls.Count == 0
@@ -2675,7 +2839,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 AnyToolSuccess = successfulToolCall,
                 AnyActionSuccess = successfulActionTools.Count > 0,
                 AnyActionError = failedActionTools.Count > 0,
-                CapturedImage = capturedImageForStep
+                CapturedImage = capturedImageForStep,
+                ForceStop = repeatedActionAcrossSteps
             };
         }
 
@@ -2758,9 +2923,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _actionSuccessfulToolCall = false;
             _actionSuccessLedger.Clear();
             _actionSuccessLedgerSet.Clear();
+            _lastActionStepSignatures.Clear();
             _actionFailedLedger.Clear();
             _actionFailedLedgerSet.Clear();
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
