@@ -24,6 +24,7 @@ namespace WulaFallenEmpire
         public bool commentOnNegativeOnly = false;
         public string extraPersonalityPrompt = "";
         public int reactMaxSteps = 4;
+        public int reactMaxStepsMax = 7;
         public float reactMaxSeconds = 60f;
         public bool showReactTraceInUI = false;
         
@@ -48,6 +49,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref commentOnNegativeOnly, "commentOnNegativeOnly", false);
             Scribe_Values.Look(ref extraPersonalityPrompt, "extraPersonalityPrompt", "");
             Scribe_Values.Look(ref reactMaxSteps, "reactMaxSteps", 4);
+            Scribe_Values.Look(ref reactMaxStepsMax, "reactMaxStepsMax", 7);
             Scribe_Values.Look(ref reactMaxSeconds, "reactMaxSeconds", 60f);
             Scribe_Values.Look(ref showReactTraceInUI, "showReactTraceInUI", false);
             

@@ -113,7 +113,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     - Do NOT split multi-item requests across turns.
 5.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
 6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""tool_calls"": [] }.
-7.  **NO TAGS**: Do NOT use <think> tags, code fences, or any extra text outside JSON.";
+7.  **STEP BUDGET (OPTIONAL)**: You MAY include { ""meta"": { ""step_budget"": <positive integer> } } to request more tool steps for this turn.
+8.  **NO TAGS**: Do NOT use <think> tags, code fences, or any extra text outside JSON.";
 
         public AIIntelligenceCore(World world) : base(world)
         {
@@ -923,14 +924,27 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return false;
         }
 
+        private static int? ExtractStepBudget(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json)) return null;
+            var match = Regex.Match(json, "\"step_budget\"\\s*:\\s*\"?(\\d+)\"?", RegexOptions.IgnoreCase);
+            if (!match.Success) return null;
+            if (int.TryParse(match.Groups[1].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value))
+            {
+                return value;
+            }
+            return null;
+        }
+
         private static string BuildReactFormatFixInstruction(string previousOutput)
         {
             return "# FORMAT FIX (REACT JSON ONLY)\n" +
                    "Output valid JSON with fields thought/tool_calls.\n" +
                    "If tools are needed, tool_calls must be non-empty.\n" +
                    "If no tools are needed, output exactly: {\"tool_calls\": []} (you may include thought).\n" +
+                   "You MAY include an optional meta block: {\"meta\":{\"step_budget\":<positive integer>}}.\n" +
                    "Do NOT output any text outside JSON.\n" +
-                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}\n" +
+                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}],\"meta\":{\"step_budget\":7}}\n" +
                    "\nPrevious output:\n" + TrimForPrompt(previousOutput, 600);
         }
 
@@ -964,8 +978,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    "You used tool names that are NOT available: " + invalidList + "\n" +
                    "Re-emit JSON with only available tools from # TOOLS (AVAILABLE).\n" +
                    "If no tools are needed, output exactly: {\"tool_calls\": []}.\n" +
+                   "You MAY include an optional meta block: {\"meta\":{\"step_budget\":<positive integer>}}.\n" +
                    "Do NOT output any text outside JSON.\n" +
-                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}";
+                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}],\"meta\":{\"step_budget\":7}}";
         }
 
         private static bool ShouldRetryTools(string response)
@@ -1832,13 +1847,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 int maxSteps = DefaultReactMaxSteps;
                 float maxSeconds = DefaultReactMaxSeconds;
 
+                int stepBudgetMax = int.MaxValue;
                 if (settings != null)
                 {
-                    maxSteps = Math.Max(1, Math.Min(10, settings.reactMaxSteps));
-                    maxSeconds = Mathf.Clamp(settings.reactMaxSeconds, 2f, 60f);
+                    stepBudgetMax = Math.Max(1, settings.reactMaxStepsMax);
+                    maxSteps = Math.Max(1, settings.reactMaxSteps);
+                    maxSeconds = Math.Max(2f, settings.reactMaxSeconds);
                 }
                 _thinkingPhaseTotal = maxSteps;
                 string toolPhaseReplyCandidate = null;
+                bool budgetApplied = false;
                 for (int step = 1; step <= maxSteps; step++)
                 {
                     if (Time.realtimeSinceStartup - startTime > maxSeconds)
@@ -1862,6 +1880,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
 
                     string normalizedResponse = NormalizeReactResponse(response);
+                    string parsedSource = normalizedResponse;
                     if (!JsonToolCallParser.TryParseToolCallsFromText(normalizedResponse, out var toolCalls, out string jsonFragment))
                     {
                         if (LooksLikeNaturalReply(normalizedResponse))
@@ -1890,6 +1909,27 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             }
                             break;
                         }
+                        parsedSource = normalizedFixed;
+                    }
+
+                    if (!budgetApplied && !string.IsNullOrWhiteSpace(jsonFragment))
+                    {
+                        string budgetSource = jsonFragment;
+                        int? requested = ExtractStepBudget(budgetSource);
+                        if (!requested.HasValue)
+                        {
+                            requested = ExtractStepBudget(parsedSource);
+                        }
+                        if (requested.HasValue)
+                        {
+                            budgetApplied = true;
+                            int clamped = Math.Max(1, Math.Min(stepBudgetMax, requested.Value));
+                            if (clamped > maxSteps)
+                            {
+                                maxSteps = clamped;
+                                _thinkingPhaseTotal = maxSteps;
+                            }
+                        }
                     }
 
                     var invalidTools = toolCalls
@@ -1907,9 +1947,30 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         string correctionInstruction = BuildReactToolCorrectionInstruction(invalidTools);
                         string correctedResponse = await client.GetChatCompletionAsync(correctionInstruction, reactContext, maxTokens: 1024, temperature: 0.1f, base64Image: base64Image);
                         string normalizedCorrected = NormalizeReactResponse(correctedResponse);
-            if (!string.IsNullOrEmpty(normalizedCorrected) &&
+                        if (!string.IsNullOrEmpty(normalizedCorrected) &&
                             JsonToolCallParser.TryParseToolCallsFromText(normalizedCorrected, out toolCalls, out jsonFragment))
                         {
+                            if (!budgetApplied && !string.IsNullOrWhiteSpace(jsonFragment))
+                            {
+                                string budgetSource = jsonFragment;
+                                int? requested = ExtractStepBudget(budgetSource);
+                                if (!requested.HasValue)
+                                {
+                                    requested = ExtractStepBudget(normalizedCorrected);
+                                }
+                                if (requested.HasValue)
+                                {
+                                    budgetApplied = true;
+                                    int clamped = Math.Max(1, Math.Min(stepBudgetMax, requested.Value));
+                                    if (clamped > maxSteps)
+                                    {
+                                        maxSteps = clamped;
+                                        _thinkingPhaseTotal = maxSteps;
+                                    }
+                                }
+                            }
+                            parsedSource = normalizedCorrected;
+
                             invalidTools = toolCalls
                                 .Where(c => !IsToolAvailable(c.Name))
                                 .Select(c => c.Name)
@@ -2046,7 +2107,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private async Task<PhaseExecutionResult> ExecuteJsonToolsForStep(string json)
         {
             string guidance = "ToolRunner Guidance: Continue with JSON only using {\"thought\":\"...\",\"tool_calls\":[...]}. " +
-                              "If no more tools are needed, output exactly: {\"tool_calls\": []}. Do NOT output any text outside JSON.";
+                              "If no more tools are needed, output exactly: {\"tool_calls\": []}. " +
+                              "You MAY include {\"meta\":{\"step_budget\":<positive integer>}} to request more steps. " +
+                              "Do NOT output any text outside JSON.";
 
             if (!JsonToolCallParser.TryParseToolCallsFromText(json ?? "", out var toolCalls, out string jsonFragment))
             {
