@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RimWorld;
@@ -12,6 +13,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "search_thing_def";
         public override string Description => "Rough-searches RimWorld ThingDefs by natural language (label/defName). Returns candidate defNames so you can use them in other tools like spawn_resources.";
         public override string UsageSchema => "{\"query\":\"Steel\",\"maxResults\":10,\"itemsOnly\":true}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["query"] = SchemaString("Search query.", nullable: true),
+                ["maxResults"] = SchemaInteger("Max candidates to return.", nullable: true),
+                ["itemsOnly"] = SchemaBoolean("Restrict to item defs.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("query", "maxResults", "itemsOnly"));
+        }
 
         public override string Execute(string args)
         {

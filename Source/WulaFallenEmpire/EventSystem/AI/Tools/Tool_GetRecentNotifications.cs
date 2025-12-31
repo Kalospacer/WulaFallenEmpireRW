@@ -17,6 +17,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Description => "Returns the most recent letters and messages, sorted by in-game time from newest to oldest.";
         public override string UsageSchema =>
             "{\"count\":10,\"includeLetters\":true,\"includeMessages\":true}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["count"] = SchemaInteger("Max notifications to return.", nullable: true),
+                ["includeLetters"] = SchemaBoolean("Include letters.", nullable: true),
+                ["includeMessages"] = SchemaBoolean("Include messages.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("count", "includeLetters", "includeMessages"));
+        }
 
         private struct NotificationEntry
         {

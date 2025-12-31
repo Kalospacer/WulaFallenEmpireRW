@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -9,6 +10,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "modify_goodwill";
         public override string Description => "Adjusts YOUR internal opinion of the player (AI Goodwill). WARNING: This DOES NOT affect Faction Relations or stop raids. It is purely personal. Do NOT use this to try to stop enemies.";
         public override string UsageSchema => "{\"amount\": 1}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["amount"] = SchemaInteger("Change in goodwill (-5 to 5).", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("amount"));
+        }
 
         public override string Execute(string args)
         {

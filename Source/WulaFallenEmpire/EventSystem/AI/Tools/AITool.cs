@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Verse;
@@ -13,9 +14,26 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public abstract string Name { get; }
         public abstract string Description { get; }
         public abstract string UsageSchema { get; } // JSON schema description
+        public abstract Dictionary<string, object> GetParametersSchema();
 
         public virtual string Execute(string args) => "Error: Synchronous execution not supported for this tool.";
         public virtual Task<string> ExecuteAsync(string args) => Task.FromResult(Execute(args));
+
+        public virtual Dictionary<string, object> GetFunctionDefinition()
+        {
+            var parameters = GetParametersSchema() ?? SchemaObject(new Dictionary<string, object>(), new string[] { });
+            return new Dictionary<string, object>
+            {
+                ["type"] = "function",
+                ["function"] = new Dictionary<string, object>
+                {
+                    ["name"] = Name ?? "",
+                    ["description"] = Description ?? "",
+                    ["parameters"] = parameters,
+                    ["strict"] = true
+                }
+            };
+        }
 
         /// <summary>
         /// Helper method to parse JSON arguments into a dictionary.
@@ -116,6 +134,64 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             return JsonToolCallParser.LooksLikeJson(input);
         }
 
+        protected static Dictionary<string, object> SchemaString(string description = null, bool nullable = false)
+        {
+            return SchemaPrimitive("string", description, nullable);
+        }
+
+        protected static Dictionary<string, object> SchemaInteger(string description = null, bool nullable = false)
+        {
+            return SchemaPrimitive("integer", description, nullable);
+        }
+
+        protected static Dictionary<string, object> SchemaNumber(string description = null, bool nullable = false)
+        {
+            return SchemaPrimitive("number", description, nullable);
+        }
+
+        protected static Dictionary<string, object> SchemaBoolean(string description = null, bool nullable = false)
+        {
+            return SchemaPrimitive("boolean", description, nullable);
+        }
+
+        protected static Dictionary<string, object> SchemaArray(object itemSchema, string description = null, bool nullable = false)
+        {
+            var schema = new Dictionary<string, object>
+            {
+                ["type"] = nullable ? new List<object> { "array", "null" } : "array",
+                ["items"] = itemSchema
+            };
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                schema["description"] = description;
+            }
+            return schema;
+        }
+
+        protected static Dictionary<string, object> SchemaObject(Dictionary<string, object> properties, IEnumerable<string> required, string description = null, bool nullable = false)
+        {
+            var schema = new Dictionary<string, object>
+            {
+                ["type"] = nullable ? new List<object> { "object", "null" } : "object",
+                ["properties"] = properties ?? new Dictionary<string, object>(),
+                ["additionalProperties"] = false
+            };
+            if (required != null)
+            {
+                schema["required"] = required.Select(r => (object)r).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                schema["description"] = description;
+            }
+            return schema;
+        }
+
+        protected static List<string> RequiredList(params string[] fields)
+        {
+            return fields?.Where(f => !string.IsNullOrWhiteSpace(f)).ToList() ?? new List<string>();
+        }
+
         private static bool TryGetNumber(Dictionary<string, object> args, string key, out double value)
         {
             value = 0;
@@ -147,6 +223,19 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 return true;
             }
             return false;
+        }
+
+        private static Dictionary<string, object> SchemaPrimitive(string type, string description, bool nullable)
+        {
+            var schema = new Dictionary<string, object>
+            {
+                ["type"] = nullable ? new List<object> { type, "null" } : type
+            };
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                schema["description"] = description;
+            }
+            return schema;
         }
     }
 }

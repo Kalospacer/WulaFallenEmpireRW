@@ -10,6 +10,15 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "remember_fact";
         public override string Description => "Stores a specific fact or piece of information into the AI's long-term memory for future retrieval.";
         public override string UsageSchema => "{\"fact\":\"...\",\"category\":\"misc\"}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["fact"] = SchemaString("Fact to store.", nullable: true),
+                ["category"] = SchemaString("Memory category.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("fact", "category"));
+        }
 
         public override string Execute(string args)
         {

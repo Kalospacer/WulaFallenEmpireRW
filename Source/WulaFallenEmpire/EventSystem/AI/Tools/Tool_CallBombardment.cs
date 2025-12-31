@@ -14,6 +14,31 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "call_bombardment";
         public override string Description => "Calls orbital bombardment/support using an AbilityDef configuration (e.g., WULA_Firepower_Cannon_Salvo, WULA_Firepower_EnergyLance_Strafe). Supports Circular Bombardment, Strafe, Energy Lance, and Surveillance.";
         public override string UsageSchema => "{\"abilityDef\":\"WULA_Firepower_Cannon_Salvo\",\"x\":12,\"z\":34,\"direction\":\"20,30\",\"angle\":90,\"filterFriendlyFire\":true}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["abilityDef"] = SchemaString("AbilityDef defName.", nullable: true),
+                ["x"] = SchemaInteger("Target cell X.", nullable: true),
+                ["z"] = SchemaInteger("Target cell Z.", nullable: true),
+                ["cell"] = SchemaString("Target cell formatted as 'x,z'.", nullable: true),
+                ["direction"] = SchemaString("Direction cell 'x,z' for strafes.", nullable: true),
+                ["angle"] = SchemaNumber("Angle for strafe/lance direction.", nullable: true),
+                ["filterFriendlyFire"] = SchemaBoolean("Avoid friendly fire if possible.", nullable: true),
+                ["dirX"] = SchemaInteger("Direction cell X.", nullable: true),
+                ["dirZ"] = SchemaInteger("Direction cell Z.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList(
+                "abilityDef",
+                "x",
+                "z",
+                "cell",
+                "direction",
+                "angle",
+                "filterFriendlyFire",
+                "dirX",
+                "dirZ"));
+        }
 
         public override string Execute(string args)
         {

@@ -13,6 +13,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "get_map_resources";
         public override string Description => "Checks the player's map for specific resources or buildings. Use this to verify if the player is truly lacking something they requested (e.g., 'we need steel'). Returns inventory count and mineable deposits.";
         public override string UsageSchema => "{\"resourceName\":\"Steel\"}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["resourceName"] = SchemaString("Thing label or defName to check.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("resourceName"));
+        }
 
         public override string Execute(string args)
         {

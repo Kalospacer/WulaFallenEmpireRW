@@ -17,6 +17,17 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                                               "TIP: Use the 'get_available_prefabs' tool first to see which structures are available. " +
                                               "The default skyfaller animation is 'WULA_Prefab_Incoming'.";
         public override string UsageSchema => "{\"prefabDefName\":\"WULA_NewColonyBase\",\"skyfallerDef\":\"WULA_Prefab_Incoming\",\"x\":10,\"z\":20}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["prefabDefName"] = SchemaString("PrefabDef defName.", nullable: true),
+                ["skyfallerDef"] = SchemaString("Skyfaller ThingDef defName.", nullable: true),
+                ["x"] = SchemaInteger("Target cell X.", nullable: true),
+                ["z"] = SchemaInteger("Target cell Z.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("prefabDefName", "skyfallerDef", "x", "z"));
+        }
 
         public override string Execute(string args)
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Verse;
 using WulaFallenEmpire.EventSystem.AI;
 
@@ -9,6 +10,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "change_expression";
         public override string Description => "Changes your visual expression/portrait to match your current mood or reaction.";
         public override string UsageSchema => "{\"expression_id\": 2}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["expression_id"] = SchemaInteger("Expression id (1-6).", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("expression_id"));
+        }
 
         public override string Execute(string args)
         {

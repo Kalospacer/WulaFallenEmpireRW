@@ -12,6 +12,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "get_pawn_status";
         public override string Description => "Returns detailed status (health, needs, gear) of specified pawns. Use this to check for sickness, injuries, mood, or equipment. Can filter by name, category (colonist/animal/prisoner/guest), or status (sick/injured).";
         public override string UsageSchema => "{\"name\":\"optional\",\"category\":\"colonist\",\"filter\":\"sick\"}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["name"] = SchemaString("Name filter (substring).", nullable: true),
+                ["category"] = SchemaString("colonist/animal/prisoner/guest/all.", nullable: true),
+                ["filter"] = SchemaString("sick/injured/downed/dead.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("name", "category", "filter"));
+        }
 
         public override string Execute(string args)
         {

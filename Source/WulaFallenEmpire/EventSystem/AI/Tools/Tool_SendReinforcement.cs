@@ -104,6 +104,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         }
 
         public override string UsageSchema => "{\"units\": \"Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5\"}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["units"] = SchemaString("Comma-separated list of PawnKindDef: count.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("units"));
+        }
 
         public override string Execute(string args)
         {

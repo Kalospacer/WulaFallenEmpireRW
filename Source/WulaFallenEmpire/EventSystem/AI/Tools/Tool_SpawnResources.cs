@@ -19,6 +19,30 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                                               "Otherwise, give a moderate amount. " +
                                               "TIP: Use the `search_thing_def` tool first and then spawn by DefName to avoid language mismatch.";
         public override string UsageSchema => "{\"items\":[{\"name\":\"Steel\",\"count\":100,\"stuffDefName\":\"Steel\"}]}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var itemProperties = new Dictionary<string, object>
+            {
+                ["name"] = SchemaString("Thing defName or label.", nullable: true),
+                ["defName"] = SchemaString("ThingDef defName alias for name.", nullable: true),
+                ["count"] = SchemaInteger("Stack count.", nullable: true),
+                ["stuffDefName"] = SchemaString("Stuff defName for made-from-stuff items.", nullable: true),
+                ["stuff"] = SchemaString("Alias for stuffDefName.", nullable: true),
+                ["material"] = SchemaString("Alias for stuffDefName.", nullable: true)
+            };
+            var itemSchema = SchemaObject(itemProperties, RequiredList("name", "defName", "count", "stuffDefName", "stuff", "material"));
+
+            var properties = new Dictionary<string, object>
+            {
+                ["items"] = SchemaArray(itemSchema, "List of items to spawn.", nullable: true),
+                ["name"] = SchemaString("Single item defName or label.", nullable: true),
+                ["count"] = SchemaInteger("Single item count.", nullable: true),
+                ["stuffDefName"] = SchemaString("Stuff defName for single item.", nullable: true),
+                ["stuff"] = SchemaString("Alias for stuffDefName.", nullable: true),
+                ["material"] = SchemaString("Alias for stuffDefName.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("items", "name", "count", "stuffDefName", "stuff", "material"));
+        }
 
         public override string Execute(string args)
         {

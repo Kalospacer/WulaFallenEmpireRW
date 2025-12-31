@@ -690,6 +690,32 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    $"Final replies are generated later and MUST use: {language}.";
         }
 
+        private string GetNativeSystemInstruction()
+        {
+            string persona = GetActivePersona();
+            string memoryContext = GetMemoryContext();
+            string personaBlock = string.IsNullOrWhiteSpace(memoryContext) ? persona : (persona + memoryContext);
+
+            string language = LanguageDatabase.activeLanguage?.FriendlyNameNative ?? "English";
+            var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
+            int goodwill = eventVarManager?.GetVariable<int>("Wula_Goodwill_To_PIA", 0) ?? 0;
+            string goodwillContext = $"Current Goodwill with P.I.A: {goodwill}. ";
+            if (goodwill < -50) goodwillContext += "You are hostile and dismissive towards the player.";
+            else if (goodwill < 0) goodwillContext += "You are cold and impatient.";
+            else if (goodwill > 50) goodwillContext += "You are somewhat approving and helpful.";
+            else goodwillContext += "You are neutral and business-like.";
+
+            var sb = new StringBuilder();
+            sb.AppendLine(personaBlock);
+            sb.AppendLine();
+            sb.AppendLine(goodwillContext);
+            sb.AppendLine($"IMPORTANT: Reply in the following language: {language}.");
+            sb.AppendLine("IMPORTANT: Use tools to fetch in-game data or perform actions. Do NOT invent tool results.");
+            sb.AppendLine("IMPORTANT: When the user asks for an item by name, call search_thing_def to confirm the exact defName before spawning.");
+            sb.AppendLine("You MAY include [EXPR:n] (n=1-6) to set your expression.");
+            return sb.ToString().TrimEnd();
+        }
+
         public string GetActivePersona()
         {
             var settings = WulaFallenEmpireMod.settings;
@@ -820,6 +846,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        private List<Dictionary<string, object>> BuildNativeToolDefinitions()
+        {
+            var available = _tools
+                .Where(t => t != null)
+                .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var definitions = new List<Dictionary<string, object>>();
+            foreach (var tool in available)
+            {
+                var def = tool.GetFunctionDefinition();
+                if (def != null)
+                {
+                    definitions.Add(def);
+                }
+            }
+            return definitions;
         }
 
         private string GetReactSystemInstruction(bool hasImage)
@@ -974,7 +1019,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private bool IsToolAvailable(string toolName)
         {
             if (string.IsNullOrWhiteSpace(toolName)) return false;
-            if (string.Equals(toolName, "capture_screen", StringComparison.OrdinalIgnoreCase)) return true;
+            if (string.Equals(toolName, "capture_screen", StringComparison.OrdinalIgnoreCase))
+            {
+                return WulaFallenEmpireMod.settings?.enableVlmFeatures == true;
+            }
             return _tools.Any(t => string.Equals(t?.Name, toolName, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -1200,6 +1248,50 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
 
             return filtered;
+        }
+
+        private List<ChatMessage> BuildNativeHistory()
+        {
+            var messages = new List<ChatMessage>();
+            if (_history == null || _history.Count == 0) return messages;
+
+            foreach (var entry in _history)
+            {
+                if (entry.role == null) continue;
+                string role = entry.role.Trim().ToLowerInvariant();
+
+                if (role == "toolcall" || role == "tool" || role == "trace")
+                {
+                    continue;
+                }
+
+                if (role == "assistant")
+                {
+                    string cleaned = CleanAssistantForReply(entry.message);
+                    if (string.IsNullOrWhiteSpace(cleaned))
+                    {
+                        continue;
+                    }
+                    messages.Add(ChatMessage.Assistant(cleaned));
+                    continue;
+                }
+
+                if (role == "system")
+                {
+                    if (!string.IsNullOrWhiteSpace(entry.message))
+                    {
+                        messages.Add(new ChatMessage { Role = "system", Content = entry.message });
+                    }
+                    continue;
+                }
+
+                if (!string.IsNullOrWhiteSpace(entry.message))
+                {
+                    messages.Add(ChatMessage.User(entry.message));
+                }
+            }
+
+            return messages;
         }
 
         private void CompressHistoryIfNeeded()
@@ -1839,18 +1931,30 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 CompressHistoryIfNeeded();
 
                 var settings = WulaFallenEmpireMod.settings;
-                if (settings == null || string.IsNullOrEmpty(settings.apiKey))
+                if (settings == null)
+                {
+                    AddAssistantMessage("Error: API settings not configured in Mod Settings.");
+                    return;
+                }
+
+                string apiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
+                if (string.IsNullOrEmpty(apiKey))
                 {
                     AddAssistantMessage("Error: API Key not configured in Mod Settings.");
                     return;
                 }
 
-                string apiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
                 string baseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
                 string model = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
 
                 var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 _currentClient = client;
+
+                if (!settings.useGeminiProtocol)
+                {
+                    await RunNativeToolLoopAsync(client, settings);
+                    return;
+                }
 
                 // Model-Driven Vision: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
                 string base64Image = null;
@@ -2134,6 +2238,240 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 SetThinkingState(false);
             }
+        }
+
+        private async Task RunNativeToolLoopAsync(SimpleAIClient client, WulaFallenEmpireSettings settings)
+        {
+            string systemInstruction = GetNativeSystemInstruction();
+            var messages = BuildNativeHistory();
+            var tools = BuildNativeToolDefinitions();
+
+            string finalReply = null;
+            var successfulQueryTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var successfulActionTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var failedActionTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            float startTime = Time.realtimeSinceStartup;
+            int maxSteps = Math.Max(1, settings.reactMaxSteps);
+            float maxSeconds = Math.Max(2f, settings.reactMaxSeconds);
+            _thinkingPhaseTotal = maxSteps;
+
+            for (int step = 1; step <= maxSteps; step++)
+            {
+                if (Time.realtimeSinceStartup - startTime > maxSeconds)
+                {
+                    if (Prefs.DevMode)
+                    {
+                        WulaLog.Debug("[WulaAI] Native tool loop timed out.");
+                    }
+                    break;
+                }
+
+                SetThinkingPhase(step, false);
+
+                ChatCompletionResult result = await client.GetChatCompletionWithToolsAsync(
+                    systemInstruction,
+                    messages,
+                    tools,
+                    maxTokens: 2048,
+                    temperature: 0.2f);
+
+                if (result == null)
+                {
+                    AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
+                    return;
+                }
+
+                if (result.ToolCalls != null && result.ToolCalls.Count > 0)
+                {
+                    int maxTools = ReactMaxToolsPerStep;
+                    var callsToExecute = result.ToolCalls.Count > maxTools
+                        ? result.ToolCalls.Take(maxTools).ToList()
+                        : result.ToolCalls;
+
+                    messages.Add(ChatMessage.AssistantWithToolCalls(callsToExecute, result.Content));
+
+                    int executed = 0;
+                    var historyCalls = new List<object>();
+                    StringBuilder combinedResults = new StringBuilder();
+
+                    if (result.ToolCalls.Count > maxTools)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Skipped {result.ToolCalls.Count - maxTools} tool call(s) because this step allows at most {maxTools} tool call(s).");
+                    }
+
+                    foreach (var call in callsToExecute)
+                    {
+                        if (call == null || string.IsNullOrWhiteSpace(call.Name))
+                        {
+                            executed++;
+                            continue;
+                        }
+
+                        if (string.IsNullOrWhiteSpace(call.Id))
+                        {
+                            call.Id = $"call_{step}_{executed + 1}";
+                        }
+
+                        var historyCall = new Dictionary<string, object>
+                        {
+                            ["type"] = "function",
+                            ["function"] = new Dictionary<string, object>
+                            {
+                                ["name"] = call.Name,
+                                ["arguments"] = JsonToolCallParser.TryParseObject(call.ArgumentsJson ?? "{}", out var parsedArgs)
+                                    ? (object)parsedArgs
+                                    : new Dictionary<string, object>()
+                            }
+                        };
+                        if (!string.IsNullOrWhiteSpace(call.Id))
+                        {
+                            historyCall["id"] = call.Id;
+                        }
+                        historyCalls.Add(historyCall);
+
+                        var tool = _tools.FirstOrDefault(t => string.Equals(t.Name, call.Name, StringComparison.OrdinalIgnoreCase));
+                        if (tool == null)
+                        {
+                            string missing = $"Error: Tool '{call.Name}' not found.";
+                            combinedResults.AppendLine(missing);
+                            messages.Add(ChatMessage.ToolResult(call.Id ?? "", missing));
+                            executed++;
+                            continue;
+                        }
+
+                        string argsJson = string.IsNullOrWhiteSpace(call.ArgumentsJson) ? "{}" : call.ArgumentsJson;
+                        if (Prefs.DevMode)
+                        {
+                            WulaLog.Debug($"[WulaAI] Executing tool (native): {call.Name} with args: {argsJson}");
+                        }
+
+                        string toolResult = (await tool.ExecuteAsync(argsJson)).Trim();
+                        bool isError = !string.IsNullOrEmpty(toolResult) && toolResult.StartsWith("Error:", StringComparison.OrdinalIgnoreCase);
+
+                        if (call.Name == "modify_goodwill")
+                        {
+                            combinedResults.AppendLine($"Tool '{call.Name}' Result (Invisible): {toolResult}");
+                        }
+                        else
+                        {
+                            combinedResults.AppendLine($"Tool '{call.Name}' Result: {toolResult}");
+                        }
+
+                        messages.Add(ChatMessage.ToolResult(call.Id ?? "", toolResult));
+
+                        if (!isError)
+                        {
+                            if (IsActionToolName(call.Name))
+                            {
+                                successfulActionTools.Add(call.Name);
+                                AddActionSuccess(call.Name);
+                            }
+                            else
+                            {
+                                successfulQueryTools.Add(call.Name);
+                            }
+                        }
+                        else if (IsActionToolName(call.Name))
+                        {
+                            failedActionTools.Add(call.Name);
+                            AddActionFailure(call.Name);
+                        }
+
+                        executed++;
+                    }
+
+                    string toolCallsJson = historyCalls.Count == 0
+                        ? "{\"tool_calls\": []}"
+                        : JsonToolCallParser.SerializeToJson(new Dictionary<string, object> { ["tool_calls"] = historyCalls });
+                    _history.Add(("toolcall", toolCallsJson));
+                    _history.Add(("tool", combinedResults.ToString().Trim()));
+                    PersistHistory();
+                    UpdateActionLedgerNote();
+                    continue;
+                }
+
+                if (!string.IsNullOrWhiteSpace(result.Content))
+                {
+                    finalReply = result.Content;
+                    break;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(finalReply) && IsToolCallJson(finalReply))
+            {
+                finalReply = null;
+            }
+
+            _querySuccessfulToolCall = successfulQueryTools.Count > 0;
+            _actionSuccessfulToolCall = successfulActionTools.Count > 0;
+            _queryToolLedgerNote = _querySuccessfulToolCall
+                ? $"Tool Ledger (Query): {string.Join(", ", successfulQueryTools)}"
+                : "Tool Ledger (Query): None (no successful tool calls).";
+            _actionToolLedgerNote = _actionSuccessfulToolCall
+                ? $"Tool Ledger (Action): {string.Join(", ", successfulActionTools)}"
+                : "Tool Ledger (Action): None (no successful tool calls).";
+            _lastActionHadError = failedActionTools.Count > 0;
+            _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
+
+            if (string.IsNullOrWhiteSpace(finalReply))
+            {
+                string replyInstruction = GetSystemInstruction(false, "");
+                if (!string.IsNullOrWhiteSpace(_queryToolLedgerNote))
+                {
+                    replyInstruction += "\n" + _queryToolLedgerNote;
+                }
+                if (!string.IsNullOrWhiteSpace(_actionToolLedgerNote))
+                {
+                    replyInstruction += "\n" + _actionToolLedgerNote;
+                }
+                if (!string.IsNullOrWhiteSpace(_lastActionLedgerNote))
+                {
+                    replyInstruction += "\n" + _lastActionLedgerNote +
+                                        "\nIMPORTANT: Do NOT claim any in-game actions beyond the Action Ledger. If the ledger is None, you MUST NOT claim any deliveries, reinforcements, or bombardments.";
+                }
+                if (_lastActionExecuted)
+                {
+                    replyInstruction += "\nIMPORTANT: Actions in the Action Ledger were executed in-game. You MUST acknowledge them as completed in your reply. You MUST NOT deny, retract, or contradict them.";
+                }
+                if (!_lastSuccessfulToolCall)
+                {
+                    replyInstruction += "\nIMPORTANT: No successful tool calls occurred in the tool phase. You MUST NOT claim any tools or actions succeeded.";
+                }
+                if (_lastActionHadError)
+                {
+                    replyInstruction += "\nIMPORTANT: An action tool failed. You MUST acknowledge the failure and MUST NOT claim success.";
+                    if (_lastActionExecuted)
+                    {
+                        replyInstruction += " You MUST still confirm any successful actions separately.";
+                    }
+                }
+
+                finalReply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory(), base64Image: null);
+                if (string.IsNullOrEmpty(finalReply))
+                {
+                    AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
+                    return;
+                }
+
+                bool replyHadToolCalls = IsToolCallJson(finalReply);
+                string strippedReply = StripToolCallJson(finalReply)?.Trim() ?? "";
+                if (replyHadToolCalls || string.IsNullOrWhiteSpace(strippedReply))
+                {
+                    string retryReplyInstruction = replyInstruction +
+                                                  "\n\n# RETRY (REPLY OUTPUT)\n" +
+                                                  "Your last reply included tool call JSON or was empty. Tool calls are DISABLED.\n" +
+                                                  "You MUST reply in natural language only. Do NOT output any tool call JSON.\n";
+                    string retryReply = await client.GetChatCompletionAsync(retryReplyInstruction, BuildReplyHistory(), maxTokens: 256, temperature: 0.3f);
+                    if (!string.IsNullOrEmpty(retryReply))
+                    {
+                        finalReply = retryReply;
+                    }
+                }
+            }
+
+            AddAssistantMessage(finalReply);
+            TriggerMemoryUpdate();
         }
         private async Task<PhaseExecutionResult> ExecuteJsonToolsForStep(string json)
         {

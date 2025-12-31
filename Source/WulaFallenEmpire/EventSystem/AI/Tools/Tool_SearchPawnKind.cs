@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using RimWorld;
 using Verse;
@@ -11,6 +12,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "search_pawn_kind";
         public override string Description => "Rough-searches PawnKindDefs by natural language (label/defName). Returns candidate defNames for send_reinforcement.";
         public override string UsageSchema => "{\"query\":\"escort\",\"maxResults\":10,\"minScore\":0.15}";
+        public override Dictionary<string, object> GetParametersSchema()
+        {
+            var properties = new Dictionary<string, object>
+            {
+                ["query"] = SchemaString("Search query.", nullable: true),
+                ["maxResults"] = SchemaInteger("Max candidates to return.", nullable: true),
+                ["minScore"] = SchemaNumber("Minimum similarity score.", nullable: true)
+            };
+            return SchemaObject(properties, RequiredList("query", "maxResults", "minScore"));
+        }
 
         public override string Execute(string args)
         {
