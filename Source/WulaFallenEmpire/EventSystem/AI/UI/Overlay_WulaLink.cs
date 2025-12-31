@@ -763,8 +763,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 string line = raw.Trim();
                 if (string.IsNullOrEmpty(line)) continue;
                 if (line.StartsWith("[Tool Results]", StringComparison.OrdinalIgnoreCase)) continue;
+                if (line.StartsWith("ToolRunner", StringComparison.OrdinalIgnoreCase)) continue;
                 if (!line.StartsWith("Tool '", StringComparison.OrdinalIgnoreCase) &&
-                    !line.StartsWith("ToolRunner", StringComparison.OrdinalIgnoreCase) &&
                     !line.StartsWith("Query Result:", StringComparison.OrdinalIgnoreCase) &&
                     !line.StartsWith("Error:", StringComparison.OrdinalIgnoreCase))
                 {

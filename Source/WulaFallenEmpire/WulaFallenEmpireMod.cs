@@ -97,7 +97,6 @@ namespace WulaFallenEmpire
 
             listingStandard.GapLine();
             listingStandard.Label("<color=cyan>ReAct Loop Settings</color>");
-            listingStandard.Label("Steps: Unlimited (step limit removed).");
             listingStandard.Label("Max Seconds (min 2):");
             Rect secondsRect = listingStandard.GetRect(Text.LineHeight);
             Widgets.TextFieldNumeric(secondsRect, ref settings.reactMaxSeconds, ref _reactMaxSecondsBuffer, 10f, 600f);

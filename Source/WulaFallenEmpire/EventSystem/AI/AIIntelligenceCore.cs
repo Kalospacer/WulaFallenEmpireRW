@@ -2474,9 +2474,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private async Task<PhaseExecutionResult> ExecuteJsonToolsForStep(string json)
         {
-            string guidance = "ToolRunner Guidance: Continue with JSON only using {\"thought\":\"...\",\"tool_calls\":[...]}. " +
-                              "If no more tools are needed, output exactly: {\"tool_calls\": []}. " +
-                              "Do NOT output any text outside JSON.";
+            string guidance = "ToolRunner Guidance: Tool steps MUST be JSON only. " +
+                              "If tools are needed, output tool_calls; if none, output exactly: {\"tool_calls\": []}. " +
+                              "Do NOT output natural language. Prefer Query -> Action -> Reply; if action results reveal missing info, you may return to Query.";
 
             if (!JsonToolCallParser.TryParseToolCallsFromText(json ?? "", out var toolCalls, out string jsonFragment))
             {
@@ -2562,7 +2562,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 if (tool == null)
                 {
                     combinedResults.AppendLine($"Error: Tool '{toolName}' not found.");
-                    combinedResults.AppendLine("ToolRunner Guard: The tool call failed. In your final reply you MUST acknowledge the failure and MUST NOT claim success.");
+                    combinedResults.AppendLine("ToolRunner Guard: Tool execution failed (tool missing). In your final reply, acknowledge the failure and do NOT claim success.");
                     executed++;
                     continue;
                 }
@@ -2585,7 +2585,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 if (isError)
                 {
-                    combinedResults.AppendLine("ToolRunner Guard: The tool returned an error. In your final reply you MUST acknowledge the failure and MUST NOT claim success.");
+                    combinedResults.AppendLine("ToolRunner Guard: Tool execution returned an error. In your final reply, acknowledge the failure and do NOT claim success.");
                 }
                 if (!isError)
                 {
@@ -2626,16 +2626,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 if (failedActionTools.Count == 0)
                 {
-                    combinedResults.AppendLine("ToolRunner Guard: In-game action tools were executed. You MAY reference them, but do NOT invent additional actions.");
+                    combinedResults.AppendLine("ToolRunner Guard: Action tools executed. You MAY confirm only these actions; do NOT invent additional actions.");
                 }
                 else
                 {
-                    combinedResults.AppendLine("ToolRunner Guard: Action tools were attempted but some failed. You MUST acknowledge failures and MUST NOT claim success.");
+                    combinedResults.AppendLine("ToolRunner Guard: Some action tools failed. You MUST acknowledge failures and do NOT claim success.");
                 }
             }
             else
             {
-                combinedResults.AppendLine("ToolRunner Guard: NO in-game actions were executed. You MUST NOT claim any deliveries, reinforcements, bombardments, or other actions occurred.");
+                combinedResults.AppendLine("ToolRunner Guard: No action tools executed. You MUST NOT claim any deliveries, reinforcements, bombardments, or other actions.");
             }
             combinedResults.AppendLine(guidance);
 
