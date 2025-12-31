@@ -51,8 +51,6 @@ namespace WulaFallenEmpire.EventSystem.AI
         private readonly List<string> _actionFailedLedger = new List<string>();
         private readonly HashSet<string> _actionFailedLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private SimpleAIClient _currentClient;
-        private string _memoryContext;
-        private string _memoryContextQuery;
         private bool _memoryUpdateInProgress;
 
         private const int DefaultMaxHistoryTokens = 100000;
@@ -494,8 +492,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private void ClearHistory()
         {
             _history.Clear();
-            _memoryContext = null;
-            _memoryContextQuery = null;
             try
             {
                 var historyManager = Find.World?.GetComponent<AIHistoryManager>();
@@ -563,8 +559,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string safeQuery = query ?? "";
             if (IsAutoCommentaryMessage(safeQuery))
             {
-                _memoryContextQuery = "";
-                _memoryContext = "";
                 if (Prefs.DevMode)
                 {
                     WulaLog.Debug("[WulaAI] Memory context skipped (auto commentary).");
@@ -572,30 +566,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return;
             }
 
-            _memoryContextQuery = safeQuery;
-            _memoryContext = BuildMemoryContext(_memoryContextQuery);
             if (Prefs.DevMode)
             {
-                string preview = TrimForPrompt(_memoryContextQuery, 80);
-                int length = _memoryContext?.Length ?? 0;
-                WulaLog.Debug($"[WulaAI] Memory context refreshed (query='{preview}', length={length}).");
+                string preview = TrimForPrompt(safeQuery, 80);
+                WulaLog.Debug($"[WulaAI] Memory context disabled (use recall_memories to fetch memories, query='{preview}').");
             }
         }
 
         private string GetMemoryContext()
         {
-            if (string.IsNullOrWhiteSpace(_memoryContext))
-            {
-                string query = _memoryContextQuery;
-                if (string.IsNullOrWhiteSpace(query))
-                {
-                    query = GetLastUserMessageForMemory();
-                }
-                _memoryContextQuery = query ?? "";
-                _memoryContext = BuildMemoryContext(_memoryContextQuery);
-            }
-
-            return _memoryContext ?? "";
+            return "";
         }
 
         private string GetLastUserMessageForMemory()
@@ -664,12 +644,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 ? (persona + "\n" + ToolRulesInstruction + "\n" + toolsForThisPhase)
                 : persona;
 
-            string memoryContext = GetMemoryContext();
-            if (!string.IsNullOrWhiteSpace(memoryContext))
-            {
-                fullInstruction += memoryContext;
-            }
-
             string language = LanguageDatabase.activeLanguage?.FriendlyNameNative ?? "English";
             var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
             int goodwill = eventVarManager?.GetVariable<int>("Wula_Goodwill_To_PIA", 0) ?? 0;
@@ -693,8 +667,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private string GetNativeSystemInstruction()
         {
             string persona = GetActivePersona();
-            string memoryContext = GetMemoryContext();
-            string personaBlock = string.IsNullOrWhiteSpace(memoryContext) ? persona : (persona + memoryContext);
+            string personaBlock = persona;
 
             string language = LanguageDatabase.activeLanguage?.FriendlyNameNative ?? "English";
             var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
@@ -711,6 +684,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             sb.AppendLine(goodwillContext);
             sb.AppendLine($"IMPORTANT: Reply in the following language: {language}.");
             sb.AppendLine("IMPORTANT: Use tools to fetch in-game data or perform actions. Do NOT invent tool results.");
+            sb.AppendLine("IMPORTANT: Long-term memory is not preloaded. Use recall_memories to fetch memories when needed.");
             sb.AppendLine("IMPORTANT: When the user asks for an item by name, call search_thing_def to confirm the exact defName before spawning.");
             sb.AppendLine("You MAY include [EXPR:n] (n=1-6) to set your expression.");
             return sb.ToString().TrimEnd();
@@ -735,8 +709,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private string GetToolSystemInstruction(RequestPhase phase, bool hasImage)
         {
             string persona = GetActivePersona();
-            string memoryContext = GetMemoryContext();
-            string personaBlock = string.IsNullOrWhiteSpace(memoryContext) ? persona : (persona + memoryContext);
+            string personaBlock = persona;
             string phaseInstruction = GetPhaseInstruction(phase).TrimEnd();
             string toolsForThisPhase = BuildToolsForPhase(phase);
             string actionPriority = phase == RequestPhase.ActionTools
@@ -770,6 +743,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 personaBlock,
                 phaseInstruction,
+                "IMPORTANT: Long-term memory is not preloaded. Use recall_memories to fetch memories when needed.",
                 string.IsNullOrWhiteSpace(actionPriority) ? null : actionPriority.TrimEnd(),
                 string.IsNullOrWhiteSpace(actionWhitelist) ? null : actionWhitelist.TrimEnd(),
                 ToolRulesInstruction.TrimEnd(),
@@ -870,8 +844,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private string GetReactSystemInstruction(bool hasImage)
         {
             string persona = GetActivePersona();
-            string memoryContext = GetMemoryContext();
-            string personaBlock = string.IsNullOrWhiteSpace(memoryContext) ? persona : (persona + memoryContext);
+            string personaBlock = persona;
 
             string language = LanguageDatabase.activeLanguage?.FriendlyNameNative ?? "English";
             var eventVarManager = Find.World?.GetComponent<EventVariableManager>();
@@ -884,6 +857,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             var sb = new StringBuilder();
             sb.AppendLine(personaBlock);
+            sb.AppendLine("IMPORTANT: Long-term memory is not preloaded. Use recall_memories to fetch memories when needed.");
             sb.AppendLine();
             sb.AppendLine(ToolRulesInstruction.TrimEnd());
             sb.AppendLine();
@@ -2255,6 +2229,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             int maxSteps = Math.Max(1, settings.reactMaxSteps);
             float maxSeconds = Math.Max(2f, settings.reactMaxSeconds);
             _thinkingPhaseTotal = maxSteps;
+            int strictRetryCount = 0;
+            const int MaxStrictRetries = 2;
+            const string StrictRetryGuidance =
+                "ToolRunner Error: Your last response was rejected because tool_calls was empty. " +
+                "You MUST call tools via the tool_calls field. Do NOT output XML or natural language. " +
+                "If no tools are needed, return no tool calls and leave content empty.";
 
             for (int step = 1; step <= maxSteps; step++)
             {
@@ -2281,6 +2261,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
                     return;
                 }
+
+                if (result.ToolCalls == null || result.ToolCalls.Count == 0)
+                {
+                    if (strictRetryCount < MaxStrictRetries)
+                    {
+                        strictRetryCount++;
+                        messages.Add(ChatMessage.User(StrictRetryGuidance));
+                        if (Prefs.DevMode)
+                        {
+                            WulaLog.Debug($"[WulaAI] Native tool loop retry: missing tool_calls (attempt {strictRetryCount}/{MaxStrictRetries}).");
+                        }
+                        step--;
+                        continue;
+                    }
+
+                    break;
+                }
+
+                strictRetryCount = 0;
 
                 if (result.ToolCalls != null && result.ToolCalls.Count > 0)
                 {
