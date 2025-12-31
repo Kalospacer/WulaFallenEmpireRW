@@ -964,6 +964,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return trimmed.Length >= 4;
         }
 
+        private void AddTraceNote(string note)
+        {
+            if (string.IsNullOrWhiteSpace(note)) return;
+            _history.Add(("trace", note.Trim()));
+            PersistHistory();
+        }
+
         private bool IsToolAvailable(string toolName)
         {
             if (string.IsNullOrWhiteSpace(toolName)) return false;
@@ -1162,6 +1169,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 var entry = _history[i];
                 if (string.Equals(entry.role, "toolcall", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                if (string.Equals(entry.role, "trace", StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
@@ -1886,6 +1897,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         if (LooksLikeNaturalReply(normalizedResponse))
                         {
                             toolPhaseReplyCandidate = normalizedResponse;
+                            AddTraceNote(normalizedResponse);
                             break;
                         }
 
@@ -1902,6 +1914,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             if (LooksLikeNaturalReply(normalizedFixed))
                             {
                                 toolPhaseReplyCandidate = normalizedFixed;
+                                AddTraceNote(normalizedFixed);
                             }
                             if (Prefs.DevMode)
                             {
@@ -1929,6 +1942,24 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                 maxSteps = clamped;
                                 _thinkingPhaseTotal = maxSteps;
                             }
+                        }
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(parsedSource))
+                    {
+                        string traceText = parsedSource;
+                        if (!string.IsNullOrWhiteSpace(jsonFragment))
+                        {
+                            int idx = traceText.IndexOf(jsonFragment, StringComparison.Ordinal);
+                            if (idx >= 0)
+                            {
+                                traceText = traceText.Remove(idx, jsonFragment.Length);
+                            }
+                        }
+                        traceText = traceText.Trim();
+                        if (LooksLikeNaturalReply(traceText))
+                        {
+                            AddTraceNote(traceText);
                         }
                     }
 

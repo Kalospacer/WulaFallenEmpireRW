@@ -31,6 +31,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private int _currentPortraitId = 0;
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
         private readonly Dictionary<int, bool> _traceExpandedByAssistantIndex = new Dictionary<int, bool>();
+        private readonly Dictionary<int, string> _traceHeaderByAssistantIndex = new Dictionary<int, string>();
 
         private class CachedMessage
         {
@@ -325,6 +326,11 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             if (Math.Abs(_lastUsedWidth - width) < 0.1f && history.Count == _lastHistoryCount) return;
 
             _lastUsedWidth = width;
+            if (_lastHistoryCount >= 0 && history.Count < _lastHistoryCount)
+            {
+                _traceExpandedByAssistantIndex.Clear();
+                _traceHeaderByAssistantIndex.Clear();
+            }
             _lastHistoryCount = history.Count;
             _cachedMessages.Clear();
             _cachedTotalHeight = 0f;
@@ -333,6 +339,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             float contentWidth = width - innerPadding * 2;
             var toolcallBuffer = new List<string>();
             var toolResultBuffer = new List<string>();
+            var traceNoteBuffer = new List<string>();
             bool traceEnabled = WulaFallenEmpireMod.settings?.showReactTraceInUI == true;
 
             for (int i = 0; i < history.Count; i++)
@@ -342,6 +349,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 {
                     toolcallBuffer.Clear();
                     toolResultBuffer.Clear();
+                    traceNoteBuffer.Clear();
                 }
 
                 if (entry.role == "toolcall")
@@ -362,6 +370,15 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     continue;
                 }
 
+                if (entry.role == "trace")
+                {
+                    if (traceEnabled)
+                    {
+                        traceNoteBuffer.Add(entry.message ?? "");
+                    }
+                    continue;
+                }
+
                 string messageText = entry.role == "assistant"
                     ? ParseResponseForDisplay(entry.message)
                     : AIIntelligenceCore.StripContextInfo(entry.message);
@@ -371,12 +388,12 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 if (entry.role == "user" && entry.message.Contains("[AUTO_COMMENTARY]")) continue;
                 if (entry.role == "assistant" && traceEnabled && toolcallBuffer.Count > 0)
                 {
-                    var traceLines = BuildTraceLines(toolcallBuffer, toolResultBuffer);
+                    var traceLines = BuildTraceLines(toolcallBuffer, toolResultBuffer, traceNoteBuffer);
                     if (traceLines.Count > 0)
                     {
                         int traceKey = i;
                         bool expanded = _traceExpandedByAssistantIndex.TryGetValue(traceKey, out bool saved) && saved;
-                        string header = BuildReactTraceHeader();
+                        string header = GetTraceHeader(traceKey, false);
 
                         Text.Font = GameFont.Tiny;
                         float tracePadding = 8f;
@@ -415,13 +432,18 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
                     toolcallBuffer.Clear();
                     toolResultBuffer.Clear();
+                    traceNoteBuffer.Clear();
                 }
                 else if (entry.role == "assistant" && traceEnabled && toolcallBuffer.Count == 0)
                 {
-                    var traceLines = new List<string> { "无工具调用，直接回复" };
-                    int traceKey = i;
-                    bool expanded = _traceExpandedByAssistantIndex.TryGetValue(traceKey, out bool saved) && saved;
-                    string header = BuildReactTraceHeader();
+                    var traceLines = BuildTraceLines(toolcallBuffer, toolResultBuffer, traceNoteBuffer);
+                    if (traceLines.Count == 0)
+                    {
+                    traceLines.Add("无工具调用，直接回复");
+                }
+                int traceKey = i;
+                bool expanded = _traceExpandedByAssistantIndex.TryGetValue(traceKey, out bool saved) && saved;
+                string header = GetTraceHeader(traceKey, false);
 
                     Text.Font = GameFont.Tiny;
                     float tracePadding = 8f;
@@ -456,6 +478,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                         traceHeaderHeight = headerHeight
                     });
                     curY += traceHeight + 10f;
+                    traceNoteBuffer.Clear();
                 }
                 if (string.IsNullOrEmpty(messageText) || (entry.role == "user" && messageText.StartsWith("[Tool Results]"))) continue;
 
@@ -491,9 +514,59 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 float innerPadding = 5f;
                 float contentWidth = rect.width - 16f - innerPadding * 2;
                 UpdateCacheIfNeeded(rect.width - 16f);
+                bool traceEnabled = WulaFallenEmpireMod.settings?.showReactTraceInUI == true;
+                CachedMessage liveTraceEntry = null;
+                float liveTraceHeight = 0f;
+                if (_isThinking && traceEnabled)
+                {
+                    var liveLines = BuildLiveTraceLines();
+                    if (liveLines.Count == 0)
+                    {
+                        liveLines.Add("思考中…");
+                    }
+                    int traceKey = -1;
+                    bool expanded = _traceExpandedByAssistantIndex.TryGetValue(traceKey, out bool saved) ? saved : true;
+                    string header = GetTraceHeader(traceKey, true);
+
+                    Text.Font = GameFont.Tiny;
+                    float tracePadding = 8f;
+                    float headerWidth = Mathf.Max(10f, contentWidth - tracePadding * 2f);
+                    string headerLine = $"{(expanded ? "v" : ">")} {header}";
+                    float headerHeight = Text.CalcHeight(headerLine, headerWidth) + 10f;
+                    float linesHeight = 0f;
+                    if (expanded)
+                    {
+                        float lineWidth = Mathf.Max(10f, contentWidth - tracePadding * 2f);
+                        foreach (string line in liveLines)
+                        {
+                            linesHeight += Text.CalcHeight(line, lineWidth) + 2f;
+                        }
+                        linesHeight += 8f;
+                    }
+                    float traceHeight = headerHeight + linesHeight;
+                    liveTraceHeight = traceHeight + 10f;
+                    liveTraceEntry = new CachedMessage
+                    {
+                        role = "trace",
+                        message = "",
+                        displayText = "",
+                        height = traceHeight,
+                        yOffset = 0f,
+                        font = GameFont.Tiny,
+                        isTrace = true,
+                        traceKey = traceKey,
+                        traceHeader = header,
+                        traceLines = liveLines,
+                        traceExpanded = expanded,
+                        traceHeaderHeight = headerHeight
+                    };
+                }
 
                 float totalHeight = _cachedTotalHeight;
-                if (_isThinking) totalHeight += 40f;
+                if (_isThinking)
+                {
+                    totalHeight += liveTraceEntry != null ? liveTraceHeight : 40f;
+                }
 
                 Rect viewRect = new Rect(0f, 0f, rect.width - 16f, totalHeight);
                 if (_scrollToBottom)
@@ -541,7 +614,15 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 if (_isThinking)
                 {
                     float thinkingY = _cachedTotalHeight > 0 ? _cachedTotalHeight : 0f;
-                    if (thinkingY + 40f >= viewTop && thinkingY <= viewBottom)
+                    if (liveTraceEntry != null)
+                    {
+                        if (thinkingY + liveTraceEntry.height >= viewTop && thinkingY <= viewBottom)
+                        {
+                            Rect traceRect = new Rect(innerPadding, thinkingY, contentWidth, liveTraceEntry.height);
+                            DrawReactTracePanel(traceRect, liveTraceEntry);
+                        }
+                    }
+                    else if (thinkingY + 40f >= viewTop && thinkingY <= viewBottom)
                     {
                         DrawThinkingIndicator(new Rect(innerPadding, thinkingY, contentWidth, 35f));
                     }
@@ -574,19 +655,19 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             return text.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
         }
 
-        private List<string> BuildTraceLines(List<string> toolcallBuffer, List<string> toolResultBuffer)
+        private List<string> BuildTraceLines(List<string> toolcallBuffer, List<string> toolResultBuffer, List<string> traceNotes)
         {
             var lines = new List<string>();
-            if (toolcallBuffer == null || toolcallBuffer.Count == 0) return lines;
+            bool hasToolCalls = toolcallBuffer != null && toolcallBuffer.Count > 0;
 
             int stepIndex = 0;
-            int maxSteps = Math.Max(toolcallBuffer.Count, toolResultBuffer.Count);
+            int maxSteps = Math.Max(toolcallBuffer?.Count ?? 0, toolResultBuffer?.Count ?? 0);
             for (int i = 0; i < maxSteps; i++)
             {
                 bool anyStepContent = false;
                 stepIndex++;
 
-                if (i < toolcallBuffer.Count &&
+                if (hasToolCalls && i < toolcallBuffer.Count &&
                     JsonToolCallParser.TryParseToolCallsFromText(toolcallBuffer[i], out var calls, out _))
                 {
                     foreach (var call in calls)
@@ -601,7 +682,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     }
                 }
 
-                if (i < toolResultBuffer.Count)
+                if (toolResultBuffer != null && i < toolResultBuffer.Count)
                 {
                     foreach (string resultLine in ExtractToolResultLines(toolResultBuffer[i], 4))
                     {
@@ -613,6 +694,16 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 if (!anyStepContent)
                 {
                     stepIndex--;
+                }
+            }
+
+            if (traceNotes != null && traceNotes.Count > 0)
+            {
+                foreach (string note in traceNotes)
+                {
+                    string trimmed = (note ?? "").Trim();
+                    if (string.IsNullOrWhiteSpace(trimmed)) continue;
+                    lines.Add($"模型 · {TrimForDisplay(trimmed, 220)}");
                 }
             }
 
@@ -650,10 +741,67 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             return text.Substring(0, maxChars) + "...";
         }
 
-        private string BuildReactTraceHeader()
+        private List<string> BuildLiveTraceLines()
         {
-            string state = _isThinking ? "思考中" : "已思考";
-            float elapsed = _isThinking
+            if (_core == null) return new List<string>();
+            var history = _core.GetHistorySnapshot();
+            if (history == null || history.Count == 0) return new List<string>();
+
+            int lastUserIndex = -1;
+            for (int i = history.Count - 1; i >= 0; i--)
+            {
+                if (history[i].role == "user")
+                {
+                    lastUserIndex = i;
+                    break;
+                }
+            }
+            if (lastUserIndex == -1) return new List<string>();
+
+            var toolcallBuffer = new List<string>();
+            var toolResultBuffer = new List<string>();
+            var traceNoteBuffer = new List<string>();
+            for (int i = lastUserIndex + 1; i < history.Count; i++)
+            {
+                var entry = history[i];
+                if (entry.role == "toolcall")
+                {
+                    toolcallBuffer.Add(entry.message ?? "");
+                }
+                else if (entry.role == "tool")
+                {
+                    toolResultBuffer.Add(entry.message ?? "");
+                }
+                else if (entry.role == "trace")
+                {
+                    traceNoteBuffer.Add(entry.message ?? "");
+                }
+            }
+
+            return BuildTraceLines(toolcallBuffer, toolResultBuffer, traceNoteBuffer);
+        }
+
+        private string GetTraceHeader(int traceKey, bool isLive)
+        {
+            if (isLive)
+            {
+                return BuildReactTraceHeader(true);
+            }
+
+            if (_traceHeaderByAssistantIndex.TryGetValue(traceKey, out string header))
+            {
+                return header;
+            }
+
+            header = BuildReactTraceHeader(false);
+            _traceHeaderByAssistantIndex[traceKey] = header;
+            return header;
+        }
+
+        private string BuildReactTraceHeader(bool isLive)
+        {
+            string state = isLive ? "思考中" : "已思考";
+            float elapsed = isLive
                 ? Mathf.Max(0f, Time.realtimeSinceStartup - (_core?.ThinkingStartTime ?? 0f))
                 : _core?.LastThinkingDuration ?? 0f;
             string elapsedText = elapsed > 0f ? elapsed.ToString("0.0", CultureInfo.InvariantCulture) : "0.0";
