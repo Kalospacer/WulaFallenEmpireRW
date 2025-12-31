@@ -25,7 +25,7 @@ namespace WulaFallenEmpire
         public string extraPersonalityPrompt = "";
         public int reactMaxSteps = 0; // Deprecated: step limit removed (unlimited).
         public int reactMaxStepsMax = 0; // Deprecated: step limit removed (unlimited).
-        public float reactMaxSeconds = 30f;
+        public float reactMaxSeconds = 60f;
         public bool showReactTraceInUI = false;
         
         public override void ExposeData()
@@ -50,7 +50,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref extraPersonalityPrompt, "extraPersonalityPrompt", "");
             Scribe_Values.Look(ref reactMaxSteps, "reactMaxSteps", 0);
             Scribe_Values.Look(ref reactMaxStepsMax, "reactMaxStepsMax", 0);
-            Scribe_Values.Look(ref reactMaxSeconds, "reactMaxSeconds", 30f);
+            Scribe_Values.Look(ref reactMaxSeconds, "reactMaxSeconds", 60f);
             Scribe_Values.Look(ref showReactTraceInUI, "showReactTraceInUI", false);
             
             base.ExposeData();

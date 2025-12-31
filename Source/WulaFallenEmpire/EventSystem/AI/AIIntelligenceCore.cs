@@ -57,7 +57,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         private const int CharsPerToken = 4;
         private const int DefaultReactMaxSteps = 4;
         private const int ReactMaxToolsPerStep = 8;
-        private const float DefaultReactMaxSeconds = 30f;
+        private const float DefaultReactMaxSeconds = 60f;
         private int _thinkingPhaseTotal = DefaultReactMaxSteps;
 
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
@@ -443,7 +443,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return;
             }
 
-            if (_isThinking && !isThinking)
+            if (!_isThinking && isThinking)
+            {
+                _thinkingStartTime = Time.realtimeSinceStartup;
+            }
+            else if (_isThinking && !isThinking)
             {
                 _lastThinkingDuration = Mathf.Max(0f, Time.realtimeSinceStartup - _thinkingStartTime);
             }
@@ -463,7 +467,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 _thinkingPhaseIndex = Math.Max(1, Math.Min(_thinkingPhaseTotal, phaseIndex));
             }
             _thinkingPhaseRetry = isRetry;
-            _thinkingStartTime = Time.realtimeSinceStartup;
+        }
+
+        private bool HasTimedOut(float maxSeconds)
+        {
+            if (maxSeconds <= 0f) return false;
+            if (_thinkingStartTime <= 0f) return false;
+            return (Time.realtimeSinceStartup - _thinkingStartTime) > maxSeconds;
         }
 
         private static int GetMaxHistoryTokens()
@@ -1939,7 +1949,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                 // ReAct Tool Loop: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
                 string base64Image = null;
-                float startTime = Time.realtimeSinceStartup;
                 int maxSteps = int.MaxValue;
                 float maxSeconds = DefaultReactMaxSeconds;
 
@@ -1951,7 +1960,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 string toolPhaseReplyCandidate = null;
                 for (int step = 1; step <= maxSteps; step++)
                 {
-                    if (Time.realtimeSinceStartup - startTime > maxSeconds)
+                    if (HasTimedOut(maxSeconds))
                     {
                         if (Prefs.DevMode)
                         {
@@ -2080,6 +2089,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
 
+                if (HasTimedOut(maxSeconds))
+                {
+                    AddAssistantMessage("Error: AI request timed out.");
+                    return;
+                }
+
                 string replyInstruction = GetSystemInstruction(false, "");
                 if (!string.IsNullOrWhiteSpace(_queryToolLedgerNote))
                 {
@@ -2188,10 +2203,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             var successfulActionTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var failedActionTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            float startTime = Time.realtimeSinceStartup;
             int maxSteps = int.MaxValue;
             float maxSeconds = Math.Max(2f, settings.reactMaxSeconds <= 0f ? DefaultReactMaxSeconds : settings.reactMaxSeconds);
-            _thinkingPhaseTotal = 3;
+            _thinkingPhaseTotal = 0;
             int strictRetryCount = 0;
             int phaseRetryCount = 0;
             const int MaxStrictRetries = 2;
@@ -2199,7 +2213,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             for (int step = 1; step <= maxSteps && phase != RequestPhase.Reply; step++)
             {
-                if (Time.realtimeSinceStartup - startTime > maxSeconds)
+                if (HasTimedOut(maxSeconds))
                 {
                     if (Prefs.DevMode)
                     {
@@ -2415,6 +2429,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             if (string.IsNullOrWhiteSpace(finalReply))
             {
+                if (HasTimedOut(maxSeconds))
+                {
+                    AddAssistantMessage("Error: AI request timed out.");
+                    return;
+                }
+
                 string replyInstruction = GetSystemInstruction(false, "");
                 if (!string.IsNullOrWhiteSpace(_queryToolLedgerNote))
                 {
