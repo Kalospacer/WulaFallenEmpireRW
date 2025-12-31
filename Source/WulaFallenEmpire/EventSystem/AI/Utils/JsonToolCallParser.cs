@@ -15,6 +15,15 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
 
     public static class JsonToolCallParser
     {
+        private static string NormalizeToolNameFromId(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return null;
+            string trimmed = id.Trim();
+            if (trimmed.StartsWith("call_", StringComparison.OrdinalIgnoreCase)) return null;
+            if (trimmed.StartsWith("toolu_", StringComparison.OrdinalIgnoreCase)) return null;
+            return trimmed;
+        }
+
         public static bool TryParseToolCalls(string input, out List<ToolCallInfo> toolCalls)
         {
             toolCalls = null;
@@ -46,6 +55,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                     TryGetValue(callObj, "arguments", out argsObj);
                 }
 
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    name = NormalizeToolNameFromId(TryGetString(callObj, "id"));
+                }
                 if (string.IsNullOrWhiteSpace(name)) continue;
 
                 if (!TryNormalizeArguments(argsObj, out Dictionary<string, object> args, out string argsJson))
@@ -167,6 +180,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                     TryGetValue(callObj, "arguments", out argsObj);
                 }
 
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    name = NormalizeToolNameFromId(TryGetString(callObj, "id"));
+                }
                 if (string.IsNullOrWhiteSpace(name)) continue;
 
                 if (!TryNormalizeArguments(argsObj, out Dictionary<string, object> args, out string argsJson))
