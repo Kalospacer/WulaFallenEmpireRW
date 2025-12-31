@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -83,6 +84,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             public string Text;
             public string Category;
+            public string Stability;
+            public float Confidence;
         }
 
         private struct MemoryUpdate
@@ -1162,7 +1165,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
-                string cleaned = StripToolCallJson(entry.message)?.Trim() ?? "";
+                string cleaned = CleanAssistantForReply(entry.message);
                 if (string.IsNullOrWhiteSpace(cleaned))
                 {
                     continue;
@@ -1264,17 +1267,50 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
-                if (IsAutoCommentaryMessage(entry.message))
+                string role;
+                string message = entry.message;
+                if (string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase))
+                {
+                    message = CleanAssistantForReply(message);
+                    if (string.IsNullOrWhiteSpace(message))
+                    {
+                        continue;
+                    }
+                    role = "Assistant";
+                }
+                else
+                {
+                    role = "User";
+                }
+
+                if (IsAutoCommentaryMessage(message))
                 {
                     continue;
                 }
 
-                string role = string.Equals(entry.role, "user", StringComparison.OrdinalIgnoreCase) ? "User" : "Assistant";
-                sb.AppendLine($"{role}: {entry.message}");
+                sb.AppendLine($"{role}: {message}");
             }
 
             string conversation = sb.ToString().Trim();
             return TrimForPrompt(conversation, 4000);
+        }
+
+        private static string CleanAssistantForReply(string message)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return "";
+            }
+
+            string cleaned = message;
+            cleaned = Regex.Replace(cleaned, @"<tool_call>.*?</tool_call>", "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            cleaned = Regex.Replace(cleaned, @"```[\s\S]*?```", match =>
+            {
+                string block = match.Value ?? "";
+                return block.IndexOf("tool_calls", StringComparison.OrdinalIgnoreCase) >= 0 ? "" : block;
+            });
+            cleaned = StripToolCallJson(cleaned)?.Trim() ?? "";
+            return cleaned.Trim();
         }
 
         private async Task UpdateMemoriesFromConversationAsync(AIMemoryManager memoryManager, string existingMemoriesJson, string conversation)
@@ -1367,10 +1403,40 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
 
                 dict.TryGetValue("category", out string category);
-                facts.Add(new MemoryFact { Text = text.Trim(), Category = category ?? "misc" });
+                dict.TryGetValue("stability", out string stability);
+                float confidence = -1f;
+                if (dict.TryGetValue("confidence", out string confidenceRaw) &&
+                    float.TryParse(confidenceRaw, NumberStyles.Float, CultureInfo.InvariantCulture, out float parsed))
+                {
+                    confidence = parsed;
+                }
+
+                var fact = new MemoryFact
+                {
+                    Text = text.Trim(),
+                    Category = category ?? "misc",
+                    Stability = stability ?? "volatile",
+                    Confidence = confidence
+                };
+                if (!IsStableMemoryFact(fact))
+                {
+                    continue;
+                }
+                facts.Add(fact);
             }
 
             return facts;
+        }
+
+        private static bool IsStableMemoryFact(MemoryFact fact)
+        {
+            if (!string.Equals(fact.Stability, "stable", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            const float minConfidence = 0.6f;
+            return fact.Confidence < 0f || fact.Confidence >= minConfidence;
         }
 
         private static List<MemoryUpdate> ParseMemoryUpdates(string json)

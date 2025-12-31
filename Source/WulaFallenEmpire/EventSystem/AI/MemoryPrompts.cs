@@ -8,10 +8,12 @@ namespace WulaFallenEmpire.EventSystem.AI
 @"You are extracting long-term memory about the player from the conversation below.
 Return JSON only, no extra text.
 Schema:
-{{""facts"":[{{""text"":""..."",""category"":""preference|personal|plan|colony|misc""}}]}}
+{{""facts"":[{{""text"":""..."",""category"":""preference|personal|plan|colony|misc"",""stability"":""stable|volatile"",""confidence"":0.0}}]}}
 Rules:
+- Use ONLY User and Assistant final replies. Ignore tool outputs, system messages, and auto-commentary.
 - Keep only stable, reusable facts about the player or colony.
-- Ignore transient tool results, numbers, or one-off actions.
+- Mark transient details (counts, coordinates, inventories, momentary statuses, or one-off events) as ""volatile"".
+- If unsure, set low confidence and mark as ""volatile"".
 - Do not invent facts.
 Conversation:
 {0}";

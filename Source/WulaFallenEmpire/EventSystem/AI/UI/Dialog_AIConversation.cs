@@ -416,6 +416,47 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     toolcallBuffer.Clear();
                     toolResultBuffer.Clear();
                 }
+                else if (entry.role == "assistant" && traceEnabled && toolcallBuffer.Count == 0)
+                {
+                    var traceLines = new List<string> { "无工具调用，直接回复" };
+                    int traceKey = i;
+                    bool expanded = _traceExpandedByAssistantIndex.TryGetValue(traceKey, out bool saved) && saved;
+                    string header = BuildReactTraceHeader();
+
+                    Text.Font = GameFont.Tiny;
+                    float tracePadding = 8f;
+                    float headerWidth = Mathf.Max(10f, contentWidth - tracePadding * 2f);
+                    string headerLine = $"{(expanded ? "v" : ">")} {header}";
+                    float headerHeight = Text.CalcHeight(headerLine, headerWidth) + 10f;
+                    float linesHeight = 0f;
+                    if (expanded)
+                    {
+                        float lineWidth = Mathf.Max(10f, contentWidth - tracePadding * 2f);
+                        foreach (string line in traceLines)
+                        {
+                            linesHeight += Text.CalcHeight(line, lineWidth) + 2f;
+                        }
+                        linesHeight += 8f;
+                    }
+                    float traceHeight = headerHeight + linesHeight;
+
+                    _cachedMessages.Add(new CachedMessage
+                    {
+                        role = "trace",
+                        message = "",
+                        displayText = "",
+                        height = traceHeight,
+                        yOffset = curY,
+                        font = GameFont.Tiny,
+                        isTrace = true,
+                        traceKey = traceKey,
+                        traceHeader = header,
+                        traceLines = traceLines,
+                        traceExpanded = expanded,
+                        traceHeaderHeight = headerHeight
+                    });
+                    curY += traceHeight + 10f;
+                }
                 if (string.IsNullOrEmpty(messageText) || (entry.role == "user" && messageText.StartsWith("[Tool Results]"))) continue;
 
                 bool isLastMessage = i == history.Count - 1;

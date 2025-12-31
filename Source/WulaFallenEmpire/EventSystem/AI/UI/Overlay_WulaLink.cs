@@ -475,6 +475,46 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     toolcallBuffer.Clear();
                     toolResultBuffer.Clear();
                 }
+                else if (msg.role == "assistant" && traceEnabled && toolcallBuffer.Count == 0)
+                {
+                    var traceLines = new List<string> { "无工具调用，直接回复" };
+                    int traceKey = i;
+                    bool expanded = _traceExpandedByAssistantIndex.TryGetValue(traceKey, out bool saved) && saved;
+                    string header = BuildReactTraceHeader();
+
+                    Text.Font = GameFont.Tiny;
+                    float tracePadding = 8f;
+                    float headerWidth = Mathf.Max(10f, width - tracePadding * 2f);
+                    string headerLine = $"{(expanded ? "v" : ">")} {header}";
+                    float headerHeight = Text.CalcHeight(headerLine, headerWidth) + 10f;
+                    float linesHeight = 0f;
+                    if (expanded)
+                    {
+                        float lineWidth = Mathf.Max(10f, width - tracePadding * 2f);
+                        foreach (string line in traceLines)
+                        {
+                            linesHeight += Text.CalcHeight(line, lineWidth) + 2f;
+                        }
+                        linesHeight += 8f;
+                    }
+                    float traceHeight = headerHeight + linesHeight;
+
+                    _cachedMessages.Add(new CachedMessage
+                    {
+                        role = "trace",
+                        message = "",
+                        displayText = "",
+                        height = traceHeight,
+                        yOffset = curY,
+                        isTrace = true,
+                        traceKey = traceKey,
+                        traceHeader = header,
+                        traceLines = traceLines,
+                        traceExpanded = expanded,
+                        traceHeaderHeight = headerHeight
+                    });
+                    curY += traceHeight + reducedSpacing;
+                }
 
                 if (string.IsNullOrWhiteSpace(displayText)) continue;
 
