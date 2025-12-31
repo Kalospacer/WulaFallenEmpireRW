@@ -14,8 +14,6 @@ namespace WulaFallenEmpire
         public static bool _showApiKey = false;
         public static bool _showVlmApiKey = false;
         private string _maxContextTokensBuffer;
-        private string _reactMaxStepsBuffer;
-        private string _reactMaxStepsMaxBuffer;
         private string _reactMaxSecondsBuffer;
 
         public WulaFallenEmpireMod(ModContentPack content) : base(content)
@@ -99,14 +97,7 @@ namespace WulaFallenEmpire
 
             listingStandard.GapLine();
             listingStandard.Label("<color=cyan>ReAct Loop Settings</color>");
-            listingStandard.Label("Default Steps (min 1):");
-            Rect stepsRect = listingStandard.GetRect(Text.LineHeight);
-            Widgets.TextFieldNumeric(stepsRect, ref settings.reactMaxSteps, ref _reactMaxStepsBuffer, 1, int.MaxValue);
-
-            listingStandard.Label("Max Steps Limit (step_budget upper bound, min 1):");
-            Rect stepsMaxRect = listingStandard.GetRect(Text.LineHeight);
-            Widgets.TextFieldNumeric(stepsMaxRect, ref settings.reactMaxStepsMax, ref _reactMaxStepsMaxBuffer, 1, int.MaxValue);
-
+            listingStandard.Label("Steps: Unlimited (step limit removed).");
             listingStandard.Label("Max Seconds (min 2):");
             Rect secondsRect = listingStandard.GetRect(Text.LineHeight);
             Widgets.TextFieldNumeric(secondsRect, ref settings.reactMaxSeconds, ref _reactMaxSecondsBuffer, 10f, 600f);

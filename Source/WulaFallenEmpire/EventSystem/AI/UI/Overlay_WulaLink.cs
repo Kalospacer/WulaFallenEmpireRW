@@ -849,8 +849,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 : _core?.LastThinkingDuration ?? 0f;
             string elapsedText = elapsed > 0f ? elapsed.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) : "0.0";
             int phaseIndex = _core?.ThinkingPhaseIndex ?? 0;
-            int phaseTotal = _core?.ThinkingPhaseTotal ?? 0;
-            return $"{state} (用时 {elapsedText}s · Loop {phaseIndex}/{phaseTotal})";
+            return $"{state} (用时 {elapsedText}s · Loop {phaseIndex})";
         }
 
         private void DrawReactTracePanel(Rect rect, CachedMessage traceEntry)
@@ -1037,7 +1036,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             if (_core == null) return "Thinking...";
             float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - _core.ThinkingStartTime);
             string elapsedText = elapsedSeconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
-            return $"P.I.A is thinking... ({elapsedText}s Loop {_core.ThinkingPhaseIndex}/{_core.ThinkingPhaseTotal})";
+            return $"P.I.A is thinking... ({elapsedText}s Loop {_core.ThinkingPhaseIndex})";
         }
 
         private void DrawThinkingIndicator(Rect rect)

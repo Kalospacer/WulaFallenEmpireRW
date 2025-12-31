@@ -57,7 +57,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         private const int CharsPerToken = 4;
         private const int DefaultReactMaxSteps = 4;
         private const int ReactMaxToolsPerStep = 8;
-        private const float DefaultReactMaxSeconds = 12f;
+        private const float DefaultReactMaxSeconds = 30f;
         private int _thinkingPhaseTotal = DefaultReactMaxSteps;
 
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
@@ -111,7 +111,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     - Do NOT split multi-item requests across turns.
 5.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
 6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""tool_calls"": [] }.
-7.  **STEP BUDGET (OPTIONAL)**: You MAY include { ""meta"": { ""step_budget"": <positive integer> } } to request more tool steps for this turn.
+7.  **WORKFLOW PREFERENCE**: Prefer the flow Query tools → Action tools → Reply. If action results reveal missing info, you MAY return to Query and then Action again.
 8.  **NO TAGS**: Do NOT use <think> tags, code fences, or any extra text outside JSON.";
 
         public AIIntelligenceCore(World world) : base(world)
@@ -454,7 +454,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private void SetThinkingPhase(int phaseIndex, bool isRetry)
         {
-            _thinkingPhaseIndex = Math.Max(1, Math.Min(_thinkingPhaseTotal, phaseIndex));
+            if (_thinkingPhaseTotal <= 0 || _thinkingPhaseTotal == int.MaxValue)
+            {
+                _thinkingPhaseIndex = Math.Max(1, phaseIndex);
+            }
+            else
+            {
+                _thinkingPhaseIndex = Math.Max(1, Math.Min(_thinkingPhaseTotal, phaseIndex));
+            }
             _thinkingPhaseRetry = isRetry;
             _thinkingStartTime = Time.realtimeSinceStartup;
         }
@@ -664,7 +671,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    $"Final replies are generated later and MUST use: {language}.";
         }
 
-        private string GetNativeSystemInstruction()
+        private string GetNativeSystemInstruction(RequestPhase phase)
         {
             string persona = GetActivePersona();
             string personaBlock = persona;
@@ -684,6 +691,21 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             sb.AppendLine(goodwillContext);
             sb.AppendLine($"IMPORTANT: Reply in the following language: {language}.");
             sb.AppendLine("IMPORTANT: Use tools to fetch in-game data or perform actions. Do NOT invent tool results.");
+            sb.AppendLine("IMPORTANT: Tool workflow is fixed: Phase 1 = Query Tools, Phase 2 = Action Tools, Phase 3 = Reply.");
+            switch (phase)
+            {
+                case RequestPhase.QueryTools:
+                    sb.AppendLine("CURRENT PHASE: Query Tools. Use ONLY query tools (get_*/search_*/analyze_*/recall_memories).");
+                    sb.AppendLine("Do NOT reply in natural language. If no query tools are needed, return no tool calls and leave content empty.");
+                    break;
+                case RequestPhase.ActionTools:
+                    sb.AppendLine("CURRENT PHASE: Action Tools. Use ONLY action tools (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop, set_overwatch_mode, remember_fact).");
+                    sb.AppendLine("Do NOT reply in natural language. If no actions are needed, return no tool calls and leave content empty.");
+                    break;
+                default:
+                    sb.AppendLine("CURRENT PHASE: Reply. Do NOT call any tools. Reply in natural language only.");
+                    break;
+            }
             sb.AppendLine("IMPORTANT: Long-term memory is not preloaded. Use recall_memories to fetch memories when needed.");
             sb.AppendLine("IMPORTANT: When the user asks for an item by name, call search_thing_def to confirm the exact defName before spawning.");
             sb.AppendLine("You MAY include [EXPR:n] (n=1-6) to set your expression.");
@@ -822,10 +844,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return sb.ToString().TrimEnd();
         }
 
-        private List<Dictionary<string, object>> BuildNativeToolDefinitions()
+        private List<Dictionary<string, object>> BuildNativeToolDefinitions(RequestPhase phase)
         {
             var available = _tools
                 .Where(t => t != null)
+                .Where(t => phase == RequestPhase.QueryTools
+                    ? IsQueryToolName(t.Name)
+                    : phase == RequestPhase.ActionTools
+                        ? IsActionToolName(t.Name)
+                        : false)
                 .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
@@ -943,27 +970,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return false;
         }
 
-        private static int? ExtractStepBudget(string json)
-        {
-            if (string.IsNullOrWhiteSpace(json)) return null;
-            var match = Regex.Match(json, "\"step_budget\"\\s*:\\s*\"?(\\d+)\"?", RegexOptions.IgnoreCase);
-            if (!match.Success) return null;
-            if (int.TryParse(match.Groups[1].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value))
-            {
-                return value;
-            }
-            return null;
-        }
-
         private static string BuildReactFormatFixInstruction(string previousOutput)
         {
             return "# FORMAT FIX (REACT JSON ONLY)\n" +
                    "Output valid JSON with fields thought/tool_calls.\n" +
                    "If tools are needed, tool_calls must be non-empty.\n" +
                    "If no tools are needed, output exactly: {\"tool_calls\": []} (you may include thought).\n" +
-                   "You MAY include an optional meta block: {\"meta\":{\"step_budget\":<positive integer>}}.\n" +
                    "Do NOT output any text outside JSON.\n" +
-                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}],\"meta\":{\"step_budget\":7}}\n" +
+                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}\n" +
                    "\nPrevious output:\n" + TrimForPrompt(previousOutput, 600);
         }
 
@@ -1007,9 +1021,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    "You used tool names that are NOT available: " + invalidList + "\n" +
                    "Re-emit JSON with only available tools from # TOOLS (AVAILABLE).\n" +
                    "If no tools are needed, output exactly: {\"tool_calls\": []}.\n" +
-                   "You MAY include an optional meta block: {\"meta\":{\"step_budget\":<positive integer>}}.\n" +
                    "Do NOT output any text outside JSON.\n" +
-                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}],\"meta\":{\"step_budget\":7}}";
+                   "Schema: {\"thought\":\"...\",\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}";
         }
 
         private static bool ShouldRetryTools(string response)
@@ -1924,28 +1937,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 _currentClient = client;
 
-                if (!settings.useGeminiProtocol)
-                {
-                    await RunNativeToolLoopAsync(client, settings);
-                    return;
-                }
-
-                // Model-Driven Vision: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
+                // ReAct Tool Loop: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
                 string base64Image = null;
                 float startTime = Time.realtimeSinceStartup;
-                int maxSteps = DefaultReactMaxSteps;
+                int maxSteps = int.MaxValue;
                 float maxSeconds = DefaultReactMaxSeconds;
 
-                int stepBudgetMax = int.MaxValue;
                 if (settings != null)
                 {
-                    stepBudgetMax = Math.Max(1, settings.reactMaxStepsMax);
-                    maxSteps = Math.Max(1, settings.reactMaxSteps);
-                    maxSeconds = Math.Max(2f, settings.reactMaxSeconds);
+                    maxSeconds = Math.Max(2f, settings.reactMaxSeconds <= 0f ? DefaultReactMaxSeconds : settings.reactMaxSeconds);
                 }
-                _thinkingPhaseTotal = maxSteps;
+                _thinkingPhaseTotal = 0;
                 string toolPhaseReplyCandidate = null;
-                bool budgetApplied = false;
                 for (int step = 1; step <= maxSteps; step++)
                 {
                     if (Time.realtimeSinceStartup - startTime > maxSeconds)
@@ -2003,26 +2006,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         parsedSource = normalizedFixed;
                     }
 
-                    if (!budgetApplied && !string.IsNullOrWhiteSpace(jsonFragment))
-                    {
-                        string budgetSource = jsonFragment;
-                        int? requested = ExtractStepBudget(budgetSource);
-                        if (!requested.HasValue)
-                        {
-                            requested = ExtractStepBudget(parsedSource);
-                        }
-                        if (requested.HasValue)
-                        {
-                            budgetApplied = true;
-                            int clamped = Math.Max(1, Math.Min(stepBudgetMax, requested.Value));
-                            if (clamped > maxSteps)
-                            {
-                                maxSteps = clamped;
-                                _thinkingPhaseTotal = maxSteps;
-                            }
-                        }
-                    }
-
                     if (!string.IsNullOrWhiteSpace(parsedSource))
                     {
                         string traceText = parsedSource;
@@ -2059,25 +2042,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         if (!string.IsNullOrEmpty(normalizedCorrected) &&
                             JsonToolCallParser.TryParseToolCallsFromText(normalizedCorrected, out toolCalls, out jsonFragment))
                         {
-                            if (!budgetApplied && !string.IsNullOrWhiteSpace(jsonFragment))
-                            {
-                                string budgetSource = jsonFragment;
-                                int? requested = ExtractStepBudget(budgetSource);
-                                if (!requested.HasValue)
-                                {
-                                    requested = ExtractStepBudget(normalizedCorrected);
-                                }
-                                if (requested.HasValue)
-                                {
-                                    budgetApplied = true;
-                                    int clamped = Math.Max(1, Math.Min(stepBudgetMax, requested.Value));
-                                    if (clamped > maxSteps)
-                                    {
-                                        maxSteps = clamped;
-                                        _thinkingPhaseTotal = maxSteps;
-                                    }
-                                }
-                            }
                             parsedSource = normalizedCorrected;
 
                             invalidTools = toolCalls
@@ -2216,9 +2180,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private async Task RunNativeToolLoopAsync(SimpleAIClient client, WulaFallenEmpireSettings settings)
         {
-            string systemInstruction = GetNativeSystemInstruction();
             var messages = BuildNativeHistory();
-            var tools = BuildNativeToolDefinitions();
+            RequestPhase phase = RequestPhase.QueryTools;
 
             string finalReply = null;
             var successfulQueryTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -2226,17 +2189,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             var failedActionTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
             float startTime = Time.realtimeSinceStartup;
-            int maxSteps = Math.Max(1, settings.reactMaxSteps);
-            float maxSeconds = Math.Max(2f, settings.reactMaxSeconds);
-            _thinkingPhaseTotal = maxSteps;
+            int maxSteps = int.MaxValue;
+            float maxSeconds = Math.Max(2f, settings.reactMaxSeconds <= 0f ? DefaultReactMaxSeconds : settings.reactMaxSeconds);
+            _thinkingPhaseTotal = 3;
             int strictRetryCount = 0;
+            int phaseRetryCount = 0;
             const int MaxStrictRetries = 2;
-            const string StrictRetryGuidance =
-                "ToolRunner Error: Your last response was rejected because tool_calls was empty. " +
-                "You MUST call tools via the tool_calls field. Do NOT output XML or natural language. " +
-                "If no tools are needed, return no tool calls and leave content empty.";
+            const int MaxPhaseRetries = 2;
 
-            for (int step = 1; step <= maxSteps; step++)
+            for (int step = 1; step <= maxSteps && phase != RequestPhase.Reply; step++)
             {
                 if (Time.realtimeSinceStartup - startTime > maxSeconds)
                 {
@@ -2247,8 +2208,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     break;
                 }
 
-                SetThinkingPhase(step, false);
+                SetThinkingPhase(phase == RequestPhase.QueryTools ? 1 : 2, false);
 
+                string systemInstruction = GetNativeSystemInstruction(phase);
+                var tools = BuildNativeToolDefinitions(phase);
                 ChatCompletionResult result = await client.GetChatCompletionWithToolsAsync(
                     systemInstruction,
                     messages,
@@ -2264,15 +2227,26 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                 if (result.ToolCalls == null || result.ToolCalls.Count == 0)
                 {
-                    if (strictRetryCount < MaxStrictRetries)
+                    if (!string.IsNullOrWhiteSpace(result.Content) && strictRetryCount < MaxStrictRetries)
                     {
                         strictRetryCount++;
-                        messages.Add(ChatMessage.User(StrictRetryGuidance));
+                        string strictRetryGuidance = phase == RequestPhase.QueryTools
+                            ? "ToolRunner Error: This is Query phase. You MUST call query tools using tool_calls. Do NOT output XML or natural language. If no query tools are needed, return no tool calls and leave content empty."
+                            : "ToolRunner Error: This is Action phase. You MUST call action tools using tool_calls. Do NOT output XML or natural language. If no actions are needed, return no tool calls and leave content empty.";
+                        messages.Add(ChatMessage.User(strictRetryGuidance));
                         if (Prefs.DevMode)
                         {
                             WulaLog.Debug($"[WulaAI] Native tool loop retry: missing tool_calls (attempt {strictRetryCount}/{MaxStrictRetries}).");
                         }
-                        step--;
+                        continue;
+                    }
+
+                    strictRetryCount = 0;
+                    phaseRetryCount = 0;
+
+                    if (phase == RequestPhase.QueryTools)
+                    {
+                        phase = RequestPhase.ActionTools;
                         continue;
                     }
 
@@ -2280,9 +2254,35 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
 
                 strictRetryCount = 0;
+                phaseRetryCount = 0;
 
                 if (result.ToolCalls != null && result.ToolCalls.Count > 0)
                 {
+                    var invalidTools = result.ToolCalls
+                        .Where(c => c != null && !string.IsNullOrWhiteSpace(c.Name))
+                        .Select(c => c.Name)
+                        .Where(n => phase == RequestPhase.QueryTools ? !IsQueryToolName(n) : !IsActionToolName(n))
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+                    if (invalidTools.Count > 0)
+                    {
+                        if (phaseRetryCount < MaxPhaseRetries)
+                        {
+                            phaseRetryCount++;
+                            string invalidList = string.Join(", ", invalidTools);
+                            string guidance = phase == RequestPhase.QueryTools
+                                ? $"ToolRunner Error: Query phase only allows query tools. Invalid: {invalidList}. Re-issue tool_calls with query tools only."
+                                : $"ToolRunner Error: Action phase only allows action tools. Invalid: {invalidList}. Re-issue tool_calls with action tools only.";
+                            messages.Add(ChatMessage.User(guidance));
+                            if (Prefs.DevMode)
+                            {
+                                WulaLog.Debug($"[WulaAI] Native tool loop retry: invalid tools ({invalidList}).");
+                            }
+                            continue;
+                        }
+                        break;
+                    }
+
                     int maxTools = ReactMaxToolsPerStep;
                     var callsToExecute = result.ToolCalls.Count > maxTools
                         ? result.ToolCalls.Take(maxTools).ToList()
@@ -2476,7 +2476,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             string guidance = "ToolRunner Guidance: Continue with JSON only using {\"thought\":\"...\",\"tool_calls\":[...]}. " +
                               "If no more tools are needed, output exactly: {\"tool_calls\": []}. " +
-                              "You MAY include {\"meta\":{\"step_budget\":<positive integer>}} to request more steps. " +
                               "Do NOT output any text outside JSON.";
 
             if (!JsonToolCallParser.TryParseToolCallsFromText(json ?? "", out var toolCalls, out string jsonFragment))

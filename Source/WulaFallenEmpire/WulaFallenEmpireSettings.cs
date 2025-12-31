@@ -23,9 +23,9 @@ namespace WulaFallenEmpire
         public float aiCommentaryChance = 0.7f;
         public bool commentOnNegativeOnly = false;
         public string extraPersonalityPrompt = "";
-        public int reactMaxSteps = 4;
-        public int reactMaxStepsMax = 7;
-        public float reactMaxSeconds = 60f;
+        public int reactMaxSteps = 0; // Deprecated: step limit removed (unlimited).
+        public int reactMaxStepsMax = 0; // Deprecated: step limit removed (unlimited).
+        public float reactMaxSeconds = 30f;
         public bool showReactTraceInUI = false;
         
         public override void ExposeData()
@@ -48,9 +48,9 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref aiCommentaryChance, "aiCommentaryChance", 0.7f);
             Scribe_Values.Look(ref commentOnNegativeOnly, "commentOnNegativeOnly", false);
             Scribe_Values.Look(ref extraPersonalityPrompt, "extraPersonalityPrompt", "");
-            Scribe_Values.Look(ref reactMaxSteps, "reactMaxSteps", 4);
-            Scribe_Values.Look(ref reactMaxStepsMax, "reactMaxStepsMax", 7);
-            Scribe_Values.Look(ref reactMaxSeconds, "reactMaxSeconds", 60f);
+            Scribe_Values.Look(ref reactMaxSteps, "reactMaxSteps", 0);
+            Scribe_Values.Look(ref reactMaxStepsMax, "reactMaxStepsMax", 0);
+            Scribe_Values.Look(ref reactMaxSeconds, "reactMaxSeconds", 30f);
             Scribe_Values.Look(ref showReactTraceInUI, "showReactTraceInUI", false);
             
             base.ExposeData();
