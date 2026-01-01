@@ -46,6 +46,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         private string _actionToolLedgerNote = "Tool Ledger (Action): None (no successful tool calls).";
         private bool _querySuccessfulToolCall;
         private bool _actionSuccessfulToolCall;
+        private bool _queryRetryUsed;
+        private bool _actionRetryUsed;
         private readonly List<string> _actionSuccessLedger = new List<string>();
         private readonly HashSet<string> _actionSuccessLedgerSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private readonly HashSet<string> _lastActionStepSignatures = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -101,20 +103,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private const string ToolRulesInstruction = @"
 # TOOL USE RULES
-1.  **FORMATTING**: Your output MUST be valid JSON with fields:
-    { ""thought"": ""..."", ""tool_calls"": [ { ""type"": ""function"", ""function"": { ""name"": ""tool_name"", ""arguments"": { ... } } } ] }
+1.  **FORMATTING**: Tool calls MUST be valid JSON using the following schema:
+    { ""tool_calls"": [ { ""type"": ""function"", ""function"": { ""name"": ""tool_name"", ""arguments"": { ... } } } ] }
 2.  **STRICT OUTPUT**:
-    - If tools are needed, output non-empty ""tool_calls"".
-    - If no tools are needed, output exactly: { ""tool_calls"": [] } (you may still include ""thought"").
-    - Do NOT include any natural language, explanation, markdown, or extra text outside JSON.
-3.  **THOUGHT**: ""thought"" is internal and will NOT be shown to the user.
-4.  **MULTI-REQUEST RULE**:
-    - If the user requests multiple items or information, you MUST output ALL required tool calls in the SAME response.
+    - Your output MUST be either:
+      - A JSON object with ""tool_calls"" (may be empty), OR
+      - Exactly: { ""tool_calls"": [] }
+    Do NOT include any natural language, explanation, markdown, or additional commentary.
+3.  **MULTI-REQUEST RULE**:
+    - If the user requests multiple items or information, you MUST output ALL required tool calls in the SAME tool-phase response.
     - Do NOT split multi-item requests across turns.
-5.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
-6.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""tool_calls"": [] }.
-7.  **WORKFLOW PREFERENCE**: Prefer the flow Query tools -> Action tools -> Reply. If action results reveal missing info, you MAY return to Query and then Action again.
-8.  **NO TAGS**: Do NOT use <think> tags, code fences, or any extra text outside JSON.";
+4.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
+5.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""tool_calls"": [] } and proceed to the next phase.";
 
         public AIIntelligenceCore(World world) : base(world)
         {
@@ -2036,6 +2036,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             if (_isThinking) return;
             SetThinkingState(true);
+            _thinkingPhaseTotal = 3;
+            SetThinkingPhase(1, false);
             ResetTurnState();
 
             try
@@ -2062,165 +2064,214 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 _currentClient = client;
 
-                // ReAct Tool Loop: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
+                // Model-Driven Vision: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
                 string base64Image = null;
-                int maxSteps = int.MaxValue;
-                float maxSeconds = DefaultReactMaxSeconds;
+                
 
-                if (settings != null)
+                var queryPhase = RequestPhase.QueryTools;
+                if (Prefs.DevMode)
                 {
-                    maxSeconds = Math.Max(2f, settings.reactMaxSeconds <= 0f ? DefaultReactMaxSeconds : settings.reactMaxSeconds);
+                    WulaLog.Debug($"[WulaAI] ===== Turn 1/3 ({queryPhase}) =====");
                 }
-                _thinkingPhaseTotal = 0;
-                string toolPhaseReplyCandidate = null;
-                for (int step = 1; step <= maxSteps; step++)
+
+                string queryInstruction = GetToolSystemInstruction(queryPhase, !string.IsNullOrEmpty(base64Image));
+                string queryResponse = await client.GetChatCompletionAsync(queryInstruction, BuildToolContext(queryPhase), maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
+                if (string.IsNullOrEmpty(queryResponse))
                 {
-                    if (HasTimedOut(maxSeconds))
-                    {
-                        if (Prefs.DevMode)
-                        {
-                            WulaLog.Debug("[WulaAI] ReAct loop timed out.");
-                        }
-                        break;
-                    }
-
-                    SetThinkingPhase(step, false);
-
-                    string reactInstruction = GetReactSystemInstruction(!string.IsNullOrEmpty(base64Image));
-                    reactInstruction += "\n\n" + BuildNarratorInstruction(step);
-                    var reactContext = BuildReactContext();
-                    string response = await client.GetChatCompletionAsync(reactInstruction, reactContext, maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
-                        return;
-                    }
-
-                    string normalizedResponse = NormalizeReactResponse(response);
-                    string parsedSource = normalizedResponse;
-                    if (!JsonToolCallParser.TryParseToolCallsFromText(normalizedResponse, out var toolCalls, out string jsonFragment))
-                    {
-                        if (LooksLikeNaturalReply(normalizedResponse))
-                        {
-                            toolPhaseReplyCandidate = normalizedResponse;
-                            AddTraceNote(normalizedResponse);
-                            break;
-                        }
-
-                        if (Prefs.DevMode)
-                        {
-                            WulaLog.Debug("[WulaAI] ReAct step missing JSON envelope; attempting format fix.");
-                        }
-                        string fixInstruction = BuildReactFormatFixInstruction(normalizedResponse);
-                        string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, reactContext, maxTokens: 1024, temperature: 0.1f, base64Image: base64Image);
-                        string normalizedFixed = NormalizeReactResponse(fixedResponse);
-                        if (string.IsNullOrEmpty(normalizedFixed) ||
-                            !JsonToolCallParser.TryParseToolCallsFromText(normalizedFixed, out toolCalls, out jsonFragment))
-                        {
-                            if (LooksLikeNaturalReply(normalizedFixed))
-                            {
-                                toolPhaseReplyCandidate = normalizedFixed;
-                                AddTraceNote(normalizedFixed);
-                            }
-                            if (Prefs.DevMode)
-                            {
-                                WulaLog.Debug("[WulaAI] ReAct format fix failed.");
-                            }
-                            break;
-                        }
-                        parsedSource = normalizedFixed;
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(parsedSource))
-                    {
-                        string traceText = parsedSource;
-                        if (!string.IsNullOrWhiteSpace(jsonFragment))
-                        {
-                            int idx = traceText.IndexOf(jsonFragment, StringComparison.Ordinal);
-                            if (idx >= 0)
-                            {
-                                traceText = traceText.Remove(idx, jsonFragment.Length);
-                            }
-                        }
-                        traceText = traceText.Trim();
-                        if (LooksLikeNaturalReply(traceText))
-                        {
-                            AddTraceNote(traceText);
-                        }
-                    }
-                    string thoughtNote = ExtractThoughtFromToolJson(jsonFragment) ?? ExtractThoughtFromToolJson(parsedSource);
-                    if (!string.IsNullOrWhiteSpace(thoughtNote))
-                    {
-                        AddTraceNote($"Thought: {thoughtNote}");
-                    }
-
-                    var invalidTools = toolCalls
-                        .Where(c => !IsToolAvailable(c.Name))
-                        .Select(c => c.Name)
-                        .Where(n => !string.IsNullOrWhiteSpace(n))
-                        .Distinct(StringComparer.OrdinalIgnoreCase)
-                        .ToList();
-                    if (invalidTools.Count > 0)
-                    {
-                        if (Prefs.DevMode)
-                        {
-                            WulaLog.Debug($"[WulaAI] ReAct step used invalid tools: {string.Join(", ", invalidTools)}");
-                        }
-                        string correctionInstruction = BuildReactToolCorrectionInstruction(invalidTools);
-                        string correctedResponse = await client.GetChatCompletionAsync(correctionInstruction, reactContext, maxTokens: 1024, temperature: 0.1f, base64Image: base64Image);
-                        string normalizedCorrected = NormalizeReactResponse(correctedResponse);
-                        if (!string.IsNullOrEmpty(normalizedCorrected) &&
-                            JsonToolCallParser.TryParseToolCallsFromText(normalizedCorrected, out toolCalls, out jsonFragment))
-                        {
-                            parsedSource = normalizedCorrected;
-
-                            invalidTools = toolCalls
-                                .Where(c => !IsToolAvailable(c.Name))
-                                .Select(c => c.Name)
-                                .Where(n => !string.IsNullOrWhiteSpace(n))
-                                .Distinct(StringComparer.OrdinalIgnoreCase)
-                                .ToList();
-                        }
-                    }
-
-                    if (toolCalls != null && toolCalls.Count > 0)
-                    {
-                        if (invalidTools.Count > 0)
-                        {
-                            if (Prefs.DevMode)
-                            {
-                                WulaLog.Debug("[WulaAI] Invalid tools remain after correction; skipping tool execution.");
-                            }
-                            _history.Add(("toolcall", "{\"tool_calls\": []}"));
-                            _history.Add(("tool", $"[Tool Results]\nToolRunner Error: Invalid tool(s): {string.Join(", ", invalidTools)}.\nToolRunner Guidance: Re-issue valid tool calls only."));
-                            PersistHistory();
-                            break;
-                        }
-                        PhaseExecutionResult stepResult = await ExecuteJsonToolsForStep(jsonFragment);
-                        if (!string.IsNullOrEmpty(stepResult.CapturedImage))
-                        {
-                            base64Image = stepResult.CapturedImage;
-                        }
-                        _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
-                        if (stepResult.ForceStop)
-                        {
-                            AddTraceNote("Tool loop stop: duplicate action detected; switching to reply.");
-                            break;
-                        }
-                        continue;
-                    }
-                    // No tool calls requested: exit tool loop and generate natural-language reply separately.
-                    break;
-                }
-                _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
-
-                if (HasTimedOut(maxSeconds))
-                {
-                    AddAssistantMessage("Error: AI request timed out.");
+                    AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
                     return;
                 }
 
-                string replyInstruction = GetSystemInstruction(false, "");
+                if (!IsToolCallJson(queryResponse))
+                {
+                    if (Prefs.DevMode)
+                    {
+                        WulaLog.Debug("[WulaAI] Turn 1/3 missing JSON tool calls; treating as no_action.");
+                    }
+                    queryResponse = "{\"tool_calls\": []}";
+                }
+
+                PhaseExecutionResult queryResult = await ExecuteJsonToolsForPhase(queryResponse, queryPhase);
+                
+                // DATA FLOW: If Query Phase captured an image, propagate it to subsequent phases.
+                if (!string.IsNullOrEmpty(queryResult.CapturedImage))
+                {
+                    base64Image = queryResult.CapturedImage;
+                }
+
+                if (!queryResult.AnyToolSuccess && !_queryRetryUsed)
+                {
+                    _queryRetryUsed = true;
+                    string lastUserMessage = _history.LastOrDefault(entry => entry.role == "user").message ?? "";
+                    string persona = GetActivePersona();
+                    string retryInstruction = persona +
+                                              "\n\n# RETRY DECISION\n" +
+                                              "No successful tool calls occurred in PHASE 1 (Query).\n" +
+                                              "If you need to use tools in PHASE 1, output exactly: {\"retry_tools\": true}.\n" +
+                                              "If you will proceed without actions, output exactly: {\"retry_tools\": false}.\n" +
+                                              "Output JSON only and NOTHING else.\n" +
+                                              "\nLast user request:\n" + lastUserMessage;
+
+                    string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 256, temperature: 0.1f);
+                    if (!string.IsNullOrEmpty(retryDecision) && ShouldRetryTools(retryDecision))
+                    {
+                        if (Prefs.DevMode)
+                        {
+                            WulaLog.Debug("[WulaAI] Retry requested; re-opening query phase once.");
+                        }
+
+                        SetThinkingPhase(1, true);
+                        string retryQueryInstruction = GetToolSystemInstruction(queryPhase, !string.IsNullOrEmpty(base64Image)) +
+                                                       "\n\n# RETRY\nYou chose to retry. Output JSON tool calls only (or {\"tool_calls\": []}).";
+                        string retryQueryResponse = await client.GetChatCompletionAsync(retryQueryInstruction, BuildToolContext(queryPhase), maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
+                        if (string.IsNullOrEmpty(retryQueryResponse))
+                        {
+                            AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
+                            return;
+                        }
+
+                        if (!IsToolCallJson(retryQueryResponse))
+                        {
+                            if (Prefs.DevMode)
+                            {
+                                WulaLog.Debug("[WulaAI] Retry query phase missing JSON tool calls; treating as no_action.");
+                            }
+                            retryQueryResponse = "{\"tool_calls\": []}";
+                        }
+                        queryResult = await ExecuteJsonToolsForPhase(retryQueryResponse, queryPhase);
+                    }
+                }
+
+                var actionPhase = RequestPhase.ActionTools;
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] ===== Turn 2/3 ({actionPhase}) =====");
+                }
+
+                SetThinkingPhase(2, false);
+                string actionInstruction = GetToolSystemInstruction(actionPhase, !string.IsNullOrEmpty(base64Image));
+                var actionContext = BuildToolContext(actionPhase, includeUser: true);
+                // Important: Pass base64Image to Action Phase as well if available, so visual_click works.
+                string actionResponse = await client.GetChatCompletionAsync(actionInstruction, actionContext, maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
+                if (string.IsNullOrEmpty(actionResponse))
+                {
+                    AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
+                    return;
+                }
+
+                bool actionHasJson = IsToolCallJson(actionResponse);
+                bool actionIsNoActionOnly = actionHasJson && IsNoActionOnly(actionResponse);
+                bool actionHasActionTool = actionHasJson && HasActionToolCall(actionResponse);
+                if (!actionHasJson || (!actionHasActionTool && !actionIsNoActionOnly))
+                {
+                    if (Prefs.DevMode)
+                    {
+                        WulaLog.Debug("[WulaAI] Turn 2/3 missing JSON or no action tool; attempting JSON-only conversion.");
+                    }
+                    string fixInstruction = "# FORMAT FIX (ACTION JSON ONLY)\n" +
+                                            "Preserve the intent of the previous output.\n" +
+                                            "If the previous output indicates no action is needed or refuses action, output exactly: {\"tool_calls\": []}.\n" +
+                                            "Do NOT invent new actions.\n" +
+                                            "Output VALID JSON tool calls only. No natural language, no commentary.\nIgnore any non-JSON text.\n" +
+                                            "Allowed tools: spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop, set_overwatch_mode, remember_fact.\n" +
+                                            "Schema: {\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}\n" +
+                                            "\nPrevious output:\n" + TrimForPrompt(actionResponse, 600);
+                    string fixedResponse = await client.GetChatCompletionAsync(fixInstruction, actionContext, maxTokens: 2048, temperature: 0.1f);
+                    bool fixedHasJson = !string.IsNullOrEmpty(fixedResponse) && IsToolCallJson(fixedResponse);
+                    bool fixedIsNoActionOnly = fixedHasJson && IsNoActionOnly(fixedResponse);
+                    bool fixedHasActionTool = fixedHasJson && HasActionToolCall(fixedResponse);
+                    if (fixedHasJson && (fixedHasActionTool || fixedIsNoActionOnly))
+                    {
+                        actionResponse = fixedResponse;
+                    }
+                    else
+                    {
+                        if (Prefs.DevMode)
+                        {
+                            WulaLog.Debug("[WulaAI] Turn 2/3 conversion failed; treating as no_action.");
+                        }
+                        actionResponse = "{\"tool_calls\": []}";
+                    }
+                }
+                PhaseExecutionResult actionResult = await ExecuteJsonToolsForPhase(actionResponse, actionPhase);
+                if (!actionResult.AnyActionSuccess && !_actionRetryUsed)
+                {
+                    _actionRetryUsed = true;
+                    string lastUserMessage = _history.LastOrDefault(entry => entry.role == "user").message ?? "";
+                    string persona = GetActivePersona();
+                    string retryInstruction = persona +
+                                              "\n\n# RETRY DECISION\n" +
+                                              "No successful action tools occurred in PHASE 2 (Action).\n" +
+                                              "If you need to execute an in-game action, output exactly: {\"retry_tools\": true}.\n" +
+                                              "If you will proceed without actions, output exactly: {\"retry_tools\": false}.\n" +
+                                              "Output JSON only and NOTHING else.\n" +
+                                              "\nLast user request:\n" + lastUserMessage;
+
+                    string retryDecision = await client.GetChatCompletionAsync(retryInstruction, new List<(string role, string message)>(), maxTokens: 256, temperature: 0.1f);
+                    if (!string.IsNullOrEmpty(retryDecision) && ShouldRetryTools(retryDecision))
+                    {
+                        if (Prefs.DevMode)
+                        {
+                            WulaLog.Debug("[WulaAI] Retry requested; re-opening action phase once.");
+                        }
+
+                        SetThinkingPhase(2, true);
+                        string retryActionInstruction = GetToolSystemInstruction(actionPhase, !string.IsNullOrEmpty(base64Image)) +
+                                                         "\n\n# RETRY\nYou chose to retry. Output JSON tool calls only (or {\"tool_calls\": []}).";
+                        var retryActionContext = BuildToolContext(actionPhase, includeUser: true);
+                        string retryActionResponse = await client.GetChatCompletionAsync(retryActionInstruction, retryActionContext, maxTokens: 2048, temperature: 0.1f, base64Image: base64Image);
+                        if (string.IsNullOrEmpty(retryActionResponse))
+                        {
+                            AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
+                            return;
+                        }
+
+                        if (!IsToolCallJson(retryActionResponse))
+                        {
+                            if (Prefs.DevMode)
+                            {
+                                WulaLog.Debug("[WulaAI] Retry action phase missing JSON; attempting JSON-only conversion.");
+                            }
+                            string retryFixInstruction = "# FORMAT FIX (ACTION JSON ONLY)\n" +
+                                                        "Preserve the intent of the previous output.\n" +
+                                                        "If the previous output indicates no action is needed or refuses action, output exactly: {\"tool_calls\": []}.\n" +
+                                                        "Do NOT invent new actions.\n" +
+                                                        "Output VALID JSON tool calls only. No natural language, no commentary.\nIgnore any non-JSON text.\n" +
+                                                        "Allowed tools: spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop, set_overwatch_mode, remember_fact.\n" +
+                                                        "Schema: {\"tool_calls\":[{\"type\":\"function\",\"function\":{\"name\":\"tool_name\",\"arguments\":{...}}}]}\n" +
+                                                        "\nPrevious output:\n" + TrimForPrompt(retryActionResponse, 600);
+                            string retryFixedResponse = await client.GetChatCompletionAsync(retryFixInstruction, retryActionContext, maxTokens: 2048, temperature: 0.1f);
+                            bool retryFixedHasJson = !string.IsNullOrEmpty(retryFixedResponse) && IsToolCallJson(retryFixedResponse);
+                            bool retryFixedIsNoActionOnly = retryFixedHasJson && IsNoActionOnly(retryFixedResponse);
+                            bool retryFixedHasActionTool = retryFixedHasJson && HasActionToolCall(retryFixedResponse);
+                            if (retryFixedHasJson && (retryFixedHasActionTool || retryFixedIsNoActionOnly))
+                            {
+                                retryActionResponse = retryFixedResponse;
+                            }
+                            else
+                            {
+                                if (Prefs.DevMode)
+                                {
+                                    WulaLog.Debug("[WulaAI] Retry action conversion failed; treating as no_action.");
+                                }
+                                retryActionResponse = "{\"tool_calls\": []}";
+                            }
+                        }
+
+                        actionResult = await ExecuteJsonToolsForPhase(retryActionResponse, actionPhase);
+                    }
+                }
+
+                _lastSuccessfulToolCall = _querySuccessfulToolCall || _actionSuccessfulToolCall;
+
+                var replyPhase = RequestPhase.Reply;
+                if (Prefs.DevMode)
+                {
+                    WulaLog.Debug($"[WulaAI] ===== Turn 3/3 ({replyPhase}) =====");
+                }
+
+                SetThinkingPhase(3, false);
+                string replyInstruction = GetSystemInstruction(false, "") + "\n\n" + GetPhaseInstruction(replyPhase);
                 if (!string.IsNullOrWhiteSpace(_queryToolLedgerNote))
                 {
                     replyInstruction += "\n" + _queryToolLedgerNote;
@@ -2240,7 +2291,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 if (!_lastSuccessfulToolCall)
                 {
-                    replyInstruction += "\nIMPORTANT: No successful tool calls occurred in the tool phase. You MUST NOT claim any tools or actions succeeded.";
+                    replyInstruction += "\nIMPORTANT: No successful tool calls occurred in the tool phases. You MUST NOT claim any tools or actions succeeded.";
                 }
                 if (_lastActionHadError)
                 {
@@ -2251,6 +2302,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
                 }
 
+                // VISUAL CONTEXT FOR REPLY: Pass the image so the AI can describe what it sees.
                 string reply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory(), base64Image: base64Image);
                 if (string.IsNullOrEmpty(reply))
                 {
@@ -2258,21 +2310,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
 
-                string fallbackReply = string.IsNullOrWhiteSpace(toolPhaseReplyCandidate)
-                    ? ""
-                    : StripToolCallJson(toolPhaseReplyCandidate)?.Trim() ?? "";
                 bool replyHadToolCalls = IsToolCallJson(reply);
                 string strippedReply = StripToolCallJson(reply)?.Trim() ?? "";
                 if (replyHadToolCalls || string.IsNullOrWhiteSpace(strippedReply))
                 {
-                    if (!string.IsNullOrWhiteSpace(fallbackReply))
-                    {
-                        reply = fallbackReply;
-                        replyHadToolCalls = false;
-                        strippedReply = fallbackReply;
-                    }
-                    else
-                    {
                     string retryReplyInstruction = replyInstruction +
                                                   "\n\n# RETRY (REPLY OUTPUT)\n" +
                                                   "Your last reply included tool call JSON or was empty. Tool calls are DISABLED.\n" +
@@ -2284,24 +2325,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         replyHadToolCalls = IsToolCallJson(reply);
                         strippedReply = StripToolCallJson(reply)?.Trim() ?? "";
                     }
-                    }
                 }
 
                 if (replyHadToolCalls)
                 {
-                    if (!string.IsNullOrWhiteSpace(fallbackReply))
-                    {
-                        reply = fallbackReply;
-                    }
-                    else
-                    {
                     string cleaned = StripToolCallJson(reply)?.Trim() ?? "";
                     if (string.IsNullOrWhiteSpace(cleaned))
                     {
                         cleaned = "(system) AI reply returned tool call JSON only and was discarded. Please retry or send /clear to reset context.";
                     }
                     reply = cleaned;
-                    }
                 }
 
                 AddAssistantMessage(reply);
@@ -2617,15 +2650,19 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             AddAssistantMessage(finalReply);
             TriggerMemoryUpdate();
         }
-        private async Task<PhaseExecutionResult> ExecuteJsonToolsForStep(string json)
+        private async Task<PhaseExecutionResult> ExecuteJsonToolsForPhase(string json, RequestPhase phase)
         {
-            string guidance = "ToolRunner Guidance: Tool steps MUST be JSON only. " +
-                              "If tools are needed, output tool_calls; if none, output exactly: {\"tool_calls\": []}. " +
-                              "Do NOT output natural language. Prefer Query -> Action -> Reply; if action results reveal missing info, you may return to Query.";
+            if (phase == RequestPhase.Reply)
+            {
+                await Task.CompletedTask;
+                return default;
+            }
+
+            string guidance = "ToolRunner Guidance: Reply to the player in natural language only. Do NOT output any tool call JSON. You may include [EXPR:n] to set expression (n=1-6).";
 
             if (!JsonToolCallParser.TryParseToolCallsFromText(json ?? "", out var toolCalls, out string jsonFragment))
             {
-                UpdateReactToolLedger(new List<string>(), new List<string>());
+                UpdatePhaseToolLedger(phase, false, new List<string>());
                 _history.Add(("toolcall", "{\"tool_calls\": []}"));
                 _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
                 PersistHistory();
@@ -2636,7 +2673,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             if (toolCalls.Count == 0)
             {
-                UpdateReactToolLedger(new List<string>(), new List<string>());
+                UpdatePhaseToolLedger(phase, false, new List<string>());
                 _history.Add(("toolcall", "{\"tool_calls\": []}"));
                 _history.Add(("tool", $"[Tool Results]\nTool 'no_action' Result: No action taken.\n{guidance}"));
                 PersistHistory();
@@ -2645,25 +2682,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return default;
             }
 
-            int maxTools = ReactMaxToolsPerStep;
+            int maxTools = MaxToolsPerPhase(phase);
             int executed = 0;
             bool executedActionTool = false;
             bool successfulToolCall = false;
-            bool repeatedActionAcrossSteps = false;
-            var successfulQueryTools = new List<string>();
-            var successfulActionTools = new List<string>();
-            var failedActionTools = new List<string>();
-            var seenActionSignaturesThisStep = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            var successfulActionSignaturesThisStep = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var successfulTools = new List<string>();
+            var successfulActions = new List<string>();
+            var failedActions = new List<string>();
+            var nonActionToolsInActionPhase = new List<string>();
             var historyCalls = new List<Dictionary<string, object>>();
             StringBuilder combinedResults = new StringBuilder();
-            string capturedImageForStep = null;
+            string capturedImageForPhase = null;
+
+            bool countActionSuccessOnly = phase == RequestPhase.ActionTools;
 
             foreach (var call in toolCalls)
             {
                 if (executed >= maxTools)
                 {
-                    combinedResults.AppendLine($"ToolRunner Note: Skipped remaining tools because this step allows at most {maxTools} tool call(s).");
+                    combinedResults.AppendLine($"ToolRunner Note: Skipped remaining tools because this phase allows at most {maxTools} tool call(s).");
                     break;
                 }
 
@@ -2681,28 +2718,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
 
-                bool isActionTool = IsActionToolName(toolName);
-                string actionSignature = null;
-                if (isActionTool)
-                {
-                    actionSignature = BuildActionSignature(toolName, call.Arguments);
-                    if (!string.IsNullOrWhiteSpace(actionSignature))
-                    {
-                        if (_lastActionStepSignatures.Contains(actionSignature))
-                        {
-                            repeatedActionAcrossSteps = true;
-                            combinedResults.AppendLine($"ToolRunner Guard: Action tool '{toolName}' already executed in the previous action step with the same parameters. Skipping duplicate action call.");
-                            executed++;
-                            continue;
-                        }
-                        if (!seenActionSignaturesThisStep.Add(actionSignature))
-                        {
-                            combinedResults.AppendLine($"ToolRunner Guard: Duplicate '{toolName}' with the same parameters in the same step was skipped.");
-                            executed++;
-                            continue;
-                        }
-                    }
-                }
                 var historyCall = new Dictionary<string, object>
                 {
                     ["type"] = "function",
@@ -2720,10 +2735,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                 if (toolName.Equals("analyze_screen", StringComparison.OrdinalIgnoreCase) || toolName.Equals("capture_screen", StringComparison.OrdinalIgnoreCase))
                 {
-                    capturedImageForStep = ScreenCaptureUtility.CaptureScreenAsBase64();
-                    combinedResults.AppendLine($"Tool '{toolName}' Result: Screen captured successfully. Context updated for the next step.");
+                    capturedImageForPhase = ScreenCaptureUtility.CaptureScreenAsBase64();
+                    combinedResults.AppendLine($"Tool '{toolName}' Result: Screen captured successfully. Context updated for next phase.");
                     successfulToolCall = true;
-                    successfulQueryTools.Add(toolName);
+                    successfulTools.Add(toolName);
+                    executed++;
+                    continue;
+                }
+
+                if (phase == RequestPhase.ActionTools && IsQueryToolName(toolName))
+                {
+                    combinedResults.AppendLine($"ToolRunner Note: Ignored query tool in action phase: {toolName}.");
+                    nonActionToolsInActionPhase.Add(toolName);
                     executed++;
                     continue;
                 }
@@ -2732,7 +2755,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 if (tool == null)
                 {
                     combinedResults.AppendLine($"Error: Tool '{toolName}' not found.");
-                    combinedResults.AppendLine("ToolRunner Guard: Tool execution failed (tool missing). In your final reply, acknowledge the failure and do NOT claim success.");
+                    combinedResults.AppendLine("ToolRunner Guard: The tool call failed. In your reply you MUST acknowledge the failure and MUST NOT claim success.");
                     executed++;
                     continue;
                 }
@@ -2740,7 +2763,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 string argsJson = call.ArgumentsJson ?? "{}";
                 if (Prefs.DevMode)
                 {
-                    WulaLog.Debug($"[WulaAI] Executing tool (ReAct step): {toolName} with args: {argsJson}");
+                    WulaLog.Debug($"[WulaAI] Executing tool (phase {phase}): {toolName} with args: {argsJson}");
                 }
 
                 string result = (await tool.ExecuteAsync(argsJson)).Trim();
@@ -2755,35 +2778,32 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 if (isError)
                 {
-                    combinedResults.AppendLine("ToolRunner Guard: Tool execution returned an error. In your final reply, acknowledge the failure and do NOT claim success.");
+                    combinedResults.AppendLine("ToolRunner Guard: The tool returned an error. In your reply you MUST acknowledge the failure and MUST NOT claim success.");
                 }
                 if (!isError)
                 {
-                    successfulToolCall = true;
-                    if (IsActionToolName(toolName))
+                    bool countsAsSuccess = !countActionSuccessOnly || IsActionToolName(toolName);
+                    if (countsAsSuccess)
                     {
-                        successfulActionTools.Add(toolName);
+                        successfulToolCall = true;
+                        successfulTools.Add(toolName);
                     }
                     else
                     {
-                        successfulQueryTools.Add(toolName);
+                        nonActionToolsInActionPhase.Add(toolName);
                     }
                 }
-
-                if (isActionTool)
+                if (IsActionToolName(toolName))
                 {
-                    executedActionTool = true;
                     if (!isError)
                     {
+                        executedActionTool = true;
+                        successfulActions.Add(toolName);
                         AddActionSuccess(toolName);
-                        if (!string.IsNullOrWhiteSpace(actionSignature))
-                        {
-                            successfulActionSignaturesThisStep.Add(actionSignature);
-                        }
                     }
                     else
                     {
-                        failedActionTools.Add(toolName);
+                        failedActions.Add(toolName);
                         AddActionFailure(toolName);
                     }
                 }
@@ -2791,35 +2811,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 executed++;
             }
 
-            _lastActionStepSignatures.Clear();
-            if (successfulActionSignaturesThisStep.Count > 0)
-            {
-                _lastActionStepSignatures.UnionWith(successfulActionSignaturesThisStep);
-            }
             if (!string.IsNullOrWhiteSpace(jsonFragment) && !string.Equals((json ?? "").Trim(), jsonFragment, StringComparison.Ordinal))
             {
-                combinedResults.AppendLine("ToolRunner Note: Non-JSON text in the tool step was ignored.");
+                combinedResults.AppendLine("ToolRunner Note: Non-JSON text in the tool phase was ignored.");
             }
-
+            if (phase == RequestPhase.ActionTools && nonActionToolsInActionPhase.Count > 0)
+            {
+                combinedResults.AppendLine($"ToolRunner Note: Action phase ignores non-action tools for success: {string.Join(", ", nonActionToolsInActionPhase)}.");
+            }
             if (executedActionTool)
             {
-                if (failedActionTools.Count == 0)
-                {
-                    combinedResults.AppendLine("ToolRunner Guard: Action tools executed. You MAY confirm only these actions; do NOT invent additional actions.");
-                }
-                else
-                {
-                    combinedResults.AppendLine("ToolRunner Guard: Some action tools failed. You MUST acknowledge failures and do NOT claim success.");
-                }
+                combinedResults.AppendLine("ToolRunner Guard: An in-game action tool WAS executed this turn. You MAY reference it, but do NOT invent additional actions.");
             }
             else
             {
-                combinedResults.AppendLine("ToolRunner Guard: No action tools executed. You MUST NOT claim any deliveries, reinforcements, bombardments, or other actions.");
-            }
-
-            if (repeatedActionAcrossSteps)
-            {
-                combinedResults.AppendLine("ToolRunner Guard: Duplicate action request detected after the previous action step with the same parameters. Tool phase will end; reply next.");
+                combinedResults.AppendLine("ToolRunner Guard: NO in-game actions were executed. You MUST NOT claim any deliveries, reinforcements, bombardments, or other actions occurred.");
+                if (phase == RequestPhase.ActionTools)
+                {
+                    combinedResults.AppendLine("ToolRunner Guard: Action phase failed (no action tools executed).");
+                }
             }
             combinedResults.AppendLine(guidance);
 
@@ -2830,17 +2840,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _history.Add(("tool", $"[Tool Results]\n{combinedResults.ToString().Trim()}"));
             PersistHistory();
 
-            UpdateReactToolLedger(successfulQueryTools, successfulActionTools);
+            UpdatePhaseToolLedger(phase, successfulToolCall, successfulTools);
             UpdateActionLedgerNote();
 
             await Task.CompletedTask;
             return new PhaseExecutionResult
             {
                 AnyToolSuccess = successfulToolCall,
-                AnyActionSuccess = successfulActionTools.Count > 0,
-                AnyActionError = failedActionTools.Count > 0,
-                CapturedImage = capturedImageForStep,
-                ForceStop = repeatedActionAcrossSteps
+                AnyActionSuccess = successfulActions.Count > 0,
+                AnyActionError = failedActions.Count > 0,
+                CapturedImage = capturedImageForPhase
             };
         }
 
@@ -2921,6 +2930,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _actionToolLedgerNote = "Tool Ledger (Action): None (no successful tool calls).";
             _querySuccessfulToolCall = false;
             _actionSuccessfulToolCall = false;
+            _queryRetryUsed = false;
+            _actionRetryUsed = false;
             _actionSuccessLedger.Clear();
             _actionSuccessLedgerSet.Clear();
             _lastActionStepSignatures.Clear();
@@ -2929,6 +2940,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
     }
 }
+
+
+
+
+
+
+
 
 
 
