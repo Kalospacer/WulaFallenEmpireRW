@@ -2064,6 +2064,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 _currentClient = client;
 
+                if (!settings.useGeminiProtocol)
+                {
+                    await RunNativeToolLoopAsync(client, settings);
+                    return;
+                }
+
                 // Model-Driven Vision: Start with null image. The model must request it using analyze_screen or capture_screen if needed.
                 string base64Image = null;
                 
@@ -2360,10 +2366,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             var successfulQueryTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var successfulActionTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var failedActionTools = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            bool loggedQueryPhase = false;
+            bool loggedActionPhase = false;
+            bool loggedReplyPhase = false;
 
             int maxSteps = int.MaxValue;
             float maxSeconds = Math.Max(2f, settings.reactMaxSeconds <= 0f ? DefaultReactMaxSeconds : settings.reactMaxSeconds);
-            _thinkingPhaseTotal = 0;
+            _thinkingPhaseTotal = 3;
             int strictRetryCount = 0;
             int phaseRetryCount = 0;
             const int MaxStrictRetries = 2;
@@ -2380,6 +2389,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     break;
                 }
 
+                if (Prefs.DevMode)
+                {
+                    if (phase == RequestPhase.QueryTools && !loggedQueryPhase)
+                    {
+                        WulaLog.Debug("[WulaAI] ===== Turn 1/3 (QueryTools) =====");
+                        loggedQueryPhase = true;
+                    }
+                    else if (phase == RequestPhase.ActionTools && !loggedActionPhase)
+                    {
+                        WulaLog.Debug("[WulaAI] ===== Turn 2/3 (ActionTools) =====");
+                        loggedActionPhase = true;
+                    }
+                }
+
                 SetThinkingPhase(phase == RequestPhase.QueryTools ? 1 : 2, false);
 
                 string systemInstruction = GetNativeSystemInstruction(phase);
@@ -2389,7 +2412,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     messages,
                     tools,
                     maxTokens: 2048,
-                    temperature: 0.2f);
+                    temperature: 0.2f,
+                    toolChoice: "auto");
 
                 if (result == null)
                 {
@@ -2624,7 +2648,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     }
                 }
 
-                finalReply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory(), base64Image: null);
+                if (Prefs.DevMode && !loggedReplyPhase)
+                {
+                    WulaLog.Debug("[WulaAI] ===== Turn 3/3 (Reply) =====");
+                    loggedReplyPhase = true;
+                }
+
+                finalReply = await client.GetChatCompletionAsync(replyInstruction, BuildReplyHistory(), base64Image: null, toolChoice: "none");
                 if (string.IsNullOrEmpty(finalReply))
                 {
                     AddAssistantMessage("Wula_AI_Error_ConnectionLost".Translate());
@@ -2639,7 +2669,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                                                   "\n\n# RETRY (REPLY OUTPUT)\n" +
                                                   "Your last reply included tool call JSON or was empty. Tool calls are DISABLED.\n" +
                                                   "You MUST reply in natural language only. Do NOT output any tool call JSON.\n";
-                    string retryReply = await client.GetChatCompletionAsync(retryReplyInstruction, BuildReplyHistory(), maxTokens: 256, temperature: 0.3f);
+                    string retryReply = await client.GetChatCompletionAsync(retryReplyInstruction, BuildReplyHistory(), maxTokens: 256, temperature: 0.3f, toolChoice: "none");
                     if (!string.IsNullOrEmpty(retryReply))
                     {
                         finalReply = retryReply;
@@ -2940,6 +2970,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
     }
 }
+
+
 
 
 

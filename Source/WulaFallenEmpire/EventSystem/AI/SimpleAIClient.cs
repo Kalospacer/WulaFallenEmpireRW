@@ -68,7 +68,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             _useGemini = useGemini;
         }
 
-        public async Task<string> GetChatCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null, string base64Image = null)
+        public async Task<string> GetChatCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null, string base64Image = null, string toolChoice = null)
         {
             // 1. Gemini Mode
             if (_useGemini)
@@ -101,6 +101,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             jsonBuilder.Append("\"stream\": false,");
             if (maxTokens.HasValue) jsonBuilder.Append($"\"max_tokens\": {Math.Max(1, maxTokens.Value)},");
             if (temperature.HasValue) jsonBuilder.Append($"\"temperature\": {temperature.Value.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)},");
+            if (!string.IsNullOrWhiteSpace(toolChoice)) jsonBuilder.Append($"\"tool_choice\": \"{EscapeJson(toolChoice)}\",");
             
             var validMessages = messages.Where(m => 
             {
@@ -167,7 +168,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             return response;
         }
 
-        public async Task<ChatCompletionResult> GetChatCompletionWithToolsAsync(string instruction, List<ChatMessage> messages, List<Dictionary<string, object>> tools, int? maxTokens = null, float? temperature = null)
+        public async Task<ChatCompletionResult> GetChatCompletionWithToolsAsync(string instruction, List<ChatMessage> messages, List<Dictionary<string, object>> tools, int? maxTokens = null, float? temperature = null, string toolChoice = null)
         {
             if (_useGemini)
             {
@@ -185,7 +186,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (_baseUrl.EndsWith("/chat/completions")) endpoint = _baseUrl;
             else if (!_baseUrl.EndsWith("/v1")) endpoint = $"{_baseUrl}/v1/chat/completions";
 
-            string jsonBody = BuildChatRequestBody(instruction, messages, tools, maxTokens, temperature);
+            string jsonBody = BuildChatRequestBody(instruction, messages, tools, maxTokens, temperature, toolChoice);
             string response = await SendRequestRawAsync(endpoint, jsonBody, _apiKey);
             if (response == null) return null;
 
@@ -306,7 +307,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
         }
 
-        private string BuildChatRequestBody(string instruction, List<ChatMessage> messages, List<Dictionary<string, object>> tools, int? maxTokens, float? temperature)
+        private string BuildChatRequestBody(string instruction, List<ChatMessage> messages, List<Dictionary<string, object>> tools, int? maxTokens, float? temperature, string toolChoice)
         {
             var body = new Dictionary<string, object>
             {
@@ -316,6 +317,7 @@ namespace WulaFallenEmpire.EventSystem.AI
 
             if (maxTokens.HasValue) body["max_tokens"] = Math.Max(1, maxTokens.Value);
             if (temperature.HasValue) body["temperature"] = temperature.Value;
+            if (!string.IsNullOrWhiteSpace(toolChoice)) body["tool_choice"] = toolChoice;
 
             var messageList = new List<object>();
             if (!string.IsNullOrEmpty(instruction))
