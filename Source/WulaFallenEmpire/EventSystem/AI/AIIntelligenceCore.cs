@@ -98,6 +98,24 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
     - Do NOT split multi-item requests across turns.
 4.  **TOOLS**: You MAY call any tools listed in ""# TOOLS (AVAILABLE)"".
 5.  **ANTI-HALLUCINATION**: Never invent tools, parameters, defNames, coordinates, or tool results. If a tool is needed but not available, output { ""tool_calls"": [] } and proceed to the next phase.";
+        private const string QwenToolRulesTemplate = @"
+# TOOLS
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{tool_descs}
+</tools>
+
+For each function call, return a JSON object within <tool_call></tool_call> tags:
+<tool_call>
+{""name"": ""tool_name"", ""arguments"": { ... }}
+</tool_call>
+
+- Output ONLY tool calls in Query/Action phases.
+- If no tools are needed, output exactly: {""tool_calls"": []}
+- Do NOT include natural language outside tool calls in tool phases.
+- Never invent tools, parameters, defNames, coordinates, or tool results.";
         public AIIntelligenceCore(World world) : base(world)
         {
             Instance = this;
@@ -639,8 +657,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             string persona = GetActivePersona();
             string personaBlock = persona;
-            string phaseInstruction = GetPhaseInstruction(phase).TrimEnd();
-            string toolsForThisPhase = BuildToolsForPhase(phase);
+            var settings = WulaFallenEmpireMod.settings;
+            bool useQwenTemplate = settings != null && !settings.useNativeToolApi;
+            string phaseInstruction = GetPhaseInstruction(phase, useQwenTemplate).TrimEnd();
+            string toolsForThisPhase = useQwenTemplate ? BuildQwenToolsForPhase(phase) : BuildToolsForPhase(phase);
             string actionPriority = phase == RequestPhase.ActionTools
                 ? "ACTION TOOL PRIORITY:\n" +
                   "- spawn_resources\n" +
@@ -665,6 +685,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                   "spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop, set_overwatch_mode, remember_fact\n" +
                   "INVALID EXAMPLES (do NOT use now): get_map_resources, analyze_screen, search_thing_def, search_pawn_kind, recall_memories\n"
                 : string.Empty;
+            string toolRules = useQwenTemplate ? null : ToolRulesInstruction.TrimEnd();
             return string.Join("\n\n", new[]
             {
                 personaBlock,
@@ -672,13 +693,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 "IMPORTANT: Long-term memory is not preloaded. Use recall_memories to fetch memories when needed.",
                 string.IsNullOrWhiteSpace(actionPriority) ? null : actionPriority.TrimEnd(),
                 string.IsNullOrWhiteSpace(actionWhitelist) ? null : actionWhitelist.TrimEnd(),
-                ToolRulesInstruction.TrimEnd(),
+                toolRules,
                 toolsForThisPhase
             }.Where(part => !string.IsNullOrWhiteSpace(part)));
         }
         private string BuildToolsForPhase(RequestPhase phase)
         {
             if (phase == RequestPhase.Reply) return "";
+            var settings = WulaFallenEmpireMod.settings;
             var available = _tools
                 .Where(t => t != null)
                 .Where(t => phase == RequestPhase.QueryTools
@@ -686,6 +708,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     : phase == RequestPhase.ActionTools
                         ? IsActionToolName(t.Name)
                         : true)
+                .Where(t => !(IsVlmToolName(t.Name) && settings?.enableVlmFeatures != true))
                 .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
                 .ToList();
             StringBuilder sb = new StringBuilder();
@@ -709,8 +732,35 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             return sb.ToString().TrimEnd();
         }
+        private string BuildQwenToolsForPhase(RequestPhase phase)
+        {
+            if (phase == RequestPhase.Reply) return "";
+            var settings = WulaFallenEmpireMod.settings;
+            var available = _tools
+                .Where(t => t != null)
+                .Where(t => phase == RequestPhase.QueryTools
+                    ? IsQueryToolName(t.Name)
+                    : phase == RequestPhase.ActionTools
+                        ? IsActionToolName(t.Name)
+                        : true)
+                .Where(t => !(IsVlmToolName(t.Name) && settings?.enableVlmFeatures != true))
+                .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            var toolLines = new List<string>();
+            foreach (var tool in available)
+            {
+                var def = tool.GetFunctionDefinition();
+                if (def != null)
+                {
+                    toolLines.Add(JsonToolCallParser.SerializeToJson(def));
+                }
+            }
+            string toolDescBlock = string.Join("\n", toolLines);
+            return QwenToolRulesTemplate.Replace("{tool_descs}", toolDescBlock).TrimEnd();
+        }
         private List<Dictionary<string, object>> BuildNativeToolDefinitions(RequestPhase phase)
         {
+            var settings = WulaFallenEmpireMod.settings;
             var available = _tools
                 .Where(t => t != null)
                 .Where(t => phase == RequestPhase.QueryTools
@@ -718,6 +768,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     : phase == RequestPhase.ActionTools
                         ? IsActionToolName(t.Name)
                         : false)
+                .Where(t => !(IsVlmToolName(t.Name) && settings?.enableVlmFeatures != true))
                 .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
                 .ToList();
             var definitions = new List<Dictionary<string, object>>();
@@ -731,8 +782,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             return definitions;
         }
-        private static string GetPhaseInstruction(RequestPhase phase)
+        private static string GetPhaseInstruction(RequestPhase phase, bool useQwenTemplate)
         {
+            string toolOutputRule = useQwenTemplate
+                ? "- Output tool calls only using <tool_call>{\"name\":\"tool_name\",\"arguments\":{...}}</tool_call>.\n" +
+                  "- If no tools are needed, output exactly: {\"tool_calls\": []}.\n"
+                : "- Output JSON tool calls only, or exactly: {\"tool_calls\": []}.\n";
+            string outputFooter = useQwenTemplate ? "Output: tool calls only.\n" : "Output: JSON only.\n";
             return phase switch
             {
                 RequestPhase.QueryTools =>
@@ -740,20 +796,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     "Goal: Gather info needed for decisions.\n" +
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- Output JSON tool calls only, or exactly: {\"tool_calls\": []}.\n" +
+                    toolOutputRule +
                     "- Prefer query tools (get_*/search_*).\n" +
                     "- CRITICAL: If the user asks for an ITEM (e.g. 'Reviver Mech Serum'), you MUST use search_thing_def with {\"query\":\"...\"} to find its exact DefName. NEVER GUESS DefNames.\n" +
                     "- You MAY call multiple tools in one response, but keep it concise.\n" +
                     "- If the user requests multiple items or information, you MUST output ALL required tool calls in this SAME response.\n" +
                     "- Action tools are available in PHASE 2 only; do NOT use them here.\n" +
                     "After this phase, the game will automatically proceed to PHASE 2.\n" +
-                    "Output: JSON only.\n",
+                    outputFooter,
                 RequestPhase.ActionTools =>
                     "# PHASE 2/3 (Action Tools)\n" +
                     "Goal: Execute in-game actions based on known info.\n" +
                     "Rules:\n" +
                     "- You MUST NOT write any natural language to the user in this phase.\n" +
-                    "- Output JSON tool calls only, or exactly: {\"tool_calls\": []}.\n" +
+                    toolOutputRule +
                     "- ONLY action tools are accepted in this phase (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill, call_prefab_airdrop).\n" +
                     "- Query tools (get_*/search_*) will be ignored.\n" +
                     "- Prefer action tools (spawn_resources, send_reinforcement, call_bombardment, modify_goodwill).\n" +
@@ -761,7 +817,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     "- If no action is required based on query results, output {\"tool_calls\": []}.\n" +
                     "- If you already executed the needed action earlier this turn, output {\"tool_calls\": []}.\n" +
                     "After this phase, the game will automatically proceed to PHASE 3.\n" +
-                    "Output: JSON only.\n",
+                    outputFooter,
                 RequestPhase.Reply =>
                     "# PHASE 3/3 (Reply)\n" +
                     "Goal: Reply to the player.\n" +
@@ -845,7 +901,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private bool IsToolAvailable(string toolName)
         {
             if (string.IsNullOrWhiteSpace(toolName)) return false;
-            if (string.Equals(toolName, "capture_screen", StringComparison.OrdinalIgnoreCase))
+            if (IsVlmToolName(toolName))
             {
                 return WulaFallenEmpireMod.settings?.enableVlmFeatures == true;
             }
@@ -947,6 +1003,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    toolName.StartsWith("search_", StringComparison.OrdinalIgnoreCase) ||
                    toolName.StartsWith("analyze_", StringComparison.OrdinalIgnoreCase) ||
                    toolName == "recall_memories";
+        }
+        private static bool IsVlmToolName(string toolName)
+        {
+            return toolName == "analyze_screen" || toolName == "capture_screen";
         }
         private static string SanitizeToolResultForActionPhase(string message)
         {
@@ -1763,7 +1823,8 @@ private List<ChatMessage> BuildNativeHistory()
                 string model = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
                 var client = new SimpleAIClient(apiKey, baseUrl, model, settings.useGeminiProtocol);
                 _currentClient = client;
-                if (!settings.useGeminiProtocol)
+                bool useQwenTemplate = !settings.useNativeToolApi;
+                if (settings.useNativeToolApi)
                 {
                     await RunNativeToolLoopAsync(client, settings);
                     return;
@@ -1955,7 +2016,7 @@ private List<ChatMessage> BuildNativeHistory()
                     WulaLog.Debug($"[WulaAI] ===== Turn 3/3 ({replyPhase}) =====");
                 }
                 SetThinkingPhase(3, false);
-                string replyInstruction = GetSystemInstruction(false, "") + "\n\n" + GetPhaseInstruction(replyPhase);
+                string replyInstruction = GetSystemInstruction(false, "") + "\n\n" + GetPhaseInstruction(replyPhase, useQwenTemplate);
                 if (!string.IsNullOrWhiteSpace(_queryToolLedgerNote))
                 {
                     replyInstruction += "\n" + _queryToolLedgerNote;
@@ -2167,7 +2228,7 @@ private List<ChatMessage> BuildNativeHistory()
                 WulaLog.Debug("[WulaAI] ===== Turn 3/3 (Reply) =====");
             }
             SetThinkingPhase(3, false);
-            string replyInstruction = GetSystemInstruction(false, "") + "\n\n" + GetPhaseInstruction(replyPhase);
+            string replyInstruction = GetSystemInstruction(false, "") + "\n\n" + GetPhaseInstruction(replyPhase, false);
             if (!string.IsNullOrWhiteSpace(_queryToolLedgerNote))
             {
                 replyInstruction += "\n" + _queryToolLedgerNote;
@@ -2315,9 +2376,18 @@ private List<ChatMessage> BuildNativeHistory()
                     executed++;
                     continue;
                 }
-                if (string.Equals(call.Name, "analyze_screen", StringComparison.OrdinalIgnoreCase) ||
-                    string.Equals(call.Name, "capture_screen", StringComparison.OrdinalIgnoreCase))
+                if (IsVlmToolName(call.Name))
                 {
+                    if (phase != RequestPhase.QueryTools || WulaFallenEmpireMod.settings?.enableVlmFeatures != true)
+                    {
+                        string note = $"ToolRunner Note: Ignored visual tool in this phase: {call.Name}.";
+                        combinedResults.AppendLine(note);
+                        messages?.Add(ChatMessage.ToolResult(call.Id ?? "", note));
+                        historyToolResults.Add((call.Id ?? "", note));
+                        nonActionToolsInActionPhase.Add(call.Name);
+                        executed++;
+                        continue;
+                    }
                     capturedImageForPhase = ScreenCaptureUtility.CaptureScreenAsBase64();
                     string resultText = "Screen captured successfully. Context updated for next phase.";
                     combinedResults.AppendLine($"Tool '{call.Name}' Result: {resultText}");
@@ -2534,8 +2604,16 @@ private async Task<PhaseExecutionResult> ExecuteJsonToolsForPhase(string json, R
                     historyCall["id"] = call.Id;
                 }
                 historyCalls.Add(historyCall);
-                if (toolName.Equals("analyze_screen", StringComparison.OrdinalIgnoreCase) || toolName.Equals("capture_screen", StringComparison.OrdinalIgnoreCase))
+                if (IsVlmToolName(toolName))
                 {
+                    if (phase != RequestPhase.QueryTools || WulaFallenEmpireMod.settings?.enableVlmFeatures != true)
+                    {
+                        combinedResults.AppendLine($"ToolRunner Note: Ignored visual tool in this phase: {toolName}.");
+                        historyToolResults.Add((call.Id ?? "", $"ToolRunner Note: Ignored visual tool in this phase: {toolName}."));
+                        nonActionToolsInActionPhase.Add(toolName);
+                        executed++;
+                        continue;
+                    }
                     capturedImageForPhase = ScreenCaptureUtility.CaptureScreenAsBase64();
                     combinedResults.AppendLine($"Tool '{toolName}' Result: Screen captured successfully. Context updated for next phase.");
                     historyToolResults.Add((call.Id ?? "", $"Tool '{toolName}' Result: Screen captured successfully. Context updated for next phase."));

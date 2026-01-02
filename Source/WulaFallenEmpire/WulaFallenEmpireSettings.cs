@@ -14,6 +14,7 @@ namespace WulaFallenEmpire
         public string geminiModel = "gemini-2.5-flash";
         
         public bool useGeminiProtocol = false; // 是否使用 Google Gemini 协议格式
+        public bool useNativeToolApi = true;
         public int maxContextTokens = 100000;
         public bool enableDebugLogs = false;
         
@@ -39,6 +40,7 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref geminiModel, "geminiModel", "gemini-2.5-flash");
             
             Scribe_Values.Look(ref useGeminiProtocol, "useGeminiProtocol", false);
+            Scribe_Values.Look(ref useNativeToolApi, "useNativeToolApi", true);
             Scribe_Values.Look(ref maxContextTokens, "maxContextTokens", 100000);
             Scribe_Values.Look(ref enableDebugLogs, "enableDebugLogs", false);
             

@@ -80,6 +80,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
                 return true;
             }
 
+            if (TryParseToolCallsFromQwenText(trimmed, out toolCalls, out jsonFragment))
+            {
+                return true;
+            }
+
             int firstBrace = trimmed.IndexOf('{');
             int lastBrace = trimmed.LastIndexOf('}');
             if (firstBrace >= 0 && lastBrace > firstBrace)
@@ -98,6 +103,79 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
             }
 
             return false;
+        }
+        private static bool TryParseToolCallsFromQwenText(string input, out List<ToolCallInfo> toolCalls, out string jsonFragment)
+        {
+            toolCalls = null;
+            jsonFragment = null;
+            if (string.IsNullOrWhiteSpace(input)) return false;
+
+            const string startTag = "<tool_call>";
+            const string endTag = "</tool_call>";
+            int index = 0;
+            var parsedCalls = new List<ToolCallInfo>();
+
+            while (index < input.Length)
+            {
+                int start = IndexOfIgnoreCase(input, startTag, index);
+                if (start < 0) break;
+                int end = IndexOfIgnoreCase(input, endTag, start + startTag.Length);
+                if (end < 0) break;
+
+                string inner = input.Substring(start + startTag.Length, end - (start + startTag.Length)).Trim();
+                if (TryParseObject(inner, out Dictionary<string, object> obj))
+                {
+                    string name = TryGetString(obj, "name");
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        object argsObj = null;
+                        TryGetValue(obj, "arguments", out argsObj);
+                        if (!TryNormalizeArguments(argsObj, out Dictionary<string, object> args, out string argsJson))
+                        {
+                            args = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                            argsJson = "{}";
+                        }
+                        string id = TryGetString(obj, "id");
+                        parsedCalls.Add(new ToolCallInfo
+                        {
+                            Id = id,
+                            Name = name.Trim(),
+                            Arguments = args,
+                            ArgumentsJson = argsJson
+                        });
+                    }
+                }
+
+                index = end + endTag.Length;
+            }
+
+            if (parsedCalls.Count == 0) return false;
+
+            toolCalls = parsedCalls;
+            var callEntries = new List<object>();
+            foreach (var call in parsedCalls)
+            {
+                var entry = new Dictionary<string, object>
+                {
+                    ["type"] = "function",
+                    ["function"] = new Dictionary<string, object>
+                    {
+                        ["name"] = call.Name ?? "",
+                        ["arguments"] = call.Arguments ?? new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase)
+                    }
+                };
+                if (!string.IsNullOrWhiteSpace(call.Id))
+                {
+                    entry["id"] = call.Id;
+                }
+                callEntries.Add(entry);
+            }
+
+            jsonFragment = SerializeToJson(new Dictionary<string, object>
+            {
+                ["tool_calls"] = callEntries
+            });
+            return true;
         }
 
         public static bool TryParseObjectFromText(string input, out Dictionary<string, object> obj, out string jsonFragment)
@@ -280,6 +358,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Utils
         private static int IndexOfIgnoreCase(string input, string value)
         {
             return input?.IndexOf(value ?? "", StringComparison.OrdinalIgnoreCase) ?? -1;
+        }
+        private static int IndexOfIgnoreCase(string input, string value, int startIndex)
+        {
+            return input?.IndexOf(value ?? "", startIndex, StringComparison.OrdinalIgnoreCase) ?? -1;
         }
 
         public static bool TryParseObject(string json, out Dictionary<string, object> obj)
