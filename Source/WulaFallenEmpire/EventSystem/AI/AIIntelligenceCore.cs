@@ -1909,21 +1909,33 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             return _tools.Any(t => string.Equals(t?.Name, toolName, StringComparison.OrdinalIgnoreCase));
 
-        }
-
-
-
-
-
-
-
+        }
+
+        private static string StripJsonFence(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return input;
+            string trimmed = input.Trim();
+            if (!trimmed.StartsWith("```", StringComparison.Ordinal)) return trimmed;
+            int firstNewline = trimmed.IndexOf('\n');
+            if (firstNewline < 0) return trimmed;
+            string inner = trimmed.Substring(firstNewline + 1);
+            int lastFence = inner.LastIndexOf("```", StringComparison.Ordinal);
+            if (lastFence >= 0)
+            {
+                inner = inner.Substring(0, lastFence);
+            }
+            return inner.Trim();
+        }
+
         private static bool ShouldRetryTools(string response)
 
         {
 
             if (string.IsNullOrWhiteSpace(response)) return false;
 
-            if (!JsonToolCallParser.TryParseObject(response, out var obj)) return false;
+            string cleaned = StripJsonFence(response);
+
+            if (!JsonToolCallParser.TryParseObject(cleaned, out var obj)) return false;
 
             if (obj.TryGetValue("retry_tools", out object raw) && raw != null)
 
@@ -4431,7 +4443,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                 temperature: 0.2f,
 
-                toolChoice: "auto");
+                toolChoice: "required");
 
 
 
@@ -4521,7 +4533,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                         temperature: 0.2f,
 
-                        toolChoice: "auto");
+                        toolChoice: "required");
 
                     if (retryQueryResponse == null)
 
@@ -5081,6 +5093,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
 
 
+                if (!ToolCallValidator.TryValidate(tool, argsJson, out _, out string validationError))
+                {
+                    string note = $"{validationError} Please output tool_calls with valid arguments only.";
+                    combinedResults.AppendLine(note);
+                    combinedResults.AppendLine("ToolRunner Guard: The tool call was blocked before execution. You MUST correct the tool call.");
+                    messages?.Add(ChatMessage.ToolResult(call.Id ?? "", note));
+                    if (IsActionToolName(call.Name))
+                    {
+                        failedActions.Add(call.Name);
+                        AddActionFailure(call.Name);
+                    }
+                    executed++;
+                    continue;
+                }
                 if (Prefs.DevMode)
 
                 {
@@ -5863,3 +5889,11 @@ private async Task<PhaseExecutionResult> ExecuteJsonToolsForPhase(string json, R
 
 
 
+
+
+
+
+
+
+
+

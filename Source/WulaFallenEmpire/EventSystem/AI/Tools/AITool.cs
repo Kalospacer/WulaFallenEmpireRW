@@ -22,6 +22,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public virtual Dictionary<string, object> GetFunctionDefinition()
         {
             var parameters = GetParametersSchema() ?? SchemaObject(new Dictionary<string, object>(), new string[] { });
+            parameters = ToolSchemaSanitizer.Sanitize(parameters);
             return new Dictionary<string, object>
             {
                 ["type"] = "function",
