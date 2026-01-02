@@ -173,8 +173,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             if (_useGemini)
             {
-                WulaLog.Debug("[WulaAI] Native tool calling is not supported with Gemini protocol.");
-                return null;
+                return await GetGeminiCompletionWithToolsAsync(instruction, messages, tools, maxTokens, temperature, toolChoice);
             }
 
             if (string.IsNullOrEmpty(_baseUrl))
@@ -192,6 +191,27 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (response == null) return null;
 
             return ExtractChatCompletionResult(response);
+        }
+
+        private async Task<ChatCompletionResult> GetGeminiCompletionWithToolsAsync(string instruction, List<ChatMessage> messages, List<Dictionary<string, object>> tools, int? maxTokens = null, float? temperature = null, string toolChoice = null)
+        {
+            if (messages == null) messages = new List<ChatMessage>();
+            if (messages.Count == 0)
+            {
+                messages.Add(ChatMessage.User("Start."));
+            }
+
+            string baseUrl = _baseUrl;
+            if (string.IsNullOrEmpty(baseUrl) || !baseUrl.Contains("googleapis.com"))
+            {
+                baseUrl = "https://generativelanguage.googleapis.com/v1beta";
+            }
+
+            string endpoint = $"{baseUrl}/models/{_model}:generateContent?key={_apiKey}";
+            string jsonBody = BuildGeminiToolRequestBody(instruction, messages, tools, maxTokens, temperature, toolChoice);
+            string response = await SendRequestRawAsync(endpoint, jsonBody, null);
+            if (response == null) return null;
+            return ExtractGeminiChatCompletionResult(response);
         }
 
         private async Task<string> GetGeminiCompletionAsync(string instruction, List<(string role, string message)> messages, int? maxTokens = null, float? temperature = null, string base64Image = null)
@@ -251,6 +271,266 @@ namespace WulaFallenEmpire.EventSystem.AI
             jsonBuilder.Append("}");
 
             return await SendRequestAsync(endpoint, jsonBuilder.ToString(), null);
+        }
+
+        private string BuildGeminiToolRequestBody(string instruction, List<ChatMessage> messages, List<Dictionary<string, object>> tools, int? maxTokens, float? temperature, string toolChoice)
+        {
+            var toolDeclarations = BuildGeminiFunctionDeclarations(tools);
+            var toolNames = new HashSet<string>(toolDeclarations.Select(d => d.Name), StringComparer.OrdinalIgnoreCase);
+
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.Append("{");
+
+            if (!string.IsNullOrEmpty(instruction))
+            {
+                jsonBuilder.Append("\"system_instruction\": {\"parts\": [{\"text\": \"" + EscapeJson(instruction) + "\"}]},");
+            }
+
+            jsonBuilder.Append("\"contents\": [");
+            for (int i = 0; i < messages.Count; i++)
+            {
+                var msg = messages[i];
+                string role = (msg.Role ?? "user").ToLowerInvariant();
+                if (role == "assistant" || role == "ai") role = "model";
+                else role = "user";
+
+                jsonBuilder.Append($"{{\"role\": \"{role}\", \"parts\": [");
+                bool wrotePart = false;
+
+                if (string.Equals(msg.Role, "tool", StringComparison.OrdinalIgnoreCase))
+                {
+                    string toolName = ExtractToolNameFromResult(msg.Content);
+                    if (!string.IsNullOrWhiteSpace(toolName) && toolNames.Contains(toolName))
+                    {
+                        string responseJson = JsonToolCallParser.SerializeToJson(new Dictionary<string, object>
+                        {
+                            ["result"] = msg.Content ?? ""
+                        });
+                        jsonBuilder.Append("{\"functionResponse\": {\"name\": \"" + EscapeJson(toolName) + "\", \"response\": " + responseJson + "}}");
+                        wrotePart = true;
+                    }
+                }
+
+                if (!wrotePart && !string.IsNullOrEmpty(msg.Content))
+                {
+                    jsonBuilder.Append("{\"text\": \"" + EscapeJson(msg.Content) + "\"}");
+                    wrotePart = true;
+                }
+
+                if (string.Equals(msg.Role, "assistant", StringComparison.OrdinalIgnoreCase) && msg.ToolCalls != null && msg.ToolCalls.Count > 0)
+                {
+                    foreach (var call in msg.ToolCalls)
+                    {
+                        if (call == null || string.IsNullOrWhiteSpace(call.Name)) continue;
+                        if (wrotePart) jsonBuilder.Append(",");
+                        string argsJson = call.ArgumentsJson;
+                        if (!JsonToolCallParser.TryParseObject(argsJson, out var argsDict))
+                        {
+                            argsDict = new Dictionary<string, object>();
+                        }
+                        jsonBuilder.Append("{\"functionCall\": {\"name\": \"" + EscapeJson(call.Name) + "\", \"args\": ");
+                        jsonBuilder.Append(JsonToolCallParser.SerializeToJson(argsDict));
+                        jsonBuilder.Append("}}");
+                        wrotePart = true;
+                    }
+                }
+
+                if (!wrotePart)
+                {
+                    jsonBuilder.Append("{\"text\": \"\"}");
+                }
+
+                jsonBuilder.Append("]}");
+                if (i < messages.Count - 1) jsonBuilder.Append(",");
+            }
+            jsonBuilder.Append("]");
+
+            if (toolDeclarations.Count > 0)
+            {
+                jsonBuilder.Append(",\"tools\": [{\"functionDeclarations\": [");
+                for (int i = 0; i < toolDeclarations.Count; i++)
+                {
+                    var decl = toolDeclarations[i];
+                    jsonBuilder.Append("{\"name\": \"" + EscapeJson(decl.Name) + "\"");
+                    if (!string.IsNullOrWhiteSpace(decl.Description))
+                    {
+                        jsonBuilder.Append(",\"description\": \"" + EscapeJson(decl.Description) + "\"");
+                    }
+                    if (decl.Parameters != null)
+                    {
+                        jsonBuilder.Append(",\"parameters\": ");
+                        jsonBuilder.Append(JsonToolCallParser.SerializeToJson(decl.Parameters));
+                    }
+                    jsonBuilder.Append("}");
+                    if (i < toolDeclarations.Count - 1) jsonBuilder.Append(",");
+                }
+                jsonBuilder.Append("]}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(toolChoice) && string.Equals(toolChoice, "required", StringComparison.OrdinalIgnoreCase))
+            {
+                jsonBuilder.Append(",\"toolConfig\": {\"functionCallingConfig\": {\"mode\": \"ANY\"}}");
+            }
+
+            jsonBuilder.Append(",\"generationConfig\": {");
+            if (temperature.HasValue) jsonBuilder.Append($"\"temperature\": {temperature.Value.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)},");
+            if (maxTokens.HasValue) jsonBuilder.Append($"\"maxOutputTokens\": {maxTokens.Value}");
+            else jsonBuilder.Append("\"maxOutputTokens\": 2048");
+            jsonBuilder.Append("}");
+
+            jsonBuilder.Append("}");
+            return jsonBuilder.ToString();
+        }
+
+        private ChatCompletionResult ExtractGeminiChatCompletionResult(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json)) return null;
+            if (!JsonToolCallParser.TryParseObject(json, out var root))
+            {
+                return new ChatCompletionResult { Content = ExtractContent(json) };
+            }
+            if (!TryGetList(root, "candidates", out var candidates) || candidates.Count == 0)
+            {
+                return new ChatCompletionResult { Content = ExtractContent(json) };
+            }
+
+            var firstCandidate = candidates[0] as Dictionary<string, object>;
+            if (firstCandidate == null)
+            {
+                return new ChatCompletionResult { Content = ExtractContent(json) };
+            }
+
+            Dictionary<string, object> contentObj = null;
+            if (TryGetObject(firstCandidate, "content", out var contentDict))
+            {
+                contentObj = contentDict;
+            }
+
+            List<ToolCallRequest> toolCalls = null;
+            StringBuilder textBuilder = new StringBuilder();
+            if (contentObj != null && TryGetList(contentObj, "parts", out var parts))
+            {
+                foreach (var partObj in parts)
+                {
+                    if (partObj is not Dictionary<string, object> partDict) continue;
+                    string text = TryGetString(partDict, "text");
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        textBuilder.Append(text);
+                    }
+                    if (TryGetObject(partDict, "functionCall", out var fnObj))
+                    {
+                        var parsedCall = ParseGeminiFunctionCall(fnObj);
+                        if (parsedCall != null)
+                        {
+                            toolCalls ??= new List<ToolCallRequest>();
+                            toolCalls.Add(parsedCall);
+                        }
+                    }
+                }
+            }
+
+            if (TryGetList(firstCandidate, "functionCalls", out var functionCalls))
+            {
+                foreach (var fnObj in functionCalls.OfType<Dictionary<string, object>>())
+                {
+                    var parsedCall = ParseGeminiFunctionCall(fnObj);
+                    if (parsedCall != null)
+                    {
+                        toolCalls ??= new List<ToolCallRequest>();
+                        toolCalls.Add(parsedCall);
+                    }
+                }
+            }
+
+            string content = textBuilder.ToString();
+            if (string.IsNullOrWhiteSpace(content)) content = null;
+
+            return new ChatCompletionResult
+            {
+                Content = content,
+                ToolCalls = toolCalls,
+                Thought = null
+            };
+        }
+
+        private static ToolCallRequest ParseGeminiFunctionCall(Dictionary<string, object> fnObj)
+        {
+            if (fnObj == null) return null;
+            string name = TryGetString(fnObj, "name");
+            if (string.IsNullOrWhiteSpace(name)) return null;
+            if (!TryGetValue(fnObj, "args", out var argsObj))
+            {
+                TryGetValue(fnObj, "arguments", out argsObj);
+            }
+            string argsJson = "{}";
+            if (argsObj is Dictionary<string, object> argsDict)
+            {
+                argsJson = JsonToolCallParser.SerializeToJson(argsDict);
+            }
+            else if (argsObj is string argsString)
+            {
+                argsJson = string.IsNullOrWhiteSpace(argsString) ? "{}" : argsString;
+            }
+            else if (argsObj != null)
+            {
+                argsJson = JsonToolCallParser.SerializeToJson(argsObj);
+            }
+            return new ToolCallRequest
+            {
+                Id = $"gemini_{Guid.NewGuid():N}".Substring(0, 12),
+                Name = name,
+                ArgumentsJson = argsJson
+            };
+        }
+
+        private static string ExtractToolNameFromResult(string content)
+        {
+            if (string.IsNullOrWhiteSpace(content)) return null;
+            var match = Regex.Match(content, @"Tool\s+'([^']+)'", RegexOptions.IgnoreCase);
+            if (match.Success && match.Groups.Count > 1)
+            {
+                return match.Groups[1].Value.Trim();
+            }
+            match = Regex.Match(content, @"Error:\s*Tool\s+'([^']+)'", RegexOptions.IgnoreCase);
+            if (match.Success && match.Groups.Count > 1)
+            {
+                return match.Groups[1].Value.Trim();
+            }
+            return null;
+        }
+
+        private sealed class GeminiFunctionDeclaration
+        {
+            public string Name;
+            public string Description;
+            public Dictionary<string, object> Parameters;
+        }
+
+        private static List<GeminiFunctionDeclaration> BuildGeminiFunctionDeclarations(List<Dictionary<string, object>> tools)
+        {
+            var results = new List<GeminiFunctionDeclaration>();
+            if (tools == null) return results;
+            foreach (var tool in tools)
+            {
+                if (tool == null) continue;
+                if (!TryGetObject(tool, "function", out var fnObj)) continue;
+                string name = TryGetString(fnObj, "name");
+                if (string.IsNullOrWhiteSpace(name)) continue;
+                string description = TryGetString(fnObj, "description");
+                Dictionary<string, object> parameters = null;
+                if (TryGetObject(fnObj, "parameters", out var paramObj))
+                {
+                    parameters = paramObj;
+                }
+                results.Add(new GeminiFunctionDeclaration
+                {
+                    Name = name,
+                    Description = description,
+                    Parameters = parameters
+                });
+            }
+            return results;
         }
 
         private async Task<string> SendRequestAsync(string endpoint, string jsonBody, string apiKey)
