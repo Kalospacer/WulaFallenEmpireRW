@@ -44,8 +44,8 @@ namespace WulaFallenEmpire
             bool currentIsGemini = settings.useGeminiProtocol;
             if (listingStandard.RadioButton("OpenAI / 常用兼容格式 (DeepSeek, ChatGPT)", !currentIsGemini)) settings.useGeminiProtocol = false;
             if (listingStandard.RadioButton("Google Gemini 原生格式 (支持本地多模态)", currentIsGemini)) settings.useGeminiProtocol = true;
-            listingStandard.CheckboxLabeled("使用原生 tool_calls API)", ref settings.useNativeToolApi,
-                "对于训练过工具调用能力的全量大模型推荐开启，如果使用较弱的小模型或者无法调用工具可以尝试关闭该选项以使用提示词兼容工具调用模式。对于Deepseek,ChatGPT,Gemini,GLM,Kimi2,Qwen模型都推荐开启，其他模型未测试。");
+            listingStandard.CheckboxLabeled("使用原生函数调用 API", ref settings.useNativeToolApi,
+                "对于训练过工具调用能力的全量大模型推荐开启，如果使用较弱的小模型或者无法调用工具可以尝试关闭该选项以使用提示词兼容函数调用模式。对于Deepseek,ChatGPT,Gemini,GLM,Kimi2,Qwen模型都推荐开启，其他模型未测试。");
             listingStandard.GapLine();
 
             // 根据当前选中的协议，动态绑定输入字段
