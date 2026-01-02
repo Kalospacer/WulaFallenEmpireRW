@@ -622,9 +622,13 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                             DrawReactTracePanel(traceRect, liveTraceEntry);
                         }
                     }
-                    else if (thinkingY + 40f >= viewTop && thinkingY <= viewBottom)
+                    else
                     {
-                        DrawThinkingIndicator(new Rect(innerPadding, thinkingY, contentWidth, 35f));
+                        float indicatorHeight = (_core != null && !string.IsNullOrWhiteSpace(_core.LatestThought)) ? 55f : 35f;
+                        if (thinkingY + indicatorHeight >= viewTop && thinkingY <= viewBottom)
+                        {
+                            DrawThinkingIndicator(new Rect(innerPadding, thinkingY, contentWidth, indicatorHeight));
+                        }
                     }
                 }
 
@@ -864,7 +868,16 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleLeft;
             
-            Widgets.Label(rect, BuildThinkingStatus());
+            Rect statusRect = new Rect(rect.x, rect.y, rect.width, 22f);
+            Widgets.Label(statusRect, BuildThinkingStatus());
+
+            string thought = _core?.LatestThought;
+            if (!string.IsNullOrWhiteSpace(thought))
+            {
+                Text.Font = GameFont.Tiny;
+                Rect thoughtRect = new Rect(rect.x, statusRect.yMax + 2f, rect.width, 22f);
+                Widgets.Label(thoughtRect, $"??: {thought}");
+            }
             
             GUI.color = originalColor;
             Text.Anchor = originalAnchor;

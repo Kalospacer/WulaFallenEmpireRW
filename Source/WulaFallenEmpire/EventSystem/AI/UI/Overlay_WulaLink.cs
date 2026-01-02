@@ -673,8 +673,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 }
                 else
                 {
-                    Rect thinkingRect = new Rect(0, thinkingY, width, 30f);
-                    if (thinkingY + 30f >= viewTop && thinkingY <= viewBottom)
+                    float indicatorHeight = (_core != null && !string.IsNullOrWhiteSpace(_core.LatestThought)) ? 50f : 30f;
+                    Rect thinkingRect = new Rect(0, thinkingY, width, indicatorHeight);
+                    if (thinkingY + indicatorHeight >= viewTop && thinkingY <= viewBottom)
                     {
                         DrawThinkingIndicator(thinkingRect);
                     }
@@ -1044,11 +1045,19 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = Color.gray;
             Rect iconRect = new Rect(rect.x + 60f, rect.y, 24f, 24f); 
-            Rect labelRect = new Rect(iconRect.xMax + 5f, rect.y, 400f, 24f);
+            Rect labelRect = new Rect(iconRect.xMax + 5f, rect.y, rect.width - iconRect.xMax - 5f, 24f);
             
             // Draw a simple box as thinking indicator if TexUI is missing
             Widgets.DrawBoxSolid(iconRect, Color.gray);
             Widgets.Label(labelRect, BuildThinkingStatus());
+
+            string thought = _core?.LatestThought;
+            if (!string.IsNullOrWhiteSpace(thought))
+            {
+                Text.Font = GameFont.Tiny;
+                Rect thoughtRect = new Rect(labelRect.x, labelRect.yMax + 2f, labelRect.width, 22f);
+                Widgets.Label(thoughtRect, $"??: {thought}");
+            }
             
             Text.Anchor = TextAnchor.UpperLeft;
             GUI.color = Color.white;

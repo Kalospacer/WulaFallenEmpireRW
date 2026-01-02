@@ -50,6 +50,7 @@ namespace WulaFallenEmpire.EventSystem.AI
     {
         public string Content;
         public List<ToolCallRequest> ToolCalls;
+        public string Thought;
     }
 
     public class SimpleAIClient
@@ -435,10 +436,14 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
 
             string content = TryGetString(message, "content");
+            string thought = TryGetString(message, "reasoning_content");
+            if (string.IsNullOrWhiteSpace(thought)) thought = TryGetString(message, "thought");
+            if (string.IsNullOrWhiteSpace(thought)) thought = TryGetString(message, "reasoning");
             var result = new ChatCompletionResult
             {
                 Content = content,
-                ToolCalls = ParseToolCalls(message)
+                ToolCalls = ParseToolCalls(message),
+                Thought = thought
             };
             return result;
         }
