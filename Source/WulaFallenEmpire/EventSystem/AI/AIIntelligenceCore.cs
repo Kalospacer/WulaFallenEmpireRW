@@ -9840,8 +9840,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
             int maxTools = MaxToolsPerPhase(phase);
 
-            var historyToolResults = new List<(string id, string content)>();
-
 
 
             var callsToExecute = toolCalls.Count > maxTools ? toolCalls.GetRange(0, maxTools) : toolCalls;
@@ -10764,8 +10762,6 @@ private async Task<PhaseExecutionResult> ExecuteJsonToolsForPhase(string json, R
 
 
             int maxTools = MaxToolsPerPhase(phase);
-
-            var historyToolResults = new List<(string id, string content)>();
 
 
 
