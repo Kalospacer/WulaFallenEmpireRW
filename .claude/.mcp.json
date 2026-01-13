@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "rimworld-code-rag": {
+      "type": "stdio",
+      "command": "C:/Users/Kalo/miniconda3/python.exe",
+      "args": [
+        "C:/Steam/steamapps/common/RimWorld/Mods/3516260226/MCP/mcpserver_stdio_complete.py"
+      ],
+      "ready_timeout": 120000,
+      "alwaysAllow": [
+        "get_item",
+        "rough_search"
+      ],
+      "disabled": false
+    }
+  }
+}
