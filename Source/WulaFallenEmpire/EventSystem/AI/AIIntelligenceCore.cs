@@ -141,25 +141,32 @@ For each function call, return a JSON object within <tool_call></tool_call> tags
                 if (_overlayWindowOpen && !string.IsNullOrEmpty(_overlayWindowEventDefName))
                 {
                     string eventDefNameToRestore = _overlayWindowEventDefName;
+                    float savedX = _overlayWindowX;
+                    float savedY = _overlayWindowY;
                     LongEventHandler.ExecuteWhenFinished(() =>
                     {
                         try
                         {
-                            var existingWindow = Find.WindowStack?.Windows?.OfType<WulaFallenEmpire.EventSystem.AI.UI.Overlay_WulaLink>().FirstOrDefault();
+                            // Additional safety checks for load scenarios
+                            if (Find.WindowStack == null || Find.World == null)
+                            {
+                                WulaLog.Debug("[WulaAI] Skipping overlay restore: game not fully loaded.");
+                                return;
+                            }
+
+                            var existingWindow = Find.WindowStack.Windows?.OfType<WulaFallenEmpire.EventSystem.AI.UI.Overlay_WulaLink>().FirstOrDefault();
                             if (existingWindow == null)
                             {
                                 var eventDef = DefDatabase<EventDef>.GetNamedSilentFail(eventDefNameToRestore);
                                 if (eventDef != null)
                                 {
                                     var newWindow = new WulaFallenEmpire.EventSystem.AI.UI.Overlay_WulaLink(eventDef);
+                                    if (savedX >= 0f && savedY >= 0f)
+                                    {
+                                        newWindow.SetInitialPosition(savedX, savedY);
+                                    }
                                     Find.WindowStack.Add(newWindow);
                                     newWindow.ToggleMinimize(); // Start minimized
-                                    // Force position after everything else
-                                    if (_overlayWindowX >= 0f && _overlayWindowY >= 0f)
-                                    {
-                                        newWindow.windowRect.x = _overlayWindowX;
-                                        newWindow.windowRect.y = _overlayWindowY;
-                                    }
                                 }
                             }
                         }

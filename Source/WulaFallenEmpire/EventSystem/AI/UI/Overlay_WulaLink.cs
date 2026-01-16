@@ -129,14 +129,14 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         public void Expand()
         {
             if (_isMinimized) ToggleMinimize();
-            Find.WindowStack.Notify_ManuallySetFocus(this);
+            Find.WindowStack?.Notify_ManuallySetFocus(this);
         }
 
         public override void PreOpen()
         {
             base.PreOpen();
-            // Connect to Core
-            _core = Find.World.GetComponent<AIIntelligenceCore>();
+            // Connect to Core - with null safety for load scenarios
+            _core = Find.World?.GetComponent<AIIntelligenceCore>();
             if (_core != null)
             {
                 _core.InitializeConversation(_eventDefName);
@@ -167,7 +167,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             {
                 _unreadCount++;
                 // Spawn Notification Bubble
-                Find.WindowStack.Add(new Overlay_WulaLink_Notification(msg));
+                Find.WindowStack?.Add(new Overlay_WulaLink_Notification(msg));
             }
         }
 
@@ -221,15 +221,15 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private void DrawMinimized(Rect rect)
         {
             // AI 核心挂件背景
-            Widgets.DrawBoxSolid(rect, new Color(0.1f, 0.1f, 0.1f, 0.9f)); 
+            Widgets.DrawBoxSolid(rect, new Color(0.1f, 0.1f, 0.1f, 0.9f));
             GUI.color = WulaLinkStyles.HeaderColor;
-            Widgets.DrawBox(rect, 2); 
+            Widgets.DrawBox(rect, 2);
             GUI.color = Color.white;
-            
+
             // 左侧：大型方形头像
             float avaSize = rect.height - 16f;
             Rect avatarRect = new Rect(8f, 8f, avaSize, avaSize);
-            
+
             int expId = _core?.ExpressionId ?? 1;
             string portraitPath = "Wula/Storyteller/WULA_Legion_TINY";
             Texture2D portrait = ContentFinder<Texture2D>.Get(portraitPath, false);
@@ -245,17 +245,18 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             // 右侧：状态展示
             float rightContentX = avatarRect.xMax + 12f;
             float btnWidth = 30f;
-            
-            // Status Info
-            string status = _core.IsThinking ? "Thinking..." : "Standby";
-            Color statusColor = _core.IsThinking ? Color.yellow : Color.green;
+
+            // Status Info - with null safety
+            bool isThinking = _core?.IsThinking ?? false;
+            string status = isThinking ? "Thinking..." : "Standby";
+            Color statusColor = isThinking ? Color.yellow : Color.green;
 
             // 绘制状态文字
             Rect textRect = new Rect(rightContentX, 0, rect.width - rightContentX - btnWidth - 5f, rect.height);
             Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
             GUI.color = statusColor;
-            Widgets.Label(textRect, _core.IsThinking ? BuildThinkingStatus() : "Standby");
+            Widgets.Label(textRect, isThinking ? BuildThinkingStatus() : "Standby");
             GUI.color = Color.white;
 
             // 右侧：小巧的展开按钮
@@ -290,13 +291,14 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Widgets.DrawLineHorizontal(rect.x, rect.y, rect.width);
             
             string contextInfo = "Context: None";
-            if (Find.Selector.SingleSelectedThing != null)
+            var selector = Find.Selector;
+            if (selector?.SingleSelectedThing != null)
             {
-                contextInfo = $"Context: [{Find.Selector.SingleSelectedThing.LabelCap}]";
+                contextInfo = $"Context: [{selector.SingleSelectedThing.LabelCap}]";
             }
-            else if (Find.Selector.SelectedObjects.Count > 1)
+            else if (selector?.SelectedObjects?.Count > 1)
             {
-                contextInfo = $"Context: {Find.Selector.SelectedObjects.Count} objects selected";
+                contextInfo = $"Context: {selector.SelectedObjects.Count} objects selected";
             }
             
             Text.Anchor = TextAnchor.MiddleLeft;
@@ -917,12 +919,12 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             bool sendClicked = DrawCustomButton(btnRect, ">", !string.IsNullOrWhiteSpace(_inputText));
             if (sendClicked || enterPressed)
             {
-                if (!string.IsNullOrWhiteSpace(_inputText))
+                if (!string.IsNullOrWhiteSpace(_inputText) && _core != null)
                 {
                     bool wasFocused = GUI.GetNameOfFocusedControl() == "WulaInput";
                     _core.SendUserMessage(_inputText);
                     _inputText = "";
-                    if (wasFocused) GUI.FocusControl("WulaInput"); 
+                    if (wasFocused) GUI.FocusControl("WulaInput");
                 }
             }
             

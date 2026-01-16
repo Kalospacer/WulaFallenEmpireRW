@@ -195,9 +195,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
             // Switch to Small UI Button
             Rect switchBtnRect = new Rect(0f, 0f, 25f, 25f);
-            if (DrawHeaderButton(switchBtnRect, "-")) 
+            if (DrawHeaderButton(switchBtnRect, "-"))
             {
-                if (def != null)
+                if (def != null && Find.WindowStack != null)
                 {
                     var existing = Find.WindowStack.WindowOfType<Overlay_WulaLink>();
                     if (existing != null) existing.Expand();
@@ -210,7 +210,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Rect personalityBtnRect = new Rect(0f, 30f, 25f, 25f);
             if (DrawHeaderButton(personalityBtnRect, "P"))
             {
-                Find.WindowStack.Add(new Dialog_ExtraPersonalityPrompt());
+                Find.WindowStack?.Add(new Dialog_ExtraPersonalityPrompt());
             }
 
             float margin = 15f;
@@ -854,7 +854,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private string BuildThinkingStatus()
         {
             if (_core == null) return "Thinking...";
-            float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - _core.ThinkingStartTime);
+            float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - (_core.ThinkingStartTime));
             string elapsedText = elapsedSeconds.ToString("0.0", CultureInfo.InvariantCulture);
             return $"P.I.A is thinking... ({elapsedText}s Loop {_core.ThinkingPhaseIndex})";
         }
@@ -945,22 +945,22 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         {
             if (string.IsNullOrWhiteSpace(text)) return;
             if (_core == null) return;
-            
+
             if (string.Equals(text.Trim(), "/clear", StringComparison.OrdinalIgnoreCase))
             {
                 _isThinking = false;
                 _options.Clear();
                 _inputText = "";
                 // Core functionality for clear if implemented, or just UI clear
-                // For now, Dialog doesn't manage history, Core does. 
-                // Core should handle /clear command via SendUserMessage theoretically, 
+                // For now, Dialog doesn't manage history, Core does.
+                // Core should handle /clear command via SendUserMessage theoretically,
                 // or we call a hypothetical _core.ClearHistory().
                 // Based on previous code, SendUserMessage handles /clear logic inside Core.
             }
 
             _scrollToBottom = true;
             _core.SendUserMessage(text);
-            _history = _core.GetHistorySnapshot();
+            _history = _core.GetHistorySnapshot() ?? new List<(string role, string message)>();
         }
 
         private void DrawConversationOptions(Rect rect, List<EventOption> options)
