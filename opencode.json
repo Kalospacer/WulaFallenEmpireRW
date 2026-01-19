@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "rimworld-code-rag": {
+      "type": "local",
+      "command": [
+        "C:/Users/Kalo/miniconda3/python.exe",
+        "C:/Steam/steamapps/common/RimWorld/Mods/3516260226/MCP/mcpserver_stdio_complete.py"
+      ],
+      "enabled": true
+    }
+  }
+}
