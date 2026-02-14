@@ -46,3 +46,9 @@ node_modules/
 gemini-websocket-proxy/
 Tools/
 
+# Unstaged files to ignore
+.claude/settings.local.json
+MCP/mcpserver_stdio_complete.py
+Source/WulaFallenEmpire/3516260226.code-workspace
+opencode.json
+
