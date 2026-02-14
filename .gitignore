@@ -52,3 +52,25 @@ MCP/mcpserver_stdio_complete.py
 Source/WulaFallenEmpire/3516260226.code-workspace
 opencode.json
 
+# 构建日志文件
+Source/*/build*.log
+Source/*/build*.txt
+Source/*/build*.output
+
+
+# 临时/备份文件
+*.bak
+*.tmp
+*.swp
+
+# 工具文件夹
+Tools/
+
+# 游戏Mod相关临时文件
+mod.vdf.backup
+*.manifest
+
+# 编译临时文件
+*.pdb
+*.dll.config
+
