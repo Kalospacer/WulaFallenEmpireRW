@@ -40,7 +40,7 @@ namespace WulaFallenEmpire
                 return null;
 
             // 检查是否已经有工作
-            if (pawn.CurJob != null && pawn.CurJob.def == JobDefOf_WULA.WULA_InspectBuilding)
+            if (pawn.CurJob != null && pawn.CurJob.def == Wula_JobDefOf.WULA_InspectBuilding)
                 return null;
 
             // 检查冷却时间
@@ -53,7 +53,7 @@ namespace WulaFallenEmpire
                 return null;
 
             // 创建考察工作
-            Job job = JobMaker.MakeJob(JobDefOf_WULA.WULA_InspectBuilding, inspectionTarget);
+            Job job = JobMaker.MakeJob(Wula_JobDefOf.WULA_InspectBuilding, inspectionTarget);
             job.expiryInterval = Rand.Range(300, 600); // 5-10秒的随机时间
             job.checkOverrideOnExpire = true;
 
@@ -252,7 +252,7 @@ namespace WulaFallenEmpire
             {
                 if (otherPawn != currentPawn && 
                     otherPawn.CurJob != null && 
-                    otherPawn.CurJob.def == JobDefOf_WULA.WULA_InspectBuilding &&
+                    otherPawn.CurJob.def == Wula_JobDefOf.WULA_InspectBuilding &&
                     otherPawn.CurJob.targetA.Thing == thing)
                 {
                     return true;

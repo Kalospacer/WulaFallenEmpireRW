@@ -367,7 +367,7 @@ namespace WulaFallenEmpire
                     Find.BattleLog.Add(battleLogEntry_DamageTaken);
                 }
 
-                DamageInfo damageInfo = new DamageInfo(WulaDamageDefOf.Wula_Dark_Matter_Flame, num, 2f, -1f, instigator, null, weaponDef);
+                DamageInfo damageInfo = new DamageInfo(Wula_DamageDefOf.Wula_Dark_Matter_Flame, num, 2f, -1f, instigator, null, weaponDef);
                 tmpThings[i].TakeDamage(damageInfo).AssociateWithLog(battleLogEntry_DamageTaken);
             }
 

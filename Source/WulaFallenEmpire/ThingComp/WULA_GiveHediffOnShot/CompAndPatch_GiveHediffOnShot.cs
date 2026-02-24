@@ -41,10 +41,10 @@ namespace WulaFallenEmpire
     }
 
     // Patch 2: Specifically for Verb_ShootWithOffset.
-    [HarmonyPatch(typeof(Verb_ShootWithOffset), "TryCastShot")]
-    public static class Patch_Verb_ShootWithOffset_TryCastShot
+    [HarmonyPatch(typeof(Verb_Shoot), "TryCastShot")]
+    public static class Patch_Verb_Shoot_TryCastShot
     {
-        public static void Postfix(Verb_ShootWithOffset __instance, bool __result)
+        public static void Postfix(Verb_Shoot __instance, bool __result)
         {
             if (!__result) return;
             if (__instance.CasterPawn == null || __instance.EquipmentSource == null) return;
@@ -58,45 +58,26 @@ namespace WulaFallenEmpire
             var disappearsComp = hediff.TryGetComp<HediffComp_Disappears>();
             disappearsComp?.ResetElapsedTicks();
         }
-    }
 
-    // Patch 3: Specifically for our new Verb_ShootShotgunWithOffset.
-    [HarmonyPatch(typeof(Verb_ShootShotgunWithOffset), "TryCastShot")]
-    public static class Patch_Verb_ShootShotgunWithOffset_TryCastShot
-    {
-        public static void Postfix(Verb_ShootShotgunWithOffset __instance, bool __result)
+
+        // Patch 2: Specifically for Verb_ShootWithOffset.
+        [HarmonyPatch(typeof(Verb_ShootWithOffset), "TryCastShot")]
+        public static class Patch_ShootWithOffset_TryCastShot
         {
-            if (!__result) return;
-            if (__instance.CasterPawn == null || __instance.EquipmentSource == null) return;
+            public static void Postfix(Verb_ShootWithOffset __instance, bool __result)
+            {
+                if (!__result) return;
+                if (__instance.CasterPawn == null || __instance.EquipmentSource == null) return;
 
-            CompGiveHediffOnShot comp = __instance.EquipmentSource.GetComp<CompGiveHediffOnShot>();
-            if (comp == null || comp.Props.hediffDef == null) return;
+                CompGiveHediffOnShot comp = __instance.EquipmentSource.GetComp<CompGiveHediffOnShot>();
+                if (comp == null || comp.Props.hediffDef == null) return;
 
-            Hediff hediff = __instance.CasterPawn.health.GetOrAddHediff(comp.Props.hediffDef);
-            hediff.Severity += comp.Props.severityToAdd;
+                Hediff hediff = __instance.CasterPawn.health.GetOrAddHediff(comp.Props.hediffDef);
+                hediff.Severity += comp.Props.severityToAdd;
 
-            var disappearsComp = hediff.TryGetComp<HediffComp_Disappears>();
-            disappearsComp?.ResetElapsedTicks();
-        }
-    }
-
-    // 新增补丁：为 Verb_ShootBeamExplosive 添加支持
-    [HarmonyPatch(typeof(Verb_ShootBeamExplosive), "TryCastShot")]
-    public static class Patch_Verb_ShootBeamExplosive_TryCastShot
-    {
-        public static void Postfix(Verb_ShootBeamExplosive __instance, bool __result)
-        {
-            if (!__result) return;
-            if (__instance.CasterPawn == null || __instance.EquipmentSource == null) return;
-
-            CompGiveHediffOnShot comp = __instance.EquipmentSource.GetComp<CompGiveHediffOnShot>();
-            if (comp == null || comp.Props.hediffDef == null) return;
-
-            Hediff hediff = __instance.CasterPawn.health.GetOrAddHediff(comp.Props.hediffDef);
-            hediff.Severity += comp.Props.severityToAdd;
-
-            var disappearsComp = hediff.TryGetComp<HediffComp_Disappears>();
-            disappearsComp?.ResetElapsedTicks();
+                var disappearsComp = hediff.TryGetComp<HediffComp_Disappears>();
+                disappearsComp?.ResetElapsedTicks();
+            }
         }
     }
 }

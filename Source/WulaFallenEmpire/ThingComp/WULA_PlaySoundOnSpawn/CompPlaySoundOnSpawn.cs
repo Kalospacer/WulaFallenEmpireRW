@@ -127,16 +127,10 @@ namespace WulaFallenEmpire
                 // 播放声音
                 Props.sound.PlayOneShot(soundInfo);
                 soundPlayed = true;
-                
-                // 调试日志
-                if (Prefs.DevMode)
-                {
-                    WulaLog.Debug($"Played spawn sound: {Props.sound.defName} for {parent.Label} at {parent.Position}");
-                }
             }
             catch (System.Exception ex)
             {
-                WulaLog.Debug($"Error playing spawn sound for {parent.Label}: {ex}");
+                Log.Error($"Error playing spawn sound for {parent.Label}: {ex}");
             }
         }
 
@@ -161,10 +155,6 @@ namespace WulaFallenEmpire
                         if (Props.sound != null)
                         {
                             PlaySound();
-                        }
-                        else
-                        {
-                            WulaLog.Debug("No sound defined for CompPlaySoundOnSpawn");
                         }
                     }
                 };

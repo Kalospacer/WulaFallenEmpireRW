@@ -400,7 +400,7 @@ namespace WulaFallenEmpire
                 if (pawn.Downed || !pawn.IsFreeColonist)
                 {
                     // 需要搬运
-                    var haulJob = JobMaker.MakeJob(JobDefOf_WULA.WULA_HaulToMaintenancePod, pawn, parent);
+                    var haulJob = JobMaker.MakeJob(Wula_JobDefOf.WULA_HaulToMaintenancePod, pawn, parent);
                     var hauler = FindBestHauler(pawn);
                     if (hauler != null)
                     {
@@ -414,7 +414,7 @@ namespace WulaFallenEmpire
                 else
                 {
                     // 自己进入
-                    var enterJob = JobMaker.MakeJob(JobDefOf_WULA.WULA_EnterMaintenancePod, parent);
+                    var enterJob = JobMaker.MakeJob(Wula_JobDefOf.WULA_EnterMaintenancePod, parent);
                     pawn.jobs.TryTakeOrderedJob(enterJob);
                 }
             });

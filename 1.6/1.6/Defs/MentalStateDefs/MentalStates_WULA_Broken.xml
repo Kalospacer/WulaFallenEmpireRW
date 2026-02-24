@@ -43,4 +43,26 @@
     <inCaravanCanDo>true</inCaravanCanDo>
     <blocksDefendAndExpandHive>true</blocksDefendAndExpandHive>
   </MentalStateDef>
+
+  <MentalStateDef>
+    <defName>WULA_MechNoPilot</defName>
+    <label>无驾驶员</label>
+    <stateClass>WulaFallenEmpire.MentalState_MechNoPilot</stateClass>
+    <category>Misc</category>
+    <nameColor>(0.65, 0.9, 0.93)</nameColor>
+    <baseInspectLine>No driver</baseInspectLine>
+    <!-- <beginLetter>{PAWN_nameDef} has no pilot and cannot operate autonomously. It will stand idle until a pilot takes control.</beginLetter> -->
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <downedCanDo>true</downedCanDo>
+    <recoverFromDowned>false</recoverFromDowned>
+    <recoverFromCollapsingExhausted>false</recoverFromCollapsingExhausted>
+    <inCaravanCanDo>true</inCaravanCanDo>
+    <unspawnedNotInCaravanCanDo>true</unspawnedNotInCaravanCanDo>
+    <blockInteractionInitiationExcept>
+    </blockInteractionInitiationExcept>
+    <blockInteractionRecipientExcept>
+    </blockInteractionRecipientExcept>
+    <minTicksBeforeRecovery>10000</minTicksBeforeRecovery>
+    <recoveryMtbDays>999999</recoveryMtbDays>
+  </MentalStateDef>
 </Defs>

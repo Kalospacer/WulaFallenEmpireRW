@@ -55,4 +55,80 @@
     <tryStartFlying>true</tryStartFlying>
     <overrideFlyChance>1</overrideFlyChance>
   </JobDef>
+
+
+  <JobDef>
+    <defName>WULA_Launch_Proj</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_CastAbilityMaintainMultiProjectile</driverClass>
+    <reportString>发射中。</reportString>
+    <abilityCasting>true</abilityCasting>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <playerInterruptible>true</playerInterruptible>
+    <casualInterruptible>false</casualInterruptible>
+    <checkOverrideOnDamage>Always</checkOverrideOnDamage>
+    <suspendable>false</suspendable>
+  </JobDef>
+
+  
+  <JobDef>
+    <defName>WULA_EnterMech</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_EnterMech</driverClass>
+    <reportString>Entering mech.</reportString>
+    <!-- <checkOverrideOnDamage>true</checkOverrideOnDamage> -->
+    <suspendable>false</suspendable>
+  </JobDef>
+  <JobDef>
+    <defName>WULA_RefuelMech</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_RefuelMech</driverClass>
+    <reportString>Refuleing TargetA.</reportString>
+    <suspendable>false</suspendable>
+    <!-- <canBeForcedByDuty>true</canBeForcedByDuty>
+    <makeTargetPrisoner>false</makeTargetPrisoner> -->
+  </JobDef>
+  <WorkGiverDef>
+    <defName>WULA_Refuel</defName>
+    <label>refuel Mechs</label>
+    <giverClass>WulaFallenEmpire.WorkGiver_RefuelMech</giverClass>
+    <workType>Hauling</workType>
+    <verb>refuel</verb>
+    <gerund>refueling</gerund>
+    <priorityInType>140</priorityInType>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+  <JobDef>
+    <defName>WULA_RepairMech</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_RepairMech</driverClass>
+    <reportString>Repairing TargetA.</reportString>
+    <alwaysShowWeapon>false</alwaysShowWeapon>
+    <suspendable>false</suspendable>
+  </JobDef>
+  <WorkGiverDef>
+    <defName>WULA_RepairMech</defName>
+    <workType>Smithing</workType>
+    <giverClass>WulaFallenEmpire.WorkGiver_RepairMech</giverClass>
+    <priorityInType>50</priorityInType>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <verb>Repair</verb>
+    <gerund>Repair Mech</gerund>
+    <label>Repair Mech</label>
+  </WorkGiverDef>
+  <JobDef>
+    <defName>WULA_ForceEjectPilot</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_ForceEjectPilot</driverClass>
+    <reportString>Prise TargetA.</reportString>
+    <suspendable>false</suspendable>
+    <!-- <canBeForcedByDuty>true</canBeForcedByDuty>
+    <makeTargetPrisoner>false</makeTargetPrisoner> -->
+  </JobDef>
+  <JobDef>
+    <defName>WULA_CarryToMech</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_CarryToMech</driverClass>
+    <reportString>carrying TargetA to TargetB.</reportString>
+    <suspendable>false</suspendable>
+  </JobDef>
 </Defs>
