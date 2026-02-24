@@ -150,7 +150,7 @@ namespace WulaFallenEmpire
             }
             
             // 创建强制维修工作
-            Job job = JobMaker.MakeJob(Wula_JobDefOf.DD_RepairMech, parent);
+            Job job = JobMaker.MakeJob(Wula_JobDefOf.WULA_RepairMech, parent);
             job.playerForced = true;
             
             bestColonist.jobs.StartJob(job, JobCondition.InterruptForced, null, resumeCurJobAfterwards: true);

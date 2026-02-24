@@ -59,31 +59,6 @@ namespace WulaFallenEmpire.HarmonyPatches
                 DebugStats[__instance] = new DamageBlockStats();
             DebugStats[__instance].totalHits++;
             
-            // 第一步：检查伤害免疫HediffComp
-            if (__instance is Pawn pawn)
-            {
-                bool blockedByInvulnerable = CheckInvulnerableHediff(pawn, dinfo, out HediffComp_Invulnerable invulnerableComp);
-                
-                if (blockedByInvulnerable)
-                {
-                    // 被HediffComp免疫阻挡
-                    DebugStats[__instance].invulnerableBlocked++;
-                    
-                    // 显示免疫效果
-                    ShowImmuneEffect(pawn, dinfo);
-                    
-                    // 播放免疫音效
-                    PlayImmuneSound(pawn);
-                    
-                    // 调用HediffComp的OnDamageBlocked方法
-                    invulnerableComp?.OnDamageBlocked(dinfo);
-                    
-                    // 返回空结果，跳过原方法
-                    __result = new DamageWorker.DamageResult();
-                    return false;
-                }
-            }
-            
             // 第二步：检查机甲装甲系统
             float armorValue = __instance.GetStatValue(ArmorStatDef);
             
@@ -115,62 +90,6 @@ namespace WulaFallenEmpire.HarmonyPatches
             }
             
             return true;
-        }
-        
-        /// <summary>
-        /// 检查伤害免疫HediffComp
-        /// </summary>
-        private static bool CheckInvulnerableHediff(Pawn pawn, DamageInfo dinfo, out HediffComp_Invulnerable invulnerableComp)
-        {
-            invulnerableComp = null;
-            
-            if (pawn == null || pawn.health == null || pawn.health.hediffSet == null)
-                return false;
-            
-            // 检查所有Hediff，寻找HediffComp_Invulnerable
-            foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
-            {
-                if (hediff.TryGetComp<HediffComp_Invulnerable>() is HediffComp_Invulnerable comp)
-                {
-                    invulnerableComp = comp;
-                    return comp.ShouldBlockDamage(dinfo);
-                }
-            }
-            
-            return false;
-        }
-        
-        /// <summary>
-        /// 显示免疫效果
-        /// </summary>
-        private static void ShowImmuneEffect(Pawn pawn, DamageInfo dinfo)
-        {
-            if (!pawn.Spawned)
-                return;
-                
-            // 显示文字效果
-            Vector3 textPos = pawn.DrawPos + new Vector3(0, 0, 1f);
-            MoteMaker.ThrowText(textPos, pawn.Map, "DD_ImmuneToDamage".Translate(), Color.green, 2.5f);
-            
-            // 显示粒子效果
-            if (ImmuneMoteDef != null)
-            {
-                MoteMaker.MakeStaticMote(pawn.DrawPos, pawn.Map, ImmuneMoteDef, 1f);
-            }
-        }
-        
-        /// <summary>
-        /// 播放免疫音效
-        /// </summary>
-        private static void PlayImmuneSound(Pawn pawn)
-        {
-            if (!pawn.Spawned)
-                return;
-                
-            if (ImmuneSoundDef != null)
-            {
-                ImmuneSoundDef.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
-            }
         }
         
         /// <summary>

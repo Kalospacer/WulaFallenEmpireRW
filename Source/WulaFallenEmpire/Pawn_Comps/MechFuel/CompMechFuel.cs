@@ -280,7 +280,7 @@ namespace WulaFallenEmpire
             }
             
             // 为殖民者创建强制加注工作
-            Job job = JobMaker.MakeJob(Wula_JobDefOf.DD_RefuelMech, parent, fuel);
+            Job job = JobMaker.MakeJob(Wula_JobDefOf.WULA_RefuelMech, parent, fuel);
             job.count = GetFuelCountToFullyRefuel();
             job.playerForced = true;
             

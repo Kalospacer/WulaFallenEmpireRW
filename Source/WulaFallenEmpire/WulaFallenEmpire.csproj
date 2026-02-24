@@ -34,41 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Ability\WULA_LaunchMultiProjectile\CompAbilityEffect_LaunchMultiProjectile.cs" />
-    <Compile Include="Ability\WULA_LaunchMultiProjectile\CompProperties_AbilityLaunchMultiProjectile.cs" />
-    <Compile Include="Ability\WULA_LaunchMultiProjectile\JobDriver_CastAbilityMaintainMultiProjectile.cs" />
-    <Compile Include="Ability\WULA_RequiresNonHostility\CompAbilityEffect_RequiresNonHostility.cs" />
-    <Compile Include="Ability\WULA_ResearchPrereq\CompAbilityEffect_ResearchPrereq.cs" />
-    <Compile Include="BuildingComp\WULA_PathCostUpdater\CompPathCostUpdater.cs" />
-    <Compile Include="Building\Building_ExtraGraphics.cs" />
-    <Compile Include="Building\Building_MapObserver.cs" />
-    <Compile Include="Building\Building_TurretGunHasSpeed.cs" />
-    <Compile Include="HarmonyPatches\WULA_MechUnit\Patche_SkillSystem.cs" />
-    <Compile Include="HarmonyPatches\WULA_MechUnit\Patch_ColonistBarMech.cs" />
-    <Compile Include="HarmonyPatches\WULA_MechUnit\Patch_MechSpecificWeapon.cs" />
-    <Compile Include="HarmonyPatches\WULA_MechUnit\Patch_Mechunit.cs" />
-    <Compile Include="HarmonyPatches\WULA_MechUnit\Patch_RomanceFix.cs" />
-    <Compile Include="HarmonyPatches\WULA_MechUnit\Patch_TakeDamage.cs" />
-    <Compile Include="Pawn\Mechunit.cs" />
-    <Compile Include="Pawn_Comps\DefaultPilotEntry\CompMechDefaultPilot.cs" />
-    <Compile Include="Pawn_Comps\DefaultPilotEntry\CompProperties_MechDefaultPilot.cs" />
-    <Compile Include="Pawn_Comps\HediffGiverByKind\CompHediffGiverByKind.cs" />
-    <Compile Include="Pawn_Comps\HediffGiverByKind\CompProperties_HediffGiverByKind.cs" />
-    <Compile Include="Pawn_Comps\MechArmor\CompMechArmor.cs" />
-    <Compile Include="Pawn_Comps\MechFuel\CompMechFuel.cs" />
-    <Compile Include="Pawn_Comps\MechFuel\CompProperties_MechFuel.cs" />
-    <Compile Include="Pawn_Comps\MechFuel\Gizmo_MechFuelStatus.cs" />
-    <Compile Include="Pawn_Comps\MechInherentWeapon\CompMechInherentWeapon.cs" />
-    <Compile Include="Pawn_Comps\MechInherentWeapon\CompProperties_MechInherentWeapon.cs" />
-    <Compile Include="Pawn_Comps\MechMovementSound\CompMechMovementSound.cs" />
-    <Compile Include="Pawn_Comps\MechMovementSound\CompProperties_MechMovementSound.cs" />
-    <Compile Include="Pawn_Comps\MechPilotHolder\CompMechPilotHolder.cs" />
-    <Compile Include="Pawn_Comps\MechRepairable\CompMechRepairable.cs" />
-    <Compile Include="Pawn_Comps\MechSelfDestruct\CompMechSelfDestruct.cs" />
-    <Compile Include="Pawn_Comps\MechSelfDestruct\CompProperties_MechSelfDestruct.cs" />
-    <Compile Include="Pawn_Comps\MechSkillInheritance\CompMechSkillInheritance.cs" />
-    <Compile Include="Pawn_Comps\MoteEmitterNorthward\CompMoteEmitterNorthward.cs" />
-    <Compile Include="Pawn_Comps\MultiTurretGun\CompMultiTurretGun.cs" />
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\1.5\Assemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
@@ -117,6 +82,17 @@
       <HintPath>..\..\..\..\..\..\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 第一部分：基础类和组件 -->
+    <Compile Include="HediffComp\WULA_DamageResponse\HediffComp_DamageResponse.cs" />
+    <Compile Include="HediffComp\WULA_SyncedWithMech\HediffCompProperties_SyncedWithMech.cs" />
+    <Compile Include="WulaFallenEmpireMod.cs" />
+    <Compile Include="WulaFallenEmpireSettings.cs" />
+    <Compile Include="WulaLog.cs" />
+    <Compile Include="WulaDefOf.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <!-- Ability 相关 -->
     <Compile Include="Ability\WULA_AbilityAreaDestruction\CompAbilityEffect_AreaDestruction.cs" />
     <Compile Include="Ability\WULA_AbilityAreaDestruction\CompProperties_AbilityAreaDestruction.cs" />
     <Compile Include="Ability\WULA_AbilityBombardment\CompAbilityEffect_Bombardment.cs" />
@@ -141,8 +117,18 @@
     <Compile Include="Ability\WULA_AbilityTeleportSelf\CompProperties_AbilityTeleportSelf.cs" />
     <Compile Include="Ability\WULA_EquippableAbilities\CompEquippableAbilities.cs" />
     <Compile Include="Ability\WULA_EquippableAbilities\CompProperties_EquippableAbilities.cs" />
+    <Compile Include="Ability\WULA_LaunchMultiProjectile\CompAbilityEffect_LaunchMultiProjectile.cs" />
+    <Compile Include="Ability\WULA_LaunchMultiProjectile\CompProperties_AbilityLaunchMultiProjectile.cs" />
+    <Compile Include="Ability\WULA_LaunchMultiProjectile\JobDriver_CastAbilityMaintainMultiProjectile.cs" />
     <Compile Include="Ability\WULA_PullTarget\CompAbilityEffect_PullTarget.cs" />
     <Compile Include="Ability\WULA_PullTarget\CompProperties_AbilityPullTarget.cs" />
+    <Compile Include="Ability\WULA_RequiresNonHostility\CompAbilityEffect_RequiresNonHostility.cs" />
+    <Compile Include="Ability\WULA_ResearchPrereq\CompAbilityEffect_ResearchPrereq.cs" />
+    <!-- Building 相关 -->
+    <Compile Include="Building\Building_ExtraGraphics.cs" />
+    <Compile Include="Building\Building_MapObserver.cs" />
+    <Compile Include="Building\Building_TurretGunHasSpeed.cs" />
+    <!-- BuildingComp 相关 -->
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompBuildingBombardment.cs" />
     <Compile Include="BuildingComp\WULA_BuildingBombardment\CompProperties_BuildingBombardment.cs" />
     <Compile Include="BuildingComp\WULA_BuildingSpawner\CompBuildingSpawner.cs" />
@@ -153,6 +139,7 @@
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\Building_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\CompProperties_MechanoidRecycler.cs" />
     <Compile Include="BuildingComp\WULA_MechanoidRecycler\JobDriver_RecycleMechanoid.cs" />
+    <Compile Include="BuildingComp\WULA_PathCostUpdater\CompPathCostUpdater.cs" />
     <Compile Include="BuildingComp\WULA_PhaseCombatTower\CompPhaseCombatTower.cs" />
     <Compile Include="BuildingComp\WULA_PhaseCombatTower\CompProperties_PhaseCombatTower.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\ArmedShuttleIncoming.cs" />
@@ -178,12 +165,15 @@
     <Compile Include="BuildingComp\WULA_Teleporter\WULA_TeleportLandingMarker.cs" />
     <Compile Include="BuildingComp\WULA_TrapLauncher\CompProperties_TrapLauncher.cs" />
     <Compile Include="BuildingComp\WULA_TrapLauncher\CompTrapLauncher.cs" />
+    <!-- Damage 相关 -->
     <Compile Include="Damage\DamageDefExtension_TerrainCover.cs" />
     <Compile Include="Damage\DamageDef_ExtraDamageExtension.cs" />
     <Compile Include="Damage\DamageWorker_ExplosionWithTerrain.cs" />
     <Compile Include="Damage\DamageWorker_ExtraDamage.cs" />
+    <!-- Designator 相关 -->
     <Compile Include="Designator\Designator_CallSkyfallerInArea.cs" />
     <Compile Include="Designator\Designator_TeleportArrival.cs" />
+    <!-- EventSystem 相关 -->
     <Compile Include="EventSystem\AI\AIAutoCommentary.cs" />
     <Compile Include="EventSystem\AI\AIHistoryManager.cs" />
     <Compile Include="EventSystem\AI\AIIntelligenceCore.cs" />
@@ -245,6 +235,7 @@
     <Compile Include="EventSystem\QuestNode\QuestNode_EventLetter.cs" />
     <Compile Include="EventSystem\QuestNode\QuestNode_Root_EventLetter.cs" />
     <Compile Include="EventSystem\QuestNode\QuestNode_WriteToEventVariablesWithAdd.cs" />
+    <!-- Flyover 相关 -->
     <Compile Include="Flyover\ThingclassFlyOver.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\CompAbilityEffect_AircraftStrike.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\CompAircraftHangar.cs" />
@@ -264,8 +255,9 @@
     <Compile Include="Flyover\WULA_SendLetterAfterTicks\CompSendLetterAfterTicks.cs" />
     <Compile Include="Flyover\WULA_ShipArtillery\CompProperties_ShipArtillery.cs" />
     <Compile Include="Flyover\WULA_ShipArtillery\CompShipArtillery.cs" />
-    <Compile Include="Flyover\WULA_SpawnFlyOver\CompAbilityEffect_SpawnFlyOver.cs" />
-    <Compile Include="Flyover\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
+    <Compile Include="Ability\WULA_SpawnFlyOver\CompAbilityEffect_SpawnFlyOver.cs" />
+    <Compile Include="Ability\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
+    <!-- GlobalWorkTable 相关 -->
     <Compile Include="GlobalWorkTable\Building_GlobalWorkTable.cs" />
     <Compile Include="GlobalWorkTable\CompProperties_ProductionCategory.cs" />
     <Compile Include="GlobalWorkTable\Dialog_GlobalStorageTransfer.cs" />
@@ -281,6 +273,7 @@
     <Compile Include="GlobalWorkTable\WULA_Launchable_ToGlobalStorage\CompProperties_Launchable_ToGlobalStorage.cs" />
     <Compile Include="GlobalWorkTable\WULA_ValueConverter\CompProperties_ValueConverter.cs" />
     <Compile Include="GlobalWorkTable\WULA_ValueConverter\CompValueConverter.cs" />
+    <!-- HarmonyPatches 相关 -->
     <Compile Include="HarmonyPatches\Caravan_NeedsTracker_TrySatisfyPawnNeeds_Patch.cs" />
     <Compile Include="HarmonyPatches\DamageInfo_Constructor_Patch.cs" />
     <Compile Include="HarmonyPatches\Faction_ShouldHaveLeader_Patch.cs" />
@@ -323,11 +316,11 @@
     <Compile Include="HarmonyPatches\WULA_MechUnit\Patch_TakeDamage.cs" />
     <Compile Include="HarmonyPatches\WULA_TurretForceTargetable\CompForceTargetable.cs" />
     <Compile Include="HarmonyPatches\WULA_TurretForceTargetable\Patch_ForceTargetable.cs" />
+    <!-- HediffComp 相关 -->
     <Compile Include="HediffComp\HediffCompProperties_DisappearWithEffect.cs" />
     <Compile Include="HediffComp\HediffCompProperties_GiveHediffsInRangeToRace.cs" />
     <Compile Include="HediffComp\HediffCompProperties_NanoRepair.cs" />
     <Compile Include="HediffComp\HediffCompProperties_SwitchableHediff.cs" />
-    <Compile Include="HediffComp\HediffComp_DamageResponse.cs" />
     <Compile Include="HediffComp\HediffComp_GiveHediffsInRangeToRace.cs" />
     <Compile Include="HediffComp\HediffComp_RegenerateBackstory.cs" />
     <Compile Include="HediffComp\HediffComp_TimedExplosion.cs" />
@@ -337,10 +330,10 @@
     <Compile Include="HediffComp\WULA_HediffSpawner\HediffCompProperties_Spawner.cs" />
     <Compile Include="HediffComp\WULA_HediffSpawner\HediffComp_Spawner.cs" />
     <Compile Include="HediffComp\WULA_HediffSpawner\Tools.cs" />
+    <!-- Job 相关 -->
     <Compile Include="Job\JobDriver_InspectBuilding.cs" />
     <Compile Include="Job\JobGiver_InspectBuilding.cs" />
-    <Compile Include="PawnsArrivalMode\PawnsArrivalModeWorker_EdgeTeleport.cs" />
-    <Compile Include="Pawn\Comp_MultiTurretGun.cs" />
+    <!-- Pawn 相关 -->
     <Compile Include="Pawn\Comp_PawnRenderExtra.cs" />
     <Compile Include="Pawn\Mechunit.cs" />
     <Compile Include="Pawn\WULA_AutoMechCarrier\CompAutoMechCarrier.cs" />
@@ -389,6 +382,7 @@
     <Compile Include="Pawn\WULA_Maintenance\MaintenanceNeedExtension.cs" />
     <Compile Include="Pawn\WULA_Maintenance\Need_Maintenance.cs" />
     <Compile Include="Pawn\WULA_Maintenance\WorkGiver_DoMaintenance.cs" />
+    <!-- Pawn_Comps 相关 -->
     <Compile Include="Pawn_Comps\DefaultPilotEntry\CompMechDefaultPilot.cs" />
     <Compile Include="Pawn_Comps\DefaultPilotEntry\CompProperties_MechDefaultPilot.cs" />
     <Compile Include="Pawn_Comps\HediffGiverByKind\CompHediffGiverByKind.cs" />
@@ -408,7 +402,11 @@
     <Compile Include="Pawn_Comps\MechSkillInheritance\CompMechSkillInheritance.cs" />
     <Compile Include="Pawn_Comps\MoteEmitterNorthward\CompMoteEmitterNorthward.cs" />
     <Compile Include="Pawn_Comps\MultiTurretGun\CompMultiTurretGun.cs" />
+    <!-- PawnsArrivalMode 相关 -->
+    <Compile Include="PawnsArrivalMode\PawnsArrivalModeWorker_EdgeTeleport.cs" />
+    <!-- Placeworker 相关 -->
     <Compile Include="Placeworker\CompProperties_CustomRadius.cs" />
+    <!-- Projectiles 相关 -->
     <Compile Include="Projectiles\BulletWithTrail.cs" />
     <Compile Include="Projectiles\ExplosiveTrackingBulletDef.cs" />
     <Compile Include="Projectiles\NorthArcModExtension.cs" />
@@ -421,21 +419,25 @@
     <Compile Include="Projectiles\Projectile_WulaPenetratingBeam.cs" />
     <Compile Include="Projectiles\Projectile_WulaPenetratingBullet.cs" />
     <Compile Include="Projectiles\TrackingBulletDef.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <!-- QuestNodes 相关 -->
     <Compile Include="QuestNodes\QuestNode_AddInspectionJob.cs" />
     <Compile Include="QuestNodes\QuestNode_CheckGlobalResource.cs" />
     <Compile Include="QuestNodes\QuestNode_GeneratePawnWithCustomization.cs" />
     <Compile Include="QuestNodes\QuestNode_Hyperlinks.cs" />
     <Compile Include="QuestNodes\QuestNode_SpawnPrefabSkyfallerCaller.cs" />
     <Compile Include="QuestNodes\QuestPart_GlobalResourceCheck.cs" />
+    <!-- SectionLayer 相关 -->
     <Compile Include="SectionLayer_WulaHull.cs" />
+    <!-- Stat 相关 -->
     <Compile Include="Stat\StatWorker_Energy.cs" />
     <Compile Include="Stat\StatWorker_Maintenance.cs" />
     <Compile Include="Stat\StatWorker_NanoRepair.cs" />
+    <!-- Storyteller 相关 -->
     <Compile Include="Storyteller\WULA_ImportantQuestWithFactionFilter\StorytellerCompProperties_ImportantQuestWithFactionFilter.cs" />
     <Compile Include="Storyteller\WULA_ImportantQuestWithFactionFilter\StorytellerComp_ImportantQuestWithFactionFilter.cs" />
     <Compile Include="Storyteller\WULA_SimpleTechnologyTrigger\StorytellerCompProperties_SimpleTechnologyTrigger.cs" />
     <Compile Include="Storyteller\WULA_SimpleTechnologyTrigger\StorytellerComp_SimpleTechnologyTrigger.cs" />
+    <!-- ThingComp 相关 -->
     <Compile Include="ThingComp\CompApparelInterceptor.cs" />
     <Compile Include="ThingComp\CompProperties_DelayedDamageIfNotPlayer.cs" />
     <Compile Include="ThingComp\CompPsychicScaling.cs" />
@@ -485,8 +487,10 @@
     <Compile Include="ThingComp\WULA_WeaponSwitch\CompAbilityEffect_GiveSwitchHediff.cs" />
     <Compile Include="ThingComp\WULA_WeaponSwitch\CompAbilityEffect_RemoveSwitchHediff.cs" />
     <Compile Include="ThingComp\WULA_WeaponSwitch\WeaponSwitch.cs" />
+    <!-- Utils 相关 -->
     <Compile Include="Utils\BezierUtil.cs" />
     <Compile Include="Utils\DefInjectedExportUtility.cs" />
+    <!-- Verb 相关 -->
     <Compile Include="Verb\MeleeAttack_Cleave\CompCleave.cs" />
     <Compile Include="Verb\MeleeAttack_Cleave\Verb_MeleeAttack_Cleave.cs" />
     <Compile Include="Verb\MeleeAttack_MultiStrike\CompMultiStrike.cs" />
@@ -504,11 +508,8 @@
     <Compile Include="Verb\Verb_ShootWeaponStealBeam\VerbProperties_WeaponStealBeam.cs" />
     <Compile Include="Verb\Verb_ShootWeaponStealBeam\Verb_ShootWeaponStealBeam.cs" />
     <Compile Include="Verb\Verb_ShootWithOffset.cs" />
+    <!-- WorkGiver 相关 -->
     <Compile Include="WorkGiver\WorkGiver_DeepDrill_WulaConstructor.cs" />
-    <Compile Include="WulaDefOf.cs" />
-    <Compile Include="WulaFallenEmpireMod.cs" />
-    <Compile Include="WulaFallenEmpireSettings.cs" />
-    <Compile Include="WulaLog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->
