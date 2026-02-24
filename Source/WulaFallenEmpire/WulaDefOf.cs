@@ -5,79 +5,97 @@ namespace WulaFallenEmpire
 {
     
     [DefOf]
-    public static class ThingDefOf_WULA
+    public static class Wula_ThingDefOf
     {
         public static ThingDef WULA_MaintenancePod;
         public static ThingDef WULA_Charging_Station_Synth;
         public static ThingDef WULA_PocketMapExit;
         public static ThingDef Hyperweave;
         
-        static ThingDefOf_WULA()
+        static Wula_ThingDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(ThingDefOf_WULA));
+            DefOfHelper.EnsureInitializedInCtor(typeof(Wula_ThingDefOf));
         }
     }
     
     [DefOf]
-    public static class JobDefOf_WULA
+    public static class Wula_JobDefOf
     {
         public static JobDef WULA_EnterMaintenancePod;
         public static JobDef WULA_HaulToMaintenancePod;
         public static JobDef WULA_InspectBuilding;
-
-        static JobDefOf_WULA()
+        public static JobDef WULA_Launch_Proj;
+        public static JobDef WULA_EnterMech;
+        public static JobDef WULA_RefuelMech;
+        public static JobDef WULA_Refuel;
+        public static JobDef WULA_RepairMech;
+        public static JobDef WULA_ForceEjectPilot;
+        public static JobDef WULA_CarryToMech;
+        
+        static Wula_JobDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(JobDefOf_WULA));
+            DefOfHelper.EnsureInitializedInCtor(typeof(Wula_JobDefOf));
         }
     }
     
     [DefOf]
-    public static class WulaStatDefOf
+    public static class Wula_StatDefOf
     {
         public static StatDef WulaEnergyMaxLevelOffset;
         public static StatDef WulaEnergyFallRateFactor;
 
-        static WulaStatDefOf()
+        static Wula_StatDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(WulaStatDefOf));
+            DefOfHelper.EnsureInitializedInCtor(typeof(Wula_StatDefOf));
         }
     }
     
     [DefOf]
-    public static class WulaNeedDefOf
+    public static class Wula_NeedDefOf
     {
         public static NeedDef WULA_Energy;
         
-        static WulaNeedDefOf()
+        static Wula_NeedDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(WulaNeedDefOf));
+            DefOfHelper.EnsureInitializedInCtor(typeof(Wula_NeedDefOf));
         }
     }
 
 
     [DefOf]
-    public static class WulaStatCategoryDefOf
+    public static class Wula_StatCategoryDefOf
     {
         public static StatCategoryDef WULA_Synth;
 
-        static WulaStatCategoryDefOf()
+        static Wula_StatCategoryDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(WulaStatCategoryDefOf));
+            DefOfHelper.EnsureInitializedInCtor(typeof(Wula_StatCategoryDefOf));
         }
     }
 
     [DefOf]
-    public static class WulaDamageDefOf
+    public static class Wula_DamageDefOf
     {
         public static DamageDef Wula_Dark_Matter_Flame;
 
-        static WulaDamageDefOf()
+        static Wula_DamageDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(WulaDamageDefOf));
+            DefOfHelper.EnsureInitializedInCtor(typeof(Wula_DamageDefOf));
         }
     }
 
     [DefOf]
+    public static class WULA_MentalStateDefOf
+    {
+        public static MentalStateDef WULA_MechNoPilot;
+
+        static WULA_MentalStateDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(WULA_MentalStateDefOf));
+        }
+    }
+
+    [DefOf] 
     public static class WulaDefOf
     {
         // public static PawnTableDef WULA_AutonomousMechs;

@@ -42,7 +42,7 @@ namespace WulaFallenEmpire
 
         public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            return JobMaker.MakeJob(JobDefOf_WULA.WULA_EnterMaintenancePod, t);
+            return JobMaker.MakeJob(Wula_JobDefOf.WULA_EnterMaintenancePod, t);
         }
 
         // 检查单个Pawn是否需要维护

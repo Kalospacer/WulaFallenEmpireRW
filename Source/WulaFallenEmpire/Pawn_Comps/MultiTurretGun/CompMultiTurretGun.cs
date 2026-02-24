@@ -57,7 +57,6 @@ namespace WulaFallenEmpire
             {
                 if (gun == null)
                 {
-                    WulaLog.Debug("CompTurrentGun had null gun after loading. Recreating.");
                     MakeGun();
                 }
                 else

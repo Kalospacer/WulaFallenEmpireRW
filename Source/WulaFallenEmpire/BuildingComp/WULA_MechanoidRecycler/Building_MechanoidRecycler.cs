@@ -66,10 +66,6 @@ namespace WulaFallenEmpire
             
             Messages.Message("WULA_MechRecycled".Translate(mech.LabelCap, storedMechanoidCount, Props.maxStorageCapacity), 
                 MessageTypeDefOf.PositiveEvent);
-            
-            // 通知转换组件存储更新
-            var transformComp = this.TryGetComp<CompTransformAtFullCapacity>();
-            transformComp?.NotifyStorageUpdated();
         }
         
         // 消耗机械族计数

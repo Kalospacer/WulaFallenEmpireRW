@@ -390,7 +390,6 @@ For each function call, return a JSON object within <tool_call></tool_call> tags
             _tools.Add(new Tool_ModifyGoodwill());
             _tools.Add(new Tool_SendReinforcement());
             _tools.Add(new Tool_GetPawnStatus());
-            _tools.Add(new Tool_GetPawnGear());
             _tools.Add(new Tool_GetMapResources());
             _tools.Add(new Tool_GetAvailablePrefabs());
             _tools.Add(new Tool_GetMapPawns());

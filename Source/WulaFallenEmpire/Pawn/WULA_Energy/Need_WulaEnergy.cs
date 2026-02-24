@@ -32,7 +32,7 @@ namespace WulaFallenEmpire
                 if (Ext != null)
                 {
                     // 从XML读取每天消耗值，并转换为每tick消耗值，并应用StatDef因子
-                    return (Ext.fallPerDay / 60000f) * pawn.GetStatValue(WulaStatDefOf.WulaEnergyFallRateFactor);
+                    return (Ext.fallPerDay / 60000f) * pawn.GetStatValue(Wula_StatDefOf.WulaEnergyFallRateFactor);
                 }
                 // 如果XML中没有定义，则使用一个默认值
                 return 2.6666667E-05f;
@@ -57,7 +57,7 @@ namespace WulaFallenEmpire
                 if (Ext != null)
                 {
                     // 应用StatDef偏移量
-                    return Ext.maxLevel + pawn.GetStatValue(WulaStatDefOf.WulaEnergyMaxLevelOffset);
+                    return Ext.maxLevel + pawn.GetStatValue(Wula_StatDefOf.WulaEnergyMaxLevelOffset);
                 }
                 return 1f;
             }

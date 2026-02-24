@@ -22,7 +22,7 @@ namespace WulaFallenEmpire
         private static readonly Dictionary<StuffCategoryDef, ThingDef> StuffCategoryMapping = new Dictionary<StuffCategoryDef, ThingDef>
         {
             { StuffCategoryDefOf.Metallic, ThingDefOf.Plasteel },     // 金属类 -> 玻璃钢
-            { StuffCategoryDefOf.Fabric, ThingDefOf_WULA.Hyperweave }      // 布革类 -> 超织物
+            { StuffCategoryDefOf.Fabric, Wula_ThingDefOf.Hyperweave }      // 布革类 -> 超织物
         };
 
         public Building_GlobalWorkTable()
@@ -628,7 +628,7 @@ namespace WulaFallenEmpire
                     else if (fabricCategory != null)
                     {
                         // 布革类 -> 超织物
-                        selectedStuff = ThingDefOf_WULA.Hyperweave;
+                        selectedStuff = Wula_ThingDefOf.Hyperweave;
                     }
 
                     // 创建带有指定材质的物品
