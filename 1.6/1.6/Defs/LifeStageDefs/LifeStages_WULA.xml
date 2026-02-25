@@ -13,4 +13,10 @@
       <drawSize>1</drawSize>
     </silhouetteGraphicData>
   </LifeStageDef>
+  <LifeStageDef>
+    <defName>Wula_Mechunit_LifeStage</defName>
+    <label>机兵</label>
+    <visible>true</visible>
+    <milkable>false</milkable>
+  </LifeStageDef>
 </Defs>

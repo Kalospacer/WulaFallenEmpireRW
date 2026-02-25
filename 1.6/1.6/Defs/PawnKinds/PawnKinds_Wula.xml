@@ -271,32 +271,6 @@
   </PawnKindDef>
 
   <PawnKindDef ParentName="HeavyMechanoidKind">
-    <defName>WULA_Mobile_Bunker</defName> <!-- 修改了defName以避免冲突 -->
-    <label>BUk-1"地堡猫猫"</label>
-    <race>WULA_Mobile_Bunker</race>
-    <allowInMechClusters>false</allowInMechClusters>
-    <defaultFactionType>PlayerColony</defaultFactionType>
-    <canMeleeAttack>false</canMeleeAttack>
-    <combatPower>200</combatPower>
-
-    <lifeStages>
-      <li>
-        <bodyGraphicData>
-          <texPath>Wula/Things/WULA_Mobile_Bunker/Bodies/Naked_Thin</texPath>
-          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
-          <shaderType>CutoutWithOverlay</shaderType>
-          <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>3.4</drawSize>
-          <shadowData>
-            <volume>(1.4, 1.8, 1.4)</volume>
-          </shadowData>
-        </bodyGraphicData>
-      </li>
-    </lifeStages>
-
-    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
-  </PawnKindDef>
-  <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
     <label>MFm-2"陆行舰"</label>
     <race>Wula_Mech_Mobile_Factory</race>
