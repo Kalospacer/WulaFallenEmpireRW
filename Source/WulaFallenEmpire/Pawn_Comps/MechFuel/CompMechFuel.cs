@@ -372,7 +372,7 @@ namespace WulaFallenEmpire
                 {
                     defaultLabel = "WULA_RefuelNow".Translate(),
                     defaultDesc = "WULA_RefuelNowDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("WulaFallenEmpire/UI/Commands/WULA_Refuel_Mech"),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_Refuel_Mech"),
                     action = () => RefuelNow()
                 };
                 

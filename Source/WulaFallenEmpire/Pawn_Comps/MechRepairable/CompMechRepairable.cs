@@ -86,7 +86,7 @@ namespace WulaFallenEmpire
                 {
                     defaultLabel = "WULA_ForceRepair".Translate(),
                     defaultDesc = "WULA_ForceRepairDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("WulaFallenEmpire/UI/Commands/WULA_Repair_Mech"),
+                    icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_Repair_Mech"),
                     action = () => ForceRepairNow()
                 };
                 

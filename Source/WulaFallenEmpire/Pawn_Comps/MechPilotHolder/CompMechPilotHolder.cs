@@ -16,8 +16,8 @@ namespace WulaFallenEmpire
         public string pilotWorkTag = "MechPilot";
 
         // 新增：驾驶员图标配置
-        public string summonPilotIcon = "WulaFallenEmpire/UI/Commands/WULA_Enter_Mech";
-        public string ejectPilotIcon = "WulaFallenEmpire/UI/Commands/WULA_Exit_Mech";
+        public string summonPilotIcon = "Wula/UI/Commands/WULA_Enter_Mech";
+        public string ejectPilotIcon = "Wula/UI/Commands/WULA_Exit_Mech";
 
         public float ejectPilotHealthPercentThreshold = 0.1f; // 默认30%血量
         public bool allowEntryBelowThreshold = false; // 血量低于阈值时是否允许进入

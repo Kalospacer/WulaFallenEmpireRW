@@ -199,4 +199,63 @@
   <Wula_ExtraPersonality_Desc>在此输入 AI 的人格提示词。如果此处不为空，它将完全覆盖 XML 中的默认设置。如果为空，则使用 XML 默认值。</Wula_ExtraPersonality_Desc>
   <Wula_Save>保存</Wula_Save>
   <Wula_Reset>重置为默认</Wula_Reset>
+  
+  <WULA_Mech>构装体</WULA_Mech>
+  <WULA_CannotDraftWithoutPilot>构装体无法在没有驾驶员的情况下活动！</WULA_CannotDraftWithoutPilot>
+  <WULA_NoPilot>该构装体无驾驶员</WULA_NoPilot>
+  <WULA_NoPilotShort>无驾驶员</WULA_NoPilotShort>
+  <WULA_PilotEnteredMech>{0} 已经进入 {1}</WULA_PilotEnteredMech>
+  <WULA_PilotExitedMech>{0} 已经从 {1} 离开</WULA_PilotExitedMech>
+  <WULA_SummonPilot>征召驾驶员···</WULA_SummonPilot>
+  <WULA_SummonPilotDesc>指定一名驾驶员进入构装体</WULA_SummonPilotDesc>
+  <WULA_EjectAllPilots>离开构装体</WULA_EjectAllPilots>
+  <WULA_EjectAllPilotsDesc>让该构装体的驾驶员离开构装体</WULA_EjectAllPilotsDesc>
+  <WULA_NoAvailablePilots>没有可以作为构装体驾驶员的殖民者</WULA_NoAvailablePilots>
+  <WULA_Equipment_For_Other_Mech>此装备不能由此构装体使用</WULA_Equipment_For_Other_Mech>
+  <WULA_Equipment_Not_Allow_For_Mech>此装备不是为构装体设计的</WULA_Equipment_Not_Allow_For_Mech>
+  <WULA_Human_Cannot_Equip_Mech_Weapon>此装备是专为构装体设计的，非构装体单位无法装备</WULA_Human_Cannot_Equip_Mech_Weapon>
+
+  <WULA_Startup>构装体重新启动</WULA_Startup>
+  <WULA_NoColonistAvailable>没有可以执行操作的殖民者</WULA_NoColonistAvailable>
+  <WULA_NoFuelAvailable>没有可用的 {0} 用于加注燃料</WULA_NoFuelAvailable>
+  <WULA_OrderedRefuel>已下令 {0} 对 {1} 紧急加注燃料</WULA_OrderedRefuel>
+  <WULA_RefuelNow>紧急加注</WULA_RefuelNow>
+  <WULA_RefuelNowDesc>命令最近的殖民者为此构装体进行紧急的燃料加注</WULA_RefuelNowDesc>
+  <WULA_CannotRefuelNow>现在不能加注燃料</WULA_CannotRefuelNow>
+  <WULA_Fuel>{0}</WULA_Fuel>
+  <WULA_MechFuel>燃料</WULA_MechFuel>
+
+  <WULA_ForceRepair>紧急维修</WULA_ForceRepair>
+  <WULA_ForceRepairDesc>命令最近的殖民者为此构装体进行紧急的维修</WULA_ForceRepairDesc>
+  <WULA_CannotRepairNow>现在无法维修</WULA_CannotRepairNow>
+  <WULA_OrderedRepair>已下令 {0} 对 {1} 进行紧急维修</WULA_OrderedRepair>
+  <WULA_NeedsRepair>需要维修</WULA_NeedsRepair>
+
+  <WULA_MechSkills>属性</WULA_MechSkills>
+  <WULA_NoMechSkillComps>此单位没有技能继承系统</WULA_NoMechSkillComps>
+  <WULA_PilotTitle>驾驶员信息</WULA_PilotTitle>
+  <WULA_PilotInfo>当前驾驶员 : {0}</WULA_PilotInfo>
+  <WULA_MechInitSkill>构装体固有</WULA_MechInitSkill>
+  <WULA_MechSkill_From>继承自: {0} ({1}级)</WULA_MechSkill_From>
+  <WULA_MechNoSkill>无技能等级</WULA_MechNoSkill>
+  <WULA_BlockByMechArmor>伤害抵挡</WULA_BlockByMechArmor>
+  <WULA_Operational>正常</WULA_Operational>
+
+  <WULA_ImmuneToDamage>伤害免疫！</WULA_ImmuneToDamage>
+  
+  <WULA_EnterMech>进入 {0}</WULA_EnterMech>
+  <WULA_MechFull>构装体驾驶员位置已满</WULA_MechFull>
+  <WULA_CannotBecomePilot>不能成为该构装体的驾驶员</WULA_CannotBecomePilot>
+  <WULA_MechTooDamagedForEntry>该构装体损坏严重无法进入</WULA_MechTooDamagedForEntry>
+  <WULA_DisabledColonistRequiresCarry>（需要协助）</WULA_DisabledColonistRequiresCarry>
+  <WULA_NoAvailableCarrier>没有可用的协助者</WULA_NoAvailableCarrier>
+  <WULA_CarrierAssigned>已指派 {0} 协助 {1} 进入构装体</WULA_CarrierAssigned>
+
+  <WULA_PilotsEjectedDueToLowHealth>{0}的损伤过于严重，驾驶员已被保险系统弹出</WULA_PilotsEjectedDueToLowHealth>
+
+  <WULA_ForceEjectPilot>撬开 {0}</WULA_ForceEjectPilot>
+  <WULA_AlreadyPlayerMech>不能撬开本来就属于殖民地的构装体</WULA_AlreadyPlayerMech>
+  <WULA_MechNotDowned>该构装体仍有行动能力</WULA_MechNotDowned>
+  <WULA_ForceEjectComplete_WithPilots>{0} 撬开了 {1}，里面仍活着的 {2} 个驾驶员冲出来了！</WULA_ForceEjectComplete_WithPilots>
+  <WULA_ForceEjectComplete>{0} 撬开了 {1}，并接管了它。</WULA_ForceEjectComplete>
 </LanguageData>
