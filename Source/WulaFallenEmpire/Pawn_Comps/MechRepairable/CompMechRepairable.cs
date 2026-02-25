@@ -84,16 +84,16 @@ namespace WulaFallenEmpire
             {
                 Command_Action repairCommand = new Command_Action
                 {
-                    defaultLabel = "DD_ForceRepair".Translate(),
-                    defaultDesc = "DD_ForceRepairDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("WulaFallenEmpire/UI/Commands/DD_Repair_Mech"),
+                    defaultLabel = "WULA_ForceRepair".Translate(),
+                    defaultDesc = "WULA_ForceRepairDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("WulaFallenEmpire/UI/Commands/WULA_Repair_Mech"),
                     action = () => ForceRepairNow()
                 };
                 
                 // 检查是否可以立即维修
                 if (!CanRepairNow())
                 {
-                    repairCommand.Disable("DD_CannotRepairNow".Translate());
+                    repairCommand.Disable("WULA_CannotRepairNow".Translate());
                 }
                 
                 yield return repairCommand;
@@ -105,8 +105,8 @@ namespace WulaFallenEmpire
                 // 模拟受伤按钮
                 Command_Action damageCommand = new Command_Action
                 {
-                    defaultLabel = "DD_Debug_Damage".Translate(),
-                    defaultDesc = "DD_Debug_DamageDesc".Translate(),
+                    defaultLabel = "WULA_Debug_Damage".Translate(),
+                    defaultDesc = "WULA_Debug_DamageDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("UI/Commands/Damage", false) ?? BaseContent.BadTex,
                     action = () => DebugDamage()
                 };
@@ -115,8 +115,8 @@ namespace WulaFallenEmpire
                 // 完全修复按钮
                 Command_Action fullRepairCommand = new Command_Action
                 {
-                    defaultLabel = "DD_Debug_FullRepair".Translate(),
-                    defaultDesc = "DD_Debug_FullRepairDesc".Translate(),
+                    defaultLabel = "WULA_Debug_FullRepair".Translate(),
+                    defaultDesc = "WULA_Debug_FullRepairDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("UI/Commands/Repair", false) ?? BaseContent.BadTex,
                     action = () => DebugFullRepair()
                 };
@@ -125,8 +125,8 @@ namespace WulaFallenEmpire
                 // 显示维修统计
                 Command_Action statsCommand = new Command_Action
                 {
-                    defaultLabel = "DD_Debug_RepairStats".Translate(),
-                    defaultDesc = "DD_Debug_RepairStatsDesc".Translate(totalRepairedHP.ToString("F1")),
+                    defaultLabel = "WULA_Debug_RepairStats".Translate(),
+                    defaultDesc = "WULA_Debug_RepairStatsDesc".Translate(totalRepairedHP.ToString("F1")),
                     icon = ContentFinder<Texture2D>.Get("UI/Commands/Stats", false) ?? BaseContent.BadTex,
                     action = () => DebugShowStats()
                 };
@@ -145,7 +145,7 @@ namespace WulaFallenEmpire
             
             if (bestColonist == null)
             {
-                Messages.Message("DD_NoColonistAvailable".Translate(), parent, MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_NoColonistAvailable".Translate(), parent, MessageTypeDefOf.RejectInput);
                 return;
             }
             
@@ -156,7 +156,7 @@ namespace WulaFallenEmpire
             bestColonist.jobs.StartJob(job, JobCondition.InterruptForced, null, resumeCurJobAfterwards: true);
             
             // 显示消息
-            Messages.Message("DD_OrderedRepair".Translate(bestColonist.LabelShort, parent.LabelShort),
+            Messages.Message("WULA_OrderedRepair".Translate(bestColonist.LabelShort, parent.LabelShort),
                 parent, MessageTypeDefOf.PositiveEvent);
         }
         
@@ -221,7 +221,7 @@ namespace WulaFallenEmpire
             DamageInfo dinfo = new DamageInfo(DamageDefOf.Cut, damage, 1f, -1f, null, part);
             mech.TakeDamage(dinfo);
             
-            Messages.Message($"DD_Debug_Damaged".Translate(parent.LabelShort, damage.ToString("F1")),
+            Messages.Message($"WULA_Debug_Damaged".Translate(parent.LabelShort, damage.ToString("F1")),
                 parent, MessageTypeDefOf.NeutralEvent);
         }
         
@@ -246,14 +246,14 @@ namespace WulaFallenEmpire
                 }
             }
             
-            Messages.Message($"DD_Debug_FullyRepaired".Translate(parent.LabelShort),
+            Messages.Message($"WULA_Debug_FullyRepaired".Translate(parent.LabelShort),
                 parent, MessageTypeDefOf.PositiveEvent);
         }
         
         // 调试功能：显示维修统计
         private void DebugShowStats()
         {
-            Messages.Message($"DD_Debug_RepairStatsInfo".Translate(
+            Messages.Message($"WULA_Debug_RepairStatsInfo".Translate(
                 parent.LabelShort,
                 totalRepairedHP.ToString("F1"),
                 Props.repairAmountPerCycle.ToString("F1"),
@@ -277,7 +277,7 @@ namespace WulaFallenEmpire
             string repairString = "";
             if (NeedsRepair)
             {
-                repairString = "DD_NeedsRepair".Translate().Colorize(Color.yellow);
+                repairString = "WULA_NeedsRepair".Translate().Colorize(Color.yellow);
             }
             
             if (!baseString.NullOrEmpty())

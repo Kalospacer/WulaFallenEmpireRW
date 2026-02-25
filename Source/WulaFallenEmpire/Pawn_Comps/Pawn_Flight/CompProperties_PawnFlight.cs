@@ -1,26 +1,19 @@
 using Verse;
 using RimWorld;
-using System.Collections.Generic;
 
 namespace WulaFallenEmpire
 {
     public enum FlightCondition
     {
         Drafted,
-        MechAlwaysExceptSpecialJobs  // 新增：机械族在非特殊工作状态下始终飞行
+        DraftedAndMove,
+        Always
     }
 
     public class CompProperties_PawnFlight : CompProperties
     {
         // --- Custom Flight Logic ---
         public FlightCondition flightCondition = FlightCondition.Drafted;
-
-        // --- 新增：机械族特殊工作检查 ---
-        public List<JobDef> mechForbiddenJobs = new List<JobDef>
-        {
-            JobDefOf.MechCharge,    // 充电工作
-            JobDefOf.SelfShutdown   // 关机工作
-        };
 
         // --- Vanilla PawnKindDef Flight Parameters ---
         [NoTranslate]
@@ -40,12 +33,15 @@ namespace WulaFallenEmpire
         public bool flyingAnimationInheritColors;
 
         // --- Vanilla PawnKindLifeStage Flight Parameters ---
+        // Note: These are normally defined per lifestage, we define them once here for simplicity.
+        // The harmony patch will need to inject these into the correct lifestage at runtime.
         public AnimationDef flyingAnimationEast;
         public AnimationDef flyingAnimationNorth;
         public AnimationDef flyingAnimationSouth;
         public AnimationDef flyingAnimationEastFemale;
         public AnimationDef flyingAnimationNorthFemale;
         public AnimationDef flyingAnimationSouthFemale;
+
 
         public CompProperties_PawnFlight()
         {

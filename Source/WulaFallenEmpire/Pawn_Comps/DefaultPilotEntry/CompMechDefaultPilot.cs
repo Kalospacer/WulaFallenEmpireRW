@@ -109,7 +109,7 @@ namespace WulaFallenEmpire
             var pilotKind = Props.SelectRandomPilotKind();
             if (pilotKind == null)
             {
-                Log.Warning($"[DD] No valid pilot kind found");
+                Log.Warning($"[WULA] No valid pilot kind found");
                 return false;
             }
             
@@ -151,7 +151,7 @@ namespace WulaFallenEmpire
                 }
                 else
                 {
-                    Log.Warning($"[DD] Cannot add pilot {pilot.LabelShortCap} to mech");
+                    Log.Warning($"[WULA] Cannot add pilot {pilot.LabelShortCap} to mech");
                     // 清理生成的pawn
                     pilot.Destroy();
                     return false;
@@ -159,7 +159,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[DD] Error generating default pilot: {ex}");
+                Log.Error($"[WULA] Error generating default pilot: {ex}");
                 return false;
             }
         }

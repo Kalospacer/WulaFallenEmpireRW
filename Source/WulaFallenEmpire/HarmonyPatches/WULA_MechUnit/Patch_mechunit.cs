@@ -277,7 +277,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] Harmony patch error in TryMeleeAttack: {ex}");
+                Log.Error($"[WULA] Harmony patch error in TryMeleeAttack: {ex}");
                 return true; // 出错时继续执行原始方法
             }
         }

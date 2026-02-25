@@ -63,7 +63,7 @@ namespace WulaFallenEmpire
                     var pilotComp = this.TryGetComp<CompMechPilotHolder>();
                     if (pilotComp != null && !pilotComp.HasPilots)
                     {
-                        Messages.Message("DD_CannotDraftWithoutPilot".Translate(this.LabelShort),
+                        Messages.Message("WULA_CannotDraftWithoutPilot".Translate(this.LabelShort),
                             this, MessageTypeDefOf.RejectInput);
                         return;
                     }
@@ -101,7 +101,7 @@ namespace WulaFallenEmpire
             var pilotComp = this.TryGetComp<CompMechPilotHolder>();
             if (pilotComp != null && !pilotComp.HasPilots)
             {
-                command_Toggle.Disable("DD_NoPilot".Translate());
+                command_Toggle.Disable("WULA_NoPilot".Translate());
             }
             
             command_Toggle.tutorTag = ((!base.Drafted) ? "Draft" : "Undraft");

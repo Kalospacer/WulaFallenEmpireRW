@@ -477,9 +477,17 @@
       <Steel>200</Steel>
       <ComponentIndustrial>12</ComponentIndustrial>
     </costList>
-    <weaponTags>
+    <weaponTags Inherit="False">
       <li>Wula_AI_Heavy_Panzer_Weapon</li>
     </weaponTags>
+    <thingCategories Inherit="False"/>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
+        <allowedMechRaces>
+          <li>Wula_AI_Heavy_Panzer</li>
+        </allowedMechRaces>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_AI_Heavy_Panzer_Main_Weapon</defName>

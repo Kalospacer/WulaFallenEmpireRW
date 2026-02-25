@@ -59,7 +59,7 @@ namespace WulaFallenEmpire
             // 如果需要驾驶员，检查是否配置了驾驶员容器
             if (requirePilot && parentDef.GetCompProperties<CompProperties_MechPilotHolder>() == null)
             {
-                Log.Warning($"[DD] requirePilot is true but no CompProperties_MechPilotHolder found for {parentDef.defName}");
+                Log.Warning($"[WULA] requirePilot is true but no CompProperties_MechPilotHolder found for {parentDef.defName}");
             }
         }
     }

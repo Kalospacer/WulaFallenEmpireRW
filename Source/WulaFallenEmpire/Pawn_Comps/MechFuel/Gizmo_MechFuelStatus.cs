@@ -49,8 +49,8 @@ namespace WulaFallenEmpire
             
             // 在 God Mode 下显示"调试模式"标题
             string title = DebugSettings.godMode ? 
-                "DD_MechFuel".Translate().Resolve() + " [DEBUG]" : 
-                "DD_MechFuel".Translate().Resolve();
+                "WULA_MechFuel".Translate().Resolve() + " [DEBUG]" : 
+                "WULA_MechFuel".Translate().Resolve();
             
             Widgets.Label(titleRect, title);
             
@@ -88,13 +88,13 @@ namespace WulaFallenEmpire
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.UpperCenter;
                 GUI.color = Color.red;
-                Widgets.Label(statusRect, "DD_Shutdown".Translate());
+                Widgets.Label(statusRect, "WULA_Shutdown".Translate());
                 GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
             }
             
             // 工具提示
-            string tip = "DD_MechFuelTip".Translate(
+            string tip = "WULA_MechFuelTip".Translate(
                 fuelComp.FuelPercent.ToStringPercent(),
                 fuelComp.Props.dailyFuelConsumption,
                 fuelComp.Props.fuelType.label
@@ -102,20 +102,20 @@ namespace WulaFallenEmpire
             
             if (fuelComp.IsShutdown)
             {
-                tip += "\n\n" + "DD_ShutdownTip".Translate();
+                tip += "\n\n" + "WULA_ShutdownTip".Translate();
             }
             else if (fuelComp.NeedsRefueling)
             {
-                tip += "\n\n" + "DD_NeedsRefueling".Translate();
+                tip += "\n\n" + "WULA_NeedsRefueling".Translate();
             }
             
             // 在 God Mode 下添加调试信息到工具提示
             if (DebugSettings.godMode)
             {
-                tip += "\n\n" + "DD_Debug_Tip".Translate().Colorize(Color.gray) + 
-                    "\n" + "DD_Debug_Status".Translate(
-                        fuelComp.IsShutdown ? "DD_Shutdown".Translate() : "DD_Running".Translate(),
-                        fuelComp.HasPilot() ? "DD_HasPilot".Translate() : "DD_NoPilot".Translate()
+                tip += "\n\n" + "WULA_Debug_Tip".Translate().Colorize(Color.gray) + 
+                    "\n" + "WULA_Debug_Status".Translate(
+                        fuelComp.IsShutdown ? "WULA_Shutdown".Translate() : "WULA_Running".Translate(),
+                        fuelComp.HasPilot() ? "WULA_HasPilot".Translate() : "WULA_NoPilot".Translate()
                     );
             }
             

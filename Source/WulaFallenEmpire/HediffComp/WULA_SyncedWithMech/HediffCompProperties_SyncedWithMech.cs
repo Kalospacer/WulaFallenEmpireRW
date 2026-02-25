@@ -42,7 +42,7 @@ namespace WulaFallenEmpire
             }
             else if (Prefs.DevMode)
             {
-                Log.Warning($"[DD] OnPilotEnteredMech: 参数不是Wulamechunit类型: {mech?.GetType().Name}");
+                Log.Warning($"[WULA] OnPilotEnteredMech: 参数不是Wulamechunit类型: {mech?.GetType().Name}");
             }
         }
         
@@ -203,7 +203,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 在机甲{mech.LabelShort}上添加Hediff时出错: {ex}");
+                Log.Error($"[WULA] 在机甲{mech.LabelShort}上添加Hediff时出错: {ex}");
             }
         }
         
@@ -220,7 +220,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 从机甲{mech.LabelShort}移除Hediff时出错: {ex}");
+                Log.Error($"[WULA] 从机甲{mech.LabelShort}移除Hediff时出错: {ex}");
             }
         }
         
@@ -242,7 +242,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 触发同步效果时出错: {ex}");
+                Log.Error($"[WULA] 触发同步效果时出错: {ex}");
             }
         }
         

@@ -133,4 +133,17 @@
     <showOnDrones>true</showOnDrones>
     <workerClass>WulaFallenEmpire.StatWorker_Maintenance</workerClass>
   </StatDef>
+
+  <!-- 机甲装甲值 -->
+  <StatDef>
+    <defName>WULA_MechArmor</defName>
+    <label>复合装甲层</label>
+    <description>乌拉帝国在大型战争机械和少部分护甲上使用的特殊防御装甲，当 护甲穿透乘数 * 攻击 的最终值小于此值时，该攻击将被完全抵消而不造成任何伤害。</description>
+    <category>Apparel</category>
+    <toStringStyle>FloatTwo</toStringStyle>
+    <defaultBaseValue>0</defaultBaseValue>
+    <hideAtValue>0</hideAtValue>
+    <minValue>0</minValue>
+    <displayPriorityInCategory>5000</displayPriorityInCategory>
+  </StatDef>
 </Defs>

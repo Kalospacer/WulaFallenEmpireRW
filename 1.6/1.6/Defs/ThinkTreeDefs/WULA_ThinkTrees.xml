@@ -560,4 +560,99 @@
       </subNodes>
     </thinkRoot>
   </ThinkTreeDef>
+  
+  <ThinkTreeDef>
+    <defName>Wula_Battle_Mech_With_1_Pilot</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Despawned -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+
+        <!-- Deactivated -->
+        <li Class="ThinkNode_ConditionalDeactivated" MayRequire="Ludeon.RimWorld.Odyssey">
+          <subNodes>
+            <li Class="JobGiver_Deactivated" />
+          </subNodes>
+        </li>
+
+        <!-- Downed -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+
+        <!-- 重点！你需要在思考树中插入此项，以规定当没有足够的驾驶员时，机甲将执行什么行动 -->
+        <li Class="WulaFallenEmpire.ThinkNode_ConditionalMechHasPilot">
+          <minPilotCount>1</minPilotCount>
+          <subNodes>
+            <li Class="WulaFallenEmpire.JobGiver_NoPilot"/>
+          </subNodes>
+        </li>
+
+        <!-- Mental state -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>BerserkMechanoid</state>
+          <subNodes>
+            <li Class="ThinkNode_Priority">
+              <subNodes>
+                <li Class="JobGiver_Berserk" />
+                <li Class="JobGiver_WanderAnywhere">
+                  <maxDanger>Deadly</maxDanger>
+                </li>
+                </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Do a queued job -->
+        <li Class="ThinkNode_QueuedJob" />
+
+        <!-- Wait if drafted -->
+        <li Class="ThinkNode_ConditionalOfPlayerFaction">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>DraftedOrder</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_MoveToStandable" />
+                <li Class="JobGiver_Orders" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Lord -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>LordDuty</treeDef>
+        </li>
+
+        <!-- Idle player mech -->
+        <li Class="ThinkNode_ConditionalOfPlayerFaction">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Idle</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_WanderColony">
+                  <maxDanger>None</maxDanger>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Idle -->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Idle error -->
+        <li Class="JobGiver_IdleError"/>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
 </Defs>

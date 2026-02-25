@@ -34,7 +34,7 @@ namespace WulaFallenEmpire
                         else
                         {
                             // 此机甲不在允许列表中
-                            cantReason = "DD_Equipment_For_Other_Mech".Translate();
+                            cantReason = "WULA_Equipment_For_Other_Mech".Translate();
                             __result = false;
                             return false;
                         }
@@ -42,7 +42,7 @@ namespace WulaFallenEmpire
                     else
                     {
                         // 非机甲尝试装备专用武器，禁止
-                        cantReason = "DD_Human_Cannot_Equip_Mech_Weapon".Translate();
+                        cantReason = "WULA_Human_Cannot_Equip_Mech_Weapon".Translate();
                         __result = false;
                         return false;
                     }
@@ -54,7 +54,7 @@ namespace WulaFallenEmpire
                     if (pawn is Wulamechunit)
                     {
                         // 机甲不能装备普通武器
-                        cantReason = "DD_Equipment_Not_Allow_For_Mech".Translate();
+                        cantReason = "WULA_Equipment_Not_Allow_For_Mech".Translate();
                         __result = false;
                         return false;
                     }
@@ -66,7 +66,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] CanEquip patch error: {ex}");
+                Log.Error($"[WULA] CanEquip patch error: {ex}");
                 return true;
             }
         }

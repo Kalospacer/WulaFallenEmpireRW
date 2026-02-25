@@ -55,7 +55,7 @@ namespace WulaFallenEmpire
             // 如果需要驾驶员但组件不存在，发出警告
             if (Props.requirePilot && pilotHolder == null)
             {
-                Log.Warning($"[DD] CompMoteEmitterNorthward on {parent} requires pilot but no CompMechPilotHolder found");
+                Log.Warning($"[WULA] CompMoteEmitterNorthward on {parent} requires pilot but no CompMechPilotHolder found");
             }
             
             // 初始化位置
@@ -154,7 +154,7 @@ namespace WulaFallenEmpire
             catch (NullReferenceException ex)
             {
                 // 发生异常时重置状态
-                Log.Warning($"[DD] Error updating movement state for {parent}: {ex.Message}");
+                Log.Warning($"[WULA] Error updating movement state for {parent}: {ex.Message}");
                 isMoving = false;
             }
         }
@@ -284,7 +284,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] Error emitting mote: {ex}");
+                Log.Error($"[WULA] Error emitting mote: {ex}");
             }
         }
         

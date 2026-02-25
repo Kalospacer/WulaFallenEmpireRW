@@ -202,6 +202,32 @@
       </li>
     </stages>
   </HediffDef>
+  <HediffDef>
+    <defName>WULA_MechShutdown</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label></label>
+    <description>This mech has stopped due to insufficient fuel, need to assign a colonist to refuel it to restore its operational capability.</description>
+    <descriptionShort>This mech has stopped due to insufficient fuel.</descriptionShort>
+    <!-- <initialSeverity>0.5</initialSeverity> -->
+    <minSeverity>0.01</minSeverity>
+    <maxSeverity>1</maxSeverity>
+    <alwaysShowSeverity>true</alwaysShowSeverity>
+    <isBad>true</isBad>
+    <duplicationAllowed>true</duplicationAllowed>
+    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>    <!-- true -->
+    <!-- <defaultInstallPart>Brain</defaultInstallPart> -->
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
 
   <HediffDef>
     <defName>WULA_MechCarrierSwitchHediff</defName>

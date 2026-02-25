@@ -33,7 +33,7 @@ namespace WulaFallenEmpire.Utils
                 string outRoot = Path.Combine(
                     GenFilePaths.SaveDataFolderPath,
                     "WulaFallenEmpire_DefInjectedExport",
-                    DateTime.Now.ToString("yyyyMMdd_HHmmss"));
+                    DateTime.Now.ToString("yyyyMMWULA_HHmmss"));
 
                 string outDefInjected = Path.Combine(outRoot, "English", "DefInjected");
                 Directory.CreateDirectory(outDefInjected);

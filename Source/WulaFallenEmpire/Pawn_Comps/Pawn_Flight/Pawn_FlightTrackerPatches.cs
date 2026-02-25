@@ -62,8 +62,20 @@ namespace WulaFallenEmpire
                 return true;
             }
 
+            bool shouldBeFlying = false;
             var compProps = flightComp.Props;
-            bool shouldBeFlying = (compProps.flightCondition == FlightCondition.Drafted && ___pawn.Drafted);
+            if (compProps.flightCondition == FlightCondition.Always)
+            {
+                shouldBeFlying = true;
+            }
+            else if (compProps.flightCondition == FlightCondition.DraftedAndMove && ___pawn.Drafted || ___pawn.pather.MovingNow)
+            {
+                shouldBeFlying = true;
+            }
+            else if (compProps.flightCondition == FlightCondition.Drafted && ___pawn.Drafted)
+            {
+                shouldBeFlying = true;
+            }
 
             if (shouldBeFlying)
             {

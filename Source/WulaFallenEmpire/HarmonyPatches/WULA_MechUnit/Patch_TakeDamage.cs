@@ -17,7 +17,7 @@ namespace WulaFallenEmpire.HarmonyPatches
     public static class Thing_TakeDamage_Patch
     {
         // 缓存装甲值StatDef
-        private static readonly StatDef ArmorStatDef = StatDef.Named("DD_MechArmor");
+        private static readonly StatDef ArmorStatDef = StatDef.Named("WULA_MechArmor");
         
         // 阻挡效果的MoteDef
         private static readonly ThingDef BlockMoteDef = DefDatabase<ThingDef>.GetNamedSilentFail("Mote_Spark");
@@ -102,7 +102,7 @@ namespace WulaFallenEmpire.HarmonyPatches
                 
             // 显示文字效果
             Vector3 textPos = target.DrawPos + new Vector3(0, 0, 1f);
-            MoteMaker.ThrowText(textPos, target.Map, "DD_BlockByMechArmor".Translate(), Color.yellow, 2.5f);
+            MoteMaker.ThrowText(textPos, target.Map, "WULA_BlockByMechArmor".Translate(), Color.yellow, 2.5f);
             
             // 显示粒子效果
             if (BlockMoteDef != null)

@@ -26,7 +26,7 @@ namespace WulaFallenEmpire
         public ThingDef FuelType => Props.fuelType;
         
         // 停机状态 Hediff
-        private HediffDef ShutdownHediffDef => HediffDef.Named("DD_MechShutdown");
+        private HediffDef ShutdownHediffDef => HediffDef.Named("WULA_MechShutdown");
         
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -162,7 +162,7 @@ namespace WulaFallenEmpire
                 }
                 
                 // 播放关机效果
-                MoteMaker.ThrowText(mech.DrawPos, mech.Map, "DD_Shutdown".Translate(), Color.gray, 3.5f);
+                MoteMaker.ThrowText(mech.DrawPos, mech.Map, "WULA_Shutdown".Translate(), Color.gray, 3.5f);
             }
         }
         
@@ -186,7 +186,7 @@ namespace WulaFallenEmpire
                     }
                 }
                 
-                MoteMaker.ThrowText(mech.DrawPos, mech.Map, "DD_Startup".Translate(), Color.green, 3.5f);
+                MoteMaker.ThrowText(mech.DrawPos, mech.Map, "WULA_Startup".Translate(), Color.green, 3.5f);
             }
         }
         
@@ -236,7 +236,7 @@ namespace WulaFallenEmpire
             // 发送调试消息
             if (DebugSettings.godMode)
             {
-                Messages.Message($"DD_Debug_FuelSet".Translate(
+                Messages.Message($"WULA_Debug_FuelSet".Translate(
                     parent.LabelShort, 
                     fuel.ToString("F1"), 
                     Props.fuelCapacity.ToString("F1"),
@@ -267,7 +267,7 @@ namespace WulaFallenEmpire
             
             if (bestColonist == null)
             {
-                Messages.Message("DD_NoColonistAvailable".Translate(), parent, MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_NoColonistAvailable".Translate(), parent, MessageTypeDefOf.RejectInput);
                 return;
             }
             
@@ -275,7 +275,7 @@ namespace WulaFallenEmpire
             Thing fuel = FindFuelForRefuel(bestColonist);
             if (fuel == null)
             {
-                Messages.Message("DD_NoFuelAvailable".Translate(FuelType), parent, MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_NoFuelAvailable".Translate(FuelType), parent, MessageTypeDefOf.RejectInput);
                 return;
             }
             
@@ -287,7 +287,7 @@ namespace WulaFallenEmpire
             bestColonist.jobs.StartJob(job, JobCondition.InterruptForced, null, resumeCurJobAfterwards: true);
             
             // 显示消息
-            Messages.Message("DD_OrderedRefuel".Translate(bestColonist.LabelShort, parent.LabelShort),
+            Messages.Message("WULA_OrderedRefuel".Translate(bestColonist.LabelShort, parent.LabelShort),
                 parent, MessageTypeDefOf.PositiveEvent);
         }
         
@@ -370,16 +370,16 @@ namespace WulaFallenEmpire
             {
                 Command_Action refuelNow = new Command_Action
                 {
-                    defaultLabel = "DD_RefuelNow".Translate(),
-                    defaultDesc = "DD_RefuelNowDesc".Translate(),
-                    icon = ContentFinder<Texture2D>.Get("WulaFallenEmpire/UI/Commands/DD_Refuel_Mech"),
+                    defaultLabel = "WULA_RefuelNow".Translate(),
+                    defaultDesc = "WULA_RefuelNowDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("WulaFallenEmpire/UI/Commands/WULA_Refuel_Mech"),
                     action = () => RefuelNow()
                 };
                 
                 // 检查是否可以立刻加注
                 if (!CanRefuelNow())
                 {
-                    refuelNow.Disable("DD_CannotRefuelNow".Translate());
+                    refuelNow.Disable("WULA_CannotRefuelNow".Translate());
                 }
                 
                 yield return refuelNow;
@@ -391,8 +391,8 @@ namespace WulaFallenEmpire
                 // 设置燃料为空
                 Command_Action setEmpty = new Command_Action
                 {
-                    defaultLabel = "DD_Debug_SetEmpty".Translate(),
-                    defaultDesc = "DD_Debug_SetEmptyDesc".Translate(),
+                    defaultLabel = "WULA_Debug_SetEmpty".Translate(),
+                    defaultDesc = "WULA_Debug_SetEmptyDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("UI/Commands/SetEmpty", false) ?? BaseContent.BadTex,
                     action = () => SetFuel(0f)
                 };
@@ -401,8 +401,8 @@ namespace WulaFallenEmpire
                 // 设置燃料为50%
                 Command_Action setHalf = new Command_Action
                 {
-                    defaultLabel = "DD_Debug_SetHalf".Translate(),
-                    defaultDesc = "DD_Debug_SetHalfDesc".Translate(),
+                    defaultLabel = "WULA_Debug_SetHalf".Translate(),
+                    defaultDesc = "WULA_Debug_SetHalfDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("UI/Commands/SetHalf", false) ?? BaseContent.BadTex,
                     action = () => SetFuel(Props.fuelCapacity * 0.5f)
                 };
@@ -411,8 +411,8 @@ namespace WulaFallenEmpire
                 // 设置燃料为满
                 Command_Action setFull = new Command_Action
                 {
-                    defaultLabel = "DD_Debug_SetFull".Translate(),
-                    defaultDesc = "DD_Debug_SetFullDesc".Translate(),
+                    defaultLabel = "WULA_Debug_SetFull".Translate(),
+                    defaultDesc = "WULA_Debug_SetFullDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("UI/Commands/SetFull", false) ?? BaseContent.BadTex,
                     action = () => SetFuel(Props.fuelCapacity)
                 };
@@ -433,7 +433,7 @@ namespace WulaFallenEmpire
         {
             string baseString = base.CompInspectStringExtra();
             
-            string fuelString = "DD_Fuel".Translate(FuelType) + ": " + 
+            string fuelString = "WULA_Fuel".Translate(FuelType) + ": " + 
                 fuel.ToString("F1") + " / " + Props.fuelCapacity.ToString("F1") + 
                 " (" + (FuelPercent * 100f).ToString("F0") + "%)";
 

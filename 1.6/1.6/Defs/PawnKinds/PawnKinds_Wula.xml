@@ -179,6 +179,7 @@
     <defaultFactionType>PlayerColony</defaultFactionType>
     <canMeleeAttack>false</canMeleeAttack>
     <isGoodBreacher>true</isGoodBreacher>
+    <collidesWithPawns>false</collidesWithPawns>
 
 		<flyingAnimationFramePathPrefix>Wula/Things/Wula_Mech_Mobile_Factory/Flying/Wula_Mech_Mobile_Factory_Flying_</flyingAnimationFramePathPrefix>
     <flyingAnimationDrawSize>1</flyingAnimationDrawSize>

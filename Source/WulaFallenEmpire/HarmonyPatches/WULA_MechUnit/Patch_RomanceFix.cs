@@ -80,14 +80,14 @@ namespace WulaFallenEmpire
                 // 如果任一pawn是机甲单位，返回拒绝
                 if (initiator is Wulamechunit || target is Wulamechunit)
                 {
-                    __result = new AcceptanceReport("DD_MechCannotRomance".Translate());
+                    __result = new AcceptanceReport("WULA_MechCannotRomance".Translate());
                     return false; // 跳过原始方法
                 }
                 
                 // 如果任一pawn没有story组件，返回拒绝
                 if (initiator?.story == null || target?.story == null)
                 {
-                    __result = new AcceptanceReport("DD_NoStoryComponent".Translate());
+                    __result = new AcceptanceReport("WULA_NoStoryComponent".Translate());
                     return false;
                 }
                 

@@ -25,7 +25,7 @@ namespace WulaFallenEmpire
         public ITab_MechSkills()
         {
             this.size = new Vector2(520f, 600f);
-            this.labelKey = "DD_MechSkills".Translate();
+            this.labelKey = "WULA_MechSkills".Translate();
         }
         
         protected override void FillTab()
@@ -36,7 +36,7 @@ namespace WulaFallenEmpire
                 
             if (pawn.TryGetComp<CompMechSkillInheritance>() == null)
             {
-                DrawError("DD_NoMechSkillComps".Translate());
+                DrawError("WULA_NoMechSkillComps".Translate());
                 return;
             }
             
@@ -226,7 +226,7 @@ namespace WulaFallenEmpire
             );
 
             string status = GetStatus(pawn);
-            string type = "DD_Mech".Translate();
+            string type = "WULA_Mech".Translate();
             Widgets.Label(statusRect, $"{type} | {status}");
 
             GUI.color = Color.white;
@@ -248,7 +248,7 @@ namespace WulaFallenEmpire
             );
             
             Text.Font = GameFont.Medium;
-            Widgets.Label(titleRect, "DD_PilotTitle".Translate());
+            Widgets.Label(titleRect, "WULA_PilotTitle".Translate());
             Text.Font = GameFont.Small;
             
             // 内容
@@ -268,12 +268,12 @@ namespace WulaFallenEmpire
                     if (pilot != null) pilotNames.Add(pilot.LabelShort);
                 }
                 var pilotNamelist = string.Join(", ", pilotNames);
-                Widgets.Label(contentRect, $"DD_PilotInfo".Translate(pilotNamelist));
+                Widgets.Label(contentRect, $"WULA_PilotInfo".Translate(pilotNamelist));
             }
             else
             {
                 GUI.color = Color.gray;
-                Widgets.Label(contentRect, "DD_NoPilotShort".Translate());
+                Widgets.Label(contentRect, "WULA_NoPilotShort".Translate());
                 GUI.color = Color.white;
             }
         }
@@ -307,7 +307,7 @@ namespace WulaFallenEmpire
             if (pawn.skills == null || pawn.skills.skills.Count == 0)
             {
                 GUI.color = Color.gray;
-                Widgets.Label(skillsArea.ContractedBy(padding * 2), "DD_MechNoSkill".Translate());
+                Widgets.Label(skillsArea.ContractedBy(padding * 2), "WULA_MechNoSkill".Translate());
                 GUI.color = Color.white;
                 return;
             }
@@ -412,9 +412,9 @@ namespace WulaFallenEmpire
             
             var pilotComp = pawn.TryGetComp<CompMechPilotHolder>();
             if (pilotComp == null || !pilotComp.HasPilots)
-                return "DD_NoPilot".Translate();
+                return "WULA_NoPilot".Translate();
                 
-            return "DD_Operational".Translate();
+            return "WULA_Operational".Translate();
         }
         
         private void DrawError(string message)

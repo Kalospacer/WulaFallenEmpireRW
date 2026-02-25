@@ -16,8 +16,8 @@ namespace WulaFallenEmpire
         public string pilotWorkTag = "MechPilot";
 
         // 新增：驾驶员图标配置
-        public string summonPilotIcon = "WulaFallenEmpire/UI/Commands/DD_Enter_Mech";
-        public string ejectPilotIcon = "WulaFallenEmpire/UI/Commands/DD_Exit_Mech";
+        public string summonPilotIcon = "WulaFallenEmpire/UI/Commands/WULA_Enter_Mech";
+        public string ejectPilotIcon = "WulaFallenEmpire/UI/Commands/WULA_Exit_Mech";
 
         public float ejectPilotHealthPercentThreshold = 0.1f; // 默认30%血量
         public bool allowEntryBelowThreshold = false; // 血量低于阈值时是否允许进入
@@ -204,7 +204,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 同步Hediff时出错: {ex}");
+                Log.Error($"[WULA] 同步Hediff时出错: {ex}");
             }
         }
 
@@ -231,7 +231,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 取消同步Hediff时出错: {ex}");
+                Log.Error($"[WULA] 取消同步Hediff时出错: {ex}");
             }
         }
 
@@ -273,7 +273,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 自动添加Hediff时出错: {ex}");
+                Log.Error($"[WULA] 自动添加Hediff时出错: {ex}");
             }
         }
 
@@ -333,7 +333,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] CompTick error: {ex}");
+                Log.Error($"[WULA] CompTick error: {ex}");
             }
         }
 
@@ -384,7 +384,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 检查Hediff同步状态时出错: {ex}");
+                Log.Error($"[WULA] 检查Hediff同步状态时出错: {ex}");
             }
         }
 
@@ -395,7 +395,7 @@ namespace WulaFallenEmpire
 
             if (!(parent is Wulamechunit))
             {
-                Log.Warning($"[DD] CompMechPilotHolder attached to non-mech: {parent}");
+                Log.Warning($"[WULA] CompMechPilotHolder attached to non-mech: {parent}");
             }
 
             // 确保加载后恢复状态
@@ -567,7 +567,7 @@ namespace WulaFallenEmpire
             // 发送消息
             if (parent.Faction == Faction.OfPlayer)
             {
-                Messages.Message("DD_PilotsEjectedDueToLowHealth".Translate(parent.LabelShort,
+                Messages.Message("WULA_PilotsEjectedDueToLowHealth".Translate(parent.LabelShort,
                     (Props.ejectPilotHealthPercentThreshold * 100).ToString("F0")),
                     parent, MessageTypeDefOf.NegativeEvent);
             }
@@ -605,8 +605,8 @@ namespace WulaFallenEmpire
             {
                 Command_Action summonCommand = new Command_Action
                 {
-                    defaultLabel = "DD_SummonPilot".Translate(),
-                    defaultDesc = "DD_SummonPilotDesc".Translate(),
+                    defaultLabel = "WULA_SummonPilot".Translate(),
+                    defaultDesc = "WULA_SummonPilotDesc".Translate(),
                     icon = Props.GetSummonPilotIcon(),
                     action = () =>
                     {
@@ -618,7 +618,7 @@ namespace WulaFallenEmpire
                 // 如果血量低于阈值且不允许进入，禁用按钮
                 if (!Props.allowEntryBelowThreshold && IsBelowHealthThreshold)
                 {
-                    summonCommand.Disable("DD_MechTooDamagedForEntry".Translate());
+                    summonCommand.Disable("WULA_MechTooDamagedForEntry".Translate());
                 }
 
                 yield return summonCommand;
@@ -629,8 +629,8 @@ namespace WulaFallenEmpire
             {
                 yield return new Command_Action
                 {
-                    defaultLabel = "DD_EjectAllPilots".Translate(),
-                    defaultDesc = "DD_EjectAllPilotsDesc".Translate(),
+                    defaultLabel = "WULA_EjectAllPilots".Translate(),
+                    defaultDesc = "WULA_EjectAllPilotsDesc".Translate(),
                     icon = Props.GetEjectPilotIcon(),
                     action = () =>
                     {
@@ -723,14 +723,14 @@ namespace WulaFallenEmpire
                         }
                         else
                         {
-                            Log.Error($"[DD] 无法弹出驾驶员: {pawn.LabelShort}");
+                            Log.Error($"[WULA] 无法弹出驾驶员: {pawn.LabelShort}");
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 弹出驾驶员时发生错误: {ex}");
+                Log.Error($"[WULA] 弹出驾驶员时发生错误: {ex}");
             }
             finally
             {
@@ -778,7 +778,7 @@ namespace WulaFallenEmpire
             Map map = parent.Map;
             if (map == null)
             {
-                Log.Error($"[DD] 尝试在没有地图的情况下生成驾驶员: {pawn.LabelShort}");
+                Log.Error($"[WULA] 尝试在没有地图的情况下生成驾驶员: {pawn.LabelShort}");
                 return false;
             }
 
@@ -810,7 +810,7 @@ namespace WulaFallenEmpire
             }
             catch (Exception ex)
             {
-                Log.Error($"[DD] 生成驾驶员时发生错误: {ex}");
+                Log.Error($"[WULA] 生成驾驶员时发生错误: {ex}");
                 return false;
             }
         }
@@ -841,7 +841,7 @@ namespace WulaFallenEmpire
         {
             if (pilot.Faction == Faction.OfPlayer)
             {
-                Messages.Message("DD_PilotEnteredMech".Translate(pilot.LabelShort, parent.LabelShort),
+                Messages.Message("WULA_PilotEnteredMech".Translate(pilot.LabelShort, parent.LabelShort),
                     parent, MessageTypeDefOf.PositiveEvent);
             }
         }
@@ -850,7 +850,7 @@ namespace WulaFallenEmpire
         {
             if (pilot.Faction == Faction.OfPlayer)
             {
-                Messages.Message("DD_PilotExitedMech".Translate(pilot.LabelShort, parent.LabelShort),
+                Messages.Message("WULA_PilotExitedMech".Translate(pilot.LabelShort, parent.LabelShort),
                     parent, MessageTypeDefOf.NeutralEvent);
             }
         }
@@ -899,7 +899,7 @@ namespace WulaFallenEmpire
             // 为能够行动的殖民者创建选项
             if (ableColonists.Count == 0 && disabledColonists.Count == 0)
             {
-                options.Add(new FloatMenuOption("DD_NoAvailablePilots".Translate(), null));
+                options.Add(new FloatMenuOption("WULA_NoAvailablePilots".Translate(), null));
             }
             else
             {
@@ -930,7 +930,7 @@ namespace WulaFallenEmpire
                 // 无法行动的殖民者：需要搬运
                 foreach (var colonist in disabledColonists)
                 {
-                    string colonistLabel = colonist.LabelShortCap + " " + "DD_DisabledColonistRequiresCarry".Translate();
+                    string colonistLabel = colonist.LabelShortCap + " " + "WULA_DisabledColonistRequiresCarry".Translate();
                     Action action = () => OrderCarryDisabledColonistToMech(colonist);
 
                     FloatMenuOption option = new FloatMenuOption(
@@ -977,7 +977,7 @@ namespace WulaFallenEmpire
             
             if (carrier == null)
             {
-                Messages.Message("DD_NoAvailableCarrier".Translate(disabledColonist.LabelShortCap), 
+                Messages.Message("WULA_NoAvailableCarrier".Translate(disabledColonist.LabelShortCap), 
                     parent, MessageTypeDefOf.RejectInput);
                 return;
             }
@@ -986,7 +986,7 @@ namespace WulaFallenEmpire
             Job job = JobMaker.MakeJob(Wula_JobDefOf.WULA_CarryToMech, disabledColonist, mech);
             carrier.jobs.TryTakeOrderedJob(job, JobTag.Misc);
             
-            Messages.Message("DD_CarrierAssigned".Translate(carrier.LabelShortCap, disabledColonist.LabelShortCap), 
+            Messages.Message("WULA_CarrierAssigned".Translate(carrier.LabelShortCap, disabledColonist.LabelShortCap), 
                 parent, MessageTypeDefOf.PositiveEvent);
         }
 

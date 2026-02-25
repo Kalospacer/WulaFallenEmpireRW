@@ -5,7 +5,7 @@ using Verse;
 namespace ArachnaeSwarm
 {
     [HarmonyPatch(typeof(Hediff_Mechlink), "PostAdd")]
-    public static class Hediff_Mechlink_PostAdd_Patch
+    public static class Hediff_Mechlink_PostAWULA_Patch
     {
         public static bool Prefix(Hediff_Mechlink __instance, DamageInfo? dinfo)
         {

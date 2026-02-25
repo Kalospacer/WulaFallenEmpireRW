@@ -131,7 +131,7 @@ namespace WulaFallenEmpire
             }
             catch (System.Exception ex)
             {
-                Log.Error($"[DD] Error in fixed ColonistBar patch: {ex}");
+                Log.Error($"[WULA] Error in fixed ColonistBar patch: {ex}");
                 // 出错时不改变原列表
             }
         }

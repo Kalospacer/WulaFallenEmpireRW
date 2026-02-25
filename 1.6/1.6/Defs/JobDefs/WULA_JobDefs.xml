@@ -86,7 +86,7 @@
     <makeTargetPrisoner>false</makeTargetPrisoner> -->
   </JobDef>
   <WorkGiverDef>
-    <defName>WULA_Refuel</defName>
+    <defName>WULA_RefuelMech</defName>
     <label>refuel Mechs</label>
     <giverClass>WulaFallenEmpire.WorkGiver_RefuelMech</giverClass>
     <workType>Hauling</workType>

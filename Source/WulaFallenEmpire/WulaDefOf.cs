@@ -27,7 +27,6 @@ namespace WulaFallenEmpire
         public static JobDef WULA_Launch_Proj;
         public static JobDef WULA_EnterMech;
         public static JobDef WULA_RefuelMech;
-        public static JobDef WULA_Refuel;
         public static JobDef WULA_RepairMech;
         public static JobDef WULA_ForceEjectPilot;
         public static JobDef WULA_CarryToMech;
