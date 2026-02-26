@@ -194,7 +194,7 @@
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>7</drawSize>
+          <drawSize>9</drawSize>
           <shadowData>
             <volume>(1.4, 1.8, 1.4)</volume>
           </shadowData>
@@ -231,7 +231,7 @@
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>7</drawSize>
+          <drawSize>9</drawSize>
           <shadowData>
             <volume>(1.4, 1.8, 1.4)</volume>
           </shadowData>
@@ -261,7 +261,7 @@
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>5</drawSize>
+          <drawSize>9</drawSize>
           <shadowData>
             <volume>(1.4, 1.8, 1.4)</volume>
           </shadowData>
@@ -270,7 +270,6 @@
     </lifeStages>
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
   </PawnKindDef>
-
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_Mech_Mobile_Factory</defName> <!-- 修改了defName以避免冲突 -->
     <label>MFm-2"陆行舰"</label>
@@ -297,7 +296,7 @@
           <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
-          <drawSize>9</drawSize>
+          <drawSize>12</drawSize>
           <shadowData>
             <volume>(1.4, 1.8, 1.4)</volume>
           </shadowData>

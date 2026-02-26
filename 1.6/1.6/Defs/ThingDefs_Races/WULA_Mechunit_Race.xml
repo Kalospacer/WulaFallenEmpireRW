@@ -116,13 +116,18 @@
       <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
 		    <ID>0</ID>
         <turretDef>Wula_AI_Heavy_Panzer_Turret_Weapon</turretDef>
+        <traverseSpeed>20</traverseSpeed>
+        <aimTicks>0</aimTicks>
+        <idleRotationSpeed>5</idleRotationSpeed>
+        <smoothRotation>true</smoothRotation>
+        <resetCooldownTicks>180</resetCooldownTicks>
         <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
             <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
             <parentTagDef>Body</parentTagDef>
-            <overrideMeshSize>(7, 7)</overrideMeshSize>
+            <overrideMeshSize>(8, 8)</overrideMeshSize>
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
@@ -300,48 +305,48 @@
         </pawnKindHediffs>
       </li> -->
       
-      <!-- <li Class="WulaFallenEmpire.CompProperties_HighSpeedCollision">
-        速度阈值
-        <minSpeedForStage1>4.0</minSpeedForStage1>
-        <minSpeedForStage2>8.0</minSpeedForStage2>
+      <li Class="WulaFallenEmpire.CompProperties_HighSpeedCollision">
+        <!-- 速度阈值 -->
+        <minSpeedForStage1>1.0</minSpeedForStage1>
+        <minSpeedForStage2>2.0</minSpeedForStage2>
         <speedHistoryFrameCount>15</speedHistoryFrameCount>
         <stageTransitionCooldownTicks>3</stageTransitionCooldownTicks>
         
-        碰撞区域
-        <collisionAreaRadius>2</collisionAreaRadius>
+        <!-- 碰撞区域 -->
+        <collisionAreaRadius>3</collisionAreaRadius>
         
-        目标过滤
+        <!-- 目标过滤 -->
         <onlyAffectEnemies>true</onlyAffectEnemies>
         <excludeAlliedPawns>true</excludeAlliedPawns>
         
-        阶段1效果
+        <!-- 阶段1效果 -->
         <stage1DamageDef>Blunt</stage1DamageDef>
-        <stage1DamageAmount>8</stage1DamageAmount>
+        <stage1DamageAmount>1</stage1DamageAmount>
         <armorPenetration>0.1</armorPenetration>
-        <stage1Hediff>Bruise</stage1Hediff>
+        <!-- <stage1Hediff>Bruise</stage1Hediff>
         <stage1HediffDurationTicks>120</stage1HediffDurationTicks>
-        <stage1HediffPreventsDamage>true</stage1HediffPreventsDamage>
-        <stage1Effecter>SparkImpact</stage1Effecter>
-        <stage1Sound>MeleeHit_Punch</stage1Sound>
+        <stage1HediffPreventsDamage>true</stage1HediffPreventsDamage> -->
+        <!-- <stage1Effecter>SparkImpact</stage1Effecter> -->
+        <stage1Sound>MeleeHit_BladelinkZeusHammer</stage1Sound>
         
-        阶段2效果
+        <!-- 阶段2效果 -->
         <stage2DamageDef>Blunt</stage2DamageDef>
         <stage2DamageAmount>15</stage2DamageAmount>
         <stage2KnockbackDistance>4</stage2KnockbackDistance>
         <requireLineOfSightForKnockback>true</requireLineOfSightForKnockback>
-        <stage2Effecter>ExplosionFlash</stage2Effecter>
-        <stage2Sound>MeleeHit_Slash</stage2Sound>
+        <!-- <stage2Effecter>ExplosionFlash</stage2Effecter> -->
+        <stage2Sound>MeleeHit_BladelinkZeusHammer</stage2Sound>
         
-        击飞配置
+        <!-- 击飞配置 -->
         <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
-        <flightEffecterDef>FlyerTakeoff</flightEffecterDef>
+        <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
         <landingSound>PawnFlyerLand</landingSound>
         
-        调试
+        <!-- 调试 -->
         <enableDebugLogging>false</enableDebugLogging>
         <enableDebugVisuals>false</enableDebugVisuals>
         <debugDrawSpeedHistory>false</debugDrawSpeedHistory>
-      </li> -->
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="Wula_MechunitBase">
@@ -394,13 +399,19 @@
       <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
 		    <ID>0</ID>
         <turretDef>Wula_AI_Rocket_Panzer_Turret_Weapon</turretDef>
+        <traverseSpeed>20</traverseSpeed>
+        <aimTicks>30</aimTicks>
+        <idleRotationSpeed>8</idleRotationSpeed>
+        <smoothRotation>true</smoothRotation>
+        <resetCooldownTicks>180</resetCooldownTicks>
+        <!-- <angleOffset>-90</angleOffset> -->
         <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
             <nodeClass>PawnRenderNode_TurretGun</nodeClass>
             <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
             <parentTagDef>Body</parentTagDef>
-            <overrideMeshSize>(7, 7)</overrideMeshSize>
+            <overrideMeshSize>(8, 8)</overrideMeshSize>
             <baseLayer>20</baseLayer>
             <pawnType>Any</pawnType>
             <drawData>
@@ -1232,6 +1243,48 @@
           </li>
         </pawnKindHediffs>
       </li> -->
+      <li Class="WulaFallenEmpire.CompProperties_HighSpeedCollision">
+        <!-- 速度阈值 -->
+        <minSpeedForStage1>0.5</minSpeedForStage1>
+        <minSpeedForStage2>1</minSpeedForStage2>
+        <speedHistoryFrameCount>15</speedHistoryFrameCount>
+        <stageTransitionCooldownTicks>3</stageTransitionCooldownTicks>
+        
+        <!-- 碰撞区域 -->
+        <collisionAreaRadius>5</collisionAreaRadius>
+        
+        <!-- 目标过滤 -->
+        <onlyAffectEnemies>true</onlyAffectEnemies>
+        <excludeAlliedPawns>true</excludeAlliedPawns>
+        
+        <!-- 阶段1效果 -->
+        <stage1DamageDef>Blunt</stage1DamageDef>
+        <stage1DamageAmount>5</stage1DamageAmount>
+        <armorPenetration>0.1</armorPenetration>
+        <!-- <stage1Hediff>Bruise</stage1Hediff>
+        <stage1HediffDurationTicks>120</stage1HediffDurationTicks>
+        <stage1HediffPreventsDamage>true</stage1HediffPreventsDamage> -->
+        <!-- <stage1Effecter>SparkImpact</stage1Effecter> -->
+        <stage1Sound>MeleeHit_BladelinkZeusHammer</stage1Sound>
+        
+        <!-- 阶段2效果 -->
+        <stage2DamageDef>Blunt</stage2DamageDef>
+        <stage2DamageAmount>50</stage2DamageAmount>
+        <stage2KnockbackDistance>8</stage2KnockbackDistance>
+        <requireLineOfSightForKnockback>true</requireLineOfSightForKnockback>
+        <!-- <stage2Effecter>ExplosionFlash</stage2Effecter> -->
+        <stage2Sound>MeleeHit_BladelinkZeusHammer</stage2Sound>
+        
+        <!-- 击飞配置 -->
+        <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
+        <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
+        <landingSound>PawnFlyerLand</landingSound>
+        
+        <!-- 调试 -->
+        <enableDebugLogging>false</enableDebugLogging>
+        <enableDebugVisuals>false</enableDebugVisuals>
+        <debugDrawSpeedHistory>false</debugDrawSpeedHistory>
+      </li>
     </comps>
   </ThingDef>
 </Defs>
