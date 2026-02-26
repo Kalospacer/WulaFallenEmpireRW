@@ -689,22 +689,23 @@ namespace WulaFallenEmpire
             // 为主控炮塔创建集中火力Gizmo
             if (IsMasterTurret)
             {
-                cachedFocusGizmo = new Command_Action();
-                cachedFocusGizmo.defaultLabel = "Wula_FocusFire".Translate();
-                cachedFocusGizmo.defaultDesc = "Wula_FocusFireDesc".Translate();
-                cachedFocusGizmo.icon = ContentFinder<Texture2D>.Get("UI/Gizmos/TargetFocus", false) ?? BaseContent.BadTex;
-                cachedFocusGizmo.action = () =>
-                {
-                    // 显示目标选择菜单
-                    ShowTargetSelectMenu();
-                };
-                
                 // 如果有集中火力目标，添加清除按钮
                 if (focusTarget.IsValid && lastFocusPawn == parent)
                 {
                     cachedFocusGizmo.defaultLabel = "Wula_ClearFocus".Translate();
                     cachedFocusGizmo.defaultDesc = "Wula_ClearFocusDesc".Translate();
-                    cachedFocusGizmo.icon = ContentFinder<Texture2D>.Get("UI/Gizmos/TargetClear", false) ?? BaseContent.BadTex;
+                    cachedFocusGizmo.icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_TargetFocus", false) ?? BaseContent.BadTex;
+                }
+                else {
+                    cachedFocusGizmo = new Command_Action();
+                    cachedFocusGizmo.defaultLabel = "Wula_FocusFire".Translate();
+                    cachedFocusGizmo.defaultDesc = "Wula_FocusFireDesc".Translate();
+                    cachedFocusGizmo.icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_TargetFocus", false) ?? BaseContent.BadTex;
+                    cachedFocusGizmo.action = () =>
+                    {
+                        // 显示目标选择菜单
+                        ShowTargetSelectMenu();
+                    };
                 }
             }
         }
@@ -715,52 +716,13 @@ namespace WulaFallenEmpire
             if (focusTarget.IsValid && lastFocusPawn == parent)
             {
                 focusTarget = LocalTargetInfo.Invalid;
-                Messages.Message("Wula_FocusCleared".Translate(), MessageTypeDefOf.NeutralEvent);
                 return;
             }
-            
-            // 创建目标选择器
-            CameraJumper.TryJump(parent);
-            
-            // 显示选择目标的消息
-            Messages.Message("Wula_SelectFocusTarget".Translate(), MessageTypeDefOf.NeutralEvent);
-            
-            // 设置目标选择回调
-            TargetingParameters targetingParameters = new TargetingParameters();
-            targetingParameters.canTargetPawns = true;
-            targetingParameters.canTargetBuildings = true;
-            targetingParameters.canTargetItems = false;
-            targetingParameters.canTargetLocations = false;
-            targetingParameters.canTargetSelf = false;
-            targetingParameters.canTargetFires = false;
-            targetingParameters.canTargetAnimals = true;
-            targetingParameters.canTargetHumans = true;
-            targetingParameters.canTargetMechs = true;
-            
-            // 添加地图上的所有有生命值的目标
-            targetingParameters.validator = (TargetInfo targ) =>
-            {
-                if (targ.Thing == null)
-                    return false;
-                    
-                // 必须有生命值
-                if (targ.Thing.def.useHitPoints && targ.Thing.HitPoints > 0)
-                {
-                    // 不能是友方（可选，根据需求调整）
-                    if (targ.Thing.Faction != null && targ.Thing.Faction == parent.Faction)
-                    {
-                        // 如果是友方，需要特殊确认
-                        return false;
-                    }
-                    return true;
-                }
-                return false;
-            };
 
             // 启动目标选择
             Find.Targeter.BeginTargeting(new TargetingParameters
             {
-                canTargetLocations = true,
+                canTargetLocations = false,
                 canTargetPawns = true,
                 canTargetBuildings = true,
                 canTargetItems = false
@@ -774,11 +736,6 @@ namespace WulaFallenEmpire
                 focusTarget = target;
                 lastFocusSetTick = Find.TickManager.TicksGame;
                 lastFocusPawn = parent;
-                
-                Messages.Message(
-                    "Wula_FocusTargetSet".Translate(target.Thing.LabelCap),
-                    MessageTypeDefOf.PositiveEvent
-                );
             }
         }
         private void OnFocusTargetCancelled()

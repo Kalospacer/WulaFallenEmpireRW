@@ -204,7 +204,7 @@
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <graphicData>
-      <texPath>Wula/Weapon/Wula_Mobile_Factory_Turret</texPath>
+      <texPath>Wula/Weapon/WULA_RW_Unlimit_Penetrating_Beam_Cannon</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>0.75</drawSize>
     </graphicData>
