@@ -305,10 +305,7 @@
     </lifeStages>
     <weaponMoney>99999~99999</weaponMoney>
 
-    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
-    <weaponTags>
-      <li>Wula_Mech_Mobile_Factory_Main_Weapon</li>
-    </weaponTags>
+    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>
 
     <abilities>
       <li>Wula_Mech_Mobile_Factory_Produce</li>

@@ -120,7 +120,7 @@
         <aimTicks>0</aimTicks>
         <idleRotationSpeed>5</idleRotationSpeed>
         <smoothRotation>true</smoothRotation>
-        <resetCooldownTicks>180</resetCooldownTicks>
+        <resetCooldownTime>3</resetCooldownTime>
         <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
@@ -149,8 +149,8 @@
       </li>
       <li Class="CompProperties_Shield">
         <startingTicksToReset>36000</startingTicksToReset><!-- 10 mins -->
-        <minDrawSize>5.2</minDrawSize>
-        <maxDrawSize>5.4</maxDrawSize>
+        <minDrawSize>8.2</minDrawSize>
+        <maxDrawSize>8.4</maxDrawSize>
         <energyLossPerDamage>0.02</energyLossPerDamage>
         <energyOnReset>4.0</energyOnReset>
         <blocksRangedWeapons>false</blocksRangedWeapons>
@@ -164,22 +164,6 @@
         <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
         <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
         <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
-        <radius>1.5</radius>
-        <damageIntervalTicks>30</damageIntervalTicks>
-        <damageDef>Crush</damageDef>
-        <damageAmount>3</damageAmount>
-        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
-        <affectFriendly>false</affectFriendly>
-        <affectNeutral>false</affectNeutral>
-        <affectHostile>true</affectHostile>
-        <affectBuildings>false</affectBuildings>
-        <ignoreFactionRelations>false</ignoreFactionRelations>
-        <startEnabled>false</startEnabled>
-        <toggleLabel>碾压伤害</toggleLabel>
-        <toggleDescription>HAp-6"战车"可以将舰身稍微下沉一些并创造低压区，以碾压靠近的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
-        <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
       </li>
 
       <li Class="WulaFallenEmpire.CompProperties_MechPilotHolder">
@@ -403,7 +387,7 @@
         <aimTicks>30</aimTicks>
         <idleRotationSpeed>8</idleRotationSpeed>
         <smoothRotation>true</smoothRotation>
-        <resetCooldownTicks>180</resetCooldownTicks>
+        <resetCooldownTime>3</resetCooldownTime>
         <!-- <angleOffset>-90</angleOffset> -->
         <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
@@ -440,22 +424,6 @@
         <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
         <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
         <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
-        <radius>1.5</radius>
-        <damageIntervalTicks>30</damageIntervalTicks>
-        <damageDef>Crush</damageDef>
-        <damageAmount>3</damageAmount>
-        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
-        <affectFriendly>false</affectFriendly>
-        <affectNeutral>false</affectNeutral>
-        <affectHostile>true</affectHostile>
-        <affectBuildings>false</affectBuildings>
-        <ignoreFactionRelations>false</ignoreFactionRelations>
-        <startEnabled>false</startEnabled>
-        <toggleLabel>碾压伤害</toggleLabel>
-        <toggleDescription>HAp-6"战车"可以将舰身稍微下沉一些并创造低压区，以碾压靠近的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
-        <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
       </li>
 
       <li Class="WulaFallenEmpire.CompProperties_MechPilotHolder">
@@ -580,6 +548,49 @@
           </li>
         </pawnKindHediffs>
       </li> -->
+      
+      <li Class="WulaFallenEmpire.CompProperties_HighSpeedCollision">
+        <!-- 速度阈值 -->
+        <minSpeedForStage1>1.0</minSpeedForStage1>
+        <minSpeedForStage2>2.0</minSpeedForStage2>
+        <speedHistoryFrameCount>15</speedHistoryFrameCount>
+        <stageTransitionCooldownTicks>3</stageTransitionCooldownTicks>
+        
+        <!-- 碰撞区域 -->
+        <collisionAreaRadius>3</collisionAreaRadius>
+        
+        <!-- 目标过滤 -->
+        <onlyAffectEnemies>true</onlyAffectEnemies>
+        <excludeAlliedPawns>true</excludeAlliedPawns>
+        
+        <!-- 阶段1效果 -->
+        <stage1DamageDef>Blunt</stage1DamageDef>
+        <stage1DamageAmount>1</stage1DamageAmount>
+        <armorPenetration>0.1</armorPenetration>
+        <!-- <stage1Hediff>Bruise</stage1Hediff>
+        <stage1HediffDurationTicks>120</stage1HediffDurationTicks>
+        <stage1HediffPreventsDamage>true</stage1HediffPreventsDamage> -->
+        <!-- <stage1Effecter>SparkImpact</stage1Effecter> -->
+        <stage1Sound>MeleeHit_BladelinkZeusHammer</stage1Sound>
+        
+        <!-- 阶段2效果 -->
+        <stage2DamageDef>Blunt</stage2DamageDef>
+        <stage2DamageAmount>15</stage2DamageAmount>
+        <stage2KnockbackDistance>4</stage2KnockbackDistance>
+        <requireLineOfSightForKnockback>true</requireLineOfSightForKnockback>
+        <!-- <stage2Effecter>ExplosionFlash</stage2Effecter> -->
+        <stage2Sound>MeleeHit_BladelinkZeusHammer</stage2Sound>
+        
+        <!-- 击飞配置 -->
+        <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
+        <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
+        <landingSound>PawnFlyerLand</landingSound>
+        
+        <!-- 调试 -->
+        <enableDebugLogging>false</enableDebugLogging>
+        <enableDebugVisuals>false</enableDebugVisuals>
+        <debugDrawSpeedHistory>false</debugDrawSpeedHistory>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="Wula_MechunitBase">
@@ -1103,22 +1114,6 @@
         <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
         <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
         <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
-        <radius>3.5</radius>
-        <damageIntervalTicks>30</damageIntervalTicks>
-        <damageDef>Crush</damageDef>
-        <damageAmount>4</damageAmount>
-        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
-        <affectFriendly>false</affectFriendly>
-        <affectNeutral>false</affectNeutral>
-        <affectHostile>true</affectHostile>
-        <affectBuildings>false</affectBuildings>
-        <ignoreFactionRelations>false</ignoreFactionRelations>
-        <startEnabled>false</startEnabled>
-        <toggleLabel>碾压伤害</toggleLabel>
-        <toggleDescription>MFm-2"陆行舰"可以将舰身稍微下沉一些并创造低压区，以碾压靠近的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
-        <toggleIconPath>Wula/UI/Commands/Wula_Mech_Mobile_Factory_AreaDamage</toggleIconPath>
       </li>
 
       <li Class="WulaFallenEmpire.CompProperties_MechPilotHolder">

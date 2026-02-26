@@ -28,6 +28,22 @@ namespace WulaFallenEmpire
                 widget.AddSection("WULA_AutonomousMechsSection".Translate(), autonomousMechs);
                 WulaLog.Debug($"[WULA] Postfix: Added 'Autonomous Mechs' section with {autonomousMechs.Count} mechs.");
             }
+
+            // 筛选出所有构装体
+            var WulaMechunits = transferables
+                .Where(x => {
+                    if (x.ThingDef.category != ThingCategory.Pawn) return false;
+                    var pawn = x.AnyThing as Pawn;
+                    return pawn != null && pawn is Wulamechunit;
+                })
+                .ToList();
+
+            // 如果找到了任何构装体，就为它们添加一个新的分组
+            if (WulaMechunits.Any())
+            {
+                widget.AddSection("WULA_MechunitsSection".Translate(), WulaMechunits);
+                WulaLog.Debug($"[WULA] Postfix: Added 'Mechunits' section with {autonomousMechs.Count}.");
+            }
         }
     }
 }

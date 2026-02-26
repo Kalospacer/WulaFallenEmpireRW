@@ -15,7 +15,12 @@ namespace WulaFallenEmpire
         public float idleRotationSpeed = 5f; // 空闲时的旋转速度（度/秒）
         public bool smoothRotation = true; // 是否启用平滑旋转
         public float minAimAngle = 10f;    // 开始预热所需的最小瞄准角度差（度）
-        public int resetCooldownTicks = 120; // 开火后的复位冷却时间（默认2秒）
+        public float resetCooldownTime = 3f; // 复位冷却时间（秒）
+        
+        // Gizmo 相关属性
+        public string gizmoLabel; // Gizmo 标签
+        public string gizmoDescription; // Gizmo 描述
+        public string gizmoIconPath = "UI/Gizmos/ToggleTurret"; // Gizmo 图标路径
         
         public CompProperties_MultiTurretGun()
         {
@@ -35,23 +40,49 @@ namespace WulaFallenEmpire
         private bool isAiming = false; // 是否正在瞄准
         private float lastBaseRotationAngle; // 上一次记录的基座角度
         private float lastTargetAngle; // 最后一次目标角度
+        private int resetCooldownTicksLeft = 0; // 复位冷却剩余tick数
+        private bool isInResetCooldown = false; // 是否处于复位冷却中
         
         // 添加缺失的字段
         private LocalTargetInfo lastAttackedTarget = LocalTargetInfo.Invalid;
         private int lastAttackTargetTick;
         
-        // Gizmo相关静态字段
-        private static readonly CachedTexture ToggleTurretIcon = new CachedTexture("UI/Gizmos/ToggleTurret");
-        private static bool gizmoAdded = false; // 防止重复添加Gizmo
+        // 集中火力目标
+        private static LocalTargetInfo focusTarget = LocalTargetInfo.Invalid;
+        private static int lastFocusSetTick = 0;
+        private static Thing lastFocusPawn = null;
         
-        // 复位冷却相关
-        private int resetCooldownTicksLeft = 0;
-        private bool isInResetCooldown = false;
+        // Gizmo 缓存
+        private Command_Toggle cachedGizmo;
+        private Command_Action cachedFocusGizmo;
+        private bool gizmoInitialized = false;
         
         public new CompProperties_MultiTurretGun Props => (CompProperties_MultiTurretGun)props;
         
         // 添加属性
         private bool WarmingUp => burstWarmupTicksLeft > 0;
+        
+        // 公开 fireAtWill 属性的访问器
+        public bool FireAtWill
+        {
+            get => fireAtWill;
+            set
+            {
+                if (fireAtWill != value)
+                {
+                    fireAtWill = value;
+                    
+                    // 如果关闭炮塔，重置当前目标
+                    if (!fireAtWill)
+                    {
+                        ResetCurrentTarget();
+                    }
+                }
+            }
+        }
+        
+        // 是否为ID=0的主控组件
+        private bool IsMasterTurret => Props.ID == 0;
         
         public override void Initialize(CompProperties props)
         {
@@ -73,7 +104,8 @@ namespace WulaFallenEmpire
                 lastBaseRotationAngle = parent.Rotation.AsAngle;
                 lastTargetAngle = currentRotationAngle;
             }
-            gizmoAdded = false; // 重置Gizmo状态
+            // 重置 Gizmo 缓存
+            gizmoInitialized = false;
         }
         
         private bool CanShoot
@@ -94,13 +126,18 @@ namespace WulaFallenEmpire
                     {
                         return false;
                     }
-                    if (pawn.IsColonyMechPlayerControlled && !fireAtWill)
+                    if (!fireAtWill)
                     {
                         return false;
                     }
                 }
                 CompCanBeDormant compCanBeDormant = parent.TryGetComp<CompCanBeDormant>();
                 if (compCanBeDormant != null && !compCanBeDormant.Awake)
+                {
+                    return false;
+                }
+                CompMechPilotHolder compMechPilotHolder = parent.TryGetComp<CompMechPilotHolder>();
+                if (compMechPilotHolder != null && !compMechPilotHolder.HasPilots)
                 {
                     return false;
                 }
@@ -148,9 +185,11 @@ namespace WulaFallenEmpire
                             lastAttackTargetTick = Find.TickManager.TicksGame;
                             lastAttackedTarget = currentTarget;
                             
-                            // 开火后重置目标，并启动复位冷却
-                            ResetCurrentTarget();
+                            // 开火后开始复位冷却
                             StartResetCooldown();
+                            
+                            // 开火后重置目标，等待冷却结束
+                            currentTarget = LocalTargetInfo.Invalid;
                         }
                         else
                         {
@@ -173,34 +212,45 @@ namespace WulaFallenEmpire
                 burstCooldownTicksLeft--;
             }
             
-            // 冷却结束且复位冷却结束，尝试寻找目标
+            // 冷却结束，尝试寻找目标（但不在复位冷却中时）
             if (burstCooldownTicksLeft <= 0 && !isInResetCooldown && parent.IsHashIntervalTick(10))
             {
                 TryAcquireTarget();
             }
             
-            // 更新空闲旋转
-            UpdateIdleRotation();
+            // 检查是否已经瞄准目标但还没有开始预热
+            // 这是关键修复：当炮塔已经瞄准目标但burstWarmupTicksLeft为0时，开始预热
+            if (currentTarget.IsValid && IsAimedAtTarget() && burstWarmupTicksLeft <= 0 && burstCooldownTicksLeft <= 0 && !isInResetCooldown)
+            {
+                burstWarmupTicksLeft = Mathf.Max(1, Mathf.RoundToInt(Props.aimTicks));
+                return;
+            }
+            
+            // 更新空闲旋转（只在复位冷却结束后）
+            if (!isInResetCooldown)
+            {
+                UpdateIdleRotation();
+            }
         }
         
         private void UpdateResetCooldown()
         {
-            if (isInResetCooldown && resetCooldownTicksLeft > 0)
+            if (isInResetCooldown)
             {
                 resetCooldownTicksLeft--;
                 if (resetCooldownTicksLeft <= 0)
                 {
                     isInResetCooldown = false;
-                    resetCooldownTicksLeft = 0;
                 }
             }
         }
         
         private void StartResetCooldown()
         {
-            resetCooldownTicksLeft = Props.resetCooldownTicks;
+            // 计算复位冷却的tick数（秒转tick）
+            int resetCooldownTicks = Mathf.RoundToInt(Props.resetCooldownTime * 60f);
+            resetCooldownTicksLeft = Mathf.Max(1, resetCooldownTicks);
             isInResetCooldown = true;
-            ticksWithoutTarget = 0; // 重置无目标计数
         }
         
         private void CheckPawnRotationChange()
@@ -231,11 +281,35 @@ namespace WulaFallenEmpire
         
         private void TryAcquireTarget()
         {
-            // 如果正在复位冷却中，不寻找目标
-            if (isInResetCooldown)
-                return;
-                
-            // 尝试寻找新目标
+            // 1. 首先检查是否有集中火力目标且可以对其开火
+            if (focusTarget.IsValid && focusTarget.Thing != null && focusTarget.Thing.Spawned)
+            {
+                // 检查是否属于同一个Pawn且在同一张地图
+                if (lastFocusPawn == parent && focusTarget.Thing.Map == parent.Map)
+                {
+                    // 检查能否看到目标
+                    if (CanSeeTarget(focusTarget.Thing))
+                    {
+                        // 检查是否在射程内
+                        float distance = (focusTarget.CenterVector3 - parent.DrawPos).MagnitudeHorizontal();
+                        float maxRange = AttackVerb.verbProps.range;
+                        
+                        if (distance <= maxRange)
+                        {
+                            // 优先目标有效，将其作为目标
+                            SetCurrentTarget(focusTarget);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    // 不属于同一个Pawn或不在同一地图，清除集中火力目标
+                    focusTarget = LocalTargetInfo.Invalid;
+                }
+            }
+            
+            // 2. 如果没有有效的集中火力目标，执行原有索敌逻辑
             LocalTargetInfo newTarget = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(
                 this, 
                 TargetScanFlags.NeedThreat | TargetScanFlags.NeedAutoTargetable
@@ -243,48 +317,67 @@ namespace WulaFallenEmpire
             
             if (newTarget.IsValid)
             {
+                // 如果有目标，立即结束复位冷却
+                isInResetCooldown = false;
+                resetCooldownTicksLeft = 0;
+                
                 // 如果已经有目标并且是同一个目标，保持当前状态
                 if (currentTarget.IsValid && currentTarget.Thing == newTarget.Thing)
                 {
-                    // 检查是否已经瞄准目标
-                    if (IsAimedAtTarget())
+                    // 检查是否已经瞄准目标但还没有开始预热
+                    // 关键修复：确保当炮塔已经瞄准目标时开始预热
+                    if (IsAimedAtTarget() && burstWarmupTicksLeft <= 0)
                     {
-                        // 如果已经瞄准，开始预热
-                        if (burstWarmupTicksLeft <= 0)
-                        {
-                            burstWarmupTicksLeft = Mathf.Max(1, Mathf.RoundToInt(Props.aimTicks));
-                        }
-                    }
-                    else if (IsAimingAtTarget())
-                    {
-                        // 如果正在瞄准但未完成，保持当前状态
-                        // 什么也不做，继续旋转
-                    }
-                    else
-                    {
-                        // 需要重新瞄准
-                        burstWarmupTicksLeft = 0;
+                        burstWarmupTicksLeft = Mathf.Max(1, Mathf.RoundToInt(Props.aimTicks));
                     }
                 }
                 else
                 {
                     // 新目标，重置状态
-                    currentTarget = newTarget;
-                    burstWarmupTicksLeft = 0;
-                    isAiming = true;
-                    
-                    // 计算目标角度
-                    Vector3 targetPos = currentTarget.CenterVector3;
-                    Vector3 turretPos = parent.DrawPos;
-                    targetRotationAngle = (targetPos - turretPos).AngleFlat();
-                    lastTargetAngle = targetRotationAngle;
+                    SetCurrentTarget(newTarget);
                 }
             }
             else
             {
-                // 没有目标
-                ResetCurrentTarget();
+                // 没有目标，但如果在复位冷却中，不立即复位
+                if (!isInResetCooldown)
+                {
+                    ResetCurrentTarget();
+                }
+                // 如果在复位冷却中，保持当前状态，等待冷却结束
             }
+        }
+        
+        private bool CanSeeTarget(Thing target)
+        {
+            // 简单的视线检查，可以替换为更复杂的逻辑
+            if (target == null || !target.Spawned)
+                return false;
+                
+            // 检查是否有障碍物遮挡
+            if (!GenSight.LineOfSight(parent.Position, target.Position, parent.Map, skipFirstCell: true))
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        private void SetCurrentTarget(LocalTargetInfo newTarget)
+        {
+            currentTarget = newTarget;
+            burstWarmupTicksLeft = 0;
+            isAiming = true;
+            
+            // 计算目标角度
+            Vector3 targetPos = currentTarget.CenterVector3;
+            Vector3 turretPos = parent.DrawPos;
+            targetRotationAngle = (targetPos - turretPos).AngleFlat();
+            lastTargetAngle = targetRotationAngle;
+            
+            // 重要：立即结束复位冷却，因为有了新目标
+            isInResetCooldown = false;
+            resetCooldownTicksLeft = 0;
         }
         
         private bool IsAimingAtTarget()
@@ -342,10 +435,19 @@ namespace WulaFallenEmpire
             }
             else
             {
-                // 没有目标时，朝向初始角度
-                targetRotationAngle = parent.Rotation.AsAngle + Props.angleOffset;
-                ticksWithoutTarget++;
-                lastTargetAngle = targetRotationAngle;
+                // 没有目标时，只有在复位冷却结束后才朝向初始角度
+                if (!isInResetCooldown)
+                {
+                    targetRotationAngle = parent.Rotation.AsAngle + Props.angleOffset;
+                    ticksWithoutTarget++;
+                    lastTargetAngle = targetRotationAngle;
+                }
+                else
+                {
+                    // 在复位冷却中，保持当前角度不改变
+                    // 不更新targetRotationAngle，炮塔保持当前方向
+                    ticksWithoutTarget++;
+                }
             }
             
             // 确保角度在0-360范围内
@@ -407,7 +509,7 @@ namespace WulaFallenEmpire
         
         private void UpdateIdleRotation()
         {
-            // 只在没有目标、冷却结束且复位冷却结束时执行空闲旋转
+            // 只在没有目标、冷却结束、并且复位冷却结束后执行空闲旋转
             if (!currentTarget.IsValid && burstCooldownTicksLeft <= 0 && !isInResetCooldown && ticksWithoutTarget > 120)
             {
                 if (!isIdleRotating)
@@ -456,6 +558,12 @@ namespace WulaFallenEmpire
             {
                 DrawTargetingLine();
             }
+            
+            // 如果当前目标是集中火力目标，用特殊颜色绘制瞄准线
+            if (currentTarget.IsValid && currentTarget.Thing == focusTarget.Thing)
+            {
+                DrawFocusTargetingLine();
+            }
         }
         
         private void DrawTargetingLine()
@@ -474,9 +582,23 @@ namespace WulaFallenEmpire
             Color lineColor = Color.Lerp(Color.yellow, Color.red, aimAccuracy);
             lineColor.a = 0.7f;
             
-            GenDraw.DrawLineBetween(lineStart, lineEnd);
+            GenDraw.DrawLineBetween(lineStart, lineEnd, SimpleColor.White);
         }
         
+        private void DrawFocusTargetingLine()
+        {
+            Vector3 lineStart = parent.DrawPos;
+            lineStart.y = AltitudeLayer.MetaOverlays.AltitudeFor();
+            
+            Vector3 lineEnd = currentTarget.CenterVector3;
+            lineEnd.y = AltitudeLayer.MetaOverlays.AltitudeFor();
+            
+            // 集中火力目标的特殊颜色
+            Color lineColor = new Color(1f, 0.5f, 0f, 0.8f); // 橙色
+            
+            // 绘制更粗的线条
+            GenDraw.DrawLineBetween(lineStart, lineEnd);
+        }
         
         private void MakeGun()
         {
@@ -498,7 +620,7 @@ namespace WulaFallenEmpire
             }
         }
         
-        // 添加Gizmo方法
+        // 重构后的 Gizmo 方法 - 每个组件独立控制
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             foreach (Gizmo gizmo in base.CompGetGizmosExtra())
@@ -506,69 +628,161 @@ namespace WulaFallenEmpire
                 yield return gizmo;
             }
             
-            // 只让第一个Comp_MultiTurretGun组件生成Gizmo
-            if (parent is Pawn pawn && pawn.IsColonyMechPlayerControlled)
+            // 只对殖民地玩家控制的单位显示 Gizmo
+            if (parent is Pawn pawn && pawn.Faction.IsPlayer)
             {
-                // 获取所有Comp_MultiTurretGun组件
-                var allTurretComps = parent.GetComps<Comp_MultiTurretGun>();
-
-                // 检查当前组件是否是第一个
-                if (!gizmoAdded)
+                // 延迟初始化 Gizmo，只在需要时创建
+                if (!gizmoInitialized)
                 {
-                    gizmoAdded = true;
-
-                    // 检查所有炮塔是否都有相同的fireAtWill状态
-                    bool allTurretsEnabled = true;
-                    bool allTurretsDisabled = true;
-
-                    foreach (var turretComp in allTurretComps)
-                    {
-                        if (turretComp.fireAtWill)
-                            allTurretsDisabled = false;
-                        else
-                            allTurretsEnabled = false;
-                    }
-
-                    // 确定Gizmo的初始状态
-                    bool mixedState = !(allTurretsEnabled || allTurretsDisabled);
-
-                    Command_Toggle command = new Command_Toggle();
-                    command.defaultLabel = "CommandToggleTurret".Translate();
-                    command.defaultDesc = "CommandToggleTurretDesc".Translate();
-                    command.icon = ToggleTurretIcon.Texture;
-                    command.isActive = () =>
-                    {
-                        // 如果有混合状态，显示为false但使用特殊图标
-                        if (mixedState)
-                            return false;
-                        return allTurretsEnabled;
-                    };
-                    command.toggleAction = () =>
-                    {
-                        // 切换所有炮塔的状态
-                        bool newState = !allTurretsEnabled;
-
-                        foreach (var turretComp in allTurretComps)
-                        {
-                            turretComp.fireAtWill = newState;
-
-                            // 如果关闭炮塔，重置当前目标
-                            if (!newState)
-                            {
-                                turretComp.ResetCurrentTarget();
-                            }
-                        }
-                    };
-
-                    // 如果有混合状态，显示特殊图标
-                    if (mixedState)
-                    {
-                        command.icon = ContentFinder<Texture2D>.Get("UI/Commands/MixedState");
-                    }
-
-                    yield return command;
+                    InitializeGizmo();
+                    gizmoInitialized = true;
+                }
+                
+                // 显示炮塔开关Gizmo
+                if (cachedGizmo != null)
+                {
+                    yield return cachedGizmo;
+                }
+                
+                // 只有ID=0的主控炮塔显示集中火力Gizmo
+                if (IsMasterTurret && cachedFocusGizmo != null)
+                {
+                    yield return cachedFocusGizmo;
                 }
             }
+        }
+        
+        private void InitializeGizmo()
+        {
+            // 确定标签
+            string label = !string.IsNullOrEmpty(Props.gizmoLabel) ? 
+                Props.gizmoLabel : 
+                Props.turretDef?.label ?? "Turrets".Translate();
+
+            // 确定标签
+            string description = !string.IsNullOrEmpty(Props.gizmoDescription) ?
+                Props.gizmoDescription :
+                Props.turretDef?.description + "Wula_ToggleTurretgizmoDesc_Short".Translate();
+
+            // 确定图标
+            Texture2D icon = ContentFinder<Texture2D>.Get(Props.gizmoIconPath, false);
+            if (icon == null)
+            {
+                // 使用默认图标
+                icon = ContentFinder<Texture2D>.Get("UI/Gizmos/ToggleTurret", false) ?? BaseContent.BadTex;
+            }
+            
+            // 创建炮塔开关Gizmo
+            cachedGizmo = new Command_Toggle();
+            cachedGizmo.defaultLabel = label + (Props.ID > 0 ? $" #{Props.ID}" : "");
+            cachedGizmo.defaultDesc = description;
+            cachedGizmo.icon = icon;
+            cachedGizmo.isActive = () => FireAtWill;
+            cachedGizmo.toggleAction = () =>
+            {
+                FireAtWill = !FireAtWill;
+            };
+            
+            // 添加热键
+            cachedGizmo.hotKey = KeyBindingDefOf.Misc1;
+            
+            // 为主控炮塔创建集中火力Gizmo
+            if (IsMasterTurret)
+            {
+                cachedFocusGizmo = new Command_Action();
+                cachedFocusGizmo.defaultLabel = "Wula_FocusFire".Translate();
+                cachedFocusGizmo.defaultDesc = "Wula_FocusFireDesc".Translate();
+                cachedFocusGizmo.icon = ContentFinder<Texture2D>.Get("UI/Gizmos/TargetFocus", false) ?? BaseContent.BadTex;
+                cachedFocusGizmo.action = () =>
+                {
+                    // 显示目标选择菜单
+                    ShowTargetSelectMenu();
+                };
+                
+                // 如果有集中火力目标，添加清除按钮
+                if (focusTarget.IsValid && lastFocusPawn == parent)
+                {
+                    cachedFocusGizmo.defaultLabel = "Wula_ClearFocus".Translate();
+                    cachedFocusGizmo.defaultDesc = "Wula_ClearFocusDesc".Translate();
+                    cachedFocusGizmo.icon = ContentFinder<Texture2D>.Get("UI/Gizmos/TargetClear", false) ?? BaseContent.BadTex;
+                }
+            }
+        }
+        
+        private void ShowTargetSelectMenu()
+        {
+            // 如果已经有集中火力目标，清除它
+            if (focusTarget.IsValid && lastFocusPawn == parent)
+            {
+                focusTarget = LocalTargetInfo.Invalid;
+                Messages.Message("Wula_FocusCleared".Translate(), MessageTypeDefOf.NeutralEvent);
+                return;
+            }
+            
+            // 创建目标选择器
+            CameraJumper.TryJump(parent);
+            
+            // 显示选择目标的消息
+            Messages.Message("Wula_SelectFocusTarget".Translate(), MessageTypeDefOf.NeutralEvent);
+            
+            // 设置目标选择回调
+            TargetingParameters targetingParameters = new TargetingParameters();
+            targetingParameters.canTargetPawns = true;
+            targetingParameters.canTargetBuildings = true;
+            targetingParameters.canTargetItems = false;
+            targetingParameters.canTargetLocations = false;
+            targetingParameters.canTargetSelf = false;
+            targetingParameters.canTargetFires = false;
+            targetingParameters.canTargetAnimals = true;
+            targetingParameters.canTargetHumans = true;
+            targetingParameters.canTargetMechs = true;
+            
+            // 添加地图上的所有有生命值的目标
+            targetingParameters.validator = (TargetInfo targ) =>
+            {
+                if (targ.Thing == null)
+                    return false;
+                    
+                // 必须有生命值
+                if (targ.Thing.def.useHitPoints && targ.Thing.HitPoints > 0)
+                {
+                    // 不能是友方（可选，根据需求调整）
+                    if (targ.Thing.Faction != null && targ.Thing.Faction == parent.Faction)
+                    {
+                        // 如果是友方，需要特殊确认
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
+            };
+
+            // 启动目标选择
+            Find.Targeter.BeginTargeting(new TargetingParameters
+            {
+                canTargetLocations = true,
+                canTargetPawns = true,
+                canTargetBuildings = true,
+                canTargetItems = false
+            }, SetFocusTarget, null, OnFocusTargetCancelled);
+        }
+        
+        private void SetFocusTarget(LocalTargetInfo target)
+        {
+            if (target.Thing != null && target.Thing.Spawned)
+            {
+                focusTarget = target;
+                lastFocusSetTick = Find.TickManager.TicksGame;
+                lastFocusPawn = parent;
+                
+                Messages.Message(
+                    "Wula_FocusTargetSet".Translate(target.Thing.LabelCap),
+                    MessageTypeDefOf.PositiveEvent
+                );
+            }
+        }
+        private void OnFocusTargetCancelled()
+        {
         }
         
         public override void PostExposeData()
@@ -588,14 +802,17 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref isAiming, "isAiming", false);
             Scribe_Values.Look(ref lastBaseRotationAngle, "lastBaseRotationAngle", 0f);
             Scribe_Values.Look(ref lastTargetAngle, "lastTargetAngle", 0f);
+            Scribe_Values.Look(ref resetCooldownTicksLeft, "resetCooldownTicksLeft", 0);
+            Scribe_Values.Look(ref isInResetCooldown, "isInResetCooldown", false);
+            
+            // 保存集中火力目标
+            Scribe_TargetInfo.Look(ref focusTarget, "focusTarget");
+            Scribe_Values.Look(ref lastFocusSetTick, "lastFocusSetTick", 0);
+            Scribe_References.Look(ref lastFocusPawn, "lastFocusPawn");
             
             // 保存缺失的字段
             Scribe_TargetInfo.Look(ref lastAttackedTarget, "lastAttackedTarget_" + Props.ID);
             Scribe_Values.Look(ref lastAttackTargetTick, "lastAttackTargetTick_" + Props.ID, 0);
-            
-            // 保存复位冷却相关字段
-            Scribe_Values.Look(ref resetCooldownTicksLeft, "resetCooldownTicksLeft", 0);
-            Scribe_Values.Look(ref isInResetCooldown, "isInResetCooldown", false);
             
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -616,6 +833,11 @@ namespace WulaFallenEmpire
                     lastBaseRotationAngle = parent.Rotation.AsAngle;
                     lastTargetAngle = currentRotationAngle;
                 }
+                
+                // 重置 Gizmo 缓存
+                gizmoInitialized = false;
+                cachedGizmo = null;
+                cachedFocusGizmo = null;
             }
         }
         
