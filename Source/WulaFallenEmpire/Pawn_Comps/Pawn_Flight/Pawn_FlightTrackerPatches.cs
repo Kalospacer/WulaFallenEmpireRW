@@ -65,17 +65,22 @@ namespace WulaFallenEmpire
 
             bool shouldBeFlying = false;
             var compProps = flightComp.Props;
-            if (compProps.flightCondition == FlightCondition.Always)
+
+            // Gizmo toggle check — if flight is disabled, never fly
+            if (flightComp.flightEnabled)
             {
-                shouldBeFlying = true;
-            }
-            else if (compProps.flightCondition == FlightCondition.DraftedAndMove && (___pawn.Drafted || ___pawn.pather.MovingNow))
-            {
-                shouldBeFlying = true;
-            }
-            else if (compProps.flightCondition == FlightCondition.Drafted && ___pawn.Drafted)
-            {
-                shouldBeFlying = true;
+                if (compProps.flightCondition == FlightCondition.Always)
+                {
+                    shouldBeFlying = true;
+                }
+                else if (compProps.flightCondition == FlightCondition.DraftedAndMove && (___pawn.Drafted || ___pawn.pather.MovingNow))
+                {
+                    shouldBeFlying = true;
+                }
+                else if (compProps.flightCondition == FlightCondition.Drafted && ___pawn.Drafted)
+                {
+                    shouldBeFlying = true;
+                }
             }
 
             if (shouldBeFlying)
@@ -103,6 +108,14 @@ namespace WulaFallenEmpire
 
             var flightComp = ___pawn?.TryGetComp<CompPawnFlight>();
             if (flightComp == null) return;
+
+            if (!flightComp.flightEnabled)
+            {
+                __instance.ForceLand();
+                if (___pawn.CurJob != null)
+                    ___pawn.CurJob.flying = false;
+                return;
+            }
 
             if (___pawn.GetPosture() != PawnPosture.Standing)
             {

@@ -14,6 +14,7 @@ namespace WulaFallenEmpire
     {
         // --- Custom Flight Logic ---
         public FlightCondition flightCondition = FlightCondition.Drafted;
+        public bool showFlightToggle = true;
 
         // --- Vanilla PawnKindDef Flight Parameters ---
         [NoTranslate]
