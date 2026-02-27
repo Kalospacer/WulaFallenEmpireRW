@@ -23,12 +23,12 @@ namespace WulaFallenEmpire
         {
             if (Props.showFlightToggle && parent is Pawn pawn && pawn.Faction == RimWorld.Faction.OfPlayer)
             {
-                yield return new Verse.Command_Toggle
+                yield return new Command_Toggle
                 {
                     defaultLabel = "Toggle Flight",
                     defaultDesc = "Toggle flight mode on or off.",
                     Order = 100f,
-                    icon = Verse.ContentFinder<UnityEngine.Texture2D>.Get("StellarisDaughter/UI/Commands/SD_FlightToggle", false)
+                    icon = ContentFinder<UnityEngine.Texture2D>.Get("Wula/UI/Commands/WFE_FlightToggle", false)
                            ?? RimWorld.TexCommand.GatherSpotActive,
                     isActive = () => flightEnabled,
                     toggleAction = () =>
