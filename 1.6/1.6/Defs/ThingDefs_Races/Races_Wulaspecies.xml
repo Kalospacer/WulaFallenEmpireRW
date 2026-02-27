@@ -951,6 +951,16 @@
         <li>Firefighter</li>
       </mechEnabledWorkTypes>
     </race>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AutonomousCat">
+        <autoDraftOnGather>true</autoDraftOnGather>
+        <transformablePawnKinds>
+          <li>Mech_WULA_Cat</li>
+          <li>Mech_WULA_Cat_Constructor</li>
+          <li>Mech_WULA_Cat_Assault</li>
+        </transformablePawnKinds>
+      </li>
+    </comps>
   </AlienRace.ThingDef_AlienRace>
   <AlienRace.ThingDef_AlienRace ParentName="Mech_WULA_Cat_Base">
     <defName>Mech_WULA_Cat_Constructor</defName>
@@ -975,6 +985,16 @@
     <statBases>
       <WorkSpeedGlobal>2</WorkSpeedGlobal>
     </statBases>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AutonomousCat">
+        <autoDraftOnGather>true</autoDraftOnGather>
+        <transformablePawnKinds>
+          <li>Mech_WULA_Cat</li>
+          <li>Mech_WULA_Cat_Constructor</li>
+          <li>Mech_WULA_Cat_Assault</li>
+        </transformablePawnKinds>
+      </li>
+    </comps>
   </AlienRace.ThingDef_AlienRace>
   <AlienRace.ThingDef_AlienRace ParentName="Mech_WULA_Cat_Base">
     <defName>Mech_WULA_Cat_Assault</defName>
@@ -1003,6 +1023,16 @@
       <!-- <WorkSpeedGlobal>2</WorkSpeedGlobal> -->
       <MoveSpeed>4</MoveSpeed>
     </statBases>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_AutonomousCat">
+        <autoDraftOnGather>true</autoDraftOnGather>
+        <transformablePawnKinds>
+          <li>Mech_WULA_Cat</li>
+          <li>Mech_WULA_Cat_Constructor</li>
+          <li>Mech_WULA_Cat_Assault</li>
+        </transformablePawnKinds>
+      </li>
+    </comps>
   </AlienRace.ThingDef_AlienRace>
   <AlienRace.ThingDef_AlienRace ParentName="Mech_WULA_Cat_Base">
     <defName>Mech_WULA_Cat_Cloak_Sniper</defName>

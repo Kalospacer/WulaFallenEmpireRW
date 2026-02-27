@@ -69,6 +69,18 @@
     <suspendable>false</suspendable>
   </JobDef>
 
+  <JobDef>
+    <defName>WULA_TransformPawn</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_TransformPawn</driverClass>
+    <reportString>变更装备中。</reportString>
+    <abilityCasting>true</abilityCasting>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <playerInterruptible>true</playerInterruptible>
+    <casualInterruptible>false</casualInterruptible>
+    <checkOverrideOnDamage>Always</checkOverrideOnDamage>
+    <suspendable>false</suspendable>
+  </JobDef>
+
   
   <JobDef>
     <defName>WULA_EnterMech</defName>

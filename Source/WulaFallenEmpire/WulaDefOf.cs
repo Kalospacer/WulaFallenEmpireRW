@@ -30,6 +30,7 @@ namespace WulaFallenEmpire
         public static JobDef WULA_RepairMech;
         public static JobDef WULA_ForceEjectPilot;
         public static JobDef WULA_CarryToMech;
+        public static JobDef WULA_TransformPawn;
         
         static Wula_JobDefOf()
         {

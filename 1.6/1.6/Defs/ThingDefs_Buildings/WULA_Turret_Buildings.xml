@@ -265,7 +265,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Cat_Bunker_Cleanzone</defName>
     <label>乌拉猫猫地堡</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉猫猫地堡是集生产和防御为一体的坚实建筑，3只乌拉猫猫自律机械体会和地堡一起空降。地堡可供乌拉猫猫更换工作类型，并允许乌拉猫猫进驻使用内部武器击败来犯敌军。</description>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国可以向此处投放建筑。\n\n乌拉猫猫地堡是集生产和防御为一体的坚实建筑，3只乌拉猫猫自律机械体会和地堡一起空降。地堡可供乌拉猫猫更换工作类型，并拥有内部武器用于击败来犯敌军。</description>
     <uiIconPath>Wula/Building/WULA_Cat_Bunker_south</uiIconPath>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -385,9 +385,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_Cat_Bunker</defName>
     <label>乌拉猫猫地堡</label>
-    <description>这是一个从乌拉帝国母舰上空投下来的地堡，它拥有一些预制件，可以供乌拉猫猫更换其工作类型。此外，当敌人袭击时，可将乌拉猫猫召回至地堡内，它们将在地堡里对外射击以击退来犯者。</description>
-    <thingClass>WulaFallenEmpire.Building_MechanoidRecycler</thingClass>
+    <description>这是一个从乌拉帝国母舰上空投下来的地堡，它拥有一些预制件，可以供乌拉猫猫更换其工作类型。此外，当敌人袭击时，地堡的自动机枪会对外射击以击退来犯者。</description>
     <tickerType>Normal</tickerType>
+    <thingClass>Building_TurretGun</thingClass>
     <descriptionHyperlinks>
       <ThingDef>WULA_Cat_Bunker_TurretGun</ThingDef>
       <ThingDef>Mech_WULA_Cat</ThingDef>
@@ -407,10 +407,8 @@
       </shadowData>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>Impassable</passability>
-    <blockWind>true</blockWind>
-    <fillPercent>1</fillPercent>
-    <blockLight>false</blockLight>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.9</fillPercent>
     <castEdgeShadows>false</castEdgeShadows>
     <canOverlapZones>false</canOverlapZones>
     <hasInteractionCell>false</hasInteractionCell>
@@ -444,101 +442,28 @@
         <usePlayerFactionIfNull>true</usePlayerFactionIfNull>
         <overrideExistingFaction>false</overrideExistingFaction>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_MechanoidRecycler">
-        <maxStorageCapacity>6</maxStorageCapacity>
-        
-        <!-- 可回收的机械族种族 -->
-        <recyclableRaces>
-          <li>Mech_WULA_Cat</li>
-          <li>Mech_WULA_Cat_Constructor</li>
-          <li>Mech_WULA_Cat_Assault</li>
-        </recyclableRaces>
-        <recycleJobDef>WULA_RecycleMechanoid</recycleJobDef>
-        <recycleRange>5</recycleRange>
-        
-        <!-- 可生成的机械族种类 -->
-        <spawnablePawnKinds>
-          <li>Mech_WULA_Cat</li>
-          <li>Mech_WULA_Cat_Constructor</li>
-          <li>Mech_WULA_Cat_Assault</li>
-        </spawnablePawnKinds>
-
-        <!-- 新增初始单位配置 -->
-        <initialUnits>
-          <li>
-            <pawnKindDef>Mech_WULA_Cat</pawnKindDef>
-            <count>1</count>
-          </li>
-          <li>
-            <pawnKindDef>Mech_WULA_Cat_Constructor</pawnKindDef>
-            <count>1</count>
-          </li>
-          <li>
-            <pawnKindDef>Mech_WULA_Cat_Assault</pawnKindDef>
-            <count>1</count>
-          </li>
-        </initialUnits>
-
-        <!-- <ownershipFaction>Player</ownershipFaction> -->
+      <li Class="WulaFallenEmpire.CompProperties_BuildToPawn">
+        <pawnKindDef>Mech_WULA_Cat_Assault</pawnKindDef>
+        <spawnCount>3</spawnCount>
+        <inheritFaction>true</inheritFaction>
+        <destroyBuilding>false</destroyBuilding>
+        <initDrafted>true</initDrafted>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_Gather">
+        <gatherRange>500</gatherRange>
+        <!-- <gatherSound></gatherSound> -->
+        <cooldownTicks>60</cooldownTicks>
+      </li>
+      
       <li Class="WulaFallenEmpire.CompProperties_PathCostUpdater">
         <adaptiveExpansion>true</adaptiveExpansion>
-      </li>
-
-      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
-        <ID>1</ID>
-        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
-        <angleOffset>0</angleOffset>
-        <autoAttack>true</autoAttack>
-        <requiredMechanoids>1</requiredMechanoids>
-        <autoActivate>true</autoActivate>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
-        <ID>2</ID>
-        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
-        <angleOffset>0</angleOffset>
-        <autoAttack>true</autoAttack>
-        <requiredMechanoids>2</requiredMechanoids>
-        <autoActivate>true</autoActivate>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
-        <ID>3</ID>
-        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
-        <angleOffset>0</angleOffset>
-        <autoAttack>true</autoAttack>
-        <requiredMechanoids>3</requiredMechanoids>
-        <autoActivate>true</autoActivate>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
-        <ID>4</ID>
-        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
-        <angleOffset>0</angleOffset>
-        <autoAttack>true</autoAttack>
-        <requiredMechanoids>4</requiredMechanoids>
-        <autoActivate>true</autoActivate>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
-        <ID>5</ID>
-        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
-        <angleOffset>0</angleOffset>
-        <autoAttack>true</autoAttack>
-        <requiredMechanoids>5</requiredMechanoids>
-        <autoActivate>true</autoActivate>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_StorageMultiTurretGun">
-        <ID>6</ID>
-        <turretDef>WULA_Cat_Bunker_TurretGun</turretDef>
-        <angleOffset>0</angleOffset>
-        <autoAttack>true</autoAttack>
-        <requiredMechanoids>6</requiredMechanoids>
-        <autoActivate>true</autoActivate>
       </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>WULA_Cat_Bunker_TurretGun</defName>
     <label>地堡炮塔</label>
-    <description>由进入地堡的乌拉猫猫操纵的炮塔——说那么多干什么，扣扳机就完了，殖民地会报销弹药的。</description>
+    <description>由驻守地堡的乌拉猫猫操纵的炮塔——说那么多干什么，扣扳机就完了，殖民地会报销弹药的。</description>
     <graphicData>
       <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -558,7 +483,7 @@
         <defaultProjectile>Bullet_WULA_RW_Base_AR</defaultProjectile>
         <range>28</range>
         <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <burstShotCount>12</burstShotCount>
+        <burstShotCount>24</burstShotCount>
         <soundCast>Shot_AssaultRifle</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
