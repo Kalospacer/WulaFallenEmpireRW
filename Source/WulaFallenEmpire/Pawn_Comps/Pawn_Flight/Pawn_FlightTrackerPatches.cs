@@ -78,11 +78,16 @@ namespace WulaFallenEmpire
                 shouldBeFlying = true;
             }
 
-            if (shouldBeFlying && !__instance.Flying)
+            if (shouldBeFlying)
             {
-                __instance.StartFlying();
+                if (!__instance.Flying) __instance.StartFlying();
+                job.flying = true;
             }
-            job.flying = shouldBeFlying;
+            else
+            {
+                if (__instance.Flying) __instance.ForceLand();
+                job.flying = false;
+            }
             return false;
         }
 
