@@ -16,10 +16,10 @@ namespace WulaFallenEmpire
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             // 预留目标建筑
-            if (!pawn.Reserve(job.targetA, job, 1, -1, null, errorOnFailed))
-            {
-                return false;
-            }
+            //if (!pawn.Reserve(job.targetA, job, 1, -1, null, errorOnFailed))
+            //{
+            //    return false;
+            //}
             return true;
         }
         
@@ -51,7 +51,6 @@ namespace WulaFallenEmpire
                 // 确保可以转化
                 if (!gatherComp.CanTransformPawn(pawn))
                 {
-                    Messages.Message("Wula_CannotTransformHere".Translate(), MessageTypeDefOf.RejectInput);
                     ReadyForNextToil();
                     return;
                 }
@@ -113,7 +112,6 @@ namespace WulaFallenEmpire
                     var targetPawnKind = PawnComp?.PendingTransformTarget;
                     if (targetPawnKind == null)
                     {
-                        Messages.Message("Wula_NoTransformTarget".Translate(), MessageTypeDefOf.RejectInput);
                         return;
                     }
                     

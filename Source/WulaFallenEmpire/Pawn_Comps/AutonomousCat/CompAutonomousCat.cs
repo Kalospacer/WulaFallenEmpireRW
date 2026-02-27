@@ -83,12 +83,6 @@ namespace WulaFallenEmpire
                     {
                         CreateGatherJob(pawn, target);
                     }
-                    
-                    // 记录日志
-                    if (Prefs.DevMode)
-                    {
-                        Log.Message($"[CompAutonomousCat] {pawn.LabelShort} responding to gather call from {target?.LabelShort ?? "unknown"}");
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -152,18 +146,6 @@ namespace WulaFallenEmpire
                     // 清除当前任务并开始新任务
                     pawn.jobs.StopAll();
                     pawn.jobs.StartJob(job, JobCondition.InterruptForced);
-                    
-                    // 显示消息
-                    Messages.Message(
-                        "Wula_TransformStarted".Translate(pawn.LabelShort, targetPawnKind.label),
-                        MessageTypeDefOf.NeutralEvent
-                    );
-                    
-                    // 记录日志
-                    if (Prefs.DevMode)
-                    {
-                        Log.Message($"[CompAutonomousCat] {pawn.LabelShort} starting transformation to {targetPawnKind.label}");
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -314,12 +296,6 @@ namespace WulaFallenEmpire
                 
                 if (cachedTransformGizmo != null)
                 {
-                    // 如果已有待处理的转化，显示不同图标或状态
-                    if (pendingTransformTarget != null)
-                    {
-                        cachedTransformGizmo.disabledReason = "Wula_TransformPending".Translate(pendingTransformTarget.label);
-                    }
-                    
                     yield return cachedTransformGizmo;
                 }
             }
@@ -333,7 +309,7 @@ namespace WulaFallenEmpire
                 cachedTransformGizmo = new Command_Action();
                 cachedTransformGizmo.defaultLabel = "Wula_Transform".Translate();
                 cachedTransformGizmo.defaultDesc = "Wula_TransformDesc".Translate();
-                cachedTransformGizmo.icon = ContentFinder<Texture2D>.Get("UI/Gizmos/Transform", false) ?? BaseContent.BadTex;
+                cachedTransformGizmo.icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_ConvertMechanoids", false) ?? BaseContent.BadTex;
                 cachedTransformGizmo.action = () => ShowTransformMenu();
                 
                 // 设置热键
@@ -358,13 +334,6 @@ namespace WulaFallenEmpire
                     Color.white
                 ));
             }
-            
-            // 添加取消选项
-            options.Add(new FloatMenuOption(
-                "Cancel".Translate(),
-                null,
-                MenuOptionPriority.Default
-            ));
             
             Find.WindowStack.Add(new FloatMenu(options));
         }

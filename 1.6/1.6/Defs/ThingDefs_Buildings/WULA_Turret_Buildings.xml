@@ -427,8 +427,6 @@
     <building>
       <destroySound>BuildingDestroyed_Metal_Small</destroySound>
       <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
-      <claimable>false</claimable>
-      <ai_combatDangerous>true</ai_combatDangerous>
       <turretGunDef>WULA_Cat_Bunker_TurretGun</turretGunDef>
       <claimable>false</claimable>
     </building>

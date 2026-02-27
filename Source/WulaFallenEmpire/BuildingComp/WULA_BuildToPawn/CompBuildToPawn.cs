@@ -42,7 +42,7 @@ namespace WulaFallenEmpire
                             
                         GenSpawn.Spawn(pawn, parent.Position, parent.Map, WipeMode.Vanish);
 
-                        if (Props.initDrafted && pawn.drafter!=null)
+                        if (Props.initDrafted && pawn.Faction.IsPlayer && pawn.drafter!=null)
                             pawn.drafter.Drafted = true;
                     }
 

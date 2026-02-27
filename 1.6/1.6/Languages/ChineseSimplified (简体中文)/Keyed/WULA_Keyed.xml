@@ -265,4 +265,13 @@
   <Wula_FocusFireDesc>命令该单位所有的炮塔攻击指定目标。如果目标不处于某个炮塔的攻击范围或者无法攻击到目标，则其依然会自行索敌。</Wula_FocusFireDesc>
   <Wula_ClearFocus>清除目标</Wula_ClearFocus>
   <Wula_ClearFocusDesc>清除指定的集中攻击目标，各炮塔将自行索敌。</Wula_ClearFocusDesc>
+
+  <Wula_Transform>更换装备</Wula_Transform>
+  <Wula_TransformDesc>更换乌拉猫猫的装备，使其可以承担不同的工作。\n\n更换装备的预制件装载在乌拉猫猫地堡中，下达更换指令后，乌拉猫猫会去寻找最近的地堡进行装备更换。</Wula_TransformDesc>
+  <Wula_NoGatherBuilding>没有可以抵达的乌拉猫猫地堡</Wula_NoGatherBuilding>
+  <Wula_NoSpawnSpace>没有可用位置</Wula_NoSpawnSpace>
+  <Wula_GatherCats>猫猫集合！</Wula_GatherCats>
+  <Wula_GatherCatsDesc>使地堡发出号召，让地图上所有的乌拉猫猫自动进入征召状态并聚集到该地堡附近。</Wula_GatherCatsDesc>
+  <Wula_GatherCooldown>集合能力冷却中</Wula_GatherCooldown>
+  <Wula_BuildingBroken>地堡被停用，无法进行集结征召</Wula_BuildingBroken>
 </LanguageData>

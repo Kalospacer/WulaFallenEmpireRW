@@ -135,53 +135,10 @@ namespace WulaFallenEmpire
                 
                 // 生成新的Pawn
                 GenSpawn.Spawn(newPawn, position, map);
-                
-                // 为新Pawn添加AutonomousCat组件（如果还没有）
-                EnsureAutonomousCatComponent(newPawn);
-                
-                // 显示消息
-                Messages.Message(
-                    "Wula_TransformComplete".Translate(originalPawn.LabelShort, newPawn.LabelShort),
-                    MessageTypeDefOf.PositiveEvent
-                );
-                
-                // 记录日志
-                if (Prefs.DevMode)
-                {
-                    Log.Message($"[CompGather] Transformation complete: {originalPawn.LabelShort} -> {newPawn.LabelShort}");
-                }
             }
             catch (Exception ex)
             {
                 Log.Error($"Error completing transformation: {ex.Message}");
-            }
-        }
-        
-        // 确保新Pawn有AutonomousCat组件
-        private void EnsureAutonomousCatComponent(Pawn newPawn)
-        {
-            // 检查是否已经有AutonomousCat组件
-            if (newPawn.TryGetComp<Comp_AutonomousCat>() != null)
-                return;
-                
-            // 检查Pawn的定义中是否有AutonomousCat组件
-            var compProps = newPawn.def.comps?.Find(c => c.compClass == typeof(Comp_AutonomousCat)) as CompProperties_AutonomousCat;
-            if (compProps == null)
-            {
-                // 如果没有，添加一个默认的AutonomousCat组件
-                newPawn.AllComps.Add(new Comp_AutonomousCat()
-                {
-                    parent = newPawn,
-                    props = new CompProperties_AutonomousCat()
-                    {
-                        autoDraftOnGather = true
-                    }
-                });
-                
-                if (Prefs.DevMode)
-                {
-                    Log.Message($"[CompGather] Added AutonomousCat component to {newPawn.LabelShort}");
-                }
             }
         }
         
@@ -210,7 +167,7 @@ namespace WulaFallenEmpire
             cachedGizmo = new Command_Action();
             cachedGizmo.defaultLabel = "Wula_GatherCats".Translate();
             cachedGizmo.defaultDesc = "Wula_GatherCatsDesc".Translate();
-            cachedGizmo.icon = ContentFinder<Texture2D>.Get("UI/Gizmos/GatherCats", false) ?? BaseContent.BadTex;
+            cachedGizmo.icon = ContentFinder<Texture2D>.Get("Wula/UI/Commands/Wula_GatherCats", false) ?? BaseContent.BadTex;
             cachedGizmo.action = StartGathering;
             
             // 添加冷却时间显示
@@ -255,10 +212,7 @@ namespace WulaFallenEmpire
             
             // 查找并命令范围内的 Autonomous Cats
             GatherAutonomousCats();
-            
-            // 显示消息
-            Messages.Message("Wula_GatheringStarted".Translate(), MessageTypeDefOf.PositiveEvent);
-            
+
             // 刷新Gizmo状态
             cachedGizmo.disabledReason = GetDisabledReason();
         }
@@ -295,15 +249,6 @@ namespace WulaFallenEmpire
             {
                 CommandCatToGather(cat);
             }
-            
-            // 报告召集数量
-            if (autonomousCats.Count > 0)
-            {
-                Messages.Message(
-                    "Wula_CatsGathered".Translate(autonomousCats.Count),
-                    MessageTypeDefOf.NeutralEvent
-                );
-            }
         }
         
         // 命令单个 Autonomous Cat
@@ -339,12 +284,6 @@ namespace WulaFallenEmpire
                     }
                     
                     cat.jobs.StartJob(job, JobCondition.InterruptForced);
-                }
-                
-                // 记录日志
-                if (Prefs.DevMode)
-                {
-                    Log.Message($"[CompGather] Cat {cat.LabelShort} commanded to gather at {parent.Position}");
                 }
             }
             catch (Exception ex)
