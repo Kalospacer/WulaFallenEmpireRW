@@ -8,13 +8,13 @@ namespace WulaFallenEmpire
     [HarmonyPatch]
     public static class FlightHarmonyPatches
     {
-        // Corrected Patch 1: The method signature now correctly matches the static target method.
+        // Patch 1: Override fly animation selection for pawns with CompPawnFlight.
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Pawn_FlightTracker), "GetBestFlyAnimation")]
-        public static bool GetBestFlyAnimation_Prefix(Pawn pawn, ref AnimationDef __result) // Correct parameters: Pawn pawn, not __instance and ___pawn
+        public static bool GetBestFlyAnimation_Prefix(Pawn pawn, ref AnimationDef __result)
         {
             var flightComp = pawn?.TryGetComp<CompPawnFlight>();
-            if (flightComp == null) // No props check needed, as the crash was due to wrong signature
+            if (flightComp == null)
             {
                 return true; 
             }
@@ -51,7 +51,8 @@ namespace WulaFallenEmpire
             return true;
         }
 
-        // Patch 2 remains correct as Notify_JobStarted is a non-static method.
+        // Patch 2: Override flight start logic — only decides WHEN TO START flying.
+        // Landing is handled by FlightTick_Postfix via posture check.
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Pawn_FlightTracker), "Notify_JobStarted")]
         public static bool Notify_JobStarted_Prefix(Job job, Pawn_FlightTracker __instance, Pawn ___pawn)
@@ -68,7 +69,7 @@ namespace WulaFallenEmpire
             {
                 shouldBeFlying = true;
             }
-            else if (compProps.flightCondition == FlightCondition.DraftedAndMove && ___pawn.Drafted || ___pawn.pather.MovingNow)
+            else if (compProps.flightCondition == FlightCondition.DraftedAndMove && (___pawn.Drafted || ___pawn.pather.MovingNow))
             {
                 shouldBeFlying = true;
             }
@@ -77,17 +78,33 @@ namespace WulaFallenEmpire
                 shouldBeFlying = true;
             }
 
-            if (shouldBeFlying)
+            if (shouldBeFlying && !__instance.Flying)
             {
-                if (!__instance.Flying) __instance.StartFlying();
-                job.flying = true;
+                __instance.StartFlying();
             }
-            else
-            {
-                if (__instance.Flying) __instance.ForceLand();
-                job.flying = false;
-            }
+            job.flying = shouldBeFlying;
             return false;
+        }
+
+        // Patch 3: Posture-based landing guard — only decides WHEN TO LAND.
+        // If the pawn is not standing (lying in bed, downed on ground, etc.), force land.
+        // This is a universal check that works with all vanilla and modded jobs
+        // without needing to maintain a job blacklist.
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Pawn_FlightTracker), "FlightTick")]
+        public static void FlightTick_Postfix(Pawn_FlightTracker __instance, Pawn ___pawn)
+        {
+            if (!__instance.Flying) return;
+
+            var flightComp = ___pawn?.TryGetComp<CompPawnFlight>();
+            if (flightComp == null) return;
+
+            if (___pawn.GetPosture() != PawnPosture.Standing)
+            {
+                __instance.ForceLand();
+                if (___pawn.CurJob != null)
+                    ___pawn.CurJob.flying = false;
+            }
         }
     }
 }
