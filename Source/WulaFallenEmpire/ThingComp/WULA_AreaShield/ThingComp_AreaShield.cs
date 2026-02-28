@@ -1,16 +1,16 @@
-﻿using RimWorld;
-using Verse;
-using UnityEngine;
-using Verse.Sound;
+﻿using HarmonyLib;
+using RimWorld;
 using System.Collections.Generic;
-using HarmonyLib;
+using UnityEngine;
+using Verse;
+using Verse.Sound;
+using static RimWorld.MechClusterSketch;
 
 namespace WulaFallenEmpire
 {
     [StaticConstructorOnStartup]
     public class ThingComp_AreaShield : ThingComp
     {
-        // 现有的字段保持不变...
         private int lastInterceptTicks = -999999;
         public int ticksToReset = 0;
         public int currentHitPoints;
@@ -122,7 +122,6 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 现有的其他方法保持不变...
         private float GetCurrentAlpha()
         {
             // 多个透明度来源叠加，取最大值
@@ -220,14 +219,21 @@ namespace WulaFallenEmpire
                 if (Holder == null || !Holder.Spawned || Holder.Destroyed)
                     return false;
                     
-                if (Holder is Pawn pawn && (pawn.Dead || pawn.Downed))
+                if (Holder is Pawn pawn && (pawn.IsSelfShutdown() || !pawn.Awake() || pawn.Dead || pawn.Downed || !pawn.Spawned))
                     return false;
                     
                 if (IsOnCooldown)
                     return false;
-                    
+
+                //对于mechunit，需要判定有没有驾驶员
+                var MechPilotComp = Holder.TryGetComp<CompMechPilotHolder>();
+                if (MechPilotComp != null && !MechPilotComp.HasPilots)
+                {
+                    return false;
+                }
+
                 // 装备：只有在立定时才激活
-                if (IsEquipment && IsHolderMoving)
+                if (IsHolderMoving)
                     return false;
                     
                 return true;
@@ -338,7 +344,6 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 现有的其他方法保持不变...
         private void ApplyCosts(int cost = 1)
         {
             currentHitPoints -= cost;
@@ -359,7 +364,7 @@ namespace WulaFallenEmpire
 
             if (currentHitPoints <= 0)
                 return false;
-                
+
             try
             {
                 if (!GenGeo.IntersectLineCircleOutline(Holder.Position.ToVector2(), Props.radius, lastExactPos.ToVector2(), newExactPos.ToVector2()))

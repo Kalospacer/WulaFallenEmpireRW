@@ -1,7 +1,7 @@
-// File: Wulamechunit_Fixed.cs
 using RimWorld;
 using System.Collections.Generic;
 using Verse;
+using Verse.AI;
 using Verse.AI.Group;
 
 namespace WulaFallenEmpire
@@ -27,6 +27,16 @@ namespace WulaFallenEmpire
             if (pilotComp != null)
             {
                 foreach (var gizmo in pilotComp.CompGetGizmosExtra())
+                {
+                    yield return gizmo;
+                }
+            }
+            
+            // 添加乘员相关的Gizmo
+            var crewComp = this.TryGetComp<CompMechCrewHolder>();
+            if (crewComp != null)
+            {
+                foreach (var gizmo in crewComp.CompGetGizmosExtra())
                 {
                     yield return gizmo;
                 }
@@ -121,11 +131,17 @@ namespace WulaFallenEmpire
         // 关键修复：重写死亡相关方法
         public override void Kill(DamageInfo? dinfo = null, Hediff exactCulprit = null)
         {
-            // 在死亡前弹出所有驾驶员
+            // 在死亡前弹出所有驾驶员和乘员
             var pilotComp = this.TryGetComp<CompMechPilotHolder>();
             if (pilotComp != null && pilotComp.HasPilots)
             {
                 pilotComp.EjectAllPilotsOnDeath();
+            }
+            
+            var crewComp = this.TryGetComp<CompMechCrewHolder>();
+            if (crewComp != null && crewComp.HasCrew)
+            {
+                crewComp.RemoveAllCrew();
             }
             
             base.Kill(dinfo, exactCulprit);
@@ -134,11 +150,17 @@ namespace WulaFallenEmpire
         // 重写销毁方法
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            // 在销毁前弹出所有驾驶员
+            // 在销毁前弹出所有驾驶员和乘员
             var pilotComp = this.TryGetComp<CompMechPilotHolder>();
             if (pilotComp != null && pilotComp.HasPilots)
             {
                 pilotComp.EjectAllPilotsOnDeath();
+            }
+            
+            var crewComp = this.TryGetComp<CompMechCrewHolder>();
+            if (crewComp != null && crewComp.HasCrew)
+            {
+                crewComp.RemoveAllCrew();
             }
             
             base.Destroy(mode);
@@ -147,8 +169,28 @@ namespace WulaFallenEmpire
         // IThingHolder 接口实现
         public new ThingOwner GetDirectlyHeldThings()
         {
+            // 合并驾驶员和乘员容器
             var pilotComp = this.TryGetComp<CompMechPilotHolder>();
-            return pilotComp?.GetDirectlyHeldThings();
+            var crewComp = this.TryGetComp<CompMechCrewHolder>();
+            
+            if (pilotComp != null && crewComp != null)
+            {
+                // 合并两个容器
+                var combined = new ThingOwner<Thing>(this);
+                combined.TryAddRangeOrTransfer(pilotComp.innerContainer);
+                combined.TryAddRangeOrTransfer(crewComp.innerContainer);
+                return combined;
+            }
+            else if (pilotComp != null)
+            {
+                return pilotComp.innerContainer;
+            }
+            else if (crewComp != null)
+            {
+                return crewComp.innerContainer;
+            }
+            
+            return null;
         }
         
         public new void GetChildHolders(List<IThingHolder> outChildren)
@@ -159,8 +201,6 @@ namespace WulaFallenEmpire
         public override void ExposeData()
         {
             base.ExposeData();
-            
-            // 驾驶员容器的数据会在CompMechPilotHolder中自动保存
         }
     }
 }

@@ -31,7 +31,7 @@ namespace WulaFallenEmpire
         public static JobDef WULA_ForceEjectPilot;
         public static JobDef WULA_CarryToMech;
         public static JobDef WULA_TransformPawn;
-        
+        public static JobDef WULA_BoardMech;
         static Wula_JobDefOf()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(Wula_JobDefOf));

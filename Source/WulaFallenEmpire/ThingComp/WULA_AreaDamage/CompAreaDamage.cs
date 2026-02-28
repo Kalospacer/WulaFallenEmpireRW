@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using RimWorld;
+using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using Verse;
 
@@ -23,9 +24,19 @@ namespace WulaFallenEmpire
         public override void CompTick()
         {
             base.CompTick();
-            
-            if (!parent.Spawned || !enabled)
+
+            if (!enabled)
                 return;
+
+            if (parent is Pawn pawn && (pawn.IsSelfShutdown() || !pawn.Awake() || pawn.Dead || pawn.Downed || !pawn.Spawned || pawn.Destroyed))
+                return;
+
+            //对于mechunit，需要判定有没有驾驶员
+            var MechPilotComp = parent.TryGetComp<CompMechPilotHolder>();
+            if (MechPilotComp != null && !MechPilotComp.HasPilots)
+            {
+                return;
+            }
 
             ticksUntilNextDamage--;
             if (ticksUntilNextDamage <= 0)

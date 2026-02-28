@@ -25,10 +25,10 @@ namespace WulaFallenEmpire
             {
                 yield return new Command_Toggle
                 {
-                    defaultLabel = "Toggle Flight",
-                    defaultDesc = "Toggle flight mode on or off.",
+                    defaultLabel = "WULA_ToggleFlight".Translate(),
+                    defaultDesc = "WULA_ToggleFlight_Desc".Translate() + (flightEnabled ? "WULA_ToggleFlight_Enable".Translate() : "WULA_ToggleFlight_Disable".Translate()),
                     Order = 100f,
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("Wula/UI/Commands/WFE_FlightToggle", false)
+                    icon = ContentFinder<UnityEngine.Texture2D>.Get("Wula/UI/Commands/WULA_FlightToggle", false)
                            ?? RimWorld.TexCommand.GatherSpotActive,
                     isActive = () => flightEnabled,
                     toggleAction = () =>

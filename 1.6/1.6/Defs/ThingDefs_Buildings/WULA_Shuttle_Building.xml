@@ -182,8 +182,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WULA_ArmedShuttleWithPocket</defName>
     <label>CVe-3"渡鸦"</label>
-    <description>乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有巨大的货仓和一个内部折叠的生活区，因此载重量惊人且可以在内部活动。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。</description>
-    <thingClass>WulaFallenEmpire.Building_ArmedShuttleWithPocket</thingClass>
+    <description>乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有载重量惊人的货仓。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。</description>
+    <!-- <thingClass>WulaFallenEmpire.Building_ArmedShuttleWithPocket</thingClass> -->
+    <thingClass>Building_TurretGun</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
     <pathCost>50</pathCost>
@@ -214,7 +215,7 @@
       <WULA_Alloy>500</WULA_Alloy>
       <WULA_Neutronium>150</WULA_Neutronium>
       <WULA_Dark_Matter_Item>25</WULA_Dark_Matter_Item>
-      <ShuttleEngine>4</ShuttleEngine>
+      <ShuttleEngine>2</ShuttleEngine>
     </costList>
     <canOverlapZones>true</canOverlapZones>
     <rotatable>true</rotatable>
@@ -233,8 +234,6 @@
       <paintable>true</paintable>
       <isInert>true</isInert>
       <forcedCostLeavings>
-        <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
-        <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
         <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
         <li MayRequire="Ludeon.RimWorld.Odyssey">ShuttleEngine</li>
       </forcedCostLeavings>
@@ -269,7 +268,7 @@
         <cooldownEndedMessage>{0} is ready to launch again.</cooldownEndedMessage>
       </li>
       <li Class="CompProperties_Transporter">
-        <massCapacity>5000</massCapacity>
+        <massCapacity>5000000</massCapacity>
         <max1PerGroup>true</max1PerGroup>
         <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
         <pawnLoadedSound>Shuttle_PawnLoaded</pawnLoadedSound>
@@ -298,7 +297,7 @@
         <sound>ShuttleIdle_Ambience</sound>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AreaShield">
-        <radius>15</radius>
+        <radius>10</radius>
         <baseHitPoints>30</baseHitPoints>
         <rechargeDelay>2400</rechargeDelay>
         <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
@@ -318,55 +317,25 @@
       
         <!-- 反射设置 -->
         <canReflect>true</canReflect>
-        <reflectChance>0.75</reflectChance>
+        <reflectChance>0.5</reflectChance>
         <reflectAngleRange>30</reflectAngleRange>
         <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
-      </li>
-      <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
-        <radius>15</radius>
-        <damageIntervalTicks>30</damageIntervalTicks>
-        <damageDef>Flame</damageDef>
-        <damageAmount>1</damageAmount>
-        <scaleWithPsychicSensitivity>false</scaleWithPsychicSensitivity>
-        <affectFriendly>false</affectFriendly>
-        <affectNeutral>false</affectNeutral>
-        <affectHostile>true</affectHostile>
-        <affectBuildings>false</affectBuildings>
-        <ignoreFactionRelations>false</ignoreFactionRelations>
-        <startEnabled>false</startEnabled>
-        <toggleLabel>热辐射</toggleLabel>
-        <toggleDescription>CVe-3"渡鸦"可以启动防御设施，蒸发胆敢进入反射立场内的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
-        <toggleIconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</toggleIconPath>
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerPlant</compClass>
         <basePowerConsumption>-2000</basePowerConsumption>
         <transmitsPower>true</transmitsPower>
       </li>
-
-      
-      <li Class="CompProperties_Shuttle" />
-      <li Class="CompProperties_Transporter">
-        <massCapacity>2000</massCapacity>
-        <max1PerGroup>true</max1PerGroup>
-        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
-        <showOverallStats>false</showOverallStats>
-        <pawnLoadedSound>Shuttle_PawnLoaded</pawnLoadedSound>
-        <pawnExitSound>Shuttle_PawnExit</pawnExitSound>
-      </li>
-      <li Class="CompProperties_AmbientSound">
-        <sound>ShuttleIdle_Ambience</sound>
-      </li>
     </comps>
-    <modExtensions>
+    <!-- <modExtensions>
       <li Class="WulaFallenEmpire.PocketMapProperties">
         <pocketMapGenerator>WULA_PocketSpace_Small</pocketMapGenerator>
         <exitDef>WULA_PocketMapExit</exitDef>
         <pocketMapSize>(25, 25)</pocketMapSize>
         <allowDirectAccess>true</allowDirectAccess>
       </li>
-    </modExtensions>
+    </modExtensions> -->
     <placeWorkers>
       <li>PlaceWorker_NotUnderRoof</li>
       <li>PlaceWorker_TurretTop</li>
@@ -428,7 +397,6 @@
       </li>
     </comps>
   </ThingDef>
-  <!-- 口袋空间退出点定义 -->
   <ThingDef ParentName="PocketMapExit">
     <defName>WULA_PocketMapExit</defName>
     <label>运输机升降平台</label>
@@ -456,80 +424,6 @@
         <effecterDef>UndercaveMapExitLightshafts</effecterDef>
       </li>
     </comps>
-  </ThingDef>
-
-  <ThingDef ParentName="BaseGun">
-    <defName>WULA_Shuttle_Autocannon</defName>
-    <label>SRc-22"四叶"</label>
-    <description>由乌拉帝国的穿梭机所装备的自动炮，能够组织起高射速的弹幕压制杀伤大规模目标。</description>
-    <techLevel>Ultra</techLevel>
-    <relicChance>0</relicChance>
-    <graphicData>
-      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>2</drawSize>
-    </graphicData>
-    <uiIconScale>0.5</uiIconScale>
-    <tradeability>None</tradeability>
-    <statBases>
-      <WorkToMake>40000</WorkToMake>
-      <Mass>150</Mass>
-      <AccuracyTouch>0.5</AccuracyTouch>
-      <AccuracyShort>0.5</AccuracyShort>
-      <AccuracyMedium>0.4</AccuracyMedium>
-      <AccuracyLong>0.35</AccuracyLong>
-      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
-    </statBases>
-    <weaponTags>
-    </weaponTags>
-    <costList Inherit="False">
-      <Steel>500</Steel>
-      <Plasteel>150</Plasteel>
-      <ComponentSpacer>8</ComponentSpacer>
-    </costList>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_WULA_Shuttle_Autocannon</defaultProjectile>
-        <warmupTime>0.25</warmupTime>
-        <range>24</range>
-        <burstShotCount>10</burstShotCount>
-        <forcedMissRadius>0.35</forcedMissRadius>
-        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <soundCast>Shot_TurretSniper</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
-        <muzzleFlashScale>12</muzzleFlashScale>
-        <targetParams>
-          <canTargetPawns>true</canTargetPawns>
-          <canTargetLocations>true</canTargetLocations>
-          <canTargetBuildings>true</canTargetBuildings>
-        </targetParams>
-      </li>
-    </verbs>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_WULA_Shuttle_Autocannon</defName>
-    <label>四叶自动炮子弹</label>
-    <thingClass>Projectile_Explosive</thingClass>
-    <tickerType>Normal</tickerType>
-    <neverMultiSelect>True</neverMultiSelect>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_ChargeLanceShot_Red_Double</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <!-- <color>(61,199,157,202)</color> -->
-      <drawSize>(0.75,1)</drawSize>
-    </graphicData>
-    <projectile>
-      <damageDef>WULA_Shuttle_Autocannon_Bullet</damageDef>
-      <damageAmountBase>14</damageAmountBase>
-      <speed>120</speed>
-      <explosionRadius>2.4</explosionRadius>
-      <arcHeightFactor>0.4</arcHeightFactor>
-      <soundExplode>Explosion_Rocket</soundExplode>
-      <armorPenetrationBase>0.75</armorPenetrationBase>
-      <screenShakeFactor>0.1</screenShakeFactor>
-    </projectile>
   </ThingDef>
 
   <ThingDef ParentName="ShuttleSkyfallerBase">

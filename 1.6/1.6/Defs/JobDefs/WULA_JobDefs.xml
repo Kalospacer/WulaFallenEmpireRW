@@ -85,14 +85,22 @@
   <JobDef>
     <defName>WULA_EnterMech</defName>
     <driverClass>WulaFallenEmpire.JobDriver_EnterMech</driverClass>
-    <reportString>Entering mech.</reportString>
+    <reportString>驾驶构装体。</reportString>
+    <!-- <checkOverrideOnDamage>true</checkOverrideOnDamage> -->
+    <suspendable>false</suspendable>
+  </JobDef>
+  <!-- 新增：登上机甲作为乘员 -->
+  <JobDef>
+    <defName>WULA_BoardMech</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_BoardMech</driverClass>
+    <reportString>作为乘员登上构装体。</reportString>
     <!-- <checkOverrideOnDamage>true</checkOverrideOnDamage> -->
     <suspendable>false</suspendable>
   </JobDef>
   <JobDef>
     <defName>WULA_RefuelMech</defName>
     <driverClass>WulaFallenEmpire.JobDriver_RefuelMech</driverClass>
-    <reportString>Refuleing TargetA.</reportString>
+    <reportString>为 TargetA 加注燃料。</reportString>
     <suspendable>false</suspendable>
     <!-- <canBeForcedByDuty>true</canBeForcedByDuty>
     <makeTargetPrisoner>false</makeTargetPrisoner> -->
@@ -113,7 +121,7 @@
   <JobDef>
     <defName>WULA_RepairMech</defName>
     <driverClass>WulaFallenEmpire.JobDriver_RepairMech</driverClass>
-    <reportString>Repairing TargetA.</reportString>
+    <reportString>维修 TargetA。</reportString>
     <alwaysShowWeapon>false</alwaysShowWeapon>
     <suspendable>false</suspendable>
   </JobDef>
@@ -127,12 +135,12 @@
     </requiredCapacities>
     <verb>Repair</verb>
     <gerund>Repair Mech</gerund>
-    <label>Repair Mech</label>
+    <label>维修构装体</label>
   </WorkGiverDef>
   <JobDef>
     <defName>WULA_ForceEjectPilot</defName>
     <driverClass>WulaFallenEmpire.JobDriver_ForceEjectPilot</driverClass>
-    <reportString>Prise TargetA.</reportString>
+    <reportString>撬开 TargetA。</reportString>
     <suspendable>false</suspendable>
     <!-- <canBeForcedByDuty>true</canBeForcedByDuty>
     <makeTargetPrisoner>false</makeTargetPrisoner> -->
@@ -140,7 +148,7 @@
   <JobDef>
     <defName>WULA_CarryToMech</defName>
     <driverClass>WulaFallenEmpire.JobDriver_CarryToMech</driverClass>
-    <reportString>carrying TargetA to TargetB.</reportString>
+    <reportString>携带 TargetA 到 TargetB。</reportString>
     <suspendable>false</suspendable>
   </JobDef>
 </Defs>

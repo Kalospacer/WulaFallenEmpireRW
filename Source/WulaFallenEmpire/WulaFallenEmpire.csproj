@@ -102,8 +102,11 @@
     <Compile Include="MentalState\MentalState_MechNoPilot.cs" />
     <Compile Include="Pawn_Comps\AutonomousCat\CompAutonomousCat.cs" />
     <Compile Include="Pawn_Comps\AutonomousCat\JobDriver_TransformPawn.cs" />
+    <Compile Include="Pawn_Comps\MechCrewHolder\CompProperties_MechCrewHolder.cs" />
     <Compile Include="Pawn_Comps\PawnRenderExtra\Comp_PawnRenderExtra.cs" />
     <Compile Include="Pawn_Comps\HighSpeedCollision\CompHighSpeedCollision.cs" />
+    <Compile Include="Work\BoardMech\FloatMenuOptionProvider_BoardMech.cs" />
+    <Compile Include="Work\BoardMech\JobDriver_BoardMech.cs" />
     <Compile Include="Work\EnterMech\FloatMenuOptionProvider_EnterMech.cs" />
     <Compile Include="Work\EnterMech\JobDriver_EnterMech.cs" />
     <Compile Include="Work\EnterMech\WorkGiver_EnterMech.cs" />

@@ -208,12 +208,25 @@
   <WULA_PilotExitedMech>{0} 已经从 {1} 离开</WULA_PilotExitedMech>
   <WULA_SummonPilot>征召驾驶员···</WULA_SummonPilot>
   <WULA_SummonPilotDesc>指定一名驾驶员进入构装体</WULA_SummonPilotDesc>
+  <WULA_RecallLastPilot>紧急登机</WULA_RecallLastPilot>
+  <WULA_RecallLastPilotDesc>立刻召集上次驾驶过该构装体的驾驶员驾驶此构装体。</WULA_RecallLastPilotDesc>
   <WULA_EjectAllPilots>离开构装体</WULA_EjectAllPilots>
   <WULA_EjectAllPilotsDesc>让该构装体的驾驶员离开构装体</WULA_EjectAllPilotsDesc>
   <WULA_NoAvailablePilots>没有可以作为构装体驾驶员的殖民者</WULA_NoAvailablePilots>
   <WULA_Equipment_For_Other_Mech>此装备不能由此构装体使用</WULA_Equipment_For_Other_Mech>
   <WULA_Equipment_Not_Allow_For_Mech>此装备不是为构装体设计的</WULA_Equipment_Not_Allow_For_Mech>
   <WULA_Human_Cannot_Equip_Mech_Weapon>此装备是专为构装体设计的，非构装体单位无法装备</WULA_Human_Cannot_Equip_Mech_Weapon>
+  <!-- 乘员系统翻译 -->
+  <WULA_BoardCrew>快速装载</WULA_BoardCrew>
+  <WULA_BoardCrewDesc>命令附近的殖民者和机械族作为乘员登上构装体，乘员不会参与构装体的驾驶。</WULA_BoardCrewDesc>
+  <WULA_ExitCrew>释放乘员</WULA_ExitCrew>
+  <WULA_ExitCrewDesc>命令所有乘员快速离开构装体。</WULA_ExitCrewDesc>
+  <WULA_CrewBoarded>{0} 登上了 {1}</WULA_CrewBoarded>
+  <WULA_CrewExited>{0} 离开了 {1}</WULA_CrewExited>
+  <WULA_CrewOrderedToBoard>已命令 {0} 个单位登上 {1}</WULA_CrewOrderedToBoard>
+  <WULA_CannotBecomeCrew>无法成为乘员</WULA_CannotBecomeCrew>
+  <WULA_MechCrewFull>构装体乘员位已满</WULA_MechCrewFull>
+  <WULA_BoardMech>登上构装体 {0}</WULA_BoardMech>
 
   <WULA_Startup>构装体重新启动</WULA_Startup>
   <WULA_NoColonistAvailable>没有可以执行操作的殖民者</WULA_NoColonistAvailable>
@@ -274,4 +287,9 @@
   <Wula_GatherCatsDesc>使地堡发出号召，让地图上所有的乌拉猫猫自动进入征召状态并聚集到该地堡附近。</Wula_GatherCatsDesc>
   <Wula_GatherCooldown>集合能力冷却中</Wula_GatherCooldown>
   <Wula_BuildingBroken>地堡被停用，无法进行集结征召</Wula_BuildingBroken>
+
+  <WULA_ToggleFlight>飞行姿态</WULA_ToggleFlight>
+  <WULA_ToggleFlight_Desc>手动控制此单位是否保持飞行姿态。</WULA_ToggleFlight_Desc>
+  <WULA_ToggleFlight_Enable>已启用飞行姿态</WULA_ToggleFlight_Enable>
+  <WULA_ToggleFlight_Disable>停用飞行姿态</WULA_ToggleFlight_Disable>
 </LanguageData>

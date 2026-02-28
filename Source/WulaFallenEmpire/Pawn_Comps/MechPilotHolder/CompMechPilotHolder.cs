@@ -1,4 +1,3 @@
-// File: CompMechPilotHolder.cs (添加残疾殖民者搬运逻辑)
 using WulaFallenEmpire;
 using RimWorld;
 using System;
@@ -15,26 +14,31 @@ namespace WulaFallenEmpire
         public int maxPilots = 1;
         public string pilotWorkTag = "MechPilot";
 
-        // 新增：驾驶员图标配置
+        // 图标配置
         public string summonPilotIcon = "Wula/UI/Commands/WULA_Enter_Mech";
         public string ejectPilotIcon = "Wula/UI/Commands/WULA_Exit_Mech";
+        public string recallPilotIcon = "Wula/UI/Commands/WULA_Recall_Pilot";
+        
+        // 快速登机配置
+        public bool enableQuickRecall = true;
+        public float recallRadius = 30f;
 
-        public float ejectPilotHealthPercentThreshold = 0.1f; // 默认30%血量
-        public bool allowEntryBelowThreshold = false; // 血量低于阈值时是否允许进入
+        public float ejectPilotHealthPercentThreshold = 0.1f;
+        public bool allowEntryBelowThreshold = false;
 
-        // 新增：Hediff同步配置
-        public bool syncPilotHediffs = true;              // 是否同步驾驶员的Hediff
-        public List<string> syncedHediffDefs = null;      // 需要同步的Hediff列表（null表示全部）
-        public bool autoApplyHediffOnEntry = false;       // 进入时自动添加指定的Hediff
-        public HediffDef autoHediffDef = null;            // 自动添加的Hediff
-        public float autoHediffSeverity = 0.5f;           // 自动添加的Hediff严重性
+        // Hediff同步配置
+        public bool syncPilotHediffs = true;
+        public List<string> syncedHediffDefs = null;
+        public bool autoApplyHediffOnEntry = false;
+        public HediffDef autoHediffDef = null;
+        public float autoHediffSeverity = 0.5f;
 
         public CompProperties_MechPilotHolder()
         {
             this.compClass = typeof(CompMechPilotHolder);
         }
 
-        // 新增：加载图标的方法
+        // 图标加载方法
         public Texture2D GetSummonPilotIcon()
         {
             if (!string.IsNullOrEmpty(summonPilotIcon) && ContentFinder<Texture2D>.Get(summonPilotIcon, false) != null)
@@ -54,20 +58,28 @@ namespace WulaFallenEmpire
             return ContentFinder<Texture2D>.Get("UI/Commands/Eject", false) ??
                    BaseContent.BadTex;
         }
+        
+        public Texture2D GetRecallPilotIcon()
+        {
+            if (!string.IsNullOrEmpty(recallPilotIcon) && ContentFinder<Texture2D>.Get(recallPilotIcon, false) != null)
+            {
+                return ContentFinder<Texture2D>.Get(recallPilotIcon);
+            }
+            return ContentFinder<Texture2D>.Get("UI/Commands/SummonPilot", false) ??
+                   BaseContent.BadTex;
+        }
     }
 
     public class CompMechPilotHolder : ThingComp, IThingHolder, ISuspendableThingHolder
     {
         public ThingOwner innerContainer;
 
-        // 标记是否正在处理死亡/销毁事件，避免重复处理
         private bool isProcessingDestruction = false;
-
-        // 新增：记录是否已经因为低血量弹出过驾驶员
         private bool hasEjectedDueToLowHealth = false;
-
-        // 新增：存储驾驶员同步的Hediff
         private Dictionary<Pawn, List<Hediff>> syncedHediffs = new Dictionary<Pawn, List<Hediff>>();
+        
+        // 新增：记录上一次的驾驶员
+        private Pawn lastPilot = null;
 
         public CompProperties_MechPilotHolder Props => (CompProperties_MechPilotHolder)props;
 
@@ -78,17 +90,15 @@ namespace WulaFallenEmpire
 
         public bool IsContentsSuspended => true;
 
-        // 新增：获取精神状态定义
+        // 精神状态定义
         private MentalStateDef MechNoPilotStateDef => WULA_MentalStateDefOf.WULA_MechNoPilot;
 
-        // 新增：检查并更新精神状态
         private void CheckAndUpdateMentalState()
         {
             var mech = parent as Pawn;
             if (mech == null || mech.Dead || MechNoPilotStateDef == null)
                 return;
 
-            // 如果没有驾驶员，尝试进入待机状态
             if (!HasPilots)
             {
                 if (mech.MentalStateDef != MechNoPilotStateDef && !mech.InMentalState)
@@ -96,7 +106,6 @@ namespace WulaFallenEmpire
                     mech.mindState.mentalStateHandler.TryStartMentalState(MechNoPilotStateDef, null, true);
                 }
             }
-            // 如果有驾驶员，确保退出待机状态
             else
             {
                 if (mech.MentalStateDef == MechNoPilotStateDef)
@@ -106,45 +115,43 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 修改：添加驾驶员 - 添加Hediff同步功能
+        // 添加驾驶员
         public void AddPilot(Pawn pawn)
         {
             if (!CanAddPilot(pawn))
                 return;
 
-            // 将pawn添加到容器中
+            // 记录驾驶员
+            if (lastPilot != pawn)
+            {
+                lastPilot = pawn;
+            }
+
             if (pawn.Spawned)
                 pawn.DeSpawnOrDeselect();
 
             innerContainer.TryAdd(pawn, true);
 
-            // 停止pawn的移动
             pawn.pather?.StopDead();
             pawn.jobs?.StopAll();
 
-            // 触发事件
             Notify_PilotAdded(pawn);
-
-            // 更新机甲的精神状态
             CheckAndUpdateMentalState();
 
-            // 新增：同步驾驶员的Hediff
             if (Props.syncPilotHediffs)
             {
                 SyncPilotHediffs(pawn);
             }
 
-            // 新增：自动添加Hediff
             if (Props.autoApplyHediffOnEntry && Props.autoHediffDef != null)
             {
                 AddAutoHediff(pawn);
             }
         }
 
-        // 修改：移除驾驶员 - 添加Hediff取消同步功能
+        // 移除驾驶员
         public void RemovePilot(Pawn pawn, IntVec3? exitPos = null)
         {
-            // 新增：移除前，清理同步的Hediff
             if (Props.syncPilotHediffs)
             {
                 UnsyncPilotHediffs(pawn);
@@ -152,27 +159,16 @@ namespace WulaFallenEmpire
 
             if (innerContainer.Contains(pawn))
             {
-                // 从容器中移除
                 innerContainer.Remove(pawn);
-
-                // 将pawn放回地图
                 TrySpawnPilotAtPosition(pawn, exitPos ?? parent.Position);
-
-                // 触发事件
                 Notify_PilotRemoved(pawn);
-
-                // 停止机甲的工作
                 StopMechJobs();
-
-                // 更新机甲的精神状态
                 CheckAndUpdateMentalState();
             }
         }
 
-        // 新增：同步驾驶员的Hediff
         private void SyncPilotHediffs(Pawn pawn)
         {
-            // 修复：确保parent是Wulamechunit类型
             if (pawn == null || !(parent is Wulamechunit mech))
                 return;
 
@@ -180,23 +176,19 @@ namespace WulaFallenEmpire
             {
                 var hediffsToSync = new List<Hediff>();
 
-                // 收集需要同步的Hediff
                 foreach (var hediff in pawn.health.hediffSet.hediffs)
                 {
                     if (ShouldSyncHediff(hediff))
                     {
                         hediffsToSync.Add(hediff);
-
-                        // 激活Hediff的同步组件
                         var syncComp = hediff.TryGetComp<HediffComp_SyncedWithMech>();
                         if (syncComp != null)
                         {
-                            syncComp.OnPilotEnteredMech(mech); // 这里现在应该可以了
+                            syncComp.OnPilotEnteredMech(mech);
                         }
                     }
                 }
 
-                // 存储同步的Hediff
                 if (hediffsToSync.Count > 0)
                 {
                     syncedHediffs[pawn] = hediffsToSync;
@@ -208,7 +200,6 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 新增：取消同步驾驶员的Hediff
         private void UnsyncPilotHediffs(Pawn pawn)
         {
             if (pawn == null || !syncedHediffs.ContainsKey(pawn))
@@ -216,7 +207,6 @@ namespace WulaFallenEmpire
 
             try
             {
-                // 通知所有同步的Hediff断开连接
                 foreach (var hediff in syncedHediffs[pawn])
                 {
                     var syncComp = hediff.TryGetComp<HediffComp_SyncedWithMech>();
@@ -226,7 +216,6 @@ namespace WulaFallenEmpire
                     }
                 }
 
-                // 从记录中移除
                 syncedHediffs.Remove(pawn);
             }
             catch (Exception ex)
@@ -235,34 +224,27 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 新增：判断Hediff是否需要同步
         private bool ShouldSyncHediff(Hediff hediff)
         {
             if (hediff == null)
                 return false;
 
-            // 检查是否有同步组件
             var syncComp = hediff.TryGetComp<HediffComp_SyncedWithMech>();
             if (syncComp == null)
                 return false;
 
-            // 检查是否在指定的同步列表中
-            if (Props.syncedHediffDefs != null &&
-                Props.syncedHediffDefs.Count > 0)
+            if (Props.syncedHediffDefs != null && Props.syncedHediffDefs.Count > 0)
             {
                 return Props.syncedHediffDefs.Contains(hediff.def.defName);
             }
 
-            // 默认同步所有有同步组件的Hediff
             return true;
         }
 
-        // 新增：自动添加Hediff
         private void AddAutoHediff(Pawn pawn)
         {
             try
             {
-                // 检查是否已经有相同的Hediff
                 var existingHediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.autoHediffDef);
                 if (existingHediff == null)
                 {
@@ -277,27 +259,23 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 修改：在CompTick中添加Hediff同步检查
         public override void CompTick()
         {
             base.CompTick();
 
             try
             {
-                // 每60帧检查一次血量和精神状态
                 if (Find.TickManager.TicksGame % 60 == 0)
                 {
                     CheckLowHealth();
                     CheckAndUpdateMentalState();
                 }
 
-                // 每120帧检查一次Hediff同步状态
                 if (Find.TickManager.TicksGame % 120 == 0)
                 {
                     CheckHediffSync();
                 }
 
-                // 检查机甲是否死亡
                 var mech = parent as Pawn;
                 if (mech != null && mech.Dead && HasPilots)
                 {
@@ -305,11 +283,10 @@ namespace WulaFallenEmpire
                     return;
                 }
 
-                // 定期检查驾驶员状态
                 var pilotsToRemove = new List<Pawn>();
                 foreach (var thing in innerContainer)
                 {
-                    if (thing is Pawn pawn && (pawn.Dead))
+                    if (thing is Pawn pawn && pawn.Dead)
                     {
                         pilotsToRemove.Add(pawn);
                     }
@@ -320,12 +297,10 @@ namespace WulaFallenEmpire
                     RemovePilot(pawn);
                 }
 
-                // 确保容器内的pawn处于正确状态
                 foreach (var thing in innerContainer)
                 {
                     if (thing is Pawn pawn)
                     {
-                        // 确保pawn在容器内不执行任何工作
                         pawn.jobs?.StopAll();
                         pawn.pather?.StopDead();
                     }
@@ -337,37 +312,30 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 新增：检查Hediff同步状态
         private void CheckHediffSync()
         {
-            // 修复：确保parent是Wulamechunit类型
             if (!Props.syncPilotHediffs || !(parent is Wulamechunit))
                 return;
 
             try
             {
-                // 检查每个驾驶员的同步状态
                 foreach (var pilot in GetPilots())
                 {
                     if (pilot == null || pilot.Dead || pilot.Destroyed)
                         continue;
 
-                    // 检查是否有新的需要同步的Hediff
                     SyncPilotHediffs(pilot);
 
-                    // 检查是否有需要移除的Hediff
                     if (syncedHediffs.ContainsKey(pilot))
                     {
                         var currentHediffs = pilot.health.hediffSet.hediffs
                             .Where(ShouldSyncHediff)
                             .ToList();
 
-                        // 找出不再存在的Hediff
                         var removedHediffs = syncedHediffs[pilot]
                             .Where(h => !currentHediffs.Contains(h))
                             .ToList();
 
-                        // 清理不再存在的Hediff
                         foreach (var hediff in removedHediffs)
                         {
                             var syncComp = hediff.TryGetComp<HediffComp_SyncedWithMech>();
@@ -377,7 +345,6 @@ namespace WulaFallenEmpire
                             }
                         }
 
-                        // 更新记录
                         syncedHediffs[pilot] = currentHediffs;
                     }
                 }
@@ -388,7 +355,6 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 修改：在生成后初始化精神状态
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
@@ -398,16 +364,13 @@ namespace WulaFallenEmpire
                 Log.Warning($"[WULA] CompMechPilotHolder attached to non-mech: {parent}");
             }
 
-            // 确保加载后恢复状态
             if (innerContainer == null)
             {
                 innerContainer = new ThingOwner<Pawn>(this);
             }
 
-            // 初始化精神状态
             CheckAndUpdateMentalState();
 
-            // 新增：加载后重新同步Hediff
             if (Props.syncPilotHediffs)
             {
                 foreach (var pilot in GetPilots())
@@ -417,7 +380,6 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 修改：在数据保存和加载时处理Hediff同步
         public override void PostExposeData()
         {
             base.PostExposeData();
@@ -425,17 +387,15 @@ namespace WulaFallenEmpire
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
             Scribe_Values.Look(ref isProcessingDestruction, "isProcessingDestruction", false);
             Scribe_Values.Look(ref hasEjectedDueToLowHealth, "hasEjectedDueToLowHealth", false);
-            Scribe_Collections.Look(ref syncedHediffs, "syncedHediffs",
-                LookMode.Reference, LookMode.Deep);
+            Scribe_Collections.Look(ref syncedHediffs, "syncedHediffs", LookMode.Reference, LookMode.Deep);
+            Scribe_References.Look(ref lastPilot, "lastPilot");
 
-            // 加载后检查精神状态和Hediff同步
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 CheckAndUpdateMentalState();
                 
                 if (Props.syncPilotHediffs)
                 {
-                    // 重新同步所有驾驶员的Hediff
                     foreach (var pilot in GetPilots())
                     {
                         SyncPilotHediffs(pilot);
@@ -444,34 +404,25 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 新增：停止机甲所有工作
         private void StopMechJobs()
         {
             var mech = parent as Pawn;
             if (mech == null)
                 return;
 
-            // 停止所有工作
             mech.jobs?.StopAll();
-
-            // 停止移动
             mech.pather?.StopDead();
 
-            // 取消征召
             var drafter = mech.drafter;
             if (drafter != null && mech.Drafted)
             {
                 mech.drafter.Drafted = false;
             }
 
-            // 停止当前所有工作队列
             mech.jobs?.ClearQueuedJobs();
-
-            // 清除敌人目标
             mech.mindState.enemyTarget = null;
         }
 
-        // 获取机甲当前血量百分比
         public float CurrentHealthPercent
         {
             get
@@ -484,30 +435,21 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 检查机甲是否低于血量阈值
-        public bool IsBelowHealthThreshold
-        {
-            get
-            {
-                return CurrentHealthPercent < Props.ejectPilotHealthPercentThreshold;
-            }
-        }
+        public bool IsBelowHealthThreshold => CurrentHealthPercent < Props.ejectPilotHealthPercentThreshold;
 
-        // 修改 CanAddPilot 方法，添加血量检查
         public bool CanAddPilot(Pawn pawn)
         {
             if (pawn == null || pawn.Dead)
                 return false;
             
-            // 允许无法行动但还活着的殖民者
             if (pawn.Downed)
-                return true; // 这是新增的关键修改
+                return true;
             
             if (!HasRoom)
                 return false;
             if (innerContainer.Contains(pawn))
                 return false;
-            // 检查工作标签
+                
             if (!string.IsNullOrEmpty(Props.pilotWorkTag))
             {
                 WorkTags tag;
@@ -518,7 +460,6 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 新增：检查血量阈值
             if (!Props.allowEntryBelowThreshold && IsBelowHealthThreshold)
             {
                 return false;
@@ -526,45 +467,36 @@ namespace WulaFallenEmpire
             return true;
         }
 
-        // 修改：检查殖民者是否能够自行移动到机甲
         private bool CanPawnMoveToMech(Pawn pawn, Wulamechunit mech)
         {
             if (pawn == null || mech == null)
                 return false;
             
-            // 如果殖民者无法行动，需要搬运
             if (pawn.Downed)
                 return false;
             
-            // 检查殖民者是否能到达机甲
             return pawn.CanReach(mech, PathEndMode.Touch, Danger.Deadly);
         }
 
-        // 修改 CompMechPilotHolder 的 CheckLowHealth 方法
         private void CheckLowHealth()
         {
             if (IsBelowHealthThreshold && HasPilots)
             {
-                // 如果低于阈值且有驾驶员，弹出所有驾驶员
                 EjectPilotsDueToLowHealth();
             }
             else if (!IsBelowHealthThreshold)
             {
-                // 如果恢复到阈值以上，重置标记
                 hasEjectedDueToLowHealth = false;
             }
         }
 
-        // 新增：因为低血量弹出驾驶员
         private void EjectPilotsDueToLowHealth()
         {
             if (hasEjectedDueToLowHealth)
                 return;
 
-            // 弹出所有驾驶员
             RemoveAllPilots();
 
-            // 发送消息
             if (parent.Faction == Faction.OfPlayer)
             {
                 Messages.Message("WULA_PilotsEjectedDueToLowHealth".Translate(parent.LabelShort,
@@ -575,12 +507,10 @@ namespace WulaFallenEmpire
             hasEjectedDueToLowHealth = true;
         }
 
-        // 新增：在承受伤害后检查血量
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             base.PostPostApplyDamage(dinfo, totalDamageDealt);
 
-            // 如果机甲死亡，弹出驾驶员
             var mech = parent as Pawn;
             if (mech != null && mech.Dead)
             {
@@ -588,19 +518,27 @@ namespace WulaFallenEmpire
             }
             else
             {
-                // 检查是否因为伤害导致血量过低
                 CheckLowHealth();
             }
         }
 
-        // 修改 Gizmo 显示，添加血量信息和Hediff同步状态
+        // 修改Gizmo显示：只在条件满足时显示快速登机按钮
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            // 修复：确保parent是Wulamechunit类型
             if (!(parent is Wulamechunit mech) || mech.Faction != Faction.OfPlayer)
                 yield break;
 
-            // 召唤驾驶员Gizmo
+            // 快速登机按钮（只有在所有条件都满足时才显示）
+            if (Props.enableQuickRecall && HasRoom && !IsBelowHealthThreshold)
+            {
+                var recallGizmo = CreateRecallGizmo();
+                if (recallGizmo != null)
+                {
+                    yield return recallGizmo;
+                }
+            }
+
+            // 召唤驾驶员按钮
             if (HasRoom)
             {
                 Command_Action summonCommand = new Command_Action
@@ -615,7 +553,6 @@ namespace WulaFallenEmpire
                     hotKey = KeyBindingDefOf.Misc2
                 };
 
-                // 如果血量低于阈值且不允许进入，禁用按钮
                 if (!Props.allowEntryBelowThreshold && IsBelowHealthThreshold)
                 {
                     summonCommand.Disable("WULA_MechTooDamagedForEntry".Translate());
@@ -640,22 +577,82 @@ namespace WulaFallenEmpire
                 };
             }
         }
+        
+        // 创建快速登机Gizmo（只有条件完全满足时才创建）
+        private Command_Action CreateRecallGizmo()
+        {
+            // 检查是否有上次驾驶员
+            if (lastPilot == null)
+                return null;
+                
+            // 检查驾驶员是否可用
+            if (!IsPilotAvailableForRecall(lastPilot))
+                return null;
+                
+            // 创建并返回Gizmo
+            return new Command_Action
+            {
+                defaultLabel = "WULA_RecallLastPilot".Translate(),
+                defaultDesc = "WULA_RecallLastPilotDesc".Translate(),
+                icon = Props.GetRecallPilotIcon(),
+                action = () =>
+                {
+                    RecallLastPilot();
+                },
+                hotKey = KeyBindingDefOf.Misc3
+            };
+        }
+        
+        // 检查驾驶员是否可用于快速登机
+        private bool IsPilotAvailableForRecall(Pawn pilot)
+        {
+            if (pilot == null || pilot.Dead || pilot.Destroyed)
+                return false;
+                
+            if (innerContainer.Contains(pilot))
+                return false;
+                
+            if (!CanAddPilot(pilot))
+                return false;
+                
+            if (parent.Map == null || !pilot.Spawned || pilot.Map != parent.Map)
+                return false;
+                
+            if (pilot.Position.DistanceTo(parent.Position) > Props.recallRadius)
+                return false;
+                
+            if (!pilot.CanReach(parent, PathEndMode.Touch, Danger.Deadly))
+                return false;
+                
+            if (pilot.IsPrisoner || pilot.IsSlave)
+                return false;
+                
+            return true;
+        }
+        
+        // 召回上次驾驶员
+        private void RecallLastPilot()
+        {
+            if (lastPilot == null || IsFull || !IsPilotAvailableForRecall(lastPilot))
+            {
+                return;
+            }
+            
+            Job job = JobMaker.MakeJob(Wula_JobDefOf.WULA_EnterMech, parent);
+            lastPilot.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        }
 
         public CompMechPilotHolder()
         {
             innerContainer = new ThingOwner<Pawn>(this);
         }
 
-        // 修改：弹出所有驾驶员时取消Hediff同步
         public void RemoveAllPilots(IntVec3? exitPos = null)
         {
-            // 记录是否有驾驶员
             bool hadPilots = HasPilots;
 
-            // 复制列表以避免迭代时修改的问题
             var pilotsToRemove = innerContainer.ToList();
 
-            // 先取消所有Hediff同步
             foreach (var thing in pilotsToRemove)
             {
                 if (thing is Pawn pawn)
@@ -664,7 +661,6 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 然后移除所有驾驶员
             foreach (var thing in pilotsToRemove)
             {
                 if (thing is Pawn pawn)
@@ -673,14 +669,12 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 如果有机甲并且原来有驾驶员，现在没有了，停止工作
             if (hadPilots && parent is Pawn mech)
             {
                 StopMechJobs();
             }
         }
 
-        // 修改：专门用于死亡/销毁时弹出驾驶员的方法，取消Hediff同步
         public void EjectAllPilotsOnDeath()
         {
             if (isProcessingDestruction)
@@ -695,7 +689,6 @@ namespace WulaFallenEmpire
                     return;
                 }
 
-                // 先取消所有Hediff同步
                 var pilots = innerContainer.ToList();
                 foreach (var thing in pilots)
                 {
@@ -705,26 +698,14 @@ namespace WulaFallenEmpire
                     }
                 }
 
-                // 获取安全位置
                 IntVec3 ejectPos = FindSafeEjectPosition();
 
-                // 弹出所有驾驶员
                 foreach (var thing in pilots)
                 {
                     if (thing is Pawn pawn)
                     {
-                        // 从容器中移除
                         innerContainer.Remove(pawn);
-
-                        // 尝试生成到地图上
-                        if (TrySpawnPilotAtPosition(pawn, ejectPos))
-                        {
-                            // 驾驶员成功弹出
-                        }
-                        else
-                        {
-                            Log.Error($"[WULA] 无法弹出驾驶员: {pawn.LabelShort}");
-                        }
+                        TrySpawnPilotAtPosition(pawn, ejectPos);
                     }
                 }
             }
@@ -744,10 +725,8 @@ namespace WulaFallenEmpire
             if (map == null)
                 return parent.Position;
 
-            // 优先选择机甲周围的安全位置
             IntVec3 pos = parent.Position;
 
-            // 如果当前位置不安全，查找周围安全位置
             if (!pos.Walkable(map) || pos.Fogged(map))
             {
                 for (int i = 1; i <= 5; i++)
@@ -762,7 +741,6 @@ namespace WulaFallenEmpire
                 }
             }
 
-            // 如果周围没有安全位置，使用随机位置
             if (!pos.Walkable(map) || pos.Fogged(map))
             {
                 CellFinder.TryFindRandomCellNear(pos, map, 10,
@@ -782,7 +760,6 @@ namespace WulaFallenEmpire
                 return false;
             }
 
-            // 尝试在指定位置生成
             try
             {
                 if (GenGrid.InBounds(position, map) && position.Walkable(map) && !position.Fogged(map))
@@ -791,7 +768,6 @@ namespace WulaFallenEmpire
                     return true;
                 }
 
-                // 如果指定位置不行，找附近的位置
                 IntVec3 spawnPos;
                 if (RCellFinder.TryFindRandomCellNearWith(position,
                     cell => cell.Walkable(map) && !cell.Fogged(map),
@@ -801,7 +777,6 @@ namespace WulaFallenEmpire
                     return true;
                 }
 
-                // 实在找不到位置，就在任意位置生成
                 CellFinder.TryFindRandomCellNear(position, map, 20,
                     cell => cell.Walkable(map) && !cell.Fogged(map),
                     out spawnPos);
@@ -855,10 +830,8 @@ namespace WulaFallenEmpire
             }
         }
 
-        // 关键修复：重写销毁相关方法
         public override void PostDestroy(DestroyMode mode, Map previousMap)
         {
-            // 先弹出所有驾驶员并取消Hediff同步
             if (HasPilots)
             {
                 EjectAllPilotsOnDeath();
@@ -867,7 +840,6 @@ namespace WulaFallenEmpire
             base.PostDestroy(mode, previousMap);
         }
 
-        // IThingHolder 接口实现
         public ThingOwner GetDirectlyHeldThings()
         {
             return innerContainer;
@@ -878,32 +850,26 @@ namespace WulaFallenEmpire
             ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, GetDirectlyHeldThings());
         }
 
-        // 修改：显示驾驶员选择菜单，包含无法行动的殖民者
         private void ShowPilotSelectionMenu()
         {
-            // 修复：确保parent是Wulamechunit类型
             if (!(parent is Wulamechunit mech))
                 return;
 
             List<FloatMenuOption> options = new List<FloatMenuOption>();
 
-            // 获取所有可用的殖民者（包括无法行动的）
             var allColonists = mech.Map.mapPawns.FreeColonists
                 .Where(p => CanAddPilot(p))
                 .ToList();
 
-            // 分类：能够行动和无法行动的
             var ableColonists = allColonists.Where(p => CanPawnMoveToMech(p, mech)).ToList();
             var disabledColonists = allColonists.Where(p => !CanPawnMoveToMech(p, mech)).ToList();
 
-            // 为能够行动的殖民者创建选项
             if (ableColonists.Count == 0 && disabledColonists.Count == 0)
             {
                 options.Add(new FloatMenuOption("WULA_NoAvailablePilots".Translate(), null));
             }
             else
             {
-                // 能够行动的殖民者：直接进入
                 foreach (var colonist in ableColonists)
                 {
                     string colonistLabel = colonist.LabelShortCap;
@@ -914,20 +880,12 @@ namespace WulaFallenEmpire
                         action,
                         colonist,
                         Color.white,
-                        MenuOptionPriority.Default,
-                        null,
-                        null,
-                        0f,
-                        null,
-                        null,
-                        true,
-                        0
+                        MenuOptionPriority.Default
                     );
 
                     options.Add(option);
                 }
 
-                // 无法行动的殖民者：需要搬运
                 foreach (var colonist in disabledColonists)
                 {
                     string colonistLabel = colonist.LabelShortCap + " " + "WULA_DisabledColonistRequiresCarry".Translate();
@@ -938,14 +896,7 @@ namespace WulaFallenEmpire
                         action,
                         colonist,
                         Color.yellow,
-                        MenuOptionPriority.Default,
-                        null,
-                        null,
-                        0f,
-                        null,
-                        null,
-                        true,
-                        0
+                        MenuOptionPriority.Default
                     );
 
                     options.Add(option);
@@ -957,22 +908,18 @@ namespace WulaFallenEmpire
 
         private void OrderColonistToEnterMech(Pawn colonist)
         {
-            // 修复：确保parent是Wulamechunit类型
             if (!(parent is Wulamechunit mech) || colonist == null)
                 return;
 
-            // 为殖民者安排进入机甲的工作
             Job job = JobMaker.MakeJob(Wula_JobDefOf.WULA_EnterMech, mech);
             colonist.jobs.TryTakeOrderedJob(job, JobTag.Misc);
         }
 
-        // 新增：为残疾殖民者安排搬运工作
         private void OrderCarryDisabledColonistToMech(Pawn disabledColonist)
         {
             if (!(parent is Wulamechunit mech) || disabledColonist == null)
                 return;
 
-            // 寻找最近的、能够搬运的殖民者
             Pawn carrier = FindClosestAvailableCarrier(disabledColonist, mech);
             
             if (carrier == null)
@@ -982,7 +929,6 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // 为搬运者安排搬运工作
             Job job = JobMaker.MakeJob(Wula_JobDefOf.WULA_CarryToMech, disabledColonist, mech);
             carrier.jobs.TryTakeOrderedJob(job, JobTag.Misc);
             
@@ -990,13 +936,11 @@ namespace WulaFallenEmpire
                 parent, MessageTypeDefOf.PositiveEvent);
         }
 
-        // 新增：寻找最近的可用搬运者
         private Pawn FindClosestAvailableCarrier(Pawn disabledColonist, Wulamechunit mech)
         {
             if (disabledColonist.Map == null)
                 return null;
 
-            // 寻找能够行动的殖民者，并且能够搬运
             var potentialCarriers = disabledColonist.Map.mapPawns.FreeColonists
                 .Where(p => p != disabledColonist && !p.Downed && 
                            p.CanReserveAndReach(disabledColonist, PathEndMode.OnCell, Danger.Deadly, 1, -1, null, false) &&
@@ -1006,7 +950,6 @@ namespace WulaFallenEmpire
             if (potentialCarriers.Count == 0)
                 return null;
 
-            // 选择最近的殖民者
             return potentialCarriers
                 .OrderBy(p => p.Position.DistanceTo(disabledColonist.Position))
                 .FirstOrDefault();
