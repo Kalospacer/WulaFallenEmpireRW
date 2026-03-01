@@ -50,7 +50,7 @@
     <stateClass>WulaFallenEmpire.MentalState_MechNoPilot</stateClass>
     <category>Misc</category>
     <nameColor>(0.65, 0.9, 0.93)</nameColor>
-    <baseInspectLine>No driver</baseInspectLine>
+    <baseInspectLine>无驾驶员</baseInspectLine>
     <!-- <beginLetter>{PAWN_nameDef} has no pilot and cannot operate autonomously. It will stand idle until a pilot takes control.</beginLetter> -->
     <blockNormalThoughts>true</blockNormalThoughts>
     <downedCanDo>true</downedCanDo>

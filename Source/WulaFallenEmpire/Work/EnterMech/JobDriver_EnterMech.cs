@@ -65,8 +65,12 @@ namespace WulaFallenEmpire
                 if (comp != null && comp.CanAddPilot(pawn))
                 {
                     comp.AddPilot(pawn);
-                    Messages.Message("WULA_PilotEnteredMech".Translate(pawn.LabelShort, mech.LabelShort),
-                        MessageTypeDefOf.PositiveEvent, false);
+                    if (mech.drafter != null && !mech.Drafted)
+                    {
+                        mech.drafter.Drafted = true;
+                    }
+                    //Messages.Message("WULA_PilotEnteredMech".Translate(pawn.LabelShort, mech.LabelShort),
+                    //    MessageTypeDefOf.PositiveEvent, false);
                 }
             };
             enterToil.defaultCompleteMode = ToilCompleteMode.Instant;

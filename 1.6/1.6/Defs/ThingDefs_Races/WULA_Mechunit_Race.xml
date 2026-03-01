@@ -167,6 +167,17 @@
         <summonPilotIcon>Wula/UI/Commands/WULA_Enter_Mech</summonPilotIcon>
         <ejectPilotIcon>Wula/UI/Commands/WULA_Exit_Mech</ejectPilotIcon>
       </li>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MechCrewHolder">
+        <maxCrew>6</maxCrew>
+        <boardingRadius>10</boardingRadius>
+        <maxPawnSize>2.5</maxPawnSize>
+        <allowMechanoids>true</allowMechanoids>
+        <draftOnExit>true</draftOnExit>
+        
+        <boardCrewIcon>Wula/UI/Commands/WULA_BoardCrew</boardCrewIcon>
+        <exitCrewIcon>Wula/UI/Commands/WULA_ExitCrew</exitCrewIcon>
+      </li> -->
+      
       <li Class="WulaFallenEmpire.CompProperties_MechFuel">
         <fuelType>Chemfuel</fuelType>
         <fuelCapacity>70</fuelCapacity>
