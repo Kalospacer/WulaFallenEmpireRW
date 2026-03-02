@@ -105,6 +105,7 @@
     <Compile Include="Pawn_Comps\MechCrewHolder\CompProperties_MechCrewHolder.cs" />
     <Compile Include="Pawn_Comps\PawnRenderExtra\Comp_PawnRenderExtra.cs" />
     <Compile Include="Pawn_Comps\HighSpeedCollision\CompHighSpeedCollision.cs" />
+    <Compile Include="Verb\Verb_TurretOffestShoot.cs" />
     <Compile Include="Work\BoardMech\FloatMenuOptionProvider_BoardMech.cs" />
     <Compile Include="Work\BoardMech\JobDriver_BoardMech.cs" />
     <Compile Include="Work\EnterMech\FloatMenuOptionProvider_EnterMech.cs" />

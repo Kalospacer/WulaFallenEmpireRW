@@ -150,7 +150,7 @@
     </statBases>
     <verbs>
       <li>
-        <verbClass>WulaFallenEmpire.Verb_ShootWithOffset</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_TurretOffestShoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_Wula_MR_Mobile_Factory_Turret</defaultProjectile>
         <warmupTime>0</warmupTime>
@@ -218,7 +218,7 @@
     </statBases>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_TurretOffestShoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_Wula_LR_Mobile_Factory_Turret</defaultProjectile>
         <warmupTime>0</warmupTime>
