@@ -413,7 +413,7 @@
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon</defName>
-    <label>穿透光束</label>
+    <label>青金石晶化弹</label>
     <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
@@ -442,7 +442,6 @@
       <stoppingPower>1</stoppingPower>
     </projectile>
   </ThingDef>
-
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Wula_AI_Heavy_Panzer_Main_Weapon</defName>
     <label>SDm-2"月长石"</label>
