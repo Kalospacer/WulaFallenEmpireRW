@@ -367,7 +367,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_AI_Heavy_Panzer_Turret_Weapon</defName>
     <label>ATt-2"青金石"</label>
-    <description>HAp-6"战车"的炮塔，可以从极远距离上精准地点杀高价值目标。</description>
+    <description>HAp-6"巨戟"的炮塔，两门可以洞穿护盾的晶化炮就是为打击护盾目标量身定做的。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <techLevel>Ultra</techLevel>
@@ -386,14 +386,14 @@
     </statBases>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_TurretOffestShoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon</defaultProjectile>
         <warmupTime>0</warmupTime>
         <minRange>5.9</minRange>
         <range>60</range>
-        <defaultCooldownTime>4</defaultCooldownTime>
-        <burstShotCount>1</burstShotCount>
+        <defaultCooldownTime>1</defaultCooldownTime>
+        <burstShotCount>2</burstShotCount>
         <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
         <requireLineOfSight>true</requireLineOfSight>
         <soundCast>WULA_MW_Mass_Drivers_Shootingsound</soundCast>
@@ -402,16 +402,18 @@
         <canGoWild>false</canGoWild>
       </li>
     </verbs>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
+        <offsets>
+          <li>(0.62, -4.1)</li>
+          <li>(-0.62, -4.1)</li>
+        </offsets>
+      </li>
+    </modExtensions>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon</defName>
-    <label>青金石钢针弹</label>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Bullet_Needle_AT</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>MoteGlow</shaderType>
-      <drawSize>2.5</drawSize>
-    </graphicData>
+    <label>穿透光束</label>
     <thingClass>WulaFallenEmpire.Projectile_WulaLineAttack</thingClass>
     <modExtensions>
       <li Class="WulaFallenEmpire.Wula_PathPierce_Extension">
@@ -423,14 +425,24 @@
         <impactEffecter>Bullet_WULA_RW_Fractal_RF_Hit</impactEffecter>
       </li>
     </modExtensions>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <graphicData>
+      <texPath>Things/Projectile/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <color>(70, 221, 234, 255)</color>
+      <drawSize>(2.5,6)</drawSize>
+    </graphicData>
     <projectile>
-      <damageDef>WULA_Armour_Piercing_Projectile_3_Damage</damageDef>
-      <damageAmountBase>100</damageAmountBase>
-      <speed>120</speed>
-      <explosionRadius>1.2</explosionRadius>
-      <armorPenetrationBase>1.5</armorPenetrationBase>
+      <damageDef>WULA_RW_Handle_Cannon_Burn</damageDef>
+      <damageAmountBase>40</damageAmountBase>
+      <speed>130</speed>
+      <armorPenetrationBase>1</armorPenetrationBase>
+      <stoppingPower>1</stoppingPower>
     </projectile>
   </ThingDef>
+
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Wula_AI_Heavy_Panzer_Main_Weapon</defName>
     <label>SDm-2"月长石"</label>
@@ -482,11 +494,11 @@
     </weaponTags>
     <thingCategories Inherit="False"/>
     <comps>
-      <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
         <allowedMechRaces>
           <li>Wula_AI_Heavy_Panzer</li>
         </allowedMechRaces>
-      </li>
+      </li> -->
     </comps>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">

@@ -172,7 +172,7 @@
 
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_AI_Heavy_Panzer</defName> <!-- 修改了defName以避免冲突 -->
-    <label>HAp-6"战车"</label>
+    <label>HAp-6"巨戟"</label>
     <race>Wula_AI_Heavy_Panzer</race>
     <combatPower>500</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
@@ -204,9 +204,6 @@
     <weaponMoney>99999~99999</weaponMoney>
 
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
-    <weaponTags>
-      <li>Wula_AI_Heavy_Panzer_Weapon</li>
-    </weaponTags>
   </PawnKindDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_AI_Rocket_Panzer</defName> <!-- 修改了defName以避免冲突 -->

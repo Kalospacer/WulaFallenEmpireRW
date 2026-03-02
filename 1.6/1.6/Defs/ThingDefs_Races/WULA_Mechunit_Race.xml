@@ -68,8 +68,8 @@
 
   <ThingDef ParentName="Wula_MechunitBase">
     <defName>Wula_AI_Heavy_Panzer</defName>
-    <label>HAp-6"战车"</label>
-    <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用破坏力巨大的自动炮和车体臼炮打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
+    <label>HAp-6"巨戟"</label>
+    <description>乌拉帝国的中型构装体，以悬浮的方式穿梭于战场之上，使用拥有强大穿透力且射速较快的双联晶化炮打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
     <statBases>
       <MoveSpeed>2</MoveSpeed>
       <EnergyShieldEnergyMax>2</EnergyShieldEnergyMax>
@@ -120,7 +120,7 @@
         <aimTicks>0</aimTicks>
         <idleRotationSpeed>3</idleRotationSpeed>
         <smoothRotation>true</smoothRotation>
-        <resetCooldownTime>7</resetCooldownTime>
+        <resetCooldownTime>1.2</resetCooldownTime>
         <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
           <li>
