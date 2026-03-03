@@ -372,4 +372,75 @@
       <li Class="HediffCompProperties_DisappearsOnDeath" />
     </comps>
   </HediffDef>
+
+  <HediffDef>
+    <defName>Wula_TerrainBlocked</defName>
+    <label>地形阻挡</label>
+    <description>虽然乌拉族的大部分构装体采用反重力悬浮可以无视崎岖地表，但是其庞大的身躯依然会导致其在狭窄地形中难以行动。</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <maxSeverity>1</maxSeverity>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <minSeverity>0.1</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.9</MoveSpeed>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.2</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.8</MoveSpeed>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.3</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.7</MoveSpeed>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.4</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.6</MoveSpeed>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.5</MoveSpeed>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.6</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.4</MoveSpeed>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.7</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.3</MoveSpeed>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.8</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.2</MoveSpeed>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.9</minSeverity>
+        <statFactors>
+          <MoveSpeed>0.1</MoveSpeed>
+        </statFactors>
+      </li>
+    </stages>
+    <comps>
+      <li Class="WulaFallenEmpire.HediffCompProperties_TerrainBlocked">
+        <maxSpeedPenalty>0.75</maxSpeedPenalty>
+        <checkIntervalTicks>60</checkIntervalTicks>
+      </li>
+    </comps>
+  </HediffDef>
 </Defs>

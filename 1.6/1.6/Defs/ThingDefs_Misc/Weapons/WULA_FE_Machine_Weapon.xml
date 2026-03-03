@@ -438,14 +438,14 @@
       <damageDef>WULA_RW_Handle_Cannon_Burn</damageDef>
       <damageAmountBase>40</damageAmountBase>
       <speed>130</speed>
-      <armorPenetrationBase>1</armorPenetrationBase>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
       <stoppingPower>1</stoppingPower>
     </projectile>
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>Wula_AI_Heavy_Panzer_Main_Weapon</defName>
-    <label>SDm-2"月长石"</label>
-    <description>HAp-6"战车"车体正面的突击炮，射程很短并且只能在静止状态开火，但是威力巨大，专门用于对付坚固的工事和成片的人群。</description>
+    <label>目标标定器</label>
+    <description>HAp-6"巨戟"车体上的测距器，可以确保其炮塔在可以开火的最佳距离，被其瞄准的目标会成为炮塔的优先攻击目标。</description>
     <tickerType>Normal</tickerType>
     <techLevel>Spacer</techLevel>
     <tradeability>None</tradeability>
@@ -466,87 +466,43 @@
       <AccuracyShort>1</AccuracyShort>
       <AccuracyMedium>1</AccuracyMedium>
       <AccuracyLong>1</AccuracyLong>
-      <RangedWeapon_Cooldown>3.5</RangedWeapon_Cooldown>
+      <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
     </statBases>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_RangeChecker</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_Wula_AI_Heavy_Panzer_Main_Weapon</defaultProjectile>
-        <warmupTime>2</warmupTime>
-        <range>21</range>
+        <defaultProjectile>Bullet_ChargeRifle</defaultProjectile>
+        <minRange>5.9</minRange>
+        <range>60</range>
+        <warmupTime>0.2</warmupTime>
         <burstShotCount>1</burstShotCount>
-        <forcedMissRadius>1</forcedMissRadius>
-        <soundCast>RocketswarmLauncher_Fire</soundCast>
-        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <!-- <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail> -->
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
       </li>
     </verbs>
     <costList Inherit="False">
-      <Steel>200</Steel>
-      <ComponentIndustrial>12</ComponentIndustrial>
+      <Steel>1</Steel>
     </costList>
     <weaponTags Inherit="False">
       <li>Wula_AI_Heavy_Panzer_Weapon</li>
     </weaponTags>
     <thingCategories Inherit="False"/>
     <comps>
-      <!-- <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
+      <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
         <allowedMechRaces>
           <li>Wula_AI_Heavy_Panzer</li>
         </allowedMechRaces>
-      </li> -->
+      </li>
     </comps>
-  </ThingDef>
-  <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_Wula_AI_Heavy_Panzer_Main_Weapon</defName>
-    <label>月长石炮弹</label>
-    <drawerType>RealtimeOnly</drawerType>
-    <graphicData>
-      <texPath>Wula/Projectile/WULA_Shrapnel</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2,2)</drawSize>
-    </graphicData>
-    <thingClass>WulaFallenEmpire.Projectile_NorthArcTrail</thingClass>
-    <tickerType>Normal</tickerType>
-    <neverMultiSelect>True</neverMultiSelect>
-    <projectile>
-      <damageDef>WULA_GiantBomb</damageDef>
-      <damageAmountBase>65</damageAmountBase>
-      <speed>25</speed>
-      <explosionRadius>6</explosionRadius>
-      <armorPenetrationBase>1.5</armorPenetrationBase>
-      <flyOverhead>true</flyOverhead>
-      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
-      <soundExplode>MortarBomb_Explode</soundExplode>
-      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
-      <soundAmbient>MortarRound_Ambient</soundAmbient>
-      <stoppingPower>10</stoppingPower>
-      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
-    </projectile>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.NorthArcModExtension">
-        <northOffsetDistance>5</northOffsetDistance>
-        <curveSteepness>1.0</curveSteepness>
-        <useArcTrajectory>true</useArcTrajectory>
-      </li>
-      <li Class="WulaFallenEmpire.TrackingBulletDef">
-        <tailFleckDef>WULA_Smoke_Tail</tailFleckDef>
-        <fleckMakeFleckTickMax>5</fleckMakeFleckTickMax>
-        <fleckDelayTicks>1</fleckDelayTicks>
-        <fleckMakeFleckNum>1~2</fleckMakeFleckNum>
-        <fleckScale>0.5~1.0</fleckScale>
-        <fleckSpeed>0.1~0.3</fleckSpeed>
-        <fleckAngle>-30~30</fleckAngle>
-      </li>
-    </modExtensions>
   </ThingDef>
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_AI_Rocket_Panzer_Turret_Weapon</defName>
     <label>FRt-1"火欧泊"</label>
-    <description>HRp-3"喷火战车"的炮塔，可以一次性发射大量的火箭弹。</description>
+    <description>HRp-3"炎霖"的炮塔，可以一次性发射大量的火箭弹。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <techLevel>Ultra</techLevel>
@@ -565,7 +521,7 @@
     </statBases>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>WulaFallenEmpire.Verb_TurretOffestShoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>Bullet_Wula_AI_Rocket_Panzer_Turret_Weapon</defaultProjectile>
         <warmupTime>0</warmupTime>
@@ -581,6 +537,14 @@
         <muzzleFlashScale>18</muzzleFlashScale>
       </li>
     </verbs>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
+        <offsets>
+          <li>(0.62, -4.1)</li>
+          <li>(-0.62, -4.1)</li>
+        </offsets>
+      </li>
+    </modExtensions>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>Bullet_Wula_AI_Rocket_Panzer_Turret_Weapon</defName>
@@ -610,7 +574,7 @@
     </projectile>
     <modExtensions>
       <li Class="WulaFallenEmpire.NorthArcModExtension">
-        <northOffsetDistance>6</northOffsetDistance>
+        <northOffsetDistance>18</northOffsetDistance>
         <curveSteepness>1.0</curveSteepness>
         <useArcTrajectory>true</useArcTrajectory>
       </li>
@@ -624,6 +588,64 @@
         <fleckAngle>-30~30</fleckAngle>
       </li>
     </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Wula_AI_Rocket_Panzer_Main_Weapon</defName>
+    <label>目标标定器</label>
+    <description>HRp-3"炎霖"车体上的测距器，可以确保其炮塔在可以开火的最佳距离，被其瞄准的目标会成为炮塔的优先攻击目标。</description>
+    <tickerType>Normal</tickerType>
+    <techLevel>Spacer</techLevel>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <uiIconPath>Wula/Projectile/WULA_Shrapnel</uiIconPath>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.35</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker Inherit="False" IsNull="True"/>
+    <statBases>
+      <WorkToMake>2500</WorkToMake>
+      <!-- <MarketValue>370</MarketValue> -->
+      <Mass>8</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>1</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>WulaFallenEmpire.Verb_RangeChecker</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_ChargeRifle</defaultProjectile>
+        <minRange>12</minRange>
+        <range>79</range>
+        <warmupTime>0.2</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <requireLineOfSight>false</requireLineOfSight>
+        <!-- <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail> -->
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <costList Inherit="False">
+      <Steel>1</Steel>
+    </costList>
+    <weaponTags Inherit="False">
+      <li>Wula_AI_Rocket_Panzer_Weapon</li>
+    </weaponTags>
+    <thingCategories Inherit="False"/>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
+        <allowedMechRaces>
+          <li>Wula_AI_Rocket_Panzer</li>
+        </allowedMechRaces>
+      </li>
+    </comps>
   </ThingDef>
 
   <ThingDef ParentName="BaseHumanMakeableGun">

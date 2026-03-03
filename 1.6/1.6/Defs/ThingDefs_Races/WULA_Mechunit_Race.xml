@@ -81,6 +81,8 @@
       <ArmorRating_Sharp>1</ArmorRating_Sharp>
       <ArmorRating_Blunt>1</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
+
+      <WULA_MechArmor>3</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -118,7 +120,7 @@
         <turretDef>Wula_AI_Heavy_Panzer_Turret_Weapon</turretDef>
         <traverseSpeed>20</traverseSpeed>
         <aimTicks>0</aimTicks>
-        <idleRotationSpeed>3</idleRotationSpeed>
+        <idleRotationSpeed>6</idleRotationSpeed>
         <smoothRotation>true</smoothRotation>
         <resetCooldownTime>1.2</resetCooldownTime>
         <!-- <angleOffset>-90</angleOffset> -->
@@ -328,6 +330,12 @@
         <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
         <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
         <landingSound>PawnFlyerLand</landingSound>
+      
+        <!-- 地形阻挡配置 -->
+        <narrowTerrainBlocked>true</narrowTerrainBlocked>
+        <maxBlockPenalty>1</maxBlockPenalty>
+        <terrainCheckInterval>60</terrainCheckInterval>
+        <blockedHediff>Wula_TerrainBlocked</blockedHediff>
         
         <!-- 调试 -->
         <enableDebugLogging>false</enableDebugLogging>
@@ -338,8 +346,8 @@
   </ThingDef>
   <ThingDef ParentName="Wula_MechunitBase">
     <defName>Wula_AI_Rocket_Panzer</defName>
-    <label>HRp-3"喷火战车"</label>
-    <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有车体臼炮和两具可以发射大量燃烧火箭弹的转轮导弹巢。</description>
+    <label>HRp-3"炎霖"</label>
+    <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，可以在远距离上使用火箭弹巢发射漫天的弹幕，用纯粹的火力淹没敌方集群。</description>
     <statBases>
       <MoveSpeed>2</MoveSpeed>
       <EnergyShieldEnergyMax>2</EnergyShieldEnergyMax>
@@ -351,6 +359,8 @@
       <ArmorRating_Sharp>1</ArmorRating_Sharp>
       <ArmorRating_Blunt>1</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
+
+      <WULA_MechArmor>3</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -390,7 +400,7 @@
         <aimTicks>0</aimTicks>
         <idleRotationSpeed>8</idleRotationSpeed>
         <smoothRotation>true</smoothRotation>
-        <resetCooldownTime>10</resetCooldownTime>
+        <resetCooldownTime>12.2</resetCooldownTime>
         <!-- <angleOffset>-90</angleOffset> -->
         <!-- <angleOffset>-90</angleOffset> -->
         <renderNodeProperties>
@@ -463,7 +473,7 @@
         <repairEffect>ConstructMetal</repairEffect>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MechInherentWeapon">
-        <weaponDef>Wula_AI_Heavy_Panzer_Main_Weapon</weaponDef>
+        <weaponDef>Wula_AI_Rocket_Panzer_Main_Weapon</weaponDef>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MechDefaultPilot">
         <enableForNonPlayerFaction>true</enableForNonPlayerFaction>

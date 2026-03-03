@@ -204,10 +204,13 @@
     <weaponMoney>99999~99999</weaponMoney>
 
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+    <weaponTags>
+      <li>Wula_AI_Heavy_Panzer_Weapon</li>
+    </weaponTags>
   </PawnKindDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_AI_Rocket_Panzer</defName> <!-- 修改了defName以避免冲突 -->
-    <label>HRp-3"喷火战车"</label>
+    <label>HRp-3"炎霖"</label>
     <race>Wula_AI_Rocket_Panzer</race>
     <combatPower>500</combatPower>
     <allowInMechClusters>false</allowInMechClusters>
@@ -239,7 +242,7 @@
 
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
     <weaponTags>
-      <li>Wula_AI_Heavy_Panzer_Weapon</li>
+      <li>Wula_AI_Rocket_Panzer_Weapon</li>
     </weaponTags>
   </PawnKindDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">

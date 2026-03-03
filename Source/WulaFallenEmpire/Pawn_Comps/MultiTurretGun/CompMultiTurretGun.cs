@@ -48,9 +48,9 @@ namespace WulaFallenEmpire
         private int lastAttackTargetTick;
         
         // 集中火力目标
-        private static LocalTargetInfo focusTarget = LocalTargetInfo.Invalid;
-        private static int lastFocusSetTick = 0;
-        private static Thing lastFocusPawn = null;
+        public static LocalTargetInfo focusTarget = LocalTargetInfo.Invalid;
+        public static int lastFocusSetTick = 0;
+        public static Thing lastFocusPawn = null;
         
         // Gizmo 缓存
         private Command_Toggle cachedGizmo;
@@ -278,8 +278,8 @@ namespace WulaFallenEmpire
                 }
             }
         }
-        
-        private void TryAcquireTarget()
+
+        public void TryAcquireTarget()
         {
             // 1. 首先检查是否有集中火力目标且可以对其开火
             if (focusTarget.IsValid && focusTarget.Thing != null && focusTarget.Thing.Spawned)
@@ -690,7 +690,7 @@ namespace WulaFallenEmpire
             if (IsMasterTurret)
             {
                 // 如果有集中火力目标，添加清除按钮
-                if (focusTarget.IsValid && lastFocusPawn == parent)
+                if (focusTarget.IsValid && focusTarget != null && lastFocusPawn == parent)
                 {
                     cachedFocusGizmo.defaultLabel = "Wula_ClearFocus".Translate();
                     cachedFocusGizmo.defaultDesc = "Wula_ClearFocusDesc".Translate();
@@ -713,7 +713,7 @@ namespace WulaFallenEmpire
         private void ShowTargetSelectMenu()
         {
             // 如果已经有集中火力目标，清除它
-            if (focusTarget.IsValid && lastFocusPawn == parent)
+            if (focusTarget.IsValid && focusTarget != null && lastFocusPawn == parent)
             {
                 focusTarget = LocalTargetInfo.Invalid;
                 return;

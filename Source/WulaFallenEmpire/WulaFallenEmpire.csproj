@@ -97,6 +97,7 @@
     <Compile Include="HediffComp\WULA_RegenerateBackstory\HediffComp_RegenerateBackstory.cs" />
     <Compile Include="HediffComp\WULA_SwitchableHediff\HediffCompProperties_SwitchableHediff.cs" />
     <Compile Include="HediffComp\WULA_SyncedWithMech\HediffCompProperties_SyncedWithMech.cs" />
+    <Compile Include="HediffComp\WULA_TerrainBlocked\HediffComp_TerrainBlocked.cs" />
     <Compile Include="HediffComp\WULA_TimedExplosion\HediffComp_TimedExplosion.cs" />
     <Compile Include="ITab\ITab_MechSkills.cs" />
     <Compile Include="MentalState\MentalState_MechNoPilot.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Pawn_Comps\MechCrewHolder\CompProperties_MechCrewHolder.cs" />
     <Compile Include="Pawn_Comps\PawnRenderExtra\Comp_PawnRenderExtra.cs" />
     <Compile Include="Pawn_Comps\HighSpeedCollision\CompHighSpeedCollision.cs" />
+    <Compile Include="Verb\Verb_RangeChecker.cs" />
     <Compile Include="Verb\Verb_TurretOffestShoot.cs" />
     <Compile Include="Work\BoardMech\FloatMenuOptionProvider_BoardMech.cs" />
     <Compile Include="Work\BoardMech\JobDriver_BoardMech.cs" />

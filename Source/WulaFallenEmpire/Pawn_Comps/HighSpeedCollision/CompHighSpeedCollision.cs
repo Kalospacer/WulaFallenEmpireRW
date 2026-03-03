@@ -36,7 +36,11 @@ namespace WulaFallenEmpire
         // === 缓存 ===
         private CellRect collisionAreaCache = default;
         private int lastAreaRecalculationTick = -1;
-        
+
+        // === 地形阻挡相关 ===
+        private float currentTerrainBlockSeverity = 0f;
+        private int lastTerrainCheckTick = -1;
+
         public CompProperties_HighSpeedCollision Props => (CompProperties_HighSpeedCollision)props;
         
         public override void PostSpawnSetup(bool respawningAfterLoad)
@@ -53,29 +57,169 @@ namespace WulaFallenEmpire
             lastPosition = parent.Position;
             lastPositionTick = Find.TickManager.TicksGame;
         }
-        
+
+
         public override void CompTick()
         {
             base.CompTick();
-            
+
             if (!parent.Spawned || parent.Destroyed)
                 return;
-            
+
             Pawn pawn = parent as Pawn;
             if (pawn == null || pawn.Dead || pawn.Downed)
-                return;
-            
-            // 检查是否死亡或不能移动
-            if (!CanMove(pawn))
             {
                 ResetToStage0();
                 return;
             }
-            
+
             // 每帧更新
             ProcessFrame(pawn);
+
+            // 地形阻挡检查（降低频率）
+            if (Props.narrowTerrainBlocked &&
+                (Find.TickManager.TicksGame - lastTerrainCheckTick >= Props.terrainCheckInterval))
+            {
+                UpdateTerrainBlockStatus(pawn);
+                lastTerrainCheckTick = Find.TickManager.TicksGame;
+            }
         }
-        
+        /// <summary>
+        /// 更新地形阻挡状态
+        /// </summary>
+        private void UpdateTerrainBlockStatus(Pawn pawn)
+        {
+            if (!Props.narrowTerrainBlocked || Props.maxBlockPenalty <= 0f)
+            {
+                currentTerrainBlockSeverity = 0f;
+                UpdateBlockedHediff(pawn, 0f);
+                return;
+            }
+            // 获取碰撞区域
+            CellRect collisionArea = GetCollisionArea(pawn);
+            // 统计空闲格子和被占据格子
+            int totalCells = 0;
+            int occupiedCells = 0;
+            foreach (IntVec3 cell in collisionArea)
+            {
+                if (!cell.InBounds(pawn.Map))
+                    continue;
+                totalCells++;
+                // 检查是否被不可通行建筑占据
+                if (IsCellBlockedByImpassable(cell, pawn.Map))
+                {
+                    occupiedCells++;
+                }
+            }
+            // 计算阻挡严重度
+            float blockSeverity = CalculateBlockSeverity(totalCells, occupiedCells);
+            // 立即设置阻挡严重度（移除平滑过渡）
+            currentTerrainBlockSeverity = blockSeverity;
+            // 更新Hediff
+            UpdateBlockedHediff(pawn, currentTerrainBlockSeverity);
+            // 调试日志
+            if (Props.enableDebugLogging && currentTerrainBlockSeverity > 0.01f)
+            {
+                Log.Message($"[HighSpeedCollision] Terrain Block: {pawn.Label}, " +
+                           $"Occupied: {occupiedCells}/{totalCells}, " +
+                           $"Severity: {currentTerrainBlockSeverity:P0}");
+            }
+        }
+
+        /// <summary>
+        /// 检查单元格是否被不可通行建筑占据
+        /// </summary>
+        private bool IsCellBlockedByImpassable(IntVec3 cell, Map map)
+        {
+            // 获取单元格内的所有建筑
+            var things = cell.GetThingList(map);
+            foreach (var thing in things)
+            {
+                if (thing is Building building)
+                {
+                    // 检查是否可通行
+                    if (building.def.passability == Traversability.Impassable)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 计算阻挡严重度
+        /// </summary>
+        private float CalculateBlockSeverity(int totalCells, int occupiedCells)
+        {
+            if (totalCells == 0 || occupiedCells == 0)
+                return 0f;
+
+            int freeCells = totalCells - occupiedCells;
+            float freeRatio = (float)freeCells / totalCells;
+
+            // 使用公式：(1 - maxBlockPenalty) + maxBlockPenalty * (空闲格子/(空闲格子+被占据格子))
+            // 简化后：1 - maxBlockPenalty + maxBlockPenalty * (freeCells / totalCells)
+            // 但实际上，我们应该计算减速比例，然后转换为严重度
+            float speedMultiplier = (1f - Props.maxBlockPenalty) +
+                                   Props.maxBlockPenalty * (freeRatio);
+
+            // 严重度 = 1 - 速度乘数
+            return 1f - speedMultiplier;
+        }
+
+        /// <summary>
+        /// 平滑过渡
+        /// </summary>
+        private float SmoothTransition(float current, float target, float speed)
+        {
+            if (Mathf.Abs(current - target) < 0.01f)
+                return target;
+
+            return Mathf.Lerp(current, target, speed);
+        }
+
+        /// <summary>
+        /// 更新阻挡Hediff
+        /// </summary>
+        private void UpdateBlockedHediff(Pawn pawn, float severity)
+        {
+            if (Props.blockedHediff == null)
+                return;
+
+            // 获取或添加Hediff
+            Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(Props.blockedHediff);
+
+            if (severity <= 0.01f)
+            {
+                // 移除Hediff
+                if (hediff != null)
+                {
+                    pawn.health.RemoveHediff(hediff);
+                }
+                return;
+            }
+
+            // 添加或更新Hediff
+            if (hediff == null)
+            {
+                hediff = HediffMaker.MakeHediff(Props.blockedHediff, pawn);
+                pawn.health.AddHediff(hediff);
+            }
+
+            // 更新严重度
+            hediff.Severity = severity;
+        }
+
+        /// <summary>
+        /// 获取当前地形阻挡严重度（供HediffComp使用）
+        /// </summary>
+        public float GetCurrentTerrainBlockSeverity()
+        {
+            return currentTerrainBlockSeverity;
+        }
+
         /// <summary>
         /// 处理每帧逻辑
         /// </summary>
@@ -846,7 +990,28 @@ namespace WulaFallenEmpire
         /// 绘制速度历史图
         /// </summary>
         public bool debugDrawSpeedHistory = false;
-        
+
+        // === 狭窄地形阻挡配置 ===
+        /// <summary>
+        /// 是否启用狭窄地形阻挡
+        /// </summary>
+        public bool narrowTerrainBlocked = false;
+
+        /// <summary>
+        /// 最高阻挡减益值（0-1之间）
+        /// </summary>
+        public float maxBlockPenalty = 0.5f;
+
+        /// <summary>
+        /// 地形检查间隔（ticks）
+        /// </summary>
+        public int terrainCheckInterval = 60;
+
+        /// <summary>
+        /// 阻挡减益Hediff定义
+        /// </summary>
+        public HediffDef blockedHediff;
+
         public CompProperties_HighSpeedCollision()
         {
             compClass = typeof(CompHighSpeedCollision);
