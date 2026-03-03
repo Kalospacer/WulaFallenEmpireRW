@@ -477,6 +477,7 @@
         <range>60</range>
         <warmupTime>0.2</warmupTime>
         <burstShotCount>1</burstShotCount>
+        <noiseRadius>0</noiseRadius>
         <!-- <soundCast>RocketswarmLauncher_Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail> -->
         <targetParams>
@@ -540,8 +541,8 @@
     <modExtensions>
       <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
         <offsets>
-          <li>(0.62, -4.1)</li>
-          <li>(-0.62, -4.1)</li>
+          <li>(0.62, -0.5)</li>
+          <li>(-0.62, -0.5)</li>
         </offsets>
       </li>
     </modExtensions>
@@ -625,6 +626,7 @@
         <warmupTime>0.2</warmupTime>
         <burstShotCount>1</burstShotCount>
         <requireLineOfSight>false</requireLineOfSight>
+        <noiseRadius>0</noiseRadius>
         <!-- <soundCast>RocketswarmLauncher_Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail> -->
         <targetParams>

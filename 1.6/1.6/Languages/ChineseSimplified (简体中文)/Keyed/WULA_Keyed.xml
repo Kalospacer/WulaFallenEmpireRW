@@ -275,7 +275,7 @@
   <Wula_ToggleTurretgizmoDesc_Short>按下以切换此炮塔系统的开关。</Wula_ToggleTurretgizmoDesc_Short>
   <Wula_FocusCleared>已清除集火目标</Wula_FocusCleared>
   <Wula_FocusFire>集中攻击</Wula_FocusFire>
-  <Wula_FocusFireDesc>命令该单位所有的炮塔攻击指定目标。如果目标不处于某个炮塔的攻击范围或者无法攻击到目标，则其依然会自行索敌。</Wula_FocusFireDesc>
+  <Wula_FocusFireDesc>命令该单位所有的炮塔攻击指定目标。如果目标不处于某个炮塔的攻击范围或者无法攻击到目标，则其依然会自行索敌。\n\n如果已经存在一个优先目标，按下该按钮将取消其优先级。</Wula_FocusFireDesc>
   <Wula_ClearFocus>清除目标</Wula_ClearFocus>
   <Wula_ClearFocusDesc>清除指定的集中攻击目标，各炮塔将自行索敌。</Wula_ClearFocusDesc>
 

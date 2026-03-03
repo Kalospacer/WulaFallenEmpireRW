@@ -690,7 +690,7 @@ namespace WulaFallenEmpire
             if (IsMasterTurret)
             {
                 // 如果有集中火力目标，添加清除按钮
-                if (focusTarget.IsValid && focusTarget != null && lastFocusPawn == parent)
+                if (focusTarget.IsValid && focusTarget.Thing != null && lastFocusPawn == parent)
                 {
                     cachedFocusGizmo.defaultLabel = "Wula_ClearFocus".Translate();
                     cachedFocusGizmo.defaultDesc = "Wula_ClearFocusDesc".Translate();

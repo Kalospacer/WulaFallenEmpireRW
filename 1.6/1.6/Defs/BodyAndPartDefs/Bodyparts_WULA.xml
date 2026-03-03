@@ -94,7 +94,7 @@
     <destroyableByDamage>false</destroyableByDamage>
     <tags>
       <li>ConsciousnessSource</li>
-      <li>HearingSource</li>
+      <!-- <li>HearingSource</li> -->
       <li>ManipulationLimbCore</li>
     </tags>
   </BodyPartDef>
