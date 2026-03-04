@@ -78,11 +78,11 @@
       <MaxFlightTime>9999</MaxFlightTime>
       <FlightCooldown>0</FlightCooldown>
 
-      <ArmorRating_Sharp>1</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1</ArmorRating_Blunt>
+      <ArmorRating_Sharp>1.25</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.25</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
 
-      <WULA_MechArmor>3</WULA_MechArmor>
+      <WULA_MechArmor>4</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -302,7 +302,7 @@
         <stageTransitionCooldownTicks>3</stageTransitionCooldownTicks>
         
         <!-- 碰撞区域 -->
-        <collisionAreaRadius>3</collisionAreaRadius>
+        <collisionAreaRadius>2</collisionAreaRadius>
         
         <!-- 目标过滤 -->
         <onlyAffectEnemies>true</onlyAffectEnemies>
@@ -356,11 +356,11 @@
       <MaxFlightTime>9999</MaxFlightTime>
       <FlightCooldown>0</FlightCooldown>
 
-      <ArmorRating_Sharp>1</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1</ArmorRating_Blunt>
+      <ArmorRating_Sharp>1.25</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.25</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
 
-      <WULA_MechArmor>3</WULA_MechArmor>
+      <WULA_MechArmor>4</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -570,7 +570,7 @@
         <stageTransitionCooldownTicks>3</stageTransitionCooldownTicks>
         
         <!-- 碰撞区域 -->
-        <collisionAreaRadius>3</collisionAreaRadius>
+        <collisionAreaRadius>2</collisionAreaRadius>
         
         <!-- 目标过滤 -->
         <onlyAffectEnemies>true</onlyAffectEnemies>
@@ -598,6 +598,12 @@
         <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
         <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
         <landingSound>PawnFlyerLand</landingSound>
+      
+        <!-- 地形阻挡配置 -->
+        <narrowTerrainBlocked>true</narrowTerrainBlocked>
+        <maxBlockPenalty>1</maxBlockPenalty>
+        <terrainCheckInterval>60</terrainCheckInterval>
+        <blockedHediff>Wula_TerrainBlocked</blockedHediff>
         
         <!-- 调试 -->
         <enableDebugLogging>false</enableDebugLogging>
@@ -616,6 +622,8 @@
       <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
       <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
+
+      <WULA_MechArmor>5</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -649,7 +657,7 @@
     </tools>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AreaShield">
-        <radius>15</radius>
+        <radius>25</radius>
         <baseHitPoints>300</baseHitPoints>
         <rechargeDelay>2400</rechargeDelay>
         <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
@@ -669,13 +677,13 @@
       
         <!-- 反射设置 -->
         <canReflect>true</canReflect>
-        <reflectChance>0.85</reflectChance>
+        <reflectChance>0.95</reflectChance>
         <reflectAngleRange>30</reflectAngleRange>
         <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
-        <radius>15</radius>
+        <radius>25</radius>
         <damageIntervalTicks>30</damageIntervalTicks>
         <damageDef>Flame</damageDef>
         <damageAmount>8</damageAmount>
@@ -687,7 +695,7 @@
         <ignoreFactionRelations>false</ignoreFactionRelations>
         <startEnabled>false</startEnabled>
         <toggleLabel>热辐射</toggleLabel>
-        <toggleDescription>MSm-8"放射盾"可以打开外壳，蒸发胆敢进入反射立场内的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
+        <toggleDescription>MSm-8"放射盾"可以打开外壳，蒸发胆敢进入反射立场内的敌军。</toggleDescription>
         <toggleIconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</toggleIconPath>
       </li>
       <!-- <li Class="WulaFallenEmpire.CompProperties_AreaTeleporter">
@@ -829,12 +837,61 @@
           </li>
         </pawnKindHediffs>
       </li> -->
+      
+      <li Class="WulaFallenEmpire.CompProperties_HighSpeedCollision">
+        <!-- 速度阈值 -->
+        <minSpeedForStage1>0.5</minSpeedForStage1>
+        <minSpeedForStage2>1.0</minSpeedForStage2>
+        <speedHistoryFrameCount>15</speedHistoryFrameCount>
+        <stageTransitionCooldownTicks>6</stageTransitionCooldownTicks>
+        
+        <!-- 碰撞区域 -->
+        <collisionAreaRadius>3</collisionAreaRadius>
+        
+        <!-- 目标过滤 -->
+        <onlyAffectEnemies>true</onlyAffectEnemies>
+        <excludeAlliedPawns>true</excludeAlliedPawns>
+        
+        <!-- 阶段1效果 -->
+        <stage1DamageDef>Blunt</stage1DamageDef>
+        <stage1DamageAmount>1</stage1DamageAmount>
+        <armorPenetration>0.1</armorPenetration>
+        <!-- <stage1Hediff>Bruise</stage1Hediff>
+        <stage1HediffDurationTicks>120</stage1HediffDurationTicks>
+        <stage1HediffPreventsDamage>true</stage1HediffPreventsDamage> -->
+        <!-- <stage1Effecter>SparkImpact</stage1Effecter> -->
+        <stage1Sound>MeleeHit_BladelinkZeusHammer</stage1Sound>
+        
+        <!-- 阶段2效果 -->
+        <stage2DamageDef>Blunt</stage2DamageDef>
+        <stage2DamageAmount>20</stage2DamageAmount>
+        <stage2KnockbackDistance>4</stage2KnockbackDistance>
+        <requireLineOfSightForKnockback>true</requireLineOfSightForKnockback>
+        <!-- <stage2Effecter>ExplosionFlash</stage2Effecter> -->
+        <stage2Sound>MeleeHit_BladelinkZeusHammer</stage2Sound>
+        
+        <!-- 击飞配置 -->
+        <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
+        <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
+        <landingSound>PawnFlyerLand</landingSound>
+      
+        <!-- 地形阻挡配置 -->
+        <narrowTerrainBlocked>true</narrowTerrainBlocked>
+        <maxBlockPenalty>1</maxBlockPenalty>
+        <terrainCheckInterval>60</terrainCheckInterval>
+        <blockedHediff>Wula_TerrainBlocked</blockedHediff>
+        
+        <!-- 调试 -->
+        <enableDebugLogging>false</enableDebugLogging>
+        <enableDebugVisuals>false</enableDebugVisuals>
+        <debugDrawSpeedHistory>false</debugDrawSpeedHistory>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="Wula_MechunitBase">
     <defName>Wula_Mech_Mobile_Factory</defName>
     <label>MFm-2"陆行舰"</label>
-    <description>乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的要塞和顽强的抵抗。</description>
+    <description>乌拉帝国的大型构装体，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的要塞和顽强的抵抗。</description>
     <statBases>
       <MoveSpeed>1</MoveSpeed>
       <EnergyShieldEnergyMax>5</EnergyShieldEnergyMax>
@@ -845,6 +902,8 @@
       <ArmorRating_Sharp>1.75</ArmorRating_Sharp>
       <ArmorRating_Blunt>1.75</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
+
+      <WULA_MechArmor>10</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -1287,6 +1346,12 @@
         <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
         <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
         <landingSound>PawnFlyerLand</landingSound>
+      
+        <!-- 地形阻挡配置 -->
+        <narrowTerrainBlocked>true</narrowTerrainBlocked>
+        <maxBlockPenalty>1</maxBlockPenalty>
+        <terrainCheckInterval>60</terrainCheckInterval>
+        <blockedHediff>Wula_TerrainBlocked</blockedHediff>
         
         <!-- 调试 -->
         <enableDebugLogging>false</enableDebugLogging>

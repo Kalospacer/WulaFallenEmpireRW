@@ -421,27 +421,13 @@
   </ResearchProjectDef>
   <ResearchProjectDef ParentName="WULAtechBase">
     <defName>WULA_Mech_Mobile_Shield_Technology</defName>
-    <researchViewX>6.00</researchViewX>
+    <researchViewX>10.00</researchViewX>
     <researchViewY>5.60</researchViewY>
     <label>放射盾空投许可</label>
     <description>允许殖民地申请空投MSm-8"放射盾"，乌拉帝国的中型战争机械，一种多足机械体，拥有密不透风的反射盾的同时，还可以灼烧那些企图进入护盾区域内的宵小之辈。</description>
-    <baseCost>2000</baseCost>
-    <hiddenPrerequisites>
-      <li>WULA_Synth_Productor_Technology</li>
-    </hiddenPrerequisites>
-    <prerequisites>
-      <li>WULA_Colony_License_LV2_Technology</li>
-    </prerequisites>
-  </ResearchProjectDef>
-  <ResearchProjectDef ParentName="WULAtechBase">
-    <defName>WULA_Mech_Mobile_Shield_Teleporter_Technology</defName>
-    <researchViewX>10.00</researchViewX>
-    <researchViewY>5.60</researchViewY>
-    <label>放射盾传送器许可</label>
-    <description>允许殖民地使用MSm-8"放射盾"内置的传送器，机械乌拉在其覆盖范围内，处于征召状态下进行常规移动时，会以瞬间传送代替步行。</description>
     <baseCost>3000</baseCost>
     <hiddenPrerequisites>
-      <li>WULA_Mech_Mobile_Shield_Technology</li>
+      <li>WULA_Synth_Productor_Technology</li>
     </hiddenPrerequisites>
     <prerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>
