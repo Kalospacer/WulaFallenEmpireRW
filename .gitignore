@@ -74,3 +74,4 @@ mod.vdf.backup
 *.pdb
 *.dll.config
 
+.snow/permissions.json
