@@ -182,6 +182,38 @@
     </subSounds>
   </SoundDef>
   <SoundDef>
+    <defName>Wula_AI_Heavy_Panzer_Turret_Weapon_Shootingsound</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/Wula_AI_Heavy_Panzer_Turret_Weapon_Shootingsound</clipPath>
+          </li>
+        </grains>
+        <volumeRange>45</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>Wula_AI_Panzer_Destroyer_Turret_Weapon_Shootingsound</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Wula/Wula_AI_Panzer_Destroyer_Turret_Weapon_Shootingsound</clipPath>
+          </li>
+        </grains>
+        <volumeRange>65</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
     <defName>WULA_PsiCrusher_Sound</defName>
     <context>MapOnly</context>
     <subSounds>

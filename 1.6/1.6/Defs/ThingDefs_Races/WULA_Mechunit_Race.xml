@@ -1490,7 +1490,7 @@
         <repairEffect>ConstructMetal</repairEffect>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MechInherentWeapon">
-        <weaponDef>Wula_AI_Heavy_Panzer_Main_Weapon</weaponDef>
+        <weaponDef>Wula_Mech_Mobile_Factory_Main_Weapon</weaponDef>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_MechDefaultPilot">
         <enableForNonPlayerFaction>true</enableForNonPlayerFaction>

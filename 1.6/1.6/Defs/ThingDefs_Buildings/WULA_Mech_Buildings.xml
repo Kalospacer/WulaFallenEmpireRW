@@ -3,10 +3,10 @@
   <!-- 战车 -->
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_AI_Heavy_Panzer_Cleanzone</defName>
-    <label>HAp-6"战车"</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n战车是乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，使用穿透力强大的战车炮和导弹打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
+    <label>HAp-6"巨戟"</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n巨戟是乌拉帝国的中型构装体，以悬浮的方式穿梭于战场之上，使用拥有强大穿透力且射速较快的双联晶化炮打击敌方，是乌拉帝国前锋部队的中流砥柱。</description>
     <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Heavy_Panzer_Incoming</uiIconPath>
-    <uiIconScale>1.33</uiIconScale>
+    <uiIconScale>1</uiIconScale>
     <uiIconOffset>(0, -0.1)</uiIconOffset>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -20,7 +20,7 @@
     <graphicData>
       <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3,3)</drawSize>
+      <drawSize>(4,4)</drawSize>
       <damageData>
         <enabled>false</enabled>
       </damageData>
@@ -50,7 +50,7 @@
       <Mass>1</Mass>
       <Flammability>0</Flammability>
     </statBases>
-    <size>(3,3)</size>
+    <size>(4,4)</size>
     <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
     <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
@@ -73,7 +73,7 @@
   </ThingDef>
   <ThingDef ParentName="SkyfallerBase">
     <defName>Wula_AI_Heavy_Panzer_Incoming</defName>
-    <label>HAp-6"战车"（空投中）</label>
+    <label>HAp-6"巨戟"（空投中）</label>
     <size>(1,1)</size>
     <thingClass>WulaFallenEmpire.Skyfaller_PawnSpawner</thingClass>
     <graphicData>
@@ -110,7 +110,7 @@
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
         <pawnKind>Wula_AI_Heavy_Panzer</pawnKind>
         <faction>PlayerColony</faction>
-        <spawnDrafted>true</spawnDrafted>
+        <spawnDrafted>false</spawnDrafted>
         <spawnHostile>false</spawnHostile>
       </li>
     </comps>
@@ -119,10 +119,10 @@
   <!-- 喷火战车 -->
   <ThingDef ParentName="BuildingBase">
     <defName>Wula_AI_Rocket_Panzer_Cleanzone</defName>
-    <label>HRp-3"喷火战车"</label>
-    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n喷火战车乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有车体臼炮和两具可以发射大量燃烧火箭弹的转轮导弹巢，但是未像其姊妹型号那样装备护盾。</description>
+    <label>HRp-3"炎霖"</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n炎霖是乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，可以在远距离上使用火箭弹巢发射漫天的弹幕，用纯粹的火力淹没敌方集群。</description>
     <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Rocket_Panzer_Incoming</uiIconPath>
-    <uiIconScale>1.33</uiIconScale>
+    <uiIconScale>1</uiIconScale>
     <uiIconOffset>(0, -0.1)</uiIconOffset>
     <minifiedDef>MinifiedThing</minifiedDef>
     <tickerType>Normal</tickerType>
@@ -189,7 +189,7 @@
   </ThingDef>
   <ThingDef ParentName="SkyfallerBase">
     <defName>Wula_AI_Rocket_Panzer_Incoming</defName>
-    <label>HRp-3"喷火战车"（空投中）</label>
+    <label>HRp-3"炎霖"（空投中）</label>
     <size>(1,1)</size>
     <thingClass>WulaFallenEmpire.Skyfaller_PawnSpawner</thingClass>
     <graphicData>
@@ -226,7 +226,123 @@
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
         <pawnKind>Wula_AI_Rocket_Panzer</pawnKind>
         <faction>PlayerColony</faction>
-        <spawnDrafted>true</spawnDrafted>
+        <spawnDrafted>false</spawnDrafted>
+        <spawnHostile>false</spawnHostile>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- 坦克歼击车 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>Wula_AI_Panzer_Destroyer_Cleanzone</defName>
+    <label>HDp-1"冥波"</label>
+    <description>清理出一块场地并准备好资源，使得乌拉帝国母舰可以向此处投放大型战争机械。\n\n冥波是乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有一门射速缓慢但射程极远、威力强大的电浆炮，足以威胁那些最厚实的装甲单位。</description>
+    <uiIconPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Panzer_Destroyer_Incoming</uiIconPath>
+    <uiIconScale>1</uiIconScale>
+    <uiIconOffset>(0, -0.1)</uiIconOffset>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <tickerType>Normal</tickerType>
+    <tradeability>None</tradeability>
+    <descriptionHyperlinks>
+      <ThingDef>Wula_AI_Panzer_Destroyer</ThingDef>
+    </descriptionHyperlinks>
+    <thingCategories Inherit="False">
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Wula/Building/WULA_Dropping_Building_Cleanzone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <costList Inherit="False">
+      <WULA_Alloy>300</WULA_Alloy>
+      <WULA_Charge_Cube>18</WULA_Charge_Cube>
+      <ComponentSpacer>2</ComponentSpacer>
+      <Uranium>50</Uranium>
+      <WULA_Tex_Voucher>1</WULA_Tex_Voucher>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <pathCost>0</pathCost>
+    <hasInteractionCell>false</hasInteractionCell>
+    <rotatable>false</rotatable>
+    <researchPrerequisites Inherit="False">
+      <li>WULA_AI_Heavy_Panzer_Technology</li>
+    </researchPrerequisites>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <MaxHitPoints>1</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <size>(3,3)</size>
+    <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <placeWorkers>
+      <li>WulaFallenEmpire.PlaceWorker_CustomRadius</li>
+    </placeWorkers>
+    <designationCategory>WULA_Buildings</designationCategory>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerCaller">
+        <skyfallerDef>Wula_AI_Panzer_Destroyer_Incoming</skyfallerDef> <!-- 替换为您想要的Skyfaller类型 -->
+        <destroyBuilding>true</destroyBuilding>
+        <delayTicks>1</delayTicks>
+        <allowThinRoof>true</allowThinRoof>
+        <allowThickRoof>false</allowThickRoof>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>Wula_AI_Panzer_Destroyer_Incoming</defName>
+    <label>HDp-1"冥波"（空投中）</label>
+    <size>(1,1)</size>
+    <thingClass>WulaFallenEmpire.Skyfaller_PawnSpawner</thingClass>
+    <graphicData>
+      <texPath>Wula/Things/Wula_AI_Heavy_Panzer/Wula_AI_Rocket_Panzer_Incoming</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>(7,7)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Accelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(7, 7)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <impactSound>Explosion_Vaporize</impactSound>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <motesPerCell>1</motesPerCell>
+      <cameraShake>1</cameraShake>
+      <angleCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(1, 1)</li>
+        </points>
+      </angleCurve>
+      <!-- <spawnThing></spawnThing> -->
+      <explosionRadius>6</explosionRadius>
+      <explosionDamage>WULA_Mech_Drop</explosionDamage>
+      <explosionDamageFactor>0</explosionDamageFactor>
+    </skyfaller>
+    <comps>
+      <li Class="CompProperties_Effecter">
+        <effecterDef>Smoke_Joint</effecterDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
+        <pawnKind>Wula_AI_Panzer_Destroyer</pawnKind>
+        <faction>PlayerColony</faction>
+        <spawnDrafted>false</spawnDrafted>
         <spawnHostile>false</spawnHostile>
       </li>
     </comps>
@@ -311,7 +427,7 @@
       <texPath>Wula/Things/WULA_Mobile_Shield/WULA_Mobile_Shield_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
-      <drawSize>(5,5)</drawSize>
+      <drawSize>(8,8)</drawSize>
     </graphicData>
     <skyfaller>
       <movementType>Accelerate</movementType>
@@ -426,7 +542,7 @@
       <texPath>Wula/Things/Wula_Mech_Mobile_Factory/Wula_Mech_Mobile_Factory_Incoming</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutFlying</shaderType>
-      <drawSize>(9,9)</drawSize>
+      <drawSize>(12,12)</drawSize>
     </graphicData>
     <skyfaller>
       <movementType>Accelerate</movementType>
@@ -456,7 +572,7 @@
       <li Class="WulaFallenEmpire.CompProperties_SkyfallerPawnSpawner">
         <pawnKind>Wula_Mech_Mobile_Factory</pawnKind>
         <faction>PlayerColony</faction>
-        <spawnDrafted>true</spawnDrafted>
+        <spawnDrafted>false</spawnDrafted>
         <spawnHostile>false</spawnHostile>
       </li>
     </comps>

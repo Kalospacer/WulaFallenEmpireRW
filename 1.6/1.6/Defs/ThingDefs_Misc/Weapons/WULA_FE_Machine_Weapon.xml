@@ -281,6 +281,65 @@
       </li>
     </modExtensions>
   </ThingDef>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Wula_Mech_Mobile_Factory_Main_Weapon</defName>
+    <label>目标标定器</label>
+    <description>MFm-2"陆行舰"车体上的测距器，可以确保其炮塔在可以开火的最佳距离，被其瞄准的目标会成为炮塔的优先攻击目标。</description>
+    <tickerType>Normal</tickerType>
+    <techLevel>Spacer</techLevel>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <uiIconPath>Wula/Weapon/WULA_WM_Panzer_Destroyer_Turret</uiIconPath>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.35</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker Inherit="False" IsNull="True"/>
+    <statBases>
+      <WorkToMake>2500</WorkToMake>
+      <!-- <MarketValue>370</MarketValue> -->
+      <Mass>8</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>1</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>WulaFallenEmpire.Verb_RangeChecker</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_ChargeRifle</defaultProjectile>
+        <minRange>12</minRange>
+        <range>120</range>
+        <warmupTime>0.2</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <noiseRadius>0</noiseRadius>
+        <requireLineOfSight>false</requireLineOfSight>
+        <!-- <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail> -->
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <costList Inherit="False">
+      <Steel>1</Steel>
+    </costList>
+    <weaponTags Inherit="False">
+      <li>Wula_Mech_Mobile_Factory_Weapon</li>
+    </weaponTags>
+    <thingCategories Inherit="False"/>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
+        <allowedMechRaces>
+          <li>Wula_Mech_Mobile_Factory</li>
+        </allowedMechRaces>
+      </li>
+    </comps>
+  </ThingDef>
   
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>WULA_MechFlyerTurretGun</defName>
@@ -396,7 +455,7 @@
         <burstShotCount>2</burstShotCount>
         <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
         <requireLineOfSight>true</requireLineOfSight>
-        <soundCast>WULA_MW_Mass_Drivers_Shootingsound</soundCast>
+        <soundCast>Wula_AI_Heavy_Panzer_Turret_Weapon_Shootingsound</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>18</muzzleFlashScale>
         <canGoWild>false</canGoWild>
@@ -450,7 +509,7 @@
     <techLevel>Spacer</techLevel>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
-    <uiIconPath>Wula/Projectile/WULA_Shrapnel</uiIconPath>
+    <uiIconPath>Wula/Weapon/WULA_WM_Panzer_Turret</uiIconPath>
     <graphicData>
       <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -598,7 +657,7 @@
     <techLevel>Spacer</techLevel>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
-    <uiIconPath>Wula/Projectile/WULA_Shrapnel</uiIconPath>
+    <uiIconPath>Wula/Weapon/WULA_WM_Panzer_Rocket_Turret</uiIconPath>
     <graphicData>
       <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -657,7 +716,7 @@
     <destroyOnDrop>true</destroyOnDrop>
     <techLevel>Ultra</techLevel>
     <graphicData>
-      <texPath>Wula/Weapon/WULA_WM_Panzer_Turret</texPath>
+      <texPath>Wula/Weapon/WULA_WM_Panzer_Destroyer_Turret</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>3</drawSize>
     </graphicData>
@@ -681,7 +740,7 @@
         <burstShotCount>1</burstShotCount>
         <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
         <requireLineOfSight>true</requireLineOfSight>
-        <soundCast>WULA_MW_Mass_Drivers_Shootingsound</soundCast>
+        <soundCast>Wula_AI_Panzer_Destroyer_Turret_Weapon_Shootingsound</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>18</muzzleFlashScale>
         <canGoWild>false</canGoWild>
@@ -743,7 +802,7 @@
     <techLevel>Spacer</techLevel>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
-    <uiIconPath>Wula/Projectile/WULA_Shrapnel</uiIconPath>
+    <uiIconPath>Wula/Weapon/WULA_WM_Panzer_Destroyer_Turret</uiIconPath>
     <graphicData>
       <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
       <graphicClass>Graphic_Single</graphicClass>

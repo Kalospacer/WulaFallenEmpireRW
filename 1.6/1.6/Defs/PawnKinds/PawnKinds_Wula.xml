@@ -343,6 +343,9 @@
     <weaponMoney>99999~99999</weaponMoney>
 
     <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>
+    <weaponTags>
+      <li>Wula_Mech_Mobile_Factory_Weapon</li>
+    </weaponTags>
 
     <abilities>
       <li>Wula_Mech_Mobile_Factory_Produce</li>
