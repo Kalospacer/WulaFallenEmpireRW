@@ -367,7 +367,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>Wula_AI_Heavy_Panzer_Turret_Weapon</defName>
     <label>ATt-2"青金石"</label>
-    <description>HAp-6"巨戟"的炮塔，两门可以洞穿护盾的晶化炮就是为打击护盾目标量身定做的。</description>
+    <description>HAp-6"巨戟"的炮塔，两门高射速晶化炮可以在对抗强大装甲目标和大量软目标间取得平衡。</description>
     <tradeability>None</tradeability>
     <destroyOnDrop>true</destroyOnDrop>
     <techLevel>Ultra</techLevel>
@@ -391,7 +391,7 @@
         <defaultProjectile>Bullet_Wula_AI_Heavy_Panzer_Turret_Weapon</defaultProjectile>
         <warmupTime>0</warmupTime>
         <minRange>5.9</minRange>
-        <range>60</range>
+        <range>52</range>
         <defaultCooldownTime>1</defaultCooldownTime>
         <burstShotCount>2</burstShotCount>
         <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
@@ -645,6 +645,150 @@
       <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
         <allowedMechRaces>
           <li>Wula_AI_Rocket_Panzer</li>
+        </allowedMechRaces>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Wula_AI_Panzer_Destroyer_Turret_Weapon</defName>
+    <label>DTt-9"琥珀"</label>
+    <description>HDp-1"冥波"的炮塔，其粒子炮可以洞穿那些最厚的护甲防御。</description>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <techLevel>Ultra</techLevel>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_WM_Panzer_Turret</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <uiIconScale>0.33</uiIconScale>
+    <statBases>
+      <Mass>150</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>2</AccuracyShort>
+      <AccuracyMedium>2</AccuracyMedium>
+      <AccuracyLong>2</AccuracyLong>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>WulaFallenEmpire.Verb_TurretOffestShoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_Wula_AI_Panzer_Destroyer_Turret_Weapon</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <minRange>8.9</minRange>
+        <range>79</range>
+        <defaultCooldownTime>8</defaultCooldownTime>
+        <burstShotCount>1</burstShotCount>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <requireLineOfSight>true</requireLineOfSight>
+        <soundCast>WULA_MW_Mass_Drivers_Shootingsound</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>18</muzzleFlashScale>
+        <canGoWild>false</canGoWild>
+      </li>
+    </verbs>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ModExtension_ShootWithOffset">
+        <offsets>
+          <li>(0, -4.1)</li>
+        </offsets>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Wula_AI_Panzer_Destroyer_Turret_Weapon</defName>
+    <label>琥珀等离子弹</label>
+    <thingClass>WulaFallenEmpire.Projectile_ExplosiveWithDirectHit</thingClass>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.ProjectileExtension_DirectHit">
+        <directDamageDef>Vaporize</directDamageDef>
+        <directDamageAmount>350</directDamageAmount>
+        <directArmorPenetration>2</directArmorPenetration>
+        <directImpactSound>Explosion_Vaporize</directImpactSound>
+      </li>
+      <li Class="WulaFallenEmpire.TrackingBulletDef">
+        <tailFleckDef>WULA_GunTail_Plasma</tailFleckDef>
+        <fleckMakeFleckTickMax>3</fleckMakeFleckTickMax>
+      </li>
+    </modExtensions>
+    <tickerType>Normal</tickerType>
+    <neverMultiSelect>True</neverMultiSelect>
+    <graphicData>
+      <texPath>Wula/Projectile/WULA_Plasma_Proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <color>(109, 208, 117, 255)</color>
+      <drawSize>(2.5,3)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>WULA_GiantBomb</damageDef>
+      <damageAmountBase>45</damageAmountBase>
+      <speed>60</speed>
+      <explosionRadius>6</explosionRadius>
+      <armorPenetrationBase>1.5</armorPenetrationBase>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <stoppingPower>10</stoppingPower>
+      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+    </projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Wula_AI_Panzer_Destroyer_Main_Weapon</defName>
+    <label>目标标定器</label>
+    <description>HDp-1"冥波"车体上的测距器，可以确保其炮塔在可以开火的最佳距离，被其瞄准的目标会成为炮塔的优先攻击目标。</description>
+    <tickerType>Normal</tickerType>
+    <techLevel>Spacer</techLevel>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <uiIconPath>Wula/Projectile/WULA_Shrapnel</uiIconPath>
+    <graphicData>
+      <texPath>Wula/Weapon/WULA_Weapon_Empty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.35</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker Inherit="False" IsNull="True"/>
+    <statBases>
+      <WorkToMake>2500</WorkToMake>
+      <!-- <MarketValue>370</MarketValue> -->
+      <Mass>8</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>1</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>WulaFallenEmpire.Verb_RangeChecker</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_ChargeRifle</defaultProjectile>
+        <minRange>8.9</minRange>
+        <range>79</range>
+        <warmupTime>0.2</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <noiseRadius>0</noiseRadius>
+        <!-- <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail> -->
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <costList Inherit="False">
+      <Steel>1</Steel>
+    </costList>
+    <weaponTags Inherit="False">
+      <li>Wula_AI_Panzer_Destroyer_Weapon</li>
+    </weaponTags>
+    <thingCategories Inherit="False"/>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MechOnlyWeapon">
+        <allowedMechRaces>
+          <li>Wula_AI_Panzer_Destroyer</li>
         </allowedMechRaces>
       </li>
     </comps>

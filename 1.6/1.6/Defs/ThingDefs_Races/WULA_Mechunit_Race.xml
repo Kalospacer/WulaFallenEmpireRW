@@ -78,11 +78,11 @@
       <MaxFlightTime>9999</MaxFlightTime>
       <FlightCooldown>0</FlightCooldown>
 
-      <ArmorRating_Sharp>1</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1</ArmorRating_Blunt>
+      <ArmorRating_Sharp>1.25</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.25</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
 
-      <WULA_MechArmor>3</WULA_MechArmor>
+      <WULA_MechArmor>4</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -180,7 +180,7 @@
         <exitCrewIcon>Wula/UI/Commands/WULA_ExitCrew</exitCrewIcon>
       </li> -->
       
-      <li Class="WulaFallenEmpire.CompProperties_MechFuel">
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MechFuel">
         <fuelType>Chemfuel</fuelType>
         <fuelCapacity>70</fuelCapacity>
         <dailyFuelConsumption>35</dailyFuelConsumption>
@@ -194,7 +194,7 @@
         <autoRefuelThreshold>1</autoRefuelThreshold>
 
         <shutdownWhenEmpty>true</shutdownWhenEmpty>
-      </li>
+      </li> -->
       <li Class="WulaFallenEmpire.CompProperties_MechRepairable">
         <allowAutoRepair>true</allowAutoRepair>
         <healthPercentThreshold>1</healthPercentThreshold>
@@ -302,7 +302,7 @@
         <stageTransitionCooldownTicks>3</stageTransitionCooldownTicks>
         
         <!-- 碰撞区域 -->
-        <collisionAreaRadius>3</collisionAreaRadius>
+        <collisionAreaRadius>2</collisionAreaRadius>
         
         <!-- 目标过滤 -->
         <onlyAffectEnemies>true</onlyAffectEnemies>
@@ -356,11 +356,11 @@
       <MaxFlightTime>9999</MaxFlightTime>
       <FlightCooldown>0</FlightCooldown>
 
-      <ArmorRating_Sharp>1</ArmorRating_Sharp>
-      <ArmorRating_Blunt>1</ArmorRating_Blunt>
+      <ArmorRating_Sharp>1.25</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.25</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
 
-      <WULA_MechArmor>3</WULA_MechArmor>
+      <WULA_MechArmor>4</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -448,7 +448,7 @@
         <summonPilotIcon>Wula/UI/Commands/WULA_Enter_Mech</summonPilotIcon>
         <ejectPilotIcon>Wula/UI/Commands/WULA_Exit_Mech</ejectPilotIcon>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_MechFuel">
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MechFuel">
         <fuelType>Chemfuel</fuelType>
         <fuelCapacity>70</fuelCapacity>
         <dailyFuelConsumption>35</dailyFuelConsumption>
@@ -462,7 +462,7 @@
         <autoRefuelThreshold>1</autoRefuelThreshold>
 
         <shutdownWhenEmpty>true</shutdownWhenEmpty>
-      </li>
+      </li> -->
       <li Class="WulaFallenEmpire.CompProperties_MechRepairable">
         <allowAutoRepair>true</allowAutoRepair>
         <healthPercentThreshold>1</healthPercentThreshold>
@@ -570,7 +570,7 @@
         <stageTransitionCooldownTicks>3</stageTransitionCooldownTicks>
         
         <!-- 碰撞区域 -->
-        <collisionAreaRadius>3</collisionAreaRadius>
+        <collisionAreaRadius>2</collisionAreaRadius>
         
         <!-- 目标过滤 -->
         <onlyAffectEnemies>true</onlyAffectEnemies>
@@ -598,6 +598,280 @@
         <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
         <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
         <landingSound>PawnFlyerLand</landingSound>
+      
+        <!-- 地形阻挡配置 -->
+        <narrowTerrainBlocked>true</narrowTerrainBlocked>
+        <maxBlockPenalty>1</maxBlockPenalty>
+        <terrainCheckInterval>60</terrainCheckInterval>
+        <blockedHediff>Wula_TerrainBlocked</blockedHediff>
+        
+        <!-- 调试 -->
+        <enableDebugLogging>false</enableDebugLogging>
+        <enableDebugVisuals>false</enableDebugVisuals>
+        <debugDrawSpeedHistory>false</debugDrawSpeedHistory>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="Wula_MechunitBase">
+    <defName>Wula_AI_Panzer_Destroyer</defName>
+    <label>HDp-1"冥波"</label>
+    <description>乌拉帝国的中型战争机械，以悬浮的方式穿梭于战场之上，拥有一门射速缓慢但射程极远、威力强大的电浆炮，足以威胁那些最厚实的装甲单位。</description>
+    <statBases>
+      <MoveSpeed>2</MoveSpeed>
+      <EnergyShieldEnergyMax>2</EnergyShieldEnergyMax>
+      <StaggerDurationFactor>0</StaggerDurationFactor>
+
+      <MaxFlightTime>9999</MaxFlightTime>
+      <FlightCooldown>0</FlightCooldown>
+
+      <ArmorRating_Sharp>1.25</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.25</ArmorRating_Blunt>
+      <ArmorRating_Heat>2</ArmorRating_Heat>
+
+      <WULA_MechArmor>4</WULA_MechArmor>
+    </statBases>
+    <costList Inherit="False">
+      <WULA_Alloy>300</WULA_Alloy>
+      <WULA_Charge_Cube>18</WULA_Charge_Cube>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <butcherProducts Inherit="False">
+      <WULA_Alloy>300</WULA_Alloy>
+      <WULA_Charge_Cube>18</WULA_Charge_Cube>
+      <ComponentSpacer>2</ComponentSpacer>
+    </butcherProducts>
+    <race>
+      <body>WULA_AI_Heavy_Panzer_Body</body>
+      <baseBodySize>20</baseBodySize>
+      <thinkTreeMain>Wula_Battle_Mech_With_1_Pilot</thinkTreeMain>
+      <baseHealthScale>10</baseHealthScale>
+
+      <flightStartChanceOnJobStart>1</flightStartChanceOnJobStart>
+    </race>
+    <tools Inherit="False">
+      <li>
+        <label>碾压</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>360</power>
+        <cooldownTime>8</cooldownTime>
+        <linkedBodyPartsGroup>Torso</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <comps>
+      <li Class="WulaFallenEmpire.CompProperties_MultiTurretGun">
+		    <ID>0</ID>
+        <turretDef>Wula_AI_Panzer_Destroyer_Turret_Weapon</turretDef>
+        <traverseSpeed>20</traverseSpeed>
+        <aimTicks>0</aimTicks>
+        <idleRotationSpeed>3</idleRotationSpeed>
+        <smoothRotation>true</smoothRotation>
+        <resetCooldownTime>8.2</resetCooldownTime>
+        <!-- <angleOffset>-90</angleOffset> -->
+        <!-- <angleOffset>-90</angleOffset> -->
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(8, 8)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataNorth>
+                <rotationOffset>-90</rotationOffset>
+              </dataNorth>
+              <dataEast>
+                <rotationOffset>-90</rotationOffset>
+              </dataEast>
+              <dataSouth>
+                <rotationOffset>-90</rotationOffset>
+              </dataSouth>
+              <dataWest>
+                <rotationOffset>90</rotationOffset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_PawnFlight">
+
+        <!-- 飞行触发条件：仅在征召时飞行 -->
+        <flightCondition>DraftedAndMove</flightCondition>
+
+        <!-- 链接到我们刚刚创建的 AnimationDef -->
+        <flyingAnimationNorth>WULA_Hover_FlyNorth</flyingAnimationNorth>
+        <flyingAnimationEast>WULA_Hover_FlyEast</flyingAnimationEast>
+        <flyingAnimationSouth>WULA_Hover_FlySouth</flyingAnimationSouth>
+      </li>
+
+      <li Class="WulaFallenEmpire.CompProperties_MechPilotHolder">
+        <maxPilots>1</maxPilots>
+        <pilotWorkTag>MechPilot</pilotWorkTag>
+
+        <ejectPilotHealthPercentThreshold>0.1</ejectPilotHealthPercentThreshold>
+        
+        <summonPilotIcon>Wula/UI/Commands/WULA_Enter_Mech</summonPilotIcon>
+        <ejectPilotIcon>Wula/UI/Commands/WULA_Exit_Mech</ejectPilotIcon>
+      </li>
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MechFuel">
+        <fuelType>Chemfuel</fuelType>
+        <fuelCapacity>70</fuelCapacity>
+        <dailyFuelConsumption>35</dailyFuelConsumption>
+
+        <refuelSpeedFactor>1</refuelSpeedFactor>
+        <refuelDuration>240</refuelDuration>
+
+        <fuelBarColor>(0.6, 0.5, 0.4)</fuelBarColor>
+
+        <allowAutoRefuel>true</allowAutoRefuel>
+        <autoRefuelThreshold>1</autoRefuelThreshold>
+
+        <shutdownWhenEmpty>true</shutdownWhenEmpty>
+      </li> -->
+      <li Class="WulaFallenEmpire.CompProperties_MechRepairable">
+        <allowAutoRepair>true</allowAutoRepair>
+        <healthPercentThreshold>1</healthPercentThreshold>
+
+        <repairAmountPerCycle>10</repairAmountPerCycle>
+        
+        <repairSound></repairSound>
+        <repairEffect>ConstructMetal</repairEffect>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MechInherentWeapon">
+        <weaponDef>Wula_AI_Panzer_Destroyer_Main_Weapon</weaponDef>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MechDefaultPilot">
+        <enableForNonPlayerFaction>true</enableForNonPlayerFaction>
+        <enableForPlayerFaction>false</enableForPlayerFaction>
+        
+        <defaultPilotChance>1.0</defaultPilotChance>
+        <spawnOnlyIfNoPilot>true</spawnOnlyIfNoPilot>
+        <replaceExistingPilots>false</replaceExistingPilots>
+        <maxDefaultPilots>3</maxDefaultPilots>
+        
+        <defaultPilots>
+          <li>
+            <pawnKind>Wula_PIA_Light_Unit</pawnKind>
+            <weight>1</weight>
+            <required>false</required>
+          </li>
+        </defaultPilots>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MechSkillInheritance">
+        <baseSkillLevelWhenNoPilot>0</baseSkillLevelWhenNoPilot>
+        <skillMultiplierForPilots>1</skillMultiplierForPilots>
+      </li>
+      
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MoteEmitterNorthward">
+        <moteDef>WULA_Mote_MechBlackSmoke</moteDef>
+        <emitIntervalTicks>30</emitIntervalTicks>
+        <emitIntervalMovingTicks>20</emitIntervalMovingTicks>
+        <moveSpeed>1.5</moveSpeed>
+        <lifetimeTicks>10</lifetimeTicks>
+        <scale>0.25</scale>
+        <offset>(0.85,0,2.25)</offset>
+      </li>
+      <li Class="WulaFallenEmpire.CompProperties_MoteEmitterNorthward">
+        <moteDef>WULA_Mote_MechBlackSmoke</moteDef>
+        <emitIntervalTicks>30</emitIntervalTicks>
+        <emitIntervalMovingTicks>20</emitIntervalMovingTicks>
+        <moveSpeed>1.5</moveSpeed>
+        <lifetimeTicks>10</lifetimeTicks>
+        <scale>0.25</scale>
+        <offset>(-0.85,0,2.25)</offset>
+      </li> -->
+
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MechMovementSound">
+        <movementSound>WULA_DHM70_Rampart_Mech_Moving_Sound</movementSound>
+      </li> -->
+
+      <li Class="WulaFallenEmpire.CompProperties_MechSelfDestruct">
+        <healthPercentThreshold>0.1</healthPercentThreshold>
+        <wickTicks>120~180</wickTicks>
+        <drawWick>true</drawWick>
+        
+        <explosiveRadius>11.5</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <damageAmountBase>5</damageAmountBase>
+        <armorPenetrationBase>2</armorPenetrationBase>
+        <chanceToStartFire>0.25</chanceToStartFire>
+        <damageFalloff>true</damageFalloff>
+        <doVisualEffects>true</doVisualEffects>
+        <doSoundEffects>true</doSoundEffects>
+        <propagationSpeed>1</propagationSpeed>
+        
+        <explosionSound>Explosion_Bomb</explosionSound>
+        
+        <triggerOnDeath>true</triggerOnDeath>
+        <triggerOnHealthThreshold>true</triggerOnHealthThreshold>
+        <chanceNeverExplode>0</chanceNeverExplode>
+      </li>
+
+      <!-- <li Class="WulaFallenEmpire.CompProperties_HediffGiverByKind">
+        <debugMode>false</debugMode>
+        
+        <defaultHediffs>
+        </defaultHediffs>
+        <defaultAddChance>1</defaultAddChance>
+        <defaultAllowDuplicates>false</defaultAllowDuplicates>
+        
+        <pawnKindHediffs>
+          <li>
+            <pawnKind>WULA_DHM70_Rampart_Mech_Prototype</pawnKind>
+            <hediffs>
+              <li>WULA_MechPrototype</li>
+            </hediffs>
+            <addChance>1.0</addChance>
+            <allowDuplicates>false</allowDuplicates>
+          </li>
+        </pawnKindHediffs>
+      </li> -->
+      
+      <li Class="WulaFallenEmpire.CompProperties_HighSpeedCollision">
+        <!-- 速度阈值 -->
+        <minSpeedForStage1>1.0</minSpeedForStage1>
+        <minSpeedForStage2>2.0</minSpeedForStage2>
+        <speedHistoryFrameCount>15</speedHistoryFrameCount>
+        <stageTransitionCooldownTicks>3</stageTransitionCooldownTicks>
+        
+        <!-- 碰撞区域 -->
+        <collisionAreaRadius>2</collisionAreaRadius>
+        
+        <!-- 目标过滤 -->
+        <onlyAffectEnemies>true</onlyAffectEnemies>
+        <excludeAlliedPawns>true</excludeAlliedPawns>
+        
+        <!-- 阶段1效果 -->
+        <stage1DamageDef>Blunt</stage1DamageDef>
+        <stage1DamageAmount>1</stage1DamageAmount>
+        <armorPenetration>0.1</armorPenetration>
+        <!-- <stage1Hediff>Bruise</stage1Hediff>
+        <stage1HediffDurationTicks>120</stage1HediffDurationTicks>
+        <stage1HediffPreventsDamage>true</stage1HediffPreventsDamage> -->
+        <!-- <stage1Effecter>SparkImpact</stage1Effecter> -->
+        <stage1Sound>MeleeHit_BladelinkZeusHammer</stage1Sound>
+        
+        <!-- 阶段2效果 -->
+        <stage2DamageDef>Blunt</stage2DamageDef>
+        <stage2DamageAmount>15</stage2DamageAmount>
+        <stage2KnockbackDistance>4</stage2KnockbackDistance>
+        <requireLineOfSightForKnockback>true</requireLineOfSightForKnockback>
+        <!-- <stage2Effecter>ExplosionFlash</stage2Effecter> -->
+        <stage2Sound>MeleeHit_BladelinkZeusHammer</stage2Sound>
+        
+        <!-- 击飞配置 -->
+        <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
+        <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
+        <landingSound>PawnFlyerLand</landingSound>
+      
+        <!-- 地形阻挡配置 -->
+        <narrowTerrainBlocked>true</narrowTerrainBlocked>
+        <maxBlockPenalty>1</maxBlockPenalty>
+        <terrainCheckInterval>60</terrainCheckInterval>
+        <blockedHediff>Wula_TerrainBlocked</blockedHediff>
         
         <!-- 调试 -->
         <enableDebugLogging>false</enableDebugLogging>
@@ -616,6 +890,8 @@
       <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
       <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
+
+      <WULA_MechArmor>5</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -649,7 +925,7 @@
     </tools>
     <comps>
       <li Class="WulaFallenEmpire.CompProperties_AreaShield">
-        <radius>15</radius>
+        <radius>25</radius>
         <baseHitPoints>300</baseHitPoints>
         <rechargeDelay>2400</rechargeDelay>
         <rechargeHitPointsIntervalTicks>30</rechargeHitPointsIntervalTicks>
@@ -669,13 +945,13 @@
       
         <!-- 反射设置 -->
         <canReflect>true</canReflect>
-        <reflectChance>0.85</reflectChance>
+        <reflectChance>0.95</reflectChance>
         <reflectAngleRange>30</reflectAngleRange>
         <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
       </li>
       <li Class="WulaFallenEmpire.CompProperties_AreaDamage">
-        <radius>15</radius>
+        <radius>25</radius>
         <damageIntervalTicks>30</damageIntervalTicks>
         <damageDef>Flame</damageDef>
         <damageAmount>8</damageAmount>
@@ -687,7 +963,7 @@
         <ignoreFactionRelations>false</ignoreFactionRelations>
         <startEnabled>false</startEnabled>
         <toggleLabel>热辐射</toggleLabel>
-        <toggleDescription>MSm-8"放射盾"可以打开外壳，蒸发胆敢进入反射立场内的敌军——这同时会使得它伤害附近所有的散落物品。</toggleDescription>
+        <toggleDescription>MSm-8"放射盾"可以打开外壳，蒸发胆敢进入反射立场内的敌军。</toggleDescription>
         <toggleIconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</toggleIconPath>
       </li>
       <!-- <li Class="WulaFallenEmpire.CompProperties_AreaTeleporter">
@@ -716,7 +992,7 @@
         <summonPilotIcon>Wula/UI/Commands/WULA_Enter_Mech</summonPilotIcon>
         <ejectPilotIcon>Wula/UI/Commands/WULA_Exit_Mech</ejectPilotIcon>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_MechFuel">
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MechFuel">
         <fuelType>Chemfuel</fuelType>
         <fuelCapacity>70</fuelCapacity>
         <dailyFuelConsumption>35</dailyFuelConsumption>
@@ -730,7 +1006,7 @@
         <autoRefuelThreshold>1</autoRefuelThreshold>
 
         <shutdownWhenEmpty>true</shutdownWhenEmpty>
-      </li>
+      </li> -->
       <li Class="WulaFallenEmpire.CompProperties_MechRepairable">
         <allowAutoRepair>true</allowAutoRepair>
         <healthPercentThreshold>1</healthPercentThreshold>
@@ -829,12 +1105,61 @@
           </li>
         </pawnKindHediffs>
       </li> -->
+      
+      <li Class="WulaFallenEmpire.CompProperties_HighSpeedCollision">
+        <!-- 速度阈值 -->
+        <minSpeedForStage1>0.5</minSpeedForStage1>
+        <minSpeedForStage2>1.0</minSpeedForStage2>
+        <speedHistoryFrameCount>15</speedHistoryFrameCount>
+        <stageTransitionCooldownTicks>6</stageTransitionCooldownTicks>
+        
+        <!-- 碰撞区域 -->
+        <collisionAreaRadius>3</collisionAreaRadius>
+        
+        <!-- 目标过滤 -->
+        <onlyAffectEnemies>true</onlyAffectEnemies>
+        <excludeAlliedPawns>true</excludeAlliedPawns>
+        
+        <!-- 阶段1效果 -->
+        <stage1DamageDef>Blunt</stage1DamageDef>
+        <stage1DamageAmount>1</stage1DamageAmount>
+        <armorPenetration>0.1</armorPenetration>
+        <!-- <stage1Hediff>Bruise</stage1Hediff>
+        <stage1HediffDurationTicks>120</stage1HediffDurationTicks>
+        <stage1HediffPreventsDamage>true</stage1HediffPreventsDamage> -->
+        <!-- <stage1Effecter>SparkImpact</stage1Effecter> -->
+        <stage1Sound>MeleeHit_BladelinkZeusHammer</stage1Sound>
+        
+        <!-- 阶段2效果 -->
+        <stage2DamageDef>Blunt</stage2DamageDef>
+        <stage2DamageAmount>20</stage2DamageAmount>
+        <stage2KnockbackDistance>4</stage2KnockbackDistance>
+        <requireLineOfSightForKnockback>true</requireLineOfSightForKnockback>
+        <!-- <stage2Effecter>ExplosionFlash</stage2Effecter> -->
+        <stage2Sound>MeleeHit_BladelinkZeusHammer</stage2Sound>
+        
+        <!-- 击飞配置 -->
+        <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
+        <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
+        <landingSound>PawnFlyerLand</landingSound>
+      
+        <!-- 地形阻挡配置 -->
+        <narrowTerrainBlocked>true</narrowTerrainBlocked>
+        <maxBlockPenalty>1</maxBlockPenalty>
+        <terrainCheckInterval>60</terrainCheckInterval>
+        <blockedHediff>Wula_TerrainBlocked</blockedHediff>
+        
+        <!-- 调试 -->
+        <enableDebugLogging>false</enableDebugLogging>
+        <enableDebugVisuals>false</enableDebugVisuals>
+        <debugDrawSpeedHistory>false</debugDrawSpeedHistory>
+      </li>
     </comps>
   </ThingDef>
   <ThingDef ParentName="Wula_MechunitBase">
     <defName>Wula_Mech_Mobile_Factory</defName>
     <label>MFm-2"陆行舰"</label>
-    <description>乌拉帝国的大型战争机械，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的要塞和顽强的抵抗。</description>
+    <description>乌拉帝国的大型构装体，简直就是一座移动堡垒——它不仅装甲厚实、火炮林立，还能在战场上生产大量的辅助战争机械以形成坚实的弹性阵线，生来就是为了粉碎坚固的要塞和顽强的抵抗。</description>
     <statBases>
       <MoveSpeed>1</MoveSpeed>
       <EnergyShieldEnergyMax>5</EnergyShieldEnergyMax>
@@ -845,6 +1170,8 @@
       <ArmorRating_Sharp>1.75</ArmorRating_Sharp>
       <ArmorRating_Blunt>1.75</ArmorRating_Blunt>
       <ArmorRating_Heat>2</ArmorRating_Heat>
+
+      <WULA_MechArmor>10</WULA_MechArmor>
     </statBases>
     <costList Inherit="False">
       <WULA_Alloy>300</WULA_Alloy>
@@ -1138,7 +1465,7 @@
         <summonPilotIcon>Wula/UI/Commands/WULA_Enter_Mech</summonPilotIcon>
         <ejectPilotIcon>Wula/UI/Commands/WULA_Exit_Mech</ejectPilotIcon>
       </li>
-      <li Class="WulaFallenEmpire.CompProperties_MechFuel">
+      <!-- <li Class="WulaFallenEmpire.CompProperties_MechFuel">
         <fuelType>Chemfuel</fuelType>
         <fuelCapacity>70</fuelCapacity>
         <dailyFuelConsumption>35</dailyFuelConsumption>
@@ -1152,7 +1479,7 @@
         <autoRefuelThreshold>1</autoRefuelThreshold>
 
         <shutdownWhenEmpty>true</shutdownWhenEmpty>
-      </li>
+      </li> -->
       <li Class="WulaFallenEmpire.CompProperties_MechRepairable">
         <allowAutoRepair>true</allowAutoRepair>
         <healthPercentThreshold>1</healthPercentThreshold>
@@ -1287,6 +1614,12 @@
         <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
         <!-- <flightEffecterDef>FlyerTakeoff</flightEffecterDef> -->
         <landingSound>PawnFlyerLand</landingSound>
+      
+        <!-- 地形阻挡配置 -->
+        <narrowTerrainBlocked>true</narrowTerrainBlocked>
+        <maxBlockPenalty>1</maxBlockPenalty>
+        <terrainCheckInterval>60</terrainCheckInterval>
+        <blockedHediff>Wula_TerrainBlocked</blockedHediff>
         
         <!-- 调试 -->
         <enableDebugLogging>false</enableDebugLogging>

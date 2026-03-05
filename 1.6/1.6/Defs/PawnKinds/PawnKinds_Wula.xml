@@ -246,6 +246,43 @@
     </weaponTags>
   </PawnKindDef>
   <PawnKindDef ParentName="HeavyMechanoidKind">
+    <defName>Wula_AI_Panzer_Destroyer</defName> <!-- 修改了defName以避免冲突 -->
+    <label>HDp-1"冥波"</label>
+    <race>Wula_AI_Panzer_Destroyer</race>
+    <combatPower>500</combatPower>
+    <allowInMechClusters>false</allowInMechClusters>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <canMeleeAttack>false</canMeleeAttack>
+    <isGoodBreacher>true</isGoodBreacher>
+
+		<flyingAnimationFramePathPrefix>Wula/Things/Wula_Mech_Mobile_Factory/Flying/Wula_Mech_Mobile_Factory_Flying_</flyingAnimationFramePathPrefix>
+    <flyingAnimationDrawSize>1</flyingAnimationDrawSize>
+		<flyingAnimationFrameCount>1</flyingAnimationFrameCount>
+		<flyingAnimationTicksPerFrame>2</flyingAnimationTicksPerFrame>
+		<flyingAnimationInheritColors>false</flyingAnimationInheritColors>
+
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Wula/Things/Wula_AI_Heavy_Panzer/Bodies/Naked_Thin</texPath>
+          <maskPath>Wula/Things/WULA_Cat/AllegianceOverlays/None</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>9</drawSize>
+          <shadowData>
+            <volume>(1.4, 1.8, 1.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>99999~99999</weaponMoney>
+
+    <controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>  
+    <weaponTags>
+      <li>Wula_AI_Panzer_Destroyer_Weapon</li>
+    </weaponTags>
+  </PawnKindDef>
+  <PawnKindDef ParentName="HeavyMechanoidKind">
     <defName>Wula_Mech_Mobile_Shield</defName> <!-- 修改了defName以避免冲突 -->
     <label>MSm-8"放射盾"</label>
     <race>Wula_Mech_Mobile_Shield</race>

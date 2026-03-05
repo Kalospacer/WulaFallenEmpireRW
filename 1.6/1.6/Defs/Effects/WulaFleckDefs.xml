@@ -3,15 +3,15 @@
   <FleckDef Name="WULA_GunTail_Plasma" ParentName="FleckBase">
     <defName>WULA_GunTail_Plasma</defName>
     <altitudeLayer>Projectile</altitudeLayer>
-    <fadeInTime>0.50</fadeInTime>
-    <solidTime>1</solidTime>
-    <fadeOutTime>1.2</fadeOutTime>
-    <growthRate>0.025</growthRate>
+    <fadeInTime>0.2</fadeInTime>
+    <solidTime>0.1</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+    <growthRate>5</growthRate>
     <graphicData>
       <texPath>Wula/Mote/WULA_GunTail_Plasma</texPath>
       <shaderType>MoteGlow</shaderType>
-      <drawSize>4.25</drawSize>
-      <color>(179,127,67,155)</color>
+      <drawSize>2.5</drawSize>
+      <color>(109, 208, 117, 155)</color>
     </graphicData>
   </FleckDef>
 
