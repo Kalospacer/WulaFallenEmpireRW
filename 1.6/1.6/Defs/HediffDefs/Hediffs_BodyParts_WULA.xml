@@ -3,9 +3,9 @@
   <!-- 关机 -->
   <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
     <defName>WULA_Shutdown_Synth</defName>
-    <label>紧急关机</label>
-    <description>将这只机械乌拉的所有系统关闭，以规避一段时间内的潜在风险。需要一位殖民者协助关机工作，同时若想开机也需要一位殖民者协助。</description>
-    <jobString>正在紧急关机。</jobString>
+    <label>Shutdown</label>
+    <description>Shut down all systems of this Wula synth to avoid potential risks for a while. A colonist must assist with the shutdown, and powering it back up also requires a colonist.</description>
+    <jobString>Emergency shutdown.</jobString>
     <workAmount>100</workAmount>
     <workerClass>Recipe_AddHediff</workerClass>
     <hideBodyPartNames>true</hideBodyPartNames>
@@ -32,11 +32,11 @@
   </RecipeDef>
   <RecipeDef ParentName="FertilitySurgery">
     <defName>WULA_Synth_Power_On</defName>
-    <label>开机</label>
-    <description>重启该合成人，恢复其系统机能运行。</description>
+    <label>power up</label>
+    <description>Restart this synth and restore system operation.</description>
     <workerClass>Recipe_RemoveHediff</workerClass>
-    <jobString>正在重启合成人。</jobString>
-    <successfullyRemovedHediffMessage>{0} 成功重启了 {1}。</successfullyRemovedHediffMessage>
+    <jobString>Restarting synth.</jobString>
+    <successfullyRemovedHediffMessage>{0} successfully restarted {1}.</successfullyRemovedHediffMessage>
     <uiIconPath>Wula/UI/Commands/WULA_Synth_Power_On</uiIconPath>
     <removesHediff>WULA_Shutdown_Synth_Hediff</removesHediff>
     <surgeryOutcomeEffect IsNull="True" />
@@ -128,9 +128,9 @@
   </ThingDef>
   <RecipeDef ParentName="SurgeryInstallImplantBase">
     <defName>Install_WULA_AutoJumpdrive</defName>
-    <label>安装微型传送装置</label>
-    <description>安装一个微型传送装置。</description>
-    <jobString>正在安装微型传送装置。</jobString>
+    <label>Install Mini-Jumpdrive</label>
+    <description>Install Mini-Jumpdrive</description>
+    <jobString>Installing Mini-Jumpdrive.</jobString>
     <ingredients>
       <li>
         <filter>
@@ -174,9 +174,9 @@
   </ThingDef>
   <RecipeDef ParentName="SurgeryInstallImplantBase">
     <defName>Install_WULA_AutoJumpdrive_Week</defName>
-    <label>安装微型传送装置 (周)</label>
-    <description>安装一个微型传送装置 (周)。</description>
-    <jobString>正在安装微型传送装置 (周)。</jobString>
+    <label>Install Mini-Jumpdrive</label>
+    <description>Install Mini-Jumpdrive</description>
+    <jobString>Installing Mini-Jumpdrive.</jobString>
     <ingredients>
       <li>
         <filter>

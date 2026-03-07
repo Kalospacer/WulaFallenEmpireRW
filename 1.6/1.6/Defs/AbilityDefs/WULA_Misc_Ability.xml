@@ -32,7 +32,7 @@
   </AbilityDef>
   <ThingDef ParentName="BaseGrenadeProjectile">
     <defName>Wula_Mech_Mobile_Factory_Produce_Proj</defName>
-    <label>CRm-51"兵蚁"</label>
+    <label>CRm-51 "Soldier Ant"</label>
     <thingClass>Projectile_SpawnsPawnZeroAge</thingClass>
     <graphicData>
       <texPath>Wula/Things/WULA_Mech_Flyer/WULA_Mech_Flyer_south</texPath>
@@ -424,7 +424,7 @@
   </AbilityDef>
   <ThingDef ParentName="EtherealThingBase">
     <defName>WULA_Black_Hole_Entity</defName>
-    <label>虚境阴影</label>
+    <label>Void Shadow</label>
     <thingClass>ThingWithComps</thingClass>
     <tickerType>Normal</tickerType>
     <drawerType>RealtimeOnly</drawerType>
