@@ -71,8 +71,8 @@
         <category>Weapon</category>
       </li>
       <!-- 经验核心组件 -->
-      <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">
-        <trackedSkill>Melee</trackedSkill> <!-- 或 Melee -->
+      <!-- <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">
+        <trackedSkill>Melee</trackedSkill>
         <experienceMultiplier>1</experienceMultiplier>
         <showExperienceInfo>true</showExperienceInfo>
         <dataPackDef>WULA_ExperienceDataPack_Melee</dataPackDef>
@@ -98,7 +98,7 @@
             <messageKey>WULA_WeaponMastering</messageKey>
           </li>
         </experienceThresholds>
-      </li>
+      </li> -->
     </comps>
   </ThingDef>
   <ThingDef ParentName="WULA_ExperienceCore_Weapon_Melee">
@@ -634,8 +634,8 @@
         <category>Weapon</category>
       </li>
       <!-- 经验核心组件 -->
-      <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">
-        <trackedSkill>Shooting</trackedSkill> <!-- 或 Melee -->
+      <!-- <li Class="WulaFallenEmpire.CompProperties_ExperienceCore">
+        <trackedSkill>Shooting</trackedSkill>
         <experienceMultiplier>1</experienceMultiplier>
         <showExperienceInfo>true</showExperienceInfo>
         <dataPackDef>WULA_ExperienceDataPack_Shooting</dataPackDef>
@@ -661,7 +661,7 @@
             <messageKey>WULA_WeaponMastering</messageKey>
           </li>
         </experienceThresholds>
-      </li>
+      </li> -->
     </comps>
   </ThingDef>
   <ThingDef Name="WULA_RW_Base_AR" ParentName="BaseHumanMakeableGun">

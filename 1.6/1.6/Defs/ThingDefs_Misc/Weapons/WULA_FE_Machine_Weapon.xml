@@ -744,6 +744,7 @@
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>18</muzzleFlashScale>
         <canGoWild>false</canGoWild>
+        <forcedMissRadius>0.01</forcedMissRadius>
       </li>
     </verbs>
     <modExtensions>

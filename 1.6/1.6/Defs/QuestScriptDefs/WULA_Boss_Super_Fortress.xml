@@ -101,7 +101,7 @@
           <expandingIconPath>Wula/World/WorldObjects/Expanding/WULA_Progressive_Faction</expandingIconPath>
           <storeAs>site</storeAs>
           <faction>Wula_Progressive_Faction</faction>
-          <disdestroyBecauseOfNoColonist>true</disdestroyBecauseOfNoColonist>
+          <disdestroyBecauseOfNoColonist>false</disdestroyBecauseOfNoColonist>
           <distance>
             <min>5</min>
             <max>10</max>
@@ -113,6 +113,22 @@
           <label TKey="LetterLabelShuttleDestroyed">已标记巨型要塞</label>
           <letterDef>NegativeEvent</letterDef>
           <text TKey="LetterTextShuttleDestroyed">乌拉帝国进步派所建立的巨型要塞已经在地图上标记——似乎因为干扰，舰队无法直接攻击这个要塞，但是如果附近有引导员，舰队依然可以正常进入要塞的上方轨道。</text>
+        </li>
+
+        <!-- 任务失败 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>site.Destroyed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestFailed">After being discovered, the bandit camp has dispersed. The quest [resolvedQuestName] has ended.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
         </li>
 
         <!-- 堡垒被破坏··· -->

@@ -99,7 +99,7 @@
           <expandingIconPath>Things/Building/Natural/Hive/HiveC</expandingIconPath>
           <storeAs>site</storeAs>
           <faction>AncientsHostile</faction>
-          <disdestroyBecauseOfNoColonist>true</disdestroyBecauseOfNoColonist>
+          <disdestroyBecauseOfNoColonist>false</disdestroyBecauseOfNoColonist>
           <distance>
             <min>5</min>
             <max>10</max>
@@ -111,6 +111,22 @@
           <label TKey="LetterLabelShuttleDestroyed">灵能泰坦抵达</label>
           <letterDef>NegativeEvent</letterDef>
           <text TKey="LetterTextShuttleDestroyed">在一艘巡洋舰向失控运输舰狠狠撞击后，碎裂的运输舰如流星般坠入边缘世界地表。不过灵能泰坦随后便在地表上被目击——地点已经标记出来了。</text>
+        </li>
+
+        <!-- 任务失败 -->
+        <li Class="QuestNode_Signal">
+          <inSignal>site.Destroyed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestFailed">After being discovered, the bandit camp has dispersed. The quest [resolvedQuestName] has ended.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
         </li>
 
         <!-- 灵能泰坦被击毁··· -->
@@ -425,6 +441,7 @@
     <thingDatas>
       <li>
         <def>WULA_Sky_Lock</def>
+        <faction>AncientsHostile</faction>
         <allRect>
           <li>(11,11,11,11)</li>
           <li>(116,7,116,7)</li>
