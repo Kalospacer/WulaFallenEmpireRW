@@ -120,7 +120,7 @@
         <li>Torso</li>
       </groups>
       <parts>
-        <!-- 能源炉，代替了胃、心脏、肺、肾、肝 -->
+        <!-- Internal frame -->
         <li>
           <def>WULA_Skeleton_Bodypart</def>
           <coverage>0</coverage>
@@ -129,7 +129,7 @@
             <li>Torso</li>
           </groups>
         </li>
-        <!-- 能源炉，代替了胃、心脏、肺、肾、肝 -->
+        <!-- Energy furnace -->
         <li>
           <def>WULA_Energy_Furnace_Bodypart</def>
           <customLabel>Power furnace</customLabel>
@@ -139,7 +139,7 @@
             <li>Torso</li>
           </groups>
         </li>
-        <!-- 脖子和头部 -->
+        <!-- Neck and head -->
         <li>
           <def>Neck</def>
           <customLabel>Neck</customLabel>
@@ -177,7 +177,7 @@
                         <li>FullHead</li>
                       </groups>
                     </li>
-                    <!-- 天线 -->
+                    <!-- Antenna -->
                     <li>
                       <def>WULA_Addons_Antenna_Bodypart</def>
                       <coverage>0.1</coverage>
@@ -265,7 +265,7 @@
             </li>
           </parts>
         </li>
-        <!-- 肩部 -->
+        <!-- Left shoulder -->
         <li>
           <def>Shoulder</def>
           <customLabel>Left shoulder</customLabel>
@@ -309,7 +309,6 @@
                         <li>LeftHand</li>
                       </groups>
                     </li>
-                    <极简
                     <li>
                       <def>Finger</def>
                       <customLabel>Left middle finger</customLabel>
@@ -329,7 +328,7 @@
                       </groups>
                     </li>
                     <li>
-                      <def>Finger</极简
+                      <def>Finger</def>
                       <customLabel>Left thumb</customLabel>
                       <coverage>0.08</coverage>
                       <groups>
@@ -400,7 +399,6 @@
                       <customLabel>Right index finger</customLabel>
                       <coverage>0.07</coverage>
                       <groups>
-                        <极简
                         <li>Hands</li>
                         <li>RightHand</li>
                       </groups>
@@ -420,7 +418,7 @@
             </li>
           </parts>
         </li>
-        <!-- 腰部 -->
+        <!-- Waist -->
         <li>
           <def>Waist</def>
           <coverage>0</coverage>
@@ -429,7 +427,7 @@
             <li>Waist</li>
           </groups>
         </li>
-        <!-- 腿 -->
+        <!-- Left leg -->
         <li>
           <def>Leg</def>
           <customLabel>Left leg</customLabel>
@@ -505,7 +503,6 @@
               <customLabel>Right foot</customLabel>
               <coverage>0.1</coverage>
               <groups>
-                <li>Fe极简
                 <li>Feet</li>
               </groups>
               <parts>
@@ -568,7 +565,7 @@
         <li>Torso</li>
       </groups>
       <parts>
-        <!-- 脖子和头部 -->
+        <!-- Outer armor and core -->
         <li>
           <def>WULA_Outer_Armor_Bodypart</def>
           <coverage>0.99</coverage>
@@ -653,7 +650,7 @@
         <li>Torso</li>
       </groups>
       <parts>
-        <!-- 脖子和头部 -->
+        <!-- Outer armor and core -->
         <li>
           <def>WULA_Outer_Armor_Bodypart</def>
           <coverage>0.99</coverage>
@@ -755,7 +752,7 @@
         <li>Torso</li>
       </groups>
       <parts>
-        <!-- 脖子和头部 -->
+        <!-- Outer armor and core -->
         <li>
           <def>WULA_Outer_Armor_Bodypart</def>
           <coverage>0.99</coverage>
