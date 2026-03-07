@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 上行链路天线 -->
+  <WULA_Addons_Antenna_Bodypart.label>上行链路天线</WULA_Addons_Antenna_Bodypart.label>
+  
+  <!-- EN: 自律核心 -->
+  <WULA_AI_Core_Bodypart.label>自律核心</WULA_AI_Core_Bodypart.label>
+  
+  <!-- EN: 中央能源炉 -->
+  <WULA_Energy_Furnace_Bodypart.label>中央能源炉</WULA_Energy_Furnace_Bodypart.label>
+  
+  <!-- EN: 外装甲板 -->
+  <WULA_Outer_Armor_Bodypart.label>外装甲板</WULA_Outer_Armor_Bodypart.label>
+  
+  <!-- EN: 核心发动机 -->
+  <WULA_Panzer_Core_Bodypart.label>核心发动机</WULA_Panzer_Core_Bodypart.label>
+  
+  <!-- EN: 反推喷气孔 -->
+  <WULA_Panzer_OutBrust_Bodypart.label>反推喷气孔</WULA_Panzer_OutBrust_Bodypart.label>
+  
+  <!-- EN: 反射盾发生器 -->
+  <WULA_Shield_Field_Maintainer_Bodypart.label>反射盾发生器</WULA_Shield_Field_Maintainer_Bodypart.label>
+  
+  <!-- EN: 合金骨架 -->
+  <WULA_Skeleton_Bodypart.label>合金骨架</WULA_Skeleton_Bodypart.label>
+  
+</LanguageData>

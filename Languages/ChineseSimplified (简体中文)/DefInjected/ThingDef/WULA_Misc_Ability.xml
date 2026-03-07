@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: Mote -->
+  <WULA_AreaDestruction_Mainwave.label>TODO</WULA_AreaDestruction_Mainwave.label>
+  
+  <!-- EN: 虚境阴影 -->
+  <WULA_Black_Hole_Entity.label>TODO</WULA_Black_Hole_Entity.label>
+  <!-- EN: Enable or disable the area damage effect -->
+  <WULA_Black_Hole_Entity.comps.CompAreaDamage.toggleDescription>TODO</WULA_Black_Hole_Entity.comps.CompAreaDamage.toggleDescription>
+  <!-- EN: Toggle Area Damage -->
+  <WULA_Black_Hole_Entity.comps.CompAreaDamage.toggleLabel>TODO</WULA_Black_Hole_Entity.comps.CompAreaDamage.toggleLabel>
+  
+  <!-- EN: CRm-51"兵蚁" -->
+  <Wula_Mech_Mobile_Factory_Produce_Proj.label>TODO</Wula_Mech_Mobile_Factory_Produce_Proj.label>
+  
+  <!-- EN: Mote -->
+  <WULA_Mote_ChargeLanceShot.label>TODO</WULA_Mote_ChargeLanceShot.label>
+  
+  <!-- EN: Mote -->
+  <WULA_Mote_fire.label>TODO</WULA_Mote_fire.label>
+  
+  <!-- EN: Mote -->
+  <WULA_Mote_halo.label>TODO</WULA_Mote_halo.label>
+  
+</LanguageData>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 乌拉帝国殖民地许可：等级1 -->
+  <Techprint_SP_WULA_Colony_License_LV1_Technology.label>TODO</Techprint_SP_WULA_Colony_License_LV1_Technology.label>
+  <!-- EN: 这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。\n\n解锁: P.I.A旗帜, 乌拉帝国桌子 (1x2), 乌拉帝国桌子 (2x4), 乌拉帝国物资输送舱, 乌拉帝国编织体, 乌拉轨道输送信标, 合成人充电站, 合金, 零部件 -->
+  <Techprint_SP_WULA_Colony_License_LV1_Technology.description>TODO</Techprint_SP_WULA_Colony_License_LV1_Technology.description>
+  
+  <!-- EN: 乌拉帝国殖民地许可：等级2 -->
+  <Techprint_SP_WULA_Colony_License_LV2_Technology.label>TODO</Techprint_SP_WULA_Colony_License_LV2_Technology.label>
+  <!-- EN: 这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。\n\n解锁: 乌拉帝国能源核心 -->
+  <Techprint_SP_WULA_Colony_License_LV2_Technology.description>TODO</Techprint_SP_WULA_Colony_License_LV2_Technology.description>
+  
+  <!-- EN: 乌拉帝国殖民地许可：等级3 -->
+  <Techprint_SP_WULA_Colony_License_LV3_Technology.label>TODO</Techprint_SP_WULA_Colony_License_LV3_Technology.label>
+  <!-- EN: 这是由乌拉帝国开发署颁发的特殊凭证，用以证明殖民地的地位。\n\n解锁: 封装的暗物质, 零素 -->
+  <Techprint_SP_WULA_Colony_License_LV3_Technology.description>TODO</Techprint_SP_WULA_Colony_License_LV3_Technology.description>
+  
+</LanguageData>

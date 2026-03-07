@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 生产战争机器 -->
+  <Wula_Mech_Mobile_Factory_Produce.label>生产战争机器</Wula_Mech_Mobile_Factory_Produce.label>
+  <!-- EN: 立刻生产10台CRm-51"兵蚁"，快速组织一道近战阵线。 -->
+  <Wula_Mech_Mobile_Factory_Produce.description>立刻生产10台CRm-51"兵蚁"，快速组织一道近战阵线。</Wula_Mech_Mobile_Factory_Produce.description>
+  
+  <!-- EN: 乌拉帝国术式：虚境阴影 -->
+  <WULA_Psi_Black_Hole.label>乌拉帝国术式：虚境阴影</WULA_Psi_Black_Hole.label>
+  <!-- EN: 撕开虚境的裂口，在目标地点召唤一道虚境阴影，它泄露的庞大灵能会持续伤害范围内的敌方单位和建筑，并让物品快速损坏，即使是心灵失聪的目标也不能完全免疫这种超现实伤害——对于高心灵敏感度的单位这种伤害则更加致命。 -->
+  <WULA_Psi_Black_Hole.description>撕开虚境的裂口，在目标地点召唤一道虚境阴影，它泄露的庞大灵能会持续伤害范围内的敌方单位和建筑，并让物品快速损坏，即使是心灵失聪的目标也不能完全免疫这种超现实伤害——对于高心灵敏感度的单位这种伤害则更加致命。</WULA_Psi_Black_Hole.description>
+  
+  <!-- EN: 乌拉帝国术式：灵能跃迁 -->
+  <WULA_Psi_Skip.label>乌拉帝国术式：灵能跃迁</WULA_Psi_Skip.label>
+  <!-- EN: 使用灵能撕开一个连接自身、虚境和目的地的单向通道，随后以极短的时间穿过整个通道，以瞬间移动到目标地点。 -->
+  <WULA_Psi_Skip.description>使用灵能撕开一个连接自身、虚境和目的地的单向通道，随后以极短的时间穿过整个通道，以瞬间移动到目标地点。</WULA_Psi_Skip.description>
+  
+  <!-- EN: 乌拉帝国术式：灵能尖啸 -->
+  <WULA_PsiCrusher.label>乌拉帝国术式：灵能尖啸</WULA_PsiCrusher.label>
+  <!-- EN: 以灵能能量发出非人尖啸，直接解构面前扇形区域内的所有目标，无论是建筑物还是活物都难逃毁灭。这种术式需要的灵能难以估量，只有搭载大量封闭灵能回路的灵能泰坦可以连续使用。 -->
+  <WULA_PsiCrusher.description>以灵能能量发出非人尖啸，直接解构面前扇形区域内的所有目标，无论是建筑物还是活物都难逃毁灭。这种术式需要的灵能难以估量，只有搭载大量封闭灵能回路的灵能泰坦可以连续使用。</WULA_PsiCrusher.description>
+  
+</LanguageData>

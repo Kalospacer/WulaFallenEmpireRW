@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 产地：科鲁普 -->
+  <WULA_Child_Backstory01_Hediff.label>产地：科鲁普</WULA_Child_Backstory01_Hediff.label>
+  <!-- EN: 在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗，并且内置了一定的战斗能力。 -->
+  <WULA_Child_Backstory01_Hediff.description>在此处生产的合成人使用的战略物资远高于其他星区，这使得其拥有更高的机体耐久和更低的能量消耗，并且内置了一定的战斗能力。</WULA_Child_Backstory01_Hediff.description>
+  
+  <!-- EN: 产地：代达罗斯 -->
+  <WULA_Child_Backstory02_Hediff.label>产地：代达罗斯</WULA_Child_Backstory02_Hediff.label>
+  <!-- EN: 从此生产的合成人配置了强大的生产系统，使得它们可以抵消此型合成人在采矿和建造上的天然劣势。 -->
+  <WULA_Child_Backstory02_Hediff.description>从此生产的合成人配置了强大的生产系统，使得它们可以抵消此型合成人在采矿和建造上的天然劣势。</WULA_Child_Backstory02_Hediff.description>
+  
+  <!-- EN: 产地：皇宫区 -->
+  <WULA_Child_Backstory03_Hediff.label>产地：皇宫区</WULA_Child_Backstory03_Hediff.label>
+  <!-- EN: 此处生产的合成人通常是比其他星区的合成人更加精致和风度翩翩，这使得她们在社交和艺术上拥有得天独厚的优势。 -->
+  <WULA_Child_Backstory03_Hediff.description>此处生产的合成人通常是比其他星区的合成人更加精致和风度翩翩，这使得她们在社交和艺术上拥有得天独厚的优势。</WULA_Child_Backstory03_Hediff.description>
+  
+  <!-- EN: 产地：德尔塔 -->
+  <WULA_Child_Backstory04_Hediff.label>产地：德尔塔</WULA_Child_Backstory04_Hediff.label>
+  <!-- EN: 此处生产的合成人作为专门的战争机械而设计，结构简单易维护，拥有无可争议的战斗能力，但是不太擅长其他的工作。 -->
+  <WULA_Child_Backstory04_Hediff.description>此处生产的合成人作为专门的战争机械而设计，结构简单易维护，拥有无可争议的战斗能力，但是不太擅长其他的工作。</WULA_Child_Backstory04_Hediff.description>
+  
+  <!-- EN: 产地：瑟利斯 -->
+  <WULA_Child_Backstory05_Hediff.label>产地：瑟利斯</WULA_Child_Backstory05_Hediff.label>
+  <!-- EN: 此处生产的合成人是科研特化型号，她们非常擅长于研究，并且是少数能直接操纵机械族的合成人——尽管乌拉帝国的机械族都是自律机械。 -->
+  <WULA_Child_Backstory05_Hediff.description>此处生产的合成人是科研特化型号，她们非常擅长于研究，并且是少数能直接操纵机械族的合成人——尽管乌拉帝国的机械族都是自律机械。</WULA_Child_Backstory05_Hediff.description>
+  
+  <!-- EN: 产地：玛瑞克 -->
+  <WULA_Child_Backstory06_Hediff.label>产地：玛瑞克</WULA_Child_Backstory06_Hediff.label>
+  <!-- EN: 这个星域生产的合成人通常内置了家政和农业系统，使得她们非常善于处理一些杂事。此外她们经久耐用的设计使其在自然条件下的磨损速度比其他星区的合成人要慢很多。 -->
+  <WULA_Child_Backstory06_Hediff.description>这个星域生产的合成人通常内置了家政和农业系统，使得她们非常善于处理一些杂事。此外她们经久耐用的设计使其在自然条件下的磨损速度比其他星区的合成人要慢很多。</WULA_Child_Backstory06_Hediff.description>
+  
+  <!-- EN: 产地：戴森 -->
+  <WULA_Child_Backstory07_Hediff.label>产地：戴森</WULA_Child_Backstory07_Hediff.label>
+  <!-- EN: 诞生于此的合成人拥有强大的手工系统，她们的纳米修复被设计用于在极端环境下实现自持修复，因此修复消耗要低于其他星区的合成人。 -->
+  <WULA_Child_Backstory07_Hediff.description>诞生于此的合成人拥有强大的手工系统，她们的纳米修复被设计用于在极端环境下实现自持修复，因此修复消耗要低于其他星区的合成人。</WULA_Child_Backstory07_Hediff.description>
+  
+</LanguageData>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 光束预热 -->
+  <WULA_Beam_Weapon_Aiming_Hediff.label>光束预热</WULA_Beam_Weapon_Aiming_Hediff.label>
+  <!-- EN: 在开火前，乌拉帝国的光束类武器需要先预热一段时间，随后便可以进行持续的射击。 -->
+  <WULA_Beam_Weapon_Aiming_Hediff.description>在开火前，乌拉帝国的光束类武器需要先预热一段时间，随后便可以进行持续的射击。</WULA_Beam_Weapon_Aiming_Hediff.description>
+  <!-- EN: 完成 -->
+  <WULA_Beam_Weapon_Aiming_Hediff.stages.0.label>完成</WULA_Beam_Weapon_Aiming_Hediff.stages.0.label>
+  
+  <!-- EN: 巡飞弹引导系统 -->
+  <WULA_RW_Base_Loitering_Munition_Hediff.label>巡飞弹引导系统</WULA_RW_Base_Loitering_Munition_Hediff.label>
+  <!-- EN: WLl-35"沸石"的引导系统可以使其巡飞弹射后不理，但是只能开机一小段时间。 -->
+  <WULA_RW_Base_Loitering_Munition_Hediff.description>WLl-35"沸石"的引导系统可以使其巡飞弹射后不理，但是只能开机一小段时间。</WULA_RW_Base_Loitering_Munition_Hediff.description>
+  <!-- EN: 启动 -->
+  <WULA_RW_Base_Loitering_Munition_Hediff.stages.0.label>启动</WULA_RW_Base_Loitering_Munition_Hediff.stages.0.label>
+  
+  <!-- EN: 盔甲融化 -->
+  <WULA_RW_Handle_Cannon_Burn_Hediff.label>盔甲融化</WULA_RW_Handle_Cannon_Burn_Hediff.label>
+  <!-- EN: 乌拉帝国的大型光束武器会融化敌人的护甲，使其对热能的抗性降低。 -->
+  <WULA_RW_Handle_Cannon_Burn_Hediff.description>乌拉帝国的大型光束武器会融化敌人的护甲，使其对热能的抗性降低。</WULA_RW_Handle_Cannon_Burn_Hediff.description>
+  <!-- EN: minor -->
+  <WULA_RW_Handle_Cannon_Burn_Hediff.stages.minor-0.label>微弱</WULA_RW_Handle_Cannon_Burn_Hediff.stages.minor-0.label>
+  <!-- EN: minor -->
+  <WULA_RW_Handle_Cannon_Burn_Hediff.stages.minor-1.label>微弱</WULA_RW_Handle_Cannon_Burn_Hediff.stages.minor-1.label>
+  <!-- EN: moderate -->
+  <WULA_RW_Handle_Cannon_Burn_Hediff.stages.moderate.label>轻微</WULA_RW_Handle_Cannon_Burn_Hediff.stages.moderate.label>
+  <!-- EN: serious -->
+  <WULA_RW_Handle_Cannon_Burn_Hediff.stages.serious.label>严重</WULA_RW_Handle_Cannon_Burn_Hediff.stages.serious.label>
+  <!-- EN: extreme -->
+  <WULA_RW_Handle_Cannon_Burn_Hediff.stages.extreme.label>极重</WULA_RW_Handle_Cannon_Burn_Hediff.stages.extreme.label>
+  <!-- EN: completely -->
+  <WULA_RW_Handle_Cannon_Burn_Hediff.stages.completely.label>完全融化</WULA_RW_Handle_Cannon_Burn_Hediff.stages.completely.label>
+  
+</LanguageData>

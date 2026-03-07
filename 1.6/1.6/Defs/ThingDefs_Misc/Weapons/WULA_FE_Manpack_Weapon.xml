@@ -361,8 +361,8 @@
   </ThingDef>
   <AbilityDef>
     <defName>WULA_MW_Twohanded_ChainBroadsword_Ability</defName>
-    <label>短距离跃迁</label>
-    <description>使用CBs-25"地狱牙"刀头的相位引擎立刻折跃至一个新的位置——这种折跃引擎只能折跃小型目标，如果持刀者体型大于3则无法发起传送。</description>
+    <label>Short-range jump</label>
+    <description>Use the CBs-25 "Hellfang" blade's phase engine to blink to a new position. This engine can only teleport small targets; if the wielder's body size is greater than 3, teleportation cannot be initiated.</description>
     <iconPath>Wula/UI/Abilities/WULA_TeleportSelf</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -403,8 +403,8 @@
   </AbilityDef>
   <AbilityDef>
     <defName>WULA_MW_Twohanded_ChainBroadsword_Second_Ability</defName>
-    <label>空间删除</label>
-    <description>使用CBs-25"地狱牙"刀头的相位引擎将目标拉近到施法者身边——这种折跃引擎只能折跃小型目标，如果目标体型大于3则无法拉近。</description>
+    <label>Spatial deletion</label>
+    <description>Use the CBs-25 "Hellfang" blade's phase engine to pull the target closer to the caster. This engine can only teleport small targets; targets with a body size greater than 3 cannot be pulled.</description>
     <iconPath>Wula/UI/Abilities/WULA_PullTarget</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -547,8 +547,8 @@
   </ManeuverDef>
   <AbilityDef ParentName="AbilityTouchBase">
     <defName>WULA_MW_Breaker_Bar_Ability</defName>
-    <label>破阵重击</label>
-    <description>将PMb-97"破墙槌"的锤头加到最大压强，随后挥出必中的一击，以突破严密的人墙——即使敌人侥幸存活，也会头晕目眩并被砸飞出一段距离。</description>
+    <label>Linebreaker smash</label>
+    <description>Charge the PMb-97 "Wallbreaker" hammerhead to maximum pressure, then deliver an unavoidable blow to break through even the tightest wall of bodies. Even if the target survives, they will be left reeling and knocked back a fair distance.</description>
     <iconPath>Wula/UI/Abilities/WULA_MW_Breaker_Bar_Ability</iconPath>
     <cooldownTicksRange>300</cooldownTicksRange> <!-- 6 days -->
     <showPsycastEffects>false</showPsycastEffects>
@@ -741,8 +741,8 @@
   </ThingDef>
   <AbilityDef>
     <defName>WULA_RW_Base_AR_Ability</defName>
-    <label>发射眩光弹</label>
-    <description>使用DLa-1"页岩"下挂的眩光弹发射器射出一发眩光弹，它落地之后需要一小段时间才会爆炸，将眩晕附近的所有生物和机械体。</description>
+    <label>Launch flashbang</label>
+    <description>Fire a flashbang from the underbarrel launcher on the DLa-1 "Shale". After a short delay on the ground, it detonates and stuns all nearby biologicals and mechanoids.</description>
     <iconPath>Wula/UI/Abilities/WULA_RW_Base_AR_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -1142,8 +1142,8 @@
   </ThingDef>
   <AbilityDef>
     <defName>WULA_RW_EMP_RF_EMP_Ability</defName>
-    <label>发射EMP榴弹</label>
-    <description>使用FLm-78"萤石"下挂的榴弹发射器发射一枚EMP榴弹以击破护盾和控制机械族，这种重型榴弹发射器发射距离较远，但是需要一点时间架设开火。</description>
+    <label>Launch EMP grenade</label>
+    <description>Fire an EMP grenade from the underbarrel launcher on the FLm-78 "Fluorite" to break shields and disable mechanoids. This heavy launcher has long range, but needs time to set up before firing.</description>
     <iconPath>Wula/UI/Abilities/WULA_RW_EMP_RF_EMP_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -1566,8 +1566,8 @@
   </ThingDef>
   <AbilityDef>
     <defName>WULA_RW_Penetrating_Beam_RifleSwitchAbility</defName>
-    <label>武装解放 / 武装闭锁</label>
-    <description>控制分光棱镜档位，以决定SLb-15 "三叉戟"是否切换到光束散射模式。</description>
+    <label>Armament release / Armament lock</label>
+    <description>Adjust the beam-splitting prism setting to switch whether the SLb-15 "Trident" enters beam scattering mode.</description>
     <cooldownTicksRange>601</cooldownTicksRange>
     <iconPath>Wula/UI/Abilities/WULA_WeaponSwitchAbility</iconPath>
     <hostile>false</hostile>
@@ -2313,8 +2313,8 @@
   </ThingDef>
   <AbilityDef>
     <defName>WULA_RW_Base_Loitering_Munition_Ability</defName>
-    <label>启动引导系统</label>
-    <description>启动WLl-35"沸石"的自引导系统，使得其下一发飞弹不需要漫长的引导。</description>
+    <label>Activate guidance system</label>
+    <description>Activate the WLl-35 "Zeolite" self-guidance system so the next missile doesn't require a long guiding process.</description>
     <iconPath>Wula/UI/Abilities/WULA_RW_Base_Loitering_Munition_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -2481,8 +2481,8 @@
   </ThingDef>
   <AbilityDef>
     <defName>WULA_RW_Auto_GL_Smoke_Ability</defName>
-    <label>发射烟雾弹</label>
-    <description>使用SEl-78"角砾岩"临时装填并发射一枚烟雾弹，用于遮蔽炮塔的瞄准和防止己方被流弹击中。</description>
+    <label>Launch smoke grenade</label>
+    <description>Temporarily load and fire a smoke grenade with the SEl-78 "Conglomerate" to obscure turret aim and reduce friendly fire from stray shots.</description>
     <iconPath>Wula/UI/Abilities/WULA_RW_Auto_GL_Smoke_Ability</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -2562,8 +2562,8 @@
   </ThingDef>
   <AbilityDef>
     <defName>WULA_MW_Cheat_Weapon_Ability</defName>
-    <label>放逐之门</label>
-    <description>使得目标立刻被放逐——无视一切保护措施，将其从存档中永远擦除。</description>
+    <label>Banishment Gate</label>
+    <description>Immediately banish the target—ignoring all protections—and erase them from the save forever.</description>
     <iconPath>Wula/UI/Commands/Wula_Psi_Titan_AreaDamage</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>

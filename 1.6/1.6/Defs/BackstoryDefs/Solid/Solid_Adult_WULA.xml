@@ -12,9 +12,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory01</defName>
     <slot>Adulthood</slot>
-    <title>素体</title>
-    <titleShort>素体</titleShort>
-    <description>[PAWN_nameDef]没有任何故事——[PAWN_pronoun]被产地的工厂星球打包发给了乌拉帝国开发署，这是[PAWN_pronoun]第一次部署到实际任务中。\n\n正因为如此，其大部分记忆体仍处于空置状态，[PAWN_pronoun]可以快速地进行学习，以塑造自己。</description>
+    <title>Blank chassis</title>
+    <titleShort>Blank chassis</titleShort>
+    <description>[PAWN_nameDef] has no story—[PAWN_pronoun] was packaged up on a factory world and shipped to the Wula Empire Development Agency. This is [PAWN_pronoun]'s first real deployment.\n\nBecause of that, most of [PAWN_possessive] memory banks are still empty, and [PAWN_pronoun] can learn quickly and shape [PAWN_possessive]self.</description>
     <spawnCategories>
       <li>Wula_Backstory_Categories</li>
     </spawnCategories>
@@ -34,9 +34,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory02</defName>
     <slot>Adulthood</slot>
-    <title>医疗兵</title>
-    <titleShort>医疗兵</titleShort>
-    <description>[PAWN_nameDef]是一名医疗兵，[PAWN_pronoun]踏上了一条更加高尚的道途——以自己的力量从战场上抢救消逝的生命。在服役的这些年间，[PAWN_pronoun]一手提着枪一手抱着急救设备，穿梭于战场上。[PAWN_pronoun]抢救了无数的乌拉帝国伤员，也击毙了无数图谋不轨的异族士兵，耀眼的行为让其成为了全团人的精神支柱。\n\n在加入多场足以载入帝国史册的战斗后，[PAWN_nameDef]迎来了自己的退役之日。但是[PAWN_possessive]征途尚未结束，[PAWN_pronoun]加入了一支边缘世界的拓荒队，决定继续用自己的技艺拯救同伴和对抗异族。</description>
+    <title>Combat medic</title>
+    <titleShort>Combat medic</titleShort>
+    <description>[PAWN_nameDef] is a combat medic. [PAWN_pronoun] chose a nobler path—using [PAWN_possessive] own hands to pull fading lives back from the battlefield. During [PAWN_possessive] years of service, [PAWN_pronoun] carried a gun in one hand and medical gear in the other, weaving through the fighting. [PAWN_pronoun] saved countless wounded of the Wula Empire and shot down countless alien soldiers with ill intent, becoming the shining pillar of the whole unit.\n\nAfter taking part in battles worthy of the imperial annals, [PAWN_nameDef] reached retirement. But [PAWN_possessive] journey wasn't over. [PAWN_pronoun] joined a frontier expedition to the rim, determined to keep using [PAWN_possessive] skills to save comrades and fight off hostile aliens.</description>
     <skillGains>
       <Shooting>7</Shooting>
       <Melee>7</Melee>
@@ -61,9 +61,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory03</defName>
     <slot>Adulthood</slot>
-    <title>城防军士兵</title>
-    <titleShort>城防军士兵</titleShort>
-    <description>[PAWN_nameDef]是一名退役的乌拉帝国骑士团辅助军，曾经则是戍守防线的城防军士兵。城防军士兵通常随着乌拉帝国骑士团的坚盾骑士们出征，并被部署到最需要军队固守的要塞节点上。[PAWN_pronoun]在南征北战中积累了丰富的战斗和工事修筑经验，但是也让她对寡淡的退役生活感到厌倦。为了重新寻求刺激，[PAWN_pronoun]加入了乌拉帝国的拓荒队，前往新的星区开始自己的第二人生。</description>
+    <title>Garrison soldier</title>
+    <titleShort>Garrison soldier</titleShort>
+    <description>[PAWN_nameDef] is a retired auxiliary of the Wula Empire knight orders, once a city-defense soldier guarding the lines. Such soldiers typically campaign alongside the knight orders' Bulwark Knights, and are posted to the fortress nodes that most need holding. In countless campaigns, [PAWN_pronoun] gained rich experience in combat and fortification building—but also grew weary of a bland retired life. Seeking excitement again, [PAWN_pronoun] joined a Wula Empire frontier expedition to a new star region to begin a second life.</description>
     <skillGains>
       <Shooting>7</Shooting>
       <Melee>7</Melee>
@@ -87,9 +87,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory04</defName>
     <slot>Adulthood</slot>
-    <title>见习骑士</title>
-    <titleShort>见习骑士</titleShort>
-    <description>[PAWN_nameDef]是一名即将加入乌拉帝国骑士团的见习骑士。在某一个偶然的时刻，[PAWN_possessive]才能和技艺被骑士团的骑士们所发掘，得到了进入乌拉帝国骑士团的机会。[PAWN_pronoun]毫不犹豫选择了这个道路，并向骑士圣典宣誓，立志以其血起誓效忠皇帝。\n\n只不过，由于骑士团的制度，她还需要接受一系列的试炼才能正式进入骑士团，在堡垒的萧墙内是找不到这样的机会的，因此[PAWN_nameDef]加入了边缘世界的拓荒队，并准备在这个机遇之地大显身手。</description>
+    <title>Probationary knight</title>
+    <titleShort>Probationary knight</titleShort>
+    <description>[PAWN_nameDef] is a Probationary knight, soon to join the Wula Empire knight orders. By chance, [PAWN_possessive] talent and skill were noticed by the knights, earning [PAWN_pronoun] a chance to enter the order. [PAWN_pronoun] chose the path without hesitation, swore upon the knightly canon, and vowed with blood to be loyal to the Emperor.\n\nBut by the order's customs, [PAWN_pronoun] must pass a series of trials before being formally inducted. There are no such chances behind the fortress walls, so [PAWN_nameDef] joined a frontier expedition to the rim—ready to prove [PAWN_possessive] worth in a land of opportunity.</description>
     <skillGains>
       <Shooting>10</Shooting>
       <Melee>10</Melee>
@@ -119,9 +119,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory05</defName>
     <slot>Adulthood</slot>
-    <title>赎罪骑士</title>
-    <titleShort>赎罪骑士</titleShort>
-    <description>[PAWN_nameDef]是一名乌拉帝国赎罪骑士，赎罪骑士虽然名义上是骑士，但是已经被乌拉帝国骑士团除名了。[PAWN_pronoun]犯下了无法弥补的错误，必须用终身的流浪远征向骑士团赎罪，如此方可在其咽气时，重新恢复身份并被允许葬于骑士团的坟墓。\n\n没有人知道[PAWN_nameDef]是怎么加入拓荒队的，[PAWN_pronoun]对自己的过错也只字不提。</description>
+    <title>Penitent knight</title>
+    <titleShort>Penitent knight</titleShort>
+    <description>[PAWN_nameDef] is a penitent knight of the Wula Empire. Though still called a knight, [PAWN_pronoun] has been struck from the rolls of the knight order. Having committed an unforgivable mistake, [PAWN_pronoun] must atone through a lifetime of wandering crusade. Only then, upon [PAWN_possessive] last breath, may [PAWN_pronoun] regain [PAWN_possessive] title and be allowed to rest in the order's tombs.\n\nNo one knows how [PAWN_nameDef] came to join the frontier expedition. [PAWN_pronoun] never speaks of [PAWN_possessive] sin.</description>
     <skillGains>
       <Shooting>8</Shooting>
       <Melee>8</Melee>
@@ -155,9 +155,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory10</defName>
     <slot>Adulthood</slot>
-    <title>农奴</title>
-    <titleShort>农奴</titleShort>
-    <description>农奴是乌拉帝国骑士团辖地中最底层的贱民。通常来说，拥有正式公民身份的合成人乌拉不会沦落至此，但是[PAWN_nameDef]是个例外。[PAWN_pronoun]似乎犯下过某种弥天大罪，被剥夺了公民身份贬为和奴隶同级。但是万幸的是，有一支支拓荒队比较缺人，没有人愿意来边缘世界这个无主之地。于是为了完成指标，骑士团将[PAWN_nameDef]赶去了拓荒队——至少不需要再受到上层姥爷的欺压了。</description>
+    <title>Serf</title>
+    <titleShort>Serf</titleShort>
+    <description>Serfs are the lowest underclass in territories ruled by the Wula Empire knight orders. Normally, a synth with full citizenship would never fall so low—but [PAWN_nameDef] is an exception. [PAWN_pronoun] seems to have committed some grievous crime, was stripped of citizenship, and reduced to the same status as a slave. Fortunately, frontier expeditions are always short on hands, and no one wants to go to the unclaimed rim. To meet their quotas, the knights drove [PAWN_nameDef] into an expedition—at least [PAWN_pronoun] no longer has to endure the bullying of the upper class.</description>
     <skillGains>
       <Shooting>-10</Shooting>
       <Melee>-8</Melee>
@@ -187,9 +187,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory11</defName>
     <slot>Adulthood</slot>
-    <title>扈从</title>
-    <titleShort>扈从</titleShort>
-    <description>[PAWN_nameDef]是一名乌拉帝国的扈从——就像是那些骑士小说中所描述的那样，乌拉帝国骑士团的骑士们也有自己的扈从，扈从的职责就是照顾骑士们的起居，为其保养武器，协助传达指令甚至拿起枪辅助骑士们的战斗。\n\n在某一场战争中，[PAWN_possessive]主子战死疆场，为其安排后事之后，[PAWN_nameDef]突然找不到自己存在的意义了，似乎侍奉骑士姥爷就是[PAWN_pronoun]唯一会干的事情。[PAWN_pronoun]没有再找到适合效忠的骑士，在浑浑噩噩之中加入了乌拉帝国的拓荒队，希望在一个全新的星区证明自己存在的价值。</description>
+    <title>Retainer</title>
+    <titleShort>Retainer</titleShort>
+    <description>[PAWN_nameDef] was a retainer of the Wula Empire—just like in the knightly tales. Knights of the Wula Empire have their own attendants. A retainer cares for a knight's daily life, maintains their weapons, helps relay orders, and even takes up a gun to support them in battle.\n\nIn one war, [PAWN_possessive] master fell on the field. After arranging the funeral rites, [PAWN_nameDef] suddenly couldn't find a reason to exist—serving a knight was the only thing [PAWN_pronoun] knew how to do. [PAWN_pronoun] never found another knight worth swearing to. Drifting aimlessly, [PAWN_pronoun] joined a frontier expedition to a new star region, hoping to prove [PAWN_possessive] value.</description>
     <skillGains>
       <Shooting>-5</Shooting>
       <Melee>-5</Melee>
@@ -220,9 +220,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory12</defName>
     <slot>Adulthood</slot>
-    <title>法务官</title>
-    <titleShort>法务官</titleShort>
-    <description>[PAWN_nameDef]曾经是乌拉帝国的法务官，法务官是隶属于乌拉帝国骑士团的辖地内特殊基层执法者，专门负责应对各种由奴隶引起的暴动、骚乱和反叛，并维护乌拉帝国的至上权威。[PAWN_possessive]电棍击倒过无数异族，逆反的奴隶见到[PAWN_pronoun]便失声颤抖——但是似乎在某一个时刻，[PAWN_pronoun]突然厌恶了这种生活。\n\n[PAWN_pronoun]离开了骑士团辖区，加入了前往新星区的拓荒队，似乎是要彻底和过去诀别。</description>
+    <title>Legal officer</title>
+    <titleShort>Legal officer</titleShort>
+    <description>[PAWN_nameDef] used to be a legal officer of the Wula Empire. Legal officers are special grassroots enforcers within territories controlled by the knight orders, dedicated to handling riots, unrest, and rebellions sparked by slaves, and upholding the Empire's supreme authority. [PAWN_possessive] shock baton has felled countless aliens; defiant slaves would go pale and tremble at the sight of [PAWN_pronoun]. Yet at some point, [PAWN_pronoun] came to hate that life.\n\n[PAWN_pronoun] left the knights' domain and joined a frontier expedition to a new star region, seemingly to sever ties with the past for good.</description>
     <skillGains>
       <Shooting>5</Shooting>
       <Melee>2</Melee>
@@ -261,9 +261,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory100</defName>
     <slot>Adulthood</slot>
-    <title>花使</title>
-    <titleShort>花使</titleShort>
-    <description>[PAWN_nameDef]是一名乌拉帝国花使。花使是乌拉帝国的植物塑型师，负责通过基因操纵和剪裁为帝国培养赏心悦目的景观和可口的食物，传承着将美好与希望的种子撒满乌拉帝国每个殖民地的愿望。\n\n为了实地考察新的星区，[PAWN_nameDef]加入了一支刚刚成立的乌拉帝国拓荒队，以继续自己的修行之路。</description>
+    <title>Floral shaper</title>
+    <titleShort>Floral shaper</titleShort>
+    <description>[PAWN_nameDef] is a Floral Shaper of the Wula Empire. Floral Shapers are plant sculptors, using genetic manipulation and pruning to cultivate pleasing landscapes and delicious food for the Empire, carrying on the wish to sow seeds of beauty and hope across every colony.\n\nTo survey a new star region in person, [PAWN_nameDef] joined a freshly formed frontier expedition, continuing [PAWN_possessive] path of practice.</description>
     <skillGains>
       <Construction>-5</Construction>
       <Mining>-5</Mining>
@@ -294,9 +294,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory101</defName>
     <slot>Adulthood</slot>
-    <title>繁育使</title>
-    <titleShort>繁育使</titleShort>
-    <description>[PAWN_possessive]是一名乌拉帝国繁育使。繁育使是乌拉帝国的动物塑型师，专职于以基因修剪和重构的手段创造和改良低智能物种。当然，她们时不时也会构造一些疯狂扭曲的造物，并将它们作为生物武器投放到战场上。\n\n对于一个新的星区来说，这些生命形态各异的本地生物就是最好的试验者，[PAWN_nameDef]急不可耐地参与了对边缘世界的拓荒行动。以期寻找新的灵感。</description>
+    <title>Breeding shaper</title>
+    <titleShort>Breeding shaper</titleShort>
+    <description>[PAWN_nameDef] is a Breeding Shaper of the Wula Empire. Breeding Shapers are animal sculptors who specialize in creating and improving low-intelligence species through gene trimming and reconstruction. From time to time, they also build twisted monstrosities and deploy them as bioweapons on the battlefield.\n\nFor a new star region, the diverse local fauna are perfect test subjects. [PAWN_nameDef] eagerly joined the push into the rim, searching for new inspiration.</description>
     <skillGains>
       <Construction>-5</Construction>
       <Mining>-5</Mining>
@@ -328,9 +328,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory102</defName>
     <slot>Adulthood</slot>
-    <title>传谕使</title>
-    <titleShort>传谕使</titleShort>
-    <description>[PAWN_nameDef]曾经是乌拉帝国的传谕使，这些八面玲珑的外交人员是乌拉帝国对外的喉舌，她们的名字即象征着其身份：高贵、优雅、目中无人，她们只会代表乌拉帝国向低等文明传递意志，而不聆听任何请求，也不提供任何讨价还价的权力。\n\n在一次灾难性的外交事故中，[PAWN_nameDef]被判定为有损帝国威严，因此被剥夺了身份流放至边缘世界的拓荒队中。</description>
+    <title>Herald</title>
+    <titleShort>Herald</titleShort>
+    <description>[PAWN_nameDef] was once a Herald of the Wula Empire. These silver-tongued diplomats are the Empire's voice to the outside. Their very title speaks of their station: noble, elegant, and disdainful. They deliver the Wula Empire's will to lesser civilizations—they do not listen to requests, and they offer no room for bargaining.\n\nAfter a disastrous diplomatic incident, [PAWN_nameDef] was judged to have damaged the Empire's dignity. [PAWN_pronoun] was stripped of status and exiled to a frontier expedition on the rim.</description>
     <skillGains>
       <Shooting>-5</Shooting>
       <Melee>-5</Melee>
@@ -361,9 +361,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory200</defName>
     <slot>Adulthood</slot>
-    <title>和谐侍者</title>
-    <titleShort>和谐侍者</titleShort>
-    <description>[PAWN_nameDef]是乌拉帝国国教教会的和谐侍者。和谐侍者精于农耕，知道如何利用灵能催产作物，并在丰收之日为主献上最完美的贡品。\n\n作为教众的一员，[PAWN_nameDef]理所应当地加入了对新世界的拓荒，这是国教宣扬其存在并同化当地信仰的大好机会。</description>
+    <title>Harmony acolyte</title>
+    <titleShort>Harmony acolyte</titleShort>
+    <description>[PAWN_nameDef] is a Harmony Acolyte of the Wula Empire's state church. Harmony Acolytes excel at farming, using psychic power to spur crops, and offering the finest tribute to the Lord on harvest day.\n\nAs a member of the faithful, [PAWN_nameDef] naturally joined the push into a new world—an excellent chance for the church to proclaim itself and assimilate local beliefs.</description>
     <skillGains>
       <Melee>5</Melee>
       <Plants>8</Plants>
@@ -395,9 +395,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory201</defName>
     <slot>Adulthood</slot>
-    <title>锻锤侍者</title>
-    <titleShort>锻锤侍者</titleShort>
-    <description>[PAWN_nameDef]是乌拉帝国国教教会的锻锤侍者。锻锤侍者是是铸造剑犁的好手，通过驱动灵能对物品进行塑性，她们可以将自己的信仰雕刻在精美的器具中。\n\n作为教众的一员，[PAWN_nameDef]理所应当地加入了对新世界的拓荒，这是国教宣扬其存在并同化当地信仰的大好机会。</description>
+    <title>Forgehammer acolyte</title>
+    <titleShort>Forgehammer acolyte</titleShort>
+    <description>[PAWN_nameDef] is a Forgehammer Acolyte of the Wula Empire's state church. Forgehammer Acolytes are skilled at forging swords and plowshares alike. By driving psychic power to shape materials, they can carve their faith into exquisite tools.\n\nAs a member of the faithful, [PAWN_nameDef] naturally joined the push into a new world—an excellent chance for the church to proclaim itself and assimilate local beliefs.</description>
     <skillGains>
       <Melee>5</Melee>
       <Crafting>8</Crafting>
@@ -429,9 +429,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory202</defName>
     <slot>Adulthood</slot>
-    <title>护教军</title>
-    <titleShort>护教军</titleShort>
-    <description>[PAWN_nameDef]是隶属于乌拉帝国护教军的战士，深谙使用灵能战斗的搏杀技巧，以宿敌之血证心中的无限热忱。\n\n按理来说，[PAWN_nameDef]和[PAWN_pronoun]代表的护教军不应该出现在这里，因为这对教会来说已经属于长臂管辖——但是说不定这是个人行为呢？总之谁也不清楚教会为何会做出这样的安排。</description>
+    <title>Church militant</title>
+    <titleShort>Church militant</titleShort>
+    <description>[PAWN_nameDef] is a warrior of the Wula Empire's Church Militant, well versed in close combat guided by psychic power, proving boundless zeal with the blood of sworn enemies.\n\nBy rights, [PAWN_nameDef] and the Church Militant [PAWN_pronoun] represents shouldn't be here—this is already far beyond the church's usual reach. But perhaps this is a personal action. In any case, no one knows why the church made such an arrangement.</description>
     <skillGains>
       <Melee>8</Melee>
       <Shooting>8</Shooting>
@@ -465,9 +465,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory204</defName>
     <slot>Adulthood</slot>
-    <title>福音侍者</title>
-    <titleShort>福音侍者</titleShort>
-    <description>[PAWN_nameDef]是乌拉帝国国教教会的福音侍者。福音侍者是乌拉帝国大教堂的教众之一，也就是布道士，她们以宣讲维护着社会的安定，并致力于在异种间传播福音。\n\n作为教众的一员，[PAWN_nameDef]理所应当地加入了对新世界的拓荒，这是国教宣扬其存在并同化当地信仰的大好机会。</description>
+    <title>Evangelist</title>
+    <titleShort>Evangelist</titleShort>
+    <description>[PAWN_nameDef] is an Evangelist of the Wula Empire's state church. Evangelists are among the faithful of the Grand Cathedral—preachers who maintain social stability through sermons and devote themselves to spreading the gospel among other species.\n\nAs a member of the faithful, [PAWN_nameDef] naturally joined the push into a new world—an excellent chance for the church to proclaim itself and assimilate local beliefs.</description>
     <skillGains>
       <Melee>-5</Melee>
       <Crafting>3</Crafting>
@@ -501,9 +501,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory301</defName>
     <slot>Adulthood</slot>
-    <title>编目司书</title>
-    <titleShort>编目司书</titleShort>
-    <description>[PAWN_nameDef]曾经是乌拉帝国的编目司书。编目司书是乌拉帝国图书馆的档案管理员之一，为上千种各式语言所编写的时间跨度超过数百万年的留存资料进行书目撰写，是维系乌拉帝国知识库正常运转的齿轮。\n\n为了寻找新的失落科技，[PAWN_nameDef]离开了生活环境优越的乌拉帝国世界，来到了这个偏远的星区。</description>
+    <title>Cataloging librarian</title>
+    <titleShort>Cataloging librarian</titleShort>
+    <description>[PAWN_nameDef] was a cataloging librarian of the Wula Empire. Cataloging librarians are archivists of the Imperial Library, compiling bibliographies for preserved records written in thousands of languages and spanning millions of years. They are a cog that keeps the Wula knowledge vault running.\n\nSeeking new lost technologies, [PAWN_nameDef] left the comfortable worlds of the Wula Empire and came to this remote star region.</description>
     <skillGains>
       <Construction>-10</Construction>
       <Mining>-5</Mining>
@@ -538,9 +538,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory_Legion</defName>
     <slot>Adulthood</slot>
-    <title>「军团」分体</title>
-    <titleShort>「军团」分体</titleShort>
-    <description>[PAWN_nameDef]实际上没有自主心智，它直接链接乌拉帝国行星封锁机关的超级AI「军团」，作为其在外活动时的耳目。</description>
+    <title>Legion shard</title>
+    <titleShort>Legion shard</titleShort>
+    <description>[PAWN_nameDef] has no independent mind. [PAWN_pronoun] is directly linked to the Planetary Interdiction Authority's super AI, "Legion", serving as its eyes and ears while operating in the field.</description>
     <workDisables>AllWork</workDisables>
     <bodyTypeGlobal>Thin</bodyTypeGlobal>
     <bodyTypeFemale>Thin</bodyTypeFemale>
@@ -552,9 +552,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory_Legion_Escort</defName>
     <slot>Adulthood</slot>
-    <title>断爪卫队</title>
-    <titleShort>断爪卫队</titleShort>
-    <description>[PAWN_nameDef]是断爪卫队的一员，该卫队是乌拉帝国行星封锁机关总控AI「军团」的亲卫队，沉默而致命，忠实地履行自己的义务，为上司完成各种棘手的任务。</description>
+    <title>Brokenclaw Guard</title>
+    <titleShort>Brokenclaw Guard</titleShort>
+    <description>[PAWN_nameDef] is a member of the Brokenclaw Guard, the personal guard of the Planetary Interdiction Authority's central AI \"Legion\". Silent and deadly, they faithfully fulfill their duties and carry out all manner of thorny missions for their superior.</description>
     <workDisables>AllWork</workDisables>
     <bodyTypeGlobal>Thin</bodyTypeGlobal>
     <bodyTypeFemale>Thin</bodyTypeFemale>
@@ -572,9 +572,9 @@
   <AlienRace.AlienBackstoryDef ParentName="WULA_BackstoryBase">
     <defName>WULA_Adult_Backstory999</defName>
     <slot>Adulthood</slot>
-    <title>破碎人格</title>
-    <titleShort>破碎人格</titleShort>
-    <description>[PAWN_possessive]人格矩阵完全损坏，已是某个集体意识的一部分。</description>
+    <title>Shattered personality</title>
+    <titleShort>Shattered personality</titleShort>
+    <description>[PAWN_possessive] personality matrix is completely damaged. [PAWN_pronoun] is now part of a collective consciousness.</description>
     <spawnCategories>
       <li>Wula_Backstory_Categories_For_Hostile_Faction</li>
     </spawnCategories>

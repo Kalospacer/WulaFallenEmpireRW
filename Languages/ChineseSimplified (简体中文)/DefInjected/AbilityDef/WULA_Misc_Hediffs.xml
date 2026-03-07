@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 停止生产 -->
+  <WULA_GiveSwitchHediff.label>停止生产</WULA_GiveSwitchHediff.label>
+  <!-- EN: 停止自动生产机械体。 -->
+  <WULA_GiveSwitchHediff.description>停止自动生产机械体。</WULA_GiveSwitchHediff.description>
+  
+  <!-- EN: 重启生产 -->
+  <WULA_RemoveSwitchHediff.label>重启生产</WULA_RemoveSwitchHediff.label>
+  <!-- EN: 重启自动生产机械体。 -->
+  <WULA_RemoveSwitchHediff.description>重启自动生产机械体。</WULA_RemoveSwitchHediff.description>
+  
+</LanguageData>

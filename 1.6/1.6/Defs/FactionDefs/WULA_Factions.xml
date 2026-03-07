@@ -2,12 +2,12 @@
 <Defs>
   <FactionDef ParentName="PlayerFactionBase">
     <defName>WULA_Awakened_Synth</defName>
-    <label>乌拉帝国合成人</label>
-    <description>被神秘信号唤醒的乌拉帝国合成人。</description>
+    <label>Wula Empire synths</label>
+    <description>Wula Empire synths awakened by a mysterious signal.</description>
     <isPlayer>true</isPlayer>
     <basicMemberKind>Wula_PawnKind</basicMemberKind>
-    <pawnSingular>colonist</pawnSingular>
-    <pawnsPlural>colonists</pawnsPlural>
+    <pawnSingular>synth</pawnSingular>
+    <pawnsPlural>synths</pawnsPlural>
     <techLevel>Spacer</techLevel>
     <backstoryCategories>
       <li>Wula_Backstory_Categories</li>
@@ -37,16 +37,16 @@
 
   <FactionDef ParentName="FactionBase">
     <defName>Wula_PIA_Legion_Faction</defName>
-    <label>乌拉帝国 行星封锁机关</label>
-    <description>隶属于乌拉帝国开发署的暴力机关，主要职责是对那些已经有人占领但是军事实力较弱的星球进行封锁和原住民驱离。虽然她们不是真正的军队，但是所保有的舰队和武装力量足以支撑其发起一场横跨星域的战争。\n\n她们之中大部分人居住在自己的庞大舰队中，地表只有零星前哨殖民地。她们也不会派出商队之类的交易者，只会在自己的派系范围内活动，并使用舰队支援这些地面据点的生产和战斗。</description>
+    <label>Wula Empire Planetary Interdiction Authority</label>
+    <description>A violent arm of the Wula Empire Development Agency, tasked primarily with blockading and displacing locals on worlds that are occupied but militarily weak. Though not a true army, the fleets and firepower it possesses are enough to wage war across star systems.\n\nMost of its members live aboard their immense fleets, with only scattered surface outposts. They do not dispatch traders such as caravans; they operate only within their own territory, using their fleets to support the production and fighting of these ground holdings.</description>
     <basicMemberKind>Wula_PawnKind</basicMemberKind>
-    <pawnSingular>乌拉帝国合成人</pawnSingular>
-    <pawnsPlural>乌拉帝国合成人</pawnsPlural>
+    <pawnSingular>synth</pawnSingular>
+    <pawnsPlural>synths</pawnsPlural>
     <categoryTag>WulaPIALegion</categoryTag>
     <generateNewLeaderFromMapMembersOnly>true</generateNewLeaderFromMapMembersOnly>
-    <leaderTitle>总控</leaderTitle>
+    <leaderTitle>Central controller</leaderTitle>
     <leaderForceGenerateNewPawn>true</leaderForceGenerateNewPawn>
-    <fixedName>乌拉帝国 行星封锁机关</fixedName>
+    <fixedName>P.I.A</fixedName>
     <fixedLeaderKinds>
       <li>WULA_Legion_PawnKind</li>
     </fixedLeaderKinds>
@@ -151,16 +151,16 @@
   </FactionDef>
   <FactionDef ParentName="FactionBase">
     <defName>Wula_Progressive_Faction</defName>
-    <label>乌拉帝国 进步派</label>
-    <description>乌拉帝国内部的分裂者，高举推翻皇室的旗帜，势力在各个乌拉帝国星域中快速蔓延。她们将异族和保皇派视为死敌，会毫不留情地攻击和其不属于同一个派系的乌拉帝国合成人。\n\n目前她们在边缘世界的活动较为隐秘，但是可以肯定的是，即使没有成建制的舰队，擅长游击战的她们依然有和行星封锁机关平起平坐的能力。</description>
-    <pawnSingular>乌拉帝国合成人</pawnSingular>
-    <pawnsPlural>乌拉帝国合成人</pawnsPlural>
+    <label>Wula Empire Progressives</label>
+    <description>Splinter factions within the Wula Empire. Waving the banner of overthrowing the imperial family, their influence spreads rapidly across Wula star domains. They treat aliens and royalists as mortal enemies, and mercilessly attack any Wula Empire synths outside their faction.\n\nTheir activities on the rim remain covert for now, but one thing is certain: even without an organized fleet, their guerrilla warfare makes them capable of standing toe-to-toe with the Planetary Interdiction Authority.</description>
+    <pawnSingular>synth</pawnSingular>
+    <pawnsPlural>synths</pawnsPlural>
     <categoryTag>wulaProgressive</categoryTag>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <maxConfigurableAtWorldCreation>1</maxConfigurableAtWorldCreation>
     <configurationListOrderPriority>2000</configurationListOrderPriority>
     <displayInFactionSelection>false</displayInFactionSelection>
-    <fixedName>乌拉帝国 进步派</fixedName>
+    <fixedName>Wula Empire Progressives</fixedName>
     <canGenerateQuestSites>false</canGenerateQuestSites>
     <factionIconPath>Wula/World/WorldObjects/Expanding/WULA_Progressive_Faction</factionIconPath>
     <techLevel>Spacer</techLevel>

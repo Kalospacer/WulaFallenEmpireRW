@@ -2,7 +2,7 @@
 <Defs>
   <BodyPartDef>
     <defName>WULA_Energy_Furnace_Bodypart</defName>
-    <label>中央能源炉</label>
+    <label>Central power furnace</label>
     <hitPoints>120</hitPoints>
     <skinCovered>false</skinCovered>
     <!-- <solid>true</solid> -->
@@ -21,7 +21,7 @@
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_Addons_Antenna_Bodypart</defName>
-    <label>上行链路天线</label>
+    <label>Uplink antenna</label>
     <hitPoints>30</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
@@ -34,7 +34,7 @@
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_Skeleton_Bodypart</defName>
-    <label>合金骨架</label>
+    <label>Alloy skeleton</label>
     <hitPoints>30</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
@@ -47,7 +47,7 @@
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_Panzer_Core_Bodypart</defName>
-    <label>核心发动机</label>
+    <label>Core engine</label>
     <hitPoints>150</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
@@ -62,7 +62,7 @@
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_Outer_Armor_Bodypart</defName>
-    <label>外装甲板</label>
+    <label>Outer armor plating</label>
     <hitPoints>350</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
@@ -72,7 +72,7 @@
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_Panzer_OutBrust_Bodypart</defName>
-    <label>反推喷气孔</label>
+    <label>Retro-thruster nozzle</label>
     <hitPoints>150</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
@@ -85,7 +85,7 @@
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_AI_Core_Bodypart</defName>
-    <label>自律核心</label>
+    <label>Autonomous core</label>
     <hitPoints>50</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
@@ -100,7 +100,7 @@
   </BodyPartDef>
   <BodyPartDef>
     <defName>WULA_Shield_Field_Maintainer_Bodypart</defName>
-    <label>反射盾发生器</label>
+    <label>Reflective shield generator</label>
     <hitPoints>50</hitPoints>
     <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
     <skinCovered>false</skinCovered>
@@ -111,7 +111,7 @@
 
   <BodyDef>
     <defName>WULA_Machine_Body</defName>
-    <label>机械乌拉</label>
+    <label>Mechanical Wula</label>
     <corePart>
       <def>Torso</def>
       <height>Middle</height>
@@ -132,7 +132,7 @@
         <!-- 能源炉，代替了胃、心脏、肺、肾、肝 -->
         <li>
           <def>WULA_Energy_Furnace_Bodypart</def>
-          <customLabel>能源炉</customLabel>
+          <customLabel>Power furnace</customLabel>
           <coverage>0.025</coverage>
           <depth>Inside</depth>
           <groups>
@@ -142,7 +142,7 @@
         <!-- 脖子和头部 -->
         <li>
           <def>Neck</def>
-          <customLabel>脖子</customLabel>
+          <customLabel>Neck</customLabel>
           <coverage>0.075</coverage>
           <height>Top</height>
           <groups>
@@ -268,51 +268,23 @@
         <!-- 肩部 -->
         <li>
           <def>Shoulder</def>
-          <customLabel>左肩</customLabel>
+          <customLabel>Left shoulder</customLabel>
           <coverage>0.12</coverage>
           <groups>
             <li>Shoulders</li>
           </groups>
           <parts>
-            <!-- <li>
-							<def>Clavicle</def>
-							<customLabel>left clavicle</customLabel>
-							<coverage>0.09</coverage>
-							<height>Top</height>
-							<depth>Inside</depth>
-							<groups>
-								<li>Torso</li>
-							</groups>
-						</li> -->
             <li>
               <def>Arm</def>
-              <customLabel>左臂</customLabel>
+              <customLabel>Left arm</customLabel>
               <coverage>0.77</coverage>
               <groups>
                 <li>Arms</li>
               </groups>
               <parts>
-                <!-- <li>
-									<def>Humerus</def>
-									<customLabel>left humerus</customLabel>
-									<coverage>0.1</coverage>
-									<depth>Inside</depth>
-									<groups>
-										<li>Arms</li>
-									</groups>
-								</li> -->
-                <!-- <li>
-									<def>Radius</def>
-									<customLabel>left radius</customLabel>
-									<coverage>0.1</coverage>
-									<depth>Inside</depth>
-									<groups>
-										<li>Arms</li>
-									</groups>
-								</li> -->
                 <li>
                   <def>Hand</def>
-                  <customLabel>左手</customLabel>
+                  <customLabel>Left hand</customLabel>
                   <coverage>0.14</coverage>
                   <height>Bottom</height>
                   <groups>
@@ -321,7 +293,7 @@
                   <parts>
                     <li>
                       <def>Finger</def>
-                      <customLabel>左尾指</customLabel>
+                      <customLabel>Left little finger</customLabel>
                       <coverage>0.06</coverage>
                       <groups>
                         <li>Hands</li>
@@ -330,16 +302,17 @@
                     </li>
                     <li>
                       <def>Finger</def>
-                      <customLabel>左无名指</customLabel>
+                      <customLabel>Left ring finger</customLabel>
                       <coverage>0.07</coverage>
                       <groups>
                         <li>Hands</li>
                         <li>LeftHand</li>
                       </groups>
                     </li>
+                    <极简
                     <li>
                       <def>Finger</def>
-                      <customLabel>左中指</customLabel>
+                      <customLabel>Left middle finger</customLabel>
                       <coverage>0.08</coverage>
                       <groups>
                         <li>Hands</li>
@@ -348,7 +321,7 @@
                     </li>
                     <li>
                       <def>Finger</def>
-                      <customLabel>左食指</customLabel>
+                      <customLabel>Left index finger</customLabel>
                       <coverage>0.07</coverage>
                       <groups>
                         <li>Hands</li>
@@ -356,8 +329,8 @@
                       </groups>
                     </li>
                     <li>
-                      <def>Finger</def>
-                      <customLabel>左拇指</customLabel>
+                      <def>Finger</极简
+                      <customLabel>Left thumb</customLabel>
                       <coverage>0.08</coverage>
                       <groups>
                         <li>Hands</li>
@@ -372,51 +345,23 @@
         </li>
         <li>
           <def>Shoulder</def>
-          <customLabel>右肩</customLabel>
+          <customLabel>Right shoulder</customLabel>
           <coverage>0.12</coverage>
           <groups>
             <li>Shoulders</li>
           </groups>
           <parts>
-            <!-- <li>
-							<def>Clavicle</def>
-							<customLabel>right clavicle</customLabel>
-							<coverage>0.09</coverage>
-							<height>Top</height>
-							<depth>Inside</depth>
-							<groups>
-								<li>Torso</li>
-							</groups>
-						</li> -->
             <li>
               <def>Arm</def>
-              <customLabel>右臂</customLabel>
+              <customLabel>Right arm</customLabel>
               <coverage>0.77</coverage>
               <groups>
                 <li>Arms</li>
               </groups>
               <parts>
-                <!-- <li>
-									<def>Humerus</def>
-									<customLabel>right humerus</customLabel>
-									<coverage>0.1</coverage>
-									<depth>Inside</depth>
-									<groups>
-										<li>Arms</li>
-									</groups>
-								</li>
-								<li>
-									<def>Radius</def>
-									<customLabel>right radius</customLabel>
-									<coverage>0.1</coverage>
-									<depth>Inside</depth>
-									<groups>
-										<li>Arms</li>
-									</groups>
-								</li> -->
                 <li>
                   <def>Hand</def>
-                  <customLabel>右手</customLabel>
+                  <customLabel>Right hand</customLabel>
                   <coverage>0.14</coverage>
                   <height>Bottom</height>
                   <groups>
@@ -425,7 +370,7 @@
                   <parts>
                     <li>
                       <def>Finger</def>
-                      <customLabel>右尾指</customLabel>
+                      <customLabel>Right little finger</customLabel>
                       <coverage>0.06</coverage>
                       <groups>
                         <li>Hands</li>
@@ -434,7 +379,7 @@
                     </li>
                     <li>
                       <def>Finger</def>
-                      <customLabel>右无名指</customLabel>
+                      <customLabel>Right ring finger</customLabel>
                       <coverage>0.07</coverage>
                       <groups>
                         <li>Hands</li>
@@ -443,7 +388,7 @@
                     </li>
                     <li>
                       <def>Finger</def>
-                      <customLabel>右中指</customLabel>
+                      <customLabel>Right middle finger</customLabel>
                       <coverage>0.08</coverage>
                       <groups>
                         <li>Hands</li>
@@ -452,16 +397,17 @@
                     </li>
                     <li>
                       <def>Finger</def>
-                      <customLabel>右食指</customLabel>
+                      <customLabel>Right index finger</customLabel>
                       <coverage>0.07</coverage>
                       <groups>
+                        <极简
                         <li>Hands</li>
                         <li>RightHand</li>
                       </groups>
                     </li>
                     <li>
                       <def>Finger</def>
-                      <customLabel>右拇指</customLabel>
+                      <customLabel>Right thumb</customLabel>
                       <coverage>0.08</coverage>
                       <groups>
                         <li>Hands</li>
@@ -486,34 +432,16 @@
         <!-- 腿 -->
         <li>
           <def>Leg</def>
-          <customLabel>左腿</customLabel>
+          <customLabel>Left leg</customLabel>
           <coverage>0.14</coverage>
           <height>Bottom</height>
           <groups>
             <li>Legs</li>
           </groups>
           <parts>
-            <!-- <li>
-							<def>Femur</def>
-							<customLabel>left femur</customLabel>
-							<coverage>0.1</coverage>
-							<depth>Inside</depth>
-							<groups>
-								<li>Legs</li>
-							</groups>
-						</li> -->
-            <!-- <li>
-							<def>Tibia</def>
-							<customLabel>left tibia</customLabel>
-							<coverage>0.1</coverage>
-							<depth>Inside</depth>
-							<groups>
-								<li>Legs</li>
-							</groups>
-						</li> -->
             <li>
               <def>Foot</def>
-              <customLabel>左足</customLabel>
+              <customLabel>Left foot</customLabel>
               <coverage>0.1</coverage>
               <groups>
                 <li>Feet</li>
@@ -521,7 +449,7 @@
               <parts>
                 <li>
                   <def>Toe</def>
-                  <customLabel>左小趾</customLabel>
+                  <customLabel>Left little toe</customLabel>
                   <coverage>0.06</coverage>
                   <groups>
                     <li>Feet</li>
@@ -529,7 +457,7 @@
                 </li>
                 <li>
                   <def>Toe</def>
-                  <customLabel>左次小趾</customLabel>
+                  <customLabel>Left fourth toe</customLabel>
                   <coverage>0.07</coverage>
                   <groups>
                     <li>Feet</li>
@@ -537,7 +465,7 @@
                 </li>
                 <li>
                   <def>Toe</def>
-                  <customLabel>左三趾</customLabel>
+                  <customLabel>Left third toe</customLabel>
                   <coverage>0.08</coverage>
                   <groups>
                     <li>Feet</li>
@@ -545,7 +473,7 @@
                 </li>
                 <li>
                   <def>Toe</def>
-                  <customLabel>左二趾</customLabel>
+                  <customLabel>Left second toe</customLabel>
                   <coverage>0.09</coverage>
                   <groups>
                     <li>Feet</li>
@@ -553,7 +481,7 @@
                 </li>
                 <li>
                   <def>Toe</def>
-                  <customLabel>左大拇趾</customLabel>
+                  <customLabel>Left big toe</customLabel>
                   <coverage>0.09</coverage>
                   <groups>
                     <li>Feet</li>
@@ -565,42 +493,25 @@
         </li>
         <li>
           <def>Leg</def>
-          <customLabel>右腿</customLabel>
+          <customLabel>Right leg</customLabel>
           <coverage>0.14</coverage>
           <height>Bottom</height>
           <groups>
             <li>Legs</li>
           </groups>
           <parts>
-            <!-- <li>
-							<def>Femur</def>
-							<customLabel>right femur</customLabel>
-							<coverage>0.1</coverage>
-							<depth>Inside</depth>
-							<groups>
-								<li>Legs</li>
-							</groups>
-						</li>
-						<li>
-							<def>Tibia</def>
-							<customLabel>right tibia</customLabel>
-							<coverage>0.1</coverage>
-							<depth>Inside</depth>
-							<groups>
-								<li>Legs</li>
-							</groups>
-						</li> -->
             <li>
               <def>Foot</def>
-              <customLabel>右足</customLabel>
+              <customLabel>Right foot</customLabel>
               <coverage>0.1</coverage>
               <groups>
+                <li>Fe极简
                 <li>Feet</li>
               </groups>
               <parts>
                 <li>
                   <def>Toe</def>
-                  <customLabel>右小趾</customLabel>
+                  <customLabel>Right little toe</customLabel>
                   <coverage>0.06</coverage>
                   <groups>
                     <li>Feet</li>
@@ -608,7 +519,7 @@
                 </li>
                 <li>
                   <def>Toe</def>
-                  <customLabel>右次小趾</customLabel>
+                  <customLabel>Right fourth toe</customLabel>
                   <coverage>0.07</coverage>
                   <groups>
                     <li>Feet</li>
@@ -616,7 +527,7 @@
                 </li>
                 <li>
                   <def>Toe</def>
-                  <customLabel>右三趾</customLabel>
+                  <customLabel>Right third toe</customLabel>
                   <coverage>0.08</coverage>
                   <groups>
                     <li>Feet</li>
@@ -624,7 +535,7 @@
                 </li>
                 <li>
                   <def>Toe</def>
-                  <customLabel>右二趾</customLabel>
+                  <customLabel>Right second toe</customLabel>
                   <coverage>0.09</coverage>
                   <groups>
                     <li>Feet</li>
@@ -632,7 +543,7 @@
                 </li>
                 <li>
                   <def>Toe</def>
-                  <customLabel>右大拇趾</customLabel>
+                  <customLabel>Right big toe</customLabel>
                   <coverage>0.09</coverage>
                   <groups>
                     <li>Feet</li>
@@ -648,7 +559,7 @@
 
   <BodyDef>
     <defName>WULA_AI_Heavy_Panzer_Body</defName>
-    <label>智能战车</label>
+    <label>Intelligent war vehicle</label>
     <corePart>
       <def>Torso</def>
       <height>Middle</height>
@@ -691,7 +602,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第一反推喷气孔</customLabel>
+              <customLabel>First retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -700,7 +611,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第二反推喷气孔</customLabel>
+              <customLabel>Second retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -709,7 +620,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第三反推喷气孔</customLabel>
+              <customLabel>Third retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -718,7 +629,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第四反推喷气孔</customLabel>
+              <customLabel>Fourth retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -733,7 +644,7 @@
 
   <BodyDef>
     <defName>WULA_Mech_Mobile_Shield_Body</defName>
-    <label>放射盾</label>
+    <label>Reflective shield</label>
     <corePart>
       <def>Torso</def>
       <height>Middle</height>
@@ -784,7 +695,7 @@
             </li>
             <li>
               <def>Leg</def>
-              <customLabel>第一机械足</customLabel>
+              <customLabel>First mechanical foot</customLabel>
               <coverage>0.13</coverage>
               <height>Bottom</height>
               <groups>
@@ -793,7 +704,7 @@
             </li>
             <li>
               <def>Leg</def>
-              <customLabel>第二机械足</customLabel>
+              <customLabel>Second mechanical foot</customLabel>
               <coverage>0.13</coverage>
               <height>Bottom</height>
               <groups>
@@ -802,7 +713,7 @@
             </li>
             <li>
               <def>Leg</def>
-              <customLabel>第三机械足</customLabel>
+              <customLabel>Third mechanical foot</customLabel>
               <coverage>0.13</coverage>
               <height>Bottom</height>
               <groups>
@@ -811,7 +722,7 @@
             </li>
             <li>
               <def>Leg</def>
-              <customLabel>第四机械足</customLabel>
+              <customLabel>Fourth mechanical foot</customLabel>
               <coverage>0.13</coverage>
               <height>Bottom</height>
               <groups>
@@ -820,7 +731,7 @@
             </li>
             <li>
               <def>Leg</def>
-              <customLabel>第五机械足</customLabel>
+              <customLabel>Fifth mechanical foot</customLabel>
               <coverage>0.13</coverage>
               <height>Bottom</height>
               <groups>
@@ -835,7 +746,7 @@
 
   <BodyDef>
     <defName>WULA_Mech_Mobile_Factory_Body</defName>
-    <label>陆行舰</label>
+    <label>Landship</label>
     <corePart>
       <def>Torso</def>
       <height>Middle</height>
@@ -885,7 +796,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第一反推喷气孔</customLabel>
+              <customLabel>First retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -894,7 +805,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第二反推喷气孔</customLabel>
+              <customLabel>Second retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -903,7 +814,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第三反推喷气孔</customLabel>
+              <customLabel>Third retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -912,7 +823,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第四反推喷气孔</customLabel>
+              <customLabel>Fourth retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -921,7 +832,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第五反推喷气孔</customLabel>
+              <customLabel>Fifth retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>
@@ -930,7 +841,7 @@
             </li>
             <li>
               <def>WULA_Panzer_OutBrust_Bodypart</def>
-              <customLabel>第六反推喷气孔</customLabel>
+              <customLabel>Sixth retro-thruster nozzle</customLabel>
               <coverage>0.025</coverage>
               <depth>Inside</depth>
               <groups>

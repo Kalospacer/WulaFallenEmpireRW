@@ -56,9 +56,9 @@
   <HediffDef ParentName="ImplantHediffBase">
     <defName>WULA_Shutdown_Synth_Hediff</defName>
     <hediffClass>HediffWithComps</hediffClass>
-    <label>关机</label>
-    <description>这只机械乌拉的所有系统都已经关闭了。</description>
-    <descriptionShort>这只机械乌拉的所有系统都已经关闭了——如果需要唤醒，则需要另一位殖民者的协助。</descriptionShort>
+    <label>Shutdown</label>
+    <description>All systems of this mechanical Wula have been shut down—if awakening is needed, assistance from another colonist is required.</description>
+    <descriptionShort>All systems of this mechanical Wula have been shut down.</descriptionShort>
     <!-- <initialSeverity>0.5</initialSeverity> -->
     <minSeverity>0.01</minSeverity>
     <maxSeverity>1</maxSeverity>
@@ -69,7 +69,7 @@
     <!-- <defaultInstallPart>Brain</defaultInstallPart> -->
     <stages>
       <li>
-        <label>停机</label>
+        <label>Shutdown</label>
         <minSeverity>0</minSeverity>
         <capMods>
           <li>
@@ -92,8 +92,8 @@
   <!-- 特殊-传送器 -->
   <HediffDef ParentName="ImplantHediffBase">
     <defName>WULA_AutoJumpdrive</defName>
-    <label>微型传送装置</label>
-    <description>安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间时将其回收</description>
+    <label>Micro teleport device</label>
+    <description>A miniature jumpdrive installed inside Wula Empire Legion synths. It recalls the synth once it reaches its designated combat time.</description>
     <spawnThingOnRemoved>WULA_AutoJumpdrive</spawnThingOnRemoved>
     <comps>
       <li Class="WulaFallenEmpire.HediffCompProperties_DisappearWithEffect">
@@ -104,14 +104,14 @@
         <dropEquipment>false</dropEquipment>
         <destroyCorpse>true</destroyCorpse>
         <playSound>true</playSound>
-        <messageOnDisappear>{0} 通过传送离开了殖民地</messageOnDisappear>
+        <messageOnDisappear>{0} teleported away from the colony.</messageOnDisappear>
       </li>
     </comps>
   </HediffDef>
   <ThingDef Name="WULA_AutoJumpdrive_Thing" ParentName="BodyPartBase">
     <defName>WULA_AutoJumpdrive</defName>
-    <label>微型传送装置</label>
-    <description>安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间时将其回收</description>
+    <label>Micro teleport device</label>
+    <description>A miniature jumpdrive installed inside Wula Empire Legion synths. It recalls the synth once it reaches its designated combat time.</description>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Things/Item/Health/HealthItem</texPath>
@@ -153,8 +153,8 @@
   </RecipeDef>
   <HediffDef ParentName="ImplantHediffBase">
     <defName>WULA_AutoJumpdrive_Week</defName>
-    <label>微型传送装置</label>
-    <description>安装在乌拉帝国合成人军团体内的微型跃迁引擎，会在合成人到达指定作战时间时将其回收</description>
+    <label>Micro teleport device</label>
+    <description>A miniature jumpdrive installed inside Wula Empire Legion synths. It recalls the synth once it reaches its designated combat time.</description>
     <spawnThingOnRemoved>WULA_AutoJumpdrive</spawnThingOnRemoved>
     <comps>
       <li Class="WulaFallenEmpire.HediffCompProperties_DisappearWithEffect">
@@ -165,7 +165,7 @@
         <dropEquipment>false</dropEquipment>
         <destroyCorpse>true</destroyCorpse>
         <playSound>true</playSound>
-        <messageOnDisappear>{0} 通过传送离开了殖民地</messageOnDisappear>
+        <messageOnDisappear>{0} teleported away from the colony.</messageOnDisappear>
       </li>
     </comps>
   </HediffDef>

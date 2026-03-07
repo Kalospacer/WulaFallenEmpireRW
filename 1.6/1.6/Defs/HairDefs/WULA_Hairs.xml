@@ -2,7 +2,7 @@
 <Defs>
 	<HairDef>
 		<defName>WULA_Double_Ponytail_Long</defName>
-		<label>双马尾（长）</label>
+		<label>Twin ponytails (long)</label>
 		<hairGender>Female</hairGender>
 		<texPath>Wula/Hair/WULA_Double_Ponytail_Long</texPath>
 		<category>WULA_Style</category>
@@ -12,7 +12,7 @@
 	</HairDef>
 	<HairDef>
 		<defName>WULA_One_Side_Ponytail</defName>
-		<label>侧马尾发</label>
+		<label>Side ponytail</label>
 		<hairGender>Female</hairGender>
 		<texPath>Wula/Hair/WULA_One_Side_Ponytail</texPath>
 		<category>WULA_Style</category>
@@ -22,7 +22,7 @@
 	</HairDef>
 	<HairDef>
 		<defName>WULA_High_Ponytail</defName>
-		<label>高马尾发</label>
+		<label>High ponytail</label>
 		<hairGender>Female</hairGender>
 		<texPath>Wula/Hair/WULA_High_Ponytail</texPath>
 		<category>WULA_Style</category>
@@ -32,7 +32,7 @@
 	</HairDef>
 	<HairDef>
 		<defName>WULA_Rotational_Ponytail</defName>
-		<label>螺旋双马尾</label>
+		<label>Spiral twin ponytails</label>
 		<hairGender>Female</hairGender>
 		<texPath>Wula/Hair/WULA_Rotational_Ponytail</texPath>
 		<category>WULA_Style</category>

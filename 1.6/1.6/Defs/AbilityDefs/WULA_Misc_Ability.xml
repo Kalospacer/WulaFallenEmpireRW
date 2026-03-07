@@ -2,8 +2,8 @@
 <Defs>
   <AbilityDef>
     <defName>Wula_Mech_Mobile_Factory_Produce</defName>
-    <label>生产战争机器</label>
-    <description>立刻生产10台CRm-51"兵蚁"，快速组织一道近战阵线。</description>
+    <label>Produce War Machines</label>
+    <description>Immediately produce 10 CRm-51 "Soldier Ant" units to quickly form a melee front line.</description>
     <iconPath>Wula/UI/Abilities/Wula_Mech_Mobile_Factory_Produce</iconPath>
     <cooldownTicksRange>5000</cooldownTicksRange>
     <charges>5</charges>
@@ -49,8 +49,8 @@
 
   <AbilityDef>
     <defName>WULA_PsiCrusher</defName>
-    <label>乌拉帝国术式：灵能尖啸</label>
-    <description>以灵能能量发出非人尖啸，直接解构面前扇形区域内的所有目标，无论是建筑物还是活物都难逃毁灭。这种术式需要的灵能难以估量，只有搭载大量封闭灵能回路的灵能泰坦可以连续使用。</description>
+    <label>Wula Empire Technique: Psychic Scream</label>
+    <description>Unleashes an inhuman scream of psychic energy, directly deconstructing all targets within a conical area in front. Whether buildings or living beings, nothing can escape destruction. The amount of psychic energy required for this technique is immeasurable; only a Psychic Titan equipped with numerous closed psychic circuits can use it continuously.</description>
     <iconPath>Wula/UI/Abilities/WULA_PsiCrusher</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -245,8 +245,8 @@
   </ThingDef>
   <AbilityDef>
     <defName>WULA_Psi_Skip</defName>
-    <label>乌拉帝国术式：灵能跃迁</label>
-    <description>使用灵能撕开一个连接自身、虚境和目的地的单向通道，随后以极短的时间穿过整个通道，以瞬间移动到目标地点。</description>
+    <label>Wula Empire Technique: Psychic Skip</label>
+    <description>Uses psychic power to tear open a one-way channel connecting the self, the psychic realm, and the destination, then traverses the entire channel in an extremely short time to instantly teleport to the target location.</description>
     <iconPath>Wula/UI/Abilities/WULA_TeleportSelf</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>
@@ -394,8 +394,8 @@
   </EffecterDef>
   <AbilityDef>
     <defName>WULA_Psi_Black_Hole</defName>
-    <label>乌拉帝国术式：虚境阴影</label>
-    <description>撕开虚境的裂口，在目标地点召唤一道虚境阴影，它泄露的庞大灵能会持续伤害范围内的敌方单位和建筑，并让物品快速损坏，即使是心灵失聪的目标也不能完全免疫这种超现实伤害——对于高心灵敏感度的单位这种伤害则更加致命。</description>
+    <label>Wula Empire Technique: Void Shadow</label>
+    <description>Tears open a rift in the psychic realm, summoning a Void Shadow at the target location. The immense psychic energy it leaks continuously damages enemy units and buildings within its range and causes items to deteriorate rapidly. Even psychically deaf targets are not fully immune to this surreal damage—it is even more lethal to units with high psychic sensitivity.</description>
     <iconPath>Wula/UI/Abilities/WULA_Psi_Black_Hole</iconPath>
     <writeCombatLog>True</writeCombatLog>
     <showPsycastEffects>False</showPsycastEffects>

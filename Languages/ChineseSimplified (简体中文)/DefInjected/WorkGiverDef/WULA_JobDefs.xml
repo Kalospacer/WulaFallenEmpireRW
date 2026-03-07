@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: refuel Mechs -->
+  <WULA_RefuelMech.label>TODO</WULA_RefuelMech.label>
+  <!-- EN: refueling -->
+  <WULA_RefuelMech.gerund>TODO</WULA_RefuelMech.gerund>
+  <!-- EN: refuel -->
+  <WULA_RefuelMech.verb>TODO</WULA_RefuelMech.verb>
+  
+  <!-- EN: 维修构装体 -->
+  <WULA_RepairMech.label>TODO</WULA_RepairMech.label>
+  <!-- EN: Repair Mech -->
+  <WULA_RepairMech.gerund>TODO</WULA_RepairMech.gerund>
+  <!-- EN: Repair -->
+  <WULA_RepairMech.verb>TODO</WULA_RepairMech.verb>
+  
+</LanguageData>

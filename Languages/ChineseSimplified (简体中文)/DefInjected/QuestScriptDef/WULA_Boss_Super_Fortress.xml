@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN:
+    <li>questDescription->WULA_Boss_Sky_Lock_questDescription</li>
+  -->
+  <WULA_Boss_Super_Fortress.questDescriptionRules.rulesStrings>
+    <li>questDescription->乌拉帝国行星封锁机关的总控AI向殖民地发送了一个特殊的请求，一座装备了火山炮的&lt;color=#C87451>&lt;i>巨型要塞&lt;/i>&lt;/color>被发现，它不处于行星封锁机关的控制下，很可能是叛军的一个根据地，你的殖民地必须使用一切力量将其消灭。行星封锁机关为殖民地提供了以下信息：\n\n&lt;color=#9F0400>&lt;i>-先发制人&lt;/i>&lt;/color> 这个要塞已经被乌拉帝国舰队的EMP炮弹攻击过，需要一段时间才能重启防御系统——但是从轰炸效果来说，这个空窗时间可能不会太长\n&lt;color=#9F0400>&lt;i>-炼狱号角&lt;/i>&lt;/color> 要塞中有四门火山炮，一旦其重启完成，将对所有进攻部队造成毁灭性打击，应该优先解决\n&lt;color=#9F0400>&lt;i>-碉楼林立&lt;/i>&lt;/color> 要塞被多层防御设施所保护，正面攻击会非常花费时间，并且要塞的顶部进行了特别加厚，厚度堪比岩顶\n&lt;color=#9F0400>&lt;i>-草木皆兵&lt;/i>&lt;/color> 要塞附近很可能有别的不可见的埋伏，舰队在此处检测到的活动迹象与目视不匹配\n\n行星封锁机关承诺，一旦摧毁&lt;color=#C87451>&lt;i>巨型要塞&lt;/i>&lt;/color>，她们就会派遣舰队轰炸残余的设施，并为殖民地开放火山炮的申请权限。</li>
+  </WULA_Boss_Super_Fortress.questDescriptionRules.rulesStrings>
+  <!-- EN:
+    <li>questName->WULA_Boss_Sky_Lock_questName</li>
+  -->
+  <WULA_Boss_Super_Fortress.questNameRules.rulesStrings>
+    <li>questName->特殊任务：清扫巨型要塞</li>
+  </WULA_Boss_Super_Fortress.questNameRules.rulesStrings>
+  <!-- EN: 已标记巨型要塞 -->
+  <WULA_Boss_Super_Fortress.root.nodes.Letter.label.slateRef>TODO</WULA_Boss_Super_Fortress.root.nodes.Letter.label.slateRef>
+  <!-- EN: 乌拉帝国进步派所建立的巨型要塞已经在地图上标记——似乎因为干扰，舰队无法直接攻击这个要塞，但是如果附近有引导员，舰队依然可以正常进入要塞的上方轨道。 -->
+  <WULA_Boss_Super_Fortress.root.nodes.Letter.text.slateRef>TODO</WULA_Boss_Super_Fortress.root.nodes.Letter.text.slateRef>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <WULA_Boss_Super_Fortress.root.nodes.siteDestroyed.node.nodes.Letter.label.slateRef>TODO</WULA_Boss_Super_Fortress.root.nodes.siteDestroyed.node.nodes.Letter.label.slateRef>
+  <!-- EN: After being discovered, the bandit camp has dispersed. The quest [resolvedQuestName] has ended. -->
+  <WULA_Boss_Super_Fortress.root.nodes.siteDestroyed.node.nodes.Letter.text.slateRef>TODO</WULA_Boss_Super_Fortress.root.nodes.siteDestroyed.node.nodes.Letter.text.slateRef>
+  <!-- EN: WULA_Boss_Super_Fortress_UI_2 -->
+  <WULA_Boss_Super_Fortress.root.nodes.siteAllEnemiesDefeated.node.nodes.EventLetter.eventDefName.slateRef>TODO</WULA_Boss_Super_Fortress.root.nodes.siteAllEnemiesDefeated.node.nodes.EventLetter.eventDefName.slateRef>
+  
+</LanguageData>

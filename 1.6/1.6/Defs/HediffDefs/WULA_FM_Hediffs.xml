@@ -3,8 +3,8 @@
 <Defs>
   <ThingDef ParentName="BodyPartProstheticMakeableBase">
     <defName>WULA_Addons_Antenna_Hide</defName>
-    <label>隐藏式天线</label>
-    <description>埋于脑后的特殊指挥天线，拥有一套独特的系统编码，任何殖民者都可以使用这套通讯设备与乌拉帝国舰队通讯，是乌拉帝国对殖民地认可的凭证。</description>
+    <label>Mechanical Command Node</label>
+    <description>Wula Empire synths have a pair of antennas on their heads. They can use this communication system to contact the Wula Empire fleet. Additionally, they can also use this system to send and receive secondary mechanoid signals—although most of the time, they lack the bandwidth to command mechanoids.</description>
     <descriptionHyperlinks><HediffDef>WULA_Addons_Antenna_Hediff_Base</HediffDef></descriptionHyperlinks>
     <!-- <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags> -->
     <useHitPoints>false</useHitPoints>
@@ -37,9 +37,9 @@
   <HediffDef ParentName="ImplantHediffBase">
     <defName>WULA_Addons_Antenna_Hediff_Base</defName>
     <hediffClass>Hediff_Mechlink</hediffClass>
-    <label>机械指挥节点</label>
-    <description>乌拉帝国合成人脑袋上有一对天线，她们可以使用这套通讯设备与乌拉帝国舰队通讯，除此之外，她们也可以用这套系统收发次级机械族信号——虽然她们大多数时候并没有供其指挥机械族的带宽可用。</description>
-    <descriptionShort>一对可以与舰队通讯的天线。</descriptionShort>
+    <label>Mechanical Command Node</label>
+    <description>Wula Empire synths have a pair of antennas on their heads. They can use this communication system to contact the Wula Empire fleet. Additionally, they can also use this system to send and receive secondary mechanoid signals—although most of the time, they lack the bandwidth to command mechanoids.</description>
+    <descriptionShort>A pair of antennas capable of fleet communication.</descriptionShort>
     <isBad>false</isBad>
     <duplicationAllowed>false</duplicationAllowed>
     <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
@@ -49,10 +49,10 @@
       <li Class="WulaFallenEmpire.HediffCompProperties_MakesMechanitor"/>
       <li Class="WulaFallenEmpire.HediffCompProperties_SwitchableHediff">
         <!-- 可自定义的标签和描述 -->
-        <switchLabel>调频切换</switchLabel>
-        <switchDesc>在火炮和战机呼叫频率中进行切换，以呼叫不同的支援</switchDesc>
-        <statusLabel>频道：{0}</statusLabel>
-        <statusDesc>查看当前频率的详细信息</statusDesc>
+        <switchLabel>Frequency Switch</switchLabel>
+        <switchDesc>Switch between artillery and aircraft call frequencies to request different types of support</switchDesc>
+        <statusLabel>Channel：{0}</statusLabel>
+        <statusDesc>View detailed information about the current frequency</statusDesc>
         <availableHediffs>
           <li>Wula_FM_Switc_None</li>
           <li>Wula_FM_Switc_Artillery</li>
@@ -68,8 +68,8 @@
 
   <HediffDef>
     <defName>Wula_FM_Switc_None</defName>
-    <label>调频（无）</label>
-    <description>关闭所有的调频，免得技能栏太挤</description>
+    <label>Frequency (None)</label>
+    <description>Turn off all frequencies to avoid cluttering the skill bar.</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
@@ -85,8 +85,8 @@
   </HediffDef>
   <HediffDef>
     <defName>Wula_FM_Switc_Artillery</defName>
-    <label>调频（火炮）</label>
-    <description>允许乌拉帝国的合成人呼叫轨道炮击，包含一系列精准度较差但是覆盖范围广的轰炸能力，一般需要有攻击型战舰部署在轨道上才能启动。</description>
+    <label>Frequency (Artillery)</label>
+    <description>Allows Wula Empire synths to call for orbital artillery strikes, including a range of bombing capabilities with poor accuracy but wide coverage. Generally requires attack-type ships to be deployed in orbit to activate.</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>
@@ -117,8 +117,8 @@
   </HediffDef>
   <HediffDef>
     <defName>Wula_FM_Switc_Aircraft</defName>
-    <label>调频（战机）</label>
-    <description>允许乌拉帝国的合成人呼叫空中火力，包含一系列精准迅速的近地密接支援，每一艘战机会独立计算袭击冷却，一般需要有攻击型战舰部署在轨道上才能启动。</description>
+    <label>Frequency (Aircraft)</label>
+    <description>Allows Wula Empire synths to call for air support, including a range of precise and rapid close air support. Each aircraft independently calculates raid cooldown. Generally requires attack-type ships to be deployed in orbit to activate.</description>
     <hediffClass>Hediff_High</hediffClass>
     <everCurableByItem>false</everCurableByItem>
     <duplicationAllowed>false</duplicationAllowed>

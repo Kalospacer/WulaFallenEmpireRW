@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 一群来自 {1} 的 {0} 通过传送进入了地图！ -->
+  <WULA_EdgeTeleport.textEnemy>TODO</WULA_EdgeTeleport.textEnemy>
+  <!-- EN: 一群来自 {1} 的 {0} 援军通过传送进入了地图！ -->
+  <WULA_EdgeTeleport.textFriendly>TODO</WULA_EdgeTeleport.textFriendly>
+  <!-- EN: {0_pawnsPluralDef} 将通过传送进入地图 -->
+  <WULA_EdgeTeleport.textWillArrive>TODO</WULA_EdgeTeleport.textWillArrive>
+  
+</LanguageData>

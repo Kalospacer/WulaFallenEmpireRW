@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 呼叫帝国巡洋舰编队 -->
+  <WULA_CallFleet.label>呼叫帝国巡洋舰编队</WULA_CallFleet.label>
+  <!-- EN: 发送增援请求，呼叫乌拉帝国舰队前往殖民地的高空轨道,包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器的航空舰。 -->
+  <WULA_CallFleet.description>发送增援请求，呼叫乌拉帝国舰队前往殖民地的高空轨道,包含2艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器的航空舰。</WULA_CallFleet.description>
+  <WULA_CallFleet.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>航道堵塞：已经有一艘大型舰船在殖民地上空</WULA_CallFleet.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>
+  
+  <!-- EN: 呼叫帝国母舰编队 -->
+  <WULA_CallMotherShip.label>呼叫帝国母舰编队</WULA_CallMotherShip.label>
+  <!-- EN: 发送增援请求，呼叫乌拉帝国母舰舰队前往殖民地的高空轨道,包含4艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器、炮击和轨道支援的母舰。 -->
+  <WULA_CallMotherShip.description>发送增援请求，呼叫乌拉帝国母舰舰队前往殖民地的高空轨道,包含4艘可以发起轨道炮击的巡洋舰和1艘可以提供航空器、炮击和轨道支援的母舰。</WULA_CallMotherShip.description>
+  <WULA_CallMotherShip.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>航道堵塞：已经有一艘大型舰船在殖民地上空</WULA_CallMotherShip.comps.CompAbilityEffect_BlockedByFlyOverFacility.blockedMessage>
+  
+  <!-- EN: 航道净空 -->
+  <WULA_ClearFlightPath.label>航道净空</WULA_ClearFlightPath.label>
+  <!-- EN: 使近地轨道上的舰队离开，以使得其他乌拉帝国舰队可以入场 -->
+  <WULA_ClearFlightPath.description>使近地轨道上的舰队离开，以使得其他乌拉帝国舰队可以入场</WULA_ClearFlightPath.description>
+  
+  <!-- EN: 轻型舰炮齐射 -->
+  <WULA_Firepower_Cannon_Salvo.label>轻型舰炮齐射</WULA_Firepower_Cannon_Salvo.label>
+  <!-- EN: 指挥战舰侧弦的副炮，进行一轮共计12发炮弹的齐射，造成中规中矩的毁伤。 -->
+  <WULA_Firepower_Cannon_Salvo.description>指挥战舰侧弦的副炮，进行一轮共计12发炮弹的齐射，造成中规中矩的毁伤。</WULA_Firepower_Cannon_Salvo.description>
+  <WULA_Firepower_Cannon_Salvo.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</WULA_Firepower_Cannon_Salvo.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- EN: 轻型舰炮监视 -->
+  <WULA_Firepower_Cannon_Surveillance.label>轻型舰炮监视</WULA_Firepower_Cannon_Surveillance.label>
+  <!-- EN: 指挥战舰侧弦的副炮，监视一个区域0.3小时，对任何进入范围的敌对目标进行炮击。 -->
+  <WULA_Firepower_Cannon_Surveillance.description>指挥战舰侧弦的副炮，监视一个区域0.3小时，对任何进入范围的敌对目标进行炮击。</WULA_Firepower_Cannon_Surveillance.description>
+  <WULA_Firepower_Cannon_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</WULA_Firepower_Cannon_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- EN: 光矛扫射 -->
+  <WULA_Firepower_EnergyLance_Strafe.label>光矛扫射</WULA_Firepower_EnergyLance_Strafe.label>
+  <!-- EN: 指挥战舰侧弦的光矛阵列，发射一道光矛横扫战场，造成大量的热能伤害，对建筑群的效果尤甚。 -->
+  <WULA_Firepower_EnergyLance_Strafe.description>指挥战舰侧弦的光矛阵列，发射一道光矛横扫战场，造成大量的热能伤害，对建筑群的效果尤甚。</WULA_Firepower_EnergyLance_Strafe.description>
+  <WULA_Firepower_EnergyLance_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</WULA_Firepower_EnergyLance_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- EN: 光矛监视 -->
+  <WULA_Firepower_EnergyLance_Surveillance.label>光矛监视</WULA_Firepower_EnergyLance_Surveillance.label>
+  <!-- EN: 指挥战舰侧弦的光矛阵列，监视一个区域1小时，对任何进入范围的敌对目标进行持续照射。 -->
+  <WULA_Firepower_EnergyLance_Surveillance.description>指挥战舰侧弦的光矛阵列，监视一个区域1小时，对任何进入范围的敌对目标进行持续照射。</WULA_Firepower_EnergyLance_Surveillance.description>
+  <WULA_Firepower_EnergyLance_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</WULA_Firepower_EnergyLance_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- EN: 链炮扫射 -->
+  <WULA_Firepower_Minigun_Strafe.label>链炮扫射</WULA_Firepower_Minigun_Strafe.label>
+  <!-- EN: 以战舰上的自动链炮对目标区域进行可选方向的扫射，射击速度和冷却都很快，对轻甲目标有效，但是威力欠佳。 -->
+  <WULA_Firepower_Minigun_Strafe.description>以战舰上的自动链炮对目标区域进行可选方向的扫射，射击速度和冷却都很快，对轻甲目标有效，但是威力欠佳。</WULA_Firepower_Minigun_Strafe.description>
+  <WULA_Firepower_Minigun_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</WULA_Firepower_Minigun_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- EN: 主炮EMP压制 -->
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance.label>主炮EMP压制</WULA_Firepower_Primary_Cannon_EMP_Surveillance.label>
+  <!-- EN: 指挥战舰的主炮，监视极大范围3小时，对任何进入范围的敌对目标发射大范围EMP炮弹，蕴含的强大能量能使得机械体长时间地被麻痹。 -->
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance.description>指挥战舰的主炮，监视极大范围3小时，对任何进入范围的敌对目标发射大范围EMP炮弹，蕴含的强大能量能使得机械体长时间地被麻痹。</WULA_Firepower_Primary_Cannon_EMP_Surveillance.description>
+  <WULA_Firepower_Primary_Cannon_EMP_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</WULA_Firepower_Primary_Cannon_EMP_Surveillance.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- EN: 主炮齐射 -->
+  <WULA_Firepower_Primary_Cannon_Strafe.label>主炮齐射</WULA_Firepower_Primary_Cannon_Strafe.label>
+  <!-- EN: 以战舰上的主炮对目标区域进行可选方向的扫射，拥有夷平山脉的恐怖威力，但是响应速度、精准度都很差且需要大量时间再装填。 -->
+  <WULA_Firepower_Primary_Cannon_Strafe.description>以战舰上的主炮对目标区域进行可选方向的扫射，拥有夷平山脉的恐怖威力，但是响应速度、精准度都很差且需要大量时间再装填。</WULA_Firepower_Primary_Cannon_Strafe.description>
+  <WULA_Firepower_Primary_Cannon_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD2F31>&lt;i>武器阵列&lt;/i>&lt;/color>设施的战舰在地图上才能进行轨道炮击支援</WULA_Firepower_Primary_Cannon_Strafe.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- EN: 呼叫全域封锁舰队 -->
+  <WULA_Spawn_BattleShip_Artillery.label>呼叫全域封锁舰队</WULA_Spawn_BattleShip_Artillery.label>
+  <!-- EN: 申请沿指定航道发起全域封锁，一整只乌拉帝国舰队将在大量战机编队的掩护下沿着航道行进，并使用舰炮进行轰炸，以彻底粉碎一切抵抗。\n\n轰炸的范围几乎覆盖整张地图，炮击会尽可能避免击中殖民地的人员和资产，但是巨大的轰炸范围使得底下的一切都难逃厄运——尽可能不要在自己的殖民地上空呼叫。 -->
+  <WULA_Spawn_BattleShip_Artillery.description>申请沿指定航道发起全域封锁，一整只乌拉帝国舰队将在大量战机编队的掩护下沿着航道行进，并使用舰炮进行轰炸，以彻底粉碎一切抵抗。\n\n轰炸的范围几乎覆盖整张地图，炮击会尽可能避免击中殖民地的人员和资产，但是巨大的轰炸范围使得底下的一切都难逃厄运——尽可能不要在自己的殖民地上空呼叫。</WULA_Spawn_BattleShip_Artillery.description>
+  
+  <!-- EN: 轰炸机轰炸 -->
+  <WULA_Spawn_Bomber_BaseBomb.label>轰炸机轰炸</WULA_Spawn_Bomber_BaseBomb.label>
+  <!-- EN: 指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下大量炸弹——最终造成的破坏比标定轰炸区域要大很多。 -->
+  <WULA_Spawn_Bomber_BaseBomb.description>指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下大量炸弹——最终造成的破坏比标定轰炸区域要大很多。</WULA_Spawn_Bomber_BaseBomb.description>
+  <WULA_Spawn_Bomber_BaseBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Bomber_BaseBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  
+  <!-- EN: 轰炸机反物质冲击 -->
+  <WULA_Spawn_Bomber_DarkMatterBomb.label>轰炸机反物质冲击</WULA_Spawn_Bomber_DarkMatterBomb.label>
+  <!-- EN: 指挥乌拉帝国的轰炸机，低速掠过战场，对目标地点发射一枚反物质导弹——记得躲远点。 -->
+  <WULA_Spawn_Bomber_DarkMatterBomb.description>指挥乌拉帝国的轰炸机，低速掠过战场，对目标地点发射一枚反物质导弹——记得躲远点。</WULA_Spawn_Bomber_DarkMatterBomb.description>
+  <WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  
+  <!-- EN: 轰炸机烟墙 -->
+  <WULA_Spawn_Bomber_Smoke.label>轰炸机烟墙</WULA_Spawn_Bomber_Smoke.label>
+  <!-- EN: 指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下大量烟雾弹——最终形成的烟墙比标定轰炸区域要大很多。 -->
+  <WULA_Spawn_Bomber_Smoke.description>指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下大量烟雾弹——最终形成的烟墙比标定轰炸区域要大很多。</WULA_Spawn_Bomber_Smoke.description>
+  <WULA_Spawn_Bomber_Smoke.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Bomber_Smoke.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+
+  <!-- EN: 无人机轰炸 -->
+  <WULA_Spawn_Fighter_Drone_Bomb.label>无人机轰炸</WULA_Spawn_Fighter_Drone_Bomb.label>
+  <!-- EN: 指挥乌拉帝国的蜂群无人机，中速掠过战场，在目标地点丢下2枚高阻汽油弹，汽油弹附带化学燃料，除了爆炸外还会会造成一段时间的区域性燃烧。 -->
+  <WULA_Spawn_Fighter_Drone_Bomb.description>指挥乌拉帝国的蜂群无人机，中速掠过战场，在目标地点丢下2枚高阻汽油弹，汽油弹附带化学燃料，除了爆炸外还会会造成一段时间的区域性燃烧。</WULA_Spawn_Fighter_Drone_Bomb.description>
+  
+  <!-- EN: 无人机巡航 -->
+  <WULA_Spawn_Fighter_Drone_Laser.label>无人机巡航</WULA_Spawn_Fighter_Drone_Laser.label>
+  <!-- EN: 指挥乌拉帝国的蜂群无人机，中速掠过战场，使用其下挂的小型激光炮打击遇到的敌人——无人机电容器并不大，只能打击前3个目标。 -->
+  <WULA_Spawn_Fighter_Drone_Laser.description>指挥乌拉帝国的蜂群无人机，中速掠过战场，使用其下挂的小型激光炮打击遇到的敌人——无人机电容器并不大，只能打击前3个目标。</WULA_Spawn_Fighter_Drone_Laser.description>
+  
+  <!-- EN: 攻击机电磁压制 -->
+  <WULA_Spawn_Striker_EMP.label>攻击机电磁压制</WULA_Spawn_Striker_EMP.label>
+  <!-- EN: 指挥乌拉帝国的攻击机，高速掠过战场，快速丢下一组EMP炸弹——因为速度原因，打击区会很狭长。 -->
+  <WULA_Spawn_Striker_EMP.description>指挥乌拉帝国的攻击机，高速掠过战场，快速丢下一组EMP炸弹——因为速度原因，打击区会很狭长。</WULA_Spawn_Striker_EMP.description>
+  <WULA_Spawn_Striker_EMP.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Striker_EMP.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  
+  <!-- EN: 攻击机巡航 -->
+  <WULA_Spawn_Striker_Missile.label>攻击机巡航</WULA_Spawn_Striker_Missile.label>
+  <!-- EN: 指挥乌拉帝国的攻击机，中速掠过战场，使用其导弹打击遇到的敌人。\n导弹的挂载量可使其对12个目标发起打击。 -->
+  <WULA_Spawn_Striker_Missile.description>指挥乌拉帝国的攻击机，中速掠过战场，使用其导弹打击遇到的敌人。\n导弹的挂载量可使其对12个目标发起打击。</WULA_Spawn_Striker_Missile.description>
+  <WULA_Spawn_Striker_Missile.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Striker_Missile.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  
+  <!-- EN: 攻击机扫射 -->
+  <WULA_Spawn_Striker_RailGun.label>攻击机扫射</WULA_Spawn_Striker_RailGun.label>
+  <!-- EN: 指挥乌拉帝国的攻击机，高速掠过战场，使用机腹的两台高射速机炮打击目标地点——因为速度原因，打击区会很狭长。 -->
+  <WULA_Spawn_Striker_RailGun.description>指挥乌拉帝国的攻击机，高速掠过战场，使用机腹的两台高射速机炮打击目标地点——因为速度原因，打击区会很狭长。</WULA_Spawn_Striker_RailGun.description>
+  <WULA_Spawn_Striker_RailGun.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Striker_RailGun.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  
+</LanguageData>

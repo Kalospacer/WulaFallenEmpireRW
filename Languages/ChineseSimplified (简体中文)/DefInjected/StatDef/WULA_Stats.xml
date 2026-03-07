@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 完全故障等级阈值 -->
+  <WULA_MaintenanceCriticalFailureThresholdFactor.label>TODO</WULA_MaintenanceCriticalFailureThresholdFactor.label>
+  <!-- EN: 影响乌拉帝国合成人进入完全故障阈值的乘数。数值越高，越容易进入完全故障状态。 -->
+  <WULA_MaintenanceCriticalFailureThresholdFactor.description>TODO</WULA_MaintenanceCriticalFailureThresholdFactor.description>
+  
+  <!-- EN: 维护伤害 -->
+  <WULA_MaintenanceDamageToMaintenanceFactor.label>TODO</WULA_MaintenanceDamageToMaintenanceFactor.label>
+  <!-- EN: 乌拉帝国合成人因为伤害导致维护度损失的程度。数值越高，受到伤害时损失越多维护度。 -->
+  <WULA_MaintenanceDamageToMaintenanceFactor.description>TODO</WULA_MaintenanceDamageToMaintenanceFactor.description>
+  
+  <!-- EN: 维护退化乘数 -->
+  <WULA_MaintenanceDegradationFactor.label>TODO</WULA_MaintenanceDegradationFactor.label>
+  <!-- EN: 乌拉帝国合成人维护需求退化速率的乘数。数值越高，机械乌拉越容易陷入低维护状态。 -->
+  <WULA_MaintenanceDegradationFactor.description>TODO</WULA_MaintenanceDegradationFactor.description>
+  
+  <!-- EN: 严重故障等级阈值 -->
+  <WULA_MaintenanceMajorBreakdownThresholdFactor.label>TODO</WULA_MaintenanceMajorBreakdownThresholdFactor.label>
+  <!-- EN: 影响乌拉帝国合成人进入严重故障阈值的乘数。数值越高，越容易进入严重故障状态。 -->
+  <WULA_MaintenanceMajorBreakdownThresholdFactor.description>TODO</WULA_MaintenanceMajorBreakdownThresholdFactor.description>
+  
+  <!-- EN: 轻微故障等级阈值乘数 -->
+  <WULA_MaintenanceMinorBreakdownThresholdFactor.label>TODO</WULA_MaintenanceMinorBreakdownThresholdFactor.label>
+  <!-- EN: 影响乌拉帝国合成人进入轻微故障阈值的乘数。数值越高，越容易进入轻微故障状态。 -->
+  <WULA_MaintenanceMinorBreakdownThresholdFactor.description>TODO</WULA_MaintenanceMinorBreakdownThresholdFactor.description>
+  
+  <!-- EN: 维护等级阈值 -->
+  <WULA_MaintenanceStatusThresholdFactor.label>TODO</WULA_MaintenanceStatusThresholdFactor.label>
+  <!-- EN: 影响乌拉帝国合成人维护状态阈值的乘数。数值越高，越容易陷入低维护带来的减益状态。 -->
+  <WULA_MaintenanceStatusThresholdFactor.description>TODO</WULA_MaintenanceStatusThresholdFactor.description>
+  
+  <!-- EN: 复合装甲层 -->
+  <WULA_MechArmor.label>TODO</WULA_MechArmor.label>
+  <!-- EN: 乌拉帝国在大型战争机械和少部分护甲上使用的特殊防御装甲，当 护甲穿透乘数 * 攻击 的最终值小于此值时，该攻击将被完全抵消而不造成任何伤害。 -->
+  <WULA_MechArmor.description>TODO</WULA_MechArmor.description>
+  
+  <!-- EN: 纳米修复冷却时间 -->
+  <WULA_NanoRepairCooldownAfterDamage.label>TODO</WULA_NanoRepairCooldownAfterDamage.label>
+  <!-- EN: 受到伤害后纳米修复系统进入冷却的时间（帧）。 -->
+  <WULA_NanoRepairCooldownAfterDamage.description>TODO</WULA_NanoRepairCooldownAfterDamage.description>
+  
+  <!-- EN: 纳米修复能量消耗 -->
+  <WULA_NanoRepairCostPerHP.label>TODO</WULA_NanoRepairCostPerHP.label>
+  <!-- EN: 纳米修复系统修复每点生命值所消耗的能量。 -->
+  <WULA_NanoRepairCostPerHP.description>TODO</WULA_NanoRepairCostPerHP.description>
+  
+  <!-- EN: 机械乌拉能量消耗速度 -->
+  <WulaEnergyFallRateFactor.label>TODO</WulaEnergyFallRateFactor.label>
+  <!-- EN: 影响机械乌拉能量消耗速度的乘数因子。 -->
+  <WulaEnergyFallRateFactor.description>TODO</WulaEnergyFallRateFactor.description>
+  
+  <!-- EN: 机械乌拉能量上限 -->
+  <WulaEnergyMaxLevelOffset.label>TODO</WulaEnergyMaxLevelOffset.label>
+  <!-- EN: 影响机械乌拉能量上限的偏移量。 -->
+  <WulaEnergyMaxLevelOffset.description>TODO</WulaEnergyMaxLevelOffset.description>
+  
+</LanguageData>

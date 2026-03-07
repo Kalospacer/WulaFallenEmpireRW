@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: 铬铁迫击炮弹 -->
+  <Bullet_WULA_Heavy_Infantry_PowerArmor_Mortar.label>TODO</Bullet_WULA_Heavy_Infantry_PowerArmor_Mortar.label>
+  
+  <!-- EN: 磷灰等离子体爆弹 -->
+  <Bullet_WULA_WM_Alpha_Wolf_Plasma_Gun.label>TODO</Bullet_WULA_WM_Alpha_Wolf_Plasma_Gun.label>
+  
+  <!-- EN: 双子魔眼 -->
+  <WULA_Alpha_Mantodea_Turret.label>TODO</WULA_Alpha_Mantodea_Turret.label>
+  <!-- EN: 由少量乌拉帝国大型机械体搭载的特殊眼部，比起单只魔眼可以同时从两个方向进行扫射，以释放恐怖的力量融化敌人。 -->
+  <WULA_Alpha_Mantodea_Turret.description>TODO</WULA_Alpha_Mantodea_Turret.description>
+  <!-- EN: 双子魔眼 -->
+  <WULA_Alpha_Mantodea_Turret.verbs.Verb_ShootMeltBeam.label>TODO</WULA_Alpha_Mantodea_Turret.verbs.Verb_ShootMeltBeam.label>
+  
+  <!-- EN: 魔眼 -->
+  <WULA_Alpha_Wolf_Turret.label>TODO</WULA_Alpha_Wolf_Turret.label>
+  <!-- EN: 乌拉帝国图书馆大型机械体的眼部，除了提供视觉传感外还搭载了强大的暗物质射流炮，可以通过扫射战场释放恐怖的力量融化敌人 -->
+  <WULA_Alpha_Wolf_Turret.description>TODO</WULA_Alpha_Wolf_Turret.description>
+  <!-- EN: 魔眼 -->
+  <WULA_Alpha_Wolf_Turret.verbs.Verb_ShootBeamExplosive.label>TODO</WULA_Alpha_Wolf_Turret.verbs.Verb_ShootBeamExplosive.label>
+  
+  <!-- EN: ILm-60"铬铁"迫击炮 -->
+  <WULA_Heavy_Infantry_PowerArmor_Mortar.label>TODO</WULA_Heavy_Infantry_PowerArmor_Mortar.label>
+  <!-- EN: 一具双联装轻型迫击炮，通过背挂式武器附件的形式外挂在乌拉帝国重装装甲上，可以自行分析敌方的运动并进行开火——只要装甲穿着者不处于近战状态即可。 -->
+  <WULA_Heavy_Infantry_PowerArmor_Mortar.description>TODO</WULA_Heavy_Infantry_PowerArmor_Mortar.description>
+  <!-- EN: ILm-60"铬铁"迫击炮 -->
+  <WULA_Heavy_Infantry_PowerArmor_Mortar.verbs.Verb_Shoot.label>TODO</WULA_Heavy_Infantry_PowerArmor_Mortar.verbs.Verb_Shoot.label>
+  
+  <!-- EN: PMe-92"磷灰" -->
+  <WULA_WM_Alpha_Wolf_Plasma_Gun.label>TODO</WULA_WM_Alpha_Wolf_Plasma_Gun.label>
+  <!-- EN: 搭载于SNm-6"狼蛛"机甲的高能等离子武器，所使用的等离子射弹虽然弹速较慢，但是能引起大范围的熔融爆炸并毁灭成群敌军。 -->
+  <WULA_WM_Alpha_Wolf_Plasma_Gun.description>TODO</WULA_WM_Alpha_Wolf_Plasma_Gun.description>
+  <!-- EN: PMe-92"磷灰" -->
+  <WULA_WM_Alpha_Wolf_Plasma_Gun.verbs.Verb_Shoot.label>TODO</WULA_WM_Alpha_Wolf_Plasma_Gun.verbs.Verb_Shoot.label>
+  
+</LanguageData>
