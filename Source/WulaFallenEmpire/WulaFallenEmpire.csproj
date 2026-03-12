@@ -88,7 +88,6 @@
     <Compile Include="BuildingComp\WULA_BuildToPawn\CompBuildToPawn.cs" />
     <Compile Include="BuildingComp\WULA_BuildToPawn\CompProperties_BuildToPawn.cs" />
     <Compile Include="BuildingComp\WULA_Gather\CompGather.cs" />
-    <Compile Include="HarmonyPatches\WULA_MechUnit\Patch_Pawn_RotationTracker_UpdateRotation.cs" />
     <Compile Include="HediffComp\WULA_DamageResponse\HediffComp_DamageResponse.cs" />
     <Compile Include="HediffComp\WULA_DisappearWithEffect\HediffCompProperties_DisappearWithEffect.cs" />
     <Compile Include="HediffComp\WULA_GiveHediffsInRangeToRace\HediffCompProperties_GiveHediffsInRangeToRace.cs" />
