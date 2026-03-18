@@ -16,7 +16,17 @@ namespace WulaFallenEmpire
 
         public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
-            return pawn.Map.mapPawns.AllPawns.Where(p => p.needs.TryGetNeed<Need_WulaEnergy>() != null && p.InBed());
+            if (pawn?.Map?.mapPawns?.AllPawns == null)
+            {
+                return Enumerable.Empty<Thing>();
+            }
+
+            return pawn.Map.mapPawns.AllPawns.Where(p =>
+                p != null &&
+                p.needs != null &&
+                p.health != null &&
+                p.needs.TryGetNeed<Need_WulaEnergy>() != null &&
+                p.InBed());
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -27,14 +37,19 @@ namespace WulaFallenEmpire
             }
 
             // 如果病患正在充能，则不需要喂食
+            if (patient.health?.hediffSet == null)
+            {
+                return false;
+            }
+
             if (patient.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("WULA_ChargingHediff")))
             {
                 return false;
             }
 
-            Need_WulaEnergy energyNeed = patient.needs.TryGetNeed<Need_WulaEnergy>();
+            Need_WulaEnergy energyNeed = patient.needs?.TryGetNeed<Need_WulaEnergy>();
             var extension = def.GetModExtension<WorkGiverDefExtension_FeedWula>();
-            if (energyNeed == null || energyNeed.CurLevelPercentage >= extension.feedThreshold)
+            if (energyNeed == null || extension == null || energyNeed.CurLevelPercentage >= extension.feedThreshold)
             {
                 return false;
             }
