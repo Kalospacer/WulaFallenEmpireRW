@@ -69,19 +69,19 @@
   <WULA_Spawn_Bomber_BaseBomb.label>轰炸机轰炸</WULA_Spawn_Bomber_BaseBomb.label>
   <!-- EN: 指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下大量炸弹——最终造成的破坏比标定轰炸区域要大很多。 -->
   <WULA_Spawn_Bomber_BaseBomb.description>指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下大量炸弹——最终造成的破坏比标定轰炸区域要大很多。</WULA_Spawn_Bomber_BaseBomb.description>
-  <WULA_Spawn_Bomber_BaseBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Bomber_BaseBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  <WULA_Spawn_Bomber_BaseBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</WULA_Spawn_Bomber_BaseBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
   
   <!-- EN: 轰炸机反物质冲击 -->
   <WULA_Spawn_Bomber_DarkMatterBomb.label>轰炸机反物质冲击</WULA_Spawn_Bomber_DarkMatterBomb.label>
   <!-- EN: 指挥乌拉帝国的轰炸机，低速掠过战场，对目标地点发射一枚反物质导弹——记得躲远点。 -->
   <WULA_Spawn_Bomber_DarkMatterBomb.description>指挥乌拉帝国的轰炸机，低速掠过战场，对目标地点发射一枚反物质导弹——记得躲远点。</WULA_Spawn_Bomber_DarkMatterBomb.description>
-  <WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  <WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</WULA_Spawn_Bomber_DarkMatterBomb.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
   
   <!-- EN: 轰炸机烟墙 -->
   <WULA_Spawn_Bomber_Smoke.label>轰炸机烟墙</WULA_Spawn_Bomber_Smoke.label>
   <!-- EN: 指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下大量烟雾弹——最终形成的烟墙比标定轰炸区域要大很多。 -->
   <WULA_Spawn_Bomber_Smoke.description>指挥乌拉帝国的轰炸机，低速掠过战场，在目标地点投下大量烟雾弹——最终形成的烟墙比标定轰炸区域要大很多。</WULA_Spawn_Bomber_Smoke.description>
-  <WULA_Spawn_Bomber_Smoke.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Bomber_Smoke.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  <WULA_Spawn_Bomber_Smoke.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</WULA_Spawn_Bomber_Smoke.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
 
   <!-- EN: 无人机轰炸 -->
   <WULA_Spawn_Fighter_Drone_Bomb.label>无人机轰炸</WULA_Spawn_Fighter_Drone_Bomb.label>
@@ -97,18 +97,18 @@
   <WULA_Spawn_Striker_EMP.label>攻击机电磁压制</WULA_Spawn_Striker_EMP.label>
   <!-- EN: 指挥乌拉帝国的攻击机，高速掠过战场，快速丢下一组EMP炸弹——因为速度原因，打击区会很狭长。 -->
   <WULA_Spawn_Striker_EMP.description>指挥乌拉帝国的攻击机，高速掠过战场，快速丢下一组EMP炸弹——因为速度原因，打击区会很狭长。</WULA_Spawn_Striker_EMP.description>
-  <WULA_Spawn_Striker_EMP.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Striker_EMP.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  <WULA_Spawn_Striker_EMP.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</WULA_Spawn_Striker_EMP.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
   
   <!-- EN: 攻击机巡航 -->
   <WULA_Spawn_Striker_Missile.label>攻击机巡航</WULA_Spawn_Striker_Missile.label>
   <!-- EN: 指挥乌拉帝国的攻击机，中速掠过战场，使用其导弹打击遇到的敌人。\n导弹的挂载量可使其对12个目标发起打击。 -->
   <WULA_Spawn_Striker_Missile.description>指挥乌拉帝国的攻击机，中速掠过战场，使用其导弹打击遇到的敌人。\n导弹的挂载量可使其对12个目标发起打击。</WULA_Spawn_Striker_Missile.description>
-  <WULA_Spawn_Striker_Missile.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Striker_Missile.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  <WULA_Spawn_Striker_Missile.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</WULA_Spawn_Striker_Missile.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
   
   <!-- EN: 攻击机扫射 -->
   <WULA_Spawn_Striker_RailGun.label>攻击机扫射</WULA_Spawn_Striker_RailGun.label>
   <!-- EN: 指挥乌拉帝国的攻击机，高速掠过战场，使用机腹的两台高射速机炮打击目标地点——因为速度原因，打击区会很狭长。 -->
   <WULA_Spawn_Striker_RailGun.description>指挥乌拉帝国的攻击机，高速掠过战场，使用机腹的两台高射速机炮打击目标地点——因为速度原因，打击区会很狭长。</WULA_Spawn_Striker_RailGun.description>
-  <WULA_Spawn_Striker_RailGun.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭<WULA_Spawn_Striker_RailGun.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
+  <WULA_Spawn_Striker_RailGun.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>需要拥有&lt;color=#BD952F>&lt;i>机库&lt;/i>&lt;/color>设施的战舰在地图上才能发起空袭</WULA_Spawn_Striker_RailGun.comps.CompAbilityEffect_RequireFlyOverFacility.facilityNotFoundMessage>
   
 </LanguageData>
