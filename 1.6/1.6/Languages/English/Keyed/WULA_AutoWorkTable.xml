@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <WULAAutoForming>Forming</WULAAutoForming>
+  <WULAAutoWaitingMaterials>Waiting for materials</WULAAutoWaitingMaterials>
+  <WULAAutoWorkAmount>Work left</WULAAutoWorkAmount>
+  <WULAAutoAbortForming>Abort forming</WULAAutoAbortForming>
+  <WULAAutoAbortFormingDesc>Stop the current production, eject inserted ingredients, and reset the bill.</WULAAutoAbortFormingDesc>
+
+</LanguageData>

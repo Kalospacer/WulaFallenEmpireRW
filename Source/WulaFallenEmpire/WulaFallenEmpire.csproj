@@ -35,11 +35,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\1.5\Assemblies\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\1127530465\1.6\Assemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AlienRace">
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\839005762\1.6\Assemblies\AlienRace.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2640710953\1.6\Assemblies\AlienRace.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
@@ -294,6 +294,13 @@
     <Compile Include="Flyover\WULA_ShipArtillery\CompShipArtillery.cs" />
     <Compile Include="Ability\WULA_SpawnFlyOver\CompAbilityEffect_SpawnFlyOver.cs" />
     <Compile Include="Ability\WULA_SpawnFlyOver\CompProperties_AbilitySpawnFlyOver.cs" />
+    <!-- AutoWorkTable 相关 -->
+    <Compile Include="AutoWorkTable\AutoRecipeDefGenerator.cs" />
+    <Compile Include="AutoWorkTable\Building_WulaAutoWorkTable.cs" />
+    <Compile Include="AutoWorkTable\DefModExtension_AutoRecipe.cs" />
+    <Compile Include="AutoWorkTable\DefModExtension_AutoWorkTableRecipes.cs" />
+    <Compile Include="AutoWorkTable\DefModExtension_AutoWorkTableWorker.cs" />
+    <Compile Include="AutoWorkTable\WulaAutoWorkTableBillUtility.cs" />
     <!-- GlobalWorkTable 相关 -->
     <Compile Include="GlobalWorkTable\Building_GlobalWorkTable.cs" />
     <Compile Include="GlobalWorkTable\CompProperties_ProductionCategory.cs" />

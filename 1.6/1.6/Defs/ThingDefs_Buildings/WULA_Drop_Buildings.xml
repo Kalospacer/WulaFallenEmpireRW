@@ -1879,8 +1879,16 @@
     <defName>WULA_Cube_Productor</defName>
     <label>乌拉帝国编织体</label>
     <description>一台简易的塑性构造体，只能生产一些材料，以本地加工的方式降低舰队的加工压力。</description>
-    <thingClass>Building_WorkTable</thingClass>
+    <thingClass>WulaFallenEmpire.AutoWorkTable.Building_WulaAutoWorkTable</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
+    <tickerType>Normal</tickerType>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoWorkTableWorker">
+        <workerBaseSpeed>1.0</workerBaseSpeed>
+        <skillLevel>10</skillLevel>
+        <workSpeedGlobal>1.0</workSpeedGlobal>
+      </li>
+    </modExtensions>
     <graphicData>
       <texPath>Wula/Building/WULA_Cube_Productor</texPath>
       <graphicClass>Graphic_Multi</graphicClass>

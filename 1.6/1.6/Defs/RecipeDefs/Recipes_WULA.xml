@@ -10,7 +10,8 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>500</workAmount>
+    <workAmount>100</workAmount>
+    <formingTicks>100</formingTicks>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>false</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -32,6 +33,11 @@
     <researchPrerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoRecipe">
+        <realWorkAmount>500</realWorkAmount>
+      </li>
+    </modExtensions>
   </RecipeDef>
   <RecipeDef>
     <defName>Make_WULA_Alloy_Group</defName>
@@ -42,7 +48,8 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>2200</workAmount>
+    <workAmount>100</workAmount>
+    <formingTicks>100</formingTicks>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>false</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -64,6 +71,11 @@
     <researchPrerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoRecipe">
+        <realWorkAmount>2200</realWorkAmount>
+      </li>
+    </modExtensions>
   </RecipeDef>
   <RecipeDef>
     <defName>Make_Component_By_WULA_Cube_Productor</defName>
@@ -74,8 +86,8 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>8500</workAmount>
-    <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+    <workAmount>100</workAmount>
+    <formingTicks>100</formingTicks>
     <ingredients>
       <li>
         <filter>
@@ -100,6 +112,11 @@
     <researchPrerequisites>
       <li>WULA_Colony_License_LV1_Technology</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoRecipe">
+        <realWorkAmount>8500</realWorkAmount>
+      </li>
+    </modExtensions>
   </RecipeDef>
 
   <!-- T2 -->
@@ -112,6 +129,8 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>100</workAmount>
+    <formingTicks>100</formingTicks>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -149,6 +168,11 @@
     <researchPrerequisites>
       <li>WULA_Colony_License_LV2_Technology</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoRecipe">
+        <realWorkAmount>1000</realWorkAmount>
+      </li>
+    </modExtensions>
   </RecipeDef>
   <RecipeDef>
     <defName>Recharge_WULA_Charge_Cube</defName>
@@ -159,7 +183,8 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>500</workAmount>
+    <workAmount>100</workAmount>
+    <formingTicks>100</formingTicks>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -197,6 +222,11 @@
     <researchPrerequisites>
       <li>WULA_Colony_License_LV2_Technology</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoRecipe">
+        <realWorkAmount>500</realWorkAmount>
+      </li>
+    </modExtensions>
   </RecipeDef>
   <RecipeDef>
     <defName>Recharge_WULA_Charge_Cube_Group</defName>
@@ -207,7 +237,8 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>1000</workAmount>
+    <workAmount>100</workAmount>
+    <formingTicks>100</formingTicks>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>true</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -245,6 +276,11 @@
     <researchPrerequisites>
       <li>WULA_Colony_License_LV2_Technology</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoRecipe">
+        <realWorkAmount>1000</realWorkAmount>
+      </li>
+    </modExtensions>
   </RecipeDef>
 
   <!-- T3 -->
@@ -257,6 +293,8 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>100</workAmount>
+    <formingTicks>100</formingTicks>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>false</allowMixingIngredients>
     <ingredients Inherit="False">
@@ -286,6 +324,11 @@
     <researchPrerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoRecipe">
+        <realWorkAmount>1000</realWorkAmount>
+      </li>
+    </modExtensions>
   </RecipeDef>
   <RecipeDef>
     <defName>Make_WULA_Neutronium</defName>
@@ -296,7 +339,8 @@
     <!-- <requiredGiverWorkType>Crafting</requiredGiverWorkType> -->
     <effectWorking>Smith</effectWorking>
     <soundWorking>Recipe_Smith</soundWorking>
-    <workAmount>5000</workAmount>
+    <workAmount>100</workAmount>
+    <formingTicks>100</formingTicks>
     <!-- 允许混合成分 -->
     <allowMixingIngredients>false</allowMixingIngredients>
     <skillRequirements>
@@ -332,6 +376,11 @@
     <researchPrerequisites>
       <li>WULA_Colony_License_LV3_Technology</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="WulaFallenEmpire.AutoWorkTable.DefModExtension_AutoRecipe">
+        <realWorkAmount>5000</realWorkAmount>
+      </li>
+    </modExtensions>
   </RecipeDef>
 
   <RecipeDef ParentName="BaseMechanoidRecipe">

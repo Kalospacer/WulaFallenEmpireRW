@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <WULAAutoForming>制作中</WULAAutoForming>
+  <WULAAutoWaitingMaterials>待料中</WULAAutoWaitingMaterials>
+  <WULAAutoWorkAmount>剩余工作量</WULAAutoWorkAmount>
+  <WULAAutoAbortForming>中止制作</WULAAutoAbortForming>
+  <WULAAutoAbortFormingDesc>停止当前制作，吐出已投入的原料并重置账单。</WULAAutoAbortFormingDesc>
+
+</LanguageData>
