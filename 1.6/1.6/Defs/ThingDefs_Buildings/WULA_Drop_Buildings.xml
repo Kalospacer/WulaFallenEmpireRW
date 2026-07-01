@@ -562,7 +562,7 @@
       <ai_chillDestination>false</ai_chillDestination>
       <isInert>true</isInert>
       <blueprintGraphicData>
-        <texPath>Wula/Building/WulaShelter_Blueprint</texPath>
+        <texPath>Wula/Building/Linked/WulaShelter_Blueprint</texPath>
       </blueprintGraphicData>
       <canLandGravshipOn>true</canLandGravshipOn>
     </building>
