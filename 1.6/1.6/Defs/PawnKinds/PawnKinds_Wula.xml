@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!-- 保持这个pawnkind是无派系以供空投系统调取，其他的乌拉pawnkind必须有默认派系 -->
   <PawnKindDef>
@@ -8,7 +8,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -434,7 +434,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -493,7 +493,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -554,7 +554,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -620,7 +620,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -682,7 +682,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -742,7 +742,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -783,7 +783,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -821,7 +821,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -894,7 +894,7 @@
     <lifeStages>
       <li>
         <bodyGraphicData>
-          <texPath>Wula/Item/WULA_Species_Icon</texPath>
+          <texPath>Wula/Things/WulaSpecies/WULA_Species_Icon</texPath>
           <maskPath>SRA/Pawn/Mechanoid/AllegianceOverlays/None</maskPath>
           <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
