@@ -36,9 +36,9 @@ namespace WulaFallenEmpire
                     // 生成Pawn
                     for (int i = 0; i < Props.spawnCount; i++)
                     {
-                        Pawn pawn = PawnGenerator.GeneratePawn(Props.pawnKindDef);
-                        if (Props.inheritFaction)
-                            pawn.SetFaction(parent.Faction, null);
+                        Pawn pawn = Props.inheritFaction
+                            ? WulaPawnGenerationUtility.GenerateNonPlayerPawn(Props.pawnKindDef, parent.Faction, parent.Map)
+                            : PawnGenerator.GeneratePawn(Props.pawnKindDef);
                             
                         GenSpawn.Spawn(pawn, parent.Position, parent.Map, WipeMode.Vanish);
 

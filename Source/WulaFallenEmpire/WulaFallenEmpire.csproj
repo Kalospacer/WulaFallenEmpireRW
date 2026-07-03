@@ -528,6 +528,7 @@
     <!-- Utils 相关 -->
     <Compile Include="Utils\BezierUtil.cs" />
     <Compile Include="Utils\DefInjectedExportUtility.cs" />
+    <Compile Include="Utils\WulaPawnGenerationUtility.cs" />
     <!-- Verb 相关 -->
     <Compile Include="Verb\MeleeAttack_Cleave\CompCleave.cs" />
     <Compile Include="Verb\MeleeAttack_Cleave\Verb_MeleeAttack_Cleave.cs" />

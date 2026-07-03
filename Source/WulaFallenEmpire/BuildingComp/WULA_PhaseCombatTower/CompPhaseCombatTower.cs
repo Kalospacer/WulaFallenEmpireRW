@@ -244,17 +244,13 @@ namespace WulaFallenEmpire
             if (!spawnPosition.IsValid)
                 return;
             
-            // 生成Pawn
-            PawnGenerationRequest request = new PawnGenerationRequest(
+            Pawn pawn = WulaPawnGenerationUtility.GenerateNonPlayerPawn(
                 pawnKindDef,
-                faction: parent.Faction,
+                parent.Faction,
+                parent.Map,
                 forceGenerateNewPawn: true,
-                canGeneratePawnRelations: false,
-                fixedBiologicalAge: 0,
-                fixedChronologicalAge: 0
+                canGeneratePawnRelations: false
             );
-            
-            Pawn pawn = PawnGenerator.GeneratePawn(request);
             
             // 生成Pawn到地图
             GenSpawn.Spawn(pawn, spawnPosition, parent.Map);

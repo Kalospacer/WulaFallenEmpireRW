@@ -79,8 +79,7 @@ namespace WulaFallenEmpire
 
         private void TrySpawnPawn(PawnKindDef kind)
         {
-            PawnGenerationRequest request = new PawnGenerationRequest(kind, parent.Faction, PawnGenerationContext.NonPlayer, -1, forceGenerateNewPawn: true);
-            Pawn pawn = PawnGenerator.GeneratePawn(request);
+            Pawn pawn = WulaPawnGenerationUtility.GenerateNonPlayerPawn(kind, parent.Faction, parent.Map);
             GenSpawn.Spawn(pawn, parent.Position, parent.Map);
             SpawnedPawns.Add(pawn);
             

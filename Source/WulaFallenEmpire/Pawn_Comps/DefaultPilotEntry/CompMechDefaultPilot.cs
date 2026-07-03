@@ -79,8 +79,12 @@ namespace WulaFallenEmpire
             }
             
             // 计算要生成的驾驶员数量
-            int maxPilots = Props.maxDefaultPilots > 0 ? 
-                Props.maxDefaultPilots : pilotHolder.Props.maxPilots;
+            int maxPilots = pilotHolder.Props.maxPilots;
+            if (Props.maxDefaultPilots > 0)
+            {
+                maxPilots = Mathf.Min(Props.maxDefaultPilots, maxPilots);
+            }
+
             int pilotsToSpawn = maxPilots - pilotHolder.CurrentPilotCount;
             
             if (pilotsToSpawn <= 0)
@@ -105,6 +109,9 @@ namespace WulaFallenEmpire
         // 尝试生成单个默认驾驶员
         private bool TrySpawnDefaultPilot(Pawn mech, CompMechPilotHolder pilotHolder)
         {
+            if (!pilotHolder.HasRoom)
+                return false;
+
             // 选择驾驶员类型
             var pilotKind = Props.SelectRandomPilotKind();
             if (pilotKind == null)
@@ -113,28 +120,16 @@ namespace WulaFallenEmpire
                 return false;
             }
             
-            // 创建驾驶员生成请求
-            PawnGenerationRequest request = new PawnGenerationRequest(
-                kind: pilotKind,
-                faction: mech.Faction,
-                context: PawnGenerationContext.NonPlayer,
-                tile: mech.Map?.Tile ?? -1,
-                forceGenerateNewPawn: true,
-                allowDead: false,
-                allowDowned: false,
-                canGeneratePawnRelations: false,
-                mustBeCapableOfViolence: false,
-                colonistRelationChanceFactor: 0f,
-                forceAddFreeWarmLayerIfNeeded: false,
-                allowGay: true,
-                allowFood: true,
-                allowAddictions: true
-            );
-            
             try
             {
                 // 生成驾驶员
-                Pawn pilot = PawnGenerator.GeneratePawn(request);
+                Pawn pilot = WulaPawnGenerationUtility.GenerateNonPlayerPawn(
+                    pilotKind,
+                    mech.Faction,
+                    mech.Map,
+                    canGeneratePawnRelations: false,
+                    mustBeCapableOfViolence: false
+                );
                 
                 // 设置驾驶员名字
                 if (pilot.Name == null || pilot.Name is NameSingle)
@@ -143,17 +138,15 @@ namespace WulaFallenEmpire
                 }
                 
                 // 添加到机甲
-                if (pilotHolder.CanAddPilot(pilot))
+                if (pilotHolder.AddPilot(pilot))
                 {
-                    pilotHolder.AddPilot(pilot);
-                    
                     return true;
                 }
                 else
                 {
                     Log.Warning($"[WULA] Cannot add pilot {pilot.LabelShortCap} to mech");
                     // 清理生成的pawn
-                    pilot.Destroy();
+                    pilot.Destroy(DestroyMode.Vanish);
                     return false;
                 }
             }

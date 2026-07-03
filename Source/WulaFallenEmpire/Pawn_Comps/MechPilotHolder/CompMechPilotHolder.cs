@@ -116,10 +116,10 @@ namespace WulaFallenEmpire
         }
 
         // 添加驾驶员
-        public void AddPilot(Pawn pawn)
+        public bool AddPilot(Pawn pawn)
         {
             if (!CanAddPilot(pawn))
-                return;
+                return false;
 
             // 记录驾驶员
             if (lastPilot != pawn)
@@ -127,13 +127,10 @@ namespace WulaFallenEmpire
                 lastPilot = pawn;
             }
 
-            if (pawn.Spawned)
-                pawn.DeSpawnOrDeselect();
+            WulaPawnGenerationUtility.PrepareForThingOwner(pawn);
 
-            innerContainer.TryAdd(pawn, true);
-
-            pawn.pather?.StopDead();
-            pawn.jobs?.StopAll();
+            if (!innerContainer.TryAdd(pawn, true))
+                return false;
 
             Notify_PilotAdded(pawn);
             CheckAndUpdateMentalState();
@@ -147,6 +144,8 @@ namespace WulaFallenEmpire
             {
                 AddAutoHediff(pawn);
             }
+
+            return true;
         }
 
         // 移除驾驶员
@@ -439,12 +438,9 @@ namespace WulaFallenEmpire
 
         public bool CanAddPilot(Pawn pawn)
         {
-            if (pawn == null || pawn.Dead)
+            if (pawn == null || pawn.Dead || pawn.Destroyed)
                 return false;
-            
-            if (pawn.Downed)
-                return true;
-            
+
             if (!HasRoom)
                 return false;
             if (innerContainer.Contains(pawn))

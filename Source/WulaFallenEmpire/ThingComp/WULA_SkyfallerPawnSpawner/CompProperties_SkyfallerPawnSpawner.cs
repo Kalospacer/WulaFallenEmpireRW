@@ -28,16 +28,11 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            // 创建 Pawn
-            PawnGenerationRequest request = new PawnGenerationRequest(
+            Pawn pawn = WulaPawnGenerationUtility.GenerateNonPlayerPawn(
                 Props.pawnKind,
-                faction: GetFaction(),
-                context: PawnGenerationContext.NonPlayer,
-                fixedBiologicalAge: 0,
-                fixedChronologicalAge: 0
+                GetFaction(),
+                map
             );
-
-            Pawn pawn = PawnGenerator.GeneratePawn(request);
 
             // 设置阵营关系
             if (Props.spawnHostile)
