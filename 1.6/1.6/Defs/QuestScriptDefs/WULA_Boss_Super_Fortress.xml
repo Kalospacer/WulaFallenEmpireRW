@@ -88,12 +88,12 @@
           </factionDefs>
         </li>
 
-        <!-- 生成要塞场地：原版 site 节点组合，布局由 WULA_BossArena_SuperFortress（WulaBossSitePartDef）声明 -->
+        <!-- 生成场地：原版 site 节点组合，布局由 WULA_BossArena_SuperFortress（LayoutSitePartDef）声明 -->
         <li Class="QuestNode_Set">
           <name>siteDistRange</name>
           <value>5~10</value>
         </li>
-        <li Class="WulaFallenEmpire.QuestNode_GetFactionByDef">
+        <li Class="WulaFallenEmpire.QuestNode_GetFactionOfDef">
           <factionDef>Wula_Progressive_Faction</factionDef>
           <storeAs>siteFaction</storeAs>
         </li>

@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <!-- Boss 场地框架公共定义：配合 GenStep_WulaSiteLayout 与 WulaBossSitePartDef 使用。
-       各场地的布局数据见 WULA_BossArena_*.xml（由 CQF 迁移生成）。 -->
+  <!-- Site layout framework public definitions. Layout data is declared by SitePartDef XML. -->
 
-  <!-- Boss 场地 Site：原版 Site 全套行为，仅指定专用地图生成器 -->
+  <!-- Uses the original Site world object behavior with a dedicated map generator. -->
   <WorldObjectDef ParentName="Site">
     <defName>WULA_BossArenaSite</defName>
     <label>预设场地</label>
     <mapGenerator>WULA_BossArena</mapGenerator>
   </WorldObjectDef>
 
-  <!-- Boss 场地地图生成器：只保留地形底与迷雾，不含岩石山体、废墟、
-       间歇泉等干扰步骤，保证布局落在平坦纯净的地图上 -->
+  <!-- Dedicated map generator for deterministic prefab-first layouts. -->
   <MapGeneratorDef>
     <defName>WULA_BossArena</defName>
     <label>WULA boss arena</label>
     <genSteps>
       <li>ElevationFertility</li>
       <li>Terrain</li>
-      <li>WULA_SiteLayout</li>
+      <li>SiteLayoutFramework_SiteLayout</li>
       <li>FindPlayerStartSpot</li>
       <li>Fog</li>
     </genSteps>
   </MapGeneratorDef>
 
-  <!-- 场地布局生成步骤：在地形之后、寻找玩家落点之前执行 -->
+  <!-- Layout generation runs after terrain and before player start selection. -->
   <GenStepDef>
-    <defName>WULA_SiteLayout</defName>
+    <defName>SiteLayoutFramework_SiteLayout</defName>
     <order>800</order>
-    <genStep Class="WulaFallenEmpire.GenStep_WulaSiteLayout" />
+    <genStep Class="WulaFallenEmpire.GenStep_SiteLayout" />
   </GenStepDef>
 </Defs>

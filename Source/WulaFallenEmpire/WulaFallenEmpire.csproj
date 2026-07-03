@@ -456,14 +456,14 @@
     <Compile Include="QuestNodes\QuestNode_AddInspectionJob.cs" />
     <Compile Include="QuestNodes\QuestNode_CheckGlobalResource.cs" />
     <Compile Include="QuestNodes\QuestNode_GeneratePawnWithCustomization.cs" />
-    <Compile Include="QuestNodes\QuestNode_GetFactionByDef.cs" />
+    <Compile Include="QuestNodes\QuestNode_GetFactionOfDef.cs" />
     <Compile Include="QuestNodes\QuestNode_Hyperlinks.cs" />
     <Compile Include="QuestNodes\QuestNode_SpawnPrefabSkyfallerCaller.cs" />
     <Compile Include="QuestNodes\QuestPart_GlobalResourceCheck.cs" />
-    <!-- MapFramework 相关：Boss 场地布局（替代 CQF 依赖） -->
-    <Compile Include="MapFramework\GenStep_WulaSiteLayout.cs" />
-    <Compile Include="MapFramework\WulaBossSitePartDef.cs" />
-    <Compile Include="MapFramework\WulaSiteLayoutData.cs" />
+    <!-- SiteLayoutFramework 相关：通用 Site 布局生成 -->
+    <Compile Include="SiteLayoutFramework\GenStep_SiteLayout.cs" />
+    <Compile Include="SiteLayoutFramework\LayoutSitePartDef.cs" />
+    <Compile Include="SiteLayoutFramework\LayoutData.cs" />
     <!-- SectionLayer 相关 -->
     <Compile Include="SectionLayer_WulaHull.cs" />
     <!-- Stat 相关 -->

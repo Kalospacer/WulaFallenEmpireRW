@@ -480,7 +480,7 @@
     </terrain>
   </PrefabDef>
 
-  <SitePartDef Class="WulaFallenEmpire.WulaBossSitePartDef">
+  <SitePartDef Class="WulaFallenEmpire.LayoutSitePartDef">
     <defName>WULA_BossArena_SuperFortress</defName>
     <label>巨型乌拉帝国要塞</label>
     <description>巨型乌拉帝国要塞</description>

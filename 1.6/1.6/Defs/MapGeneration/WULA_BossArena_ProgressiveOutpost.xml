@@ -217,7 +217,7 @@
     </terrain>
   </PrefabDef>
 
-  <SitePartDef Class="WulaFallenEmpire.WulaBossSitePartDef">
+  <SitePartDef Class="WulaFallenEmpire.LayoutSitePartDef">
     <defName>WULA_BossArena_ProgressiveOutpost</defName>
     <label>乌拉帝国进步派哨站</label>
     <description>乌拉帝国进步派哨站</description>
@@ -463,13 +463,13 @@
         </groups>
       </li>
     </pawnEntries>
-    <crateContents>
+    <containerContents>
       <li>
-        <crate>WULA_Hostile_Progressive_Outpost_LootBox</crate>
+        <thingDef>WULA_Hostile_Progressive_Outpost_LootBox</thingDef>
         <contents>
           <WULA_Safe_Box_For_Mission>1</WULA_Safe_Box_For_Mission>
         </contents>
       </li>
-    </crateContents>
+    </containerContents>
   </SitePartDef>
 </Defs>

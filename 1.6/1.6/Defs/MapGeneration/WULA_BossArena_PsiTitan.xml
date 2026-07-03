@@ -58,7 +58,7 @@
     </things>
   </PrefabDef>
 
-  <SitePartDef Class="WulaFallenEmpire.WulaBossSitePartDef">
+  <SitePartDef Class="WulaFallenEmpire.LayoutSitePartDef">
     <defName>WULA_BossArena_PsiTitan</defName>
     <label>发现灵能泰坦的地区</label>
     <description>发现灵能泰坦的地区</description>
