@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using RimWorld.Planet;
 using Verse;
 
@@ -12,11 +13,17 @@ namespace WulaFallenEmpire.EventSystem.AI
     public class AIMemoryManager : WorldComponent
     {
         private const string MemoryFolderName = "WulaAIMemory";
-        private const string MemoryVersion = "1.0";
+        private const string MemoryVersion = "2.0";
         private const int RecencyTickWindow = 60000;
+        private const int SearchCacheTtlSeconds = 45;
+        private const int SearchCacheMaxEntries = 256;
+
+        private readonly object _lock = new object();
         private string _saveId;
         private List<AIMemoryEntry> _memories = new List<AIMemoryEntry>();
         private bool _loaded;
+        private readonly Dictionary<string, SearchCacheEntry> _searchCache = new Dictionary<string, SearchCacheEntry>();
+        private readonly Queue<string> _searchCacheOrder = new Queue<string>();
 
         public AIMemoryManager(World world) : base(world)
         {
@@ -25,7 +32,10 @@ namespace WulaFallenEmpire.EventSystem.AI
         public IReadOnlyList<AIMemoryEntry> GetAllMemories()
         {
             EnsureLoaded();
-            return _memories.ToList();
+            lock (_lock)
+            {
+                return _memories.Select(CloneMemory).ToList();
+            }
         }
 
         public AIMemoryEntry AddMemory(string fact, string category = "misc")
@@ -33,31 +43,36 @@ namespace WulaFallenEmpire.EventSystem.AI
             EnsureLoaded();
             if (string.IsNullOrWhiteSpace(fact)) return null;
 
-            string normalizedCategory = NormalizeCategory(category);
-            string hash = AIMemoryEntry.ComputeHash(fact);
-            string normalizedFact = NormalizeFact(fact);
-            var existing = _memories.FirstOrDefault(m => m != null &&
-                (string.Equals(m.Hash, hash, StringComparison.OrdinalIgnoreCase) ||
-                 string.Equals(NormalizeFact(m.Fact), normalizedFact, StringComparison.Ordinal)));
-            long now = GetCurrentTicks();
-            if (existing != null)
+            lock (_lock)
             {
-                existing.UpdateFact(fact);
-                existing.Category = normalizedCategory;
-                existing.UpdatedTicks = now;
-                SaveToFile();
-                return existing;
-            }
+                string normalizedCategory = NormalizeCategory(category);
+                string hash = AIMemoryEntry.ComputeHash(fact);
+                string normalizedFact = NormalizeFact(fact);
+                var existing = _memories.FirstOrDefault(m => m != null &&
+                    (string.Equals(m.Hash, hash, StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(NormalizeFact(m.Fact), normalizedFact, StringComparison.Ordinal)));
+                long now = GetCurrentTicks();
+                if (existing != null)
+                {
+                    existing.UpdateFact(fact.Trim());
+                    existing.Category = normalizedCategory;
+                    existing.UpdatedTicks = now;
+                    InvalidateSearchCache();
+                    SaveToFileLocked();
+                    return CloneMemory(existing);
+                }
 
-            var entry = new AIMemoryEntry(fact, normalizedCategory)
-            {
-                CreatedTicks = now,
-                UpdatedTicks = now,
-                AccessCount = 0
-            };
-            _memories.Add(entry);
-            SaveToFile();
-            return entry;
+                var entry = new AIMemoryEntry(fact.Trim(), normalizedCategory)
+                {
+                    CreatedTicks = now,
+                    UpdatedTicks = now,
+                    AccessCount = 0
+                };
+                _memories.Add(entry);
+                InvalidateSearchCache();
+                SaveToFileLocked();
+                return CloneMemory(entry);
+            }
         }
 
         public bool UpdateMemory(string id, string newFact, string category = null)
@@ -65,22 +80,26 @@ namespace WulaFallenEmpire.EventSystem.AI
             EnsureLoaded();
             if (string.IsNullOrWhiteSpace(id)) return false;
 
-            var entry = _memories.FirstOrDefault(m => string.Equals(m.Id, id, StringComparison.OrdinalIgnoreCase));
-            if (entry == null) return false;
-
-            if (!string.IsNullOrWhiteSpace(newFact))
+            lock (_lock)
             {
-                entry.UpdateFact(newFact);
-            }
+                var entry = _memories.FirstOrDefault(m => string.Equals(m.Id, id, StringComparison.OrdinalIgnoreCase));
+                if (entry == null) return false;
 
-            if (!string.IsNullOrWhiteSpace(category))
-            {
-                entry.Category = NormalizeCategory(category);
-            }
+                if (!string.IsNullOrWhiteSpace(newFact))
+                {
+                    entry.UpdateFact(newFact.Trim());
+                }
 
-            entry.UpdatedTicks = GetCurrentTicks();
-            SaveToFile();
-            return true;
+                if (!string.IsNullOrWhiteSpace(category))
+                {
+                    entry.Category = NormalizeCategory(category);
+                }
+
+                entry.UpdatedTicks = GetCurrentTicks();
+                InvalidateSearchCache();
+                SaveToFileLocked();
+                return true;
+            }
         }
 
         public bool DeleteMemory(string id)
@@ -88,13 +107,15 @@ namespace WulaFallenEmpire.EventSystem.AI
             EnsureLoaded();
             if (string.IsNullOrWhiteSpace(id)) return false;
 
-            int removed = _memories.RemoveAll(m => string.Equals(m.Id, id, StringComparison.OrdinalIgnoreCase));
-            if (removed > 0)
+            lock (_lock)
             {
-                SaveToFile();
+                int removed = _memories.RemoveAll(m => string.Equals(m.Id, id, StringComparison.OrdinalIgnoreCase));
+                if (removed <= 0) return false;
+
+                InvalidateSearchCache();
+                SaveToFileLocked();
                 return true;
             }
-            return false;
         }
 
         public List<AIMemoryEntry> SearchMemories(string query, int limit = 5)
@@ -102,35 +123,46 @@ namespace WulaFallenEmpire.EventSystem.AI
             EnsureLoaded();
             if (string.IsNullOrWhiteSpace(query)) return new List<AIMemoryEntry>();
 
+            int safeLimit = Math.Max(1, limit);
             string normalizedQuery = query.Trim();
-            List<string> tokens = Tokenize(normalizedQuery);
-
+            string cacheKey = BuildSearchCacheKey(normalizedQuery, safeLimit);
             long now = GetCurrentTicks();
-            var scored = new List<(AIMemoryEntry entry, float score)>();
 
-            foreach (var entry in _memories)
+            lock (_lock)
             {
-                if (entry == null || string.IsNullOrWhiteSpace(entry.Fact)) continue;
-                float score = ComputeScore(entry, normalizedQuery, tokens, now);
-                if (score <= 0f) continue;
-                scored.Add((entry, score));
+                if (TryGetCachedSearch(cacheKey, out var cached))
+                {
+                    QueueAccessUpdates(cached.Select(m => m.Id).ToList(), now);
+                    return cached.Select(CloneMemory).ToList();
+                }
             }
 
-            var results = scored
-                .OrderByDescending(s => s.score)
-                .ThenByDescending(s => s.entry.UpdatedTicks)
-                .Take(Math.Max(1, limit))
-                .Select(s => s.entry)
-                .ToList();
+            List<AIMemoryEntry> results;
+            lock (_lock)
+            {
+                List<string> tokens = Tokenize(normalizedQuery);
+                var scored = new List<Tuple<AIMemoryEntry, float>>();
+                foreach (var entry in _memories)
+                {
+                    if (entry == null || string.IsNullOrWhiteSpace(entry.Fact)) continue;
+                    float score = ComputeScore(entry, normalizedQuery, tokens, now);
+                    if (score <= 0f) continue;
+                    scored.Add(Tuple.Create(entry, score));
+                }
+
+                results = scored
+                    .OrderByDescending(s => s.Item2)
+                    .ThenByDescending(s => s.Item1.UpdatedTicks)
+                    .Take(safeLimit)
+                    .Select(s => CloneMemory(s.Item1))
+                    .ToList();
+
+                SetCachedSearch(cacheKey, results);
+            }
 
             if (results.Count > 0)
             {
-                foreach (var entry in results)
-                {
-                    entry.MarkAccessed();
-                    entry.UpdatedTicks = now;
-                }
-                SaveToFile();
+                QueueAccessUpdates(results.Select(m => m.Id).ToList(), now);
             }
 
             return results;
@@ -139,19 +171,38 @@ namespace WulaFallenEmpire.EventSystem.AI
         public List<AIMemoryEntry> GetRecentMemories(int limit = 5)
         {
             EnsureLoaded();
-            return _memories
-                .Where(m => m != null && !string.IsNullOrWhiteSpace(m.Fact))
-                .OrderByDescending(m => m.UpdatedTicks)
-                .ThenByDescending(m => m.CreatedTicks)
-                .Take(Math.Max(1, limit))
-                .ToList();
+            lock (_lock)
+            {
+                return _memories
+                    .Where(m => m != null && !string.IsNullOrWhiteSpace(m.Fact))
+                    .OrderByDescending(m => m.UpdatedTicks)
+                    .ThenByDescending(m => m.CreatedTicks)
+                    .Take(Math.Max(1, limit))
+                    .Select(CloneMemory)
+                    .ToList();
+            }
+        }
+
+        public void ClearAllMemories()
+        {
+            EnsureLoaded();
+            lock (_lock)
+            {
+                _memories.Clear();
+                InvalidateSearchCache();
+                SaveToFileLocked();
+            }
         }
 
         private void EnsureLoaded()
         {
             if (_loaded) return;
-            LoadFromFile();
-            _loaded = true;
+            lock (_lock)
+            {
+                if (_loaded) return;
+                LoadFromFileLocked();
+                _loaded = true;
+            }
         }
 
         private string GetSaveDirectory()
@@ -173,10 +224,9 @@ namespace WulaFallenEmpire.EventSystem.AI
             return Path.Combine(GetSaveDirectory(), $"{_saveId}.json");
         }
 
-        private void LoadFromFile()
+        private void LoadFromFileLocked()
         {
             _memories = new List<AIMemoryEntry>();
-
             string path = GetFilePath();
             if (!File.Exists(path)) return;
 
@@ -185,27 +235,19 @@ namespace WulaFallenEmpire.EventSystem.AI
                 string json = File.ReadAllText(path);
                 if (string.IsNullOrWhiteSpace(json)) return;
 
-                string array = ExtractJsonArray(json, "memories");
-                if (string.IsNullOrWhiteSpace(array)) return;
+                var dto = JsonConvert.DeserializeObject<MemoryFileDto>(json);
+                if (dto?.Memories == null) return;
 
-                foreach (string obj in ExtractJsonObjects(array))
+                foreach (var entry in dto.Memories)
                 {
-                    var dict = SimpleJsonParser.Parse(obj);
-                    if (dict == null || dict.Count == 0) continue;
-
-                    var entry = new AIMemoryEntry();
-                    if (dict.TryGetValue("id", out string id) && !string.IsNullOrWhiteSpace(id)) entry.Id = id;
-                    if (dict.TryGetValue("fact", out string fact)) entry.Fact = fact;
-                    if (dict.TryGetValue("category", out string category)) entry.Category = NormalizeCategory(category);
-                    if (dict.TryGetValue("createdTicks", out string created) && long.TryParse(created, NumberStyles.Integer, CultureInfo.InvariantCulture, out long createdTicks)) entry.CreatedTicks = createdTicks;
-                    if (dict.TryGetValue("updatedTicks", out string updated) && long.TryParse(updated, NumberStyles.Integer, CultureInfo.InvariantCulture, out long updatedTicks)) entry.UpdatedTicks = updatedTicks;
-                    if (dict.TryGetValue("accessCount", out string access) && int.TryParse(access, NumberStyles.Integer, CultureInfo.InvariantCulture, out int accessCount)) entry.AccessCount = accessCount;
-                    if (dict.TryGetValue("hash", out string hash)) entry.Hash = hash;
-                    if (string.IsNullOrWhiteSpace(entry.Hash))
+                    if (entry == null || string.IsNullOrWhiteSpace(entry.Fact)) continue;
+                    entry.Fact = entry.Fact.Trim();
+                    entry.Category = NormalizeCategory(entry.Category);
+                    entry.Hash = AIMemoryEntry.ComputeHash(entry.Fact);
+                    if (string.IsNullOrWhiteSpace(entry.Id))
                     {
-                        entry.Hash = AIMemoryEntry.ComputeHash(entry.Fact);
+                        entry.Id = Guid.NewGuid().ToString("N").Substring(0, 12);
                     }
-                    if (string.IsNullOrWhiteSpace(entry.Category)) entry.Category = "misc";
                     _memories.Add(entry);
                 }
             }
@@ -215,33 +257,21 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
         }
 
-        private void SaveToFile()
+        private void SaveToFileLocked()
         {
             string path = GetFilePath();
             try
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("{");
-                sb.Append("\"version\":\"").Append(MemoryVersion).Append("\",");
-                sb.Append("\"memories\":[");
-                bool first = true;
-                foreach (var memory in _memories)
+                var dto = new MemoryFileDto
                 {
-                    if (memory == null) continue;
-                    if (!first) sb.Append(",");
-                    first = false;
-                    sb.Append("{");
-                    sb.Append("\"id\":\"").Append(EscapeJson(memory.Id)).Append("\",");
-                    sb.Append("\"fact\":\"").Append(EscapeJson(memory.Fact)).Append("\",");
-                    sb.Append("\"category\":\"").Append(EscapeJson(memory.Category)).Append("\",");
-                    sb.Append("\"createdTicks\":").Append(memory.CreatedTicks.ToString(CultureInfo.InvariantCulture)).Append(",");
-                    sb.Append("\"updatedTicks\":").Append(memory.UpdatedTicks.ToString(CultureInfo.InvariantCulture)).Append(",");
-                    sb.Append("\"accessCount\":").Append(memory.AccessCount.ToString(CultureInfo.InvariantCulture)).Append(",");
-                    sb.Append("\"hash\":\"").Append(EscapeJson(memory.Hash)).Append("\"");
-                    sb.Append("}");
-                }
-                sb.Append("]}");
-                File.WriteAllText(path, sb.ToString());
+                    Version = MemoryVersion,
+                    Memories = _memories
+                        .Where(m => m != null && !string.IsNullOrWhiteSpace(m.Fact))
+                        .Select(CloneMemory)
+                        .ToList()
+                };
+                string json = JsonConvert.SerializeObject(dto, Formatting.Indented);
+                File.WriteAllText(path, json);
             }
             catch (Exception ex)
             {
@@ -261,9 +291,93 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
         }
 
+        private void QueueAccessUpdates(List<string> ids, long now)
+        {
+            if (ids == null || ids.Count == 0) return;
+            Task.Run(() =>
+            {
+                lock (_lock)
+                {
+                    bool changed = false;
+                    foreach (string id in ids)
+                    {
+                        var entry = _memories.FirstOrDefault(m => string.Equals(m.Id, id, StringComparison.OrdinalIgnoreCase));
+                        if (entry == null) continue;
+                        entry.MarkAccessed();
+                        entry.UpdatedTicks = now;
+                        changed = true;
+                    }
+                    if (changed)
+                    {
+                        SaveToFileLocked();
+                    }
+                }
+            });
+        }
+
+        private bool TryGetCachedSearch(string cacheKey, out List<AIMemoryEntry> memories)
+        {
+            memories = null;
+            if (!_searchCache.TryGetValue(cacheKey, out var cached))
+            {
+                return false;
+            }
+            if ((DateTime.UtcNow - cached.CreatedUtc).TotalSeconds > SearchCacheTtlSeconds)
+            {
+                _searchCache.Remove(cacheKey);
+                return false;
+            }
+            memories = cached.Memories.Select(CloneMemory).ToList();
+            return true;
+        }
+
+        private void SetCachedSearch(string cacheKey, List<AIMemoryEntry> memories)
+        {
+            _searchCache[cacheKey] = new SearchCacheEntry
+            {
+                CreatedUtc = DateTime.UtcNow,
+                Memories = memories.Select(CloneMemory).ToList()
+            };
+            _searchCacheOrder.Enqueue(cacheKey);
+            while (_searchCache.Count > SearchCacheMaxEntries && _searchCacheOrder.Count > 0)
+            {
+                string oldKey = _searchCacheOrder.Dequeue();
+                if (_searchCache.ContainsKey(oldKey) && !string.Equals(oldKey, cacheKey, StringComparison.Ordinal))
+                {
+                    _searchCache.Remove(oldKey);
+                }
+            }
+        }
+
+        private void InvalidateSearchCache()
+        {
+            _searchCache.Clear();
+            _searchCacheOrder.Clear();
+        }
+
+        private static string BuildSearchCacheKey(string query, int limit)
+        {
+            return limit.ToString(CultureInfo.InvariantCulture) + "|" + NormalizeFact(query);
+        }
+
         private static long GetCurrentTicks()
         {
             return Find.TickManager?.TicksGame ?? 0;
+        }
+
+        private static AIMemoryEntry CloneMemory(AIMemoryEntry entry)
+        {
+            if (entry == null) return null;
+            return new AIMemoryEntry
+            {
+                Id = entry.Id,
+                Fact = entry.Fact,
+                Category = entry.Category,
+                CreatedTicks = entry.CreatedTicks,
+                UpdatedTicks = entry.UpdatedTicks,
+                AccessCount = entry.AccessCount,
+                Hash = entry.Hash
+            };
         }
 
         private static string NormalizeCategory(string category)
@@ -285,7 +399,8 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private static string NormalizeFact(string fact)
         {
-            return string.IsNullOrWhiteSpace(fact) ? "" : fact.Trim().ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(fact)) return "";
+            return string.Join(" ", fact.Trim().ToLowerInvariant().Split(new[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         private static float ComputeScore(AIMemoryEntry entry, string query, List<string> tokens, long now)
@@ -330,7 +445,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             var tokens = new List<string>();
             if (string.IsNullOrWhiteSpace(text)) return tokens;
 
-            var sb = new StringBuilder();
+            var sb = new System.Text.StringBuilder();
             foreach (char c in text)
             {
                 if (char.IsLetterOrDigit(c))
@@ -350,135 +465,19 @@ namespace WulaFallenEmpire.EventSystem.AI
             return tokens;
         }
 
-        private static string EscapeJson(string value)
+        private sealed class MemoryFileDto
         {
-            if (string.IsNullOrEmpty(value)) return "";
-            return value.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r");
+            [JsonProperty("version")]
+            public string Version { get; set; }
+
+            [JsonProperty("memories")]
+            public List<AIMemoryEntry> Memories { get; set; }
         }
 
-        private static string ExtractJsonArray(string json, string key)
+        private sealed class SearchCacheEntry
         {
-            if (string.IsNullOrWhiteSpace(json) || string.IsNullOrWhiteSpace(key)) return null;
-
-            string keyPattern = $"\"{key}\"";
-            int keyIndex = json.IndexOf(keyPattern, StringComparison.OrdinalIgnoreCase);
-            if (keyIndex == -1) return null;
-
-            int arrayStart = json.IndexOf('[', keyIndex);
-            if (arrayStart == -1) return null;
-
-            int arrayEnd = FindMatchingBracket(json, arrayStart);
-            if (arrayEnd == -1) return null;
-
-            return json.Substring(arrayStart + 1, arrayEnd - arrayStart - 1);
-        }
-
-        private static List<string> ExtractJsonObjects(string arrayContent)
-        {
-            var objects = new List<string>();
-            if (string.IsNullOrWhiteSpace(arrayContent)) return objects;
-
-            int depth = 0;
-            int start = -1;
-            bool inString = false;
-            bool escaped = false;
-
-            for (int i = 0; i < arrayContent.Length; i++)
-            {
-                char c = arrayContent[i];
-                if (inString)
-                {
-                    if (escaped)
-                    {
-                        escaped = false;
-                        continue;
-                    }
-                    if (c == '\\')
-                    {
-                        escaped = true;
-                        continue;
-                    }
-                    if (c == '"')
-                    {
-                        inString = false;
-                    }
-                    continue;
-                }
-
-                if (c == '"')
-                {
-                    inString = true;
-                    continue;
-                }
-
-                if (c == '{')
-                {
-                    if (depth == 0) start = i;
-                    depth++;
-                    continue;
-                }
-                if (c == '}')
-                {
-                    depth--;
-                    if (depth == 0 && start >= 0)
-                    {
-                        objects.Add(arrayContent.Substring(start, i - start + 1));
-                        start = -1;
-                    }
-                }
-            }
-
-            return objects;
-        }
-
-        private static int FindMatchingBracket(string json, int startIndex)
-        {
-            int depth = 0;
-            bool inString = false;
-            bool escaped = false;
-
-            for (int i = startIndex; i < json.Length; i++)
-            {
-                char c = json[i];
-                if (inString)
-                {
-                    if (escaped)
-                    {
-                        escaped = false;
-                        continue;
-                    }
-                    if (c == '\\')
-                    {
-                        escaped = true;
-                        continue;
-                    }
-                    if (c == '"')
-                    {
-                        inString = false;
-                    }
-                    continue;
-                }
-
-                if (c == '"')
-                {
-                    inString = true;
-                    continue;
-                }
-
-                if (c == '[')
-                {
-                    depth++;
-                    continue;
-                }
-
-                if (c == ']')
-                {
-                    depth--;
-                    if (depth == 0) return i;
-                }
-            }
-
-            return -1;
+            public DateTime CreatedUtc;
+            public List<AIMemoryEntry> Memories;
         }
     }
 }

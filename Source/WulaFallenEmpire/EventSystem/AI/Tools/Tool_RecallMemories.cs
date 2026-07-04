@@ -12,8 +12,8 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_RecallMemories : AITool
     {
         public override string Name => "recall_memories";
-        public override string Description => "Searches the AI's long-term memory for facts matching a specific query or keyword.";
-        public override string UsageSchema => "{\"query\":\"keywords\",\"limit\":5}";
+        public override string Description => "Searches the AI's long-term memory. If query is empty, returns recent durable memories.";
+        public override string UsageSchema => "{\"query\":\"keywords or empty\",\"limit\":5}";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -21,7 +21,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["query"] = SchemaString("Search query.", nullable: true),
                 ["limit"] = SchemaInteger("Max memories to return.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("query", "limit"));
+            return SchemaObject(properties, RequiredList());
         }
 
         public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)

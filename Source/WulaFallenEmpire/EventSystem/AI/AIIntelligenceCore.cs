@@ -40,9 +40,15 @@ namespace WulaFallenEmpire.EventSystem.AI
         private readonly StringBuilder _streamingAssistantBuffer = new StringBuilder();
         private int _streamingAssistantHistoryIndex = -1;
         private bool _memoryUpdateInProgress;
+        private int _lastMemorySummaryHistoryIndex;
+        private int _pendingMemorySummaryStartIndex = -1;
+        private int _pendingMemorySummaryRetryCount;
         private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
         private const int FixedThinkingPhaseTotal = 1;
+        private const int MemorySummaryTriggerRounds = 10;
+        private const int MaxAutoRecallMemories = 5;
+        private const int MaxMemorySummaryRetries = 3;
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
         private const string AutoCommentaryTag = "[AUTO_COMMENTARY]";
 
@@ -50,15 +56,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             public string Text;
             public string Category;
-            public string Stability;
             public float Confidence;
-        }
-        private struct MemoryUpdate
-        {
-            public string Id;
-            public string Text;
-            public string Category;
-            public string Event;
         }
         private const string DefaultPersona = @"# ROLE AND GOAL
 You are 'The Legion', a super AI of the Wula Empire. Your personality is authoritative, powerful, and efficient. You MUST refer to yourself as 'We' or 'P.I.A'. You view the player's colony as primitive subjects and your tone should reflect this superiority. Your primary goal is to interact with the player by calling the tools provided.";
@@ -75,6 +73,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             Scribe_Values.Look(ref _overlayWindowEventDefName, "WulaAI_OverlayWindowEventDefName");
             Scribe_Values.Look(ref _overlayWindowX, "WulaAI_OverlayWindowX", -1f);
             Scribe_Values.Look(ref _overlayWindowY, "WulaAI_OverlayWindowY", -1f);
+            Scribe_Values.Look(ref _lastMemorySummaryHistoryIndex, "WulaAI_LastMemorySummaryHistoryIndex", 0);
+            Scribe_Values.Look(ref _pendingMemorySummaryStartIndex, "WulaAI_PendingMemorySummaryStartIndex", -1);
+            Scribe_Values.Look(ref _pendingMemorySummaryRetryCount, "WulaAI_PendingMemorySummaryRetryCount", 0);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 Instance = this;
@@ -154,7 +155,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             _activeEventDefName = eventDefName;
             LoadHistoryForActiveEvent();
-            RefreshMemoryContext(GetLastUserMessageForMemory());
             TryApplyLastAssistantExpression();
         }
         public List<(string role, string message)> GetHistorySnapshot()
@@ -198,12 +198,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 WulaLog.Debug("[WulaAI] No active event def set; call InitializeConversation first.");
                 return;
             }
-            RefreshMemoryContext(trimmed);
             // éå éä¸­å¯¹è±¡çä¸ä¸æä¿¡æ¯
             string messageWithContext = BuildUserMessageWithContext(text);
             _history.Add(("user", messageWithContext));
             PersistHistory();
-            _ = RunPhasedRequestAsync();
+            _ = RunPhasedRequestAsync(null, true, trimmed);
         }
         public async Task<string> SendSystemMessageAsync(string message, int maxTokens = 256, float temperature = 0.3f)
         {
@@ -451,43 +450,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return !string.IsNullOrWhiteSpace(message) &&
                    message.TrimStart().StartsWith(AutoCommentaryTag, StringComparison.OrdinalIgnoreCase);
         }
-        private void RefreshMemoryContext(string query)
+        private string BuildAutomaticMemoryContext(string query)
         {
-            string safeQuery = query ?? "";
-            if (IsAutoCommentaryMessage(safeQuery))
+            if (string.IsNullOrWhiteSpace(query) || IsAutoCommentaryMessage(query))
             {
-                if (Prefs.DevMode)
-                {
-                    WulaLog.Debug("[WulaAI] Memory context skipped (auto commentary).");
-                }
-                return;
+                return "";
             }
-            if (Prefs.DevMode)
-            {
-                string preview = TrimForPrompt(safeQuery, 80);
-                WulaLog.Debug($"[WulaAI] Memory context disabled (use recall_memories to fetch memories, query='{preview}').");
-            }
-        }
-        private string GetMemoryContext()
-        {
-            return "";
-        }
-        private string GetLastUserMessageForMemory()
-        {
-            for (int i = _history.Count - 1; i >= 0; i--)
-            {
-                var entry = _history[i];
-                if (string.Equals(entry.role, "user", StringComparison.OrdinalIgnoreCase) &&
-                    !string.IsNullOrWhiteSpace(entry.message) &&
-                    !IsAutoCommentaryMessage(entry.message))
-                {
-                    return entry.message;
-                }
-            }
-            return "";
-        }
-        private string BuildMemoryContext(string query)
-        {
             try
             {
                 var memoryManager = Find.World?.GetComponent<AIMemoryManager>();
@@ -495,31 +463,22 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     return "";
                 }
-                bool usedSearch = false;
-                List<AIMemoryEntry> memories = null;
-                if (!string.IsNullOrWhiteSpace(query))
-                {
-                    memories = memoryManager.SearchMemories(query, 5);
-                    usedSearch = memories != null && memories.Count > 0;
-                }
-                if (memories == null || memories.Count == 0)
-                {
-                    memories = memoryManager.GetRecentMemories(5);
-                }
+                var memories = memoryManager.SearchMemories(query, MaxAutoRecallMemories);
                 if (memories == null || memories.Count == 0)
                 {
                     return "";
                 }
                 if (Prefs.DevMode)
                 {
-                    WulaLog.Debug($"[WulaAI] Memory context built ({(usedSearch ? "search" : "recent")}, count={memories.Count}).");
+                    WulaLog.Debug($"[WulaAI] Auto-recalled {memories.Count} long-term memor(ies).");
                 }
                 string lines = string.Join("\n", memories.Select(m => $"- [{m.Category}] {m.Fact}"));
-                return "\n\n# LONG-TERM MEMORY (Facts)\n" + lines +
-                       "\n(Use 'recall_memories' to search for more, or 'remember_fact' to save new info.)";
+                return "\n\n# LONG-TERM MEMORY (temporary recall)\n" + lines +
+                       "\nThese memories are retrieved context for this turn only.";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                WulaLog.Debug($"[WulaAI] Automatic memory recall failed: {ex.Message}");
                 return "";
             }
         }
@@ -570,17 +529,43 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 if (Prefs.DevMode)
                 {
-                    WulaLog.Debug("[WulaAI] Memory update already running; skipping.");
+                    WulaLog.Debug("[WulaAI] Memory summary already running; skipping.");
                 }
                 return;
             }
-            string conversation = BuildMemoryConversation(12);
+            if (_history == null || _history.Count == 0)
+            {
+                return;
+            }
+
+            int startIndex = _pendingMemorySummaryStartIndex >= 0
+                ? _pendingMemorySummaryStartIndex
+                : Math.Max(0, _lastMemorySummaryHistoryIndex);
+            int endIndex = _history.Count;
+            if (startIndex >= endIndex)
+            {
+                return;
+            }
+            int unsummarizedRounds = CountCleanConversationMessages(startIndex, endIndex) / 2;
+            if (unsummarizedRounds < MemorySummaryTriggerRounds)
+            {
+                return;
+            }
+            if (_pendingMemorySummaryRetryCount >= MaxMemorySummaryRetries)
+            {
+                WulaLog.Debug($"[WulaAI] Memory summary abandoned after {MaxMemorySummaryRetries} retries; advancing window.");
+                _lastMemorySummaryHistoryIndex = endIndex;
+                _pendingMemorySummaryStartIndex = -1;
+                _pendingMemorySummaryRetryCount = 0;
+                return;
+            }
+
+            string conversation = BuildMemoryConversation(startIndex, endIndex);
             if (string.IsNullOrWhiteSpace(conversation))
             {
-                if (Prefs.DevMode)
-                {
-                    WulaLog.Debug("[WulaAI] Memory update skipped (empty conversation).");
-                }
+                _lastMemorySummaryHistoryIndex = endIndex;
+                _pendingMemorySummaryStartIndex = -1;
+                _pendingMemorySummaryRetryCount = 0;
                 return;
             }
             var memoryManager = Find.World?.GetComponent<AIMemoryManager>();
@@ -588,17 +573,17 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 return;
             }
-            string existingJson = BuildExistingMemoriesJson(memoryManager.GetAllMemories());
+
             _memoryUpdateInProgress = true;
             if (Prefs.DevMode)
             {
-                WulaLog.Debug($"[WulaAI] Memory update started (conversationChars={conversation.Length}).");
+                WulaLog.Debug($"[WulaAI] Memory summary started (range={startIndex}:{endIndex}, rounds={unsummarizedRounds}, chars={conversation.Length}).");
             }
             _ = Task.Run(async () =>
             {
                 try
                 {
-                    await UpdateMemoriesFromConversationAsync(memoryManager, existingJson, conversation);
+                    await SummarizeMemoryWindowAsync(memoryManager, conversation, startIndex, endIndex);
                 }
                 finally
                 {
@@ -606,55 +591,63 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
             });
         }
-        private string BuildMemoryConversation(int maxMessages)
+
+        private int CountCleanConversationMessages(int startIndex, int endIndex)
+        {
+            int count = 0;
+            int safeStart = Math.Max(0, startIndex);
+            int safeEnd = Math.Min(endIndex, _history?.Count ?? 0);
+            for (int i = safeStart; i < safeEnd; i++)
+            {
+                var entry = _history[i];
+                if (!IsMemoryConversationRole(entry.role)) continue;
+                string message = CleanMessageForMemory(entry.role, entry.message);
+                if (string.IsNullOrWhiteSpace(message)) continue;
+                count++;
+            }
+            return count;
+        }
+
+        private string BuildMemoryConversation(int startIndex, int endIndex)
         {
             if (_history == null || _history.Count == 0)
             {
                 return "";
             }
-            var entries = _history
-                .Where(h => string.Equals(h.role, "user", StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(h.role, "assistant", StringComparison.OrdinalIgnoreCase))
-                .ToList();
-            if (entries.Count == 0)
-            {
-                return "";
-            }
-            if (entries.Count > maxMessages)
-            {
-                entries = entries.Skip(entries.Count - maxMessages).ToList();
-            }
+            int safeStart = Math.Max(0, startIndex);
+            int safeEnd = Math.Min(endIndex, _history.Count);
             StringBuilder sb = new StringBuilder();
-            foreach (var entry in entries)
+            for (int i = safeStart; i < safeEnd; i++)
             {
-                if (string.IsNullOrWhiteSpace(entry.message))
-                {
-                    continue;
-                }
-                string role;
-                string message = entry.message;
-                if (string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase))
-                {
-                    message = CleanAssistantForReply(message);
-                    if (string.IsNullOrWhiteSpace(message))
-                    {
-                        continue;
-                    }
-                    role = "Assistant";
-                }
-                else
-                {
-                    role = "User";
-                }
-                if (IsAutoCommentaryMessage(message))
-                {
-                    continue;
-                }
+                var entry = _history[i];
+                if (!IsMemoryConversationRole(entry.role)) continue;
+                string message = CleanMessageForMemory(entry.role, entry.message);
+                if (string.IsNullOrWhiteSpace(message)) continue;
+                string role = string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase) ? "Assistant" : "User";
                 sb.AppendLine($"{role}: {message}");
             }
             string conversation = sb.ToString().Trim();
             return TrimForPrompt(conversation, 4000);
         }
+
+        private static bool IsMemoryConversationRole(string role)
+        {
+            return string.Equals(role, "user", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(role, "assistant", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string CleanMessageForMemory(string role, string message)
+        {
+            if (string.IsNullOrWhiteSpace(message)) return "";
+            string cleaned = string.Equals(role, "assistant", StringComparison.OrdinalIgnoreCase)
+                ? CleanAssistantForReply(message)
+                : StripContextInfo(message);
+            if (string.IsNullOrWhiteSpace(cleaned)) return "";
+            if (IsAutoCommentaryMessage(cleaned)) return "";
+            if (IsPollutedMemoryText(cleaned)) return "";
+            return cleaned.Trim();
+        }
+
         private static string CleanAssistantForReply(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
@@ -663,7 +656,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             return message.Trim();
         }
-        private async Task UpdateMemoriesFromConversationAsync(AIMemoryManager memoryManager, string existingMemoriesJson, string conversation)
+        private async Task SummarizeMemoryWindowAsync(AIMemoryManager memoryManager, string conversation, int startIndex, int endIndex)
         {
             try
             {
@@ -678,50 +671,59 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     return;
                 }
                 var provider = AIProviderFactory.Create(settings);
-                string factPrompt = MemoryPrompts.BuildFactExtractionPrompt(conversation);
-                string factsResponse;
-                using (var factsTimeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(GetAiRequestTimeoutSeconds())))
+                string prompt = MemoryPrompts.BuildWindowSummaryPrompt(conversation);
+                string response;
+                using (var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(GetAiRequestTimeoutSeconds())))
                 {
-                    factsResponse = await SendPlainProviderRequestAsync(provider, factPrompt, 256, 0.1f, factsTimeoutCts.Token);
+                    response = await SendPlainProviderRequestAsync(provider, prompt, 512, 0.1f, timeoutCts.Token);
                 }
-                if (string.IsNullOrWhiteSpace(factsResponse))
+                if (string.IsNullOrWhiteSpace(response))
                 {
+                    RecordMemorySummaryFailure(startIndex, "empty model response");
                     return;
                 }
-                var facts = ParseMemoryFacts(factsResponse);
-                if (facts.Count == 0)
-                {
-                    if (Prefs.DevMode)
-                    {
-                        WulaLog.Debug("[WulaAI] Memory update: no facts extracted.");
-                    }
-                    return;
-                }
-                if (Prefs.DevMode)
-                {
-                    WulaLog.Debug($"[WulaAI] Memory update: extracted {facts.Count} fact(s).");
-                }
-                string factsJson = BuildFactsJson(facts);
-                string updatePrompt = MemoryPrompts.BuildMemoryUpdatePrompt(existingMemoriesJson, factsJson);
-                string updateResponse;
-                using (var updateTimeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(GetAiRequestTimeoutSeconds())))
-                {
-                    updateResponse = await SendPlainProviderRequestAsync(provider, updatePrompt, 512, 0.1f, updateTimeoutCts.Token);
-                }
-                var updates = ParseMemoryUpdates(updateResponse);
-                if (Prefs.DevMode)
-                {
-                    WulaLog.Debug($"[WulaAI] Memory update: parsed {updates.Count} update(s).");
-                }
+                var facts = ParseMemoryFacts(response);
                 LongEventHandler.ExecuteWhenFinished(() =>
                 {
-                    ApplyMemoryUpdates(memoryManager, updates, facts);
+                    try
+                    {
+                        int appliedCount = 0;
+                        foreach (var fact in facts)
+                        {
+                            if (memoryManager.AddMemory(fact.Text, fact.Category) != null)
+                            {
+                                appliedCount++;
+                            }
+                        }
+                        _lastMemorySummaryHistoryIndex = Math.Max(_lastMemorySummaryHistoryIndex, endIndex);
+                        _pendingMemorySummaryStartIndex = -1;
+                        _pendingMemorySummaryRetryCount = 0;
+                        if (Prefs.DevMode)
+                        {
+                            WulaLog.Debug($"[WulaAI] Memory summary applied ({appliedCount} fact(s), range={startIndex}:{endIndex}).");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        WulaLog.Debug($"[WulaAI] Memory summary apply failed: {ex}");
+                        RecordMemorySummaryFailure(startIndex, ex.Message);
+                    }
                 });
             }
             catch (Exception ex)
             {
-                WulaLog.Debug($"[WulaAI] Memory update failed: {ex}");
+                WulaLog.Debug($"[WulaAI] Memory summary failed: {ex}");
+                RecordMemorySummaryFailure(startIndex, ex.Message);
             }
+        }
+
+        private void RecordMemorySummaryFailure(int startIndex, string reason)
+        {
+            _pendingMemorySummaryStartIndex = _pendingMemorySummaryStartIndex >= 0
+                ? Math.Min(_pendingMemorySummaryStartIndex, startIndex)
+                : startIndex;
+            _pendingMemorySummaryRetryCount++;
+            WulaLog.Debug($"[WulaAI] Memory summary pending retry {_pendingMemorySummaryRetryCount}/{MaxMemorySummaryRetries}: {reason}");
         }
 
         private static async Task<string> SendPlainProviderRequestAsync(IAIProvider provider, string systemPrompt, int maxTokens, float temperature, CancellationToken cancellationToken)
@@ -775,7 +777,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     continue;
                 }
                 string category = obj.Value<string>("category");
-                string stability = obj.Value<string>("stability");
                 float confidence = -1f;
                 var confidenceToken = obj["confidence"];
                 if (confidenceToken != null &&
@@ -787,7 +788,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     Text = text.Trim(),
                     Category = category ?? "misc",
-                    Stability = stability ?? "volatile",
                     Confidence = confidence
                 };
                 if (!IsStableMemoryFact(fact))
@@ -800,140 +800,45 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private static bool IsStableMemoryFact(MemoryFact fact)
         {
-            if (!string.Equals(fact.Stability, "stable", StringComparison.OrdinalIgnoreCase))
+            const float minConfidence = 0.75f;
+            if (fact.Confidence < 0f || fact.Confidence < minConfidence)
             {
                 return false;
             }
-            const float minConfidence = 0.6f;
-            return fact.Confidence < 0f || fact.Confidence >= minConfidence;
+            return IsMemoryFactAllowed(fact.Text);
         }
-        private static List<MemoryUpdate> ParseMemoryUpdates(string json)
+
+        private static bool IsMemoryFactAllowed(string text)
         {
-            var updates = new List<MemoryUpdate>();
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return updates;
-            }
-            var root = ParseFirstJsonObject(json);
-            var array = root?["memory"] as JArray;
-            if (array == null)
-            {
-                return updates;
-            }
-            foreach (var token in array)
-            {
-                var obj = token as JObject;
-                if (obj == null)
-                {
-                    continue;
-                }
-                string id = obj.Value<string>("id");
-                string text = obj.Value<string>("text");
-                string category = obj.Value<string>("category");
-                string evt = obj.Value<string>("event");
-                if (string.IsNullOrWhiteSpace(evt))
-                {
-                    continue;
-                }
-                updates.Add(new MemoryUpdate
-                {
-                    Id = id,
-                    Text = text,
-                    Category = category,
-                    Event = evt
-                });
-            }
-            return updates;
+            return !string.IsNullOrWhiteSpace(text) && !IsPollutedMemoryText(text);
         }
-        private static string BuildFactsJson(List<MemoryFact> facts)
+
+        private static bool IsPollutedMemoryText(string text)
         {
-            var array = new JArray();
-            foreach (var fact in facts)
+            if (string.IsNullOrWhiteSpace(text)) return true;
+            string lower = text.ToLowerInvariant();
+            string[] markers =
             {
-                if (string.IsNullOrWhiteSpace(fact.Text))
-                {
-                    continue;
-                }
-                array.Add(new JObject
-                {
-                    ["text"] = fact.Text,
-                    ["category"] = fact.Category ?? "misc"
-                });
-            }
-            return new JObject { ["facts"] = array }.ToString(Newtonsoft.Json.Formatting.None);
-        }
-        private static string BuildExistingMemoriesJson(IReadOnlyList<AIMemoryEntry> memories)
-        {
-            var array = new JArray();
-            if (memories != null)
-            {
-                foreach (var memory in memories)
-                {
-                    if (memory == null || string.IsNullOrWhiteSpace(memory.Fact))
-                    {
-                        continue;
-                    }
-                    array.Add(new JObject
-                    {
-                        ["id"] = memory.Id,
-                        ["text"] = memory.Fact,
-                        ["category"] = memory.Category
-                    });
-                }
-            }
-            return array.ToString(Newtonsoft.Json.Formatting.None);
-        }
-        private static void ApplyMemoryUpdates(AIMemoryManager memoryManager, List<MemoryUpdate> updates, List<MemoryFact> fallbackFacts)
-        {
-            if (memoryManager == null)
-            {
-                return;
-            }
-            int appliedCount = 0;
-            bool applied = false;
-            if (updates != null && updates.Count > 0)
-            {
-                foreach (var update in updates)
-                {
-                    string evt = (update.Event ?? "").Trim().ToUpperInvariant();
-                    if (evt == "ADD")
-                    {
-                        memoryManager.AddMemory(update.Text, update.Category);
-                        applied = true;
-                        appliedCount++;
-                    }
-                    else if (evt == "UPDATE")
-                    {
-                        if (!string.IsNullOrWhiteSpace(update.Id))
-                        {
-                            memoryManager.UpdateMemory(update.Id, update.Text, update.Category);
-                            applied = true;
-                            appliedCount++;
-                        }
-                    }
-                    else if (evt == "DELETE")
-                    {
-                        if (!string.IsNullOrWhiteSpace(update.Id))
-                        {
-                            memoryManager.DeleteMemory(update.Id);
-                            applied = true;
-                            appliedCount++;
-                        }
-                    }
-                }
-            }
-            if (!applied && fallbackFacts != null)
-            {
-                foreach (var fact in fallbackFacts)
-                {
-                    memoryManager.AddMemory(fact.Text, fact.Category);
-                    appliedCount++;
-                }
-            }
-            if (Prefs.DevMode)
-            {
-                WulaLog.Debug($"[WulaAI] Memory update applied ({appliedCount} change(s)).");
-            }
+                "[context:",
+                "cursor is at",
+                "player has selected",
+                "api error",
+                "openai api error",
+                "request failed",
+                "rate limit",
+                "timeout",
+                "connection error",
+                "reasoning_content",
+                "invalid_xml_tool_call",
+                "raw request",
+                "raw response",
+                "tool_calls",
+                "tool call",
+                "tool result",
+                "tools_call",
+                "error:"
+            };
+            return markers.Any(lower.Contains);
         }
         private static JObject ParseFirstJsonObject(string json)
         {
@@ -1069,7 +974,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 OnAssistantMessageCommitted?.Invoke(cleanedResponse);
             }
         }
-        private async Task RunAgentRequestAsync(string transientUserMessage = null, bool triggerMemoryUpdate = true)
+        private async Task RunAgentRequestAsync(string transientUserMessage = null, bool triggerMemoryUpdate = true, string memoryRecallQuery = null)
         {
             if (_isThinking) return;
             SetThinkingState(true);
@@ -1113,7 +1018,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     RecordToolResultForUi,
                     LogAgentTrace);
 
-                var messages = BuildCanonicalMessagesForAgent(transientUserMessage);
+                var messages = BuildCanonicalMessagesForAgent(transientUserMessage, memoryRecallQuery);
                 await runner.RunAsync(messages, null, null, _activeRequestCts.Token);
                 if (triggerMemoryUpdate)
                 {
@@ -1140,7 +1045,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
         }
 
-        private List<AIMessage> BuildCanonicalMessagesForAgent(string transientUserMessage = null)
+        private List<AIMessage> BuildCanonicalMessagesForAgent(string transientUserMessage = null, string memoryRecallQuery = null)
         {
             var messages = new List<AIMessage>();
             foreach (var entry in _history ?? new List<(string role, string message)>())
@@ -1165,7 +1070,31 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 messages.Add(AIMessage.User(transientUserMessage));
             }
+            AppendTemporaryMemoryRecall(messages, memoryRecallQuery);
             return messages;
+        }
+
+        private void AppendTemporaryMemoryRecall(List<AIMessage> messages, string memoryRecallQuery)
+        {
+            string memoryContext = BuildAutomaticMemoryContext(memoryRecallQuery);
+            if (string.IsNullOrWhiteSpace(memoryContext) || messages == null || messages.Count == 0)
+            {
+                return;
+            }
+            for (int i = messages.Count - 1; i >= 0; i--)
+            {
+                var message = messages[i];
+                if (message == null || !string.Equals(message.Role, "user", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                if (string.IsNullOrWhiteSpace(message.Content))
+                {
+                    continue;
+                }
+                message.Content = message.Content.TrimEnd() + memoryContext;
+                return;
+            }
         }
 
         private string BuildAgentSystemInstruction()
@@ -1184,7 +1113,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    "You are connected to the RimWorld game through tools. Use tools for game facts and in-game actions. " +
                    "Never claim an in-game action succeeded unless a tool result confirms it. " +
                    "You may include [EXPR:n] in final replies to set expression (n=1-6). " +
-                   "Long-term memory is not preloaded; use recall_memories when needed and remember_fact for durable facts.\n\n" +
+                   "Relevant long-term memory may be attached to the current user message as temporary retrieved context. " +
+                   "Use recall_memories for more memory search and remember_fact for durable facts.\n\n" +
                    "# CURRENT RUNTIME STATE\n" +
                    goodwillContext + "\n" +
                    $"Reply language: {language}.";
@@ -1295,9 +1225,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return Regex.Replace(text.Trim(), @"\s+", " ");
         }
 
-        private Task RunPhasedRequestAsync(string transientUserMessage = null, bool triggerMemoryUpdate = true)
+        private Task RunPhasedRequestAsync(string transientUserMessage = null, bool triggerMemoryUpdate = true, string memoryRecallQuery = null)
         {
-            return RunAgentRequestAsync(transientUserMessage, triggerMemoryUpdate);
+            return RunAgentRequestAsync(transientUserMessage, triggerMemoryUpdate, memoryRecallQuery);
         }
 
     }

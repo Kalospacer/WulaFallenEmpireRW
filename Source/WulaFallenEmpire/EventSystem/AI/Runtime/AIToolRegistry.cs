@@ -96,8 +96,10 @@ namespace WulaFallenEmpire.EventSystem.AI
                     break;
                 case "search_thing_def":
                 case "search_pawn_kind":
-                case "recall_memories":
                     required = new[] { "query" };
+                    break;
+                case "recall_memories":
+                    required = new string[0];
                     break;
                 case "get_map_resources":
                     required = new[] { "resourceName" };
