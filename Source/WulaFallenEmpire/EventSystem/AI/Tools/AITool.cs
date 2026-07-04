@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Verse;
 using WulaFallenEmpire.EventSystem.AI.Utils;
 
@@ -43,11 +44,45 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         {
             var argsDict = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
             if (string.IsNullOrWhiteSpace(json)) return argsDict;
-            if (JsonToolCallParser.TryParseObject(json, out Dictionary<string, object> parsed))
+            try
             {
-                return parsed;
+                var obj = JObject.Parse(json);
+                return ConvertObject(obj);
+            }
+            catch
+            {
             }
             return argsDict;
+        }
+
+        private static Dictionary<string, object> ConvertObject(JObject obj)
+        {
+            var dict = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            if (obj == null) return dict;
+            foreach (var prop in obj.Properties())
+            {
+                dict[prop.Name] = ConvertToken(prop.Value);
+            }
+            return dict;
+        }
+
+        private static object ConvertToken(JToken token)
+        {
+            if (token == null || token.Type == JTokenType.Null) return null;
+            if (token.Type == JTokenType.Object) return ConvertObject((JObject)token);
+            if (token.Type == JTokenType.Array)
+            {
+                var list = new List<object>();
+                foreach (var item in (JArray)token)
+                {
+                    list.Add(ConvertToken(item));
+                }
+                return list;
+            }
+            if (token.Type == JTokenType.Integer) return token.Value<long>();
+            if (token.Type == JTokenType.Float) return token.Value<double>();
+            if (token.Type == JTokenType.Boolean) return token.Value<bool>();
+            return token.ToString();
         }
 
         protected static bool TryGetString(Dictionary<string, object> args, string key, out string value)
@@ -132,7 +167,22 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
         protected static bool LooksLikeJson(string input)
         {
-            return JsonToolCallParser.LooksLikeJson(input);
+            if (string.IsNullOrWhiteSpace(input)) return false;
+            string trimmed = input.Trim();
+            if (!(trimmed.StartsWith("{", StringComparison.Ordinal) && trimmed.EndsWith("}", StringComparison.Ordinal)) &&
+                !(trimmed.StartsWith("[", StringComparison.Ordinal) && trimmed.EndsWith("]", StringComparison.Ordinal)))
+            {
+                return false;
+            }
+            try
+            {
+                JToken.Parse(trimmed);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         protected static Dictionary<string, object> SchemaString(string description = null, bool nullable = false)

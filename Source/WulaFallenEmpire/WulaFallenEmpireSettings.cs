@@ -4,17 +4,24 @@ namespace WulaFallenEmpire
 {
     public class WulaFallenEmpireSettings : ModSettings
     {
+        public string aiProviderType = "OpenAIChat";
+        public string toolProtocolMode = "NativeToolCalling";
+        public bool enableStreaming = true;
+        public int maxToolSteps = 8;
+
         public string apiKey = "sk-xxxxxxxx";
         public string baseUrl = "https://api.deepseek.com/v1";
         public string model = "deepseek-chat";
+
+        public string anthropicApiKey = "";
+        public string anthropicBaseUrl = "https://api.anthropic.com";
+        public string anthropicModel = "claude-sonnet-4-5";
         
         // Gemini 专属配置 (独立存储)
         public string geminiApiKey = "";
         public string geminiBaseUrl = "https://generativelanguage.googleapis.com/v1beta";
         public string geminiModel = "gemini-2.5-flash";
         
-        public bool useGeminiProtocol = false; // 是否使用 Google Gemini 协议格式
-        public bool useNativeToolApi = true;
         public int maxContextTokens = 100000;
         public bool enableDebugLogs = false;
         
@@ -31,16 +38,23 @@ namespace WulaFallenEmpire
         
         public override void ExposeData()
         {
+            Scribe_Values.Look(ref aiProviderType, "aiProviderType", "OpenAIChat");
+            Scribe_Values.Look(ref toolProtocolMode, "toolProtocolMode", "NativeToolCalling");
+            Scribe_Values.Look(ref enableStreaming, "enableStreaming", true);
+            Scribe_Values.Look(ref maxToolSteps, "maxToolSteps", 8);
+
             Scribe_Values.Look(ref apiKey, "apiKey", "sk-xxxxxxxx");
             Scribe_Values.Look(ref baseUrl, "baseUrl", "https://api.deepseek.com/v1");
             Scribe_Values.Look(ref model, "model", "deepseek-chat");
+
+            Scribe_Values.Look(ref anthropicApiKey, "anthropicApiKey", "");
+            Scribe_Values.Look(ref anthropicBaseUrl, "anthropicBaseUrl", "https://api.anthropic.com");
+            Scribe_Values.Look(ref anthropicModel, "anthropicModel", "claude-sonnet-4-5");
             
             Scribe_Values.Look(ref geminiApiKey, "geminiApiKey", "");
             Scribe_Values.Look(ref geminiBaseUrl, "geminiBaseUrl", "https://generativelanguage.googleapis.com/v1beta");
             Scribe_Values.Look(ref geminiModel, "geminiModel", "gemini-2.5-flash");
             
-            Scribe_Values.Look(ref useGeminiProtocol, "useGeminiProtocol", false);
-            Scribe_Values.Look(ref useNativeToolApi, "useNativeToolApi", true);
             Scribe_Values.Look(ref maxContextTokens, "maxContextTokens", 100000);
             Scribe_Values.Look(ref enableDebugLogs, "enableDebugLogs", false);
             

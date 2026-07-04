@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
+using Newtonsoft.Json;
 using RimWorld.Planet;
 using Verse;
 
@@ -18,7 +20,7 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private string GetSaveDirectory()
         {
-            string path = Path.Combine(GenFilePaths.SaveDataFolderPath, "WulaAIHistory");
+            string path = Path.Combine(GenFilePaths.SaveDataFolderPath, "WulaAIHistoryV2");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -48,12 +50,14 @@ namespace WulaFallenEmpire.EventSystem.AI
                 try
                 {
                     string json = File.ReadAllText(path);
-                    var history = SimpleJsonParser.Deserialize(json);
-                    if (history != null)
-                    {
-                        _cache[eventDefName] = history;
-                        return history;
-                    }
+                    var dto = JsonConvert.DeserializeObject<List<AIHistoryEntryDto>>(json);
+                    var history = dto?
+                        .Where(e => e != null && !string.IsNullOrWhiteSpace(e.role))
+                        .Select(e => (e.role, e.message ?? ""))
+                        .ToList();
+                    if (history == null) history = new List<(string role, string message)>();
+                    _cache[eventDefName] = history;
+                    return history;
                 }
                 catch (Exception ex)
                 {
@@ -70,7 +74,10 @@ namespace WulaFallenEmpire.EventSystem.AI
             string path = GetFilePath(eventDefName);
             try
             {
-                string json = SimpleJsonParser.Serialize(history);
+                var dto = (history ?? new List<(string role, string message)>())
+                    .Select(e => new AIHistoryEntryDto { role = e.role, message = e.message })
+                    .ToList();
+                string json = JsonConvert.SerializeObject(dto, Formatting.Indented);
                 File.WriteAllText(path, json);
             }
             catch (Exception ex)
@@ -105,6 +112,12 @@ namespace WulaFallenEmpire.EventSystem.AI
             {
                 _saveId = Guid.NewGuid().ToString();
             }
+        }
+
+        private sealed class AIHistoryEntryDto
+        {
+            public string role;
+            public string message;
         }
     }
 

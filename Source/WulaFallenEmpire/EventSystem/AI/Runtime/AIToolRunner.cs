@@ -1,0 +1,189 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using WulaFallenEmpire.EventSystem.AI.Tools;
+
+namespace WulaFallenEmpire.EventSystem.AI
+{
+    public sealed class AIToolRunner
+    {
+        private readonly AIToolRegistry _registry;
+
+        public AIToolRunner(AIToolRegistry registry)
+        {
+            _registry = registry;
+        }
+
+        public async Task<AIToolResult> ExecuteAsync(AIToolCall call)
+        {
+            if (call == null || string.IsNullOrWhiteSpace(call.Name))
+            {
+                return Error(call, "Error: Empty tool call.");
+            }
+            if (string.Equals(call.Name, "invalid_xml_tool_call", StringComparison.OrdinalIgnoreCase))
+            {
+                return Error(call, call.Arguments?["error"]?.ToString() ?? "Error: Invalid XML tool call.");
+            }
+            var tool = _registry.Get(call.Name);
+            if (tool == null)
+            {
+                return Error(call, $"Error: Tool '{call.Name}' not found.");
+            }
+
+            var schema = _registry.GetCanonicalSchema(tool);
+            var filteredArgs = FilterArguments(call.Arguments ?? new JObject(), schema);
+            string validationError;
+            if (!ValidateArguments(filteredArgs, schema, out validationError))
+            {
+                return Error(call, $"Error: Tool '{call.Name}' arguments failed validation. {validationError}");
+            }
+
+            string argsJson = filteredArgs.ToString(Newtonsoft.Json.Formatting.None);
+            try
+            {
+                string result = await AIMainThreadDispatcher.InvokeAsync(() => tool.ExecuteAsync(argsJson));
+                result = result?.Trim() ?? string.Empty;
+                return new AIToolResult
+                {
+                    ToolCallId = call.Id,
+                    ToolName = call.Name,
+                    Content = result,
+                    IsError = result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase)
+                };
+            }
+            catch (Exception ex)
+            {
+                return Error(call, $"Error: {ex.Message}");
+            }
+        }
+
+        private static AIToolResult Error(AIToolCall call, string content)
+        {
+            return new AIToolResult
+            {
+                ToolCallId = call?.Id ?? string.Empty,
+                ToolName = call?.Name ?? string.Empty,
+                Content = content ?? "Error: Unknown tool error.",
+                IsError = true
+            };
+        }
+
+        private static JObject FilterArguments(JObject args, JObject schema)
+        {
+            var result = new JObject();
+            var properties = schema["properties"] as JObject;
+            if (properties == null) return result;
+            foreach (var arg in args.Properties())
+            {
+                string canonical = FindPropertyName(properties, arg.Name);
+                if (canonical == null) continue;
+                result[canonical] = arg.Value.DeepClone();
+            }
+            return result;
+        }
+
+        private static string FindPropertyName(JObject properties, string name)
+        {
+            foreach (var prop in properties.Properties())
+            {
+                if (string.Equals(prop.Name, name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return prop.Name;
+                }
+            }
+            return null;
+        }
+
+        private static bool ValidateArguments(JObject args, JObject schema, out string error)
+        {
+            error = null;
+            var properties = schema["properties"] as JObject;
+            var required = schema["required"] as JArray;
+            if (required != null)
+            {
+                foreach (var item in required)
+                {
+                    string name = item.Value<string>();
+                    if (string.IsNullOrWhiteSpace(name)) continue;
+                    if (args[name] == null || args[name].Type == JTokenType.Null)
+                    {
+                        error = $"Missing required field '{name}'.";
+                        return false;
+                    }
+                }
+            }
+            if (properties == null) return true;
+            foreach (var prop in args.Properties())
+            {
+                var propSchema = properties[prop.Name] as JObject;
+                if (propSchema == null) continue;
+                if (!ValidateValue(prop.Value, propSchema, out error))
+                {
+                    error = $"Field '{prop.Name}' is invalid. {error}";
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static bool ValidateValue(JToken value, JObject schema, out string error)
+        {
+            error = null;
+            string type = schema.Value<string>("type");
+            if (string.IsNullOrWhiteSpace(type)) return true;
+            if (value == null || value.Type == JTokenType.Null)
+            {
+                error = "Value must not be null.";
+                return false;
+            }
+            switch (type)
+            {
+                case "string":
+                    if (value.Type == JTokenType.String) return true;
+                    error = "Expected string.";
+                    return false;
+                case "boolean":
+                    if (value.Type == JTokenType.Boolean) return true;
+                    if (value.Type == JTokenType.String && bool.TryParse(value.Value<string>(), out _)) return true;
+                    error = "Expected boolean.";
+                    return false;
+                case "integer":
+                    if (value.Type == JTokenType.Integer) return true;
+                    if (value.Type == JTokenType.String && long.TryParse(value.Value<string>(), NumberStyles.Integer, CultureInfo.InvariantCulture, out _)) return true;
+                    error = "Expected integer.";
+                    return false;
+                case "number":
+                    if (value.Type == JTokenType.Integer || value.Type == JTokenType.Float) return true;
+                    if (value.Type == JTokenType.String && double.TryParse(value.Value<string>(), NumberStyles.Float, CultureInfo.InvariantCulture, out _)) return true;
+                    error = "Expected number.";
+                    return false;
+                case "array":
+                    if (value is JArray array)
+                    {
+                        var itemSchema = schema["items"] as JObject;
+                        if (itemSchema != null)
+                        {
+                            foreach (var item in array)
+                            {
+                                if (!ValidateValue(item, itemSchema, out error)) return false;
+                            }
+                        }
+                        return true;
+                    }
+                    error = "Expected array.";
+                    return false;
+                case "object":
+                    if (value is JObject obj)
+                    {
+                        return ValidateArguments(obj, schema, out error);
+                    }
+                    error = "Expected object.";
+                    return false;
+                default:
+                    return true;
+            }
+        }
+    }
+}

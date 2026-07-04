@@ -340,7 +340,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             var toolcallBuffer = new List<string>();
             var toolResultBuffer = new List<string>();
             var traceNoteBuffer = new List<string>();
-            bool traceEnabled = WulaFallenEmpireMod.settings?.showReactTraceInUI == true;
+            bool showDirectReplyTrace = WulaFallenEmpireMod.settings?.showReactTraceInUI == true;
+            bool traceEnabled = true;
 
             for (int i = 0; i < history.Count; i++)
             {
@@ -434,7 +435,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     toolResultBuffer.Clear();
                     traceNoteBuffer.Clear();
                 }
-                else if (entry.role == "assistant" && traceEnabled && toolcallBuffer.Count == 0)
+                else if (entry.role == "assistant" && showDirectReplyTrace && toolcallBuffer.Count == 0)
                 {
                     var traceLines = BuildTraceLines(toolcallBuffer, toolResultBuffer, traceNoteBuffer);
                     if (traceLines.Count == 0)
@@ -514,12 +515,12 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 float innerPadding = 5f;
                 float contentWidth = rect.width - 16f - innerPadding * 2;
                 UpdateCacheIfNeeded(rect.width - 16f);
-                bool traceEnabled = WulaFallenEmpireMod.settings?.showReactTraceInUI == true;
+                bool showDirectReplyTrace = WulaFallenEmpireMod.settings?.showReactTraceInUI == true;
                 CachedMessage liveTraceEntry = null;
                 float liveTraceHeight = 0f;
-                if (_isThinking && traceEnabled)
+                var liveLines = _isThinking ? BuildLiveTraceLines() : new List<string>();
+                if (_isThinking && (showDirectReplyTrace || liveLines.Count > 0))
                 {
-                    var liveLines = BuildLiveTraceLines();
                     if (liveLines.Count == 0)
                     {
                         liveLines.Add("思考中…");
@@ -646,14 +647,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         {
             if (string.IsNullOrEmpty(rawResponse)) return "";
             string text = rawResponse;
-            if (JsonToolCallParser.TryParseToolCallsFromText(text, out _, out string fragment) && !string.IsNullOrWhiteSpace(fragment))
-            {
-                int index = text.IndexOf(fragment, StringComparison.Ordinal);
-                if (index >= 0)
-                {
-                    text = text.Remove(index, fragment.Length);
-                }
-            }
             text = ExpressionTagRegex.Replace(text, "");
             text = text.Trim();
             return text.Split(new[] { "OPTIONS:" }, StringSplitOptions.None)[0].Trim();
@@ -671,16 +664,11 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 bool anyStepContent = false;
                 stepIndex++;
 
-                if (hasToolCalls && i < toolcallBuffer.Count &&
-                    JsonToolCallParser.TryParseToolCallsFromText(toolcallBuffer[i], out var calls, out _))
+                if (hasToolCalls && i < toolcallBuffer.Count)
                 {
-                    foreach (var call in calls)
+                    string callText = TrimForDisplay(toolcallBuffer[i], 160);
+                    if (!string.IsNullOrWhiteSpace(callText))
                     {
-                        if (string.IsNullOrWhiteSpace(call?.Name)) continue;
-                        string args = call.ArgumentsJson;
-                        string callText = string.IsNullOrWhiteSpace(args) || args == "{}"
-                            ? call.Name
-                            : $"{call.Name} {TrimForDisplay(args, 160)}";
                         lines.Add($"步骤 {stepIndex} · 调用 {callText}");
                         anyStepContent = true;
                     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
@@ -55,10 +56,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     return "Mod settings not initialized.";
                 }
 
-                string vlmApiKey = settings.useGeminiProtocol ? settings.geminiApiKey : settings.apiKey;
-                string vlmBaseUrl = settings.useGeminiProtocol ? settings.geminiBaseUrl : settings.baseUrl;
-                string vlmModel = settings.useGeminiProtocol ? settings.geminiModel : settings.model;
-
+                string vlmApiKey = GetConfiguredApiKey(settings);
                 if (string.IsNullOrEmpty(vlmApiKey))
                 {
                     return "API key not configured. Please configure it in Mod settings.";
@@ -70,20 +68,26 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     return "Screenshot capture failed; cannot analyze screen.";
                 }
 
-                var client = new SimpleAIClient(vlmApiKey, vlmBaseUrl, vlmModel, settings.useGeminiProtocol);
-
-                var messages = new List<(string role, string message)>
+                var provider = AIProviderFactory.Create(settings);
+                var request = new AIProviderRequest
                 {
-                    ("user", instruction)
+                    SystemPrompt = BaseVisionSystemPrompt,
+                    Messages = new List<AIMessage>
+                    {
+                        AIMessage.UserParts(new List<AIContentPart>
+                        {
+                            AIContentPart.TextPart(instruction),
+                            AIContentPart.ImagePart("image/png", base64Image)
+                        })
+                    },
+                    MaxTokens = 512,
+                    Temperature = 0.2f,
+                    ToolChoice = AIToolChoice.None,
+                    ToolProtocolMode = AIToolProtocolMode.NativeToolCalling,
+                    Stream = false
                 };
-
-                string result = await client.GetChatCompletionAsync(
-                    BaseVisionSystemPrompt,
-                    messages,
-                    maxTokens: 512,
-                    temperature: 0.2f,
-                    base64Image: base64Image
-                );
+                var response = await provider.SendAsync(request, CancellationToken.None);
+                string result = response?.Content;
 
                 if (string.IsNullOrEmpty(result))
                 {
@@ -96,6 +100,19 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             {
                 WulaLog.Debug($"[Tool_AnalyzeScreen] Error: {ex}");
                 return $"Vision analysis error: {ex.Message}";
+            }
+        }
+
+        private static string GetConfiguredApiKey(WulaFallenEmpireSettings settings)
+        {
+            switch (AIProviderFactory.ParseProviderType(settings.aiProviderType))
+            {
+                case AIProviderType.AnthropicMessages:
+                    return settings.anthropicApiKey;
+                case AIProviderType.Gemini:
+                    return settings.geminiApiKey;
+                default:
+                    return settings.apiKey;
             }
         }
     }

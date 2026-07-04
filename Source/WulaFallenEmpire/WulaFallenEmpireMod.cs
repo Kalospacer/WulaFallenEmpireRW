@@ -15,6 +15,7 @@ namespace WulaFallenEmpire
         public static bool _showVlmApiKey = false;
         private string _maxContextTokensBuffer;
         private string _reactMaxSecondsBuffer;
+        private string _maxToolStepsBuffer;
 
         public WulaFallenEmpireMod(ModContentPack content) : base(content)
         {
@@ -40,16 +41,18 @@ namespace WulaFallenEmpire
             
             listingStandard.Label("Wula_AISettings_Title".Translate());
             
-            listingStandard.Label("<color=cyan>AI 核心协议选择</color>");
-            bool currentIsGemini = settings.useGeminiProtocol;
-            if (listingStandard.RadioButton("OpenAI / 常用兼容格式 (DeepSeek, ChatGPT)", !currentIsGemini)) settings.useGeminiProtocol = false;
-            if (listingStandard.RadioButton("Google Gemini 原生格式 (支持本地多模态)", currentIsGemini)) settings.useGeminiProtocol = true;
-            listingStandard.CheckboxLabeled("使用原生函数调用 API", ref settings.useNativeToolApi,
-                "对于训练过工具调用能力的全量大模型推荐开启，如果使用较弱的小模型或者无法调用工具可以尝试关闭该选项以使用提示词兼容函数调用模式。对于Deepseek,ChatGPT,Gemini,GLM,Kimi2,Qwen模型都推荐开启，其他模型未测试。");
+            listingStandard.Label("<color=cyan>AI Provider</color>");
+            if (listingStandard.RadioButton("OpenAI /chat/completions", settings.aiProviderType == "OpenAIChat")) settings.aiProviderType = "OpenAIChat";
+            if (listingStandard.RadioButton("Anthropic /v1/messages", settings.aiProviderType == "AnthropicMessages")) settings.aiProviderType = "AnthropicMessages";
+            if (listingStandard.RadioButton("Google Gemini generateContent", settings.aiProviderType == "Gemini")) settings.aiProviderType = "Gemini";
+            listingStandard.CheckboxLabeled("启用 Streaming", ref settings.enableStreaming, "开启后 provider 使用流式响应；工具调用阶段会先缓冲，最终回复可流式显示。");
+            listingStandard.Label("<color=cyan>Tool Protocol</color>");
+            if (listingStandard.RadioButton("Native tool calling", settings.toolProtocolMode == "NativeToolCalling")) settings.toolProtocolMode = "NativeToolCalling";
+            if (listingStandard.RadioButton("XML block fallback", settings.toolProtocolMode == "XmlBlockFallback")) settings.toolProtocolMode = "XmlBlockFallback";
             listingStandard.GapLine();
 
             // 根据当前选中的协议，动态绑定输入字段
-            if (settings.useGeminiProtocol)
+            if (settings.aiProviderType == "Gemini")
             {
                 listingStandard.Label("<color=orange>Gemini 设置 (独立存储)</color>");
                 
@@ -67,6 +70,25 @@ namespace WulaFallenEmpire
                 
                 listingStandard.Label("模型名称:");
                 settings.geminiModel = listingStandard.TextEntry(settings.geminiModel);
+            }
+            else if (settings.aiProviderType == "AnthropicMessages")
+            {
+                listingStandard.Label("<color=orange>Anthropic 设置 (独立存储)</color>");
+
+                listingStandard.Label("Anthropic API Key:");
+                Rect keyRect = listingStandard.GetRect(30f);
+                float tw = 60f;
+                Rect pRect = new Rect(keyRect.x, keyRect.y, keyRect.width - tw - 5f, keyRect.height);
+                Rect tRect = new Rect(keyRect.xMax - tw, keyRect.y, tw, keyRect.height);
+                if (WulaFallenEmpireMod._showApiKey) settings.anthropicApiKey = Widgets.TextField(pRect, settings.anthropicApiKey);
+                else settings.anthropicApiKey = GUI.PasswordField(pRect, settings.anthropicApiKey, '•');
+                Widgets.CheckboxLabeled(tRect, "Show", ref WulaFallenEmpireMod._showApiKey);
+
+                listingStandard.Label("Base URL:");
+                settings.anthropicBaseUrl = listingStandard.TextEntry(settings.anthropicBaseUrl);
+
+                listingStandard.Label("模型名称:");
+                settings.anthropicModel = listingStandard.TextEntry(settings.anthropicModel);
             }
             else
             {
@@ -98,7 +120,10 @@ namespace WulaFallenEmpire
             listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());
 
             listingStandard.GapLine();
-            listingStandard.Label("<color=cyan>ReAct Loop Settings</color>");
+            listingStandard.Label("<color=cyan>Tool Loop Settings</color>");
+            listingStandard.Label("Max Tool Steps:");
+            Rect maxStepsRect = listingStandard.GetRect(Text.LineHeight);
+            Widgets.TextFieldNumeric(maxStepsRect, ref settings.maxToolSteps, ref _maxToolStepsBuffer, 1, 30);
             listingStandard.Label("Max Seconds (min 2):");
             Rect secondsRect = listingStandard.GetRect(Text.LineHeight);
             Widgets.TextFieldNumeric(secondsRect, ref settings.reactMaxSeconds, ref _reactMaxSecondsBuffer, 10f, 600f);

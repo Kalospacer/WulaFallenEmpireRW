@@ -1,0 +1,190 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace WulaFallenEmpire.EventSystem.AI
+{
+    public sealed class AIToolLoopRunner
+    {
+        private readonly IAIProvider _provider;
+        private readonly AIToolRegistry _registry;
+        private readonly AIToolRunner _toolRunner;
+        private readonly string _baseSystemPrompt;
+        private readonly AIToolProtocolMode _toolProtocolMode;
+        private readonly bool _enableStreaming;
+        private readonly int _maxToolSteps;
+        private readonly Action<string> _onFinalContent;
+        private readonly Action<string> _onStreamingDelta;
+        private readonly Action<IReadOnlyList<AIToolCall>> _onToolCalls;
+        private readonly Action<AIToolResult> _onToolResult;
+        private readonly Action<string> _onTrace;
+
+        public AIToolLoopRunner(
+            IAIProvider provider,
+            AIToolRegistry registry,
+            string baseSystemPrompt,
+            AIToolProtocolMode toolProtocolMode,
+            bool enableStreaming,
+            int maxToolSteps,
+            Action<string> onFinalContent,
+            Action<string> onStreamingDelta,
+            Action<IReadOnlyList<AIToolCall>> onToolCalls,
+            Action<AIToolResult> onToolResult,
+            Action<string> onTrace)
+        {
+            _provider = provider;
+            _registry = registry;
+            _toolRunner = new AIToolRunner(registry);
+            _baseSystemPrompt = baseSystemPrompt ?? string.Empty;
+            _toolProtocolMode = toolProtocolMode;
+            _enableStreaming = enableStreaming;
+            _maxToolSteps = Math.Max(1, maxToolSteps);
+            _onFinalContent = onFinalContent;
+            _onStreamingDelta = onStreamingDelta;
+            _onToolCalls = onToolCalls;
+            _onToolResult = onToolResult;
+            _onTrace = onTrace;
+        }
+
+        public async Task<AIProviderResponse> RunAsync(List<AIMessage> messages, int? maxTokens, float? temperature, CancellationToken cancellationToken)
+        {
+            if (_provider == null) throw new InvalidOperationException("AI provider is not configured.");
+            if (messages == null) throw new ArgumentNullException(nameof(messages));
+
+            var toolDefinitions = _registry.GetDefinitions();
+            for (int step = 1; step <= _maxToolSteps; step++)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _onTrace?.Invoke($"Tool loop step {step}: requesting model.");
+                var request = BuildRequest(messages, toolDefinitions, maxTokens, temperature, toolsEnabled: true);
+                var response = await QueryAsync(request, allowLiveStreaming: false, cancellationToken);
+                ApplyXmlFallback(response);
+
+                if (!response.HasToolCalls)
+                {
+                    _onTrace?.Invoke("No tool calls returned; requesting final response without tools.");
+                    return await RequestFinalWithoutToolsAsync(messages, maxTokens, temperature, cancellationToken);
+                }
+
+                messages.Add(AIMessage.AssistantToolCalls(response.ToolCalls, string.IsNullOrWhiteSpace(response.Content) ? null : response.Content));
+                _onToolCalls?.Invoke(response.ToolCalls);
+                _onTrace?.Invoke("Tool calls: " + string.Join(", ", response.ToolCalls.Select(c => c.Name)));
+                foreach (var call in response.ToolCalls)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    if (string.IsNullOrWhiteSpace(call.Id))
+                    {
+                        call.Id = "call_" + Guid.NewGuid().ToString("N");
+                    }
+                    var result = await _toolRunner.ExecuteAsync(call);
+                    string content = result.Content ?? string.Empty;
+                    messages.Add(AIMessage.ToolResult(call.Id, call.Name, content));
+                    _onToolResult?.Invoke(result);
+                    _onTrace?.Invoke($"Tool '{call.Name}' Result: {content}");
+                }
+            }
+
+            _onTrace?.Invoke($"Tool loop reached max steps ({_maxToolSteps}); requesting final response without tools.");
+            return await RequestFinalWithoutToolsAsync(messages, maxTokens, temperature, cancellationToken);
+        }
+
+        public async Task<AIProviderResponse> RunPlainAsync(List<AIMessage> messages, int? maxTokens, float? temperature, CancellationToken cancellationToken)
+        {
+            var request = BuildRequest(messages, new List<AIToolDefinition>(), maxTokens, temperature, toolsEnabled: false);
+            var response = await QueryAsync(request, allowLiveStreaming: _enableStreaming, cancellationToken);
+            FinalizeVisibleResponse(messages, response);
+            return response;
+        }
+
+        private AIProviderRequest BuildRequest(List<AIMessage> messages, List<AIToolDefinition> tools, int? maxTokens, float? temperature, bool toolsEnabled)
+        {
+            bool useXml = toolsEnabled && _toolProtocolMode == AIToolProtocolMode.XmlBlockFallback;
+            string systemPrompt = _baseSystemPrompt;
+            if (useXml)
+            {
+                systemPrompt += "\n\n" + _registry.BuildXmlToolDescription();
+            }
+            else if (toolsEnabled)
+            {
+                systemPrompt += "\n\nYou may use the provided tools when you need game state or need to perform an in-game action. Do not invent tool results.";
+            }
+            else
+            {
+                systemPrompt += "\n\nTools are disabled for this turn. Reply naturally using the available context.";
+            }
+
+            return new AIProviderRequest
+            {
+                SystemPrompt = systemPrompt,
+                Messages = messages.ToList(),
+                Tools = useXml ? new List<AIToolDefinition>() : (tools ?? new List<AIToolDefinition>()),
+                MaxTokens = maxTokens,
+                Temperature = temperature,
+                Stream = _enableStreaming,
+                ToolChoice = toolsEnabled && !useXml ? AIToolChoice.Auto : AIToolChoice.None,
+                ToolProtocolMode = useXml ? AIToolProtocolMode.XmlBlockFallback : AIToolProtocolMode.NativeToolCalling
+            };
+        }
+
+        private async Task<AIProviderResponse> QueryAsync(AIProviderRequest request, bool allowLiveStreaming, CancellationToken cancellationToken)
+        {
+            bool shouldStream = _enableStreaming && request.Stream;
+            if (!shouldStream)
+            {
+                return await _provider.SendAsync(request, cancellationToken);
+            }
+            try
+            {
+                return await _provider.StreamAsync(request, evt =>
+                {
+                    if (evt == null) return;
+                    if (!allowLiveStreaming) return;
+                    if (!string.IsNullOrEmpty(evt.TextDelta))
+                    {
+                        _onStreamingDelta?.Invoke(evt.TextDelta);
+                    }
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _onTrace?.Invoke($"Streaming failed; retrying non-stream. {ex.Message}");
+                return await _provider.SendAsync(request, cancellationToken);
+            }
+        }
+
+        private async Task<AIProviderResponse> RequestFinalWithoutToolsAsync(List<AIMessage> messages, int? maxTokens, float? temperature, CancellationToken cancellationToken)
+        {
+            var finalRequest = BuildRequest(messages, new List<AIToolDefinition>(), maxTokens, temperature, toolsEnabled: false);
+            var finalResponse = await QueryAsync(finalRequest, allowLiveStreaming: true, cancellationToken);
+            FinalizeVisibleResponse(messages, finalResponse);
+            return finalResponse;
+        }
+
+        private void ApplyXmlFallback(AIProviderResponse response)
+        {
+            if (_toolProtocolMode != AIToolProtocolMode.XmlBlockFallback || response == null) return;
+            var parsed = XmlToolCallParser.Parse(response.Content);
+            if (parsed.Count > 0)
+            {
+                response.ToolCalls = parsed;
+                response.Content = null;
+            }
+        }
+
+        private void FinalizeVisibleResponse(List<AIMessage> messages, AIProviderResponse response)
+        {
+            string content = response?.Content?.Trim();
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                content = response?.HasToolCalls == true
+                    ? string.Empty
+                    : "No response.";
+            }
+            messages.Add(AIMessage.Assistant(content));
+            _onFinalContent?.Invoke(content);
+        }
+    }
+}

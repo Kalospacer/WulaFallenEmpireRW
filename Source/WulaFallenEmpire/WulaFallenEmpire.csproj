@@ -46,6 +46,10 @@
       <HintPath>..\..\..\..\..\..\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -222,8 +226,19 @@
     <Compile Include="EventSystem\AI\LetterInterceptor\Patch_LetterStack.cs" />
     <Compile Include="EventSystem\AI\MapComponent_AIOverwatch.cs" />
     <Compile Include="EventSystem\AI\MemoryPrompts.cs" />
+    <Compile Include="EventSystem\AI\Protocol\AIProtocolModels.cs" />
+    <Compile Include="EventSystem\AI\Providers\AIProviderFactory.cs" />
+    <Compile Include="EventSystem\AI\Providers\AIProviderJson.cs" />
+    <Compile Include="EventSystem\AI\Providers\AnthropicMessagesProvider.cs" />
+    <Compile Include="EventSystem\AI\Providers\GeminiProvider.cs" />
+    <Compile Include="EventSystem\AI\Providers\IAIProvider.cs" />
+    <Compile Include="EventSystem\AI\Providers\OpenAIChatProvider.cs" />
+    <Compile Include="EventSystem\AI\Runtime\AIMainThreadDispatcher.cs" />
+    <Compile Include="EventSystem\AI\Runtime\AIToolLoopRunner.cs" />
+    <Compile Include="EventSystem\AI\Runtime\AIToolRegistry.cs" />
+    <Compile Include="EventSystem\AI\Runtime\AIToolRunner.cs" />
+    <Compile Include="EventSystem\AI\Runtime\XmlToolCallParser.cs" />
     <Compile Include="EventSystem\AI\ScreenCaptureUtility.cs" />
-    <Compile Include="EventSystem\AI\SimpleAIClient.cs" />
     <Compile Include="EventSystem\AI\Tools\AITool.cs" />
     <Compile Include="EventSystem\AI\Tools\BombardmentUtility.cs" />
     <Compile Include="EventSystem\AI\Tools\Tool_AnalyzeScreen.cs" />
@@ -249,10 +264,8 @@
     <Compile Include="EventSystem\AI\UI\Overlay_WulaLink.cs" />
     <Compile Include="EventSystem\AI\UI\Overlay_WulaLink_Notification.cs" />
     <Compile Include="EventSystem\AI\UI\WulaLinkStyles.cs" />
-    <Compile Include="EventSystem\AI\Utils\JsonToolCallParser.cs" />
     <Compile Include="EventSystem\AI\Utils\PawnKindDefSearcher.cs" />
     <Compile Include="EventSystem\AI\Utils\ThingDefSearcher.cs" />
-    <Compile Include="EventSystem\AI\Utils\ToolCallValidator.cs" />
     <Compile Include="EventSystem\AI\Utils\ToolSchemaSanitizer.cs" />
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />
     <Compile Include="EventSystem\Condition\ConditionBase.cs" />

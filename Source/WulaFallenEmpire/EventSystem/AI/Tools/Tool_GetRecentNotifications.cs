@@ -7,7 +7,6 @@ using System.Text;
 using Verse;
 using System.Text.RegularExpressions;
 using WulaFallenEmpire.EventSystem.AI;
-using WulaFallenEmpire.EventSystem.AI.Utils;
 
 namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
@@ -126,7 +125,8 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 for (int j = i - 1; j >= 0; j--)
                 {
                     var prev = history[j];
-                    if (string.Equals(prev.role, "toolcall", StringComparison.OrdinalIgnoreCase) && IsToolCallJson(prev.message))
+                    if (string.Equals(prev.role, "toolcall", StringComparison.OrdinalIgnoreCase) &&
+                        !string.IsNullOrWhiteSpace(prev.message))
                     {
                         entries.Add((prev.message ?? "", toolResult));
                         i = j;
@@ -148,12 +148,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             }
 
             return sb.ToString().TrimEnd();
-        }
-
-        private static bool IsToolCallJson(string response)
-        {
-            if (string.IsNullOrWhiteSpace(response)) return false;
-            return JsonToolCallParser.TryParseToolCalls(response, out _);
         }
 
         private static IEnumerable<NotificationEntry> ReadLetters(int fallbackNow)
