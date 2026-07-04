@@ -17,22 +17,17 @@ namespace WulaFallenEmpire
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            // 移除原有的发射按钮，替换为我们自己的
-            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
-            {
-                if (gizmo is Command_Action launchCommand && (launchCommand.defaultDesc == "CommandLaunchGroupDesc".Translate() || launchCommand.defaultDesc == "CommandLaunchSingleDesc".Translate()))
-                {
-                    continue; // 跳过原版的发射按钮
-                }
-                yield return gizmo;
-            }
-
+            // 不继承基类的任何 gizmo：原版发射按钮允许把货物发射到世界任意位置，
+            // 无人驾驶时货物会按原版语义直接丢失（TransportPodsContentsWillBeLost）。
+            // 此前按 defaultDesc 翻译串过滤原版按钮的方式不可靠，两个按钮同图标并存，
+            // 玩家极易点错。本建筑只允许发射到全局存储，因此完整自建 gizmo。
             if (this.Transporter.LoadingInProgressOrReadyToLaunch)
             {
                 Command_Action command = new Command_Action();
                 command.defaultLabel = "WULA_LaunchToGlobalStorage".Translate();
                 command.defaultDesc = "WULA_LaunchToGlobalStorageDesc".Translate();
                 command.icon = ContentFinder<Texture2D>.Get("UI/Commands/LaunchShip");
+                command.alsoClickIfOtherInGroupClicked = false; // 发射即整组行为，避免多选时重复触发
                 command.action = delegate
                 {
                     this.TryLaunch();
