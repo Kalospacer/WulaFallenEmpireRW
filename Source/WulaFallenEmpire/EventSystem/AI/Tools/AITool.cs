@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Verse;
@@ -17,8 +18,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public abstract string UsageSchema { get; } // JSON schema description
         public abstract Dictionary<string, object> GetParametersSchema();
 
-        public virtual string Execute(string args) => "Error: Synchronous execution not supported for this tool.";
-        public virtual Task<string> ExecuteAsync(string args) => Task.FromResult(Execute(args));
+        public abstract Task<string> ExecuteAsync(string args, CancellationToken cancellationToken);
 
         public virtual Dictionary<string, object> GetFunctionDefinition()
         {

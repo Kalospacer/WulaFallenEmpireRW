@@ -24,48 +24,85 @@ namespace WulaFallenEmpire.EventSystem.AI
         public async Task<AIProviderResponse> SendAsync(AIProviderRequest request, CancellationToken cancellationToken)
         {
             string json = await PostAsync(request, false, cancellationToken);
-            return ParseCompletion(json);
+            var response = ParseCompletion(json);
+            AIProviderJson.LogStage("OpenAI", request, $"non-stream parsed contentChars={response.Content?.Length ?? 0} toolCalls={response.ToolCalls?.Count ?? 0}");
+            AIProviderJson.LogUsage("OpenAI", request, response);
+            return response;
         }
 
         public async Task<AIProviderResponse> StreamAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request, true);
+            var watch = AIProviderJson.StartRequest("OpenAI", request, "stream");
             using (var httpRequest = BuildHttpRequest(payload))
-            using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+            using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                string errorBody = null;
-                if (!response.IsSuccessStatusCode)
+                AIProviderJson.LogRawRequest("OpenAI", request, httpRequest, payload);
+                try
                 {
-                    errorBody = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"OpenAI API error {(int)response.StatusCode}: {errorBody}");
-                }
-
-                var accumulator = new OpenAIStreamAccumulator();
-                await AIProviderJson.ReadSseAsync(response, (eventName, data) =>
-                {
-                    if (string.Equals(data, "[DONE]", StringComparison.OrdinalIgnoreCase))
+                    using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token))
                     {
-                        onEvent?.Invoke(new AIStreamEvent { Completed = true });
-                        return;
+                        AIProviderJson.LogStage("OpenAI", request, $"stream headers status={(int)response.StatusCode} elapsedMs={watch.ElapsedMilliseconds}");
+                        string errorBody = null;
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            errorBody = await response.Content.ReadAsStringAsync();
+                            AIProviderJson.LogRawResponse("OpenAI", request, (int)response.StatusCode, errorBody);
+                            throw new Exception($"OpenAI API error {(int)response.StatusCode}: {errorBody}");
+                        }
+
+                        var accumulator = new OpenAIStreamAccumulator();
+                        int sseCount = await AIProviderJson.ReadSseAsync(response, (eventName, data) =>
+                        {
+                            if (string.Equals(data, "[DONE]", StringComparison.OrdinalIgnoreCase))
+                            {
+                                onEvent?.Invoke(new AIStreamEvent { Completed = true });
+                                return;
+                            }
+                            ParseStreamChunk(data, accumulator, onEvent);
+                        }, timeoutCts.Token);
+                        var result = accumulator.ToResponse();
+                        AIProviderJson.LogStage("OpenAI", request, $"stream done sseDataLines={sseCount} contentChars={result.Content?.Length ?? 0} toolCalls={result.ToolCalls?.Count ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogUsage("OpenAI", request, result);
+                        AIProviderJson.LogRawResponse("OpenAI", request, (int)response.StatusCode, result.RawJson);
+                        return result;
                     }
-                    ParseStreamChunk(data, accumulator, onEvent);
-                }, cancellationToken);
-                return accumulator.ToResponse();
+                }
+                catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
+                {
+                    AIProviderJson.LogStage("OpenAI", request, $"stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    throw;
+                }
             }
         }
 
         private async Task<string> PostAsync(AIProviderRequest request, bool stream, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request, stream);
+            var watch = AIProviderJson.StartRequest("OpenAI", request, stream ? "stream" : "non-stream");
             using (var httpRequest = BuildHttpRequest(payload))
-            using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, cancellationToken))
+            using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                string body = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
+                AIProviderJson.LogRawRequest("OpenAI", request, httpRequest, payload);
+                try
                 {
-                    throw new Exception($"OpenAI API error {(int)response.StatusCode}: {body}");
+                    using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, timeoutCts.Token))
+                    {
+                        string body = await response.Content.ReadAsStringAsync();
+                        AIProviderJson.LogStage("OpenAI", request, $"non-stream status={(int)response.StatusCode} bodyChars={body?.Length ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogRawResponse("OpenAI", request, (int)response.StatusCode, body);
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            throw new Exception($"OpenAI API error {(int)response.StatusCode}: {body}");
+                        }
+                        return body;
+                    }
                 }
-                return body;
+                catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
+                {
+                    AIProviderJson.LogStage("OpenAI", request, $"non-stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    throw;
+                }
             }
         }
 
@@ -251,6 +288,11 @@ namespace WulaFallenEmpire.EventSystem.AI
             catch { return; }
 
             accumulator.RawChunks.AppendLine(data);
+            var usage = root["usage"] as JObject;
+            if (usage != null)
+            {
+                accumulator.Usage = usage;
+            }
             var delta = root["choices"]?[0]?["delta"] as JObject;
             if (delta == null) return;
             string text = delta.Value<string>("content");
@@ -289,6 +331,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             public readonly StringBuilder Content = new StringBuilder();
             public readonly StringBuilder Reasoning = new StringBuilder();
             public readonly StringBuilder RawChunks = new StringBuilder();
+            public JObject Usage;
             private readonly Dictionary<int, ToolAccumulator> _tools = new Dictionary<int, ToolAccumulator>();
             public int NextToolIndex => _tools.Count;
 
@@ -309,6 +352,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                     Content = Content.ToString(),
                     Reasoning = Reasoning.ToString(),
                     RawJson = RawChunks.ToString(),
+                    Usage = Usage,
                     ToolCalls = new List<AIToolCall>()
                 };
                 foreach (var entry in _tools)

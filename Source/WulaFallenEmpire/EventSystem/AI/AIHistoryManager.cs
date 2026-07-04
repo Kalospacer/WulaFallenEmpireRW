@@ -41,7 +41,14 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             if (_cache.TryGetValue(eventDefName, out var cachedHistory))
             {
-                return cachedHistory;
+                var filtered = (cachedHistory ?? new List<(string role, string message)>())
+                    .Where(IsPersistableHistoryEntry)
+                    .ToList();
+                if (filtered.Count != (cachedHistory?.Count ?? 0))
+                {
+                    _cache[eventDefName] = filtered;
+                }
+                return filtered;
             }
 
             string path = GetFilePath(eventDefName);
@@ -54,6 +61,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                     var history = dto?
                         .Where(e => e != null && !string.IsNullOrWhiteSpace(e.role))
                         .Select(e => (e.role, e.message ?? ""))
+                        .Where(IsPersistableHistoryEntry)
                         .ToList();
                     if (history == null) history = new List<(string role, string message)>();
                     _cache[eventDefName] = history;
@@ -70,11 +78,14 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         public void SaveHistory(string eventDefName, List<(string role, string message)> history)
         {
-            _cache[eventDefName] = history;
+            var filteredHistory = (history ?? new List<(string role, string message)>())
+                .Where(IsPersistableHistoryEntry)
+                .ToList();
+            _cache[eventDefName] = filteredHistory;
             string path = GetFilePath(eventDefName);
             try
             {
-                var dto = (history ?? new List<(string role, string message)>())
+                var dto = filteredHistory
                     .Select(e => new AIHistoryEntryDto { role = e.role, message = e.message })
                     .ToList();
                 string json = JsonConvert.SerializeObject(dto, Formatting.Indented);
@@ -118,6 +129,17 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             public string role;
             public string message;
+        }
+
+        private static bool IsPersistableHistoryEntry((string role, string message) entry)
+        {
+            string role = (entry.role ?? "").Trim();
+            if (string.Equals(role, "trace", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+            string message = (entry.message ?? "").TrimStart();
+            return !message.StartsWith("??:", StringComparison.Ordinal);
         }
     }
 

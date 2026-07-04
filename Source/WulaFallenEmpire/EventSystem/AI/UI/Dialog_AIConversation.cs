@@ -695,7 +695,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 {
                     string trimmed = (note ?? "").Trim();
                     if (string.IsNullOrWhiteSpace(trimmed)) continue;
-                    lines.Add($"模型 · {TrimForDisplay(trimmed, 220)}");
+                    lines.Add($"状态 · {TrimForDisplay(trimmed, 220)}");
                 }
             }
 
@@ -864,7 +864,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             {
                 Text.Font = GameFont.Tiny;
                 Rect thoughtRect = new Rect(rect.x, statusRect.yMax + 2f, rect.width, 22f);
-                Widgets.Label(thoughtRect, $"??: {thought}");
+                Widgets.Label(thoughtRect, $"状态: {thought}");
             }
             
             GUI.color = originalColor;

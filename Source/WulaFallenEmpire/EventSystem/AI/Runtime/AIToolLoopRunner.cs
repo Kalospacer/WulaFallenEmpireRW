@@ -16,6 +16,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         private readonly AIToolProtocolMode _toolProtocolMode;
         private readonly bool _enableStreaming;
         private readonly int _maxToolSteps;
+        private readonly int _requestTimeoutSeconds;
+        private readonly bool _logRawTraffic;
         private readonly Action<string> _onFinalContent;
         private readonly Action<string> _onStreamingDelta;
         private readonly Action<IReadOnlyList<AIToolCall>> _onToolCalls;
@@ -29,6 +31,8 @@ namespace WulaFallenEmpire.EventSystem.AI
             AIToolProtocolMode toolProtocolMode,
             bool enableStreaming,
             int maxToolSteps,
+            int requestTimeoutSeconds,
+            bool logRawTraffic,
             Action<string> onFinalContent,
             Action<string> onStreamingDelta,
             Action<IReadOnlyList<AIToolCall>> onToolCalls,
@@ -42,6 +46,8 @@ namespace WulaFallenEmpire.EventSystem.AI
             _toolProtocolMode = toolProtocolMode;
             _enableStreaming = enableStreaming;
             _maxToolSteps = Math.Max(1, maxToolSteps);
+            _requestTimeoutSeconds = Math.Max(2, Math.Min(600, requestTimeoutSeconds));
+            _logRawTraffic = logRawTraffic;
             _onFinalContent = onFinalContent;
             _onStreamingDelta = onStreamingDelta;
             _onToolCalls = onToolCalls;
@@ -65,8 +71,9 @@ namespace WulaFallenEmpire.EventSystem.AI
 
                 if (!response.HasToolCalls)
                 {
-                    _onTrace?.Invoke("No tool calls returned; requesting final response without tools.");
-                    return await RequestFinalWithoutToolsAsync(messages, maxTokens, temperature, cancellationToken);
+                    _onTrace?.Invoke("No tool calls returned; using provider content as final response.");
+                    FinalizeVisibleResponse(messages, response);
+                    return response;
                 }
 
                 messages.Add(AIMessage.AssistantToolCalls(response.ToolCalls, string.IsNullOrWhiteSpace(response.Content) ? null : response.Content));
@@ -79,7 +86,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                     {
                         call.Id = "call_" + Guid.NewGuid().ToString("N");
                     }
-                    var result = await _toolRunner.ExecuteAsync(call);
+                    var result = await _toolRunner.ExecuteAsync(call, cancellationToken);
                     string content = result.Content ?? string.Empty;
                     messages.Add(AIMessage.ToolResult(call.Id, call.Name, content));
                     _onToolResult?.Invoke(result);
@@ -118,12 +125,15 @@ namespace WulaFallenEmpire.EventSystem.AI
 
             return new AIProviderRequest
             {
+                RequestId = "wulaai_" + Guid.NewGuid().ToString("N"),
                 SystemPrompt = systemPrompt,
                 Messages = messages.ToList(),
                 Tools = useXml ? new List<AIToolDefinition>() : (tools ?? new List<AIToolDefinition>()),
                 MaxTokens = maxTokens,
                 Temperature = temperature,
                 Stream = _enableStreaming,
+                TimeoutSeconds = _requestTimeoutSeconds,
+                LogRawTraffic = _logRawTraffic,
                 ToolChoice = toolsEnabled && !useXml ? AIToolChoice.Auto : AIToolChoice.None,
                 ToolProtocolMode = useXml ? AIToolProtocolMode.XmlBlockFallback : AIToolProtocolMode.NativeToolCalling
             };
@@ -132,13 +142,16 @@ namespace WulaFallenEmpire.EventSystem.AI
         private async Task<AIProviderResponse> QueryAsync(AIProviderRequest request, bool allowLiveStreaming, CancellationToken cancellationToken)
         {
             bool shouldStream = _enableStreaming && request.Stream;
+            _onTrace?.Invoke($"Provider request {request.RequestId}: mode={(shouldStream ? "stream" : "non-stream")}, timeout={request.TimeoutSeconds}s, live={allowLiveStreaming}.");
             if (!shouldStream)
             {
-                return await _provider.SendAsync(request, cancellationToken);
+                var response = await _provider.SendAsync(request, cancellationToken);
+                _onTrace?.Invoke($"Provider request {request.RequestId}: completed, contentChars={response?.Content?.Length ?? 0}, toolCalls={response?.ToolCalls?.Count ?? 0}.");
+                return response;
             }
             try
             {
-                return await _provider.StreamAsync(request, evt =>
+                var response = await _provider.StreamAsync(request, evt =>
                 {
                     if (evt == null) return;
                     if (!allowLiveStreaming) return;
@@ -147,11 +160,22 @@ namespace WulaFallenEmpire.EventSystem.AI
                         _onStreamingDelta?.Invoke(evt.TextDelta);
                     }
                 }, cancellationToken);
+                _onTrace?.Invoke($"Provider request {request.RequestId}: stream completed, contentChars={response?.Content?.Length ?? 0}, toolCalls={response?.ToolCalls?.Count ?? 0}.");
+                return response;
+            }
+            catch (OperationCanceledException)
+            {
+                _onTrace?.Invoke($"Provider request {request.RequestId}: cancelled or timed out.");
+                throw;
             }
             catch (Exception ex)
             {
                 _onTrace?.Invoke($"Streaming failed; retrying non-stream. {ex.Message}");
-                return await _provider.SendAsync(request, cancellationToken);
+                request.RequestId = "wulaai_" + Guid.NewGuid().ToString("N");
+                request.Stream = false;
+                var response = await _provider.SendAsync(request, cancellationToken);
+                _onTrace?.Invoke($"Provider request {request.RequestId}: non-stream retry completed, contentChars={response?.Content?.Length ?? 0}, toolCalls={response?.ToolCalls?.Count ?? 0}.");
+                return response;
             }
         }
 

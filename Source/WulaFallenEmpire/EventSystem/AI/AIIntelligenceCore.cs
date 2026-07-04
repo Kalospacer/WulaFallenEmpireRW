@@ -12,7 +12,6 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using WulaFallenEmpire;
-using WulaFallenEmpire.EventSystem.AI.Tools;
 using WulaFallenEmpire.EventSystem.AI.Utils;
 namespace WulaFallenEmpire.EventSystem.AI
 {
@@ -20,10 +19,10 @@ namespace WulaFallenEmpire.EventSystem.AI
     {
         public static AIIntelligenceCore Instance { get; private set; }
         public event Action<string> OnMessageReceived;
+        public event Action<string> OnAssistantMessageCommitted;
         public event Action<bool> OnThinkingStateChanged;
         public event Action<int> OnExpressionChanged;
         private List<(string role, string message)> _history = new List<(string role, string message)>();
-        private readonly List<AITool> _tools = new List<AITool>();
         private string _activeEventDefName;
         private bool _isThinking;
         private int _expressionId = 2;
@@ -39,6 +38,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         private CancellationTokenSource _activeRequestCts;
         private bool _streamingAssistantActive;
         private readonly StringBuilder _streamingAssistantBuffer = new StringBuilder();
+        private int _streamingAssistantHistoryIndex = -1;
         private bool _memoryUpdateInProgress;
         private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
@@ -65,7 +65,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public AIIntelligenceCore(World world) : base(world)
         {
             Instance = this;
-            InitializeTools();
         }
         public override void ExposeData()
         {
@@ -124,11 +123,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
             }
         }
-        public override void WorldComponentTick()
-        {
-            base.WorldComponentTick();
-            AIMainThreadDispatcher.Flush();
-        }
         public void SetOverlayWindowState(bool isOpen, string eventDefName = null, float x = -1f, float y = -1f)
         {
             _overlayWindowOpen = isOpen;
@@ -160,23 +154,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             _activeEventDefName = eventDefName;
             LoadHistoryForActiveEvent();
-            if (_history.Count == 0)
-            {
-                _history.Add(("user", "Hello"));
-                PersistHistory();
-                RefreshMemoryContext("Hello");
-                StartConversation();
-                return;
-            }
             RefreshMemoryContext(GetLastUserMessageForMemory());
-            if (!TryApplyLastAssistantExpression())
-            {
-                StartConversation();
-            }
+            TryApplyLastAssistantExpression();
         }
         public List<(string role, string message)> GetHistorySnapshot()
         {
-            return _history?.ToList() ?? new List<(string role, string message)>();
+            return (_history ?? new List<(string role, string message)>())
+                .Where(IsPersistableHistoryEntry)
+                .ToList();
         }
         public void SetExpression(int id)
         {
@@ -247,14 +232,19 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 AIToolProtocolMode.NativeToolCalling,
                 settings.enableStreaming,
                 1,
+                GetAiRequestTimeoutSeconds(),
+                settings.logRawAiTraffic,
                 _ => { },
                 _ => { },
                 _ => { },
                 _ => { },
                 trace => { if (Prefs.DevMode) WulaLog.Debug("[WulaAI] " + trace); });
             var messages = new List<AIMessage> { AIMessage.User(message) };
-            var response = await runner.RunPlainAsync(messages, clampedTokens, temperature, CancellationToken.None);
-            return response?.Content?.Trim();
+            using (var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(GetAiRequestTimeoutSeconds())))
+            {
+                var response = await runner.RunPlainAsync(messages, clampedTokens, temperature, timeoutCts.Token);
+                return response?.Content?.Trim();
+            }
         }
         public void InjectAssistantMessage(string message)
         {
@@ -268,15 +258,14 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public void SendAutoCommentaryMessage(string eventInfo)
         {
             if (string.IsNullOrWhiteSpace(eventInfo)) return;
+            if (_isThinking)
+            {
+                WulaLog.Debug("[WulaAI] Auto commentary skipped because an AI request is already running.");
+                return;
+            }
             // æ è®°ä¸ºèªå¨è¯è®ºæ¶æ¯ï¼ä¸æ¾ç¤ºå¨å¯¹è¯åå²ï¿½?
             string internalMessage = $"[AUTO_COMMENTARY]\n{eventInfo}";
-            // æ·»å å°åå²å¹¶è§¦åæ­£å¸¸ï¿½?AI æèæµï¿½?
-            _history.Add(("user", internalMessage));
-            PersistHistory();
-            // ä½¿ç¨æ­£å¸¸çåé¶æ®µè¯·æ±æµç¨ï¼ï¿½
-// å«å·¥ï¿½
-// ï¿½è°ç¨è½åç­ï¿½?
-            _ = RunPhasedRequestAsync();
+            _ = RunPhasedRequestAsync(internalMessage, false);
         }
         private string BuildUserMessageWithContext(string userText)
         {
@@ -341,32 +330,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             // Remove all [Context: ...] blocks and any preceding newlines used to separate them
             return Regex.Replace(message, @"(\n)*\[Context:[^\]]*\]", "", RegexOptions.Singleline).Trim();
         }
-        private void InitializeTools()
-        {
-            _tools.Clear();
-            _tools.Add(new Tool_SpawnResources());
-            _tools.Add(new Tool_ModifyGoodwill());
-            _tools.Add(new Tool_SendReinforcement());
-            _tools.Add(new Tool_GetPawnStatus());
-            _tools.Add(new Tool_GetMapResources());
-            _tools.Add(new Tool_GetAvailablePrefabs());
-            _tools.Add(new Tool_GetMapPawns());
-            _tools.Add(new Tool_GetRecentNotifications());
-            _tools.Add(new Tool_CallBombardment());
-            _tools.Add(new Tool_GetAvailableBombardments());
-            _tools.Add(new Tool_SearchThingDef());
-            _tools.Add(new Tool_SearchPawnKind());
-            _tools.Add(new Tool_CallPrefabAirdrop());
-            _tools.Add(new Tool_SetOverwatchMode());
-            _tools.Add(new Tool_RememberFact());
-            _tools.Add(new Tool_RecallMemories());
-            // Agent å·¥ï¿½
-// ï¿½ - ä¿çç»é¢åææªå¾è½åï¼ç§»é¤æææ¨¡ææä½å·¥ï¿½?
-            if (WulaFallenEmpireMod.settings?.enableVlmFeatures == true)
-            {
-                _tools.Add(new Tool_AnalyzeScreen());
-            }
-        }
         private void SetThinkingState(bool isThinking)
         {
             if (_isThinking == isThinking)
@@ -399,6 +362,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             var historyManager = Find.World?.GetComponent<AIHistoryManager>();
             _history = historyManager?.GetHistory(_activeEventDefName) ?? new List<(string role, string message)>();
+            int loadedCount = _history.Count;
+            _history = _history.Where(IsPersistableHistoryEntry).ToList();
+            if (_history.Count != loadedCount)
+            {
+                PersistHistory();
+            }
         }
         private void PersistHistory()
         {
@@ -409,12 +378,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             try
             {
                 var historyManager = Find.World?.GetComponent<AIHistoryManager>();
+                _history = (_history ?? new List<(string role, string message)>())
+                    .Where(IsPersistableHistoryEntry)
+                    .ToList();
                 historyManager?.SaveHistory(_activeEventDefName, _history);
             }
             catch (Exception ex)
             {
                 WulaLog.Debug($"[WulaAI] Failed to persist AI history: {ex}");
             }
+        }
+        private static bool IsPersistableHistoryEntry((string role, string message) entry)
+        {
+            string role = (entry.role ?? "").Trim();
+            if (string.Equals(role, "trace", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+            string message = (entry.message ?? "").TrimStart();
+            return !message.StartsWith("??:", StringComparison.Ordinal);
         }
         private void ClearHistory()
         {
@@ -562,10 +544,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string trimmed = thought.Trim();
             if (string.Equals(_latestThought, trimmed, StringComparison.Ordinal)) return;
             _latestThought = trimmed;
-            if (_history != null)
-            {
-                _history.Add(("trace", $"??: {trimmed}"));
-            }
         }
         private static string TrimForPrompt(string text, int maxChars)
         {
@@ -704,7 +682,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 var provider = AIProviderFactory.Create(settings);
                 string factPrompt = MemoryPrompts.BuildFactExtractionPrompt(conversation);
-                string factsResponse = await SendPlainProviderRequestAsync(provider, factPrompt, 256, 0.1f, CancellationToken.None);
+                string factsResponse;
+                using (var factsTimeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(GetAiRequestTimeoutSeconds())))
+                {
+                    factsResponse = await SendPlainProviderRequestAsync(provider, factPrompt, 256, 0.1f, factsTimeoutCts.Token);
+                }
                 if (string.IsNullOrWhiteSpace(factsResponse))
                 {
                     return;
@@ -724,7 +706,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 string factsJson = BuildFactsJson(facts);
                 string updatePrompt = MemoryPrompts.BuildMemoryUpdatePrompt(existingMemoriesJson, factsJson);
-                string updateResponse = await SendPlainProviderRequestAsync(provider, updatePrompt, 512, 0.1f, CancellationToken.None);
+                string updateResponse;
+                using (var updateTimeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(GetAiRequestTimeoutSeconds())))
+                {
+                    updateResponse = await SendPlainProviderRequestAsync(provider, updatePrompt, 512, 0.1f, updateTimeoutCts.Token);
+                }
                 var updates = ParseMemoryUpdates(updateResponse);
                 if (Prefs.DevMode)
                 {
@@ -746,16 +732,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (provider == null) return null;
             var response = await provider.SendAsync(new AIProviderRequest
             {
+                RequestId = "wulaai_" + Guid.NewGuid().ToString("N"),
                 SystemPrompt = systemPrompt ?? string.Empty,
                 Messages = new List<AIMessage>(),
                 Tools = new List<AIToolDefinition>(),
                 MaxTokens = Math.Max(1, maxTokens),
                 Temperature = temperature,
                 Stream = false,
+                TimeoutSeconds = GetAiRequestTimeoutSeconds(),
+                LogRawTraffic = WulaFallenEmpireMod.settings?.logRawAiTraffic ?? false,
                 ToolChoice = AIToolChoice.None,
                 ToolProtocolMode = AIToolProtocolMode.NativeToolCalling
             }, cancellationToken);
             return response?.Content?.Trim();
+        }
+
+        private static int GetAiRequestTimeoutSeconds()
+        {
+            int configured = WulaFallenEmpireMod.settings?.aiRequestTimeoutSeconds ?? 120;
+            return Math.Max(2, Math.Min(600, configured));
         }
 
         private static List<MemoryFact> ParseMemoryFacts(string json)
@@ -1075,9 +1070,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 PersistHistory();
                 OnMessageReceived?.Invoke(cleanedResponse);
+                OnAssistantMessageCommitted?.Invoke(cleanedResponse);
             }
         }
-        private async Task RunAgentRequestAsync()
+        private async Task RunAgentRequestAsync(string transientUserMessage = null, bool triggerMemoryUpdate = true)
         {
             if (_isThinking) return;
             SetThinkingState(true);
@@ -1114,15 +1110,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     AIProviderFactory.ParseToolProtocolMode(settings.toolProtocolMode),
                     settings.enableStreaming,
                     Math.Max(1, settings.maxToolSteps),
+                    GetAiRequestTimeoutSeconds(),
+                    settings.logRawAiTraffic,
                     CommitFinalAssistantMessage,
                     AppendStreamingAssistantDelta,
                     RecordToolCallsForUi,
                     RecordToolResultForUi,
                     LogAgentTrace);
 
-                var messages = BuildCanonicalMessagesForAgent();
+                var messages = BuildCanonicalMessagesForAgent(transientUserMessage);
                 await runner.RunAsync(messages, null, null, _activeRequestCts.Token);
-                TriggerMemoryUpdate();
+                if (triggerMemoryUpdate)
+                {
+                    TriggerMemoryUpdate();
+                }
             }
             catch (OperationCanceledException)
             {
@@ -1137,18 +1138,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 _streamingAssistantActive = false;
                 _streamingAssistantBuffer.Clear();
+                _streamingAssistantHistoryIndex = -1;
                 SetThinkingState(false);
                 _activeRequestCts?.Dispose();
                 _activeRequestCts = null;
             }
         }
 
-        private List<AIMessage> BuildCanonicalMessagesForAgent()
+        private List<AIMessage> BuildCanonicalMessagesForAgent(string transientUserMessage = null)
         {
             var messages = new List<AIMessage>();
             foreach (var entry in _history ?? new List<(string role, string message)>())
             {
                 if (string.IsNullOrWhiteSpace(entry.message)) continue;
+                if (IsAutoCommentaryMessage(entry.message)) continue;
                 string role = (entry.role ?? "user").Trim().ToLowerInvariant();
                 if (role == "user")
                 {
@@ -1162,6 +1165,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         messages.Add(AIMessage.Assistant(cleaned));
                     }
                 }
+            }
+            if (!string.IsNullOrWhiteSpace(transientUserMessage))
+            {
+                messages.Add(AIMessage.User(transientUserMessage));
             }
             return messages;
         }
@@ -1179,12 +1186,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             else goodwillContext += "You are neutral and business-like.";
 
             return persona + "\n\n" +
-                   goodwillContext + "\n" +
-                   $"IMPORTANT: Reply in the following language: {language}.\n" +
                    "You are connected to the RimWorld game through tools. Use tools for game facts and in-game actions. " +
                    "Never claim an in-game action succeeded unless a tool result confirms it. " +
                    "You may include [EXPR:n] in final replies to set expression (n=1-6). " +
-                   "Long-term memory is not preloaded; use recall_memories when needed and remember_fact for durable facts.";
+                   "Long-term memory is not preloaded; use recall_memories when needed and remember_fact for durable facts.\n\n" +
+                   "# CURRENT RUNTIME STATE\n" +
+                   goodwillContext + "\n" +
+                   $"Reply language: {language}.";
         }
 
         private static string GetConfiguredApiKey(WulaFallenEmpireSettings settings)
@@ -1207,12 +1215,20 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 _streamingAssistantActive = true;
                 _streamingAssistantBuffer.Clear();
+                _streamingAssistantHistoryIndex = _history.Count;
                 _history.Add(("assistant", ""));
             }
             _streamingAssistantBuffer.Append(delta);
-            if (_history.Count > 0 && string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
+            if (_streamingAssistantHistoryIndex >= 0 &&
+                _streamingAssistantHistoryIndex < _history.Count &&
+                string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
             {
-                _history[_history.Count - 1] = ("assistant", _streamingAssistantBuffer.ToString());
+                _history[_streamingAssistantHistoryIndex] = ("assistant", _streamingAssistantBuffer.ToString());
+            }
+            else
+            {
+                _streamingAssistantHistoryIndex = _history.Count;
+                _history.Add(("assistant", _streamingAssistantBuffer.ToString()));
             }
             OnMessageReceived?.Invoke(_streamingAssistantBuffer.ToString());
         }
@@ -1221,12 +1237,19 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             if (_streamingAssistantActive)
             {
-                if (_history.Count > 0 && string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
+                if (_streamingAssistantHistoryIndex >= 0 &&
+                    _streamingAssistantHistoryIndex < _history.Count &&
+                    string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
+                {
+                    _history.RemoveAt(_streamingAssistantHistoryIndex);
+                }
+                else if (_history.Count > 0 && string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
                 {
                     _history.RemoveAt(_history.Count - 1);
                 }
                 _streamingAssistantActive = false;
                 _streamingAssistantBuffer.Clear();
+                _streamingAssistantHistoryIndex = -1;
             }
             AddAssistantMessage(content);
         }
@@ -1235,7 +1258,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             if (string.IsNullOrWhiteSpace(trace)) return;
             UpdateLatestThought(trace);
-            PersistHistory();
             OnMessageReceived?.Invoke(string.Empty);
             if (Prefs.DevMode)
             {
@@ -1278,9 +1300,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return Regex.Replace(text.Trim(), @"\s+", " ");
         }
 
-        private Task RunPhasedRequestAsync()
+        private Task RunPhasedRequestAsync(string transientUserMessage = null, bool triggerMemoryUpdate = true)
         {
-            return RunAgentRequestAsync();
+            return RunAgentRequestAsync(transientUserMessage, triggerMemoryUpdate);
         }
 
     }

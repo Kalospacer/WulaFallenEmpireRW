@@ -134,6 +134,7 @@ namespace WulaFallenEmpire.EventSystem.AI
 
     public sealed class AIProviderRequest
     {
+        public string RequestId;
         public string SystemPrompt;
         public List<AIMessage> Messages = new List<AIMessage>();
         public List<AIToolDefinition> Tools = new List<AIToolDefinition>();
@@ -141,6 +142,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         public int? MaxTokens;
         public float? Temperature;
         public bool Stream;
+        public int TimeoutSeconds = 120;
+        public bool LogRawTraffic;
         public AIToolChoice ToolChoice = AIToolChoice.Auto;
         public AIToolProtocolMode ToolProtocolMode = AIToolProtocolMode.NativeToolCalling;
     }

@@ -28,11 +28,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
         private const string BaseVisionSystemPrompt = "You are a seasoned RimWorld assistant. Analyze the screenshot per instruction. Keep replies concise. Do not output tool call JSON unless explicitly asked.";
 
-        public override async Task<string> ExecuteAsync(string args)
+        public override async Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             try
             {
-                return await ExecuteInternalAsync(args);
+                return await ExecuteInternalAsync(args, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return "Vision analysis cancelled or timed out.";
             }
             catch (Exception ex)
             {
@@ -41,7 +46,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             }
         }
 
-        private async Task<string> ExecuteInternalAsync(string jsonContent)
+        private async Task<string> ExecuteInternalAsync(string jsonContent, CancellationToken cancellationToken)
         {
             var argsDict = ParseJsonArgs(jsonContent);
             string instruction = TryGetString(argsDict, "instruction", out var inst) ? inst :
@@ -49,6 +54,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 // Check VLM settings
                 var settings = WulaFallenEmpireMod.settings;
                 if (settings == null)
@@ -71,6 +77,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 var provider = AIProviderFactory.Create(settings);
                 var request = new AIProviderRequest
                 {
+                    RequestId = "wulaai_vision_" + Guid.NewGuid().ToString("N"),
                     SystemPrompt = BaseVisionSystemPrompt,
                     Messages = new List<AIMessage>
                     {
@@ -84,9 +91,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     Temperature = 0.2f,
                     ToolChoice = AIToolChoice.None,
                     ToolProtocolMode = AIToolProtocolMode.NativeToolCalling,
-                    Stream = false
+                    Stream = false,
+                    TimeoutSeconds = Math.Max(2, Math.Min(600, settings.aiRequestTimeoutSeconds)),
+                    LogRawTraffic = settings.logRawAiTraffic
                 };
-                var response = await provider.SendAsync(request, CancellationToken.None);
+                var response = await provider.SendAsync(request, cancellationToken);
                 string result = response?.Content;
 
                 if (string.IsNullOrEmpty(result))
@@ -95,6 +104,10 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 }
 
                 return $"Screen analysis result: {result.Trim()}";
+            }
+            catch (OperationCanceledException)
+            {
+                return "Vision analysis cancelled or timed out.";
             }
             catch (Exception ex)
             {

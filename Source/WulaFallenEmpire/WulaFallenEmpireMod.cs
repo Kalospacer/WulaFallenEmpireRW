@@ -16,6 +16,7 @@ namespace WulaFallenEmpire
         private string _maxContextTokensBuffer;
         private string _reactMaxSecondsBuffer;
         private string _maxToolStepsBuffer;
+        private string _aiRequestTimeoutSecondsBuffer;
 
         public WulaFallenEmpireMod(ModContentPack content) : base(content)
         {
@@ -118,6 +119,10 @@ namespace WulaFallenEmpire
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());
+            listingStandard.CheckboxLabeled("记录 AI raw request/response", ref settings.logRawAiTraffic, "开启后会在 RimWorld 日志中记录脱敏后的 HTTP 请求、payload、响应 body 和 SSE 累积内容。");
+            listingStandard.Label("AI Request Timeout Seconds (2-600):");
+            Rect timeoutRect = listingStandard.GetRect(Text.LineHeight);
+            Widgets.TextFieldNumeric(timeoutRect, ref settings.aiRequestTimeoutSeconds, ref _aiRequestTimeoutSecondsBuffer, 2, 600);
 
             listingStandard.GapLine();
             listingStandard.Label("<color=cyan>Tool Loop Settings</color>");

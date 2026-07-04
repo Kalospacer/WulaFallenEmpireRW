@@ -141,6 +141,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             {
                 _core.InitializeConversation(_eventDefName);
                 _core.OnMessageReceived += OnMessageReceived;
+                _core.OnAssistantMessageCommitted += OnAssistantMessageCommitted;
                 _core.OnThinkingStateChanged += OnThinkingStateChanged;
                 _core.OnExpressionChanged += OnExpressionChanged;
                 _core.SetOverlayWindowState(true, _eventDefName);
@@ -153,6 +154,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             if (_core != null)
             {
                 _core.OnMessageReceived -= OnMessageReceived;
+                _core.OnAssistantMessageCommitted -= OnAssistantMessageCommitted;
                 _core.OnThinkingStateChanged -= OnThinkingStateChanged;
                 _core.OnExpressionChanged -= OnExpressionChanged;
                 // Save position before closing
@@ -163,6 +165,15 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private void OnMessageReceived(string msg)
         {
             _scrollToBottom = true;
+        }
+
+        private void OnAssistantMessageCommitted(string msg)
+        {
+            _scrollToBottom = true;
+            if (string.IsNullOrWhiteSpace(msg))
+            {
+                return;
+            }
             if (_isMinimized)
             {
                 _unreadCount++;
@@ -736,7 +747,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 {
                     string trimmed = (note ?? "").Trim();
                     if (string.IsNullOrWhiteSpace(trimmed)) continue;
-                    lines.Add($"模型 · {TrimForDisplay(trimmed, 220)}");
+                    lines.Add($"状态 · {TrimForDisplay(trimmed, 220)}");
                 }
             }
 
@@ -1046,7 +1057,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             {
                 Text.Font = GameFont.Tiny;
                 Rect thoughtRect = new Rect(labelRect.x, labelRect.yMax + 2f, labelRect.width, 22f);
-                Widgets.Label(thoughtRect, $"??: {thought}");
+                Widgets.Label(thoughtRect, $"状态: {thought}");
             }
             
             Text.Anchor = TextAnchor.UpperLeft;

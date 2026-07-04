@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Verse;
 using WulaFallenEmpire.EventSystem.AI;
@@ -19,7 +21,13 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             return SchemaObject(properties, RequiredList("expression_id"));
         }
 
-        public override string Execute(string args)
+        public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(ExecuteCore(args));
+        }
+
+        private string ExecuteCore(string args)
         {
             try
             {

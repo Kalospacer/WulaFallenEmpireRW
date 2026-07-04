@@ -8,6 +8,8 @@ namespace WulaFallenEmpire
         public string toolProtocolMode = "NativeToolCalling";
         public bool enableStreaming = true;
         public int maxToolSteps = 8;
+        public int aiRequestTimeoutSeconds = 120;
+        public bool logRawAiTraffic = false;
 
         public string apiKey = "sk-xxxxxxxx";
         public string baseUrl = "https://api.deepseek.com/v1";
@@ -42,6 +44,8 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref toolProtocolMode, "toolProtocolMode", "NativeToolCalling");
             Scribe_Values.Look(ref enableStreaming, "enableStreaming", true);
             Scribe_Values.Look(ref maxToolSteps, "maxToolSteps", 8);
+            Scribe_Values.Look(ref aiRequestTimeoutSeconds, "aiRequestTimeoutSeconds", 120);
+            Scribe_Values.Look(ref logRawAiTraffic, "logRawAiTraffic", false);
 
             Scribe_Values.Look(ref apiKey, "apiKey", "sk-xxxxxxxx");
             Scribe_Values.Look(ref baseUrl, "baseUrl", "https://api.deepseek.com/v1");

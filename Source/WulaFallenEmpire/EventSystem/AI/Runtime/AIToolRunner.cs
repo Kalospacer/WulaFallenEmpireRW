@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using WulaFallenEmpire;
 using WulaFallenEmpire.EventSystem.AI.Tools;
 
 namespace WulaFallenEmpire.EventSystem.AI
@@ -16,7 +19,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             _registry = registry;
         }
 
-        public async Task<AIToolResult> ExecuteAsync(AIToolCall call)
+        public async Task<AIToolResult> ExecuteAsync(AIToolCall call, CancellationToken cancellationToken)
         {
             if (call == null || string.IsNullOrWhiteSpace(call.Name))
             {
@@ -41,10 +44,23 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
 
             string argsJson = filteredArgs.ToString(Newtonsoft.Json.Formatting.None);
+            string label = BuildLabel(call);
+            var stopwatch = Stopwatch.StartNew();
             try
             {
-                string result = await AIMainThreadDispatcher.InvokeAsync(() => tool.ExecuteAsync(argsJson));
+                cancellationToken.ThrowIfCancellationRequested();
+                LogTool(label, "queued", argsJson, 0);
+                string result = await AIMainThreadDispatcher.InvokeAsync(
+                    async () =>
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        LogTool(label, "started", null, stopwatch.ElapsedMilliseconds);
+                        return await tool.ExecuteAsync(argsJson, cancellationToken);
+                    },
+                    cancellationToken,
+                    label);
                 result = result?.Trim() ?? string.Empty;
+                LogTool(label, "completed", TrimForLog(result), stopwatch.ElapsedMilliseconds);
                 return new AIToolResult
                 {
                     ToolCallId = call.Id,
@@ -53,10 +69,35 @@ namespace WulaFallenEmpire.EventSystem.AI
                     IsError = result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase)
                 };
             }
+            catch (OperationCanceledException)
+            {
+                LogTool(label, "cancelled", null, stopwatch.ElapsedMilliseconds);
+                return Error(call, $"Error: Tool '{call.Name}' cancelled or timed out.");
+            }
             catch (Exception ex)
             {
+                LogTool(label, "failed: " + ex.Message, null, stopwatch.ElapsedMilliseconds);
                 return Error(call, $"Error: {ex.Message}");
             }
+        }
+
+        private static string BuildLabel(AIToolCall call)
+        {
+            string name = string.IsNullOrWhiteSpace(call?.Name) ? "unknown_tool" : call.Name;
+            string id = string.IsNullOrWhiteSpace(call?.Id) ? "no_call_id" : call.Id;
+            return $"tool:{name}:{id}";
+        }
+
+        private static void LogTool(string label, string stage, string detail, long elapsedMs)
+        {
+            string suffix = string.IsNullOrWhiteSpace(detail) ? string.Empty : " detail=" + detail;
+            WulaLog.Debug($"[WulaAI][Tool][{label}] {stage}, elapsedMs={elapsedMs}{suffix}");
+        }
+
+        private static string TrimForLog(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+            return value.Length <= 1200 ? value : value.Substring(0, 1200) + $"...[truncated {value.Length - 1200} chars]";
         }
 
         private static AIToolResult Error(AIToolCall call, string content)

@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,13 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             public string Body;
         }
 
-        public override string Execute(string args)
+        public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(ExecuteCore(args));
+        }
+
+        private string ExecuteCore(string args)
         {
             try
             {

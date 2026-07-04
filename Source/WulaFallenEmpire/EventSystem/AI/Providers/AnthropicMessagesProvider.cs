@@ -24,44 +24,81 @@ namespace WulaFallenEmpire.EventSystem.AI
         public async Task<AIProviderResponse> SendAsync(AIProviderRequest request, CancellationToken cancellationToken)
         {
             string json = await PostAsync(request, false, cancellationToken);
-            return ParseMessage(json);
+            var response = ParseMessage(json);
+            AIProviderJson.LogStage("Anthropic", request, $"non-stream parsed contentChars={response.Content?.Length ?? 0} toolCalls={response.ToolCalls?.Count ?? 0}");
+            AIProviderJson.LogUsage("Anthropic", request, response);
+            return response;
         }
 
         public async Task<AIProviderResponse> StreamAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request, true);
+            var watch = AIProviderJson.StartRequest("Anthropic", request, "stream");
             using (var httpRequest = BuildHttpRequest(payload))
-            using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+            using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                string bodyIfError = null;
-                if (!response.IsSuccessStatusCode)
+                AIProviderJson.LogRawRequest("Anthropic", request, httpRequest, payload);
+                try
                 {
-                    bodyIfError = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Anthropic API error {(int)response.StatusCode}: {bodyIfError}");
-                }
+                    using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token))
+                    {
+                        AIProviderJson.LogStage("Anthropic", request, $"stream headers status={(int)response.StatusCode} elapsedMs={watch.ElapsedMilliseconds}");
+                        string bodyIfError = null;
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            bodyIfError = await response.Content.ReadAsStringAsync();
+                            AIProviderJson.LogRawResponse("Anthropic", request, (int)response.StatusCode, bodyIfError);
+                            throw new Exception($"Anthropic API error {(int)response.StatusCode}: {bodyIfError}");
+                        }
 
-                var accumulator = new AnthropicStreamAccumulator();
-                await AIProviderJson.ReadSseAsync(response, (eventName, data) =>
+                        var accumulator = new AnthropicStreamAccumulator();
+                        int sseCount = await AIProviderJson.ReadSseAsync(response, (eventName, data) =>
+                        {
+                            ParseStreamEvent(data, accumulator, onEvent);
+                        }, timeoutCts.Token);
+                        onEvent?.Invoke(new AIStreamEvent { Completed = true });
+                        var result = accumulator.ToResponse();
+                        AIProviderJson.LogStage("Anthropic", request, $"stream done sseDataLines={sseCount} contentChars={result.Content?.Length ?? 0} toolCalls={result.ToolCalls?.Count ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogUsage("Anthropic", request, result);
+                        AIProviderJson.LogRawResponse("Anthropic", request, (int)response.StatusCode, result.RawJson);
+                        return result;
+                    }
+                }
+                catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
                 {
-                    ParseStreamEvent(data, accumulator, onEvent);
-                }, cancellationToken);
-                onEvent?.Invoke(new AIStreamEvent { Completed = true });
-                return accumulator.ToResponse();
+                    AIProviderJson.LogStage("Anthropic", request, $"stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    throw;
+                }
             }
         }
 
         private async Task<string> PostAsync(AIProviderRequest request, bool stream, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request, stream);
+            var watch = AIProviderJson.StartRequest("Anthropic", request, stream ? "stream" : "non-stream");
             using (var httpRequest = BuildHttpRequest(payload))
-            using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, cancellationToken))
+            using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                string body = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
+                AIProviderJson.LogRawRequest("Anthropic", request, httpRequest, payload);
+                try
                 {
-                    throw new Exception($"Anthropic API error {(int)response.StatusCode}: {body}");
+                    using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, timeoutCts.Token))
+                    {
+                        string body = await response.Content.ReadAsStringAsync();
+                        AIProviderJson.LogStage("Anthropic", request, $"non-stream status={(int)response.StatusCode} bodyChars={body?.Length ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogRawResponse("Anthropic", request, (int)response.StatusCode, body);
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            throw new Exception($"Anthropic API error {(int)response.StatusCode}: {body}");
+                        }
+                        return body;
+                    }
                 }
-                return body;
+                catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
+                {
+                    AIProviderJson.LogStage("Anthropic", request, $"non-stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    throw;
+                }
             }
         }
 
@@ -261,6 +298,11 @@ namespace WulaFallenEmpire.EventSystem.AI
             try { root = JObject.Parse(data); }
             catch { return; }
             accumulator.RawChunks.AppendLine(data);
+            var usage = root["usage"] as JObject;
+            if (usage != null)
+            {
+                accumulator.Usage = usage;
+            }
             string type = root.Value<string>("type");
             int index = root.Value<int?>("index") ?? -1;
             if (type == "content_block_start")
@@ -313,6 +355,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             public readonly StringBuilder Content = new StringBuilder();
             public readonly StringBuilder Reasoning = new StringBuilder();
             public readonly StringBuilder RawChunks = new StringBuilder();
+            public JObject Usage;
             private readonly Dictionary<int, ToolAccumulator> _tools = new Dictionary<int, ToolAccumulator>();
 
             public ToolAccumulator GetTool(int index)
@@ -332,6 +375,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                     Content = Content.ToString(),
                     Reasoning = Reasoning.ToString(),
                     RawJson = RawChunks.ToString(),
+                    Usage = Usage,
                     ToolCalls = new List<AIToolCall>()
                 };
                 foreach (var entry in _tools)
