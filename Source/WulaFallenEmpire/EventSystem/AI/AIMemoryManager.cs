@@ -20,6 +20,7 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private readonly object _lock = new object();
         private string _saveId;
+        private string _loadedStorageKey;
         private List<AIMemoryEntry> _memories = new List<AIMemoryEntry>();
         private bool _loaded;
         private readonly Dictionary<string, SearchCacheEntry> _searchCache = new Dictionary<string, SearchCacheEntry>();
@@ -196,12 +197,18 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private void EnsureLoaded()
         {
-            if (_loaded) return;
+            string storageKey = GetStorageKey();
+            if (_loaded && string.Equals(_loadedStorageKey, storageKey, StringComparison.Ordinal)) return;
+
             lock (_lock)
             {
-                if (_loaded) return;
-                LoadFromFileLocked();
+                storageKey = GetStorageKey();
+                if (_loaded && string.Equals(_loadedStorageKey, storageKey, StringComparison.Ordinal)) return;
+
+                LoadFromFileLocked(storageKey);
+                _loadedStorageKey = storageKey;
                 _loaded = true;
+                InvalidateSearchCache();
             }
         }
 
@@ -215,19 +222,36 @@ namespace WulaFallenEmpire.EventSystem.AI
             return path;
         }
 
-        private string GetFilePath()
+        private string GetFilePath(string storageKey)
+        {
+            return Path.Combine(GetSaveDirectory(), $"{storageKey}.json");
+        }
+
+        private string GetStorageKey()
+        {
+            EnsureSaveId();
+
+            string saveName = Find.World?.info?.FileNameNoExtension;
+            if (!string.IsNullOrWhiteSpace(saveName))
+            {
+                return SanitizeFileName(saveName) + "_" + _saveId;
+            }
+
+            return _saveId;
+        }
+
+        private void EnsureSaveId()
         {
             if (string.IsNullOrEmpty(_saveId))
             {
                 _saveId = Guid.NewGuid().ToString("N");
             }
-            return Path.Combine(GetSaveDirectory(), $"{_saveId}.json");
         }
 
-        private void LoadFromFileLocked()
+        private void LoadFromFileLocked(string storageKey)
         {
             _memories = new List<AIMemoryEntry>();
-            string path = GetFilePath();
+            string path = GetFilePath(storageKey);
             if (!File.Exists(path)) return;
 
             try
@@ -259,7 +283,11 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private void SaveToFileLocked()
         {
-            string path = GetFilePath();
+            if (string.IsNullOrWhiteSpace(_loadedStorageKey))
+            {
+                _loadedStorageKey = GetStorageKey();
+            }
+            string path = GetFilePath(_loadedStorageKey);
             try
             {
                 var dto = new MemoryFileDto
@@ -287,6 +315,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (Scribe.mode == LoadSaveMode.PostLoadInit && string.IsNullOrEmpty(_saveId))
             {
                 _saveId = Guid.NewGuid().ToString("N");
+                _loadedStorageKey = null;
                 _loaded = false;
             }
         }
@@ -358,6 +387,16 @@ namespace WulaFallenEmpire.EventSystem.AI
         private static string BuildSearchCacheKey(string query, int limit)
         {
             return limit.ToString(CultureInfo.InvariantCulture) + "|" + NormalizeFact(query);
+        }
+
+        private static string SanitizeFileName(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return "unknown";
+
+            char[] invalid = Path.GetInvalidFileNameChars();
+            var chars = value.Trim().Select(c => invalid.Contains(c) ? '_' : c).ToArray();
+            string sanitized = new string(chars).Trim('.');
+            return string.IsNullOrWhiteSpace(sanitized) ? "unknown" : sanitized;
         }
 
         private static long GetCurrentTicks()

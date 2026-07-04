@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -12,6 +12,7 @@ namespace WulaFallenEmpire.EventSystem.AI
     public class AIHistoryManager : WorldComponent
     {
         private string _saveId;
+        private string _storageKey;
         private Dictionary<string, List<(string role, string message)>> _cache = new Dictionary<string, List<(string role, string message)>>();
 
         public AIHistoryManager(World world) : base(world)
@@ -30,15 +31,46 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private string GetFilePath(string eventDefName)
         {
+            if (string.IsNullOrWhiteSpace(_storageKey))
+            {
+                _storageKey = GetStorageKey();
+            }
+            return Path.Combine(GetSaveDirectory(), $"{_storageKey}_{SanitizeFileName(eventDefName)}.json");
+        }
+
+        private void EnsureStorageKeyCurrent()
+        {
+            string storageKey = GetStorageKey();
+            if (string.Equals(_storageKey, storageKey, StringComparison.Ordinal)) return;
+
+            _storageKey = storageKey;
+            _cache.Clear();
+        }
+
+        private string GetStorageKey()
+        {
+            EnsureSaveId();
+
+            string saveName = Find.World?.info?.FileNameNoExtension;
+            if (!string.IsNullOrWhiteSpace(saveName))
+            {
+                return SanitizeFileName(saveName) + "_" + _saveId;
+            }
+
+            return _saveId;
+        }
+
+        private void EnsureSaveId()
+        {
             if (string.IsNullOrEmpty(_saveId))
             {
-                _saveId = Guid.NewGuid().ToString();
+                _saveId = Guid.NewGuid().ToString("N");
             }
-            return Path.Combine(GetSaveDirectory(), $"{_saveId}_{eventDefName}.json");
         }
 
         public List<(string role, string message)> GetHistory(string eventDefName)
         {
+            EnsureStorageKeyCurrent();
             if (_cache.TryGetValue(eventDefName, out var cachedHistory))
             {
                 var filtered = (cachedHistory ?? new List<(string role, string message)>())
@@ -78,6 +110,7 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         public void SaveHistory(string eventDefName, List<(string role, string message)> history)
         {
+            EnsureStorageKeyCurrent();
             var filteredHistory = (history ?? new List<(string role, string message)>())
                 .Where(IsPersistableHistoryEntry)
                 .ToList();
@@ -99,6 +132,7 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         public void ClearHistory(string eventDefName)
         {
+            EnsureStorageKeyCurrent();
             _cache.Remove(eventDefName);
             string path = GetFilePath(eventDefName);
             try
@@ -122,7 +156,19 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (Scribe.mode == LoadSaveMode.PostLoadInit && string.IsNullOrEmpty(_saveId))
             {
                 _saveId = Guid.NewGuid().ToString();
+                _storageKey = null;
+                _cache.Clear();
             }
+        }
+
+        private static string SanitizeFileName(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return "unknown";
+
+            char[] invalid = Path.GetInvalidFileNameChars();
+            var chars = value.Trim().Select(c => invalid.Contains(c) ? '_' : c).ToArray();
+            string sanitized = new string(chars).Trim('.');
+            return string.IsNullOrWhiteSpace(sanitized) ? "unknown" : sanitized;
         }
 
         private sealed class AIHistoryEntryDto
