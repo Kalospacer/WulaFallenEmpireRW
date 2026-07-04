@@ -25,21 +25,40 @@ namespace WulaFallenEmpire.EventSystem.AI
 
             WulaLog.Debug($"[AI Commentary] Received letter: {letter.Label.Resolve()}");
 
-            // 检查设置
+            // 构建提示词 - 让 AI 自己决定是否需要回复
+            string prompt = BuildPrompt(letter);
+            WulaLog.Debug($"[AI Commentary] Sending to AI: {letter.Label.Resolve()}");
+            TrySendPrompt(prompt, letter.Label.Resolve());
+        }
+
+        public static void ProcessEvent(string eventLabel, string eventDefName, string details)
+        {
+            if (string.IsNullOrWhiteSpace(eventLabel))
+            {
+                WulaLog.Debug("[AI Commentary] Event label is empty, skipping.");
+                return;
+            }
+
+            string prompt = BuildEventPrompt(eventLabel, eventDefName, details);
+            WulaLog.Debug($"[AI Commentary] Sending custom event to AI: {eventLabel}");
+            TrySendPrompt(prompt, eventLabel);
+        }
+
+        private static void TrySendPrompt(string prompt, string sourceLabel)
+        {
             var settings = WulaFallenEmpireMod.settings;
             if (settings == null)
             {
                 WulaLog.Debug("[AI Commentary] Settings is null, skipping.");
                 return;
             }
-            
+
             if (!settings.enableAIAutoCommentary)
             {
                 WulaLog.Debug("[AI Commentary] Auto commentary is disabled in settings, skipping.");
                 return;
             }
 
-            // 简单的冷却检查，避免刷屏
             int currentTick = Find.TickManager?.TicksGame ?? 0;
             if (currentTick - lastProcessedTick < MinTicksBetweenComments)
             {
@@ -48,7 +67,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             lastProcessedTick = currentTick;
 
-            // 获取 AI 核心
             var aiCore = Find.World?.GetComponent<AIIntelligenceCore>();
             if (aiCore == null)
             {
@@ -56,15 +74,8 @@ namespace WulaFallenEmpire.EventSystem.AI
                 return;
             }
 
-            // 构建提示词 - 让 AI 自己决定是否需要回复
-            string prompt = BuildPrompt(letter);
-            
-            WulaLog.Debug($"[AI Commentary] Sending to AI: {letter.Label.Resolve()}");
-            
-            // 直接发送到正常的 AI 对话流程（会经过完整的思考流程）
             aiCore.SendAutoCommentaryMessage(prompt);
-            
-            WulaLog.Debug($"[AI Commentary] Successfully sent letter to AI: {letter.Label.Resolve()}");
+            WulaLog.Debug($"[AI Commentary] Successfully sent event to AI: {sourceLabel}");
         }
 
         private static string BuildPrompt(Letter letter)
@@ -92,6 +103,29 @@ namespace WulaFallenEmpire.EventSystem.AI
             sb.AppendLine("- 自主选择：如果这个事件平淡无奇，直接回复 [NO_COMMENT]。");
             sb.AppendLine();
             
+            return sb.ToString();
+        }
+
+        private static string BuildEventPrompt(string eventLabel, string eventDefName, string details)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("[游戏事件通知 - 观察者模式]");
+            sb.AppendLine($"事件: {eventLabel} ({(string.IsNullOrWhiteSpace(eventDefName) ? "CustomEvent" : eventDefName)})");
+            if (!string.IsNullOrWhiteSpace(details))
+            {
+                sb.AppendLine("详情:");
+                sb.AppendLine(details.Trim());
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("请根据你当前的人格设定，对该事件发表你的看法。");
+            sb.AppendLine("- 保持个性：展现你的人格特征（如语气、态度或口癖）。");
+            sb.AppendLine("- 拒绝废话：不要使用‘收到’、‘明白’等无意义的回复。你是在进行评论，而不是在接受指令。");
+            sb.AppendLine("- 简短有力：30 字以内，一针见血。");
+            sb.AppendLine("- 自主选择：如果这个事件平淡无奇，直接回复 [NO_COMMENT]。");
+            sb.AppendLine();
+
             return sb.ToString();
         }
     }

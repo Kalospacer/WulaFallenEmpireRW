@@ -5,6 +5,7 @@ using Verse;
 using Verse.Sound;
 using System.Text;
 using System.Linq;
+using WulaFallenEmpire.EventSystem.AI;
 
 namespace WulaFallenEmpire
 {
@@ -154,6 +155,8 @@ namespace WulaFallenEmpire
             string message = BuildTransferMessage(inputItemsCount, outputItemsCount,
                 inputItemsList.ToString(), outputItemsList.ToString());
             Messages.Message(message, this.parent, MessageTypeDefOf.PositiveEvent);
+            SendTransferAutoCommentary(map, group, inputItemsCount, outputItemsCount,
+                inputItemsList.ToString(), outputItemsList.ToString());
 
             // 4. 播放发射动画并销毁整组运输舱。
             // 货物已直接进入全局存储，天降物只是视觉效果：createWorldObject = false，
@@ -174,6 +177,41 @@ namespace WulaFallenEmpire
                 tr.CleanUpLoadingVars(map);
                 tr.parent.Destroy();
                 GenSpawn.Spawn(flyShipLeaving, position, map);
+            }
+        }
+
+        private void SendTransferAutoCommentary(Map map, List<CompTransporter> group,
+            int inputItemsCount, int outputItemsCount, string inputList, string outputList)
+        {
+            try
+            {
+                StringBuilder details = new StringBuilder();
+                details.AppendLine("乌拉帝国物资运输舱已将货物发送到舰队/全局仓储。");
+                details.AppendLine($"地图: {map?.Parent?.LabelCap ?? map?.ToString() ?? "Unknown"}");
+                details.AppendLine($"运输舱数量: {Mathf.Max(1, group?.Count ?? 1)}");
+                details.AppendLine($"总发送数量: {inputItemsCount + outputItemsCount}");
+
+                if (inputItemsCount > 0)
+                {
+                    details.AppendLine($"输入仓物资 ({inputItemsCount}): {inputList}");
+                }
+                if (outputItemsCount > 0)
+                {
+                    details.AppendLine($"输出仓/装备武器 ({outputItemsCount}): {outputList}");
+                }
+                if (inputItemsCount <= 0 && outputItemsCount <= 0)
+                {
+                    details.AppendLine("没有物资成功转移。");
+                }
+
+                AIAutoCommentary.ProcessEvent(
+                    "乌拉帝国物资运输舱发送到舰队",
+                    "WULA_TransportPodsSentToFleet",
+                    details.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                WulaLog.Debug($"[AI Commentary] Failed to send transport pod transfer event: {ex}");
             }
         }
 
