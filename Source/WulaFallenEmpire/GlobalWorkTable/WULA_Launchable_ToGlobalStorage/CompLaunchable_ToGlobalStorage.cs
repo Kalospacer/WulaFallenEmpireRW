@@ -56,17 +56,40 @@ namespace WulaFallenEmpire
                 return;
             }
 
-            CompTransporter transporter = this.Transporter;
-            if (transporter == null || !transporter.innerContainer.Any)
+            Map map = this.parent.Map;
+
+            // 发射是整组行为：一次装载指令编成一组的运输舱（groupID 相同）会一起起飞。
+            // 必须把整组的货物都转入全局存储，否则组内其他舱的货物会被发射到别处而"丢失"。
+            List<CompTransporter> group = this.TransportersInGroup;
+            if (group == null || group.Count == 0)
+            {
+                group = new List<CompTransporter> { this.Transporter };
+            }
+
+            bool anyItems = false;
+            foreach (CompTransporter tr in group)
+            {
+                if (tr != null && tr.innerContainer.Any)
+                {
+                    anyItems = true;
+                    break;
+                }
+            }
+            if (!anyItems)
             {
                 Messages.Message("WULA_NoItemsToSendToGlobalStorage".Translate(), this.parent, MessageTypeDefOf.RejectInput);
                 return;
             }
 
-            // 检查垃圾屏蔽 - 如果启用了垃圾屏蔽并且有禁止物品，取消发射
+            // 检查垃圾屏蔽 - 如果启用了垃圾屏蔽并且组内有禁止物品，取消发射
             if (GarbageShieldComp != null && GarbageShieldComp.GarbageShieldEnabled)
             {
-                List<Thing> forbiddenItems = GarbageShieldComp.GetForbiddenItems(transporter.innerContainer);
+                List<Thing> forbiddenItems = new List<Thing>();
+                foreach (CompTransporter tr in group)
+                {
+                    if (tr == null) continue;
+                    forbiddenItems.AddRange(GarbageShieldComp.GetForbiddenItems(tr.innerContainer));
+                }
                 if (forbiddenItems.Count > 0)
                 {
                     // 显示取消发射消息
@@ -76,13 +99,13 @@ namespace WulaFallenEmpire
                         if (forbiddenList.Length > 0) forbiddenList.Append(", ");
                         forbiddenList.Append($"{item.LabelCap} x{item.stackCount}");
                     }
-                    
-                    Messages.Message("WULA_LaunchCancelledDueToForbiddenItems".Translate(forbiddenList.ToString()), 
+
+                    Messages.Message("WULA_LaunchCancelledDueToForbiddenItems".Translate(forbiddenList.ToString()),
                         this.parent, MessageTypeDefOf.RejectInput);
-                    
+
                     // 触发垃圾屏蔽UI事件
                     GarbageShieldComp.ProcessGarbageShieldTrigger(forbiddenItems);
-                    
+
                     return; // 取消发射
                 }
             }
@@ -93,37 +116,70 @@ namespace WulaFallenEmpire
             StringBuilder inputItemsList = new StringBuilder();
             StringBuilder outputItemsList = new StringBuilder();
 
-            // 1. 将物品分类转移到相应的存储
-            foreach (Thing item in transporter.innerContainer.ToList())
+            // 1. 将整组的物品分类转移到相应的存储（按实际转移数量计数）
+            foreach (CompTransporter tr in group)
             {
-                if (ShouldGoToOutputStorage(item))
+                if (tr == null) continue;
+
+                foreach (Thing item in tr.innerContainer.ToList())
                 {
-                    int moved = item.stackCount;
-                    transporter.innerContainer.TryTransferToContainer(item, globalStorage.outputContainer, moved, true);
-                    outputItemsCount += moved;
-                    if (outputItemsList.Length > 0) outputItemsList.Append(", ");
-                    outputItemsList.Append($"{item.LabelCap} x{moved}");
+                    bool toOutput = ShouldGoToOutputStorage(item);
+                    ThingOwner destination = toOutput ? globalStorage.outputContainer : globalStorage.inputContainer;
+
+                    string label = item.LabelCap; // 转移合并时源物品可能被销毁，先取标签
+                    int moved = tr.innerContainer.TryTransferToContainer(item, destination, item.stackCount, true);
+                    if (moved <= 0)
+                    {
+                        WulaLog.Debug($"Failed to transfer {label} to global storage; it will be dropped on the ground.");
+                        continue;
+                    }
+
+                    if (toOutput)
+                    {
+                        outputItemsCount += moved;
+                        if (outputItemsList.Length > 0) outputItemsList.Append(", ");
+                        outputItemsList.Append($"{label} x{moved}");
+                    }
+                    else
+                    {
+                        inputItemsCount += moved;
+                        if (inputItemsList.Length > 0) inputItemsList.Append(", ");
+                        inputItemsList.Append($"{label} x{moved}");
+                    }
                 }
-                else
+
+                // 2. 转移失败的残留物品掉回地面，绝不静默销毁
+                if (tr.innerContainer.Any)
                 {
-                    int moved = item.stackCount;
-                    transporter.innerContainer.TryTransferToContainer(item, globalStorage.inputContainer, moved, true);
-                    inputItemsCount += moved;
-                    if (inputItemsList.Length > 0) inputItemsList.Append(", ");
-                    inputItemsList.Append($"{item.LabelCap} x{moved}");
+                    tr.innerContainer.TryDropAll(tr.parent.Position, map, ThingPlaceMode.Near);
                 }
             }
 
-            // 2. 显示发送结果消息
-            string message = BuildTransferMessage(inputItemsCount, outputItemsCount, 
+            // 3. 显示发送结果消息
+            string message = BuildTransferMessage(inputItemsCount, outputItemsCount,
                 inputItemsList.ToString(), outputItemsList.ToString());
             Messages.Message(message, this.parent, MessageTypeDefOf.PositiveEvent);
 
-            // 3. 清空容器，防止物品掉落
-            transporter.innerContainer.ClearAndDestroyContents();
+            // 4. 播放发射动画并销毁整组运输舱。
+            // 货物已直接进入全局存储，天降物只是视觉效果：createWorldObject = false，
+            // 否则空舱会作为 TravellingTransporters 世界物体飞回本地图并坠落在随机位置。
+            this.Transporter.TryRemoveLord(map);
+            foreach (CompTransporter tr in group)
+            {
+                if (tr == null || tr.parent == null || !tr.parent.Spawned) continue;
 
-            // 4. 调用基类的发射方法，让它处理动画和销毁
-            base.TryLaunch(this.parent.Map.Tile, null);
+                ActiveTransporter activeTransporter = (ActiveTransporter)ThingMaker.MakeThing(Props.activeTransporterDef ?? ThingDefOf.ActiveDropPod);
+                activeTransporter.Contents = new ActiveTransporterInfo();
+                activeTransporter.Rotation = tr.parent.Rotation;
+
+                FlyShipLeaving flyShipLeaving = (FlyShipLeaving)SkyfallerMaker.MakeSkyfaller(Props.skyfallerLeaving ?? ThingDefOf.DropPodLeaving, activeTransporter);
+                flyShipLeaving.createWorldObject = false;
+
+                IntVec3 position = tr.parent.Position;
+                tr.CleanUpLoadingVars(map);
+                tr.parent.Destroy();
+                GenSpawn.Spawn(flyShipLeaving, position, map);
+            }
         }
 
         // 判断物品是否应该发送到输出存储器
