@@ -25,10 +25,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             {
                 return Error(call, "Error: Empty tool call.");
             }
-            if (string.Equals(call.Name, "invalid_xml_tool_call", StringComparison.OrdinalIgnoreCase))
-            {
-                return Error(call, call.Arguments?["error"]?.ToString() ?? "Error: Invalid XML tool call.");
-            }
             var tool = _registry.Get(call.Name);
             if (tool == null)
             {

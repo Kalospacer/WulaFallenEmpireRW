@@ -229,7 +229,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 provider,
                 registry,
                 BuildAgentSystemInstruction(),
-                AIToolProtocolMode.NativeToolCalling,
                 settings.enableStreaming,
                 1,
                 GetAiRequestTimeoutSeconds(),
@@ -356,7 +355,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private static int GetMaxHistoryTokens()
         {
             int configured = WulaFallenEmpireMod.settings?.maxContextTokens ?? DefaultMaxHistoryTokens;
-            return Math.Max(1000, Math.Min(200000, configured));
+            return Math.Max(1000, Math.Min(1000000, configured));
         }
         private void LoadHistoryForActiveEvent()
         {
@@ -662,9 +661,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 return "";
             }
-            string cleaned = message;
-            cleaned = Regex.Replace(cleaned, @"<tool_call>.*?</tool_call>", "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            return cleaned.Trim();
+            return message.Trim();
         }
         private async Task UpdateMemoriesFromConversationAsync(AIMemoryManager memoryManager, string existingMemoriesJson, string conversation)
         {
@@ -741,8 +738,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 Stream = false,
                 TimeoutSeconds = GetAiRequestTimeoutSeconds(),
                 LogRawTraffic = WulaFallenEmpireMod.settings?.logRawAiTraffic ?? false,
-                ToolChoice = AIToolChoice.None,
-                ToolProtocolMode = AIToolProtocolMode.NativeToolCalling
+                ToolChoice = AIToolChoice.None
             }, cancellationToken);
             return response?.Content?.Trim();
         }
@@ -1107,7 +1103,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     provider,
                     registry,
                     BuildAgentSystemInstruction(),
-                    AIProviderFactory.ParseToolProtocolMode(settings.toolProtocolMode),
                     settings.enableStreaming,
                     Math.Max(1, settings.maxToolSteps),
                     GetAiRequestTimeoutSeconds(),

@@ -143,8 +143,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (!string.IsNullOrWhiteSpace(systemPrompt)) payload["system"] = systemPrompt.Trim();
             if (request.Temperature.HasValue) payload["temperature"] = request.Temperature.Value;
 
-            bool hasNativeTools = request.ToolProtocolMode == AIToolProtocolMode.NativeToolCalling &&
-                request.ToolChoice != AIToolChoice.None &&
+            bool hasNativeTools = request.ToolChoice != AIToolChoice.None &&
                 request.Tools != null &&
                 request.Tools.Count > 0;
             if (hasNativeTools)

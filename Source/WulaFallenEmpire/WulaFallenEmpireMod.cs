@@ -47,11 +47,6 @@ namespace WulaFallenEmpire
             if (listingStandard.RadioButton("Anthropic /v1/messages", settings.aiProviderType == "AnthropicMessages")) settings.aiProviderType = "AnthropicMessages";
             if (listingStandard.RadioButton("Google Gemini generateContent", settings.aiProviderType == "Gemini")) settings.aiProviderType = "Gemini";
             listingStandard.CheckboxLabeled("启用 Streaming", ref settings.enableStreaming, "开启后 provider 使用流式响应；工具调用阶段会先缓冲，最终回复可流式显示。");
-            listingStandard.Label("<color=cyan>Tool Protocol</color>");
-            if (listingStandard.RadioButton("Native tool calling", settings.toolProtocolMode == "NativeToolCalling")) settings.toolProtocolMode = "NativeToolCalling";
-            if (listingStandard.RadioButton("XML block fallback", settings.toolProtocolMode == "XmlBlockFallback")) settings.toolProtocolMode = "XmlBlockFallback";
-            listingStandard.GapLine();
-
             // 根据当前选中的协议，动态绑定输入字段
             if (settings.aiProviderType == "Gemini")
             {
@@ -115,7 +110,7 @@ namespace WulaFallenEmpire
             listingStandard.Label("Wula_AISettings_MaxContextTokens".Translate());
             listingStandard.Label("Wula_AISettings_MaxContextTokensDesc".Translate());
             Rect tokensRect = listingStandard.GetRect(Text.LineHeight);
-            Widgets.TextFieldNumeric(tokensRect, ref settings.maxContextTokens, ref _maxContextTokensBuffer, 1000, 200000);
+            Widgets.TextFieldNumeric(tokensRect, ref settings.maxContextTokens, ref _maxContextTokensBuffer, 1000, 1000000);
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("Wula_EnableDebugLogs".Translate(), ref settings.enableDebugLogs, "Wula_EnableDebugLogsDesc".Translate());

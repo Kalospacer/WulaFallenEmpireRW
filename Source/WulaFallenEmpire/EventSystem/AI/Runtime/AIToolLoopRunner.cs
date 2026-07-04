@@ -13,7 +13,6 @@ namespace WulaFallenEmpire.EventSystem.AI
         private readonly AIToolRegistry _registry;
         private readonly AIToolRunner _toolRunner;
         private readonly string _baseSystemPrompt;
-        private readonly AIToolProtocolMode _toolProtocolMode;
         private readonly bool _enableStreaming;
         private readonly int _maxToolSteps;
         private readonly int _requestTimeoutSeconds;
@@ -28,7 +27,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             IAIProvider provider,
             AIToolRegistry registry,
             string baseSystemPrompt,
-            AIToolProtocolMode toolProtocolMode,
             bool enableStreaming,
             int maxToolSteps,
             int requestTimeoutSeconds,
@@ -43,7 +41,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             _registry = registry;
             _toolRunner = new AIToolRunner(registry);
             _baseSystemPrompt = baseSystemPrompt ?? string.Empty;
-            _toolProtocolMode = toolProtocolMode;
             _enableStreaming = enableStreaming;
             _maxToolSteps = Math.Max(1, maxToolSteps);
             _requestTimeoutSeconds = Math.Max(2, Math.Min(600, requestTimeoutSeconds));
@@ -67,7 +64,6 @@ namespace WulaFallenEmpire.EventSystem.AI
                 _onTrace?.Invoke($"Tool loop step {step}: requesting model.");
                 var request = BuildRequest(messages, toolDefinitions, maxTokens, temperature, toolsEnabled: true);
                 var response = await QueryAsync(request, allowLiveStreaming: false, cancellationToken);
-                ApplyXmlFallback(response);
 
                 if (!response.HasToolCalls)
                 {
@@ -76,7 +72,10 @@ namespace WulaFallenEmpire.EventSystem.AI
                     return response;
                 }
 
-                messages.Add(AIMessage.AssistantToolCalls(response.ToolCalls, string.IsNullOrWhiteSpace(response.Content) ? null : response.Content));
+                messages.Add(AIMessage.AssistantToolCalls(
+                    response.ToolCalls,
+                    string.IsNullOrWhiteSpace(response.Content) ? null : response.Content,
+                    string.IsNullOrWhiteSpace(response.ReasoningContent) ? null : response.ReasoningContent));
                 _onToolCalls?.Invoke(response.ToolCalls);
                 _onTrace?.Invoke("Tool calls: " + string.Join(", ", response.ToolCalls.Select(c => c.Name)));
                 foreach (var call in response.ToolCalls)
@@ -108,13 +107,8 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private AIProviderRequest BuildRequest(List<AIMessage> messages, List<AIToolDefinition> tools, int? maxTokens, float? temperature, bool toolsEnabled)
         {
-            bool useXml = toolsEnabled && _toolProtocolMode == AIToolProtocolMode.XmlBlockFallback;
             string systemPrompt = _baseSystemPrompt;
-            if (useXml)
-            {
-                systemPrompt += "\n\n" + _registry.BuildXmlToolDescription();
-            }
-            else if (toolsEnabled)
+            if (toolsEnabled)
             {
                 systemPrompt += "\n\nYou may use the provided tools when you need game state or need to perform an in-game action. Do not invent tool results.";
             }
@@ -128,14 +122,13 @@ namespace WulaFallenEmpire.EventSystem.AI
                 RequestId = "wulaai_" + Guid.NewGuid().ToString("N"),
                 SystemPrompt = systemPrompt,
                 Messages = messages.ToList(),
-                Tools = useXml ? new List<AIToolDefinition>() : (tools ?? new List<AIToolDefinition>()),
+                Tools = toolsEnabled ? (tools ?? new List<AIToolDefinition>()) : new List<AIToolDefinition>(),
                 MaxTokens = maxTokens,
                 Temperature = temperature,
                 Stream = _enableStreaming,
                 TimeoutSeconds = _requestTimeoutSeconds,
                 LogRawTraffic = _logRawTraffic,
-                ToolChoice = toolsEnabled && !useXml ? AIToolChoice.Auto : AIToolChoice.None,
-                ToolProtocolMode = useXml ? AIToolProtocolMode.XmlBlockFallback : AIToolProtocolMode.NativeToolCalling
+                ToolChoice = toolsEnabled ? AIToolChoice.Auto : AIToolChoice.None
             };
         }
 
@@ -185,17 +178,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             var finalResponse = await QueryAsync(finalRequest, allowLiveStreaming: true, cancellationToken);
             FinalizeVisibleResponse(messages, finalResponse);
             return finalResponse;
-        }
-
-        private void ApplyXmlFallback(AIProviderResponse response)
-        {
-            if (_toolProtocolMode != AIToolProtocolMode.XmlBlockFallback || response == null) return;
-            var parsed = XmlToolCallParser.Parse(response.Content);
-            if (parsed.Count > 0)
-            {
-                response.ToolCalls = parsed;
-                response.Content = null;
-            }
         }
 
         private void FinalizeVisibleResponse(List<AIMessage> messages, AIProviderResponse response)

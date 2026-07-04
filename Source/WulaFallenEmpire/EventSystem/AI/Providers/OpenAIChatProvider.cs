@@ -135,15 +135,15 @@ namespace WulaFallenEmpire.EventSystem.AI
             {
                 messages.Add(new JObject { ["role"] = "system", ["content"] = request.SystemPrompt });
             }
+            bool includeReasoningContent = ShouldIncludeReasoningContent(request);
             foreach (var message in request.Messages ?? new List<AIMessage>())
             {
-                var converted = ConvertMessage(message);
+                var converted = ConvertMessage(message, includeReasoningContent);
                 if (converted != null) messages.Add(converted);
             }
             payload["messages"] = messages;
 
-            bool hasNativeTools = request.ToolProtocolMode == AIToolProtocolMode.NativeToolCalling &&
-                request.ToolChoice != AIToolChoice.None &&
+            bool hasNativeTools = request.ToolChoice != AIToolChoice.None &&
                 request.Tools != null &&
                 request.Tools.Count > 0;
             if (hasNativeTools)
@@ -182,7 +182,24 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
         }
 
-        private static JObject ConvertMessage(AIMessage message)
+        private bool ShouldIncludeReasoningContent(AIProviderRequest request)
+        {
+            string model = string.IsNullOrWhiteSpace(request?.Model) ? _model : request.Model;
+            model = (model ?? string.Empty).Trim().ToLowerInvariant();
+            if (model == "deepseek-v4-pro" || model == "deepseek-v4-flash") return true;
+            if (!model.StartsWith("deepseek-v4", StringComparison.OrdinalIgnoreCase)) return false;
+            try
+            {
+                var uri = new Uri(_baseUrl);
+                return string.Equals(uri.Host, "api.deepseek.com", StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return _baseUrl?.IndexOf("api.deepseek.com", StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+        }
+
+        private static JObject ConvertMessage(AIMessage message, bool includeReasoningContent)
         {
             if (message == null || string.IsNullOrWhiteSpace(message.Role)) return null;
             string role = message.Role.ToLowerInvariant();
@@ -198,6 +215,10 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (role == "assistant" && message.ToolCalls != null && message.ToolCalls.Count > 0)
             {
                 obj["content"] = string.IsNullOrWhiteSpace(message.Content) ? JValue.CreateNull() : message.Content;
+                if (includeReasoningContent)
+                {
+                    obj["reasoning_content"] = message.ReasoningContent ?? string.Empty;
+                }
                 var calls = new JArray();
                 foreach (var call in message.ToolCalls)
                 {
@@ -245,6 +266,10 @@ namespace WulaFallenEmpire.EventSystem.AI
             {
                 obj["content"] = message.Content ?? string.Empty;
             }
+            if (role == "assistant" && includeReasoningContent)
+            {
+                obj["reasoning_content"] = message.ReasoningContent ?? string.Empty;
+            }
             return obj;
         }
 
@@ -256,7 +281,8 @@ namespace WulaFallenEmpire.EventSystem.AI
             var result = new AIProviderResponse { RawJson = json };
             if (message == null) return result;
             result.Content = message.Value<string>("content");
-            result.Reasoning = message.Value<string>("reasoning_content") ?? message.Value<string>("reasoning");
+            result.ReasoningContent = message.Value<string>("reasoning_content");
+            result.Reasoning = result.ReasoningContent ?? message.Value<string>("reasoning");
             result.ToolCalls = ParseToolCalls(message["tool_calls"] as JArray);
             result.Usage = root["usage"] as JObject;
             return result;
@@ -351,6 +377,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 {
                     Content = Content.ToString(),
                     Reasoning = Reasoning.ToString(),
+                    ReasoningContent = Reasoning.ToString(),
                     RawJson = RawChunks.ToString(),
                     Usage = Usage,
                     ToolCalls = new List<AIToolCall>()

@@ -237,7 +237,6 @@
     <Compile Include="EventSystem\AI\Runtime\AIToolLoopRunner.cs" />
     <Compile Include="EventSystem\AI\Runtime\AIToolRegistry.cs" />
     <Compile Include="EventSystem\AI\Runtime\AIToolRunner.cs" />
-    <Compile Include="EventSystem\AI\Runtime\XmlToolCallParser.cs" />
     <Compile Include="EventSystem\AI\ScreenCaptureUtility.cs" />
     <Compile Include="EventSystem\AI\Tools\AITool.cs" />
     <Compile Include="EventSystem\AI\Tools\BombardmentUtility.cs" />

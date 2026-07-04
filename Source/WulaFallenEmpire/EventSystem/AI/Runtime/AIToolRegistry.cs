@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WulaFallenEmpire.EventSystem.AI.Tools;
 using WulaFallenEmpire.EventSystem.AI.Utils;
@@ -39,25 +38,6 @@ namespace WulaFallenEmpire.EventSystem.AI
                 });
             }
             return result;
-        }
-
-        public string BuildXmlToolDescription()
-        {
-            var lines = new List<string>
-            {
-                "# TOOLS",
-                "You may call tools by outputting one or more XML blocks only:",
-                "<tool_call>{\"name\":\"tool_name\",\"arguments\":{...}}</tool_call>",
-                "If no tool is needed, reply naturally. Do not use JSON tool_calls."
-            };
-            foreach (var def in GetDefinitions())
-            {
-                lines.Add("");
-                lines.Add($"## {def.Name}");
-                lines.Add(def.Description ?? "");
-                lines.Add(def.Parameters.ToString(Formatting.None));
-            }
-            return string.Join("\n", lines);
         }
 
         public JObject GetCanonicalSchema(AITool tool)

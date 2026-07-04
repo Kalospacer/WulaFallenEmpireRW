@@ -145,8 +145,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             payload["contents"] = contents;
 
-            bool hasNativeTools = request.ToolProtocolMode == AIToolProtocolMode.NativeToolCalling &&
-                request.ToolChoice != AIToolChoice.None &&
+            bool hasNativeTools = request.ToolChoice != AIToolChoice.None &&
                 request.Tools != null &&
                 request.Tools.Count > 0;
             if (hasNativeTools)

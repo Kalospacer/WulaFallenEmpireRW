@@ -25,11 +25,5 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (Enum.TryParse(value, true, out AIProviderType parsed)) return parsed;
             return AIProviderType.OpenAIChat;
         }
-
-        public static AIToolProtocolMode ParseToolProtocolMode(string value)
-        {
-            if (Enum.TryParse(value, true, out AIToolProtocolMode parsed)) return parsed;
-            return AIToolProtocolMode.NativeToolCalling;
-        }
     }
 }

@@ -11,12 +11,6 @@ namespace WulaFallenEmpire.EventSystem.AI
         Gemini
     }
 
-    public enum AIToolProtocolMode
-    {
-        NativeToolCalling,
-        XmlBlockFallback
-    }
-
     public enum AIToolChoice
     {
         Auto,
@@ -55,6 +49,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         public List<AIToolCall> ToolCalls;
         public string ToolCallId;
         public string ToolName;
+        public string ReasoningContent;
 
         public static AIMessage System(string content)
         {
@@ -76,13 +71,14 @@ namespace WulaFallenEmpire.EventSystem.AI
             return new AIMessage { Role = "assistant", Content = content ?? string.Empty };
         }
 
-        public static AIMessage AssistantToolCalls(List<AIToolCall> toolCalls, string content = null)
+        public static AIMessage AssistantToolCalls(List<AIToolCall> toolCalls, string content = null, string reasoningContent = null)
         {
             return new AIMessage
             {
                 Role = "assistant",
                 Content = content,
-                ToolCalls = toolCalls ?? new List<AIToolCall>()
+                ToolCalls = toolCalls ?? new List<AIToolCall>(),
+                ReasoningContent = reasoningContent
             };
         }
 
@@ -145,13 +141,13 @@ namespace WulaFallenEmpire.EventSystem.AI
         public int TimeoutSeconds = 120;
         public bool LogRawTraffic;
         public AIToolChoice ToolChoice = AIToolChoice.Auto;
-        public AIToolProtocolMode ToolProtocolMode = AIToolProtocolMode.NativeToolCalling;
     }
 
     public sealed class AIProviderResponse
     {
         public string Content;
         public string Reasoning;
+        public string ReasoningContent;
         public List<AIToolCall> ToolCalls = new List<AIToolCall>();
         public JObject Usage;
         public string RawJson;

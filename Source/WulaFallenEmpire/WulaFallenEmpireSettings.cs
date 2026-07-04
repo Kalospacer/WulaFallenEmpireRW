@@ -5,7 +5,6 @@ namespace WulaFallenEmpire
     public class WulaFallenEmpireSettings : ModSettings
     {
         public string aiProviderType = "OpenAIChat";
-        public string toolProtocolMode = "NativeToolCalling";
         public bool enableStreaming = true;
         public int maxToolSteps = 8;
         public int aiRequestTimeoutSeconds = 120;
@@ -41,7 +40,6 @@ namespace WulaFallenEmpire
         public override void ExposeData()
         {
             Scribe_Values.Look(ref aiProviderType, "aiProviderType", "OpenAIChat");
-            Scribe_Values.Look(ref toolProtocolMode, "toolProtocolMode", "NativeToolCalling");
             Scribe_Values.Look(ref enableStreaming, "enableStreaming", true);
             Scribe_Values.Look(ref maxToolSteps, "maxToolSteps", 8);
             Scribe_Values.Look(ref aiRequestTimeoutSeconds, "aiRequestTimeoutSeconds", 120);

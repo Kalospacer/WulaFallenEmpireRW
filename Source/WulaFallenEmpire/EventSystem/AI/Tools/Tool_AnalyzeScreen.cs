@@ -90,7 +90,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     MaxTokens = 512,
                     Temperature = 0.2f,
                     ToolChoice = AIToolChoice.None,
-                    ToolProtocolMode = AIToolProtocolMode.NativeToolCalling,
                     Stream = false,
                     TimeoutSeconds = Math.Max(2, Math.Min(600, settings.aiRequestTimeoutSeconds)),
                     LogRawTraffic = settings.logRawAiTraffic
