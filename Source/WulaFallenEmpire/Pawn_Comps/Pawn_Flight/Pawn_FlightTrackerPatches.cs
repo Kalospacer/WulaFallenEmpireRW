@@ -11,7 +11,7 @@ namespace WulaFallenEmpire
         // Patch 1: Override fly animation selection for pawns with CompPawnFlight.
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Pawn_FlightTracker), "GetBestFlyAnimation")]
-        public static bool GetBestFlyAnimation_Prefix(Pawn pawn, Rot4? rotationOverride, ref AnimationDef __result)
+        public static bool GetBestFlyAnimation_Prefix(Pawn pawn, Rot4? facingOverride, ref AnimationDef __result)
         {
             var flightComp = pawn?.TryGetComp<CompPawnFlight>();
             if (flightComp == null)
@@ -21,7 +21,7 @@ namespace WulaFallenEmpire
 
             var compProps = flightComp.Props;
             AnimationDef selectedAnim = null;
-            Rot4 rotation = rotationOverride ?? pawn.Rotation;
+            Rot4 rotation = facingOverride ?? pawn.Rotation;
 
             if (pawn.gender == Gender.Female && compProps.flyingAnimationNorthFemale != null)
             {

@@ -355,4 +355,20 @@
       </li>
     </subSounds>
   </SoundDef>
+  <SoundDef>
+    <defName>Pawn_Wula_Mech_Mobile_Factory_Call</defName>
+    <context>MapOnly</context>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Folder">
+            <clipFolderPath>Wula/Wula_Mech_Mobile_Factory/Call</clipFolderPath>
+          </li>
+        </grains>
+        <sustainLoop>false</sustainLoop>
+        <volumeRange>30</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
 </Defs>

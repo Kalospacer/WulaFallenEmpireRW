@@ -18,7 +18,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -224,7 +223,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -423,7 +421,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -538,7 +535,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -582,7 +578,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -623,7 +618,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -681,7 +675,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -787,7 +780,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -892,7 +884,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -1033,7 +1024,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>
@@ -1219,7 +1209,6 @@
       <shadow>Wula/Weapon/WULA_Weapon_Empty</shadow>
       <shadowSize>(0, 0)</shadowSize>
       <motesPerCell>0</motesPerCell>
-      <floatingSound>FlyOver/Flying</floatingSound>
       <!-- <impactSound>FlyOver/Landing</impactSound> -->
     </skyfaller>
     <modExtensions>

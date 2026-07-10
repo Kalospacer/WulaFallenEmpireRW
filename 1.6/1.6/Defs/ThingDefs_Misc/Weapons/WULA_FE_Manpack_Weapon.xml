@@ -577,7 +577,6 @@
         <canKnockbackIntoWalls>false</canKnockbackIntoWalls>
         <knockbackFlyerDef>PawnFlyer</knockbackFlyerDef>
         <!-- <flightEffecterDef>JumpFlight</flightEffecterDef> -->
-        <landingSound>PawnFlyer_Land</landingSound>
         <!-- <impactEffecter>DamageEffect_Bullet</impactEffecter> -->
         <!-- <impactSound>WULA_MW_Breaker_Bar_Hit</impactSound> -->
       </li>
