@@ -213,6 +213,15 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 Find.WindowStack?.Add(new Dialog_ExtraPersonalityPrompt());
             }
 
+            bool aiEnabled = _core?.IsAIEnabled == true;
+            Rect aiPowerBtnRect = new Rect(0f, 60f, 35f, 25f);
+            if (DrawHeaderButton(aiPowerBtnRect, aiEnabled ? "ON" : "OFF"))
+            {
+                _core?.SetAIEnabled(!aiEnabled);
+                aiEnabled = _core?.IsAIEnabled == true;
+            }
+            TooltipHandler.TipRegion(aiPowerBtnRect, "Wula_AISettings_SaveAIEnabledDesc".Translate());
+
             float margin = 15f;
             Rect paddedRect = inRect.ContractedBy(margin);
             float curY = paddedRect.y;
@@ -283,20 +292,20 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Text.Anchor = TextAnchor.MiddleCenter;
             Rect sendButtonRect = new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight);
             
-            DrawCustomButton(sendButtonRect, "Wula_AI_Send".Translate(), isEnabled: true);
+            DrawCustomButton(sendButtonRect, "Wula_AI_Send".Translate(), isEnabled: aiEnabled);
 
             GUI.color = originalColor;
             Text.Anchor = originalAnchor;
             Text.Font = originalFont;
 
-            bool sendButtonPressed = Widgets.ButtonInvisible(sendButtonRect);
+            bool sendButtonPressed = aiEnabled && Widgets.ButtonInvisible(sendButtonRect);
             
             // Input Logic
             if (Event.current.type == EventType.KeyDown)
             {
                 if ((Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter) && !string.IsNullOrEmpty(_inputText))
                 {
-                    if (!_isThinking)
+                    if (aiEnabled && !_isThinking)
                     {
                         SelectOption(_inputText);
                         _inputText = "";

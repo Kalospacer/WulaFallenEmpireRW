@@ -163,6 +163,10 @@
   <Wula_EnableDebugLogs>启用调试日志</Wula_EnableDebugLogs>
   <Wula_EnableDebugLogsDesc>启用详细的调试日志记录（独立于开发者模式）</Wula_EnableDebugLogsDesc>
   <Wula_AISettings_AutoCommentary>启用 AI 自动评论</Wula_AISettings_AutoCommentary>
+  <Wula_AISettings_SaveAIEnabled>为当前存档启用 Wula AI</Wula_AISettings_SaveAIEnabled>
+  <Wula_AISettings_SaveAIEnabledDesc>当前存档内所有 Wula AI API 功能的总开关。新存档默认关闭。关闭后将阻止对话、事件评论、记忆摘要以及其他所有 AI 请求。</Wula_AISettings_SaveAIEnabledDesc>
+  <Wula_AISettings_SaveAIUnavailable>加载或创建存档后才能设置存档级 AI 总开关。</Wula_AISettings_SaveAIUnavailable>
+  <Wula_AI_SaveDisabled>AI 已关闭</Wula_AI_SaveDisabled>
   <Wula_AISettings_AutoCommentaryDesc>开启后，P.I.A 会对游戏事件信件（袭击、死亡、贸易等）发表简短评论或建议。</Wula_AISettings_AutoCommentaryDesc>
   <Wula_AISettings_CommentaryChance>评论概率</Wula_AISettings_CommentaryChance>
   <Wula_AISettings_CommentaryChanceDesc>AI 对中性或正面信件发表评论的概率。</Wula_AISettings_CommentaryChanceDesc>

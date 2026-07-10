@@ -41,6 +41,26 @@ namespace WulaFallenEmpire
             listingStandard.Begin(viewRect);
             
             listingStandard.Label("Wula_AISettings_Title".Translate());
+
+            var aiCore = Find.World?.GetComponent<EventSystem.AI.AIIntelligenceCore>();
+            if (aiCore != null)
+            {
+                bool saveAIEnabled = aiCore.IsAIEnabled;
+                listingStandard.CheckboxLabeled(
+                    "Wula_AISettings_SaveAIEnabled".Translate(),
+                    ref saveAIEnabled,
+                    "Wula_AISettings_SaveAIEnabledDesc".Translate());
+                if (saveAIEnabled != aiCore.IsAIEnabled)
+                {
+                    aiCore.SetAIEnabled(saveAIEnabled);
+                }
+            }
+            else
+            {
+                listingStandard.Label("Wula_AISettings_SaveAIUnavailable".Translate());
+            }
+
+            listingStandard.GapLine();
             
             listingStandard.Label("<color=cyan>AI Provider</color>");
             if (listingStandard.RadioButton("OpenAI /chat/completions", settings.aiProviderType == "OpenAIChat")) settings.aiProviderType = "OpenAIChat";

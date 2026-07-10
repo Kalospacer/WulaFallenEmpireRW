@@ -14,6 +14,11 @@ namespace WulaFallenEmpire.EventSystem.AI.LetterInterceptor
         {
             // Only process if not delayed (delayTicks == 0 or already arrived)
             if (delayTicks > 0) return;
+
+            if (!AIIntelligenceCore.IsEnabledForCurrentGame())
+            {
+                return;
+            }
             
             var settings = WulaFallenEmpireMod.settings;
             if (settings == null || !settings.enableAIAutoCommentary)

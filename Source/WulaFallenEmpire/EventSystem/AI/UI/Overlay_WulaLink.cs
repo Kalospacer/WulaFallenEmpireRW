@@ -258,16 +258,17 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             float btnWidth = 30f;
 
             // Status Info - with null safety
-            bool isThinking = _core?.IsThinking ?? false;
-            string status = isThinking ? "Thinking..." : "Standby";
-            Color statusColor = isThinking ? Color.yellow : Color.green;
+            bool aiEnabled = _core?.IsAIEnabled == true;
+            bool isThinking = aiEnabled && (_core?.IsThinking ?? false);
+            string status = !aiEnabled ? "Wula_AI_SaveDisabled".Translate() : isThinking ? "Thinking..." : "Standby";
+            Color statusColor = !aiEnabled ? Color.gray : isThinking ? Color.yellow : Color.green;
 
             // 绘制状态文字
             Rect textRect = new Rect(rightContentX, 0, rect.width - rightContentX - btnWidth - 5f, rect.height);
             Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
             GUI.color = statusColor;
-            Widgets.Label(textRect, isThinking ? BuildThinkingStatus() : "Standby");
+            Widgets.Label(textRect, isThinking ? BuildThinkingStatus() : status);
             GUI.color = Color.white;
 
             // 右侧：小巧的展开按钮
@@ -332,9 +333,17 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             titleRect.x += 10f;
             Widgets.Label(titleRect, _def.characterName ?? "MomoTalk");
             
-            // Header Icons (Minimize/Close) - 自定义样式
+            // Header Icons (AI power/Minimize/Close)
             Rect closeRect = new Rect(rect.width - 35f, 10f, 25f, 25f);
             Rect minRect = new Rect(rect.width - 65f, 10f, 25f, 25f);
+            Rect powerRect = new Rect(rect.width - 105f, 10f, 35f, 25f);
+
+            bool aiEnabled = _core?.IsAIEnabled == true;
+            if (DrawHeaderButton(powerRect, aiEnabled ? "ON" : "OFF"))
+            {
+                _core?.SetAIEnabled(!aiEnabled);
+            }
+            TooltipHandler.TipRegion(powerRect, "Wula_AISettings_SaveAIEnabledDesc".Translate());
             
             // 最小化按钮
             if (DrawHeaderButton(minRect, "-"))
@@ -913,9 +922,10 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             }
 
             // Send Button (Simulate Enter key or Click)
-            bool enterPressed = (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter) && GUI.GetNameOfFocusedControl() == "WulaInput");
+            bool aiEnabled = _core?.IsAIEnabled == true;
+            bool enterPressed = aiEnabled && (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter) && GUI.GetNameOfFocusedControl() == "WulaInput");
             
-            bool sendClicked = DrawCustomButton(btnRect, ">", !string.IsNullOrWhiteSpace(_inputText));
+            bool sendClicked = DrawCustomButton(btnRect, ">", aiEnabled && !string.IsNullOrWhiteSpace(_inputText));
             if (sendClicked || enterPressed)
             {
                 if (!string.IsNullOrWhiteSpace(_inputText) && _core != null)

@@ -46,6 +46,12 @@ namespace WulaFallenEmpire.EventSystem.AI
 
         private static void TrySendPrompt(string prompt, string sourceLabel)
         {
+            if (!AIIntelligenceCore.IsEnabledForCurrentGame())
+            {
+                WulaLog.Debug("[AI Commentary] AI is disabled for this save, skipping.");
+                return;
+            }
+
             var settings = WulaFallenEmpireMod.settings;
             if (settings == null)
             {

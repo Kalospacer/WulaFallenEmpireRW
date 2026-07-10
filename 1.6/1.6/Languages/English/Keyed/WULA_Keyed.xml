@@ -163,6 +163,10 @@
   <Wula_EnableDebugLogs>Enable Debug Logs</Wula_EnableDebugLogs>
   <Wula_EnableDebugLogsDesc>Enable detailed debug logging (independent of DevMode)</Wula_EnableDebugLogsDesc>
   <Wula_AISettings_AutoCommentary>Enable AI Auto Commentary</Wula_AISettings_AutoCommentary>
+  <Wula_AISettings_SaveAIEnabled>Enable Wula AI for this save</Wula_AISettings_SaveAIEnabled>
+  <Wula_AISettings_SaveAIEnabledDesc>Master switch for all Wula AI API features in the current save. New saves default to off. Turning this off blocks conversations, event commentary, memory summaries, and every other AI request.</Wula_AISettings_SaveAIEnabledDesc>
+  <Wula_AISettings_SaveAIUnavailable>Per-save AI control is available after loading or starting a game.</Wula_AISettings_SaveAIUnavailable>
+  <Wula_AI_SaveDisabled>AI Disabled</Wula_AI_SaveDisabled>
   <Wula_AISettings_AutoCommentaryDesc>When enabled, P.I.A will comment on in-game letters (raids, deaths, trade, etc.).</Wula_AISettings_AutoCommentaryDesc>
   <Wula_AISettings_CommentaryChance>Commentary Chance</Wula_AISettings_CommentaryChance>
   <Wula_AISettings_CommentaryChanceDesc>Chance for neutral or positive letters to receive commentary.</Wula_AISettings_CommentaryChanceDesc>

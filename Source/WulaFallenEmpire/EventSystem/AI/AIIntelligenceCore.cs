@@ -23,6 +23,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         public event Action<bool> OnThinkingStateChanged;
         public event Action<int> OnExpressionChanged;
         private List<(string role, string message)> _history = new List<(string role, string message)>();
+        private bool _aiEnabled;
         private string _activeEventDefName;
         private bool _isThinking;
         private int _expressionId = 2;
@@ -67,6 +68,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref _aiEnabled, "WulaAI_Enabled", false);
             Scribe_Values.Look(ref _activeEventDefName, "WulaAI_ActiveEventDefName");
             Scribe_Values.Look(ref _expressionId, "WulaAI_ExpressionId", 2);
             Scribe_Values.Look(ref _overlayWindowOpen, "WulaAI_OverlayWindowOpen", false);
@@ -140,6 +142,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (y >= 0f) _overlayWindowY = y;
         }
         public int ExpressionId => _expressionId;
+        public bool IsAIEnabled => _aiEnabled;
         public bool IsThinking => _isThinking;
         public float ThinkingStartTime => _thinkingStartTime;
         public int ThinkingPhaseIndex => _thinkingPhaseIndex;
@@ -147,6 +150,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public int ThinkingPhaseTotal => FixedThinkingPhaseTotal;
         public float LastThinkingDuration => _lastThinkingDuration;
         public string LatestThought => _latestThought;
+        public void SetAIEnabled(bool enabled)
+        {
+            if (_aiEnabled == enabled)
+            {
+                return;
+            }
+
+            _aiEnabled = enabled;
+            if (!enabled)
+            {
+                _activeRequestCts?.Cancel();
+            }
+        }
+
+        public static bool IsEnabledForCurrentGame()
+        {
+            return Find.World?.GetComponent<AIIntelligenceCore>()?.IsAIEnabled == true;
+        }
+
         public void InitializeConversation(string eventDefName)
         {
             if (string.IsNullOrWhiteSpace(eventDefName))
@@ -183,7 +205,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         public void SendUserMessage(string text)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (!_aiEnabled || string.IsNullOrWhiteSpace(text))
             {
                 return;
             }
@@ -206,7 +228,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         public async Task<string> SendSystemMessageAsync(string message, int maxTokens = 256, float temperature = 0.3f)
         {
-            if (string.IsNullOrWhiteSpace(message))
+            if (!_aiEnabled || string.IsNullOrWhiteSpace(message))
             {
                 return null;
             }
@@ -255,7 +277,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         /// </summary>
         public void SendAutoCommentaryMessage(string eventInfo)
         {
-            if (string.IsNullOrWhiteSpace(eventInfo)) return;
+            if (!_aiEnabled || string.IsNullOrWhiteSpace(eventInfo)) return;
             if (_isThinking)
             {
                 WulaLog.Debug("[WulaAI] Auto commentary skipped because an AI request is already running.");
@@ -658,6 +680,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private async Task SummarizeMemoryWindowAsync(AIMemoryManager memoryManager, string conversation, int startIndex, int endIndex)
         {
+            if (!_aiEnabled)
+            {
+                return;
+            }
+
             try
             {
                 var settings = WulaFallenEmpireMod.settings;
@@ -976,7 +1003,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private async Task RunAgentRequestAsync(string transientUserMessage = null, bool triggerMemoryUpdate = true, string memoryRecallQuery = null)
         {
-            if (_isThinking) return;
+            if (!_aiEnabled || _isThinking) return;
             SetThinkingState(true);
             SetThinkingPhase(1, false);
             _activeRequestCts?.Cancel();
