@@ -27,7 +27,7 @@ namespace WulaFallenEmpire
             Map map = parent.pawn?.Map ?? Find.CurrentMap;
             if (map == null)
             {
-                Messages.Message("Error: No active map.", MessageTypeDefOf.RejectInput);
+                Messages.Message("WULA_OverwatchNoActiveMap".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
 
@@ -68,7 +68,7 @@ namespace WulaFallenEmpire
                 var overwatch = map.GetComponent<MapComponent_AIOverwatch>();
                 if (overwatch != null && overwatch.IsEnabled)
                 {
-                    return $"Already active ({overwatch.DurationTicks / 60}s remaining)";
+                    return "WULA_OverwatchAlreadyActive".Translate(overwatch.DurationTicks.ToStringTicksToPeriod());
                 }
             }
             return base.ExtraLabelMouseAttachment(target);

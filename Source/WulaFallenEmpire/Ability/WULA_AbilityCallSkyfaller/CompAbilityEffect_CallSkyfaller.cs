@@ -77,7 +77,7 @@ namespace WulaFallenEmpire
 
         public override string ExtraLabelMouseAttachment(LocalTargetInfo target)
         {
-            return $"召唤空投舱: {Props.delayTicks}刻后到达";
+            return "WULA_CallSkyfaller_TargetLabel".Translate(Props.delayTicks.ToStringTicksToPeriod());
         }
     }
 }

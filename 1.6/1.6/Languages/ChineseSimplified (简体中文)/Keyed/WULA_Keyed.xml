@@ -292,4 +292,7 @@
   <WULA_ToggleFlight_Desc>手动控制此单位是否保持飞行姿态。</WULA_ToggleFlight_Desc>
   <WULA_ToggleFlight_Enable>已启用飞行姿态</WULA_ToggleFlight_Enable>
   <WULA_ToggleFlight_Disable>停用飞行姿态</WULA_ToggleFlight_Disable>
+  <WULA_CallSkyfaller_TargetLabel>空投舱将在{0}后到达。</WULA_CallSkyfaller_TargetLabel>
+  <WULA_OverwatchNoActiveMap>当前没有可用地图。</WULA_OverwatchNoActiveMap>
+  <WULA_OverwatchAlreadyActive>已启用（剩余{0}）。</WULA_OverwatchAlreadyActive>
 </LanguageData>

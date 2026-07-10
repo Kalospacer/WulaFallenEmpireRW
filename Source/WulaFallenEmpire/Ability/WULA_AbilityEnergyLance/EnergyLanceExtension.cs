@@ -14,6 +14,12 @@ namespace WulaFallenEmpire
         public int firesPerTick = 4;
         public float effectRadius = 15f;
 
+        public int flameDamageMin = 65;
+        public int flameDamageMax = 100;
+        public int corpseDamageMin = 5;
+        public int corpseDamageMax = 10;
+        public DamageDef damageDef;
+
         // 新增：移动速度配置
         public float flightSpeed = 5f;             // 光束移动速度（格/秒）
         public float acceleration = 2f;            // 加速度

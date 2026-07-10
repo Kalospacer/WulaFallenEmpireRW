@@ -37,8 +37,9 @@ namespace WulaFallenEmpire
 
         // 伤害相关
         private static List<Thing> tmpThings = new List<Thing>();
-        private static readonly IntRange FlameDamageAmountRange = new IntRange(65, 100);
-        private static readonly IntRange CorpseFlameDamageAmountRange = new IntRange(5, 10);
+        private IntRange flameDamageRange;
+        private IntRange corpseDamageRange;
+        private DamageDef damageDefOverride;
         public Thing instigator;
         public ThingDef weaponDef;
 
@@ -276,6 +277,19 @@ namespace WulaFallenEmpire
 
             orbitalBeamComp = GetComp<CompOrbitalBeam>();
 
+            EnergyLanceExtension extension = def.GetModExtension<EnergyLanceExtension>();
+            if (extension != null)
+            {
+                flameDamageRange = new IntRange(extension.flameDamageMin, extension.flameDamageMax);
+                corpseDamageRange = new IntRange(extension.corpseDamageMin, extension.corpseDamageMax);
+                damageDefOverride = extension.damageDef;
+            }
+            else
+            {
+                flameDamageRange = new IntRange(65, 100);
+                corpseDamageRange = new IntRange(5, 10);
+            }
+
             if (!respawningAfterLoad)
             {
                 // 初始位置设置为目标位置（如果有效），否则使用起始位置
@@ -357,7 +371,9 @@ namespace WulaFallenEmpire
 
             for (int i = 0; i < tmpThings.Count; i++)
             {
-                int num = ((tmpThings[i] is Corpse) ? CorpseFlameDamageAmountRange.RandomInRange : FlameDamageAmountRange.RandomInRange);
+                int num = tmpThings[i] is Corpse
+                    ? corpseDamageRange.RandomInRange
+                    : flameDamageRange.RandomInRange;
                 Pawn pawn = tmpThings[i] as Pawn;
                 BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = null;
 
@@ -367,7 +383,8 @@ namespace WulaFallenEmpire
                     Find.BattleLog.Add(battleLogEntry_DamageTaken);
                 }
 
-                DamageInfo damageInfo = new DamageInfo(Wula_DamageDefOf.Wula_Dark_Matter_Flame, num, 2f, -1f, instigator, null, weaponDef);
+                DamageDef damageDefToUse = damageDefOverride ?? Wula_DamageDefOf.Wula_Dark_Matter_Flame;
+                DamageInfo damageInfo = new DamageInfo(damageDefToUse, num, 2f, -1f, instigator, null, weaponDef);
                 tmpThings[i].TakeDamage(damageInfo).AssociateWithLog(battleLogEntry_DamageTaken);
             }
 

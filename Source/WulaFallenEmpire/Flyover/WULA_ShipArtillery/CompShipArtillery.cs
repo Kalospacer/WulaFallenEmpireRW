@@ -756,8 +756,8 @@ namespace WulaFallenEmpire
         {
             try
             {
-                string label = Props.customLetterLabel ?? "ShipArtilleryAttack".Translate();
-                string text = Props.customLetterText ?? "ShipArtilleryAttackDesc".Translate();
+                string label = (Props.customLetterLabel ?? "ShipArtilleryAttack").Translate();
+                string text = (Props.customLetterText ?? "ShipArtilleryAttackDesc").Translate();
 
                 Find.LetterStack.ReceiveLetter(
                     label,

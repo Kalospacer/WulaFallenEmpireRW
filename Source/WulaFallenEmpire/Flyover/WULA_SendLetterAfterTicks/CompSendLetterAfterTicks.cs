@@ -47,8 +47,8 @@ namespace WulaFallenEmpire
                     return;
                 }
 
-                string label = Props.letterLabel ?? "DefaultLetterLabel".Translate();
-                string text = Props.letterText ?? "DefaultLetterText".Translate();
+                string label = (Props.letterLabel ?? "DefaultLetterLabel").Translate();
+                string text = (Props.letterText ?? "DefaultLetterText").Translate();
 
                 // 创建信件
                 Letter letter = LetterMaker.MakeLetter(

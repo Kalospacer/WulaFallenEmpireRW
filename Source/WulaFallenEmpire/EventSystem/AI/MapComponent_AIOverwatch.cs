@@ -391,6 +391,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (circular != null)
             {
                 BombardmentUtility.ExecuteCircularBombardment(map, target, ability, circular);
+                globalCooldownTicks = 120;
                 return;
             }
 
@@ -398,6 +399,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (bombard != null)
             {
                 BombardmentUtility.ExecuteStrafeBombardmentDirect(map, target, ability, bombard, angle);
+                globalCooldownTicks = 120;
                 return;
             }
 
@@ -405,7 +407,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             if (lance != null)
             {
                 BombardmentUtility.ExecuteEnergyLanceDirect(map, target, ability, lance, angle);
-                return;
+                globalCooldownTicks = 120;
             }
         }
 

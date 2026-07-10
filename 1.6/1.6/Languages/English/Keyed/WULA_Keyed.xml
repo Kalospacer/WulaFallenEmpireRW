@@ -178,4 +178,7 @@
   <Wula_AI_Thinking_RetrySuffix> Retry</Wula_AI_Thinking_RetrySuffix>
     <Wula_ResourceDrop>{FACTION_name} has dropped some resources nearby.</Wula_ResourceDrop>
 
+  <WULA_CallSkyfaller_TargetLabel>Air-drop arrives in {0}.</WULA_CallSkyfaller_TargetLabel>
+  <WULA_OverwatchNoActiveMap>No active map.</WULA_OverwatchNoActiveMap>
+  <WULA_OverwatchAlreadyActive>Already active ({0} remaining).</WULA_OverwatchAlreadyActive>
 </LanguageData>

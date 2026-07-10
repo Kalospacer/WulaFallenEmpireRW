@@ -96,22 +96,27 @@ namespace WulaFallenEmpire
             //     modExtension_Cone.DoConeExplosion(position, map2, exactRotation, damageDef, launcher, damageAmount, armorPenetration, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, null, null, 255, false, null, 0f, 1, 0f, false, null, null, 1f, 0f, null, screenShakeFactor, null, null);
             // }
 
-            // Explosion effect (if needed, based on def.projectile.explosionEffect) - Currently not implemented for this class
-            // bool flag2 = this.def.projectile.explosionEffect != null;
-            // if (flag2)
-            // {
-            //     Effecter effecter = this.def.projectile.explosionEffect.Spawn();
-            //     bool flag3 = this.def.projectile.explosionEffectLifetimeTicks != 0;
-            //     if (flag3)
-            //     {
-            //         map.effecterMaintainer.AddEffecterToMaintain(effecter, base.Position.ToVector3().ToIntVec3(), this.def.projectile.explosionEffectLifetimeTicks);
-            //     }
-            //     else
-            //     {
-            //         effecter.Trigger(new TargetInfo(base.Position, map, false), new TargetInfo(base.Position, map, false), -1);
-            //         effecter.Cleanup();
-            //     }
-            // }
+            if (def.projectile.explosionEffect != null)
+            {
+                Effecter effecter = def.projectile.explosionEffect.Spawn();
+                if (def.projectile.explosionEffectLifetimeTicks != 0)
+                {
+                    map.effecterMaintainer.AddEffecterToMaintain(effecter, ExactPosition.ToIntVec3(), def.projectile.explosionEffectLifetimeTicks);
+                }
+                else
+                {
+                    TargetInfo effectTarget = new TargetInfo(ExactPosition.ToIntVec3(), map, false);
+                    effecter.Trigger(effectTarget, effectTarget, -1);
+                    effecter.Cleanup();
+                }
+            }
+
+            if (def.projectile.explosionSpawnsSingleFilth && def.projectile.filth != null &&
+                def.projectile.filthCount.TrueMax > 0 && Rand.Chance(def.projectile.filthChance) &&
+                !Position.Filled(map))
+            {
+                FilthMaker.TryMakeFilth(Position, map, def.projectile.filth, def.projectile.filthCount.RandomInRange);
+            }
             this.Destroy(DestroyMode.Vanish);
         }
 
