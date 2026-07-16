@@ -10,7 +10,7 @@ namespace WulaFallenEmpire
 {
     public static class PocketMapWorldGizmoUtility
     {
-        private static readonly Texture2D ViewTex = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_View_ArmedShuttle_Pocket");
+        private static readonly CachedTexture ViewTex = new CachedTexture("Wula/UI/Commands/WULA_View_ArmedShuttle_Pocket");
 
         public static IEnumerable<Gizmo> AppendViewGizmo(IEnumerable<Gizmo> original, Thing shuttleThing)
         {
@@ -24,7 +24,7 @@ namespace WulaFallenEmpire
             {
                 yield return new Command_Action
                 {
-                    icon = ViewTex,
+                    icon = ViewTex.Texture,
                     defaultLabel = "WULA.PocketSpace.ViewMap".Translate(),
                     defaultDesc = "WULA.PocketSpace.ViewMapDesc".Translate(),
                     action = portal.ViewPocketMap

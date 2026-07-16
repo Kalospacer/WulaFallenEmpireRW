@@ -22,9 +22,9 @@ namespace WulaFallenEmpire
 
     public class CompPocketMapPortal : ThingComp
     {
-        private static readonly Texture2D EnterTex = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_Enter_ArmedShuttle_Pocket");
-        private static readonly Texture2D ViewTex = ContentFinder<Texture2D>.Get("Wula/UI/Commands/WULA_View_ArmedShuttle_Pocket");
-        private static readonly Texture2D CancelTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
+        private static readonly CachedTexture EnterTex = new CachedTexture("Wula/UI/Commands/WULA_Enter_ArmedShuttle_Pocket");
+        private static readonly CachedTexture ViewTex = new CachedTexture("Wula/UI/Commands/WULA_View_ArmedShuttle_Pocket");
+        private static readonly CachedTexture CancelTex = new CachedTexture("UI/Designators/Cancel");
 
         private Map pocketMap;
         private Building_PocketMapExit exit;
@@ -254,7 +254,7 @@ namespace WulaFallenEmpire
         {
             yield return new Command_Action
             {
-                icon = EnterTex,
+                icon = EnterTex.Texture,
                 defaultLabel = "WULA.PocketSpace.Enter".Translate() + "...",
                 defaultDesc = "WULA.PocketSpace.EnterDesc".Translate(),
                 action = OpenLoadDialog,
@@ -266,7 +266,7 @@ namespace WulaFallenEmpire
             {
                 Command_Action view = new Command_Action
                 {
-                    icon = ViewTex,
+                    icon = ViewTex.Texture,
                     defaultLabel = "WULA.PocketSpace.ViewMap".Translate(),
                     defaultDesc = "WULA.PocketSpace.ViewMapDesc".Translate(),
                     action = ViewPocketMap
@@ -282,7 +282,7 @@ namespace WulaFallenEmpire
             {
                 yield return new Command_Action
                 {
-                    icon = CancelTex,
+                    icon = CancelTex.Texture,
                     defaultLabel = "CommandCancelEnterPortal".Translate(),
                     defaultDesc = "CommandCancelEnterPortalDesc".Translate(),
                     action = CancelLoad

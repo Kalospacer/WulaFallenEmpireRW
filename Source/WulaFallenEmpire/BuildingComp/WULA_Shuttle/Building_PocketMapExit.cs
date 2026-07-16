@@ -7,9 +7,9 @@ namespace WulaFallenEmpire
 {
     public class Building_PocketMapExit : MapPortal
     {
-        private static readonly Texture2D ExitMapTex = ContentFinder<Texture2D>.Get("UI/Commands/ExitCave");
-        private static readonly Texture2D CancelEnterTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
-        private static readonly Texture2D ViewSurfaceTex = ContentFinder<Texture2D>.Get("UI/Commands/ViewCave");
+        private static readonly CachedTexture ExitMapTex = new CachedTexture("UI/Commands/ExitCave");
+        private static readonly CachedTexture CancelEnterTex = new CachedTexture("UI/Designators/Cancel");
+        private static readonly CachedTexture ViewSurfaceTex = new CachedTexture("UI/Commands/ViewCave");
 
         public Building_ArmedShuttleWithPocket parentShuttle;
 
@@ -19,7 +19,7 @@ namespace WulaFallenEmpire
 
         public override string CancelEnterString => "CommandCancelExitPortal".Translate();
 
-        protected override Texture2D EnterTex => ExitMapTex;
+        protected override Texture2D EnterTex => ExitMapTex.Texture;
 
         public override void ExposeData()
         {
@@ -62,7 +62,7 @@ namespace WulaFallenEmpire
             yield return new Command_Action
             {
                 action = () => Find.WindowStack.Add(new Dialog_EnterPortal(this)),
-                icon = ExitMapTex,
+                icon = ExitMapTex.Texture,
                 defaultLabel = EnterString + "...",
                 defaultDesc = "WULA.PocketSpace.ExitToMainMapDesc".Translate(),
                 Disabled = !IsEnterable(out string reason),
@@ -74,7 +74,7 @@ namespace WulaFallenEmpire
                 yield return new Command_Action
                 {
                     action = CancelLoad,
-                    icon = CancelEnterTex,
+                    icon = CancelEnterTex.Texture,
                     defaultLabel = CancelEnterString,
                     defaultDesc = "CommandCancelEnterPortalDesc".Translate()
                 };
@@ -86,7 +86,7 @@ namespace WulaFallenEmpire
                 {
                     defaultLabel = "CommandViewSurface".Translate(),
                     defaultDesc = "CommandViewSurfaceDesc".Translate(),
-                    icon = ViewSurfaceTex,
+                    icon = ViewSurfaceTex.Texture,
                     action = () =>
                     {
                         if (parentShuttle.Spawned)
