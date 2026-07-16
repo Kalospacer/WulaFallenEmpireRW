@@ -10,7 +10,8 @@
       <biome>Underground</biome>
       <temperature>20</temperature>
       <canBeCleaned>true</canBeCleaned>
-      <destroyOnParentMapAbandoned>true</destroyOnParentMapAbandoned>
+      <!-- The owner is a mobile shuttle, so abandoning its current surface map must not destroy the interior. -->
+      <destroyOnParentMapAbandoned>false</destroyOnParentMapAbandoned>
     </pocketMapProperties>
     <genSteps>
       <li>ElevationFertility</li>

@@ -3,7 +3,6 @@ using Verse;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Reflection;
 
 namespace WulaFallenEmpire
 {
@@ -27,6 +26,17 @@ namespace WulaFallenEmpire
             Scribe_References.Look(ref targetMap, "targetMap");
             Scribe_Values.Look(ref targetPos, "targetPos");
             Scribe_References.Look(ref parentShuttle, "parentShuttle");
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                LongEventHandler.ExecuteWhenFinished(() => parentShuttle?.Notify_PocketExitSpawned(this));
+            }
+        }
+
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            parentShuttle?.Notify_PocketExitSpawned(this);
         }
         
         /// <summary>
@@ -36,6 +46,11 @@ namespace WulaFallenEmpire
         {
             // 动态更新目标地图，处理穿梭机移动的情况
             UpdateTargetFromParentShuttle();
+            if (parentShuttle == null || parentShuttle.TransportDisabled || !parentShuttle.Spawned)
+            {
+                return null;
+            }
+
             return targetMap;
         }
         
@@ -87,21 +102,16 @@ namespace WulaFallenEmpire
             }
             
             // 检查父穿梭机的传送状态
-            if (parentShuttle != null)
+            if (parentShuttle == null)
             {
-                // 使用反射获取 transportDisabled 字段值
-                var transportDisabledField = typeof(Building_ArmedShuttleWithPocket).GetField("transportDisabled", 
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                
-                if (transportDisabledField != null)
-                {
-                    bool transportDisabled = (bool)transportDisabledField.GetValue(parentShuttle);
-                    if (transportDisabled)
-                    {
-                        reason = "WULA.PocketSpace.TransportDisabled".Translate();
-                        return false;
-                    }
-                }
+                reason = "WULA.PocketSpace.NoTargetMap".Translate();
+                return false;
+            }
+
+            if (parentShuttle.TransportDisabled || !parentShuttle.Spawned)
+            {
+                reason = "WULA.PocketSpace.TransportDisabled".Translate();
+                return false;
             }
             
             reason = "";

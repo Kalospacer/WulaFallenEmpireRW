@@ -190,6 +190,7 @@
     <Compile Include="BuildingComp\WULA_Shuttle\Dialog_ArmedShuttleTransfer.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\GenStep_WulaPocketSpaceSmall.cs" />
     <Compile Include="BuildingComp\WULA_Shuttle\PocketSpaceThingHolder.cs" />
+    <Compile Include="BuildingComp\WULA_Shuttle\WulaShuttlePocketMapParent.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompPrefabSkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompProperties_PrefabSkyfallerCaller.cs" />
     <Compile Include="BuildingComp\WULA_SkyfallerCaller\CompProperties_SkyfallerCaller.cs" />
@@ -344,7 +345,6 @@
     <Compile Include="HarmonyPatches\MechWeapon\Patch_MissingWeapon.cs" />
     <Compile Include="HarmonyPatches\MechWeapon\Patch_WeaponDrop.cs" />
     <Compile Include="HarmonyPatches\NoBloodForWulaPatch.cs" />
-    <Compile Include="HarmonyPatches\Patch_CaravanInventoryUtility_FindShuttle.cs" />
     <Compile Include="HarmonyPatches\Patch_CaravanUIUtility_AddPawnsSections_Postfix.cs" />
     <Compile Include="HarmonyPatches\Patch_DropCellFinder_SkyfallerCanLandAt.cs" />
     <Compile Include="HarmonyPatches\Patch_JobGiver_GatherOfferingsForPsychicRitual.cs" />

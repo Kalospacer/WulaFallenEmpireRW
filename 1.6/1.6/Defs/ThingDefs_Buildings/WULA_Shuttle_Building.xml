@@ -183,8 +183,7 @@
     <defName>WULA_ArmedShuttleWithPocket</defName>
     <label>CVe-3"渡鸦"</label>
     <description>乌拉帝国用于在舰队和地表构建联系的特种穿梭机，拥有载重量惊人的货仓。它同时还拥有一面高反射概率的反射盾和MLt-1"棱晶"涡轮激光炮 ，可以抵挡大部分袭击。</description>
-    <!-- <thingClass>WulaFallenEmpire.Building_ArmedShuttleWithPocket</thingClass> -->
-    <thingClass>Building_TurretGun</thingClass>
+    <thingClass>WulaFallenEmpire.Building_ArmedShuttleWithPocket</thingClass>
     <preventDroppingThingsOn>true</preventDroppingThingsOn>
     <altitudeLayer>Building</altitudeLayer>
     <pathCost>50</pathCost>
@@ -328,14 +327,14 @@
         <transmitsPower>true</transmitsPower>
       </li>
     </comps>
-    <!-- <modExtensions>
+    <modExtensions>
       <li Class="WulaFallenEmpire.PocketMapProperties">
         <pocketMapGenerator>WULA_PocketSpace_Small</pocketMapGenerator>
         <exitDef>WULA_PocketMapExit</exitDef>
         <pocketMapSize>(25, 25)</pocketMapSize>
         <allowDirectAccess>true</allowDirectAccess>
       </li>
-    </modExtensions> -->
+    </modExtensions>
     <placeWorkers>
       <li>PlaceWorker_NotUnderRoof</li>
       <li>PlaceWorker_TurretTop</li>

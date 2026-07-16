@@ -70,13 +70,28 @@ namespace WulaFallenEmpire
         #region 属性
  
         /// <summary>获取内部口袋地图</summary>
-        public Map PocketMap => pocketMap;
+        public Map PocketMap
+        {
+            get
+            {
+                if (pocketMap != null && (pocketMap.Disposed || pocketMap.Parent?.HasMap == false))
+                {
+                    pocketMap = null;
+                    pocketMapGenerated = false;
+                    exit = null;
+                }
+
+                return pocketMap;
+            }
+        }
         
         /// <summary>口袋地图是否已生成</summary>
-        public bool PocketMapGenerated => pocketMapGenerated;
+        public bool PocketMapGenerated => PocketMap != null;
         
         /// <summary>是否允许直接访问口袋空间</summary>
         public bool AllowDirectAccess => allowDirectAccess;
+
+        internal bool TransportDisabled => transportDisabled;
         
         // 注意：我们不再提供InnerContainer属性，因为所有物品都在CompTransporter.innerContainer中
         
@@ -160,17 +175,22 @@ namespace WulaFallenEmpire
             
             base.ExposeData();
             Scribe_References.Look(ref pocketMap, "pocketMap");
+            Scribe_References.Look(ref exit, "exit");
             Scribe_Values.Look(ref pocketMapGenerated, "pocketMapGenerated", false);
             Scribe_Values.Look(ref pocketMapSize, "pocketMapSize", new IntVec2(80, 80));
             Scribe_Defs.Look(ref mapGenerator, "mapGenerator");
             Scribe_Defs.Look(ref exitDef, "exitDef");
             Scribe_Values.Look(ref allowDirectAccess, "allowDirectAccess", true);
             Scribe_Values.Look(ref transportDisabled, "transportDisabled", false);
+            Scribe_Values.Look(ref beenEntered, "beenEntered", false);
+            Scribe_Collections.Look(ref leftToLoad, "leftToLoad", LookMode.Deep);
             
             // 不再序列化innerContainer，只使用CompTransporter的容器
             
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
+                leftToLoad?.RemoveAll(x => x.AnyThing == null);
+                LongEventHandler.ExecuteWhenFinished(RepairPocketMapLinks);
                 WulaLog.Debug("[WULA-DEBUG] PostLoadInit: Validating components after load");
                 
                 // 验证CompTransporter组件是否正常
@@ -189,76 +209,174 @@ namespace WulaFallenEmpire
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
             WulaLog.Debug($"[WULA-DEBUG] DeSpawn called with mode: {mode}");
-            
-            // 只在真正销毁时清理口袋地图，发射时保留
-            if (ShouldDestroyPocketMapOnDeSpawn(mode))
-            {
-                if (pocketMap != null && pocketMapGenerated)
-                {
-                    try
-                    {
-                        WulaLog.Debug("[WULA-DEBUG] Destroying pocket map due to shuttle destruction");
-                        
-                        // 将口袋空间中的物品和人员转移到主地图
-                        TransferAllFromPocketToMainMap();
-                        
-                        // 销毁口袋地图
-                        PocketMapUtility.DestroyPocketMap(pocketMap);
-                        pocketMap = null;
-                        pocketMapGenerated = false;
-                    }
-                    catch (Exception ex)
-                    {
-                        WulaLog.Debug($"[WULA-ERROR] Error cleaning up pocket map: {ex}");
-                    }
-                }
-            }
-            else
-            {
-                WulaLog.Debug("[WULA-DEBUG] Preserving pocket map during shuttle launch/transport");
-                // 发射时暂停传送功能，但保留口袋空间
-                transportDisabled = true;
-                if (pocketMap != null && exit != null)
-                {
-                    // 标记传送功能暂停
-                    WulaLog.Debug("[WULA-DEBUG] Transport functionality disabled during flight");
-                }
-            }
-            
+
+            // DeSpawn is also used by launch and caravan transport. It is not destruction.
+            transportDisabled = true;
             base.DeSpawn(mode);
         }
-        
-        /// <summary>
-        /// 判断是否应该在DeSpawn时销毁口袋地图
-        /// </summary>
-        private bool ShouldDestroyPocketMapOnDeSpawn(DestroyMode mode)
+
+        public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            // 只在真正销毁时删除口袋空间
-            switch (mode)
+            if (!Destroyed)
             {
-                case DestroyMode.Vanish:  // 发射时使用，保留口袋空间
-                    return false;
-                case DestroyMode.Deconstruct:  // 拆除，删除口袋空间
-                    return true;
-                case DestroyMode.KillFinalize:  // 被摧毁，删除口袋空间  
-                    return true;
-                case DestroyMode.Cancel:  // 取消建造，删除口袋空间
-                    return true;
-                case DestroyMode.Refund:  // 退款，删除口袋空间
-                    return true;
-                case DestroyMode.FailConstruction:  // 建造失败，删除口袋空间
-                    return true;
-                default:
-                    WulaLog.Debug($"[WULA-WARNING] Unknown DestroyMode: {mode}, defaulting to preserve pocket map");
-                    return false;
+                CleanupPocketMap();
             }
+
+            base.Destroy(mode);
+        }
+
+        private void CleanupPocketMap()
+        {
+            Map map = PocketMap;
+            if (map == null)
+            {
+                return;
+            }
+
+            try
+            {
+                if (Spawned)
+                {
+                    TransferAllFromPocketToMainMap();
+                }
+
+                pocketMap = null;
+                pocketMapGenerated = false;
+                exit = null;
+                PocketMapUtility.DestroyPocketMap(map);
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug($"[WULA-ERROR] Error cleaning up shuttle pocket map: {ex}");
+            }
+        }
+
+        public void Notify_PocketMapRemoved(Map removedMap)
+        {
+            if (pocketMap == removedMap)
+            {
+                pocketMap = null;
+                pocketMapGenerated = false;
+                exit = null;
+            }
+        }
+
+        internal void Notify_PocketExitSpawned(Building_PocketMapExit pocketExit)
+        {
+            if (pocketExit == null)
+            {
+                return;
+            }
+
+            pocketMap = pocketExit.Map;
+            pocketMapGenerated = pocketMap != null;
+            exit = pocketExit;
+            RepairPocketMapLinks();
+        }
+
+        internal void Notify_PocketMapParentLoaded(WulaShuttlePocketMapParent parent)
+        {
+            Map map = parent?.Map;
+            if (map == null || map.Disposed)
+            {
+                return;
+            }
+
+            pocketMap = map;
+            pocketMapGenerated = true;
+            RepairPocketMapLinks();
+        }
+
+        private void RepairPocketMapLinks()
+        {
+            if (Destroyed || Current.Game == null || Find.World?.pocketMaps == null)
+            {
+                return;
+            }
+
+            if (pocketMap == null)
+            {
+                foreach (PocketMapParent parent in Find.World.pocketMaps)
+                {
+                    Map candidate = parent?.Map;
+                    if (candidate == null || candidate.Disposed)
+                    {
+                        continue;
+                    }
+
+                    bool ownedByParent = parent is WulaShuttlePocketMapParent shuttleParent
+                        && shuttleParent.ownerShuttle == this;
+                    Building_PocketMapExit candidateExit = candidate.listerThings.AllThings
+                        .OfType<Building_PocketMapExit>()
+                        .FirstOrDefault(x => x.parentShuttle == this
+                            || (Spawned && x.targetMap == Map && x.targetPos == Position));
+
+                    if (ownedByParent || candidateExit != null)
+                    {
+                        pocketMap = candidate;
+                        exit = candidateExit;
+                        break;
+                    }
+                }
+            }
+
+            Map map = PocketMap;
+            if (map == null || !(map.Parent is PocketMapParent parentMap))
+            {
+                pocketMapGenerated = false;
+                exit = null;
+                return;
+            }
+
+            if (!Find.World.pocketMaps.Contains(parentMap))
+            {
+                Find.World.pocketMaps.Add(parentMap);
+            }
+
+            MapGeneratorDef generator = mapGenerator ?? map.generatorDef;
+            parentMap.mapGenerator = generator;
+
+            if (parentMap is WulaShuttlePocketMapParent shuttlePocketParent)
+            {
+                shuttlePocketParent.Bind(this, Spawned ? Map : null, generator);
+            }
+            else if (Spawned && Map != null && !Map.IsPocketMap)
+            {
+                // Legacy saves used the vanilla parent. Keep them valid without replacing the parent object.
+                parentMap.sourceMap = Map;
+            }
+
+            if (exit == null || exit.Destroyed || exit.Map != map)
+            {
+                exit = map.listerThings.AllThings
+                    .OfType<Building_PocketMapExit>()
+                    .FirstOrDefault(x => x.parentShuttle == this)
+                    ?? map.listerThings.AllThings.OfType<Building_PocketMapExit>().FirstOrDefault();
+            }
+
+            if (exit == null && Spawned && exitDef != null)
+            {
+                CreateExitPoint();
+            }
+
+            if (exit != null)
+            {
+                exit.parentShuttle = this;
+                if (Spawned)
+                {
+                    exit.targetMap = Map;
+                    exit.targetPos = Position;
+                }
+            }
+
+            pocketMapGenerated = true;
         }
 
         public override string GetInspectString()
         {
             StringBuilder sb = new StringBuilder(base.GetInspectString());
             
-            if (pocketMapGenerated)
+            if (PocketMapGenerated)
             {
                 sb.AppendLine("WULA.PocketSpace.Status".Translate() + ": " + "WULA.PocketSpace.Ready".Translate());
                 
@@ -340,7 +458,7 @@ namespace WulaFallenEmpire
             }
 
             // 创建或获取口袋地图
-            if (pocketMap == null && !pocketMapGenerated)
+            if (PocketMap == null)
             {
                 CreatePocketMap();
             }
@@ -395,12 +513,9 @@ namespace WulaFallenEmpire
         /// </summary>
         public void SwitchToPocketSpace()
         {
-            if (pocketMap == null)
+            if (PocketMap == null)
             {
-                if (!pocketMapGenerated)
-                {
-                    CreatePocketMap();
-                }
+                CreatePocketMap();
                 
                 if (pocketMap == null)
                 {
@@ -420,10 +535,7 @@ namespace WulaFallenEmpire
         {
             try
             {
-                // 模仿原版 MapPortal.GeneratePocketMap 的实现
-                PocketMapUtility.currentlyGeneratingPortal = null; // 我们不是 MapPortal，但可以设为 null
                 pocketMap = GeneratePocketMapInt();
-                PocketMapUtility.currentlyGeneratingPortal = null;
                 
                 if (pocketMap != null)
                 {
@@ -431,6 +543,7 @@ namespace WulaFallenEmpire
                     
                     // 在口袋地图中心放置退出点
                     CreateExitPoint();
+                    RepairPocketMapLinks();
                     
                     WulaLog.Debug($"[WULA] Successfully created pocket map of size {pocketMapSize} for armed shuttle");
                 }
@@ -450,8 +563,24 @@ namespace WulaFallenEmpire
         /// </summary>
         protected virtual Map GeneratePocketMapInt()
         {
-            // [核心修复] 将 sourceMap 设置为 null，彻底斩断口袋地图与创建它的主地图的生命周期联系。
-            return PocketMapUtility.GeneratePocketMap(new IntVec3(pocketMapSize.x, 1, pocketMapSize.z), mapGenerator, null, null);
+            WorldObjectDef parentDef = DefDatabase<WorldObjectDef>.GetNamed("WULA_ShuttlePocketMap");
+            WulaShuttlePocketMapParent parent = WorldObjectMaker.MakeWorldObject(parentDef)
+                as WulaShuttlePocketMapParent;
+            if (parent == null)
+            {
+                throw new InvalidOperationException("WULA_ShuttlePocketMap did not create WulaShuttlePocketMapParent.");
+            }
+
+            parent.Bind(this, Map, mapGenerator);
+            Map map = MapGenerator.GenerateMap(
+                new IntVec3(pocketMapSize.x, 1, pocketMapSize.z),
+                parent,
+                mapGenerator,
+                null,
+                null,
+                isPocketMap: true);
+            Find.World.pocketMaps.Add(parent);
+            return map;
         }
         
         /// <summary>
@@ -467,6 +596,17 @@ namespace WulaFallenEmpire
 
             try
             {
+                Building_PocketMapExit existingExit = pocketMap.listerThings.AllThings
+                    .OfType<Building_PocketMapExit>()
+                    .FirstOrDefault();
+                if (existingExit != null)
+                {
+                    exit = existingExit;
+                    exit.parentShuttle = this;
+                    UpdateExitPointTarget();
+                    return;
+                }
+
                 // 在地图中心找一个合适的位置
                 IntVec3 exitPos = pocketMap.Center;
                 
@@ -651,7 +791,7 @@ namespace WulaFallenEmpire
         /// </summary>
         public string GetPocketSpaceDebugInfo()
         {
-            if (!pocketMapGenerated || pocketMap == null)
+            if (!PocketMapGenerated)
             {
                 return "Pocket space not initialized";
             }
@@ -798,7 +938,7 @@ namespace WulaFallenEmpire
             }
 
             // 创建或获取口袋地图
-            if (pocketMap == null && !pocketMapGenerated)
+            if (PocketMap == null)
             {
                 CreatePocketMap();
             }
@@ -911,7 +1051,29 @@ namespace WulaFallenEmpire
         /// </summary>
         public void UpdateExitPointTarget()
         {
-            if (pocketMap == null || exit == null) return;
+            if (PocketMap == null)
+            {
+                return;
+            }
+
+            if (pocketMap.Parent is WulaShuttlePocketMapParent shuttleParent)
+            {
+                shuttleParent.Bind(this, Spawned ? Map : null, mapGenerator ?? pocketMap.generatorDef);
+            }
+            else if (Spawned && pocketMap.Parent is PocketMapParent legacyParent)
+            {
+                legacyParent.sourceMap = Map;
+            }
+
+            if (exit == null)
+            {
+                RepairPocketMapLinks();
+            }
+
+            if (exit == null)
+            {
+                return;
+            }
             
             try
             {
@@ -930,11 +1092,6 @@ namespace WulaFallenEmpire
                             WulaLog.Debug($"[WULA] Updated pocket map exit target to shuttle location: {this.Map?.uniqueID} at {this.Position}");
                         }
                     }
-                    else
-                    {
-                        // 穿梭机不在地图上（可能在飞行中），记录警告但保持原有目标
-                        WulaLog.Debug($"[WULA] Shuttle not spawned, pocket map exit target may be outdated. Current target: {pocketExit.targetMap?.uniqueID} at {pocketExit.targetPos}");
-                    }
                 }
             }
             catch (Exception ex)
@@ -951,13 +1108,13 @@ namespace WulaFallenEmpire
             base.Tick();
             
             // 每隔一段时间检查退出点目标是否需要更新（处理穿梭机移动的情况）
-            if (this.IsHashIntervalTick(2500) && pocketMapGenerated && exit != null)
+            if (this.IsHashIntervalTick(2500) && PocketMapGenerated && exit != null)
             {
                 UpdateExitPointTarget();
             }
             
             // 定期检查并同步口袋空间中的物品（每5分钟检查一次）
-            if (this.IsHashIntervalTick(18000) && pocketMapGenerated && pocketMap != null) // 18000 ticks = 5 minutes
+            if (this.IsHashIntervalTick(18000) && PocketMapGenerated) // 18000 ticks = 5 minutes
             {
                 // 自动同步口袋空间中的物品到主容器
                 try
@@ -991,41 +1148,6 @@ namespace WulaFallenEmpire
             
             base.SpawnSetup(map, respawningAfterLoad);
 
-            // [核心修复] 当穿梭机降落时，恢复其口袋地图的父级和在游戏中的注册状态
-            if (pocketMap != null && pocketMapGenerated)
-            {
-                // 验证口袋地图的父级对象是否存在于世界列表中
-                if (pocketMap.Parent is PocketMapParent pocketParent && !Find.World.pocketMaps.Contains(pocketParent))
-                {
-                    WulaLog.Debug($"[WULA] Pocket map parent for map ID {pocketMap.uniqueID} was not found in the world list. Re-adding it to prevent data loss.");
-                    Find.World.pocketMaps.Add(pocketParent);
-                }
-
-                // 验证口袋地图本身是否存在于游戏地图列表中
-                if (!Find.Maps.Contains(pocketMap))
-                {
-                    WulaLog.Debug($"[WULA] Pocket map ID {pocketMap.uniqueID} was not found in the game's map list. Re-registering it.");
-                    
-                    // 在重新添加前，进行安全检查，防止添加已损坏的地图
-                    if (!Find.Maps.Contains(pocketMap) && (pocketMap.mapPawns == null || pocketMap.Tile < 0))
-                    {
-                        WulaLog.Debug("[WULA] Cannot re-register a corrupted pocket map. The contents of the pocket space are likely lost. This is a critical error.");
-                        Messages.Message("WULA.PocketSpace.MapInvalidAndRecovering".Translate(), this, MessageTypeDefOf.NegativeEvent);
-                        pocketMap = null;
-                        pocketMapGenerated = false;
-                    }
-                    else
-                    {
-                        // 重新注册地图，使其再次“激活”
-                        Current.Game.AddMap(pocketMap);
-                        WulaLog.Debug($"[WULA] Pocket map {pocketMap.uniqueID} successfully re-registered.");
-                    }
-                }
-            }
-            
-            // 更新退出点目标，确保它指向当前的新地图
-            UpdateExitPointTarget();
-
             // 验证关键组件
             CompTransporter transporter = this.GetComp<CompTransporter>();
             if (transporter == null)
@@ -1044,7 +1166,7 @@ namespace WulaFallenEmpire
                 transportDisabled = false;
                 
                 // 如果有口袋空间，确保退出点正确连接到新地图
-                if (pocketMapGenerated && pocketMap != null && exit != null)
+                if (PocketMapGenerated && exit != null)
                 {
                     WulaLog.Debug($"[WULA-DEBUG] Reconnecting pocket space exit to new map: {map?.uniqueID} at {this.Position}");
                     // 退出点会在 UpdateExitPointTarget 中自动更新
@@ -1091,6 +1213,9 @@ namespace WulaFallenEmpire
                     ?? ThingDefOf.Door;
                 WulaLog.Debug($"[WULA-DEBUG] Using fallback exitDef: {exitDef.defName}");
             }
+
+            RepairPocketMapLinks();
+            UpdateExitPointTarget();
             
             // 如果位置发生了变化，记录日志
             if (oldMap != null && (oldMap != map || oldPos != this.Position))
