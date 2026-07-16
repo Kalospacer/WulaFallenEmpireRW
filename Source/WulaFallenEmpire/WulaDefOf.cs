@@ -1,5 +1,6 @@
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace WulaFallenEmpire
 {
@@ -10,6 +11,7 @@ namespace WulaFallenEmpire
         public static ThingDef WULA_MaintenancePod;
         public static ThingDef WULA_Charging_Station_Synth;
         public static ThingDef WULA_PocketMapExit;
+        public static ThingDef WULA_ArmedShuttleWithPocket;
         public static ThingDef Hyperweave;
         
         static Wula_ThingDefOf()
@@ -32,9 +34,22 @@ namespace WulaFallenEmpire
         public static JobDef WULA_CarryToMech;
         public static JobDef WULA_TransformPawn;
         public static JobDef WULA_BoardMech;
+        public static JobDef WULA_EnterShuttlePocketMap;
+        public static JobDef WULA_HaulToShuttlePocketMap;
         static Wula_JobDefOf()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(Wula_JobDefOf));
+        }
+    }
+
+    [DefOf]
+    public static class Wula_DutyDefOf
+    {
+        public static DutyDef WULA_LoadShuttlePocketMap;
+
+        static Wula_DutyDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(Wula_DutyDefOf));
         }
     }
     

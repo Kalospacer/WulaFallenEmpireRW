@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <WULA_HaulToShuttlePocketMap.label>haul to shuttle living quarters</WULA_HaulToShuttlePocketMap.label>
+  <WULA_HaulToShuttlePocketMap.verb>load</WULA_HaulToShuttlePocketMap.verb>
+  <WULA_HaulToShuttlePocketMap.gerund>loading</WULA_HaulToShuttlePocketMap.gerund>
   <DeliverEnergyToWulaPrisoner.label>Deliver energy to Wula prisoner</DeliverEnergyToWulaPrisoner.label>
   <DeliverEnergyToWulaPrisoner.verb>Deliver energy</DeliverEnergyToWulaPrisoner.verb>
   <DeliverEnergyToWulaPrisoner.gerund>Delivering energy to</DeliverEnergyToWulaPrisoner.gerund>

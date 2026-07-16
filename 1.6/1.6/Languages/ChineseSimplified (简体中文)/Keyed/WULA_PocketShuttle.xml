@@ -11,7 +11,7 @@
   <WULA.PocketSpace.InitializeDesc>初始化穿梭机的生活区空间。这将在穿梭机内部创建一个可供成员休息工作的生活区。在这个空间内的殖民者无法参与穿梭机的驾驶。</WULA.PocketSpace.InitializeDesc>
   
   <WULA.PocketSpace.Enter>进入生活区</WULA.PocketSpace.Enter>
-  <WULA.PocketSpace.EnterDesc>进入穿梭机的生活区空间——选中的殖民者将被传送到生活区空间。在这个空间内的殖民者无法参与穿梭机的驾驶。</WULA.PocketSpace.EnterDesc>
+  <WULA.PocketSpace.EnterDesc>选择人员和物品并将其装载到穿梭机生活区。人员会步行进入，物品会由殖民者搬运。</WULA.PocketSpace.EnterDesc>
   
   
   <WULA.PocketSpace.ViewMap>查看生活区</WULA.PocketSpace.ViewMap>
@@ -35,6 +35,8 @@
   <!-- 存储管理对话框 -->
   <WULA.PocketSpace.PawnCount>生活区人员: {0}</WULA.PocketSpace.PawnCount>
   <WULA.PocketSpace.NoPawnsSelected>请选择至少一名殖民者进入生活区。</WULA.PocketSpace.NoPawnsSelected>
+  <WULA.PocketSpace.NoPawnsOrItemsSelected>请选择至少一名人员或一件物品。</WULA.PocketSpace.NoPawnsOrItemsSelected>
+  <WULA.PocketSpace.ShuttleNotDocked>穿梭机当前未停靠。</WULA.PocketSpace.ShuttleNotDocked>
   
   <!-- 退出点相关 -->
   <WULA.PocketSpace.ExitToMainMap>返回主地图</WULA.PocketSpace.ExitToMainMap>

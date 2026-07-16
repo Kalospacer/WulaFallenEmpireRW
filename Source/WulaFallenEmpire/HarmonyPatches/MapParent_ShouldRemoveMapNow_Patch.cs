@@ -31,15 +31,6 @@ namespace WulaFallenEmpire
                     return false;
                 }
 
-                // 原有的穿梭机检查逻辑（保留你的原有功能）
-                foreach (var shuttle in __instance.Map.listerBuildings.AllBuildingsColonistOfClass<Building_ArmedShuttleWithPocket>())
-                {
-                    if (shuttle != null && shuttle.PocketMapGenerated && shuttle.PocketMap != null && shuttle.PocketMap.mapPawns.AnyPawnBlockingMapRemoval)
-                    {
-                        WulaLog.Debug($"[WULA] 阻止地图移除: 穿梭机 '{shuttle.Label}' 的口袋维度中仍有生物");
-                        return false;
-                    }
-                }
             }
             catch (System.Exception ex)
             {

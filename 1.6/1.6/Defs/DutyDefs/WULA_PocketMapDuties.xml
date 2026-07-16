@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <DutyDef>
+    <defName>WULA_LoadShuttlePocketMap</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>SatisfyVeryUrgentNeeds</treeDef>
+        </li>
+        <li Class="WulaFallenEmpire.JobGiver_LoadShuttlePocketMap" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+</Defs>

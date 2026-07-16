@@ -10,7 +10,7 @@
   <WULA.PocketSpace.InitializeDesc>Initialize the living quarters space within the shuttle. This will create a living area inside the shuttle where crew members can rest and work. Colonists in this space cannot participate in piloting the shuttle.</WULA.PocketSpace.InitializeDesc>
   
   <WULA.PocketSpace.Enter>Enter Living Quarters</WULA.PocketSpace.Enter>
-  <WULA.PocketSpace.EnterDesc>Enter the living quarters space of the shuttle - selected colonists will be teleported to the living quarters. Colonists in this space cannot participate in piloting the shuttle.</WULA.PocketSpace.EnterDesc>
+  <WULA.PocketSpace.EnterDesc>Select pawns and items to load into the shuttle living quarters. Pawns will walk inside and colonists will haul the selected items.</WULA.PocketSpace.EnterDesc>
   
   
   <WULA.PocketSpace.ViewMap>View Living Quarters</WULA.PocketSpace.ViewMap>
@@ -34,6 +34,8 @@
   <!-- Storage management dialog -->
   <WULA.PocketSpace.PawnCount>Living quarters personnel: {0}</WULA.PocketSpace.PawnCount>
   <WULA.PocketSpace.NoPawnsSelected>Please select at least one colonist to enter the living quarters.</WULA.PocketSpace.NoPawnsSelected>
+  <WULA.PocketSpace.NoPawnsOrItemsSelected>Select at least one pawn or item.</WULA.PocketSpace.NoPawnsOrItemsSelected>
+  <WULA.PocketSpace.ShuttleNotDocked>The shuttle is not currently docked.</WULA.PocketSpace.ShuttleNotDocked>
   
   <!-- Exit point related -->
   <WULA.PocketSpace.ExitToMainMap>Return to Main Map</WULA.PocketSpace.ExitToMainMap>

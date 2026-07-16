@@ -218,7 +218,8 @@
     </costList>
     <canOverlapZones>true</canOverlapZones>
     <rotatable>true</rotatable>
-    <hasInteractionCell>false</hasInteractionCell>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-7)</interactionCellOffset>
     <defaultPlacingRot>North</defaultPlacingRot>
     <selectable>true</selectable>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
@@ -321,20 +322,17 @@
         <reflectCost>0</reflectCost>
         <reflectEffecter>Interceptor_BlockedProjectile</reflectEffecter>
       </li>
+      <li Class="WulaFallenEmpire.CompProperties_PocketMapPortal">
+        <pocketMapGenerator>WULA_PocketSpace_Small</pocketMapGenerator>
+        <exitDef>WULA_PocketMapExit</exitDef>
+        <pocketMapSize>(25,25)</pocketMapSize>
+      </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerPlant</compClass>
         <basePowerConsumption>-2000</basePowerConsumption>
         <transmitsPower>true</transmitsPower>
       </li>
     </comps>
-    <modExtensions>
-      <li Class="WulaFallenEmpire.PocketMapProperties">
-        <pocketMapGenerator>WULA_PocketSpace_Small</pocketMapGenerator>
-        <exitDef>WULA_PocketMapExit</exitDef>
-        <pocketMapSize>(25, 25)</pocketMapSize>
-        <allowDirectAccess>true</allowDirectAccess>
-      </li>
-    </modExtensions>
     <placeWorkers>
       <li>PlaceWorker_NotUnderRoof</li>
       <li>PlaceWorker_TurretTop</li>

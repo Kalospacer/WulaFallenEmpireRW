@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <WULA_EnterShuttlePocketMap.reportString>Entering the shuttle living quarters.</WULA_EnterShuttlePocketMap.reportString>
+  <WULA_HaulToShuttlePocketMap.reportString>Hauling TargetA to the shuttle living quarters.</WULA_HaulToShuttlePocketMap.reportString>
   <WULA_CastAbilityOnThingMelee_WithWeapon.reportString>Doing something.</WULA_CastAbilityOnThingMelee_WithWeapon.reportString>
   <WULA_EnterMaintenancePod.reportString>Entering maintenance pod</WULA_EnterMaintenancePod.reportString>
   <WULA_FeedWulaPatient.reportString>Feeding energy core</WULA_FeedWulaPatient.reportString>

@@ -151,4 +151,19 @@
     <reportString>携带 TargetA 到 TargetB。</reportString>
     <suspendable>false</suspendable>
   </JobDef>
+
+  <JobDef>
+    <defName>WULA_EnterShuttlePocketMap</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_EnterShuttlePocketMap</driverClass>
+    <reportString>Entering the shuttle living quarters.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
+  <JobDef>
+    <defName>WULA_HaulToShuttlePocketMap</defName>
+    <driverClass>WulaFallenEmpire.JobDriver_HaulToShuttlePocketMap</driverClass>
+    <reportString>Hauling TargetA to the shuttle living quarters.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
 </Defs>
