@@ -7,7 +7,9 @@
         <li Class="ThinkNode_Subtree">
           <treeDef>SatisfyVeryUrgentNeeds</treeDef>
         </li>
-        <li Class="WulaFallenEmpire.JobGiver_LoadShuttlePocketMap" />
+        <li Class="WulaFallenEmpire.JobGiver_HaulToShuttlePocketMap" />
+        <li Class="JobGiver_UnloadYourInventory" />
+        <li Class="WulaFallenEmpire.JobGiver_EnterShuttlePocketMap" />
       </subNodes>
     </thinkNode>
   </DutyDef>

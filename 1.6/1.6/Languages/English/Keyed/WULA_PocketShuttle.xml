@@ -36,7 +36,8 @@
   <WULA.PocketSpace.NoPawnsSelected>Please select at least one colonist to enter the living quarters.</WULA.PocketSpace.NoPawnsSelected>
   <WULA.PocketSpace.NoPawnsOrItemsSelected>Select at least one pawn or item.</WULA.PocketSpace.NoPawnsOrItemsSelected>
   <WULA.PocketSpace.ShuttleNotDocked>The shuttle is not currently docked.</WULA.PocketSpace.ShuttleNotDocked>
-  
+  <WULA.PocketSpace.CantLoadMore>None of your {1} can load {2} into {0}.</WULA.PocketSpace.CantLoadMore>
+
   <!-- Exit point related -->
   <WULA.PocketSpace.ExitToMainMap>Return to Main Map</WULA.PocketSpace.ExitToMainMap>
   <WULA.PocketSpace.ExitToMainMapDesc>Return to the main map through the living quarters exit.</WULA.PocketSpace.ExitToMainMapDesc>

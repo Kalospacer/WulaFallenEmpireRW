@@ -37,7 +37,8 @@
   <WULA.PocketSpace.NoPawnsSelected>请选择至少一名殖民者进入生活区。</WULA.PocketSpace.NoPawnsSelected>
   <WULA.PocketSpace.NoPawnsOrItemsSelected>请选择至少一名人员或一件物品。</WULA.PocketSpace.NoPawnsOrItemsSelected>
   <WULA.PocketSpace.ShuttleNotDocked>穿梭机当前未停靠。</WULA.PocketSpace.ShuttleNotDocked>
-  
+  <WULA.PocketSpace.CantLoadMore>没有{1}能把{2}装入{0}。</WULA.PocketSpace.CantLoadMore>
+
   <!-- 退出点相关 -->
   <WULA.PocketSpace.ExitToMainMap>返回主地图</WULA.PocketSpace.ExitToMainMap>
   <WULA.PocketSpace.ExitToMainMapDesc>通过生活区出口返回主地图。</WULA.PocketSpace.ExitToMainMapDesc>

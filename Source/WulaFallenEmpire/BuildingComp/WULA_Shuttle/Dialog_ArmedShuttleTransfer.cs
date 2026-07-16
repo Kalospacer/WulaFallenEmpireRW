@@ -98,14 +98,14 @@ namespace WulaFallenEmpire
             }
 
             portal.SetLoadList(transferables);
-            PocketMapPortalUtility.MakeLord(pawns, portal);
+            PocketMapPortalUtility.MakeLordsAsAppropriate(pawns, portal);
             return true;
         }
 
         private void RecacheTransferables()
         {
             transferables = new List<TransferableOneWay>();
-            if (portal.LoadInProgress)
+            if (portal.LoadInProgress && portal.LeftToLoad != null)
             {
                 transferables.AddRange(portal.LeftToLoad);
             }
@@ -122,6 +122,11 @@ namespace WulaFallenEmpire
                 AddToTransferables(thing);
             }
 
+            foreach (Thing hauled in PocketMapPortalUtility.ThingsBeingHauledTo(portal))
+            {
+                AddToTransferables(hauled);
+            }
+
             pawnsTransfer = new TransferableOneWayWidget(null, null, null,
                 "TransferMapPortalColonyThingCountTip".Translate(), true,
                 IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, true, () => float.MaxValue,
@@ -136,6 +141,13 @@ namespace WulaFallenEmpire
 
         private void AddToTransferables(Thing thing)
         {
+            if (portal.LoadInProgress
+                && portal.LeftToLoad != null
+                && portal.LeftToLoad.Any(x => x.things.Contains(thing)))
+            {
+                return;
+            }
+
             if (transferables.Any(x => x.things.Contains(thing)))
             {
                 return;
