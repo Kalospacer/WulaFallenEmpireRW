@@ -9,6 +9,7 @@ namespace WulaFallenEmpire.EventSystem.AI
     public static class ScreenCaptureUtility
     {
         private const int MaxImageSize = 1024; // 限制图片大小以节省 API 费用
+        private const int JpegQuality = 85;    // JPEG 压缩质量，够视觉模型识别即可
         
         /// <summary>
         /// 截取当前屏幕并返回 Base64 编码的 PNG
@@ -27,19 +28,19 @@ namespace WulaFallenEmpire.EventSystem.AI
                 
                 // 缩放以适配 API 限制
                 Texture2D resized = ResizeTexture(screenshot, MaxImageSize);
-                
-                // 编码为 PNG
-                byte[] pngBytes = resized.EncodeToPNG();
-                
+
+                // 编码为 JPEG（游戏画面无需无损，JPEG 显著缩小上传体积）
+                byte[] jpgBytes = resized.EncodeToJPG(JpegQuality);
+
                 // 清理资源
                 UnityEngine.Object.Destroy(screenshot);
                 if (resized != screenshot)
                 {
                     UnityEngine.Object.Destroy(resized);
                 }
-                
-                WulaLog.Debug($"[ScreenCapture] Captured {pngBytes.Length} bytes");
-                return Convert.ToBase64String(pngBytes);
+
+                WulaLog.Debug($"[ScreenCapture] Captured {jpgBytes.Length} bytes");
+                return Convert.ToBase64String(jpgBytes);
             }
             catch (Exception ex)
             {

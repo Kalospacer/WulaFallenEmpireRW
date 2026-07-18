@@ -84,7 +84,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                         AIMessage.UserParts(new List<AIContentPart>
                         {
                             AIContentPart.TextPart(instruction),
-                            AIContentPart.ImagePart("image/png", base64Image)
+                            AIContentPart.ImagePart("image/jpeg", base64Image)
                         })
                     },
                     MaxTokens = 512,
