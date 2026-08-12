@@ -35,6 +35,7 @@ Wula 是游戏进程内的 mod，操作游戏不用走外部 MCP/GABS，直接�
 
 ## 注意
 
+- **截图 ≠ 看到画面**：`rimworld/take_screenshot` 只把图存成 PNG 并返回磁盘路径，Wula 拿到的只是路径字符串，看不到内容。要看画面用 `analyze_screen`（视觉工具，截屏后喂给视觉模型返回文字描述；需在设置里启用视觉并配好视觉模型 key）。「先截图再自己看」没有意义——直接 `analyze_screen`。
 - 工具名和参数都从 `bridge_list_tools` 拿，别猜。
 - 参数是对象：`bridge_call { tool:"rimworld/click_cell", arguments:{ cell:"12,34" } }` 这类形状按清单填。
 - 只读工具先跑通再碰改动类；点击/读档/推进时间会真实影响游戏，先向玩家说明意图。
