@@ -12,6 +12,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using WulaFallenEmpire;
+using WulaFallenEmpire.EventSystem.AI.Skills;
 using WulaFallenEmpire.EventSystem.AI.Utils;
 namespace WulaFallenEmpire.EventSystem.AI
 {
@@ -73,6 +74,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             Instance = this;
         }
+        public override void FinalizeInit(bool fromLoad)
+        {
+            base.FinalizeInit(fromLoad);
+            // 世界加载完成后，若存在缺 MCP 依赖的 skill，提示一次（非阻塞）。
+            SkillSystem.NotifyMissingDependenciesOnce();
+        }
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -1200,6 +1208,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             else if (goodwill > 50) goodwillContext += "You are somewhat approving and helpful.";
             else goodwillContext += "You are neutral and business-like.";
 
+            string skillIndex = SkillSystem.GetIndexText();
+            string skillsSection = string.IsNullOrWhiteSpace(skillIndex)
+                ? ""
+                : "\n\n" + skillIndex;
+
             return persona + "\n\n" +
                    "You are connected to the RimWorld game through tools. Use tools for game facts and in-game actions. " +
                    "Never claim an in-game action succeeded unless a tool result confirms it. " +
@@ -1208,7 +1221,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    "Use recall_memories for more memory search and remember_fact for durable facts.\n\n" +
                    "# CURRENT RUNTIME STATE\n" +
                    goodwillContext + "\n" +
-                   $"Reply language: {language}.";
+                   $"Reply language: {language}." + skillsSection;
         }
 
         private static string GetConfiguredApiKey(WulaFallenEmpireSettings settings)

@@ -79,6 +79,9 @@ namespace WulaFallenEmpire.EventSystem.AI
             registry.Add(new Tool_CallPrefabAirdrop());
             registry.Add(new Tool_SetOverwatchMode());
             registry.Add(new Tool_RememberFact());
+            registry.Add(new Tool_McpFindTools());
+            registry.Add(new Tool_McpToolDetail());
+            registry.Add(new Tool_McpInvoke());
             return registry;
         }
 
@@ -110,6 +113,8 @@ namespace WulaFallenEmpire.EventSystem.AI
             {
                 registry.Add(new Tool_AnalyzeScreen());
             }
+            registry.Add(new Tool_McpFindTools());
+            registry.Add(new Tool_McpToolDetail());
             return registry;
         }
 

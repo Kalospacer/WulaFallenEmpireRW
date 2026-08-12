@@ -17,6 +17,8 @@ namespace WulaFallenEmpire
         private string _reactMaxSecondsBuffer;
         private string _maxToolStepsBuffer;
         private string _aiRequestTimeoutSecondsBuffer;
+        private bool _mcpTestRunning;
+        private string _mcpTestResult;
 
         public WulaFallenEmpireMod(ModContentPack content) : base(content)
         {
@@ -34,7 +36,7 @@ namespace WulaFallenEmpire
         public override void DoSettingsWindowContents(Rect inRect)
         {
             // Prepare Scroll View
-            Rect viewRect = new Rect(0f, 0f, inRect.width - 20f, 1000f); // Adjust 1000f if more height is needed
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 20f, 1700f); // Adjust if more height is needed
             Widgets.BeginScrollView(inRect, ref _scrollPosition, viewRect);
 
             Listing_Standard listingStandard = new Listing_Standard();
@@ -170,6 +172,25 @@ namespace WulaFallenEmpire
             
 
             listingStandard.GapLine();
+            listingStandard.Label("<color=cyan>MCP 外部工具 (GABS 等)</color>");
+            listingStandard.Label("MCP 服务器配置 JSON（形状 { \"servers\": [...] }）：");
+            Rect mcpRect = listingStandard.GetRect(150f);
+            settings.mcpServersJson = Widgets.TextArea(mcpRect, settings.mcpServersJson);
+
+            Rect testRect = listingStandard.GetRect(30f);
+            if (Widgets.ButtonText(testRect, _mcpTestRunning ? "连接测试中..." : "连接测试"))
+            {
+                RunMcpConnectionTest();
+            }
+            if (!string.IsNullOrEmpty(_mcpTestResult))
+            {
+                listingStandard.Label(_mcpTestResult);
+            }
+
+            listingStandard.Label("Skill 扫描目录（可选，留空则用 mod 的 Skills/ 目录）：");
+            settings.skillsDirectory = listingStandard.TextEntry(settings.skillsDirectory);
+
+            listingStandard.GapLine();
             listingStandard.Label("Translation tools");
             Rect exportRect = listingStandard.GetRect(30f);
             if (Widgets.ButtonText(exportRect, "Export DefInjected template (CN source)"))
@@ -185,6 +206,26 @@ namespace WulaFallenEmpire
         public override string SettingsCategory()
         {
             return "Wula Fallen Empire";
+        }
+
+        private async void RunMcpConnectionTest()
+        {
+            if (_mcpTestRunning) return;
+            _mcpTestRunning = true;
+            _mcpTestResult = null;
+            try
+            {
+                string result = await EventSystem.AI.Mcp.McpConnectionManager.Instance.TestConnectionsAsync();
+                _mcpTestResult = result;
+            }
+            catch (Exception ex)
+            {
+                _mcpTestResult = "连接测试异常: " + ex.Message;
+            }
+            finally
+            {
+                _mcpTestRunning = false;
+            }
         }
     }
 

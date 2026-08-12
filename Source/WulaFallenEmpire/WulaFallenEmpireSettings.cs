@@ -36,7 +36,12 @@ namespace WulaFallenEmpire
         public int reactMaxStepsMax = 0; // Deprecated: step limit removed (unlimited).
         public float reactMaxSeconds = 60f;
         public bool showReactTraceInUI = false;
-        
+
+        // MCP server 列表（JSON 字符串，形状 { "servers": [...] }）。空串 = 未配置。
+        public string mcpServersJson = "";
+        // skill 扫描目录（SKILL.md），空串 = 用默认（mod 目录下的 Skills/）。
+        public string skillsDirectory = "";
+
         public override void ExposeData()
         {
             Scribe_Values.Look(ref aiProviderType, "aiProviderType", "OpenAIChat");
@@ -70,7 +75,9 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref reactMaxStepsMax, "reactMaxStepsMax", 0);
             Scribe_Values.Look(ref reactMaxSeconds, "reactMaxSeconds", 60f);
             Scribe_Values.Look(ref showReactTraceInUI, "showReactTraceInUI", false);
-            
+            Scribe_Values.Look(ref mcpServersJson, "mcpServersJson", "");
+            Scribe_Values.Look(ref skillsDirectory, "skillsDirectory", "");
+
             base.ExposeData();
         }
     }
