@@ -63,8 +63,8 @@ Source/*/build*.output
 *.tmp
 *.swp
 
-# 工具文件夹
-Tools/
+# 工具文件夹（仅根目录；勿用未锚定的 Tools/ 以免误伤 Source 下的代码目录）
+/Tools/
 
 # 游戏Mod相关临时文件
 mod.vdf.backup
