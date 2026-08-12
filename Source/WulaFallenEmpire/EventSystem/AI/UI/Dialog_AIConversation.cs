@@ -97,6 +97,12 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             _history = _core.GetHistorySnapshot();
             _scrollToBottom = true;
 
+            // 流式更新是「原地替换最后一条 assistant 消息内容」，历史条目数不变。
+            // UpdateCacheIfNeeded 只看 Count 会漏刷新，导致只显示第一个 chunk。
+            // 这里每次收到消息事件都强制缓存失效，下一帧重建。
+            _lastHistoryCount = -1;
+            _lastUsedWidth = -1f;
+
             // 解析选项
             _options.Clear();
             if (_history.Count > 0)

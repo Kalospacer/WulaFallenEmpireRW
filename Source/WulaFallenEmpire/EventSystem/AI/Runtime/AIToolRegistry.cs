@@ -79,9 +79,12 @@ namespace WulaFallenEmpire.EventSystem.AI
             registry.Add(new Tool_CallPrefabAirdrop());
             registry.Add(new Tool_SetOverwatchMode());
             registry.Add(new Tool_RememberFact());
+            registry.Add(new Tool_ReadSkill());
             registry.Add(new Tool_McpFindTools());
             registry.Add(new Tool_McpToolDetail());
             registry.Add(new Tool_McpInvoke());
+            registry.Add(new Tool_BridgeListTools());
+            registry.Add(new Tool_BridgeCall());
             return registry;
         }
 
@@ -115,6 +118,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             registry.Add(new Tool_McpFindTools());
             registry.Add(new Tool_McpToolDetail());
+            registry.Add(new Tool_BridgeListTools());
             return registry;
         }
 

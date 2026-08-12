@@ -172,7 +172,7 @@ namespace WulaFallenEmpire
             
 
             listingStandard.GapLine();
-            listingStandard.Label("<color=cyan>MCP 外部工具 (GABS 等)</color>");
+            listingStandard.Label("<color=cyan>MCP 外部工具</color>");
             listingStandard.Label("MCP 服务器配置 JSON（形状 { \"servers\": [...] }）：");
             Rect mcpRect = listingStandard.GetRect(150f);
             settings.mcpServersJson = Widgets.TextArea(mcpRect, settings.mcpServersJson);
