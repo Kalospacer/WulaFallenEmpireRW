@@ -185,24 +185,43 @@ namespace WulaFallenEmpire.EventSystem.AI
             string role = (message.Role ?? "user").ToLowerInvariant();
             if (role == "tool")
             {
-                return new JObject
+                var responseParts = new JArray
                 {
-                    ["role"] = "user",
-                    ["parts"] = new JArray
+                    new JObject
                     {
-                        new JObject
+                        ["functionResponse"] = new JObject
                         {
-                            ["functionResponse"] = new JObject
+                            ["name"] = string.IsNullOrWhiteSpace(message.ToolName) ? message.ToolCallId : message.ToolName,
+                            ["response"] = new JObject
                             {
                                 ["name"] = string.IsNullOrWhiteSpace(message.ToolName) ? message.ToolCallId : message.ToolName,
-                                ["response"] = new JObject
-                                {
-                                    ["name"] = string.IsNullOrWhiteSpace(message.ToolName) ? message.ToolCallId : message.ToolName,
-                                    ["content"] = message.Content ?? string.Empty
-                                }
+                                ["content"] = message.Content ?? string.Empty
                             }
                         }
                     }
+                };
+                // Image output rides in the same content as the functionResponse. A separate user turn
+                // would work here but not on Anthropic, so all providers keep the parts together.
+                if (message.Parts != null)
+                {
+                    foreach (var part in message.Parts)
+                    {
+                        if (part == null) continue;
+                        if (!string.Equals(part.Type, "image", StringComparison.OrdinalIgnoreCase)) continue;
+                        responseParts.Add(new JObject
+                        {
+                            ["inline_data"] = new JObject
+                            {
+                                ["mime_type"] = part.MimeType,
+                                ["data"] = part.Base64Data
+                            }
+                        });
+                    }
+                }
+                return new JObject
+                {
+                    ["role"] = "user",
+                    ["parts"] = responseParts
                 };
             }
 

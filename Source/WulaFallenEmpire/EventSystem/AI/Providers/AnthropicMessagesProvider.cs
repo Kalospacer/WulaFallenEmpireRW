@@ -183,6 +183,41 @@ namespace WulaFallenEmpire.EventSystem.AI
             string role = (message.Role ?? "user").ToLowerInvariant();
             if (role == "tool")
             {
+                // tool_result.content accepts a block array, so a screenshot travels inside the tool
+                // result itself. Emitting it as a separate user message would put two consecutive user
+                // turns in the payload, which the Messages API rejects.
+                JToken resultContent;
+                if (message.Parts != null && message.Parts.Count > 0)
+                {
+                    var blocks = new JArray();
+                    foreach (var part in message.Parts)
+                    {
+                        if (part == null) continue;
+                        if (string.Equals(part.Type, "image", StringComparison.OrdinalIgnoreCase))
+                        {
+                            blocks.Add(new JObject
+                            {
+                                ["type"] = "image",
+                                ["source"] = new JObject
+                                {
+                                    ["type"] = "base64",
+                                    ["media_type"] = part.MimeType,
+                                    ["data"] = part.Base64Data
+                                }
+                            });
+                        }
+                        else
+                        {
+                            blocks.Add(new JObject { ["type"] = "text", ["text"] = part.Text ?? string.Empty });
+                        }
+                    }
+                    resultContent = blocks;
+                }
+                else
+                {
+                    resultContent = message.Content ?? string.Empty;
+                }
+
                 return new JObject
                 {
                     ["role"] = "user",
@@ -192,7 +227,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                         {
                             ["type"] = "tool_result",
                             ["tool_use_id"] = message.ToolCallId ?? string.Empty,
-                            ["content"] = message.Content ?? string.Empty
+                            ["content"] = resultContent
                         }
                     }
                 };

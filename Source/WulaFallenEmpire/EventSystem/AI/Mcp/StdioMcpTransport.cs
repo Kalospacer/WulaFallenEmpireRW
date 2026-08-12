@@ -77,7 +77,25 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
             _writer = _process.StandardInput;
             _readCts = new CancellationTokenSource();
             _readerTask = Task.Run(() => ReaderLoop(_process, _readCts.Token));
+            // stderr is redirected, so it MUST be drained: once the OS pipe buffer fills (~4-64KB) the
+            // child blocks on its next stderr write and stops servicing stdin/stdout entirely, wedging
+            // every in-flight request until its timeout fires.
+            _process.ErrorDataReceived += OnErrorDataReceived;
+            try
+            {
+                _process.BeginErrorReadLine();
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug($"[WulaAI][MCP][{_config.Name}] stderr drain could not start: {ex.Message}");
+            }
             return Task.FromResult(true);
+        }
+
+        private void OnErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e?.Data)) return;
+            WulaLog.Debug($"[WulaAI][MCP][{_config.Name}] stderr: {e.Data}");
         }
 
         private async Task ReaderLoop(Process process, CancellationToken ct)
@@ -140,6 +158,8 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
                 {
                     _readCts.Cancel();
                 }
+                try { process.CancelErrorRead(); } catch { }
+                process.ErrorDataReceived -= OnErrorDataReceived;
                 // 关 stdin = 优雅关闭信号
                 try { _writer?.Close(); } catch { }
                 _writer = null;
@@ -178,8 +198,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
             if (System.Threading.Interlocked.Exchange(ref _disposed, 1) == 1) return;
             _readCts?.Cancel();
             _readCts?.Dispose();
-            try { _process?.Kill(); } catch { }
-            _process?.Dispose();
+            var process = _process;
+            if (process != null)
+            {
+                try { process.CancelErrorRead(); } catch { }
+                process.ErrorDataReceived -= OnErrorDataReceived;
+                try { process.Kill(); } catch { }
+                process.Dispose();
+            }
         }
     }
 }

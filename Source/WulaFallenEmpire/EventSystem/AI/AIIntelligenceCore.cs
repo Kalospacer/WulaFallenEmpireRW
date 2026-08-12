@@ -24,6 +24,15 @@ namespace WulaFallenEmpire.EventSystem.AI
         public event Action<bool> OnThinkingStateChanged;
         public event Action<int> OnExpressionChanged;
         private List<(string role, string message)> _history = new List<(string role, string message)>();
+        /// <summary>
+        /// Guards every read and write of <see cref="_history"/>. The tool-loop callbacks
+        /// (<see cref="RecordToolResultForUi"/>, <see cref="AppendStreamingAssistantDelta"/> and friends)
+        /// run on thread-pool continuations — the providers all await with <c>ConfigureAwait(false)</c> and
+        /// RimWorld installs no SynchronizationContext — while the UI enumerates the same list every frame
+        /// through <see cref="GetHistorySnapshot"/>. Without this lock that race throws
+        /// <see cref="IndexOutOfRangeException"/> or <see cref="InvalidOperationException"/> on the UI thread.
+        /// </summary>
+        private readonly object _historyLock = new object();
         private bool _aiEnabled;
         private string _activeEventDefName;
         private bool _isThinking;
@@ -197,9 +206,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         public List<(string role, string message)> GetHistorySnapshot()
         {
-            return (_history ?? new List<(string role, string message)>())
-                .Where(AIHistoryManager.IsPersistableHistoryEntry)
-                .ToList();
+            lock (_historyLock)
+            {
+                return (_history ?? new List<(string role, string message)>())
+                    .Where(AIHistoryManager.IsPersistableHistoryEntry)
+                    .ToList();
+            }
         }
         public void SetExpression(int id)
         {
@@ -238,7 +250,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             // 附加选中对象的上下文信息
             string messageWithContext = BuildUserMessageWithContext(text);
-            _history.Add(("user", messageWithContext));
+            lock (_historyLock)
+            {
+                _history.Add(("user", messageWithContext));
+            }
             PersistHistory();
             _ = RunPhasedRequestAsync(null, true, trimmed);
         }
@@ -396,14 +411,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private void LoadHistoryForActiveEvent()
         {
             var historyManager = Find.World?.GetComponent<AIHistoryManager>();
-            _history = historyManager?.GetHistory(_activeEventDefName) ?? new List<(string role, string message)>();
-            int loadedCount = _history.Count;
-            _history = _history.Where(AIHistoryManager.IsPersistableHistoryEntry).ToList();
+            var loaded = historyManager?.GetHistory(_activeEventDefName) ?? new List<(string role, string message)>();
+            int loadedCount = loaded.Count;
+            loaded = loaded.Where(AIHistoryManager.IsPersistableHistoryEntry).ToList();
             // Drop image rows whose backing file is gone, so the dialog never tries to render dead refs.
-            _history = _history.Where(e =>
+            loaded = loaded.Where(e =>
                 !string.Equals(e.role, "image", StringComparison.OrdinalIgnoreCase) ||
                 (AIImageStore.TryParseImageRef(e.message, out var f, out _, out _) && AIImageStore.ImageExists(f))).ToList();
-            if (_history.Count != loadedCount)
+            lock (_historyLock)
+            {
+                _history = loaded;
+            }
+            if (loaded.Count != loadedCount)
             {
                 PersistHistory();
             }
@@ -417,10 +436,17 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             try
             {
                 var historyManager = Find.World?.GetComponent<AIHistoryManager>();
-                _history = (_history ?? new List<(string role, string message)>())
-                    .Where(AIHistoryManager.IsPersistableHistoryEntry)
-                    .ToList();
-                historyManager?.SaveHistory(_activeEventDefName, _history);
+                List<(string role, string message)> toSave;
+                lock (_historyLock)
+                {
+                    _history = (_history ?? new List<(string role, string message)>())
+                        .Where(AIHistoryManager.IsPersistableHistoryEntry)
+                        .ToList();
+                    toSave = _history;
+                }
+                // SaveHistory re-filters into its own list, so passing the reference out of the lock is
+                // safe; it never retains or mutates the instance it was handed.
+                historyManager?.SaveHistory(_activeEventDefName, toSave);
             }
             catch (Exception ex)
             {
@@ -429,16 +455,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private void ClearHistory()
         {
-            // Free the on-disk images referenced by this conversation before dropping the rows.
-            foreach (var entry in _history ?? new List<(string role, string message)>())
+            lock (_historyLock)
             {
-                if (string.Equals(entry.role, "image", StringComparison.OrdinalIgnoreCase) &&
-                    AIImageStore.TryParseImageRef(entry.message, out var file, out _, out _))
-                {
-                    AIImageStore.DeleteImage(file);
-                }
+                // Free the on-disk images referenced by this conversation before dropping the rows.
+                DeleteImagesInRange(0, _history?.Count ?? 0);
+                _history.Clear();
             }
-            _history.Clear();
             try
             {
                 var historyManager = Find.World?.GetComponent<AIHistoryManager>();
@@ -456,26 +478,34 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private bool TryApplyLastAssistantExpression()
         {
-            for (int i = _history.Count - 1; i >= 0; i--)
+            bool persist = false;
+            bool found = false;
+            lock (_historyLock)
             {
-                var entry = _history[i];
-                if (!string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase))
+                for (int i = _history.Count - 1; i >= 0; i--)
                 {
-                    continue;
+                    var entry = _history[i];
+                    if (!string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+                    if (string.IsNullOrWhiteSpace(entry.message))
+                    {
+                        return false;
+                    }
+                    string cleaned = StripExpressionTags(entry.message);
+                    if (!string.Equals(cleaned, entry.message, StringComparison.Ordinal))
+                    {
+                        _history[i] = ("assistant", cleaned);
+                        persist = true;
+                    }
+                    found = true;
+                    break;
                 }
-                if (string.IsNullOrWhiteSpace(entry.message))
-                {
-                    return false;
-                }
-                string cleaned = StripExpressionTags(entry.message);
-                if (!string.Equals(cleaned, entry.message, StringComparison.Ordinal))
-                {
-                    _history[i] = ("assistant", cleaned);
-                    PersistHistory();
-                }
-                return true;
             }
-            return false;
+            // Kept outside the lock so the file write does not hold it.
+            if (persist) PersistHistory();
+            return found;
         }
         private EventDef GetActiveEventDef()
         {
@@ -551,16 +581,45 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private void CompressHistoryIfNeeded()
         {
-            int estimatedTokens = _history.Sum(h => h.message?.Length ?? 0) / CharsPerToken;
-            if (estimatedTokens > GetMaxHistoryTokens())
+            lock (_historyLock)
             {
-                int removeCount = _history.Count / 2;
-                if (removeCount > 0)
+                int estimatedTokens = _history.Sum(h => h.message?.Length ?? 0) / CharsPerToken;
+                if (estimatedTokens <= GetMaxHistoryTokens())
                 {
-                    _history.RemoveRange(0, removeCount);
-                    _history.Insert(0, ("system", "[Earlier conversation dropped to fit the context budget]"));
-                    ShiftMemorySummaryCursors(removeCount);
-                    PersistHistory();
+                    return;
+                }
+                int removeCount = _history.Count / 2;
+                if (removeCount <= 0)
+                {
+                    return;
+                }
+                // The dropped rows are the only remaining reference to their screenshots, so the files
+                // have to go with them. Without this every image ever captured stays on disk for the
+                // life of the save, since ClearHistory was the sole DeleteImage caller.
+                DeleteImagesInRange(0, removeCount);
+                _history.RemoveRange(0, removeCount);
+                _history.Insert(0, ("system", "[Earlier conversation dropped to fit the context budget]"));
+                ShiftMemorySummaryCursors(removeCount);
+            }
+            PersistHistory();
+        }
+
+        /// <summary>
+        /// Deletes the on-disk images referenced by <c>_history[start, start + count)</c>. Call before
+        /// dropping those rows; an image row is the only handle on its file. Callers must hold
+        /// <see cref="_historyLock"/>.
+        /// </summary>
+        private void DeleteImagesInRange(int start, int count)
+        {
+            if (_history == null) return;
+            int end = Math.Min(_history.Count, start + count);
+            for (int i = Math.Max(0, start); i < end; i++)
+            {
+                var entry = _history[i];
+                if (!string.Equals(entry.role, "image", StringComparison.OrdinalIgnoreCase)) continue;
+                if (AIImageStore.TryParseImageRef(entry.message, out var file, out _, out _))
+                {
+                    AIImageStore.DeleteImage(file);
                 }
             }
         }
@@ -594,7 +653,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 return;
             }
-            if (_history == null || _history.Count == 0)
+            int historyCount;
+            lock (_historyLock)
+            {
+                historyCount = _history?.Count ?? 0;
+            }
+            if (historyCount == 0)
             {
                 return;
             }
@@ -602,7 +666,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             int startIndex = _pendingMemorySummaryStartIndex >= 0
                 ? _pendingMemorySummaryStartIndex
                 : Math.Max(0, _lastMemorySummaryHistoryIndex);
-            int endIndex = _history.Count;
+            int endIndex = historyCount;
             if (startIndex >= endIndex)
             {
                 return;
@@ -656,36 +720,42 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private int CountCleanConversationMessages(int startIndex, int endIndex)
         {
             int count = 0;
-            int safeStart = Math.Max(0, startIndex);
-            int safeEnd = Math.Min(endIndex, _history?.Count ?? 0);
-            for (int i = safeStart; i < safeEnd; i++)
+            lock (_historyLock)
             {
-                var entry = _history[i];
-                if (!IsMemoryConversationRole(entry.role)) continue;
-                string message = CleanMessageForMemory(entry.role, entry.message);
-                if (string.IsNullOrWhiteSpace(message)) continue;
-                count++;
+                int safeStart = Math.Max(0, startIndex);
+                int safeEnd = Math.Min(endIndex, _history?.Count ?? 0);
+                for (int i = safeStart; i < safeEnd; i++)
+                {
+                    var entry = _history[i];
+                    if (!IsMemoryConversationRole(entry.role)) continue;
+                    string message = CleanMessageForMemory(entry.role, entry.message);
+                    if (string.IsNullOrWhiteSpace(message)) continue;
+                    count++;
+                }
             }
             return count;
         }
 
         private string BuildMemoryConversation(int startIndex, int endIndex)
         {
-            if (_history == null || _history.Count == 0)
-            {
-                return "";
-            }
-            int safeStart = Math.Max(0, startIndex);
-            int safeEnd = Math.Min(endIndex, _history.Count);
             StringBuilder sb = new StringBuilder();
-            for (int i = safeStart; i < safeEnd; i++)
+            lock (_historyLock)
             {
-                var entry = _history[i];
-                if (!IsMemoryConversationRole(entry.role)) continue;
-                string message = CleanMessageForMemory(entry.role, entry.message);
-                if (string.IsNullOrWhiteSpace(message)) continue;
-                string role = string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase) ? "Assistant" : "User";
-                sb.AppendLine($"{role}: {message}");
+                if (_history == null || _history.Count == 0)
+                {
+                    return "";
+                }
+                int safeStart = Math.Max(0, startIndex);
+                int safeEnd = Math.Min(endIndex, _history.Count);
+                for (int i = safeStart; i < safeEnd; i++)
+                {
+                    var entry = _history[i];
+                    if (!IsMemoryConversationRole(entry.role)) continue;
+                    string message = CleanMessageForMemory(entry.role, entry.message);
+                    if (string.IsNullOrWhiteSpace(message)) continue;
+                    string role = string.Equals(entry.role, "assistant", StringComparison.OrdinalIgnoreCase) ? "Assistant" : "User";
+                    sb.AppendLine($"{role}: {message}");
+                }
             }
             string conversation = sb.ToString().Trim();
             return TrimForPrompt(conversation, 4000);
@@ -1020,15 +1090,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 return;
             }
             bool added = false;
-            if (_history.Count == 0 || !string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
+            lock (_historyLock)
             {
-                _history.Add(("assistant", cleanedResponse));
-                added = true;
-            }
-            else if (!string.Equals(_history[_history.Count - 1].message, cleanedResponse, StringComparison.Ordinal))
-            {
-                _history.Add(("assistant", cleanedResponse));
-                added = true;
+                if (_history.Count == 0 || !string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
+                {
+                    _history.Add(("assistant", cleanedResponse));
+                    added = true;
+                }
+                else if (!string.Equals(_history[_history.Count - 1].message, cleanedResponse, StringComparison.Ordinal))
+                {
+                    _history.Add(("assistant", cleanedResponse));
+                    added = true;
+                }
             }
             if (added)
             {
@@ -1116,7 +1189,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             var messages = new List<AIMessage>();
             var pendingToolTrace = new List<string>();
-            foreach (var entry in _history ?? new List<(string role, string message)>())
+            // Snapshot under the lock: the tool-loop callbacks keep appending while this runs.
+            List<(string role, string message)> historySnapshot;
+            lock (_historyLock)
+            {
+                historySnapshot = (_history ?? new List<(string role, string message)>()).ToList();
+            }
+            foreach (var entry in historySnapshot)
             {
                 if (string.IsNullOrWhiteSpace(entry.message)) continue;
                 if (IsAutoCommentaryMessage(entry.message)) continue;
@@ -1253,26 +1332,31 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private void AppendStreamingAssistantDelta(string delta)
         {
             if (string.IsNullOrEmpty(delta)) return;
-            if (!_streamingAssistantActive)
+            string buffered;
+            lock (_historyLock)
             {
-                _streamingAssistantActive = true;
-                _streamingAssistantBuffer.Clear();
-                _streamingAssistantHistoryIndex = _history.Count;
-                _history.Add(("assistant", ""));
+                if (!_streamingAssistantActive)
+                {
+                    _streamingAssistantActive = true;
+                    _streamingAssistantBuffer.Clear();
+                    _streamingAssistantHistoryIndex = _history.Count;
+                    _history.Add(("assistant", ""));
+                }
+                _streamingAssistantBuffer.Append(delta);
+                buffered = _streamingAssistantBuffer.ToString();
+                if (_streamingAssistantHistoryIndex >= 0 &&
+                    _streamingAssistantHistoryIndex < _history.Count &&
+                    string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
+                {
+                    _history[_streamingAssistantHistoryIndex] = ("assistant", buffered);
+                }
+                else
+                {
+                    _streamingAssistantHistoryIndex = _history.Count;
+                    _history.Add(("assistant", buffered));
+                }
             }
-            _streamingAssistantBuffer.Append(delta);
-            if (_streamingAssistantHistoryIndex >= 0 &&
-                _streamingAssistantHistoryIndex < _history.Count &&
-                string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
-            {
-                _history[_streamingAssistantHistoryIndex] = ("assistant", _streamingAssistantBuffer.ToString());
-            }
-            else
-            {
-                _streamingAssistantHistoryIndex = _history.Count;
-                _history.Add(("assistant", _streamingAssistantBuffer.ToString()));
-            }
-            OnMessageReceived?.Invoke(_streamingAssistantBuffer.ToString());
+            OnMessageReceived?.Invoke(buffered);
         }
 
         private void CommitFinalAssistantMessage(string content)
@@ -1291,23 +1375,26 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         /// </remarks>
         private void DiscardStreamingDraft()
         {
-            if (!_streamingAssistantActive)
+            lock (_historyLock)
             {
-                return;
+                if (!_streamingAssistantActive)
+                {
+                    return;
+                }
+                if (_streamingAssistantHistoryIndex >= 0 &&
+                    _streamingAssistantHistoryIndex < _history.Count &&
+                    string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
+                {
+                    _history.RemoveAt(_streamingAssistantHistoryIndex);
+                }
+                else if (_history.Count > 0 && string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
+                {
+                    _history.RemoveAt(_history.Count - 1);
+                }
+                _streamingAssistantActive = false;
+                _streamingAssistantBuffer.Clear();
+                _streamingAssistantHistoryIndex = -1;
             }
-            if (_streamingAssistantHistoryIndex >= 0 &&
-                _streamingAssistantHistoryIndex < _history.Count &&
-                string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
-            {
-                _history.RemoveAt(_streamingAssistantHistoryIndex);
-            }
-            else if (_history.Count > 0 && string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
-            {
-                _history.RemoveAt(_history.Count - 1);
-            }
-            _streamingAssistantActive = false;
-            _streamingAssistantBuffer.Clear();
-            _streamingAssistantHistoryIndex = -1;
         }
 
         private void LogAgentTrace(string trace)
@@ -1326,14 +1413,17 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (calls == null || calls.Count == 0) return;
             // The model streamed text and then decided to call tools; that partial text is not the reply.
             DiscardStreamingDraft();
-            foreach (var call in calls)
+            lock (_historyLock)
             {
-                if (call == null || string.IsNullOrWhiteSpace(call.Name)) continue;
-                string args = call.ArgumentsJson;
-                string line = string.IsNullOrWhiteSpace(args) || args == "{}"
-                    ? call.Name
-                    : $"{call.Name} {args}";
-                _history.Add(("toolcall", line));
+                foreach (var call in calls)
+                {
+                    if (call == null || string.IsNullOrWhiteSpace(call.Name)) continue;
+                    string args = call.ArgumentsJson;
+                    string line = string.IsNullOrWhiteSpace(args) || args == "{}"
+                        ? call.Name
+                        : $"{call.Name} {args}";
+                    _history.Add(("toolcall", line));
+                }
             }
             PersistHistory();
             OnMessageReceived?.Invoke(string.Empty);
@@ -1347,15 +1437,19 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             string line = result.IsError
                 ? $"Tool '{name}' Error: {content}"
                 : $"Tool '{name}' Result: {content}";
-            _history.Add(("tool", line));
             // Multimodal image output: store a lightweight on-disk reference so the dialog can render the
             // screenshot in the message stream. base64 never enters history.
             string imageRef = ExtractImageRef(result.Content);
-            if (!string.IsNullOrWhiteSpace(imageRef) &&
+            bool hasImage = !string.IsNullOrWhiteSpace(imageRef) &&
                 AIImageStore.TryParseImageRef(imageRef, out var imgFile, out _, out _) &&
-                AIImageStore.ImageExists(imgFile))
+                AIImageStore.ImageExists(imgFile);
+            lock (_historyLock)
             {
-                _history.Add(("image", imageRef));
+                _history.Add(("tool", line));
+                if (hasImage)
+                {
+                    _history.Add(("image", imageRef));
+                }
             }
             PersistHistory();
             OnMessageReceived?.Invoke(string.Empty);
@@ -1365,8 +1459,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private static string ExtractImageRef(string content)
         {
             if (string.IsNullOrWhiteSpace(content)) return null;
-            var match = Regex.Match(content, @"img\|[^\s|]+\.(?:jpg|jpeg|png)\|\d+x\d+", RegexOptions.IgnoreCase);
-            return match.Success ? match.Value : null;
+            // The file-name group excludes separators and dots-runs so a forged ref cannot smuggle a
+            // traversal path through here; AIImageStore also re-validates before touching the disk.
+            var match = Regex.Match(content, @"img\|[^\s|/\\]+\.(?:jpg|jpeg|png)\|\d+x\d+", RegexOptions.IgnoreCase);
+            if (!match.Success) return null;
+            return match.Value.IndexOf("..", StringComparison.Ordinal) >= 0 ? null : match.Value;
         }
 
         private static string NormalizeSingleLine(string text)

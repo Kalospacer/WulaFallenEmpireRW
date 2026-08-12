@@ -53,12 +53,21 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
             new ConcurrentDictionary<long, TaskCompletionSource<JObject>>();
         private long _nextId;
         private bool _started;
+        /// <summary>
+        /// Serializes <see cref="EnsureStartedAsync"/>. Settings' "test connection" and an agent tool loop
+        /// share one client instance, so without this both callers pass the <c>_started</c> check and each
+        /// spawns a process: the second overwrites the transport fields while the first keeps running with
+        /// a live reader feeding the shared <c>_pending</c> map.
+        /// </summary>
+        private readonly SemaphoreSlim _startGate = new SemaphoreSlim(1, 1);
         private Era _era = Era.Unknown;
         private string _protocolVersion;
         private int _disposed;
 
         public string ServerName => _config?.Name ?? string.Empty;
         public bool IsStarted => _started;
+        /// <summary>The config this client was built from; used to detect a stale cached client.</summary>
+        public McpServerConfig Config => _config;
 
         public McpClient(McpServerConfig config)
         {
@@ -74,15 +83,25 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
         private async Task EnsureStartedAsync(CancellationToken ct)
         {
             if (_started) return;
-            if (_transport == null)
+            await _startGate.WaitAsync(ct).ConfigureAwait(false);
+            try
             {
-                _transport = CreateTransport();
-                _transport.OnLineReceived += OnLineReceived;
-                _transport.OnDisconnected += OnDisconnected;
+                // Re-check: another caller may have completed startup while we waited on the gate.
+                if (_started) return;
+                if (_transport == null)
+                {
+                    _transport = CreateTransport();
+                    _transport.OnLineReceived += OnLineReceived;
+                    _transport.OnDisconnected += OnDisconnected;
+                }
+                await _transport.StartAsync(ct).ConfigureAwait(false);
+                await DetectEraAsync(ct).ConfigureAwait(false);
+                _started = true;
             }
-            await _transport.StartAsync(ct).ConfigureAwait(false);
-            await DetectEraAsync(ct).ConfigureAwait(false);
-            _started = true;
+            finally
+            {
+                _startGate.Release();
+            }
         }
 
         private void OnLineReceived(string line)
@@ -279,6 +298,14 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
 
         public async Task<McpCallResult> CallToolAsync(string name, JObject arguments, CancellationToken ct)
         {
+            // The allow/deny list has to be enforced here too, not only in ListToolsAsync: mcp_invoke
+            // routes straight to this method, so a discovery-only check let the model reach a tool the
+            // user had explicitly disabled just by naming it.
+            if (!_config.IsToolAllowed(name))
+            {
+                return McpCallResult.FromError($"Error: 工具 '{name}' 已被 server '{ServerName}' 的配置禁用。");
+            }
+
             var param = new JObject
             {
                 ["name"] = name,
@@ -396,6 +423,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
             _transport?.Dispose();
             _transport = null;
             _started = false;
+            _startGate.Dispose();
         }
     }
 }

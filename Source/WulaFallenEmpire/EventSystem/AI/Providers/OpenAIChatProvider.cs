@@ -140,6 +140,11 @@ namespace WulaFallenEmpire.EventSystem.AI
             {
                 var converted = ConvertMessage(message, includeReasoningContent);
                 if (converted != null) messages.Add(converted);
+                // The chat-completions `tool` role only accepts a plain string, so a tool result carrying
+                // images needs a follow-up user message to actually show them. Unlike Anthropic, this API
+                // does not require roles to alternate, so the extra user turn is legal here.
+                var followUp = BuildToolImageFollowUp(message);
+                if (followUp != null) messages.Add(followUp);
             }
             payload["messages"] = messages;
 
@@ -197,6 +202,41 @@ namespace WulaFallenEmpire.EventSystem.AI
             {
                 return _baseUrl?.IndexOf("api.deepseek.com", StringComparison.OrdinalIgnoreCase) >= 0;
             }
+        }
+
+        /// <summary>
+        /// Builds the follow-up user message that surfaces a tool result's image parts, or null when the
+        /// message is not an image-carrying tool result.
+        /// </summary>
+        private static JObject BuildToolImageFollowUp(AIMessage message)
+        {
+            if (message == null) return null;
+            if (!string.Equals(message.Role, "tool", StringComparison.OrdinalIgnoreCase)) return null;
+            if (message.Parts == null || message.Parts.Count == 0) return null;
+
+            var parts = new JArray();
+            foreach (var part in message.Parts)
+            {
+                if (part == null) continue;
+                if (!string.Equals(part.Type, "image", StringComparison.OrdinalIgnoreCase)) continue;
+                parts.Add(new JObject
+                {
+                    ["type"] = "image_url",
+                    ["image_url"] = new JObject
+                    {
+                        ["url"] = $"data:{part.MimeType};base64,{part.Base64Data}"
+                    }
+                });
+            }
+            if (parts.Count == 0) return null;
+
+            string toolName = string.IsNullOrWhiteSpace(message.ToolName) ? "unknown_tool" : message.ToolName;
+            parts.Insert(0, new JObject
+            {
+                ["type"] = "text",
+                ["text"] = $"[image output from tool '{toolName}']"
+            });
+            return new JObject { ["role"] = "user", ["content"] = parts };
         }
 
         private static JObject ConvertMessage(AIMessage message, bool includeReasoningContent)

@@ -54,16 +54,21 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
             _configErrors = errors ?? new List<string>();
             Interlocked.Exchange(ref _configLoaded, 1);
 
-            // 关掉已不存在于新配置的 client
-            var names = new HashSet<string>(_configs.Select(c => c.Name), StringComparer.OrdinalIgnoreCase);
+            // Drop clients whose server disappeared from the config, and also those whose connection
+            // details changed: keying only on the name kept a client bound to the previous process or
+            // endpoint, so editing a command or url in Mod Settings had no effect until a game restart.
+            // GroupBy (not ToDictionary) because mcpServersJson is user-authored and may repeat a name.
+            var byName = _configs
+                .GroupBy(c => c.Name, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
             foreach (var kv in _clients)
             {
-                if (!names.Contains(kv.Key))
+                bool stale = !byName.TryGetValue(kv.Key, out var newCfg)
+                    || !newCfg.HasSameConnection(kv.Value.Config);
+                if (!stale) continue;
+                if (_clients.TryRemove(kv.Key, out var client))
                 {
-                    if (_clients.TryRemove(kv.Key, out var client))
-                    {
-                        client.Dispose();
-                    }
+                    client.Dispose();
                 }
             }
         }
@@ -152,7 +157,19 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
             }
         }
 
-        public async Task<string> InvokeAsync(string serverName, string toolName, JObject arguments, CancellationToken ct)
+        public Task<string> InvokeAsync(string serverName, string toolName, JObject arguments, CancellationToken ct)
+        {
+            return InvokeAsync(serverName, toolName, arguments, null, ct);
+        }
+
+        /// <summary>
+        /// Invokes an MCP tool, optionally overriding the server's configured tool timeout.
+        /// </summary>
+        /// <param name="timeoutSecOverride">
+        /// Caller-supplied timeout in seconds; null uses the server config's <c>ToolTimeoutSec</c>.
+        /// Clamped to the same 2..600 range as the configured value.
+        /// </param>
+        public async Task<string> InvokeAsync(string serverName, string toolName, JObject arguments, int? timeoutSecOverride, CancellationToken ct)
         {
             EnsureConfigLoaded();
             var client = GetClient(serverName);
@@ -161,8 +178,8 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
                 return $"Error: 未找到 MCP server '{serverName}'。";
             }
 
-            // 用 server 配置里的工具超时
-            int timeoutSec = Math.Max(2, Math.Min(600, client.ServerName == null ? 120 : ResolveTimeoutSec(serverName)));
+            int requested = timeoutSecOverride ?? ResolveTimeoutSec(serverName);
+            int timeoutSec = Math.Max(2, Math.Min(600, requested));
             using (var cts = CancellationTokenSource.CreateLinkedTokenSource(ct))
             {
                 cts.CancelAfter(TimeSpan.FromSeconds(timeoutSec));

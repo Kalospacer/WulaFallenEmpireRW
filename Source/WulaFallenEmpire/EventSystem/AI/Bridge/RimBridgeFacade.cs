@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RimBridgeServer.Sdk;
+using UnityEngine;
 using Verse;
 
 namespace WulaFallenEmpire.EventSystem.AI.Bridge
@@ -16,15 +17,38 @@ namespace WulaFallenEmpire.EventSystem.AI.Bridge
     /// </summary>
     public static class RimBridgeFacade
     {
+        /// <summary>
+        /// Shared unavailable-bridge message. The <c>Error:</c> prefix is load-bearing: AIToolRunner
+        /// derives <c>IsError</c> from it, so dropping the prefix makes the model treat "bridge missing"
+        /// as a successful tool result and believe an action it never performed had succeeded.
+        /// </summary>
+        private const string UnavailableMessage =
+            "Error: 未检测到 RimBridgeServer（或其 SDK 未就绪）。游戏操作需要启用 RimBridgeServer 这个 mod。";
+
         private static bool? _cachedAvailable;
+        /// <summary>How long a failed probe stays cached before <see cref="IsAvailable"/> re-probes.</summary>
+        private const float NegativeProbeIntervalSeconds = 10f;
+        private static float _lastProbeTime = float.NegativeInfinity;
 
         /// <summary>RimBridgeServer 是否已安装且桥已就绪。</summary>
+        /// <remarks>
+        /// Only a successful probe is cached. A negative result is re-probed after
+        /// <see cref="NegativeProbeIntervalSeconds"/>, because the bridge can become ready after our first
+        /// probe (it initializes on its own schedule) or the user can enable the mod mid-session — caching
+        /// <c>false</c> forever left both cases permanently unavailable with no retry path.
+        /// </remarks>
         public static bool IsAvailable
         {
             get
             {
-                if (_cachedAvailable.HasValue)
-                    return _cachedAvailable.Value;
+                if (_cachedAvailable == true)
+                    return true;
+                if (_cachedAvailable == false &&
+                    Time.realtimeSinceStartup - _lastProbeTime < NegativeProbeIntervalSeconds)
+                {
+                    return false;
+                }
+                _lastProbeTime = Time.realtimeSinceStartup;
                 _cachedAvailable = Probe();
                 return _cachedAvailable.Value;
             }
@@ -54,8 +78,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Bridge
         {
             if (!IsAvailable)
             {
-                return Task.FromResult("未检测到 RimBridgeServer（或其 SDK 未就绪）。"
-                    + "游戏操作需要启用 RimBridgeServer 这个 mod。");
+                return Task.FromResult(UnavailableMessage);
             }
 
             try
@@ -102,8 +125,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Bridge
         {
             if (!IsAvailable)
             {
-                return "未检测到 RimBridgeServer（或其 SDK 未就绪）。"
-                    + "游戏操作需要启用 RimBridgeServer 这个 mod。";
+                return UnavailableMessage;
             }
 
             try
@@ -122,7 +144,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Bridge
 
                 var err = result.Error;
                 var sb = new StringBuilder();
-                sb.Append("失败 (status=").Append(result.Status ?? "error").Append(')');
+                // Same prefix contract as UnavailableMessage: a failed bridge call has to read as an error
+                // to AIToolRunner, or the model treats the failure as a successful action.
+                sb.Append("Error: 失败 (status=").Append(result.Status ?? "error").Append(')');
                 if (err != null)
                 {
                     if (!string.IsNullOrWhiteSpace(err.Code))

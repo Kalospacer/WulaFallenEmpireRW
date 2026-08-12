@@ -90,19 +90,23 @@ namespace WulaFallenEmpire.EventSystem.AI
                     }
                     var result = await _toolRunner.ExecuteAsync(call, cancellationToken);
                     string content = result.Content ?? string.Empty;
-                    messages.Add(AIMessage.ToolResult(call.Id, call.Name, content));
-                    // Multimodal output (e.g. a captured screenshot) is injected as a follow-up user image
-                    // message so the model can actually see it on the next step. The text tool_result above
-                    // is kept so the provider's tool_use/tool_result pairing stays intact.
-                    if (result.ContentParts != null)
+                    // Multimodal output (e.g. a captured screenshot) rides along on the tool result itself
+                    // rather than as a separate follow-up user message. Appending a second user-role
+                    // message straight after the tool result produced two consecutive user turns, which
+                    // the Anthropic Messages API rejects outright ("roles must alternate"). Each provider
+                    // folds these parts into its own tool-result shape instead.
+                    var imageParts = result.ContentParts?
+                        .Where(p => p != null && string.Equals(p.Type, "image", StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                    if (imageParts != null && imageParts.Count > 0)
                     {
-                        var imageParts = result.ContentParts.Where(p => p != null && string.Equals(p.Type, "image", StringComparison.OrdinalIgnoreCase)).ToList();
-                        if (imageParts.Count > 0)
-                        {
-                            var userParts = new List<AIContentPart> { AIContentPart.TextPart($"[image output from tool '{call.Name}']") };
-                            userParts.AddRange(imageParts);
-                            messages.Add(AIMessage.UserParts(userParts));
-                        }
+                        var resultParts = new List<AIContentPart> { AIContentPart.TextPart(content) };
+                        resultParts.AddRange(imageParts);
+                        messages.Add(AIMessage.ToolResultParts(call.Id, call.Name, content, resultParts));
+                    }
+                    else
+                    {
+                        messages.Add(AIMessage.ToolResult(call.Id, call.Name, content));
                     }
                     _onToolResult?.Invoke(result);
                     _onTrace?.Invoke($"Tool '{call.Name}' Result: {content}");

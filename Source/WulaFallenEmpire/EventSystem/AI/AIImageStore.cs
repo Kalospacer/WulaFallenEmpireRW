@@ -33,6 +33,39 @@ namespace WulaFallenEmpire.EventSystem.AI
             return path;
         }
 
+        /// <summary>
+        /// Resolves a stored image's full path, or null when <paramref name="fileName"/> would escape the
+        /// image directory. Image references are parsed out of model- and tool-authored text, so a name
+        /// like <c>..\..\Pictures\shot.jpg</c> can reach this code; without the containment check that
+        /// would let <see cref="DeleteImage"/> unlink an arbitrary file.
+        /// </summary>
+        private static string ResolveImagePath(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName)) return null;
+            // A bare file name is the only legal form: no directory separators, no volume, no traversal.
+            if (fileName.IndexOfAny(new[] { '/', '\\' }) >= 0) return null;
+            if (fileName.IndexOf("..", StringComparison.Ordinal) >= 0) return null;
+            if (fileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0) return null;
+
+            try
+            {
+                string directory = GetImageDirectory();
+                string combined = Path.GetFullPath(Path.Combine(directory, fileName));
+                string root = Path.GetFullPath(directory);
+                if (!root.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
+                {
+                    root += Path.DirectorySeparatorChar;
+                }
+                // Belt-and-braces: even with the checks above, confirm the resolved path stays under root.
+                return combined.StartsWith(root, StringComparison.OrdinalIgnoreCase) ? combined : null;
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug("[AIImageStore] ResolveImagePath failed for '" + fileName + "': " + ex.Message);
+                return null;
+            }
+        }
+
         /// <summary>Writes JPEG bytes to a new image file and returns its file name (not full path).</summary>
         public static string SaveImage(byte[] jpgBytes)
         {
@@ -53,10 +86,10 @@ namespace WulaFallenEmpire.EventSystem.AI
         /// <summary>Reads an image file's raw bytes, or null if it cannot be read.</summary>
         public static byte[] LoadImageBytes(string fileName)
         {
-            if (string.IsNullOrWhiteSpace(fileName)) return null;
+            string path = ResolveImagePath(fileName);
+            if (path == null) return null;
             try
             {
-                string path = Path.Combine(GetImageDirectory(), fileName);
                 return File.Exists(path) ? File.ReadAllBytes(path) : null;
             }
             catch (Exception ex)
@@ -97,10 +130,11 @@ namespace WulaFallenEmpire.EventSystem.AI
         /// <summary>Whether the referenced image file currently exists.</summary>
         public static bool ImageExists(string fileName)
         {
-            if (string.IsNullOrWhiteSpace(fileName)) return false;
+            string path = ResolveImagePath(fileName);
+            if (path == null) return false;
             try
             {
-                return File.Exists(Path.Combine(GetImageDirectory(), fileName));
+                return File.Exists(path);
             }
             catch
             {
@@ -111,7 +145,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         /// <summary>Deletes an image file and drops it from the texture cache.</summary>
         public static void DeleteImage(string fileName)
         {
-            if (string.IsNullOrWhiteSpace(fileName)) return;
+            string path = ResolveImagePath(fileName);
+            if (path == null) return;
             if (_texCache.TryGetValue(fileName, out var tex))
             {
                 if (tex != null) UnityEngine.Object.Destroy(tex);
@@ -119,7 +154,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             try
             {
-                string path = Path.Combine(GetImageDirectory(), fileName);
                 if (File.Exists(path)) File.Delete(path);
             }
             catch (Exception ex)

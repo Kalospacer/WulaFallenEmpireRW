@@ -41,6 +41,39 @@ namespace WulaFallenEmpire.EventSystem.AI.Mcp
             }
         }
 
+        /// <summary>
+        /// Whether <paramref name="other"/> describes the same live connection as this config — i.e.
+        /// whether an already-running client built from one can keep serving the other. Tool allow/deny
+        /// lists and timeouts are read per call and deliberately excluded; only what is baked into the
+        /// spawned process or endpoint counts.
+        /// </summary>
+        public bool HasSameConnection(McpServerConfig other)
+        {
+            if (other == null) return false;
+            if (!string.Equals(Transport ?? "", other.Transport ?? "", StringComparison.OrdinalIgnoreCase)) return false;
+            if (!string.Equals(Command ?? "", other.Command ?? "", StringComparison.Ordinal)) return false;
+            if (!string.Equals(Url ?? "", other.Url ?? "", StringComparison.Ordinal)) return false;
+            if (!string.Equals(Cwd ?? "", other.Cwd ?? "", StringComparison.Ordinal)) return false;
+
+            var argsA = Args ?? new List<string>();
+            var argsB = other.Args ?? new List<string>();
+            if (argsA.Count != argsB.Count) return false;
+            for (int i = 0; i < argsA.Count; i++)
+            {
+                if (!string.Equals(argsA[i] ?? "", argsB[i] ?? "", StringComparison.Ordinal)) return false;
+            }
+
+            var envA = Env ?? new Dictionary<string, string>();
+            var envB = other.Env ?? new Dictionary<string, string>();
+            if (envA.Count != envB.Count) return false;
+            foreach (var kv in envA)
+            {
+                if (!envB.TryGetValue(kv.Key, out var value)) return false;
+                if (!string.Equals(kv.Value ?? "", value ?? "", StringComparison.Ordinal)) return false;
+            }
+            return true;
+        }
+
         public bool IsToolAllowed(string toolName)
         {
             if (string.IsNullOrWhiteSpace(toolName)) return true;

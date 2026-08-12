@@ -46,7 +46,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Skills
                 int colon = line.IndexOf(':');
                 if (colon <= 0) continue;
                 string key = line.Substring(0, colon).Trim();
-                string value = line.Substring(colon + 1).Trim();
+                string value = Unquote(line.Substring(colon + 1).Trim());
 
                 switch (key)
                 {
@@ -151,6 +151,21 @@ namespace WulaFallenEmpire.EventSystem.AI.Skills
                 Command = Get("command"),
                 Url = Get("url")
             };
+        }
+
+        /// <summary>
+        /// Strips one layer of matching surrounding quotes from a frontmatter value. Without this a
+        /// <c>name: "map-vision"</c> parsed to a name that still carried its quotes, so the skill index
+        /// displayed the quoted form and lookups by the bare name failed even though the skill had loaded.
+        /// </summary>
+        private static string Unquote(string value)
+        {
+            if (string.IsNullOrEmpty(value) || value.Length < 2) return value;
+            char first = value[0];
+            if (first != '"' && first != '\'') return value;
+            return value[value.Length - 1] == first
+                ? value.Substring(1, value.Length - 2)
+                : value;
         }
 
         private static int CountIndent(string line)

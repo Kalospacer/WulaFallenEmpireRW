@@ -48,6 +48,15 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     mcpArgs = JObject.FromObject(argsDict);
                 }
 
+                // The schema advertises `timeout`, so honour it rather than silently falling back to the
+                // server's ToolTimeoutSec — a hung server would otherwise stall the loop for up to 120s
+                // even when the model asked for a tight bound.
+                if (TryGetInt(parsed, "timeout", out int timeoutSec) && timeoutSec > 0)
+                {
+                    return await McpConnectionManager.Instance
+                        .InvokeAsync(server, tool, mcpArgs, timeoutSec, cancellationToken)
+                        .ConfigureAwait(false);
+                }
                 return await McpConnectionManager.Instance.InvokeAsync(server, tool, mcpArgs, cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)

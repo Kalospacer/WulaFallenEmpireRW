@@ -103,8 +103,8 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         {
             try
             {
-                string path = FindImagePath(textResult);
-                if (string.IsNullOrWhiteSpace(path) || !File.Exists(path)) return;
+                string path = ResolveExistingImagePath(FindImagePath(textResult));
+                if (path == null) return;
                 byte[] bytes = File.ReadAllBytes(path);
                 if (bytes == null || bytes.Length == 0) return;
                 _screenshotFileName = AIImageStore.SaveImage(bytes);
@@ -115,15 +115,87 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             }
         }
 
+        /// <summary>
+        /// Turns the bridge's reported path into an existing absolute path, or null when nothing matches.
+        /// A relative path would otherwise be resolved against the process working directory, which is not
+        /// where RimWorld writes screenshots, so the candidate roots are tried explicitly.
+        /// </summary>
+        private static string ResolveExistingImagePath(string reported)
+        {
+            if (string.IsNullOrWhiteSpace(reported)) return null;
+            string candidate = reported.Trim().Trim('"');
+            try
+            {
+                if (Path.IsPathRooted(candidate))
+                {
+                    return File.Exists(candidate) ? candidate : null;
+                }
+                foreach (string root in new[]
+                {
+                    Verse.GenFilePaths.SaveDataFolderPath,
+                    Directory.GetCurrentDirectory()
+                })
+                {
+                    if (string.IsNullOrWhiteSpace(root)) continue;
+                    string combined = Path.Combine(root, candidate);
+                    if (File.Exists(combined)) return combined;
+                }
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug("[Tool_BridgeCall] ResolveExistingImagePath failed for '" + candidate + "': " + ex.Message);
+            }
+            return null;
+        }
+
         private static string FindImagePath(string text)
         {
             if (string.IsNullOrWhiteSpace(text)) return null;
-            // 结果可能是 JSON（{"path": "..."}）或纯文本路径；取形如 *.png/*.jpg 的子串。
+            // 结果可能是 JSON（{"path": "..."}）或纯文本路径。先按 JSON 取 path/file/filename 字段，
+            // 再退回子串匹配 —— 只认 Windows 盘符 + 反斜杠会漏掉正斜杠、相对路径和 UNC 路径，
+            // 那种情况下工具仍会声称「你能看到画面」，而实际没有导入任何图片。
+            try
+            {
+                var token = Newtonsoft.Json.Linq.JToken.Parse(text);
+                foreach (var key in new[] { "path", "file", "filename", "filePath", "file_path" })
+                {
+                    var found = token.SelectToken("$.." + key);
+                    if (found == null || found.Type != Newtonsoft.Json.Linq.JTokenType.String) continue;
+                    string value = (string)found;
+                    if (!string.IsNullOrWhiteSpace(value) && HasImageExtension(value))
+                    {
+                        return value.Trim();
+                    }
+                }
+            }
+            catch
+            {
+                // 不是 JSON，走下面的子串匹配。
+            }
+
+            // 盘符路径 / UNC 路径 / 带分隔符的相对路径，正反斜杠都接受。
+            // 相对路径分支要求分隔符前有一段路径名，否则 "Screenshots/shot.png" 会只匹配到 "/shot.png"。
             var match = System.Text.RegularExpressions.Regex.Match(
                 text,
-                @"[A-Za-z]:\\[^""'\r\n]*?\.(?:png|jpg|jpeg)",
+                @"(?:[A-Za-z]:[\\/]|\\\\[^\\/\r\n]+[\\/]|\.{1,2}[\\/]|[\w.\-]+[\\/])[^""'\r\n<>|]*?\.(?:png|jpg|jpeg)",
                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-            return match.Success ? match.Value : null;
+            if (match.Success) return match.Value.Trim();
+
+            // 最后兜底：裸文件名（无目录部分）。
+            var bare = System.Text.RegularExpressions.Regex.Match(
+                text,
+                @"[^\s""'\\/<>|]+\.(?:png|jpg|jpeg)",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            return bare.Success ? bare.Value.Trim() : null;
+        }
+
+        private static bool HasImageExtension(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return false;
+            string trimmed = path.TrimEnd();
+            return trimmed.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+                || trimmed.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+                || trimmed.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase);
         }
 
         public override Task<List<AIContentPart>> GetResultPartsAsync(string argsJson, string textResult, CancellationToken cancellationToken)
