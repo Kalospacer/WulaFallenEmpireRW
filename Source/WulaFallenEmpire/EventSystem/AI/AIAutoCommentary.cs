@@ -66,6 +66,13 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
 
             int currentTick = Find.TickManager?.TicksGame ?? 0;
+            // TicksGame restarts near zero on a new colony and jumps backwards when an earlier save is
+            // loaded, while this cursor is a process-wide static. Without this guard the subtraction
+            // below goes negative and silently suppresses commentary until game time catches up.
+            if (currentTick < lastProcessedTick)
+            {
+                lastProcessedTick = currentTick - MinTicksBetweenComments;
+            }
             if (currentTick - lastProcessedTick < MinTicksBetweenComments)
             {
                 WulaLog.Debug($"[AI Commentary] Cooldown active ({currentTick - lastProcessedTick} < {MinTicksBetweenComments}), skipping.");

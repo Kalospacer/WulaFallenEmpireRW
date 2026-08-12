@@ -10,8 +10,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_ChangeExpression : AITool
     {
         public override string Name => "change_expression";
-        public override string Description => "Changes your visual expression/portrait to match your current mood or reaction.";
-        public override string UsageSchema => "{\"expression_id\": 2}";
+        public override string Description => "Changes your visual expression/portrait to match your current mood or reaction.";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>

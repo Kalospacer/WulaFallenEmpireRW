@@ -15,7 +15,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Description =>
             "Analyze the current game screen screenshot. Provide an instruction to guide the analysis.";
 
-        public override string UsageSchema => "{\"instruction\":\"Describe the current screen\"}";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -23,7 +22,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["instruction"] = SchemaString("Instruction for image analysis.", nullable: true),
                 ["context"] = SchemaString("Alias for instruction.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("instruction", "context"));
+            return SchemaObject(properties, RequiredList());
         }
 
         private const string BaseVisionSystemPrompt = "You are a seasoned RimWorld assistant. Analyze the screenshot per instruction. Keep replies concise. Do not output tool call JSON unless explicitly asked.";

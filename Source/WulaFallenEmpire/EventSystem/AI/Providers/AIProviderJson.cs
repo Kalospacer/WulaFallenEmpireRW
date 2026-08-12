@@ -285,11 +285,14 @@ namespace WulaFallenEmpire.EventSystem.AI
             using (var stream = await response.Content.ReadAsStreamAsync())
             using (var reader = new StreamReader(stream))
             {
+                // Created once for the whole stream: an infinite Task.Delay holds a registration on
+                // the token until the token is disposed, so building one per line would accumulate
+                // one live registration for every SSE line read.
+                var cancelTask = Task.Delay(Timeout.Infinite, cancellationToken);
                 while (true)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     var readTask = reader.ReadLineAsync();
-                    var cancelTask = Task.Delay(Timeout.Infinite, cancellationToken);
                     var completed = await Task.WhenAny(readTask, cancelTask);
                     if (completed == cancelTask)
                     {

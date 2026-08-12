@@ -13,8 +13,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_SearchThingDef : AITool
     {
         public override string Name => "search_thing_def";
-        public override string Description => "Rough-searches RimWorld ThingDefs by natural language (label/defName). Returns candidate defNames so you can use them in other tools like spawn_resources.";
-        public override string UsageSchema => "{\"query\":\"Steel\",\"maxResults\":10,\"itemsOnly\":true}";
+        public override string Description => "Rough-searches RimWorld ThingDefs by natural language (label/defName). Returns candidate defNames so you can use them in other tools like spawn_resources.";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -23,7 +22,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["maxResults"] = SchemaInteger("Max candidates to return.", nullable: true),
                 ["itemsOnly"] = SchemaBoolean("Restrict to item defs.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("query", "maxResults", "itemsOnly"));
+            return SchemaObject(properties, RequiredList("query"));
         }
 
         public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)

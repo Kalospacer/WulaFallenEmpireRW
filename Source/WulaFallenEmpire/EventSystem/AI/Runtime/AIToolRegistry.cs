@@ -40,37 +40,70 @@ namespace WulaFallenEmpire.EventSystem.AI
             return result;
         }
 
+        /// <summary>
+        /// Normalizes a tool's own schema into the shape providers accept.
+        /// </summary>
+        /// <remarks>
+        /// Each tool's <c>GetParametersSchema</c> is the single source of truth for its parameters and
+        /// required fields. This only sanitizes and fills in structural defaults; it must not rewrite
+        /// what the tool declared.
+        /// </remarks>
+        /// <param name="tool">Tool whose schema should be resolved.</param>
+        /// <returns>A provider-ready JSON schema object.</returns>
         public JObject GetCanonicalSchema(AITool tool)
         {
             var raw = tool.GetParametersSchema() ?? new Dictionary<string, object>();
             var sanitized = ToolSchemaSanitizer.Sanitize(raw);
             var schema = JObject.FromObject(sanitized);
-            ApplyRequiredOverride(tool.Name, schema);
             RemoveUnsupportedNullTypes(schema);
             if (schema["type"] == null) schema["type"] = "object";
             if (schema["properties"] == null) schema["properties"] = new JObject();
+            if (schema["required"] == null) schema["required"] = new JArray();
             if (schema["additionalProperties"] == null) schema["additionalProperties"] = false;
             return schema;
         }
 
+        /// <summary>
+        /// Full surface for player-driven conversation: the read-only tools plus everything that
+        /// changes game or memory state.
+        /// </summary>
+        /// <param name="enableVisionTools">Whether the VLM screen tool should be offered.</param>
+        /// <returns>A registry containing every tool.</returns>
         public static AIToolRegistry CreateDefault(bool enableVisionTools)
         {
-            var registry = new AIToolRegistry();
+            var registry = CreateObserver(enableVisionTools);
             registry.Add(new Tool_SpawnResources());
             registry.Add(new Tool_ModifyGoodwill());
             registry.Add(new Tool_SendReinforcement());
+            registry.Add(new Tool_CallBombardment());
+            registry.Add(new Tool_CallPrefabAirdrop());
+            registry.Add(new Tool_SetOverwatchMode());
+            registry.Add(new Tool_RememberFact());
+            return registry;
+        }
+
+        /// <summary>
+        /// Read-only surface for turns the player did not initiate, such as automatic letter commentary.
+        /// </summary>
+        /// <remarks>
+        /// The commentary path is triggered by a Harmony postfix on every incoming letter, so any tool
+        /// offered here can fire with no player input. Nothing that spawns things, bombards the map,
+        /// shifts goodwill, or writes durable memory belongs on that path; expression changes are kept
+        /// because the commentary flow drives the portrait.
+        /// </remarks>
+        /// <param name="enableVisionTools">Whether the VLM screen tool should be offered.</param>
+        /// <returns>A registry containing only observation tools.</returns>
+        public static AIToolRegistry CreateObserver(bool enableVisionTools)
+        {
+            var registry = new AIToolRegistry();
             registry.Add(new Tool_GetPawnStatus());
             registry.Add(new Tool_GetMapResources());
             registry.Add(new Tool_GetAvailablePrefabs());
             registry.Add(new Tool_GetMapPawns());
             registry.Add(new Tool_GetAvailableBombardments());
-            registry.Add(new Tool_CallBombardment());
             registry.Add(new Tool_SearchThingDef());
             registry.Add(new Tool_SearchPawnKind());
-            registry.Add(new Tool_CallPrefabAirdrop());
-            registry.Add(new Tool_SetOverwatchMode());
             registry.Add(new Tool_GetRecentNotifications());
-            registry.Add(new Tool_RememberFact());
             registry.Add(new Tool_RecallMemories());
             registry.Add(new Tool_ChangeExpression());
             if (enableVisionTools)
@@ -80,50 +113,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             return registry;
         }
 
-        private static void ApplyRequiredOverride(string toolName, JObject schema)
-        {
-            string[] required;
-            switch (toolName)
-            {
-                case "modify_goodwill":
-                    required = new[] { "amount" };
-                    break;
-                case "send_reinforcement":
-                    required = new[] { "units" };
-                    break;
-                case "remember_fact":
-                    required = new[] { "fact" };
-                    break;
-                case "search_thing_def":
-                case "search_pawn_kind":
-                    required = new[] { "query" };
-                    break;
-                case "recall_memories":
-                    required = new string[0];
-                    break;
-                case "get_map_resources":
-                    required = new[] { "resourceName" };
-                    break;
-                case "call_prefab_airdrop":
-                    required = new[] { "prefabDefName", "x", "z" };
-                    break;
-                case "call_bombardment":
-                    required = new[] { "x", "z" };
-                    break;
-                case "change_expression":
-                    required = new[] { "expression_id" };
-                    break;
-                default:
-                    required = new string[0];
-                    break;
-            }
-            schema["required"] = new JArray(required);
-            if (string.Equals(toolName, "spawn_resources", StringComparison.OrdinalIgnoreCase))
-            {
-                var item = schema["properties"]?["items"]?["items"] as JObject;
-                if (item != null) item["required"] = new JArray();
-            }
-        }
 
         private static void RemoveUnsupportedNullTypes(JObject schema)
         {

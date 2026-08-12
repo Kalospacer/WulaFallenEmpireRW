@@ -12,8 +12,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_GetPawnStatus : AITool
     {
         public override string Name => "get_pawn_status";
-        public override string Description => "Returns detailed status (health, needs, gear) of specified pawns. Use this to check for sickness, injuries, mood, or equipment. Can filter by name, category (colonist/animal/prisoner/guest), or status (sick/injured).";
-        public override string UsageSchema => "{\"name\":\"optional\",\"category\":\"colonist\",\"filter\":\"sick\"}";
+        public override string Description => "Returns detailed status (health, needs, gear) of specified pawns. Use this to check for sickness, injuries, mood, or equipment. Can filter by name, category (colonist/animal/prisoner/guest), or status (sick/injured).";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -22,7 +21,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["category"] = SchemaString("colonist/animal/prisoner/guest/all.", nullable: true),
                 ["filter"] = SchemaString("sick/injured/downed/dead.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("name", "category", "filter"));
+            return SchemaObject(properties, RequiredList());
         }
 
         public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)

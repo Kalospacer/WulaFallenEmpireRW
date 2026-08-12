@@ -15,9 +15,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_GetRecentNotifications : AITool
     {
         public override string Name => "get_recent_notifications";
-        public override string Description => "Returns the most recent letters and messages, sorted by in-game time from newest to oldest.";
-        public override string UsageSchema =>
-            "{\"count\":10,\"includeLetters\":true,\"includeMessages\":true}";
+        public override string Description => "Returns the most recent letters and messages, sorted by in-game time from newest to oldest.";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -26,7 +24,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["includeLetters"] = SchemaBoolean("Include letters.", nullable: true),
                 ["includeMessages"] = SchemaBoolean("Include messages.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("count", "includeLetters", "includeMessages"));
+            return SchemaObject(properties, RequiredList());
         }
 
         private struct NotificationEntry

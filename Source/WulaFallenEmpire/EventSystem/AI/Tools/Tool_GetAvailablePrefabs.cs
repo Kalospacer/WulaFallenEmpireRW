@@ -13,8 +13,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "get_available_prefabs";
         public override string Description => "Returns a list of available building prefabs (blueprints) that can be summoned. " +
-                                              "Use this to find the correct 'prefabDefName' for the 'call_prefab_airdrop' tool.";
-        public override string UsageSchema => "{}";
+                                              "Use this to find the correct 'prefabDefName' for the 'call_prefab_airdrop' tool.";
         public override Dictionary<string, object> GetParametersSchema()
         {
             return SchemaObject(new Dictionary<string, object>(), RequiredList());

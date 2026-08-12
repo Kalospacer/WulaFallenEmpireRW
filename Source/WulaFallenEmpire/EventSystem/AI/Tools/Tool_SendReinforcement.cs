@@ -104,8 +104,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
             return false;
         }
-
-        public override string UsageSchema => "{\"units\": \"Wula_PIA_Heavy_Unit_Melee: 2, Wula_PIA_Legion_Escort_Unit: 5\"}";
+
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>

@@ -63,7 +63,10 @@ namespace WulaFallenEmpire.EventSystem.AI
                 cancellationToken.ThrowIfCancellationRequested();
                 _onTrace?.Invoke($"Tool loop step {step}: requesting model.");
                 var request = BuildRequest(messages, toolDefinitions, maxTokens, temperature, toolsEnabled: true);
-                var response = await QueryAsync(request, allowLiveStreaming: false, cancellationToken);
+                // Stream to the UI here too: the model answers without any tool call on the very first
+                // step in the common case, and that reply never reaches RequestFinalWithoutToolsAsync.
+                // Passing false here meant the SSE stream was consumed and every delta thrown away.
+                var response = await QueryAsync(request, allowLiveStreaming: true, cancellationToken);
 
                 if (!response.HasToolCalls)
                 {

@@ -214,9 +214,11 @@ namespace WulaFallenEmpire.EventSystem.AI
                 .Where(p => !p.Dead && !p.Downed && p.HostileTo(Faction.OfPlayer) && !p.IsPrisoner)
                 .ToList();
 
-            // Gather all hostile buildings (turrets, etc.)
-            List<Building> hostileBuildings = map.listerBuildings.allBuildingsColonist
-                .Concat(map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial).OfType<Building>())
+            // Gather all hostile buildings (turrets, etc.). Note this must not start from
+            // allBuildingsColonist: that list only ever holds player-faction buildings, so the
+            // HostileTo(OfPlayer) filter below discarded every one of them anyway.
+            List<Building> hostileBuildings = map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial)
+                .OfType<Building>()
                 .Where(b => b != null && !b.Destroyed && b.Faction != null && b.Faction.HostileTo(Faction.OfPlayer))
                 .Distinct()
                 .ToList();
@@ -421,6 +423,23 @@ namespace WulaFallenEmpire.EventSystem.AI
                     if (p.Position.InHorDistOf(center, radius)) return true;
                 }
             }
+
+            // Player structures count as friendlies too: without this the autonomous strikes happily
+            // flatten the colony's own walls and turrets.
+            var buildings = map.listerBuildings?.allBuildingsColonist;
+            if (buildings != null)
+            {
+                for (int i = 0; i < buildings.Count; i++)
+                {
+                    var building = buildings[i];
+                    if (building == null || building.Destroyed || !building.Spawned) continue;
+                    foreach (var cell in building.OccupiedRect())
+                    {
+                        if (cell.InHorDistOf(center, radius)) return true;
+                    }
+                }
+            }
+
             return false;
         }
 

@@ -11,15 +11,73 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 {
     public static class BombardmentUtility
     {
-        public static string ExecuteCircularBombardment(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityCircularBombardment props, Dictionary<string, object> parsed = null)
+        /// <summary>
+        /// Cells within this distance of a colony pawn or player-owned building are never targeted.
+        /// </summary>
+        private const float FriendlyFireSafetyRadius = 2.9f;
+
+        /// <summary>
+        /// Builds the set of cells that no bombardment may target, covering colony pawns, colony
+        /// prisoners, and player-owned buildings.
+        /// </summary>
+        /// <remarks>
+        /// This is the host-side floor. It is deliberately not switchable from tool arguments: the model
+        /// calling these tools must not be able to opt out of protecting the colony. Def-level flags such
+        /// as <c>avoidFriendlyFire</c> can still restrict targeting further, but never loosen it.
+        /// Computed once per call and reused for every candidate cell, rather than scanning a radius per
+        /// candidate.
+        /// </remarks>
+        /// <param name="map">Map being bombarded.</param>
+        /// <returns>Cells that must be excluded from targeting.</returns>
+        private static HashSet<IntVec3> BuildFriendlyExclusionZone(Map map)
+        {
+            var blocked = new HashSet<IntVec3>();
+            if (map == null) return blocked;
+
+            var playerFaction = Faction.OfPlayer;
+            var pawns = map.mapPawns?.AllPawnsSpawned;
+            if (pawns != null)
+            {
+                for (int i = 0; i < pawns.Count; i++)
+                {
+                    var pawn = pawns[i];
+                    if (pawn == null || !pawn.Spawned) continue;
+                    if (pawn.Faction != playerFaction && !pawn.IsPrisonerOfColony) continue;
+                    BlockAround(map, blocked, pawn.Position);
+                }
+            }
+
+            var buildings = map.listerBuildings?.allBuildingsColonist;
+            if (buildings != null)
+            {
+                for (int i = 0; i < buildings.Count; i++)
+                {
+                    var building = buildings[i];
+                    if (building == null || building.Destroyed || !building.Spawned) continue;
+                    foreach (var cell in building.OccupiedRect())
+                    {
+                        BlockAround(map, blocked, cell);
+                    }
+                }
+            }
+
+            return blocked;
+        }
+
+        private static void BlockAround(Map map, HashSet<IntVec3> blocked, IntVec3 origin)
+        {
+            foreach (var cell in GenRadial.RadialCellsAround(origin, FriendlyFireSafetyRadius, true))
+            {
+                if (cell.InBounds(map)) blocked.Add(cell);
+            }
+        }
+
+        public static string ExecuteCircularBombardment(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityCircularBombardment props)
         {
             if (props.skyfallerDef == null) return $"Error: '{def.defName}' has no skyfallerDef.";
-            
-            bool filter = true;
-            if (TryGetBool(parsed, "filterFriendlyFire", out bool ff)) filter = ff;
 
-            List<IntVec3> selectedTargets = SelectTargetCells(map, targetCell, props, filter);
-            if (selectedTargets.Count == 0) return $"Error: No valid target cells near {targetCell}.";
+            List<IntVec3> selectedTargets = SelectTargetCells(map, targetCell, props, BuildFriendlyExclusionZone(map));
+            if (selectedTargets.Count == 0) return $"Error: No valid target cells near {targetCell}. Every candidate cell was inside the colony safety zone or rejected by '{def.defName}'.";
 
             bool isPaused = Find.TickManager != null && Find.TickManager.Paused;
             int totalLaunches = ScheduleBombardment(map, selectedTargets, props, spawnImmediately: isPaused);
@@ -34,8 +92,12 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             ParseDirectionInfo(parsed, targetCell, props.bombardmentLength, true, out Vector3 direction, out IntVec3 _);
 
             var targetCells = CalculateBombardmentAreaCells(map, targetCell, direction, props.bombardmentWidth, props.bombardmentLength);
-            
+
             if (targetCells.Count == 0) return $"Error: No valid targets found for strafe at {targetCell}.";
+
+            var exclusionZone = BuildFriendlyExclusionZone(map);
+            targetCells.RemoveAll(exclusionZone.Contains);
+            if (targetCells.Count == 0) return $"Error: Strafe run at {targetCell} along {direction} would cross the colony safety zone; refused.";
 
             var selectedCells = new List<IntVec3>();
             var missedCells = new List<IntVec3>();
@@ -113,7 +175,16 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
             ParseDirectionInfo(parsed, targetCell, props.moveDistance, props.useFixedDistance, out Vector3 direction, out IntVec3 endPos);
 
-            try 
+            var exclusionZone = BuildFriendlyExclusionZone(map);
+            foreach (var cell in CellsAlongLine(targetCell, endPos))
+            {
+                if (exclusionZone.Contains(cell))
+                {
+                    return $"Error: Energy Lance from {targetCell} to {endPos} would sweep the colony safety zone at {cell}; refused.";
+                }
+            }
+
+            try
             {
                 EnergyLance.MakeEnergyLance(
                     lanceDef,
@@ -143,6 +214,11 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public static string ExecuteCallSkyfaller(Map map, IntVec3 targetCell, AbilityDef def, CompProperties_AbilityCallSkyfaller props)
         {
             if (props.skyfallerDef == null) return $"Error: '{def.defName}' has no skyfallerDef.";
+
+            if (BuildFriendlyExclusionZone(map).Contains(targetCell))
+            {
+                return $"Error: {targetCell} is inside the colony safety zone; refused.";
+            }
 
             var delayed = map.GetComponent<MapComponent_SkyfallerDelayed>();
             if (delayed == null)
@@ -228,11 +304,33 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             return false;
         }
 
-        private static List<IntVec3> SelectTargetCells(Map map, IntVec3 center, CompProperties_AbilityCircularBombardment props, bool filterFriendlyFire)
+        /// <summary>
+        /// Walks the cells a straight sweep from <paramref name="from"/> to <paramref name="to"/> covers.
+        /// </summary>
+        /// <param name="from">Start cell.</param>
+        /// <param name="to">End cell.</param>
+        /// <returns>Distinct cells along the segment, including both endpoints.</returns>
+        private static IEnumerable<IntVec3> CellsAlongLine(IntVec3 from, IntVec3 to)
+        {
+            Vector3 start = from.ToVector3();
+            Vector3 end = to.ToVector3();
+            int steps = Math.Max(1, Mathf.RoundToInt(Vector3.Distance(start, end)));
+            IntVec3 previous = IntVec3.Invalid;
+            for (int i = 0; i <= steps; i++)
+            {
+                IntVec3 cell = Vector3.Lerp(start, end, (float)i / steps).ToIntVec3();
+                if (cell == previous) continue;
+                previous = cell;
+                yield return cell;
+            }
+        }
+
+        private static List<IntVec3> SelectTargetCells(Map map, IntVec3 center, CompProperties_AbilityCircularBombardment props, HashSet<IntVec3> exclusionZone)
         {
             var candidates = GenRadial.RadialCellsAround(center, props.radius, true)
                 .Where(c => c.InBounds(map))
-                .Where(c => IsValidTargetCell(map, c, center, props, filterFriendlyFire))
+                .Where(c => !exclusionZone.Contains(c))
+                .Where(c => IsValidTargetCell(map, c, center, props))
                 .ToList();
 
             if (candidates.Count == 0) return new List<IntVec3>();
@@ -265,7 +363,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             return selected;
         }
 
-        private static bool IsValidTargetCell(Map map, IntVec3 cell, IntVec3 center, CompProperties_AbilityCircularBombardment props, bool filterFriendlyFire)
+        private static bool IsValidTargetCell(Map map, IntVec3 cell, IntVec3 center, CompProperties_AbilityCircularBombardment props)
         {
             if (props.minDistanceFromCenter > 0f)
             {
@@ -278,7 +376,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 return false;
             }
 
-            if (filterFriendlyFire && props.avoidFriendlyFire)
+            // Colony pawns and player buildings are already excluded by the host-side zone in
+            // BuildFriendlyExclusionZone; this def flag can only narrow targeting further.
+            if (props.avoidFriendlyFire)
             {
                 var things = map.thingGrid.ThingsListAt(cell);
                 if (things != null)
@@ -449,34 +549,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
             if (!TryGetNumber(parsed, key, out double number)) return false;
             value = (float)number;
             return true;
-        }
-
-        private static bool TryGetBool(Dictionary<string, object> parsed, string key, out bool value)
-        {
-            value = false;
-            if (parsed == null || string.IsNullOrWhiteSpace(key)) return false;
-            if (!parsed.TryGetValue(key, out object raw) || raw == null) return false;
-            if (raw is bool b)
-            {
-                value = b;
-                return true;
-            }
-            if (raw is string s && bool.TryParse(s, out bool parsedBool))
-            {
-                value = parsedBool;
-                return true;
-            }
-            if (raw is long l)
-            {
-                value = l != 0;
-                return true;
-            }
-            if (raw is double d)
-            {
-                value = Math.Abs(d) > 0.0001;
-                return true;
-            }
-            return false;
         }
 
         private static bool TryGetNumber(Dictionary<string, object> parsed, string key, out double value)

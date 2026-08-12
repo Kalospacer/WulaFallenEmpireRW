@@ -177,15 +177,16 @@ namespace WulaFallenEmpire.EventSystem.AI
             public string message;
         }
 
-        private static bool IsPersistableHistoryEntry((string role, string message) entry)
+        /// <summary>
+        /// Single source of truth for what may be written to persistent history. Shared with
+        /// <see cref="AIIntelligenceCore"/> so the in-memory and on-disk views cannot drift.
+        /// </summary>
+        /// <param name="entry">History entry to test.</param>
+        /// <returns><c>true</c> when the entry should be persisted.</returns>
+        public static bool IsPersistableHistoryEntry((string role, string message) entry)
         {
             string role = (entry.role ?? "").Trim();
-            if (string.Equals(role, "trace", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-            string message = (entry.message ?? "").TrimStart();
-            return !message.StartsWith("??:", StringComparison.Ordinal);
+            return !string.Equals(role, "trace", StringComparison.OrdinalIgnoreCase);
         }
     }
 

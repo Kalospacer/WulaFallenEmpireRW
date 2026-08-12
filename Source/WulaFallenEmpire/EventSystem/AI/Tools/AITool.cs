@@ -15,27 +15,9 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public abstract string Name { get; }
         public abstract string Description { get; }
-        public abstract string UsageSchema { get; } // JSON schema description
         public abstract Dictionary<string, object> GetParametersSchema();
 
         public abstract Task<string> ExecuteAsync(string args, CancellationToken cancellationToken);
-
-        public virtual Dictionary<string, object> GetFunctionDefinition()
-        {
-            var parameters = GetParametersSchema() ?? SchemaObject(new Dictionary<string, object>(), new string[] { });
-            parameters = ToolSchemaSanitizer.Sanitize(parameters);
-            return new Dictionary<string, object>
-            {
-                ["type"] = "function",
-                ["function"] = new Dictionary<string, object>
-                {
-                    ["name"] = Name ?? "",
-                    ["description"] = Description ?? "",
-                    ["parameters"] = parameters,
-                    ["strict"] = true
-                }
-            };
-        }
 
         /// <summary>
         /// Helper method to parse JSON arguments into a dictionary.

@@ -12,9 +12,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_GetMapPawns : AITool
     {
         public override string Name => "get_map_pawns";
-        public override string Description => "Scans the current map and lists pawns (including corpses). Supports filtering by relation (friendly/hostile/neutral), type (colonist/animal/mech/humanlike), and status (prisoner/slave/guest/wild/downed/dead).";
-        public override string UsageSchema =>
-            "{\"filter\":\"friendly,hostile,colonist\",\"includeDead\":true,\"maxResults\":50}";
+        public override string Description => "Scans the current map and lists pawns (including corpses). Supports filtering by relation (friendly/hostile/neutral), type (colonist/animal/mech/humanlike), and status (prisoner/slave/guest/wild/downed/dead).";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -23,7 +21,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["includeDead"] = SchemaBoolean("Include corpses.", nullable: true),
                 ["maxResults"] = SchemaInteger("Max results to show.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("filter", "includeDead", "maxResults"));
+            return SchemaObject(properties, RequiredList());
         }
 
         private struct MapPawnEntry

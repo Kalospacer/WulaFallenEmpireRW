@@ -15,7 +15,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "call_bombardment";
         public override string Description => "Calls orbital bombardment/support using an AbilityDef configuration (e.g., WULA_Firepower_Cannon_Salvo, WULA_Firepower_EnergyLance_Strafe). Supports Circular Bombardment, Strafe, Energy Lance, and Surveillance.";
-        public override string UsageSchema => "{\"abilityDef\":\"WULA_Firepower_Cannon_Salvo\",\"x\":12,\"z\":34,\"direction\":\"20,30\",\"angle\":90,\"filterFriendlyFire\":true}";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -26,20 +25,12 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["cell"] = SchemaString("Target cell formatted as 'x,z'.", nullable: true),
                 ["direction"] = SchemaString("Direction cell 'x,z' for strafes.", nullable: true),
                 ["angle"] = SchemaNumber("Angle for strafe/lance direction.", nullable: true),
-                ["filterFriendlyFire"] = SchemaBoolean("Avoid friendly fire if possible.", nullable: true),
                 ["dirX"] = SchemaInteger("Direction cell X.", nullable: true),
                 ["dirZ"] = SchemaInteger("Direction cell Z.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList(
-                "abilityDef",
-                "x",
-                "z",
-                "cell",
-                "direction",
-                "angle",
-                "filterFriendlyFire",
-                "dirX",
-                "dirZ"));
+            // Only the target coordinates are required. The tool also accepts "cell" as an
+            // alternative to x/z, which TryParseTargetCell validates at call time.
+            return SchemaObject(properties, RequiredList("x", "z"));
         }
 
         public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)
@@ -72,7 +63,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
 
                 // Switch logic based on AbilityDef components
                 var circular = abilityDef.comps?.OfType<CompProperties_AbilityCircularBombardment>().FirstOrDefault();
-                if (circular != null) return BombardmentUtility.ExecuteCircularBombardment(map, targetCell, abilityDef, circular, parsed);
+                if (circular != null) return BombardmentUtility.ExecuteCircularBombardment(map, targetCell, abilityDef, circular);
 
                 var bombard = abilityDef.comps?.OfType<CompProperties_AbilityBombardment>().FirstOrDefault();
                 if (bombard != null) return BombardmentUtility.ExecuteStrafeBombardment(map, targetCell, abilityDef, bombard, parsed);

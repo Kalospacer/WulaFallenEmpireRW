@@ -16,8 +16,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Description => "Calls a large prefab building airdrop at the specified coordinates. " +
                                               "You must specify the prefabDefName (e.g., 'WULA_NewColonyBase') and the coordinates (x, z). " +
                                               "TIP: Use the 'get_available_prefabs' tool first to see which structures are available. " +
-                                              "The default skyfaller animation is 'WULA_Prefab_Incoming'.";
-        public override string UsageSchema => "{\"prefabDefName\":\"WULA_NewColonyBase\",\"skyfallerDef\":\"WULA_Prefab_Incoming\",\"x\":10,\"z\":20}";
+                                              "The default skyfaller animation is 'WULA_Prefab_Incoming'.";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -27,7 +26,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["x"] = SchemaInteger("Target cell X.", nullable: true),
                 ["z"] = SchemaInteger("Target cell Z.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("prefabDefName", "skyfallerDef", "x", "z"));
+            return SchemaObject(properties, RequiredList("prefabDefName", "x", "z"));
         }
 
         public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)

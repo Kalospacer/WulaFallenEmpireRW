@@ -19,8 +19,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                                               "If goodwill is low (< 0), give significantly less than asked or refuse. " +
                                               "If goodwill is high (> 50), you may give what is asked or slightly more. " +
                                               "Otherwise, give a moderate amount. " +
-                                              "TIP: Use the `search_thing_def` tool first and then spawn by DefName to avoid language mismatch.";
-        public override string UsageSchema => "{\"items\":[{\"name\":\"Steel\",\"count\":100,\"stuffDefName\":\"Steel\"}]}";
+                                              "TIP: Use the `search_thing_def` tool first and then spawn by DefName to avoid language mismatch.";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var itemProperties = new Dictionary<string, object>
@@ -32,7 +31,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["stuff"] = SchemaString("Alias for stuffDefName.", nullable: true),
                 ["material"] = SchemaString("Alias for stuffDefName.", nullable: true)
             };
-            var itemSchema = SchemaObject(itemProperties, RequiredList("name", "defName", "count", "stuffDefName", "stuff", "material"));
+            var itemSchema = SchemaObject(itemProperties, RequiredList());
 
             var properties = new Dictionary<string, object>
             {
@@ -43,7 +42,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["stuff"] = SchemaString("Alias for stuffDefName.", nullable: true),
                 ["material"] = SchemaString("Alias for stuffDefName.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("items", "name", "count", "stuffDefName", "stuff", "material"));
+            return SchemaObject(properties, RequiredList());
         }
 
         public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)

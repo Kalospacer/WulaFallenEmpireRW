@@ -13,7 +13,6 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "recall_memories";
         public override string Description => "Searches the AI's long-term memory. If query is empty, returns recent durable memories.";
-        public override string UsageSchema => "{\"query\":\"keywords or empty\",\"limit\":5}";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>

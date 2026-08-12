@@ -12,8 +12,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     public class Tool_SearchPawnKind : AITool
     {
         public override string Name => "search_pawn_kind";
-        public override string Description => "Rough-searches PawnKindDefs by natural language (label/defName). Returns candidate defNames for send_reinforcement.";
-        public override string UsageSchema => "{\"query\":\"escort\",\"maxResults\":10,\"minScore\":0.15}";
+        public override string Description => "Rough-searches PawnKindDefs by natural language (label/defName). Returns candidate defNames for send_reinforcement.";
         public override Dictionary<string, object> GetParametersSchema()
         {
             var properties = new Dictionary<string, object>
@@ -22,7 +21,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                 ["maxResults"] = SchemaInteger("Max candidates to return.", nullable: true),
                 ["minScore"] = SchemaNumber("Minimum similarity score.", nullable: true)
             };
-            return SchemaObject(properties, RequiredList("query", "maxResults", "minScore"));
+            return SchemaObject(properties, RequiredList("query"));
         }
 
         public override Task<string> ExecuteAsync(string args, CancellationToken cancellationToken)

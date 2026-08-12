@@ -50,8 +50,16 @@ namespace WulaFallenEmpire.EventSystem.AI
         private const int MemorySummaryTriggerRounds = 10;
         private const int MaxAutoRecallMemories = 5;
         private const int MaxMemorySummaryRetries = 3;
+        /// <summary>Per-row cap applied when replaying past tool activity into the prompt.</summary>
+        private const int MaxToolTraceLineChars = 300;
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
         private const string AutoCommentaryTag = "[AUTO_COMMENTARY]";
+        /// <summary>
+        /// Prefix every bridge/transport failure surfaced into the conversation carries. It is the
+        /// single marker <see cref="IsPollutedMemoryText"/> uses to keep those messages out of
+        /// long-term memory, so failures must be committed through it rather than hand-written.
+        /// </summary>
+        private const string BridgeErrorPrefix = "Error: ";
 
         private struct MemoryFact
         {
@@ -182,7 +190,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public List<(string role, string message)> GetHistorySnapshot()
         {
             return (_history ?? new List<(string role, string message)>())
-                .Where(IsPersistableHistoryEntry)
+                .Where(AIHistoryManager.IsPersistableHistoryEntry)
                 .ToList();
         }
         public void SetExpression(int id)
@@ -220,7 +228,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 WulaLog.Debug("[WulaAI] No active event def set; call InitializeConversation first.");
                 return;
             }
-            // éå éä¸­å¯¹è±¡çä¸ä¸æä¿¡æ¯
+            // 附加选中对象的上下文信息
             string messageWithContext = BuildUserMessageWithContext(text);
             _history.Add(("user", messageWithContext));
             PersistHistory();
@@ -271,9 +279,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             AddAssistantMessage(message);
         }
         /// <summary>
-        /// ç¨äºèªå¨è¯è®ºç³»ç» - èµ°æ­£å¸¸çå¯¹è¯æµç¨ï¼ï¿½
-// å«å®æ´çæèæ­¥éª¤ï¼
-        /// ï¿½?AI èªå·±å³å®æ¯å¦éè¦åï¿½?
+        /// 用于自动评论系统 - 走正常的对话流程（包含完整的思考步骤）
+        /// 由 AI 自己决定是否需要回复
         /// </summary>
         public void SendAutoCommentaryMessage(string eventInfo)
         {
@@ -283,7 +290,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 WulaLog.Debug("[WulaAI] Auto commentary skipped because an AI request is already running.");
                 return;
             }
-            // æ è®°ä¸ºèªå¨è¯è®ºæ¶æ¯ï¼ä¸æ¾ç¤ºå¨å¯¹è¯åå²ï¿½?
+            // 标记为自动评论消息，不显示在对话历史中
             string internalMessage = $"[AUTO_COMMENTARY]\n{eventInfo}";
             _ = RunPhasedRequestAsync(internalMessage, false);
         }
@@ -383,7 +390,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             var historyManager = Find.World?.GetComponent<AIHistoryManager>();
             _history = historyManager?.GetHistory(_activeEventDefName) ?? new List<(string role, string message)>();
             int loadedCount = _history.Count;
-            _history = _history.Where(IsPersistableHistoryEntry).ToList();
+            _history = _history.Where(AIHistoryManager.IsPersistableHistoryEntry).ToList();
             if (_history.Count != loadedCount)
             {
                 PersistHistory();
@@ -399,7 +406,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 var historyManager = Find.World?.GetComponent<AIHistoryManager>();
                 _history = (_history ?? new List<(string role, string message)>())
-                    .Where(IsPersistableHistoryEntry)
+                    .Where(AIHistoryManager.IsPersistableHistoryEntry)
                     .ToList();
                 historyManager?.SaveHistory(_activeEventDefName, _history);
             }
@@ -407,16 +414,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 WulaLog.Debug($"[WulaAI] Failed to persist AI history: {ex}");
             }
-        }
-        private static bool IsPersistableHistoryEntry((string role, string message) entry)
-        {
-            string role = (entry.role ?? "").Trim();
-            if (string.Equals(role, "trace", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-            string message = (entry.message ?? "").TrimStart();
-            return !message.StartsWith("??:", StringComparison.Ordinal);
         }
         private void ClearHistory()
         {
@@ -540,9 +537,30 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 if (removeCount > 0)
                 {
                     _history.RemoveRange(0, removeCount);
-                    _history.Insert(0, ("system", "[Previous conversation summarized]"));
+                    _history.Insert(0, ("system", "[Earlier conversation dropped to fit the context budget]"));
+                    ShiftMemorySummaryCursors(removeCount);
                     PersistHistory();
                 }
+            }
+        }
+        /// <summary>
+        /// Rebases the long-term-memory cursors after <see cref="CompressHistoryIfNeeded"/> drops the
+        /// front of the history. The cursors are absolute indexes into <c>_history</c>; leaving them
+        /// stale would make <see cref="TriggerMemoryUpdate"/> treat still-unsummarized entries as
+        /// already summarized, and once a cursor exceeds the shortened list the summary pipeline stops
+        /// for good.
+        /// </summary>
+        /// <param name="removeCount">Number of leading entries removed before the placeholder was inserted.</param>
+        private void ShiftMemorySummaryCursors(int removeCount)
+        {
+            // RemoveRange(0, removeCount) followed by one Insert(0, ...) moves an entry at index i to
+            // i - removeCount + 1, so the cursors shift by removeCount - 1 and floor at the first
+            // entry after the placeholder.
+            int shift = removeCount - 1;
+            _lastMemorySummaryHistoryIndex = Math.Max(1, _lastMemorySummaryHistoryIndex - shift);
+            if (_pendingMemorySummaryStartIndex >= 0)
+            {
+                _pendingMemorySummaryStartIndex = Math.Max(1, _pendingMemorySummaryStartIndex - shift);
             }
         }
         private void TriggerMemoryUpdate()
@@ -840,32 +858,29 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return !string.IsNullOrWhiteSpace(text) && !IsPollutedMemoryText(text);
         }
 
+        /// <summary>
+        /// Rejects text that is bridge plumbing rather than conversation content.
+        /// </summary>
+        /// <remarks>
+        /// This deliberately anchors instead of scanning for loose substrings. Tool-call and
+        /// tool-result plumbing is already excluded structurally by <see cref="IsMemoryConversationRole"/>,
+        /// and every transport failure reaches the history through <see cref="BridgeErrorPrefix"/>, so the
+        /// only two things left to catch are a leftover context block and a bridge error. Matching bare
+        /// words like "timeout" or "error:" anywhere in the text discarded legitimate memories that merely
+        /// mentioned them.
+        /// </remarks>
+        /// <param name="text">Candidate memory or conversation text.</param>
+        /// <returns><c>true</c> when the text must not reach long-term memory.</returns>
         private static bool IsPollutedMemoryText(string text)
         {
             if (string.IsNullOrWhiteSpace(text)) return true;
-            string lower = text.ToLowerInvariant();
-            string[] markers =
+            string trimmed = text.TrimStart();
+            if (trimmed.StartsWith(BridgeErrorPrefix, StringComparison.OrdinalIgnoreCase))
             {
-                "[context:",
-                "cursor is at",
-                "player has selected",
-                "api error",
-                "openai api error",
-                "request failed",
-                "rate limit",
-                "timeout",
-                "connection error",
-                "reasoning_content",
-                "invalid_xml_tool_call",
-                "raw request",
-                "raw response",
-                "tool_calls",
-                "tool call",
-                "tool result",
-                "tools_call",
-                "error:"
-            };
-            return markers.Any(lower.Contains);
+                return true;
+            }
+            // StripContextInfo should already have removed these; catch anything it missed.
+            return text.IndexOf("[Context:", StringComparison.OrdinalIgnoreCase) >= 0;
         }
         private static JObject ParseFirstJsonObject(string json)
         {
@@ -1014,13 +1029,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 var settings = WulaFallenEmpireMod.settings;
                 if (settings == null)
                 {
-                    CommitFinalAssistantMessage("Error: API settings not configured in Mod Settings.");
+                    CommitFinalAssistantMessage(BridgeErrorPrefix + "API settings not configured in Mod Settings.");
                     return;
                 }
                 string apiKey = GetConfiguredApiKey(settings);
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
-                    CommitFinalAssistantMessage("Error: API Key not configured in Mod Settings.");
+                    CommitFinalAssistantMessage(BridgeErrorPrefix + "API Key not configured in Mod Settings.");
                     return;
                 }
                 if (settings.reactMaxSeconds > 0f)
@@ -1030,7 +1045,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                 CompressHistoryIfNeeded();
                 var provider = AIProviderFactory.Create(settings);
-                var registry = AIToolRegistry.CreateDefault(settings.enableVlmFeatures);
+                // Turns the player did not initiate only get the observation surface.
+                bool observerOnly = IsAutoCommentaryMessage(transientUserMessage);
+                var registry = observerOnly
+                    ? AIToolRegistry.CreateObserver(settings.enableVlmFeatures)
+                    : AIToolRegistry.CreateDefault(settings.enableVlmFeatures);
                 var runner = new AIToolLoopRunner(
                     provider,
                     registry,
@@ -1054,12 +1073,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             catch (OperationCanceledException)
             {
-                CommitFinalAssistantMessage("Error: AI request timed out or was cancelled.");
+                CommitFinalAssistantMessage(BridgeErrorPrefix + "AI request timed out or was cancelled.");
             }
             catch (Exception ex)
             {
                 WulaLog.Debug($"[WulaAI] Agent request failed: {ex}");
-                CommitFinalAssistantMessage("Error: " + ex.Message);
+                CommitFinalAssistantMessage(BridgeErrorPrefix + ex.Message);
             }
             finally
             {
@@ -1075,6 +1094,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private List<AIMessage> BuildCanonicalMessagesForAgent(string transientUserMessage = null, string memoryRecallQuery = null)
         {
             var messages = new List<AIMessage>();
+            var pendingToolTrace = new List<string>();
             foreach (var entry in _history ?? new List<(string role, string message)>())
             {
                 if (string.IsNullOrWhiteSpace(entry.message)) continue;
@@ -1082,15 +1102,24 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 string role = (entry.role ?? "user").Trim().ToLowerInvariant();
                 if (role == "user")
                 {
+                    // A tool run belongs to the assistant turn that follows it, so a new user turn
+                    // starts a fresh trace.
+                    pendingToolTrace.Clear();
                     messages.Add(AIMessage.User(entry.message));
+                }
+                else if (role == "toolcall" || role == "tool")
+                {
+                    pendingToolTrace.Add(entry.message);
                 }
                 else if (role == "assistant")
                 {
                     string cleaned = CleanAssistantForReply(entry.message);
                     if (!string.IsNullOrWhiteSpace(cleaned))
                     {
+                        AppendToolTraceToLastUser(messages, pendingToolTrace);
                         messages.Add(AIMessage.Assistant(cleaned));
                     }
+                    pendingToolTrace.Clear();
                 }
             }
             if (!string.IsNullOrWhiteSpace(transientUserMessage))
@@ -1099,6 +1128,41 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             AppendTemporaryMemoryRecall(messages, memoryRecallQuery);
             return messages;
+        }
+
+        /// <summary>
+        /// Attaches a past turn's tool calls and results to the user message that triggered them.
+        /// </summary>
+        /// <remarks>
+        /// History stores tool activity as flattened display rows without the provider tool-call ids, so
+        /// it cannot be replayed as native tool_use/tool_result pairs. Folding it into the preceding user
+        /// message is the same approach <see cref="AppendTemporaryMemoryRecall"/> already uses for recalled
+        /// memory, and it preserves the strict user/assistant alternation that the Anthropic provider
+        /// requires. Without this the model loses every earlier tool result and re-queries the same state
+        /// on each turn.
+        /// </remarks>
+        /// <param name="messages">Message list being built, in order.</param>
+        /// <param name="traceLines">Buffered tool rows for the turn, or empty.</param>
+        private static void AppendToolTraceToLastUser(List<AIMessage> messages, List<string> traceLines)
+        {
+            if (messages == null || traceLines == null || traceLines.Count == 0) return;
+            for (int i = messages.Count - 1; i >= 0; i--)
+            {
+                var message = messages[i];
+                if (message == null || !string.Equals(message.Role, "user", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                var sb = new StringBuilder(message.Content ?? string.Empty);
+                sb.AppendLine().AppendLine();
+                sb.AppendLine("# TOOL ACTIVITY FOR THIS TURN (already executed, do not repeat)");
+                foreach (var line in traceLines)
+                {
+                    sb.Append("- ").AppendLine(TrimForPrompt(line, MaxToolTraceLineChars));
+                }
+                message.Content = sb.ToString().TrimEnd();
+                return;
+            }
         }
 
         private void AppendTemporaryMemoryRecall(List<AIMessage> messages, string memoryRecallQuery)
@@ -1187,23 +1251,37 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private void CommitFinalAssistantMessage(string content)
         {
-            if (_streamingAssistantActive)
-            {
-                if (_streamingAssistantHistoryIndex >= 0 &&
-                    _streamingAssistantHistoryIndex < _history.Count &&
-                    string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
-                {
-                    _history.RemoveAt(_streamingAssistantHistoryIndex);
-                }
-                else if (_history.Count > 0 && string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
-                {
-                    _history.RemoveAt(_history.Count - 1);
-                }
-                _streamingAssistantActive = false;
-                _streamingAssistantBuffer.Clear();
-                _streamingAssistantHistoryIndex = -1;
-            }
+            DiscardStreamingDraft();
             AddAssistantMessage(content);
+        }
+
+        /// <summary>
+        /// Drops the in-flight streamed placeholder from history, if one is open.
+        /// </summary>
+        /// <remarks>
+        /// Called both when the final reply arrives and when the model turns out to be making tool calls
+        /// instead. Skipping it on the tool-call path would leave the pre-tool-call partial text in history
+        /// and let the next step's deltas concatenate onto the same buffer.
+        /// </remarks>
+        private void DiscardStreamingDraft()
+        {
+            if (!_streamingAssistantActive)
+            {
+                return;
+            }
+            if (_streamingAssistantHistoryIndex >= 0 &&
+                _streamingAssistantHistoryIndex < _history.Count &&
+                string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
+            {
+                _history.RemoveAt(_streamingAssistantHistoryIndex);
+            }
+            else if (_history.Count > 0 && string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
+            {
+                _history.RemoveAt(_history.Count - 1);
+            }
+            _streamingAssistantActive = false;
+            _streamingAssistantBuffer.Clear();
+            _streamingAssistantHistoryIndex = -1;
         }
 
         private void LogAgentTrace(string trace)
@@ -1220,6 +1298,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private void RecordToolCallsForUi(IReadOnlyList<AIToolCall> calls)
         {
             if (calls == null || calls.Count == 0) return;
+            // The model streamed text and then decided to call tools; that partial text is not the reply.
+            DiscardStreamingDraft();
             foreach (var call in calls)
             {
                 if (call == null || string.IsNullOrWhiteSpace(call.Name)) continue;
