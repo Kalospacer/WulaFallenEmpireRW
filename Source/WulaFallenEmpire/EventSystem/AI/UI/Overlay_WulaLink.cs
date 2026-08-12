@@ -41,6 +41,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             public List<string> traceLines;
             public bool traceExpanded;
             public float traceHeaderHeight;
+            public bool isImage;
+            public Texture2D imageTex;
         }
 
         
@@ -160,6 +162,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 // Save position before closing
                 _core.SetOverlayWindowState(false, null, windowRect.x, windowRect.y);
             }
+            AIImageStore.ClearCache();
         }
 
         private void OnMessageReceived(string msg)
@@ -454,15 +457,43 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     continue;
                 }
 
+                // 图片行：解码引用并渲染成缩略图，塞进对话流。
+                if (msg.role == "image")
+                {
+                    if (AIImageStore.TryParseImageRef(msg.message, out var imgFile, out _, out _))
+                    {
+                        Texture2D tex = AIImageStore.LoadImageTexture(imgFile);
+                        if (tex != null)
+                        {
+                            float maxW = Mathf.Min(width, 300f);
+                            float maxH = 220f;
+                            float scale = Mathf.Min(maxW / tex.width, maxH / tex.height, 1f);
+                            float imgH = tex.height * scale;
+                            _cachedMessages.Add(new CachedMessage
+                            {
+                                role = "image",
+                                message = msg.message,
+                                displayText = "",
+                                height = imgH,
+                                yOffset = curY,
+                                isImage = true,
+                                imageTex = tex
+                            });
+                            curY += imgH + reducedSpacing;
+                        }
+                    }
+                    continue;
+                }
+
                 if (msg.role == "system" && !Prefs.DevMode) continue;
-                
+
                 // Hide auto-commentary system messages (user-side) from display
                 if (msg.role == "user" && msg.message.Contains("[AUTO_COMMENTARY]")) continue;
-                
+
                 string displayText = msg.message;
                 if (msg.role == "assistant")
                 {
-                    displayText = StripToolCallJson(msg.message)?.Trim() ?? "";
+                    displayText = MarkdownRenderer.ToRichText(StripToolCallJson(msg.message)?.Trim() ?? "");
                 }
                 else if (msg.role == "user")
                 {
@@ -664,6 +695,16 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 if (entry.isTrace)
                 {
                     DrawReactTracePanel(msgRect, entry);
+                }
+                else if (entry.isImage)
+                {
+                    float iw = entry.imageTex != null ? Mathf.Min(width, entry.imageTex.width) : width;
+                    Rect imgRect = new Rect(msgRect.x + 8f, msgRect.y, Mathf.Min(iw, width - 16f), msgRect.height);
+                    Widgets.DrawBox(imgRect, 1);
+                    if (entry.imageTex != null)
+                    {
+                        GUI.DrawTexture(imgRect.ContractedBy(1), entry.imageTex, ScaleMode.ScaleToFit);
+                    }
                 }
                 else if (entry.role == "user")
                 {

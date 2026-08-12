@@ -92,6 +92,18 @@ namespace WulaFallenEmpire.EventSystem.AI
                 Content = content ?? string.Empty
             };
         }
+
+        /// <summary>
+        /// A tool result that also carries multimodal parts (e.g. a captured screenshot). The text
+        /// <see cref="Content"/> is kept so the provider tool_result pairing and text replay still work;
+        /// <see cref="Parts"/> holds the image blocks the model can actually see on the next turn.
+        /// </summary>
+        public static AIMessage ToolResultParts(string toolCallId, string toolName, string content, List<AIContentPart> parts)
+        {
+            var message = ToolResult(toolCallId, toolName, content);
+            message.Parts = parts;
+            return message;
+        }
     }
 
     public sealed class AIToolCall
@@ -119,6 +131,14 @@ namespace WulaFallenEmpire.EventSystem.AI
         public string ToolName;
         public string Content;
         public bool IsError;
+
+        /// <summary>
+        /// Optional multimodal parts produced by the tool (e.g. a captured screenshot as an
+        /// <see cref="AIContentPart.ImagePart"/>). Null or empty means a plain-text result, which is the
+        /// common case and changes nothing. These are injected as a follow-up user image message so the
+        /// model can see them; they are transient and are not written to conversation history.
+        /// </summary>
+        public List<AIContentPart> ContentParts;
     }
 
     public sealed class AIToolDefinition

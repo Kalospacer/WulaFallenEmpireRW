@@ -20,6 +20,17 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public abstract Task<string> ExecuteAsync(string args, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Optional multimodal parts (e.g. a captured screenshot) produced alongside the text result.
+        /// Called after <see cref="ExecuteAsync"/>; the runner injects any image parts as a follow-up user
+        /// message so the model can see them on the next turn. Default returns null = plain-text result.
+        /// These parts are transient and are not written to conversation history.
+        /// </summary>
+        public virtual Task<List<AIContentPart>> GetResultPartsAsync(string argsJson, string textResult, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<List<AIContentPart>>(null);
+        }
+
+        /// <summary>
         /// Helper method to parse JSON arguments into a dictionary.
         /// </summary>
         protected Dictionary<string, object> ParseJsonArgs(string json)

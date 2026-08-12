@@ -47,6 +47,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             public List<string> traceLines;
             public bool traceExpanded;
             public float traceHeaderHeight;
+            public bool isImage;
+            public Texture2D imageTex;
+            public string imageFile;
         }
 
         public static Dialog_AIConversation Instance { get; private set; }
@@ -395,8 +398,39 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     continue;
                 }
 
+                // 图片行：解码引用并渲染成缩略图，塞进对话流（不动工具 trace 缓冲）。
+                if (entry.role == "image")
+                {
+                    if (AIImageStore.TryParseImageRef(entry.message, out var imgFile, out _, out _))
+                    {
+                        Texture2D tex = AIImageStore.LoadImageTexture(imgFile);
+                        if (tex != null)
+                        {
+                            float maxW = Mathf.Min(contentWidth, 512f);
+                            float maxH = 384f;
+                            float scale = Mathf.Min(maxW / tex.width, maxH / tex.height, 1f);
+                            float imgW = tex.width * scale;
+                            float imgH = tex.height * scale;
+                            _cachedMessages.Add(new CachedMessage
+                            {
+                                role = "image",
+                                message = entry.message,
+                                displayText = "",
+                                height = imgH,
+                                yOffset = curY,
+                                font = GameFont.Tiny,
+                                isImage = true,
+                                imageTex = tex,
+                                imageFile = imgFile
+                            });
+                            curY += imgH + 10f;
+                        }
+                    }
+                    continue;
+                }
+
                 string messageText = entry.role == "assistant"
-                    ? ParseResponseForDisplay(entry.message)
+                    ? MarkdownRenderer.ToRichText(ParseResponseForDisplay(entry.message))
                     : AIIntelligenceCore.StripContextInfo(entry.message);
 
                 if (entry.role == "system") continue;
@@ -608,6 +642,18 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     {
                         DrawReactTracePanel(labelRect, entry);
                     }
+                    else if (entry.isImage)
+                    {
+                        float iw = Mathf.Min(contentWidth, entry.imageTex != null ? entry.imageTex.width : contentWidth);
+                        Rect imgRect = new Rect(innerPadding, entry.yOffset, iw, entry.height);
+                        GUI.color = new Color(1f, 1f, 1f, 1f);
+                        Widgets.DrawBox(imgRect, 1);
+                        if (entry.imageTex != null)
+                        {
+                            GUI.DrawTexture(imgRect.ContractedBy(1), entry.imageTex, ScaleMode.ScaleToFit);
+                        }
+                        GUI.color = Color.white;
+                    }
                     else if (entry.role == "user")
                     {
                         Text.Anchor = TextAnchor.MiddleRight;
@@ -616,7 +662,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     else if (entry.role == "assistant")
                     {
                         Text.Anchor = TextAnchor.MiddleLeft;
-                        Widgets.Label(labelRect, $"P.I.A: {entry.displayText}");
+                        GUI.contentColor = Color.white;
+                        Widgets.Label(labelRect, $"<color=#e8e8e8>P.I.A:</color> {entry.displayText}");
+                        GUI.contentColor = Color.white;
                     }
                     else
                     {
@@ -986,6 +1034,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 _core.OnThinkingStateChanged -= OnCoreThinkingStateChanged;
                 _core.OnExpressionChanged -= OnCoreExpressionChanged;
             }
+
+            AIImageStore.ClearCache();
 
             if (Instance == this) Instance = null;
             base.PostClose();

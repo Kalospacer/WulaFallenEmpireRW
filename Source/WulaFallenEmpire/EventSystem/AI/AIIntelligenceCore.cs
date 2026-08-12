@@ -399,6 +399,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             _history = historyManager?.GetHistory(_activeEventDefName) ?? new List<(string role, string message)>();
             int loadedCount = _history.Count;
             _history = _history.Where(AIHistoryManager.IsPersistableHistoryEntry).ToList();
+            // Drop image rows whose backing file is gone, so the dialog never tries to render dead refs.
+            _history = _history.Where(e =>
+                !string.Equals(e.role, "image", StringComparison.OrdinalIgnoreCase) ||
+                (AIImageStore.TryParseImageRef(e.message, out var f, out _, out _) && AIImageStore.ImageExists(f))).ToList();
             if (_history.Count != loadedCount)
             {
                 PersistHistory();
@@ -425,6 +429,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private void ClearHistory()
         {
+            // Free the on-disk images referenced by this conversation before dropping the rows.
+            foreach (var entry in _history ?? new List<(string role, string message)>())
+            {
+                if (string.Equals(entry.role, "image", StringComparison.OrdinalIgnoreCase) &&
+                    AIImageStore.TryParseImageRef(entry.message, out var file, out _, out _))
+                {
+                    AIImageStore.DeleteImage(file);
+                }
+            }
             _history.Clear();
             try
             {
@@ -1335,8 +1348,25 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 ? $"Tool '{name}' Error: {content}"
                 : $"Tool '{name}' Result: {content}";
             _history.Add(("tool", line));
+            // Multimodal image output: store a lightweight on-disk reference so the dialog can render the
+            // screenshot in the message stream. base64 never enters history.
+            string imageRef = ExtractImageRef(result.Content);
+            if (!string.IsNullOrWhiteSpace(imageRef) &&
+                AIImageStore.TryParseImageRef(imageRef, out var imgFile, out _, out _) &&
+                AIImageStore.ImageExists(imgFile))
+            {
+                _history.Add(("image", imageRef));
+            }
             PersistHistory();
             OnMessageReceived?.Invoke(string.Empty);
+        }
+
+        /// <summary>Pulls the "img|file|wxh" reference a screenshot tool embedded in its text result.</summary>
+        private static string ExtractImageRef(string content)
+        {
+            if (string.IsNullOrWhiteSpace(content)) return null;
+            var match = Regex.Match(content, @"img\|[^\s|]+\.(?:jpg|jpeg|png)\|\d+x\d+", RegexOptions.IgnoreCase);
+            return match.Success ? match.Value : null;
         }
 
         private static string NormalizeSingleLine(string text)

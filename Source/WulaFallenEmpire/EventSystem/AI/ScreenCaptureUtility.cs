@@ -16,6 +16,15 @@ namespace WulaFallenEmpire.EventSystem.AI
         /// </summary>
         public static string CaptureScreenAsBase64()
         {
+            byte[] jpgBytes = CaptureScreenAsBytes();
+            return jpgBytes == null ? null : Convert.ToBase64String(jpgBytes);
+        }
+
+        /// <summary>
+        /// 截取当前屏幕并返回 JPEG 字节（≤1024px，q85）。供需要落盘 / 转 base64 的调用方复用。
+        /// </summary>
+        public static byte[] CaptureScreenAsBytes()
+        {
             try
             {
                 // 使用 Unity 截屏
@@ -25,7 +34,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                     WulaLog.Debug("[ScreenCapture] CaptureScreenshotAsTexture returned null");
                     return null;
                 }
-                
+
                 // 缩放以适配 API 限制
                 Texture2D resized = ResizeTexture(screenshot, MaxImageSize);
 
@@ -40,7 +49,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 }
 
                 WulaLog.Debug($"[ScreenCapture] Captured {jpgBytes.Length} bytes");
-                return Convert.ToBase64String(jpgBytes);
+                return jpgBytes;
             }
             catch (Exception ex)
             {

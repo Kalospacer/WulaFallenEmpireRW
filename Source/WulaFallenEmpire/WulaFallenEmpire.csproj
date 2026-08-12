@@ -222,6 +222,7 @@
     <!-- EventSystem 相关 -->
     <Compile Include="EventSystem\AI\AIAutoCommentary.cs" />
     <Compile Include="EventSystem\AI\AIHistoryManager.cs" />
+    <Compile Include="EventSystem\AI\AIImageStore.cs" />
     <Compile Include="EventSystem\AI\AIIntelligenceCore.cs" />
     <Compile Include="EventSystem\AI\AIMemoryEntry.cs" />
     <Compile Include="EventSystem\AI\AIMemoryManager.cs" />
@@ -282,12 +283,14 @@
     <Compile Include="EventSystem\AI\Tools\Tool_McpInvoke.cs" />
     <Compile Include="EventSystem\AI\Tools\Tool_BridgeListTools.cs" />
     <Compile Include="EventSystem\AI\Tools\Tool_BridgeCall.cs" />
+    <Compile Include="EventSystem\AI\Tools\Tool_Screenshot.cs" />
     <Compile Include="EventSystem\AI\UI\Dialog_AIConversation.cs" />
     <Compile Include="EventSystem\AI\UI\Dialog_ExtraPersonalityPrompt.cs" />
     <Compile Include="EventSystem\AI\UI\Overlay_WulaLink.cs" />
     <Compile Include="EventSystem\AI\UI\Overlay_WulaLink_Notification.cs" />
     <Compile Include="EventSystem\AI\UI\WulaLinkStyles.cs" />
     <Compile Include="EventSystem\AI\Utils\PawnKindDefSearcher.cs" />
+    <Compile Include="EventSystem\AI\Utils\MarkdownRenderer.cs" />
     <Compile Include="EventSystem\AI\Utils\ThingDefSearcher.cs" />
     <Compile Include="EventSystem\AI\Utils\ToolSchemaSanitizer.cs" />
     <Compile Include="EventSystem\CompOpenCustomUI.cs" />

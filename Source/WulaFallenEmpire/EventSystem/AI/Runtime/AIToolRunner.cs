@@ -46,23 +46,26 @@ namespace WulaFallenEmpire.EventSystem.AI
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 LogTool(label, "queued", argsJson, 0);
-                string result = await AIMainThreadDispatcher.InvokeAsync(
+                var toolResult = await AIMainThreadDispatcher.InvokeAsync(
                     async () =>
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         LogTool(label, "started", null, stopwatch.ElapsedMilliseconds);
-                        return await tool.ExecuteAsync(argsJson, cancellationToken);
+                        string textResult = await tool.ExecuteAsync(argsJson, cancellationToken);
+                        var parts = await tool.GetResultPartsAsync(argsJson, textResult, cancellationToken);
+                        return (textResult, parts);
                     },
                     cancellationToken,
                     label);
-                result = result?.Trim() ?? string.Empty;
+                string result = toolResult.textResult?.Trim() ?? string.Empty;
                 LogTool(label, "completed", TrimForLog(result), stopwatch.ElapsedMilliseconds);
                 return new AIToolResult
                 {
                     ToolCallId = call.Id,
                     ToolName = call.Name,
                     Content = result,
-                    IsError = result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase)
+                    IsError = result.StartsWith("Error:", StringComparison.OrdinalIgnoreCase),
+                    ContentParts = (toolResult.parts != null && toolResult.parts.Count > 0) ? toolResult.parts : null
                 };
             }
             catch (OperationCanceledException)

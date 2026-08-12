@@ -91,6 +91,19 @@ namespace WulaFallenEmpire.EventSystem.AI
                     var result = await _toolRunner.ExecuteAsync(call, cancellationToken);
                     string content = result.Content ?? string.Empty;
                     messages.Add(AIMessage.ToolResult(call.Id, call.Name, content));
+                    // Multimodal output (e.g. a captured screenshot) is injected as a follow-up user image
+                    // message so the model can actually see it on the next step. The text tool_result above
+                    // is kept so the provider's tool_use/tool_result pairing stays intact.
+                    if (result.ContentParts != null)
+                    {
+                        var imageParts = result.ContentParts.Where(p => p != null && string.Equals(p.Type, "image", StringComparison.OrdinalIgnoreCase)).ToList();
+                        if (imageParts.Count > 0)
+                        {
+                            var userParts = new List<AIContentPart> { AIContentPart.TextPart($"[image output from tool '{call.Name}']") };
+                            userParts.AddRange(imageParts);
+                            messages.Add(AIMessage.UserParts(userParts));
+                        }
+                    }
                     _onToolResult?.Invoke(result);
                     _onTrace?.Invoke($"Tool '{call.Name}' Result: {content}");
                 }
