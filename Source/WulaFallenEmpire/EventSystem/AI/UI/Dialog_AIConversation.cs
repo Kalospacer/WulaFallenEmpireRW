@@ -263,7 +263,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             }
 
             bool aiEnabled = _core?.IsAIEnabled == true;
-            Rect aiPowerBtnRect = new Rect(0f, 60f, 35f, 25f);
+            Rect aiPowerBtnRect = new Rect(30f, 0f, 35f, 25f);
             if (DrawHeaderButton(aiPowerBtnRect, aiEnabled ? "ON" : "OFF"))
             {
                 _core?.SetAIEnabled(!aiEnabled);

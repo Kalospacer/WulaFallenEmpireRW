@@ -326,6 +326,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             lock (_historyLock)
             {
                 _history.Add(("user", messageWithContext));
+                // Keep _historyMeta index-aligned with _history; every Add on one needs one on the other.
+                _historyMeta.Add(null);
             }
             PersistHistory();
             _ = RunPhasedRequestAsync(null, true, trimmed);
