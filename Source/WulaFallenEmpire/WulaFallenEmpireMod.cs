@@ -144,7 +144,8 @@ namespace WulaFallenEmpire
             listingStandard.Label("<color=cyan>Tool Loop Settings</color>");
             listingStandard.Label("Max Tool Steps:");
             Rect maxStepsRect = listingStandard.GetRect(Text.LineHeight);
-            Widgets.TextFieldNumeric(maxStepsRect, ref settings.maxToolSteps, ref _maxToolStepsBuffer, 1, 30);
+            // 不设硬上限，玩家自己承担长 loop 的后果（配合单次超时和停止按钮兜底）
+            Widgets.TextFieldNumeric(maxStepsRect, ref settings.maxToolSteps, ref _maxToolStepsBuffer, 1f);
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("显示ReAct思考折叠框", ref settings.showReactTraceInUI, "在对话窗口中显示思考/工具调用折叠面板。");
