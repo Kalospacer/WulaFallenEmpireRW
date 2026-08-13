@@ -25,6 +25,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private float _lastUsedWidth = -1f;
         private List<CachedMessage> _cachedMessages = new List<CachedMessage>();
         private float _cachedTotalHeight = 0f;
+        private List<(string role, string message)> _history;
         private readonly Dictionary<int, bool> _traceExpandedByAssistantIndex = new Dictionary<int, bool>();
 
         private class CachedMessage
@@ -186,7 +187,60 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
         private void OnMessageReceived(string msg)
         {
+            if (_core == null)
+            {
+                _scrollToBottom = true;
+                return;
+            }
             _scrollToBottom = true;
+
+            // 流式更新是「原地替换最后一条 assistant 消息内容」，历史条目数不变，不会触发
+            // UpdateCacheIfNeeded 的条数检查。与 Dialog 相同：检测出这种情况就只增量重算尾行，
+            // 结构性变化（新增/删除/重排）仍然全量重建缓存。
+            var previousHistory = _history;
+            _history = _core.GetHistorySnapshot();
+            bool streamingOnly = previousHistory != null
+                && _history != null
+                && previousHistory.Count == _history.Count
+                && _history.Count > 0
+                && previousHistory.Take(_history.Count - 1).SequenceEqual(_history.Take(_history.Count - 1))
+                && _history[_history.Count - 1].role == "assistant";
+
+            if (streamingOnly)
+            {
+                UpdateStreamingTail();
+            }
+            else
+            {
+                _lastHistoryCount = -1;
+                _lastUsedWidth = -1f;
+            }
+        }
+
+        /// <summary>
+        /// Streaming path: recompute only the last assistant row's height and shift the total; every
+        /// earlier cached row stays untouched. Falls back to a full rebuild when the tail row is not a
+        /// cached assistant message.
+        /// </summary>
+        private void UpdateStreamingTail()
+        {
+            if (_cachedMessages.Count == 0)
+            {
+                _lastHistoryCount = -1;
+                return;
+            }
+            var last = _cachedMessages[_cachedMessages.Count - 1];
+            if (last.role != "assistant" || last.isTrace)
+            {
+                _lastHistoryCount = -1;
+                return;
+            }
+            string newText = MarkdownRenderer.ToRichText(StripToolCallJson(_history[_history.Count - 1].message)?.Trim() ?? "");
+            float newHeight = CalcMessageHeight(newText, _lastUsedWidth);
+            _cachedTotalHeight += newHeight - last.height;
+            last.height = newHeight;
+            last.displayText = newText;
+            last.message = _history[_history.Count - 1].message;
         }
 
         private void OnAssistantMessageCommitted(string msg)
@@ -355,18 +409,10 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             titleRect.x += 10f;
             Widgets.Label(titleRect, _def.characterName ?? "MomoTalk");
             
-            // Header Icons (AI power/Minimize/Maximize/Close)
+            // Header Icons (Minimize/Maximize/Close; AI 总开关只在大窗口显示)
             Rect closeRect = new Rect(rect.width - 35f, 10f, 25f, 25f);
             Rect maxRect = new Rect(rect.width - 65f, 10f, 25f, 25f);
             Rect minRect = new Rect(rect.width - 95f, 10f, 25f, 25f);
-            Rect powerRect = new Rect(rect.width - 135f, 10f, 35f, 25f);
-
-            bool aiEnabled = _core?.IsAIEnabled == true;
-            if (DrawHeaderButton(powerRect, aiEnabled ? "ON" : "OFF"))
-            {
-                _core?.SetAIEnabled(!aiEnabled);
-            }
-            TooltipHandler.TipRegion(powerRect, "Wula_AISettings_SaveAIEnabledDesc".Translate());
 
             // 最小化按钮 (→ 任务栏)
             if (DrawHeaderButton(minRect, "-"))
