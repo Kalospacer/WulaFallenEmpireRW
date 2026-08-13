@@ -227,7 +227,13 @@ namespace WulaFallenEmpire.EventSystem.AI
                     : "No response.";
             }
             messages.Add(AIMessage.Assistant(content));
-            _onFinalContent?.Invoke(content);
+            // Streaming already wrote this turn's text live (each tool-call step streamed into its own
+            // assistant row); re-delivering it here would duplicate the visible reply. Non-streaming
+            // responses have produced no deltas, so this is their only delivery.
+            if (!_enableStreaming)
+            {
+                _onFinalContent?.Invoke(content);
+            }
             _onUsage?.Invoke(response?.Usage);
         }
 

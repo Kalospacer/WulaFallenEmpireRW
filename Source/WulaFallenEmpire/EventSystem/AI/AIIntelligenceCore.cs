@@ -1691,6 +1691,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
         private void CommitFinalAssistantMessage(string content)
         {
+            // Non-streaming path only (the runner suppresses this callback when streaming, since deltas
+            // already landed row-by-row). No draft is open here, so DiscardStreamingDraft is a no-op.
             DiscardStreamingDraft();
             AddAssistantMessage(content);
         }
@@ -1699,9 +1701,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         /// Drops the in-flight streamed placeholder from history, if one is open.
         /// </summary>
         /// <remarks>
-        /// Called both when the final reply arrives and when the model turns out to be making tool calls
-        /// instead. Skipping it on the tool-call path would leave the pre-tool-call partial text in history
-        /// and let the next step's deltas concatenate onto the same buffer.
+        /// Only called on abort paths now (cancellation, error, load). The normal tool-call path keeps
+        /// the streamed row: text the model wrote before deciding to call tools is real reply content,
+        /// and the next step's deltas open a fresh row instead of overwriting it.
         /// </remarks>
         private void DiscardStreamingDraft()
         {
@@ -1735,6 +1737,21 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
         }
 
+        /// <summary>
+        /// Ends the current streaming row without removing it: the buffer is detached so the next
+        /// streamed step opens a new assistant row. Used when a step's text is final for its row
+        /// (tool-call boundary).
+        /// </summary>
+        private void CloseStreamingDraft()
+        {
+            lock (_historyLock)
+            {
+                _streamingAssistantActive = false;
+                _streamingAssistantBuffer.Clear();
+                _streamingAssistantHistoryIndex = -1;
+            }
+        }
+
         private void LogAgentTrace(string trace)
         {
             if (string.IsNullOrWhiteSpace(trace)) return;
@@ -1749,8 +1766,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private void RecordToolCallsForUi(IReadOnlyList<AIToolCall> calls)
         {
             if (calls == null || calls.Count == 0) return;
-            // The model streamed text and then decided to call tools; that partial text is not the reply.
-            DiscardStreamingDraft();
+            // Text the model streamed before deciding to call tools stays as its own assistant row —
+            // it is real reply content, and discarding it made every pre-tool paragraph vanish from the
+            // conversation. Just close the draft so the next step streams into a fresh row.
+            CloseStreamingDraft();
             lock (_historyLock)
             {
                 foreach (var call in calls)
