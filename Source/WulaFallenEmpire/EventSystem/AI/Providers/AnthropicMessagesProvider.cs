@@ -21,82 +21,99 @@ namespace WulaFallenEmpire.EventSystem.AI
             _model = model;
         }
 
+        private const string ProviderName = "Anthropic";
+
         public async Task<AIProviderResponse> SendAsync(AIProviderRequest request, CancellationToken cancellationToken)
         {
-            string json = await PostAsync(request, false, cancellationToken);
+            string json = await AIRequestRetry.RunAsync(ProviderName, request, cancellationToken,
+                (attempt, ct) => PostAsync(request, false, ct));
             var response = ParseMessage(json);
-            AIProviderJson.LogStage("Anthropic", request, $"non-stream parsed contentChars={response.Content?.Length ?? 0} toolCalls={response.ToolCalls?.Count ?? 0}");
-            AIProviderJson.LogUsage("Anthropic", request, response);
+            AIProviderJson.LogStage(ProviderName, request, $"non-stream parsed contentChars={response.Content?.Length ?? 0} toolCalls={response.ToolCalls?.Count ?? 0}");
+            AIProviderJson.LogUsage(ProviderName, request, response);
             return response;
         }
 
-        public async Task<AIProviderResponse> StreamAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
+        public Task<AIProviderResponse> StreamAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
+        {
+            return AIRequestRetry.RunAsync(ProviderName, request, cancellationToken,
+                (attempt, ct) => StreamOnceAsync(request, onEvent, ct));
+        }
+
+        private async Task<AIProviderResponse> StreamOnceAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request, true);
-            var watch = AIProviderJson.StartRequest("Anthropic", request, "stream");
+            var watch = AIProviderJson.StartRequest(ProviderName, request, "stream");
             using (var httpRequest = BuildHttpRequest(payload))
             using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                AIProviderJson.LogRawRequest("Anthropic", request, httpRequest, payload);
+                AIProviderJson.LogRawRequest(ProviderName, request, httpRequest, payload);
                 try
                 {
                     using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token))
                     {
-                        AIProviderJson.LogStage("Anthropic", request, $"stream headers status={(int)response.StatusCode} elapsedMs={watch.ElapsedMilliseconds}");
-                        string bodyIfError = null;
+                        AIProviderJson.LogStage(ProviderName, request, $"stream headers status={(int)response.StatusCode} elapsedMs={watch.ElapsedMilliseconds}");
                         if (!response.IsSuccessStatusCode)
                         {
-                            bodyIfError = await response.Content.ReadAsStringAsync();
-                            AIProviderJson.LogRawResponse("Anthropic", request, (int)response.StatusCode, bodyIfError);
-                            throw new Exception($"Anthropic API error {(int)response.StatusCode}: {bodyIfError}");
+                            string bodyIfError = await response.Content.ReadAsStringAsync();
+                            AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, bodyIfError);
+                            throw WulaAiException.FromHttpStatus(ProviderName, (int)response.StatusCode, bodyIfError, AIProviderJson.GetRetryAfter(response));
                         }
 
                         var accumulator = new AnthropicStreamAccumulator();
-                        int sseCount = await AIProviderJson.ReadSseAsync(response, (eventName, data) =>
+                        int sseCount = await ReadBodyAsync(response, (eventName, data) =>
                         {
                             ParseStreamEvent(data, accumulator, onEvent);
-                        }, timeoutCts.Token);
+                        }, timeoutCts.Token, request);
                         onEvent?.Invoke(new AIStreamEvent { Completed = true });
                         var result = accumulator.ToResponse();
-                        AIProviderJson.LogStage("Anthropic", request, $"stream done sseDataLines={sseCount} contentChars={result.Content?.Length ?? 0} toolCalls={result.ToolCalls?.Count ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
-                        AIProviderJson.LogUsage("Anthropic", request, result);
-                        AIProviderJson.LogRawResponse("Anthropic", request, (int)response.StatusCode, result.RawJson);
+                        AIProviderJson.LogStage(ProviderName, request, $"stream done sseDataLines={sseCount} contentChars={result.Content?.Length ?? 0} toolCalls={result.ToolCalls?.Count ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogUsage(ProviderName, request, result);
+                        AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, result.RawJson);
                         return result;
                     }
                 }
                 catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
                 {
-                    AIProviderJson.LogStage("Anthropic", request, $"stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    AIProviderJson.LogStage(ProviderName, request, $"stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
                     throw;
                 }
             }
         }
 
+        private static Task<int> ReadBodyAsync(HttpResponseMessage response, Action<string, string> onEvent, CancellationToken token, AIProviderRequest request)
+        {
+            if (request?.StreamIdleTimeout != null && request.StreamIdleTimeout.Value > TimeSpan.Zero)
+            {
+                return AIRequestRetry.ReadSseWithIdleWatchdogAsync(response, onEvent, token, request.StreamIdleTimeout.Value);
+            }
+            return AIProviderJson.ReadSseAsync(response, onEvent, token);
+        }
+
         private async Task<string> PostAsync(AIProviderRequest request, bool stream, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request, stream);
-            var watch = AIProviderJson.StartRequest("Anthropic", request, stream ? "stream" : "non-stream");
+            var watch = AIProviderJson.StartRequest(ProviderName, request, stream ? "stream" : "non-stream");
             using (var httpRequest = BuildHttpRequest(payload))
             using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                AIProviderJson.LogRawRequest("Anthropic", request, httpRequest, payload);
+                AIProviderJson.LogRawRequest(ProviderName, request, httpRequest, payload);
                 try
                 {
                     using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, timeoutCts.Token))
                     {
                         string body = await response.Content.ReadAsStringAsync();
-                        AIProviderJson.LogStage("Anthropic", request, $"non-stream status={(int)response.StatusCode} bodyChars={body?.Length ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
-                        AIProviderJson.LogRawResponse("Anthropic", request, (int)response.StatusCode, body);
+                        AIProviderJson.LogStage(ProviderName, request, $"non-stream status={(int)response.StatusCode} bodyChars={body?.Length ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, body);
                         if (!response.IsSuccessStatusCode)
                         {
-                            throw new Exception($"Anthropic API error {(int)response.StatusCode}: {body}");
+                            throw WulaAiException.FromHttpStatus(ProviderName, (int)response.StatusCode, body, AIProviderJson.GetRetryAfter(response));
                         }
                         return body;
                     }
                 }
                 catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
                 {
-                    AIProviderJson.LogStage("Anthropic", request, $"non-stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    AIProviderJson.LogStage(ProviderName, request, $"non-stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
                     throw;
                 }
             }
@@ -142,6 +159,25 @@ namespace WulaFallenEmpire.EventSystem.AI
             };
             if (!string.IsNullOrWhiteSpace(systemPrompt)) payload["system"] = systemPrompt.Trim();
             if (request.Temperature.HasValue) payload["temperature"] = request.Temperature.Value;
+
+            // No native JSON mode on the Messages API: emulate structured output with a forced tool
+            // call whose input schema is the requested output schema. The tool_use input IS the
+            // document, and it round-trips through the normal tool-call parse path, so the caller
+            // reads it from ToolCalls instead of Content.
+            if (request.OutputSchema != null)
+            {
+                payload["tools"] = new JArray
+                {
+                    new JObject
+                    {
+                        ["name"] = "emit_result",
+                        ["description"] = "Emit the structured result. You must call this tool exactly once with the full result as input.",
+                        ["input_schema"] = AIProviderJson.CloneObject(request.OutputSchema)
+                    }
+                };
+                payload["tool_choice"] = new JObject { ["type"] = "tool", ["name"] = "emit_result" };
+                return payload;
+            }
 
             bool hasNativeTools = request.ToolChoice != AIToolChoice.None &&
                 request.Tools != null &&

@@ -13,7 +13,23 @@ namespace WulaFallenEmpire.EventSystem.AI
     {
         private string _saveId;
         private string _storageKey;
-        private Dictionary<string, List<(string role, string message)>> _cache = new Dictionary<string, List<(string role, string message)>>();
+        private Dictionary<string, List<SavedHistoryEntry>> _cache = new Dictionary<string, List<SavedHistoryEntry>>();
+
+        /// <summary>
+        /// One persisted history row: display text plus, for tool rows, the provider tool-call
+        /// metadata that lets a reloaded conversation replay as native tool_use/tool_result pairs.
+        /// </summary>
+        public sealed class SavedHistoryEntry
+        {
+            public string Role;
+            public string Message;
+            public string ToolCallId;
+            public string ToolName;
+            public string ArgsJson;
+            public bool IsError;
+
+            public bool HasToolSemantics => !string.IsNullOrWhiteSpace(ToolCallId) && !string.IsNullOrWhiteSpace(ToolName);
+        }
 
         public AIHistoryManager(World world) : base(world)
         {
@@ -68,12 +84,12 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
         }
 
-        public List<(string role, string message)> GetHistory(string eventDefName)
+        public List<SavedHistoryEntry> GetHistory(string eventDefName)
         {
             EnsureStorageKeyCurrent();
             if (_cache.TryGetValue(eventDefName, out var cachedHistory))
             {
-                var filtered = (cachedHistory ?? new List<(string role, string message)>())
+                var filtered = (cachedHistory ?? new List<SavedHistoryEntry>())
                     .Where(IsPersistableHistoryEntry)
                     .ToList();
                 if (filtered.Count != (cachedHistory?.Count ?? 0))
@@ -92,10 +108,18 @@ namespace WulaFallenEmpire.EventSystem.AI
                     var dto = JsonConvert.DeserializeObject<List<AIHistoryEntryDto>>(json);
                     var history = dto?
                         .Where(e => e != null && !string.IsNullOrWhiteSpace(e.role))
-                        .Select(e => (e.role, e.message ?? ""))
+                        .Select(e => new SavedHistoryEntry
+                        {
+                            Role = e.role,
+                            Message = e.message ?? "",
+                            ToolCallId = e.toolCallId,
+                            ToolName = e.toolName,
+                            ArgsJson = e.argsJson,
+                            IsError = e.isError
+                        })
                         .Where(IsPersistableHistoryEntry)
                         .ToList();
-                    if (history == null) history = new List<(string role, string message)>();
+                    if (history == null) history = new List<SavedHistoryEntry>();
                     _cache[eventDefName] = history;
                     return history;
                 }
@@ -105,13 +129,13 @@ namespace WulaFallenEmpire.EventSystem.AI
                 }
             }
 
-            return new List<(string role, string message)>();
+            return new List<SavedHistoryEntry>();
         }
 
-        public void SaveHistory(string eventDefName, List<(string role, string message)> history)
+        public void SaveHistory(string eventDefName, List<SavedHistoryEntry> history)
         {
             EnsureStorageKeyCurrent();
-            var filteredHistory = (history ?? new List<(string role, string message)>())
+            var filteredHistory = (history ?? new List<SavedHistoryEntry>())
                 .Where(IsPersistableHistoryEntry)
                 .ToList();
             _cache[eventDefName] = filteredHistory;
@@ -119,7 +143,15 @@ namespace WulaFallenEmpire.EventSystem.AI
             try
             {
                 var dto = filteredHistory
-                    .Select(e => new AIHistoryEntryDto { role = e.role, message = e.message })
+                    .Select(e => new AIHistoryEntryDto
+                    {
+                        role = e.Role,
+                        message = e.Message,
+                        toolCallId = e.ToolCallId,
+                        toolName = e.ToolName,
+                        argsJson = e.ArgsJson,
+                        isError = e.IsError
+                    })
                     .ToList();
                 string json = JsonConvert.SerializeObject(dto, Formatting.Indented);
                 File.WriteAllText(path, json);
@@ -175,157 +207,27 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             public string role;
             public string message;
+            // Tool-call metadata; null on rows written before the replay change — those replay as text.
+            public string toolCallId;
+            public string toolName;
+            public string argsJson;
+            public bool isError;
         }
 
         /// <summary>
         /// Single source of truth for what may be written to persistent history. Shared with
         /// <see cref="AIIntelligenceCore"/> so the in-memory and on-disk views cannot drift.
         /// </summary>
-        /// <param name="entry">History entry to test.</param>
-        /// <returns><c>true</c> when the entry should be persisted.</returns>
+        public static bool IsPersistableHistoryEntry(SavedHistoryEntry entry)
+        {
+            return !string.Equals((entry.Role ?? "").Trim(), "trace", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>Tuple overload kept for <see cref="AIIntelligenceCore"/>'s in-memory list.</summary>
         public static bool IsPersistableHistoryEntry((string role, string message) entry)
         {
             string role = (entry.role ?? "").Trim();
             return !string.Equals(role, "trace", StringComparison.OrdinalIgnoreCase);
-        }
-    }
-
-    public static class SimpleJsonParser
-    {
-        public static string Serialize(List<(string role, string message)> history)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("[");
-            for (int i = 0; i < history.Count; i++)
-            {
-                var item = history[i];
-                sb.Append("{");
-                sb.Append($"\"role\":\"{Escape(item.role)}\",");
-                sb.Append($"\"message\":\"{Escape(item.message)}\"");
-                sb.Append("}");
-                if (i < history.Count - 1) sb.Append(",");
-            }
-            sb.Append("]");
-            return sb.ToString();
-        }
-
-        public static List<(string role, string message)> Deserialize(string json)
-        {
-            var result = new List<(string role, string message)>();
-            if (string.IsNullOrEmpty(json)) return result;
-
-            // Very basic parser, assumes standard format produced by Serialize
-            // Remove outer brackets
-            json = json.Trim();
-            if (json.StartsWith("[") && json.EndsWith("]"))
-            {
-                json = json.Substring(1, json.Length - 2);
-            }
-
-            if (string.IsNullOrEmpty(json)) return result;
-
-            // Split by objects
-            // This is fragile if objects contain nested objects or escaped braces, but for this specific structure it's fine
-            // We are splitting by "},{" which is risky. Better to iterate.
-            
-            int depth = 0;
-            int start = 0;
-            for (int i = 0; i < json.Length; i++)
-            {
-                if (json[i] == '{')
-                {
-                    if (depth == 0) start = i;
-                    depth++;
-                }
-                else if (json[i] == '}')
-                {
-                    depth--;
-                    if (depth == 0)
-                    {
-                        string obj = json.Substring(start, i - start + 1);
-                        var parsed = ParseObject(obj);
-                        if (parsed.role != null) result.Add(parsed);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public static Dictionary<string, string> Parse(string json)
-        {
-            var dict = new Dictionary<string, string>();
-            json = json.Trim('{', '}');
-            var parts = SplitByComma(json);
-            foreach (var part in parts)
-            {
-                var kv = SplitByColon(part);
-                if (kv.Length == 2)
-                {
-                    string key = Unescape(kv[0].Trim().Trim('"'));
-                    string val = Unescape(kv[1].Trim().Trim('"'));
-                    dict[key] = val;
-                }
-            }
-            return dict;
-        }
-
-        private static (string role, string message) ParseObject(string json)
-        {
-            string role = null;
-            string message = null;
-
-            var dict = Parse(json);
-            if (dict.TryGetValue("role", out string r)) role = r;
-            if (dict.TryGetValue("message", out string m)) message = m;
-
-            return (role, message);
-        }
-
-        private static string[] SplitByComma(string input)
-        {
-            // Split by comma but ignore commas inside quotes
-            var list = new List<string>();
-            bool inQuote = false;
-            int start = 0;
-            for (int i = 0; i < input.Length; i++)
-            {
-                if (input[i] == '"' && (i == 0 || input[i-1] != '\\')) inQuote = !inQuote;
-                if (input[i] == ',' && !inQuote)
-                {
-                    list.Add(input.Substring(start, i - start));
-                    start = i + 1;
-                }
-            }
-            list.Add(input.Substring(start));
-            return list.ToArray();
-        }
-
-        private static string[] SplitByColon(string input)
-        {
-            // Split by first colon outside quotes
-            bool inQuote = false;
-            for (int i = 0; i < input.Length; i++)
-            {
-                if (input[i] == '"' && (i == 0 || input[i-1] != '\\')) inQuote = !inQuote;
-                if (input[i] == ':' && !inQuote)
-                {
-                    return new[] { input.Substring(0, i), input.Substring(i + 1) };
-                }
-            }
-            return new[] { input };
-        }
-
-        private static string Escape(string s)
-        {
-            if (s == null) return "";
-            return s.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r");
-        }
-
-        private static string Unescape(string s)
-        {
-            if (s == null) return "";
-            return s.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\\"", "\"").Replace("\\\\", "\\");
         }
     }
 }

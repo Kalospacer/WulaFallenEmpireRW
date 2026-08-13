@@ -239,6 +239,7 @@
     <Compile Include="EventSystem\AI\Providers\GeminiProvider.cs" />
     <Compile Include="EventSystem\AI\Providers\IAIProvider.cs" />
     <Compile Include="EventSystem\AI\Providers\OpenAIChatProvider.cs" />
+    <Compile Include="EventSystem\AI\Providers\WulaAiException.cs" />
     <Compile Include="EventSystem\AI\Runtime\AIMainThreadDispatcher.cs" />
     <Compile Include="EventSystem\AI\Runtime\AIToolLoopRunner.cs" />
     <Compile Include="EventSystem\AI\Runtime\AIToolRegistry.cs" />

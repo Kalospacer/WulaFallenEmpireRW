@@ -240,6 +240,32 @@ namespace WulaFallenEmpire.EventSystem.AI
             return -1;
         }
 
+        /// <summary>Real prompt-token count from any provider's usage object, -1 when unknown.</summary>
+        public static long ExtractPromptTokens(JObject usage)
+        {
+            return FirstLong(usage, "prompt_tokens", "input_tokens", "promptTokenCount", "totalTokenCount");
+        }
+
+        /// <summary>Completion/output tokens from any provider's usage object, -1 when unknown.</summary>
+        public static long ExtractCompletionTokens(JObject usage)
+        {
+            return FirstLong(usage, "completion_tokens", "output_tokens", "candidatesTokenCount");
+        }
+
+        /// <summary>Cache-hit (read) tokens from any provider's usage object, 0 when unknown.</summary>
+        public static long ExtractCacheHitTokens(JObject usage)
+        {
+            long deepSeek = FirstLong(usage, "prompt_cache_hit_tokens");
+            if (deepSeek >= 0) return deepSeek;
+            long openAi = FirstLong(usage, "prompt_tokens_details.cached_tokens", "input_tokens_details.cached_tokens");
+            if (openAi >= 0) return openAi;
+            long anthropic = FirstLong(usage, "cache_read_input_tokens");
+            if (anthropic >= 0) return anthropic;
+            long gemini = FirstLong(usage, "cachedContentTokenCount");
+            if (gemini >= 0) return gemini;
+            return 0;
+        }
+
         private static string RedactHeader(string name, string value)
         {
             if (SensitiveHeaders.Contains(name ?? string.Empty)) return "<redacted>";
@@ -278,7 +304,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
         }
 
-        public static async Task<int> ReadSseAsync(HttpResponseMessage response, Action<string, string> onEvent, CancellationToken cancellationToken, Action<string> onRawData = null)
+        public static async Task<int> ReadSseAsync(HttpResponseMessage response, Action<string, string> onEvent, CancellationToken cancellationToken, Action<string> onRawData = null, Action onData = null)
         {
             string eventName = null;
             int dataLineCount = 0;
@@ -314,12 +340,27 @@ namespace WulaFallenEmpire.EventSystem.AI
                     {
                         string data = line.Substring(5).Trim();
                         dataLineCount++;
+                        onData?.Invoke();
                         onRawData?.Invoke(data);
                         onEvent?.Invoke(eventName, data);
                     }
                 }
             }
             return dataLineCount;
+        }
+
+        /// <summary>Parses the Retry-After header (seconds or HTTP-date), null when absent/invalid.</summary>
+        public static TimeSpan? GetRetryAfter(HttpResponseMessage response)
+        {
+            var header = response?.Headers?.RetryAfter;
+            if (header == null) return null;
+            if (header.Delta.HasValue) return header.Delta.Value;
+            if (header.Date.HasValue)
+            {
+                var delta = header.Date.Value - DateTimeOffset.UtcNow;
+                if (delta > TimeSpan.Zero) return delta;
+            }
+            return null;
         }
 
         public static string FirstText(List<AIContentPart> parts)

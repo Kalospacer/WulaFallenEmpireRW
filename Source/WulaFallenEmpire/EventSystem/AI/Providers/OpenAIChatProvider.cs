@@ -21,38 +21,47 @@ namespace WulaFallenEmpire.EventSystem.AI
             _model = model;
         }
 
+        private const string ProviderName = "OpenAI";
+
         public async Task<AIProviderResponse> SendAsync(AIProviderRequest request, CancellationToken cancellationToken)
         {
-            string json = await PostAsync(request, false, cancellationToken);
+            string json = await AIRequestRetry.RunAsync(ProviderName, request, cancellationToken,
+                (attempt, ct) => PostAsync(request, false, ct));
             var response = ParseCompletion(json);
-            AIProviderJson.LogStage("OpenAI", request, $"non-stream parsed contentChars={response.Content?.Length ?? 0} toolCalls={response.ToolCalls?.Count ?? 0}");
-            AIProviderJson.LogUsage("OpenAI", request, response);
+            ApplyStructuredOutput(request, response);
+            AIProviderJson.LogStage(ProviderName, request, $"non-stream parsed contentChars={response.Content?.Length ?? 0} toolCalls={response.ToolCalls?.Count ?? 0}");
+            AIProviderJson.LogUsage(ProviderName, request, response);
             return response;
         }
 
-        public async Task<AIProviderResponse> StreamAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
+        public Task<AIProviderResponse> StreamAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
+        {
+            return AIRequestRetry.RunAsync(ProviderName, request, cancellationToken,
+                (attempt, ct) => StreamOnceAsync(request, onEvent, ct));
+        }
+
+        private async Task<AIProviderResponse> StreamOnceAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request, true);
-            var watch = AIProviderJson.StartRequest("OpenAI", request, "stream");
+            var watch = AIProviderJson.StartRequest(ProviderName, request, "stream");
             using (var httpRequest = BuildHttpRequest(payload))
             using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                AIProviderJson.LogRawRequest("OpenAI", request, httpRequest, payload);
+                AIProviderJson.LogRawRequest(ProviderName, request, httpRequest, payload);
                 try
                 {
                     using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token))
                     {
-                        AIProviderJson.LogStage("OpenAI", request, $"stream headers status={(int)response.StatusCode} elapsedMs={watch.ElapsedMilliseconds}");
-                        string errorBody = null;
+                        AIProviderJson.LogStage(ProviderName, request, $"stream headers status={(int)response.StatusCode} elapsedMs={watch.ElapsedMilliseconds}");
                         if (!response.IsSuccessStatusCode)
                         {
-                            errorBody = await response.Content.ReadAsStringAsync();
-                            AIProviderJson.LogRawResponse("OpenAI", request, (int)response.StatusCode, errorBody);
-                            throw new Exception($"OpenAI API error {(int)response.StatusCode}: {errorBody}");
+                            string errorBody = await response.Content.ReadAsStringAsync();
+                            AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, errorBody);
+                            throw WulaAiException.FromHttpStatus(ProviderName, (int)response.StatusCode, errorBody, AIProviderJson.GetRetryAfter(response));
                         }
 
                         var accumulator = new OpenAIStreamAccumulator();
-                        int sseCount = await AIProviderJson.ReadSseAsync(response, (eventName, data) =>
+                        int sseCount = await ReadBodyAsync(response, (eventName, data) =>
                         {
                             if (string.Equals(data, "[DONE]", StringComparison.OrdinalIgnoreCase))
                             {
@@ -60,47 +69,72 @@ namespace WulaFallenEmpire.EventSystem.AI
                                 return;
                             }
                             ParseStreamChunk(data, accumulator, onEvent);
-                        }, timeoutCts.Token);
+                        }, timeoutCts.Token, request);
                         var result = accumulator.ToResponse();
-                        AIProviderJson.LogStage("OpenAI", request, $"stream done sseDataLines={sseCount} contentChars={result.Content?.Length ?? 0} toolCalls={result.ToolCalls?.Count ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
-                        AIProviderJson.LogUsage("OpenAI", request, result);
-                        AIProviderJson.LogRawResponse("OpenAI", request, (int)response.StatusCode, result.RawJson);
+                        ApplyStructuredOutput(request, result);
+                        AIProviderJson.LogStage(ProviderName, request, $"stream done sseDataLines={sseCount} contentChars={result.Content?.Length ?? 0} toolCalls={result.ToolCalls?.Count ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogUsage(ProviderName, request, result);
+                        AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, result.RawJson);
                         return result;
                     }
                 }
                 catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
                 {
-                    AIProviderJson.LogStage("OpenAI", request, $"stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    AIProviderJson.LogStage(ProviderName, request, $"stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
                     throw;
                 }
+            }
+        }
+
+        private static Task<int> ReadBodyAsync(HttpResponseMessage response, Action<string, string> onEvent, CancellationToken token, AIProviderRequest request)
+        {
+            if (request?.StreamIdleTimeout != null && request.StreamIdleTimeout.Value > TimeSpan.Zero)
+            {
+                return AIRequestRetry.ReadSseWithIdleWatchdogAsync(response, onEvent, token, request.StreamIdleTimeout.Value);
+            }
+            return AIProviderJson.ReadSseAsync(response, onEvent, token);
+        }
+
+        private static void ApplyStructuredOutput(AIProviderRequest request, AIProviderResponse response)
+        {
+            if (request?.OutputSchema == null || response == null) return;
+            try
+            {
+                response.StructuredOutput = string.IsNullOrWhiteSpace(response.Content)
+                    ? null
+                    : JObject.Parse(response.Content.Trim());
+            }
+            catch
+            {
+                response.StructuredOutput = null;
             }
         }
 
         private async Task<string> PostAsync(AIProviderRequest request, bool stream, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request, stream);
-            var watch = AIProviderJson.StartRequest("OpenAI", request, stream ? "stream" : "non-stream");
+            var watch = AIProviderJson.StartRequest(ProviderName, request, stream ? "stream" : "non-stream");
             using (var httpRequest = BuildHttpRequest(payload))
             using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                AIProviderJson.LogRawRequest("OpenAI", request, httpRequest, payload);
+                AIProviderJson.LogRawRequest(ProviderName, request, httpRequest, payload);
                 try
                 {
                     using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, timeoutCts.Token))
                     {
                         string body = await response.Content.ReadAsStringAsync();
-                        AIProviderJson.LogStage("OpenAI", request, $"non-stream status={(int)response.StatusCode} bodyChars={body?.Length ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
-                        AIProviderJson.LogRawResponse("OpenAI", request, (int)response.StatusCode, body);
+                        AIProviderJson.LogStage(ProviderName, request, $"non-stream status={(int)response.StatusCode} bodyChars={body?.Length ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, body);
                         if (!response.IsSuccessStatusCode)
                         {
-                            throw new Exception($"OpenAI API error {(int)response.StatusCode}: {body}");
+                            throw WulaAiException.FromHttpStatus(ProviderName, (int)response.StatusCode, body, AIProviderJson.GetRetryAfter(response));
                         }
                         return body;
                     }
                 }
                 catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
                 {
-                    AIProviderJson.LogStage("OpenAI", request, $"non-stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    AIProviderJson.LogStage(ProviderName, request, $"non-stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
                     throw;
                 }
             }
@@ -129,6 +163,10 @@ namespace WulaFallenEmpire.EventSystem.AI
             };
             if (request.MaxTokens.HasValue) payload["max_tokens"] = Math.Max(1, request.MaxTokens.Value);
             if (request.Temperature.HasValue) payload["temperature"] = request.Temperature.Value;
+            if (request.OutputSchema != null)
+            {
+                payload["response_format"] = new JObject { ["type"] = "json_object" };
+            }
 
             var messages = new JArray();
             if (!string.IsNullOrWhiteSpace(request.SystemPrompt))

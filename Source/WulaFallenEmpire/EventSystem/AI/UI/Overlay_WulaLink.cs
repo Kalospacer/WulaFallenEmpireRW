@@ -1107,7 +1107,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             {
                 Text.Font = GameFont.Tiny;
                 Rect thoughtRect = new Rect(labelRect.x, labelRect.yMax + 2f, labelRect.width, 22f);
-                Widgets.Label(thoughtRect, $"状态: {thought}");
+                Widgets.Label(thoughtRect, thought);
             }
             
             Text.Anchor = TextAnchor.UpperLeft;

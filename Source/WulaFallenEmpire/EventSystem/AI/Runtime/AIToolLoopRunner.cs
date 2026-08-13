@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace WulaFallenEmpire.EventSystem.AI
 {
@@ -19,9 +20,11 @@ namespace WulaFallenEmpire.EventSystem.AI
         private readonly bool _logRawTraffic;
         private readonly Action<string> _onFinalContent;
         private readonly Action<string> _onStreamingDelta;
+        private readonly Action<string> _onReasoningDelta;
         private readonly Action<IReadOnlyList<AIToolCall>> _onToolCalls;
         private readonly Action<AIToolResult> _onToolResult;
         private readonly Action<string> _onTrace;
+        private readonly Action<JObject> _onUsage;
 
         public AIToolLoopRunner(
             IAIProvider provider,
@@ -35,7 +38,10 @@ namespace WulaFallenEmpire.EventSystem.AI
             Action<string> onStreamingDelta,
             Action<IReadOnlyList<AIToolCall>> onToolCalls,
             Action<AIToolResult> onToolResult,
-            Action<string> onTrace)
+            Action<string> onTrace,
+            Action<string> onReasoningDelta = null,
+            TimeSpan? streamIdleTimeout = null,
+            Action<JObject> onUsage = null)
         {
             _provider = provider;
             _registry = registry;
@@ -47,10 +53,15 @@ namespace WulaFallenEmpire.EventSystem.AI
             _logRawTraffic = logRawTraffic;
             _onFinalContent = onFinalContent;
             _onStreamingDelta = onStreamingDelta;
+            _onReasoningDelta = onReasoningDelta;
             _onToolCalls = onToolCalls;
             _onToolResult = onToolResult;
             _onTrace = onTrace;
+            _onUsage = onUsage;
+            _streamIdleTimeout = streamIdleTimeout;
         }
+
+        private readonly TimeSpan? _streamIdleTimeout;
 
         public async Task<AIProviderResponse> RunAsync(List<AIMessage> messages, int? maxTokens, float? temperature, CancellationToken cancellationToken)
         {
@@ -71,6 +82,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 if (!response.HasToolCalls)
                 {
                     _onTrace?.Invoke("No tool calls returned; using provider content as final response.");
+                    CalibrateTokenEstimate(messages, response);
                     FinalizeVisibleResponse(messages, response);
                     return response;
                 }
@@ -148,7 +160,8 @@ namespace WulaFallenEmpire.EventSystem.AI
                 Stream = _enableStreaming,
                 TimeoutSeconds = _requestTimeoutSeconds,
                 LogRawTraffic = _logRawTraffic,
-                ToolChoice = toolsEnabled ? AIToolChoice.Auto : AIToolChoice.None
+                ToolChoice = toolsEnabled ? AIToolChoice.Auto : AIToolChoice.None,
+                StreamIdleTimeout = _streamIdleTimeout
             };
         }
 
@@ -171,6 +184,10 @@ namespace WulaFallenEmpire.EventSystem.AI
                     if (!string.IsNullOrEmpty(evt.TextDelta))
                     {
                         _onStreamingDelta?.Invoke(evt.TextDelta);
+                    }
+                    if (!string.IsNullOrEmpty(evt.ReasoningDelta))
+                    {
+                        _onReasoningDelta?.Invoke(evt.ReasoningDelta);
                     }
                 }, cancellationToken);
                 _onTrace?.Invoke($"Provider request {request.RequestId}: stream completed, contentChars={response?.Content?.Length ?? 0}, toolCalls={response?.ToolCalls?.Count ?? 0}.");
@@ -211,6 +228,26 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             messages.Add(AIMessage.Assistant(content));
             _onFinalContent?.Invoke(content);
+            _onUsage?.Invoke(response?.Usage);
+        }
+
+        /// <summary>
+        /// Feeds the response's real usage back into the context-budget estimate (chars-per-token),
+        /// so <c>CompressHistoryIfNeeded</c> triggers at the model's true tokenizer rate over time.
+        /// </summary>
+        private static void CalibrateTokenEstimate(List<AIMessage> messages, AIProviderResponse response)
+        {
+            long promptTokens = AIProviderJson.ExtractPromptTokens(response?.Usage);
+            if (promptTokens <= 0) return;
+            int promptChars = 0;
+            if (messages != null)
+            {
+                foreach (var m in messages)
+                {
+                    promptChars += m?.Content?.Length ?? 0;
+                }
+            }
+            AIIntelligenceCore.CalibrateCharsPerToken(promptTokens, promptChars);
         }
     }
 }

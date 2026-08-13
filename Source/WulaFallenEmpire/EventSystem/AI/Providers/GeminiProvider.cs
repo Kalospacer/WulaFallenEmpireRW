@@ -21,82 +21,99 @@ namespace WulaFallenEmpire.EventSystem.AI
             _model = model;
         }
 
+        private const string ProviderName = "Gemini";
+
         public async Task<AIProviderResponse> SendAsync(AIProviderRequest request, CancellationToken cancellationToken)
         {
-            string json = await PostAsync(request, false, cancellationToken);
+            string json = await AIRequestRetry.RunAsync(ProviderName, request, cancellationToken,
+                (attempt, ct) => PostAsync(request, false, ct));
             var response = ParseGenerateContent(json);
-            AIProviderJson.LogStage("Gemini", request, $"non-stream parsed contentChars={response.Content?.Length ?? 0} toolCalls={response.ToolCalls?.Count ?? 0}");
-            AIProviderJson.LogUsage("Gemini", request, response);
+            AIProviderJson.LogStage(ProviderName, request, $"non-stream parsed contentChars={response.Content?.Length ?? 0} toolCalls={response.ToolCalls?.Count ?? 0}");
+            AIProviderJson.LogUsage(ProviderName, request, response);
             return response;
         }
 
-        public async Task<AIProviderResponse> StreamAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
+        public Task<AIProviderResponse> StreamAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
+        {
+            return AIRequestRetry.RunAsync(ProviderName, request, cancellationToken,
+                (attempt, ct) => StreamOnceAsync(request, onEvent, ct));
+        }
+
+        private async Task<AIProviderResponse> StreamOnceAsync(AIProviderRequest request, Action<AIStreamEvent> onEvent, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request);
-            var watch = AIProviderJson.StartRequest("Gemini", request, "stream");
+            var watch = AIProviderJson.StartRequest(ProviderName, request, "stream");
             using (var httpRequest = BuildHttpRequest(payload, true))
             using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                AIProviderJson.LogRawRequest("Gemini", request, httpRequest, payload);
+                AIProviderJson.LogRawRequest(ProviderName, request, httpRequest, payload);
                 try
                 {
                     using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token))
                     {
-                        AIProviderJson.LogStage("Gemini", request, $"stream headers status={(int)response.StatusCode} elapsedMs={watch.ElapsedMilliseconds}");
-                        string bodyIfError = null;
+                        AIProviderJson.LogStage(ProviderName, request, $"stream headers status={(int)response.StatusCode} elapsedMs={watch.ElapsedMilliseconds}");
                         if (!response.IsSuccessStatusCode)
                         {
-                            bodyIfError = await response.Content.ReadAsStringAsync();
-                            AIProviderJson.LogRawResponse("Gemini", request, (int)response.StatusCode, bodyIfError);
-                            throw new Exception($"Gemini API error {(int)response.StatusCode}: {bodyIfError}");
+                            string bodyIfError = await response.Content.ReadAsStringAsync();
+                            AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, bodyIfError);
+                            throw WulaAiException.FromHttpStatus(ProviderName, (int)response.StatusCode, bodyIfError, AIProviderJson.GetRetryAfter(response));
                         }
 
                         var accumulator = new GeminiStreamAccumulator();
-                        int sseCount = await AIProviderJson.ReadSseAsync(response, (eventName, data) =>
+                        int sseCount = await ReadBodyAsync(response, (eventName, data) =>
                         {
                             ParseStreamChunk(data, accumulator, onEvent);
-                        }, timeoutCts.Token);
+                        }, timeoutCts.Token, request);
                         onEvent?.Invoke(new AIStreamEvent { Completed = true });
                         var result = accumulator.ToResponse();
-                        AIProviderJson.LogStage("Gemini", request, $"stream done sseDataLines={sseCount} contentChars={result.Content?.Length ?? 0} toolCalls={result.ToolCalls?.Count ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
-                        AIProviderJson.LogUsage("Gemini", request, result);
-                        AIProviderJson.LogRawResponse("Gemini", request, (int)response.StatusCode, result.RawJson);
+                        AIProviderJson.LogStage(ProviderName, request, $"stream done sseDataLines={sseCount} contentChars={result.Content?.Length ?? 0} toolCalls={result.ToolCalls?.Count ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogUsage(ProviderName, request, result);
+                        AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, result.RawJson);
                         return result;
                     }
                 }
                 catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
                 {
-                    AIProviderJson.LogStage("Gemini", request, $"stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    AIProviderJson.LogStage(ProviderName, request, $"stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
                     throw;
                 }
             }
         }
 
+        private static Task<int> ReadBodyAsync(HttpResponseMessage response, Action<string, string> onEvent, CancellationToken token, AIProviderRequest request)
+        {
+            if (request?.StreamIdleTimeout != null && request.StreamIdleTimeout.Value > TimeSpan.Zero)
+            {
+                return AIRequestRetry.ReadSseWithIdleWatchdogAsync(response, onEvent, token, request.StreamIdleTimeout.Value);
+            }
+            return AIProviderJson.ReadSseAsync(response, onEvent, token);
+        }
+
         private async Task<string> PostAsync(AIProviderRequest request, bool stream, CancellationToken cancellationToken)
         {
             var payload = BuildPayload(request);
-            var watch = AIProviderJson.StartRequest("Gemini", request, stream ? "stream" : "non-stream");
+            var watch = AIProviderJson.StartRequest(ProviderName, request, stream ? "stream" : "non-stream");
             using (var httpRequest = BuildHttpRequest(payload, stream))
             using (var timeoutCts = AIProviderJson.CreateTimeoutToken(request, cancellationToken))
             {
-                AIProviderJson.LogRawRequest("Gemini", request, httpRequest, payload);
+                AIProviderJson.LogRawRequest(ProviderName, request, httpRequest, payload);
                 try
                 {
                     using (var response = await AIProviderJson.HttpClient.SendAsync(httpRequest, timeoutCts.Token))
                     {
                         string body = await response.Content.ReadAsStringAsync();
-                        AIProviderJson.LogStage("Gemini", request, $"non-stream status={(int)response.StatusCode} bodyChars={body?.Length ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
-                        AIProviderJson.LogRawResponse("Gemini", request, (int)response.StatusCode, body);
+                        AIProviderJson.LogStage(ProviderName, request, $"non-stream status={(int)response.StatusCode} bodyChars={body?.Length ?? 0} elapsedMs={watch.ElapsedMilliseconds}");
+                        AIProviderJson.LogRawResponse(ProviderName, request, (int)response.StatusCode, body);
                         if (!response.IsSuccessStatusCode)
                         {
-                            throw new Exception($"Gemini API error {(int)response.StatusCode}: {body}");
+                            throw WulaAiException.FromHttpStatus(ProviderName, (int)response.StatusCode, body, AIProviderJson.GetRetryAfter(response));
                         }
                         return body;
                     }
                 }
                 catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
                 {
-                    AIProviderJson.LogStage("Gemini", request, $"non-stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
+                    AIProviderJson.LogStage(ProviderName, request, $"non-stream {AIProviderJson.DescribeCancellation(request, timeoutCts.Token)} elapsedMs={watch.ElapsedMilliseconds}");
                     throw;
                 }
             }
@@ -176,6 +193,13 @@ namespace WulaFallenEmpire.EventSystem.AI
             var generationConfig = new JObject();
             if (request.MaxTokens.HasValue) generationConfig["maxOutputTokens"] = Math.Max(1, request.MaxTokens.Value);
             if (request.Temperature.HasValue) generationConfig["temperature"] = request.Temperature.Value;
+            if (request.OutputSchema != null)
+            {
+                // Native structured output: responseMimeType + responseSchema (Gemini-flavored schema —
+                // same normalization as tool parameters).
+                generationConfig["responseMimeType"] = "application/json";
+                generationConfig["responseSchema"] = ConvertSchemaForGemini(request.OutputSchema);
+            }
             if (generationConfig.Count > 0) payload["generationConfig"] = generationConfig;
             return payload;
         }

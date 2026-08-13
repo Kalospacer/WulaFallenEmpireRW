@@ -16,6 +16,7 @@ namespace WulaFallenEmpire
         private string _maxContextTokensBuffer;
         private string _maxToolStepsBuffer;
         private string _aiRequestTimeoutSecondsBuffer;
+        private string _streamIdleTimeoutBuffer;
         private bool _mcpTestRunning;
         private string _mcpTestResult;
 
@@ -139,6 +140,9 @@ namespace WulaFallenEmpire
             listingStandard.Label("AI Request Timeout Seconds (2-600):");
             Rect timeoutRect = listingStandard.GetRect(Text.LineHeight);
             Widgets.TextFieldNumeric(timeoutRect, ref settings.aiRequestTimeoutSeconds, ref _aiRequestTimeoutSecondsBuffer, 2, 600);
+            listingStandard.Label("Stream Idle Timeout Seconds (5-300, 流式无数据多少秒判定中断):");
+            Rect idleRect = listingStandard.GetRect(Text.LineHeight);
+            Widgets.TextFieldNumeric(idleRect, ref settings.streamIdleTimeoutSeconds, ref _streamIdleTimeoutBuffer, 5, 300);
 
             listingStandard.GapLine();
             listingStandard.Label("<color=cyan>Tool Loop Settings</color>");

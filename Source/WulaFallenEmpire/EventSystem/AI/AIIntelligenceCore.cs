@@ -25,6 +25,12 @@ namespace WulaFallenEmpire.EventSystem.AI
         public event Action<bool> OnThinkingStateChanged;
         public event Action<int> OnExpressionChanged;
         private List<(string role, string message)> _history = new List<(string role, string message)>();
+        // Parallel to _history: provider tool-call metadata (call id / name / args / is_error) for
+        // toolcall+tool rows, so history reloads can replay native tool_use/tool_result pairs instead
+        // of flattened display text (codex rollout: history keeps full ResponseItems for the same
+        // reason). Entries without metadata (older saves, pre-change rows) keep the fold-into-user
+        // replay path. Same _historyLock discipline as _history.
+        private List<AIHistoryEntryMeta> _historyMeta = new List<AIHistoryEntryMeta>();
         /// <summary>
         /// Guards every read and write of <see cref="_history"/>. The tool-loop callbacks
         /// (<see cref="RecordToolResultForUi"/>, <see cref="AppendStreamingAssistantDelta"/> and friends)
@@ -50,6 +56,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         private bool _thinkingPhaseRetry;
         private float _lastThinkingDuration;
         private string _latestThought;
+        private string _lastUsageSummary;
+        private long _sessionTotalTokens;
         private CancellationTokenSource _activeRequestCts;
         private bool _streamingAssistantActive;
         private readonly StringBuilder _streamingAssistantBuffer = new StringBuilder();
@@ -74,6 +82,28 @@ namespace WulaFallenEmpire.EventSystem.AI
         /// long-term memory, so failures must be committed through it rather than hand-written.
         /// </summary>
         private const string BridgeErrorPrefix = "Error: ";
+
+        /// <summary>Per-row tool-call metadata persisted alongside the display text (see _historyMeta).</summary>
+        public sealed class AIHistoryEntryMeta
+        {
+            public string ToolCallId;
+            public string ToolName;
+            public string ArgsJson;
+            public bool IsError;
+
+            public bool HasToolSemantics => !string.IsNullOrWhiteSpace(ToolCallId) && !string.IsNullOrWhiteSpace(ToolName);
+
+            public AIHistoryEntryMeta Clone()
+            {
+                return new AIHistoryEntryMeta
+                {
+                    ToolCallId = ToolCallId,
+                    ToolName = ToolName,
+                    ArgsJson = ArgsJson,
+                    IsError = IsError
+                };
+            }
+        }
 
         private struct MemoryFact
         {
@@ -179,6 +209,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public int ThinkingPhaseTotal => FixedThinkingPhaseTotal;
         public float LastThinkingDuration => _lastThinkingDuration;
         public string LatestThought => _latestThought;
+        public string LastUsageSummary => _lastUsageSummary;
+        public long SessionTotalTokens => _sessionTotalTokens;
         public void SetAIEnabled(bool enabled)
         {
             if (_aiEnabled == enabled)
@@ -390,6 +422,27 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             // Remove all [Context: ...] blocks and any preceding newlines used to separate them
             return Regex.Replace(message, @"(\n)*\[Context:[^\]]*\]", "", RegexOptions.Singleline).Trim();
         }
+        /// <summary>
+        /// Called by the tool-loop runner with each response's real usage: calibrates the compaction
+        /// token estimate, accumulates the session total, and formats the per-turn line the dialog
+        /// shows under the thinking indicator.
+        /// </summary>
+        internal void RecordUsage(JObject usage)
+        {
+            if (usage == null) return;
+            long promptTokens = AIProviderJson.ExtractPromptTokens(usage);
+            long completionTokens = AIProviderJson.ExtractCompletionTokens(usage);
+            long cacheHit = AIProviderJson.ExtractCacheHitTokens(usage);
+            if (promptTokens < 0 && completionTokens < 0) return;
+            long total = Math.Max(0, promptTokens) + Math.Max(0, completionTokens);
+            _sessionTotalTokens += total;
+            string cachePart = promptTokens > 0 && cacheHit > 0
+                ? $" · cache {cacheHit * 100 / promptTokens}%"
+                : "";
+            _lastUsageSummary = $"{(promptTokens >= 0 ? promptTokens.ToString() : "?")}↑ {(completionTokens >= 0 ? completionTokens.ToString() : "?")}↓{cachePart} · total {_sessionTotalTokens}";
+            OnMessageReceived?.Invoke(string.Empty);
+        }
+
         private void SetThinkingState(bool isThinking)
         {
             if (_isThinking == isThinking)
@@ -422,16 +475,23 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         private void LoadHistoryForActiveEvent()
         {
             var historyManager = Find.World?.GetComponent<AIHistoryManager>();
-            var loaded = historyManager?.GetHistory(_activeEventDefName) ?? new List<(string role, string message)>();
+            var loaded = historyManager?.GetHistory(_activeEventDefName) ?? new List<AIHistoryManager.SavedHistoryEntry>();
             int loadedCount = loaded.Count;
             loaded = loaded.Where(AIHistoryManager.IsPersistableHistoryEntry).ToList();
             // Drop image rows whose backing file is gone, so the dialog never tries to render dead refs.
             loaded = loaded.Where(e =>
-                !string.Equals(e.role, "image", StringComparison.OrdinalIgnoreCase) ||
-                (AIImageStore.TryParseImageRef(e.message, out var f, out _, out _) && AIImageStore.ImageExists(f))).ToList();
+                !string.Equals(e.Role, "image", StringComparison.OrdinalIgnoreCase) ||
+                (AIImageStore.TryParseImageRef(e.Message, out var f, out _, out _) && AIImageStore.ImageExists(f))).ToList();
             lock (_historyLock)
             {
-                _history = loaded;
+                _history = loaded.Select(e => (e.Role, e.Message)).ToList();
+                _historyMeta = loaded.Select(e => new AIHistoryEntryMeta
+                {
+                    ToolCallId = e.ToolCallId,
+                    ToolName = e.ToolName,
+                    ArgsJson = e.ArgsJson,
+                    IsError = e.IsError
+                }).ToList();
             }
             if (loaded.Count != loadedCount)
             {
@@ -447,13 +507,27 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             try
             {
                 var historyManager = Find.World?.GetComponent<AIHistoryManager>();
-                List<(string role, string message)> toSave;
+                List<AIHistoryManager.SavedHistoryEntry> toSave;
                 lock (_historyLock)
                 {
-                    _history = (_history ?? new List<(string role, string message)>())
-                        .Where(AIHistoryManager.IsPersistableHistoryEntry)
-                        .ToList();
-                    toSave = _history;
+                    int count = _history?.Count ?? 0;
+                    var persistable = new List<AIHistoryManager.SavedHistoryEntry>(count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        var entry = _history[i];
+                        if (!AIHistoryManager.IsPersistableHistoryEntry(entry)) continue;
+                        var meta = i < _historyMeta.Count ? _historyMeta[i] : null;
+                        persistable.Add(new AIHistoryManager.SavedHistoryEntry
+                        {
+                            Role = entry.role,
+                            Message = entry.message,
+                            ToolCallId = meta?.ToolCallId,
+                            ToolName = meta?.ToolName,
+                            ArgsJson = meta?.ArgsJson,
+                            IsError = meta?.IsError ?? false
+                        });
+                    }
+                    toSave = persistable;
                 }
                 // SaveHistory re-filters into its own list, so passing the reference out of the lock is
                 // safe; it never retains or mutates the instance it was handed.
@@ -471,6 +545,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 // Free the on-disk images referenced by this conversation before dropping the rows.
                 DeleteImagesInRange(0, _history?.Count ?? 0);
                 _history.Clear();
+                _historyMeta.Clear();
             }
             try
             {
@@ -592,14 +667,65 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
         private void CompressHistoryIfNeeded()
         {
+            // Stage 1 (sync, lock): measure and decide. The token estimate is calibrated by real usage
+            // from provider responses (EstimateTokens), not a bare chars/4 guess.
+            List<(string role, string message)> dropped = null;
+            List<AIHistoryEntryMeta> droppedMeta = null;
+            int removeCount = 0;
             lock (_historyLock)
             {
-                int estimatedTokens = _history.Sum(h => h.message?.Length ?? 0) / CharsPerToken;
+                int estimatedTokens = 0;
+                foreach (var h in _history)
+                {
+                    estimatedTokens += EstimateTokens(h.message);
+                }
                 if (estimatedTokens <= GetMaxHistoryTokens())
                 {
                     return;
                 }
-                int removeCount = _history.Count / 2;
+                removeCount = _history.Count / 2;
+                if (removeCount <= 0)
+                {
+                    return;
+                }
+                dropped = _history.GetRange(0, removeCount);
+                droppedMeta = _historyMeta.Count == _history.Count
+                    ? _historyMeta.GetRange(0, removeCount)
+                    : null;
+            }
+
+            // Stage 2 (async, outside the lock): summarize the doomed span into a replacement entry.
+            // Failure falls back to the old drop-only behavior — compaction must never block the reply.
+            string summary = null;
+            try
+            {
+                var settings = WulaFallenEmpireMod.settings;
+                string apiKey = settings != null ? GetConfiguredApiKey(settings) : null;
+                var provider = settings != null && !string.IsNullOrWhiteSpace(apiKey) ? AIProviderFactory.Create(settings) : null;
+                string conversation = BuildCompactionConversation(dropped, droppedMeta);
+                if (provider != null && !string.IsNullOrWhiteSpace(conversation))
+                {
+                    using (var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(GetAiRequestTimeoutSeconds())))
+                    {
+                        summary = SendPlainProviderRequestAsync(
+                            provider, MemoryPrompts.BuildCompactionPrompt(conversation), 800, 0.2f, timeoutCts.Token)
+                            .GetAwaiter().GetResult();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                WulaLog.Debug($"[WulaAI] Compaction summary failed, dropping without summary: {ex.Message}");
+                summary = null;
+            }
+
+            // Stage 3 (sync, lock): re-verify under the lock — a concurrent turn may have appended.
+            lock (_historyLock)
+            {
+                if (removeCount > _history.Count)
+                {
+                    removeCount = _history.Count;
+                }
                 if (removeCount <= 0)
                 {
                     return;
@@ -609,10 +735,71 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 // life of the save, since ClearHistory was the sole DeleteImage caller.
                 DeleteImagesInRange(0, removeCount);
                 _history.RemoveRange(0, removeCount);
-                _history.Insert(0, ("system", "[Earlier conversation dropped to fit the context budget]"));
+                if (_historyMeta.Count > 0)
+                {
+                    if (_historyMeta.Count >= removeCount) _historyMeta.RemoveRange(0, removeCount);
+                    else _historyMeta.Clear();
+                }
+                string placeholder = string.IsNullOrWhiteSpace(summary)
+                    ? "[Earlier conversation dropped to fit the context budget]"
+                    : "[Earlier conversation summary]\n" + summary.Trim();
+                _history.Insert(0, ("system", placeholder));
+                _historyMeta.Insert(0, null);
                 ShiftMemorySummaryCursors(removeCount);
             }
             PersistHistory();
+        }
+
+        private static string BuildCompactionConversation(List<(string role, string message)> entries, List<AIHistoryEntryMeta> metas)
+        {
+            if (entries == null || entries.Count == 0) return "";
+            var sb = new StringBuilder();
+            for (int i = 0; i < entries.Count; i++)
+            {
+                var entry = entries[i];
+                if (string.IsNullOrWhiteSpace(entry.message)) continue;
+                string role = (entry.role ?? "user").Trim().ToLowerInvariant();
+                if (role == "image" || role == "trace") continue;
+                if (role == "toolcall" || role == "tool")
+                {
+                    sb.AppendLine("[tool] " + TrimForPrompt(entry.message, MaxToolTraceLineChars));
+                    continue;
+                }
+                string label = string.Equals(role, "assistant", StringComparison.OrdinalIgnoreCase) ? "Assistant"
+                    : role == "system" ? "System" : "User";
+                sb.Append(label).Append(": ").AppendLine(TrimForPrompt(CleanAssistantForReply(entry.message), 800));
+            }
+            string conversation = sb.ToString().Trim();
+            // The span is roughly half of a maxContextTokens-sized history; cap the compaction input so
+            // an oversized budget cannot blow the compaction request itself past the model window.
+            return TrimForPrompt(conversation, 24000);
+        }
+
+        /// <summary>
+        /// Token estimate for the context budget. chars/4 is the floor; the estimate tightens over time
+        /// because <see cref="CalibrateCharsPerToken"/> folds in the real prompt-token counts the
+        /// providers report.
+        /// </summary>
+        private static int EstimateTokens(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return 0;
+            return (int)Math.Ceiling(text.Length / _estimatedCharsPerToken);
+        }
+
+        private static double _estimatedCharsPerToken = CharsPerToken;
+
+        /// <summary>
+        /// Called with each response's real usage: aligns the chars-per-token estimate with the model's
+        /// actual tokenizer so the compaction trigger fires at the right size instead of guessing.
+        /// </summary>
+        internal static void CalibrateCharsPerToken(long promptTokens, int promptChars)
+        {
+            if (promptTokens <= 0 || promptChars <= 0) return;
+            double measured = promptChars / (double)promptTokens;
+            // Measured ratios live in a sane band (CJK-heavy text skews low, English prose high);
+            // reject outliers so one weird request cannot poison the budget.
+            if (measured < 1.0 || measured > 8.0) return;
+            _estimatedCharsPerToken = _estimatedCharsPerToken * 0.7 + measured * 0.3;
         }
 
         /// <summary>
@@ -819,17 +1006,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 }
                 var provider = AIProviderFactory.Create(settings);
                 string prompt = MemoryPrompts.BuildWindowSummaryPrompt(conversation);
-                string response;
+                AIProviderResponse response;
                 using (var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(GetAiRequestTimeoutSeconds())))
                 {
-                    response = await SendPlainProviderRequestAsync(provider, prompt, 512, 0.1f, timeoutCts.Token);
+                    response = await SendStructuredProviderRequestAsync(provider, prompt, 512, 0.1f, timeoutCts.Token, BuildMemoryFactSchema());
                 }
-                if (string.IsNullOrWhiteSpace(response))
+                var factsDoc = ExtractFactsDocument(response);
+                if (factsDoc == null)
                 {
-                    RecordMemorySummaryFailure(startIndex, "empty model response");
+                    RecordMemorySummaryFailure(startIndex, "no parseable facts document in model response");
                     return;
                 }
-                var facts = ParseMemoryFacts(response);
+                var facts = ParseMemoryFacts(factsDoc);
                 LongEventHandler.ExecuteWhenFinished(() =>
                 {
                     try
@@ -873,7 +1061,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             WulaLog.Debug($"[WulaAI] Memory summary pending retry {_pendingMemorySummaryRetryCount}/{MaxMemorySummaryRetries}: {reason}");
         }
 
-        private static async Task<string> SendPlainProviderRequestAsync(IAIProvider provider, string systemPrompt, int maxTokens, float temperature, CancellationToken cancellationToken)
+        private static async Task<string> SendPlainProviderRequestAsync(IAIProvider provider, string systemPrompt, int maxTokens, float temperature, CancellationToken cancellationToken, JObject outputSchema = null)
+        {
+            var response = await SendStructuredProviderRequestAsync(provider, systemPrompt, maxTokens, temperature, cancellationToken, outputSchema);
+            return response?.Content?.Trim();
+        }
+
+        /// <summary>
+        /// Plain single-shot request with optional structured output. Anthropic has no JSON mode, so
+        /// its provider emulates one with a forced emit_result tool call — the document arrives as the
+        /// tool call arguments instead of Content, which is why this exists alongside the string wrapper.
+        /// </summary>
+        private static async Task<AIProviderResponse> SendStructuredProviderRequestAsync(IAIProvider provider, string systemPrompt, int maxTokens, float temperature, CancellationToken cancellationToken, JObject outputSchema)
         {
             if (provider == null) return null;
             var response = await provider.SendAsync(new AIProviderRequest
@@ -887,9 +1086,58 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 Stream = false,
                 TimeoutSeconds = GetAiRequestTimeoutSeconds(),
                 LogRawTraffic = WulaFallenEmpireMod.settings?.logRawAiTraffic ?? false,
-                ToolChoice = AIToolChoice.None
+                ToolChoice = AIToolChoice.None,
+                OutputSchema = outputSchema
             }, cancellationToken);
-            return response?.Content?.Trim();
+            return response;
+        }
+
+        /// <summary>The JSON schema the memory window summarizer must return.</summary>
+        internal static JObject BuildMemoryFactSchema()
+        {
+            return new JObject
+            {
+                ["type"] = "object",
+                ["properties"] = new JObject
+                {
+                    ["facts"] = new JObject
+                    {
+                        ["type"] = "array",
+                        ["items"] = new JObject
+                        {
+                            ["type"] = "object",
+                            ["properties"] = new JObject
+                            {
+                                ["text"] = new JObject { ["type"] = "string" },
+                                ["category"] = new JObject { ["type"] = "string" },
+                                ["confidence"] = new JObject { ["type"] = "number" }
+                            },
+                            ["required"] = new JArray("text", "category", "confidence")
+                        }
+                    }
+                },
+                ["required"] = new JArray("facts")
+            };
+        }
+
+        /// <summary>Extracts the {"facts":...} document from a structured response, whatever provider shape it arrived in.</summary>
+        private static JObject ExtractFactsDocument(AIProviderResponse response)
+        {
+            if (response == null) return null;
+            if (response.StructuredOutput != null) return response.StructuredOutput;
+            // Anthropic emulation: the forced tool call's arguments are the document.
+            var calls = response.ToolCalls;
+            if (calls != null)
+            {
+                foreach (var call in calls)
+                {
+                    if (call?.Arguments != null && call.Arguments["facts"] is JArray)
+                    {
+                        return call.Arguments;
+                    }
+                }
+            }
+            return ParseFirstJsonObject(response.Content);
         }
 
         private static int GetAiRequestTimeoutSeconds()
@@ -898,14 +1146,15 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             return Math.Max(2, Math.Min(600, configured));
         }
 
-        private static List<MemoryFact> ParseMemoryFacts(string json)
+        private static TimeSpan GetStreamIdleTimeout()
+        {
+            int configured = WulaFallenEmpireMod.settings?.streamIdleTimeoutSeconds ?? 30;
+            return TimeSpan.FromSeconds(Math.Max(5, Math.Min(300, configured)));
+        }
+
+        private static List<MemoryFact> ParseMemoryFacts(JObject root)
         {
             var facts = new List<MemoryFact>();
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return facts;
-            }
-            var root = ParseFirstJsonObject(json);
             var array = root?["facts"] as JArray;
             if (array == null)
             {
@@ -1106,11 +1355,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 if (_history.Count == 0 || !string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
                 {
                     _history.Add(("assistant", cleanedResponse));
+                    _historyMeta.Add(null);
                     added = true;
                 }
                 else if (!string.Equals(_history[_history.Count - 1].message, cleanedResponse, StringComparison.Ordinal))
                 {
                     _history.Add(("assistant", cleanedResponse));
+                    _historyMeta.Add(null);
                     added = true;
                 }
             }
@@ -1165,7 +1416,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     AppendStreamingAssistantDelta,
                     RecordToolCallsForUi,
                     RecordToolResultForUi,
-                    LogAgentTrace);
+                    LogAgentTrace,
+                    AppendReasoningDelta,
+                    GetStreamIdleTimeout(),
+                    RecordUsage);
 
                 var messages = BuildCanonicalMessagesForAgent(transientUserMessage, memoryRecallQuery);
                 await runner.RunAsync(messages, null, null, _activeRequestCts.Token);
@@ -1181,7 +1435,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             catch (Exception ex)
             {
                 WulaLog.Debug($"[WulaAI] Agent request failed: {ex}");
-                CommitFinalAssistantMessage(BridgeErrorPrefix + ex.Message);
+                CommitFinalAssistantMessage(BridgeErrorPrefix + DescribeErrorForPlayer(ex));
             }
             finally
             {
@@ -1200,37 +1454,73 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             var pendingToolTrace = new List<string>();
             // Snapshot under the lock: the tool-loop callbacks keep appending while this runs.
             List<(string role, string message)> historySnapshot;
+            List<AIHistoryEntryMeta> metaSnapshot;
             lock (_historyLock)
             {
                 historySnapshot = (_history ?? new List<(string role, string message)>()).ToList();
+                metaSnapshot = _historyMeta.Count == historySnapshot.Count
+                    ? _historyMeta.Select(m => m?.Clone()).ToList()
+                    : null;
             }
-            foreach (var entry in historySnapshot)
+            // Pending native tool replay, one past turn at a time: each meta-carrying toolcall row adds
+            // its call to the group, each meta-carrying tool row flushes the group as
+            // assistant(tool_calls)+tool messages and lands its own result. Rows without metadata
+            // (older saves) keep the legacy fold-into-user trace behavior below.
+            var pendingCalls = new List<AIToolCall>();
+            for (int i = 0; i < historySnapshot.Count; i++)
             {
+                var entry = historySnapshot[i];
                 if (string.IsNullOrWhiteSpace(entry.message)) continue;
                 if (IsAutoCommentaryMessage(entry.message)) continue;
                 string role = (entry.role ?? "user").Trim().ToLowerInvariant();
+                var meta = metaSnapshot?[i];
+                bool hasMeta = meta?.HasToolSemantics == true;
                 if (role == "user")
                 {
+                    FlushPendingToolCalls(messages, pendingCalls);
                     // A tool run belongs to the assistant turn that follows it, so a new user turn
                     // starts a fresh trace.
                     pendingToolTrace.Clear();
                     messages.Add(AIMessage.User(entry.message));
                 }
-                else if (role == "toolcall" || role == "tool")
+                else if (role == "toolcall")
                 {
-                    pendingToolTrace.Add(entry.message);
+                    if (hasMeta)
+                    {
+                        pendingCalls.Add(AIToolCall.Create(meta.ToolCallId, meta.ToolName, AIProviderJson.ParseMaybeObject(meta.ArgsJson)));
+                    }
+                    else
+                    {
+                        FlushPendingToolCalls(messages, pendingCalls);
+                        pendingToolTrace.Add(entry.message);
+                    }
+                }
+                else if (role == "tool")
+                {
+                    if (hasMeta)
+                    {
+                        FlushPendingToolCalls(messages, pendingCalls);
+                        messages.Add(AIMessage.ToolResult(meta.ToolCallId, meta.ToolName, entry.message));
+                    }
+                    else
+                    {
+                        FlushPendingToolCalls(messages, pendingCalls);
+                        pendingToolTrace.Add(entry.message);
+                    }
                 }
                 else if (role == "assistant")
                 {
                     string cleaned = CleanAssistantForReply(entry.message);
                     if (!string.IsNullOrWhiteSpace(cleaned))
                     {
+                        FlushPendingToolCalls(messages, pendingCalls);
                         AppendToolTraceToLastUser(messages, pendingToolTrace);
                         messages.Add(AIMessage.Assistant(cleaned));
                     }
                     pendingToolTrace.Clear();
                 }
             }
+            FlushPendingToolCalls(messages, pendingCalls);
             if (!string.IsNullOrWhiteSpace(transientUserMessage))
             {
                 messages.Add(AIMessage.User(transientUserMessage));
@@ -1240,16 +1530,21 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
 
         /// <summary>
-        /// Attaches a past turn's tool calls and results to the user message that triggered them.
+        /// Emits one assistant message carrying all buffered tool calls (an interleaved text-only
+        /// display line goes first so the model keeps the wording it used mid-turn).
         /// </summary>
-        /// <remarks>
-        /// History stores tool activity as flattened display rows without the provider tool-call ids, so
-        /// it cannot be replayed as native tool_use/tool_result pairs. Folding it into the preceding user
-        /// message is the same approach <see cref="AppendTemporaryMemoryRecall"/> already uses for recalled
-        /// memory, and it preserves the strict user/assistant alternation that the Anthropic provider
-        /// requires. Without this the model loses every earlier tool result and re-queries the same state
-        /// on each turn.
-        /// </remarks>
+        private static void FlushPendingToolCalls(List<AIMessage> messages, List<AIToolCall> pendingCalls)
+        {
+            if (pendingCalls == null || pendingCalls.Count == 0) return;
+            messages.Add(AIMessage.AssistantToolCalls(new List<AIToolCall>(pendingCalls)));
+            pendingCalls.Clear();
+        }
+
+        /// <summary>
+        /// Attaches a past turn's tool calls and results to the user message that triggered them.
+        /// Only used for rows saved before tool-call metadata was persisted; meta-carrying rows replay
+        /// as native tool_use/tool_result pairs via <see cref="FlushPendingToolCalls"/>.
+        /// </summary>
         /// <param name="messages">Message list being built, in order.</param>
         /// <param name="traceLines">Buffered tool rows for the turn, or empty.</param>
         private static void AppendToolTraceToLastUser(List<AIMessage> messages, List<string> traceLines)
@@ -1325,6 +1620,21 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                    $"Reply language: {language}." + skillsSection;
         }
 
+        /// <summary>
+        /// Player-facing error text: HTTP failures lose the raw response body (which can contain
+        /// provider markup or echo back request details) and keep just the classified status.
+        /// </summary>
+        private static string DescribeErrorForPlayer(Exception ex)
+        {
+            if (ex is WulaAiException wula)
+            {
+                string status = wula.StatusCode.HasValue ? $"HTTP {wula.StatusCode.Value}" : wula.Kind.ToString();
+                string provider = string.IsNullOrWhiteSpace(wula.Provider) ? "AI" : wula.Provider;
+                return $"{provider} request failed ({status}).";
+            }
+            return ex.Message;
+        }
+
         private static string GetConfiguredApiKey(WulaFallenEmpireSettings settings)
         {
             switch (AIProviderFactory.ParseProviderType(settings.aiProviderType))
@@ -1350,6 +1660,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     _streamingAssistantBuffer.Clear();
                     _streamingAssistantHistoryIndex = _history.Count;
                     _history.Add(("assistant", ""));
+                    _historyMeta.Add(null);
                 }
                 _streamingAssistantBuffer.Append(delta);
                 buffered = _streamingAssistantBuffer.ToString();
@@ -1363,9 +1674,19 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 {
                     _streamingAssistantHistoryIndex = _history.Count;
                     _history.Add(("assistant", buffered));
+                    _historyMeta.Add(null);
                 }
             }
             OnMessageReceived?.Invoke(buffered);
+        }
+
+        private void AppendReasoningDelta(string delta)
+        {
+            if (string.IsNullOrEmpty(delta)) return;
+            // Reasoning streams never enter history; they surface through LatestThought so the
+            // thinking indicator shows what the model is actually doing between tool calls.
+            UpdateLatestThought(NormalizeSingleLine(delta));
+            OnMessageReceived?.Invoke(string.Empty);
         }
 
         private void CommitFinalAssistantMessage(string content)
@@ -1395,10 +1716,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     string.Equals(_history[_streamingAssistantHistoryIndex].role, "assistant", StringComparison.OrdinalIgnoreCase))
                 {
                     _history.RemoveAt(_streamingAssistantHistoryIndex);
+                    if (_streamingAssistantHistoryIndex < _historyMeta.Count)
+                    {
+                        _historyMeta.RemoveAt(_streamingAssistantHistoryIndex);
+                    }
                 }
                 else if (_history.Count > 0 && string.Equals(_history[_history.Count - 1].role, "assistant", StringComparison.OrdinalIgnoreCase))
                 {
                     _history.RemoveAt(_history.Count - 1);
+                    if (_historyMeta.Count > _history.Count)
+                    {
+                        _historyMeta.RemoveAt(_historyMeta.Count - 1);
+                    }
                 }
                 _streamingAssistantActive = false;
                 _streamingAssistantBuffer.Clear();
@@ -1432,6 +1761,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                         ? call.Name
                         : $"{call.Name} {args}";
                     _history.Add(("toolcall", line));
+                    _historyMeta.Add(new AIHistoryEntryMeta
+                    {
+                        ToolCallId = call.Id,
+                        ToolName = call.Name,
+                        ArgsJson = args
+                    });
                 }
             }
             PersistHistory();
@@ -1455,9 +1790,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             lock (_historyLock)
             {
                 _history.Add(("tool", line));
+                _historyMeta.Add(new AIHistoryEntryMeta
+                {
+                    ToolCallId = result.ToolCallId,
+                    ToolName = result.ToolName,
+                    IsError = result.IsError
+                });
                 if (hasImage)
                 {
                     _history.Add(("image", imageRef));
+                    _historyMeta.Add(null);
                 }
             }
             PersistHistory();

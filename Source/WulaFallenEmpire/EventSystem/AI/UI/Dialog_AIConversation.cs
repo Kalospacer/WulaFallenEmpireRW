@@ -97,14 +97,28 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private void OnCoreMessageReceived(string message)
         {
             if (_core == null) return;
+            var previousHistory = _history;
             _history = _core.GetHistorySnapshot();
             _scrollToBottom = true;
 
             // 流式更新是「原地替换最后一条 assistant 消息内容」，历史条目数不变。
-            // UpdateCacheIfNeeded 只看 Count 会漏刷新，导致只显示第一个 chunk。
-            // 这里每次收到消息事件都强制缓存失效，下一帧重建。
-            _lastHistoryCount = -1;
-            _lastUsedWidth = -1f;
+            // 那种情况只重算最后一条并平移总高度（codex commit_tick 思路：增量提交而非整表重建）；
+            // 结构性变化（新增/删除/重排）仍然全量重建缓存。
+            bool streamingOnly = previousHistory != null
+                && previousHistory.Count == _history.Count
+                && _history.Count > 0
+                && previousHistory.Take(_history.Count - 1).SequenceEqual(_history.Take(_history.Count - 1))
+                && _history[_history.Count - 1].role == "assistant";
+
+            if (streamingOnly)
+            {
+                UpdateStreamingTail();
+            }
+            else
+            {
+                _lastHistoryCount = -1;
+                _lastUsedWidth = -1f;
+            }
 
             // 解析选项
             _options.Clear();
@@ -128,6 +142,33 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             }
         }
 
+        /// <summary>
+        /// Streaming path: recompute only the last assistant row's height and shift the total; every
+        /// earlier cached row stays untouched. Falls back to a full rebuild when the tail row is not a
+        /// cached assistant message.
+        /// </summary>
+        private void UpdateStreamingTail()
+        {
+            if (_cachedMessages.Count == 0)
+            {
+                _lastHistoryCount = -1;
+                return;
+            }
+            var last = _cachedMessages[_cachedMessages.Count - 1];
+            if (last.role != "assistant" || last.isTrace)
+            {
+                _lastHistoryCount = -1;
+                return;
+            }
+            string newText = MarkdownRenderer.ToRichText(ParseResponseForDisplay(_history[_history.Count - 1].message));
+            Text.Font = last.font;
+            float newHeight = Text.CalcHeight(newText, _lastUsedWidth - 16f - 10f) + 30f;
+            _cachedTotalHeight += newHeight - last.height;
+            last.height = newHeight;
+            last.displayText = newText;
+            last.message = _history[_history.Count - 1].message;
+        }
+
         private void OnCoreThinkingStateChanged(bool isThinking)
         {
             _isThinking = isThinking;
@@ -147,19 +188,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         public List<(string role, string message)> GetHistorySnapshot()
         {
             return _core?.GetHistorySnapshot() ?? _history?.ToList() ?? new List<(string role, string message)>();
-        }
-
-        private void PersistHistory()
-        {
-            try
-            {
-                var historyManager = Find.World?.GetComponent<AIHistoryManager>();
-                historyManager?.SaveHistory(def.defName, _history);
-            }
-            catch (Exception ex)
-            {
-                WulaLog.Debug($"[WulaAI] Failed to persist AI history: {ex}");
-            }
         }
 
         private void LoadPortraits()
@@ -944,12 +972,24 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Rect statusRect = new Rect(rect.x, rect.y, rect.width, 22f);
             Widgets.Label(statusRect, BuildThinkingStatus());
 
+            string usage = _core?.LastUsageSummary;
+            if (!string.IsNullOrWhiteSpace(usage))
+            {
+                Text.Font = GameFont.Tiny;
+                Rect usageRect = new Rect(rect.xMax - 180f, rect.y + 4f, 180f, 16f);
+                Text.Anchor = TextAnchor.MiddleRight;
+                Widgets.Label(usageRect, usage);
+                Text.Anchor = TextAnchor.MiddleLeft;
+            }
+
             string thought = _core?.LatestThought;
             if (!string.IsNullOrWhiteSpace(thought))
             {
                 Text.Font = GameFont.Tiny;
                 Rect thoughtRect = new Rect(rect.x, statusRect.yMax + 2f, rect.width, 22f);
-                Widgets.Label(thoughtRect, $"状态: {thought}");
+                // LatestThought carries trace lines and streamed reasoning; either way it reads as
+                // "what the model is doing right now", not a status label.
+                Widgets.Label(thoughtRect, thought);
             }
             
             GUI.color = originalColor;

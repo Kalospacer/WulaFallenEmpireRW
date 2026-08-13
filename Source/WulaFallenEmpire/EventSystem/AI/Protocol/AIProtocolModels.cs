@@ -161,6 +161,15 @@ namespace WulaFallenEmpire.EventSystem.AI
         public int TimeoutSeconds = 120;
         public bool LogRawTraffic;
         public AIToolChoice ToolChoice = AIToolChoice.Auto;
+        /// <summary>
+        /// When non-null, ask the provider for schema-constrained JSON output (codex output_schema).
+        /// Providers without a native JSON mode emulate it with a forced tool call; the parsed object
+        /// lands in <see cref="AIProviderResponse.StructuredOutput"/> and <see cref="Content"/> mirrors
+        /// the raw JSON text.
+        /// </summary>
+        public JObject OutputSchema;
+        /// <summary>Idle-stream watchdog: cancel the request when no SSE data arrives for this long.</summary>
+        public TimeSpan? StreamIdleTimeout;
     }
 
     public sealed class AIProviderResponse
@@ -171,6 +180,8 @@ namespace WulaFallenEmpire.EventSystem.AI
         public List<AIToolCall> ToolCalls = new List<AIToolCall>();
         public JObject Usage;
         public string RawJson;
+        /// <summary>Parsed JSON for structured-output requests; null when no OutputSchema was set.</summary>
+        public JObject StructuredOutput;
 
         public bool HasToolCalls => ToolCalls != null && ToolCalls.Count > 0;
     }
@@ -181,5 +192,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         public string ReasoningDelta;
         public bool Completed;
         public string Error;
+        /// <summary>Token usage of the request that produced this event (set on the final response).</summary>
+        public JObject Usage;
     }
 }
