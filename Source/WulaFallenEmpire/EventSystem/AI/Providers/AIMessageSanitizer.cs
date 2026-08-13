@@ -30,6 +30,61 @@ namespace WulaFallenEmpire.EventSystem.AI
         private static bool IsEmpty(string s) => string.IsNullOrWhiteSpace(s);
 
         /// <summary>
+        /// Strips tool_calls from any assistant message whose declared calls are not all answered by
+        /// immediately-following tool messages. History truncation (compaction) and cancelled tool loops
+        /// can leave an assistant tool_calls turn with no matching tool results, which OpenAI, Anthropic
+        /// and Gemini all reject with a 400 ("must be followed by tool messages responding to each
+        /// tool_call_id"). Tool messages consumed by the check are left in place.
+        /// </summary>
+        public static void StripDanglingToolCalls(List<AIMessage> messages)
+        {
+            if (messages == null) return;
+            for (int i = 0; i < messages.Count; i++)
+            {
+                var m = messages[i];
+                if (!IsAssistantWithToolCalls(m)) continue;
+
+                var unanswered = new HashSet<string>(StringComparer.Ordinal);
+                foreach (var call in m.ToolCalls)
+                {
+                    if (!string.IsNullOrWhiteSpace(call?.Id)) unanswered.Add(call.Id);
+                }
+
+                int j = i + 1;
+                while (j < messages.Count && IsTool(messages[j]))
+                {
+                    unanswered.Remove(messages[j].ToolCallId ?? string.Empty);
+                    j++;
+                }
+
+                if (unanswered.Count == 0)
+                {
+                    i = j - 1; // skip the tool block that answers these calls
+                    continue;
+                }
+
+                var remaining = new List<AIToolCall>();
+                foreach (var call in m.ToolCalls)
+                {
+                    if (call == null || string.IsNullOrWhiteSpace(call.Id) || !unanswered.Contains(call.Id))
+                    {
+                        remaining.Add(call);
+                    }
+                }
+
+                if (remaining.Count == 0 && IsEmpty(m.Content) && IsEmpty(m.ReasoningContent))
+                {
+                    messages.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+
+                m.ToolCalls = remaining;
+                i = j - 1;
+            }
+        }
+
+        /// <summary>
         /// OpenAI chat-completions rules (AstrBot openai_source.py:452-529):
         /// 1. assistant with no content, no tool calls, no reasoning → drop the row (strict endpoints
         ///    400 on a fully empty assistant; Moonshot/DeepSeek Reasoner among them).
@@ -91,6 +146,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 pendingIds.Clear();
                 result.Add(m);
             }
+            StripDanglingToolCalls(result);
             return result;
         }
 

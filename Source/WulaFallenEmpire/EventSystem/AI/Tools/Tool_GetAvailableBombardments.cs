@@ -13,7 +13,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
     {
         public override string Name => "get_available_bombardments";
         public override string Description => "Returns a list of available orbital bombardment abilities (AbilityDefs) that can be called. " +
-                                              "Use this to find the correct 'abilityDef' for the 'call_bombardment' tool.";
+                                              "Use this to find the correct 'abilityDef' for the 'call_bombardment' tool.";
         public override Dictionary<string, object> GetParametersSchema()
         {
             return SchemaObject(new Dictionary<string, object>(), RequiredList());
@@ -114,8 +114,13 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
                     foreach (var p in genericToShow)
                     {
                         string label = !string.IsNullOrEmpty(p.label) ? $" ({p.label})" : "";
-                        var props = p.comps.OfType<CompProperties_AbilityCircularBombardment>().First();
-                        sb.AppendLine($"- {p.defName}{label} [MaxLaunches: {props.maxLaunches}, Radius: {props.radius}]");
+                        // A generic def can be "valid" via a strafe/lance/skyfaller comp rather than a
+                        // circular one, so this must not assume circular props exist.
+                        var circular = p.comps.OfType<CompProperties_AbilityCircularBombardment>().FirstOrDefault();
+                        string details = circular != null
+                            ? $"Type: Circular, Radius: {circular.radius}, Launches: {circular.maxLaunches}"
+                            : "Type: Bombardment";
+                        sb.AppendLine($"- {p.defName}{label} [{details}]");
                     }
                     if (otherBombardments.Count > 20)
                     {

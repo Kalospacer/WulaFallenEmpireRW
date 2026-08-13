@@ -27,6 +27,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             public string ToolName;
             public string ArgsJson;
             public bool IsError;
+            public float ThinkingDurationSeconds;
 
             public bool HasToolSemantics => !string.IsNullOrWhiteSpace(ToolCallId) && !string.IsNullOrWhiteSpace(ToolName);
         }
@@ -115,7 +116,8 @@ namespace WulaFallenEmpire.EventSystem.AI
                             ToolCallId = e.toolCallId,
                             ToolName = e.toolName,
                             ArgsJson = e.argsJson,
-                            IsError = e.isError
+                            IsError = e.isError,
+                            ThinkingDurationSeconds = e.thinkingDurationSeconds
                         })
                         .Where(IsPersistableHistoryEntry)
                         .ToList();
@@ -150,7 +152,8 @@ namespace WulaFallenEmpire.EventSystem.AI
                         toolCallId = e.ToolCallId,
                         toolName = e.ToolName,
                         argsJson = e.ArgsJson,
-                        isError = e.IsError
+                        isError = e.IsError,
+                        thinkingDurationSeconds = e.ThinkingDurationSeconds
                     })
                     .ToList();
                 string json = JsonConvert.SerializeObject(dto, Formatting.Indented);
@@ -212,6 +215,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             public string toolName;
             public string argsJson;
             public bool isError;
+            public float thinkingDurationSeconds;
         }
 
         /// <summary>

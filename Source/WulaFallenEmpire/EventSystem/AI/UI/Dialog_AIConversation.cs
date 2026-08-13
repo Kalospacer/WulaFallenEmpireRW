@@ -890,7 +890,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         {
             if (isLive)
             {
-                return BuildReactTraceHeader(true);
+                return BuildReactTraceHeader(true, 0f);
             }
 
             if (_traceHeaderByAssistantIndex.TryGetValue(traceKey, out string header))
@@ -898,19 +898,28 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 return header;
             }
 
-            header = BuildReactTraceHeader(false);
+            header = BuildReactTraceHeader(false, GetThinkingDurationAt(traceKey));
             _traceHeaderByAssistantIndex[traceKey] = header;
             return header;
         }
 
-        private string BuildReactTraceHeader(bool isLive)
+        private float GetThinkingDurationAt(int index)
         {
-            string state = isLive ? "思考中" : "已思考";
-            float elapsed = isLive
-                ? (float)(_core?.ThinkingElapsedSeconds ?? 0d)
-                : _core?.LastThinkingDuration ?? 0f;
+            if (_core == null || index < 0) return 0f;
+            float[] durations = _core.GetThinkingDurations();
+            return index < durations.Length ? durations[index] : 0f;
+        }
+
+        private string BuildReactTraceHeader(bool isLive, float durationSeconds)
+        {
+            if (!isLive)
+            {
+                if (durationSeconds <= 0f) return "已思考";
+                return $"已思考 (用时 {durationSeconds.ToString("0.0", CultureInfo.InvariantCulture)}s)";
+            }
+            float elapsed = _core != null ? (float)_core.ThinkingElapsedSeconds : 0f;
             string elapsedText = elapsed > 0f ? elapsed.ToString("0.0", CultureInfo.InvariantCulture) : "0.0";
-            return $"{state} (用时 {elapsedText}s · Loop {_core?.ThinkingPhaseIndex ?? 0})";
+            return $"思考中 (用时 {elapsedText}s)";
         }
 
         private void DrawReactTracePanel(Rect rect, CachedMessage traceEntry)
@@ -957,7 +966,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             if (_core == null) return "Thinking...";
             float elapsedSeconds = (float)_core.ThinkingElapsedSeconds;
             string elapsedText = elapsedSeconds.ToString("0.0", CultureInfo.InvariantCulture);
-            return $"P.I.A is thinking... ({elapsedText}s Loop {_core.ThinkingPhaseIndex})";
+            return $"P.I.A is thinking... ({elapsedText}s)";
         }
 
         private void DrawThinkingIndicator(Rect rect)

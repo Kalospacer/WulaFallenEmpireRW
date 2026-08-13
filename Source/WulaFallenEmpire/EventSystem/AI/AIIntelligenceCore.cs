@@ -52,8 +52,6 @@ namespace WulaFallenEmpire.EventSystem.AI
         // thread-pool continuation (RimWorld installs no SynchronizationContext), where Unity's
         // Time API returns garbage and the recorded duration got clamped to 0.
         private readonly Stopwatch _thinkingStopwatch = new Stopwatch();
-        private int _thinkingPhaseIndex = 1;
-        private bool _thinkingPhaseRetry;
         private float _lastThinkingDuration;
         private string _latestThought;
         private string _lastUsageSummary;
@@ -68,7 +66,6 @@ namespace WulaFallenEmpire.EventSystem.AI
         private int _pendingMemorySummaryRetryCount;
         private const int DefaultMaxHistoryTokens = 100000;
         private const int CharsPerToken = 4;
-        private const int FixedThinkingPhaseTotal = 1;
         private const int MemorySummaryTriggerRounds = 10;
         private const int MaxAutoRecallMemories = 5;
         private const int MaxMemorySummaryRetries = 3;
@@ -90,6 +87,8 @@ namespace WulaFallenEmpire.EventSystem.AI
             public string ToolName;
             public string ArgsJson;
             public bool IsError;
+            /// <summary>Wall-clock seconds the turn that produced this assistant row spent thinking. 0 = unknown.</summary>
+            public float ThinkingDurationSeconds;
 
             public bool HasToolSemantics => !string.IsNullOrWhiteSpace(ToolCallId) && !string.IsNullOrWhiteSpace(ToolName);
 
@@ -100,8 +99,16 @@ namespace WulaFallenEmpire.EventSystem.AI
                     ToolCallId = ToolCallId,
                     ToolName = ToolName,
                     ArgsJson = ArgsJson,
-                    IsError = IsError
+                    IsError = IsError,
+                    ThinkingDurationSeconds = ThinkingDurationSeconds
                 };
+            }
+
+            /// <summary>Mutates and returns this instance with the thinking duration set, for chained assignment.</summary>
+            public AIHistoryEntryMeta WithDuration(float durationSeconds)
+            {
+                ThinkingDurationSeconds = durationSeconds;
+                return this;
             }
         }
 
@@ -204,13 +211,28 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public bool IsAIEnabled => _aiEnabled;
         public bool IsThinking => _isThinking;
         public double ThinkingElapsedSeconds => _thinkingStopwatch.Elapsed.TotalSeconds;
-        public int ThinkingPhaseIndex => _thinkingPhaseIndex;
-        public bool ThinkingPhaseRetry => _thinkingPhaseRetry;
-        public int ThinkingPhaseTotal => FixedThinkingPhaseTotal;
         public float LastThinkingDuration => _lastThinkingDuration;
         public string LatestThought => _latestThought;
         public string LastUsageSummary => _lastUsageSummary;
         public long SessionTotalTokens => _sessionTotalTokens;
+
+        /// <summary>
+        /// Per-assistant-row thinking durations, aligned with <see cref="GetHistorySnapshot"/>. The
+        /// trace header for a historical assistant turn reads its own row's duration, so old turns no
+        /// longer all display the same number. 0 (or missing) means the duration is unknown.
+        /// </summary>
+        public float[] GetThinkingDurations()
+        {
+            lock (_historyLock)
+            {
+                var durations = new float[_historyMeta != null ? _historyMeta.Count : 0];
+                for (int i = 0; i < durations.Length; i++)
+                {
+                    durations[i] = _historyMeta[i]?.ThinkingDurationSeconds ?? 0f;
+                }
+                return durations;
+            }
+        }
         public void SetAIEnabled(bool enabled)
         {
             if (_aiEnabled == enabled)
@@ -458,14 +480,33 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 _thinkingStopwatch.Stop();
                 _lastThinkingDuration = (float)_thinkingStopwatch.Elapsed.TotalSeconds;
+                StampThinkingDuration(_lastThinkingDuration);
             }
             _isThinking = isThinking;
             OnThinkingStateChanged?.Invoke(_isThinking);
         }
-        private void SetThinkingPhase(int phaseIndex, bool isRetry)
+
+        /// <summary>
+        /// Writes the just-measured thinking duration onto the final assistant row of the turn that
+        /// just finished (or the pending index captured at request start), so the UI can show a real
+        /// per-turn elapsed time for historical traces.
+        /// </summary>
+        private void StampThinkingDuration(float durationSeconds)
         {
-            _thinkingPhaseIndex = Math.Max(1, Math.Min(FixedThinkingPhaseTotal, phaseIndex));
-            _thinkingPhaseRetry = isRetry;
+            lock (_historyLock)
+            {
+                if (_historyMeta == null) return;
+                // The final assistant row of the turn is the last assistant row present when the
+                // stopwatch stops; intermediate tool rows never carry a duration.
+                for (int i = _historyMeta.Count - 1; i >= 0; i--)
+                {
+                    if (_history.Count > i && string.Equals(_history[i].role, "assistant", StringComparison.OrdinalIgnoreCase))
+                    {
+                        _historyMeta[i] = (_historyMeta[i] ?? new AIHistoryEntryMeta()).WithDuration(durationSeconds);
+                        return;
+                    }
+                }
+            }
         }
         private static int GetMaxHistoryTokens()
         {
@@ -490,7 +531,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     ToolCallId = e.ToolCallId,
                     ToolName = e.ToolName,
                     ArgsJson = e.ArgsJson,
-                    IsError = e.IsError
+                    IsError = e.IsError,
+                    ThinkingDurationSeconds = e.ThinkingDurationSeconds
                 }).ToList();
             }
             if (loaded.Count != loadedCount)
@@ -524,7 +566,8 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                             ToolCallId = meta?.ToolCallId,
                             ToolName = meta?.ToolName,
                             ArgsJson = meta?.ArgsJson,
-                            IsError = meta?.IsError ?? false
+                            IsError = meta?.IsError ?? false,
+                            ThinkingDurationSeconds = meta?.ThinkingDurationSeconds ?? 0f
                         });
                     }
                     toSave = persistable;
@@ -1376,7 +1419,6 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             if (!_aiEnabled || _isThinking) return;
             SetThinkingState(true);
-            SetThinkingPhase(1, false);
             _activeRequestCts?.Cancel();
             _activeRequestCts?.Dispose();
             _activeRequestCts = new CancellationTokenSource();
@@ -1423,6 +1465,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
 
                 var messages = BuildCanonicalMessagesForAgent(transientUserMessage, memoryRecallQuery);
                 await runner.RunAsync(messages, null, null, _activeRequestCts.Token);
+                if (settings.enableStreaming)
+                {
+                    FinalizeStreamedReply();
+                }
                 if (triggerMemoryUpdate)
                 {
                     TriggerMemoryUpdate();
@@ -1526,6 +1572,9 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 messages.Add(AIMessage.User(transientUserMessage));
             }
             AppendTemporaryMemoryRecall(messages, memoryRecallQuery);
+            // A truncated history or an aborted tool loop can leave assistant tool_calls with no
+            // matching tool results; strip them here so the provider never 400s on the replay.
+            AIMessageSanitizer.StripDanglingToolCalls(messages);
             return messages;
         }
 
@@ -1695,6 +1744,45 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             // already landed row-by-row). No draft is open here, so DiscardStreamingDraft is a no-op.
             DiscardStreamingDraft();
             AddAssistantMessage(content);
+        }
+
+        /// <summary>
+        /// Streaming writes the final reply into history through <see cref="AppendStreamingAssistantDelta"/>
+        /// one delta at a time, so no commit callback ever runs: a trailing [EXPR:n] is never applied and
+        /// the overlay's notification/expression events never fire. Called once after a streamed turn to
+        /// finalize the last assistant row the way <see cref="AddAssistantMessage"/> does for non-streaming.
+        /// </summary>
+        private void FinalizeStreamedReply()
+        {
+            string committed = null;
+            lock (_historyLock)
+            {
+                if (_history == null) return;
+                for (int i = _history.Count - 1; i >= 0; i--)
+                {
+                    if (!string.Equals(_history[i].role, "assistant", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+                    string raw = _history[i].message;
+                    if (string.IsNullOrWhiteSpace(raw))
+                    {
+                        break;
+                    }
+                    string cleaned = StripExpressionTags(raw);
+                    if (!string.Equals(cleaned, raw, StringComparison.Ordinal))
+                    {
+                        _history[i] = ("assistant", cleaned);
+                    }
+                    committed = cleaned;
+                    break;
+                }
+            }
+            if (committed != null)
+            {
+                PersistHistory();
+                OnAssistantMessageCommitted?.Invoke(committed);
+            }
         }
 
         /// <summary>
