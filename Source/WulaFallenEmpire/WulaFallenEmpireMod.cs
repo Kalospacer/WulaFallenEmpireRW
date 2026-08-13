@@ -14,7 +14,6 @@ namespace WulaFallenEmpire
         public static bool _showApiKey = false;
         public static bool _showVlmApiKey = false;
         private string _maxContextTokensBuffer;
-        private string _reactMaxSecondsBuffer;
         private string _maxToolStepsBuffer;
         private string _aiRequestTimeoutSecondsBuffer;
         private bool _mcpTestRunning;
@@ -146,9 +145,6 @@ namespace WulaFallenEmpire
             listingStandard.Label("Max Tool Steps:");
             Rect maxStepsRect = listingStandard.GetRect(Text.LineHeight);
             Widgets.TextFieldNumeric(maxStepsRect, ref settings.maxToolSteps, ref _maxToolStepsBuffer, 1, 30);
-            listingStandard.Label("Max Seconds (min 2):");
-            Rect secondsRect = listingStandard.GetRect(Text.LineHeight);
-            Widgets.TextFieldNumeric(secondsRect, ref settings.reactMaxSeconds, ref _reactMaxSecondsBuffer, 10f, 600f);
 
             listingStandard.GapLine();
             listingStandard.CheckboxLabeled("显示ReAct思考折叠框", ref settings.showReactTraceInUI, "在对话窗口中显示思考/工具调用折叠面板。");
@@ -168,7 +164,7 @@ namespace WulaFallenEmpire
             listingStandard.GapLine();
             listingStandard.Label("<color=cyan>视觉与多模态设置</color>");
             
-            listingStandard.CheckboxLabeled("启用视觉交互能力", ref settings.enableVlmFeatures, "启用后 AI 可以截取屏幕并理解游戏画面");
+            listingStandard.CheckboxLabeled("是否多模态模型", ref settings.isMultimodalModel, "勾选后 AI 才会获得截图/视觉工具（take_screenshot、analyze_screen），仅当模型确实支持图片输入时勾选");
             
 
             listingStandard.GapLine();

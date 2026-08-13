@@ -176,6 +176,7 @@
   <!-- AI Conversation -->
   <Wula_AI_Retry>重试</Wula_AI_Retry>
   <Wula_AI_Send>发送</Wula_AI_Send>
+  <Wula_AI_Stop>停止</Wula_AI_Stop>
   <Wula_AI_Error_Internal>错误：内部系统故障。{0}</Wula_AI_Error_Internal>
   <Wula_AI_Error_ConnectionLost>错误：连接丢失。“军团”保持沉默。</Wula_AI_Error_ConnectionLost>
   <Wula_AI_Thinking_Status>思考中...（{0}秒 阶段{1}/{2}{3}）</Wula_AI_Thinking_Status>

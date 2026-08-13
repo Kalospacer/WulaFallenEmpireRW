@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,10 @@ namespace WulaFallenEmpire.EventSystem.AI
         private string _overlayWindowEventDefName = null;
         private float _overlayWindowX = -1f;
         private float _overlayWindowY = -1f;
-        private float _thinkingStartTime;
+        // Stopwatch instead of Time.realtimeSinceStartup: SetThinkingState(false) runs on a
+        // thread-pool continuation (RimWorld installs no SynchronizationContext), where Unity's
+        // Time API returns garbage and the recorded duration got clamped to 0.
+        private readonly Stopwatch _thinkingStopwatch = new Stopwatch();
         private int _thinkingPhaseIndex = 1;
         private bool _thinkingPhaseRetry;
         private float _lastThinkingDuration;
@@ -169,7 +173,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public int ExpressionId => _expressionId;
         public bool IsAIEnabled => _aiEnabled;
         public bool IsThinking => _isThinking;
-        public float ThinkingStartTime => _thinkingStartTime;
+        public double ThinkingElapsedSeconds => _thinkingStopwatch.Elapsed.TotalSeconds;
         public int ThinkingPhaseIndex => _thinkingPhaseIndex;
         public bool ThinkingPhaseRetry => _thinkingPhaseRetry;
         public int ThinkingPhaseTotal => FixedThinkingPhaseTotal;
@@ -187,6 +191,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 _activeRequestCts?.Cancel();
             }
+        }
+
+        /// <summary>Aborts the in-flight agent request, if any (drives the Stop button in the dialog).</summary>
+        public void CancelCurrentRequest()
+        {
+            _activeRequestCts?.Cancel();
         }
 
         public static bool IsEnabledForCurrentGame()
@@ -388,12 +398,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             if (!_isThinking && isThinking)
             {
-                _thinkingStartTime = Time.realtimeSinceStartup;
+                _thinkingStopwatch.Restart();
                 _latestThought = null;
             }
             else if (_isThinking && !isThinking)
             {
-                _lastThinkingDuration = Mathf.Max(0f, Time.realtimeSinceStartup - _thinkingStartTime);
+                _thinkingStopwatch.Stop();
+                _lastThinkingDuration = (float)_thinkingStopwatch.Elapsed.TotalSeconds;
             }
             _isThinking = isThinking;
             OnThinkingStateChanged?.Invoke(_isThinking);
@@ -1132,18 +1143,16 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     CommitFinalAssistantMessage(BridgeErrorPrefix + "API Key not configured in Mod Settings.");
                     return;
                 }
-                if (settings.reactMaxSeconds > 0f)
-                {
-                    _activeRequestCts.CancelAfter(TimeSpan.FromSeconds(Math.Max(2f, settings.reactMaxSeconds)));
-                }
-
+                // No whole-request budget here: the timeout semantics are per-API-call
+                // (AIProviderJson.CreateTimeoutToken / GetAiRequestTimeoutSeconds). The loop is
+                // bounded by maxToolSteps × timeout, and the Stop button cancels it manually.
                 CompressHistoryIfNeeded();
                 var provider = AIProviderFactory.Create(settings);
                 // Turns the player did not initiate only get the observation surface.
                 bool observerOnly = IsAutoCommentaryMessage(transientUserMessage);
                 var registry = observerOnly
-                    ? AIToolRegistry.CreateObserver(settings.enableVlmFeatures)
-                    : AIToolRegistry.CreateDefault(settings.enableVlmFeatures);
+                    ? AIToolRegistry.CreateObserver(settings.isMultimodalModel)
+                    : AIToolRegistry.CreateDefault(settings.isMultimodalModel);
                 var runner = new AIToolLoopRunner(
                     provider,
                     registry,

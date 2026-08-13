@@ -294,20 +294,25 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Rect textFieldRect = new Rect(inputRect.x, inputRect.y + (inputHeight - textFieldHeight) / 2, inputRect.width - 85, textFieldHeight);
             _inputText = Widgets.TextField(textFieldRect, _inputText);
 
-            // Send Button
+            // Send Button — becomes a Stop button while the agent loop is running.
             var originalAnchor = Text.Anchor;
             var originalColor = GUI.color;
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
             Rect sendButtonRect = new Rect(inputRect.xMax - 80, inputRect.y, 80, inputHeight);
-            
-            DrawCustomButton(sendButtonRect, "Wula_AI_Send".Translate(), isEnabled: aiEnabled);
+            bool buttonEnabled = _isThinking || aiEnabled;
+            DrawCustomButton(sendButtonRect, _isThinking ? "Wula_AI_Stop".Translate() : "Wula_AI_Send".Translate(), isEnabled: buttonEnabled);
 
             GUI.color = originalColor;
             Text.Anchor = originalAnchor;
             Text.Font = originalFont;
 
-            bool sendButtonPressed = aiEnabled && Widgets.ButtonInvisible(sendButtonRect);
+            bool sendButtonPressed = buttonEnabled && Widgets.ButtonInvisible(sendButtonRect);
+            if (sendButtonPressed && _isThinking)
+            {
+                _core?.CancelCurrentRequest();
+                sendButtonPressed = false;
+            }
             
             // Input Logic
             if (Event.current.type == EventType.KeyDown)
@@ -618,6 +623,22 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     totalHeight += liveTraceEntry != null ? liveTraceHeight : 40f;
                 }
 
+                // While streaming, the assistant draft is already the last cached message and is
+                // counted into _cachedTotalHeight, so drawing the thinking indicator at
+                // _cachedTotalHeight would put it *below* the reply. Pull it above the draft:
+                // reserve the block at the draft's yOffset and push the draft below it.
+                float reserveHeight = liveTraceEntry != null ? liveTraceHeight : 40f;
+                CachedMessage streamingDraft = null;
+                if (_isThinking && _cachedMessages.Count > 0)
+                {
+                    var last = _cachedMessages[_cachedMessages.Count - 1];
+                    if (last.role == "assistant")
+                    {
+                        streamingDraft = last;
+                    }
+                }
+                float thinkingY = streamingDraft != null ? streamingDraft.yOffset : _cachedTotalHeight;
+
                 Rect viewRect = new Rect(0f, 0f, rect.width - 16f, totalHeight);
                 if (_scrollToBottom)
                 {
@@ -636,7 +657,9 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                     if (entry.yOffset > viewBottom + 100f) break;
 
                     Text.Font = entry.font;
-                    Rect labelRect = new Rect(innerPadding, entry.yOffset, contentWidth, entry.height);
+                    // The streaming draft is drawn below the reserved thinking block (above it).
+                    float entryY = ReferenceEquals(entry, streamingDraft) ? entry.yOffset + reserveHeight : entry.yOffset;
+                    Rect labelRect = new Rect(innerPadding, entryY, contentWidth, entry.height);
 
                     if (entry.isTrace)
                     {
@@ -677,7 +700,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
 
                 if (_isThinking)
                 {
-                    float thinkingY = _cachedTotalHeight > 0 ? _cachedTotalHeight : 0f;
                     if (liveTraceEntry != null)
                     {
                         if (thinkingY + liveTraceEntry.height >= viewTop && thinkingY <= viewBottom)
@@ -857,7 +879,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         {
             string state = isLive ? "思考中" : "已思考";
             float elapsed = isLive
-                ? Mathf.Max(0f, Time.realtimeSinceStartup - (_core?.ThinkingStartTime ?? 0f))
+                ? (float)(_core?.ThinkingElapsedSeconds ?? 0d)
                 : _core?.LastThinkingDuration ?? 0f;
             string elapsedText = elapsed > 0f ? elapsed.ToString("0.0", CultureInfo.InvariantCulture) : "0.0";
             return $"{state} (用时 {elapsedText}s · Loop {_core?.ThinkingPhaseIndex ?? 0})";
@@ -905,7 +927,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private string BuildThinkingStatus()
         {
             if (_core == null) return "Thinking...";
-            float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - (_core.ThinkingStartTime));
+            float elapsedSeconds = (float)_core.ThinkingElapsedSeconds;
             string elapsedText = elapsedSeconds.ToString("0.0", CultureInfo.InvariantCulture);
             return $"P.I.A is thinking... ({elapsedText}s Loop {_core.ThinkingPhaseIndex})";
         }

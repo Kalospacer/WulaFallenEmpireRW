@@ -895,9 +895,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private string BuildReactTraceHeader(bool isLive)
         {
             string state = isLive ? "思考中" : "已思考";
-            float startTime = _core?.ThinkingStartTime ?? 0f;
             float elapsed = isLive && _core != null
-                ? Mathf.Max(0f, Time.realtimeSinceStartup - startTime)
+                ? (float)_core.ThinkingElapsedSeconds
                 : _core?.LastThinkingDuration ?? 0f;
             string elapsedText = elapsed > 0f ? elapsed.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) : "0.0";
             int phaseIndex = _core?.ThinkingPhaseIndex ?? 0;
@@ -1087,7 +1086,7 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private string BuildThinkingStatus()
         {
             if (_core == null) return "Thinking...";
-            float elapsedSeconds = Mathf.Max(0f, Time.realtimeSinceStartup - _core.ThinkingStartTime);
+            float elapsedSeconds = (float)_core.ThinkingElapsedSeconds;
             string elapsedText = elapsedSeconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
             return $"P.I.A is thinking... ({elapsedText}s Loop {_core.ThinkingPhaseIndex})";
         }

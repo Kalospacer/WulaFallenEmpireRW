@@ -26,15 +26,14 @@ namespace WulaFallenEmpire
         public int maxContextTokens = 100000;
         public bool enableDebugLogs = false;
         
-        // 视觉功能配置
-        public bool enableVlmFeatures = false;
+        // 多模态能力由用户声明（模型确实支持图片输入时才勾选），勾选后 AI 才获得截图/视觉工具
+        public bool isMultimodalModel = false;
         public bool enableAIAutoCommentary = false;
         public float aiCommentaryChance = 0.7f;
         public bool commentOnNegativeOnly = false;
         public string extraPersonalityPrompt = "";
         public int reactMaxSteps = 0; // Deprecated: step limit removed (unlimited).
         public int reactMaxStepsMax = 0; // Deprecated: step limit removed (unlimited).
-        public float reactMaxSeconds = 60f;
         public bool showReactTraceInUI = false;
 
         // MCP server 列表（JSON 字符串，形状 { "servers": [...] }）。空串 = 未配置。
@@ -65,15 +64,14 @@ namespace WulaFallenEmpire
             Scribe_Values.Look(ref maxContextTokens, "maxContextTokens", 100000);
             Scribe_Values.Look(ref enableDebugLogs, "enableDebugLogs", false);
             
-            // 简化后的视觉配置
-            Scribe_Values.Look(ref enableVlmFeatures, "enableVlmFeatures", false);
+            // 多模态能力声明：key 改过后旧存档一律回落 false，安全
+            Scribe_Values.Look(ref isMultimodalModel, "isMultimodalModel", false);
             Scribe_Values.Look(ref enableAIAutoCommentary, "enableAIAutoCommentary", false);
             Scribe_Values.Look(ref aiCommentaryChance, "aiCommentaryChance", 0.7f);
             Scribe_Values.Look(ref commentOnNegativeOnly, "commentOnNegativeOnly", false);
             Scribe_Values.Look(ref extraPersonalityPrompt, "extraPersonalityPrompt", "");
             Scribe_Values.Look(ref reactMaxSteps, "reactMaxSteps", 0);
             Scribe_Values.Look(ref reactMaxStepsMax, "reactMaxStepsMax", 0);
-            Scribe_Values.Look(ref reactMaxSeconds, "reactMaxSeconds", 60f);
             Scribe_Values.Look(ref showReactTraceInUI, "showReactTraceInUI", false);
             Scribe_Values.Look(ref mcpServersJson, "mcpServersJson", "");
             Scribe_Values.Look(ref skillsDirectory, "skillsDirectory", "");
