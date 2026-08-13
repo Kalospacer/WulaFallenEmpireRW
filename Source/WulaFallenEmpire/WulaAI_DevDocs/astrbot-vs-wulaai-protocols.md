@@ -15,7 +15,7 @@
 | 内部中间表示 | **OpenAI 消息格式**（`Message`/`ToolCall`/`ContentPart`，pydantic 校验，ThinkPart 携带 signature）；历史持久化就是这个格式 | 自定义 `AIMessage`（Role/Content/Parts/ToolCalls/ToolCallId/ReasoningContent），语义等价，已能表达三家协议的全部要素 | 平手，设计同构 |
 | 协议覆盖 | OpenAI 系 12 个变体 + Anthropic 系 2 个变体 + Gemini 原生，注册表 + 装饰器 | 3 个协议（OpenAI/Anthropic/Gemini），`AIProviderFactory` 字符串 switch | wulaai 够用，扩展机制见 §5 P3 |
 | 工具 schema | `ToolSet` 一份定义，三个导出方法现场转换 | `AIToolDefinition.Parameters` 一份 JObject，三个 provider 各自转换 | 平手 |
-| 工具回放 | 规范格式进 provider，provider 内翻译 + **发送前 sanitize**（孤儿清洗/合并/占位） | `AIMessage.AssistantToolCalls`/`ToolResult` 直接进 provider 转换，**无 sanitize** | wulaai 缺防护（§3.2，P0） |
+| 工具回放 | 规范格式进 provider，provider 内翻译 + **发送前 sanitize**（孤儿清洗/合并/占位） | `AIMessage.AssistantToolCalls`/`ToolResult` 直接进 provider 转换，~~无 sanitize~~ **已补**（`AIMessageSanitizer`，见 §3.2） | ~~wulaai 缺防护~~ 已对齐 |
 | 流式 | SDK 聚合（`ChatCompletionStreamState`/`messages.stream`）+ 逐 chunk yield `is_chunk` 标记 | 手写 SSE 逐行解析 + `AIStreamEvent` delta 回调 + 累积器 | 平手（wulaai 手写是环境所迫，且已经做得很对） |
 | reasoning 回放 | ThinkPart 持久化 + 跨轮 signature 回传（Anthropic/Gemini 必需）+ DeepSeek/MiMo 强制占位 | `ReasoningContent` 仅 DeepSeek-v4 官方域名回传，无 signature | wulaai 有洞（§3.3，P1） |
 | 多模态 | `modalities` 能力声明 + sanitize 替换占位 + **发送失败后剥图重试** | `isMultimodalModel` 用户声明开关（只控工具注册），历史里残留的图直接发送 | wulaai 缺失败重试（§3.4，P1） |
@@ -103,9 +103,9 @@
 | Anthropic | SDK `messages.stream` 事件流：`content_block_start` 建 tool_use 缓冲 → `input_json_delta` 累积 partial_json 字符串 → `content_block_stop` 时 `json.loads` 出 input（解析失败告警跳过该工具）；thinking_delta 累积 + **signature_delta 单独捕获**；usage 从 message_start + message_delta 两段更新 | 手写 SSE：同样的 index→ToolAccumulator 缓冲 + InputJson StringBuilder 拼接；thinking_delta → ReasoningDelta。**signature_delta 未处理**（signature 丢弃） |
 | Gemini | SDK `generate_content_stream` 逐 chunk；**发现 function_call part 立即 yield 完整响应并 return**（Gemini 流里 tool call 是整块出现的）；thought part 的文本不进正文（防重复/泄漏）；`thought_signature`（bytes）→ base64 存进 `reasoning_signature` 和 per-tool `extra_content` | 手写 SSE：part 级解析，functionCall 整块收集（等价）；**thought 标记未处理**（thinking 文本会混进正文 Content！见下）；**thought_signature 丢弃** |
 
-**wulaai 的两个洞**（都确认过代码）：
-1. `GeminiProvider.AppendCandidate`（`GeminiProvider.cs:376`）对每个 part 只看 `text` 和 `functionCall`，**不检查 `thought` 标志**——Gemini 2.5/3 思考模型开着 thinking 时，思考文本会作为 TextDelta 流进正文，用户会在对话框里看到思考内容混入回答。AstrBot 在 `_process_content_parts` 里显式 `if part.text and not part.thought`（`gemini_source.py:539`）+ 单独 `_extract_reasoning_content`。→ P0（真 bug）。
-2. 跨轮 thinking signature 整体缺失（见 §3.3）。
+**wulaai 的两个洞**（都确认过代码，均已修复——见 §5 的已修标记）：
+1. `GeminiProvider.AppendCandidate`（`GeminiProvider.cs:376`）对每个 part 只看 `text` 和 `functionCall`，~~不检查 `thought` 标志~~ → **已修**：thought part 进 `ReasoningDelta`/`Reasoning`，不再混入正文。AstrBot 在 `_process_content_parts` 里显式 `if part.text and not part.thought`（`gemini_source.py:539`）+ 单独 `_extract_reasoning_content`。
+2. 跨轮 thinking signature 整体缺失（见 §3.3，仍开放）。
 
 另外记录 AstrBot 流式的一个可选设计：`ChatCompletionStreamState` 之外它还给**每个 content_block_start/thinking_delta 也 yield chunk**（包括空文本的块开始事件），UI 可以更早显示「开始思考/开始输出」状态；wulaai 的 `AIStreamEvent` 只有 delta 回调，思考状态由请求开始即置位，体验等价，无需跟进。
 
@@ -121,11 +121,9 @@ AstrBot 在**每个请求发出前**对 messages 做防护性清洗，三家各�
 - **Anthropic**（`_sanitize_assistant_messages` + `_merge_consecutive_anthropic_messages`，`anthropic_source.py:311-433`）：连续同角色消息**合并**（API 要求交替；合并 user 时 tool_result 块提前）；孤儿 tool_result（tool_use_id 无对应 tool_use）→ 从块列表剔除，剔空则整条删。
 - **Gemini**：`_prepare_conversation` 里 `append_or_extend` 天然合并连续同角色（`gemini_source.py:313-322`）；**`gemini_contents[0]` 若是 ModelContent 则 pop**（`gemini_source.py:430`——意图是「历史被截断后首条可能是 model，Gemini 要求 user 先」；但代码写的是无参 `pop()`，删的是**末尾**而非开头，疑似 AstrBot 自身的 bug，意图本身是对的）。另外 tool 角色回放的 name 取 `message["name"]`、缺失才回退 tool_call_id——OpenAI 格式的 tool 消息常常没有 name 字段，会把 id 当 name 发给 Gemini，也是个粗糙点。
 
-**wulaai 现状**：三个 provider 的 `ConvertMessage` 都是「忠实转换、原样发送」。压缩（`CompressHistoryIfNeeded`）按行砍历史时，完全可能砍出「tool/toolcall meta 行开头」的历史 → OpenAI 收到孤儿 tool 消息 400、Anthropic 收到无配对的 tool_result 400、Gemini 收到 model 开头 400。1.7 的工具语义回放改造把工具行变成了**原生协议对象**，反而让这个洞从「难看的文本」升级成了「协议级 400」。
+**wulaai 现状**：~~三个 provider 的 `ConvertMessage` 都是「忠实转换、原样发送」~~ **已修**：新增 `Providers/AIMessageSanitizer.cs`，三个 provider 的 `BuildPayload` 在转换前先过 sanitize——OpenAI（空 assistant 规整 + 孤儿 tool 按 id 清洗）、Anthropic（孤儿 tool_result 清洗 + tool 行折进**后随** user 行 + 连续同角色合并）、Gemini（首条非 user 弹出 + 孤儿 functionResponse 按 name 清洗）。压缩砍出的残缺回合降级为丢行，不再触发 400。
 
 > 注：wulaai 在压缩点插了 "[Earlier conversation summary]" 占位 user 行，Anthropic 的交替约束碰巧被缓解，但孤儿配对问题不受影响。
-
-→ P0：给三个 provider 加发送前清洗（实现量小，逻辑可直接对照 AstrBot 翻译；wulaai 的 `AIMessage` 形态比 dict 更结构化，写起来更短）。
 
 ### 3.3 reasoning 的持久化与跨轮回传
 
@@ -192,8 +190,8 @@ AstrBot 的 platform 层（17 个聊天平台适配器、MessageChain、洋葱 p
 
 | 优先级 | 项 | 出处 | 工作量 |
 |---|---|---|---|
-| **P0** | Gemini 流式/非流式过滤 `thought` part：思考文本进 `ReasoningDelta`，不进正文 | §3.1-1 | 小（AppendCandidate 加 `part["thought"]` 判断，回填到 Reasoning） |
-| **P0** | 三个 provider 发送前 sanitize：孤儿 tool/toolcall 配对清洗、空 assistant 规整、Gemini 首条 model 弹出、Anthropic 连续同角色合并 | §3.2 | 中（建议做一个共享的 `AIMessageSanitizer` 静态类 + 各 provider 小钩子） |
+| ~~**P0**~~ ✅ | Gemini 流式/非流式过滤 `thought` part：思考文本进 `ReasoningDelta`，不进正文 | §3.1-1 | **已修**（AppendCandidate 检查 `thought`，累积进 Reasoning/ReasoningContent） |
+| ~~**P0**~~ ✅ | 三个 provider 发送前 sanitize：孤儿 tool/toolcall 配对清洗、空 assistant 规整、Gemini 首条 model 弹出、Anthropic 连续同角色合并 | §3.2 | **已修**（`Providers/AIMessageSanitizer.cs`，三 provider BuildPayload 接入） |
 | **P1** | OpenAI 系流式 `stream_options.include_usage=true` | §3.8 | 极小 |
 | **P1** | Gemini schema 转换补齐：array 缺 items 兜底、字段白名单（删 default/$schema 等）、anyOf 透传 | §2.3 | 小（扩 `NormalizeSchema`） |
 | **P1** | 多模态失败剥图重试一次（OpenAI 系：识别 not-a-VLM/invalid_attachment 错误）；`isMultimodalModel=false` 时 image part 转 `[Image]` 文本占位 | §3.4 | 中 |

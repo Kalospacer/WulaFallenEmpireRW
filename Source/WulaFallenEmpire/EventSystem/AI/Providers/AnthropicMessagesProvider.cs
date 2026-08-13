@@ -135,7 +135,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         {
             string systemPrompt = request.SystemPrompt ?? string.Empty;
             var messages = new JArray();
-            foreach (var message in request.Messages ?? new List<AIMessage>())
+            foreach (var message in AIMessageSanitizer.SanitizeForAnthropic(request.Messages) ?? new List<AIMessage>())
             {
                 if (message == null) continue;
                 if (string.Equals(message.Role, "system", StringComparison.OrdinalIgnoreCase))

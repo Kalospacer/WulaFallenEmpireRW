@@ -10,7 +10,7 @@ namespace WulaFallenEmpire.EventSystem.AI
     /// helpers. Modeled on codex's protocol/error.rs + responses_retry.rs: providers classify failures
     /// into <see cref="AIErrorKind"/> so the agent loop can tell "retry this" from "surface this"
     /// without parsing message strings. The text that reaches the conversation still goes through
-    /// <c>AIIntelligenceCore.BridgeErrorPrefix</c> — that contract is display-layer only.
+    /// <c>AIIntelligenceCore.ErrorPrefix</c> — that contract is display-layer only.
     /// </summary>
     public enum AIErrorKind
     {

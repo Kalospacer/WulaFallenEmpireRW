@@ -174,7 +174,7 @@ namespace WulaFallenEmpire.EventSystem.AI
                 messages.Add(new JObject { ["role"] = "system", ["content"] = request.SystemPrompt });
             }
             bool includeReasoningContent = ShouldIncludeReasoningContent(request);
-            foreach (var message in request.Messages ?? new List<AIMessage>())
+            foreach (var message in AIMessageSanitizer.SanitizeForOpenAI(request.Messages) ?? new List<AIMessage>())
             {
                 var converted = ConvertMessage(message, includeReasoningContent);
                 if (converted != null) messages.Add(converted);

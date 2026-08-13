@@ -142,7 +142,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
 
             var contents = new JArray();
-            foreach (var message in request.Messages ?? new List<AIMessage>())
+            foreach (var message in AIMessageSanitizer.SanitizeForGemini(request.Messages) ?? new List<AIMessage>())
             {
                 if (message == null) continue;
                 if (string.Equals(message.Role, "system", StringComparison.OrdinalIgnoreCase))
@@ -367,6 +367,7 @@ namespace WulaFallenEmpire.EventSystem.AI
             var response = new AIProviderResponse { ToolCalls = new List<AIToolCall>() };
             AppendCandidate(root["candidates"]?[0] as JObject, response, onEvent);
             if (!string.IsNullOrEmpty(response.Content)) accumulator.Content.Append(response.Content);
+            if (!string.IsNullOrEmpty(response.Reasoning)) accumulator.Reasoning.Append(response.Reasoning);
             foreach (var call in response.ToolCalls)
             {
                 accumulator.ToolCalls.Add(call);
@@ -385,6 +386,16 @@ namespace WulaFallenEmpire.EventSystem.AI
                 string partText = part.Value<string>("text");
                 if (!string.IsNullOrEmpty(partText))
                 {
+                    // thought:true parts are the model's thinking (Gemini 2.5/3). They must not flow
+                    // into Content — the user would see reasoning mixed into the reply (and AstrBot's
+                    // SDK path filters them the same way: part.text excludes thought parts).
+                    if (part.Value<bool?>("thought") == true)
+                    {
+                        response.Reasoning = (response.Reasoning ?? string.Empty) + partText;
+                        response.ReasoningContent = response.Reasoning;
+                        onEvent?.Invoke(new AIStreamEvent { ReasoningDelta = partText });
+                        continue;
+                    }
                     text.Append(partText);
                     onEvent?.Invoke(new AIStreamEvent { TextDelta = partText });
                 }
@@ -404,6 +415,7 @@ namespace WulaFallenEmpire.EventSystem.AI
         private sealed class GeminiStreamAccumulator
         {
             public readonly StringBuilder Content = new StringBuilder();
+            public readonly StringBuilder Reasoning = new StringBuilder();
             public readonly StringBuilder RawChunks = new StringBuilder();
             public readonly List<AIToolCall> ToolCalls = new List<AIToolCall>();
             public JObject Usage;
@@ -413,6 +425,8 @@ namespace WulaFallenEmpire.EventSystem.AI
                 return new AIProviderResponse
                 {
                     Content = Content.ToString(),
+                    Reasoning = Reasoning.ToString(),
+                    ReasoningContent = Reasoning.ToString(),
                     RawJson = RawChunks.ToString(),
                     Usage = Usage,
                     ToolCalls = ToolCalls

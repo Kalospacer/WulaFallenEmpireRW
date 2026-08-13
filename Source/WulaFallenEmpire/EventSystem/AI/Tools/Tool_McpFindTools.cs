@@ -11,7 +11,7 @@ namespace WulaFallenEmpire.EventSystem.AI.Tools
         public override string Name => "mcp_find_tools";
         public override string Description =>
             "列出所有已配置的外部 MCP server（如 GABS）暴露的工具，按 server 分组。"
-            + "GABS 的游戏工具（rimworld_*/rimbridge_*）需先用此工具发现名字，"
+            + "GABS 的游戏工具（rimworld_* 等）需先用此工具发现名字，"
             + "再通过 mcp_tool_detail 看参数、mcp_invoke 调用。";
 
         public override Dictionary<string, object> GetParametersSchema()

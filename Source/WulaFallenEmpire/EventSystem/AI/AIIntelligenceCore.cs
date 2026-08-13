@@ -77,11 +77,11 @@ namespace WulaFallenEmpire.EventSystem.AI
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
         private const string AutoCommentaryTag = "[AUTO_COMMENTARY]";
         /// <summary>
-        /// Prefix every bridge/transport failure surfaced into the conversation carries. It is the
+        /// Prefix every transport/provider failure surfaced into the conversation carries. It is the
         /// single marker <see cref="IsPollutedMemoryText"/> uses to keep those messages out of
         /// long-term memory, so failures must be committed through it rather than hand-written.
         /// </summary>
-        private const string BridgeErrorPrefix = "Error: ";
+        private const string ErrorPrefix = "Error: ";
 
         /// <summary>Per-row tool-call metadata persisted alongside the display text (see _historyMeta).</summary>
         public sealed class AIHistoryEntryMeta
@@ -1210,13 +1210,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         }
 
         /// <summary>
-        /// Rejects text that is bridge plumbing rather than conversation content.
+        /// Rejects text that is plumbing rather than conversation content.
         /// </summary>
         /// <remarks>
         /// This deliberately anchors instead of scanning for loose substrings. Tool-call and
         /// tool-result plumbing is already excluded structurally by <see cref="IsMemoryConversationRole"/>,
-        /// and every transport failure reaches the history through <see cref="BridgeErrorPrefix"/>, so the
-        /// only two things left to catch are a leftover context block and a bridge error. Matching bare
+        /// and every transport failure reaches the history through <see cref="ErrorPrefix"/>, so the
+        /// only two things left to catch are a leftover context block and a transport error. Matching bare
         /// words like "timeout" or "error:" anywhere in the text discarded legitimate memories that merely
         /// mentioned them.
         /// </remarks>
@@ -1226,7 +1226,7 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         {
             if (string.IsNullOrWhiteSpace(text)) return true;
             string trimmed = text.TrimStart();
-            if (trimmed.StartsWith(BridgeErrorPrefix, StringComparison.OrdinalIgnoreCase))
+            if (trimmed.StartsWith(ErrorPrefix, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
@@ -1385,13 +1385,13 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                 var settings = WulaFallenEmpireMod.settings;
                 if (settings == null)
                 {
-                    CommitFinalAssistantMessage(BridgeErrorPrefix + "API settings not configured in Mod Settings.");
+                    CommitFinalAssistantMessage(ErrorPrefix + "API settings not configured in Mod Settings.");
                     return;
                 }
                 string apiKey = GetConfiguredApiKey(settings);
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
-                    CommitFinalAssistantMessage(BridgeErrorPrefix + "API Key not configured in Mod Settings.");
+                    CommitFinalAssistantMessage(ErrorPrefix + "API Key not configured in Mod Settings.");
                     return;
                 }
                 // No whole-request budget here: the timeout semantics are per-API-call
@@ -1430,12 +1430,12 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             }
             catch (OperationCanceledException)
             {
-                CommitFinalAssistantMessage(BridgeErrorPrefix + "AI request timed out or was cancelled.");
+                CommitFinalAssistantMessage(ErrorPrefix + "AI request timed out or was cancelled.");
             }
             catch (Exception ex)
             {
                 WulaLog.Debug($"[WulaAI] Agent request failed: {ex}");
-                CommitFinalAssistantMessage(BridgeErrorPrefix + DescribeErrorForPlayer(ex));
+                CommitFinalAssistantMessage(ErrorPrefix + DescribeErrorForPlayer(ex));
             }
             finally
             {

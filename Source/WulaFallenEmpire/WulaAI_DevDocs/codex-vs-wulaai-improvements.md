@@ -48,7 +48,7 @@
 | 审批编排 | orchestrator 统一驱动 approval→sandbox→执行→升级重试 | — | 可借鉴其**逻辑层**形态（见 §3.4） |
 | Guardian（AI 审批 AI） | 独立评审会话 + 风险分类法 + fail-closed | — | 可借鉴但成本高（多一次 API 调用），低优先级 |
 
-wulaai 已有的等价物：`IsPollutedMemoryText` 用 `BridgeErrorPrefix` 挡错误进记忆（≈ codex 的 `mark_thread_memory_mode_polluted_if_external_context` 思路）；auto-commentary 走 observer-only registry（零玩家输入路径不给写工具）——这两个设计是对的。
+wulaai 已有的等价物：`IsPollutedMemoryText` 用 `ErrorPrefix`（原 `BridgeErrorPrefix`，RimBridge 删除后改名）挡错误进记忆（≈ codex 的 `mark_thread_memory_mode_polluted_if_external_context` 思路）；auto-commentary 走 observer-only registry（零玩家输入路径不给写工具）——这两个设计是对的。
 
 ### 1.5 Provider 抽象
 
@@ -95,7 +95,7 @@ wulaai 已有的等价物：`IsPollutedMemoryText` 用 `BridgeErrorPrefix` 挡�
 
 ### 1.10 其他
 
-- **错误处理**：codex 全 crate 结构化 `CodexErr`；wulaai 用 `BridgeErrorPrefix = "Error: "` 字符串契约判 `IsError`、挡污染——能用但脆，工具作者忘了前缀模型就把失败当成功。
+- **错误处理**：codex 全 crate 结构化 `CodexErr`；wulaai 用 `ErrorPrefix = "Error: "` 字符串契约判 `IsError`、挡污染——能用但脆，工具作者忘了前缀模型就把失败当成功。
 - **Hooks**：codex 有生命周期 hook 引擎；wulaai 无。mod 场景价值低。
 - **子代理**：codex 一等公民（spawn/wait/fork/角色 TOML）；wulaai 单会话槽单 persona。游戏内 AI 副官场景其实用得上（如 observer 独立分析），但成本高，列远期。
 - **Skills**：两者都是 SKILL.md 渐进披露，wulaai 的依赖检查（`SkillDependencyResolver`）+ 一次性缺依赖提示已够用。**对齐**。
@@ -132,7 +132,7 @@ wulaai 已有的等价物：`IsPollutedMemoryText` 用 `BridgeErrorPrefix` 挡�
 - 工作量：~80 行。
 
 **P0-3 结构化错误标记**
-- 位置：`Tools/AITool.cs` 结果类型加 `bool IsError` 字段，`AIToolRunner` 改为读字段而非 `"Error:".StartsWith`；`BridgeErrorPrefix` 保留为**显示**前缀（进会话的文本不变，兼容旧存档与 `IsPollutedMemoryText`）。
+- 位置：`Tools/AITool.cs` 结果类型加 `bool IsError` 字段，`AIToolRunner` 改为读字段而非 `"Error:".StartsWith`；`ErrorPrefix` 保留为**显示**前缀（进会话的文本不变，兼容旧存档与 `IsPollutedMemoryText`）。
 - 工作量：~60 行，消灭一个承重字符串契约。
 
 **P0-4 清理死代码**：删 `AIHistoryManager.cs` 的 `SimpleJsonParser`。~10 分钟。

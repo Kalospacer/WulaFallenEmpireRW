@@ -83,8 +83,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             registry.Add(new Tool_McpFindTools());
             registry.Add(new Tool_McpToolDetail());
             registry.Add(new Tool_McpInvoke());
-            registry.Add(new Tool_BridgeListTools());
-            registry.Add(new Tool_BridgeCall());
             if (enableVisionTools)
             {
                 registry.Add(new Tool_Screenshot());
@@ -122,7 +120,6 @@ namespace WulaFallenEmpire.EventSystem.AI
             }
             registry.Add(new Tool_McpFindTools());
             registry.Add(new Tool_McpToolDetail());
-            registry.Add(new Tool_BridgeListTools());
             return registry;
         }
 
