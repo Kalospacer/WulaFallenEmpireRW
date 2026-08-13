@@ -207,6 +207,17 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             if (x >= 0f) _overlayWindowX = x;
             if (y >= 0f) _overlayWindowY = y;
         }
+
+        /// <summary>
+        /// Last position the overlay window reported before closing (-1 when never recorded). Used to
+        /// restore the small window where it was after a round trip through the big dialog window.
+        /// </summary>
+        public bool TryGetSavedOverlayPosition(out float x, out float y)
+        {
+            x = _overlayWindowX;
+            y = _overlayWindowY;
+            return x >= 0f && y >= 0f;
+        }
         public int ExpressionId => _expressionId;
         public bool IsAIEnabled => _aiEnabled;
         public bool IsThinking => _isThinking;
@@ -217,20 +228,18 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         public long SessionTotalTokens => _sessionTotalTokens;
 
         /// <summary>
-        /// Per-assistant-row thinking durations, aligned with <see cref="GetHistorySnapshot"/>. The
-        /// trace header for a historical assistant turn reads its own row's duration, so old turns no
-        /// longer all display the same number. 0 (or missing) means the duration is unknown.
+        /// Reads one assistant row's thinking duration by history index (0 = unknown). Called per frame
+        /// for trace rendering, so it reads a single row instead of copying the whole meta list.
         /// </summary>
-        public float[] GetThinkingDurations()
+        public float GetThinkingDurationAtIndex(int historyIndex)
         {
             lock (_historyLock)
             {
-                var durations = new float[_historyMeta != null ? _historyMeta.Count : 0];
-                for (int i = 0; i < durations.Length; i++)
+                if (historyIndex >= 0 && historyIndex < _historyMeta.Count)
                 {
-                    durations[i] = _historyMeta[i]?.ThinkingDurationSeconds ?? 0f;
+                    return _historyMeta[historyIndex]?.ThinkingDurationSeconds ?? 0f;
                 }
-                return durations;
+                return 0f;
             }
         }
         public void SetAIEnabled(bool enabled)
@@ -480,7 +489,10 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
             {
                 _thinkingStopwatch.Stop();
                 _lastThinkingDuration = (float)_thinkingStopwatch.Elapsed.TotalSeconds;
-                StampThinkingDuration(_lastThinkingDuration);
+                if (StampThinkingDuration(_lastThinkingDuration))
+                {
+                    PersistHistory();
+                }
             }
             _isThinking = isThinking;
             OnThinkingStateChanged?.Invoke(_isThinking);
@@ -491,11 +503,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
         /// just finished (or the pending index captured at request start), so the UI can show a real
         /// per-turn elapsed time for historical traces.
         /// </summary>
-        private void StampThinkingDuration(float durationSeconds)
+        private bool StampThinkingDuration(float durationSeconds)
         {
             lock (_historyLock)
             {
-                if (_historyMeta == null) return;
+                if (_historyMeta == null) return false;
                 // The final assistant row of the turn is the last assistant row present when the
                 // stopwatch stops; intermediate tool rows never carry a duration.
                 for (int i = _historyMeta.Count - 1; i >= 0; i--)
@@ -503,10 +515,11 @@ You are 'The Legion', a super AI of the Wula Empire. Your personality is authori
                     if (_history.Count > i && string.Equals(_history[i].role, "assistant", StringComparison.OrdinalIgnoreCase))
                     {
                         _historyMeta[i] = (_historyMeta[i] ?? new AIHistoryEntryMeta()).WithDuration(durationSeconds);
-                        return;
+                        return true;
                     }
                 }
             }
+            return false;
         }
         private static int GetMaxHistoryTokens()
         {

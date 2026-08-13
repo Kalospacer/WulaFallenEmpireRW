@@ -26,7 +26,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private List<CachedMessage> _cachedMessages = new List<CachedMessage>();
         private float _cachedTotalHeight = 0f;
         private readonly Dictionary<int, bool> _traceExpandedByAssistantIndex = new Dictionary<int, bool>();
-        private readonly Dictionary<int, string> _traceHeaderByAssistantIndex = new Dictionary<int, string>();
 
         private class CachedMessage
         {
@@ -132,6 +131,26 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         {
             if (_isMinimized) ToggleMinimize();
             Find.WindowStack?.Notify_ManuallySetFocus(this);
+        }
+
+        /// <summary>
+        /// Switches the small window to the big dialog window (three-state: bar ⇄ small ⇄ dialog).
+        /// The overlay closes so its position is saved in PostClose; the dialog's own "-" button
+        /// brings the small window back at that saved position.
+        /// </summary>
+        private void MaximizeToDialog()
+        {
+            if (_def == null || Find.WindowStack == null) return;
+            var existing = Find.WindowStack.WindowOfType<Dialog_AIConversation>();
+            if (existing != null)
+            {
+                Find.WindowStack.Notify_ManuallySetFocus(existing);
+            }
+            else
+            {
+                Find.WindowStack.Add(new Dialog_AIConversation(_def));
+            }
+            Close();
         }
 
         public override void PreOpen()
@@ -336,10 +355,11 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             titleRect.x += 10f;
             Widgets.Label(titleRect, _def.characterName ?? "MomoTalk");
             
-            // Header Icons (AI power/Minimize/Close)
+            // Header Icons (AI power/Minimize/Maximize/Close)
             Rect closeRect = new Rect(rect.width - 35f, 10f, 25f, 25f);
-            Rect minRect = new Rect(rect.width - 65f, 10f, 25f, 25f);
-            Rect powerRect = new Rect(rect.width - 105f, 10f, 35f, 25f);
+            Rect maxRect = new Rect(rect.width - 65f, 10f, 25f, 25f);
+            Rect minRect = new Rect(rect.width - 95f, 10f, 25f, 25f);
+            Rect powerRect = new Rect(rect.width - 135f, 10f, 35f, 25f);
 
             bool aiEnabled = _core?.IsAIEnabled == true;
             if (DrawHeaderButton(powerRect, aiEnabled ? "ON" : "OFF"))
@@ -347,12 +367,20 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 _core?.SetAIEnabled(!aiEnabled);
             }
             TooltipHandler.TipRegion(powerRect, "Wula_AISettings_SaveAIEnabledDesc".Translate());
-            
-            // 最小化按钮
+
+            // 最小化按钮 (→ 任务栏)
             if (DrawHeaderButton(minRect, "-"))
             {
                 ToggleMinimize();
             }
+            TooltipHandler.TipRegion(minRect, "Wula_AI_MinimizeToBar".Translate());
+
+            // 最大化按钮 (→ 大窗口)
+            if (DrawHeaderButton(maxRect, "+"))
+            {
+                MaximizeToDialog();
+            }
+            TooltipHandler.TipRegion(maxRect, "Wula_AI_MaximizeToDialog".Translate());
 
             // 关闭按钮
             if (DrawHeaderButton(closeRect, "X"))
@@ -406,7 +434,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             if (_lastHistoryCount >= 0 && history.Count < _lastHistoryCount)
             {
                 _traceExpandedByAssistantIndex.Clear();
-                _traceHeaderByAssistantIndex.Clear();
             }
             _lastHistoryCount = history.Count;
             _cachedMessages.Clear();
@@ -881,29 +908,20 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             {
                 return BuildReactTraceHeader(true, 0f);
             }
-
-            if (_traceHeaderByAssistantIndex.TryGetValue(traceKey, out string header))
-            {
-                return header;
-            }
-
-            header = BuildReactTraceHeader(false, GetThinkingDurationAt(traceKey));
-            _traceHeaderByAssistantIndex[traceKey] = header;
-            return header;
+            // Read the duration live rather than caching it: the stamp lands only after the assistant
+            // row (and its header) is built, so a cached header would never pick up the real value.
+            return BuildReactTraceHeader(false, GetThinkingDurationAt(traceKey));
         }
 
         private float GetThinkingDurationAt(int index)
         {
-            if (_core == null || index < 0) return 0f;
-            float[] durations = _core.GetThinkingDurations();
-            return index < durations.Length ? durations[index] : 0f;
+            return _core?.GetThinkingDurationAtIndex(index) ?? 0f;
         }
 
         private string BuildReactTraceHeader(bool isLive, float durationSeconds)
         {
             if (!isLive)
             {
-                if (durationSeconds <= 0f) return "已思考";
                 return $"已思考 (用时 {durationSeconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)}s)";
             }
             float elapsed = _core != null ? (float)_core.ThinkingElapsedSeconds : 0f;
@@ -921,7 +939,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Rect headerRect = new Rect(rect.x, rect.y, rect.width, traceEntry.traceHeaderHeight);
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
-            string headerLine = $"{(traceEntry.traceExpanded ? "v" : ">")} {traceEntry.traceHeader}";
+            bool isLive = traceEntry.traceKey == -1;
+            string headerLine = $"{(traceEntry.traceExpanded ? "v" : ">")} {GetTraceHeader(traceEntry.traceKey, isLive)}";
             Widgets.Label(headerRect.ContractedBy(padding, 4f), headerLine);
 
             if (Widgets.ButtonInvisible(headerRect))

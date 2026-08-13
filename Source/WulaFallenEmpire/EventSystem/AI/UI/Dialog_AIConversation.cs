@@ -31,7 +31,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
         private int _currentPortraitId = 0;
         private static readonly Regex ExpressionTagRegex = new Regex(@"\[EXPR\s*:\s*([1-6])\s*\]", RegexOptions.IgnoreCase);
         private readonly Dictionary<int, bool> _traceExpandedByAssistantIndex = new Dictionary<int, bool>();
-        private readonly Dictionary<int, string> _traceHeaderByAssistantIndex = new Dictionary<int, string>();
 
         private class CachedMessage
         {
@@ -230,15 +229,28 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
                 _isThinking = _core.IsThinking;
             }
 
-            // Switch to Small UI Button
+            // Switch to Small UI Button (three-state: bar ⇄ small ⇄ dialog)
             Rect switchBtnRect = new Rect(0f, 0f, 25f, 25f);
             if (DrawHeaderButton(switchBtnRect, "-"))
             {
                 if (def != null && Find.WindowStack != null)
                 {
                     var existing = Find.WindowStack.WindowOfType<Overlay_WulaLink>();
-                    if (existing != null) existing.Expand();
-                    else Find.WindowStack.Add(new Overlay_WulaLink(def));
+                    if (existing != null)
+                    {
+                        existing.Expand();
+                    }
+                    else
+                    {
+                        // Restore the small window where it was before the round trip, if we have
+                        // a position saved from the last overlay close.
+                        var overlay = new Overlay_WulaLink(def);
+                        if (_core != null && _core.TryGetSavedOverlayPosition(out float px, out float py))
+                        {
+                            overlay.SetInitialPosition(px, py);
+                        }
+                        Find.WindowStack.Add(overlay);
+                    }
                     this.Close();
                 }
             }
@@ -380,7 +392,6 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             if (_lastHistoryCount >= 0 && history.Count < _lastHistoryCount)
             {
                 _traceExpandedByAssistantIndex.Clear();
-                _traceHeaderByAssistantIndex.Clear();
             }
             _lastHistoryCount = history.Count;
             _cachedMessages.Clear();
@@ -892,29 +903,20 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             {
                 return BuildReactTraceHeader(true, 0f);
             }
-
-            if (_traceHeaderByAssistantIndex.TryGetValue(traceKey, out string header))
-            {
-                return header;
-            }
-
-            header = BuildReactTraceHeader(false, GetThinkingDurationAt(traceKey));
-            _traceHeaderByAssistantIndex[traceKey] = header;
-            return header;
+            // Read the duration live rather than caching it: the stamp lands only after the assistant
+            // row (and its header) is built, so a cached header would never pick up the real value.
+            return BuildReactTraceHeader(false, GetThinkingDurationAt(traceKey));
         }
 
         private float GetThinkingDurationAt(int index)
         {
-            if (_core == null || index < 0) return 0f;
-            float[] durations = _core.GetThinkingDurations();
-            return index < durations.Length ? durations[index] : 0f;
+            return _core?.GetThinkingDurationAtIndex(index) ?? 0f;
         }
 
         private string BuildReactTraceHeader(bool isLive, float durationSeconds)
         {
             if (!isLive)
             {
-                if (durationSeconds <= 0f) return "已思考";
                 return $"已思考 (用时 {durationSeconds.ToString("0.0", CultureInfo.InvariantCulture)}s)";
             }
             float elapsed = _core != null ? (float)_core.ThinkingElapsedSeconds : 0f;
@@ -932,7 +934,8 @@ namespace WulaFallenEmpire.EventSystem.AI.UI
             Rect headerRect = new Rect(rect.x, rect.y, rect.width, traceEntry.traceHeaderHeight);
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
-            string headerLine = $"{(traceEntry.traceExpanded ? "v" : ">")} {traceEntry.traceHeader}";
+            bool isLive = traceEntry.traceKey == -1;
+            string headerLine = $"{(traceEntry.traceExpanded ? "v" : ">")} {GetTraceHeader(traceEntry.traceKey, isLive)}";
             Widgets.Label(headerRect.ContractedBy(padding, 4f), headerLine);
 
             if (Widgets.ButtonInvisible(headerRect))
