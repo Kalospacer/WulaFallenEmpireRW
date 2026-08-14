@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -131,6 +131,7 @@
     <Compile Include="WulaFallenEmpireMod.cs" />
     <Compile Include="WulaFallenEmpireSettings.cs" />
     <Compile Include="WulaLog.cs" />
+    <Compile Include="WulaEventHooks.cs" />
     <Compile Include="WulaDefOf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <!-- Ability 相关 -->
@@ -140,7 +141,6 @@
     <Compile Include="Ability\WULA_AbilityBombardment\CompProperties_AbilityBombardment.cs" />
     <Compile Include="Ability\WULA_AbilityCallSkyfaller\CompAbilityEffect_CallSkyfaller.cs" />
     <Compile Include="Ability\WULA_AbilityCallSkyfaller\CompProperties_AbilityCallSkyfaller.cs" />
-    <Compile Include="Ability\WULA_AbilityCallSkyfaller\MapComponent_SkyfallerDelayed.cs" />
     <Compile Include="Ability\WULA_AbilityCircularBombardment\CompAbilityEffect_CircularBombardment.cs" />
     <Compile Include="Ability\WULA_AbilityCircularBombardment\CompProperties_AbilityCircularBombardment.cs" />
     <Compile Include="Ability\WULA_AbilityDeleteTarget\CompAbilityEffect_DeleteTarget.cs" />
@@ -215,97 +215,6 @@
     <!-- Designator 相关 -->
     <Compile Include="Designator\Designator_CallSkyfallerInArea.cs" />
     <Compile Include="Designator\Designator_TeleportArrival.cs" />
-    <!-- EventSystem 相关 -->
-    <Compile Include="EventSystem\AI\AIAutoCommentary.cs" />
-    <Compile Include="EventSystem\AI\AIHistoryManager.cs" />
-    <Compile Include="EventSystem\AI\AIImageStore.cs" />
-    <Compile Include="EventSystem\AI\AIIntelligenceCore.cs" />
-    <Compile Include="EventSystem\AI\AIMemoryEntry.cs" />
-    <Compile Include="EventSystem\AI\AIMemoryManager.cs" />
-    <Compile Include="EventSystem\AI\Alerts\Alert_AIOverwatchActive.cs" />
-    <Compile Include="EventSystem\AI\CompAbilityEffect_EnableOverwatch.cs" />
-    <Compile Include="EventSystem\AI\DebugActions_WulaLink.cs" />
-    <Compile Include="EventSystem\AI\LetterInterceptor\Patch_LetterStack.cs" />
-    <Compile Include="EventSystem\AI\MapComponent_AIOverwatch.cs" />
-    <Compile Include="EventSystem\AI\MemoryPrompts.cs" />
-    <Compile Include="EventSystem\AI\Protocol\AIProtocolModels.cs" />
-    <Compile Include="EventSystem\AI\Providers\AIProviderFactory.cs" />
-    <Compile Include="EventSystem\AI\Providers\AIProviderJson.cs" />
-    <Compile Include="EventSystem\AI\Providers\AnthropicMessagesProvider.cs" />
-    <Compile Include="EventSystem\AI\Providers\GeminiProvider.cs" />
-    <Compile Include="EventSystem\AI\Providers\IAIProvider.cs" />
-    <Compile Include="EventSystem\AI\Providers\OpenAIChatProvider.cs" />
-    <Compile Include="EventSystem\AI\Providers\WulaAiException.cs" />
-    <Compile Include="EventSystem\AI\Providers\AIMessageSanitizer.cs" />
-    <Compile Include="EventSystem\AI\Runtime\AIMainThreadDispatcher.cs" />
-    <Compile Include="EventSystem\AI\Runtime\AIToolLoopRunner.cs" />
-    <Compile Include="EventSystem\AI\Runtime\AIToolRegistry.cs" />
-    <Compile Include="EventSystem\AI\Runtime\AIToolRunner.cs" />
-    <Compile Include="EventSystem\AI\Mcp\McpServerConfig.cs" />
-    <Compile Include="EventSystem\AI\Mcp\IMcpTransport.cs" />
-    <Compile Include="EventSystem\AI\Mcp\StdioMcpTransport.cs" />
-    <Compile Include="EventSystem\AI\Mcp\HttpMcpTransport.cs" />
-    <Compile Include="EventSystem\AI\Mcp\McpClient.cs" />
-    <Compile Include="EventSystem\AI\Mcp\McpConnectionManager.cs" />
-    <Compile Include="EventSystem\AI\Skills\SkillMetadata.cs" />
-    <Compile Include="EventSystem\AI\Skills\SkillParser.cs" />
-    <Compile Include="EventSystem\AI\Skills\SkillLoader.cs" />
-    <Compile Include="EventSystem\AI\Skills\SkillPromptBuilder.cs" />
-    <Compile Include="EventSystem\AI\Skills\SkillDependencyResolver.cs" />
-    <Compile Include="EventSystem\AI\Skills\SkillSystem.cs" />
-    <Compile Include="EventSystem\AI\ScreenCaptureUtility.cs" />
-    <Compile Include="EventSystem\AI\Tools\AITool.cs" />
-    <Compile Include="EventSystem\AI\Tools\BombardmentUtility.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_AnalyzeScreen.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_CallBombardment.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_CallPrefabAirdrop.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_ChangeExpression.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_GetAvailableBombardments.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_GetAvailablePrefabs.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_GetMapPawns.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_GetMapResources.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_GetPawnStatus.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_GetRecentNotifications.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_ModifyGoodwill.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_RecallMemories.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_RememberFact.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_SearchPawnKind.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_SearchThingDef.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_SendReinforcement.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_SetOverwatchMode.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_SpawnResources.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_ReadSkill.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_McpFindTools.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_McpToolDetail.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_McpInvoke.cs" />
-    <Compile Include="EventSystem\AI\Tools\Tool_Screenshot.cs" />
-    <Compile Include="EventSystem\AI\UI\Dialog_AIConversation.cs" />
-    <Compile Include="EventSystem\AI\UI\Dialog_ExtraPersonalityPrompt.cs" />
-    <Compile Include="EventSystem\AI\UI\Overlay_WulaLink.cs" />
-    <Compile Include="EventSystem\AI\UI\Overlay_WulaLink_Notification.cs" />
-    <Compile Include="EventSystem\AI\UI\WulaLinkStyles.cs" />
-    <Compile Include="EventSystem\AI\Utils\PawnKindDefSearcher.cs" />
-    <Compile Include="EventSystem\AI\Utils\MarkdownRenderer.cs" />
-    <Compile Include="EventSystem\AI\Utils\ThingDefSearcher.cs" />
-    <Compile Include="EventSystem\AI\Utils\ToolSchemaSanitizer.cs" />
-    <Compile Include="EventSystem\CompOpenCustomUI.cs" />
-    <Compile Include="EventSystem\Condition\ConditionBase.cs" />
-    <Compile Include="EventSystem\Condition\Condition_FlagExists.cs" />
-    <Compile Include="EventSystem\DebugActions.cs" />
-    <Compile Include="EventSystem\DelayedActionManager.cs" />
-    <Compile Include="EventSystem\Dialog_CustomDisplay.cs" />
-    <Compile Include="EventSystem\Dialog_ManageEventVariables.cs" />
-    <Compile Include="EventSystem\Effect\EffectBase.cs" />
-    <Compile Include="EventSystem\Effect\Effect_CallSkyfaller.cs" />
-    <Compile Include="EventSystem\Effect\Effect_OpenAIConversation.cs" />
-    <Compile Include="EventSystem\Effect\Effect_SetTimedFlag.cs" />
-    <Compile Include="EventSystem\EventDef.cs" />
-    <Compile Include="EventSystem\EventUIButtonConfigDef.cs" />
-    <Compile Include="EventSystem\EventUIConfigDef.cs" />
-    <Compile Include="EventSystem\EventVariableManager.cs" />
-    <Compile Include="EventSystem\QuestNode\QuestNode_EventLetter.cs" />
-    <Compile Include="EventSystem\QuestNode\QuestNode_Root_EventLetter.cs" />
-    <Compile Include="EventSystem\QuestNode\QuestNode_WriteToEventVariablesWithAdd.cs" />
     <!-- Flyover 相关 -->
     <Compile Include="Flyover\ThingclassFlyOver.cs" />
     <Compile Include="Flyover\WULA_AircraftHangar\CompAbilityEffect_AircraftStrike.cs" />
@@ -583,6 +492,9 @@
     <Compile Include="Verb\Verb_ShootWithOffset.cs" />
     <!-- WorkGiver 相关 -->
     <Compile Include="WorkGiver\WorkGiver_DeepDrill_WulaConstructor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WulaEventSystem\WulaEventSystem.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- 自定义清理任务，删除obj文件夹中的临时文件 -->

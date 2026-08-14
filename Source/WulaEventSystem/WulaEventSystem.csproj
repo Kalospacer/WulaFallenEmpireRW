@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>WulaEventSystem</AssemblyName>
+    <RootNamespace>WulaFallenEmpire</RootNamespace>
+    <LangVersion>11.0</LangVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+    <RimWorldGamePath>C:\Steam\steamapps\common\RimWorld</RimWorldGamePath>
+    <ModsDirectory>C:\Steam\steamapps\common\RimWorld\Mods</ModsDirectory>
+
+    <OutDir>$(MSBuildProjectDirectory)\bin</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldGamePath)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(RimWorldGamePath)\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(RimWorldGamePath)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(RimWorldGamePath)\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(RimWorldGamePath)\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <Target Name="DeployToMods" AfterTargets="Build">
+    <Copy SourceFiles="$(OutDir)WulaEventSystem.dll" DestinationFolder="$(ModsDirectory)\3516260226\1.6\1.6\Assemblies" />
+    <Copy SourceFiles="$(OutDir)WulaEventSystem.dll" DestinationFolder="$(ModsDirectory)\Tails of Freedom\Assemblies" />
+  </Target>
+
+</Project>

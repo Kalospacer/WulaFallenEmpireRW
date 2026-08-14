@@ -5,7 +5,6 @@ using Verse;
 using Verse.Sound;
 using System.Text;
 using System.Linq;
-using WulaFallenEmpire.EventSystem.AI;
 
 namespace WulaFallenEmpire
 {
@@ -204,7 +203,7 @@ namespace WulaFallenEmpire
                     details.AppendLine("没有物资成功转移。");
                 }
 
-                AIAutoCommentary.ProcessEvent(
+                WulaEventHooks.OnTransportPodsSentToFleet(
                     "乌拉帝国物资运输舱发送到舰队",
                     "WULA_TransportPodsSentToFleet",
                     details.ToString());
